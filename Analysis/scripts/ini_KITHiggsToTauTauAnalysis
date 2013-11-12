@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# set the environment
+export BOOSTPATH=$(ls /afs/cern.ch/cms/${SCRAM_ARCH}/external/boost/* -d | tail -n 1)/
+export ANALYSIS_BASE=$CMSSW_BASE/src/
+export ARTUS_BASE=$ANALYSIS_BASE/Artus
+export KAPPAPATH=$ANALYSIS_BASE/Kappa
+export KAPPATOOLSPATH=$ANALYSIS_BASE/KappaTools
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EXCALIBUR_BASE:$EXCALIBUR_BASE/../Kappa/lib:$EXCALIBUR_BASE/../KappaTools/lib:$BOOSTPATH/lib
+#export PATH=$EXCALIBUR_BASE/scripts:$PATH
+#export PYTHONPATH=$EXCALIBUR_BASE/plotting:$EXCALIBUR_BASE/plotting/tools:$EXCALIBUR_BASE/cfg/artus:$PYTHONPATH
+export USERPC=`who am i | sed 's/.*(\([^]]*\)).*/\1/g'`
+
+# activate pre-commit hooks
+ln -s $ANALYSIS_BASE/KITHiggsToTauTau/Analysis/scripts/pre-commit  $ANALYSIS_BASE/KITHiggsToTauTau/.git/hooks/
+
+
