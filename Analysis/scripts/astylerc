@@ -1,0 +1,30 @@
+# -*- coding: utf8 -*-
+# astyle options file
+# Joram Berger, 2011-11-07
+
+mode=c						# C/C++ files
+lineend=linux				# Linux line endings
+
+# brackets
+style=ansi					# new lines for all brackets
+
+# indent
+indent=force-tab=4			# indent with tabs (equal to 4 spaces)
+indent-switches				# indent swich-case statements
+indent-col1-comments		# indent comments to code
+max-instatement-indent=40	# stop extremely nested indentation
+min-conditional-indent=0	# do no exagerate indents of broken conditions
+
+# padding
+unpad-paren					# no spaces around parenthesis
+pad-oper					# spaces around operators
+pad-header					# spaces after if, while, ...
+
+#convert-tabs				# use spaces for non indentation whitespace
+
+# pointer
+align-pointer=type			# int* i
+
+## not used:
+#indent-classes
+#indent-namespaces
