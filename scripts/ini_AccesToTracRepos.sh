@@ -1,3 +1,5 @@
+#!/bin/bash
+
 wget --no-check-certificate https://pki.pca.dfn.de/kit-ca/pub/cacert/chain.txt
 
 cd $ANALYSIS_BASE/Artus/
