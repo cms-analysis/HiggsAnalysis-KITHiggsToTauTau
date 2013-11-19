@@ -12,6 +12,6 @@ export KAPPATOOLSPATH=$ANALYSIS_BASE/KappaTools
 export USERPC=`who am i | sed 's/.*(\([^]]*\)).*/\1/g'`
 
 # activate pre-commit hooks
-ln -sf $ANALYSIS_BASE/KITHiggsToTauTau/Analysis/scripts/pre-commit  $ANALYSIS_BASE/KITHiggsToTauTau/.git/hooks/
+ln -sf $ANALYSIS_BASE/HiggsAnalysis/KITHiggsToTauTau/scripts/pre-commit  $ANALYSIS_BASE/HiggsAnalysis/KITHiggsToTauTau/.git/hooks/
 
 
