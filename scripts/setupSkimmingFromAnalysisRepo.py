@@ -28,8 +28,8 @@ def main():
 		logger.critical("Skimming CMSSW base " + kappaDir + " does not exist!")
 		sys.exit(1)
 
-	skimmingDir = os.path.join(kappaDir, "src/Kappa/SkimmingForKITHiggsToTauTau/")
-	os.system("ln -sf{V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/skimming/ {SKIMMING_DIR}".format(
+	skimmingDir = os.path.join(kappaDir, "SkimmingForKITHiggsToTauTau")
+	os.system("ln -sf{V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/skimming {SKIMMING_DIR}".format(
 			SKIMMING_DIR=skimmingDir,
 			V="v" if logger.isEnabledFor(logging.INFO) else ""))
 
