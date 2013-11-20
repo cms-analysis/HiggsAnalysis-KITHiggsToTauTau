@@ -23,14 +23,14 @@ def main():
 		logger.critical("Skimming CMSSW base " + args.skimming_cmssw_base + " does not exist!")
 		sys.exit(1)
 
-	destPythonDir = os.path.join(os.path.abspath(args.skimming_cmssw_base), "src/Kappa/Skimming/python/")
-	if not os.path.exists(destPythonDir):
-		os.makedirs(destPythonDir)
+	kappaDir = os.path.join(os.path.abspath(args.skimming_cmssw_base), "src/Kappa/")
+	if not os.path.exists(kappaDir):
+		logger.critical("Skimming CMSSW base " + kappaDir + " does not exist!")
+		sys.exit(1)
 
-	os.system("rm -rf{V} {DEST_DIR}/*".format(DEST_DIR=destPythonDir,
-	                                          V="v" if logger.isEnabledFor(logging.INFO) else ""))
-	os.system("ln -s{V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/skimming/* {DEST_DIR}".format(
-			DEST_DIR=destPythonDir,
+	skimmingDir = os.path.join(kappaDir, "src/Kappa/SkimmingForKITHiggsToTauTau/")
+	os.system("ln -sf{V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/skimming/ {SKIMMING_DIR}".format(
+			SKIMMING_DIR=skimmingDir,
 			V="v" if logger.isEnabledFor(logging.INFO) else ""))
 
 if __name__ == "__main__":
