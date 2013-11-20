@@ -2,22 +2,19 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import logging
 import sys
 import os
+
+from HiggsAnalysis.KITHiggsToTauTau.logger import getLogger
 
 
 def main():
 	parser = argparse.ArgumentParser(description="Create symbolic links of skimming files in the skimming CMSSW versions.")
 
 	parser.add_argument("skimming_cmssw_base", help="Path to skimming CMSSW base.")
-	parser.add_argument("--log-level", default="debug", choices=["debug", "info", "warning", "error", "critical"], help="Log level. [Default: debug]")
 
+	logger = getLogger(parser, sys.argv[0])
 	args = parser.parse_args()
-
-	logging.basicConfig(level=getattr(logging, args.log_level.upper(), "DEBUG"),
-	                    format="%(levelname)s: %(message)s")
-	logger = logging.getLogger(sys.argv[0])
 
 	if not os.path.exists(args.skimming_cmssw_base):
 		logger.critical("Skimming CMSSW base " + args.skimming_cmssw_base + " does not exist!")
