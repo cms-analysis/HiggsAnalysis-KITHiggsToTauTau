@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import logging
 import sys
 import os
 
@@ -26,9 +27,12 @@ def main():
 		sys.exit(1)
 
 	skimmingDir = os.path.join(kappaDir, "SkimmingForKITHiggsToTauTau")
-	os.system("ln -sf{V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/skimming {SKIMMING_DIR}".format(
+	os.system("rsync -avSzh --delete {V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/skimming/ {SKIMMING_DIR}/".format(
 			SKIMMING_DIR=skimmingDir,
-			V="v" if logger.isEnabledFor(logging.INFO) else ""))
+			V="--progress" if logger.isEnabledFor(logging.INFO) else ""))
+	os.system("rsync -avSzh --delete {V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/logger.py {SKIMMING_DIR}/python/".format(
+			SKIMMING_DIR=skimmingDir,
+			V="--progress" if logger.isEnabledFor(logging.INFO) else ""))
 
 if __name__ == "__main__":
 	main()
