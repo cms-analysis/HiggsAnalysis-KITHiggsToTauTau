@@ -54,6 +54,16 @@ def getBaseConfig(globaltag, testfile="", maxevents=0, datatype='data'):
 	process.pfmuIsoDepositPFCandidates = isoDepositReplace('muons', 'particleFlow')
 	process.pfMuonIso = cms.Path(process.pfmuIsoDepositPFCandidates)
 
+	# Require two good muons --------------------------------------------------
+	process.goodMuons = cms.EDFilter('CandViewSelector',
+		src=cms.InputTag('muons'),
+		cut=cms.string("pt > 12.0 & abs(eta) < 8.0 & isGlobalMuon()"),
+	)
+	process.twoGoodMuons = cms.EDFilter('CandViewCountFilter',
+		src=cms.InputTag('goodMuons'),
+		minNumber=cms.uint32(2),
+	)
+
 	# Create good primary vertices to be used for PF association --------------
 	from PhysicsTools.SelectorUtils.pvSelector_cfi import pvSelector
 	process.goodOfflinePrimaryVertices = cms.EDFilter("PrimaryVertexObjectFilter",
@@ -149,12 +159,12 @@ def getBaseConfig(globaltag, testfile="", maxevents=0, datatype='data'):
 	process.ak5PFSimpleSecondaryVertexBJetTags.tagInfos = cms.VInputTag(cms.InputTag("ak5PFSecondaryVertexTagInfos"))
 	process.ak5PFCombinedSecondaryVertexBJetTags = process.combinedSecondaryVertexBJetTags.clone()
 	process.ak5PFCombinedSecondaryVertexBJetTags.tagInfos = cms.VInputTag(
-		cms.InputTag("ak5PFImpactParameterTagInfos"),
-		cms.InputTag("ak5PFSecondaryVertexTagInfos"))
+			cms.InputTag("ak5PFImpactParameterTagInfos"),
+			cms.InputTag("ak5PFSecondaryVertexTagInfos"))
 	process.ak5PFCombinedSecondaryVertexMVABJetTags = process.combinedSecondaryVertexMVABJetTags.clone()
 	process.ak5PFCombinedSecondaryVertexMVABJetTags.tagInfos = cms.VInputTag(
-		cms.InputTag("ak5PFImpactParameterTagInfos"),
-		cms.InputTag("ak5PFSecondaryVertexTagInfos"))
+			cms.InputTag("ak5PFImpactParameterTagInfos"),
+			cms.InputTag("ak5PFSecondaryVertexTagInfos"))
 
 	# soft electron b-tag
 	#process.ak5PFSoftElectronTagInfos = process.softElectronTagInfos.clone()
@@ -176,10 +186,10 @@ def getBaseConfig(globaltag, testfile="", maxevents=0, datatype='data'):
 	process.ak5PFJetTracksAssociator = cms.Sequence(process.ak5PFJetTracksAssociatorAtVertex)
 	process.ak5PFJetBtaggingIP = cms.Sequence(
 		process.ak5PFImpactParameterTagInfos * (
-			process.ak5PFTrackCountingHighEffBJetTags +
-			process.ak5PFTrackCountingHighPurBJetTags +
-			process.ak5PFJetProbabilityBJetTags +
-			process.ak5PFJetBProbabilityBJetTags
+				process.ak5PFTrackCountingHighEffBJetTags +
+				process.ak5PFTrackCountingHighPurBJetTags +
+				process.ak5PFJetProbabilityBJetTags +
+				process.ak5PFJetBProbabilityBJetTags
 		)
 	)
 	process.ak5PFJetBtaggingSV = cms.Sequence(process.ak5PFImpactParameterTagInfos * process.ak5PFSecondaryVertexTagInfos * (process.ak5PFSimpleSecondaryVertexBJetTags + process.ak5PFCombinedSecondaryVertexBJetTags + process.ak5PFCombinedSecondaryVertexMVABJetTags))
@@ -355,66 +365,134 @@ def getBaseConfig(globaltag, testfile="", maxevents=0, datatype='data'):
 	)
 
 	# PU jet ID ---------------------------------------------------------------
-	process.load("CMGTools.External.pujetidsequence_cff")
+	###process.load("CMGTools.External.pujetidsequence_cff")
+	process.load("RecoJets.JetProducers.PileupJetID_cfi")
+	from RecoJets.JetProducers.PileupJetID_cfi import _stdalgos, _chsalgos
 
 	# AK5
-	process.ak5PFPuJetId = process.puJetId.clone(
-	   jets=cms.InputTag("ak5PFJets"),
-	   applyJec=cms.bool(True),
-	   inputIsCorrected=cms.bool(False),
+	process.ak5PFPuJetId = process.pileupJetIdProducer.clone(
+			produceJetIds=cms.bool(True),
+			jetids=cms.InputTag(""),
+			runMvas=cms.bool(False),
+			#jets=cms.InputTag("selectedPatJets"),
+			vertexes=cms.InputTag("offlinePrimaryVertices"),
+			algos=cms.VPSet(process.cutbased),
+
+			jets=cms.InputTag("ak5PFJets"),
+			applyJec=cms.bool(True),
+			inputIsCorrected=cms.bool(False),
 	)
 
-	process.ak5PFPuJetMva = process.puJetMva.clone(
-	   jets=cms.InputTag("ak5PFJets"),
-	   jetids=cms.InputTag("ak5PFPuJetId"),
-	   applyJec=cms.bool(True),
-	   inputIsCorrected=cms.bool(False),
+	process.ak5PFPuJetMva = process.pileupJetIdProducer.clone(
+			produceJetIds=cms.bool(False),
+			#jetids=cms.InputTag("puJetId"),
+			runMvas=cms.bool(True),
+			#jets=cms.InputTag("selectedPatJets"),
+			vertexes=cms.InputTag("offlinePrimaryVertices"),
+			algos=cms.VPSet(_stdalgos),
+
+			jets=cms.InputTag("ak5PFJets"),
+			jetids=cms.InputTag("ak5PFPuJetId"),
+			applyJec=cms.bool(True),
+			inputIsCorrected=cms.bool(False),
 	)
 	# AK5 CHS
-	process.ak5PFCHSPuJetId = process.puJetIdChs.clone(
-	   jets=cms.InputTag("ak5PFJetsCHS"),
-	   applyJec=cms.bool(True),
-	   inputIsCorrected=cms.bool(False),
+	process.ak5PFCHSPuJetId = process.pileupJetIdProducer.clone(
+			produceJetIds=cms.bool(True),
+			jetids=cms.InputTag(""),
+			runMvas=cms.bool(False),
+			#jets=cms.InputTag("selectedPatJets"),
+			vertexes=cms.InputTag("offlinePrimaryVertices"),
+			algos=cms.VPSet(process.cutbased),
+
+			jets=cms.InputTag("ak5PFJetsCHS"),
+			applyJec=cms.bool(True),
+			inputIsCorrected=cms.bool(False),
 	)
 
-	process.ak5PFCHSPuJetMva = process.puJetMvaChs.clone(
-	   jets=cms.InputTag("ak5PFJetsCHS"),
-	   jetids=cms.InputTag("ak5PFCHSPuJetId"),
-	   applyJec=cms.bool(True),
-	   inputIsCorrected=cms.bool(False),
+	process.ak5PFCHSPuJetMva = process.pileupJetIdProducer.clone(
+			produceJetIds=cms.bool(False),
+			#jetids=cms.InputTag("puJetIdChs"),
+			runMvas=cms.bool(True),
+			#jets=cms.InputTag("selectedPatJets"),
+			vertexes=cms.InputTag("offlinePrimaryVertices"),
+			algos=cms.VPSet(_chsalgos),
+
+			jets=cms.InputTag("ak5PFJetsCHS"),
+			jetids=cms.InputTag("ak5PFCHSPuJetId"),
+			applyJec=cms.bool(True),
+			inputIsCorrected=cms.bool(False),
 	)
 
 	# ak7
-	process.ak7PFPuJetId = process.puJetId.clone(
-	   jets=cms.InputTag("ak7PFJets"),
-	   applyJec=cms.bool(True),
-	   inputIsCorrected=cms.bool(False),
+	process.ak7PFPuJetId = process.pileupJetIdProducer.clone(
+			produceJetIds=cms.bool(True),
+			jetids=cms.InputTag(""),
+			runMvas=cms.bool(False),
+			#jets=cms.InputTag("selectedPatJets"),
+			vertexes=cms.InputTag("offlinePrimaryVertices"),
+			algos=cms.VPSet(process.cutbased),
+
+			jets=cms.InputTag("ak7PFJets"),
+			applyJec=cms.bool(True),
+			inputIsCorrected=cms.bool(False),
 	)
 
-	process.ak7PFPuJetMva = process.puJetMva.clone(
-	   jets=cms.InputTag("ak7PFJets"),
-	   jetids=cms.InputTag("ak7PFPuJetId"),
-	   applyJec=cms.bool(True),
-	   inputIsCorrected=cms.bool(False),
+	process.ak7PFPuJetMva = process.pileupJetIdProducer.clone(
+			produceJetIds=cms.bool(False),
+			#jetids=cms.InputTag("puJetId"),
+			runMvas=cms.bool(True),
+			#jets=cms.InputTag("selectedPatJets"),
+			vertexes=cms.InputTag("offlinePrimaryVertices"),
+			algos=cms.VPSet(_stdalgos),
+
+			jets=cms.InputTag("ak7PFJets"),
+			jetids=cms.InputTag("ak7PFPuJetId"),
+			applyJec=cms.bool(True),
+			inputIsCorrected=cms.bool(False),
 	)
 	# ak7 CHS
-	process.ak7PFCHSPuJetId = process.puJetIdChs.clone(
-	   jets=cms.InputTag("ak7PFJetsCHS"),
-	   applyJec=cms.bool(True),
-	   inputIsCorrected=cms.bool(False),
+	process.ak7PFCHSPuJetId = process.pileupJetIdProducer.clone(
+			produceJetIds=cms.bool(True),
+			jetids=cms.InputTag(""),
+			runMvas=cms.bool(False),
+			#jets=cms.InputTag("selectedPatJets"),
+			vertexes=cms.InputTag("offlinePrimaryVertices"),
+			algos=cms.VPSet(process.cutbased),
+
+			jets=cms.InputTag("ak7PFJetsCHS"),
+			applyJec=cms.bool(True),
+			inputIsCorrected=cms.bool(False),
 	)
 
-	process.ak7PFCHSPuJetMva = process.puJetMvaChs.clone(
-	   jets=cms.InputTag("ak7PFJetsCHS"),
-	   jetids=cms.InputTag("ak7PFCHSPuJetId"),
-	   applyJec=cms.bool(True),
-	   inputIsCorrected=cms.bool(False),
+	process.ak7PFCHSPuJetMva = process.pileupJetIdProducer.clone(
+			produceJetIds=cms.bool(False),
+			#jetids=cms.InputTag("puJetIdChs"),
+			runMvas=cms.bool(True),
+			#jets=cms.InputTag("selectedPatJets"),
+			vertexes=cms.InputTag("offlinePrimaryVertices"),
+			algos=cms.VPSet(_chsalgos),
+
+			jets=cms.InputTag("ak7PFJetsCHS"),
+			jetids=cms.InputTag("ak7PFCHSPuJetId"),
+			applyJec=cms.bool(True),
+			inputIsCorrected=cms.bool(False),
 	)
 
 	process.PUJetID = cms.Path(process.ak5PFPuJetId * process.ak5PFPuJetMva
 						* process.ak5PFCHSPuJetId * process.ak5PFCHSPuJetMva
 						* process.ak7PFPuJetId * process.ak7PFPuJetMva
 						* process.ak7PFCHSPuJetId * process.ak7PFCHSPuJetMva)
+
+	# MVA MET
+	process.load('JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_cff')
+	if data:
+		process.calibratedAK5PFJetsForPFMEtMVA.correctors = cms.vstring("ak5PFL1FastL2L3Residual")
+	else:
+		process.calibratedAK5PFJetsForPFMEtMVA.correctors = cms.vstring("ak5PFL1FastL2L3")
+	process.pfMEtMVA.srcLeptons = cms.VInputTag("muons")
+	#process.pfMEtMVA.srcLeptons = cms.VInputTag('selectedPatMuonsPFlow')
+	process.pfMEtMVA.verbosity = cms.int32(0)
 
 	"""
 	# MET filters -------------------------------------------------------------
@@ -497,15 +575,9 @@ def getBaseConfig(globaltag, testfile="", maxevents=0, datatype='data'):
 			process.producePFMETCorrections * process.pfMETCHS
 	)
 	"""
-
-	# Require two good muons --------------------------------------------------
-	process.goodMuons = cms.EDFilter('CandViewSelector',
-		src=cms.InputTag('muons'),
-		cut=cms.string("pt > 12.0 & abs(eta) < 8.0 & isGlobalMuon()"),
-	)
-	process.twoGoodMuons = cms.EDFilter('CandViewCountFilter',
-		src=cms.InputTag('goodMuons'),
-		minNumber=cms.uint32(2),
+	# MET Path
+	process.metCorrections = cms.Path(
+			process.pfMEtMVAsequence
 	)
 
 	# Configure tuple generation ----------------------------------------------
@@ -546,28 +618,28 @@ def getBaseConfig(globaltag, testfile="", maxevents=0, datatype='data'):
 				QGtagger=cms.InputTag("AK5PFJetsQGTagger"),
 				Btagger=cms.InputTag("ak5PF"),
 				PUJetID=cms.InputTag("ak5PFPuJetMva"),
-					PUJetID_full=cms.InputTag("full53x"),
+				PUJetID_full=cms.InputTag("full"),
 			),
 			AK5PFTaggedJetsCHS=cms.PSet(
 				src=cms.InputTag("ak5PFJetsCHS"),
 				QGtagger=cms.InputTag("AK5PFJetsCHSQGTagger"),
 				Btagger=cms.InputTag("ak5PFCHS"),
 				PUJetID=cms.InputTag("ak5PFCHSPuJetMva"),
-					PUJetID_full=cms.InputTag("full"),
+				PUJetID_full=cms.InputTag("full"),
 			),
 			AK7PFTaggedJets=cms.PSet(
 				src=cms.InputTag("ak7PFJets"),
 				QGtagger=cms.InputTag("AK7PFJetsQGTagger"),
 				Btagger=cms.InputTag("ak7PF"),
 				PUJetID=cms.InputTag("ak7PFPuJetMva"),
-					PUJetID_full=cms.InputTag("full53x"),
+				PUJetID_full=cms.InputTag("full"),
 			),
 			AK7PFTaggedJetsCHS=cms.PSet(
 				src=cms.InputTag("ak7PFJetsCHS"),
 				QGtagger=cms.InputTag("AK7PFJetsCHSQGTagger"),
 				Btagger=cms.InputTag("ak7PFCHS"),
 				PUJetID=cms.InputTag("ak7PFCHSPuJetMva"),
-					PUJetID_full=cms.InputTag("full"),
+				PUJetID_full=cms.InputTag("full"),
 			),
 		),
 	)
@@ -615,7 +687,7 @@ def getBaseConfig(globaltag, testfile="", maxevents=0, datatype='data'):
 		process.QGTagging,
 		process.PUJetID,
 		process.pfMuonIso,
-		#process.metCorrections,
+		process.metCorrections,
 		process.pathKappa,
 	)
 	if not data:
@@ -639,3 +711,4 @@ def addOutputModule(process, filename="test_out.root"):
 
 if __name__ == "__main__":
 	process = getBaseConfig('@GLOBALTAG@', datatype='@TYPE@')
+
