@@ -5,8 +5,8 @@ import argparse
 import logging
 import sys
 import os
-
-from HiggsAnalysis.KITHiggsToTauTau.logger import getLogger
+sys.path.append("/portal/ekpcms5/home/friese/devel/analysis/CMSSW_6_1_1/src/KITHiggsToTauTau/python/")
+from logger import getLogger
 
 
 def main():
@@ -27,10 +27,10 @@ def main():
 		sys.exit(1)
 
 	skimmingDir = os.path.join(kappaDir, "SkimmingForKITHiggsToTauTau")
-	os.system("rsync -avSzh --delete {V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/skimming/ {SKIMMING_DIR}/".format(
+	os.system("rsync -avSzh --delete {V} $CMSSW_BASE/src/KITHiggsToTauTau/skimming/ {SKIMMING_DIR}/".format(
 			SKIMMING_DIR=skimmingDir,
 			V="--progress" if logger.isEnabledFor(logging.INFO) else ""))
-	os.system("rsync -avSzh --delete {V} $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/logger.py {SKIMMING_DIR}/python/".format(
+	os.system("rsync -avSzh --delete {V} $CMSSW_BASE/src/KITHiggsToTauTau/python/logger.py {SKIMMING_DIR}/python/".format(
 			SKIMMING_DIR=skimmingDir,
 			V="--progress" if logger.isEnabledFor(logging.INFO) else ""))
 
