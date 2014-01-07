@@ -3,6 +3,7 @@ import sys
 
 # Collection of functions used by checkout scripts
 # Todo: Write output to logger
+# Todo if possible: get rid of manualy entering "cmsenv"
 
 
 def execCommands(commands):
@@ -56,9 +57,6 @@ def setupCMSSW(args):
 	#add this line to your ~.cshrc
 	'export PATH=$PWD/cms-git-tools:$PATH',
 	'scram p ' + str(args.cmssw_version),
-	'cd ' + args.skimming_cmssw_base + "/" + args.cmssw_version + '/src',
-	'eval `scramv1 runtime -sh`',
-#	'git cms-init',
 	]
 	execCommands(commands)
 	return

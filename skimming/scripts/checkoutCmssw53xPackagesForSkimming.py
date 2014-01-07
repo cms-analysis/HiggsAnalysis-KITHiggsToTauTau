@@ -29,8 +29,8 @@ def checkoutPackages(args):
 #!		"git cms-addpkg QuarkGluonTagger/EightTeV",#"cvs co -r v1-2-3 QuarkGluonTagger/EightTeV UserCode/tomc/QuarkGluonTagger/EightTeV",
 #!		"git cms-addpkg UserCode/tomc/QuarkGluonTagger/EightTeV",
 
-		# MuMu Twiki  #V03-03-12-02
-		"git cms-addpkg RecoMET/METProducers",
+		# MuMu Twiki
+		"git cms-addpkg RecoMET/METProducers",  # V03-03-12-02
 
 		# PU Jet ID as used in TauTau and needed for MVA MET
 		# https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorkingSummer2013#MET_regression_MVA_residual_reco
@@ -45,9 +45,9 @@ def checkoutPackages(args):
 		"rm -rf RecoTauTag",
 
 		#HCP + new discriminants
-		"git cms-addpkg RecoTauTag/RecoTau",  #V01-04-25
-		"git cms-addpkg RecoTauTag/Configuration",  #V01-04-13
-		"pwd",
+		"git cms-addpkg RecoTauTag/RecoTau",  # V01-04-25
+		"git cms-addpkg RecoTauTag/Configuration",  # V01-04-13
+
 		#PAT
 		"git cms-addpkg DataFormats/PatCandidates",
 		"git cms-addpkg PhysicsTools/PatAlgos",
@@ -74,14 +74,16 @@ def main():
 	parser.add_argument("--mail", help="your email. Default: " + sysInformation["email"], default=sysInformation["username"], nargs='?')
 	parser.add_argument("--editor", help="your favorite editor (ex. emacs). Default: " + sysInformation["editor"], default=sysInformation["editor"], nargs='?')
 	parser.add_argument("--cmssw_version", help="the CMSSW Version to checko out. Default: CMSSW_5_3_13_patch3", default="CMSSW_5_3_13_patch3", nargs='?')
-	parser.add_argument("--no_cmssw_setup", help="setup CMSSW environement", action='store_false')
+	parser.add_argument("--no_cmssw_setup", help="Do not set up CMSSW environement", action='store_false')
+	parser.add_argument("--no_packages_checkout", help="Do not check out additional packages", action='store_false')
 
 	logger = getLogger(parser, sys.argv[0])
 	args = parser.parse_args()
-	print args.no_cmssw_setup
+
 	if args.no_cmssw_setup:
 		setupCMSSW(args)
-	checkoutPackages(args)
+	if args.no_packages_checkout:
+		checkoutPackages(args)
 
 #################################################################################################################
 if __name__ == "__main__":
