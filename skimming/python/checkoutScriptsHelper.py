@@ -2,7 +2,7 @@ import os
 import sys
 
 # Collection of functions used by checkout scripts
-# Todo: Write output to logger
+# Todo: Write output to logger, e.g. 'git config --list'
 # Todo if possible: get rid of manualy entering "cmsenv"
 
 
@@ -21,7 +21,7 @@ def execCommands(commands):
 
 			if command.startswith("cd"):
 				os.chdir(os.path.expandvars(command.replace("cd ", "")))
-				exitCode = int((os.path.expandvars(command.replace("cd ", "")) != os.getcwd()))
+				exitCode = int((os.path.expandvars(command.replace("cd ", "").strip("/")) != os.getcwd().strip("/")))
 			else:
 				exitCode = os.system(command)
 
@@ -33,7 +33,7 @@ def execCommands(commands):
 
 def getSysInformation():
 	sysInformation = {
-	"username": os.popen("git config user.name").readline().replace("\n", ""),
+	"github_username": os.popen("git config user.name").readline().replace("\n", ""),
 	"email": os.popen("git config user.email").readline().replace("\n", ""),
 	"editor": os.popen("git config core.editor").readline().replace("\n", ""),
 	"pwd": os.getcwd()
@@ -46,17 +46,16 @@ def getSysInformation():
 
 
 def setupCMSSW(args):
-	print args.cmssw_version
 	commands = [
 	'git init',
-	'git config --global user.name ' + args.username,
+	'git config --global user.name ' + args.github_username,
 	'git config --global user.email ' + args.mail,
 	'git config --global core.editor ' + args.editor,
-	# 'git config --list' write output somehow to logger
+	'export CVSROOT=":ext:' + args.cern_username + '@lxplus5.cern.ch:/afs/cern.ch/user/c/cvscmssw/public/CMSSW"',
 	'git clone git@github.com:fwyzard/cms-git-tools.git',
-	#add this line to your ~.cshrc
 	'export PATH=$PWD/cms-git-tools:$PATH',
 	'scram p ' + str(args.cmssw_version),
 	]
+
 	execCommands(commands)
 	return

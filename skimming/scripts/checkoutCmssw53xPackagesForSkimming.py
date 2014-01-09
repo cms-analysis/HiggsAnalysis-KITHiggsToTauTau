@@ -3,50 +3,28 @@
 
 # checkout script for cmssw53x for skimming
 # todo: implement logger
-# todo: replace absoulte cms5 path by useful generic path
-# todo: check if cmsenv works
+# todo: make cmsenv/scramv work
 
 import os
 import sys
 import argparse
-import subprocess
 
-sys.path.append("/portal/ekpcms5/home/friese/devel/analysis/CMSSW_6_1_1/src/KITHiggsToTauTau/python/")
+sys.path.append(os.path.abspath(os.path.dirname(sys.argv[0])) + "/../python/")
+sys.path.append(os.path.abspath(os.path.dirname(sys.argv[0])) + "/../../python/")
+
 from logger import getLogger
 from checkoutScriptsHelper import *
+
 
 #################################################################################################################
 
 
 def checkoutPackages(args):
-	cmsswsrc = args.skimming_cmssw_base + "/" + args.cmssw_version + '/src'
+	cmsswsrc = os.popen("echo $CMSSW_BASE").readline().replace("\n", "") + '/src/'
+
 	commands = [
-		# kappa patch needed
 		'cd ' + cmsswsrc,
-
-		# "cvs co -r V00-03-04 -d CMGTools/External UserCode/CMG/CMGTools/External", # patch needed
-#!		"git cms-addpkg CommonTools/RecoAlgos", #V00-03-23
-#!		"git cms-addpkg QuarkGluonTagger/EightTeV",#"cvs co -r v1-2-3 QuarkGluonTagger/EightTeV UserCode/tomc/QuarkGluonTagger/EightTeV",
-#!		"git cms-addpkg UserCode/tomc/QuarkGluonTagger/EightTeV",
-
-		# MuMu Twiki
-		"git cms-addpkg RecoMET/METProducers",  # V03-03-12-02
-
-		# PU Jet ID as used in TauTau and needed for MVA MET
-		# https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorkingSummer2013#MET_regression_MVA_residual_reco
-		# https://twiki.cern.ch/twiki/bin/view/CMS/MVAMet
-#!		"git cms-addpkg JetMETCorrections/METPUSubtraction", # METPU_5_3_X_v10
-#!		"cd JetMETCorrections/METPUSubtraction/test/",
-#!		"./setup.sh",
-		'cd ' + cmsswsrc,
-
-		# replace non working RecoTauTag from above by official version
-		# https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID#CMSSW_5_3_12
-		"rm -rf RecoTauTag",
-
-		#HCP + new discriminants
-		"git cms-addpkg RecoTauTag/RecoTau",  # V01-04-25
-		"git cms-addpkg RecoTauTag/Configuration",  # V01-04-13
+		# do the git cms-addpkg before starting with checking out cvs repositories
 
 		#PAT
 		"git cms-addpkg DataFormats/PatCandidates",
@@ -55,7 +33,37 @@ def checkoutPackages(args):
 
 		#Electrons
 		"git cms-addpkg EgammaAnalysis/ElectronTools",
-		"cat EgammaAnalysis/ElectronTools/data/download.url | xargs wget -P EgammaAnalysis/ElectronTools/data/",
+		"cd " + cmsswsrc + "EgammaAnalysis/ElectronTools/data/",
+		"cat download.url | xargs wget",
+		'cd ' + cmsswsrc,
+
+		# MuMu Twiki
+		"git cms-addpkg RecoMET/METProducers",
+
+		# "cvs co -r V00-03-04 -d CMGTools/External UserCode/CMG/CMGTools/External", # patch needed
+		"git cms-cvs-history import V00-03-23 CommonTools/RecoAlgos",
+
+		# https://twiki.cern.ch/twiki/bin/view/CMS/GluonTag
+		"git clone git@github.com:amarini/QuarkGluonTagger.git",
+		"cd " + cmsswsrc + "QuarkGluonTagger",
+		"git checkout v1-2-3",
+		'cd ' + cmsswsrc,
+
+		# PU Jet ID as used in TauTau and needed for MVA MET # does not work with git cms-cvs-history and does not compile with cvs co
+		# https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorkingSummer2013#MET_regression_MVA_residual_reco
+		# https://twiki.cern.ch/twiki/bin/view/CMS/MVAMet
+#		"cvs co -r METPU_5_3_X_v10 JetMETCorrections/METPUSubtraction",
+#		"cd " + cmsswsrc + "JetMETCorrections/METPUSubtraction/test"
+#		"./setup.sh",
+#		'cd ' + cmsswsrc,
+
+		# replace non working RecoTauTag from above by official version
+		# https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID#CMSSW_5_3_12
+#		"rm -rf RecoTauTag",
+
+		#HCP + new discriminants
+		"git cms-cvs-history import V01-04-25 RecoTauTag/RecoTau",
+		"git cms-cvs-history import V01-04-13 RecoTauTag/Configuration",
 
 		#Check out Kappa
 		"git clone https://ekptrac.physik.uni-karlsruhe.de/git/Kappa",
@@ -69,10 +77,11 @@ def checkoutPackages(args):
 def main():
 	parser = argparse.ArgumentParser(description="Create symbolic links of skimming files in the skimming CMSSW versions.")
 	sysInformation = getSysInformation()
-	parser.add_argument("--skimming_cmssw_base", help="Path to skimming CMSSW base. Default: " + sysInformation["pwd"], nargs='?', default=sysInformation["pwd"])
-	parser.add_argument("--username", help="your name as in github. Default: " + sysInformation["username"], default=sysInformation["username"], nargs='?')
-	parser.add_argument("--mail", help="your email. Default: " + sysInformation["email"], default=sysInformation["username"], nargs='?')
+
+	parser.add_argument("--github_username", help="your name as in github. Default: " + sysInformation["github_username"], default=sysInformation["github_username"], nargs='?')
+	parser.add_argument("--mail", help="your email. Default: " + sysInformation["email"], default=sysInformation["email"], nargs='?')
 	parser.add_argument("--editor", help="your favorite editor (ex. emacs). Default: " + sysInformation["editor"], default=sysInformation["editor"], nargs='?')
+	parser.add_argument("--cern_username", help="Your CERN username", default="", nargs='?')
 	parser.add_argument("--cmssw_version", help="the CMSSW Version to checko out. Default: CMSSW_5_3_13_patch3", default="CMSSW_5_3_13_patch3", nargs='?')
 	parser.add_argument("--no_cmssw_setup", help="Do not set up CMSSW environement", action='store_false')
 	parser.add_argument("--no_packages_checkout", help="Do not check out additional packages", action='store_false')
