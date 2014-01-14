@@ -7,7 +7,7 @@
 
 import os
 import sys
-import argparse
+from optparse import OptionParser
 
 sys.path.append(os.path.abspath(os.path.dirname(sys.argv[0])) + "/../python/")
 sys.path.append(os.path.abspath(os.path.dirname(sys.argv[0])) + "/../../python/")
@@ -58,7 +58,7 @@ def checkoutPackages(args):
 
 		# replace non working RecoTauTag from above by official version
 		# https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID#CMSSW_5_3_12
-#		"rm -rf RecoTauTag",
+		# "rm -rf RecoTauTag",
 
 		#HCP + new discriminants
 		# not needed any more: https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID
@@ -75,24 +75,18 @@ def checkoutPackages(args):
 
 
 def main():
-	parser = argparse.ArgumentParser(description="Create symbolic links of skimming files in the skimming CMSSW versions.")
+	parser = OptionParser()
 	sysInformation = getSysInformation()
 
-	parser.add_argument("--github_username", help="your name as in github. Default: " + sysInformation["github_username"], default=sysInformation["github_username"], nargs='?')
-	parser.add_argument("--mail", help="your email. Default: " + sysInformation["email"], default=sysInformation["email"], nargs='?')
-	parser.add_argument("--editor", help="your favorite editor (ex. emacs). Default: " + sysInformation["editor"], default=sysInformation["editor"], nargs='?')
-	parser.add_argument("--cern_username", help="Your CERN username", default="", nargs='?')
-	parser.add_argument("--cmssw_version", help="the CMSSW Version to checko out. Default: CMSSW_5_3_13_patch3", default="CMSSW_5_3_13_patch3", nargs='?')
-	parser.add_argument("--no_cmssw_setup", help="Do not set up CMSSW environement", action='store_false')
-	parser.add_argument("--no_packages_checkout", help="Do not check out additional packages", action='store_false')
+	parser.add_option("--github_username", help="your name as in github. Default: " + sysInformation["github_username"], default=sysInformation["github_username"], nargs='?')
+	parser.add_option("--mail", help="your email. Default: " + sysInformation["email"], default=sysInformation["email"], nargs='?')
+	parser.add_option("--editor", help="your favorite editor (ex. emacs). Default: " + sysInformation["editor"], default=sysInformation["editor"], nargs='?')
+	parser.add_option("--cmssw_version", help="the CMSSW Version to checko out. Default: CMSSW_5_3_13_patch3", default="CMSSW_5_3_13_patch3", nargs='?')
 
-	logger = getLogger(parser, sys.argv[0])
-	args = parser.parse_args()
-
-	if args.no_cmssw_setup:
-		setupCMSSW(args)
-	if args.no_packages_checkout:
-		checkoutPackages(args)
+	logger = getLogger()
+	#args = parser.parse_args()
+	(options, args) = parser.parse_args()
+	checkoutPackages(args)
 
 #################################################################################################################
 if __name__ == "__main__":
