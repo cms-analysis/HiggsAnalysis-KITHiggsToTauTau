@@ -27,9 +27,9 @@ def checkoutPackages(args):
 		# do the git cms-addpkg before starting with checking out cvs repositories
 
 		#PAT
-		"git cms-addpkg DataFormats/PatCandidates",
-		"git cms-addpkg PhysicsTools/PatAlgos",
-		"git cms-addpkg FWCore/GuiBrowsers",
+		#"git cms-addpkg DataFormats/PatCandidates",
+		#"git cms-addpkg PhysicsTools/PatAlgos",
+		#"git cms-addpkg FWCore/GuiBrowsers",
 
 		#Electrons
 		"git cms-addpkg EgammaAnalysis/ElectronTools",
@@ -38,32 +38,32 @@ def checkoutPackages(args):
 		'cd ' + cmsswsrc,
 
 		# MuMu Twiki
-		"git cms-addpkg RecoMET/METProducers",
+		#"git cms-addpkg RecoMET/METProducers",
 
 		# "cvs co -r V00-03-04 -d CMGTools/External UserCode/CMG/CMGTools/External", # patch needed
-		"git cms-cvs-history import V00-03-23 CommonTools/RecoAlgos",
+		#"git cms-cvs-history import V00-03-23 CommonTools/RecoAlgos", # MET filter
 
 		# https://twiki.cern.ch/twiki/bin/view/CMS/GluonTag
 		"git clone git@github.com:amarini/QuarkGluonTagger.git",
 		"cd " + cmsswsrc + "QuarkGluonTagger",
 		"git checkout v1-2-3",
 		'cd ' + cmsswsrc,
-
+		
 		# PU Jet ID as used in TauTau and needed for MVA MET # does not work with git cms-cvs-history and does not compile with cvs co
 		# https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorkingSummer2013#MET_regression_MVA_residual_reco
 		# https://twiki.cern.ch/twiki/bin/view/CMS/MVAMet
-#		"cvs co -r METPU_5_3_X_v10 JetMETCorrections/METPUSubtraction",
-#		"cd " + cmsswsrc + "JetMETCorrections/METPUSubtraction/test"
-#		"./setup.sh",
-#		'cd ' + cmsswsrc,
+		"git clone https://github.com/ajaykumar649/Jets_Short.git",
+		"mv Jets_Short/* .",
+		"rm -rf Jets_Short",
 
 		# replace non working RecoTauTag from above by official version
 		# https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID#CMSSW_5_3_12
 #		"rm -rf RecoTauTag",
 
 		#HCP + new discriminants
-		"git cms-cvs-history import V01-04-25 RecoTauTag/RecoTau",
-		"git cms-cvs-history import V01-04-13 RecoTauTag/Configuration",
+		# not needed any more: https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID
+		#"git cms-cvs-history import V01-04-25 RecoTauTag/RecoTau", 
+		#"git cms-cvs-history import V01-04-13 RecoTauTag/Configuration",
 
 		#Check out Kappa
 		"git clone https://ekptrac.physik.uni-karlsruhe.de/git/Kappa",
