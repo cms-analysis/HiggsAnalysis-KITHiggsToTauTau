@@ -67,7 +67,7 @@ def checkoutPackages(args):
 
 		#Check out Kappa
 		"git clone https://ekptrac.physik.uni-karlsruhe.de/git/Kappa",
-		"scram b -j 4"
+		#"scram b -j 4"
 	]
 	execCommands(commands)
 	return
