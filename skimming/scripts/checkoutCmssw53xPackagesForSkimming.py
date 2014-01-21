@@ -50,10 +50,17 @@ def checkoutPackages(args):
 		'cd ' + cmsswsrc,
 		
 		# PU Jet ID as used in TauTau and needed for MVA MET # does not work with git cms-cvs-history and does not compile with cvs co
-		# https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorkingSummer2013#MET_regression_MVA_residual_reco
+		# https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideCMSDataAnalysisSchoolJetMetAnalysis#MET_Recipe
 		# https://twiki.cern.ch/twiki/bin/view/CMS/MVAMet
+
+		"git cms-addpkg PhysicsTools/PatAlgos",
+		"git cms-merge-topic -u TaiSakuma:53X-met-131120-01",
+		"git cms-merge-topic -u cms-analysis-tools:5_3_14-updateSelectorUtils",
+		"git cms-merge-topic -u cms-analysis-tools:5_3_13_patch2-testNewTau",
+		"git cms-merge-topic -u cms-met:53X-MVaNoPuMET-20131217-01",
+
 		"git clone https://github.com/ajaykumar649/Jets_Short.git",
-		"mv Jets_Short/* .",
+		"cp -r Jets_Short/* " + cmsswsrc,
 		"rm -rf Jets_Short",
 
 		# replace non working RecoTauTag from above by official version
