@@ -1,0 +1,7 @@
+
+<bin   name="HiggsToTauTauAnalysis" file="HiggsToTauTauAnalysis.cc">
+   <use   name="Artus/Core"/>
+   <use   name="Artus/Provider"/>
+   <use   name="Artus/Configuration"/>
+   <use   name="Artus/Consumer"/>
+</bin>
