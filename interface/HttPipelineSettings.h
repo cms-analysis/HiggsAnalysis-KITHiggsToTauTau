@@ -13,18 +13,6 @@ public:
 	IMPL_SETTING_DEFAULT(float, FilterPtLow, 0.0)
 	IMPL_SETTING_DEFAULT(float, FilterPtHigh, 0.0)
 
-	VarCache<stringvector> m_filter;
-	stringvector GetFilter() const
-	{
-		RETURN_CACHED(m_filter, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Filter"))
-	}
-
-	VarCache<stringvector> m_consumer;
-	stringvector GetConsumer() const
-	{
-		RETURN_CACHED(m_consumer, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Consumer"))
-	}
-
 	VarCache<stringvector> quantities;
 	stringvector GetQuantities() const
 	{
