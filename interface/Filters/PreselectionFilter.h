@@ -3,7 +3,7 @@
 
 #include "Artus/Core/interface/Cpp11Support.h"
 
-#include "HttTypes.h"
+#include "../HttTypes.h"
 
 class PreselectionFilter: public HttFilterBase {
 public:

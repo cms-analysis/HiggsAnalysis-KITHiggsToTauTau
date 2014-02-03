@@ -13,8 +13,8 @@
 #include "HttEvent.h"
 #include "HttProduct.h"
 
-#include "PreselectionFilter.h"
-#include "HttNtupleConsumer.h"
+#include "Filters/PreselectionFilter.h"
+#include "Consumers/HttNtupleConsumer.h"
 
 class HttPipelineInitializer: public PipelineInitilizerBase<HttTypes> {
 public:

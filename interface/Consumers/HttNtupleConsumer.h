@@ -5,7 +5,7 @@
 
 #include "Artus/Consumer/interface/NtupleConsumerBase.h"
 
-#include "HttTypes.h"
+#include "../HttTypes.h"
 
 
 class HttNtupleConsumer: public NtupleConsumerBase<HttTypes> {
