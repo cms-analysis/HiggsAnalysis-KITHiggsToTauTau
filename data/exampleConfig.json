@@ -1,37 +1,22 @@
 {
-    "SkipEvents": 0,
-    "EventCount": -1, 
-    "ProducerPtCorrectionFactor": 1.05,
-    "GlobalProducer": [
+    "SkipEvents" : 0,
+    "EventCount" : -1,
+    "ProducerPtCorrectionFactor" : 1.05,
+    "GlobalProducer" : [
         "json_producer"
-    ], 
-    "InputFiles": [
-        "sample_ntuple.root"
-    ], 
-    "OutputPath": "sample_output.root", 
-    "Pipelines": {
-        "lowPt": {
-            "Consumer": [ "quantities_all"
-            ],
-            "Filter": [ "filter_pt"
-            ], 
-            "LocalProducer": [
-                "VertexCandidatesSelector"
-            ], 
-            "FilterPtLow" : "0.0",
-            "FilterPtHigh" : "1.0"                      
-        },
-        "highPt": {
-            "Consumer": [ "quantities_all"
-            ],
-            "Filter": [  "filter_pt"
-            ], 
-            "LocalProducer": [
-                "VertexCandidatesSelector"
-            ], 
-            "FilterPtLow" : "1.0",
-            "FilterPtHigh" : "10000.0"
-        }        
+    ],
+    "InputFiles" : [
+        "/afs/cern.ch/user/t/tmuller/public/kappaTuple.root"
+    ],
+    "InputIsData" : false,
+    "OutputPath" : "output.root",
+    "Pipelines" : {
+        "mm" : {
+            "Consumer" : ["ntuple"],
+            "Quantities" : ["hardLepPt", "hardLepEta", "softLepPt", "softLepEta", "diLepMass"],
+            "Filter" : ["filter_preselection"],
+            "Channel" : "mm"
+        }
     }
 }
 

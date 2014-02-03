@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Artus/Core/interface/Cpp11Support.h"
-#include "Artus/Provider/interface/RootEventProvider.h"
+#include "Artus/Provider/interface/KappaEventProvider.h"
 
 #include "HttTypes.h"
 
@@ -12,22 +12,16 @@
  * WireEvent() method call.
  */
 
-class HttEventProvider: public RootEventProvider<HttTypes::event_type> {
+class HttEventProvider: public KappaEventProvider<HttTypes::event_type> {
 public:
-	HttEventProvider(stringvector const & fileNames) :
-			RootEventProvider<HttTypes::event_type>(fileNames,
-			// hardcode the root treename already here
-					"ec") {
+	HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType) :
+			KappaEventProvider<HttTypes::event_type>(fileInterface, inpType) {
 
 		WireEvent();
 	}
 
 private:
 	void WireEvent() {
-		// set up the ROOT pointers to our local memory regions
-		m_rootChain->SetBranchAddress("theSim", &m_event.m_floatTheSim);
-		m_rootChain->SetBranchAddress("pSim", &m_event.m_floatPSim);
-		m_rootChain->SetBranchAddress("ptSim", &m_event.m_floatPtSim);
-		m_rootChain->SetBranchAddress("pzSim", &m_event.m_floatPzSim);
+		m_event.m_muons = m_fi.Get<KDataMuons>("muons", true);
 	}
 };
