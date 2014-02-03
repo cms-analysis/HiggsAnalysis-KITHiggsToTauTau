@@ -2,10 +2,6 @@
 #pragma once
 
 #include "Artus/Core/interface/Cpp11Support.h"
-#include "Artus/Consumer/interface/ValueModifier.h"
-
-#include "Artus/Consumer/interface/DrawHist1dConsumer.h"
-#include "Artus/Consumer/interface/ProfileConsumerBase.h"
 
 #include "HttTypes.h"
 
