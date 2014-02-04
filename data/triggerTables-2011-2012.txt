@@ -1,0 +1,677 @@
+[e]
+HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1                                             hltEle27CaloIdTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2                                             hltEle27CaloIdTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3                                             hltEle27CaloIdTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v1                                             hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v2                                             hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v3                                             hltEle32CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v4                                             hltEle32CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v5                                             hltEle32CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v6                                             hltEle32CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v7                                             hltEle32CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter
+HLT_Ele52_CaloIdVT_TrkIdT_v1                                                              hltEle52CaloIdVTTrkIdTDphiFilter
+HLT_Ele52_CaloIdVT_TrkIdT_v2                                                              hltEle52CaloIdVTTrkIdTDphiFilter
+HLT_Ele52_CaloIdVT_TrkIdT_v3                                                              hltEle52CaloIdVTTrkIdTDphiFilter
+HLT_Ele52_CaloIdVT_TrkIdT_v4                                                              hltEle52CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v1                                                              hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v2                                                              hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v3                                                              hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v4                                                              hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v5                                                              hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v6                                                              hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v11                                                             hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v12                                                             hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele65_CaloIdVT_TrkIdT_v13                                                             hltEle65CaloIdVTTrkIdTDphiFilter
+HLT_Ele80_CaloIdVT_TrkIdT_v2                                                              hltEle80CaloIdVTTrkIdTDphiFilter
+HLT_Ele80_CaloIdVT_TrkIdT_v3                                                              hltEle80CaloIdVTTrkIdTDphiFilter
+HLT_Ele80_CaloIdVT_TrkIdT_v5                                                              hltEle80CaloIdVTTrkIdTDphiFilter
+HLT_Ele80_CaloIdVT_TrkIdT_v6                                                              hltEle80CaloIdVTTrkIdTDphiFilter
+HLT_Ele80_CaloIdVT_TrkIdT_v7                                                              hltEle80CaloIdVTTrkIdTDphiFilter
+HLT_Ele80_CaloIdVT_TrkIdT_v8                                                              hltEle80CaloIdVTTrkIdTDphiFilter
+HLT_Ele80_CaloIdVT_TrkIdT_v9                                                              hltEle80CaloIdVTTrkIdTDphiFilter
+HLT_Ele80_CaloIdVT_TrkIdT_v10                                                             hltEle80CaloIdVTTrkIdTDphiFilter
+HLT_Ele27_WP80_v2                                                                         hltEle27WP80TrackIsoFilter
+HLT_Ele27_WP80_v3                                                                         hltEle27WP80TrackIsoFilter
+HLT_Ele27_WP80_v5                                                                         hltEle27WP80TrackIsoFilter
+HLT_Ele27_WP80_v6                                                                         hltEle27WP80TrackIsoFilter
+HLT_Ele27_WP80_v7                                                                         hltEle27WP80TrackIsoFilter
+HLT_Ele27_WP80_v8                                                                         hltEle27WP80TrackIsoFilter
+HLT_Ele27_WP80_v9                                                                         hltEle27WP80TrackIsoFilter
+HLT_Ele27_WP80_v10                                                                        hltEle27WP80TrackIsoFilter
+HLT_Ele27_WP80_v11                                                                        hltEle27WP80TrackIsoFilter
+
+[m]						                                  
+HLT_Mu8_v1                                                                                hltSingleMu8L3Filtered8            
+HLT_Mu8_v2                                                                                hltSingleMu8L3Filtered8            
+HLT_Mu8_v3                                                                                hltSingleMu8L3Filtered8            
+HLT_Mu8_v4                                                                                hltSingleMu8L3Filtered8            
+HLT_Mu8_v5                                                                                hltSingleMu8L3Filtered8            
+HLT_Mu9                                                                                   
+HLT_Mu12_v1                                                                               hltSingleMu12L3Filtered12          
+HLT_Mu12_v2                                                                               hltSingleMu12L3Filtered12          
+HLT_Mu12_v3                                                                               hltSingleMu12L3Filtered12          
+HLT_Mu12_v4                                                                               hltSingleMu12L3Filtered12          
+HLT_Mu12_v5                                                                               hltSingleMu12L3Filtered12          
+HLT_Mu12_v7                                                                               hltSingleMu12L3Filtered12          
+HLT_Mu12_v8                                                                               hltSingleMu12L3Filtered12          
+HLT_Mu12_v11                                                                              hltSingleMu12L3Filtered12          
+HLT_Mu12_v12                                                                              hltSingleMu12L3Filtered12          
+HLT_Mu12_v16                                                                              hltSingleMu12L3Filtered12          
+HLT_Mu12_v17                                                                              hltSingleMu12L3Filtered12          
+HLT_Mu12_v18                                                                              hltSingleMu12L3Filtered12          
+HLT_Mu15_v1                                                                               
+HLT_Mu15_v2                                                                               hltL3Muon15                        
+HLT_Mu15_v3                                                                               hltSingleMu15L3Filtered15
+HLT_Mu15_v4                                                                               hltSingleMu15L3Filtered15
+HLT_Mu15_v5                                                                               hltSingleMu15L3Filtered15
+HLT_Mu15_v6                                                                               hltSingleMu15L3Filtered15
+HLT_Mu24_v1                                                                               hltSingleMu24L3Filtered24
+HLT_Mu24_v2                                                                               hltSingleMu24L3Filtered24
+HLT_Mu24_v3                                                                               hltSingleMu24L3Filtered24
+HLT_Mu24_v4                                                                               hltSingleMu24L3Filtered24
+HLT_Mu24_v5                                                                               hltSingleMu24L3Filtered24
+HLT_Mu24_v7                                                                               hltSingleMu24L3Filtered24
+HLT_Mu24_v8                                                                               hltSingleMu24L3Filtered24
+HLT_Mu24_v11                                                                              hltSingleMu24L3Filtered24
+HLT_Mu24_v12                                                                              hltSingleMu24L3Filtered24
+HLT_Mu24_v14                                                                              hltSingleMu24L3Filtered24
+HLT_Mu24_v15                                                                              hltSingleMu24L3Filtered24
+HLT_Mu24_v16                                                                              hltSingleMu24L3Filtered24
+HLT_Mu30_v1                                                                               hltSingleMu30L3Filtered30
+HLT_Mu30_v2                                                                               hltSingleMu30L3Filtered30
+HLT_Mu30_v3                                                                               hltSingleMu30L3Filtered30
+HLT_Mu30_v4                                                                               hltSingleMu30L3Filtered30
+HLT_Mu30_v5                                                                               hltSingleMu30L3Filtered30
+HLT_Mu30_v7                                                                               hltSingleMu30L3Filtered30
+HLT_Mu30_v8                                                                               hltSingleMu30L3Filtered30
+HLT_Mu30_v11                                                                              hltSingleMu30L3Filtered30
+HLT_Mu30_v12                                                                              hltSingleMu30L3Filtered30
+HLT_Mu30_v14                                                                              hltSingleMu30L3Filtered30
+HLT_Mu30_v15                                                                              hltSingleMu30L3Filtered30
+HLT_Mu30_v16                                                                              hltSingleMu30L3Filtered30
+HLT_Mu40_v2                                                                               hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_v3                                                                               hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_v5                                                                               hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_v6                                                                               hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_v9                                                                               hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_v12                                                                              hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_v13                                                                              hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_v14                                                                              hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_v10                                                                              hltSingleMu40L2QualL3Filtered40
+HLT_Mu40_eta2p1_v1                                                                        hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40
+HLT_Mu40_eta2p1_v4                                                                        hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40
+HLT_Mu40_eta2p1_v5                                                                        hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40
+HLT_Mu40_eta2p1_v9                                                                        hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40
+HLT_Mu40_eta2p1_v10                                                                       hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40
+HLT_Mu40_eta2p1_v11                                                                       hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered40
+HLT_IsoMu17_v5                                                                            hltSingleMuIsoL3IsoFiltered17
+HLT_IsoMu17_v6                                                                            hltSingleMuIsoL3IsoFiltered17
+HLT_IsoMu17_v8                                                                            hltSingleMuIsoL3IsoFiltered17
+HLT_IsoMu17_v9                                                                            hltSingleMuIsoL3IsoFiltered17
+HLT_IsoMu17_v10                                                                           hltSingleMuIsoL3IsoFiltered17
+HLT_IsoMu17_v11                                                                           hltSingleMuIsoL3IsoFiltered17
+HLT_IsoMu17_v13                                                                           hltSingleMuIsoL3IsoFiltered17
+HLT_IsoMu17_v14                                                                           hltSingleMuIsoL3IsoFiltered17
+HLT_IsoMu17_eta2p1_v1                                                                     hltSingleMuIsoL3IsoFiltered17Eta21
+HLT_IsoMu24_v1                                                                            hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v2                                                                            hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v4                                                                            hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v5                                                                            hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v6                                                                            hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v7                                                                            hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v8                                                                            hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v9                                                                            hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v12                                                                           hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v13                                                                           hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v15                                                                           hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v16                                                                           hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_v17                                                                           hltSingleMuIsoL3IsoFiltered24
+HLT_IsoMu24_eta2p1_v3                                                                     hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10       
+HLT_IsoMu24_eta2p1_v6                                                                     hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10       
+HLT_IsoMu24_eta2p1_v7                                                                     hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10       
+HLT_IsoMu24_eta2p1_v9                                                                     hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10
+HLT_IsoMu24_eta2p1_v10                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10
+HLT_IsoMu24_eta2p1_v11                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10
+HLT_IsoMu24_eta2p1_v12                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10
+HLT_IsoMu24_eta2p1_v13                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10
+HLT_IsoMu24_eta2p1_v14                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10       
+HLT_IsoMu24_eta2p1_v15                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10       
+HLT_IsoMu24_eta2p1_v13                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoRhoFiltered0p15  
+HLT_IsoMu24_eta2p1_v14                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoRhoFiltered0p15  
+HLT_IsoMu24_eta2p1_v15                                                                    hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoRhoFiltered0p15  
+HLT_IsoMu30_eta2p1_v11                                                                   hltL3IsoL1sMu14Eta2p1L1f0L2f14QL2IsoL3f30L3IsoFiltered
+HLT_IsoMu30_eta2p1_v12                                                                   hltL3IsoL1sMu14Eta2p1L1f0L2f14QL2IsoL3f30L3IsoFiltered
+HLT_IsoMu30_eta2p1_v13                                                                   hltL3IsoL1sMu14Eta2p1L1f0L2f14QL2IsoL3f30L3IsoFiltered
+HLT_IsoMu30_eta2p1_v14                                                                   hltL3IsoL1sMu14Eta2p1L1f0L2f14QL2IsoL3f30L3IsoFiltered
+HLT_IsoMu30_eta2p1_v15                                                                   hltL3IsoL1sMu14Eta2p1L1f0L2f14QL2IsoL3f30L3IsoFiltered
+HLT_IsoMu30_eta2p1_v3                                                                    hltL3IsoL1sMu14Eta2p1L1f0L2f14QL2IsoL3f30L3IsoFiltered
+
+[ee]							                                  
+HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v1                                     hltEle17CaloIdLCaloIsoVLPixelMatchFilter                                                  hltEle17CaloIdIsoEle8CaloIdIsoPixelMatchDoubleFilter
+HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v2                                     hltEle17CaloIdLCaloIsoVLPixelMatchFilter                                                  hltEle17CaloIdIsoEle8CaloIdIsoPixelMatchDoubleFilter
+HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v3                                     hltEle17CaloIdLCaloIsoVLPixelMatchFilter                                                  hltEle17CaloIdIsoEle8CaloIdIsoPixelMatchDoubleFilter
+HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v4                                     hltEle17CaloIdLCaloIsoVLPixelMatchFilter                                                  hltEle17CaloIdIsoEle8CaloIdIsoPixelMatchDoubleFilter
+HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v5                                     hltEle17CaloIdLCaloIsoVLPixelMatchFilter                                                  hltEle17CaloIdIsoEle8CaloIdIsoPixelMatchDoubleFilter
+HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v6                                     hltEle17CaloIdLCaloIsoVLPixelMatchFilter                                                  hltEle17CaloIdIsoEle8CaloIdIsoPixelMatchDoubleFilter
+HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v7                                     hltEle17CaloIdLCaloIsoVLPixelMatchFilter                                                  hltEle17CaloIdIsoEle8CaloIdIsoPixelMatchDoubleFilter
+HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v8                                     hltEle17CaloIdLCaloIsoVLPixelMatchFilter                                                  hltEle17CaloIdIsoEle8CaloIdIsoPixelMatchDoubleFilter
+HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v2   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v3   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v4   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v5   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v5   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v6   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v8   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v9   hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v10  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolFilter                                 hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsolDoubleFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v12  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter                                  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter 
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v13  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter                                  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter 
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v14  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter                                  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter 
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v15  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter                                  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter 
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v16  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter                                  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter 
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v17  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter                                  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter 
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v18  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter                                  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter 
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v19  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter                                  hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter 
+
+[mm]							                                  						       
+HLT_DoubleMu7_v1                                                                          hltDiMuonL3PreFiltered7                                
+HLT_DoubleMu7_v2                                                                          hltDiMuonL3PreFiltered7                                
+HLT_DoubleMu7_v3                                                                          hltDiMuonL3PreFiltered7                                
+HLT_DoubleMu7_v4                                                                          hltDiMuonL3PreFiltered7                                
+HLT_DoubleMu7_v5                                                                          hltDiMuonL3PreFiltered7                                
+HLT_DoubleMu7_v7                                                                          hltDiMuonL3PreFiltered7                                
+HLT_DoubleMu7_v8                                                                          hltDiMuonL3PreFiltered7                                
+HLT_DoubleMu7_v11                                                                         hltDiMuonL3PreFiltered7                                
+HLT_DoubleMu7_v12                                                                         hltDiMuonL3PreFiltered7                                
+HLT_Mu13_Mu8_v1                                                                           hltSingleMu13L3Filtered13                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu13_Mu8_v2                                                                           hltSingleMu13L3Filtered13                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu13_Mu8_v3                                                                           hltSingleMu13L3Filtered13                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu13_Mu8_v4                                                                           hltSingleMu13L3Filtered13                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu13_Mu8_v6                                                                           hltSingleMu13L3Filtered13                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu13_Mu8_v7                                                                           hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu13_Mu8_v10                                                                          hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu13_Mu8_v11                                                                          hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu13_Mu8_v16                                                                          hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu13_Mu8_v17                                                                          hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu13_Mu8_v18                                                                          hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu13_Mu8_v19                                                                          hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu13_Mu8_v21                                                                          hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu13_Mu8_v22                                                                          hltSingleMu13L3Filtered13                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu17_Mu8_v1                                                                           hltSingleMu13L3Filtered17                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu17_Mu8_v2                                                                           hltSingleMu13L3Filtered17                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu17_Mu8_v3                                                                           hltSingleMu13L3Filtered17                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu17_Mu8_v4                                                                           hltSingleMu13L3Filtered17                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu17_Mu8_v6                                                                           hltSingleMu13L3Filtered17                                                                 hltDiMuonL3PreFiltered8
+HLT_Mu17_Mu8_v7                                                                           hltL3fL1DoubleMu10MuOpenL1f0L2f10L3Filtered17                                             hltL3pfL1DoubleMu10MuOpenL1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v10                                                                          hltSingleMu13L3Filtered17                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu17_Mu8_v11                                                                          hltSingleMu13L3Filtered17                                                                 hltDiMuonL3p5PreFiltered8
+HLT_Mu17_Mu8_v13                                                                          hltL3fL1DoubleMu10MuOpenL1f0L2f10L3Filtered17                                             hltL3pfL1DoubleMu10MuOpenL1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v14                                                                          hltL3fL1DoubleMu10MuOpenL1f0L2f10L3Filtered17                                             hltL3pfL1DoubleMu10MuOpenL1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v15                                                                          hltL3fL1DoubleMu10MuOpenL1f0L2f10L3Filtered17                                             hltL3pfL1DoubleMu10MuOpenL1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v16                                                                          hltL3fL1DoubleMu10MuOpenL1f0L2f10L3Filtered17                                             hltL3pfL1DoubleMu10MuOpenL1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v17                                                                          hltL3fL1DoubleMu10MuOpenL1f0L2f10L3Filtered17                                             hltL3pfL1DoubleMu10MuOpenL1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v18                                                                          hltL3fL1DoubleMu10MuOpenOR3p5L1f0L2f10L3Filtered17                                        hltL3pfL1DoubleMu10MuOpenOR3p5L1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v19                                                                          hltL3fL1DoubleMu10MuOpenOR3p5L1f0L2f10L3Filtered17                                        hltL3pfL1DoubleMu10MuOpenOR3p5L1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v21                                                                          hltL3fL1DoubleMu10MuOpenOR3p5L1f0L2f10L3Filtered17                                        hltL3pfL1DoubleMu10MuOpenOR3p5L1f0L2pf0L3PreFiltered8
+HLT_Mu17_Mu8_v22                                                                          hltL3fL1DoubleMu10MuOpenOR3p5L1f0L2f10L3Filtered17                                        hltL3pfL1DoubleMu10MuOpenOR3p5L1f0L2pf0L3PreFiltered8
+HLT_Mu8_Jet40_v2                                                                          hltL3Mu8Jet20L3Filtered8                                                                  hltJet40
+HLT_Mu8_Jet40_v3                                                                          hltL3Mu8Jet20L3Filtered8                                                                  hltJet40
+HLT_Mu8_Jet40_v4                                                                          hltL3Mu8Jet20L3Filtered8                                                                  hltJet40
+HLT_Mu8_Jet40_v5                                                                          hltL3Mu8Jet20L3Filtered8                                                                  hltJet40
+HLT_Mu8_Jet40_v6                                                                          hltL3Mu8Jet20L3Filtered8                                                                  hltJet40
+HLT_Mu8_Jet40_v7                                                                          hltL3Mu8Jet20L3Filtered8                                                                  hltJet40
+
+[em]
+HLT_Mu17_Ele8_CaloIdL_v1                                                                  hltL1Mu3EG5L3Filtered17                                                                   hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v2                                                                  hltL1Mu3EG5L3Filtered17                                                                   hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v3                                                                  hltL1MuOpenEG5L3Filtered17                                                                hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v4                                                                  hltL1MuOpenEG5L3Filtered17                                                                hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v5                                                                  hltL1MuOpenEG5L3Filtered17                                                                hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v6                                                                  hltL1MuOpenEG5L3Filtered17                                                                hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v8                                                                  hltL1Mu7EG5L3MuFiltered17                                                                 hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v9                                                                  hltL1Mu7EG5L3MuFiltered17                                                                 hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v12                                                                 hltL1Mu7EG5L3MuFiltered17                                                                 hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdL_v13                                                                 hltL1Mu7EG5L3MuFiltered17                                                                 hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v1                                                        hltL1Mu3EG5L3Filtered17                                                                   hltMu17Ele8CaloIdTPixelMatchFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v3                                                        hltL1Mu7EG5L3MuFiltered17                                                                 hltMu17Ele8CaloIdTPixelMatchFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v4                                                        hltL1Mu12EG5L3MuFiltered17                                                                hltMu17Ele8CaloIdTPixelMatchFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v7                                                        hltL1Mu12EG5L3MuFiltered17                                                                hltMu17Ele8CaloIdTPixelMatchFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v8                                                        hltL1Mu12EG5L3MuFiltered17                                                                hltMu17Ele8CaloIdTPixelMatchFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v1                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v2                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v3                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v4                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v5                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v6                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v8                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v9                                       hltL1Mu12EG7L3MuFiltered17                                                                hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdL_v1                                                                  hltL1Mu3EG5L3Filtered8                                                                    hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v2                                                                  hltL1Mu3EG5L3Filtered8                                                                    hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v3                                                                  hltL1MuOpenEG5L3Filtered8                                                                 hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v4                                                                  hltL1MuOpenEG5L3Filtered8                                                                 hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v5                                                                  hltL1MuOpenEG5L3Filtered8                                                                 hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v6                                                                  hltL1MuOpenEG5L3Filtered8                                                                 hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v8                                                                  hltL1MuOpenEG5L3Filtered8                                                                 hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v9                                                                  hltL1MuOpenEG5L3Filtered8                                                                 hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v12                                                                 hltL1MuOpenEG5L3Filtered8                                                                 hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdL_v13                                                                 hltL1MuOpenEG5L3Filtered8                                                                 hltL1NonIsoHLTNonIsoMu8Ele17PixelMatchFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_v1                                                        hltL1MuOpenEG12L3Filtered8                                                                hltMu8Ele17CaloIdTCaloIsoVLPixelMatchFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_v3                                                        hltL1MuOpenEG12L3Filtered8                                                                hltMu8Ele17CaloIdTCaloIsoVLPixelMatchFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_v4                                                        hltL1MuOpenEG12L3Filtered8                                                                hltMu8Ele17CaloIdTCaloIsoVLPixelMatchFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_v7                                                        hltL1MuOpenEG12L3Filtered8                                                                hltMu8Ele17CaloIdTCaloIsoVLPixelMatchFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_v8                                                        hltL1MuOpenEG12L3Filtered8                                                                hltMu8Ele17CaloIdTCaloIsoVLPixelMatchFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v1                                       ltL1MuOpenEG12L3Filtered8                                                                 hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v2                                       ltL1MuOpenEG12L3Filtered8                                                                 hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v3                                       ltL1MuOpenEG12L3Filtered8                                                                 hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v4                                       ltL1MuOpenEG12L3Filtered8                                                                 hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v5                                       ltL1MuOpenEG12L3Filtered8                                                                 hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v6                                       ltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8                                                 hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7                                       ltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8                                                 hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v8                                       hltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8                                                hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v9                                       hltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8                                                hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v2                                                         hltSingleMu8EG5L3Filtered8                                                                hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v3                                                         hltSingleMu8EG5L3Filtered8                                                                hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v4                                                         hltSingleMu8EG5L3Filtered8                                                                hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v5                                                         hltSingleMu8EG5L3Filtered8                                                                hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v6                                                         hltSingleMu8EG5L3Filtered8                                                                hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter
+HLT_Mu15_Photon20_CaloIdL_v2                                                              hltL1Mu3EG5L3Filtered15                                                                   hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v3                                                              hltL1Mu3EG5L3Filtered15                                                                   hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v4                                                              hltL1MuOpenEG5L3Filtered15                                                                hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v5                                                              hltL1MuOpenEG5L3Filtered15                                                                hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v6                                                              hltL1MuOpenEG5L3Filtered15                                                                hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v7                                                              hltL1MuOpenEG5L3Filtered15                                                                hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v9                                                              hltL1MuOpenEG5L3Filtered15                                                                hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v10                                                             hltL1MuOpenEG5L3Filtered15                                                                hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v13                                                             hltL1MuOpenEG5L3Filtered15                                                                hltMu15Photon20CaloIdLHEFilter
+HLT_Mu15_Photon20_CaloIdL_v14                                                             hltL1MuOpenEG5L3Filtered15                                                                hltMu15Photon20CaloIdLHEFilter
+							                                  						       
+[et]
+HLT_Ele15_CaloIdVT_TrkIdT_LooseIsoPFTau15_v0                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_TrkIdT_LooseIsoPFTau15_v1                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_TrkIdT_LooseIsoPFTau15_v2                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_TrkIdT_LooseIsoPFTau15_v4                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_TrkIdT_LooseIsoPFTau15_v6                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_TrkIdT_LooseIsoPFTau20_v0                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_TrkIdT_LooseIsoPFTau20_v2                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_TrkIdT_LooseIsoPFTau20_v3                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_TrkIdT_TightIsoPFTau20_v0                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTauTightIso20TrackTightIso 
+HLT_Ele15_CaloIdVT_TrkIdT_TightIsoPFTau20_v2                                              hltEle15CaloIdVTTrkIdTDphiFilter                                                          hltPFTauTightIso20TrackTightIso 
+HLT_Ele18_CaloIdVT_TrkIdT_MediumIsoPFTau20_v0                                             hltEle18CaloIdVTTrkIdTDphiFilter                                                          hltPFTauMediumIso20TrackMediumIso
+HLT_Ele18_CaloIdVT_TrkIdT_MediumIsoPFTau20_v1                                             hltEle18CaloIdVTTrkIdTDphiFilter                                                          hltPFTauMediumIso20TrackMediumIso
+HLT_Ele18_CaloIdVT_TrkIdT_MediumIsoPFTau20_v5                                             hltEle18CaloIdVTTrkIdTDphiFilter                                                          hltPFTauMediumIso20TrackMediumIso
+HLT_Ele18_CaloIdVT_TrkIdT_MediumIsoPFTau20_v6                                             hltEle18CaloIdVTTrkIdTDphiFilter                                                          hltPFTauMediumIso20TrackMediumIso
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau15_v0                             hltEle15CaloIdVTTrkIdTCaloIsoTTrkIsoTTrackIsolFilter                                      hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau15_v0                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau15_v1                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau15_v2                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau15_v4                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau15_v6                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau15TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v0                             hltEle15CaloIdVTTrkIdTCaloIsoTTrkIsoTTrackIsolFilter                                      hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v0                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v1                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v2                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v4                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v6                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v8                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v9                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso     
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_TightIsoPFTau20_v0                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTauTightIso20TrackTightIso
+HLT_Ele15_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_TightIsoPFTau20_v2                             hltEle15CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTauTightIso20TrackTightIso
+HLT_Ele18_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v0                             hltEle18CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso
+HLT_Ele18_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v2                             hltEle18CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso
+HLT_Ele18_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v3                             hltEle18CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTau20TrackLooseIso
+HLT_Ele18_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_MediumIsoPFTau20_v0                            hltEle18CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTauMediumIso20TrackMediumIso 
+HLT_Ele18_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_MediumIsoPFTau20_v1                            hltEle18CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilter                                       hltPFTauMediumIso20TrackMediumIso 
+HLT_Ele20_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_MediumIsoPFTau20_v0                            hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1SingleEG18orL1SingleEG20             hltPFTauMediumIso20TrackMediumIso
+HLT_Ele20_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_MediumIsoPFTau20_v1                            hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1SingleEG18orL1SingleEG20             hltPFTauMediumIso20TrackMediumIso
+HLT_Ele20_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_MediumIsoPFTau20_v5                            hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1SingleEG18orL1SingleEG20             hltPFTauMediumIso20TrackMediumIso
+HLT_Ele20_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_MediumIsoPFTau20_v6                            hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1SingleEG18orL1SingleEG20             hltPFTauMediumIso20TrackMediumIso
+HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v0                          hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1IsoEG18OrEG20                        hltPFTauIsoEleVertex20
+HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v4                          hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1IsoEG18OrEG20                        hltPFTauIsoEleVertex20
+HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v5                          hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1IsoEG18OrEG20                        hltPFTauIsoEleVertex20
+HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_v6                          hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1IsoEG18OrEG20                        hltPFTauIsoEleVertex20
+HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20_v0                                               hltEle22WP90RhoTrackIsoFilter                                                             hltIsoElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20_v2                                               hltEle22WP90RhoTrackIsoFilter                                                             hltIsoElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20_v3                                               hltEle22WP90RhoTrackIsoFilter                                                             hltIsoElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20_v6                                               hltEle22WP90RhoTrackIsoFilter                                                             hltIsoElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20_v7                                               hltEle22WP90RhoTrackIsoFilter                                                             hltIsoElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90NoIso_LooseIsoPFTau20_v0                                             hltEle22WP90NoIsoDphiFilter                                                               hltElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90NoIso_LooseIsoPFTau20_v2                                             hltEle22WP90NoIsoDphiFilter                                                               hltElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90NoIso_LooseIsoPFTau20_v3                                             hltEle22WP90NoIsoDphiFilter                                                               hltElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90NoIso_LooseIsoPFTau20_v6                                             hltEle22WP90NoIsoDphiFilter                                                               hltElePFTau20TrackLooseIso
+HLT_Ele22_eta2p1_WP90NoIso_LooseIsoPFTau20_v7                                             hltEle22WP90NoIsoDphiFilter                                                               hltElePFTau20TrackLooseIso
+HLT_Ele20_CaloIdVT_TrkIdT_LooseIsoPFTau20_v0                                              hltEle20CaloIdVTTrkIdTDphiFilter                                                          hltPFTauEleVertex20
+HLT_Ele20_CaloIdVT_TrkIdT_LooseIsoPFTau20_v4                                              hltEle20CaloIdVTTrkIdTDphiFilter                                                          hltPFTauEleVertex20
+HLT_Ele20_CaloIdVT_TrkIdT_LooseIsoPFTau20_v5                                              hltEle20CaloIdVTTrkIdTDphiFilter                                                          hltPFTauEleVertex20
+HLT_Ele20_CaloIdVT_TrkIdT_LooseIsoPFTau20_v6                                              hltEle20CaloIdVTTrkIdTDphiFilter                                                          hltPFTauEleVertex20
+
+[mt]
+HLT_IsoMu12_LooseIsoPFTau10_v0                                                            hltSingleMuIsoL3IsoFiltered12                                                             hltFilterIsoMu12IsoPFTau10LooseIsolation
+HLT_IsoMu12_LooseIsoPFTau10_v1                                                            hltSingleMuIsoL3IsoFiltered12                                                             hltFilterIsoMu12IsoPFTau10LooseIsolation
+HLT_IsoMu12_LooseIsoPFTau10_v2                                                            hltSingleMuIsoL3IsoFiltered12                                                             hltFilterIsoMu12IsoPFTau10LooseIsolation
+HLT_IsoMu12_LooseIsoPFTau10_v4                                                            hltSingleMuIsoL3IsoFiltered12                                                             hltFilterIsoMu12IsoPFTau10LooseIsolation
+HLT_Mu15_LooseIsoPFTau15_v0                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau15_v2                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau15_v4                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau15_v5                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau15_v6                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau15_v8                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau15_v9                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau15_v13                                                              hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau15_v14                                                              hltSingleMu15L3Filtered15                                                                 hltPFTau15TrackLooseIso
+HLT_Mu15_LooseIsoPFTau20_v0                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau20TrackLooseIso
+HLT_Mu15_LooseIsoPFTau20_v1                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau20TrackLooseIso
+HLT_Mu15_LooseIsoPFTau20_v2                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau20TrackLooseIso
+HLT_Mu15_LooseIsoPFTau20_v4                                                               hltSingleMu15L3Filtered15                                                                 hltPFTau20TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau15_v0                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau15TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau15_v2                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau15TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau15_v4                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau15TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau15_v5                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau15TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau15_v6                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau15TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau15_v8                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau15TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau15_v9                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau15TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau20_v0                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau20TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau20_v2                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau20TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau20_v3                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau20TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau20_v4                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau20TrackLooseIso
+HLT_IsoMu15_LooseIsoPFTau20_v6                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTau20TrackLooseIso
+HLT_IsoMu15_TightIsoPFTau20_v0                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTauTightIso20TrackTightIso
+HLT_IsoMu15_TightIsoPFTau20_v2                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTauTightIso20TrackTightIso
+HLT_IsoMu15_TightIsoPFTau20_v3                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTauTightIso20TrackTightIso
+HLT_IsoMu15_TightIsoPFTau20_v4                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTauTightIso20TrackTightIso 
+HLT_IsoMu15_TightIsoPFTau20_v6                                                            hltSingleMuIsoL3IsoFiltered15                                                             hltPFTauTightIso20TrackTightIso
+HLT_IsoMu15_eta2p1_LooseIsoPFTau20_v0                                                     hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTau20TrackLooseIso
+HLT_IsoMu15_eta2p1_LooseIsoPFTau20_v1                                                     hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTau20TrackLooseIso
+HLT_IsoMu15_eta2p1_LooseIsoPFTau20_v5                                                     hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTau20TrackLooseIso
+HLT_IsoMu15_eta2p1_LooseIsoPFTau20_v6                                                     hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTau20TrackLooseIso
+HLT_IsoMu15_eta2p1_MediumIsoPFTau20_v0                                                    hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTauMediumIso20TrackMediumIso
+HLT_IsoMu15_eta2p1_MediumIsoPFTau20_v1                                                    hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTauMediumIso20TrackMediumIso
+HLT_IsoMu15_eta2p1_MediumIsoPFTau20_v5                                                    hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTauMediumIso20TrackMediumIso
+HLT_IsoMu15_eta2p1_MediumIsoPFTau20_v6                                                    hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTauMediumIso20TrackMediumIso
+HLT_IsoMu15_eta2p1_TightIsoPFTau20_v0                                                     hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTauTightIso20TrackTightIso
+HLT_IsoMu15_eta2p1_TightIsoPFTau20_v1                                                     hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTauTightIso20TrackTightIso
+HLT_IsoMu15_eta2p1_TightIsoPFTau20_v5                                                     hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTauTightIso20TrackTightIso
+HLT_IsoMu15_eta2p1_TightIsoPFTau20_v6                                                     hltSingleMuIsoL1s14L3IsoFiltered15eta2p1                                                  hltPFTauTightIso20TrackTightIso
+HLT_IsoMu18_eta2p1_LooseIsoPFTau20                                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoFiltered10                                  hltPFTau20IsoMuVertex
+HLT_IsoMu18_eta2p1_LooseIsoPFTau20_v4                                                     hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoFiltered10                                  hltPFTau20IsoMuVertex
+HLT_IsoMu18_eta2p1_LooseIsoPFTau20_v5                                                     hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoFiltered10                                  hltPFTau20IsoMuVertex
+HLT_IsoMu18_eta2p1_LooseIsoPFTau20_v6                                                     hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoFiltered10                                  hltPFTau20IsoMuVertex
+HLT_Mu18_eta2p1_LooseIsoPFTau20_v0                                                        hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered18Q                                                hltPFTau20MuVertex     
+HLT_Mu18_eta2p1_LooseIsoPFTau20_v4                                                        hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered18Q                                                hltPFTau20MuVertex     
+HLT_Mu18_eta2p1_LooseIsoPFTau20_v5                                                        hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered18Q                                                hltPFTau20MuVertex     
+HLT_Mu18_eta2p1_LooseIsoPFTau20_v6                                                        hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered18Q                                                hltPFTau20MuVertex     
+HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v0                                                     hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15                         hltIsoMuPFTau20TrackLooseIso
+HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2                                                     hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15                         hltIsoMuPFTau20TrackLooseIso
+HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v3                                                     hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15                         hltIsoMuPFTau20TrackLooseIso
+HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v6                                                     hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15                         hltIsoMuPFTau20TrackLooseIso
+HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v7                                                     hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15                         hltIsoMuPFTau20TrackLooseIso
+HLT_Mu17_eta2p1_LooseIsoPFTau20_v0                                                        hltL3fL1sMu14erORMu16erL1f0L2f14QL3Filtered17Q                                            hltMuPFTau20TrackLooseIso
+HLT_Mu17_eta2p1_LooseIsoPFTau20_v2                                                        hltL3fL1sMu14erORMu16erL1f0L2f14QL3Filtered17Q                                            hltMuPFTau20TrackLooseIso
+HLT_Mu17_eta2p1_LooseIsoPFTau20_v3                                                        hltL3fL1sMu14erORMu16erL1f0L2f14QL3Filtered17Q                                            hltMuPFTau20TrackLooseIso
+HLT_Mu17_eta2p1_LooseIsoPFTau20_v6                                                        hltL3fL1sMu14erORMu16erL1f0L2f14QL3Filtered17Q                                            hltMuPFTau20TrackLooseIso
+HLT_Mu17_eta2p1_LooseIsoPFTau20_v7                                                        hltL3fL1sMu14erORMu16erL1f0L2f14QL3Filtered17Q                                            hltMuPFTau20TrackLooseIso
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v0                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt5Prong4     
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v4                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt5Prong4     
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v5                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltPFTau25TrackPt5MediumIsolationProng4IsoMuVertex
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v7                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt5Prong4  
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v3                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt5Prong4  
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v3                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltPFTau25TrackPt5MediumIsolationProng4IsoMuVertex 
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk1_eta2p1_v0                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt1Prong4
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk1_eta2p1_v1                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt1Prong4
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk1_eta2p1_v3                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt1Prong4
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk1_eta2p1_v4                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt1Prong4
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v0                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt5Prong4     
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v4                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt5Prong4     
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v5                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltPFTau25TrackPt5MediumIsolationProng4IsoMuVertex
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v7                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt5Prong4     
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v3                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt5Prong4     
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk5_eta2p1_v3                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltPFTau25TrackPt5MediumIsolationProng4IsoMuVertex
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk1_eta2p1_v0                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt1Prong4
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk1_eta2p1_v1                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt1Prong4
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk1_eta2p1_v3                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt1Prong4
+HLT_IsoMu18_eta2p1_MediumIsoPFTau25_Trk1_eta2p1_v4                                        hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoRhoFiltered0p15                             hltOverlapFilterIsoMu18PFTau25TrackPt1Prong4
+
+[tt] 
+## 2011
+HLT_DoubleIsoPFTau35_Trk5_eta2p1_v2                                                       hltFilterDoubleIsoPFTau35Trk5LeadTrack5IsolationL1HLTMatched
+HLT_DoubleIsoPFTau35_Trk5_eta2p1_v3                                                       hltFilterDoubleIsoPFTau35Trk5LeadTrack5IsolationL1HLTMatched
+HLT_DoubleIsoPFTau35_Trk5_eta2p1_v4                                                       hltFilterDoubleIsoPFTau35Trk5LeadTrack5IsolationL1HLTMatched
+HLT_DoubleIsoPFTau25_Trk5_eta2p1_v2                                                       hltFilterDoubleIsoPFTau25Trk5LeadTrack5IsolationL1HLTMatched
+HLT_DoubleIsoPFTau20_Trk5_v1                                                              hltFilterDoubleIsoPFTau20Trk5LeadTrack5IsolationL1HLTMatched
+HLT_DoubleIsoPFTau20_Trk5_v2                                                              hltFilterDoubleIsoPFTau20Trk5LeadTrack5IsolationL1HLTMatched
+HLT_DoubleIsoPFTau20_Trk5_v4                                                              hltFilterDoubleIsoPFTau20Trk5LeadTrack5IsolationL1HLTMatched
+## 2012						                                  
+HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30_v1                                           hltDoublePFTau30TrackPt1MediumIsolation
+HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30_v2                                           hltDoublePFTau30TrackPt5MediumIsolation
+HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30_v4                                           hltDoublePFTau30TrackPt1MediumIsolation
+HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30_v5                                           hltDoublePFTau30TrackPt1MediumIsolation
+HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30_v2                                           hltDoublePFTau25TrackPt5MediumIsolation
+HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30_v3                                           hltDoublePFTau25TrackPt5MediumIsolation
+HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30_v4                                           hltDoublePFTau25TrackPt5MediumIsolation
+HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30_v1                                           hltDoublePFTau30TrackPt1MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30_v4                                           hltDoublePFTau30TrackPt1MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30_v5                                           hltDoublePFTau30TrackPt1MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30_v1                                           hltDoublePFTau30TrackPt5MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30_v2                                           hltDoublePFTau30TrackPt5MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30_v1                                           hltDoublePFTau25TrackPt5MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30_v2                                           hltDoublePFTau25TrackPt5MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30_v3                                           hltDoublePFTau25TrackPt5MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30_v4                                           hltDoublePFTau25TrackPt5MediumIsolationProng4Dz02                                         hltTripleL2Jets30eta3
+HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Prong1_v1                                          hltDoublePFTau35TrackPt1MediumIsolationProng2Dz02
+HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Prong1_v3                                          hltDoublePFTau35TrackPt1MediumIsolationProng2Dz02
+HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Prong1_v4                                          hltDoublePFTau35TrackPt1MediumIsolationProng2Dz02
+## 2012 (parked dataset) 						                                  
+HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_v0                                                 hltDoublePFTau35TrackPt1MediumIsolationProng4Dz02
+HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_v1                                                 hltDoublePFTau35TrackPt1MediumIsolationProng4Dz02
+HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_v3                                                 hltDoublePFTau35TrackPt1MediumIsolationProng4Dz02
+HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_v4                                                 hltDoublePFTau35TrackPt1MediumIsolationProng4Dz02
+HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1_v0                                                 hltDoublePFTau35TrackPt5MediumIsolationProng4Dz02
+HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1_v2                                                 hltDoublePFTau35TrackPt5MediumIsolationProng4Dz02
+HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1_v3                                                 hltDoublePFTau35TrackPt5MediumIsolationProng4Dz02
+HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1_v4                                                 hltDoublePFTau35TrackPt5MediumIsolationProng4Dz02
+HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1_v6                                                 hltDoublePFTau35TrackPt5MediumIsolationProng4Dz02
+
+[specials]
+## used for tag and probe						                                  
+HLT_Ele32_CaloIdL_CaloIsoVL_SC17_v1                                                       hltEle32CaloIdLCaloIsoVLSC17PixelMatchFilter                                              hltEle32CaloIdLCaloIsoVLSC17HEDoubleFilter
+HLT_Ele32_CaloIdL_CaloIsoVL_SC17_v2                                                       hltEle32CaloIdLCaloIsoVLSC17PixelMatchFilter                                              hltEle32CaloIdLCaloIsoVLSC17HEDoubleFilter
+HLT_Ele32_CaloIdL_CaloIsoVL_SC17_v3                                                       hltEle32CaloIdLCaloIsoVLSC17PixelMatchFilter                                              hltEle32CaloIdLCaloIsoVLSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_v1                                         hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsolFilter                                   hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_v2                                         hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsolFilter                                   hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_v3                                         hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsolFilter                                   hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_v4                                         hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsolFilter                                   hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_v5                                         hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsolFilter                                   hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_v6                                         hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsolFilter                                   hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_v7                                         hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsolFilter                                   hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_v8                                         hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsolFilter                                   hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17HEDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v1                                        hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTEle17TrackIsolFilter                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTEle17PixelMatchDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v2                                        hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTEle17TrackIsolFilter                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTEle17PixelMatchDoubleFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_Ele17_v3                                        hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTEle17TrackIsolFilter                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTEle17PixelMatchDoubleFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v1                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v2                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v3                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v4                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v5                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v6                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v7                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v8                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v9                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC8_Mass30_v10                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8TrackIsolFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC8PMMassFilter
+HLT_Ele20_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC4_Mass50_v1                                hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4TrackIsoFilter                                  hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4PMMassFilter
+HLT_Ele20_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC4_Mass50_v2                                hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4TrackIsoFilter                                  hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4PMMassFilter
+HLT_Ele20_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC4_Mass50_v3                                hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4TrackIsoFilter                                  hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4PMMassFilter
+HLT_Ele20_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC4_Mass50_v4                                hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4TrackIsoFilter                                  hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4PMMassFilter
+HLT_Ele20_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC4_Mass50_v5                                hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4TrackIsoFilter                                  hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4PMMassFilter
+HLT_Ele20_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC4_Mass50_v6                                hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4TrackIsoFilter                                  hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4PMMassFilter
+HLT_Ele20_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_SC4_Mass50_v7                                hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4TrackIsoFilter                                  hltEle20CaloIdVTCaloIsoVTTrkIdTTrkIsoVTSC4PMMassFilter
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_Mass50_v1                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsoFilter                                    hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17PMMassFilter  
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_Mass50_v2                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsoFilter                                    hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17PMMassFilter  
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_Mass50_v3                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsoFilter                                    hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17PMMassFilter  
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_Mass50_v4                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsoFilter                                    hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17PMMassFilter  
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_Mass50_v5                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsoFilter                                    hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17PMMassFilter  
+HLT_Ele32_CaloIdT_CaloIsoT_TrkIdT_TrkIsoT_SC17_Mass50_v6                                  hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17TrackIsoFilter                                    hltEle32CaloIdTCaloIsoTTrkIdTTrkIsoTSC17PMMassFilter  
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass30_v2                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsolFilter                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass30_v3                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsolFilter                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass30_v4                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsolFilter                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass30_v5                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsolFilter                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass30_v6                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsolFilter                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass30_v7                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsolFilter                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass30_v8                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsolFilter                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass30_v9                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsolFilter                                hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass50_v1                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsoFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass50_v2                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsoFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass50_v3                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsoFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass50_v4                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsoFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass50_v5                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsoFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+HLT_Ele17_CaloIdVT_CaloIsoVT_TrkIdT_TrkIsoVT_Ele8_Mass50_v6                               hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8TrackIsoFilter                                 hltEle17CaloIdVTCaloIsoVTTrkIdTTrkIsoVTEle8PMMassFilter
+## m+MET, used for tau efficiency studies
+HLT_IsoMu15_L1ETM20_v0                                  
+HLT_IsoMu15_L1ETM20_v3                                  
+HLT_IsoMu15_L1ETM20_v4                                  
+HLT_IsoMu15_eta2p1_L1ETM20_v0                           
+HLT_IsoMu15_eta2p1_L1ETM20_v3                           
+HLT_IsoMu15_eta2p1_L1ETM20_v4                           
+HLT_IsoMu15_eta2p1_L1ETM20_v5                           
+HLT_IsoMu15_eta2p1_L1ETM20_v6                           
+HLT_IsoMu15_eta2p1_L1ETM20_v7                           
+## used for fakerate study in em
+HLT_Mu8_v1                                                                                hltSingleMu8L3Filtered8
+HLT_Mu8_v2                                                                                hltSingleMu8L3Filtered8
+HLT_Mu8_v3                                                                                hltSingleMu8L3Filtered8
+HLT_Mu8_v5                                                                                hltSingleMu8L3Filtered8
+HLT_Mu8_v7                                                                                hltSingleMu8L3Filtered8
+HLT_Mu8_v8                                                                                hltSingleMu8L3Filtered8
+HLT_Mu8_v11                                                                               hltSingleMu8L3Filtered8
+HLT_Mu8_v12                                                                               hltL3fL1sMu3L3Filtered8
+HLT_Mu8_v14                                                                               hltL3fL1sMu3L3Filtered8
+HLT_Mu8_v15                                                                               hltL3fL1sMu3L3Filtered8
+HLT_Mu8_v16                                                                               hltL3fL1sMu3L3Filtered8
+HLT_Mu8_v17                                                                               hltL3fL1sMu3L3Filtered8
+HLT_Mu8_v18                                                                               hltL3fL1sMu3L3Filtered8
+HLT_Mu15_v1                                                                               hltL3Muon15
+HLT_Mu15_v2                                                                               hltL3Muon15
+HLT_Mu15_v3                                                                               hltSingleMu15L3Filtered15
+HLT_Mu15_v4                                                                               hltSingleMu15L3Filtered15
+HLT_Mu15_v6                                                                               hltSingleMu15L3Filtered15
+HLT_Mu15_v8                                                                               hltSingleMu15L3Filtered15
+HLT_Mu15_v9                                                                               hltSingleMu15L3Filtered15
+HLT_Mu15_v12                                                                              hltSingleMu15L3Filtered15
+HLT_Mu15_v13                                                                              hltSingleMu15L3Filtered15
+HLT_Mu17_v1                                                                               hltL3fL1sMu12L3Filtered17
+HLT_Mu17_v2                                                                               hltL3fL1sMu12L3Filtered17
+HLT_Mu17_v3                                                                               hltL3fL1sMu12L3Filtered17
+HLT_Mu17_v4                                                                               hltL3fL1sMu12L3Filtered17
+HLT_Mu17_v5                                                                               hltL3fL1sMu12L3Filtered17
+HLT_Mu8_Jet40_v1                                                                          hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v2                                                                          hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v3                                                                          hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v4                                                                          hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v5                                                                          hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v6                                                                          hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v7                                                                          hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v9                                                                          hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v10                                                                         hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v14                                                                         hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Jet40_v15                                                                         hltL3Mu8Jet20L3Filtered8
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v2                                                         hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltSingleMu8EG5L3Filtered8     
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v3                                                         hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter                                                  hltSingleMu8EG5L3Filtered8     
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v4                                                         hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter                                                  hltSingleMu8EG5L3Filtered8     
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v5                                                         hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter                                                  hltSingleMu8EG5L3Filtered8     
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v6                                                         hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter                                                  hltSingleMu8EG5L3Filtered8     
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v8                                                         hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter                                                  hltSingleMuOpenEG12L3Filtered8 
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v9                                                         hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter                                                  hltSingleMuOpenEG12L3Filtered8 
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v12                                                        hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter                                                  hltSingleMuOpenEG12L3Filtered8 
+HLT_Mu8_Photon20_CaloIdVT_IsoT_v13                                                        hltPhoton20CaloIdVTIsoTMu8TrackIsoFilter                                                  hltSingleMuOpenEG12L3Filtered8 
+HLT_Ele8_v1                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v2                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v3                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v4                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v5                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v6                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v7                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v8                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v9                                                                               hltEle8PixelMatchFilter
+HLT_Ele8_v10                                                                              hltEle8PixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v1                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v2                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v3                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v4                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v5                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v6                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v7                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v8                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v9                                                             hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v10                                                            hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v14                                                            hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v15                                                            hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v16                                                            hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_v17                                                            hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v3                                            hltEle8TightIdLooseIsoTrackIsolFilter
+HLT_Ele8_CaloIdT_TrkIdVL_CaloIsoVL_TrkIsoVL_v4                                            hltEle8TightIdLooseIsoTrackIsolFilter
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v4                                            hltEle8TightIdLooseIsoTrackIsolFilter
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v5                                            hltEle8TightIdLooseIsoTrackIsolFilter
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v6                                            hltEle8TightIdLooseIsoTrackIsolFilter
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7                                            hltEle8TightIdLooseIsoTrackIsolFilter
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v8                                            hltEle8TightIdLooseIsoTrackIsoFilter 
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v10                                           hltEle8TightIdLooseIsoTrackIsoFilter 
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v11                                           hltEle8TightIdLooseIsoTrackIsoFilter 
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v12                                           hltEle8TightIdLooseIsoTrackIsoFilter 
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v13                                           hltEle8TightIdLooseIsoTrackIsoFilter 
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v14                                           hltEle8TightIdLooseIsoTrackIsoFilter 
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v15                                           hltEle8TightIdLooseIsoTrackIsoFilter 
+HLT_Ele17_CaloIdL_CaloIsoVL_v1                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v2                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v3                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v4                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v5                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v6                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v7                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v8                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v9                                                            hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v10                                                           hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v14                                                           hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v15                                                           hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v16                                                           hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele17_CaloIdL_CaloIsoVL_v17                                                           hltEle17CaloIdLCaloIsoVLPixelMatchFilter     
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v1                                                       hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v2                                                       hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v3                                                       hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v4                                                       hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v5                                                       hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v6                                                       hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v7                                                       hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v8                                                       hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v11                                                      hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdL_CaloIsoVL_Jet40_v12                                                      hltEle8CaloIdLCaloIsoVLPixelMatchFilter
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v1                                      hltEle8TightIdLooseIsoTrackIsoFilter     
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v2                                      hltEle8TightIdLooseIsoTrackIsoFilter     
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v3                                      hltEle8TightIdLooseIsoTrackIsoFilter     
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v4                                      hltEle8TightIdLooseIsoTrackIsoFilter     
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v5                                      hltEle8TightIdLooseIsoTrackIsoFilter     
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v6                                      hltEle8TightIdLooseIsoTrackIsoFilter     
+HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v7                                      hltEle8TightIdLooseIsoTrackIsoFilter     
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v1                                     hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v2                                     hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v3                                     hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v4                                     hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v5                                     hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v6                                     hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v7                                     hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v1                                           hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v2                                           hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v3                                           hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v4                                           hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v5                                           hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v6                                           hltEle17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v1                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v2                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v3                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v4                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v5                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v6                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v7                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v8                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v9                                      hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v10                                     hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
+HLT_Photon20_CaloIdVT_IsoT_Ele8_CaloIdL_CaloIsoVL_v11                                     hltPhoton20CaloIdVTIsoTTrackIsoFilter                                                     hltEle8CaloIdLCaloIsoVLNoL1SeedPixelMatchFilter
