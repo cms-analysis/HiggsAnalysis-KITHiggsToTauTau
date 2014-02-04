@@ -29,6 +29,9 @@ int main(int argc, char** argv) {
 	// create the output root file
 	boost::scoped_ptr <TFile> rootOutputFile(new TFile(myConfig.GetOutputPath().c_str(), "RECREATE"));
 
+	// save complete config as string into the output file
+	myConfig.SaveConfig(rootOutputFile.get());
+
 	// will load the Ntuples from the root file
 	// this must be modified if you want to load more/new quantities
 	FileInterface2 fileInterface(myConfig.GetInputFiles());
