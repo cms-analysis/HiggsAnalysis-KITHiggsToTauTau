@@ -2,3 +2,4 @@
 *.pyc
 work.*
 *__init__.py
+*.formatted
