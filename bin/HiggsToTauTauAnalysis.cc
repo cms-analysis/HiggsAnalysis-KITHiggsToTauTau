@@ -6,6 +6,7 @@
 #include <TFile.h>
 
 #include "Artus/Configuration/interface/ArtusConfig.h"
+#include "Artus/Configuration/interface/RootEnvironment.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEventProvider.h"
@@ -26,11 +27,8 @@ int main(int argc, char** argv) {
 	// load the global settings from the config file
 	HttGlobalSettings globalSettings = myConfig.GetGlobalSettings<HttGlobalSettings>();
 
-	// create the output root file
-	boost::scoped_ptr <TFile> rootOutputFile(new TFile(myConfig.GetOutputPath().c_str(), "RECREATE"));
-
-	// save complete config as string into the output file
-	myConfig.SaveConfig(rootOutputFile.get());
+	// create the output root environment, automatically saves the config into the root file
+	RootEnvironment rootEnv(myConfig);
 
 	// will load the Ntuples from the root file
 	// this must be modified if you want to load more/new quantities
@@ -44,15 +42,14 @@ int main(int argc, char** argv) {
 	HttPipelineRunner runner;
 
 	// load the pipeline with their configuration from the config file
-	myConfig.LoadPipelines(pInit, runner, rootOutputFile.get());
+	myConfig.LoadPipelines(pInit, runner, rootEnv.GetRootFile());
 
 	// run all the configured pipelines and all their attached
 	// consumers
 	runner.RunPipelines<HttTypes>(evtProvider, globalSettings);
 
-	// close output root file, pointer will be automatically
-	// deleted
-	rootOutputFile->Close();
+	// close output root file
+	rootEnv.Close();
 
 	return 0;
 }
