@@ -1,9 +1,8 @@
 {
     "SkipEvents" : 0,
     "EventCount" : -1,
-    "ProducerPtCorrectionFactor" : 1.05,
-    "GlobalProducer" : [
-        "json_producer"
+    "GlobalProducers" : [
+        "valid_muons"
     ],
     "InputFiles" : [
         "/afs/cern.ch/user/t/tmuller/public/kappaTuple.root"
@@ -12,10 +11,20 @@
     "OutputPath" : "output.root",
     "Pipelines" : {
         "mm" : {
-            "Consumer" : ["ntuple"],
-            "Quantities" : ["hardLepPt", "hardLepEta", "softLepPt", "softLepEta", "diLepMass"],
-            "Filter" : ["filter_preselection"],
-            "Channel" : "mm"
+            "Channel" : "mm",
+            "Quantities" : [
+            	"hardLepPt",
+            	"hardLepEta",
+            	"softLepPt",
+            	"softLepEta",
+            	"diLepMass"
+            ],
+            "Filters" : [
+            	"filter_preselection"
+            ],
+            "Consumers" : [
+            	"ntuple"
+            ]
         }
     }
 }
