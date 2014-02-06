@@ -39,7 +39,8 @@ int main(int argc, char** argv) {
 	// all the attached Producer, Filer and Consumer
 	HttPipelineInitializer pInit;
 
-	HttPipelineRunner runner;
+	// initialize the pipeline runner
+	HttPipelineRunner runner(globalSettings);
 
 	// load the pipeline with their configuration from the config file
 	myConfig.LoadPipelines(pInit, runner, rootEnv.GetRootFile());

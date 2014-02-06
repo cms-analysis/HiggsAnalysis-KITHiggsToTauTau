@@ -1,23 +1,12 @@
 
 #pragma once
 
-#include <Kappa/DataFormats/interface/Kappa.h>
+#include "Artus/KappaLeptonAnalysis/interface/KappaLeptonEvent.h"
 
-class HttEvent {
+class HttEvent : public KappaLeptonEvent
+{
 public:
-	KGenEventMetadata* m_geneventmetadata;
-	KEventMetadata* m_eventmetadata;
-	KLumiMetadata* m_lumimetadata;
-	KGenLumiMetadata* m_genlumimetadata;
-	KFilterMetadata* m_filtermetadata;
+	HttEvent() : KappaLeptonEvent() {};
 	
-	KFilterSummary* m_filter;
-	KDataMuons* m_muons;
-	
-	float m_floatTheSim;
-	float m_floatPtSim;
-	float m_floatPSim;
-	float m_floatPzSim;
 };
-
 

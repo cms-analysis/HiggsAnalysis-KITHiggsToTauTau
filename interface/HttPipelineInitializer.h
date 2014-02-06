@@ -17,6 +17,11 @@ public:
 
 	virtual void InitPipeline(HttPipeline * pLine,  HttPipelineSettings const& pset) const ARTUS_CPP11_OVERRIDE {
 
+		BOOST_FOREACH(std::string producerId, pset.GetLocalProducers())
+		{
+			// TODO
+		}
+
 		BOOST_FOREACH(std::string filterId, pset.GetFilters())
 		{
 			if(filterId == PreselectionFilter().GetFilterId()) {
@@ -25,11 +30,6 @@ public:
 			else {
 				LOG_FATAL("Filter \"" << filterId << "\" not found.");
 			}
-		}
-
-		BOOST_FOREACH(std::string producerId, pset.GetProducers())
-		{
-			
 		}
 
 		BOOST_FOREACH(std::string consumerId, pset.GetConsumers())

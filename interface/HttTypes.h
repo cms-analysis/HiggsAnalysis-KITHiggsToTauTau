@@ -5,6 +5,9 @@
 #include "Artus/Core/interface/GlobalProducerBase.h"
 #include "Artus/Core/interface/PipelineRunner.h"
 
+#include "Artus/KappaLeptonAnalysis/interface/Producers/PhysicsObjectsProducer.h"
+#include "Artus/KappaLeptonAnalysis/interface/KappaLeptonPipelineRunner.h"
+
 #include "HttEvent.h"
 #include "HttProduct.h"
 #include "HttPipelineSettings.h"
@@ -21,6 +24,8 @@ struct HttTypes {
 typedef GlobalProducerBase<HttTypes> HttGlobalProducerBase;
 typedef LocalProducerBase<HttTypes> HttLocalProducerBase;
 
+typedef ValidMuonsProducer<HttTypes> HttValidMuonsProducer;
+
 // Pass the template parameters for the Consumer
 typedef ConsumerBase<HttTypes> HttConsumerBase;
 
@@ -31,5 +36,5 @@ typedef FilterBase<HttTypes> HttFilterBase;
 typedef Pipeline<HttTypes> HttPipeline;
 
 //Setup our custom pipeline runner
-typedef PipelineRunner<HttPipeline, HttGlobalProducerBase> HttPipelineRunner;
-
+//typedef PipelineRunner<HttPipeline, HttGlobalProducerBase> HttPipelineRunner;
+typedef KappaLeptonPipelineRunner<HttTypes, HttPipeline, HttGlobalProducerBase> HttPipelineRunner;
