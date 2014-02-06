@@ -23,7 +23,8 @@ public:
 		
 		bool passPreselection = true;
 		if(channel == "mm") {
-			if(event.m_muons->size() < 2) passPreselection = false;
+			//if(event.m_muons->size() < 2) passPreselection = false;
+			if(product.m_validMuons.size() < 2) passPreselection = false;
 		}
 		else {
 			passPreselection = false;
