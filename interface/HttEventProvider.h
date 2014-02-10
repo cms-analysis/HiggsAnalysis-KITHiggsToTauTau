@@ -7,15 +7,18 @@
 
 #include "HttTypes.h"
 
-class HttEventProvider: public KappaLeptonEventProvider<HttTypes::event_type> {
+class HttEventProvider: public KappaLeptonEventProvider<HttTypes> {
 public:
+	
+	typedef typename HttTypes::global_setting_type global_setting_type;
+	
 	HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType) :
-			KappaLeptonEventProvider<HttTypes::event_type>(fileInterface, inpType)
+			KappaLeptonEventProvider<HttTypes>(fileInterface, inpType)
 	{
 
 	}
 
-	virtual void WireEvent() {
-		
+	virtual void WireEvent(global_setting_type const& globalSettings) {
+		KappaLeptonEventProvider::WireEvent(globalSettings);
 	}
 };

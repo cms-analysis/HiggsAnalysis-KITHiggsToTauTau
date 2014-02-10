@@ -34,6 +34,7 @@ int main(int argc, char** argv) {
 	// this must be modified if you want to load more/new quantities
 	FileInterface2 fileInterface(myConfig.GetInputFiles());
 	HttEventProvider evtProvider(fileInterface, (globalSettings.GetInputIsData() ? DataInput : McInput));
+	evtProvider.WireEvent(globalSettings);
 
 	// the pipeline initializer will setup the pipeline, with
 	// all the attached Producer, Filer and Consumer
