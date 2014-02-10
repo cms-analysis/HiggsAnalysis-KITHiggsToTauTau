@@ -1,12 +1,9 @@
 
 #pragma once
 
-#include "Artus/Core/interface/GlobalInclude.h"
-#include "Artus/Configuration/interface/SettingsBase.h"
-#include "Artus/Configuration/interface/SettingMacros.h"
-#include "Artus/Configuration/interface/PropertyTreeSupport.h"
+#include "Artus/KappaLeptonAnalysis/interface/KappaLeptonPipelineSettings.h"
 
-class HttPipelineSettings: public SettingsBase {
+class HttPipelineSettings: public KappaLeptonPipelineSettings {
 public:
 	IMPL_SETTING_DEFAULT(std::string, Channel, "")
 
@@ -21,7 +18,7 @@ public:
 
 };
 
-class HttGlobalSettings: public GlobalSettingsBase {
+class HttGlobalSettings: public KappaLeptonGlobalSettings {
 public:
 
 	IMPL_SETTING(float, ProducerPtCorrectionFactor)

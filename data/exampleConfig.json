@@ -1,6 +1,11 @@
 {
     "SkipEvents" : 0,
     "EventCount" : -1,
+    "Muons" : "muons",
+    "Jets" : "AK5PFJets",
+    "BeamSpot" : "offlineBeamSpot",
+    "VertexSummary" : "goodOfflinePrimaryVerticesSummary",
+    "LumiMetadata" : "KLumiMetadata",
     "GlobalProducers" : [
         "valid_muons"
     ],
