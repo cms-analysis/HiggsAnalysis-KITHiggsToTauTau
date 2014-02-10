@@ -3,7 +3,7 @@
 
 <use name="root"/>
 <use name="boost"/>
-<use name="Artus/KappaLeptonAnalysis"/>
+<use name="Artus/KappaAnalysis"/>
 
 <flags ADD_SUBDIR="1"/>
 

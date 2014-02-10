@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include "Artus/KappaLeptonAnalysis/interface/KappaLeptonEvent.h"
+#include "Artus/KappaAnalysis/interface/KappaEvent.h"
 
-class HttEvent : public KappaLeptonEvent
+class HttEvent : public KappaEvent
 {
 public:
-	HttEvent() : KappaLeptonEvent() {};
+	HttEvent() : KappaEvent() {};
 	
 };
 

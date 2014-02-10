@@ -5,8 +5,8 @@
 #include "Artus/Core/interface/GlobalProducerBase.h"
 #include "Artus/Core/interface/PipelineRunner.h"
 
-#include "Artus/KappaLeptonAnalysis/interface/Producers/PhysicsObjectsProducer.h"
-#include "Artus/KappaLeptonAnalysis/interface/KappaLeptonPipelineRunner.h"
+#include "Artus/KappaAnalysis/interface/Producers/PhysicsObjectsProducer.h"
+#include "Artus/KappaAnalysis/interface/KappaPipelineRunner.h"
 
 #include "HttEvent.h"
 #include "HttProduct.h"
@@ -37,4 +37,4 @@ typedef Pipeline<HttTypes> HttPipeline;
 
 //Setup our custom pipeline runner
 //typedef PipelineRunner<HttPipeline, HttGlobalProducerBase> HttPipelineRunner;
-typedef KappaLeptonPipelineRunner<HttTypes, HttPipeline, HttGlobalProducerBase> HttPipelineRunner;
+typedef KappaPipelineRunner<HttTypes, HttPipeline, HttGlobalProducerBase> HttPipelineRunner;

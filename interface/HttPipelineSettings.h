@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include "Artus/KappaLeptonAnalysis/interface/KappaLeptonPipelineSettings.h"
+#include "Artus/KappaAnalysis/interface/KappaPipelineSettings.h"
 
-class HttPipelineSettings: public KappaLeptonPipelineSettings {
+class HttPipelineSettings: public KappaPipelineSettings {
 public:
 	IMPL_SETTING_DEFAULT(std::string, Channel, "")
 
@@ -18,7 +18,7 @@ public:
 
 };
 
-class HttGlobalSettings: public KappaLeptonGlobalSettings {
+class HttGlobalSettings: public KappaGlobalSettings {
 public:
 
 	IMPL_SETTING(float, ProducerPtCorrectionFactor)

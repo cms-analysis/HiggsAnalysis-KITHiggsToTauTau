@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "Artus/KappaLeptonAnalysis/interface/KappaLeptonProduct.h"
+#include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
 
-class HttProduct : public KappaLeptonProduct {
+class HttProduct : public KappaProduct {
 public:
 	HttProduct();
 	~HttProduct();
