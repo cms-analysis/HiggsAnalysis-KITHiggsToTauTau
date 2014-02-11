@@ -5,7 +5,7 @@
 #include "Artus/Core/interface/GlobalProducerBase.h"
 #include "Artus/Core/interface/PipelineRunner.h"
 
-#include "Artus/KappaAnalysis/interface/Producers/PhysicsObjectsProducer.h"
+#include "Artus/KappaAnalysis/interface/Producers/ValidMuonsProducer.h"
 #include "Artus/KappaAnalysis/interface/KappaPipelineRunner.h"
 
 #include "HttEvent.h"
