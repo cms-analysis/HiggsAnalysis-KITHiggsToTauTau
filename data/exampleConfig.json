@@ -25,6 +25,7 @@
     "VertexSummary" : "goodOfflinePrimaryVerticesSummary",
     "LumiMetadata" : "KLumiMetadata",
     "GlobalProducers" : [
+        "valid_electrons",
         "valid_muons",
         "valid_taus"
     ],
