@@ -9,11 +9,6 @@
 
 
 class HttNtupleConsumer: public NtupleConsumerBase<HttTypes> {
-public:
-
-	virtual std::string GetConsumerId() {
-		return "ntuple";
-	}
 
 private:
 
