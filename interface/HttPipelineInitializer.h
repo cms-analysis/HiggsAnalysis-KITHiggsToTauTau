@@ -15,6 +15,8 @@
 class HttPipelineInitializer: public PipelineInitilizerBase<HttTypes> {
 public:
 
+	typedef std::function<float(HttEvent const&, HttProduct const&)> float_extractor_lambda;
+
 	virtual void InitPipeline(HttPipeline * pLine,  HttPipelineSettings const& pset) const ARTUS_CPP11_OVERRIDE {
 
 		BOOST_FOREACH(std::string producerId, pset.GetLocalProducers())
@@ -31,10 +33,21 @@ public:
 				LOG_FATAL("Filter \"" << filterId << "\" not found.");
 			}
 		}
+		
+		// TODO: move to dedicated class
+		std::map<std::string, float_extractor_lambda> valueExtractorMap;
+		valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(0)->p4.Pt(); };
+		valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(0)->p4.Eta(); };
+		valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Pt(); };
+		valueExtractorMap["softLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Eta(); };
+		valueExtractorMap["diLepMass"] = [](HttEvent const& event, HttProduct const& product) { return (product.m_validMuons.at(0)->p4 + product.m_validMuons.at(1)->p4).mass(); };
 
 		BOOST_FOREACH(std::string consumerId, pset.GetConsumers())
 		{
-			if(consumerId == HttNtupleConsumer().GetConsumerId()) {
+			if(consumerId == HttLambdaNtupleConsumer().GetConsumerId()) {
+				pLine->AddConsumer(new HttLambdaNtupleConsumer(valueExtractorMap));
+			}
+			else if(consumerId == HttNtupleConsumer().GetConsumerId()) {
 				pLine->AddConsumer(new HttNtupleConsumer);
 			}
 			else {

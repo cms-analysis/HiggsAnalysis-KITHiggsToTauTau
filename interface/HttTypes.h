@@ -7,6 +7,8 @@
 
 #include "Artus/KappaAnalysis/interface/KappaPipelineRunner.h"
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+
 #include "HttEvent.h"
 #include "HttProduct.h"
 #include "HttPipelineSettings.h"
@@ -34,4 +36,7 @@ typedef Pipeline<HttTypes> HttPipeline;
 
 //Setup our custom pipeline runner
 typedef KappaPipelineRunner<HttTypes, HttPipeline, HttGlobalProducerBase> HttPipelineRunner;
+
+//Setup our custom ntuple producer
+typedef LambdaNtupleConsumer<HttTypes> HttLambdaNtupleConsumer;
 
