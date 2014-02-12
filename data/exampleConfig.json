@@ -1,8 +1,26 @@
 {
     "SkipEvents" : 0,
     "EventCount" : -1,
+    
+    "Electrons" : "electrons",
     "Muons" : "muons",
+    "Taus" : "hpsPFTaus",
+    
     "Jets" : "AK5PFJets",
+    "JetArea" : "",
+    
+    "Met" : "PFMETMVA",
+    
+    "BeamSpot" : "offlineBeamSpot",
+    "VertexSummary" : "goodOfflinePrimaryVerticesSummary",
+    
+    "LumiMetadata" : "KLumiMetadata",
+    "GenLumiMetadata" : "",
+    "EventMetadata" : "KEventMetadata",
+    "GenEventMetadata" : "",
+    "FilterMetadata" : "",
+    "FilterSummary" : "",
+    
     "BeamSpot" : "offlineBeamSpot",
     "VertexSummary" : "goodOfflinePrimaryVerticesSummary",
     "LumiMetadata" : "KLumiMetadata",
