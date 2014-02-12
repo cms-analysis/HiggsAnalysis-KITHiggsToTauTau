@@ -6,7 +6,7 @@
     "Muons" : "muons",
     "Taus" : "hpsPFTaus",
     
-    "Jets" : "AK5PFJets",
+    "Jets" : "",
     "JetArea" : "",
     
     "Met" : "PFMETMVA",
