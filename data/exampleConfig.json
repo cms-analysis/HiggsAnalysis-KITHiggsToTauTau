@@ -25,7 +25,8 @@
     "VertexSummary" : "goodOfflinePrimaryVerticesSummary",
     "LumiMetadata" : "KLumiMetadata",
     "GlobalProducers" : [
-        "valid_muons"
+        "valid_muons",
+        "valid_taus"
     ],
     "InputFiles" : [
         "/afs/cern.ch/user/t/tmuller/public/kappaTuple.root"
