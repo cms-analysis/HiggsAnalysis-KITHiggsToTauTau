@@ -35,6 +35,22 @@
     "InputIsData" : false,
     "OutputPath" : "output.root",
     "Pipelines" : {
+        "ee" : {
+            "Channel" : "ee",
+            "Quantities" : [
+            	"hardLepPt",
+            	"hardLepEta",
+            	"softLepPt",
+            	"softLepEta",
+            	"diLepMass"
+            ],
+            "Filters" : [
+            	"filter_preselection"
+            ],
+            "Consumers" : [
+            	"lambda_ntuple"
+            ]
+        },
         "mm" : {
             "Channel" : "mm",
             "Quantities" : [
