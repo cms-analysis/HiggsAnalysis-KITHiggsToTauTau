@@ -1,0 +1,8 @@
+{
+	"GlobalProducers" : [
+		"valid_electrons",
+		"valid_muons",
+		"valid_taus",
+		"#valid_jets"
+	]
+}

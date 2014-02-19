@@ -1,0 +1,20 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/GlobalSettings/kappa.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/GlobalSettings/defaultProducers.json"
+	],
+	"SkipEvents" : 0,
+	"EventCount" : -1,
+	"InputFiles" : [
+		"/afs/cern.ch/user/t/tmuller/public/kappaTuple.root"
+	],
+	"InputIsData" : false,
+	"OutputPath" : "output.root",
+	"Pipelines" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/ee.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/mm.json"
+		]
+	}
+}
+
