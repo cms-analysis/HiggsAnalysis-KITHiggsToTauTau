@@ -1,7 +1,6 @@
-<Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
-<Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
-
 <bin name="HiggsToTauTauAnalysis" file="HiggsToTauTauAnalysis.cc">
+	<Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
+	<Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
 	<use name="Artus/Core"/>
 	<use name="Artus/Provider"/>
 	<use name="Artus/Configuration"/>
