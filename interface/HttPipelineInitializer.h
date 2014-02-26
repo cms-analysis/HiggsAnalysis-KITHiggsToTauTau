@@ -41,6 +41,12 @@ public:
 		valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Pt(); };
 		valueExtractorMap["softLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Eta(); };
 		valueExtractorMap["diLepMass"] = [](HttEvent const& event, HttProduct const& product) { return (product.m_validMuons.at(0)->p4 + product.m_validMuons.at(1)->p4).mass(); };
+		// RW's own stuff for testing
+		valueExtractorMap["genTauPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->p4.Pt() : -1.; };
+		valueExtractorMap["genTauPdgId"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->pdgId() : -999.; };
+		valueExtractorMap["genTauStatus"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->status() : -1.; };
+		valueExtractorMap["genTauDirDaugs"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->daughterIndices.size() : -1.; ; };
+		valueExtractorMap["genTauAllDaugs"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() - 1.; };
 
 		BOOST_FOREACH(std::string consumerId, pset.GetConsumers())
 		{
