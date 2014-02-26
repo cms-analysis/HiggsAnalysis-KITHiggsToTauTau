@@ -8,5 +8,4 @@ class HttProduct : public KappaProduct {
 public:
 	HttProduct();
 	~HttProduct();
-	
 };
