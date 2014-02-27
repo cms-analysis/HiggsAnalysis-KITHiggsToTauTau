@@ -11,13 +11,14 @@ public:
 	virtual ~PreselectionFilter() {
 	}
 
-	virtual std::string GetFilterId() {
+	virtual std::string GetFilterId() ARTUS_CPP11_OVERRIDE {
 		return "filter_preselection";
 	}
 
 	virtual bool DoesEventPass(HttEvent const& event,
 			HttProduct const& product,
-            HttPipelineSettings const& settings ) const {
+            HttPipelineSettings const& settings ) const ARTUS_CPP11_OVERRIDE
+	{
 
 		const std::string channel = settings.GetChannel();
 		
