@@ -17,7 +17,7 @@ public:
 
 	virtual bool DoesEventPass(HttEvent const& event,
 			HttProduct const& product,
-            HttPipelineSettings const& settings ) {
+            HttPipelineSettings const& settings ) const {
 
 		const std::string channel = settings.GetChannel();
 		
