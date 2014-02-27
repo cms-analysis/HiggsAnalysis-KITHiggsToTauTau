@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Artus/Core/interface/Cpp11Support.h"
+#include "Artus/KappaAnalysis/interface/KappaPipelineInitializer.h"
 
 #include "HttTypes.h"
 
@@ -12,12 +13,17 @@
 #include "Filters/PreselectionFilter.h"
 #include "Consumers/HttNtupleConsumer.h"
 
-class HttPipelineInitializer: public PipelineInitilizerBase<HttTypes> {
+
+class HttPipelineInitializer: public KappaPipelineInitializer<HttTypes> {
 public:
 
 	typedef std::function<float(HttEvent const&, HttProduct const&)> float_extractor_lambda;
 
 	virtual void InitPipeline(HttPipeline * pLine,  HttPipelineSettings const& pset) const ARTUS_CPP11_OVERRIDE {
+		
+		// call upper class function
+		// TODO: current solution destroys order of producers/filters/consumers
+		KappaPipelineInitializer<HttTypes>::InitPipeline(pLine, pset);
 
 		BOOST_FOREACH(std::string producerId, pset.GetLocalProducers())
 		{
@@ -28,9 +34,6 @@ public:
 		{
 			if(filterId == PreselectionFilter().GetFilterId()) {
 				pLine->AddFilter(new PreselectionFilter());
-			}
-			else {
-				LOG_FATAL("Filter \"" << filterId << "\" not found.");
 			}
 		}
 		
@@ -49,9 +52,6 @@ public:
 			}
 			else if(consumerId == HttNtupleConsumer().GetConsumerId()) {
 				pLine->AddConsumer(new HttNtupleConsumer);
-			}
-			else {
-				LOG_FATAL("Consumer \"" << consumerId << "\" not found.");
 			}
 		}
 
