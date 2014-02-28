@@ -1,6 +1,6 @@
 {
-	"mm" : {
-		"Channel" : "MM",
+	"em" : {
+		"Channel" : "EM",
 		"Quantities" : [
 			"decayChannelIndex",
 			"hardLepPt",

@@ -1,7 +1,8 @@
 {
 	"ee" : {
-		"Channel" : "ee",
+		"Channel" : "EE",
 		"Quantities" : [
+			"decayChannelIndex",
 			"hardLepPt",
 			"hardLepEta",
 			"softLepPt",
