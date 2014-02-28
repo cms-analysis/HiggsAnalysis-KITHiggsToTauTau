@@ -34,9 +34,6 @@ typedef FilterBase<HttTypes> HttFilterBase;
 //Pass the template parameters for the Pipeline
 typedef Pipeline<HttTypes> HttPipeline;
 
-//Setup our custom pipeline runner
-typedef KappaPipelineRunner<HttTypes, HttPipeline, HttGlobalProducerBase> HttPipelineRunner;
-
 //Setup our custom ntuple producer
 typedef LambdaNtupleConsumer<HttTypes> HttLambdaNtupleConsumer;
 
