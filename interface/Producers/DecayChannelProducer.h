@@ -80,8 +80,6 @@ public:
 			product.m_flavourOrderedLeptons.push_back(lepton2);
 		}
 		
-		std::cout << EnumHelper::toUnderlyingValue(product.m_decayChannel) << std::endl;
-		
 		return true;
 	}
 };
