@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Artus/Core/interface/Cpp11Support.h"
+#include "Artus/Utility/interface/EnumHelper.h"
 #include "Artus/KappaAnalysis/interface/KappaPipelineInitializer.h"
 
 #include "HttTypes.h"
@@ -39,11 +40,12 @@ public:
 		
 		// TODO: move to dedicated class
 		std::map<std::string, float_extractor_lambda> valueExtractorMap;
-		valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(0)->p4.Pt(); };
-		valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(0)->p4.Eta(); };
-		valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Pt(); };
-		valueExtractorMap["softLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Eta(); };
-		valueExtractorMap["diLepMass"] = [](HttEvent const& event, HttProduct const& product) { return (product.m_validMuons.at(0)->p4 + product.m_validMuons.at(1)->p4).mass(); };
+		valueExtractorMap["decayChannelIndex"] = [](HttEvent const& event, HttProduct const& product) { return EnumHelper::toUnderlyingValue(product.m_decayChannel); };
+		valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
+		valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
+		valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Pt(); };
+		valueExtractorMap["softLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Eta(); };
+		valueExtractorMap["diLepMass"] = [](HttEvent const& event, HttProduct const& product) { return (*(product.m_ptOrderedLeptons[0]) + *(product.m_ptOrderedLeptons[1])).mass(); };
 
 		BOOST_FOREACH(std::string consumerId, pset.GetConsumers())
 		{
