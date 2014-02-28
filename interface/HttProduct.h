@@ -11,18 +11,7 @@
 
 class HttProduct : public KappaProduct {
 public:
-	HttProduct() : KappaProduct()
-	{
-		/* tests
-		decayChannel = DecayChannel::MT;
-		std::cout << EnumHelper::toUnderlyingValue(decayChannel) << std::endl;
-		decayChannel = DECAY_CHANNEL_BY_NAME(ET);
-		std::cout << EnumHelper::toUnderlyingValue(decayChannel) << std::endl;
-		decayChannel = EnumHelper::toEnum<DecayChannel>(3);
-		std::cout << EnumHelper::toUnderlyingValue(decayChannel) << std::endl;
-		*/
-	};
-	
+	HttProduct() : KappaProduct() {};
 	~HttProduct() : ~KappaProduct {};
 	
 	enum class DecayChannel : int {
