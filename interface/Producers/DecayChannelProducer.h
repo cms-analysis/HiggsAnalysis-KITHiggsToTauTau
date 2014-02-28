@@ -6,14 +6,14 @@
 #include "../HttTypes.h"
 
 
-class DecayChannelProducer: public HttGlobalProducerBase {
+class DecayChannelProducer: public HttProducerBase {
 public:
 
 	virtual std::string GetProducerId() ARTUS_CPP11_OVERRIDE {
 		return "decay_channels";
 	}
 	
-	DecayChannelProducer() : HttGlobalProducerBase() {};
+	DecayChannelProducer() : HttProducerBase() {};
 
 	virtual bool ProduceGlobal(HttEvent const& event, HttProduct& product,
 	                           HttGlobalSettings const& globalSettings) const ARTUS_CPP11_OVERRIDE
@@ -81,6 +81,12 @@ public:
 		}
 		
 		return true;
+	}
+
+	// empty to serve as a pure global producer
+	virtual void ProduceLocal(HttEvent const& event, HttProduct& product,
+	                          HttPipelineSettings const& settings) const ARTUS_CPP11_OVERRIDE
+	{
 	}
 };
 

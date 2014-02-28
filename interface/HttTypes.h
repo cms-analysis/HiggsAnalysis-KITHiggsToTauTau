@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Artus/Core/interface/Cpp11Support.h"
-#include "Artus/Core/interface/GlobalProducerBase.h"
+#include "Artus/Core/interface/ProducerBase.h"
 #include "Artus/Core/interface/PipelineRunner.h"
 
 #include "Artus/KappaAnalysis/interface/KappaPipelineRunner.h"
@@ -22,8 +22,7 @@ struct HttTypes {
 };
 
 // Pass the template parameters for the Producers
-typedef GlobalProducerBase<HttTypes> HttGlobalProducerBase;
-typedef LocalProducerBase<HttTypes> HttLocalProducerBase;
+typedef ProducerBase<HttTypes> HttProducerBase;
 
 // Pass the template parameters for the Consumer
 typedef ConsumerBase<HttTypes> HttConsumerBase;

@@ -8,7 +8,7 @@
 #include "Producers/DecayChannelProducer.h"
 
 
-class HttPipelineRunner : public KappaPipelineRunner<HttTypes, HttPipeline, HttGlobalProducerBase> {
+class HttPipelineRunner : public KappaPipelineRunner<HttTypes, HttPipeline, HttProducerBase> {
 
 public:
 
