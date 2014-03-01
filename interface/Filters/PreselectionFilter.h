@@ -11,7 +11,7 @@ public:
 	virtual ~PreselectionFilter() {
 	}
 
-	virtual std::string GetFilterId() ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
 		return "filter_preselection";
 	}
 

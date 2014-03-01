@@ -9,7 +9,7 @@
 class DecayChannelProducer: public HttProducerBase {
 public:
 
-	virtual std::string GetProducerId() ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
 		return "decay_channels";
 	}
 	
