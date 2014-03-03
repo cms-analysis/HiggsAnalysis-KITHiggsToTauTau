@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 
 PEPIGNORE=W191,W391,E501,E101
-CPPOPTIONS=$ANALYSIS_BASE/HiggsAnalysis/KITHiggsToTauTau/scripts/astylerc
+CPPOPTIONS=$KITHIGGSTOTAUTAUPATH/scripts/astylerc
 PATH=$PATH:/home/berger/sw/bin
 
 # check for executables
@@ -40,7 +40,7 @@ do
 		then
 			if [ $COUNT -eq 0 ]; then echo "Please check these files for coding convention:"; fi
 			let COUNT++
-			echo "meld $ANALYSIS_BASE/HiggsAnalysis/KITHiggsToTauTau/$F $ANALYSIS_BASE/HiggsAnalysis/KITHiggsToTauTau/$OUT"
+			echo "meld $KITHIGGSTOTAUTAUPATH/$F $KITHIGGSTOTAUTAUPATH/$OUT"
 		else
 			rm $OUT
 		fi
