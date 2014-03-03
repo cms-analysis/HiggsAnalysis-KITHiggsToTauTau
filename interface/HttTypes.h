@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Artus/Core/interface/Cpp11Support.h"
-#include "Artus/Core/interface/GlobalProducerBase.h"
+#include "Artus/Core/interface/ProducerBase.h"
 #include "Artus/Core/interface/PipelineRunner.h"
 
 #include "Artus/KappaAnalysis/interface/KappaPipelineRunner.h"

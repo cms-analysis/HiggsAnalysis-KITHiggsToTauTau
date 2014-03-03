@@ -1,23 +1,8 @@
 {
 	"ee" : {
-		"Channel" : "ee",
+		"Channel" : "EE",
 		"Quantities" : [
-			"hardLepPt",
-			"hardLepEta",
-			"softLepPt",
-			"softLepEta",
-			"diLepMass"
-		],
-		"Filters" : [
-			"filter_preselection"
-		],
-		"Consumers" : [
-			"lambda_ntuple"
-		]
-	},
-	"mm" : {
-		"Channel" : "mm",
-		"Quantities" : [
+			"decayChannelIndex",
 			"hardLepPt",
 			"hardLepEta",
 			"softLepPt",

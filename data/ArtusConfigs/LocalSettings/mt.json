@@ -1,6 +1,6 @@
 {
-	"mm" : {
-		"Channel" : "MM",
+	"mt" : {
+		"Channel" : "MT",
 		"Quantities" : [
 			"decayChannelIndex",
 			"hardLepPt",
@@ -17,4 +17,3 @@
 		]
 	}
 }
-

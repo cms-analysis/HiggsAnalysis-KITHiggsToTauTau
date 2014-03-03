@@ -11,6 +11,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEventProvider.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttPipelineInitializer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttPipelineRunner.h"
 
 /*
 	This example implements a simple dummy anaylsis which

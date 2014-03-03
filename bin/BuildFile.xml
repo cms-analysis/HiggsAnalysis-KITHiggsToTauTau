@@ -16,4 +16,6 @@
 	<use name="root"/>
 	<use name="rootmath"/>
 	<use name="roottmva"/>
+	<use name="boost"/>
+	<use name="boost_regex"/>
 </bin>

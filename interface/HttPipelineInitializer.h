@@ -2,6 +2,8 @@
 #pragma once
 
 #include "Artus/Core/interface/Cpp11Support.h"
+#include "Artus/Utility/interface/EnumHelper.h"
+#include "Artus/KappaAnalysis/interface/KappaPipelineInitializer.h"
 
 #include "HttTypes.h"
 
@@ -12,12 +14,17 @@
 #include "Filters/PreselectionFilter.h"
 #include "Consumers/HttNtupleConsumer.h"
 
+
 class HttPipelineInitializer: public PipelineInitilizerBase<HttTypes> {
 public:
 
 	typedef std::function<float(HttEvent const&, HttProduct const&)> float_extractor_lambda;
 
 	virtual void InitPipeline(HttPipeline * pLine,  HttPipelineSettings const& pset) const ARTUS_CPP11_OVERRIDE {
+		
+		// call upper class function
+		// TODO: current solution destroys order of producers/filters/consumers
+		KappaPipelineInitializer<HttTypes>::InitPipeline(pLine, pset);
 
 		BOOST_FOREACH(std::string producerId, pset.GetLocalProducers())
 		{
@@ -36,6 +43,7 @@ public:
 		
 		// TODO: move to dedicated class
 		std::map<std::string, float_extractor_lambda> valueExtractorMap;
+
 		valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(0)->p4.Pt(); };
 		valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(0)->p4.Eta(); };
 		valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Pt(); };
@@ -47,6 +55,7 @@ public:
 		valueExtractorMap["genTauStatus"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->status() : -1.; };
 		valueExtractorMap["genTauDirDaugs"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->daughterIndices.size() : -1.; ; };
 		valueExtractorMap["genTauAllDaugs"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() - 1.; };
+		valueExtractorMap["decayChannelIndex"] = [](HttEvent const& event, HttProduct const& product) { return EnumHelper::toUnderlyingValue(product.m_decayChannel); };
 
 		BOOST_FOREACH(std::string consumerId, pset.GetConsumers())
 		{

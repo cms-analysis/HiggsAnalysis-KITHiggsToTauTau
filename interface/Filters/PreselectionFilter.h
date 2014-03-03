@@ -11,26 +11,25 @@ public:
 	virtual ~PreselectionFilter() {
 	}
 
-	virtual std::string GetFilterId() {
+	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
 		return "filter_preselection";
 	}
 
-	virtual bool DoesEventPass(HttEvent const& event,
-			HttProduct const& product,
-            HttPipelineSettings const& settings ) {
-
-		const std::string channel = settings.GetChannel();
+	virtual bool DoesEventPass(HttEvent const& event, HttProduct const& product,
+            HttPipelineSettings const& settings) const ARTUS_CPP11_OVERRIDE
+	{
+		std::string decayChannelString = settings.GetChannel();
 		
-		bool passPreselection = true;
-		if(channel == "mm") {
-			//if(event.m_muons->size() < 2) passPreselection = false;
-			if(product.m_validMuons.size() < 2) passPreselection = false;
-		}
-		else {
-			passPreselection = false;
-		}
-
-		return passPreselection;
+		// TODO: is there a more elegant way of mapping?
+		DecayChannel decayChannel = DecayChannel::NONE;
+		if(decayChannelString == "TT") decayChannel = DecayChannel::TT;
+		else if(decayChannelString == "MT") decayChannel = DecayChannel::MT;
+		else if(decayChannelString == "ET") decayChannel = DecayChannel::ET;
+		else if(decayChannelString == "EM") decayChannel = DecayChannel::EM;
+		else if(decayChannelString == "MM") decayChannel = DecayChannel::MM;
+		else if(decayChannelString == "EE") decayChannel = DecayChannel::EE;
+		
+		return (product.m_decayChannel == decayChannel);
 	}
 };
 

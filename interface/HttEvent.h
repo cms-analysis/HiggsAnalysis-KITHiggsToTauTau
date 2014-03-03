@@ -15,6 +15,7 @@ class HttEvent : public KappaEvent
 {
 public:
 	HttEvent() : KappaEvent() {};
+	//~HttEvent() : ~KappaEvent() {};
 	
 };
 
