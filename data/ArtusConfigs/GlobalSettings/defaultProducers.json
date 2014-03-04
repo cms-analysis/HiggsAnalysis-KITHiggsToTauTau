@@ -1,6 +1,6 @@
 {
 	"GlobalProducers" : [
-	        "gen_taudecay",
+		"gen_taudecay",
 		"valid_electrons",
 		"valid_muons",
 		"valid_taus",

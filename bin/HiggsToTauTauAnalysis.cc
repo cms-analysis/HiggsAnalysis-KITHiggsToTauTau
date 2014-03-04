@@ -10,8 +10,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEventProvider.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttPipelineInitializer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttPipelineRunner.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttFactory.h"
 
 /*
 	This example implements a simple dummy anaylsis which
@@ -40,17 +39,19 @@ int main(int argc, char** argv) {
 	// the pipeline initializer will setup the pipeline, with
 	// all the attached Producer, Filer and Consumer
 	HttPipelineInitializer pInit;
+	
+	// the factory will manage the producers/filters/consumers
+	HttFactory factory;
 
 	// initialize the pipeline runner
-	HttPipelineRunner runner(globalSettings);
-	runner.AddGlobalProducersById();
+	HttPipelineRunner runner;
 
 	// load the pipeline with their configuration from the config file
-	myConfig.LoadPipelines(pInit, runner, rootEnv.GetRootFile());
+	myConfig.LoadConfiguration(pInit, runner, factory, rootEnv.GetRootFile());
 
 	// run all the configured pipelines and all their attached
 	// consumers
-	runner.RunPipelines<HttTypes>(evtProvider, globalSettings);
+	runner.RunPipelines(evtProvider, globalSettings);
 
 	// close output root file
 	rootEnv.Close();

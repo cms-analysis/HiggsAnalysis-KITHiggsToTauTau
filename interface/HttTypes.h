@@ -3,11 +3,10 @@
 
 #include "Artus/Core/interface/Cpp11Support.h"
 #include "Artus/Core/interface/ProducerBase.h"
+#include "Artus/Core/interface/Pipeline.h"
 #include "Artus/Core/interface/PipelineRunner.h"
 
-#include "Artus/KappaAnalysis/interface/KappaPipelineRunner.h"
-
-#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "Artus/KappaAnalysis/interface/KappaPipelineInitializer.h"
 
 #include "HttEvent.h"
 #include "HttProduct.h"
@@ -37,19 +36,15 @@ struct HttTypes {
 	typedef HttGlobalSettings global_setting_type;
 };
 
-/// producers of global analysis objects
-typedef GlobalProducerBase<HttTypes> HttGlobalProducerBase;
-/// producers of local analysis objects
-typedef LocalProducerBase<HttTypes> HttLocalProducerBase;
+/// producers of global/local analysis objects
+typedef ProducerBase<HttTypes> HttProducerBase;
 /// event filters at final analysis level
 typedef FilterBase<HttTypes> HttFilterBase;
 /// base class for a consumer (for final plotting)
 typedef ConsumerBase<HttTypes> HttConsumerBase;
-/// custom class for a consumer (for final plotting)
-typedef LambdaNtupleConsumer<HttTypes> HttLambdaNtupleConsumer;
 /// custom pipeline (several pipeline of this format could exist)
 typedef Pipeline<HttTypes> HttPipeline;
-/// custom pipeline runner (to manage running of pipelines in parallel)
-typedef KappaPipelineRunner<HttTypes, HttPipeline, HttGlobalProducerBase> HttPipelineRunner;
+typedef PipelineRunner<HttPipeline, HttTypes> HttPipelineRunner;
+typedef KappaPipelineInitializer<HttTypes> HttPipelineInitializer;
 
 
