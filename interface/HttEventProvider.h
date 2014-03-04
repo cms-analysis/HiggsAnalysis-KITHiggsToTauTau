@@ -6,6 +6,12 @@
 
 #include "HttTypes.h"
 
+/**
+   \brief class to connect the analysis specific event content to the pipelines.
+
+   This is a plain copy of the KappaEventProvider. 
+*/
+
 class HttEventProvider: public KappaEventProvider<HttTypes> {
 public:
 	

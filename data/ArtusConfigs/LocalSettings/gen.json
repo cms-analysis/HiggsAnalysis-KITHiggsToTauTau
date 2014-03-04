@@ -1,0 +1,16 @@
+{
+	"gen" : {
+		"Channel" : "gen",
+		"Quantities" : [
+			"genTauPt",
+			"genTauPdgId",
+			"genTauStatus",
+			"genTauDirDaugs",
+			"genTauAllDaugs"
+		],
+		"Consumers" : [
+			"lambda_ntuple"
+		]
+	}
+}
+

@@ -36,16 +36,28 @@ public:
 			if(filterId == PreselectionFilter().GetFilterId()) {
 				pLine->AddFilter(new PreselectionFilter());
 			}
+			else {
+				LOG_FATAL("Filter \"" << filterId << "\" not found.");
+			}
 		}
 		
 		// TODO: move to dedicated class
 		std::map<std::string, float_extractor_lambda> valueExtractorMap;
+
+		valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(0)->p4.Pt(); };
+		valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(0)->p4.Eta(); };
+		valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Pt(); };
+		valueExtractorMap["softLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.at(1)->p4.Eta(); };
+		valueExtractorMap["diLepMass"] = [](HttEvent const& event, HttProduct const& product) { return (product.m_validMuons.at(0)->p4 + product.m_validMuons.at(1)->p4).mass(); };
 		valueExtractorMap["decayChannelIndex"] = [](HttEvent const& event, HttProduct const& product) { return EnumHelper::toUnderlyingValue(product.m_decayChannel); };
-		valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
-		valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
-		valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Pt(); };
-		valueExtractorMap["softLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Eta(); };
-		valueExtractorMap["diLepMass"] = [](HttEvent const& event, HttProduct const& product) { return (*(product.m_ptOrderedLeptons[0]) + *(product.m_ptOrderedLeptons[1])).mass(); };
+
+		// RW's own stuff for testing
+		valueExtractorMap["genTauPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->p4.Pt() : -1.; };
+		valueExtractorMap["genTauPdgId"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->pdgId() : -999.; };
+		valueExtractorMap["genTauStatus"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->status() : -1.; };
+		valueExtractorMap["genTauDirDaugs"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->daughterIndices.size() : -1.; ; };
+		valueExtractorMap["genTauAllDaugs"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() - 1.; };
+
 
 		BOOST_FOREACH(std::string consumerId, pset.GetConsumers())
 		{
@@ -54,6 +66,9 @@ public:
 			}
 			else if(consumerId == HttNtupleConsumer().GetConsumerId()) {
 				pLine->AddConsumer(new HttNtupleConsumer);
+			}
+			else {
+				LOG_FATAL("Consumer \"" << consumerId << "\" not found.");
 			}
 		}
 

@@ -1,4 +1,11 @@
 <bin name="HiggsToTauTauAnalysis" file="HiggsToTauTauAnalysis.cc">
+<!-- dependencies of TauSpinner 
+        <Flags LDFLAGS="-L../../TauSpinner/TAUOLA/lib -lTauolaTauSpinner -lTauolaCxxInterface -lTauolaFortran" /> -->
+        <Flags LDFLAGS="-L../../TauSpinner/TAUOLA/lib -lTauolaCxxInterface -lTauolaFortran" />
+	<Flags LDFLAGS="-L../../TauSpinner/LHAPDF/lib -lLHAPDF" />
+	<Flags LDFLAGS="-L../../TauSpinner/HepMC/lib -lHepMC" />
+	<Flags LDFLAGS="-lgfortran" />
+<!-- dependencies of TauSpinner -->
 	<Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
 	<Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
 	<use name="Artus/Core"/>

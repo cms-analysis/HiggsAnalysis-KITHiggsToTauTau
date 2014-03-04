@@ -12,6 +12,8 @@
 	"OutputPath" : "output.root",
 	"Pipelines" : {
 		"include" : [
+
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/gen.json",			
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/tt.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/mt.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/et.json",
