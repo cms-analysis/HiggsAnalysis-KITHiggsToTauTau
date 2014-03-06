@@ -15,7 +15,7 @@ public:
 	
 	DecayChannelProducer() : HttProducerBase() {};
 
-	virtual bool ProduceGlobal(HttEvent const& event, HttProduct& product,
+	virtual void ProduceGlobal(HttEvent const& event, HttProduct& product,
 	                           HttGlobalSettings const& globalSettings) const ARTUS_CPP11_OVERRIDE
 	{
 		
@@ -79,14 +79,6 @@ public:
 			product.m_flavourOrderedLeptons.push_back(lepton1);
 			product.m_flavourOrderedLeptons.push_back(lepton2);
 		}
-		
-		return true;
-	}
-
-	// empty to serve as a pure global producer
-	virtual void ProduceLocal(HttEvent const& event, HttProduct& product,
-	                          HttPipelineSettings const& settings) const ARTUS_CPP11_OVERRIDE
-	{
 	}
 };
 
