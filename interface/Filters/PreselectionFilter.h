@@ -15,7 +15,7 @@ public:
 		return "filter_preselection";
 	}
 
-	virtual bool DoesEventPass(HttEvent const& event, HttProduct const& product,
+	virtual bool DoesEventPassLocal(HttEvent const& event, HttProduct const& product,
             HttPipelineSettings const& settings) const ARTUS_CPP11_OVERRIDE
 	{
 		std::string decayChannelString = settings.GetChannel();
