@@ -9,8 +9,8 @@
 			"softLepEta",
 			"diLepMass"
 		],
-		"Filters" : [
-			"filter_preselection"
+		"Processors" : [
+			"filter:preselection"
 		],
 		"Consumers" : [
 			"lambda_ntuple"

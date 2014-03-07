@@ -1,10 +1,10 @@
 {
-	"GlobalProducers" : [
-		"gen_taudecay",
-		"valid_electrons",
-		"valid_muons",
-		"valid_taus",
-		"#valid_jets",
-		"decay_channels"
+	"GlobalProcessors" : [
+		"producer:gen_taudecay",
+		"producer:valid_electrons",
+		"producer:valid_muons",
+		"producer:valid_taus",
+		"#producer:valid_jets",
+		"producer:decay_channels"
 	]
 }
