@@ -22,12 +22,10 @@
 
 class HttPipelineSettings: public KappaPipelineSettings {
 public:
-        /// htt decay channel
+	/// htt decay channel and event category
 	IMPL_SETTING_DEFAULT(std::string, Channel, "")
-	/// lower threshold for filter_preselection 
-	IMPL_SETTING_DEFAULT(float, FilterPtLow, 0.0)
-	/// upper threshold for filter_preselection 
-	IMPL_SETTING_DEFAULT(float, FilterPtHigh, 0.0)
+	IMPL_SETTING_DEFAULT(std::string, Category, "")
+	
 	/// quantities to be processed by the main consumer
 	VarCache<stringvector> quantities;
 	stringvector GetQuantities() const

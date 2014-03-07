@@ -5,9 +5,6 @@
 #include "Artus/Utility/interface/EnumHelper.h"
 
 
-#define DECAY_CHANNEL_BY_NAME(NAME) DecayChannel :: NAME
-#define EVENT_CATEGORY_BY_NAME(NAME) EventCategory :: NAME
-
 enum class DecayChannel : int {
 	NONE = -1,
 	TT   = 0,
@@ -17,6 +14,15 @@ enum class DecayChannel : int {
 	MM   = 4,
 	EE   = 5
 };
+DecayChannel toDecayChannel(std::string const& decayChannelString) {
+	if(decayChannelString == "TT") return DecayChannel::TT;
+	else if(decayChannelString == "MT") return DecayChannel::MT;
+	else if(decayChannelString == "ET") return DecayChannel::ET;
+	else if(decayChannelString == "EM") return DecayChannel::EM;
+	else if(decayChannelString == "MM") return DecayChannel::MM;
+	else if(decayChannelString == "EE") return DecayChannel::EE;
+	return DecayChannel::NONE;
+}
 
 // TODO: to be extended
 enum class EventCategory : int {
@@ -26,6 +32,13 @@ enum class EventCategory : int {
 	BOOST     = 2,
 	VBF       = 3
 };
+EventCategory toEventCategory(std::string const& eventCategoryString) {
+	if(eventCategoryString == "INCLUSIVE") return EventCategory::INCLUSIVE;
+	else if(eventCategoryString == "ZERO_JET") return EventCategory::ZERO_JET;
+	else if(eventCategoryString == "BOOST") return EventCategory::BOOST;
+	else if(eventCategoryString == "VBF") return EventCategory::VBF;
+	return EventCategory::NONE;
+}
 
 
 class HttProduct : public KappaProduct {
