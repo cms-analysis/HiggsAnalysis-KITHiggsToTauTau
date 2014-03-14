@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import sys
-
-import Artus.Configuration.artusWrapper as artusWrapper
+from Artus.Configuration.artusWrapper import ArtusWrapper
 
 
 if __name__ == "__main__":
-	sys.exit(artusWrapper.artusWrapper("HiggsToTauTauAnalysis"))
+
+	artusWrapper = ArtusWrapper("HiggsToTauTauAnalysis")
+	sys.exit(artusWrapper.run())
 
