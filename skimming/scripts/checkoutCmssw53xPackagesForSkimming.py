@@ -9,11 +9,8 @@ import os
 import sys
 from optparse import OptionParser
 
-sys.path.append(os.path.abspath(os.path.dirname(sys.argv[0])) + "/../python/")
-sys.path.append(os.path.abspath(os.path.dirname(sys.argv[0])) + "/../../python/")
-
-from logger import getLogger
-from checkoutScriptsHelper import *
+from HiggsAnalysis.KITHiggsToTauTau.logger import getLogger
+from HiggsAnalysis.KITHiggsToTauTau.checkoutScriptsHelper import *
 
 
 #################################################################################################################
