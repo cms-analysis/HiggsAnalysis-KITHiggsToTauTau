@@ -1,6 +1,7 @@
 {
 	"GlobalProcessors" : [
 		"producer:gen_taudecay",
+		"producer:tauspinner",
 		"producer:valid_electrons",
 		"producer:valid_muons",
 		"producer:valid_taus",
