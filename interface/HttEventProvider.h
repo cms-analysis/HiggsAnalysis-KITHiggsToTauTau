@@ -8,23 +8,16 @@
 
 /**
    \brief class to connect the analysis specific event content to the pipelines.
-
-   This is a plain copy of the KappaEventProvider. 
 */
+
 
 class HttEventProvider: public KappaEventProvider<HttTypes> {
 public:
 	
 	typedef typename HttTypes::global_setting_type global_setting_type;
 	
-	HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType) :
-			KappaEventProvider<HttTypes>(fileInterface, inpType)
-	{
+	HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType);
 
-	}
-
-	virtual void WireEvent(global_setting_type const& globalSettings) ARTUS_CPP11_OVERRIDE
-	{
-		KappaEventProvider::WireEvent(globalSettings);
-	}
+	virtual void WireEvent(global_setting_type const& globalSettings) ARTUS_CPP11_OVERRIDE;
 };
+
