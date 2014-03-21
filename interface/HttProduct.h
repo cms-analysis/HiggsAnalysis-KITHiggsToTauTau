@@ -2,7 +2,6 @@
 #pragma once
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
-#include "Artus/Utility/interface/EnumHelper.h"
 
 
 class HttProduct : public KappaProduct {
