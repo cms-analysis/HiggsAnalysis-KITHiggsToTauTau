@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <map>
+#include <string>
+
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
 
@@ -44,6 +47,10 @@ public:
 
 	HttProduct() : KappaProduct() {};
 	//~HttProduct() : ~KappaProduct() {};
+	
+	// all weights are collected in a map
+	// and multiplied into one "eventWeight" by the EventWeightProducer
+	std::map<std::string, double> m_weights;
 	
 	DecayChannel m_decayChannel;
 	std::vector<EventCategory> m_eventCategories;

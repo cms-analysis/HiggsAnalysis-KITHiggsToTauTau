@@ -1,20 +1,23 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttFactory.h"
 
-// producer
+// producers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventWeightProducer.h"
 
-// filter
+// filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/PreselectionFilter.h"
 
-// consumer
+// consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 
 
 HttProducerBase * HttFactory::createProducer ( std::string const& id )
 {
 	if(id == DecayChannelProducer().GetProducerId())
-  		return new DecayChannelProducer();
+		return new DecayChannelProducer();
+	else if(id == EventWeightProducer().GetProducerId())
+		return new EventWeightProducer();
 	else
 		return KappaFactory<HttTypes>::createProducer( id );	
 }
@@ -22,7 +25,7 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 HttFilterBase * HttFactory::createFilter ( std::string const& id )
 {
 	if(id == PreselectionFilter().GetFilterId())
-  		return new PreselectionFilter();
+		return new PreselectionFilter();
 	else
 		return KappaFactory<HttTypes>::createFilter( id );
 }
