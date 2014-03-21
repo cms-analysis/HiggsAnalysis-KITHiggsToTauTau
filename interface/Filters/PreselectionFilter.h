@@ -15,11 +15,9 @@ public:
 		return "preselection";
 	}
 
-	virtual bool DoesEventPassLocal(HttEvent const& event, HttProduct const& product,
-            HttPipelineSettings const& settings) const ARTUS_CPP11_OVERRIDE
-	{
-		return (product.m_decayChannel == toDecayChannel(settings.GetChannel()));
-	}
+	virtual bool DoesEventPassLocal(HttEvent const& event,
+	                                HttProduct const& product,
+	                                HttPipelineSettings const& settings) const ARTUS_CPP11_OVERRIDE;
 };
 
 
