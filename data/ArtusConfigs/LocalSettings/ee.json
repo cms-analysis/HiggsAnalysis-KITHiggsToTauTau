@@ -13,7 +13,8 @@
 			"filter:preselection"
 		],
 		"Consumers" : [
-			"lambda_ntuple"
+			"lambda_ntuple",
+			"cutflow_histogram"
 		]
 	}
 }
