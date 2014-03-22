@@ -6,6 +6,11 @@
 
 HttLambdaNtupleConsumer::HttLambdaNtupleConsumer() : LambdaNtupleConsumerBase<HttTypes>()
 {
+	// event weight // TODO: loop over product.m_weights to write out all weights
+	m_valueExtractorMap["eventWeight"] = [](HttEvent const& event, HttProduct const& product) {
+		return Utility::GetWithDefault(product.m_weights, std::string("eventWeight"), 1.0);
+	};
+
 	// tests for lepton producers
 	m_valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
 	m_valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
