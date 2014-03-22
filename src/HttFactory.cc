@@ -10,6 +10,7 @@
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttCutFlowHistogramConsumer.h"
 
 
 HttProducerBase * HttFactory::createProducer ( std::string const& id )
@@ -34,6 +35,8 @@ HttConsumerBase * HttFactory::createConsumer ( std::string const& id )
 {
 	if(id == HttLambdaNtupleConsumer().GetConsumerId())
 		return new HttLambdaNtupleConsumer();
+	else if(id == HttCutFlowHistogramConsumer().GetConsumerId())
+		return new HttCutFlowHistogramConsumer();
 	else
 		return KappaFactory<HttTypes>::createConsumer( id );
 }
