@@ -7,10 +7,12 @@
 			"hardLepEta",
 			"softLepPt",
 			"softLepEta",
-			"diLepMass"
+			"diLepMass",
+			"eventWeight"
 		],
 		"Processors" : [
-			"filter:preselection"
+			"filter:preselection",
+			"producer:event_weight"
 		],
 		"Consumers" : [
 			"lambda_ntuple",
