@@ -4,7 +4,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 
 
-HttLambdaNtupleConsumer::HttLambdaNtupleConsumer() : LambdaNtupleConsumerBase<HttTypes>()
+void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pset)
 {
 	// event weight // TODO: loop over product.m_weights to write out all weights
 	m_valueExtractorMap["eventWeight"] = [](HttEvent const& event, HttProduct const& product) {
@@ -25,5 +25,7 @@ HttLambdaNtupleConsumer::HttLambdaNtupleConsumer() : LambdaNtupleConsumerBase<Ht
 	m_valueExtractorMap["genTauStatus"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->status() : UNDEFINED_VALUE; };
 	m_valueExtractorMap["genTauDirDaugs"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() > 0 ? product.m_genTauDecay.at(0)->daughterIndices.size() : UNDEFINED_VALUE; };
 	m_valueExtractorMap["genTauAllDaugs"] = [](HttEvent const& event, HttProduct const& product) { return product.m_genTauDecay.size() - 1.; };
+	
+	LambdaNtupleConsumerBase<HttTypes>::Init(pset);
 }
 
