@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Artus/Utility/interface/EnumHelper.h"
+#include "Artus/Utility/interface/Utility.h"
 
 #include "TauSpinner/SimpleParticle.h"
 #include "TauSpinner/tau_reweight_lib.h"
