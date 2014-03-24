@@ -3,6 +3,8 @@
 
 // producer
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
+
 
 // filter
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/PreselectionFilter.h"
@@ -15,6 +17,10 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 {
 	if(id == DecayChannelProducer().GetProducerId())
   		return new DecayChannelProducer();
+        if(id == TauSpinnerProducer().GetProducerId())
+                return new TauSpinnerProducer();
+
+
 	else
 		return KappaFactory<HttTypes>::createProducer( id );	
 }
