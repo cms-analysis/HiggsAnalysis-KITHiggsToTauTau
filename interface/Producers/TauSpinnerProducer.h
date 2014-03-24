@@ -21,6 +21,25 @@ public:
 	
 	TauSpinnerProducer() : HttProducerBase() {};
 
+	virtual void InitLocal(setting_type const& pipelineSettings)
+	{
+		// interface to TauSpinner
+
+		Tauolapp::Tauola::initialize();
+		string name="MSTW2008nnlo90cl.LHgrid";
+		LHAPDF::initPDFSetByName(name);
+		double CMSENE = 8000.0; // center of mass system energy.
+			                // used in PDF calculation. For pp collisions only
+		bool Ipp = true;  // for pp collisions 
+		// Initialize TauSpinner
+		//Ipol - polarization of input sample
+		//nonSM2 - nonstandard model calculations
+		//nonSMN
+		int Ipol=0,nonSM2=0,nonSMN=0;
+		std::cout << "initialize: " << std::endl;
+		TauSpinner::initialize_spinner(Ipp,Ipol,nonSM2,nonSMN,CMSENE);
+	}
+
 	virtual void ProduceGlobal(HttEvent const& event, HttProduct& product,
 	                           HttGlobalSettings const& globalSettings) const ARTUS_CPP11_OVERRIDE
 	{
@@ -81,21 +100,7 @@ public:
 	{
 		tauDaughters2.push_back(TauSpinner::SimpleParticle(selectedTauDaughters2[i]->p4.px(), selectedTauDaughters2[i]->p4.py(), selectedTauDaughters2[i]->p4.pz(), selectedTauDaughters2[i]->p4.e(), selectedTauDaughters2[i]->pdgId()));
 	}
-	// interface to TauSpinner
 
-	Tauolapp::Tauola::initialize();
-	string name="MSTW2008nnlo90cl.LHgrid";
-	LHAPDF::initPDFSetByName(name);
-	double CMSENE = 8000.0; // center of mass system energy.
-	                        // used in PDF calculation. For pp collisions only
-	bool Ipp = true;  // for pp collisions 
-	// Initialize TauSpinner
-	//Ipol - polarization of input sample
-	//nonSM2 - nonstandard model calculations
-	//nonSMN
-	int Ipol=0,nonSM2=0,nonSMN=0;
-	std::cout << "initialize: " << std::endl;
-	TauSpinner::initialize_spinner(Ipp,Ipol,nonSM2,nonSMN,CMSENE);
 	double tauSpinnerWeight; 
 	std::cout << "getWeight: " << std::endl;
 	/* Debug output for testing
