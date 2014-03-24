@@ -5,7 +5,6 @@
 #include "Artus/Core/interface/GlobalInclude.h"
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumerBase.h"
-#include "Artus/Utility/interface/EnumHelper.h"
 
 #include "../HttTypes.h"
 
