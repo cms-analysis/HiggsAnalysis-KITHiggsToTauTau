@@ -14,5 +14,7 @@ public:
 
 	typedef std::function<float(HttEvent const&, HttProduct const&)> float_extractor_lambda;
 
-	HttLambdaNtupleConsumer();
+	HttLambdaNtupleConsumer() : LambdaNtupleConsumerBase<HttTypes>() {  };
+	
+	virtual void Init(Pipeline<HttTypes> * pset) ARTUS_CPP11_OVERRIDE;
 };
