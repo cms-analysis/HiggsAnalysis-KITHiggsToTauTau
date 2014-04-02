@@ -2,11 +2,9 @@
 	"gen" : {
 		"Channel" : "gen",
 		"Quantities" : [
-			"genTauPt",
-			"genTauPdgId",
-			"genTauStatus",
-			"genTauDirDaugs",
-			"genTauAllDaugs"
+		"TauSpinnerWeight",
+		
+		"PhiStar",
 		],
 		"Consumers" : [
 			"lambda_ntuple",

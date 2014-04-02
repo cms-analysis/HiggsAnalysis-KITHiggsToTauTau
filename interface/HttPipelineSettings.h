@@ -58,5 +58,10 @@ public:
 	IMPL_SETTING(float, ProducerPtCorrectionFactor)
 	/// detemine whether this is data or MC
 	IMPL_SETTING(bool, InputIsData)
-
+	/// Reading TauSpinnerSettings
+	VarCache<stringvector> tauSpinnerSettings;
+	stringvector GetTauSpinnerSettings() const
+	{
+		RETURN_CACHED(tauSpinnerSettings, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauSpinnerSettings"))
+	}
 };

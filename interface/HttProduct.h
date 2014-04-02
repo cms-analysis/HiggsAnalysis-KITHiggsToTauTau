@@ -57,6 +57,7 @@ public:
 	
 	std::vector<RMDataLV*> m_ptOrderedLeptons;
 	std::vector<RMDataLV*> m_flavourOrderedLeptons;
-	
+	double m_tauSpinnerWeight;
+	double m_PhiStar; 
 };
 
