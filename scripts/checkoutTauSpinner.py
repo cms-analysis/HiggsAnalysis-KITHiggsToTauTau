@@ -35,7 +35,7 @@ def checkoutPackages(args):
 	"wget http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/pythia8/pythia8-176-src.tgz",
 	"tar -xzvf pythia8-176-src.tgz",
 	"touch ../make.inc",
-	"sed -i 's/1.1.3/1.1.4/g' AnalysisTools/Code/TauSpiner/Makefile.standalone",  # standalone makefile might still be for tauola++1.1.3
+	"sed -i 's/1.1.3/1.1.4/g' " + subdir + "Makefile.standalone",  # standalone makefile might still be for tauola++1.1.3
 	"gmake -f Makefile.standalone"
 	]
 	execCommands(commands)
