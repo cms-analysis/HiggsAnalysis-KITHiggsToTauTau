@@ -2,9 +2,8 @@
 	"gen" : {
 		"Channel" : "gen",
 		"Quantities" : [
-		"TauSpinnerWeight",
-		
-		"PhiStar",
+		"TauSpinnerWeight",		
+		"PhiStar"
 		],
 		"Consumers" : [
 			"lambda_ntuple",
