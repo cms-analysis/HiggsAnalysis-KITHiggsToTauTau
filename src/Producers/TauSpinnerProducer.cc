@@ -153,4 +153,5 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 		else product.m_tauSpinnerWeight = UNDEFINED_VALUE;
 	}// "if 1BosonDaughter is Tau"-end.
 	else product.m_tauSpinnerWeight = UNDEFINED_VALUE;
+	product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", product.m_tauSpinnerWeight));
 }
