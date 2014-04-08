@@ -64,4 +64,9 @@ public:
 	{
 		RETURN_CACHED(tauSpinnerSettings, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauSpinnerSettings"))
 	}
+	VarCache<stringvector> chosenTauDaughters;
+	stringvector GetChosenTauDaughters() const
+	{
+		RETURN_CACHED(chosenTauDaughters, PropertyTreeSupport::GetAsStringList(GetPropTree(), "ChosenTauDaughters"))
+	}
 };

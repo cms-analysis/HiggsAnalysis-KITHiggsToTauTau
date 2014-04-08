@@ -9,5 +9,15 @@
 		"0",
 		"boostedn"
 	],
+	"ChosenTauDaughters" :
+	[	"choose",
+		"211",
+		"20213",
+		"11",
+		"13",
+		"323",
+		"321",
+		"24"
+	],
 	"BosonPdgId": ["25"]
 }

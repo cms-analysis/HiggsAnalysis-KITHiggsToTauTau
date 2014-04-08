@@ -2,8 +2,57 @@
 	"gen" : {
 		"Channel" : "gen",
 		"Quantities" : [
-		"TauSpinnerWeight",		
-		"PhiStar"
+		"TauSpinnerWeight",
+		
+		"PhiStar",
+		"PsiStarCP",
+		"MassRoundOff1",
+		"MassRoundOff2",
+
+		"genHiggsSize",
+		"1genHiggsPt",
+		"1genHiggsPdgId",
+		"1genHiggsStatus",
+
+		"1genHiggsDaughterSize",
+		"1genHiggs1DaughterPt",
+		"1genHiggs1DaughterPdgId",
+		"1genHiggs1DaughterStatus",
+		"1genHiggs2DaughterPt",
+		"1genHiggs2DaughterPdgId",
+		"1genHiggs2DaughterStatus",			
+
+		"1genHiggs1DaughterGranddaughterSize",
+		"1genHiggs2DaughterGranddaughterSize",
+
+		"1genHiggs1Daughter1GranddaughterPt",
+		"1genHiggs1Daughter1GranddaughterPdgId",
+		"1genHiggs1Daughter1GranddaughterStatus",
+		"1genHiggs1Daughter2GranddaughterPt",
+		"1genHiggs1Daughter2GranddaughterPdgId",
+		"1genHiggs1Daughter2GranddaughterStatus",
+		"1genHiggs1Daughter3GranddaughterPt",
+		"1genHiggs1Daughter3GranddaughterPdgId",
+		"1genHiggs1Daughter3GranddaughterStatus",
+		"1genHiggs1Daughter4GranddaughterPt",
+		"1genHiggs1Daughter4GranddaughterPdgId",
+		"1genHiggs1Daughter4GranddaughterStatus",
+
+		"1genHiggs2Daughter1GranddaughterPt",
+		"1genHiggs2Daughter1GranddaughterPdgId",
+		"1genHiggs2Daughter1GranddaughterStatus",
+		"1genHiggs2Daughter2GranddaughterPt",
+		"1genHiggs2Daughter2GranddaughterPdgId",
+		"1genHiggs2Daughter2GranddaughterStatus",
+		"1genHiggs2Daughter3GranddaughterPt",
+		"1genHiggs2Daughter3GranddaughterPdgId",
+		"1genHiggs2Daughter3GranddaughterStatus",
+		"1genHiggs2Daughter4GranddaughterPt",
+		"1genHiggs2Daughter4GranddaughterPdgId",
+		"1genHiggs2Daughter4GranddaughterStatus"
+
+
+
 		],
 		"Consumers" : [
 			"lambda_ntuple",
