@@ -1,26 +1,10 @@
 {
-	"include" : [
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/GlobalSettings/kappa.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/GlobalSettings/defaultProducers.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/GlobalSettings/TauSpinnerSettings.json"
-	],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
 	"InputFiles" : [
 		"/afs/cern.ch/user/t/tmuller/public/kappaTuple.root"
 	],
 	"InputIsData" : false,
-	"OutputPath" : "output.root",
-	"Pipelines" : {
-		"include" : [
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/gen.json",			
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/tt.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/mt.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/et.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/em.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/mm.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/ee.json"
-		]
-	}
+	"OutputPath" : "output.root"
 }
 
