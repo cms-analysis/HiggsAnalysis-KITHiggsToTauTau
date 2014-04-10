@@ -17,11 +17,10 @@ if __name__ == "__main__":
 
 	parser = harrycore.get_basic_parser(**basedict)
 
-
 	plotdict = harrycore.create_dictionary_from_parser(parser)
 
 	# Add the module with the user-written functions to the plotdict
-	plotdict['analysismodules'] =[higgsmodule]
 
+	plotdict['analysismodules'] = [higgsmodule]
 
 	harrycore.plot(plotdict)

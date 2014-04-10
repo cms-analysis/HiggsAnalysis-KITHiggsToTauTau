@@ -33,16 +33,16 @@ particledict = {
 	  14: r'$\nu_{\mu}$',
 	 -14: r'$\bar{\nu_{\mu}}$',
 	  16: r'$\nu_{\tau}$',
-	 -16: r'$\bar{\nu_{\tau}}$',	
+	 -16: r'$\bar{\nu_{\tau}}$',
 
 	}
 
+
 def decayproducts(plotdict):
-	""" Write here what this function does
-	"""
+	""" This function sorts particles depending on the pdgids-list"""
+
 	plotdict['xlims'] = [-20300.5, 20299.5]
 	plotdict['nbins'] = 40600
-	
 
 	plot1d.get_root_histos(plotdict)
 	plot1d.get_mpl_histos(plotdict)
@@ -50,36 +50,35 @@ def decayproducts(plotdict):
 	# map  plotdict["mplhistos"]  x entries (=pdgIDs) to particle names
 	# regroup
 
-	pdgids=[-20213,20213,-323,323,-321,321,-213,213,-211,211,-24,24,11,-11,13,-13]
+	pdgids = [-20213, 20213, -323, 323, -321, 321, -213, 213, -211, 211, -24, 24, 11, -11, 13, -13]
 	for i in range(len(plotdict["mplhistos"])):
-		for xc,y in zip(plotdict["mplhistos"][i].xc,plotdict["mplhistos"][i].y):
-			if (y!=0) and not (xc in pdgids) and (xc!=0):
-				print "PdgId %5.0f is not contained in the list 'pdgids'"%xc 
-				sys.exit(1)   
-		
+		for xc, y in zip(plotdict["mplhistos"][i].xc, plotdict["mplhistos"][i].y):
+			if (y != 0) and not (xc in pdgids) and (xc != 0):
+				print "PdgId %5.0f is not contained in the list 'pdgids'" % xc
+				sys.exit(1)
+
 	binlabelslist = [particledict.get(p) for p in pdgids]
 
-
 	for i in range(len(plotdict["mplhistos"])):
-		new_y=[0]*len(pdgids)
-		new_yerr=[0]*len(pdgids)
+		new_y = [0] * len(pdgids)
+		new_yerr = [0] * len(pdgids)
 		for j in range(len(pdgids)):
-			for xc,y,yerr in zip(plotdict["mplhistos"][i].xc,plotdict["mplhistos"][i].y,plotdict["mplhistos"][i].yerr):
-				if pdgids[j]==xc:
-					new_y[j]=y
-					new_yerr[j]=yerr
-		numblist =  range(len(pdgids))
+			for xc, y, yerr in zip(plotdict["mplhistos"][i].xc, plotdict["mplhistos"][i].y, plotdict["mplhistos"][i].yerr):
+				if pdgids[j] == xc:
+					new_y[j] = y
+					new_yerr[j] = yerr
+		numblist = range(len(pdgids))
 		for k in numblist:
-			numblist[k]-=0.5
-		plotdict["mplhistos"][i].x =  numblist
+			numblist[k] -= 0.5
+		plotdict["mplhistos"][i].x = numblist
 		plotdict["mplhistos"][i].xc = range(len(pdgids))
 		plotdict["mplhistos"][i].y = new_y
 		plotdict["mplhistos"][i].yerr = new_yerr
 
-	plot1d.plot1d_mpl(plotdict) #plottet mplhistos
+	plot1d.plot1d_mpl(plotdict)  # plottet mplhistos
 
-	# set x axis ticks, ticklabels
-	plotdict['axes'].set_ylim(top= 1.2 * max(d.ymax() for d in plotdict['mplhistos']), bottom = 0)
+	# set x axis xticks, xticklabels
+	plotdict['axes'].set_ylim(top=1.2 * max(d.ymax() for d in plotdict['mplhistos']), bottom=0)
 	labels.add_labels(plotdict)
 	plotdict["axes"].set_xticks(range(len(pdgids)))
 	plotdict["axes"].set_xticklabels(binlabelslist, rotation=90)
