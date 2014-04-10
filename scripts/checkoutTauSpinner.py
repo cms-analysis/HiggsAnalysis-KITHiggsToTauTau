@@ -9,7 +9,6 @@ import os
 import sys
 from optparse import OptionParser
 
-from HiggsAnalysis.KITHiggsToTauTau.logger import getLogger
 from HiggsAnalysis.KITHiggsToTauTau.checkoutScriptsHelper import *
 
 #################################################################################################################
@@ -48,7 +47,6 @@ def main():
 	parser = OptionParser()
 	sysInformation = getSysInformation()
 
-	logger = getLogger()
 	(options, args) = parser.parse_args()
 	checkoutPackages(args)
 
