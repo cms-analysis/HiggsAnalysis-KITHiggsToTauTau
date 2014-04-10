@@ -14,8 +14,6 @@
    
    -This producer has the product of the GenTauDecayProducer as input and calculates the TauSpinnerWeight 
    for these particles, where tau is the daughter of Higgs
-   - the variable Phi* for the Higgs -> tau-tau+ (1-prong-decay), in this case currently only pions in the final state	
-
 
 */
 

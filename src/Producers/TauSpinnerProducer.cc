@@ -1,6 +1,6 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
-
+#include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
 
 void TauSpinnerProducer::InitGlobal(global_setting_type const& globalSettings)
@@ -30,31 +30,29 @@ void TauSpinnerProducer::InitGlobal(global_setting_type const& globalSettings)
 void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 	                           HttGlobalSettings const& globalSettings) const
 {
-	std::vector<KGenParticle*> higgs = product.m_genHiggs;
-	std::vector<std::vector<KGenParticle*>> taus = product.m_genHiggsDaughters;
-	std::vector<std::vector<std::vector<KGenParticle*>>> tauDaughters = product.m_genHiggsGranddaughters;
+	std::vector<KappaProduct::MotherDaughterBundle> higgs = product.m_genBoson;
 
 
 	//Conversion to SimpleParticles
 	//select the particles to convert from Output of GenTauDecay Producer, which gives the mother boson, two boson daughters,
         //and the granddaughters.
-	KGenParticle* selectedHiggs1 = higgs[0];
-	KGenParticle* selectedTau1 = taus[0][0];
-	KGenParticle* selectedTau2 = taus[0][1];
-	std::vector<KGenParticle*> selectedTauDaughters1 = tauDaughters[0][0];
-	std::vector<KGenParticle*> selectedTauDaughters2 = tauDaughters[0][1];
-	//std::cout << "Higgs PdgId: " << selectedHiggs->pdgId();
+	KGenParticle* selectedHiggs1 = higgs[0].node;
+	KGenParticle* selectedTau1 = higgs[0].Daughters[0].node;
+	KGenParticle* selectedTau2 = higgs[0].Daughters[1].node;
+	std::vector<KappaProduct::MotherDaughterBundle> selectedTauDaughters1 = higgs[0].Daughters[0].Daughters;
+	std::vector<KappaProduct::MotherDaughterBundle> selectedTauDaughters2 = higgs[0].Daughters[1].Daughters;
+	LOG(DEBUG) << "Higgs PdgId: " << selectedHiggs1->pdgId();
 	
-	//MassRoudOff check
-	RMDataLV TauDaughters1Sum = selectedTauDaughters1[0]->p4;
+	//MassRoundOff check: calculation of the difference of the tau mass and the summarized mass of the tau daughters.
+	RMDataLV TauDaughters1Sum = selectedTauDaughters1[0].node->p4;
 	for(unsigned int i=1; i<selectedTauDaughters1.size();i++)
 	{
-		TauDaughters1Sum+=selectedTauDaughters1[i]->p4;
+		TauDaughters1Sum+=selectedTauDaughters1[i].node->p4;
 	}
-	RMDataLV TauDaughters2Sum = selectedTauDaughters2[0]->p4;
+	RMDataLV TauDaughters2Sum = selectedTauDaughters2[0].node->p4;
 	for(unsigned int i=1; i<selectedTauDaughters2.size();i++)
 	{
-		TauDaughters2Sum+=selectedTauDaughters2[i]->p4;
+		TauDaughters2Sum+=selectedTauDaughters2[i].node->p4;
 	}
 	product.m_MassRoundOff1 = abs(selectedTau1->p4.mass()- TauDaughters1Sum.mass());
 	product.m_MassRoundOff2 = abs(selectedTau2->p4.mass()- TauDaughters2Sum.mass());
@@ -73,22 +71,24 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 		selectedTau2->p4 = boostMat*(selectedTau2->p4);
 		for(unsigned int i = 0; i < selectedTauDaughters1.size(); ++i)
 		{
-			selectedTauDaughters1[i]->p4 = boostMat*(selectedTauDaughters1[i]->p4);	
+			selectedTauDaughters1[i].node->p4 = boostMat*(selectedTauDaughters1[i].node->p4);	
 		}
 		for(unsigned int i = 0; i < selectedTauDaughters2.size(); ++i)
 		{
-			selectedTauDaughters2[i]->p4 = boostMat*(selectedTauDaughters2[i]->p4);	
+			selectedTauDaughters2[i].node->p4 = boostMat*(selectedTauDaughters2[i].node->p4);	
 		}
 	}
-	if (abs(taus[0][0]->pdgId())==15) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
+	if (abs(selectedTau1->pdgId())==15) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{		
-		//std::cout << "		Tau1 PdgId: " << selectedTau1->pdgId();
-		//std::cout << "		Tau2 PdgId: " << selectedTau2->pdgId() << std::endl;
+		LOG(DEBUG) << "		Tau1 PdgId: " << selectedTau1->pdgId();
+		LOG(DEBUG) << "		Tau2 PdgId: " << selectedTau2->pdgId() << std::endl;
 		
 		TauSpinner::SimpleParticle X(selectedHiggs1->p4.px(), selectedHiggs1->p4.py(), selectedHiggs1->p4.pz(), selectedHiggs1->p4.e(), selectedHiggs1->pdgId());
 		TauSpinner::SimpleParticle tau1(selectedTau1->p4.px(), selectedTau1->p4.py(), selectedTau1->p4.pz(), selectedTau1->p4.e(), selectedTau1->pdgId());
 		TauSpinner::SimpleParticle tau2(selectedTau2->p4.px(), selectedTau2->p4.py(), selectedTau2->p4.pz(), selectedTau2->p4.e(), selectedTau2->pdgId());
 		
+		//choosing considered tau decay products for the TauSpinnerWeight calculaton 
+		//through the entry ChosenTauDaughters in the TauSpinnerSettings.json
 		stringvector chosentaudaughters = globalSettings.GetChosenTauDaughters();
 		bool choose = (chosentaudaughters[0]=="choose");
 		std::vector<int> chosentd;
@@ -110,10 +110,10 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 				withoutchoise = false;	
 				for(unsigned int j=0;j<chosentd.size();j++)
 				{
-					if(chosentd[j]==abs(selectedTauDaughters1[i]->pdgId()))   choosecomplete1++;					
+					if(chosentd[j]==abs(selectedTauDaughters1[i].node->pdgId()))   choosecomplete1++;					
 				}										
 			}
-			tauDaughters1.push_back(TauSpinner::SimpleParticle(selectedTauDaughters1[i]->p4.px(), selectedTauDaughters1[i]->p4.py(), selectedTauDaughters1[i]->p4.pz(), selectedTauDaughters1[i]->p4.e(), selectedTauDaughters1[i]->pdgId()));		
+			tauDaughters1.push_back(TauSpinner::SimpleParticle(selectedTauDaughters1[i].node->p4.px(), selectedTauDaughters1[i].node->p4.py(), selectedTauDaughters1[i].node->p4.pz(), selectedTauDaughters1[i].node->p4.e(), selectedTauDaughters1[i].node->pdgId()));		
 		}
 
 		std::vector<TauSpinner::SimpleParticle> tauDaughters2;
@@ -126,32 +126,30 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 				withoutchoise=false;	
 				for(unsigned int j=0;j<chosentd.size();j++)
 				{
-					if(chosentd[j]==abs(selectedTauDaughters2[i]->pdgId()))   choosecomplete2++;					
+					if(chosentd[j]==abs(selectedTauDaughters2[i].node->pdgId()))   choosecomplete2++;					
 				}										
 			}
-			tauDaughters2.push_back(TauSpinner::SimpleParticle(selectedTauDaughters2[i]->p4.px(), selectedTauDaughters2[i]->p4.py(), selectedTauDaughters2[i]->p4.pz(), selectedTauDaughters2[i]->p4.e(), selectedTauDaughters2[i]->pdgId()));
+			tauDaughters2.push_back(TauSpinner::SimpleParticle(selectedTauDaughters2[i].node->p4.px(), selectedTauDaughters2[i].node->p4.py(), selectedTauDaughters2[i].node->p4.pz(), selectedTauDaughters2[i].node->p4.e(), selectedTauDaughters2[i].node->pdgId()));
 		}
-		//std::cout << "getWeight: " << std::endl;
-		/* Debug output for testing
-		std::cout << selectedHiggs->p4.px() << std::endl;
-		std::cout << selectedTau1->p4.px() << std::endl;
-		std::cout << selectedTau2->p4.px() << std::endl;
-		std::cout << selectedTauDaughters1[1]->p4.px() << std::endl;
-		std::cout << selectedTauDaughters2[1]->p4.px() << std::endl;
-		*/
-		//std::cout << choosecomplete1 << "               " << choosecomplete2 << std::endl;
+		// Debug output for testing
+		LOG(DEBUG) << selectedHiggs1->p4.px() << std::endl;
+		LOG(DEBUG) << selectedTau1->p4.px() << std::endl;
+		LOG(DEBUG) << selectedTau2->p4.px() << std::endl;
+		LOG(DEBUG) << selectedTauDaughters1[1].node->p4.px() << std::endl;
+		LOG(DEBUG) << selectedTauDaughters2[1].node->p4.px() << std::endl;
+
+		LOG(DEBUG) << choosecomplete1 << "               " << choosecomplete2 << std::endl;
 		if(((choosecomplete1>0) && (choosecomplete2)>0) || withoutchoise)
 		{
 		//Decision for a certain weight calculation depending on BosonPdgId
 		stringvector bosonPdgIdVector = globalSettings.GetBosonPdgId();
 		int bosonPdgId;
 		std::istringstream(bosonPdgIdVector[0]) >> bosonPdgId;
-		if(abs(bosonPdgId)==24) product.m_tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauDaughters1);
-		else if (abs(bosonPdgId)==25) product.m_tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauDaughters1, tauDaughters2);
-		//std::cout << "tauSpinnerWeight: " << (product.m_tauSpinnerWeight==1.00) << std::endl;
+		if(abs(bosonPdgId)==24) product.m_weights.insert( std::pair<std::string, double>("tauspinnerweight", calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauDaughters1)) );
+		else if (abs(bosonPdgId)==25)  product.m_weights.insert( std::pair<std::string, double>("tauspinnerweight", calculateWeightFromParticlesH(X, tau1, tau2, tauDaughters1, tauDaughters2)) );
+		LOG(DEBUG) << "tauSpinnerWeight: " << ( product.m_weights.at("tauspinnerweight")==1.00) << std::endl;
 		}
-		else product.m_tauSpinnerWeight = UNDEFINED_VALUE;
+		else product.m_weights.insert( std::pair<std::string, double>("tauspinnerweight", UNDEFINED_VALUE) );
 	}// "if 1BosonDaughter is Tau"-end.
-	else product.m_tauSpinnerWeight = UNDEFINED_VALUE;
-	product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", product.m_tauSpinnerWeight));
+	else product.m_weights.insert( std::pair<std::string, double>("tauspinnerweight", UNDEFINED_VALUE) );
 }
