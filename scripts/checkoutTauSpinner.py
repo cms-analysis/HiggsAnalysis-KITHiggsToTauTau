@@ -9,7 +9,43 @@ import os
 import sys
 from optparse import OptionParser
 
-from HiggsAnalysis.KITHiggsToTauTau.checkoutScriptsHelper import *
+#################################################################################################################
+
+
+def execCommands(commands):
+	for command in commands:
+		print ""
+		print "command: " + command
+		exitCode = 1
+		nTrials = 0
+		while exitCode != 0:
+			if nTrials > 1:
+				print "Last command could NOT be executed successfully! Stop program!"
+				sys.exit(1)
+
+				#logger.info("{CHECKOUT_COMMAND} (trial {N_TRIAL}):").formal(CHECKOUT_COMMAND = command, N_TRIAL = (nTrials+1))
+
+			if command.startswith("cd"):
+				os.chdir(os.path.expandvars(command.replace("cd ", "")))
+				exitCode = int((os.path.expandvars(command.replace("cd ", "").strip("/")) != os.getcwd().strip("/")))
+			else:
+				exitCode = os.system(command)
+
+			nTrials += 1
+
+	return
+
+#################################################################################################################
+
+
+def getSysInformation():
+	sysInformation = {
+	"github_username": os.popen("git config user.name").readline().replace("\n", ""),
+	"email": os.popen("git config user.email").readline().replace("\n", ""),
+	"editor": os.popen("git config core.editor").readline().replace("\n", ""),
+	"pwd": os.getcwd()
+	}
+	return sysInformation
 
 #################################################################################################################
 
