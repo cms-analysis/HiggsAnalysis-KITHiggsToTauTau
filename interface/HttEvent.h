@@ -16,6 +16,12 @@ class HttEvent : public KappaEvent
 public:
 	HttEvent() : KappaEvent() {};
 	//~HttEvent() : ~KappaEvent() {};
+
+	/// pointer to MET collections
+	KDataPFMET* m_mvaMetTT = 0;
+	KDataPFMET* m_mvaMetMT = 0;
+	KDataPFMET* m_mvaMetET = 0;
+	KDataPFMET* m_mvaMetEM = 0;
 	
 };
 
