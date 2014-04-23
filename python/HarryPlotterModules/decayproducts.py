@@ -10,46 +10,46 @@ import copy
 
 # particle dictionary with name, masslims, ...
 particledict = {
-	  25: [r'Higgs', [123,126]],
-	  22: [r'$\gamma$',[-0.1,0.1]],
-      -20213: [r'$a_1(1260)^-$',[0,400]],
-       20213: [r'$a_1(1260)^+$',[0,400]],
-	-323: [r'$K^*(892)^-$',[0,400]],
-	 323: [r'$K^*(892)^+$',[0,400]],
-	-321: [r'$K^-$',[0.492,0.494]],
-	 321: [r'$K^+$',[0.492,0.494]],
-	-213: [r'$\rho (770)^-$',[0,400]],
-	 213: [r'$\rho (770)^+$',[0,400]],
-	-211: [r'$\pi ^-$',[0.1385,0.1405]],
-	 211: [r'$\pi ^+$',[0.1385,0.1405]],
-	 -24: [r'$W^-$',[0,0]],
-	  24: [r'$W^+$',[0,0]],
-	  15: [r'$\tau ^-$',[0,0]],
-	 -15: [r'$\tau ^+$',[0,0]],
-          13: [r'$\mu ^-$',[0,0]],
-         -13: [r'$\mu ^+$',[0,0]],
-	  11: [r'$e^-$',[0.0004,0.0006]],
-	 -11: [r'$e^+$',[0.0004,0.0006]],
-	  12: [r'$\nu_e$',[-0.1,0.1]],
-	 -12: [r'$\bar{\nu_e}$',[-0.1,0.1]],
-	  14: [r'$\nu_{\mu}$',[-0.1,0.1]],
-	 -14: [r'$\bar{\nu_{\mu}}$',[-0.1,0.1]],
-	  16: [r'$\nu_{\tau}$', [-0.1,0.1]],
-	 -16: [r'$\bar{\nu_{\tau}}$', [-0.1,0.1]]
+	  25: [r'Higgs', [123, 126]],
+	  22: [r'$\gamma$', [-0.1, 0.1]],
+      -20213: [r'$a_1(1260)^-$', [0, 400]],
+       20213: [r'$a_1(1260)^+$', [0, 400]],
+	-323: [r'$K^*(892)^-$', [0, 400]],
+	 323: [r'$K^*(892)^+$', [0, 400]],
+	-321: [r'$K^-$', [0.48, 0.51]],
+	 321: [r'$K^+$', [0.48, 0.51]],
+	-213: [r'$\rho (770)^-$', [0, 400]],
+	 213: [r'$\rho (770)^+$', [0, 400]],
+	-211: [r'$\pi ^-$', [0.12, 0.16]],
+	 211: [r'$\pi ^+$', [0.12, 0.16]],
+	 -24: [r'$W^-$', [0, 400]],
+	  24: [r'$W^+$', [0, 400]],
+	  15: [r'$\tau ^-$', [1.75, 1.8]],
+	 -15: [r'$\tau ^+$', [1.75, 1.8]],
+          13: [r'$\mu ^-$', [0, 0.2]],
+         -13: [r'$\mu ^+$', [0, 0.2]],
+	  11: [r'$e^-$', [-0.1, 0.1]],
+	 -11: [r'$e^+$', [-0.1, 0.1]],
+	  12: [r'$\nu_e$', [-0.1, 0.1]],
+	 -12: [r'$\bar{\nu_e}$', [-0.1, 0.1]],
+	  14: [r'$\nu_{\mu}$', [-0.1, 0.1]],
+	 -14: [r'$\bar{\nu_{\mu}}$', [-0.1, 0.1]],
+	  16: [r'$\nu_{\tau}$', [-0.1, 0.1]],
+	 -16: [r'$\bar{\nu_{\tau}}$', [-0.1, 0.1]]
 
 	}
 
 xlimsdict = {
-	
-	"TauSpinnerWeight": [0,2],
-	"Pt": [0,400],
-	"Eta": [-6.5,6.5],
-	"Phi": [-3.15,3.15],
+
+	"TauSpinnerWeight": [0, 2],
+	"Pt": [0, 400],
+	"Eta": [-6.5, 6.5],
+	"Phi": [-3.15, 3.15],
 	"Mass": ["mass"]
-	}		
+	}
 
 
-def decayproducts(plotdict):
+def ratioplot(plotdict):
 	""" This function sorts particles depending on the pdgids-list"""
 
 	plotdict['xlims'] = [-20300.5, 20299.5]
@@ -95,25 +95,26 @@ def decayproducts(plotdict):
 	plotdict["axes"].set_xticklabels(binlabelslist, rotation=90)
 	utils.save(plotdict)
 
-def oneqmultiplot(plotdict):
+
+def multiplot(plotdict):
 	"""This function makes similar plots with the same quantities and different cuts and selections"""
-	pdgids = [211,213, 20213]	
-	quantities = [ "TauSpinnerWeight", "1genBosonPt", "1genBosonEta"]
+	pdgids = [211, 321, 11, 13]
+	quantities = ["TauSpinnerWeight", "1genBoson1Daughter2GranddaughterPt", "1genBoson1Daughter2GranddaughterEta", "1genBoson1Daughter2GranddaughterPhi", "1genBoson1Daughter2GranddaughterMass"]
 	for i in pdgids:
 		for quantity in quantities:
-			local_plotdict =  utils.copyplotdict(plotdict)
+			local_plotdict = utils.copyplotdict(plotdict)
 			for key in xlimsdict.keys():
 				if key in quantity:
 					local_plotdict['xlims'] = xlimsdict[key]
 					if local_plotdict['xlims'] == ["mass"]:
 						local_plotdict['xlims'] = particledict.get(i)[1]
-					
-			local_plotdict["x"] = [quantity]			
+
+			local_plotdict["x"] = [quantity]
 			if quantity == "TauSpinnerWeight":
 				local_plotdict["log"] = True
-			local_plotdict["weights"][0] ='abs(1genBoson1Daughter2GranddaughterPdgId) == %0.0f && TauSpinnerWeight != -999 && TauSpinnerWeight != -777' % i
+			local_plotdict["weights"][0] = 'abs(1genBoson1Daughter2GranddaughterPdgId) == %0.0f && TauSpinnerWeight != -999 && TauSpinnerWeight != -777' % i
 			#print local_plotdict["weights"][0]
-			local_plotdict["filename"] = local_plotdict["x"][0] + 'ForPdgId%s' %  i
+			local_plotdict["filename"] = local_plotdict["x"][0] + 'ForPdgId%s' % i
 			local_plotdict["title"] = local_plotdict["x"][0] + ' for ' + particledict.get(i)[0] + ' and ' + particledict.get(-i)[0]
 			#local_local_plotdict["labels"] = local_plotdict["x"][0] + ' for ' + particledict.get(i) + ' and ' + particledict.get(-i)
 			plot1d.get_root_histos(local_plotdict)
