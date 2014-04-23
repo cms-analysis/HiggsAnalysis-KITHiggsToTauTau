@@ -54,7 +54,7 @@ def checkoutPackages(args):
 	cmsswsrc = os.popen("echo $CMSSW_BASE").readline().replace("\n", "") + '/src/'
 	subdir = cmsswsrc + "AnalysisTools/Code/TauSpiner/"
 	commands = [
-	"git clone https://github.com/inugent/AnalysisTools",
+	"git clone git://github.com/inugent/AnalysisTools",
 	"cd " + subdir,
 	"wget http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-2.06.05.tar.gz",
 	"tar -xzvf HepMC-2.06.05.tar.gz",

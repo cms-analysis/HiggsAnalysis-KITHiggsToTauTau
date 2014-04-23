@@ -32,6 +32,12 @@ public:
 	{
 		RETURN_CACHED(quantities, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Quantities"))
 	}
+	
+	VarCache<std::vector<std::string>> tauDiscriminators;
+	stringvector GetTauDiscriminators() const
+	{
+		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
+	}
 
 };
 
@@ -54,8 +60,13 @@ public:
 
 class HttGlobalSettings: public KappaGlobalSettings {
 public:
-        /// this is not really used I guess
-	IMPL_SETTING(float, ProducerPtCorrectionFactor)
+
+	/// names of MET collection in kappa tuple
+	IMPL_SETTING_DEFAULT(std::string, MvaMetTT, "");
+	IMPL_SETTING_DEFAULT(std::string, MvaMetMT, "");
+	IMPL_SETTING_DEFAULT(std::string, MvaMetET, "");
+	IMPL_SETTING_DEFAULT(std::string, MvaMetEM, "");
+
 	/// detemine whether this is data or MC
 	IMPL_SETTING(bool, InputIsData)
 	/// Reading TauSpinnerSettings
@@ -68,5 +79,11 @@ public:
 	stringvector GetChosenTauDaughters() const
 	{
 		RETURN_CACHED(chosenTauDaughters, PropertyTreeSupport::GetAsStringList(GetPropTree(), "ChosenTauDaughters"))
+	}
+	
+	VarCache<std::vector<std::string>> tauDiscriminators;
+	stringvector GetTauDiscriminators() const
+	{
+		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
 	}
 };
