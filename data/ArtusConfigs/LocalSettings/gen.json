@@ -4,6 +4,7 @@
 		"Quantities" : [
 		"TauSpinnerWeight",
 		
+		"Phi",
 		"PhiStar",
 		"PsiStarCP",
 		"MassRoundOff1",

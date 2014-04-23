@@ -22,77 +22,27 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	}
 	m_valueExtractorMap["TauSpinnerWeight"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		if (product.m_weights.at("tauspinnerweight") == product.m_weights.at("tauspinnerweight")) // Avoiding 'nan'
-			return product.m_weights.at("tauspinnerweight");
-		else
-		{
-
-			// 'Nan' Debug output
-			LOG(DEBUG) << "\nHiggsPx=" << product.m_genBoson[0].node->p4.Px() << "|"
-					   << "HiggsPy=" << product.m_genBoson[0].node->p4.Py() << "|"
-					   << "HiggsPz=" << product.m_genBoson[0].node->p4.Pz() << "|"
-					   << "HiggsE=" << product.m_genBoson[0].node->p4.e() << "|"
-					   << "HiggsPdgId=" << product.m_genBoson[0].node->pdgId() << "|"
-
-					   << "1TauPx=" << product.m_genBoson[0].Daughters[0].node->p4.Px() << "|"
-					   << "1TauPy=" << product.m_genBoson[0].Daughters[0].node->p4.Py() << "|"
-					   << "1TauPz=" << product.m_genBoson[0].Daughters[0].node->p4.Pz() << "|"
-					   << "1TauE=" << product.m_genBoson[0].Daughters[0].node->p4.e() << "|"
-					   << "1TauPdgId=" << product.m_genBoson[0].Daughters[0].node->pdgId() << "|"
-
-					   << "2TauPx=" << product.m_genBoson[0].Daughters[1].node->p4.Px() << "|"
-					   << "2TauPy=" << product.m_genBoson[0].Daughters[1].node->p4.Py() << "|"
-					   << "2TauPz=" << product.m_genBoson[0].Daughters[1].node->p4.Pz() << "|"
-					   << "2TauE=" << product.m_genBoson[0].Daughters[1].node->p4.e() << "|"
-					   << "2TauPdgId=" << product.m_genBoson[0].Daughters[1].node->pdgId() << "|";
-
-			for (unsigned int i = 0; i < product.m_genBoson[0].Daughters[0].Daughters.size(); i++)
-			{
-				std::ostringstream index;
-				index << i + 1;
-				//std::string Index(index.str());
-				std::string name = "1Tau" + index.str() + "Daughter";
-				LOG(DEBUG) << name << "Px=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Px() << "|"
-						   << name << "Py=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Py() << "|"
-						   << name << "Pz=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Pz() << "|"
-						   << name << "E="  << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.e() << "|"
-						   << name << "PdgId=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->pdgId() << "|";
-			}
-
-			for (unsigned int i = 0; i < product.m_genBoson[0].Daughters[1].Daughters.size(); i++)
-			{
-				std::ostringstream index;
-				index << i + 1;
-				//std::string Index(index.str());
-				std::string name = "2Tau" + index.str() + "Daughter";
-				LOG(DEBUG) << name << "Px=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Px() << "|"
-						   << name << "Py=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Py() << "|"
-						   << name << "Pz=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Pz() << "|"
-						   << name << "E="  << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.e() << "|"
-						   << name << "PdgId=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->pdgId() << "|";
-			} // NaN debug output end
-			return -777.0;
-		}
+		return product.m_weights.at("tauspinnerweight");
 	};
 	m_valueExtractorMap["PhiStar"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_PhiStar;
+		return product.m_genPhiStar;
 	};
 	m_valueExtractorMap["PsiStarCP"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_PsiStarCP;
+		return product.m_genPsiStarCP;
 	};
 	m_valueExtractorMap["MassRoundOff1"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_MassRoundOff1;
+		return product.m_genMassRoundOff1;
 	};
 	m_valueExtractorMap["MassRoundOff2"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_MassRoundOff2;
+		return product.m_genMassRoundOff2;
 	};
 	m_valueExtractorMap["Phi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_Phi;
+		return product.m_genPhi;
 	};
 	//Boson
 	m_valueExtractorMap["genBosonSize"] = [](HttEvent const & event, HttProduct const & product)

@@ -63,11 +63,11 @@ public:
 	std::vector<RMDataLV*> m_ptOrderedLeptons;
 	std::vector<RMDataLV*> m_flavourOrderedLeptons;
 
-	double m_MassRoundOff1;
-	double m_MassRoundOff2;
-	double m_Phi;
-	double m_PhiStar;
-	double m_PsiStarCP;
+	double m_genMassRoundOff1;
+	double m_genMassRoundOff2;
+	double m_genPhi;
+	double m_genPhiStar;
+	double m_genPsiStarCP;
 
 };
 
