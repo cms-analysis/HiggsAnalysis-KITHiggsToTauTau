@@ -1,6 +1,9 @@
 {
 	"mt" : {
 		"Channel" : "MT",
+		"TauDiscriminators" : [
+			"hpsPFTauDiscriminationByCombinedIsolationDeltaBetaCorrRaw3Hits"
+		],
 		"Quantities" : [
 			"decayChannelIndex",
 			"hardLepPt",
@@ -11,6 +14,7 @@
 			"eventWeight"
 		],
 		"Processors" : [
+			"producer:tau_discriminators",
 			"filter:preselection",
 			"producer:event_weight"
 		],
