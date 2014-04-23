@@ -54,8 +54,8 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 	{
 		TauDaughters2Sum += selectedTauDaughters2[i].node->p4;
 	}
-	product.m_MassRoundOff1 = abs(selectedTau1->p4.mass() - TauDaughters1Sum.mass());
-	product.m_MassRoundOff2 = abs(selectedTau2->p4.mass() - TauDaughters2Sum.mass());
+	product.m_genMassRoundOff1 = abs(selectedTau1->p4.mass() - TauDaughters1Sum.mass());
+	product.m_genMassRoundOff2 = abs(selectedTau2->p4.mass() - TauDaughters2Sum.mass());
 
 
 	//Boosting following vectors to the center of mass system of the Higgs, if nessesary: Higgs, Tau1, Tau2 and TauDaughters
@@ -145,9 +145,59 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 			stringvector bosonPdgIdVector = globalSettings.GetBosonPdgId();
 			int bosonPdgId;
 			std::istringstream(bosonPdgIdVector[0]) >> bosonPdgId;
-			if (abs(bosonPdgId) == 24) product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauDaughters1)));
-			else if (abs(bosonPdgId) == 25)  product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", calculateWeightFromParticlesH(X, tau1, tau2, tauDaughters1, tauDaughters2)));
-			LOG(DEBUG) << "tauSpinnerWeight: " << (product.m_weights.at("tauspinnerweight") == 1.00) << std::endl;
+
+			double weight;
+			if (abs(bosonPdgId) == 24) weight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauDaughters1);
+			else if (abs(bosonPdgId) == 25)  weight = calculateWeightFromParticlesH(X, tau1, tau2, tauDaughters1, tauDaughters2);
+			if(weight == weight) product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", weight));
+			else
+			{
+				// 'Nan' Debug output
+				LOG(DEBUG) << "\nHiggsPx=" << product.m_genBoson[0].node->p4.Px() << "|"
+						   << "HiggsPy=" << product.m_genBoson[0].node->p4.Py() << "|"
+						   << "HiggsPz=" << product.m_genBoson[0].node->p4.Pz() << "|"
+						   << "HiggsE=" << product.m_genBoson[0].node->p4.e() << "|"
+						   << "HiggsPdgId=" << product.m_genBoson[0].node->pdgId() << "|"
+
+						   << "1TauPx=" << product.m_genBoson[0].Daughters[0].node->p4.Px() << "|"
+						   << "1TauPy=" << product.m_genBoson[0].Daughters[0].node->p4.Py() << "|"
+						   << "1TauPz=" << product.m_genBoson[0].Daughters[0].node->p4.Pz() << "|"
+						   << "1TauE=" << product.m_genBoson[0].Daughters[0].node->p4.e() << "|"
+						   << "1TauPdgId=" << product.m_genBoson[0].Daughters[0].node->pdgId() << "|"
+
+						   << "2TauPx=" << product.m_genBoson[0].Daughters[1].node->p4.Px() << "|"
+						   << "2TauPy=" << product.m_genBoson[0].Daughters[1].node->p4.Py() << "|"
+						   << "2TauPz=" << product.m_genBoson[0].Daughters[1].node->p4.Pz() << "|"
+						   << "2TauE=" << product.m_genBoson[0].Daughters[1].node->p4.e() << "|"
+						   << "2TauPdgId=" << product.m_genBoson[0].Daughters[1].node->pdgId() << "|";
+
+				for (unsigned int i = 0; i < product.m_genBoson[0].Daughters[0].Daughters.size(); i++)
+				{
+					std::ostringstream index;
+					index << i + 1;
+					//std::string Index(index.str());
+					std::string name = "1Tau" + index.str() + "Daughter";
+					LOG(DEBUG) << name << "Px=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Px() << "|"
+							   << name << "Py=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Py() << "|"
+							   << name << "Pz=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Pz() << "|"
+							   << name << "E="  << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.e() << "|"
+							   << name << "PdgId=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->pdgId() << "|";
+				}
+
+				for (unsigned int i = 0; i < product.m_genBoson[0].Daughters[1].Daughters.size(); i++)
+				{
+					std::ostringstream index;
+					index << i + 1;
+					//std::string Index(index.str());
+					std::string name = "2Tau" + index.str() + "Daughter";
+					LOG(DEBUG) << name << "Px=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Px() << "|"
+							   << name << "Py=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Py() << "|"
+							   << name << "Pz=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Pz() << "|"
+							   << name << "E="  << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.e() << "|"
+							   << name << "PdgId=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->pdgId() << "|";
+				product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", -777.0));			
+				} // NaN debug output end
+			}
 		}
 		else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", UNDEFINED_VALUE));
 	}// "if 1BosonDaughter is Tau"-end.
