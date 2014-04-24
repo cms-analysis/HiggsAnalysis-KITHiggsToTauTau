@@ -1,13 +1,17 @@
 {
 	"tt" : {
 		"Channel" : "TT",
-		"HltPaths" : [
-			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1",
-			"HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1",
-			"HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30",
-			"HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30",
-			"HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30"
-		],
+		"HltPaths" : {
+			"nick" : {
+				"data" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1",
+					"HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1",
+					"HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30",
+					"HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30",
+					"HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30"
+				]
+			}
+		},
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
@@ -20,11 +24,22 @@
 			"diLepMass",
 			"eventWeight"
 		],
-		"Processors" : [
-			"producer:tau_discriminators",
-			"filter:preselection",
-			"producer:event_weight"
-		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:tau_discriminators",
+					"filter:preselection",
+					"producer:event_weight"
+				],
+				"data" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"producer:tau_discriminators",
+					"filter:preselection",
+					"producer:event_weight"
+				]
+			}
+		},
 		"Consumers" : [
 			"lambda_ntuple",
 			"cutflow_histogram"

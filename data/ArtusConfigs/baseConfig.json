@@ -1,10 +1,15 @@
 {
 	"SkipEvents" : 0,
 	"EventCount" : -1,
+	"InputIsData" : {
+		"nick" : {
+			"default" : "false",
+			"data" : "true"
+		}
+	},
 	"InputFiles" : [
 		"/afs/cern.ch/user/t/tmuller/public/kappaTuple.root"
 	],
-	"InputIsData" : false,
 	"OutputPath" : "output.root"
 }
 

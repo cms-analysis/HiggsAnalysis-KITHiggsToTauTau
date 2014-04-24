@@ -1,6 +1,0 @@
-{
-	"Processors" : [
-		"producer:hlt_selector",
-		"filter:hlt_filter"
-	]
-}

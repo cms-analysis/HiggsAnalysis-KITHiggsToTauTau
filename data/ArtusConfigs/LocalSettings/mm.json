@@ -1,9 +1,13 @@
 {
 	"mm" : {
 		"Channel" : "MM",
-		"HltPaths" : [
-			"HLT_Mu17_Mu8"
-		],
+		"HltPaths" : {
+			"nick" : {
+				"data" : [
+					"HLT_Mu17_Mu8"
+				]
+			}
+		},
 		"Quantities" : [
 			"decayChannelIndex",
 			"hardLepPt",
@@ -13,10 +17,21 @@
 			"diLepMass",
 			"eventWeight"
 		],
-		"Processors" : [
-			"filter:preselection",
-			"producer:event_weight"
-		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:tau_discriminators",
+					"filter:preselection",
+					"producer:event_weight"
+				],
+				"data" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"filter:preselection",
+					"producer:event_weight"
+				]
+			}
+		},
 		"Consumers" : [
 			"lambda_ntuple",
 			"cutflow_histogram"

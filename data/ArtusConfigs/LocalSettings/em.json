@@ -1,10 +1,14 @@
 {
 	"em" : {
 		"Channel" : "EM",
-		"HltPaths" : [
-			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
-			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
-		],
+		"HltPaths" : {
+			"nick" : {
+				"data" : [
+					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
+					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
+				]
+			}
+		},
 		"Quantities" : [
 			"decayChannelIndex",
 			"hardLepPt",
@@ -14,10 +18,20 @@
 			"diLepMass",
 			"eventWeight"
 		],
-		"Processors" : [
-			"filter:preselection",
-			"producer:event_weight"
-		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"filter:preselection",
+					"producer:event_weight"
+				],
+				"data" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"filter:preselection",
+					"producer:event_weight"
+				]
+			}
+		},
 		"Consumers" : [
 			"lambda_ntuple",
 			"cutflow_histogram"

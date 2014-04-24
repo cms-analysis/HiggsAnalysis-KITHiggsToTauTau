@@ -1,10 +1,14 @@
 {
 	"et" : {
 		"Channel" : "ET",
-		"HltPaths" : [
-			"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20",
-			"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20"
-		],
+		"HltPaths" : {
+			"nick" : {
+				"data" : [
+					"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20",
+					"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20"
+				]
+			}
+		},
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByCombinedIsolationDeltaBetaCorrRaw3Hits"
 		],
@@ -17,11 +21,22 @@
 			"diLepMass",
 			"eventWeight"
 		],
-		"Processors" : [
-			"producer:tau_discriminators",
-			"filter:preselection",
-			"producer:event_weight"
-		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:tau_discriminators",
+					"filter:preselection",
+					"producer:event_weight"
+				],
+				"data" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"producer:tau_discriminators",
+					"filter:preselection",
+					"producer:event_weight"
+				]
+			}
+		},
 		"Consumers" : [
 			"lambda_ntuple",
 			"cutflow_histogram"
