@@ -1,6 +1,7 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 
+#include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -16,7 +17,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 		{
 			m_valueExtractorMap[quantity] = [&quantity](HttEvent const & event, HttProduct const & product)
 			{
-				return Utility::GetWithDefault(product.m_weights, quantity, 1.0);
+				return SafeMap::GetWithDefault(product.m_weights, quantity, 1.0);
 			};
 		}
 	}

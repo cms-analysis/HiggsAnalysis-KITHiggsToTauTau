@@ -4,7 +4,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
-#include "Artus/Utility/interface/Utility.h"
+#include "Artus/Utility/interface/SafeMap.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauDiscriminatorsProducer.h"
 
@@ -52,7 +52,7 @@ void TauDiscriminatorsProducer::Produce(event_type const& event, product_type& p
 	for (std::vector<KDataPFTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); )
 	{
 		// get pt-dependent discriminators
-		stringvector tmpDiscriminatorNames = Utility::GetWithDefault(discriminators, index,
+		stringvector tmpDiscriminatorNames = SafeMap::GetWithDefault(discriminators, index,
 		                                                             defaultDiscriminators);
 		
 		// filter on discriminators
