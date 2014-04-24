@@ -1,3 +1,4 @@
+<Flags CXXFLAGS="-g" />
 <Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
 <Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
 

@@ -1,12 +1,5 @@
 <bin name="HiggsToTauTauAnalysis" file="HiggsToTauTauAnalysis.cc">
-<!-- dependencies of TauSpinner -->
-  <use name="SimGeneral/HepPDTRecord"/>
-  <use name="heppdt"/>
-  <use name="clhep"/>
-  <use name="hepmc"/>
-  <use name="tauspinner"/>
-  <flags EDM_PLUGIN="1"/>
-<!-- dependencies of TauSpinner -->
+	<Flags CXXFLAGS="-g" />
 	<Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
 	<Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
 	<use name="Artus/Core"/>
@@ -19,4 +12,12 @@
 	<use name="roottmva"/>
 	<use name="boost"/>
 	<use name="boost_regex"/>
+	<!-- dependencies of TauSpinner -->
+	<use name="SimGeneral/HepPDTRecord"/>
+	<use name="heppdt"/>
+	<use name="clhep"/>
+	<use name="hepmc"/>
+	<use name="tauspinner"/>
+	<flags EDM_PLUGIN="1"/>
+	<!-- dependencies of TauSpinner -->
 </bin>
