@@ -2,6 +2,8 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 
+#include "Artus/Utility/interface/DefaultValues.h"
+
 void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 									 HttGlobalSettings const& globalSettings) const
 {
@@ -40,16 +42,16 @@ void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
  		}
 		else
 		{
-			product.m_genPhiStar = UNDEFINED_VALUE;	 // Default value in case of a wrong channel
-			product.m_genPsiStarCP = UNDEFINED_VALUE;
-			product.m_genPhi = UNDEFINED_VALUE;			
+			product.m_genPhiStar = DefaultValues::UndefinedDouble;	 // Default value in case of a wrong channel
+			product.m_genPsiStarCP = DefaultValues::UndefinedDouble;
+			product.m_genPhi = DefaultValues::UndefinedDouble;
 		}
 	}
 	else
 	{
-		product.m_genPhiStar = UNDEFINED_VALUE;
-		product.m_genPsiStarCP = UNDEFINED_VALUE;
-		product.m_genPhi = UNDEFINED_VALUE;
+		product.m_genPhiStar = DefaultValues::UndefinedDouble;
+		product.m_genPsiStarCP = DefaultValues::UndefinedDouble;
+		product.m_genPhi = DefaultValues::UndefinedDouble;
 	}
 
 }
