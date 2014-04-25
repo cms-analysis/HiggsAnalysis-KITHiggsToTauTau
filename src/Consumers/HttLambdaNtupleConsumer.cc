@@ -3,6 +3,7 @@
 
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
+#include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 
@@ -61,35 +62,35 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	//Boson
 	m_valueExtractorMap["genBosonSize"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_genBoson.size() > 0 ? product.m_genBoson.size() : UNDEFINED_VALUE;
+		return product.m_genBoson.size() > 0 ? product.m_genBoson.size() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBosonPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.Pt() : UNDEFINED_VALUE;
+		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBosonPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.Pz() : UNDEFINED_VALUE;
+		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBosonEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.Eta() : UNDEFINED_VALUE;
+		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBosonPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.Phi() : UNDEFINED_VALUE;
+		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBosonMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.mass() : UNDEFINED_VALUE;
+		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBosonPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->pdgId() : UNDEFINED_VALUE;
+		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBosonStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->status() : UNDEFINED_VALUE;
+		return product.m_genBoson.size() > 0 ? product.m_genBoson[0].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 
@@ -98,315 +99,315 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	// Boson daughters
 	m_valueExtractorMap["1genBosonDaughterSize"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters.size() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters.size() : DefaultValues::UndefinedFloat;
 	};
 
 
 	// first daughter
 	m_valueExtractorMap["1genBoson1DaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1DaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1DaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1DaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1DaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1DaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1DaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 	// second daughter
 	m_valueExtractorMap["1genBoson2DaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2DaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2DaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2DaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2DaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2DaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2DaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 
 	// Boson granddaughters
 	m_valueExtractorMap["1genBoson1DaughterGranddaughterSize"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters.size() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters.size() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2DaughterGranddaughterSize"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters.size() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters.size() : DefaultValues::UndefinedFloat;
 	};
 
 
 	// first daughter daughters
 	m_valueExtractorMap["1genBoson1Daughter1GranddaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter1GranddaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter1GranddaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter1GranddaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter1GranddaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter1GranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter1GranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].Daughters[0].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 	m_valueExtractorMap["1genBoson1Daughter2GranddaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter2GranddaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter2GranddaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter2GranddaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter2GranddaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter2GranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter2GranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[0].Daughters[1].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 	m_valueExtractorMap["1genBoson1Daughter3GranddaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter3GranddaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter3GranddaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter3GranddaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter3GranddaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter3GranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter3GranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[0].Daughters[2].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 	m_valueExtractorMap["1genBoson1Daughter4GranddaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter4GranddaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter4GranddaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter4GranddaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter4GranddaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter4GranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1Daughter4GranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[0].Daughters[3].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 
 	// second daughter daughters
 	m_valueExtractorMap["1genBoson2Daughter1GranddaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter1GranddaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter1GranddaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter1GranddaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter1GranddaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter1GranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter1GranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters[0].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 	m_valueExtractorMap["1genBoson2Daughter2GranddaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter2GranddaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter2GranddaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter2GranddaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter2GranddaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter2GranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter2GranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].Daughters[1].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 	m_valueExtractorMap["1genBoson2Daughter3GranddaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter3GranddaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter3GranddaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter3GranddaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter3GranddaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter3GranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter3GranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 2) ? product.m_genBoson[0].Daughters[1].Daughters[2].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 	m_valueExtractorMap["1genBoson2Daughter4GranddaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.Pt() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter4GranddaughterPz"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.Pz() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.Pz() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter4GranddaughterEta"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.Eta() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter4GranddaughterPhi"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.Phi() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter4GranddaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.mass() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->p4.mass() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter4GranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->pdgId() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->pdgId() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson2Daughter4GranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->status() : UNDEFINED_VALUE;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->status() : DefaultValues::UndefinedFloat;
 	};
 
 

@@ -7,8 +7,6 @@
 
 #include "../HttTypes.h"
 
-#include "Artus/Core/interface/GlobalInclude.h"
-
 /**
    \brief GlobalProducer, for CP studies of tau decays. Following quantities are calculated from the input of GenTauDecayProducer :
    

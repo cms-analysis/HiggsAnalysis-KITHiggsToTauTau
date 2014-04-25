@@ -2,6 +2,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
+#include "Artus/Utility/interface/DefaultValues.h"
+
+
 
 void TauSpinnerProducer::InitGlobal(global_setting_type const& globalSettings)
 {
@@ -199,7 +202,7 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 				} // NaN debug output end
 			}
 		}
-		else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", UNDEFINED_VALUE));
+		else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", DefaultValues::UndefinedDouble));
 	}// "if 1BosonDaughter is Tau"-end.
-	else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", UNDEFINED_VALUE));
+	else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", DefaultValues::UndefinedDouble));
 }

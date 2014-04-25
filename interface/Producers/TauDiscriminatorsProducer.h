@@ -3,8 +3,6 @@
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 
-#include "Artus/Core/interface/GlobalInclude.h"
-
 #include "../HttTypes.h"
 
 /**
