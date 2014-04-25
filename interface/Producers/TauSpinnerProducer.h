@@ -8,7 +8,6 @@
 
 #include "../HttTypes.h"
 
-#include "Artus/Core/interface/GlobalInclude.h"
 /**
    \brief GlobalProducer, for tau decays on generator level. Following quantities are calculated:
    
