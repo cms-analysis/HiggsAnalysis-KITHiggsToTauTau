@@ -1,4 +1,6 @@
 
+#include "Artus/Utility/interface/ArtusLogging.h"
+
 #include <boost/algorithm/string.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
