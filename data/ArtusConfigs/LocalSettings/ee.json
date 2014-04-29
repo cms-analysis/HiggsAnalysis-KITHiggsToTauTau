@@ -26,7 +26,7 @@
 				],
 				"data" : [
 					"producer:hlt_selector",
-					"filter:hlt_filter"
+					"filter:hlt_filter",
 					"filter:preselection",
 					"producer:event_weight"
 				]
