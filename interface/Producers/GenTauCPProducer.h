@@ -25,6 +25,4 @@ public:
 
 	virtual void ProduceGlobal(HttEvent const& event, HttProduct& product,
 	                           HttGlobalSettings const& globalSettings) const ARTUS_CPP11_OVERRIDE;
-	void PhiPsiStarCalc(RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2, HttProduct& product) const;
-	void PhiCalc(RMDataLV higgs, RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2, HttProduct& product) const;
 };
