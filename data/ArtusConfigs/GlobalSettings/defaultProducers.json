@@ -3,7 +3,12 @@
 		"producer:valid_electrons",
 		"producer:valid_muons",
 		"producer:valid_taus",
-		"#producer:valid_jets",
 		"producer:decay_channels"
-	]
+	],
+	"Processors" : [
+		"producer:valid_tagged_jets"
+	],
+	"JetID" : "loose",
+	"MuonID" : "tight",
+	"Year" : 2012
 }

@@ -9,6 +9,9 @@
 				]
 			}
 		},
+		"TauDiscriminators" : [
+			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
+		],
 		"Quantities" : [
 			"decayChannelIndex",
 			"hardLepPt",
@@ -21,12 +24,14 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:tau_discriminators",
 					"filter:preselection",
 					"producer:event_weight"
 				],
 				"data" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
+					"producer:tau_discriminators",
 					"filter:preselection",
 					"producer:event_weight"
 				]
@@ -38,4 +43,3 @@
 		]
 	}
 }
-
