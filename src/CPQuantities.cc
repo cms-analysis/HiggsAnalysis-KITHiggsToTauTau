@@ -59,18 +59,18 @@ std::pair<float, float> CPQuantities::CalculatePhiPsiStar(RMDataLV tau1, RMDataL
 	return phiPsiStar;
 }
 
-float CPQuantities::CalculatePhi(RMDataLV higgs, RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2)
+float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2)
 {
 	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost Pion 4-momentums
 	RMDataLV::BetaVector boostvectm = tau1.BoostToCM();
 	RMDataLV::BetaVector boostvectp = tau2.BoostToCM();
-	RMDataLV::BetaVector boostvech = higgs.BoostToCM();			
+	RMDataLV::BetaVector boostvech = boson.BoostToCM();
 	ROOT::Math::Boost Mtm(boostvectm);
 	ROOT::Math::Boost Mtp(boostvectp);
 	ROOT::Math::Boost Mh(boostvech);
 
-	// Step 2: Boosting the 4-momentum vectors to respective rest frames: tau to Higgs rest frame, Pions 
-	// to tau rest frames.
+	// Step 2: Boosting the 4-momentum vectors to respective rest frames: tau to boson rest frame,
+	// pions to tau rest frames.
 	tau1 = Mh * tau1;
 	tau2 = Mh * tau2;
 
@@ -81,10 +81,10 @@ float CPQuantities::CalculatePhi(RMDataLV higgs, RMDataLV tau1, RMDataLV tau2, R
 
 	// Step 3: Creating 3-momentum normal vectors on decay planes
 	RMDataLV::BetaVector km, pm, pp, nm, np;
-	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());  
-	pm.SetXYZ(pion1.Px(),pion1.Py(),pion1.Pz()); 
+	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());
+	pm.SetXYZ(pion1.Px(),pion1.Py(),pion1.Pz());
 	pp.SetXYZ(pion2.Px(),pion2.Py(),pion2.Pz());
- 
+
 	nm = (km.Cross(pm)).Unit(); np = (km.Cross(pp)).Unit();
 
 	// Step 4: Calculating Phi
