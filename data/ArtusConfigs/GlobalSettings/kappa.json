@@ -1,5 +1,10 @@
 {
-	"GenParticles" : "genParticles",
+	"GenParticles" : {
+		"nick" : {
+			"data" : "",
+			"default" : "genParticles"
+		}
+	},
 	"Electrons" : "electrons",
 	"Muons" : "muons",
 	"Taus" : "hpsPFTaus",
