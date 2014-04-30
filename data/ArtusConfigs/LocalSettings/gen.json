@@ -16,6 +16,7 @@
 		"1genBosonEta",
 		"1genBosonPhi",
 		"1genBosonMass",
+		"1genBosonEnergy",
 		"1genBosonPdgId",
 		"1genBosonStatus",
 
@@ -26,6 +27,7 @@
 		"1genBoson1DaughterEta",
 		"1genBoson1DaughterPhi",
 		"1genBoson1DaughterMass",
+		"1genBoson1DaughterEnergy",
 		"1genBoson1DaughterPdgId",
 		"1genBoson1DaughterStatus",
 
@@ -34,6 +36,7 @@
 		"1genBoson2DaughterEta",
 		"1genBoson2DaughterPhi",
 		"1genBoson2DaughterMass",
+		"1genBoson2DaughterEnergy",
 		"1genBoson2DaughterPdgId",
 		"1genBoson2DaughterStatus",			
 
@@ -45,6 +48,7 @@
 		"1genBoson1Daughter1GranddaughterEta",
 		"1genBoson1Daughter1GranddaughterPhi",
 		"1genBoson1Daughter1GranddaughterMass",
+		"1genBoson1Daughter1GranddaughterEnergy",
 		"1genBoson1Daughter1GranddaughterPdgId",
 		"1genBoson1Daughter1GranddaughterStatus",
 
@@ -53,6 +57,7 @@
 		"1genBoson1Daughter2GranddaughterEta",
 		"1genBoson1Daughter2GranddaughterPhi",
 		"1genBoson1Daughter2GranddaughterMass",
+		"1genBoson1Daughter2GranddaughterEnergy",
 		"1genBoson1Daughter2GranddaughterPdgId",
 		"1genBoson1Daughter2GranddaughterStatus",
 
@@ -61,6 +66,7 @@
 		"1genBoson1Daughter3GranddaughterEta",
 		"1genBoson1Daughter3GranddaughterPhi",
 		"1genBoson1Daughter3GranddaughterMass",
+		"1genBoson1Daughter3GranddaughterEnergy",
 		"1genBoson1Daughter3GranddaughterPdgId",
 		"1genBoson1Daughter3GranddaughterStatus",
 
@@ -69,6 +75,7 @@
 		"1genBoson1Daughter4GranddaughterEta",
 		"1genBoson1Daughter4GranddaughterPhi",
 		"1genBoson1Daughter4GranddaughterMass",
+		"1genBoson1Daughter4GranddaughterEnergy",
 		"1genBoson1Daughter4GranddaughterPdgId",
 		"1genBoson1Daughter4GranddaughterStatus",
 
@@ -78,6 +85,7 @@
 		"1genBoson2Daughter1GranddaughterEta",
 		"1genBoson2Daughter1GranddaughterPhi",
 		"1genBoson2Daughter1GranddaughterMass",
+		"1genBoson2Daughter1GranddaughterEnergy",
 		"1genBoson2Daughter1GranddaughterPdgId",
 		"1genBoson2Daughter1GranddaughterStatus",
 
@@ -86,6 +94,7 @@
 		"1genBoson2Daughter2GranddaughterEta",
 		"1genBoson2Daughter2GranddaughterPhi",
 		"1genBoson2Daughter2GranddaughterMass",
+		"1genBoson2Daughter2GranddaughterEnergy",
 		"1genBoson2Daughter2GranddaughterPdgId",
 		"1genBoson2Daughter2GranddaughterStatus",
 
@@ -94,6 +103,7 @@
 		"1genBoson2Daughter3GranddaughterEta",
 		"1genBoson2Daughter3GranddaughterPhi",
 		"1genBoson2Daughter3GranddaughterMass",
+		"1genBoson2Daughter3GranddaughterEnergy",
 		"1genBoson2Daughter3GranddaughterPdgId",
 		"1genBoson2Daughter3GranddaughterStatus",
 
@@ -102,6 +112,7 @@
 		"1genBoson2Daughter4GranddaughterEta",
 		"1genBoson2Daughter4GranddaughterPhi",
 		"1genBoson2Daughter4GranddaughterMass",
+		"1genBoson2Daughter4GranddaughterEnergy",
 		"1genBoson2Daughter4GranddaughterPdgId",
 		"1genBoson2Daughter4GranddaughterStatus"
 
