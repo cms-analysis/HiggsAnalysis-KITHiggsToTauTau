@@ -6,7 +6,9 @@
 		"producer:valid_tagged_jets",
 		"producer:decay_channels"
 	],
-	"JetID" : "loose",
+	"Year" : 2012,
 	"MuonID" : "tight",
-	"Year" : 2012
+	"MuonIsoType" : "pf",
+	"MuonIso" : "tight",
+	"JetID" : "loose"
 }
