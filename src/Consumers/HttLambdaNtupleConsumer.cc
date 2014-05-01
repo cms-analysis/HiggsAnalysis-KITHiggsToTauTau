@@ -108,6 +108,11 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 
 
 	// first daughter
+	
+	m_valueExtractorMap["TauMinusParent"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].parent->node->pdgId() : DefaultValues::UndefinedFloat;
+	};
 	m_valueExtractorMap["1genBoson1DaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.Pt() : DefaultValues::UndefinedFloat;
@@ -142,6 +147,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	};
 
 	// second daughter
+	m_valueExtractorMap["TauPlusParent"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].parent->node->pdgId() : DefaultValues::UndefinedFloat;
+	};
 	m_valueExtractorMap["1genBoson2DaughterPt"] = [](HttEvent const & event, HttProduct const & product)
 	{
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) ? product.m_genBoson[0].Daughters[1].node->p4.Pt() : DefaultValues::UndefinedFloat;
@@ -183,7 +192,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	};
 	m_valueExtractorMap["1genBoson2DaughterGranddaughterSize"] = [](HttEvent const & event, HttProduct const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters.size() : DefaultValues::UndefinedFloat;
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[1].Daughters.size() : DefaultValues::UndefinedFloat;
 	};
 
 
@@ -454,6 +463,71 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 3) ? product.m_genBoson[0].Daughters[1].Daughters[3].node->status() : DefaultValues::UndefinedFloat;
 	};
 
+	// Boson GrandGranddaughters: the only GrandGranddaughters we need are from 2nd Granddaughters
+	m_valueExtractorMap["1genBoson1Daughter2GranddaughterGrandGranddaughterSize"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >0)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["1genBoson2Daughter2GranddaughterGrandGranddaughterSize"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].Daughters[1].Daughters.size() >0)? product.m_genBoson[0].Daughters[1].Daughters[1].Daughters.size() : DefaultValues::UndefinedFloat;
+	};
+
+
+	
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter1GrandGranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >0)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[0].node->pdgId() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter1GrandGranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >0)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[0].node->status() : DefaultValues::UndefinedFloat;
+	};
+
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter2GrandGranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >1)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[1].node->pdgId() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter2GrandGranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >1)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[1].node->status() : DefaultValues::UndefinedFloat;
+	};
+
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter3GrandGranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >2)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[2].node->pdgId() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter3GrandGranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >2)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[2].node->status() : DefaultValues::UndefinedFloat;
+	};
+	
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter4GrandGranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >3)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[3].node->pdgId() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter4GrandGranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >3)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[3].node->status() : DefaultValues::UndefinedFloat;
+	};	
+	
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter5GrandGranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >4)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[4].node->pdgId() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter5GrandGranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >4)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[4].node->status() : DefaultValues::UndefinedFloat;
+	};
+	
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter6GrandGranddaughterPdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >5)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[5].node->pdgId() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["1genBoson1Daughter2Granddaughter6GrandGranddaughterStatus"] = [](HttEvent const & event, HttProduct const & product)
+	{	
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >5)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[5].node->status() : DefaultValues::UndefinedFloat;
+	};
 
 	LambdaNtupleConsumerBase<HttTypes>::Init(pset);
 }

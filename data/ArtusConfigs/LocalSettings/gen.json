@@ -22,6 +22,7 @@
 
 		"1genBosonDaughterSize",
 
+		"TauMinusParent",
 		"1genBoson1DaughterPt",
 		"1genBoson1DaughterPz",
 		"1genBoson1DaughterEta",
@@ -31,6 +32,7 @@
 		"1genBoson1DaughterPdgId",
 		"1genBoson1DaughterStatus",
 
+		"TauPlusParent",
 		"1genBoson2DaughterPt",
 		"1genBoson2DaughterPz",
 		"1genBoson2DaughterEta",
@@ -114,10 +116,22 @@
 		"1genBoson2Daughter4GranddaughterMass",
 		"1genBoson2Daughter4GranddaughterEnergy",
 		"1genBoson2Daughter4GranddaughterPdgId",
-		"1genBoson2Daughter4GranddaughterStatus"
+		"1genBoson2Daughter4GranddaughterStatus",
 
-
-
+		"1genBoson1Daughter2GranddaughterGrandGranddaughterSize",
+		"1genBoson2Daughter2GranddaughterGrandGranddaughterSize",
+		"1genBoson1Daughter2Granddaughter1GrandGranddaughterPdgId",
+		"1genBoson1Daughter2Granddaughter1GrandGranddaughterStatus",
+		"1genBoson1Daughter2Granddaughter2GrandGranddaughterPdgId",
+		"1genBoson1Daughter2Granddaughter2GrandGranddaughterStatus",
+		"1genBoson1Daughter2Granddaughter3GrandGranddaughterPdgId",
+		"1genBoson1Daughter2Granddaughter3GrandGranddaughterStatus",
+		"1genBoson1Daughter2Granddaughter4GrandGranddaughterPdgId",
+		"1genBoson1Daughter2Granddaughter4GrandGranddaughterStatus",
+		"1genBoson1Daughter2Granddaughter5GrandGranddaughterPdgId",
+		"1genBoson1Daughter2Granddaughter5GrandGranddaughterStatus",
+		"1genBoson1Daughter2Granddaughter6GrandGranddaughterPdgId",
+		"1genBoson1Daughter2Granddaughter6GrandGranddaughterStatus"
 		],
 		"Consumers" : [
 			"lambda_ntuple",
