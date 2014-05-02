@@ -20,6 +20,7 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:valid_mvamet_em",
 					"producer:tau_discriminators",
 					"filter:preselection",
 					"producer:event_weight"
@@ -27,6 +28,7 @@
 				"data" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
+					"producer:valid_mvamet_em",
 					"filter:preselection",
 					"producer:event_weight"
 				]

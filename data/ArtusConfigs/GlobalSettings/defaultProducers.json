@@ -7,6 +7,7 @@
 		"producer:decay_channels"
 	],
 	"Year" : 2012,
+	"ElectronID" : "mvanontrig",
 	"MuonID" : "tight",
 	"MuonIsoType" : "pf",
 	"MuonIso" : "tight",
