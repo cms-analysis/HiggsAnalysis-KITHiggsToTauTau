@@ -8,6 +8,9 @@
 
 /**
    \brief GlobalProducer, for valid muons.
+   
+   Required config tags in addtion to the ones of the base class:
+   - Channel
 */
 
 class HttValidMuonsProducer: public ValidMuonsProducer<HttTypes>
@@ -29,5 +32,9 @@ protected:
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KDataMuon* muon, event_type const& event,
 	                                product_type& product) const  ARTUS_CPP11_OVERRIDE;
+
+
+private:
+	HttProduct::DecayChannel decayChannel;
 };
 

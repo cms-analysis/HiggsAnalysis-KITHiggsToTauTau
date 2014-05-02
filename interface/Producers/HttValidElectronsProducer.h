@@ -9,7 +9,8 @@
 /**
    \brief GlobalProducer, for valid electrons.
    
-   ... no comment ...
+   Required config tags in addtion to the ones of the base class:
+   - Channel
 */
 
 class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
@@ -31,5 +32,9 @@ protected:
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KDataElectron* electron, event_type const& event,
 	                                product_type& product) const  ARTUS_CPP11_OVERRIDE;
+
+
+private:
+	HttProduct::DecayChannel decayChannel;
 };
 

@@ -5,11 +5,15 @@
 void HttValidElectronsProducer::InitGlobal(global_setting_type const& globalSettings)
 {
 	ValidElectronsProducer::InitGlobal(globalSettings);
+	
+	decayChannel = HttProduct::ToDecayChannel(globalSettings.GetChannel());
 }
 
 void HttValidElectronsProducer::InitLocal(setting_type const& settings)
 {
 	ValidElectronsProducer::InitLocal(settings);
+	
+	decayChannel = HttProduct::ToDecayChannel(settings.GetChannel());
 }
 
 bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,

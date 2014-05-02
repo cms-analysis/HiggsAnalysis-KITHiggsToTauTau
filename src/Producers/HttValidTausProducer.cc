@@ -5,11 +5,15 @@
 void HttValidTausProducer::InitGlobal(global_setting_type const& globalSettings)
 {
 	ValidTausProducer::InitGlobal(globalSettings);
+	
+	decayChannel = HttProduct::ToDecayChannel(globalSettings.GetChannel());
 }
 
 void HttValidTausProducer::InitLocal(setting_type const& settings)
 {
 	ValidTausProducer::InitLocal(settings);
+	
+	decayChannel = HttProduct::ToDecayChannel(settings.GetChannel());
 }
 
 bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,

@@ -8,7 +8,8 @@
 /**
    \brief GlobalProducer, for valid taus.
    
-   ... no comment ...
+   Required config tags in addtion to the ones of the base class:
+   - Channel
 */
 
 class HttValidTausProducer: public ValidTausProducer<HttTypes>
@@ -30,5 +31,9 @@ protected:
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KDataPFTau* tau, event_type const& event,
 	                                product_type& product) const  ARTUS_CPP11_OVERRIDE;
+
+
+private:
+	HttProduct::DecayChannel decayChannel;
 };
 
