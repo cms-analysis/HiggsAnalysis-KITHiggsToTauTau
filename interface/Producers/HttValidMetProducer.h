@@ -28,6 +28,16 @@ public:
 	{
 	}
 	
+	virtual void InitGlobal(global_setting_type const& globalSettings)  ARTUS_CPP11_OVERRIDE
+	{
+		ProducerBase<HttTypes>::InitGlobal(globalSettings);
+	}
+	
+	virtual void InitLocal(setting_type const& settings)  ARTUS_CPP11_OVERRIDE
+	{
+		ProducerBase<HttTypes>::InitLocal(settings);
+	}
+	
 	// nothing to do here
 	virtual void ProduceGlobal(event_type const& event, product_type& product,
 	                           global_setting_type const& globalSettings) const ARTUS_CPP11_OVERRIDE

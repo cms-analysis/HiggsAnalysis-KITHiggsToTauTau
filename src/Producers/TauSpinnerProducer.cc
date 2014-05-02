@@ -8,6 +8,8 @@
 
 void TauSpinnerProducer::InitGlobal(global_setting_type const& globalSettings)
 {
+	ProducerBase<HttTypes>::InitGlobal(globalSettings);
+	
 	// interface to TauSpinner
 	//Reading the settings from TauSpinnerSettings.json in following order:
 	//name of PDF, CMSENE, Ipp, Ipol, nonSM2, nonSMN (see tau_reweight_lib.cxx),
