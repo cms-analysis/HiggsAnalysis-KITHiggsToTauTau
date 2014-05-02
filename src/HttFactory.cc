@@ -2,6 +2,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttFactory.h"
 
 // producers
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidElectronsProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMuonsProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventWeightProducer.h"
@@ -18,7 +21,13 @@
 
 HttProducerBase * HttFactory::createProducer ( std::string const& id )
 {
-	if(id == DecayChannelProducer().GetProducerId())
+	if(id == HttValidElectronsProducer().GetProducerId())
+		return new HttValidElectronsProducer();
+	else if(id == HttValidMuonsProducer().GetProducerId())
+		return new HttValidMuonsProducer();
+	else if(id == HttValidTausProducer().GetProducerId())
+		return new HttValidTausProducer();
+	else if(id == DecayChannelProducer().GetProducerId())
   		return new DecayChannelProducer();
     if(id == TauSpinnerProducer().GetProducerId())
         return new TauSpinnerProducer();
