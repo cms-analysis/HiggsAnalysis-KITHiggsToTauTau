@@ -32,9 +32,20 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 		return (*(product.m_ptOrderedLeptons[0]) + *(product.m_ptOrderedLeptons[1])).mass();
 	};
 	m_valueExtractorMap["decayChannelIndex"] = [](HttEvent const& event, HttProduct const& product) {
-			return Utility::ToUnderlyingValue(product.m_decayChannel);
+		return Utility::ToUnderlyingValue(product.m_decayChannel);
 	};
-	
+	m_valueExtractorMap["nElectrons"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validElectrons.size(); };
+	m_valueExtractorMap["nMuons"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validMuons.size(); };
+	m_valueExtractorMap["nTaus"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validTaus.size(); };
+	m_valueExtractorMap["nValidJets"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validJets.size(); };
+	m_valueExtractorMap["leadingJetPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validJets.at(0)->p4.Pt(); };
+	m_valueExtractorMap["leadingJetEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validJets.at(0)->p4.Eta(); };
+	m_valueExtractorMap["leadingJetPhi"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validJets.at(0)->p4.Phi(); };
+	m_valueExtractorMap["trailingJetPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validJets.at(1)->p4.Pt(); };
+	m_valueExtractorMap["trailingJetEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validJets.at(1)->p4.Eta(); };
+	m_valueExtractorMap["trailingJetPhi"] = [](HttEvent const& event, HttProduct const& product) { return product.m_validJets.at(1)->p4.Phi(); };
+
+
 	m_valueExtractorMap["TauSpinnerWeight"] = [](HttEvent const & event, HttProduct const & product)
 	{
 		return product.m_weights.at("tauspinnerweight");
