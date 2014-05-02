@@ -1,12 +1,10 @@
 
 #include <string>
 
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/trim.hpp>
-
 #include "Artus/Utility/interface/SafeMap.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauDiscriminatorsProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
 
 
 void TauDiscriminatorsProducer::ProduceGlobal(event_type const& event,
@@ -26,34 +24,14 @@ void TauDiscriminatorsProducer::ProduceLocal(event_type const& event,
 void TauDiscriminatorsProducer::Produce(event_type const& event, product_type& product, stringvector discriminatorNames) const
 {
 	// parse configuration to define pt-dependent discriminators
-	stringvector defaultDiscriminators;
-	std::map<int, stringvector> discriminators;
-	for (stringvector::iterator discriminatorName = discriminatorNames.begin();
-	     discriminatorName != discriminatorNames.end(); ++discriminatorName)
-	{
-		stringvector splitted;
-		boost::algorithm::split(splitted, *discriminatorName, boost::algorithm::is_any_of(":"));
-		transform(splitted.begin(), splitted.end(), splitted.begin(),
-				  [](std::string s) { return boost::algorithm::trim_copy(s); });
-		
-		if (splitted.size() == 1) {
-			defaultDiscriminators.push_back(splitted[0]);
-		}
-		else {
-			int index = std::stoi(splitted[0]);
-			if (discriminators.count(index) == 0) {
-				discriminators[index] = stringvector();
-			}
-			discriminators[index].push_back(splitted[1]);
-		}
-	}
+	std::map<int, std::vector<std::string> > discriminators = HttValidTausProducer::ParseTauDiscriminators(discriminatorNames);
 	
 	int index = 0;
 	for (std::vector<KDataPFTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); )
 	{
 		// get pt-dependent discriminators
 		stringvector tmpDiscriminatorNames = SafeMap::GetWithDefault(discriminators, index,
-		                                                             defaultDiscriminators);
+		                                     SafeMap::GetWithDefault(discriminators, -1, std::vector<std::string>()));
 		
 		// filter on discriminators
 		bool validTau = true;

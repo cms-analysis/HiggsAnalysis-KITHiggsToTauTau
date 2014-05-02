@@ -9,7 +9,7 @@
    \brief GlobalProducer, for valid taus.
    
    Required config tags in addtion to the ones of the base class:
-   - Channel
+   - TauDiscriminators
 */
 
 class HttValidTausProducer: public ValidTausProducer<HttTypes>
@@ -24,6 +24,8 @@ public:
 
 	virtual void InitGlobal(global_setting_type const& globalSettings) ARTUS_CPP11_OVERRIDE;
 	virtual void InitLocal(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	
+	static std::map<int, std::vector<std::string> > ParseTauDiscriminators(std::vector<std::string> discriminators);
 
 
 protected:
@@ -34,6 +36,6 @@ protected:
 
 
 private:
-	HttProduct::DecayChannel decayChannel;
+	std::map<int, std::vector<std::string> > discriminators;
 };
 
