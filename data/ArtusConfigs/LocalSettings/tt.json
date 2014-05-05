@@ -24,7 +24,15 @@
 			"diLepMass",
 			"eventWeight",
 			"nElectrons",
-			"nMuons"
+			"nMuons",
+			"nTaus",
+			"nValidJets",
+			"leadingJetPt",
+			"leadingJetEta",
+			"leadingJetPhi",
+			"trailingJetPt",
+			"trailingJetEta",
+			"trailingJetPhi"
 		],
 		"Processors" : {
 			"nick" : {
