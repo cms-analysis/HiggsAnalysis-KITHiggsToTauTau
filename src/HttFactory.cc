@@ -6,6 +6,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMuonsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMetProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventWeightProducer.h"
@@ -36,6 +37,10 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 		return new HttValidMvaMetETProducer();
 	else if(id == HttValidMvaMetEMProducer().GetProducerId())
 		return new HttValidMvaMetEMProducer();
+	else if(id == HttValidJetsProducer().GetProducerId())
+		return new HttValidJetsProducer();
+	else if(id == HttValidTaggedJetsProducer().GetProducerId())
+		return new HttValidTaggedJetsProducer();
 	else if(id == DecayChannelProducer().GetProducerId())
   		return new DecayChannelProducer();
     if(id == TauSpinnerProducer().GetProducerId())
