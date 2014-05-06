@@ -24,6 +24,8 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	}
 	
 	// tests for lepton producers
+	m_valueExtractorMap["nPV"] = [](HttEvent const& event, HttProduct const& product) { return event.m_vertexSummary->nVertices; };
+
 	m_valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
 	m_valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
 	m_valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Pt(); };
@@ -64,6 +66,13 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	m_valueExtractorMap["trailingJetPhi"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validJets.size() >= 2 ? product.m_validJets.at(1)->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
+	m_valueExtractorMap["pfMETsumEt"] = [](HttEvent const& event, HttProduct const& product) { return event.m_met->sumEt; };
+	m_valueExtractorMap["pfMETeta"] = [](HttEvent const& event, HttProduct const& product) { return event.m_met->p4.Eta(); };
+	m_valueExtractorMap["pfMETphi"] = [](HttEvent const& event, HttProduct const& product) { return event.m_met->p4.Phi(); };
+	m_valueExtractorMap["MvaMetTTsumEt"] = [](HttEvent const& event, HttProduct const& product) { return event.m_mvaMetTT->sumEt; };
+	m_valueExtractorMap["MvaMetTTeta"] = [](HttEvent const& event, HttProduct const& product) { return event.m_mvaMetTT->p4.Eta(); };
+	m_valueExtractorMap["MvaMetTTphi"] = [](HttEvent const& event, HttProduct const& product) { return event.m_mvaMetTT->p4.Phi(); };
+
 
 
 	m_valueExtractorMap["TauSpinnerWeight"] = [](HttEvent const & event, HttProduct const & product)

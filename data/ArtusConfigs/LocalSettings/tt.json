@@ -16,6 +16,7 @@
 			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"Quantities" : [
+			"nPV",
 			"decayChannelIndex",
 			"hardLepPt",
 			"hardLepEta",
@@ -32,7 +33,13 @@
 			"leadingJetPhi",
 			"trailingJetPt",
 			"trailingJetEta",
-			"trailingJetPhi"
+			"trailingJetPhi",
+			"pfMETsumEt",
+			"pfMETeta",
+			"pfMETphi",
+			"MvaMetTTsumEt",
+			"MvaMetTTeta",
+			"MvaMetTTphi"
 		],
 		"Processors" : {
 			"nick" : {
