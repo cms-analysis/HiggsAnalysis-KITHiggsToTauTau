@@ -146,7 +146,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters.size() : DefaultValues::UndefinedFloat;
 	};
 
-
+	
 	// first daughter
 	
 	m_valueExtractorMap["TauMinusParent"] = [](HttEvent const & event, HttProduct const & product)
@@ -172,6 +172,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	m_valueExtractorMap["1genBoson1DaughterMass"] = [](HttEvent const & event, HttProduct const & product)
 	{
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].node->p4.mass() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["1genBoson1DaughterCharge"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters[0].getCharge() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["1genBoson1DaughterEnergy"] = [](HttEvent const & event, HttProduct const & product)
 	{

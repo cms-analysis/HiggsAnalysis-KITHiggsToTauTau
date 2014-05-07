@@ -35,7 +35,7 @@ void TauSpinnerProducer::InitGlobal(global_setting_type const& globalSettings)
 void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 									   HttGlobalSettings const& globalSettings) const
 {
-	std::vector<KappaProduct::MotherDaughterBundle> higgs = product.m_genBoson;
+	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 
 
 	//Conversion to SimpleParticles
@@ -44,8 +44,8 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 	KGenParticle* selectedHiggs1 = higgs[0].node;
 	KGenParticle* selectedTau1 = higgs[0].Daughters[0].node;
 	KGenParticle* selectedTau2 = higgs[0].Daughters[1].node;
-	std::vector<KappaProduct::MotherDaughterBundle> selectedTauDaughters1 = higgs[0].Daughters[0].Daughters;
-	std::vector<KappaProduct::MotherDaughterBundle> selectedTauDaughters2 = higgs[0].Daughters[1].Daughters;
+	std::vector<MotherDaughterBundle> selectedTauDaughters1 = higgs[0].Daughters[0].Daughters;
+	std::vector<MotherDaughterBundle> selectedTauDaughters2 = higgs[0].Daughters[1].Daughters;
 	LOG(DEBUG) << "Higgs PdgId: " << selectedHiggs1->pdgId();
 
 	//MassRoundOff check: calculation of the difference of the tau mass and the summarized mass of the tau daughters.

@@ -2,8 +2,6 @@
 
 #include "Artus/Utility/interface/Utility.h"
 
-#include "TauSpinner/SimpleParticle.h"
-#include "TauSpinner/tau_reweight_lib.h"
 
 #include "../HttTypes.h"
 

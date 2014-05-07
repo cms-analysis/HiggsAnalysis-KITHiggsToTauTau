@@ -3,18 +3,18 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 
 #include "Artus/Utility/interface/DefaultValues.h"
-
+#include "Artus/KappaAnalysis/interface/MotherDaughterBundle.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/CPQuantities.h"
 
 
 void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 									 HttGlobalSettings const& globalSettings) const
 {
-	std::vector<KappaProduct::MotherDaughterBundle> higgs = product.m_genBoson;
+	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 	KGenParticle* selectedTau1 = higgs[0].Daughters[0].node;
 	KGenParticle* selectedTau2 = higgs[0].Daughters[1].node;
-	std::vector<KappaProduct::MotherDaughterBundle> selectedTauDaughters1 = higgs[0].Daughters[0].Daughters;
-	std::vector<KappaProduct::MotherDaughterBundle> selectedTauDaughters2 = higgs[0].Daughters[1].Daughters;
+	std::vector<MotherDaughterBundle> selectedTauDaughters1 = higgs[0].Daughters[0].Daughters;
+	std::vector<MotherDaughterBundle> selectedTauDaughters2 = higgs[0].Daughters[1].Daughters;
 	//Selection of the right channel
 
 	if ((abs(selectedTau1->pdgId()) == 15) && (abs(selectedTau2->pdgId()) == 15) && (selectedTauDaughters1.size() == 2) && (selectedTauDaughters2.size() == 2))
