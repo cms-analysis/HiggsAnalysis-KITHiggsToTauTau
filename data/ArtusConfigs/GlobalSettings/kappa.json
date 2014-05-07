@@ -28,8 +28,8 @@
 	"GenEventMetadata" : "",
 	"FilterMetadata" : "",
 	"FilterSummary" : "",
+	"TaggerMetadata" : "KTaggerMetadata",
 	"BeamSpot" : "offlineBeamSpot",
-	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
-	"LumiMetadata" : "KLumiMetadata"
+	"VertexSummary" : "goodOfflinePrimaryVerticesSummary"
 }
 
