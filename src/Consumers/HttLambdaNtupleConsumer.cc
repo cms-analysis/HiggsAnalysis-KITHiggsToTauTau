@@ -23,7 +23,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 		}
 	}
 	
-	// tests for lepton producers
+	// tests for producers
 	m_valueExtractorMap["nPV"] = [](HttEvent const& event, HttProduct const& product) { return event.m_vertexSummary->nVertices; };
 
 	m_valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
@@ -57,6 +57,12 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	m_valueExtractorMap["leadingJetPhi"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validJets.size() >= 1 ? product.m_validJets.at(0)->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
+	m_valueExtractorMap["leadingJetCSV"] = [](HttEvent const& event, HttProduct const& product) {
+		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["leadingJetTCHE"] = [](HttEvent const& event, HttProduct const& product) {
+		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedFloat;
+	};
 	m_valueExtractorMap["trailingJetPt"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validJets.size() >= 2 ? product.m_validJets.at(1)->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
@@ -66,6 +72,13 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	m_valueExtractorMap["trailingJetPhi"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validJets.size() >= 2 ? product.m_validJets.at(1)->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
+	m_valueExtractorMap["trailingJetCSV"] = [](HttEvent const& event, HttProduct const& product) {
+		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["trailingJetTCHE"] = [](HttEvent const& event, HttProduct const& product) {
+		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedFloat;
+	};
+
 	m_valueExtractorMap["pfMETsumEt"] = [](HttEvent const& event, HttProduct const& product) { return event.m_met->sumEt; };
 	m_valueExtractorMap["pfMETeta"] = [](HttEvent const& event, HttProduct const& product) { return event.m_met->p4.Eta(); };
 	m_valueExtractorMap["pfMETphi"] = [](HttEvent const& event, HttProduct const& product) { return event.m_met->p4.Phi(); };
