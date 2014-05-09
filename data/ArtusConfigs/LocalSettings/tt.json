@@ -3,7 +3,14 @@
 		"Channel" : "TT",
 		"HltPaths" : {
 			"nick" : {
-				"data" : [
+				"DoubleMu" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1",
+					"HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1",
+					"HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30",
+					"HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30",
+					"HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30"
+				],
+				"TauPlusX" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1",
 					"HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1",
 					"HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30",
@@ -53,7 +60,15 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"data" : [
+				"DoubleMu" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"producer:valid_mvamet_tt",
+					"producer:tau_discriminators",
+					"filter:preselection",
+					"producer:event_weight"
+				],
+				"TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_tt",

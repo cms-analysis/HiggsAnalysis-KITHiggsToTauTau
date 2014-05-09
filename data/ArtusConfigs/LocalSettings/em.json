@@ -3,7 +3,11 @@
 		"Channel" : "EM",
 		"HltPaths" : {
 			"nick" : {
-				"data" : [
+				"DoubleMu" : [
+					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
+					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
+				],
+				"TauPlusX" : [
 					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
 					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
 				]
@@ -29,7 +33,15 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"data" : [
+				"DoubleMu" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"producer:valid_mvamet_em",
+					"producer:tau_discriminators",
+					"filter:preselection",
+					"producer:event_weight"
+				],
+				"TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_em",
