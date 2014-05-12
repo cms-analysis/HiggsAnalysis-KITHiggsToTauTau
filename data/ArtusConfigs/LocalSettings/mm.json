@@ -3,10 +3,7 @@
 		"Channel" : "MM",
 		"HltPaths" : {
 			"nick" : {
-				"DoubleMu" : [
-					"HLT_Mu17_Mu8"
-				],
-				"TauPlusX" : [
+				"data" : [
 					"HLT_Mu17_Mu8"
 				]
 			}
@@ -28,21 +25,13 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"DoubleMu" : [
+				"data" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_em",
 					"filter:preselection",
 					"producer:event_weight"
-				],
-				"TauPlusX" : [
-					"producer:hlt_selector",
-					"filter:hlt_filter",
-					"producer:valid_mvamet_em",
-					"filter:preselection",
-					"producer:event_weight"
-				],
-
+				]
 			}
 		},
 		"Consumers" : [

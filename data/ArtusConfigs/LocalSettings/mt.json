@@ -3,11 +3,7 @@
 		"Channel" : "MT",
 		"HltPaths" : {
 			"nick" : {
-				"DoubleMu" : [
-					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
-					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20"
-				],
-				"TauPlusX" : [
+				"data" : [
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
 					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20"
 				]
@@ -33,15 +29,7 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"DoubleMu" : [
-					"producer:hlt_selector",
-					"filter:hlt_filter",
-					"producer:valid_mvamet_mt",
-					"producer:tau_discriminators",
-					"filter:preselection",
-					"producer:event_weight"
-				],
-				"TauPlusX" : [
+				"data" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_mt",

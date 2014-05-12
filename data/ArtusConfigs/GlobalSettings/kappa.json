@@ -1,8 +1,7 @@
 {
 	"GenParticles" : {
 		"nick" : {
-			"DoubleMu" : "",
-			"TauPlusX" : "",
+			"data" : "",
 			"default" : "genParticles"
 		}
 	},

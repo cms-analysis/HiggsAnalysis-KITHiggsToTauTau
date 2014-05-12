@@ -3,11 +3,7 @@
 		"Channel" : "EE",
 		"HltPaths" : {
 			"nick" : {
-				"DoubleMu" : [
-					"HLT_Ele17_Ele8_CaloIdL_CaloIsoVL",
-					"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
-				],
-				"TauPlusX" : [
+				"data" : [
 					"HLT_Ele17_Ele8_CaloIdL_CaloIsoVL",
 					"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
 				]
@@ -29,14 +25,7 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"DoubleMu" : [
-					"producer:hlt_selector",
-					"filter:hlt_filter",
-					"producer:valid_mvamet_em",
-					"filter:preselection",
-					"producer:event_weight"
-				],
-				"TauPlusX" : [
+				"data" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_em",
