@@ -1,5 +1,5 @@
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/CPQuantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 
 std::pair<float, float> CPQuantities::CalculatePhiPsiStar(RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2)
