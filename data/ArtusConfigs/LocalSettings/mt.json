@@ -3,7 +3,7 @@
 		"Channel" : "MT",
 		"HltPaths" : {
 			"nick" : {
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
 					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20"
 				]
@@ -29,7 +29,7 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_mt",
