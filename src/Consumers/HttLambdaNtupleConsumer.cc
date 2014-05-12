@@ -16,7 +16,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	{
 		if (boost::algorithm::icontains(quantity, "weight"))
 		{
-			m_valueExtractorMap[quantity] = [&quantity](HttEvent const & event, HttProduct const & product)
+			m_valueExtractorMap[quantity] = [quantity](HttEvent const & event, HttProduct const & product)
 			{
 				return SafeMap::GetWithDefault(product.m_weights, quantity, 1.0);
 			};
