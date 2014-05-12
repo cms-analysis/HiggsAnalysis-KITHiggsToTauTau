@@ -1,15 +1,6 @@
 {
 	"GlobalProcessors" : [
-		"producer:valid_electrons",
-		"producer:valid_muons",
-		"producer:valid_taus",
-		"producer:valid_tagged_jets",
-		"producer:decay_channels"
+		"producer:valid_tagged_jets"
 	],
-	"Year" : 2012,
-	"ElectronID" : "mvanontrig",
-	"MuonID" : "tight",
-	"MuonIsoType" : "pf",
-	"MuonIso" : "tight",
 	"JetID" : "loose"
 }

@@ -12,6 +12,16 @@
 				]
 			}
 		},
+		"Year" : 2012,
+		"ElectronID" : "mvanontrig",
+		"ElectronIsoType" : "user",
+		"MuonID" : "tight",
+		"MuonIsoType" : "pf",
+		"MuonIso" : "tight",
+		"IsoSignalConeSize" : 0.4,
+		"DeltaBetaCorrectionFactor" : 0.5,
+		"IsoPtSumThresholdEB" : 0.1,
+		"IsoPtSumThresholdEE" : 0.1,
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
@@ -50,6 +60,10 @@
 				"default" : [
 					"producer:valid_mvamet_tt",
 					"producer:tau_discriminators",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
 				],
@@ -58,6 +72,10 @@
 					"filter:hlt_filter",
 					"producer:valid_mvamet_tt",
 					"producer:tau_discriminators",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
 				]

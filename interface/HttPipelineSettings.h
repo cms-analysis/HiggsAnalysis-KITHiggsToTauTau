@@ -23,8 +23,8 @@
 class HttPipelineSettings: public KappaPipelineSettings {
 public:
 	/// htt decay channel and event category
-	IMPL_SETTING_DEFAULT(std::string, Channel, "")
-	IMPL_SETTING_DEFAULT(std::string, Category, "")
+	IMPL_SETTING_DEFAULT(std::string, Channel, "");
+	IMPL_SETTING_DEFAULT(std::string, Category, "");
 	
 	/// quantities to be processed by the main consumer
 	VarCache<stringvector> quantities;
@@ -38,7 +38,23 @@ public:
 	{
 		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
 	}
-
+	
+	IMPL_SETTING_DEFAULT(float, ChargedIsoVetoConeSizeEB, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, ChargedIsoVetoConeSizeEE, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, NeutralIsoVetoConeSize, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, PhotonIsoVetoConeSizeEB, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, PhotonIsoVetoConeSizeEE, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, DeltaBetaIsoVetoConeSize, -1.0); // no veto cone as default
+	
+	IMPL_SETTING_DEFAULT(float, ChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, NeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, PhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, DeltaBetaIsoPtThreshold, 0.0);
+	
+	IMPL_SETTING(float, IsoSignalConeSize);
+	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
+	IMPL_SETTING(float, IsoPtSumThresholdEB);
+	IMPL_SETTING(float, IsoPtSumThresholdEE);
 };
 
 /**
@@ -68,8 +84,8 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, MvaMetEM, "");
 	
 	/// htt decay channel and event category
-	IMPL_SETTING_DEFAULT(std::string, Channel, "")
-	IMPL_SETTING_DEFAULT(std::string, Category, "")
+	IMPL_SETTING_DEFAULT(std::string, Channel, "");
+	IMPL_SETTING_DEFAULT(std::string, Category, "");
 
 	/// detemine whether this is data or MC
 	IMPL_SETTING(bool, InputIsData)
@@ -90,4 +106,21 @@ public:
 	{
 		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
 	}
+	
+	IMPL_SETTING_DEFAULT(float, ChargedIsoVetoConeSizeEB, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, ChargedIsoVetoConeSizeEE, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, NeutralIsoVetoConeSize, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, PhotonIsoVetoConeSizeEB, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, PhotonIsoVetoConeSizeEE, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, DeltaBetaIsoVetoConeSize, -1.0); // no veto cone as default
+	
+	IMPL_SETTING_DEFAULT(float, ChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, NeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, PhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, DeltaBetaIsoPtThreshold, 0.0);
+	
+	IMPL_SETTING(float, IsoSignalConeSize);
+	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
+	IMPL_SETTING(float, IsoPtSumThresholdEB);
+	IMPL_SETTING(float, IsoPtSumThresholdEE);
 };

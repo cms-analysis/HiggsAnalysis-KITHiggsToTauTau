@@ -9,6 +9,16 @@
 				]
 			}
 		},
+		"Year" : 2012,
+		"ElectronID" : "mvanontrig",
+		"ElectronIsoType" : "user",
+		"MuonID" : "tight",
+		"MuonIsoType" : "pf",
+		"MuonIso" : "tight",
+		"IsoSignalConeSize" : 0.4,
+		"DeltaBetaCorrectionFactor" : 0.5,
+		"IsoPtSumThresholdEB" : 0.1,
+		"IsoPtSumThresholdEE" : 0.1,
 		"Quantities" : [
 			"decayChannelIndex",
 			"hardLepPt",
@@ -22,6 +32,10 @@
 			"nick" : {
 				"default" : [
 					"producer:valid_mvamet_em",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
 				],
@@ -29,6 +43,10 @@
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_em",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
 				]

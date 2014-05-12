@@ -35,6 +35,21 @@ protected:
 
 
 private:
-	HttProduct::DecayChannel decayChannel;
+	float chargedIsoVetoConeSizeEB = -1.0;
+	float chargedIsoVetoConeSizeEE = -1.0;
+	float neutralIsoVetoConeSize = -1.0;
+	float photonIsoVetoConeSizeEB = -1.0;
+	float photonIsoVetoConeSizeEE = -1.0;
+	float deltaBetaIsoVetoConeSize = -1.0;
+	
+	float chargedIsoPtThreshold = 0.0;
+	float neutralIsoPtThreshold = 0.0;
+	float photonIsoPtThreshold = 0.0;
+	float deltaBetaIsoPtThreshold = 0.0;
+	
+	float isoSignalConeSize = 0.0;
+	float deltaBetaCorrectionFactor = 0.0;
+	float isoPtSumThresholdEB = 0.0;
+	float isoPtSumThresholdEE = 0.0;
 };
 
