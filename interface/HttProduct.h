@@ -68,6 +68,9 @@ public:
 	double m_genPhi;
 	double m_genPhiStar;
 	double m_genPsiStarCP;
+	
+	KGenParticle* m_genOneProngCharged1;
+	KGenParticle* m_genOneProngCharged2;
 
 };
 

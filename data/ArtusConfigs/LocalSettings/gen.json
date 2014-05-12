@@ -22,6 +22,10 @@
 
 		"1genBosonDaughterSize",
 
+		"OneProngChargedPart1PdgId",
+		"OneProngChargedPart2PdgId",
+		"Tau1OneProngsSize",
+		"Tau2OneProngsSize",
 		"TauMinusParent",
 		"1genBoson1DaughterPt",
 		"1genBoson1DaughterPz",

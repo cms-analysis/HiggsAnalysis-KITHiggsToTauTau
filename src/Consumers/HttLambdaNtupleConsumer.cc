@@ -159,7 +159,23 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters.size() : DefaultValues::UndefinedFloat;
 	};
 
-	
+	// charged particles of a one-prong
+	m_valueExtractorMap["Tau1OneProngsSize"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["Tau2OneProngsSize"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["OneProngChargedPart1PdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->pdgId() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["OneProngChargedPart2PdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->pdgId() : DefaultValues::UndefinedFloat;
+	};
 	// first daughter
 	
 	m_valueExtractorMap["TauMinusParent"] = [](HttEvent const & event, HttProduct const & product)
