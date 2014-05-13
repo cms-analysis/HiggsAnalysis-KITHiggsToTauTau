@@ -63,6 +63,10 @@ public:
 	std::vector<RMDataLV*> m_ptOrderedLeptons;
 	std::vector<RMDataLV*> m_flavourOrderedLeptons;
 
+	std::vector<double> m_isoValueElectrons;
+	std::vector<double> m_isoValueMuons;
+	std::vector<double> m_isoValuePtOrderedLeptons;
+
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;
 	double m_genPhi;

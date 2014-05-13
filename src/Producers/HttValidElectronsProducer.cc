@@ -54,9 +54,10 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
                                                    product_type& product) const
 {
 	bool validElectron = ValidElectronsProducer::AdditionalCriteria(electron, event, product);
-	
+	double isolationPtSum = DefaultValues::UndefinedDouble;
+
 	if (validElectron && electronIsoType == ElectronIsoType::USER) {
-		double isolationPtSum = ParticleIsolation::IsolationPtSum(
+		isolationPtSum = ParticleIsolation::IsolationPtSum(
 				electron->p4, event,
 				isoSignalConeSize,
 				deltaBetaCorrectionFactor,
@@ -77,7 +78,11 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 			validElectron = false;
 		}
 	}
-	
+
+	if (validElectron) {
+		product.m_isoValueElectrons.push_back(isolationPtSum);
+	}
+
 	return validElectron;
 }
 

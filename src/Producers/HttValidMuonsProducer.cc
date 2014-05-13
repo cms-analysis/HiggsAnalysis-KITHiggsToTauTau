@@ -50,9 +50,10 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
                                                product_type& product) const
 {
 	bool validMuon = ValidMuonsProducer::AdditionalCriteria(muon, event, product);
-	
+	double isolationPtSum = DefaultValues::UndefinedDouble;
+
 	if (validMuon && muonIsoType == MuonIsoType::USER) {
-		double isolationPtSum = ParticleIsolation::IsolationPtSum(
+		isolationPtSum = ParticleIsolation::IsolationPtSum(
 				muon->p4, event,
 				isoSignalConeSize,
 				deltaBetaCorrectionFactor,
@@ -73,7 +74,11 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 			validMuon = false;
 		}
 	}
-	
+
+	if (validMuon) {
+		product.m_isoValueMuons.push_back(isolationPtSum);
+	}
+
 	return validMuon;
 }
 
