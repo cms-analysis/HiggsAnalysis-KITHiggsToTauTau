@@ -20,7 +20,11 @@
 			"softLepPt",
 			"softLepEta",
 			"diLepMass",
-			"eventWeight"
+			"eventWeight",
+			"nElectrons",
+			"nMuons",
+			"nTaus",
+			"nValidJets"
 		],
 		"Processors" : {
 			"nick" : {
