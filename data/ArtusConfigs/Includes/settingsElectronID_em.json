@@ -1,0 +1,6 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json"
+	],
+	"IsoPtSumThresholdEB" : 0.15
+}

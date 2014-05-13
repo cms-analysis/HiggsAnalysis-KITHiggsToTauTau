@@ -9,17 +9,15 @@ void HttValidMuonsProducer::InitGlobal(global_setting_type const& globalSettings
 {
 	ValidMuonsProducer::InitGlobal(globalSettings);
 	
-	chargedIsoVetoConeSizeEB = globalSettings.GetChargedIsoVetoConeSizeEB();
-	chargedIsoVetoConeSizeEE = globalSettings.GetChargedIsoVetoConeSizeEE();
-	neutralIsoVetoConeSize = globalSettings.GetNeutralIsoVetoConeSize();
-	photonIsoVetoConeSizeEB = globalSettings.GetPhotonIsoVetoConeSizeEB();
-	photonIsoVetoConeSizeEE = globalSettings.GetPhotonIsoVetoConeSizeEE();
-	deltaBetaIsoVetoConeSize = globalSettings.GetDeltaBetaIsoVetoConeSize();
+	chargedIsoVetoConeSize = globalSettings.GetMuonChargedIsoVetoConeSize();
+	neutralIsoVetoConeSize = globalSettings.GetMuonNeutralIsoVetoConeSize();
+	photonIsoVetoConeSize = globalSettings.GetMuonPhotonIsoVetoConeSize();
+	deltaBetaIsoVetoConeSize = globalSettings.GetMuonDeltaBetaIsoVetoConeSize();
 	
-	chargedIsoPtThreshold = globalSettings.GetChargedIsoPtThreshold();
-	neutralIsoPtThreshold = globalSettings.GetNeutralIsoPtThreshold();
-	photonIsoPtThreshold = globalSettings.GetPhotonIsoPtThreshold();
-	deltaBetaIsoPtThreshold = globalSettings.GetDeltaBetaIsoPtThreshold();
+	chargedIsoPtThreshold = globalSettings.GetMuonChargedIsoPtThreshold();
+	neutralIsoPtThreshold = globalSettings.GetMuonNeutralIsoPtThreshold();
+	photonIsoPtThreshold = globalSettings.GetMuonPhotonIsoPtThreshold();
+	deltaBetaIsoPtThreshold = globalSettings.GetMuonDeltaBetaIsoPtThreshold();
 	
 	isoSignalConeSize = globalSettings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = globalSettings.GetDeltaBetaCorrectionFactor();
@@ -31,17 +29,15 @@ void HttValidMuonsProducer::InitLocal(setting_type const& settings)
 {
 	ValidMuonsProducer::InitLocal(settings);
 	
-	chargedIsoVetoConeSizeEB = settings.GetChargedIsoVetoConeSizeEB();
-	chargedIsoVetoConeSizeEE = settings.GetChargedIsoVetoConeSizeEE();
-	neutralIsoVetoConeSize = settings.GetNeutralIsoVetoConeSize();
-	photonIsoVetoConeSizeEB = settings.GetPhotonIsoVetoConeSizeEB();
-	photonIsoVetoConeSizeEE = settings.GetPhotonIsoVetoConeSizeEE();
-	deltaBetaIsoVetoConeSize = settings.GetDeltaBetaIsoVetoConeSize();
+	chargedIsoVetoConeSize = settings.GetMuonChargedIsoVetoConeSize();
+	neutralIsoVetoConeSize = settings.GetMuonNeutralIsoVetoConeSize();
+	photonIsoVetoConeSize = settings.GetMuonPhotonIsoVetoConeSize();
+	deltaBetaIsoVetoConeSize = settings.GetMuonDeltaBetaIsoVetoConeSize();
 	
-	chargedIsoPtThreshold = settings.GetChargedIsoPtThreshold();
-	neutralIsoPtThreshold = settings.GetNeutralIsoPtThreshold();
-	photonIsoPtThreshold = settings.GetPhotonIsoPtThreshold();
-	deltaBetaIsoPtThreshold = settings.GetDeltaBetaIsoPtThreshold();
+	chargedIsoPtThreshold = settings.GetMuonChargedIsoPtThreshold();
+	neutralIsoPtThreshold = settings.GetMuonNeutralIsoPtThreshold();
+	photonIsoPtThreshold = settings.GetMuonPhotonIsoPtThreshold();
+	deltaBetaIsoPtThreshold = settings.GetMuonDeltaBetaIsoPtThreshold();
 	
 	isoSignalConeSize = settings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = settings.GetDeltaBetaCorrectionFactor();
@@ -60,11 +56,11 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 				muon->p4, event,
 				isoSignalConeSize,
 				deltaBetaCorrectionFactor,
-				chargedIsoVetoConeSizeEB,
-				chargedIsoVetoConeSizeEE,
+				chargedIsoVetoConeSize,
+				chargedIsoVetoConeSize,
 				neutralIsoVetoConeSize,
-				photonIsoVetoConeSizeEB,
-				photonIsoVetoConeSizeEE,
+				photonIsoVetoConeSize,
+				photonIsoVetoConeSize,
 				deltaBetaIsoVetoConeSize,
 				chargedIsoPtThreshold,
 				neutralIsoPtThreshold,

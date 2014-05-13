@@ -1,5 +1,9 @@
 {
 	"tt" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+		],
 		"Channel" : "TT",
 		"HltPaths" : {
 			"nick" : {
@@ -12,16 +16,6 @@
 				]
 			}
 		},
-		"Year" : 2012,
-		"ElectronID" : "mvanontrig",
-		"ElectronIsoType" : "user",
-		"MuonID" : "tight",
-		"MuonIsoType" : "pf",
-		"MuonIso" : "tight",
-		"IsoSignalConeSize" : 0.4,
-		"DeltaBetaCorrectionFactor" : 0.5,
-		"IsoPtSumThresholdEB" : 0.1,
-		"IsoPtSumThresholdEE" : 0.1,
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],

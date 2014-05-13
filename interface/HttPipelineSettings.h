@@ -39,17 +39,27 @@ public:
 		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
 	}
 	
-	IMPL_SETTING_DEFAULT(float, ChargedIsoVetoConeSizeEB, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, ChargedIsoVetoConeSizeEE, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, NeutralIsoVetoConeSize, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, PhotonIsoVetoConeSizeEB, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, PhotonIsoVetoConeSizeEE, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, DeltaBetaIsoVetoConeSize, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoVetoConeSizeEB, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoVetoConeSizeEE, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoVetoConeSize, 0.0);
 	
-	IMPL_SETTING_DEFAULT(float, ChargedIsoPtThreshold, 0.0);
-	IMPL_SETTING_DEFAULT(float, NeutralIsoPtThreshold, 0.0);
-	IMPL_SETTING_DEFAULT(float, PhotonIsoPtThreshold, 0.0);
-	IMPL_SETTING_DEFAULT(float, DeltaBetaIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoPtThreshold, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, MuonChargedIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoVetoConeSize, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, MuonChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoPtThreshold, 0.0);
 	
 	IMPL_SETTING(float, IsoSignalConeSize);
 	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
@@ -107,17 +117,27 @@ public:
 		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
 	}
 	
-	IMPL_SETTING_DEFAULT(float, ChargedIsoVetoConeSizeEB, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, ChargedIsoVetoConeSizeEE, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, NeutralIsoVetoConeSize, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, PhotonIsoVetoConeSizeEB, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, PhotonIsoVetoConeSizeEE, -1.0); // no veto cone as default
-	IMPL_SETTING_DEFAULT(float, DeltaBetaIsoVetoConeSize, -1.0); // no veto cone as default
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoVetoConeSizeEB, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoVetoConeSizeEE, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoVetoConeSize, 0.0);
 	
-	IMPL_SETTING_DEFAULT(float, ChargedIsoPtThreshold, 0.0);
-	IMPL_SETTING_DEFAULT(float, NeutralIsoPtThreshold, 0.0);
-	IMPL_SETTING_DEFAULT(float, PhotonIsoPtThreshold, 0.0);
-	IMPL_SETTING_DEFAULT(float, DeltaBetaIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoPtThreshold, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, MuonChargedIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoVetoConeSize, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, MuonChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoPtThreshold, 0.0);
 	
 	IMPL_SETTING(float, IsoSignalConeSize);
 	IMPL_SETTING(float, DeltaBetaCorrectionFactor);

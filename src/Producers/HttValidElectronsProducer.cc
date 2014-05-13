@@ -9,17 +9,17 @@ void HttValidElectronsProducer::InitGlobal(global_setting_type const& globalSett
 {
 	ValidElectronsProducer::InitGlobal(globalSettings);
 	
-	chargedIsoVetoConeSizeEB = globalSettings.GetChargedIsoVetoConeSizeEB();
-	chargedIsoVetoConeSizeEE = globalSettings.GetChargedIsoVetoConeSizeEE();
-	neutralIsoVetoConeSize = globalSettings.GetNeutralIsoVetoConeSize();
-	photonIsoVetoConeSizeEB = globalSettings.GetPhotonIsoVetoConeSizeEB();
-	photonIsoVetoConeSizeEE = globalSettings.GetPhotonIsoVetoConeSizeEE();
-	deltaBetaIsoVetoConeSize = globalSettings.GetDeltaBetaIsoVetoConeSize();
+	chargedIsoVetoConeSizeEB = globalSettings.GetElectronChargedIsoVetoConeSizeEB();
+	chargedIsoVetoConeSizeEE = globalSettings.GetElectronChargedIsoVetoConeSizeEE();
+	neutralIsoVetoConeSize = globalSettings.GetElectronNeutralIsoVetoConeSize();
+	photonIsoVetoConeSizeEB = globalSettings.GetElectronPhotonIsoVetoConeSizeEB();
+	photonIsoVetoConeSizeEE = globalSettings.GetElectronPhotonIsoVetoConeSizeEE();
+	deltaBetaIsoVetoConeSize = globalSettings.GetElectronDeltaBetaIsoVetoConeSize();
 	
-	chargedIsoPtThreshold = globalSettings.GetChargedIsoPtThreshold();
-	neutralIsoPtThreshold = globalSettings.GetNeutralIsoPtThreshold();
-	photonIsoPtThreshold = globalSettings.GetPhotonIsoPtThreshold();
-	deltaBetaIsoPtThreshold = globalSettings.GetDeltaBetaIsoPtThreshold();
+	chargedIsoPtThreshold = globalSettings.GetElectronChargedIsoPtThreshold();
+	neutralIsoPtThreshold = globalSettings.GetElectronNeutralIsoPtThreshold();
+	photonIsoPtThreshold = globalSettings.GetElectronPhotonIsoPtThreshold();
+	deltaBetaIsoPtThreshold = globalSettings.GetElectronDeltaBetaIsoPtThreshold();
 	
 	isoSignalConeSize = globalSettings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = globalSettings.GetDeltaBetaCorrectionFactor();
@@ -31,17 +31,17 @@ void HttValidElectronsProducer::InitLocal(setting_type const& settings)
 {
 	ValidElectronsProducer::InitLocal(settings);
 	
-	chargedIsoVetoConeSizeEB = settings.GetChargedIsoVetoConeSizeEB();
-	chargedIsoVetoConeSizeEE = settings.GetChargedIsoVetoConeSizeEE();
-	neutralIsoVetoConeSize = settings.GetNeutralIsoVetoConeSize();
-	photonIsoVetoConeSizeEB = settings.GetPhotonIsoVetoConeSizeEB();
-	photonIsoVetoConeSizeEE = settings.GetPhotonIsoVetoConeSizeEE();
-	deltaBetaIsoVetoConeSize = settings.GetDeltaBetaIsoVetoConeSize();
+	chargedIsoVetoConeSizeEB = settings.GetElectronChargedIsoVetoConeSizeEB();
+	chargedIsoVetoConeSizeEE = settings.GetElectronChargedIsoVetoConeSizeEE();
+	neutralIsoVetoConeSize = settings.GetElectronNeutralIsoVetoConeSize();
+	photonIsoVetoConeSizeEB = settings.GetElectronPhotonIsoVetoConeSizeEB();
+	photonIsoVetoConeSizeEE = settings.GetElectronPhotonIsoVetoConeSizeEE();
+	deltaBetaIsoVetoConeSize = settings.GetElectronDeltaBetaIsoVetoConeSize();
 	
-	chargedIsoPtThreshold = settings.GetChargedIsoPtThreshold();
-	neutralIsoPtThreshold = settings.GetNeutralIsoPtThreshold();
-	photonIsoPtThreshold = settings.GetPhotonIsoPtThreshold();
-	deltaBetaIsoPtThreshold = settings.GetDeltaBetaIsoPtThreshold();
+	chargedIsoPtThreshold = settings.GetElectronChargedIsoPtThreshold();
+	neutralIsoPtThreshold = settings.GetElectronNeutralIsoPtThreshold();
+	photonIsoPtThreshold = settings.GetElectronPhotonIsoPtThreshold();
+	deltaBetaIsoPtThreshold = settings.GetElectronDeltaBetaIsoPtThreshold();
 	
 	isoSignalConeSize = settings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = settings.GetDeltaBetaCorrectionFactor();
