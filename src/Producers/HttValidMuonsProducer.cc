@@ -21,8 +21,8 @@ void HttValidMuonsProducer::InitGlobal(global_setting_type const& globalSettings
 	
 	isoSignalConeSize = globalSettings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = globalSettings.GetDeltaBetaCorrectionFactor();
-	isoPtSumThresholdEB = globalSettings.GetIsoPtSumThresholdEB();
-	isoPtSumThresholdEE = globalSettings.GetIsoPtSumThresholdEE();
+	isoPtSumOverPtThresholdEB = globalSettings.GetIsoPtSumOverPtThresholdEB();
+	isoPtSumOverPtThresholdEE = globalSettings.GetIsoPtSumOverPtThresholdEE();
 }
 
 void HttValidMuonsProducer::InitLocal(setting_type const& settings)
@@ -41,8 +41,8 @@ void HttValidMuonsProducer::InitLocal(setting_type const& settings)
 	
 	isoSignalConeSize = settings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = settings.GetDeltaBetaCorrectionFactor();
-	isoPtSumThresholdEB = settings.GetIsoPtSumThresholdEB();
-	isoPtSumThresholdEE = settings.GetIsoPtSumThresholdEE();
+	isoPtSumOverPtThresholdEB = settings.GetIsoPtSumOverPtThresholdEB();
+	isoPtSumOverPtThresholdEE = settings.GetIsoPtSumOverPtThresholdEE();
 }
 
 bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
@@ -69,8 +69,10 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 				deltaBetaIsoPtThreshold
 		);
 		
-		if ((muon->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSum > isoPtSumThresholdEB) ||
-		    (muon->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSum > isoPtSumThresholdEE)) {
+		double isolationPtSumOverPt = isolationPtSum / muon->p4.Pt();
+		
+		if ((muon->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEB) ||
+		    (muon->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEE)) {
 			validMuon = false;
 		}
 	}

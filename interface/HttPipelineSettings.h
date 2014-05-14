@@ -57,8 +57,8 @@ public:
 	
 	IMPL_SETTING(float, IsoSignalConeSize);
 	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
-	IMPL_SETTING(float, IsoPtSumThresholdEB);
-	IMPL_SETTING(float, IsoPtSumThresholdEE);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
 };
 
 /**
@@ -129,6 +129,6 @@ public:
 	
 	IMPL_SETTING(float, IsoSignalConeSize);
 	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
-	IMPL_SETTING(float, IsoPtSumThresholdEB);
-	IMPL_SETTING(float, IsoPtSumThresholdEE);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
 };

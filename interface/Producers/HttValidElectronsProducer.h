@@ -49,7 +49,7 @@ private:
 	
 	float isoSignalConeSize = 0.0;
 	float deltaBetaCorrectionFactor = 0.0;
-	float isoPtSumThresholdEB = 0.0;
-	float isoPtSumThresholdEE = 0.0;
+	float isoPtSumOverPtThresholdEB = 0.0;
+	float isoPtSumOverPtThresholdEE = 0.0;
 };
 

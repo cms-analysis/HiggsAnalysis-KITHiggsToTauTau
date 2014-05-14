@@ -23,8 +23,8 @@ void HttValidElectronsProducer::InitGlobal(global_setting_type const& globalSett
 	
 	isoSignalConeSize = globalSettings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = globalSettings.GetDeltaBetaCorrectionFactor();
-	isoPtSumThresholdEB = globalSettings.GetIsoPtSumThresholdEB();
-	isoPtSumThresholdEE = globalSettings.GetIsoPtSumThresholdEE();
+	isoPtSumOverPtThresholdEB = globalSettings.GetIsoPtSumOverPtThresholdEB();
+	isoPtSumOverPtThresholdEE = globalSettings.GetIsoPtSumOverPtThresholdEE();
 }
 
 void HttValidElectronsProducer::InitLocal(setting_type const& settings)
@@ -45,8 +45,8 @@ void HttValidElectronsProducer::InitLocal(setting_type const& settings)
 	
 	isoSignalConeSize = settings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = settings.GetDeltaBetaCorrectionFactor();
-	isoPtSumThresholdEB = settings.GetIsoPtSumThresholdEB();
-	isoPtSumThresholdEE = settings.GetIsoPtSumThresholdEE();
+	isoPtSumOverPtThresholdEB = settings.GetIsoPtSumOverPtThresholdEB();
+	isoPtSumOverPtThresholdEE = settings.GetIsoPtSumOverPtThresholdEE();
 }
 
 bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
@@ -73,8 +73,10 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 				deltaBetaIsoPtThreshold
 		);
 		
-		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSum > isoPtSumThresholdEB) ||
-		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSum > isoPtSumThresholdEE)) {
+		double isolationPtSumOverPt = isolationPtSum / electron->p4.Pt();
+		
+		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEB) ||
+		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEE)) {
 			validElectron = false;
 		}
 	}
