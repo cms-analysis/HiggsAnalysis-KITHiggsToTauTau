@@ -33,12 +33,6 @@ public:
 		RETURN_CACHED(quantities, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Quantities"))
 	}
 	
-	VarCache<std::vector<std::string>> tauDiscriminators;
-	stringvector GetTauDiscriminators() const
-	{
-		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
-	}
-	
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
 	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoVetoConeSize, 0.0);
@@ -109,12 +103,6 @@ public:
 	stringvector GetChosenTauDaughters() const
 	{
 		RETURN_CACHED(chosenTauDaughters, PropertyTreeSupport::GetAsStringList(GetPropTree(), "ChosenTauDaughters"))
-	}
-	
-	VarCache<std::vector<std::string>> tauDiscriminators;
-	stringvector GetTauDiscriminators() const
-	{
-		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
 	}
 	
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
