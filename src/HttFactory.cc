@@ -9,7 +9,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 
 // filters
@@ -44,8 +43,6 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
   		return new DecayChannelProducer();
     if(id == TauSpinnerProducer().GetProducerId())
         return new TauSpinnerProducer();
-	else if(id == EventWeightProducer().GetProducerId())
-		return new EventWeightProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
 	else

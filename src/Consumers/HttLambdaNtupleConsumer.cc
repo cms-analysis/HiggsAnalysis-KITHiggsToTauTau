@@ -1,6 +1,4 @@
 
-#include <boost/algorithm/string/predicate.hpp>
-
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/DefaultValues.h"
@@ -10,19 +8,6 @@
 
 void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 {
-	// loop over all quantities containing "weight" (case-insensitive)
-	// and try to find them in the weights map to write them out
-	for (auto const & quantity : pset->GetSettings().GetQuantities())
-	{
-		if (boost::algorithm::icontains(quantity, "weight"))
-		{
-			m_valueExtractorMap[quantity] = [quantity](HttEvent const & event, HttProduct const & product)
-			{
-				return SafeMap::GetWithDefault(product.m_weights, quantity, 1.0);
-			};
-		}
-	}
-	
 	// tests for producers
 	m_valueExtractorMap["run"] = [](HttEvent const& event, HttProduct const& product) { return event.m_eventMetadata->nRun; };
 	m_valueExtractorMap["nPV"] = [](HttEvent const& event, HttProduct const& product) { return event.m_vertexSummary->nVertices; };
