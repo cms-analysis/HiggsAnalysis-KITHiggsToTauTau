@@ -31,7 +31,6 @@
 			"nick" : {
 				"default" : [
 					"producer:valid_mvamet_em",
-					"producer:tau_discriminators",
 					"producer:valid_electrons",
 					"producer:valid_muons",
 					"producer:valid_taus",
