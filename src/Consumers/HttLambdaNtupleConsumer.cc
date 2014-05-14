@@ -33,7 +33,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	m_valueExtractorMap["nTaus"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validTaus.size();
 	};
-	m_valueExtractorMap["nValidJets"] = [](HttEvent const& event, HttProduct const& product) {
+	m_valueExtractorMap["nJets"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validJets.size();
 	};
 	m_valueExtractorMap["leadingJetPt"] = [](HttEvent const& event, HttProduct const& product) {
