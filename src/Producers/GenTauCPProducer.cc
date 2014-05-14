@@ -4,7 +4,7 @@
 
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/KappaAnalysis/interface/MotherDaughterBundle.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/CPQuantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 
 void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,

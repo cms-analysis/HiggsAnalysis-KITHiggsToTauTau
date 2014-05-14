@@ -16,7 +16,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	{
 		if (boost::algorithm::icontains(quantity, "weight"))
 		{
-			m_valueExtractorMap[quantity] = [&quantity](HttEvent const & event, HttProduct const & product)
+			m_valueExtractorMap[quantity] = [quantity](HttEvent const & event, HttProduct const & product)
 			{
 				return SafeMap::GetWithDefault(product.m_weights, quantity, 1.0);
 			};
@@ -24,12 +24,15 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	}
 	
 	// tests for producers
+	m_valueExtractorMap["run"] = [](HttEvent const& event, HttProduct const& product) { return event.m_eventMetadata->nRun; };
 	m_valueExtractorMap["nPV"] = [](HttEvent const& event, HttProduct const& product) { return event.m_vertexSummary->nVertices; };
 
 	m_valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
 	m_valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
+	m_valueExtractorMap["hardLepIso"] = [](HttEvent const& event, HttProduct const& product) { return product.m_isoValuePtOrderedLeptons[0]; };
 	m_valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Pt(); };
 	m_valueExtractorMap["softLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Eta(); };
+	m_valueExtractorMap["softLepIso"] = [](HttEvent const& event, HttProduct const& product) { return product.m_isoValuePtOrderedLeptons[1]; };
 	m_valueExtractorMap["diLepMass"] = [](HttEvent const& event, HttProduct const& product) {
 		return (*(product.m_ptOrderedLeptons[0]) + *(product.m_ptOrderedLeptons[1])).mass();
 	};
