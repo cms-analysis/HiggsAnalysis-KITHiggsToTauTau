@@ -13,19 +13,15 @@
 			}
 		},
 		"Quantities" : [
-			"decayChannelIndex",
-			"hardLepPt",
-			"hardLepEta",
-			"hardLepIso",
-			"softLepPt",
-			"softLepEta",
-			"softLepIso",
-			"diLepMass",
-			"eventWeight",
-			"nElectrons",
-			"nMuons",
-			"nTaus",
-			"nValidJets"
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
+				]
+			},
+			"decayChannelIndex"
 		],
 		"Processors" : {
 			"nick" : {

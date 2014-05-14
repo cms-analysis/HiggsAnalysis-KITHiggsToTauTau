@@ -20,33 +20,16 @@
 			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
+				]
+			},
 			"nPV",
 			"decayChannelIndex",
-			"hardLepPt",
-			"hardLepEta",
-			"hardLepIso",
-			"softLepPt",
-			"softLepEta",
-			"softLepIso",
-			"diLepMass",
-			"eventWeight",
-			"nElectrons",
-			"nMuons",
-			"nTaus",
-			"nValidJets",
-			"leadingJetPt",
-			"leadingJetEta",
-			"leadingJetPhi",
-			"leadingJetCSV",
-			"leadingJetTCHE",
-			"trailingJetPt",
-			"trailingJetEta",
-			"trailingJetPhi",
-			"trailingJetCSV",
-			"trailingJetTCHE",
-			"pfMETsumEt",
-			"pfMETeta",
-			"pfMETphi",
 			"MvaMetTTsumEt",
 			"MvaMetTTeta",
 			"MvaMetTTphi"
