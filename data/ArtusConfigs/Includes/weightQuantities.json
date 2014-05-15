@@ -1,0 +1,7 @@
+{
+	"property" : [
+		"hltWeight",
+		"puWeight",
+		"eventWeight"
+	]
+}

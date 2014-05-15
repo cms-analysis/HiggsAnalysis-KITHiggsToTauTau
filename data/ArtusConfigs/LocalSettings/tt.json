@@ -1,5 +1,9 @@
 {
 	"tt" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+		],
 		"Channel" : "TT",
 		"HltPaths" : {
 			"nick" : {
@@ -16,31 +20,16 @@
 			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
+				]
+			},
 			"nPV",
 			"decayChannelIndex",
-			"hardLepPt",
-			"hardLepEta",
-			"softLepPt",
-			"softLepEta",
-			"diLepMass",
-			"eventWeight",
-			"nElectrons",
-			"nMuons",
-			"nTaus",
-			"nValidJets",
-			"leadingJetPt",
-			"leadingJetEta",
-			"leadingJetPhi",
-			"leadingJetCSV",
-			"leadingJetTCHE",
-			"trailingJetPt",
-			"trailingJetEta",
-			"trailingJetPhi",
-			"trailingJetCSV",
-			"trailingJetTCHE",
-			"pfMETsumEt",
-			"pfMETeta",
-			"pfMETphi",
 			"MvaMetTTsumEt",
 			"MvaMetTTeta",
 			"MvaMetTTphi"
@@ -49,7 +38,10 @@
 			"nick" : {
 				"default" : [
 					"producer:valid_mvamet_tt",
-					"producer:tau_discriminators",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
 				],
@@ -57,7 +49,10 @@
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_tt",
-					"producer:tau_discriminators",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
 				]

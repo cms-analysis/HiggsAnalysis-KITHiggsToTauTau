@@ -1,20 +1,20 @@
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/CPQuantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 
-std::pair<float, float> CPQuantities::CalculatePhiPsiStar(RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2)
+std::pair<float, float> CPQuantities::CalculatePhiPsiStar(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
 {
-	//Step 1: Creating a Boost M into the ZMF of the Pion+Pion- decay
-	RMDataLV PionImp = pion1 + pion2;
+	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
+	RMDataLV PionImp = chargPart1 + chargPart2;
 	RMDataLV::BetaVector boostvec = PionImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
 
 	//Step 2: Calculating impact parameter vectors n1 n2
 
-	//Momentum vectors of the Pions
+	//Momentum vectors of the charged particles
 	RMDataLV::BetaVector p1, p2;
-	p1.SetXYZ(pion1.Px(), pion1.Py() , pion1.Pz());
-	p2.SetXYZ(pion2.Px(), pion2.Py() , pion2.Pz());
+	p1.SetXYZ(chargPart1.Px(), chargPart1.Py() , chargPart1.Pz());
+	p2.SetXYZ(chargPart2.Px(), chargPart2.Py() , chargPart2.Pz());
 
 	//Momentum vectors of the Taus
 	RMDataLV::BetaVector k1, k2;
@@ -37,14 +37,14 @@ std::pair<float, float> CPQuantities::CalculatePhiPsiStar(RMDataLV tau1, RMDataL
 
 	n1_mu = M * n1_mu;
 	n2_mu = M * n2_mu;
-	pion1 = M * pion1;
-	pion2 = M * pion2;
+	chargPart1 = M * chargPart1;
+	chargPart2 = M * chargPart2;
 
 	//Step 4: Calculation of the transverse component of n1, n2 to p1, p2 (after Boosting)
 	n1.SetXYZ(n1_mu.Px(), n1_mu.Py(), n1_mu.Pz());
 	n2.SetXYZ(n2_mu.Px(), n2_mu.Py(), n2_mu.Pz());
-	p1.SetXYZ(pion1.Px(), pion1.Py(), pion1.Pz());
-	p2.SetXYZ(pion2.Px(), pion2.Py(), pion2.Pz());
+	p1.SetXYZ(chargPart1.Px(), chargPart1.Py(), chargPart1.Pz());
+	p2.SetXYZ(chargPart2.Px(), chargPart2.Py(), chargPart2.Pz());
 
 	RMDataLV::BetaVector n1t = n1 - ((n1.Dot(p1)) / (p1.Dot(p1))) * p1;
 	n1t = n1t.Unit();
@@ -59,9 +59,9 @@ std::pair<float, float> CPQuantities::CalculatePhiPsiStar(RMDataLV tau1, RMDataL
 	return phiPsiStar;
 }
 
-float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2)
+float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
 {
-	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost Pion 4-momentums
+	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost charged particles 4-momentums
 	RMDataLV::BetaVector boostvectm = tau1.BoostToCM();
 	RMDataLV::BetaVector boostvectp = tau2.BoostToCM();
 	RMDataLV::BetaVector boostvech = boson.BoostToCM();
@@ -70,20 +70,20 @@ float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, R
 	ROOT::Math::Boost Mh(boostvech);
 
 	// Step 2: Boosting the 4-momentum vectors to respective rest frames: tau to boson rest frame,
-	// pions to tau rest frames.
+	// charged particles to tau rest frames.
 	tau1 = Mh * tau1;
 	tau2 = Mh * tau2;
 
 	//std::cout << tau1 << "               " << -1*tau2 << std::endl;
 
-	pion1 = Mtm * pion1;
-	pion2 = Mtp * pion2;
+	chargPart1 = Mtm * chargPart1;
+	chargPart2 = Mtp * chargPart2;
 
 	// Step 3: Creating 3-momentum normal vectors on decay planes
 	RMDataLV::BetaVector km, pm, pp, nm, np;
 	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());
-	pm.SetXYZ(pion1.Px(),pion1.Py(),pion1.Pz());
-	pp.SetXYZ(pion2.Px(),pion2.Py(),pion2.Pz());
+	pm.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
+	pp.SetXYZ(chargPart2.Px(),chargPart2.Py(),chargPart2.Pz());
 
 	nm = (km.Cross(pm)).Unit(); np = (km.Cross(pp)).Unit();
 

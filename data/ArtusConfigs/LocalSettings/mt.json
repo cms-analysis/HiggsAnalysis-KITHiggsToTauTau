@@ -1,5 +1,9 @@
 {
 	"mt" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+		],
 		"Channel" : "MT",
 		"HltPaths" : {
 			"nick" : {
@@ -13,19 +17,24 @@
 			"hpsPFTauDiscriminationByCombinedIsolationDeltaBetaCorrRaw3Hits"
 		],
 		"Quantities" : [
-			"decayChannelIndex",
-			"hardLepPt",
-			"hardLepEta",
-			"softLepPt",
-			"softLepEta",
-			"diLepMass",
-			"eventWeight"
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
+				]
+			},
+			"decayChannelIndex"
 		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
 					"producer:valid_mvamet_mt",
-					"producer:tau_discriminators",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
 				],
@@ -33,7 +42,10 @@
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_mt",
-					"producer:tau_discriminators",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
 				]

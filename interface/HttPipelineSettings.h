@@ -23,8 +23,8 @@
 class HttPipelineSettings: public KappaPipelineSettings {
 public:
 	/// htt decay channel and event category
-	IMPL_SETTING_DEFAULT(std::string, Channel, "")
-	IMPL_SETTING_DEFAULT(std::string, Category, "")
+	IMPL_SETTING_DEFAULT(std::string, Channel, "");
+	IMPL_SETTING_DEFAULT(std::string, Category, "");
 	
 	/// quantities to be processed by the main consumer
 	VarCache<stringvector> quantities;
@@ -33,12 +33,32 @@ public:
 		RETURN_CACHED(quantities, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Quantities"))
 	}
 	
-	VarCache<std::vector<std::string>> tauDiscriminators;
-	stringvector GetTauDiscriminators() const
-	{
-		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
-	}
-
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoVetoConeSizeEB, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoVetoConeSizeEE, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoVetoConeSize, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoPtThreshold, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, MuonChargedIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoVetoConeSize, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, MuonChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoPtThreshold, 0.0);
+	
+	IMPL_SETTING(float, IsoSignalConeSize);
+	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
 };
 
 /**
@@ -68,8 +88,8 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, MvaMetEM, "");
 	
 	/// htt decay channel and event category
-	IMPL_SETTING_DEFAULT(std::string, Channel, "")
-	IMPL_SETTING_DEFAULT(std::string, Category, "")
+	IMPL_SETTING_DEFAULT(std::string, Channel, "");
+	IMPL_SETTING_DEFAULT(std::string, Category, "");
 
 	/// detemine whether this is data or MC
 	IMPL_SETTING(bool, InputIsData)
@@ -85,9 +105,30 @@ public:
 		RETURN_CACHED(chosenTauDaughters, PropertyTreeSupport::GetAsStringList(GetPropTree(), "ChosenTauDaughters"))
 	}
 	
-	VarCache<std::vector<std::string>> tauDiscriminators;
-	stringvector GetTauDiscriminators() const
-	{
-		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
-	}
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoVetoConeSizeEB, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoVetoConeSizeEE, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoVetoConeSize, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronNeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoPtThreshold, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, MuonChargedIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoVetoConeSize, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoVetoConeSize, 0.0);
+	
+	IMPL_SETTING_DEFAULT(float, MuonChargedIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoPtThreshold, 0.0);
+	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoPtThreshold, 0.0);
+	
+	IMPL_SETTING(float, IsoSignalConeSize);
+	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
 };

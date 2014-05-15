@@ -1,0 +1,14 @@
+{
+	"property" : [
+		"nElectrons",
+		"nMuons",
+		"nTaus",
+		"hardLepPt",
+		"hardLepEta",
+		"hardLepIso",
+		"softLepPt",
+		"softLepEta",
+		"softLepIso",
+		"diLepMass"
+	]
+}

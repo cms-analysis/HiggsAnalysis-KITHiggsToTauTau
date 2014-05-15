@@ -1,0 +1,15 @@
+{
+	"property" : [
+		"nJets",
+		"leadingJetPt",
+		"leadingJetEta",
+		"leadingJetPhi",
+		"leadingJetCSV",
+		"leadingJetTCHE",
+		"trailingJetPt",
+		"trailingJetEta",
+		"trailingJetPhi",
+		"trailingJetCSV",
+		"trailingJetTCHE"
+	]
+}

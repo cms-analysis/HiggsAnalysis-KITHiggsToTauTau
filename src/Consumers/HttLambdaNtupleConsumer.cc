@@ -1,6 +1,4 @@
 
-#include <boost/algorithm/string/predicate.hpp>
-
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/DefaultValues.h"
@@ -10,26 +8,16 @@
 
 void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 {
-	// loop over all quantities containing "weight" (case-insensitive)
-	// and try to find them in the weights map to write them out
-	for (auto const & quantity : pset->GetSettings().GetQuantities())
-	{
-		if (boost::algorithm::icontains(quantity, "weight"))
-		{
-			m_valueExtractorMap[quantity] = [&quantity](HttEvent const & event, HttProduct const & product)
-			{
-				return SafeMap::GetWithDefault(product.m_weights, quantity, 1.0);
-			};
-		}
-	}
-	
 	// tests for producers
+	m_valueExtractorMap["run"] = [](HttEvent const& event, HttProduct const& product) { return event.m_eventMetadata->nRun; };
 	m_valueExtractorMap["nPV"] = [](HttEvent const& event, HttProduct const& product) { return event.m_vertexSummary->nVertices; };
 
 	m_valueExtractorMap["hardLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
 	m_valueExtractorMap["hardLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
+	m_valueExtractorMap["hardLepIso"] = [](HttEvent const& event, HttProduct const& product) { return product.m_isoValuePtOrderedLeptons[0]; };
 	m_valueExtractorMap["softLepPt"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Pt(); };
 	m_valueExtractorMap["softLepEta"] = [](HttEvent const& event, HttProduct const& product) { return product.m_ptOrderedLeptons[1]->Eta(); };
+	m_valueExtractorMap["softLepIso"] = [](HttEvent const& event, HttProduct const& product) { return product.m_isoValuePtOrderedLeptons[1]; };
 	m_valueExtractorMap["diLepMass"] = [](HttEvent const& event, HttProduct const& product) {
 		return (*(product.m_ptOrderedLeptons[0]) + *(product.m_ptOrderedLeptons[1])).mass();
 	};
@@ -45,7 +33,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	m_valueExtractorMap["nTaus"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validTaus.size();
 	};
-	m_valueExtractorMap["nValidJets"] = [](HttEvent const& event, HttProduct const& product) {
+	m_valueExtractorMap["nJets"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validJets.size();
 	};
 	m_valueExtractorMap["leadingJetPt"] = [](HttEvent const& event, HttProduct const& product) {
@@ -159,7 +147,23 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) ? product.m_genBoson[0].Daughters.size() : DefaultValues::UndefinedFloat;
 	};
 
-	
+	// charged particles of a one-prong
+	m_valueExtractorMap["Tau1OneProngsSize"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["Tau2OneProngsSize"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["OneProngChargedPart1PdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->pdgId() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["OneProngChargedPart2PdgId"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->pdgId() : DefaultValues::UndefinedFloat;
+	};
 	// first daughter
 	
 	m_valueExtractorMap["TauMinusParent"] = [](HttEvent const & event, HttProduct const & product)
