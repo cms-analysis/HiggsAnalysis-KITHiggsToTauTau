@@ -10,6 +10,7 @@
 <use name="boost_regex"/>
 <use name="Artus/Configuration"/>
 <use name="Artus/Consumer"/>
+<use name="Artus/Filter"/>
 <use name="Artus/KappaAnalysis"/>
 <use name="Artus/Utility"/>
 

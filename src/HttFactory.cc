@@ -13,6 +13,7 @@
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/PreselectionFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/CutRangeFilters.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -53,6 +54,8 @@ HttFilterBase * HttFactory::createFilter ( std::string const& id )
 {
 	if(id == PreselectionFilter().GetFilterId())
 		return new PreselectionFilter();
+	else if(id == LeptonsPtCutFilter().GetFilterId())
+		return new LeptonsPtCutFilter();
 	else
 		return KappaFactory<HttTypes>::createFilter( id );
 }
