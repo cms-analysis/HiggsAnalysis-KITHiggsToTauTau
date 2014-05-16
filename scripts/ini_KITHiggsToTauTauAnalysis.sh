@@ -4,9 +4,6 @@
 source $CMSSW_BASE/src/Artus/Configuration/scripts/ini_ArtusAnalysis_cmssw.sh
 
 # set the environment
-export KAPPAPATH=$CMSSW_BASE/src/Kappa
-export KAPPATOOLSPATH=$CMSSW_BASE/KappaTools
-export ARTUSPATH=$CMSSW_BASE/src/Artus
 export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau
 
 # activate pre-commit hooks
