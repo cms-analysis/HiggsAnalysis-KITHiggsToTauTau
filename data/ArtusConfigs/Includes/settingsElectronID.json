@@ -1,9 +1,13 @@
 {
 	"ElectronID_documenation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation",
 	
+	"ElectronReco" : "none",
+	
 	"ElectronID" : "mvanontrig",
 	
 	"ElectronIsoType" : "user",
+	"ElectronIso" : "none",
+	
 	"IsoSignalConeSize" : 0.4,
 	"DeltaBetaCorrectionFactor" : 0.5,
 	"IsoPtSumOverPtThresholdEB" : 0.1,
