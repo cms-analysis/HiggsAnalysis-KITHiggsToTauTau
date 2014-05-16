@@ -3,7 +3,8 @@
 	
 	"ElectronReco" : "none",
 	
-	"ElectronID" : "mvanontrig",
+	"ElectronID" : "user",
+	"ElectronIDType" : "summer2013tight",
 	
 	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",
