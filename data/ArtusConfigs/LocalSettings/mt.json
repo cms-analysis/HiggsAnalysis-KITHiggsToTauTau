@@ -5,6 +5,9 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
 		],
 		"Channel" : "MT",
+		"NElectrons" : 0,
+		"NMuons" : 1,
+		"NTaus" : 1,
 		"HltPaths" : {
 			"nick" : {
 				"data" : [
@@ -37,6 +40,9 @@
 					"producer:valid_taus",
 					"filter:valid_taus",
 					"producer:decay_channels",
+					"filter:n_electrons",
+					"filter:n_muons",
+					"filter:n_taus",
 					"filter:preselection",
 					"producer:event_weight"
 				],
@@ -50,6 +56,9 @@
 					"producer:valid_taus",
 					"filter:valid_taus",
 					"producer:decay_channels",
+					"filter:n_electrons",
+					"filter:n_muons",
+					"filter:n_taus",
 					"filter:preselection",
 					"producer:event_weight"
 				]
