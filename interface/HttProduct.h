@@ -60,6 +60,10 @@ public:
 	std::vector<double> m_isoValueMuons;
 	std::vector<double> m_isoValuePtOrderedLeptons;
 
+	/// added by HttValidBTaggedJetsProducer
+	std::vector<KDataPFTaggedJet*> m_validBTaggedJets;
+	std::vector<KDataPFTaggedJet*> m_invalidBTaggedJets;
+
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;
 	double m_genPhi;

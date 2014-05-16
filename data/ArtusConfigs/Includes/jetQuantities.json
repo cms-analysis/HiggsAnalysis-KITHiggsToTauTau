@@ -10,6 +10,10 @@
 		"trailingJetEta",
 		"trailingJetPhi",
 		"trailingJetCSV",
-		"trailingJetTCHE"
+		"trailingJetTCHE",
+		"nBTaggedJets",
+		"bJetPt",
+		"bJetEta",
+		"bJetPhi"
 	]
 }

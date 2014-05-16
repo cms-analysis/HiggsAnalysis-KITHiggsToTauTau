@@ -1,6 +1,11 @@
 {
+	"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json"
+		],
+
 	"GlobalProcessors" : [
-		"producer:valid_tagged_jets"
+		"producer:valid_tagged_jets",
+		"producer:valid_btagged_jets"
 	],
 	"JetID" : "loose"
 }
