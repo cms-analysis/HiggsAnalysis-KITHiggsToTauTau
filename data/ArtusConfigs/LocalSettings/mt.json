@@ -32,7 +32,6 @@
 				"default" : [
 					"producer:valid_mvamet_mt",
 					"producer:valid_electrons",
-					"filter:valid_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
 					"producer:valid_taus",
@@ -46,7 +45,6 @@
 					"filter:hlt_filter",
 					"producer:valid_mvamet_mt",
 					"producer:valid_electrons",
-					"filter:valid_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
 					"producer:valid_taus",

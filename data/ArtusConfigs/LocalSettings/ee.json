@@ -31,9 +31,7 @@
 					"producer:valid_electrons",
 					"filter:valid_electrons",
 					"producer:valid_muons",
-					"filter:valid_muons",
 					"producer:valid_taus",
-					"filter:valid_taus",
 					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
@@ -45,9 +43,7 @@
 					"producer:valid_electrons",
 					"filter:valid_electrons",
 					"producer:valid_muons",
-					"filter:valid_muons",
 					"producer:valid_taus",
-					"filter:valid_taus",
 					"producer:decay_channels",
 					"filter:preselection",
 					"producer:event_weight"
