@@ -12,7 +12,7 @@
    Inherits from the HttValidTaggedJetsProducer class, adding further requirements
    which exploits the properties of b-tagged jets
 */
-class HttValidBTaggedJetsProducer: public HttValidTaggedJetsProducer
+class HttValidBTaggedJetsProducer: public HttProducerBase
 {
 
 public:
@@ -29,14 +29,28 @@ public:
 		return "valid_btagged_jets";
 	}
 
+	virtual void ProduceGlobal(event_type const& event,
+	                           product_type& product,
+	                           global_setting_type const& globalSettings) const ARTUS_CPP11_OVERRIDE
+	{
+		Produce(event, product);
+	}
+
+	virtual void ProduceLocal(event_type const& event,
+	                          product_type& product,
+	                          setting_type const& settings) const ARTUS_CPP11_OVERRIDE
+	{
+		Produce(event, product);
+	}
+
 protected:
 
 	// function that lets this producer work as both a global and a local producer
-	virtual void Produce(event_type const& event, product_type& product) const ARTUS_CPP11_OVERRIDE;
+	virtual void Produce(event_type const& event, product_type& product) const;
 
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KDataPFTaggedJet* jet, event_type const& event,
-	                                product_type& product) const  ARTUS_CPP11_OVERRIDE;
+	                                product_type& product) const;
 
 private:
 

@@ -4,7 +4,7 @@
 
 void HttValidBTaggedJetsProducer::InitGlobal(global_setting_type const& globalSettings)
 	{
-		HttValidTaggedJetsProducer::InitGlobal(globalSettings);
+		HttProducerBase::InitGlobal(globalSettings);
 
 		combinedSecondaryVertexMediumWP = globalSettings.GetBTaggedJetCombinedSecondaryVertexMediumWP();
 		absEtaCut = globalSettings.GetBTaggedJetAbsEtaCut();
@@ -12,7 +12,7 @@ void HttValidBTaggedJetsProducer::InitGlobal(global_setting_type const& globalSe
 
 void HttValidBTaggedJetsProducer::InitLocal(setting_type const& settings)
 	{
-		HttValidTaggedJetsProducer::InitLocal(settings);
+		HttProducerBase::InitLocal(settings);
 
 		combinedSecondaryVertexMediumWP = settings.GetBTaggedJetCombinedSecondaryVertexMediumWP();
 		absEtaCut = settings.GetBTaggedJetAbsEtaCut();
