@@ -27,6 +27,8 @@ void HttValidElectronsProducer::InitGlobal(global_setting_type const& globalSett
 	deltaBetaCorrectionFactor = globalSettings.GetDeltaBetaCorrectionFactor();
 	isoPtSumOverPtThresholdEB = globalSettings.GetIsoPtSumOverPtThresholdEB();
 	isoPtSumOverPtThresholdEE = globalSettings.GetIsoPtSumOverPtThresholdEE();
+	
+	trackDxyCut = globalSettings.GetElectronTrackDxyCut();
 }
 
 void HttValidElectronsProducer::InitLocal(setting_type const& settings)
@@ -51,6 +53,8 @@ void HttValidElectronsProducer::InitLocal(setting_type const& settings)
 	deltaBetaCorrectionFactor = settings.GetDeltaBetaCorrectionFactor();
 	isoPtSumOverPtThresholdEB = settings.GetIsoPtSumOverPtThresholdEB();
 	isoPtSumOverPtThresholdEE = settings.GetIsoPtSumOverPtThresholdEE();
+	
+	trackDxyCut = settings.GetElectronTrackDxyCut();
 }
 
 bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
@@ -97,6 +101,9 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 			validElectron = false;
 		}
 	}
+	
+	// (tighter) cut on transverse impact parameter of track
+	validElectron = validElectron && trackDxyCut > 0.0 && std::abs(electron->track.getDxy(&event.m_vertexSummary->pv)) < trackDxyCut;
 
 	if (validElectron) {
 		product.m_isoValueElectrons.push_back(isolationPtSum);

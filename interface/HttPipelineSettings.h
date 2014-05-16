@@ -65,6 +65,9 @@ public:
 	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
 	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
 	
+	IMPL_SETTING(float, ElectronTrackDxyCut);
+	IMPL_SETTING(float, MuonTrackDxyCut);
+	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 };
 
@@ -143,6 +146,9 @@ public:
 	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
 	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
 	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
+	
+	IMPL_SETTING(float, ElectronTrackDxyCut);
+	IMPL_SETTING(float, MuonTrackDxyCut);
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 };

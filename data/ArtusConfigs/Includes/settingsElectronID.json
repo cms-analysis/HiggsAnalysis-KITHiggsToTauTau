@@ -23,5 +23,7 @@
 	"ElectronChargedIsoPtThreshold" : 0.0,
 	"ElectronNeutralIsoPtThreshold" : 0.0,
 	"ElectronPhotonIsoPtThreshold" : 0.0,
-	"ElectronDeltaBetaIsoPtThreshold" : 0.0
+	"ElectronDeltaBetaIsoPtThreshold" : 0.0,
+	
+	"ElectronTrackDxyCut" : 0.045
 }

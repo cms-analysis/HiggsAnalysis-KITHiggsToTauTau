@@ -49,5 +49,7 @@ private:
 	float deltaBetaCorrectionFactor = 0.0;
 	float isoPtSumOverPtThresholdEB = 0.0;
 	float isoPtSumOverPtThresholdEE = 0.0;
+	
+	float trackDxyCut = 0.0;
 };
 

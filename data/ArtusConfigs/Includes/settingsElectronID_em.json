@@ -3,5 +3,6 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json"
 	],
 	"ElectronIDType" : "summer2013loose",
-	"IsoPtSumOverPtThresholdEB" : 0.15
+	"IsoPtSumOverPtThresholdEB" : 0.15,
+	"ElectronTrackDxyCut" : 0.02
 }

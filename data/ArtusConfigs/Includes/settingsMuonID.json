@@ -18,5 +18,7 @@
 	"MuonChargedIsoPtThreshold" : 0.0,
 	"MuonNeutralIsoPtThreshold" : 0.5,
 	"MuonPhotonIsoPtThreshold" : 0.5,
-	"MuonDeltaBetaIsoPtThreshold" : 0.5
+	"MuonDeltaBetaIsoPtThreshold" : 0.5,
+	
+	"MuonTrackDxyCut" : 0.045
 }
