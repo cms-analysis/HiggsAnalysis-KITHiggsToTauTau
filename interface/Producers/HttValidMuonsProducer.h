@@ -51,5 +51,6 @@ private:
 	float isoPtSumOverPtThresholdEE = 0.0;
 	
 	float trackDxyCut = 0.0;
+	float trackDzCut = 0.0;
 };
 

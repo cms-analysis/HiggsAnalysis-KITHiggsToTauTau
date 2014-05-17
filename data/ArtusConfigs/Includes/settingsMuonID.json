@@ -1,5 +1,9 @@
 {
-	"MuonID_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation",
+	"MuonID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Muon_ID",
+		"https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tight_Muon",
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation"
+	],
 	
 	"Year" : 2012,
 	"MuonID" : "tight",
@@ -20,5 +24,6 @@
 	"MuonPhotonIsoPtThreshold" : 0.5,
 	"MuonDeltaBetaIsoPtThreshold" : 0.5,
 	
-	"MuonTrackDxyCut" : 0.045
+	"MuonTrackDxyCut" : 0.045,
+	"MuonTrackDzCut" : 0.2
 }

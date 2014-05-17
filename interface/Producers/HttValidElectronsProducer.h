@@ -68,6 +68,7 @@ private:
 	float isoPtSumOverPtThresholdEE = 0.0;
 	
 	float trackDxyCut = 0.0;
+	float trackDzCut = 0.0;
 	
 	bool IsMVANonTrigElectronHttSummer2013(KDataElectron* electron, bool tightID) const;
 };

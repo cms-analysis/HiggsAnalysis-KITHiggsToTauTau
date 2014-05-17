@@ -25,6 +25,7 @@ void HttValidMuonsProducer::InitGlobal(global_setting_type const& globalSettings
 	isoPtSumOverPtThresholdEE = globalSettings.GetIsoPtSumOverPtThresholdEE();
 	
 	trackDxyCut = globalSettings.GetMuonTrackDxyCut();
+	trackDzCut = globalSettings.GetMuonTrackDzCut();
 }
 
 void HttValidMuonsProducer::InitLocal(setting_type const& settings)
@@ -47,6 +48,7 @@ void HttValidMuonsProducer::InitLocal(setting_type const& settings)
 	isoPtSumOverPtThresholdEE = settings.GetIsoPtSumOverPtThresholdEE();
 	
 	trackDxyCut = settings.GetMuonTrackDxyCut();
+	trackDzCut = settings.GetMuonTrackDzCut();
 }
 
 bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
@@ -81,8 +83,10 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 		}
 	}
 	
-	// tighter cut on transverse impact parameter of track
-	validMuon = validMuon && trackDxyCut > 0.0 && std::abs(muon->bestTrack.getDxy(&event.m_vertexSummary->pv)) < trackDxyCut;
+	// (tighter) cut on impact parameters of track
+	validMuon = validMuon
+	            && (trackDxyCut <= 0.0 || std::abs(muon->bestTrack.getDxy(&event.m_vertexSummary->pv)) < trackDxyCut)
+	            && (trackDzCut <= 0.0 || std::abs(muon->bestTrack.getDz(&event.m_vertexSummary->pv)) < trackDzCut);
 
 	if (validMuon) {
 		product.m_isoValueMuons.push_back(isolationPtSum);

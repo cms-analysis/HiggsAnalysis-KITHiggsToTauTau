@@ -1,5 +1,9 @@
 {
-	"ElectronID_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation",
+	"ElectronID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_ID",
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentification#Non_triggering_MVA",
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation"
+	],
 	
 	"ElectronReco" : "none",
 	
@@ -25,5 +29,6 @@
 	"ElectronPhotonIsoPtThreshold" : 0.0,
 	"ElectronDeltaBetaIsoPtThreshold" : 0.0,
 	
-	"ElectronTrackDxyCut" : 0.045
+	"ElectronTrackDxyCut" : 0.045,
+	"ElectronTrackDzCut" : 0.2
 }
