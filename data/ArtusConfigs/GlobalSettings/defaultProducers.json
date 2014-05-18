@@ -12,7 +12,6 @@
 			],
 			"data" : [
 				"filter:json_filter",
-				"#producer:pu_weights",
 				"producer:valid_tagged_jets",
 				"producer:valid_btagged_jets"
 			]
@@ -29,8 +28,8 @@
 	"PileupWeightFile_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#JSON_and_PU_re_weighting",
 	"PileupWeightFile" : {
 		"nick" : {
-			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/MC_Summer12_PU_S10-600bins.root",
-			"data" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2012_ReReco-600bins.root"
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2012_ReReco-600bins_OVER_MC_Summer12_PU_S10-600bins.root",
+			"data" : "not needed"
 		}
 	},
 	"JetID" : "loose"
