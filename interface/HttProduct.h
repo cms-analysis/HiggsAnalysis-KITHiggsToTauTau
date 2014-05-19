@@ -61,8 +61,8 @@ public:
 	std::vector<double> m_isoValuePtOrderedLeptons;
 
 	/// added by HttValidBTaggedJetsProducer
-	std::vector<KDataPFTaggedJet*> m_validBTaggedJets;
-	std::vector<KDataPFTaggedJet*> m_invalidBTaggedJets;
+	std::vector<KDataPFTaggedJet*> m_BTaggedJets;
+	std::vector<KDataPFTaggedJet*> m_notBTaggedJets;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;

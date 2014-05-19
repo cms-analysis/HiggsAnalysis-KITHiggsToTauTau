@@ -67,16 +67,16 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["nBTaggedJets"] = [](HttEvent const& event, HttProduct const& product) {
-		return product.m_validBTaggedJets.size();
+		return product.m_BTaggedJets.size();
 	};
 	m_valueExtractorMap["bJetPt"] = [](HttEvent const& event, HttProduct const& product) {
-		return product.m_validBTaggedJets.size() >= 1 ? product.m_validBTaggedJets.at(0)->p4.Pt() : DefaultValues::UndefinedFloat;
+		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Pt() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["bJetEta"] = [](HttEvent const& event, HttProduct const& product) {
-		return product.m_validBTaggedJets.size() >= 1 ? product.m_validBTaggedJets.at(0)->p4.Eta() : DefaultValues::UndefinedFloat;
+		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Eta() : DefaultValues::UndefinedFloat;
 	};
 	m_valueExtractorMap["bJetPhi"] = [](HttEvent const& event, HttProduct const& product) {
-		return product.m_validBTaggedJets.size() >= 1 ? product.m_validBTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedFloat;
+		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 
 	m_valueExtractorMap["pfMETsumEt"] = [](HttEvent const& event, HttProduct const& product) { return event.m_met->sumEt; };
