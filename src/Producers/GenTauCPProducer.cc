@@ -21,7 +21,6 @@ void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 	if (abs(selectedTau1->node->pdgId()) == 15 && abs(selectedTau2->node->pdgId()) == 15 && selectedTau1OneProngs.size() != 0 && selectedTau2OneProngs.size() != 0)
 	{
 		std::pair<float, float> phiPsiStar;
-		
 		//Initialization of charged particles
 		KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->node;
 		KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->node;
@@ -46,10 +45,23 @@ void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 		// Calculatiion of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
 		product.m_genPhi = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
-
+		
+		//Cross check for neutral Pions
+		RMDataLV summedMomentum1;
+		RMDataLV summedMomentum2;
+		for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
+		{
+			if (selectedTau1OneProngs[i]->isDetectable()) summedMomentum1 += selectedTau1OneProngs[i]->node->p4;
+		}
+		for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
+		{
+			if (selectedTau2OneProngs[i]->isDetectable()) summedMomentum2 += selectedTau2OneProngs[i]->node->p4;
+		}
+		product.PhiDet = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
 	}
 	else
 	{
+		product.PhiDet = DefaultValues::UndefinedDouble;
 		product.m_genPhiStar = DefaultValues::UndefinedDouble;
 		product.m_genPsiStarCP = DefaultValues::UndefinedDouble;
 		product.m_genPhi = DefaultValues::UndefinedDouble;

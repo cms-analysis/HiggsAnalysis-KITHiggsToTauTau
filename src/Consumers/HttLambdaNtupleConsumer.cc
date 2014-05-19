@@ -115,6 +115,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	{
 		return product.m_genPhi;
 	};
+	m_valueExtractorMap["PhiDet"] = [](HttEvent const & event, HttProduct const & product)
+	{
+		return product.PhiDet;
+	};
 	//Boson
 	m_valueExtractorMap["genBosonSize"] = [](HttEvent const & event, HttProduct const & product)
 	{
