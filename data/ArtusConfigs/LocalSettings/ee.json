@@ -9,7 +9,7 @@
 		"NMuons" : 0,
 		"HltPaths" : {
 			"nick" : {
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"HLT_Ele17_Ele8_CaloIdL_CaloIsoVL",
 					"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
 				]
@@ -40,7 +40,7 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_em",

@@ -10,7 +10,7 @@
 		"NTaus" : 1,
 		"HltPaths" : {
 			"nick" : {
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20",
 					"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20"
 				]
@@ -47,7 +47,7 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_et",

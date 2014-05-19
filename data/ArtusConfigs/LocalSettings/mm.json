@@ -9,7 +9,7 @@
 		"NMuons" : 2,
 		"HltPaths" : {
 			"nick" : {
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"HLT_Mu17_Mu8"
 				]
 			}
@@ -39,7 +39,7 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:valid_mvamet_em",
