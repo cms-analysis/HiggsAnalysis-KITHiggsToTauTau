@@ -20,7 +20,10 @@
 			}
 		},
 		"TauDiscriminators" : [
-			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
+			"hpsPFTauDiscriminationByLooseMuonRejection",
+			"hpsPFTauDiscriminationByLooseElectronRejection",
+			"1:hpsPFTauDiscriminationByMVA3LooseElectronRejection",
+			"hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"Quantities" : [
 			{
