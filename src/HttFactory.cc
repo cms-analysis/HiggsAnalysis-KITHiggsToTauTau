@@ -7,14 +7,14 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMetProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidBTaggedJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauDiscriminatorsProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/PreselectionFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/CutRangeFilters.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -41,16 +41,14 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 		return new HttValidJetsProducer();
 	else if(id == HttValidTaggedJetsProducer().GetProducerId())
 		return new HttValidTaggedJetsProducer();
+	else if(id == HttValidBTaggedJetsProducer().GetProducerId())
+		return new HttValidBTaggedJetsProducer();
 	else if(id == DecayChannelProducer().GetProducerId())
   		return new DecayChannelProducer();
     if(id == TauSpinnerProducer().GetProducerId())
         return new TauSpinnerProducer();
-	else if(id == EventWeightProducer().GetProducerId())
-		return new EventWeightProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
-	else if(id == TauDiscriminatorsProducer().GetProducerId())
-		return new TauDiscriminatorsProducer();
 	else
 		return KappaFactory<HttTypes>::createProducer( id );	
 }
@@ -59,6 +57,8 @@ HttFilterBase * HttFactory::createFilter ( std::string const& id )
 {
 	if(id == PreselectionFilter().GetFilterId())
 		return new PreselectionFilter();
+	else if(id == LeptonsPtCutFilter().GetFilterId())
+		return new LeptonsPtCutFilter();
 	else
 		return KappaFactory<HttTypes>::createFilter( id );
 }

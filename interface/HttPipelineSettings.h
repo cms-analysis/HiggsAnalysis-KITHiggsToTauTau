@@ -33,11 +33,7 @@ public:
 		RETURN_CACHED(quantities, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Quantities"))
 	}
 	
-	VarCache<std::vector<std::string>> tauDiscriminators;
-	stringvector GetTauDiscriminators() const
-	{
-		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
-	}
+	IMPL_SETTING(std::string, ElectronIDType);
 	
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
@@ -61,10 +57,20 @@ public:
 	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoPtThreshold, 0.0);
 	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoPtThreshold, 0.0);
 	
+	IMPL_SETTING_DEFAULT(float, BTaggedJetCombinedSecondaryVertexMediumWP, 0.0);
+	IMPL_SETTING_DEFAULT(float, BTaggedJetAbsEtaCut, 0.0);
+
 	IMPL_SETTING(float, IsoSignalConeSize);
 	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
-	IMPL_SETTING(float, IsoPtSumThresholdEB);
-	IMPL_SETTING(float, IsoPtSumThresholdEE);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
+	
+	IMPL_SETTING(float, ElectronTrackDxyCut);
+	IMPL_SETTING(float, ElectronTrackDzCut);
+	IMPL_SETTING(float, MuonTrackDxyCut);
+	IMPL_SETTING(float, MuonTrackDzCut);
+	
+	IMPL_SETTING(float, LowerCutHardLepPt);
 };
 
 /**
@@ -111,11 +117,7 @@ public:
 		RETURN_CACHED(chosenTauDaughters, PropertyTreeSupport::GetAsStringList(GetPropTree(), "ChosenTauDaughters"))
 	}
 	
-	VarCache<std::vector<std::string>> tauDiscriminators;
-	stringvector GetTauDiscriminators() const
-	{
-		RETURN_CACHED(tauDiscriminators, PropertyTreeSupport::GetAsStringList(GetPropTree(), "TauDiscriminators"))
-	}
+	IMPL_SETTING(std::string, ElectronIDType);
 	
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
@@ -139,8 +141,18 @@ public:
 	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoPtThreshold, 0.0);
 	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoPtThreshold, 0.0);
 	
+	IMPL_SETTING_DEFAULT(float, BTaggedJetCombinedSecondaryVertexMediumWP, 0.0);
+	IMPL_SETTING_DEFAULT(float, BTaggedJetAbsEtaCut, 0.0);
+
 	IMPL_SETTING(float, IsoSignalConeSize);
 	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
-	IMPL_SETTING(float, IsoPtSumThresholdEB);
-	IMPL_SETTING(float, IsoPtSumThresholdEE);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
+	
+	IMPL_SETTING(float, ElectronTrackDxyCut);
+	IMPL_SETTING(float, ElectronTrackDzCut);
+	IMPL_SETTING(float, MuonTrackDxyCut);
+	IMPL_SETTING(float, MuonTrackDzCut);
+	
+	IMPL_SETTING(float, LowerCutHardLepPt);
 };

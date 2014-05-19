@@ -1,13 +1,22 @@
 {
-	"ElectronID_documenation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation",
+	"ElectronID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_ID",
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentification#Non_triggering_MVA",
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation"
+	],
 	
-	"ElectronID" : "mvanontrig",
+	"ElectronReco" : "none",
+	
+	"ElectronID" : "user",
+	"ElectronIDType" : "summer2013tight",
 	
 	"ElectronIsoType" : "user",
+	"ElectronIso" : "none",
+	
 	"IsoSignalConeSize" : 0.4,
 	"DeltaBetaCorrectionFactor" : 0.5,
-	"IsoPtSumThresholdEB" : 0.1,
-	"IsoPtSumThresholdEE" : 0.1,
+	"IsoPtSumOverPtThresholdEB" : 0.1,
+	"IsoPtSumOverPtThresholdEE" : 0.1,
 	
 	"ElectronChargedIsoVetoConeSizeEB" : 0.01,
 	"ElectronChargedIsoVetoConeSizeEE" : 0.015,
@@ -18,5 +27,8 @@
 	"ElectronChargedIsoPtThreshold" : 0.0,
 	"ElectronNeutralIsoPtThreshold" : 0.0,
 	"ElectronPhotonIsoPtThreshold" : 0.0,
-	"ElectronDeltaBetaIsoPtThreshold" : 0.0
+	"ElectronDeltaBetaIsoPtThreshold" : 0.0,
+	
+	"ElectronTrackDxyCut" : 0.045,
+	"ElectronTrackDzCut" : 0.2
 }

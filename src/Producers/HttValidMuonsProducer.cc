@@ -21,8 +21,11 @@ void HttValidMuonsProducer::InitGlobal(global_setting_type const& globalSettings
 	
 	isoSignalConeSize = globalSettings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = globalSettings.GetDeltaBetaCorrectionFactor();
-	isoPtSumThresholdEB = globalSettings.GetIsoPtSumThresholdEB();
-	isoPtSumThresholdEE = globalSettings.GetIsoPtSumThresholdEE();
+	isoPtSumOverPtThresholdEB = globalSettings.GetIsoPtSumOverPtThresholdEB();
+	isoPtSumOverPtThresholdEE = globalSettings.GetIsoPtSumOverPtThresholdEE();
+	
+	trackDxyCut = globalSettings.GetMuonTrackDxyCut();
+	trackDzCut = globalSettings.GetMuonTrackDzCut();
 }
 
 void HttValidMuonsProducer::InitLocal(setting_type const& settings)
@@ -41,8 +44,11 @@ void HttValidMuonsProducer::InitLocal(setting_type const& settings)
 	
 	isoSignalConeSize = settings.GetIsoSignalConeSize();
 	deltaBetaCorrectionFactor = settings.GetDeltaBetaCorrectionFactor();
-	isoPtSumThresholdEB = settings.GetIsoPtSumThresholdEB();
-	isoPtSumThresholdEE = settings.GetIsoPtSumThresholdEE();
+	isoPtSumOverPtThresholdEB = settings.GetIsoPtSumOverPtThresholdEB();
+	isoPtSumOverPtThresholdEE = settings.GetIsoPtSumOverPtThresholdEE();
+	
+	trackDxyCut = settings.GetMuonTrackDxyCut();
+	trackDzCut = settings.GetMuonTrackDzCut();
 }
 
 bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
@@ -69,11 +75,18 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 				deltaBetaIsoPtThreshold
 		);
 		
-		if ((muon->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSum > isoPtSumThresholdEB) ||
-		    (muon->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSum > isoPtSumThresholdEE)) {
+		double isolationPtSumOverPt = isolationPtSum / muon->p4.Pt();
+		
+		if ((muon->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEB) ||
+		    (muon->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEE)) {
 			validMuon = false;
 		}
 	}
+	
+	// (tighter) cut on impact parameters of track
+	validMuon = validMuon
+	            && (trackDxyCut <= 0.0 || std::abs(muon->bestTrack.getDxy(&event.m_vertexSummary->pv)) < trackDxyCut)
+	            && (trackDzCut <= 0.0 || std::abs(muon->bestTrack.getDz(&event.m_vertexSummary->pv)) < trackDzCut);
 
 	if (validMuon) {
 		product.m_isoValueMuons.push_back(isolationPtSum);

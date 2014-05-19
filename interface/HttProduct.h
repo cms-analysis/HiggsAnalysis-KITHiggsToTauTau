@@ -50,13 +50,6 @@ public:
 		return EventCategory::NONE;
 	}
 
-	HttProduct() : KappaProduct() {};
-	//~HttProduct() : ~KappaProduct() {};
-
-	// all weights are collected in a map
-	// and multiplied into one "eventWeight" by the EventWeightProducer
-	std::map<std::string, double> m_weights;
-
 	DecayChannel m_decayChannel;
 	std::vector<EventCategory> m_eventCategories;
 
@@ -66,6 +59,10 @@ public:
 	std::vector<double> m_isoValueElectrons;
 	std::vector<double> m_isoValueMuons;
 	std::vector<double> m_isoValuePtOrderedLeptons;
+
+	/// added by HttValidBTaggedJetsProducer
+	std::vector<KDataPFTaggedJet*> m_validBTaggedJets;
+	std::vector<KDataPFTaggedJet*> m_invalidBTaggedJets;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;

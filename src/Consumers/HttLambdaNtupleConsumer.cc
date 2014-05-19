@@ -1,6 +1,4 @@
 
-#include <boost/algorithm/string/predicate.hpp>
-
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/DefaultValues.h"
@@ -10,19 +8,6 @@
 
 void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 {
-	// loop over all quantities containing "weight" (case-insensitive)
-	// and try to find them in the weights map to write them out
-	for (auto const & quantity : pset->GetSettings().GetQuantities())
-	{
-		if (boost::algorithm::icontains(quantity, "weight"))
-		{
-			m_valueExtractorMap[quantity] = [quantity](HttEvent const & event, HttProduct const & product)
-			{
-				return SafeMap::GetWithDefault(product.m_weights, quantity, 1.0);
-			};
-		}
-	}
-	
 	// tests for producers
 	m_valueExtractorMap["run"] = [](HttEvent const& event, HttProduct const& product) { return event.m_eventMetadata->nRun; };
 	m_valueExtractorMap["nPV"] = [](HttEvent const& event, HttProduct const& product) { return event.m_vertexSummary->nVertices; };
@@ -48,7 +33,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	m_valueExtractorMap["nTaus"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validTaus.size();
 	};
-	m_valueExtractorMap["nValidJets"] = [](HttEvent const& event, HttProduct const& product) {
+	m_valueExtractorMap["nJets"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validJets.size();
 	};
 	m_valueExtractorMap["leadingJetPt"] = [](HttEvent const& event, HttProduct const& product) {
@@ -80,6 +65,18 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	};
 	m_valueExtractorMap["trailingJetTCHE"] = [](HttEvent const& event, HttProduct const& product) {
 		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["nBTaggedJets"] = [](HttEvent const& event, HttProduct const& product) {
+		return product.m_validBTaggedJets.size();
+	};
+	m_valueExtractorMap["bJetPt"] = [](HttEvent const& event, HttProduct const& product) {
+		return product.m_validBTaggedJets.size() >= 1 ? product.m_validBTaggedJets.at(0)->p4.Pt() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["bJetEta"] = [](HttEvent const& event, HttProduct const& product) {
+		return product.m_validBTaggedJets.size() >= 1 ? product.m_validBTaggedJets.at(0)->p4.Eta() : DefaultValues::UndefinedFloat;
+	};
+	m_valueExtractorMap["bJetPhi"] = [](HttEvent const& event, HttProduct const& product) {
+		return product.m_validBTaggedJets.size() >= 1 ? product.m_validBTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
 
 	m_valueExtractorMap["pfMETsumEt"] = [](HttEvent const& event, HttProduct const& product) { return event.m_met->sumEt; };
