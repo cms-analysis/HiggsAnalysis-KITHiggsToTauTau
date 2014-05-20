@@ -3,12 +3,12 @@
 		"nElectrons",
 		"nMuons",
 		"nTaus",
-		"hardLepPt",
-		"hardLepEta",
-		"hardLepIso",
-		"softLepPt",
-		"softLepEta",
-		"softLepIso",
+		"leadingLepPt",
+		"leadingLepEta",
+		"leadingLepIso",
+		"trailingLepPt",
+		"trailingLepEta",
+		"trailingLepIso",
 		"diLepMass"
 	]
 }

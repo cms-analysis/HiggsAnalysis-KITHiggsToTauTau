@@ -9,18 +9,7 @@
 void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 {
 
-	m_valueExtractorMap["hardLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
-	m_valueExtractorMap["hardLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
-	m_valueExtractorMap["hardLepIso"] = [](event_type const& event, product_type const& product) { return product.m_isoValuePtOrderedLeptons[0]; };
-	m_valueExtractorMap["softLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->Pt(); };
-	m_valueExtractorMap["softLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->Eta(); };
-	m_valueExtractorMap["softLepIso"] = [](event_type const& event, product_type const& product) { return product.m_isoValuePtOrderedLeptons[1]; };
-	m_valueExtractorMap["diLepMass"] = [](event_type const& event, product_type const& product) {
-		return (*(product.m_ptOrderedLeptons[0]) + *(product.m_ptOrderedLeptons[1])).mass();
-	};
-	m_valueExtractorMap["decayChannelIndex"] = [](event_type const& event, product_type const& product) {
-		return Utility::ToUnderlyingValue(product.m_decayChannel);
-	};
+	// Lepton quantities
 	m_valueExtractorMap["nElectrons"] = [](event_type const& event, product_type const& product) { 
 		return product.m_validElectrons.size();
 	};
@@ -30,8 +19,36 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["nTaus"] = [](event_type const& event, product_type const& product) {
 		return product.m_validTaus.size();
 	};
+	
+	m_valueExtractorMap["leadingLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
+	m_valueExtractorMap["leadingLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
+	m_valueExtractorMap["leadingLepPhi"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->Phi(); };
+	m_valueExtractorMap["leadingLepMass"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->mass(); };
+	m_valueExtractorMap["leadingLepMt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->Mt(); };
+	
+	m_valueExtractorMap["leadingLepIso"] = [](event_type const& event, product_type const& product) { return product.m_isoValuePtOrderedLeptons[0]; };
+	
+	m_valueExtractorMap["trailingLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->Pt(); };
+	m_valueExtractorMap["trailingLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->Eta(); };
+	m_valueExtractorMap["trailingLepPhi"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->Phi(); };
+	m_valueExtractorMap["trailingLepMass"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->mass(); };
+	m_valueExtractorMap["trailingLepMt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->Mt(); };
+	
+	m_valueExtractorMap["trailingLepIso"] = [](event_type const& event, product_type const& product) { return product.m_isoValuePtOrderedLeptons[1]; };
+	
+	m_valueExtractorMap["diLepMass"] = [](event_type const& event, product_type const& product) {
+		return (*(product.m_ptOrderedLeptons[0]) + *(product.m_ptOrderedLeptons[1])).mass();
+	};
+	m_valueExtractorMap["decayChannelIndex"] = [](event_type const& event, product_type const& product) {
+		return Utility::ToUnderlyingValue(product.m_decayChannel);
+	};
+	
+	// Jet quantities
 	m_valueExtractorMap["nJets"] = [](event_type const& event, product_type const& product) {
 		return product.m_validJets.size();
+	};
+	m_valueExtractorMap["rho"] = [](event_type const& event, product_type const& product) {
+		return event.m_jetArea->median;
 	};
 	m_valueExtractorMap["leadingJetPt"] = [](event_type const& event, product_type const& product) {
 		return product.m_validJets.size() >= 1 ? product.m_validJets.at(0)->p4.Pt() : DefaultValues::UndefinedFloat;
@@ -75,10 +92,18 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["bJetPhi"] = [](event_type const& event, product_type const& product) {
 		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedFloat;
 	};
-
+	
+	// MET quantities
 	m_valueExtractorMap["pfMETsumEt"] = [](event_type const& event, product_type const& product) { return event.m_met->sumEt; };
 	m_valueExtractorMap["pfMETeta"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Eta(); };
 	m_valueExtractorMap["pfMETphi"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Phi(); };
+	
+	/*
+	m_valueExtractorMap["mvaMetSumEt"] = [](event_type const& event, product_type const& product) { return event.m_metMember->sumEt; };
+	m_valueExtractorMap["mvaMetEta"] = [](event_type const& event, product_type const& product) { return event.m_metMember->p4.Eta(); };
+	m_valueExtractorMap["mvaMetPhi"] = [](event_type const& event, product_type const& product) { return event.m_metMember->p4.Phi(); };
+	*/
+	
 	m_valueExtractorMap["MvaMetTTsumEt"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->sumEt; };
 	m_valueExtractorMap["MvaMetTTeta"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Eta(); };
 	m_valueExtractorMap["MvaMetTTphi"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Phi(); };
@@ -598,6 +623,26 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	{	
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >5)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[5].node->status() : DefaultValues::UndefinedFloat;
 	};
+	
+	// settings for synch ntuples
+	m_valueExtractorMap["evt"] = [](event_type const& event, product_type const& product) { return event.m_eventMetadata->nEvent; };
+	m_valueExtractorMap["puweight"] = [](event_type const& event, product_type const& product) { return product.m_weights.at("puWeight"); };
+	m_valueExtractorMap["weight"] = [pipeline](event_type const& event, product_type const& product) {
+		return product.m_weights.at(pipeline->GetSettings().GetEventWeight());
+	};
+	m_valueExtractorMap["mvis"] = m_valueExtractorMap["diLepMass"];
+	m_valueExtractorMap["pt_1"] = m_valueExtractorMap["leadingLepPt"];
+	m_valueExtractorMap["eta_1"] = m_valueExtractorMap["leadingLepEta"];
+	m_valueExtractorMap["phi_1"] = m_valueExtractorMap["leadingLepPhi"];
+	m_valueExtractorMap["m_1"] = m_valueExtractorMap["leadingLepMass"];
+	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["leadingLepIso"];
+	m_valueExtractorMap["mt_1"] = m_valueExtractorMap["leadingLepMt"];
+	m_valueExtractorMap["pt_2"] = m_valueExtractorMap["trailingLepPt"];
+	m_valueExtractorMap["eta_2"] = m_valueExtractorMap["trailingLepEta"];
+	m_valueExtractorMap["phi_2"] = m_valueExtractorMap["trailingLepPhi"];
+	m_valueExtractorMap["m_2"] = m_valueExtractorMap["trailingLepMass"];
+	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["trailingLepIso"];
+	m_valueExtractorMap["mt_2"] = m_valueExtractorMap["trailingLepMt"];
 	
 	// need to be called at last
 	KappaLambdaNtupleConsumer<HttTypes>::Init(pipeline);
