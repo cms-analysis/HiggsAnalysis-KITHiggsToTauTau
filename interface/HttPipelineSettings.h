@@ -102,9 +102,7 @@ public:
 	/// htt decay channel and event category
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");
 	IMPL_SETTING_DEFAULT(std::string, Category, "");
-
-	/// detemine whether this is data or MC
-	IMPL_SETTING(bool, InputIsData)
+	
 	/// Reading TauSpinnerSettings
 	VarCache<stringvector> tauSpinnerSettings;
 	stringvector GetTauSpinnerSettings() const
