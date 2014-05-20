@@ -5,7 +5,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidElectronsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMuonsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMetProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetSelectors.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidBTaggedJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
@@ -28,14 +28,16 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 		return new HttValidMuonsProducer();
 	else if(id == HttValidTausProducer().GetProducerId())
 		return new HttValidTausProducer();
-	else if(id == HttValidMvaMetTTProducer().GetProducerId())
-		return new HttValidMvaMetTTProducer();
-	else if(id == HttValidMvaMetMTProducer().GetProducerId())
-		return new HttValidMvaMetMTProducer();
-	else if(id == HttValidMvaMetETProducer().GetProducerId())
-		return new HttValidMvaMetETProducer();
-	else if(id == HttValidMvaMetEMProducer().GetProducerId())
-		return new HttValidMvaMetEMProducer();
+	else if(id == MetSelector().GetProducerId())
+		return new MetSelector();
+	else if(id == MvaMetTTSelector().GetProducerId())
+		return new MvaMetTTSelector();
+	else if(id == MvaMetMTSelector().GetProducerId())
+		return new MvaMetMTSelector();
+	else if(id == MvaMetETSelector().GetProducerId())
+		return new MvaMetETSelector();
+	else if(id == MvaMetEMSelector().GetProducerId())
+		return new MvaMetEMSelector();
 	else if(id == HttValidJetsProducer().GetProducerId())
 		return new HttValidJetsProducer();
 	else if(id == HttValidTaggedJetsProducer().GetProducerId())

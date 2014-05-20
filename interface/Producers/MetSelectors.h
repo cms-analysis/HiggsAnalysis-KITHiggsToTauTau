@@ -13,7 +13,7 @@
 
 
 template<class TMet>
-class HttValidMetProducerBase: public ProducerBase<HttTypes>
+class MetSelectorBase: public ProducerBase<HttTypes>
 {
 public:
 
@@ -22,32 +22,24 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 	typedef typename HttTypes::global_setting_type global_setting_type;
 	
-	HttValidMetProducerBase(TMet* event_type::*met) :
+	MetSelectorBase(TMet* event_type::*met) :
 		ProducerBase<HttTypes>(),
 		m_metMember(met)
 	{
-	}
-	
-	virtual void InitGlobal(global_setting_type const& globalSettings)  ARTUS_CPP11_OVERRIDE
-	{
-		ProducerBase<HttTypes>::InitGlobal(globalSettings);
-	}
-	
-	virtual void InitLocal(setting_type const& settings)  ARTUS_CPP11_OVERRIDE
-	{
-		ProducerBase<HttTypes>::InitLocal(settings);
 	}
 	
 	// nothing to do here
 	virtual void ProduceGlobal(event_type const& event, product_type& product,
 	                           global_setting_type const& globalSettings) const ARTUS_CPP11_OVERRIDE
 	{
+		product.m_met = event.*m_metMember;
 	}
 
 	// nothing to do here
 	virtual void ProduceLocal(event_type const& event, product_type & product, 
 	                          setting_type const& pipelineSettings) const ARTUS_CPP11_OVERRIDE
 	{
+		product.m_met = event.*m_metMember;
 	}
 
 private:
@@ -57,15 +49,30 @@ private:
 
 
 /**
-   \brief Producer for MVAMET (TT channel)
+   \brief Producer for MET (from event.m_met)
 */
-class HttValidMvaMetTTProducer: public HttValidMetProducerBase<KDataPFMET>
+class MetSelector: public MetSelectorBase<KDataPFMET>
 {
 public:
-	HttValidMvaMetTTProducer() : HttValidMetProducerBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetTT) {};
+	MetSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_met) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "valid_mvamet_tt";
+		return "met_selector";
+	}
+};
+
+
+
+/**
+   \brief Producer for MVAMET (TT channel)
+*/
+class MvaMetTTSelector: public MetSelectorBase<KDataPFMET>
+{
+public:
+	MvaMetTTSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetTT) {};
+	
+	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+		return "mvamet_tt_selector";
 	}
 };
 
@@ -74,13 +81,13 @@ public:
 /**
    \brief Producer for MVAMET (MT channel)
 */
-class HttValidMvaMetMTProducer: public HttValidMetProducerBase<KDataPFMET>
+class MvaMetMTSelector: public MetSelectorBase<KDataPFMET>
 {
 public:
-	HttValidMvaMetMTProducer() : HttValidMetProducerBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetMT) {};
+	MvaMetMTSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetMT) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "valid_mvamet_mt";
+		return "mvamet_mt_selector";
 	}
 };
 
@@ -89,13 +96,13 @@ public:
 /**
    \brief Producer for MVAMET (ET channel)
 */
-class HttValidMvaMetETProducer: public HttValidMetProducerBase<KDataPFMET>
+class MvaMetETSelector: public MetSelectorBase<KDataPFMET>
 {
 public:
-	HttValidMvaMetETProducer() : HttValidMetProducerBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetET) {};
+	MvaMetETSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetET) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "valid_mvamet_et";
+		return "mvamet_et_selector";
 	}
 };
 
@@ -104,12 +111,13 @@ public:
 /**
    \brief Producer for MVAMET (EM channel)
 */
-class HttValidMvaMetEMProducer: public HttValidMetProducerBase<KDataPFMET>
+class MvaMetEMSelector: public MetSelectorBase<KDataPFMET>
 {
 public:
-	HttValidMvaMetEMProducer() : HttValidMetProducerBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetEM) {};
+	MvaMetEMSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetEM) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "valid_mvamet_em";
+		return "mvamet_em_selector";
 	}
 };
+

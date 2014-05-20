@@ -63,6 +63,8 @@ public:
 	/// added by HttValidBTaggedJetsProducer
 	std::vector<KDataPFTaggedJet*> m_BTaggedJets;
 	std::vector<KDataPFTaggedJet*> m_notBTaggedJets;
+	
+	KDataPFMET* m_met = 0;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;
@@ -70,8 +72,8 @@ public:
 	double m_genPhiStar;
 	double m_genPsiStarCP;
 	
-	KGenParticle* m_genOneProngCharged1;
-	KGenParticle* m_genOneProngCharged2;
+	KGenParticle* m_genOneProngCharged1 = 0;
+	KGenParticle* m_genOneProngCharged2 = 0;
 
 };
 

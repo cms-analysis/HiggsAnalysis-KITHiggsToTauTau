@@ -1,7 +1,12 @@
 {
 	"property" : [
 		"pfMETsumEt",
+		"pfMETpt",
 		"pfMETeta",
-		"pfMETphi"
+		"pfMETphi",
+		"mvaMetSumEt",
+		"mvaMetPt",
+		"mvaMetEta",
+		"mvaMetPhi"
 	]
 }
