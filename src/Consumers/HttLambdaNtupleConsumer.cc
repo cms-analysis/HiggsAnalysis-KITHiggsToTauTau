@@ -6,7 +6,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 
 
-void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
+void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 {
 	// tests for producers
 	m_valueExtractorMap["run"] = [](HttEvent const& event, HttProduct const& product) { return event.m_eventMetadata->nRun; };
@@ -601,7 +601,8 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes>* pset)
 	{	
 		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].Daughters[1].Daughters.size() >5)? product.m_genBoson[0].Daughters[0].Daughters[1].Daughters[5].node->status() : DefaultValues::UndefinedFloat;
 	};
-
-	LambdaNtupleConsumerBase<HttTypes>::Init(pset);
+	
+	// need to be called at last
+	KappaLambdaNtupleConsumer<HttTypes>::Init(pipeline);
 }
 

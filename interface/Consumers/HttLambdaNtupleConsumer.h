@@ -3,17 +3,18 @@
 
 #include "Artus/Core/interface/Cpp11Support.h"
 
-#include "Artus/Consumer/interface/LambdaNtupleConsumerBase.h"
+#include "Artus/KappaAnalysis/interface/Consumers/KappaLambdaNtupleConsumer.h"
 
 #include "../HttTypes.h"
 
 
-class HttLambdaNtupleConsumer: public LambdaNtupleConsumerBase<HttTypes> {
+class HttLambdaNtupleConsumer: public KappaLambdaNtupleConsumer<HttTypes> {
 public:
 
-	typedef std::function<float(HttEvent const&, HttProduct const&)> float_extractor_lambda;
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
 
-	HttLambdaNtupleConsumer() : LambdaNtupleConsumerBase<HttTypes>() {  };
+	typedef std::function<float(event_type const&, product_type const&)> float_extractor_lambda;
 	
-	virtual void Init(Pipeline<HttTypes> * pset) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(Pipeline<HttTypes> * pipeline) ARTUS_CPP11_OVERRIDE;
 };
