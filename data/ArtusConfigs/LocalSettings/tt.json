@@ -39,7 +39,6 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
 				]
 			},
-			"nPV",
 			"decayChannelIndex",
 			"MvaMetTTsumEt",
 			"MvaMetTTeta",

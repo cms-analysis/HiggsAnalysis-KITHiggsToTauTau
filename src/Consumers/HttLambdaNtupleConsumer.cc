@@ -8,9 +8,6 @@
 
 void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 {
-	// tests for producers
-	m_valueExtractorMap["run"] = [](event_type const& event, product_type const& product) { return event.m_eventMetadata->nRun; };
-	m_valueExtractorMap["nPV"] = [](event_type const& event, product_type const& product) { return event.m_vertexSummary->nVertices; };
 
 	m_valueExtractorMap["hardLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->Pt(); };
 	m_valueExtractorMap["hardLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->Eta(); };
