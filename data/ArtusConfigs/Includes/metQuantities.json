@@ -2,11 +2,9 @@
 	"property" : [
 		"pfMETsumEt",
 		"pfMETpt",
-		"pfMETeta",
 		"pfMETphi",
 		"mvaMetSumEt",
 		"mvaMetPt",
-		"mvaMetEta",
 		"mvaMetPhi"
 	]
 }

@@ -42,7 +42,7 @@
 			},
 			"decayChannelIndex",
 			"MvaMetTTsumEt",
-			"MvaMetTTeta",
+			"MvaMetTTpt",
 			"MvaMetTTphi"
 		],
 		"Processors" : {

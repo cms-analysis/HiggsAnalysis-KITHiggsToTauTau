@@ -96,16 +96,14 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	// MET quantities
 	m_valueExtractorMap["pfMETsumEt"] = [](event_type const& event, product_type const& product) { return event.m_met->sumEt; };
 	m_valueExtractorMap["pfMETpt"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Pt(); };
-	m_valueExtractorMap["pfMETeta"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Eta(); };
 	m_valueExtractorMap["pfMETphi"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Phi(); };
 	
 	m_valueExtractorMap["mvaMetSumEt"] = [](event_type const& event, product_type const& product) { return product.m_met->sumEt; };
 	m_valueExtractorMap["mvaMetPt"] = [](event_type const& event, product_type const& product) { return product.m_met->p4.Pt(); };
-	m_valueExtractorMap["mvaMetEta"] = [](event_type const& event, product_type const& product) { return product.m_met->p4.Eta(); };
 	m_valueExtractorMap["mvaMetPhi"] = [](event_type const& event, product_type const& product) { return product.m_met->p4.Phi(); };
 	
 	m_valueExtractorMap["MvaMetTTsumEt"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->sumEt; };
-	m_valueExtractorMap["MvaMetTTeta"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Eta(); };
+	m_valueExtractorMap["MvaMetTTpt"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Pt(); };
 	m_valueExtractorMap["MvaMetTTphi"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Phi(); };
 
 
