@@ -20,6 +20,11 @@ class PlotRootHtt(plotroot.PlotRoot):
 		# load HttStyles
 		ROOT.gROOT.LoadMacro(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/src/HttStyles.cc")+"+")
 	
+	def modify_argument_parser(self, parser):
+		plotroot.PlotRoot.modify_argument_parser(self, parser)
+		
+		parser.set_defaults(y_label="Number of Entries")
+	
 	def run(self, plotData):
 		# apply HttStyles
 		ROOT.SetStyle()
@@ -28,4 +33,8 @@ class PlotRootHtt(plotroot.PlotRoot):
 
 	def create_canvas(self, plotData):
 		self.canvas = ROOT.MakeCanvas("canvas", "")
+
+	def prepare_histograms(self, plotData):
+		for root_histogram in plotData.plotdict["root_histos"].values():
+			ROOT.InitHist(root_histogram, root_histogram.GetTitle())
 
