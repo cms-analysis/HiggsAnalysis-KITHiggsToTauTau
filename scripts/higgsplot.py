@@ -5,22 +5,15 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import Artus.HarryPlotter.harrycore as harrycore
+import Artus.HarryPlotter.core as harrycore
+import HiggsAnalysis.KITHiggsToTauTau.plotting.plotroothtt as plotroothtt
 
-# import analysis specific functions
-import HiggsAnalysis.KITHiggsToTauTau.HarryPlotterModules.decayproducts as higgsmodule
 
 if __name__ == "__main__":
-	"""This is a template for users to make analysis-specific plots with HarryPlotter."""
+	harry_core = harrycore.HarryCore()
+	
+	# register custom version of ROOT plots which creates plots in the officital Htautau style
+	harry_core.register_processor(plotroothtt.PlotRootHtt.name(), plotroothtt.PlotRootHtt())
+	
+	harry_core.run()
 
-	basedict = harrycore.get_basic_dictionary()
-
-	parser = harrycore.get_basic_parser(**basedict)
-
-	plotdict = harrycore.create_dictionary_from_parser(parser)
-
-	# Add the module with the user-written functions to the plotdict
-
-	plotdict['analysismodules'] = [higgsmodule]
-
-	harrycore.plot(plotdict)
