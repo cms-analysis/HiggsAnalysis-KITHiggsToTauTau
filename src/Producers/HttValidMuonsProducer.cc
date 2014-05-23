@@ -89,7 +89,7 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 	            && (trackDzCut <= 0.0 || std::abs(muon->bestTrack.getDz(&event.m_vertexSummary->pv)) < trackDzCut);
 
 	if (validMuon) {
-		product.m_isoValueMuons.push_back(isolationPtSum);
+		product.m_validComputedMuons[muon].isolationValue = isolationPtSum / muon->p4.Pt();
 	}
 
 	return validMuon;
