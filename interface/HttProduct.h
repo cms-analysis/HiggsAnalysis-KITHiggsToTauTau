@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
+#include "HttComputedObjects.h"
 
 
 class HttProduct : public KappaProduct
@@ -56,8 +57,10 @@ public:
 	std::vector<RMDataLV*> m_ptOrderedLeptons;
 	std::vector<RMDataLV*> m_flavourOrderedLeptons;
 
-	std::vector<double> m_isoValueElectrons;
-	std::vector<double> m_isoValueMuons;
+	std::map<KDataMuon*, HttMuonComputed> m_validComputedMuons;
+	std::map<KDataElectron*, HttElectronComputed> m_validComputedElectrons;
+	std::map<KDataPFTau*, HttTauComputed> m_validComputedTaus;
+
 	std::vector<double> m_isoValuePtOrderedLeptons;
 
 	/// added by HttValidBTaggedJetsProducer
