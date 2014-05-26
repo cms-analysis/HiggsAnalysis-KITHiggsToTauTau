@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <limits.h>
+
 #include "Artus/KappaAnalysis/interface/KappaPipelineSettings.h"
 
 /**
@@ -69,6 +71,18 @@ public:
 	IMPL_SETTING(float, ElectronTrackDzCut);
 	IMPL_SETTING(float, MuonTrackDxyCut);
 	IMPL_SETTING(float, MuonTrackDzCut);
+	
+	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
+	VarCache<std::vector<float> > tauDiscriminatorAntiElectronMvaCuts;
+	floatvector GetTauDiscriminatorAntiElectronMvaCuts() const
+	{
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCuts, PropertyTreeSupport::GetAsFloatList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCuts"))
+	}
+	VarCache<std::vector<int> > tauDiscriminatorAntiElectronMvaCutsLeptonIndices;
+	intvector GetTauDiscriminatorAntiElectronMvaCutsLeptonIndices() const
+	{
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCutsLeptonIndices, PropertyTreeSupport::GetAsIntList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCutsLeptonIndices"))
+	}
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 };
@@ -151,6 +165,18 @@ public:
 	IMPL_SETTING(float, ElectronTrackDzCut);
 	IMPL_SETTING(float, MuonTrackDxyCut);
 	IMPL_SETTING(float, MuonTrackDzCut);
+	
+	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
+	VarCache<std::vector<float> > tauDiscriminatorAntiElectronMvaCuts;
+	floatvector GetTauDiscriminatorAntiElectronMvaCuts() const
+	{
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCuts, PropertyTreeSupport::GetAsFloatList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCuts"))
+	}
+	VarCache<std::vector<int> > tauDiscriminatorAntiElectronMvaCutsLeptonIndices;
+	intvector GetTauDiscriminatorAntiElectronMvaCutsLeptonIndices() const
+	{
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCutsLeptonIndices, PropertyTreeSupport::GetAsIntList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCutsLeptonIndices"))
+	}
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 };
