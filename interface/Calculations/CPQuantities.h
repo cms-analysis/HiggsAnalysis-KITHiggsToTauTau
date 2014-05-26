@@ -17,4 +17,5 @@ class CPQuantities {
 public:
 	static std::pair<float, float> CalculatePhiPsiStar(RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2);
 	static float CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2);
+	static float CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMDataLV hadron);
 };

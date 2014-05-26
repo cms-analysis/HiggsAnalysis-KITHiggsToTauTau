@@ -92,4 +92,27 @@ float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, R
 	LOG(DEBUG)  << "Phi: " << phi;
 	return phi;
 }
+float CPQuantities::CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMDataLV hadron)
+{
+	// Step 1: Creating boost to Tau- restframe
+	RMDataLV::BetaVector boosttauvect = tau.BoostToCM();
+	ROOT::Math::Boost TauRestFrame(boosttauvect);
+
+	// Step 2: Boosting neutrino and hadron 4-momentum vectors
+	nuTau = TauRestFrame * nuTau;
+	hadron = TauRestFrame * hadron;
+
+	// Step 3: Extracting boosted 3-momentum vectors and normalizing them
+	
+	RMDataLV::BetaVector nuVec, hadVec;
+	nuVec.SetXYZ(nuTau.Px(),nuTau.Py(),nuTau.Pz());
+	hadVec.SetXYZ(hadron.Px(),hadron.Py(),hadron.Pz());
+
+	nuVec = nuVec.Unit();
+	hadVec = hadVec.Unit();
+
+	// Step 4: Calculating Theta
+	float theta  = acos(nuVec.Dot(hadVec));
+	return theta;
+}
 

@@ -69,9 +69,12 @@ public:
 	double m_genPhi;
 	double m_genPhiStar;
 	double m_genPsiStarCP;
+	double m_genThetaNuHadron;
 	double PhiDet;
 	double PhiStarDet;
-	
+	double PhiOnePion;
+	double PhiStarOnePion;
+
 	KGenParticle* m_genOneProngCharged1;
 	KGenParticle* m_genOneProngCharged2;
 

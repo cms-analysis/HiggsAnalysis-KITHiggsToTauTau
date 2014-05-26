@@ -2,11 +2,13 @@
 	"gen" : {
 		"Channel" : "gen",
 		"Quantities" : [
-		"TauSpinnerWeight",
+		"#TauSpinnerWeight",
 		
 		"Phi",
 		"PhiStar",
+		"Theta",
 		"PhiDet",
+		"PhiStarDet",
 		"PsiStarCP",
 		"MassRoundOff1",
 		"MassRoundOff2",
