@@ -35,9 +35,9 @@ void HttValidBTaggedJetsProducer::Produce(event_type const& event, product_type&
 			validBJet = validBJet && HttValidBTaggedJetsProducer::AdditionalCriteria(static_cast<KDataPFTaggedJet*>(*jet), event, product);
 
 			if (validBJet)
-				product.m_validBTaggedJets.push_back(static_cast<KDataPFTaggedJet*>(*jet));
+				product.m_BTaggedJets.push_back(static_cast<KDataPFTaggedJet*>(*jet));
 			else
-				product.m_invalidBTaggedJets.push_back(static_cast<KDataPFTaggedJet*>(*jet));
+				product.m_notBTaggedJets.push_back(static_cast<KDataPFTaggedJet*>(*jet));
 		}
 }
 

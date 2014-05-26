@@ -110,7 +110,7 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	                && (trackDzCut <= 0.0 || std::abs(electron->track.getDz(&event.m_vertexSummary->pv)) < trackDzCut);
 
 	if (validElectron) {
-		product.m_isoValueElectrons.push_back(isolationPtSum);
+		product.m_validComputedElectrons[electron].isolationValue = isolationPtSum / electron->p4.Pt();
 	}
 
 	return validElectron;

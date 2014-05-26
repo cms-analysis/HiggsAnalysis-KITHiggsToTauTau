@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
+#include "HttComputedObjects.h"
 
 
 class HttProduct : public KappaProduct
@@ -56,13 +57,17 @@ public:
 	std::vector<RMDataLV*> m_ptOrderedLeptons;
 	std::vector<RMDataLV*> m_flavourOrderedLeptons;
 
-	std::vector<double> m_isoValueElectrons;
-	std::vector<double> m_isoValueMuons;
+	std::map<KDataMuon*, HttMuonComputed> m_validComputedMuons;
+	std::map<KDataElectron*, HttElectronComputed> m_validComputedElectrons;
+	std::map<KDataPFTau*, HttTauComputed> m_validComputedTaus;
+
 	std::vector<double> m_isoValuePtOrderedLeptons;
 
 	/// added by HttValidBTaggedJetsProducer
-	std::vector<KDataPFTaggedJet*> m_validBTaggedJets;
-	std::vector<KDataPFTaggedJet*> m_invalidBTaggedJets;
+	std::vector<KDataPFTaggedJet*> m_BTaggedJets;
+	std::vector<KDataPFTaggedJet*> m_notBTaggedJets;
+	
+	KDataPFMET* m_met = 0;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;
@@ -75,8 +80,7 @@ public:
 	double PhiOnePion;
 	double PhiStarOnePion;
 
-	KGenParticle* m_genOneProngCharged1;
-	KGenParticle* m_genOneProngCharged2;
+	KGenParticle* m_genOneProngCharged1 = 0;
+	KGenParticle* m_genOneProngCharged2 = 0;
 
 };
-

@@ -9,15 +9,18 @@
 		"NMuons" : 0,
 		"HltPaths" : {
 			"nick" : {
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"HLT_Ele17_Ele8_CaloIdL_CaloIsoVL",
 					"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
 				]
 			}
 		},
+		"EventWeight" : "eventWeight",
 		"Quantities" : [
 			{
 				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
@@ -29,7 +32,7 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"producer:valid_mvamet_em",
+					"producer:met_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
 					"producer:valid_muons",
@@ -40,10 +43,10 @@
 					"filter:preselection",
 					"producer:event_weight"
 				],
-				"data" : [
+				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
-					"producer:valid_mvamet_em",
+					"producer:met_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
 					"producer:valid_muons",
