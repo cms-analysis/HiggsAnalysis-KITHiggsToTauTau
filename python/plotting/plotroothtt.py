@@ -49,8 +49,14 @@ class PlotRootHtt(plotroot.PlotRoot):
 		plotroot.PlotRoot.create_canvas(self, plotData)
 
 	def prepare_histograms(self, plotData):
-		for root_histogram in plotData.plotdict["root_histos"].values() + plotData.plotdict["root_ratio_histos"]:
+		for root_histogram in plotData.plotdict["root_histos"].values() + plotData.plotdict.get("root_ratio_histos", []):
 			ROOT.InitHist(root_histogram, root_histogram.GetTitle())
 		
 		plotroot.PlotRoot.prepare_histograms(self, plotData)
+	
+	def add_labels(self, plotData):
+		plotroot.PlotRoot.add_labels(self, plotData)
+		
+		if self.legend != None:
+			ROOT.SetLegendStyle(self.legend)
 
