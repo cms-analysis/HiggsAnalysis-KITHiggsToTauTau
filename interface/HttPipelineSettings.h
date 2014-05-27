@@ -69,7 +69,7 @@ public:
 	VarCache<std::vector<float> > tauDiscriminatorAntiElectronMvaCuts;
 	floatvector GetTauDiscriminatorAntiElectronMvaCuts() const
 	{
-		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCuts, PropertyTreeSupport::GetAsFloatList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCuts"))
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCuts, PropertyTreeSupport::GetAsFloatList(GetPropTree(), "Pipelines." + GetName() + ".TauDiscriminatorAntiElectronMvaCuts"))
 	}
 	VarCache<std::vector<int> > tauDiscriminatorAntiElectronMvaCutsLeptonIndices;
 	intvector GetTauDiscriminatorAntiElectronMvaCutsLeptonIndices() const
