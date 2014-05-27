@@ -28,13 +28,6 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");
 	IMPL_SETTING_DEFAULT(std::string, Category, "");
 	
-	/// quantities to be processed by the main consumer
-	VarCache<stringvector> quantities;
-	stringvector GetQuantities() const
-	{
-		RETURN_CACHED(quantities, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Quantities"))
-	}
-	
 	IMPL_SETTING(std::string, ElectronIDType);
 	
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
