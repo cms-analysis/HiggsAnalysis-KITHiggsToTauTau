@@ -7,6 +7,9 @@
 
 /**
    \brief GlobalProducer, for valid taus.
+   Config tags:
+   - TauDiscriminatorIsolationCut (optional)
+   - TauDiscriminatorAntiElectronMvaCuts (optional)
 */
 
 class HttValidTausProducer: public ValidTausProducer<HttTypes>
@@ -28,6 +31,12 @@ protected:
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KDataPFTau* tau, event_type const& event,
 	                                product_type& product) const  ARTUS_CPP11_OVERRIDE;
+
+
+private:
+	float tauDiscriminatorIsolationCut;
+	std::vector<float> tauDiscriminatorAntiElectronMvaCuts;
+	std::vector<int> tauDiscriminatorAntiElectronMvaCutsLeptonIndices;
 
 };
 
