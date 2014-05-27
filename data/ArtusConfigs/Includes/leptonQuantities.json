@@ -9,6 +9,10 @@
 		"trailingLepPt",
 		"trailingLepEta",
 		"trailingLepIso",
+		"lep1Pt",
+		"lep1Eta",
+		"lep2Pt",
+		"lep2Eta",
 		"diLepMass"
 	]
 }
