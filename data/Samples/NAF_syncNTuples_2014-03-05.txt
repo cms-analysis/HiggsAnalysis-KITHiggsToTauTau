@@ -1,0 +1,4 @@
+/nfs/dust/cms/user/rfriese/skimming/2014-03-05-sync-exercise/DoubleMu_PFembedded_Run2012A_22Jan2013_muelec_8TeV/
+/nfs/dust/cms/user/rfriese/skimming/2014-03-05-sync-exercise/DoubleMu_PFembedded_Run2012A_22Jan2013_muhad_8TeV/
+/nfs/dust/cms/user/rfriese/skimming/2014-03-05-sync-exercise/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/
+/nfs/dust/cms/user/rfriese/skimming/2014-03-05-sync-exercise/TauPlusX_Run2012A_22Jan2013_8TeV/

@@ -1,0 +1,88 @@
+{
+	"ll" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+		],
+		"Channel" : "LL",
+		"HltPaths" : {
+			"nick" : {
+				"DoubleMu|TauPlusX" : [
+					"HLT_Ele17_Ele8_CaloIdL_CaloIsoVL",
+					"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
+					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
+					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
+					"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20",
+					"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20",
+					"HLT_Mu17_Mu8",
+					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
+					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20",
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1",
+					"HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1",
+					"HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30",
+					"HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30",
+					"HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30"
+				]
+			}
+		},
+		"TauDiscriminators" : [
+			"hpsPFTauDiscriminationByLooseElectronRejection",
+			"hpsPFTauDiscriminationByLooseMuonRejection",
+			"hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits"
+		],
+		"ElectronLowerPtCuts" : [
+			"0:20",
+			"1:20"
+		],
+		"MuonLowerPtCuts" : [
+			"0:20",
+			"1:20"
+		],
+		"TauLowerPtCuts" : [
+			"0:45",
+			"1:45"
+		],
+		"EventWeight" : "eventWeight",
+		"Quantities" : [
+			"nElectrons",
+			"nMuons",
+			"nTaus"
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:met_selector",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"filter:electron_lower_pt_cuts",
+					"filter:electron_upper_abseta_cuts",
+					"filter:muon_lower_pt_cuts",
+					"filter:muon_upper_abseta_cuts",
+					"filter:tau_lower_pt_cuts",
+					"filter:tau_upper_abseta_cuts",
+					"producer:event_weight"
+				],
+				"DoubleMu|TauPlusX" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"producer:met_selector",
+					"producer:valid_electrons",
+					"producer:valid_muons",
+					"producer:valid_taus",
+					"filter:electron_lower_pt_cuts",
+					"filter:electron_upper_abseta_cuts",
+					"filter:muon_lower_pt_cuts",
+					"filter:muon_upper_abseta_cuts",
+					"filter:tau_lower_pt_cuts",
+					"filter:tau_upper_abseta_cuts",
+					"producer:event_weight"
+				]
+			}
+		},
+		"Consumers" : [
+			"lambda_ntuple",
+			"cutflow_histogram"
+		]
+	}
+}

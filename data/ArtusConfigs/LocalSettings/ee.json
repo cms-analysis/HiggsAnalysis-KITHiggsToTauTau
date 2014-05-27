@@ -15,6 +15,14 @@
 				]
 			}
 		},
+		"ElectronLowerPtCuts" : [
+			"0:20",
+			"1:10"
+		],
+		"ElectronUpperAbsEtaCuts" : [
+			"0:2.3",
+			"1:2.3"
+		],
 		"EventWeight" : "eventWeight",
 		"Quantities" : [
 			{
@@ -40,7 +48,8 @@
 					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
-					"filter:preselection",
+					"filter:electron_lower_pt_cuts",
+					"filter:electron_upper_abseta_cuts",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
@@ -54,7 +63,8 @@
 					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
-					"filter:preselection",
+					"filter:electron_lower_pt_cuts",
+					"filter:electron_upper_abseta_cuts",
 					"producer:event_weight"
 				]
 			}

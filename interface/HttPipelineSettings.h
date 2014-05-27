@@ -28,13 +28,6 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");
 	IMPL_SETTING_DEFAULT(std::string, Category, "");
 	
-	/// quantities to be processed by the main consumer
-	VarCache<stringvector> quantities;
-	stringvector GetQuantities() const
-	{
-		RETURN_CACHED(quantities, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Quantities"))
-	}
-	
 	IMPL_SETTING(std::string, ElectronIDType);
 	
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
@@ -76,7 +69,7 @@ public:
 	VarCache<std::vector<float> > tauDiscriminatorAntiElectronMvaCuts;
 	floatvector GetTauDiscriminatorAntiElectronMvaCuts() const
 	{
-		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCuts, PropertyTreeSupport::GetAsFloatList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCuts"))
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCuts, PropertyTreeSupport::GetAsFloatList(GetPropTree(), "Pipelines." + GetName() + ".TauDiscriminatorAntiElectronMvaCuts"))
 	}
 	VarCache<std::vector<int> > tauDiscriminatorAntiElectronMvaCutsLeptonIndices;
 	intvector GetTauDiscriminatorAntiElectronMvaCutsLeptonIndices() const
