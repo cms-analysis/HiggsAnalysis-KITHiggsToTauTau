@@ -28,6 +28,14 @@
 		],
 		"TauDiscriminatorAntiElectronMvaCuts" : [0.835,0.831,0.849,0.859,0.873,0.823,0.85,0.855,0.816,0.861,0.862,0.847,0.893,0.82,0.845,0.851],
 		"TauDiscriminatorAntiElectronMvaCutsLeptonIndices" : [1],
+		"TauLowerPtCuts" : [
+			"0:45",
+			"1:45"
+		],
+		"TauUpperAbsEtaCuts" : [
+			"0:2.1",
+			"1:2.1"
+		],
 		"EventWeight" : "eventWeight",
 		"Quantities" : [
 			{
@@ -57,7 +65,8 @@
 					"filter:n_electrons",
 					"filter:n_muons",
 					"filter:n_taus",
-					"filter:preselection",
+					"filter:tau_lower_pt_cuts",
+					"filter:tau_upper_abseta_cuts",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
@@ -72,7 +81,8 @@
 					"filter:n_electrons",
 					"filter:n_muons",
 					"filter:n_taus",
-					"filter:preselection",
+					"filter:tau_lower_pt_cuts",
+					"filter:tau_upper_abseta_cuts",
 					"producer:event_weight"
 				]
 			}
