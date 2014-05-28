@@ -6,13 +6,19 @@
 		"leadingLepPt",
 		"leadingLepEta",
 		"leadingLepIso",
+		"leadingLepIsoOverPt",
 		"trailingLepPt",
 		"trailingLepEta",
 		"trailingLepIso",
+		"trailingLepIsoOverPt",
 		"lep1Pt",
 		"lep1Eta",
+		"lep1Iso",
+		"lep1IsoOverPt",
 		"lep2Pt",
 		"lep2Eta",
+		"lep2Iso",
+		"lep2IsoOverPt",
 		"diLepMass"
 	]
 }
