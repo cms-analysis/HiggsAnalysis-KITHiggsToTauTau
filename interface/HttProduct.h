@@ -74,7 +74,10 @@ public:
 	double m_genPhi;
 	double m_genPhiStar;
 	double m_genPsiStarCP;
+	std::pair <double,double> m_genChargedProngEnergys;
+	std::pair <double,double> m_genChargedPionEnergysApprox;
 	double m_genThetaNuHadron;
+	double m_genAlphaTauNeutrinos;
 	double PhiDet;
 	double PhiStarDet;
 	double PhiOnePion;

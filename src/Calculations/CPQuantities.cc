@@ -92,6 +92,16 @@ float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, R
 	LOG(DEBUG)  << "Phi: " << phi;
 	return phi;
 }
+float CPQuantities::CalculateChargedProngEnergy(RMDataLV tau, RMDataLV chargedProng)
+{
+	// Step 1: Creating boost to Tau restframe
+	RMDataLV::BetaVector boosttauvect = tau.BoostToCM();
+	ROOT::Math::Boost TauRestFrame(boosttauvect);
+
+	// Step 2: Boosting charged Prong 4-momentum vector and extracting energy
+	chargedProng = TauRestFrame * chargedProng;
+	return chargedProng.E();
+}
 float CPQuantities::CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMDataLV hadron)
 {
 	// Step 1: Creating boost to Tau- restframe
@@ -115,4 +125,28 @@ float CPQuantities::CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMDataL
 	float theta  = acos(nuVec.Dot(hadVec));
 	return theta;
 }
+float CPQuantities::CalculateAlphaTauNeutrinos(RMDataLV tauM, RMDataLV nuTauM, RMDataLV tauP, RMDataLV nuTauP)
+{
+	// Step 1: Creating boosts to tau restframes
+	RMDataLV::BetaVector boostTauMVec = tauM.BoostToCM();
+	RMDataLV::BetaVector boostTauPVec = tauP.BoostToCM();
 
+	ROOT::Math::Boost TauMRestFrame(boostTauMVec);
+	ROOT::Math::Boost TauPRestFrame(boostTauPVec);
+
+	// Step 2: Boosting neutrino 4-momentum vectors
+	nuTauM = TauMRestFrame * nuTauM;
+	nuTauP = TauPRestFrame * nuTauP;
+
+	// Step 3: Extracting boosted 3-momentum vectors and normalizing them
+	RMDataLV::BetaVector nuMVec, nuPVec;
+	nuMVec.SetXYZ(nuTauM.Px(),nuTauM.Py(),nuTauM.Pz());
+	nuPVec.SetXYZ(nuTauP.Px(),nuTauP.Py(),nuTauP.Pz());
+
+	nuMVec = nuMVec.Unit();
+	nuPVec = nuPVec.Unit();
+
+	// Step 4 Calculating Alpha
+	float alpha  = acos(nuMVec.Dot(nuPVec));
+	return alpha;
+}

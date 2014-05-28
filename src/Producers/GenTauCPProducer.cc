@@ -134,6 +134,6 @@ void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 	{
 		product.m_genThetaNuHadron = DefaultValues::UndefinedDouble;
 	}
+	product.m_genAlphaTauNeutrinos = CPQuantities::CalculateAlphaTauNeutrinos(selectedTau1->node->p4, selectedTau1->Daughters[0].node->p4, selectedTau2->node->p4, selectedTau2->Daughters[0].node->p4);
 
 }
-

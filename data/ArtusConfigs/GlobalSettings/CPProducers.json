@@ -4,5 +4,6 @@
 		"#producer:tauspinner",
 		"producer:gen_cp"
 	],
-	"GenParticles" : "genParticles"
+	"GenParticles" : "genParticles",
+	"GenMet" : "GenMETTrue"
 }

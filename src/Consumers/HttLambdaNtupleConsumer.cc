@@ -132,6 +132,22 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	{
 		return product.m_genPhi;
 	};
+	m_valueExtractorMap["PhiDet"] = [](event_type const & event, product_type const & product)
+	{
+		return product.PhiDet;
+	};
+	m_valueExtractorMap["PhiStarDet"] = [](event_type const & event, product_type const & product)
+	{
+		return product.PhiStarDet;
+	};
+	m_valueExtractorMap["ThetaNuHadron"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genThetaNuHadron;
+	};
+	m_valueExtractorMap["AlphaTauNeutrinos"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genAlphaTauNeutrinos;
+	};
 	//Boson
 	m_valueExtractorMap["genBosonSize"] = [](event_type const & event, product_type const & product)
 	{

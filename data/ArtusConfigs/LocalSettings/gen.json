@@ -1,12 +1,14 @@
 {
 	"gen" : {
 		"Channel" : "gen",
+		"EventWeight" : "eventWeight",
 		"Quantities" : [
 		"#TauSpinnerWeight",
 		
 		"Phi",
 		"PhiStar",
-		"Theta",
+		"ThetaNuHadron",
+		"AlphaTauNeutrinos",
 		"PhiDet",
 		"PhiStarDet",
 		"PsiStarCP",
