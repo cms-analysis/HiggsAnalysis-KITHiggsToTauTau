@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <limits.h>
+
 #include "Artus/KappaAnalysis/interface/KappaPipelineSettings.h"
 
 /**
@@ -25,13 +27,6 @@ public:
 	/// htt decay channel and event category
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");
 	IMPL_SETTING_DEFAULT(std::string, Category, "");
-	
-	/// quantities to be processed by the main consumer
-	VarCache<stringvector> quantities;
-	stringvector GetQuantities() const
-	{
-		RETURN_CACHED(quantities, PropertyTreeSupport::GetAsStringList(GetPropTree(), "Pipelines." + GetName() + ".Quantities"))
-	}
 	
 	IMPL_SETTING(std::string, ElectronIDType);
 	
@@ -69,6 +64,18 @@ public:
 	IMPL_SETTING(float, ElectronTrackDzCut);
 	IMPL_SETTING(float, MuonTrackDxyCut);
 	IMPL_SETTING(float, MuonTrackDzCut);
+	
+	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
+	VarCache<std::vector<float> > tauDiscriminatorAntiElectronMvaCuts;
+	floatvector GetTauDiscriminatorAntiElectronMvaCuts() const
+	{
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCuts, PropertyTreeSupport::GetAsFloatList(GetPropTree(), "Pipelines." + GetName() + ".TauDiscriminatorAntiElectronMvaCuts"))
+	}
+	VarCache<std::vector<int> > tauDiscriminatorAntiElectronMvaCutsLeptonIndices;
+	intvector GetTauDiscriminatorAntiElectronMvaCutsLeptonIndices() const
+	{
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCutsLeptonIndices, PropertyTreeSupport::GetAsIntList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCutsLeptonIndices"))
+	}
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 };
@@ -151,6 +158,18 @@ public:
 	IMPL_SETTING(float, ElectronTrackDzCut);
 	IMPL_SETTING(float, MuonTrackDxyCut);
 	IMPL_SETTING(float, MuonTrackDzCut);
+	
+	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
+	VarCache<std::vector<float> > tauDiscriminatorAntiElectronMvaCuts;
+	floatvector GetTauDiscriminatorAntiElectronMvaCuts() const
+	{
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCuts, PropertyTreeSupport::GetAsFloatList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCuts"))
+	}
+	VarCache<std::vector<int> > tauDiscriminatorAntiElectronMvaCutsLeptonIndices;
+	intvector GetTauDiscriminatorAntiElectronMvaCutsLeptonIndices() const
+	{
+		RETURN_CACHED(tauDiscriminatorAntiElectronMvaCutsLeptonIndices, PropertyTreeSupport::GetAsIntList(GetPropTree(), "TauDiscriminatorAntiElectronMvaCutsLeptonIndices"))
+	}
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 };

@@ -23,6 +23,18 @@
 		],
 		"TauDiscriminatorIsolationCut" : 1.5,
 		"TauDiscriminatorAntiElectronMvaCuts" : [0.933,0.921,0.944,0.945,0.918,0.941,0.981,0.943,0.956,0.947,0.951,0.95,0.897,0.958,0.955,0.942],
+		"ElectronLowerPtCuts" : [
+			"0:24"
+		],
+		"TauLowerPtCuts" : [
+			"0:20"
+		],
+		"ElectronUpperAbsEtaCuts" : [
+			"0:2.1"
+		],
+		"TauUpperAbsEtaCuts" : [
+			"0:2.3"
+		],
 		"EventWeight" : "eventWeight",
 		"Quantities" : [
 			{
@@ -50,7 +62,10 @@
 					"filter:n_electrons",
 					"filter:n_muons",
 					"filter:n_taus",
-					"filter:preselection",
+					"filter:electron_lower_pt_cuts",
+					"filter:electron_upper_abseta_cuts",
+					"filter:tau_lower_pt_cuts",
+					"filter:tau_upper_abseta_cuts",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
@@ -66,7 +81,10 @@
 					"filter:n_electrons",
 					"filter:n_muons",
 					"filter:n_taus",
-					"filter:preselection",
+					"filter:electron_lower_pt_cuts",
+					"filter:electron_upper_abseta_cuts",
+					"filter:tau_lower_pt_cuts",
+					"filter:tau_upper_abseta_cuts",
 					"producer:event_weight"
 				]
 			}

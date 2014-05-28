@@ -98,6 +98,9 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 		
 		double isolationPtSumOverPt = isolationPtSum / electron->p4.Pt();
 		
+		product.m_leptonIsolation[electron] = isolationPtSum;
+		product.m_leptonIsolationOverPt[electron] = isolationPtSumOverPt;
+		
 		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEB) ||
 		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEE)) {
 			validElectron = false;
@@ -108,10 +111,6 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	validElectron = validElectron
 	                && (trackDxyCut <= 0.0 || std::abs(electron->track.getDxy(&event.m_vertexSummary->pv)) < trackDxyCut)
 	                && (trackDzCut <= 0.0 || std::abs(electron->track.getDz(&event.m_vertexSummary->pv)) < trackDzCut);
-
-	if (validElectron) {
-		product.m_validComputedElectrons[electron].isolationValue = isolationPtSum / electron->p4.Pt();
-	}
 
 	return validElectron;
 }

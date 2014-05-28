@@ -14,17 +14,20 @@
 class HttMuonComputed : public KMuonComputed {
 
 public:
-	double isolationValue = DefaultValues::UndefinedDouble;
+	double iso = DefaultValues::UndefinedDouble;
+	double isoOverPt = DefaultValues::UndefinedDouble;
 };
 
 class HttElectronComputed : public KElectronComputed {
 
 public:
-	double isolationValue = DefaultValues::UndefinedDouble;
+	double iso = DefaultValues::UndefinedDouble;
+	double isoOverPt = DefaultValues::UndefinedDouble;
 };
 
 class HttTauComputed : public KTauComputed {
 
 public:
-	double isolationValue = DefaultValues::UndefinedDouble;
+	double iso = DefaultValues::UndefinedDouble;
+	double isoOverPt = DefaultValues::UndefinedDouble;
 };
