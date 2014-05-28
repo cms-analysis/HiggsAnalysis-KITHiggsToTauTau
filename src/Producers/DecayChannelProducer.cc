@@ -9,10 +9,8 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 	
 	product.m_decayChannel = HttProduct::DecayChannel::NONE;
 	
-	RMDataLV* lepton1 = 0;
-	RMDataLV* lepton2 = 0;
-	double iso1 = DefaultValues::UndefinedDouble;
-	double iso2 = DefaultValues::UndefinedDouble;
+	KLepton* lepton1 = 0;
+	KLepton* lepton2 = 0;
 
 	// just for testing
 	// TODO: need to make use of trigger decisions
@@ -22,72 +20,61 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 	
 	if (nElectrons >= 2 || nMuons >= 2) {
 		if (nElectrons >=2 && nMuons <= 1) {
-			lepton1 = &(product.m_validElectrons[0]->p4);
-			lepton2 = &(product.m_validElectrons[1]->p4);
-			iso1 = product.m_validComputedElectrons[product.m_validElectrons[0]].isolationValue;
-			iso2 = product.m_validComputedElectrons[product.m_validElectrons[1]].isolationValue;
+			lepton1 = product.m_validElectrons[0];
+			lepton2 = product.m_validElectrons[1];
 			product.m_decayChannel = HttProduct::DecayChannel::EE;
 		}
 		else if (nMuons >= 2 && nElectrons <= 1) {
-			lepton1 = &(product.m_validMuons[0]->p4);
-			lepton2 = &(product.m_validMuons[1]->p4);
-			iso1 = product.m_validComputedMuons[product.m_validMuons[0]].isolationValue;
-			iso2 = product.m_validComputedMuons[product.m_validMuons[1]].isolationValue;
+			lepton1 = product.m_validMuons[0];
+			lepton2 = product.m_validMuons[1];
 			product.m_decayChannel = HttProduct::DecayChannel::MM;
 		}
 		else {
-			lepton1 = &(product.m_validElectrons[0]->p4);
-			lepton2 = &(product.m_validMuons[0]->p4);
-			iso1 = product.m_validComputedElectrons[product.m_validElectrons[0]].isolationValue;
-			iso2 = product.m_validComputedMuons[product.m_validMuons[0]].isolationValue;
+			lepton1 = product.m_validElectrons[0];
+			lepton2 = product.m_validMuons[0];
 			product.m_decayChannel = HttProduct::DecayChannel::EM;
 		}
 	}
 	else if (nElectrons == 1 && nMuons == 1) {
 		if (nTaus == 0) {
-			lepton1 = &(product.m_validElectrons[0]->p4);
-			lepton2 = &(product.m_validMuons[0]->p4);
-			iso1 = product.m_validComputedElectrons[product.m_validElectrons[0]].isolationValue;
-			iso2 = product.m_validComputedMuons[product.m_validMuons[0]].isolationValue;
+			lepton1 = product.m_validElectrons[0];
+			lepton2 = product.m_validMuons[0];
 			product.m_decayChannel = HttProduct::DecayChannel::EM;
 		}
 		else {
-			lepton1 = &(product.m_validMuons[0]->p4);
-			lepton2 = &(product.m_validTaus[0]->p4);
-			iso1 = product.m_validComputedMuons[product.m_validMuons[0]].isolationValue;
+			lepton1 = product.m_validMuons[0];
+			lepton2 = product.m_validTaus[0];
 			product.m_decayChannel = HttProduct::DecayChannel::MT;
 		}
 	}
 	else if (nElectrons == 0 && nMuons == 1) {
 		if (nTaus == 1) {
-			lepton1 = &(product.m_validMuons[0]->p4);
-			lepton2 = &(product.m_validTaus[0]->p4);
-			iso1 = product.m_validComputedMuons[product.m_validMuons[0]].isolationValue;
+			lepton1 = product.m_validMuons[0];
+			lepton2 = product.m_validTaus[0];
 			product.m_decayChannel = HttProduct::DecayChannel::MT;
 		}
 		else if (nTaus >= 2) {
-			lepton1 = &(product.m_validTaus[0]->p4);
-			lepton2 = &(product.m_validTaus[1]->p4);
+			lepton1 = product.m_validTaus[0];
+			lepton2 = product.m_validTaus[1];
 			product.m_decayChannel = HttProduct::DecayChannel::TT;
 		}
 	}
 	else if (nElectrons == 1 && nMuons == 0) {
 		if (nTaus == 1) {
-			lepton1 = &(product.m_validElectrons[0]->p4);
-			lepton2 = &(product.m_validTaus[0]->p4);
-			iso1 = product.m_validComputedElectrons[product.m_validElectrons[0]].isolationValue;
+			lepton1 = product.m_validElectrons[0];
+			lepton2 = product.m_validTaus[0];
 			product.m_decayChannel = HttProduct::DecayChannel::ET;
 		}
 		else if (nTaus >= 2) {
-			lepton1 = &(product.m_validTaus[0]->p4);
-			lepton2 = &(product.m_validTaus[1]->p4);
+			lepton1 = product.m_validTaus[0];
+			lepton2 = product.m_validTaus[1];
 			product.m_decayChannel = HttProduct::DecayChannel::TT;
 		}
 	}
 	else {
 		if (nTaus >= 2) {
-			lepton1 = &(product.m_validTaus[0]->p4);
-			lepton2 = &(product.m_validTaus[1]->p4);
+			lepton1 = product.m_validTaus[0];
+			lepton2 = product.m_validTaus[1];
 			product.m_decayChannel = HttProduct::DecayChannel::TT;
 		}
 	}
@@ -95,17 +82,13 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 
 	if(product.m_decayChannel != HttProduct::DecayChannel::NONE) {
 		// fill p4 pointers ordered by pt
-		if(lepton1->Pt() >= lepton2->Pt()) {
+		if(lepton1->p4.Pt() >= lepton2->p4.Pt()) {
 			product.m_ptOrderedLeptons.push_back(lepton1);
 			product.m_ptOrderedLeptons.push_back(lepton2);
-			product.m_isoValuePtOrderedLeptons.push_back(iso1);
-			product.m_isoValuePtOrderedLeptons.push_back(iso2);
 		}
 		else {
 			product.m_ptOrderedLeptons.push_back(lepton2);
 			product.m_ptOrderedLeptons.push_back(lepton1);
-			product.m_isoValuePtOrderedLeptons.push_back(iso2);
-			product.m_isoValuePtOrderedLeptons.push_back(iso1);
 		}
 		
 		// fill p4 pointers ordered by flavour (according to channel name)

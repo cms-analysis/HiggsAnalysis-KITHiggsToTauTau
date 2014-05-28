@@ -26,8 +26,14 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 {
 	bool validTau = ValidTausProducer::AdditionalCriteria(tau, event, product);
 	
+	double isolationPtSum = tau->getDiscriminator("hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits", event.m_tauDiscriminatorMetadata);
+	double isolationPtSumOverPt = isolationPtSum / tau->p4.Pt();
+	
+	product.m_leptonIsolation[tau] = isolationPtSum;
+	product.m_leptonIsolationOverPt[tau] = isolationPtSumOverPt;
+	
 	// custom isolation cut
-	validTau = validTau && tau->getDiscriminator("hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits", event.m_tauDiscriminatorMetadata) < tauDiscriminatorIsolationCut;
+	validTau = validTau && isolationPtSum < tauDiscriminatorIsolationCut;
 	
 	// custom electron rejection
 	if (validTau && (! tauDiscriminatorAntiElectronMvaCuts.empty())) {

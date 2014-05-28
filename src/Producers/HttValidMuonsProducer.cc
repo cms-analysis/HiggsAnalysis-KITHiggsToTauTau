@@ -77,6 +77,9 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 		
 		double isolationPtSumOverPt = isolationPtSum / muon->p4.Pt();
 		
+		product.m_leptonIsolation[muon] = isolationPtSum;
+		product.m_leptonIsolationOverPt[muon] = isolationPtSumOverPt;
+		
 		if ((muon->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEB) ||
 		    (muon->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEE)) {
 			validMuon = false;
@@ -87,10 +90,6 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 	validMuon = validMuon
 	            && (trackDxyCut <= 0.0 || std::abs(muon->bestTrack.getDxy(&event.m_vertexSummary->pv)) < trackDxyCut)
 	            && (trackDzCut <= 0.0 || std::abs(muon->bestTrack.getDz(&event.m_vertexSummary->pv)) < trackDzCut);
-
-	if (validMuon) {
-		product.m_validComputedMuons[muon].isolationValue = isolationPtSum / muon->p4.Pt();
-	}
 
 	return validMuon;
 }
