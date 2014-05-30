@@ -52,12 +52,12 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 		return new MuonTriggerWeightProducer();
 	else if(id == TauTriggerWeightProducer().GetProducerId())
 		return new TauTriggerWeightProducer();
-    if(id == TauSpinnerProducer().GetProducerId())
-        return new TauSpinnerProducer();
+	if(id == TauSpinnerProducer().GetProducerId())
+		return new TauSpinnerProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
 	else
-		return KappaFactory<HttTypes>::createProducer( id );	
+		return KappaFactory<HttTypes>::createProducer( id );
 }
 
 HttFilterBase * HttFactory::createFilter ( std::string const& id )
