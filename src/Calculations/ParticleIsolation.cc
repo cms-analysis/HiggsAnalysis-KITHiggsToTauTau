@@ -83,21 +83,7 @@ double ParticleIsolation::IsolationPtSum(RMDataLV const& particle, HttEvent cons
 
 	double deltaBetaIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 			particle,
-			event.m_pfChargedHadronsNoPileUp,
-			isoSignalConeSize,
-			deltaBetaIsoVetoConeSize,
-			deltaBetaIsoVetoConeSize,
-			deltaBetaIsoPtThreshold
-	) + ParticleIsolation::IsolationPtSumForParticleClass(
-			particle,
-			event.m_pfNeutralHadronsNoPileUp,
-			isoSignalConeSize,
-			deltaBetaIsoVetoConeSize,
-			deltaBetaIsoVetoConeSize,
-			deltaBetaIsoPtThreshold
-	) + ParticleIsolation::IsolationPtSumForParticleClass(
-			particle,
-			event.m_pfPhotonsNoPileUp,
+			event.m_pfChargedHadronsPileUp,
 			isoSignalConeSize,
 			deltaBetaIsoVetoConeSize,
 			deltaBetaIsoVetoConeSize,
