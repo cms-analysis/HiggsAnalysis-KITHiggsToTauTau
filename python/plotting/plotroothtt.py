@@ -18,7 +18,10 @@ class PlotRootHtt(plotroot.PlotRoot):
 		plotroot.PlotRoot.__init__(self)
 		
 		# load HttStyles
+		cwd = os.getcwd()
+		os.chdir(os.path.expandvars("$CMSSW_BASE/src"))
 		ROOT.gROOT.LoadMacro(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/src/HttStyles.cc")+"+")
+		os.chdir(cwd)
 	
 	def modify_argument_parser(self, parser):
 		plotroot.PlotRoot.modify_argument_parser(self, parser)
