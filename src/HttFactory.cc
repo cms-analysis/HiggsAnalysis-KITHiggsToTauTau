@@ -9,6 +9,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidBTaggedJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerWeightProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 
@@ -44,7 +45,13 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 	else if(id == HttValidBTaggedJetsProducer().GetProducerId())
 		return new HttValidBTaggedJetsProducer();
 	else if(id == DecayChannelProducer().GetProducerId())
-  		return new DecayChannelProducer();
+		return new DecayChannelProducer();
+	else if(id == ElectronTriggerWeightProducer().GetProducerId())
+		return new ElectronTriggerWeightProducer();
+	else if(id == MuonTriggerWeightProducer().GetProducerId())
+		return new MuonTriggerWeightProducer();
+	else if(id == TauTriggerWeightProducer().GetProducerId())
+		return new TauTriggerWeightProducer();
     if(id == TauSpinnerProducer().GetProducerId())
         return new TauSpinnerProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
