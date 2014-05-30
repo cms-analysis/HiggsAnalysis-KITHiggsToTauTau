@@ -53,15 +53,14 @@ public:
 
 	DecayChannel m_decayChannel;
 	std::vector<EventCategory> m_eventCategories;
+	
+	// filled by DecayChannelProducer
+	std::vector<KLepton*> m_ptOrderedLeptons;
+	std::vector<KLepton*> m_flavourOrderedLeptons;
 
-	std::vector<RMDataLV*> m_ptOrderedLeptons;
-	std::vector<RMDataLV*> m_flavourOrderedLeptons;
-
-	std::map<KDataMuon*, HttMuonComputed> m_validComputedMuons;
-	std::map<KDataElectron*, HttElectronComputed> m_validComputedElectrons;
-	std::map<KDataPFTau*, HttTauComputed> m_validComputedTaus;
-
-	std::vector<double> m_isoValuePtOrderedLeptons;
+	// filled by HttValid<Leptons>Producer
+	std::map<KLepton*, double> m_leptonIsolation;
+	std::map<KLepton*, double> m_leptonIsolationOverPt;
 
 	/// added by HttValidBTaggedJetsProducer
 	std::vector<KDataPFTaggedJet*> m_BTaggedJets;
@@ -74,9 +73,16 @@ public:
 	double m_genPhi;
 	double m_genPhiStar;
 	double m_genPsiStarCP;
-	
+	std::pair <double,double> m_genChargedProngEnergys;
+	std::pair <double,double> m_genChargedPionEnergysApprox;
+	double m_genThetaNuHadron;
+	double m_genAlphaTauNeutrinos;
+	double PhiDet;
+	double PhiStarDet;
+	double PhiOnePion;
+	double PhiStarOnePion;
+
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
 
 };
-

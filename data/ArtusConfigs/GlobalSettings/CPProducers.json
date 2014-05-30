@@ -1,8 +1,9 @@
 {
 	"GlobalProcessors" : [
 		"producer:gen_taudecay",
-		"producer:tauspinner",
+		"#producer:tauspinner",
 		"producer:gen_cp"
 	],
-	"GenParticles" : "genParticles"
+	"GenParticles" : "genParticles",
+	"GenMet" : "GenMETTrue"
 }

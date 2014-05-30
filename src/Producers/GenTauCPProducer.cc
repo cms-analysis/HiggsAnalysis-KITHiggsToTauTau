@@ -17,11 +17,12 @@ void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 	selectedTau2->createFinalStateProngs(selectedTau2);
 	std::vector<MotherDaughterBundle*> selectedTau1OneProngs = selectedTau1->finalStateOneProngs;
 	std::vector<MotherDaughterBundle*> selectedTau2OneProngs = selectedTau2->finalStateOneProngs;
-	//Selection of the right channel
+	//Selection of the right channel for phi, phi* and psi*CP
 	if (abs(selectedTau1->node->pdgId()) == 15 && abs(selectedTau2->node->pdgId()) == 15 && selectedTau1OneProngs.size() != 0 && selectedTau2OneProngs.size() != 0)
 	{
 		std::pair<float, float> phiPsiStar;
-		
+		std::pair<float, float> phiPsiStarDet;
+		std::pair<float, float> phiPsiStarOnePion;
 		//Initialization of charged particles
 		KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->node;
 		KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->node;
@@ -46,14 +47,93 @@ void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 		// Calculatiion of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
 		product.m_genPhi = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+		
+		//Cross check with neutral Pions
+		RMDataLV summedMomentum1;
+		RMDataLV summedMomentum2;
+		//RMDataLV summedMomentumOneP1 = chargedPart1->p4;
+		//RMDataLV summedMomentumOneP2 = chargedPart2->p4;
+		//MotherDaughterBundle* parent1 = 0;
+		//MotherDaughterBundle* parent2 = 0;
+		for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
+		{
+			//std::cout << selectedTau1OneProngs[i]->parent->node->pdgId() << std::endl;
+			if (selectedTau1OneProngs[i]->isDetectable())
+			{
+				//std::cout << "  " << selectedTau1OneProngs[i]->node->pdgId();
+				summedMomentum1 += selectedTau1OneProngs[i]->node->p4;
 
+				//only with one neutral Pion
+				/*if (parent1 == 0)
+				{
+					if (selectedTau1OneProngs[i]->parent->node->pdgId()==111)
+					{
+						parent1 = selectedTau1OneProngs[i]->parent;
+						summedMomentumOneP1 += selectedTau1OneProngs[i]->node->p4;
+					}
+				}
+				else
+				{
+					if (selectedTau1OneProngs[i]->parent == parent1)
+					{
+						summedMomentumOneP1 += selectedTau1OneProngs[i]->node->p4;
+					}
+				}*/
+			}
+		}
+		//std::cout << std::endl;
+		for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
+		{
+			if (selectedTau2OneProngs[i]->isDetectable()) 
+			{
+				//std::cout << "  " << selectedTau2OneProngs[i]->node->pdgId();
+				summedMomentum2 += selectedTau2OneProngs[i]->node->p4;
+
+				//only with one neutral Pion
+				/*if (parent2 == 0)
+				{
+					if (abs(selectedTau2OneProngs[i]->parent->node->pdgId())==111)
+					{
+						parent2 = selectedTau2OneProngs[i]->parent;
+						summedMomentumOneP2 += selectedTau2OneProngs[i]->node->p4;
+					}
+				}
+				else
+				{
+					if (selectedTau2OneProngs[i]->parent == parent2)
+					{
+						summedMomentumOneP2 += selectedTau2OneProngs[i]->node->p4;
+					}
+				}*/
+			}
+		}
+		//std::cout << std::endl << std::endl;
+		product.PhiDet = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
+		phiPsiStarDet = CPQuantities::CalculatePhiPsiStar(selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
+		product.PhiStarDet = phiPsiStarDet.first;
+
+		/*product.PhiOnePion = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, summedMomentumOneP1, summedMomentumOneP2);
+		phiPsiStarOnePion = CPQuantities::CalculatePhiPsiStar(selectedTau1->node->p4, selectedTau2->node->p4, summedMomentumOneP1, summedMomentumOneP2);
+		product.PhiStarOnePion = phiPsiStarOnePion.first;*/
 	}
 	else
 	{
+		product.PhiStarDet = DefaultValues::UndefinedDouble;
+		product.PhiDet = DefaultValues::UndefinedDouble;
+		//product.PhiStarOnePion = DefaultValues::UndefinedDouble;
+		//product.PhiOnePion = DefaultValues::UndefinedDouble;
 		product.m_genPhiStar = DefaultValues::UndefinedDouble;
 		product.m_genPsiStarCP = DefaultValues::UndefinedDouble;
 		product.m_genPhi = DefaultValues::UndefinedDouble;
 	}
+	if(selectedTau1->Daughters.size() == 2)
+	{
+		product.m_genThetaNuHadron = CPQuantities::CalculateThetaNuHadron(selectedTau1->node->p4, selectedTau1->Daughters[0].node->p4, selectedTau1->Daughters[1].node->p4);
+	}
+	else
+	{
+		product.m_genThetaNuHadron = DefaultValues::UndefinedDouble;
+	}
+	product.m_genAlphaTauNeutrinos = CPQuantities::CalculateAlphaTauNeutrinos(selectedTau1->node->p4, selectedTau1->Daughters[0].node->p4, selectedTau2->node->p4, selectedTau2->Daughters[0].node->p4);
 
 }
-
