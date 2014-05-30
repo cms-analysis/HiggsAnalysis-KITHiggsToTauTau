@@ -12,8 +12,8 @@
 			"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
 		],
 		"ElectronLowerPtCuts" : [
-			"0:20",
-			"1:10"
+			"0:20.0",
+			"1:10.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"0:2.3",

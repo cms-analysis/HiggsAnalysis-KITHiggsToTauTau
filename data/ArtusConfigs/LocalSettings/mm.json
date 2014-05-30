@@ -11,8 +11,8 @@
 			"HLT_Mu17_Mu8"
 		],
 		"MuonLowerPtCuts" : [
-			"0:20",
-			"1:10"
+			"0:20.0",
+			"1:10.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"0:2.1",
