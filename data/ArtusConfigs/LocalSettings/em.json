@@ -12,10 +12,12 @@
 			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
 		],
 		"ElectronLowerPtCuts" : [
-			"0:10"
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:20.0",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0"
 		],
 		"MuonLowerPtCuts" : [
-			"0:10"
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:20.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"0:2.3"
