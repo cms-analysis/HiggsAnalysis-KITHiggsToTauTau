@@ -7,14 +7,10 @@
 		"Channel" : "EE",
 		"NElectrons" : 2,
 		"NMuons" : 0,
-		"HltPaths" : {
-			"nick" : {
-				"DoubleMu|TauPlusX" : [
-					"HLT_Ele17_Ele8_CaloIdL_CaloIsoVL",
-					"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_Ele17_Ele8_CaloIdL_CaloIsoVL",
+			"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
+		],
 		"ElectronLowerPtCuts" : [
 			"0:20",
 			"1:10"
@@ -40,6 +36,8 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:hlt_selector",
+					"#filter:hlt_filter",
 					"producer:met_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",

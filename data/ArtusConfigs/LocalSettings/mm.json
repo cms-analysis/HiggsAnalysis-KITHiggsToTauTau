@@ -7,13 +7,9 @@
 		"Channel" : "MM",
 		"NElectrons" : 0,
 		"NMuons" : 2,
-		"HltPaths" : {
-			"nick" : {
-				"DoubleMu|TauPlusX" : [
-					"HLT_Mu17_Mu8"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_Mu17_Mu8"
+		],
 		"MuonLowerPtCuts" : [
 			"0:20",
 			"1:10"
@@ -39,6 +35,8 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:hlt_selector",
+					"#filter:hlt_filter",
 					"producer:met_selector",
 					"producer:valid_electrons",
 					"producer:valid_muons",

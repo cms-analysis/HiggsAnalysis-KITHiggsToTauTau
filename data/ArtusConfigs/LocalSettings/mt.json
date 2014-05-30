@@ -8,14 +8,10 @@
 		"NElectrons" : 0,
 		"NMuons" : 1,
 		"NTaus" : 1,
-		"HltPaths" : {
-			"nick" : {
-				"DoubleMu|TauPlusX" : [
-					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
-					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
+			"HLT_IsoMu18_eta2p1_LooseIsoPFTau20"
+		],
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByLooseElectronRejection",
@@ -52,6 +48,8 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
 					"producer:valid_muons",
