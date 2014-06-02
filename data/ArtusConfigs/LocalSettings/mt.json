@@ -50,6 +50,7 @@
 				"default" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
+					"producer:trigger_matching",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
 					"producer:valid_muons",
@@ -69,6 +70,7 @@
 				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
+					"producer:trigger_matching",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
 					"producer:valid_muons",

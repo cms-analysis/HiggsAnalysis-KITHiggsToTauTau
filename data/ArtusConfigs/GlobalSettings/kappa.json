@@ -30,6 +30,12 @@
 	"FilterSummary" : "",
 	"TaggerMetadata" : "KTaggerMetadata",
 	"BeamSpot" : "offlineBeamSpot",
-	"VertexSummary" : "goodOfflinePrimaryVerticesSummary"
+	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
+	"TriggerObjects" : {
+		"nick" : {
+			"DoubleMu|TauPlusX" : "KTriggerObjects",
+			"default" : ""
+		}
+	}
 }
 
