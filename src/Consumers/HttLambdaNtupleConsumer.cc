@@ -672,9 +672,11 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	
 	// settings for synch ntuples
 	m_valueExtractorMap["evt"] = [](event_type const& event, product_type const& product) { return event.m_eventMetadata->nEvent; };
-	m_valueExtractorMap["puweight"] = [](event_type const& event, product_type const& product) { return product.m_weights.at("puWeight"); };
+	m_valueExtractorMap["puweight"] = [](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_weights, std::string("puWeight"), 1.0);
+	};
 	m_valueExtractorMap["weight"] = [pipeline](event_type const& event, product_type const& product) {
-		return product.m_weights.at(pipeline->GetSettings().GetEventWeight());
+		return SafeMap::GetWithDefault(product.m_weights, pipeline->GetSettings().GetEventWeight(), 1.0);
 	};
 	m_valueExtractorMap["mvis"] = m_valueExtractorMap["diLepMass"];
 	m_valueExtractorMap["pt_1"] = m_valueExtractorMap["lep1Pt"];

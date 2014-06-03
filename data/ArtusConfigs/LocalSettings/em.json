@@ -7,19 +7,17 @@
 		"Channel" : "EM",
 		"NElectrons" : 1,
 		"NMuons" : 1,
-		"HltPaths" : {
-			"nick" : {
-				"DoubleMu|TauPlusX" : [
-					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
-					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
+		],
 		"ElectronLowerPtCuts" : [
-			"0:10"
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:20.0",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0"
 		],
 		"MuonLowerPtCuts" : [
-			"0:10"
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:20.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"0:2.3"
@@ -44,6 +42,9 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"#producer:trigger_matching",
 					"producer:mvamet_em_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
@@ -62,6 +63,7 @@
 				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
+					"producer:trigger_matching",
 					"producer:mvamet_em_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
