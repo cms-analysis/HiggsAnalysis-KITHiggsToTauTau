@@ -44,7 +44,7 @@
 				"default" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
-					"producer:trigger_matching",
+					"#producer:trigger_matching",
 					"producer:mvamet_em_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
