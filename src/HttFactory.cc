@@ -14,7 +14,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 
 // filters
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/PreselectionFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -62,8 +62,8 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 
 HttFilterBase * HttFactory::createFilter ( std::string const& id )
 {
-	if(id == PreselectionFilter().GetFilterId())
-		return new PreselectionFilter();
+	if(id == DecayChannelFilter().GetFilterId())
+		return new DecayChannelFilter();
 	else
 		return KappaFactory<HttTypes>::createFilter( id );
 }

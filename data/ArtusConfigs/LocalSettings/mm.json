@@ -43,9 +43,10 @@
 					"producer:valid_muons",
 					"filter:valid_muons",
 					"producer:valid_taus",
-					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"filter:muon_lower_pt_cuts",
 					"filter:muon_upper_abseta_cuts",
 					"producer:event_weight"
@@ -59,9 +60,10 @@
 					"producer:valid_muons",
 					"filter:valid_muons",
 					"producer:valid_taus",
-					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"filter:muon_lower_pt_cuts",
 					"filter:muon_upper_abseta_cuts",
 					"producer:event_weight"
