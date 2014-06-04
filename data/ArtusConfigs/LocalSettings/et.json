@@ -23,7 +23,7 @@
 			"0:24.0"
 		],
 		"TauLowerPtCuts" : [
-			"0:20.0"
+			"20.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"0:2.1"

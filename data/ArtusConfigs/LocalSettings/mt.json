@@ -23,7 +23,7 @@
 			"0:20.0"
 		],
 		"TauLowerPtCuts" : [
-			"0:20.0"
+			"20.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"0:2.1"
