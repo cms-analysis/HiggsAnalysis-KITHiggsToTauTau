@@ -38,6 +38,10 @@ void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
 		// Saving the charged particles for  analysis
 		product.m_genOneProngCharged1 = chargedPart1;
 		product.m_genOneProngCharged2 = chargedPart2;
+		
+		// Saving Energies of charged particles in tau rest frames
+		product.m_genChargedProngEnergies.first = CPQuantities::CalculateChargedProngEnergy(selectedTau1->node->p4, chargedPart1->p4);
+		product.m_genChargedProngEnergies.second = CPQuantities::CalculateChargedProngEnergy(selectedTau2->node->p4, chargedPart2->p4);
 		// Calculation of Phi* and Psi*CP itself
 
 		phiPsiStar = CPQuantities::CalculatePhiPsiStar(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
