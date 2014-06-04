@@ -5,6 +5,7 @@
 			"default" : "genParticles"
 		}
 	},
+	"GenMet" : "GenMETTrue",
 	"Electrons" : "electrons",
 	"Muons" : "muons",
 	"Taus" : "hpsPFTaus",

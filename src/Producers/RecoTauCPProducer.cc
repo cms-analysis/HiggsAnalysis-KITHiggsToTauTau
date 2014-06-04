@@ -2,12 +2,11 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 
-void RecoTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
-									 HttGlobalSettings const& globalSettings) const
+void RecoTauCPProducer::Produce(event_type const& event, product_type& product) const
 {
-	for(unsigned int i=0;i<product.m_validElectrons.size();i++)
+	// Hadronic TauTau channel
+	if(product.m_decayChannel == HttProduct::DecayChannel::TT)
 	{
-		std::cout << product.m_validElectrons[i]->p4 << "   " << std::endl;
+		
 	}
-	std::cout << std::endl;
 }
