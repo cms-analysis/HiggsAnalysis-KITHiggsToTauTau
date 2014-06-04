@@ -28,6 +28,39 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");
 	IMPL_SETTING_DEFAULT(std::string, Category, "");
 	
+	VarCache<std::vector<double> > electronTriggerTurnOnParamtersData;
+	doublevector GetElectronTriggerTurnOnParamtersData() const
+	{
+		RETURN_CACHED(electronTriggerTurnOnParamtersData, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "Pipelines." + GetName() + ".ElectronTriggerTurnOnParamtersData"))
+	}
+	VarCache<std::vector<double> > electronTriggerTurnOnParamtersMc;
+	doublevector GetElectronTriggerTurnOnParamtersMc() const
+	{
+		RETURN_CACHED(electronTriggerTurnOnParamtersMc, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "Pipelines." + GetName() + ".ElectronTriggerTurnOnParamtersMc"))
+	}
+	
+	VarCache<std::vector<double> > muonTriggerTurnOnParamtersData;
+	doublevector GetMuonTriggerTurnOnParamtersData() const
+	{
+		RETURN_CACHED(muonTriggerTurnOnParamtersData, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "Pipelines." + GetName() + ".MuonTriggerTurnOnParamtersData"))
+	}
+	VarCache<std::vector<double> > muonTriggerTurnOnParamtersMc;
+	doublevector GetMuonTriggerTurnOnParamtersMc() const
+	{
+		RETURN_CACHED(muonTriggerTurnOnParamtersMc, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "Pipelines." + GetName() + ".MuonTriggerTurnOnParamtersMc"))
+	}
+	
+	VarCache<std::vector<double> > tauTriggerTurnOnParamtersData;
+	doublevector GetTauTriggerTurnOnParamtersData() const
+	{
+		RETURN_CACHED(tauTriggerTurnOnParamtersData, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "Pipelines." + GetName() + ".TauTriggerTurnOnParamtersData"))
+	}
+	VarCache<std::vector<double> > tauTriggerTurnOnParamtersMc;
+	doublevector GetTauTriggerTurnOnParamtersMc() const
+	{
+		RETURN_CACHED(tauTriggerTurnOnParamtersMc, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "Pipelines." + GetName() + ".TauTriggerTurnOnParamtersMc"))
+	}
+	
 	IMPL_SETTING(std::string, ElectronIDType);
 	
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
@@ -109,6 +142,39 @@ public:
 	/// htt decay channel and event category
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");
 	IMPL_SETTING_DEFAULT(std::string, Category, "");
+	
+	VarCache<std::vector<double> > electronTriggerTurnOnParamtersData;
+	doublevector GetElectronTriggerTurnOnParamtersData() const
+	{
+		RETURN_CACHED(electronTriggerTurnOnParamtersData, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "ElectronTriggerTurnOnParamtersData"))
+	}
+	VarCache<std::vector<double> > electronTriggerTurnOnParamtersMc;
+	doublevector GetElectronTriggerTurnOnParamtersMc() const
+	{
+		RETURN_CACHED(electronTriggerTurnOnParamtersMc, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "ElectronTriggerTurnOnParamtersMc"))
+	}
+	
+	VarCache<std::vector<double> > muonTriggerTurnOnParamtersData;
+	doublevector GetMuonTriggerTurnOnParamtersData() const
+	{
+		RETURN_CACHED(muonTriggerTurnOnParamtersData, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "MuonTriggerTurnOnParamtersData"))
+	}
+	VarCache<std::vector<double> > muonTriggerTurnOnParamtersMc;
+	doublevector GetMuonTriggerTurnOnParamtersMc() const
+	{
+		RETURN_CACHED(muonTriggerTurnOnParamtersMc, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "MuonTriggerTurnOnParamtersMc"))
+	}
+	
+	VarCache<std::vector<double> > tauTriggerTurnOnParamtersData;
+	doublevector GetTauTriggerTurnOnParamtersData() const
+	{
+		RETURN_CACHED(tauTriggerTurnOnParamtersData, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "TauTriggerTurnOnParamtersData"))
+	}
+	VarCache<std::vector<double> > tauTriggerTurnOnParamtersMc;
+	doublevector GetTauTriggerTurnOnParamtersMc() const
+	{
+		RETURN_CACHED(tauTriggerTurnOnParamtersMc, PropertyTreeSupport::GetAsDoubleList(GetPropTree(), "TauTriggerTurnOnParamtersMc"))
+	}
 	
 	/// Reading TauSpinnerSettings
 	VarCache<stringvector> tauSpinnerSettings;

@@ -72,7 +72,7 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 		if (electronIDType == ElectronIDType::SUMMER2013LOOSE)
 			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), false);
 		else if (electronIDType == ElectronIDType::SUMMER2013TIGHT)
-			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), false);
+			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), true);
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
 	}

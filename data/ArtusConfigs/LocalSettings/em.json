@@ -7,19 +7,17 @@
 		"Channel" : "EM",
 		"NElectrons" : 1,
 		"NMuons" : 1,
-		"HltPaths" : {
-			"nick" : {
-				"DoubleMu|TauPlusX" : [
-					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
-					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
+		],
 		"ElectronLowerPtCuts" : [
-			"0:10"
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:20.0"
 		],
 		"MuonLowerPtCuts" : [
-			"0:10"
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:20.0",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"0:2.3"
@@ -44,15 +42,19 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"#producer:trigger_matching",
 					"producer:mvamet_em_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
 					"producer:valid_taus",
-					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"filter:electron_lower_pt_cuts",
 					"filter:electron_upper_abseta_cuts",
 					"filter:muon_lower_pt_cuts",
@@ -62,15 +64,17 @@
 				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
+					"producer:trigger_matching",
 					"producer:mvamet_em_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
 					"producer:valid_taus",
-					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"filter:electron_lower_pt_cuts",
 					"filter:electron_upper_abseta_cuts",
 					"filter:muon_lower_pt_cuts",

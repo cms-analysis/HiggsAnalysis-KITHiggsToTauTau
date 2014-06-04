@@ -729,22 +729,24 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	
 	// settings for synch ntuples
 	m_valueExtractorMap["evt"] = [](event_type const& event, product_type const& product) { return event.m_eventMetadata->nEvent; };
-	m_valueExtractorMap["puweight"] = [](event_type const& event, product_type const& product) { return product.m_weights.at("puWeight"); };
+	m_valueExtractorMap["puweight"] = [](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_weights, std::string("puWeight"), 1.0);
+	};
 	m_valueExtractorMap["weight"] = [pipeline](event_type const& event, product_type const& product) {
-		return product.m_weights.at(pipeline->GetSettings().GetEventWeight());
+		return SafeMap::GetWithDefault(product.m_weights, pipeline->GetSettings().GetEventWeight(), 1.0);
 	};
 	m_valueExtractorMap["mvis"] = m_valueExtractorMap["diLepMass"];
 	m_valueExtractorMap["pt_1"] = m_valueExtractorMap["lep1Pt"];
 	m_valueExtractorMap["eta_1"] = m_valueExtractorMap["lep1Eta"];
 	m_valueExtractorMap["phi_1"] = m_valueExtractorMap["lep1Phi"];
 	m_valueExtractorMap["m_1"] = m_valueExtractorMap["lep1Mass"];
-	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["leadingLepIso"];
+	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["leadingLepIsoOverPt"];
 	m_valueExtractorMap["mt_1"] = m_valueExtractorMap["lep1Mt"];
 	m_valueExtractorMap["pt_2"] = m_valueExtractorMap["lep2Pt"];
 	m_valueExtractorMap["eta_2"] = m_valueExtractorMap["lep2Eta"];
 	m_valueExtractorMap["phi_2"] = m_valueExtractorMap["lep2Phi"];
 	m_valueExtractorMap["m_2"] = m_valueExtractorMap["lep2Mass"];
-	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["trailingLepIso"];
+	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["trailingLepIsoOverPt"];
 	m_valueExtractorMap["mt_2"] = m_valueExtractorMap["lep2Mt"];
 	m_valueExtractorMap["met"] = m_valueExtractorMap["mvaMetPt"];
 	

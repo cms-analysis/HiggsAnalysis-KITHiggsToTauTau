@@ -8,14 +8,10 @@
 		"NElectrons" : 0,
 		"NMuons" : 1,
 		"NTaus" : 1,
-		"HltPaths" : {
-			"nick" : {
-				"DoubleMu|TauPlusX" : [
-					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
-					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
+			"HLT_IsoMu18_eta2p1_LooseIsoPFTau20"
+		],
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByLooseElectronRejection",
@@ -24,10 +20,10 @@
 		],
 		"TauDiscriminatorIsolationCut" : 1.5,
 		"MuonLowerPtCuts" : [
-			"0:20"
+			"0:20.0"
 		],
 		"TauLowerPtCuts" : [
-			"0:20"
+			"0:20.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"0:2.1"
@@ -52,16 +48,20 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"#producer:trigger_matching",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
 					"filter:n_taus",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"filter:muon_lower_pt_cuts",
 					"filter:muon_upper_abseta_cuts",
 					"filter:tau_lower_pt_cuts",
@@ -71,16 +71,18 @@
 				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
+					"producer:trigger_matching",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
 					"filter:n_taus",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"filter:muon_lower_pt_cuts",
 					"filter:muon_upper_abseta_cuts",
 					"filter:tau_lower_pt_cuts",

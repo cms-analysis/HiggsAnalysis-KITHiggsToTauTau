@@ -8,14 +8,10 @@
 		"NElectrons" : 1,
 		"NMuons" : 0,
 		"NTaus" : 1,
-		"HltPaths" : {
-			"nick" : {
-				"DoubleMu|TauPlusX" : [
-					"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20",
-					"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20",
+			"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20"
+		],
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByLooseMuonRejection",
@@ -24,10 +20,10 @@
 		"TauDiscriminatorIsolationCut" : 1.5,
 		"TauDiscriminatorAntiElectronMvaCuts" : [0.933,0.921,0.944,0.945,0.918,0.941,0.981,0.943,0.956,0.947,0.951,0.95,0.897,0.958,0.955,0.942],
 		"ElectronLowerPtCuts" : [
-			"0:24"
+			"0:24.0"
 		],
 		"TauLowerPtCuts" : [
-			"0:20"
+			"0:20.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"0:2.1"
@@ -52,16 +48,20 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"#producer:trigger_matching",
 					"producer:mvamet_et_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
 					"producer:valid_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
 					"filter:n_taus",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"filter:electron_lower_pt_cuts",
 					"filter:electron_upper_abseta_cuts",
 					"filter:tau_lower_pt_cuts",
@@ -71,16 +71,18 @@
 				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"filter:hlt_filter",
+					"producer:trigger_matching",
 					"producer:mvamet_et_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
 					"producer:valid_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"producer:decay_channels",
 					"filter:n_electrons",
 					"filter:n_muons",
 					"filter:n_taus",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"filter:electron_lower_pt_cuts",
 					"filter:electron_upper_abseta_cuts",
 					"filter:tau_lower_pt_cuts",
