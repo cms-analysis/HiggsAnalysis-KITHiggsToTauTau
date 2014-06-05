@@ -21,7 +21,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 
 
-HttProducerBase * HttFactory::createProducer ( std::string const& id )
+ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 {
 	if(id == ElectronEtaSelector().GetProducerId())
 		return new ElectronEtaSelector();
@@ -63,7 +63,7 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 		return KappaFactory<HttTypes>::createProducer( id );
 }
 
-HttFilterBase * HttFactory::createFilter ( std::string const& id )
+FilterBase<HttTypes> * HttFactory::createFilter(std::string const& id)
 {
 	if(id == DecayChannelFilter().GetFilterId())
 		return new DecayChannelFilter();
@@ -71,10 +71,11 @@ HttFilterBase * HttFactory::createFilter ( std::string const& id )
 		return KappaFactory<HttTypes>::createFilter( id );
 }
 
-HttConsumerBase * HttFactory::createConsumer ( std::string const& id )
+ConsumerBase<HttTypes> * HttFactory::createConsumer (std::string const& id)
 {
 	if(id == HttLambdaNtupleConsumer().GetConsumerId())
 		return new HttLambdaNtupleConsumer();
 	else
 		return KappaFactory<HttTypes>::createConsumer( id );
 }
+

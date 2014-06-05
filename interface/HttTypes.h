@@ -34,13 +34,6 @@ struct HttTypes {
 	typedef HttPipelineSettings setting_type;
 };
 
-/// producers of global/local analysis objects
-typedef ProducerBase<HttTypes> HttProducerBase;
-/// event filters at final analysis level
-typedef FilterBase<HttTypes> HttFilterBase;
-/// base class for a consumer (for final plotting)
-typedef ConsumerBase<HttTypes> HttConsumerBase;
-/// custom pipeline (several pipeline of this format could exist)
 typedef Pipeline<HttTypes> HttPipeline;
 typedef PipelineRunner<HttPipeline, HttTypes> HttPipelineRunner;
 typedef KappaPipelineInitializer<HttTypes> HttPipelineInitializer;

@@ -12,7 +12,7 @@
    Inherits from the HttValidTaggedJetsProducer class, adding further requirements
    which exploits the properties of b-tagged jets
 */
-class HttValidBTaggedJetsProducer: public HttProducerBase
+class HttValidBTaggedJetsProducer: public ProducerBase<HttTypes>
 {
 
 public:

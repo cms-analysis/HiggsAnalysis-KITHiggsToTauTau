@@ -30,8 +30,8 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 }
 
 
-void TauSpinnerProducer::Produce(HttEvent const& event, HttProduct& product,
-                                 HttPipelineSettings const& settings) const
+void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
+                                 setting_type const& settings) const
 {
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 

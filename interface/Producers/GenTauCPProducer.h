@@ -12,13 +12,17 @@
    -Psi*CP : this is a variable, with which one can figure out, whether the have a CP-mixture or not
 */
 
-class GenTauCPProducer : public HttProducerBase {
+class GenTauCPProducer : public ProducerBase<HttTypes> {
 public:
+
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
 		return "gen_cp";
 	}
 
-	virtual void Produce(HttEvent const& event, HttProduct& product,
-	                     HttPipelineSettings const& settings) const ARTUS_CPP11_OVERRIDE;
+	virtual void Produce(event_type const& event, product_type& product,
+	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 };
