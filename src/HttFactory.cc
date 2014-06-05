@@ -2,6 +2,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttFactory.h"
 
 // producers
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ElectronEtaSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidElectronsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMuonsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
@@ -14,7 +15,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 
 // filters
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/PreselectionFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -22,7 +23,9 @@
 
 HttProducerBase * HttFactory::createProducer ( std::string const& id )
 {
-	if(id == HttValidElectronsProducer().GetProducerId())
+	if(id == ElectronEtaSelector().GetProducerId())
+		return new ElectronEtaSelector();
+	else if(id == HttValidElectronsProducer().GetProducerId())
 		return new HttValidElectronsProducer();
 	else if(id == HttValidMuonsProducer().GetProducerId())
 		return new HttValidMuonsProducer();
@@ -62,8 +65,8 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 
 HttFilterBase * HttFactory::createFilter ( std::string const& id )
 {
-	if(id == PreselectionFilter().GetFilterId())
-		return new PreselectionFilter();
+	if(id == DecayChannelFilter().GetFilterId())
+		return new DecayChannelFilter();
 	else
 		return KappaFactory<HttTypes>::createFilter( id );
 }

@@ -1,17 +1,18 @@
 {
 	"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json"
-		],
-
+	],
 	"GlobalProcessors" : {
 		"nick" : {
 			"default" : [
+				"producer:electron_eta_selector",
 				"producer:pu_weights",
 				"producer:valid_tagged_jets",
 				"producer:valid_btagged_jets"
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
+				"producer:electron_eta_selector",
 				"producer:valid_tagged_jets",
 				"producer:valid_btagged_jets"
 			]

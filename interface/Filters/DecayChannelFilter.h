@@ -5,14 +5,14 @@
 
 #include "../HttTypes.h"
 
-class PreselectionFilter: public HttFilterBase {
+class DecayChannelFilter: public HttFilterBase {
 public:
 
-	virtual ~PreselectionFilter() {
+	virtual ~DecayChannelFilter() {
 	}
 
 	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
-		return "preselection";
+		return "decay_channel";
 	}
 	
 	virtual void InitGlobal(global_setting_type const& globalSettings)  ARTUS_CPP11_OVERRIDE

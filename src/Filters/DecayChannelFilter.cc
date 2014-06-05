@@ -1,8 +1,8 @@
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/PreselectionFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 
 
-bool PreselectionFilter::DoesEventPassLocal(HttEvent const& event,
+bool DecayChannelFilter::DoesEventPassLocal(HttEvent const& event,
                                             HttProduct const& product,
                                             HttPipelineSettings const& settings) const
 {

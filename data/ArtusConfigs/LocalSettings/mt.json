@@ -23,7 +23,7 @@
 			"0:20.0"
 		],
 		"TauLowerPtCuts" : [
-			"0:20.0"
+			"20.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"0:2.1"
@@ -53,18 +53,15 @@
 					"#producer:trigger_matching",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
+					"filter:n_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
+					"filter:n_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"producer:decay_channels",
-					"filter:n_electrons",
-					"filter:n_muons",
 					"filter:n_taus",
-					"filter:muon_lower_pt_cuts",
-					"filter:muon_upper_abseta_cuts",
-					"filter:tau_lower_pt_cuts",
-					"filter:tau_upper_abseta_cuts",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
@@ -73,18 +70,15 @@
 					"producer:trigger_matching",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
+					"filter:n_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
+					"filter:n_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"producer:decay_channels",
-					"filter:n_electrons",
-					"filter:n_muons",
 					"filter:n_taus",
-					"filter:muon_lower_pt_cuts",
-					"filter:muon_upper_abseta_cuts",
-					"filter:tau_lower_pt_cuts",
-					"filter:tau_upper_abseta_cuts",
+					"producer:decay_channels",
+					"filter:decay_channel",
 					"producer:event_weight"
 				]
 			}
