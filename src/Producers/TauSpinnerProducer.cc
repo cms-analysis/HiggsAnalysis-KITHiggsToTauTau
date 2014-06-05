@@ -6,15 +6,15 @@
 
 
 
-void TauSpinnerProducer::InitGlobal(global_setting_type const& globalSettings)
+void TauSpinnerProducer::Init(setting_type const& settings)
 {
-	ProducerBase<HttTypes>::InitGlobal(globalSettings);
+	ProducerBase<HttTypes>::Init(settings);
 	
 	// interface to TauSpinner
 	//Reading the settings from TauSpinnerSettings.json in following order:
 	//name of PDF, CMSENE, Ipp, Ipol, nonSM2, nonSMN (see tau_reweight_lib.cxx),
 	//boosted/unboosted to Higgs CMF
-	stringvector tauSpinnerSettings = globalSettings.GetTauSpinnerSettings();
+	stringvector tauSpinnerSettings = settings.GetTauSpinnerSettings();
 	Tauolapp::Tauola::initialize();
 	string name = tauSpinnerSettings[0];
 	LHAPDF::initPDFSetByName(name);
@@ -30,10 +30,8 @@ void TauSpinnerProducer::InitGlobal(global_setting_type const& globalSettings)
 }
 
 
-
-
-void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
-									   HttGlobalSettings const& globalSettings) const
+void TauSpinnerProducer::Produce(HttEvent const& event, HttProduct& product,
+                                 HttPipelineSettings const& settings) const
 {
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 
@@ -68,7 +66,7 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 	RMDataLV vec = selectedHiggs1->p4;
 	RMDataLV::BetaVector boostvec = vec.BoostToCM();
 	ROOT::Math::Boost boostMat(boostvec);
-	bool boosted = (globalSettings.GetTauSpinnerSettings()[6] == "boosted");
+	bool boosted = (settings.GetTauSpinnerSettings()[6] == "boosted");
 	if (boosted)
 	{
 		selectedHiggs1->p4 = boostMat * (selectedHiggs1->p4);
@@ -94,7 +92,7 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 
 		//choosing considered tau decay products for the TauSpinnerWeight calculaton
 		//through the entry ChosenTauDaughters in the TauSpinnerSettings.json
-		stringvector chosentaudaughters = globalSettings.GetChosenTauDaughters();
+		stringvector chosentaudaughters = settings.GetChosenTauDaughters();
 		bool choose = (chosentaudaughters[0] == "choose");
 		std::vector<int> chosentd;
 		for (unsigned int i = 1; i < chosentaudaughters.size(); i++)
@@ -147,7 +145,7 @@ void TauSpinnerProducer::ProduceGlobal(HttEvent const& event, HttProduct& produc
 		if (((choosecomplete1 > 0) && (choosecomplete2) > 0) || withoutchoise)
 		{
 			//Decision for a certain weight calculation depending on BosonPdgId
-			stringvector bosonPdgIdVector = globalSettings.GetBosonPdgId();
+			stringvector bosonPdgIdVector = settings.GetBosonPdgId();
 			int bosonPdgId;
 			std::istringstream(bosonPdgIdVector[0]) >> bosonPdgId;
 

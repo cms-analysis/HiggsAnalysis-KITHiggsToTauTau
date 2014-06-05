@@ -20,37 +20,14 @@ public:
 
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::global_setting_type global_setting_type;
 	typedef typename HttTypes::setting_type setting_type;
-
-	virtual void InitGlobal(global_setting_type const& globalSettings) ARTUS_CPP11_OVERRIDE;
-	virtual void InitLocal(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
 
 protected:
 
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KDataMuon* muon, event_type const& event,
-	                                product_type& product) const  ARTUS_CPP11_OVERRIDE;
+	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
 
-
-private:
-	float chargedIsoVetoConeSize = 0.0;
-	float neutralIsoVetoConeSize = 0.0;
-	float photonIsoVetoConeSize = 0.0;
-	float deltaBetaIsoVetoConeSize = 0.0;
-	
-	float chargedIsoPtThreshold = 0.0;
-	float neutralIsoPtThreshold = 0.0;
-	float photonIsoPtThreshold = 0.0;
-	float deltaBetaIsoPtThreshold = 0.0;
-	
-	float isoSignalConeSize = 0.0;
-	float deltaBetaCorrectionFactor = 0.0;
-	float isoPtSumOverPtThresholdEB = 0.0;
-	float isoPtSumOverPtThresholdEE = 0.0;
-	
-	float trackDxyCut = 0.0;
-	float trackDzCut = 0.0;
 };
 

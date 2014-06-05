@@ -5,65 +5,19 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
 
 
-void HttValidElectronsProducer::InitGlobal(global_setting_type const& globalSettings)
+void HttValidElectronsProducer::Init(setting_type const& settings)
 {
-	ValidElectronsProducer::InitGlobal(globalSettings);
-	
-	electronIDType = ToElectronIDType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(globalSettings.GetElectronIDType())));
-	
-	chargedIsoVetoConeSizeEB = globalSettings.GetElectronChargedIsoVetoConeSizeEB();
-	chargedIsoVetoConeSizeEE = globalSettings.GetElectronChargedIsoVetoConeSizeEE();
-	neutralIsoVetoConeSize = globalSettings.GetElectronNeutralIsoVetoConeSize();
-	photonIsoVetoConeSizeEB = globalSettings.GetElectronPhotonIsoVetoConeSizeEB();
-	photonIsoVetoConeSizeEE = globalSettings.GetElectronPhotonIsoVetoConeSizeEE();
-	deltaBetaIsoVetoConeSize = globalSettings.GetElectronDeltaBetaIsoVetoConeSize();
-	
-	chargedIsoPtThreshold = globalSettings.GetElectronChargedIsoPtThreshold();
-	neutralIsoPtThreshold = globalSettings.GetElectronNeutralIsoPtThreshold();
-	photonIsoPtThreshold = globalSettings.GetElectronPhotonIsoPtThreshold();
-	deltaBetaIsoPtThreshold = globalSettings.GetElectronDeltaBetaIsoPtThreshold();
-	
-	isoSignalConeSize = globalSettings.GetIsoSignalConeSize();
-	deltaBetaCorrectionFactor = globalSettings.GetDeltaBetaCorrectionFactor();
-	isoPtSumOverPtThresholdEB = globalSettings.GetIsoPtSumOverPtThresholdEB();
-	isoPtSumOverPtThresholdEE = globalSettings.GetIsoPtSumOverPtThresholdEE();
-	
-	trackDxyCut = globalSettings.GetElectronTrackDxyCut();
-	trackDzCut = globalSettings.GetElectronTrackDzCut();
-}
-
-void HttValidElectronsProducer::InitLocal(setting_type const& settings)
-{
-	ValidElectronsProducer::InitLocal(settings);
+	ValidElectronsProducer<HttTypes>::Init(settings);
 	
 	electronIDType = ToElectronIDType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetElectronIDType())));
-	
-	chargedIsoVetoConeSizeEB = settings.GetElectronChargedIsoVetoConeSizeEB();
-	chargedIsoVetoConeSizeEE = settings.GetElectronChargedIsoVetoConeSizeEE();
-	neutralIsoVetoConeSize = settings.GetElectronNeutralIsoVetoConeSize();
-	photonIsoVetoConeSizeEB = settings.GetElectronPhotonIsoVetoConeSizeEB();
-	photonIsoVetoConeSizeEE = settings.GetElectronPhotonIsoVetoConeSizeEE();
-	deltaBetaIsoVetoConeSize = settings.GetElectronDeltaBetaIsoVetoConeSize();
-	
-	chargedIsoPtThreshold = settings.GetElectronChargedIsoPtThreshold();
-	neutralIsoPtThreshold = settings.GetElectronNeutralIsoPtThreshold();
-	photonIsoPtThreshold = settings.GetElectronPhotonIsoPtThreshold();
-	deltaBetaIsoPtThreshold = settings.GetElectronDeltaBetaIsoPtThreshold();
-	
-	isoSignalConeSize = settings.GetIsoSignalConeSize();
-	deltaBetaCorrectionFactor = settings.GetDeltaBetaCorrectionFactor();
-	isoPtSumOverPtThresholdEB = settings.GetIsoPtSumOverPtThresholdEB();
-	isoPtSumOverPtThresholdEE = settings.GetIsoPtSumOverPtThresholdEE();
-	
-	trackDxyCut = settings.GetElectronTrackDxyCut();
-	trackDzCut = settings.GetElectronTrackDzCut();
 }
 
 bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
-                                                   event_type const& event,
-                                                   product_type& product) const
+                                                   event_type const& event, product_type& product,
+                                                   setting_type const& settings) const
 {
-	bool validElectron = ValidElectronsProducer::AdditionalCriteria(electron, event, product);
+	bool validElectron = ValidElectronsProducer<HttTypes>::AdditionalCriteria(electron, event, product, settings);
+	
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 	
 	// custom WPs for electron ID
@@ -82,18 +36,18 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	if (validElectron && electronIsoType == ElectronIsoType::USER) {
 		isolationPtSum = ParticleIsolation::IsolationPtSum(
 				electron->p4, event,
-				isoSignalConeSize,
-				deltaBetaCorrectionFactor,
-				chargedIsoVetoConeSizeEB,
-				chargedIsoVetoConeSizeEE,
-				neutralIsoVetoConeSize,
-				photonIsoVetoConeSizeEB,
-				photonIsoVetoConeSizeEE,
-				deltaBetaIsoVetoConeSize,
-				chargedIsoPtThreshold,
-				neutralIsoPtThreshold,
-				photonIsoPtThreshold,
-				deltaBetaIsoPtThreshold
+				settings.GetIsoSignalConeSize(),
+				settings.GetDeltaBetaCorrectionFactor(),
+				settings.GetElectronChargedIsoVetoConeSizeEB(),
+				settings.GetElectronChargedIsoVetoConeSizeEE(),
+				settings.GetElectronNeutralIsoVetoConeSize(),
+				settings.GetElectronPhotonIsoVetoConeSizeEB(),
+				settings.GetElectronPhotonIsoVetoConeSizeEE(),
+				settings.GetElectronDeltaBetaIsoVetoConeSize(),
+				settings.GetElectronChargedIsoPtThreshold(),
+				settings.GetElectronNeutralIsoPtThreshold(),
+				settings.GetElectronPhotonIsoPtThreshold(),
+				settings.GetElectronDeltaBetaIsoPtThreshold()
 		);
 		
 		double isolationPtSumOverPt = isolationPtSum / electron->p4.Pt();
@@ -101,16 +55,16 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 		product.m_leptonIsolation[electron] = isolationPtSum;
 		product.m_leptonIsolationOverPt[electron] = isolationPtSumOverPt;
 		
-		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEB) ||
-		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > isoPtSumOverPtThresholdEE)) {
+		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetIsoPtSumOverPtThresholdEB()) ||
+		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetIsoPtSumOverPtThresholdEE())) {
 			validElectron = false;
 		}
 	}
 	
 	// (tighter) cut on impact parameters of track
 	validElectron = validElectron
-	                && (trackDxyCut <= 0.0 || std::abs(electron->track.getDxy(&event.m_vertexSummary->pv)) < trackDxyCut)
-	                && (trackDzCut <= 0.0 || std::abs(electron->track.getDz(&event.m_vertexSummary->pv)) < trackDzCut);
+	                && (settings.GetElectronTrackDxyCut() <= 0.0 || std::abs(electron->track.getDxy(&event.m_vertexSummary->pv)) < settings.GetElectronTrackDxyCut())
+	                && (settings.GetElectronTrackDzCut() <= 0.0 || std::abs(electron->track.getDz(&event.m_vertexSummary->pv)) < settings.GetElectronTrackDzCut());
 
 	return validElectron;
 }

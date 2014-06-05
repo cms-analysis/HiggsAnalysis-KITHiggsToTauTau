@@ -2,7 +2,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ElectronEtaSelector.h"
 
 
-void ElectronEtaSelector::Produce(event_type const& event, product_type& product) const
+void ElectronEtaSelector::Produce(event_type const& event, product_type& product,
+	                              setting_type const& settings) const
 {
 	for (KDataElectrons::iterator electron = event.m_electrons->begin();
 		 electron != event.m_electrons->end(); electron++)

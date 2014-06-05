@@ -2,23 +2,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidBTaggedJetsProducer.h"
 
 
-void HttValidBTaggedJetsProducer::InitGlobal(global_setting_type const& globalSettings)
-	{
-		HttProducerBase::InitGlobal(globalSettings);
-
-		combinedSecondaryVertexMediumWP = globalSettings.GetBTaggedJetCombinedSecondaryVertexMediumWP();
-		absEtaCut = globalSettings.GetBTaggedJetAbsEtaCut();
-	}
-
-void HttValidBTaggedJetsProducer::InitLocal(setting_type const& settings)
-	{
-		HttProducerBase::InitLocal(settings);
-
-		combinedSecondaryVertexMediumWP = settings.GetBTaggedJetCombinedSecondaryVertexMediumWP();
-		absEtaCut = settings.GetBTaggedJetAbsEtaCut();
-	}
-
-void HttValidBTaggedJetsProducer::Produce(event_type const& event, product_type& product) const
+void HttValidBTaggedJetsProducer::Produce(event_type const& event, product_type& product,
+	                                      setting_type const& settings) const
 {
 	for (std::vector<KDataPFJet*>::iterator jet = product.m_validJets.begin();
 		     jet != product.m_validJets.end(); ++jet)
@@ -27,12 +12,13 @@ void HttValidBTaggedJetsProducer::Produce(event_type const& event, product_type&
 
 			float combinedSecondaryVertex = static_cast<KDataPFTaggedJet*>(*jet)->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggermetadata);
 
-			if (combinedSecondaryVertex < combinedSecondaryVertexMediumWP ||
-			    std::abs(static_cast<KDataPFTaggedJet*>(*jet)->p4.eta()) > absEtaCut) {
+			if (combinedSecondaryVertex < settings.GetBTaggedJetCombinedSecondaryVertexMediumWP() ||
+			    std::abs(static_cast<KDataPFTaggedJet*>(*jet)->p4.eta()) > settings.GetBTaggedJetAbsEtaCut()) {
 				validBJet = false;
 			}
 
-			validBJet = validBJet && HttValidBTaggedJetsProducer::AdditionalCriteria(static_cast<KDataPFTaggedJet*>(*jet), event, product);
+			validBJet = validBJet && HttValidBTaggedJetsProducer::AdditionalCriteria(static_cast<KDataPFTaggedJet*>(*jet),
+			                                                                         event, product, settings);
 
 			if (validBJet)
 				product.m_BTaggedJets.push_back(static_cast<KDataPFTaggedJet*>(*jet));
@@ -42,8 +28,8 @@ void HttValidBTaggedJetsProducer::Produce(event_type const& event, product_type&
 }
 
 bool HttValidBTaggedJetsProducer::AdditionalCriteria(KDataPFTaggedJet* jet,
-                                                     event_type const& event,
-                                                     product_type& product) const
+                                                     event_type const& event, product_type& product,
+                                                     setting_type const& settings) const
 {
 	bool validBJet = true;
 

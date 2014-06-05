@@ -32,8 +32,6 @@ struct HttTypes {
 	typedef HttProduct product_type;
         /// configuration settings which are Htt specific? 
 	typedef HttPipelineSettings setting_type;
-        /// global configration settings (which could also be Htt specific?)
-	typedef HttGlobalSettings global_setting_type;
 };
 
 /// producers of global/local analysis objects

@@ -19,6 +19,10 @@ template<class TLepton>
 class TriggerWeightProducer: public ProducerBase<HttTypes> {
 public:
 
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
+
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
 		return "trigger_weight";
 	}
@@ -31,26 +35,28 @@ public:
 	{
 	}
 
-	virtual void ProduceGlobal(event_type const& event,
-	                           product_type& product,
-	                           global_setting_type const& globalSettings) const ARTUS_CPP11_OVERRIDE
+	virtual void Produce(event_type const& event, product_type& product,
+	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE
 	{
-		Produce(event, product);
-	}
-
-	virtual void ProduceLocal(event_type const& event,
-	                          product_type& product,
-	                          setting_type const& settings) const ARTUS_CPP11_OVERRIDE
-	{
-		Produce(event, product);
+		double triggerWeight = 1.0;
+		// loop over all valid leptons of this flavour (should be one or two)
+		for (typename std::vector<TLepton*>::const_iterator lepton = (product.*m_validLeptonsMember).begin();
+		     lepton != (product.*m_validLeptonsMember).end(); ++lepton)
+		{
+			// weight = efficiency in data / efficiency in MC
+			double efficiencyData = Efficiency((*lepton)->p4.Pt(), m_m0Data, m_sigmaData, m_alphaData, m_nData, m_normData);
+			double efficiencyMc = Efficiency((*lepton)->p4.Pt(), m_m0Mc, m_sigmaMc, m_alphaMc, m_nMc, m_normMc);
+			triggerWeight *= (efficiencyData / efficiencyMc);
+		}
+		product.m_weights[m_weightName] = triggerWeight;
 	}
 
 protected:
 
 	// function that lets this producer work as both a global and a local producer
-	virtual void Init(std::vector<double> const& hltTriggerTurnOnParamtersData,
-	                  std::vector<double> const& hltTriggerTurnOnParamtersMc,
-	                  std::string leptonName)
+	void Initialise(std::vector<double> const& hltTriggerTurnOnParamtersData,
+	                std::vector<double> const& hltTriggerTurnOnParamtersMc,
+	                std::string leptonName)
 	{
 		// initialise parameters for data
 		if (hltTriggerTurnOnParamtersData.size() < 5) {
@@ -87,22 +93,6 @@ protected:
 		m_alphaMc = hltTriggerTurnOnParamtersMc[2];
 		m_nMc = hltTriggerTurnOnParamtersMc[3];
 		m_normMc = hltTriggerTurnOnParamtersMc[4];
-	}
-
-	// function that lets this producer work as both a global and a local producer
-	virtual void Produce(event_type const& event, product_type& product) const
-	{
-		double triggerWeight = 1.0;
-		// loop over all valid leptons of this flavour (should be one or two)
-		for (typename std::vector<TLepton*>::const_iterator lepton = (product.*m_validLeptonsMember).begin();
-		     lepton != (product.*m_validLeptonsMember).end(); ++lepton)
-		{
-			// weight = efficiency in data / efficiency in MC
-			double efficiencyData = Efficiency((*lepton)->p4.Pt(), m_m0Data, m_sigmaData, m_alphaData, m_nData, m_normData);
-			double efficiencyMc = Efficiency((*lepton)->p4.Pt(), m_m0Mc, m_sigmaMc, m_alphaMc, m_nMc, m_normMc);
-			triggerWeight *= (efficiencyData / efficiencyMc);
-		}
-		product.m_weights[m_weightName] = triggerWeight;
 	}
 
 
@@ -171,16 +161,10 @@ public:
 	{
 	}
 	
-	virtual void InitGlobal(global_setting_type const& globalSettings) ARTUS_CPP11_OVERRIDE
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE
 	{
-		Init(globalSettings.GetElectronTriggerTurnOnParamtersData(),
-		     globalSettings.GetElectronTriggerTurnOnParamtersMc(), "Electron");
-	}
-	
-	virtual void InitLocal(setting_type const& settings) ARTUS_CPP11_OVERRIDE
-	{
-		Init(settings.GetElectronTriggerTurnOnParamtersData(),
-			 settings.GetElectronTriggerTurnOnParamtersMc(), "Electron");
+		this->Initialise(settings.GetElectronTriggerTurnOnParamtersData(),
+		                 settings.GetElectronTriggerTurnOnParamtersMc(), "Electron");
 	}
 };
 
@@ -196,16 +180,10 @@ public:
 	{
 	}
 	
-	virtual void InitGlobal(global_setting_type const& globalSettings) ARTUS_CPP11_OVERRIDE
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE
 	{
-		Init(globalSettings.GetMuonTriggerTurnOnParamtersData(),
-		     globalSettings.GetMuonTriggerTurnOnParamtersMc(), "Muon");
-	}
-	
-	virtual void InitLocal(setting_type const& settings) ARTUS_CPP11_OVERRIDE
-	{
-		Init(settings.GetMuonTriggerTurnOnParamtersData(),
-			 settings.GetMuonTriggerTurnOnParamtersMc(), "Muon");
+		this->Initialise(settings.GetMuonTriggerTurnOnParamtersData(),
+		                 settings.GetMuonTriggerTurnOnParamtersMc(), "Muon");
 	}
 };
 
@@ -221,16 +199,10 @@ public:
 	{
 	}
 	
-	virtual void InitGlobal(global_setting_type const& globalSettings) ARTUS_CPP11_OVERRIDE
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE
 	{
-		Init(globalSettings.GetTauTriggerTurnOnParamtersData(),
-		     globalSettings.GetTauTriggerTurnOnParamtersMc(), "Tau");
-	}
-	
-	virtual void InitLocal(setting_type const& settings) ARTUS_CPP11_OVERRIDE
-	{
-		Init(settings.GetTauTriggerTurnOnParamtersData(),
-			 settings.GetTauTriggerTurnOnParamtersMc(), "Tau");
+		this->Initialise(settings.GetTauTriggerTurnOnParamtersData(),
+		                 settings.GetTauTriggerTurnOnParamtersMc(), "Tau");
 	}
 };
 

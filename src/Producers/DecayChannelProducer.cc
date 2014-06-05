@@ -4,7 +4,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 
 
-void DecayChannelProducer::Produce(event_type const& event, product_type& product) const
+void DecayChannelProducer::Produce(event_type const& event, product_type& product,
+	                               setting_type const& settings) const
 {
 	
 	product.m_decayChannel = HttProduct::DecayChannel::NONE;
