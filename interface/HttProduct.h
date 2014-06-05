@@ -61,10 +61,6 @@ public:
 	// filled by HttValid<Leptons>Producer
 	std::map<KLepton*, double> m_leptonIsolation;
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
-
-	/// added by HttValidBTaggedJetsProducer
-	std::vector<KDataPFTaggedJet*> m_BTaggedJets;
-	std::vector<KDataPFTaggedJet*> m_notBTaggedJets;
 	
 	KDataPFMET* m_met = 0;
 
