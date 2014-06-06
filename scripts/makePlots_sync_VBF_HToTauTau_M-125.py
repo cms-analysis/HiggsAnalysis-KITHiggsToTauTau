@@ -14,8 +14,8 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Make VBF Htt 125 sync plots.",
 	                                 parents=[logger.loggingParser])
 
-	parser.add_argument("-i", "--input-1",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_KIT/SYNCFILE_VBF_HToTauTau_M-125_2012.root",
+	parser.add_argument("-i", "--input-1", nargs="*",
+	                    default=["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_KIT/SYNCFILE_VBF_HToTauTau_M-125_2012.root"],
 	                    help="KIT input file. [Default: %(default)s]")
 	parser.add_argument("--input-2-em",
 	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_IC/SYNCFILE_VBF_HToTauTau_M-125_em_2012.root",
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 	plot_commands = []
 	for channel, label in channels.items():
 		for quantity in args["quantities"]:
-			plot_commands.append("higgsplot.py --plot-modules PlotRootHtt -f png pdf --labels KIT %s --ratio -i \"%s\" \"%s\" --folder %s/ntuple TauCheck -o plots/VBF_HToTauTau_M-125/%s -x %s" % (label, args["input_1"], args["input_2_%s" % channel], channel, channel, quantity))
+			plot_commands.append("higgsplot.py --plot-modules PlotRootHtt -f png pdf --labels KIT %s --ratio -i \"%s\" \"%s\" --folder %s/ntuple TauCheck -o plots/VBF_HToTauTau_M-125/%s -x %s" % (label, " ".join(args["input_1"]), args["input_2_%s" % channel], channel, channel, quantity))
 	
 	for plot_command in plot_commands:
 		log.info("\nMake plot \"%s\" ..." % plot_command)
