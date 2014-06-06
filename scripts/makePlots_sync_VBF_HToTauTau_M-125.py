@@ -15,19 +15,19 @@ if __name__ == "__main__":
 	                                 parents=[logger.loggingParser])
 
 	parser.add_argument("-i", "--input-1",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/auxiliaries/SyncNtuples_KIT/SYNCFILE_VBF_HToTauTau_M-125_2012.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_KIT/SYNCFILE_VBF_HToTauTau_M-125_2012.root",
 	                    help="KIT input file. [Default: %(default)s]")
 	parser.add_argument("--input-2-em",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/auxiliaries/SyncNtuples_IC/SYNCFILE_VBF_HToTauTau_M-125_em_2012.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_IC/SYNCFILE_VBF_HToTauTau_M-125_em_2012.root",
 	                    help="IC input file (EM channel). [Default: %(default)s]")
 	parser.add_argument("--input-2-et",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/auxiliaries/SyncNtuples_IC/SYNCFILE_VBF_HToTauTau_M-125_et_2012.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_IC/SYNCFILE_VBF_HToTauTau_M-125_et_2012.root",
 	                    help="IC input file (ET channel). [Default: %(default)s]")
 	parser.add_argument("--input-2-mt",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/auxiliaries/SyncNtuples_IC/SYNCFILE_VBF_HToTauTau_M-125_mt_2012.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_IC/SYNCFILE_VBF_HToTauTau_M-125_mt_2012.root",
 	                    help="IC input file (MT channel). [Default: %(default)s]")
 	parser.add_argument("--input-2-tt",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/auxiliaries/SyncNtuples_MIT/htt_vbf_tt_sm_125_select.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_MIT/htt_vbf_tt_sm_125_select.root",
 	                    help="MIT input file (MT channel). [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
 	                    default=["pt_1", "pt_2", "eta_1", "eta_2", "1"],
