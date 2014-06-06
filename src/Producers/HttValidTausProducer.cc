@@ -43,7 +43,21 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 			     tauIndex != settings.GetTauDiscriminatorAntiElectronMvaCutsLeptonIndices().end(); ++tauIndex)
 			{
 				if (currentTauIndex == *tauIndex) {
-					validTau = validTau && tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejection", event.m_tauDiscriminatorMetadata) > settings.GetTauDiscriminatorAntiElectronMvaCuts()[tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejectioncategory", event.m_tauDiscriminatorMetadata)];
+
+					int category = (int)(tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejectioncategory", event.m_tauDiscriminatorMetadata) + 0.5);
+					float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejection", event.m_tauDiscriminatorMetadata);
+
+					if (category < 0)
+					{
+						validTau = validTau && false;
+					}
+					else if (category > 15)
+					{
+						validTau = validTau && true;
+					}
+					else {
+						validTau = validTau && discriminator > settings.GetTauDiscriminatorAntiElectronMvaCuts()[category];
+					}
 				}
 			}
 		}
