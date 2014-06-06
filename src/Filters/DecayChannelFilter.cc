@@ -2,10 +2,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 
 
-bool DecayChannelFilter::DoesEventPassLocal(HttEvent const& event,
-                                            HttProduct const& product,
-                                            HttPipelineSettings const& settings) const
+bool DecayChannelFilter::DoesEventPass(event_type const& event, product_type const& product,
+                                       setting_type const& settings) const
 {
-	return (product.m_decayChannel == HttProduct::ToDecayChannel(settings.GetChannel()));
+	return (product.m_decayChannel == product_type::ToDecayChannel(settings.GetChannel()));
 }
 

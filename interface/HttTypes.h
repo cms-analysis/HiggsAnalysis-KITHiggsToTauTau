@@ -10,7 +10,7 @@
 
 #include "HttEvent.h"
 #include "HttProduct.h"
-#include "HttPipelineSettings.h"
+#include "HttSettings.h"
 
 /**
    HttTypes HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h
@@ -31,18 +31,9 @@ struct HttTypes {
         /// objects that have been produced for plotting within Artus (i.e. logic implemented at analysis level)
 	typedef HttProduct product_type;
         /// configuration settings which are Htt specific? 
-	typedef HttPipelineSettings setting_type;
-        /// global configration settings (which could also be Htt specific?)
-	typedef HttGlobalSettings global_setting_type;
+	typedef HttSettings setting_type;
 };
 
-/// producers of global/local analysis objects
-typedef ProducerBase<HttTypes> HttProducerBase;
-/// event filters at final analysis level
-typedef FilterBase<HttTypes> HttFilterBase;
-/// base class for a consumer (for final plotting)
-typedef ConsumerBase<HttTypes> HttConsumerBase;
-/// custom pipeline (several pipeline of this format could exist)
 typedef Pipeline<HttTypes> HttPipeline;
 typedef PipelineRunner<HttPipeline, HttTypes> HttPipelineRunner;
 typedef KappaPipelineInitializer<HttTypes> HttPipelineInitializer;
