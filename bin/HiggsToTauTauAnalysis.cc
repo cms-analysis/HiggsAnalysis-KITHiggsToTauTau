@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
 	ArtusConfig myConfig(argc, argv);
 
 	// load the global settings from the config file
-	HttPipelineSettings settings = myConfig.GetSettings<HttPipelineSettings>();
+	HttSettings settings = myConfig.GetSettings<HttSettings>();
 
 	// create the output root environment, automatically saves the config into the root file
 	RootEnvironment rootEnv(myConfig);

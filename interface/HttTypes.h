@@ -10,7 +10,7 @@
 
 #include "HttEvent.h"
 #include "HttProduct.h"
-#include "HttPipelineSettings.h"
+#include "HttSettings.h"
 
 /**
    HttTypes HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h
@@ -31,7 +31,7 @@ struct HttTypes {
         /// objects that have been produced for plotting within Artus (i.e. logic implemented at analysis level)
 	typedef HttProduct product_type;
         /// configuration settings which are Htt specific? 
-	typedef HttPipelineSettings setting_type;
+	typedef HttSettings setting_type;
 };
 
 typedef Pipeline<HttTypes> HttPipeline;

@@ -3,7 +3,7 @@
 
 #include <limits.h>
 
-#include "Artus/KappaAnalysis/interface/KappaPipelineSettings.h"
+#include "Artus/KappaAnalysis/interface/KappaSettings.h"
 
 /**
    \brief Reads settings for all parts of the KappaAnalysis code from a prepared
@@ -12,7 +12,7 @@
    Defines settings that can be obtained from the json configuration file.
 */
 
-class HttPipelineSettings: public KappaPipelineSettings {
+class HttSettings: public KappaSettings {
 public:
 
 	/// names of MET collection in kappa tuple
