@@ -34,7 +34,7 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 				validTau = validTau && true;
 			}
 			else {
-				validTau = validTau && discriminator > tauDiscriminatorAntiElectronMvaCuts[category];
+				validTau = validTau && discriminator > settings.GetTauDiscriminatorAntiElectronMvaCuts()[category];
 			}
 		}
 		else {
