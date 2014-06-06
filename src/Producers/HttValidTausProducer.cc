@@ -38,7 +38,17 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 	// custom electron rejection
 	if (validTau && (! tauDiscriminatorAntiElectronMvaCuts.empty())) {
 		if(tauDiscriminatorAntiElectronMvaCutsLeptonIndices.empty()) {
-			validTau = validTau && tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejection", event.m_tauDiscriminatorMetadata) > tauDiscriminatorAntiElectronMvaCuts[tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejectioncategory", event.m_tauDiscriminatorMetadata)];
+
+			int category = (int)(tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejectioncategory", event.m_tauDiscriminatorMetadata) + 0.5);
+			float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejection", event.m_tauDiscriminatorMetadata);
+
+			//https://github.com/ajgilbert/ICHiggsTauTau/blob/cb76c9ec03ff3091e8ee3229ff76ec75f6ec34b8/Analysis/Utilities/src/FnPredicates.cc#L319-L329
+			if (category < 0)
+				validTau = validTau && false;
+			else if (category > 15)
+				validTau = validTau && true;
+			else 
+				validTau = validTau && discriminator > tauDiscriminatorAntiElectronMvaCuts[category];
 		}
 		else {
 			int currentTauIndex = product.m_validTaus.size();
