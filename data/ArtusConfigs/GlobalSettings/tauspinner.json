@@ -1,0 +1,9 @@
+{
+	"GlobalProcessors" : {
+		"nick" : {
+			"default" : [
+				"producer:tauspinner"
+			]
+		}
+	}
+}
