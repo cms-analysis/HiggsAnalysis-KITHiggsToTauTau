@@ -56,9 +56,6 @@ public:
 	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoPtThreshold, 0.0);
 	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoPtThreshold, 0.0);
 	
-	IMPL_SETTING_DEFAULT(float, BTaggedJetCombinedSecondaryVertexMediumWP, 0.0);
-	IMPL_SETTING_DEFAULT(float, BTaggedJetAbsEtaCut, 0.0);
-
 	IMPL_SETTING(float, IsoSignalConeSize);
 	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
 	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
