@@ -1,3 +1,4 @@
 /storage/a/friese/skimming/2014-05-23-sync-exercise/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/
 /storage/a/friese/skimming/2014-05-23-sync-exercise/DoubleMu_PFembedded_Run2012A_22Jan2013_muhad_8TeV/
 /storage/a/friese/skimming/2014-05-23-sync-exercise/DoubleMu_PFembedded_Run2012A_22Jan2013_muelec_8TeV/
+/storage/a/friese/skimming/2014-05-23-sync-exercise/TauPlusX_Run2012A_22Jan2013_8TeV/
