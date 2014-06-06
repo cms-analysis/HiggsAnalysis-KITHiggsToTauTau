@@ -20,7 +20,6 @@ public:
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
-	typedef typename HttTypes::global_setting_type global_setting_type;
 	
 	MetSelectorBase(TMet* event_type::*met) :
 		ProducerBase<HttTypes>(),
@@ -29,15 +28,8 @@ public:
 	}
 	
 	// nothing to do here
-	virtual void ProduceGlobal(event_type const& event, product_type& product,
-	                           global_setting_type const& globalSettings) const ARTUS_CPP11_OVERRIDE
-	{
-		product.m_met = event.*m_metMember;
-	}
-
-	// nothing to do here
-	virtual void ProduceLocal(event_type const& event, product_type & product, 
-	                          setting_type const& pipelineSettings) const ARTUS_CPP11_OVERRIDE
+	virtual void Produce(event_type const& event, product_type & product, 
+	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE
 	{
 		product.m_met = event.*m_metMember;
 	}

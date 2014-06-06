@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
 	ArtusConfig myConfig(argc, argv);
 
 	// load the global settings from the config file
-	HttGlobalSettings globalSettings = myConfig.GetGlobalSettings<HttGlobalSettings>();
+	HttSettings settings = myConfig.GetSettings<HttSettings>();
 
 	// create the output root environment, automatically saves the config into the root file
 	RootEnvironment rootEnv(myConfig);
@@ -35,8 +35,8 @@ int main(int argc, char** argv) {
 	// will load the Ntuples from the root file
 	// this must be modified if you want to load more/new quantities
 	FileInterface2 fileInterface(myConfig.GetInputFiles());
-	HttEventProvider evtProvider(fileInterface, (globalSettings.GetInputIsData() ? DataInput : McInput));
-	evtProvider.WireEvent(globalSettings);
+	HttEventProvider evtProvider(fileInterface, (settings.GetInputIsData() ? DataInput : McInput));
+	evtProvider.WireEvent(settings);
 
 	// the pipeline initializer will setup the pipeline, with
 	// all the attached Producer, Filer and Consumer
@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 
 	// run all the configured pipelines and all their attached
 	// consumers
-	runner.RunPipelines(evtProvider, globalSettings);
+	runner.RunPipelines(evtProvider, settings);
 
 	// close output root file
 	rootEnv.Close();

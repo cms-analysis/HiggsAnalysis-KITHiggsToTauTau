@@ -14,8 +14,8 @@ public:
 	HttFactory() : KappaFactory<HttTypes>() {  };
 	virtual ~HttFactory() {  };
 
-	virtual HttProducerBase * createProducer ( std::string const& id ) ARTUS_CPP11_OVERRIDE;
-	virtual HttFilterBase * createFilter ( std::string const& id ) ARTUS_CPP11_OVERRIDE;
-	virtual HttConsumerBase * createConsumer ( std::string const& id ) ARTUS_CPP11_OVERRIDE;
+	virtual ProducerBase<HttTypes> * createProducer(std::string const& id) ARTUS_CPP11_OVERRIDE;
+	virtual FilterBase<HttTypes> * createFilter(std::string const& id) ARTUS_CPP11_OVERRIDE;
+	virtual ConsumerBase<HttTypes> * createConsumer(std::string const& id) ARTUS_CPP11_OVERRIDE;
 
 };

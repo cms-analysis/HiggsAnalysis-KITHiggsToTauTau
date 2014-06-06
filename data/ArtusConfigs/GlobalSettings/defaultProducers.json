@@ -2,7 +2,7 @@
 	"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json"
 	],
-	"GlobalProcessors" : {
+	"Processors" : {
 		"nick" : {
 			"default" : [
 				"producer:electron_eta_selector",

@@ -113,16 +113,16 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["nBTaggedJets"] = [](event_type const& event, product_type const& product) {
-		return product.m_BTaggedJets.size();
+		return product.m_bTaggedJets.size();
 	};
 	m_valueExtractorMap["bJetPt"] = [](event_type const& event, product_type const& product) {
-		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Pt() : DefaultValues::UndefinedDouble;
+		return product.m_bTaggedJets.size() >= 1 ? product.m_bTaggedJets.at(0)->p4.Pt() : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["bJetEta"] = [](event_type const& event, product_type const& product) {
-		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Eta() : DefaultValues::UndefinedDouble;
+		return product.m_bTaggedJets.size() >= 1 ? product.m_bTaggedJets.at(0)->p4.Eta() : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["bJetPhi"] = [](event_type const& event, product_type const& product) {
-		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedDouble;
+		return product.m_bTaggedJets.size() >= 1 ? product.m_bTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedDouble;
 	};
 	
 	// MET quantities
