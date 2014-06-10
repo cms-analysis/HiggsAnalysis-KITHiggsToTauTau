@@ -733,7 +733,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["jeta_2"] = m_valueExtractorMap["trailingJetEta"];
 	m_valueExtractorMap["jphi_2"] = m_valueExtractorMap["trailingJetPhi"];
 	m_valueExtractorMap["mjj"] = m_valueExtractorMap["diJetMass"];
-	m_valueExtractorMap["jdeta"] = m_valueExtractorMap["diJetDeltaEta"];
+	m_valueExtractorMap["jdeta"] = m_valueExtractorMap["diJetAbsDeltaEta"];
 	m_valueExtractorMap["njets"] = m_valueExtractorMap["nJets"];
 	
 	// need to be called at last
