@@ -55,8 +55,9 @@ public:
 	std::vector<EventCategory> m_eventCategories;
 	
 	// filled by DecayChannelProducer
-	std::vector<KLepton*> m_ptOrderedLeptons;
-	std::vector<KLepton*> m_flavourOrderedLeptons;
+	std::vector<KLepton*> m_ptOrderedLeptons; // highest pt leptons first
+	std::vector<KLepton*> m_flavourOrderedLeptons; // according to channel definition
+	std::vector<KLepton*> m_chargeOrderedLeptons; // positively charged leptons first
 
 	// filled by HttValid<Leptons>Producer
 	std::map<KLepton*, double> m_leptonIsolation;

@@ -20,6 +20,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return product.m_validTaus.size();
 	};
 	
+	m_valueExtractorMap["leadingLepCharge"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->charge; };
 	m_valueExtractorMap["leadingLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->p4.Pt(); };
 	m_valueExtractorMap["leadingLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->p4.Eta(); };
 	m_valueExtractorMap["leadingLepPhi"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->p4.Phi(); };
@@ -32,6 +33,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	};
 	
+	m_valueExtractorMap["lep1Charge"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[0]->charge; };
 	m_valueExtractorMap["lep1Pt"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[0]->p4.Pt(); };
 	m_valueExtractorMap["lep1Eta"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[0]->p4.Eta(); };
 	m_valueExtractorMap["lep1Phi"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[0]->p4.Phi(); };
@@ -44,6 +46,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	};
 	
+	m_valueExtractorMap["trailingLepCharge"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->charge; };
 	m_valueExtractorMap["trailingLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->p4.Pt(); };
 	m_valueExtractorMap["trailingLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->p4.Eta(); };
 	m_valueExtractorMap["trailingLepPhi"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->p4.Phi(); };
@@ -56,6 +59,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	};
 	
+	m_valueExtractorMap["lep2Charge"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[1]->charge; };
 	m_valueExtractorMap["lep2Pt"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[1]->p4.Pt(); };
 	m_valueExtractorMap["lep2Eta"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[1]->p4.Eta(); };
 	m_valueExtractorMap["lep2Phi"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[1]->p4.Phi(); };
@@ -683,12 +687,14 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["eta_1"] = m_valueExtractorMap["lep1Eta"];
 	m_valueExtractorMap["phi_1"] = m_valueExtractorMap["lep1Phi"];
 	m_valueExtractorMap["m_1"] = m_valueExtractorMap["lep1Mass"];
+	m_valueExtractorMap["q_1"] = m_valueExtractorMap["lep1Charge"];
 	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["leadingLepIsoOverPt"];
 	m_valueExtractorMap["mt_1"] = m_valueExtractorMap["lep1Mt"];
 	m_valueExtractorMap["pt_2"] = m_valueExtractorMap["lep2Pt"];
 	m_valueExtractorMap["eta_2"] = m_valueExtractorMap["lep2Eta"];
 	m_valueExtractorMap["phi_2"] = m_valueExtractorMap["lep2Phi"];
 	m_valueExtractorMap["m_2"] = m_valueExtractorMap["lep2Mass"];
+	m_valueExtractorMap["q_2"] = m_valueExtractorMap["lep2Charge"];
 	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["trailingLepIsoOverPt"];
 	m_valueExtractorMap["mt_2"] = m_valueExtractorMap["lep2Mt"];
 	m_valueExtractorMap["met"] = m_valueExtractorMap["mvaMetPt"];
