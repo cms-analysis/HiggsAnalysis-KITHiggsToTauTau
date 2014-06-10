@@ -1,10 +1,18 @@
 {
 	"property" : [
-		"pfMETsumEt",
-		"pfMETpt",
-		"pfMETphi",
+		"pfMetSumEt",
+		"pfMetPt",
+		"pfMetPhi",
+		"pfMetCov00",
+		"pfMetCov01",
+		"pfMetCov10",
+		"pfMetCov11",
 		"mvaMetSumEt",
 		"mvaMetPt",
-		"mvaMetPhi"
+		"mvaMetPhi",
+		"mvaMetCov00",
+		"mvaMetCov01",
+		"mvaMetCov10",
+		"mvaMetCov11"
 	]
 }

@@ -130,19 +130,21 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	};
 	
 	// MET quantities
-	m_valueExtractorMap["pfMETsumEt"] = [](event_type const& event, product_type const& product) { return event.m_met->sumEt; };
-	m_valueExtractorMap["pfMETpt"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Pt(); };
-	m_valueExtractorMap["pfMETphi"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Phi(); };
+	m_valueExtractorMap["pfMetSumEt"] = [](event_type const& event, product_type const& product) { return event.m_met->sumEt; };
+	m_valueExtractorMap["pfMetPt"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Pt(); };
+	m_valueExtractorMap["pfMetPhi"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Phi(); };
+	m_valueExtractorMap["pfMetCov00"] = [](event_type const& event, product_type const& product) { return event.m_met->significance.At(0, 0); };
+	m_valueExtractorMap["pfMetCov01"] = [](event_type const& event, product_type const& product) { return event.m_met->significance.At(0, 1); };
+	m_valueExtractorMap["pfMetCov10"] = [](event_type const& event, product_type const& product) { return event.m_met->significance.At(1, 0); };
+	m_valueExtractorMap["pfMetCov11"] = [](event_type const& event, product_type const& product) { return event.m_met->significance.At(1, 1); };
 	
 	m_valueExtractorMap["mvaMetSumEt"] = [](event_type const& event, product_type const& product) { return product.m_met->sumEt; };
 	m_valueExtractorMap["mvaMetPt"] = [](event_type const& event, product_type const& product) { return product.m_met->p4.Pt(); };
 	m_valueExtractorMap["mvaMetPhi"] = [](event_type const& event, product_type const& product) { return product.m_met->p4.Phi(); };
-	
-	m_valueExtractorMap["MvaMetTTsumEt"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->sumEt; };
-	m_valueExtractorMap["MvaMetTTpt"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Pt(); };
-	m_valueExtractorMap["MvaMetTTphi"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Phi(); };
-
-
+	m_valueExtractorMap["mvaMetCov00"] = [](event_type const& event, product_type const& product) { return product.m_met->significance.At(0, 0); };
+	m_valueExtractorMap["mvaMetCov01"] = [](event_type const& event, product_type const& product) { return product.m_met->significance.At(0, 1); };
+	m_valueExtractorMap["mvaMetCov10"] = [](event_type const& event, product_type const& product) { return product.m_met->significance.At(1, 0); };
+	m_valueExtractorMap["mvaMetCov11"] = [](event_type const& event, product_type const& product) { return product.m_met->significance.At(1, 1); };
 
 	m_valueExtractorMap["TauSpinnerWeight"] = [](event_type const & event, product_type const & product)
 	{
@@ -697,7 +699,18 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["q_2"] = m_valueExtractorMap["lep2Charge"];
 	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["trailingLepIsoOverPt"];
 	m_valueExtractorMap["mt_2"] = m_valueExtractorMap["lep2Mt"];
-	m_valueExtractorMap["met"] = m_valueExtractorMap["mvaMetPt"];
+	m_valueExtractorMap["met"] = m_valueExtractorMap["pfMetPt"];
+	m_valueExtractorMap["metphi"] = m_valueExtractorMap["pfMetPhi"];
+	m_valueExtractorMap["metcov00"] = m_valueExtractorMap["pfMetCov00"];
+	m_valueExtractorMap["metcov01"] = m_valueExtractorMap["pfMetCov01"];
+	m_valueExtractorMap["metcov10"] = m_valueExtractorMap["pfMetCov10"];
+	m_valueExtractorMap["metcov11"] = m_valueExtractorMap["pfMetCov11"];
+	m_valueExtractorMap["mvamet"] = m_valueExtractorMap["mvaMetPt"];
+	m_valueExtractorMap["mvametphi"] = m_valueExtractorMap["mvaMetPhi"];
+	m_valueExtractorMap["mvacov00"] = m_valueExtractorMap["mvaMetCov00"];
+	m_valueExtractorMap["mvacov01"] = m_valueExtractorMap["mvaMetCov01"];
+	m_valueExtractorMap["mvacov10"] = m_valueExtractorMap["mvaMetCov10"];
+	m_valueExtractorMap["mvacov11"] = m_valueExtractorMap["mvaMetCov11"];
 	
 	// need to be called at last
 	KappaLambdaNtupleConsumer<HttTypes>::Init(pipeline);
