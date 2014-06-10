@@ -15,6 +15,9 @@
 		"nBTaggedJets",
 		"bJetPt",
 		"bJetEta",
-		"bJetPhi"
+		"bJetPhi",
+		"diJetMass",
+		"diJetDeltaPhi",
+		"diJetAbsDeltaEta"
 	]
 }

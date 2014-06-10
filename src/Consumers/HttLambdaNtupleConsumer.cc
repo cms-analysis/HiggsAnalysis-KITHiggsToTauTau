@@ -1,9 +1,12 @@
 
+#include <Math/VectorUtil.h>
+
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
 
 
 void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
@@ -127,6 +130,18 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	};
 	m_valueExtractorMap["bJetPhi"] = [](event_type const& event, product_type const& product) {
 		return product.m_bTaggedJets.size() >= 1 ? product.m_bTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedDouble;
+	};
+	
+	m_valueExtractorMap["diJetMass"] = [](event_type const& event, product_type const& product) {
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMLV diJetSystem) -> double { return diJetSystem.mass(); });
+	};
+	m_valueExtractorMap["diJetDeltaPhi"] = [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
+		                                        DefaultValues::UndefinedDouble;
+	};
+	m_valueExtractorMap["diJetAbsDeltaEta"] = [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
+		                                        DefaultValues::UndefinedDouble;
 	};
 	
 	// MET quantities
@@ -711,6 +726,15 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["mvacov01"] = m_valueExtractorMap["mvaMetCov01"];
 	m_valueExtractorMap["mvacov10"] = m_valueExtractorMap["mvaMetCov10"];
 	m_valueExtractorMap["mvacov11"] = m_valueExtractorMap["mvaMetCov11"];
+	m_valueExtractorMap["jpt_1"] = m_valueExtractorMap["leadingJetPt"];
+	m_valueExtractorMap["jeta_1"] = m_valueExtractorMap["leadingJetEta"];
+	m_valueExtractorMap["jphi_1"] = m_valueExtractorMap["leadingJetPhi"];
+	m_valueExtractorMap["jpt_2"] = m_valueExtractorMap["trailingJetPt"];
+	m_valueExtractorMap["jeta_2"] = m_valueExtractorMap["trailingJetEta"];
+	m_valueExtractorMap["jphi_2"] = m_valueExtractorMap["trailingJetPhi"];
+	m_valueExtractorMap["mjj"] = m_valueExtractorMap["diJetMass"];
+	m_valueExtractorMap["jdeta"] = m_valueExtractorMap["diJetDeltaEta"];
+	m_valueExtractorMap["njets"] = m_valueExtractorMap["nJets"];
 	
 	// need to be called at last
 	KappaLambdaNtupleConsumer<HttTypes>::Init(pipeline);
