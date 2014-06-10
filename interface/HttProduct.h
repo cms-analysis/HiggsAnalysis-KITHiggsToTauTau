@@ -63,6 +63,13 @@ public:
 	std::map<KLepton*, double> m_leptonIsolation;
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
 	
+	// filled by the DiLeptonQuantitiesProducer
+	RMLV m_diLeptonSystem;
+	
+	// filled by the DiJetQuantitiesProducer
+	RMLV m_diJetSystem;
+	bool m_diJetSystemAvailable = false;
+	
 	KDataPFMET* m_met = 0;
 
 	double m_genMassRoundOff1;

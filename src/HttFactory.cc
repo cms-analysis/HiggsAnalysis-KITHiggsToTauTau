@@ -10,6 +10,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerWeightProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 
@@ -54,6 +56,10 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 		return new TauTriggerWeightProducer();
 	if(id == TauSpinnerProducer().GetProducerId())
 		return new TauSpinnerProducer();
+	if(id == DiLeptonQuantitiesProducer().GetProducerId())
+		return new DiLeptonQuantitiesProducer();
+	if(id == DiJetQuantitiesProducer().GetProducerId())
+		return new DiJetQuantitiesProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
 	else
