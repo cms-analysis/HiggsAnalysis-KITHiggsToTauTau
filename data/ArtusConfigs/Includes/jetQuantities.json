@@ -1,6 +1,7 @@
 {
 	"property" : [
 		"nJets",
+		"rho",
 		"leadingJetPt",
 		"leadingJetEta",
 		"leadingJetPhi",
