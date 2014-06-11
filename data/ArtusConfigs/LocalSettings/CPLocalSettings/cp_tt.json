@@ -3,6 +3,6 @@
 	"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/tt.json"
 	],
 	"tt": {
-		"test": 42
+		
 	}
 }
