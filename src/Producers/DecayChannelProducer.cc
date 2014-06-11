@@ -62,18 +62,32 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 
 	if(product.m_decayChannel != product_type::DecayChannel::NONE) {
 		
-		// fill p4 pointers ordered by pt
-		if(lepton1->p4.Pt() >= lepton2->p4.Pt()) {
+		// fill leptons ordered by pt (high pt first)
+		if (lepton1->p4.Pt() >= lepton2->p4.Pt())
+		{
 			product.m_ptOrderedLeptons.push_back(lepton1);
 			product.m_ptOrderedLeptons.push_back(lepton2);
 		}
-		else {
+		else
+		{
 			product.m_ptOrderedLeptons.push_back(lepton2);
 			product.m_ptOrderedLeptons.push_back(lepton1);
 		}
 		
-		// fill p4 pointers ordered by flavour (according to channel name)
+		// fill leptons ordered by flavour (according to channel definition)
 		product.m_flavourOrderedLeptons.push_back(lepton1);
 		product.m_flavourOrderedLeptons.push_back(lepton2);
+		
+		// fill leptons ordered by charge (positive charges first)
+		if (lepton1->charge >= lepton2->charge)
+		{
+			product.m_chargeOrderedLeptons.push_back(lepton1);
+			product.m_chargeOrderedLeptons.push_back(lepton2);
+		}
+		else
+		{
+			product.m_chargeOrderedLeptons.push_back(lepton2);
+			product.m_chargeOrderedLeptons.push_back(lepton1);
+		}
 	}
 }

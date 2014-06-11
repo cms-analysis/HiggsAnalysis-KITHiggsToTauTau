@@ -48,6 +48,8 @@
 					"producer:valid_taus",
 					"producer:decay_channels",
 					"filter:decay_channel",
+					"producer:dilepton_quantities",
+					"producer:dijet_quantities",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
@@ -63,6 +65,8 @@
 					"producer:valid_taus",
 					"producer:decay_channels",
 					"filter:decay_channel",
+					"producer:dilepton_quantities",
+					"producer:dijet_quantities",
 					"producer:event_weight"
 				]
 			}

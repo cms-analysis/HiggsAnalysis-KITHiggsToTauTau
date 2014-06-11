@@ -55,12 +55,20 @@ public:
 	std::vector<EventCategory> m_eventCategories;
 	
 	// filled by DecayChannelProducer
-	std::vector<KLepton*> m_ptOrderedLeptons;
-	std::vector<KLepton*> m_flavourOrderedLeptons;
+	std::vector<KLepton*> m_ptOrderedLeptons; // highest pt leptons first
+	std::vector<KLepton*> m_flavourOrderedLeptons; // according to channel definition
+	std::vector<KLepton*> m_chargeOrderedLeptons; // positively charged leptons first
 
 	// filled by HttValid<Leptons>Producer
 	std::map<KLepton*, double> m_leptonIsolation;
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
+	
+	// filled by the DiLeptonQuantitiesProducer
+	RMLV m_diLeptonSystem;
+	
+	// filled by the DiJetQuantitiesProducer
+	RMLV m_diJetSystem;
+	bool m_diJetSystemAvailable = false;
 	
 	KDataPFMET* m_met = 0;
 

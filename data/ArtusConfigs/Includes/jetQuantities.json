@@ -1,6 +1,7 @@
 {
 	"property" : [
 		"nJets",
+		"rho",
 		"leadingJetPt",
 		"leadingJetEta",
 		"leadingJetPhi",
@@ -14,6 +15,9 @@
 		"nBTaggedJets",
 		"bJetPt",
 		"bJetEta",
-		"bJetPhi"
+		"bJetPhi",
+		"diJetMass",
+		"diJetDeltaPhi",
+		"diJetAbsDeltaEta"
 	]
 }
