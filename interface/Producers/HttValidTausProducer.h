@@ -28,5 +28,10 @@ protected:
 	virtual bool AdditionalCriteria(KDataPFTau* tau, event_type const& event,
 	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
 
+
+private:
+	bool ApplyCustomElectronRejection(KDataPFTau* tau, event_type const& event,
+	                                  setting_type const& settings) const;
+
 };
 
