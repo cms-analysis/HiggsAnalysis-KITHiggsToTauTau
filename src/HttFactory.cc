@@ -8,9 +8,10 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetSelectors.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidBTaggedJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerWeightProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
@@ -22,7 +23,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 
 
-HttProducerBase * HttFactory::createProducer ( std::string const& id )
+ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 {
 	if(id == ElectronEtaSelector().GetProducerId())
 		return new ElectronEtaSelector();
@@ -46,8 +47,6 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 		return new HttValidJetsProducer();
 	else if(id == HttValidTaggedJetsProducer().GetProducerId())
 		return new HttValidTaggedJetsProducer();
-	else if(id == HttValidBTaggedJetsProducer().GetProducerId())
-		return new HttValidBTaggedJetsProducer();
 	else if(id == DecayChannelProducer().GetProducerId())
 		return new DecayChannelProducer();
 	else if(id == ElectronTriggerWeightProducer().GetProducerId())
@@ -58,6 +57,10 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 		return new TauTriggerWeightProducer();
 	if(id == TauSpinnerProducer().GetProducerId())
 		return new TauSpinnerProducer();
+	if(id == DiLeptonQuantitiesProducer().GetProducerId())
+		return new DiLeptonQuantitiesProducer();
+	if(id == DiJetQuantitiesProducer().GetProducerId())
+		return new DiJetQuantitiesProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
 	else if(id == RecoTauCPProducer().GetProducerId())
@@ -66,7 +69,7 @@ HttProducerBase * HttFactory::createProducer ( std::string const& id )
 		return KappaFactory<HttTypes>::createProducer( id );
 }
 
-HttFilterBase * HttFactory::createFilter ( std::string const& id )
+FilterBase<HttTypes> * HttFactory::createFilter(std::string const& id)
 {
 	if(id == DecayChannelFilter().GetFilterId())
 		return new DecayChannelFilter();
@@ -74,10 +77,11 @@ HttFilterBase * HttFactory::createFilter ( std::string const& id )
 		return KappaFactory<HttTypes>::createFilter( id );
 }
 
-HttConsumerBase * HttFactory::createConsumer ( std::string const& id )
+ConsumerBase<HttTypes> * HttFactory::createConsumer (std::string const& id)
 {
 	if(id == HttLambdaNtupleConsumer().GetConsumerId())
 		return new HttLambdaNtupleConsumer();
 	else
 		return KappaFactory<HttTypes>::createConsumer( id );
 }
+

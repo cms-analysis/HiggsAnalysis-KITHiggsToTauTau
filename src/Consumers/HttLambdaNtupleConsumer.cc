@@ -1,9 +1,12 @@
 
+#include <Math/VectorUtil.h>
+
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
 
 
 void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
@@ -20,6 +23,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return product.m_validTaus.size();
 	};
 	
+	m_valueExtractorMap["leadingLepCharge"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->charge; };
 	m_valueExtractorMap["leadingLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->p4.Pt(); };
 	m_valueExtractorMap["leadingLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->p4.Eta(); };
 	m_valueExtractorMap["leadingLepPhi"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[0]->p4.Phi(); };
@@ -32,6 +36,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	};
 	
+	m_valueExtractorMap["lep1Charge"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[0]->charge; };
 	m_valueExtractorMap["lep1Pt"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[0]->p4.Pt(); };
 	m_valueExtractorMap["lep1Eta"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[0]->p4.Eta(); };
 	m_valueExtractorMap["lep1Phi"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[0]->p4.Phi(); };
@@ -44,6 +49,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	};
 	
+	m_valueExtractorMap["trailingLepCharge"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->charge; };
 	m_valueExtractorMap["trailingLepPt"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->p4.Pt(); };
 	m_valueExtractorMap["trailingLepEta"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->p4.Eta(); };
 	m_valueExtractorMap["trailingLepPhi"] = [](event_type const& event, product_type const& product) { return product.m_ptOrderedLeptons[1]->p4.Phi(); };
@@ -56,6 +62,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	};
 	
+	m_valueExtractorMap["lep2Charge"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[1]->charge; };
 	m_valueExtractorMap["lep2Pt"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[1]->p4.Pt(); };
 	m_valueExtractorMap["lep2Eta"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[1]->p4.Eta(); };
 	m_valueExtractorMap["lep2Phi"] = [](event_type const& event, product_type const& product) { return product.m_flavourOrderedLeptons[1]->p4.Phi(); };
@@ -69,7 +76,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	};
 	
 	m_valueExtractorMap["diLepMass"] = [](event_type const& event, product_type const& product) {
-		return (product.m_ptOrderedLeptons[0]->p4 + product.m_ptOrderedLeptons[1]->p4).mass();
+		return product.m_diLeptonSystem.mass();
 	};
 	m_valueExtractorMap["decayChannelIndex"] = [](event_type const& event, product_type const& product) {
 		return Utility::ToUnderlyingValue(product.m_decayChannel);
@@ -113,32 +120,46 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["nBTaggedJets"] = [](event_type const& event, product_type const& product) {
-		return product.m_BTaggedJets.size();
+		return product.m_bTaggedJets.size();
 	};
 	m_valueExtractorMap["bJetPt"] = [](event_type const& event, product_type const& product) {
-		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Pt() : DefaultValues::UndefinedDouble;
+		return product.m_bTaggedJets.size() >= 1 ? product.m_bTaggedJets.at(0)->p4.Pt() : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["bJetEta"] = [](event_type const& event, product_type const& product) {
-		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Eta() : DefaultValues::UndefinedDouble;
+		return product.m_bTaggedJets.size() >= 1 ? product.m_bTaggedJets.at(0)->p4.Eta() : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["bJetPhi"] = [](event_type const& event, product_type const& product) {
-		return product.m_BTaggedJets.size() >= 1 ? product.m_BTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedDouble;
+		return product.m_bTaggedJets.size() >= 1 ? product.m_bTaggedJets.at(0)->p4.Phi() : DefaultValues::UndefinedDouble;
+	};
+	
+	m_valueExtractorMap["diJetMass"] = [](event_type const& event, product_type const& product) {
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMLV diJetSystem) -> double { return diJetSystem.mass(); });
+	};
+	m_valueExtractorMap["diJetDeltaPhi"] = [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
+		                                        DefaultValues::UndefinedDouble;
+	};
+	m_valueExtractorMap["diJetAbsDeltaEta"] = [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
+		                                        DefaultValues::UndefinedDouble;
 	};
 	
 	// MET quantities
-	m_valueExtractorMap["pfMETsumEt"] = [](event_type const& event, product_type const& product) { return event.m_met->sumEt; };
-	m_valueExtractorMap["pfMETpt"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Pt(); };
-	m_valueExtractorMap["pfMETphi"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Phi(); };
+	m_valueExtractorMap["pfMetSumEt"] = [](event_type const& event, product_type const& product) { return event.m_met->sumEt; };
+	m_valueExtractorMap["pfMetPt"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Pt(); };
+	m_valueExtractorMap["pfMetPhi"] = [](event_type const& event, product_type const& product) { return event.m_met->p4.Phi(); };
+	m_valueExtractorMap["pfMetCov00"] = [](event_type const& event, product_type const& product) { return event.m_met->significance.At(0, 0); };
+	m_valueExtractorMap["pfMetCov01"] = [](event_type const& event, product_type const& product) { return event.m_met->significance.At(0, 1); };
+	m_valueExtractorMap["pfMetCov10"] = [](event_type const& event, product_type const& product) { return event.m_met->significance.At(1, 0); };
+	m_valueExtractorMap["pfMetCov11"] = [](event_type const& event, product_type const& product) { return event.m_met->significance.At(1, 1); };
 	
 	m_valueExtractorMap["mvaMetSumEt"] = [](event_type const& event, product_type const& product) { return product.m_met->sumEt; };
 	m_valueExtractorMap["mvaMetPt"] = [](event_type const& event, product_type const& product) { return product.m_met->p4.Pt(); };
 	m_valueExtractorMap["mvaMetPhi"] = [](event_type const& event, product_type const& product) { return product.m_met->p4.Phi(); };
-	
-	m_valueExtractorMap["MvaMetTTsumEt"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->sumEt; };
-	m_valueExtractorMap["MvaMetTTpt"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Pt(); };
-	m_valueExtractorMap["MvaMetTTphi"] = [](event_type const& event, product_type const& product) { return event.m_mvaMetTT->p4.Phi(); };
-
-
+	m_valueExtractorMap["mvaMetCov00"] = [](event_type const& event, product_type const& product) { return product.m_met->significance.At(0, 0); };
+	m_valueExtractorMap["mvaMetCov01"] = [](event_type const& event, product_type const& product) { return product.m_met->significance.At(0, 1); };
+	m_valueExtractorMap["mvaMetCov10"] = [](event_type const& event, product_type const& product) { return product.m_met->significance.At(1, 0); };
+	m_valueExtractorMap["mvaMetCov11"] = [](event_type const& event, product_type const& product) { return product.m_met->significance.At(1, 1); };
 
 	m_valueExtractorMap["TauSpinnerWeight"] = [](event_type const & event, product_type const & product)
 	{
@@ -740,15 +761,37 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["eta_1"] = m_valueExtractorMap["lep1Eta"];
 	m_valueExtractorMap["phi_1"] = m_valueExtractorMap["lep1Phi"];
 	m_valueExtractorMap["m_1"] = m_valueExtractorMap["lep1Mass"];
+	m_valueExtractorMap["q_1"] = m_valueExtractorMap["lep1Charge"];
 	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["leadingLepIsoOverPt"];
 	m_valueExtractorMap["mt_1"] = m_valueExtractorMap["lep1Mt"];
 	m_valueExtractorMap["pt_2"] = m_valueExtractorMap["lep2Pt"];
 	m_valueExtractorMap["eta_2"] = m_valueExtractorMap["lep2Eta"];
 	m_valueExtractorMap["phi_2"] = m_valueExtractorMap["lep2Phi"];
 	m_valueExtractorMap["m_2"] = m_valueExtractorMap["lep2Mass"];
+	m_valueExtractorMap["q_2"] = m_valueExtractorMap["lep2Charge"];
 	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["trailingLepIsoOverPt"];
 	m_valueExtractorMap["mt_2"] = m_valueExtractorMap["lep2Mt"];
-	m_valueExtractorMap["met"] = m_valueExtractorMap["mvaMetPt"];
+	m_valueExtractorMap["met"] = m_valueExtractorMap["pfMetPt"];
+	m_valueExtractorMap["metphi"] = m_valueExtractorMap["pfMetPhi"];
+	m_valueExtractorMap["metcov00"] = m_valueExtractorMap["pfMetCov00"];
+	m_valueExtractorMap["metcov01"] = m_valueExtractorMap["pfMetCov01"];
+	m_valueExtractorMap["metcov10"] = m_valueExtractorMap["pfMetCov10"];
+	m_valueExtractorMap["metcov11"] = m_valueExtractorMap["pfMetCov11"];
+	m_valueExtractorMap["mvamet"] = m_valueExtractorMap["mvaMetPt"];
+	m_valueExtractorMap["mvametphi"] = m_valueExtractorMap["mvaMetPhi"];
+	m_valueExtractorMap["mvacov00"] = m_valueExtractorMap["mvaMetCov00"];
+	m_valueExtractorMap["mvacov01"] = m_valueExtractorMap["mvaMetCov01"];
+	m_valueExtractorMap["mvacov10"] = m_valueExtractorMap["mvaMetCov10"];
+	m_valueExtractorMap["mvacov11"] = m_valueExtractorMap["mvaMetCov11"];
+	m_valueExtractorMap["jpt_1"] = m_valueExtractorMap["leadingJetPt"];
+	m_valueExtractorMap["jeta_1"] = m_valueExtractorMap["leadingJetEta"];
+	m_valueExtractorMap["jphi_1"] = m_valueExtractorMap["leadingJetPhi"];
+	m_valueExtractorMap["jpt_2"] = m_valueExtractorMap["trailingJetPt"];
+	m_valueExtractorMap["jeta_2"] = m_valueExtractorMap["trailingJetEta"];
+	m_valueExtractorMap["jphi_2"] = m_valueExtractorMap["trailingJetPhi"];
+	m_valueExtractorMap["mjj"] = m_valueExtractorMap["diJetMass"];
+	m_valueExtractorMap["jdeta"] = m_valueExtractorMap["diJetAbsDeltaEta"];
+	m_valueExtractorMap["njets"] = m_valueExtractorMap["nJets"];
 	
 	// need to be called at last
 	KappaLambdaNtupleConsumer<HttTypes>::Init(pipeline);

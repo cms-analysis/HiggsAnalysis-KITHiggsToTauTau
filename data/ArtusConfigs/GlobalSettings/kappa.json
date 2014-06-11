@@ -11,7 +11,7 @@
 	"Taus" : "hpsPFTaus",
 	"TauDiscriminatorMetadata" : "hpsPFTaus",
 	"TaggedJets" : "AK5PFTaggedJets",
-	"JetArea" : "",
+	"JetArea" : "KT6Area",
 	"Met" : "PFMET",
 	"MvaMetTT" : "PFMETMVATT",
 	"MvaMetMT" : "PFMETMVAMT",

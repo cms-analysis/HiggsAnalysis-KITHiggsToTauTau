@@ -12,19 +12,19 @@ HttEventProvider::HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum
 
 }
 
-void HttEventProvider::WireEvent(global_setting_type const& globalSettings)
+void HttEventProvider::WireEvent(setting_type const& settings)
 {
-	KappaEventProvider::WireEvent(globalSettings);
+	KappaEventProvider::WireEvent(settings);
 	
 	// MET infos
-	if(! globalSettings.GetMvaMetTT().empty())
-		this->m_event.m_mvaMetTT = this->SecureFileInterfaceGet<KDataPFMET>(globalSettings.GetMvaMetTT());
-	if(! globalSettings.GetMvaMetMT().empty())
-		this->m_event.m_mvaMetMT = this->SecureFileInterfaceGet<KDataPFMET>(globalSettings.GetMvaMetMT());
-	if(! globalSettings.GetMvaMetET().empty())
-		this->m_event.m_mvaMetET = this->SecureFileInterfaceGet<KDataPFMET>(globalSettings.GetMvaMetET());
-	if(! globalSettings.GetMvaMetEM().empty())
-		this->m_event.m_mvaMetEM = this->SecureFileInterfaceGet<KDataPFMET>(globalSettings.GetMvaMetEM());
+	if(! settings.GetMvaMetTT().empty())
+		this->m_event.m_mvaMetTT = this->SecureFileInterfaceGet<KDataPFMET>(settings.GetMvaMetTT());
+	if(! settings.GetMvaMetMT().empty())
+		this->m_event.m_mvaMetMT = this->SecureFileInterfaceGet<KDataPFMET>(settings.GetMvaMetMT());
+	if(! settings.GetMvaMetET().empty())
+		this->m_event.m_mvaMetET = this->SecureFileInterfaceGet<KDataPFMET>(settings.GetMvaMetET());
+	if(! settings.GetMvaMetEM().empty())
+		this->m_event.m_mvaMetEM = this->SecureFileInterfaceGet<KDataPFMET>(settings.GetMvaMetEM());
 	
 }
 

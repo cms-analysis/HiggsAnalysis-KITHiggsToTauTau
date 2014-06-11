@@ -20,13 +20,12 @@
 			"hpsPFTauDiscriminationByLooseMuonRejection",
 			"hpsPFTauDiscriminationByLooseElectronRejection",
 			"1:hpsPFTauDiscriminationByMVA3LooseElectronRejection",
-			"hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits"
+			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"TauDiscriminatorAntiElectronMvaCuts" : [0.835,0.831,0.849,0.859,0.873,0.823,0.85,0.855,0.816,0.861,0.862,0.847,0.893,0.82,0.845,0.851],
 		"TauDiscriminatorAntiElectronMvaCutsLeptonIndices" : [1],
 		"TauLowerPtCuts" : [
-			"0:45.0",
-			"1:45.0"
+			"45.0"
 		],
 		"TauUpperAbsEtaCuts" : [
 			"0:2.1",
@@ -44,10 +43,7 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
 				]
 			},
-			"decayChannelIndex",
-			"MvaMetTTsumEt",
-			"MvaMetTTpt",
-			"MvaMetTTphi"
+			"decayChannelIndex"
 		],
 		"Processors" : {
 			"nick" : {
@@ -57,16 +53,14 @@
 					"#producer:trigger_matching",
 					"producer:mvamet_tt_selector",
 					"producer:valid_electrons",
+					"filter:n_electrons",
 					"producer:valid_muons",
+					"filter:n_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"filter:n_electrons",
-					"filter:n_muons",
 					"filter:n_taus",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"filter:tau_lower_pt_cuts",
-					"filter:tau_upper_abseta_cuts",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
@@ -75,16 +69,14 @@
 					"producer:trigger_matching",
 					"producer:mvamet_tt_selector",
 					"producer:valid_electrons",
+					"filter:n_electrons",
 					"producer:valid_muons",
+					"filter:n_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"filter:n_electrons",
-					"filter:n_muons",
 					"filter:n_taus",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"filter:tau_lower_pt_cuts",
-					"filter:tau_upper_abseta_cuts",
 					"producer:event_weight"
 				]
 			}

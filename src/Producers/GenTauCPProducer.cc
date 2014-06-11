@@ -7,8 +7,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 
-void GenTauCPProducer::ProduceGlobal(HttEvent const& event, HttProduct& product,
-									 HttGlobalSettings const& globalSettings) const
+void GenTauCPProducer::Produce(event_type const& event, product_type& product,
+	                           setting_type const& settings) const
 {
 	MotherDaughterBundle* higgs = &(product.m_genBoson[0]);	
 	MotherDaughterBundle* selectedTau1 = &(higgs->Daughters[0]);

@@ -4,10 +4,11 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 
 
-void DecayChannelProducer::Produce(event_type const& event, product_type& product) const
+void DecayChannelProducer::Produce(event_type const& event, product_type& product,
+	                               setting_type const& settings) const
 {
 	
-	product.m_decayChannel = HttProduct::DecayChannel::NONE;
+	product.m_decayChannel = product_type::DecayChannel::NONE;
 	
 	KLepton* lepton1 = 0;
 	KLepton* lepton2 = 0;
@@ -20,7 +21,7 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 	{
 		lepton1 = product.m_validElectrons[0];
 		lepton2 = product.m_validElectrons[1];
-		product.m_decayChannel = HttProduct::DecayChannel::EE;
+		product.m_decayChannel = product_type::DecayChannel::EE;
 	}
 	else if (nElectrons == 1)
 	{
@@ -28,13 +29,13 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 		{
 			lepton1 = product.m_validElectrons[0];
 			lepton2 = product.m_validMuons[0];
-			product.m_decayChannel = HttProduct::DecayChannel::EM;
+			product.m_decayChannel = product_type::DecayChannel::EM;
 		}
 		else if (nTaus >= 1)
 		{
 			lepton1 = product.m_validElectrons[0];
 			lepton2 = product.m_validTaus[0];
-			product.m_decayChannel = HttProduct::DecayChannel::ET;
+			product.m_decayChannel = product_type::DecayChannel::ET;
 		}
 	}
 	else if (nElectrons == 0)
@@ -43,36 +44,50 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 		{
 			lepton1 = product.m_validMuons[0];
 			lepton2 = product.m_validMuons[1];
-			product.m_decayChannel = HttProduct::DecayChannel::MM;
+			product.m_decayChannel = product_type::DecayChannel::MM;
 		}
 		else if (nMuons == 1 && nTaus >= 1)
 		{
 			lepton1 = product.m_validMuons[0];
 			lepton2 = product.m_validTaus[0];
-			product.m_decayChannel = HttProduct::DecayChannel::MT;
+			product.m_decayChannel = product_type::DecayChannel::MT;
 		}
 		else if (nTaus >= 2)
 		{
 			lepton1 = product.m_validTaus[0];
 			lepton2 = product.m_validTaus[1];
-			product.m_decayChannel = HttProduct::DecayChannel::TT;
+			product.m_decayChannel = product_type::DecayChannel::TT;
 		}
 	}
 
-	if(product.m_decayChannel != HttProduct::DecayChannel::NONE) {
+	if(product.m_decayChannel != product_type::DecayChannel::NONE) {
 		
-		// fill p4 pointers ordered by pt
-		if(lepton1->p4.Pt() >= lepton2->p4.Pt()) {
+		// fill leptons ordered by pt (high pt first)
+		if (lepton1->p4.Pt() >= lepton2->p4.Pt())
+		{
 			product.m_ptOrderedLeptons.push_back(lepton1);
 			product.m_ptOrderedLeptons.push_back(lepton2);
 		}
-		else {
+		else
+		{
 			product.m_ptOrderedLeptons.push_back(lepton2);
 			product.m_ptOrderedLeptons.push_back(lepton1);
 		}
 		
-		// fill p4 pointers ordered by flavour (according to channel name)
+		// fill leptons ordered by flavour (according to channel definition)
 		product.m_flavourOrderedLeptons.push_back(lepton1);
 		product.m_flavourOrderedLeptons.push_back(lepton2);
+		
+		// fill leptons ordered by charge (positive charges first)
+		if (lepton1->charge >= lepton2->charge)
+		{
+			product.m_chargeOrderedLeptons.push_back(lepton1);
+			product.m_chargeOrderedLeptons.push_back(lepton2);
+		}
+		else
+		{
+			product.m_chargeOrderedLeptons.push_back(lepton2);
+			product.m_chargeOrderedLeptons.push_back(lepton1);
+		}
 	}
 }

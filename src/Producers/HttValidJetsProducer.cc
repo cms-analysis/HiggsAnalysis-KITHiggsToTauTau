@@ -3,19 +3,20 @@
 
 
 bool HttValidJetsProducer::AdditionalCriteria(KDataPFJet* jet,
-                                              event_type const& event,
-                                              product_type& product) const
+                                              event_type const& event, product_type& product,
+                                              setting_type const& settings) const
 {
-	bool validJet = ValidJetsProducer::AdditionalCriteria(jet, event, product);
+	bool validJet = ValidJetsProducer<HttTypes>::AdditionalCriteria(jet, event, product, settings);
 	
 	return validJet;
 }
 
+
 bool HttValidTaggedJetsProducer::AdditionalCriteria(KDataPFTaggedJet* jet,
-                                                    event_type const& event,
-                                                    product_type& product) const
+                                                    event_type const& event, product_type& product,
+                                                    setting_type const& settings) const
 {
-	bool validJet = ValidTaggedJetsProducer::AdditionalCriteria(jet, event, product);
+	bool validJet = ValidTaggedJetsProducer::AdditionalCriteria(jet, event, product, settings);
 
 	// TODO: implement actual preselection (possibly channel-dependent)
 	// the cuts below are just a temporary example to test the code
