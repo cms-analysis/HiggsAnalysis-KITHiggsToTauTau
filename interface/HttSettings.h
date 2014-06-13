@@ -68,6 +68,8 @@ public:
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 	
+	IMPL_SETTING(std::string, TauTauRestFrameReco);
+	
 	IMPL_SETTING_STRINGLIST(TauSpinnerSettings);
 	IMPL_SETTING_STRINGLIST(ChosenTauDaughters);
 
