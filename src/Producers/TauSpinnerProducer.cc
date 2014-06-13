@@ -40,8 +40,12 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	//select the particles to convert from Output of GenTauDecay Producer, which gives the mother boson, two boson daughters,
 	//and the granddaughters.
 	KGenParticle* selectedHiggs1 = higgs[0].node;
-	KGenParticle* selectedTau1 = higgs[0].Daughters[0].node;
-	KGenParticle* selectedTau2 = higgs[0].Daughters[1].node;
+//	KGenParticle* selectedTau1 = higgs[0].Daughters[0].node;
+//	KGenParticle* selectedTau2 = higgs[0].Daughters[1].node;
+
+	MotherDaughterBundle selectedTau1 = higgs[0].Daughters[0];
+	MotherDaughterBundle selectedTau2 = higgs[0].Daughters[1];
+
 	std::vector<MotherDaughterBundle> selectedTauDaughters1 = higgs[0].Daughters[0].Daughters;
 	std::vector<MotherDaughterBundle> selectedTauDaughters2 = higgs[0].Daughters[1].Daughters;
 	LOG(DEBUG) << "Higgs PdgId: " << selectedHiggs1->pdgId();
@@ -57,8 +61,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	{
 		TauDaughters2Sum += selectedTauDaughters2[i].node->p4;
 	}
-	product.m_genMassRoundOff1 = abs(selectedTau1->p4.mass() - TauDaughters1Sum.mass());
-	product.m_genMassRoundOff2 = abs(selectedTau2->p4.mass() - TauDaughters2Sum.mass());
+	product.m_genMassRoundOff1 = abs(selectedTau1.node->p4.mass() - TauDaughters1Sum.mass());
+	product.m_genMassRoundOff2 = abs(selectedTau2.node->p4.mass() - TauDaughters2Sum.mass());
 
 
 	//Boosting following vectors to the center of mass system of the Higgs, if nessesary: Higgs, Tau1, Tau2 and TauDaughters
@@ -70,8 +74,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	if (boosted)
 	{
 		selectedHiggs1->p4 = boostMat * (selectedHiggs1->p4);
-		selectedTau1->p4 = boostMat * (selectedTau1->p4);
-		selectedTau2->p4 = boostMat * (selectedTau2->p4);
+		selectedTau1.node->p4 = boostMat * (selectedTau1.node->p4);
+		selectedTau2.node->p4 = boostMat * (selectedTau2.node->p4);
 		for (unsigned int i = 0; i < selectedTauDaughters1.size(); ++i)
 		{
 			selectedTauDaughters1[i].node->p4 = boostMat * (selectedTauDaughters1[i].node->p4);
@@ -81,19 +85,19 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			selectedTauDaughters2[i].node->p4 = boostMat * (selectedTauDaughters2[i].node->p4);
 		}
 	}
-	if (abs(selectedTau1->pdgId()) == 15) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
+	if (abs(selectedTau1.node->pdgId()) == 15) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{
-		LOG(DEBUG) << "		Tau1 PdgId: " << selectedTau1->pdgId();
-		LOG(DEBUG) << "		Tau2 PdgId: " << selectedTau2->pdgId() << std::endl;
+		LOG(DEBUG) << "		Tau1 PdgId: " << selectedTau1.node->pdgId();
+		LOG(DEBUG) << "		Tau2 PdgId: " << selectedTau2.node->pdgId() << std::endl;
 
-		TauSpinner::SimpleParticle X(selectedHiggs1->p4.px(), selectedHiggs1->p4.py(), selectedHiggs1->p4.pz(), selectedHiggs1->p4.e(), selectedHiggs1->pdgId());
-		TauSpinner::SimpleParticle tau1(selectedTau1->p4.px(), selectedTau1->p4.py(), selectedTau1->p4.pz(), selectedTau1->p4.e(), selectedTau1->pdgId());
-		TauSpinner::SimpleParticle tau2(selectedTau2->p4.px(), selectedTau2->p4.py(), selectedTau2->p4.pz(), selectedTau2->p4.e(), selectedTau2->pdgId());
+		TauSpinner::SimpleParticle X = getSimpleParticle(selectedHiggs1);
+		TauSpinner::SimpleParticle tau1 = getSimpleParticle(selectedTau1.node);
+		TauSpinner::SimpleParticle tau2 = getSimpleParticle(selectedTau2.node);
 
 		//choosing considered tau decay products for the TauSpinnerWeight calculaton
 		//through the entry ChosenTauDaughters in the TauSpinnerSettings.json
 		stringvector chosentaudaughters = settings.GetChosenTauDaughters();
-		bool choose = (chosentaudaughters[0] == "choose");
+		//bool choose = (chosentaudaughters[0] == "choose");
 		std::vector<int> chosentd;
 		for (unsigned int i = 1; i < chosentaudaughters.size(); i++)
 		{
@@ -104,8 +108,19 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		int choosecomplete1 = 0;
 		int choosecomplete2 = 0;
 
-		std::vector<TauSpinner::SimpleParticle> tauDaughters1;
+		// fill final states
+		// auslesen aus tree oder selbst bestimmen
 
+		// von selectedTauDaughters1, selectedTauDaughters2 final states mit pi0
+
+		std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
+		getFinalStates(selectedTau1, &tauFinalStates1);
+		std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
+		getFinalStates(selectedTau2, &tauFinalStates2);
+
+
+//		std::vector<TauSpinner::SimpleParticle> tauDaughters2 = getFinalStates(selectedTauDaughters2);
+/*
 		for (unsigned int i = 0; i < selectedTauDaughters1.size(); ++i)
 		{
 			if (choose)
@@ -116,7 +131,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 					if (chosentd[j] == abs(selectedTauDaughters1[i].node->pdgId()))   choosecomplete1++;
 				}
 			}
-			tauDaughters1.push_back(TauSpinner::SimpleParticle(selectedTauDaughters1[i].node->p4.px(), selectedTauDaughters1[i].node->p4.py(), selectedTauDaughters1[i].node->p4.pz(), selectedTauDaughters1[i].node->p4.e(), selectedTauDaughters1[i].node->pdgId()));
+			tauDaughters1.push_back(getSimpleParticle(selectedTauDaughters1[i].node));
 		}
 
 		std::vector<TauSpinner::SimpleParticle> tauDaughters2;
@@ -132,12 +147,13 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 					if (chosentd[j] == abs(selectedTauDaughters2[i].node->pdgId()))   choosecomplete2++;
 				}
 			}
-			tauDaughters2.push_back(TauSpinner::SimpleParticle(selectedTauDaughters2[i].node->p4.px(), selectedTauDaughters2[i].node->p4.py(), selectedTauDaughters2[i].node->p4.pz(), selectedTauDaughters2[i].node->p4.e(), selectedTauDaughters2[i].node->pdgId()));
+			tauDaughters2.push_back(getSimpleParticle(selectedTauDaughters2[i].node));
 		}
+*/
 		// Debug output for testing
 		LOG(DEBUG) << selectedHiggs1->p4.px() << std::endl;
-		LOG(DEBUG) << selectedTau1->p4.px() << std::endl;
-		LOG(DEBUG) << selectedTau2->p4.px() << std::endl;
+		LOG(DEBUG) << selectedTau1.node->p4.px() << std::endl;
+		LOG(DEBUG) << selectedTau2.node->p4.px() << std::endl;
 		LOG(DEBUG) << selectedTauDaughters1[1].node->p4.px() << std::endl;
 		LOG(DEBUG) << selectedTauDaughters2[1].node->p4.px() << std::endl;
 
@@ -150,8 +166,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			std::istringstream(bosonPdgIdVector[0]) >> bosonPdgId;
 
 			double weight;
-			if (abs(bosonPdgId) == 24) weight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauDaughters1);
-			else if (abs(bosonPdgId) == 25)  weight = calculateWeightFromParticlesH(X, tau1, tau2, tauDaughters1, tauDaughters2);
+			if (abs(bosonPdgId) == PDG_W) weight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
+			else if (abs(bosonPdgId) == PDG_H)  weight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
 			if(weight == weight) product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", weight));
 			else
 			{
@@ -206,3 +222,30 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	}// "if 1BosonDaughter is Tau"-end.
 	else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", DefaultValues::UndefinedDouble));
 }
+
+
+TauSpinner::SimpleParticle TauSpinnerProducer::getSimpleParticle(KGenParticle*& in) const
+{
+	return TauSpinner::SimpleParticle(in->p4.px(), in->p4.py(), in->p4.pz(), in->p4.e(), in->pdgId());
+}
+
+
+// recursive function to create a vector of final states particles in the way TauSpinner expects it
+std::vector<TauSpinner::SimpleParticle> *TauSpinnerProducer::getFinalStates(MotherDaughterBundle& mother,
+                                        std::vector<TauSpinner::SimpleParticle> *resultVector) const
+{
+	for (unsigned int i = 0; i < mother.Daughters.size(); ++i)
+	{
+		if( abs(mother.Daughters[i].node->pdgId()) == PDG_PIZERO || mother.Daughters[i].finalState )
+		{
+			resultVector->push_back(getSimpleParticle(mother.Daughters[i].node));
+			return resultVector;
+		}
+		else
+		{
+			getFinalStates(mother.Daughters[i], resultVector);
+		}
+	}
+	return resultVector;
+}
+
