@@ -12,6 +12,11 @@
 #include "HttProduct.h"
 #include "HttSettings.h"
 
+// Define PDG IDs for better readability of the code
+#define PDG_PIZERO 111
+#define PDG_W 24
+#define PDG_H 25
+
 /**
    HttTypes HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h
 
