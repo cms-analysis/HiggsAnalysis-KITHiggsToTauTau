@@ -1,6 +1,7 @@
 {
 	"property" : [
 		"hltWeight",
+		"triggerWeight",
 		"puWeight",
 		"eventWeight"
 	]
