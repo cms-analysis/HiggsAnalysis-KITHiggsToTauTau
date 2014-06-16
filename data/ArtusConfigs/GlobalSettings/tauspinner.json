@@ -1,8 +1,10 @@
 {
-	"GlobalProcessors" : {
+	"Processors" : {
 		"nick" : {
 			"default" : [
-				"producer:tauspinner"
+				"producer:gen_taudecay",
+				"producer:tauspinner",
+				"producer:gen_cp"
 			]
 		}
 	}
