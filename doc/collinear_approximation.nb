@@ -1,0 +1,113 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      3060,        104]
+NotebookOptionsPosition[      2718,         87]
+NotebookOutlinePosition[      3054,        102]
+CellTagsIndexPosition[      3011,         99]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"momentumConservationT", ":=", 
+  RowBox[{"{", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", "ratioVisToTau1"}], ")"}], "p1x"}], "+", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", "ratioVisToTau2"}], ")"}], "p2x"}]}], "==", "pmx"}],
+     ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", "ratioVisToTau1"}], ")"}], "p1y"}], "+", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", "ratioVisToTau2"}], ")"}], "p2y"}]}], "==", 
+     "pmy"}]}], "\[IndentingNewLine]", "}"}]}]], "Input",
+ CellChangeTimes->{{3.611653861852796*^9, 3.611653950318006*^9}, {
+  3.611653985596092*^9, 3.611653987611491*^9}, {3.611654847039236*^9, 
+  3.611654878873094*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{"Solve", "[", 
+   RowBox[{"momentumConservationT", ",", 
+    RowBox[{"{", 
+     RowBox[{"ratioVisToTau1", ",", "ratioVisToTau2"}], "}"}]}], "]"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.611653957706352*^9, 3.6116539700568523`*^9}, {
+  3.611654033125663*^9, 3.6116540464439163`*^9}, {3.6116548600412607`*^9, 
+  3.611654883052948*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"ratioVisToTau1", "\[Rule]", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"p1y", " ", "p2x"}], "-", 
+       RowBox[{"p1x", " ", "p2y"}], "+", 
+       RowBox[{"p2y", " ", "pmx"}], "-", 
+       RowBox[{"p2x", " ", "pmy"}]}], 
+      RowBox[{
+       RowBox[{"p1y", " ", "p2x"}], "-", 
+       RowBox[{"p1x", " ", "p2y"}]}]]}], ",", 
+    RowBox[{"ratioVisToTau2", "\[Rule]", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"p1y", " ", "p2x"}], "-", 
+       RowBox[{"p1x", " ", "p2y"}], "-", 
+       RowBox[{"p1y", " ", "pmx"}], "+", 
+       RowBox[{"p1x", " ", "pmy"}]}], 
+      RowBox[{
+       RowBox[{"p1y", " ", "p2x"}], "-", 
+       RowBox[{"p1x", " ", "p2y"}]}]]}]}], "}"}], "}"}]], "Output",
+ CellChangeTimes->{{3.6116539711367617`*^9, 3.611653990441122*^9}, 
+   3.611654048001214*^9, 3.611654886870595*^9}]
+}, Open  ]]
+},
+WindowSize->{1871, 1176},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"8.0 for Linux x86 (64-bit) (November 7, 2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 845, 24, 88, "Input"],
+Cell[CellGroupData[{
+Cell[1427, 48, 391, 9, 30, "Input"],
+Cell[1821, 59, 881, 25, 49, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

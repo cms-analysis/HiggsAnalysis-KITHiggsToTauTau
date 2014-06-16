@@ -696,6 +696,12 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["puweight"] = [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_weights, std::string("puWeight"), 1.0);
 	};
+	m_valueExtractorMap["trigweight_1"] = [](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_weights, std::string("triggerWeight1"), 1.0);
+	};
+	m_valueExtractorMap["trigweight_2"] = [](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_weights, std::string("triggerWeight2"), 1.0);
+	};
 	m_valueExtractorMap["weight"] = [pipeline](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_weights, pipeline->GetSettings().GetEventWeight(), 1.0);
 	};

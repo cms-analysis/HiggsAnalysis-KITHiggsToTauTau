@@ -20,17 +20,17 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Store correction factors in ROOT histograms. Here: trigger efficiencies (Tau Trigger for ET channel (with ES correction), Data2012ABCD)",
 	                                 parents=[logger.loggingParser])
 
-	parser.add_argument("-n", "--histogram-name", default="triggerEfficieny",
+	parser.add_argument("-n", "--histogram-name", default="triggerEfficiency",
 	                    help="Histogram name. [Default: %(default)s]")
 	parser.add_argument("-o", "--output",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_Data2012ABCD_et_withES.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_Data2012ABCD_et_withES.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
-	parser.add_argument("--n-bins-pt", type=int, default=500,
+	parser.add_argument("--n-bins-pt", type=int, default=200,
 	                    help="Number of pt bins. [Default: %(default)s]")
 	parser.add_argument("--min-pt", type=float, default=0.0,
 	                    help="Minium pt. [Default: %(default)s]")
-	parser.add_argument("--max-pt", type=float, default=500.0,
+	parser.add_argument("--max-pt", type=float, default=200.0,
 	                    help="Maxium pt. [Default: %(default)s]")
 
 	args = parser.parse_args()

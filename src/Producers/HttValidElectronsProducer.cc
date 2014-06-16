@@ -20,6 +20,11 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 	
+	// require no missing inner hits
+	if (validElectron && electronReco == ElectronReco::USER) {
+		validElectron = validElectron && (electron->track.nInnerHits == 0);
+	}
+
 	// custom WPs for electron ID
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_ID
 	if (validElectron && electronID == ElectronID::USER) {
