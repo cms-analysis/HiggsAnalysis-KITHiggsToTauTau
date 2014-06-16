@@ -70,15 +70,13 @@ void TriggerWeightProducer::Produce(event_type const& event, product_type& produ
 	                                                                   event, product, settings);
 	
 	// calculate the trigger weight
-	double triggerWeight = 1.0;
 	for (size_t triggerEfficiencyIndex = 0; triggerEfficiencyIndex < triggerEfficienciesData.size();
 	     ++triggerEfficiencyIndex)
 	{
-		triggerWeight *= triggerEfficienciesData[triggerEfficiencyIndex];
-		triggerWeight /= triggerEfficienciesMc[triggerEfficiencyIndex];
+		double triggerWeight = triggerEfficienciesData[triggerEfficiencyIndex] / triggerEfficienciesMc[triggerEfficiencyIndex];
+		product.m_weights[std::string("triggerWeight"+std::to_string(triggerEfficiencyIndex+1))] = triggerWeight;
 	}
 	
-	product.m_weights["triggerWeight"] = triggerWeight;
 }
 
 

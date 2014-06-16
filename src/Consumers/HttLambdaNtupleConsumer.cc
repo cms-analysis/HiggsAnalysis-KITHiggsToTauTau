@@ -735,6 +735,8 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["mjj"] = m_valueExtractorMap["diJetMass"];
 	m_valueExtractorMap["jdeta"] = m_valueExtractorMap["diJetAbsDeltaEta"];
 	m_valueExtractorMap["njets"] = m_valueExtractorMap["nJets"];
+	m_valueExtractorMap["trigweight_1"] = m_valueExtractorMap["triggerWeight1"];
+	m_valueExtractorMap["trigweight_2"] = m_valueExtractorMap["triggerWeight2"];
 	
 	// need to be called at last
 	KappaLambdaNtupleConsumer<HttTypes>::Init(pipeline);
