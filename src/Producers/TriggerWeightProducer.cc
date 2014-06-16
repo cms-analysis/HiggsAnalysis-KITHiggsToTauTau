@@ -121,7 +121,7 @@ std::vector<double> TriggerWeightProducer::GetTriggerEfficiencies(
 		else
 		{
 			// TODO
-			
+			LOG(FATAL) << "Trigger efficiencies per HLT name are not yet implemented!";
 		}
 	}
 	
