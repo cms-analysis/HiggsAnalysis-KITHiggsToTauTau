@@ -4,7 +4,8 @@
 
 #include "Artus/Utility/interface/DefaultValues.h"
 
-
+#define NO_HIGGS_FOUND -666
+#define WEIGHT_NAN -777
 
 void TauSpinnerProducer::Init(setting_type const& settings)
 {
@@ -36,7 +37,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 	if (higgs.size() == 0) 
 	{
-		product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", -666));
+		product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", NO_HIGGS_FOUND));
 		return;
 	}
 
@@ -93,10 +94,6 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			chosentd.push_back(0);
 			std::istringstream(chosentaudaughters[i]) >> chosentd[i - 1];
 		}
-		bool withoutchoise = true;
-		int choosecomplete1 = 0;
-		int choosecomplete2 = 0;
-
 
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
 		getFinalStates(selectedTau1, &tauFinalStates1);
@@ -108,6 +105,9 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		product.m_genMassRoundOff1 = abs(tau1.e() - getMass(tauFinalStates1));
 		product.m_genMassRoundOff2 = abs(tau2.e() - getMass(tauFinalStates2));
 
+
+		bool withoutchoise = true;
+
 		// Debug output for testing
 		LOG(DEBUG) << selectedHiggs1->p4.px() << std::endl;
 		LOG(DEBUG) << selectedTau1.node->p4.px() << std::endl;
@@ -115,8 +115,10 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		LOG(DEBUG) << selectedTauDaughters1[1].node->p4.px() << std::endl;
 		LOG(DEBUG) << selectedTauDaughters2[1].node->p4.px() << std::endl;
 
-		LOG(DEBUG) << choosecomplete1 << "               " << choosecomplete2 << std::endl;
-		if (((choosecomplete1 > 0) && (choosecomplete2) > 0) || withoutchoise)
+		LOG(DEBUG) << tauFinalStates1.size() << "               " << tauFinalStates2.size() << std::endl;
+
+
+		if (((tauFinalStates1.size() > 0) && (tauFinalStates2.size()) > 0) || withoutchoise)
 		{
 			//Decision for a certain weight calculation depending on BosonPdgId
 			stringvector bosonPdgIdVector = settings.GetBosonPdgId();
@@ -137,7 +139,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				logSimpleParticle(std::string("Tau1FinalState"), tauFinalStates1);
 				logSimpleParticle(std::string("Tau2FinalState"), tauFinalStates2);
 
-				product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", -777.0));
+				product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", WEIGHT_NAN));
 			} // NaN debug output end
 		}
 		else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", DefaultValues::UndefinedDouble));
