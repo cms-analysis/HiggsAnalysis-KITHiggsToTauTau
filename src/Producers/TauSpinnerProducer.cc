@@ -10,7 +10,7 @@
 void TauSpinnerProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
-	
+
 	// interface to TauSpinner
 	//Reading the settings from TauSpinnerSettings.json in following order:
 	//name of PDF, CMSENE, Ipp, Ipol, nonSM2, nonSMN (see tau_reweight_lib.cxx),
@@ -32,10 +32,10 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 
 
 void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
-                                 setting_type const& settings) const
+								 setting_type const& settings) const
 {
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
-	if (higgs.size() == 0) 
+	if (higgs.size() == 0)
 	{
 		product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", NO_HIGGS_FOUND));
 		return;
@@ -128,7 +128,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			double weight;
 			if (abs(bosonPdgId) == PDG_W) weight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
 			else if (abs(bosonPdgId) == PDG_H)  weight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
-			if(weight == weight) product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", weight));
+			if (weight == weight) product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", weight));
 			else
 			{
 				// 'Nan' Debug output
@@ -152,9 +152,9 @@ double TauSpinnerProducer::getMass(std::vector<TauSpinner::SimpleParticle> in) c
 {
 	double sumEnergy = 0;
 	for (unsigned int i = 0; i < in.size(); ++i)
-		{
-			sumEnergy += in[i].e();
-		}
+	{
+		sumEnergy += in[i].e();
+	}
 	return sumEnergy;
 }
 
@@ -165,12 +165,12 @@ TauSpinner::SimpleParticle TauSpinnerProducer::getSimpleParticle(KGenParticle*& 
 
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
-std::vector<TauSpinner::SimpleParticle> *TauSpinnerProducer::getFinalStates(MotherDaughterBundle& mother,
-                                        std::vector<TauSpinner::SimpleParticle> *resultVector) const
+std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::getFinalStates(MotherDaughterBundle& mother,
+		std::vector<TauSpinner::SimpleParticle>* resultVector) const
 {
 	for (unsigned int i = 0; i < mother.Daughters.size(); ++i)
 	{
-		if( abs(mother.Daughters[i].node->pdgId()) == PDG_PIZERO || mother.Daughters[i].finalState )
+		if (abs(mother.Daughters[i].node->pdgId()) == PDG_PIZERO || mother.Daughters[i].finalState)
 		{
 			resultVector->push_back(getSimpleParticle(mother.Daughters[i].node));
 		}
@@ -200,4 +200,5 @@ void TauSpinnerProducer::logSimpleParticle(std::string particleName, std::vector
 		logSimpleParticle(particleName + index.str(), in[i]);
 	}
 }
+
 
