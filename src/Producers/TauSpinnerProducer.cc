@@ -52,21 +52,6 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	std::vector<MotherDaughterBundle> selectedTauDaughters2 = higgs[0].Daughters[1].Daughters;
 	LOG(DEBUG) << "Higgs PdgId: " << selectedHiggs1->pdgId();
 
-	//MassRoundOff check: calculation of the difference of the tau mass and the summarized mass of the tau daughters.
-	RMDataLV TauDaughters1Sum = selectedTauDaughters1[0].node->p4;
-	for (unsigned int i = 1; i < selectedTauDaughters1.size(); i++)
-	{
-		TauDaughters1Sum += selectedTauDaughters1[i].node->p4;
-	}
-	RMDataLV TauDaughters2Sum = selectedTauDaughters2[0].node->p4;
-	for (unsigned int i = 1; i < selectedTauDaughters2.size(); i++)
-	{
-		TauDaughters2Sum += selectedTauDaughters2[i].node->p4;
-	}
-	product.m_genMassRoundOff1 = abs(selectedTau1.node->p4.mass() - TauDaughters1Sum.mass());
-	product.m_genMassRoundOff2 = abs(selectedTau2.node->p4.mass() - TauDaughters2Sum.mass());
-
-
 	//Boosting following vectors to the center of mass system of the Higgs, if nessesary: Higgs, Tau1, Tau2 and TauDaughters
 	//Information about boosting is read from TauSpinnerSettings.json, seventh entry.
 	RMDataLV vec = selectedHiggs1->p4;
@@ -96,6 +81,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		TauSpinner::SimpleParticle tau1 = getSimpleParticle(selectedTau1.node);
 		TauSpinner::SimpleParticle tau2 = getSimpleParticle(selectedTau2.node);
 
+
+
 		//choosing considered tau decay products for the TauSpinnerWeight calculaton
 		//through the entry ChosenTauDaughters in the TauSpinnerSettings.json
 		stringvector chosentaudaughters = settings.GetChosenTauDaughters();
@@ -115,6 +102,11 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		getFinalStates(selectedTau1, &tauFinalStates1);
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
 		getFinalStates(selectedTau2, &tauFinalStates2);
+
+		// Mass roundoff check: Compare energy between taus and their decay products
+
+		product.m_genMassRoundOff1 = abs(tau1.e() - getMass(tauFinalStates1));
+		product.m_genMassRoundOff2 = abs(tau2.e() - getMass(tauFinalStates2));
 
 		// Debug output for testing
 		LOG(DEBUG) << selectedHiggs1->p4.px() << std::endl;
@@ -138,55 +130,31 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			else
 			{
 				// 'Nan' Debug output
-				LOG(DEBUG) << "\nHiggsPx=" << product.m_genBoson[0].node->p4.Px() << "|"
-						   << "HiggsPy=" << product.m_genBoson[0].node->p4.Py() << "|"
-						   << "HiggsPz=" << product.m_genBoson[0].node->p4.Pz() << "|"
-						   << "HiggsE=" << product.m_genBoson[0].node->p4.e() << "|"
-						   << "HiggsPdgId=" << product.m_genBoson[0].node->pdgId() << "|"
+				LOG(DEBUG) << "Found a 'NaN' weight with the following particles: " << std::endl;
+				logSimpleParticle(std::string("Higgs"), X);
+				logSimpleParticle(std::string("Tau1"), tau1);
+				logSimpleParticle(std::string("Tau2"), tau2);
+				logSimpleParticle(std::string("Tau1FinalState"), tauFinalStates1);
+				logSimpleParticle(std::string("Tau2FinalState"), tauFinalStates2);
 
-						   << "1TauPx=" << product.m_genBoson[0].Daughters[0].node->p4.Px() << "|"
-						   << "1TauPy=" << product.m_genBoson[0].Daughters[0].node->p4.Py() << "|"
-						   << "1TauPz=" << product.m_genBoson[0].Daughters[0].node->p4.Pz() << "|"
-						   << "1TauE=" << product.m_genBoson[0].Daughters[0].node->p4.e() << "|"
-						   << "1TauPdgId=" << product.m_genBoson[0].Daughters[0].node->pdgId() << "|"
-
-						   << "2TauPx=" << product.m_genBoson[0].Daughters[1].node->p4.Px() << "|"
-						   << "2TauPy=" << product.m_genBoson[0].Daughters[1].node->p4.Py() << "|"
-						   << "2TauPz=" << product.m_genBoson[0].Daughters[1].node->p4.Pz() << "|"
-						   << "2TauE=" << product.m_genBoson[0].Daughters[1].node->p4.e() << "|"
-						   << "2TauPdgId=" << product.m_genBoson[0].Daughters[1].node->pdgId() << "|";
-
-				for (unsigned int i = 0; i < product.m_genBoson[0].Daughters[0].Daughters.size(); i++)
-				{
-					std::ostringstream index;
-					index << i + 1;
-					std::string name = "1Tau" + index.str() + "Daughter";
-					LOG(DEBUG) << name << "Px=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Px() << "|"
-							   << name << "Py=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Py() << "|"
-							   << name << "Pz=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Pz() << "|"
-							   << name << "E="  << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.e() << "|"
-							   << name << "PdgId=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->pdgId() << "|";
-				}
-
-				for (unsigned int i = 0; i < product.m_genBoson[0].Daughters[1].Daughters.size(); i++)
-				{
-					std::ostringstream index;
-					index << i + 1;
-					std::string name = "2Tau" + index.str() + "Daughter";
-					LOG(DEBUG) << name << "Px=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Px() << "|"
-							   << name << "Py=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Py() << "|"
-							   << name << "Pz=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Pz() << "|"
-							   << name << "E="  << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.e() << "|"
-							   << name << "PdgId=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->pdgId() << "|";
-				product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", -777.0));			
-				} // NaN debug output end
-			}
+				product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", -777.0));
+			} // NaN debug output end
 		}
 		else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", DefaultValues::UndefinedDouble));
 	}// "if 1BosonDaughter is Tau"-end.
 	else product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", DefaultValues::UndefinedDouble));
 }
 
+
+double TauSpinnerProducer::getMass(std::vector<TauSpinner::SimpleParticle> in) const
+{
+	double sumEnergy = 0;
+	for (unsigned int i = 0; i < in.size(); ++i)
+		{
+			sumEnergy += in[i].e();
+		}
+	return sumEnergy;
+}
 
 TauSpinner::SimpleParticle TauSpinnerProducer::getSimpleParticle(KGenParticle*& in) const
 {
@@ -210,5 +178,24 @@ std::vector<TauSpinner::SimpleParticle> *TauSpinnerProducer::getFinalStates(Moth
 		}
 	}
 	return resultVector;
+}
+
+void TauSpinnerProducer::logSimpleParticle(std::string particleName, TauSpinner::SimpleParticle in) const
+{
+	LOG(DEBUG) << "\n" << particleName << "Px=" << in.px() << "|"
+			   << particleName << "Py=" << in.py() << "|"
+			   << particleName << "Pz=" << in.pz() << "|"
+			   << particleName << "E=" << in.e() << "|"
+			   << particleName << "PdgId=" << in.pdgid() << "|";
+}
+
+void TauSpinnerProducer::logSimpleParticle(std::string particleName, std::vector<TauSpinner::SimpleParticle> in) const
+{
+	for (unsigned int i = 0; i < in.size(); i++)
+	{
+		std::ostringstream index;
+		index << i + 1;
+		logSimpleParticle(particleName + index.str(), in[i]);
+	}
 }
 
