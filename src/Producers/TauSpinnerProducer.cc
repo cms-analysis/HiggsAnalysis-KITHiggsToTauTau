@@ -26,7 +26,6 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	std::istringstream(tauSpinnerSettings[3]) >> Ipol;
 	std::istringstream(tauSpinnerSettings[4]) >> nonSM2;
 	std::istringstream(tauSpinnerSettings[5]) >> nonSMN;
-	//std::cout << "initialize: " << std::endl;
 	TauSpinner::initialize_spinner(Ipp, Ipol, nonSM2, nonSMN, CMSENE);
 }
 
@@ -73,7 +72,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			selectedTauDaughters2[i].node->p4 = boostMat * (selectedTauDaughters2[i].node->p4);
 		}
 	}
-	if (abs(selectedTau1.node->pdgId()) == PDG_TAU_NEUTRINO) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
+
+	if (abs(selectedTau1.node->pdgId()) == PDG_TAU) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{
 		LOG(DEBUG) << "		Tau1 PdgId: " << selectedTau1.node->pdgId();
 		LOG(DEBUG) << "		Tau2 PdgId: " << selectedTau2.node->pdgId() << std::endl;

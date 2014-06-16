@@ -16,7 +16,7 @@
 #define PDG_PIZERO 111
 #define PDG_W 24
 #define PDG_H 25
-#define PDG_TAU_NEUTRINO 25
+#define PDG_TAU 15
 
 /**
    HttTypes HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h
