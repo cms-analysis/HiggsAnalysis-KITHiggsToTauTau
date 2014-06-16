@@ -11,9 +11,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataPFTau* tau2 = static_cast<KDataPFTau*>(product.m_flavourOrderedLeptons[1]);
 		if(tau1->signalChargedHadrCands.size()==1 && tau2->signalChargedHadrCands.size()==1)
 		{
-			RMDataLV* chargePart1 = &(tau1->signalChargedHadrCands[0]);
-			RMDataLV* chargePart2 = &(tau2->signalChargedHadrCands[0]);
-			product.RecoPhiStar = (CPQuantities::CalculatePhiPsiStar(tau1->p4, tau2->p4, *chargePart1, *chargePart2) ).first;
+			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
+			KPFCandidate* chargePart2 = &(tau2->signalChargedHadrCands[0]);
+			product.RecoPhiStar = (CPQuantities::CalculatePhiPsiStar(tau1->p4, tau2->p4, chargePart1->p4, chargePart2->p4) ).first;
 		}
 		else product.RecoPhiStar = DefaultValues::UndefinedDouble;
 	}
