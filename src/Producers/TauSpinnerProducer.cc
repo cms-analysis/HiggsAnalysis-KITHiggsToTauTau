@@ -25,7 +25,7 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	std::istringstream(tauSpinnerSettings[3]) >> Ipol;
 	std::istringstream(tauSpinnerSettings[4]) >> nonSM2;
 	std::istringstream(tauSpinnerSettings[5]) >> nonSMN;
-	std::cout << "initialize: " << std::endl;
+	//std::cout << "initialize: " << std::endl;
 	TauSpinner::initialize_spinner(Ipp, Ipol, nonSM2, nonSMN, CMSENE);
 }
 
@@ -34,14 +34,16 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
                                  setting_type const& settings) const
 {
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
-
+	if (higgs.size() == 0) 
+	{
+		product.m_weights.insert(std::pair<std::string, double>("tauspinnerweight", -666));
+		return;
+	}
 
 	//Conversion to SimpleParticles
 	//select the particles to convert from Output of GenTauDecay Producer, which gives the mother boson, two boson daughters,
 	//and the granddaughters.
 	KGenParticle* selectedHiggs1 = higgs[0].node;
-//	KGenParticle* selectedTau1 = higgs[0].Daughters[0].node;
-//	KGenParticle* selectedTau2 = higgs[0].Daughters[1].node;
 
 	MotherDaughterBundle selectedTau1 = higgs[0].Daughters[0];
 	MotherDaughterBundle selectedTau2 = higgs[0].Daughters[1];
@@ -85,7 +87,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			selectedTauDaughters2[i].node->p4 = boostMat * (selectedTauDaughters2[i].node->p4);
 		}
 	}
-	if (abs(selectedTau1.node->pdgId()) == 15) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
+	if (abs(selectedTau1.node->pdgId()) == PDG_TAU_NEUTRINO) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{
 		LOG(DEBUG) << "		Tau1 PdgId: " << selectedTau1.node->pdgId();
 		LOG(DEBUG) << "		Tau2 PdgId: " << selectedTau2.node->pdgId() << std::endl;
@@ -108,48 +110,12 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		int choosecomplete1 = 0;
 		int choosecomplete2 = 0;
 
-		// fill final states
-		// auslesen aus tree oder selbst bestimmen
-
-		// von selectedTauDaughters1, selectedTauDaughters2 final states mit pi0
 
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
 		getFinalStates(selectedTau1, &tauFinalStates1);
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
 		getFinalStates(selectedTau2, &tauFinalStates2);
 
-
-//		std::vector<TauSpinner::SimpleParticle> tauDaughters2 = getFinalStates(selectedTauDaughters2);
-/*
-		for (unsigned int i = 0; i < selectedTauDaughters1.size(); ++i)
-		{
-			if (choose)
-			{
-				withoutchoise = false;
-				for (unsigned int j = 0; j < chosentd.size(); j++)
-				{
-					if (chosentd[j] == abs(selectedTauDaughters1[i].node->pdgId()))   choosecomplete1++;
-				}
-			}
-			tauDaughters1.push_back(getSimpleParticle(selectedTauDaughters1[i].node));
-		}
-
-		std::vector<TauSpinner::SimpleParticle> tauDaughters2;
-
-		for (unsigned int i = 0; i < selectedTauDaughters2.size(); ++i)
-		{
-
-			if (choose)
-			{
-				withoutchoise = false;
-				for (unsigned int j = 0; j < chosentd.size(); j++)
-				{
-					if (chosentd[j] == abs(selectedTauDaughters2[i].node->pdgId()))   choosecomplete2++;
-				}
-			}
-			tauDaughters2.push_back(getSimpleParticle(selectedTauDaughters2[i].node));
-		}
-*/
 		// Debug output for testing
 		LOG(DEBUG) << selectedHiggs1->p4.px() << std::endl;
 		LOG(DEBUG) << selectedTau1.node->p4.px() << std::endl;
@@ -194,7 +160,6 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				{
 					std::ostringstream index;
 					index << i + 1;
-					//std::string Index(index.str());
 					std::string name = "1Tau" + index.str() + "Daughter";
 					LOG(DEBUG) << name << "Px=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Px() << "|"
 							   << name << "Py=" << product.m_genBoson[0].Daughters[0].Daughters[i].node->p4.Py() << "|"
@@ -207,7 +172,6 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				{
 					std::ostringstream index;
 					index << i + 1;
-					//std::string Index(index.str());
 					std::string name = "2Tau" + index.str() + "Daughter";
 					LOG(DEBUG) << name << "Px=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Px() << "|"
 							   << name << "Py=" << product.m_genBoson[0].Daughters[1].Daughters[i].node->p4.Py() << "|"
@@ -239,7 +203,6 @@ std::vector<TauSpinner::SimpleParticle> *TauSpinnerProducer::getFinalStates(Moth
 		if( abs(mother.Daughters[i].node->pdgId()) == PDG_PIZERO || mother.Daughters[i].finalState )
 		{
 			resultVector->push_back(getSimpleParticle(mother.Daughters[i].node));
-			return resultVector;
 		}
 		else
 		{
