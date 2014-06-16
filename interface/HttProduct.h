@@ -85,6 +85,7 @@ public:
 	double PhiStarDet;
 	double PhiOnePion;
 	double PhiStarOnePion;
+	double RecoPhiStar;
 
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
