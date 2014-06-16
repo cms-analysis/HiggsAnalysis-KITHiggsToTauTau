@@ -56,10 +56,10 @@ def fill_root_histogram(n_bins_pt, min_pt, max_pt, eta_bins_with_parameters, his
 	
 	for eta_index, eta_bin in enumerate(eta_bins_with_parameters):
 		parameters = eta_bin["parameters"]
-		for pt_index in xrange(n_bins_pt):
-			pt = histogram.GetXaxis().GetBinCenter(pt_index+1)
+		for pt_bin in xrange(n_bins_pt+3):
+			pt = histogram.GetXaxis().GetBinCenter(pt_bin)
 			triggerEfficieny = efficiency(pt, *parameters)
-			histogram.SetBinContent(pt_index+1, eta_index+1, triggerEfficieny)
-			histogram.SetBinError(pt_index+1, eta_index+1, 0.0)
+			histogram.SetBinContent(pt_bin, eta_index+1, triggerEfficieny)
+			histogram.SetBinError(pt_bin, eta_index+1, 0.0)
 	
 	return histogram

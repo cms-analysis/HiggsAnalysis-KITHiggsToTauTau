@@ -25,12 +25,8 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");
 	IMPL_SETTING_DEFAULT(std::string, Category, "");
 	
-	IMPL_SETTING_DOUBLELIST(ElectronTriggerTurnOnParamtersData);
-	IMPL_SETTING_DOUBLELIST(ElectronTriggerTurnOnParamtersMc);
-	IMPL_SETTING_DOUBLELIST(MuonTriggerTurnOnParamtersData);
-	IMPL_SETTING_DOUBLELIST(MuonTriggerTurnOnParamtersMc);
-	IMPL_SETTING_DOUBLELIST(TauTriggerTurnOnParamtersData);
-	IMPL_SETTING_DOUBLELIST(TauTriggerTurnOnParamtersMc);
+	IMPL_SETTING_STRINGLIST(TriggerEfficiencyData);
+	IMPL_SETTING_STRINGLIST(TriggerEfficiencyMc);
 	
 	IMPL_SETTING(std::string, ElectronIDType);
 	
@@ -71,6 +67,8 @@ public:
 	IMPL_SETTING_INTLIST(TauDiscriminatorAntiElectronMvaCutsLeptonIndices);
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
+	
+	IMPL_SETTING(std::string, TauTauRestFrameReco);
 	
 	IMPL_SETTING_STRINGLIST(TauSpinnerSettings);
 	IMPL_SETTING_STRINGLIST(ChosenTauDaughters);

@@ -9,9 +9,10 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetSelectors.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerWeightProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
@@ -49,18 +50,16 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 		return new HttValidTaggedJetsProducer();
 	else if(id == DecayChannelProducer().GetProducerId())
 		return new DecayChannelProducer();
-	else if(id == ElectronTriggerWeightProducer().GetProducerId())
-		return new ElectronTriggerWeightProducer();
-	else if(id == MuonTriggerWeightProducer().GetProducerId())
-		return new MuonTriggerWeightProducer();
-	else if(id == TauTriggerWeightProducer().GetProducerId())
-		return new TauTriggerWeightProducer();
+	else if(id == TriggerWeightProducer().GetProducerId())
+		return new TriggerWeightProducer();
 	if(id == TauSpinnerProducer().GetProducerId())
 		return new TauSpinnerProducer();
 	if(id == DiLeptonQuantitiesProducer().GetProducerId())
 		return new DiLeptonQuantitiesProducer();
 	if(id == DiJetQuantitiesProducer().GetProducerId())
 		return new DiJetQuantitiesProducer();
+	if(id == TauTauRestFrameProducer().GetProducerId())
+		return new TauTauRestFrameProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
 	else if(id == RecoTauCPProducer().GetProducerId())

@@ -71,6 +71,13 @@ public:
 	bool m_diJetSystemAvailable = false;
 	
 	KDataPFMET* m_met = 0;
+	
+	// filled by the TauTauRestFrameProducer
+	std::vector<RMLV> m_tauTauMomenta;
+	std::vector<ROOT::Math::Boost> m_boostToTauRestFrames;
+	bool m_tauTauMomentaReconstructed;
+	RMLV m_tauTauMomentum;
+	ROOT::Math::Boost m_boostToTauTauRestFrame;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;
