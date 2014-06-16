@@ -15,10 +15,10 @@ void TriggerWeightProducer::Init(setting_type const& settings)
 			Utility::ParseVectorToMap(settings.GetTriggerEfficiencyData()),
 			triggerEfficiencyFilesDataByHltName
 	);
-	std::map<std::string, std::vector<TH2F*> > triggerEfficienciesDataByHltName = RootFileHelper::SafeGetMap<std::string, TH2F>(
+	triggerEfficienciesDataByHltName = RootFileHelper::SafeGetMap<std::string, TH2F>(
 			triggerEfficiencyFilesDataByHltName, "triggerEfficiency"
 	);
-	std::map<size_t, std::vector<TH2F*> > triggerEfficienciesDataByIndex = RootFileHelper::SafeGetMap<size_t, TH2F>(
+	triggerEfficienciesDataByIndex = RootFileHelper::SafeGetMap<size_t, TH2F>(
 			triggerEfficiencyFilesDataByIndex, "triggerEfficiency"
 	);
 	
@@ -28,10 +28,10 @@ void TriggerWeightProducer::Init(setting_type const& settings)
 			Utility::ParseVectorToMap(settings.GetTriggerEfficiencyMc()),
 			triggerEfficiencyFilesMcByHltName
 	);
-	std::map<std::string, std::vector<TH2F*> > triggerEfficienciesMcByHltName = RootFileHelper::SafeGetMap<std::string, TH2F>(
+	triggerEfficienciesMcByHltName = RootFileHelper::SafeGetMap<std::string, TH2F>(
 			triggerEfficiencyFilesMcByHltName, "triggerEfficiency"
 	);
-	std::map<size_t, std::vector<TH2F*> > triggerEfficienciesMcByIndex = RootFileHelper::SafeGetMap<size_t, TH2F>(
+	triggerEfficienciesMcByIndex = RootFileHelper::SafeGetMap<size_t, TH2F>(
 			triggerEfficiencyFilesMcByIndex, "triggerEfficiency"
 	);
 	
