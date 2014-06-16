@@ -23,7 +23,7 @@ if __name__ == "__main__":
 	parser.add_argument("-n", "--histogram-name", default="triggerEfficiency",
 	                    help="Histogram name. [Default: %(default)s]")
 	parser.add_argument("-o", "--output",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerEfficiency_Ele22_MC53X.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Ele22_MC53X.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
 	parser.add_argument("--n-bins-pt", type=int, default=200,
