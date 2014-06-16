@@ -145,10 +145,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		if (((choosecomplete1 > 0) && (choosecomplete2) > 0) || withoutchoise)
 		{
 			//Decision for a certain weight calculation depending on BosonPdgId
-			stringvector bosonPdgIdVector = settings.GetBosonPdgId();
-			int bosonPdgId;
-			std::istringstream(bosonPdgIdVector[0]) >> bosonPdgId;
-
+			int bosonPdgId = settings.GetBosonPdgId();
 			double weight;
 			if (abs(bosonPdgId) == 24) weight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauDaughters1);
 			else if (abs(bosonPdgId) == 25)  weight = calculateWeightFromParticlesH(X, tau1, tau2, tauDaughters1, tauDaughters2);

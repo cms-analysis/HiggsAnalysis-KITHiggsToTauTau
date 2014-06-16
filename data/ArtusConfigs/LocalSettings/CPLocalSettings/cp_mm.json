@@ -3,6 +3,5 @@
 	"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/mm.json"
 	],
 	"mm": {
-		"test": 42
 	}
 } 

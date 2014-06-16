@@ -30,3 +30,8 @@ public:
 
 	virtual void Produce(event_type const& event, product_type& product, setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 };
+
+	virtual void Produce(event_type const& event, product_type& product,
+			     setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
+};
+>>>>>>> c665d605a1a146677473c6ffcf205351114d6623

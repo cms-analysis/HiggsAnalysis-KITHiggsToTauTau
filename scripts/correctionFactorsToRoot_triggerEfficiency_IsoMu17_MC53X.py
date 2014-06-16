@@ -20,17 +20,17 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Store correction factors in ROOT histograms. Here: trigger efficiencies (IsoMu17, MC53X)",
 	                                 parents=[logger.loggingParser])
 
-	parser.add_argument("-n", "--histogram-name", default="triggerEfficieny",
+	parser.add_argument("-n", "--histogram-name", default="triggerEfficiency",
 	                    help="Histogram name. [Default: %(default)s]")
 	parser.add_argument("-o", "--output",
 	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerEfficiency_IsoMu17_MC53X.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
-	parser.add_argument("--n-bins-pt", type=int, default=500,
+	parser.add_argument("--n-bins-pt", type=int, default=200,
 	                    help="Number of pt bins. [Default: %(default)s]")
 	parser.add_argument("--min-pt", type=float, default=0.0,
 	                    help="Minium pt. [Default: %(default)s]")
-	parser.add_argument("--max-pt", type=float, default=500.0,
+	parser.add_argument("--max-pt", type=float, default=200.0,
 	                    help="Maxium pt. [Default: %(default)s]")
 
 	args = parser.parse_args()

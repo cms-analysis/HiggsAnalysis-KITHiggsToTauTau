@@ -5,7 +5,7 @@
 		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation"
 	],
 	
-	"ElectronReco" : "none",
+	"ElectronReco" : "user",
 	
 	"ElectronID" : "user",
 	"ElectronIDType" : "summer2013tight",
