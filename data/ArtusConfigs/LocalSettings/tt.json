@@ -22,10 +22,8 @@
 			"1:hpsPFTauDiscriminationByMVA3LooseElectronRejection",
 			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
-		"TauDiscriminatorAntiElectronMvaCuts" : [0.835,0.831,0.849,0.859,0.873,0.823,0.85,0.855,0.816,0.861,0.862,0.847,0.893,0.82,0.845,0.851],
-		"TauDiscriminatorAntiElectronMvaCutsLeptonIndices" : [1],
 		"TauLowerPtCuts" : [
-			"45.0"
+			"44.5"
 		],
 		"TauUpperAbsEtaCuts" : [
 			"0:2.1",
@@ -49,7 +47,7 @@
 			"nick" : {
 				"default" : [
 					"producer:hlt_selector",
-					"filter:hlt_filter",
+					"#filter:hlt_filter",
 					"producer:trigger_matching",
 					"producer:mvamet_tt_selector",
 					"producer:valid_electrons",
