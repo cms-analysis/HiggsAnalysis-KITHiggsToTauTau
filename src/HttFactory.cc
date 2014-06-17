@@ -15,6 +15,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
@@ -61,6 +62,8 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 		return new TauTauRestFrameProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
+	else if(id == RecoTauCPProducer().GetProducerId())
+		return new RecoTauCPProducer();
 	else
 		return KappaFactory<HttTypes>::createProducer( id );
 }
