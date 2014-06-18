@@ -121,8 +121,8 @@ std::vector<double> TriggerWeightProducer::GetTriggerEfficiencies(
 	{
 		if (triggerEfficiencyByHltName->first == "default")
 		{
-			for (std::vector<KLepton*>::const_iterator lepton = product.m_ptOrderedLeptons.begin();
-			     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
+			for (std::vector<KLepton*>::const_iterator lepton = product.m_flavourOrderedLeptons.begin();
+			     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 			{
 				triggerEfficiencies[index++] = GetTriggerEfficienciesFromHistograms(
 						triggerEfficiencyByHltName->second,
@@ -141,11 +141,11 @@ std::vector<double> TriggerWeightProducer::GetTriggerEfficiencies(
 	     triggerEfficiencyByIndex != triggerEfficienciesByIndex.end();
 	     ++triggerEfficiencyByIndex)
 	{
-		if (triggerEfficiencyByIndex->first < product.m_ptOrderedLeptons.size())
+		if (triggerEfficiencyByIndex->first < product.m_flavourOrderedLeptons.size())
 		{
 			triggerEfficiencies[index++] = GetTriggerEfficienciesFromHistograms(
 					triggerEfficiencyByIndex->second,
-					product.m_ptOrderedLeptons.at(triggerEfficiencyByIndex->first)
+					product.m_flavourOrderedLeptons.at(triggerEfficiencyByIndex->first)
 			);
 		}
 	}
