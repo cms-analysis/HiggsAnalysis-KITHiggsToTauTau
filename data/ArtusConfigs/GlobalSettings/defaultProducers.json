@@ -9,8 +9,8 @@
 				"producer:pu_weights",
 				"producer:valid_tagged_jets",
 				"producer:valid_btagged_jets",
-				"#producer:gen_taudecay",
-				"#producer:gen_cp"
+				"producer:gen_taudecay",
+				"producer:gen_cp"
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
