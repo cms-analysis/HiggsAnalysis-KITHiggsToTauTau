@@ -26,11 +26,11 @@ if __name__ == "__main__":
 	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Ele22_Data2012ABCD.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
-	parser.add_argument("--n-bins-pt", type=int, default=200,
+	parser.add_argument("--n-bins-pt", type=int, default=300,
 	                    help="Number of pt bins. [Default: %(default)s]")
 	parser.add_argument("--min-pt", type=float, default=0.0,
 	                    help="Minium pt. [Default: %(default)s]")
-	parser.add_argument("--max-pt", type=float, default=200.0,
+	parser.add_argument("--max-pt", type=float, default=300.0,
 	                    help="Maxium pt. [Default: %(default)s]")
 
 	args = parser.parse_args()
@@ -38,21 +38,21 @@ if __name__ == "__main__":
 
 	eta_border_eb_ee = 1.479
 	eta_bins_with_parameters = [
-		{
-			"low" : -10.0,
-			"high" : -eta_border_eb_ee,
-			"parameters" : [21.9816, 1.40993, 0.978597, 2.33144, 0.937552],
-		},
-		{
-			"low" : -eta_border_eb_ee,
-			"high" : eta_border_eb_ee,
-			"parameters" : [22.9704, 1.0258, 1.26889, 1.31024, 1.06409],
-		},
-		{
-			"low" : eta_border_eb_ee,
-			"high" : 10.0,
-			"parameters" : [21.9816, 1.40993, 0.978597, 2.33144, 0.937552],
-		},
+		[
+			-10.0,
+			-eta_border_eb_ee,
+			[21.9816, 1.40993, 0.978597, 2.33144, 0.937552],
+		],
+		[
+			-eta_border_eb_ee,
+			eta_border_eb_ee,
+			[22.9704, 1.0258, 1.26889, 1.31024, 1.06409],
+		],
+		[
+			eta_border_eb_ee,
+			10.0,
+			[21.9816, 1.40993, 0.978597, 2.33144, 0.937552],
+		],
 	]
 	
 	args.output = os.path.expandvars(args.output)
@@ -63,6 +63,7 @@ if __name__ == "__main__":
 	root_file = ROOT.TFile(args.output, "RECREATE")
 	histogram = triggerTurnOnParametrisation.fill_root_histogram(args.n_bins_pt, args.min_pt, args.max_pt,
 	                                                             eta_bins_with_parameters, args.histogram_name)
+	#histogram.Write()
 	root_file.Write()
 	root_file.Close()
 	log.info("Correction factors have been stored in histogram \"%s/%s\"." % (args.output, args.histogram_name))
