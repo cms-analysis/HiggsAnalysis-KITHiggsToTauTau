@@ -35,6 +35,6 @@
 			"TauPlusX" : "not needed"
 		}
 	},
-	"BosonPdgId" : ["25"],
+	"BosonPdgId" : 25,
 	"JetID" : "loose"
 }
