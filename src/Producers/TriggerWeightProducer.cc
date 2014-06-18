@@ -80,6 +80,7 @@ void TriggerWeightProducer::Produce(event_type const& event, product_type& produ
 }
 
 
+// return linear interpolation between bin contents of neighboring bins
 double TriggerWeightProducer::GetTriggerEfficienciesFromHistograms(std::vector<TH2F*> const& histograms,
                                                                    KLepton* lepton) const
 {
@@ -87,7 +88,20 @@ double TriggerWeightProducer::GetTriggerEfficienciesFromHistograms(std::vector<T
 	for (std::vector<TH2F*>::const_iterator histogram = histograms.begin();
 	     histogram != histograms.end(); ++histogram)
 	{
-		triggerEfficiency *= (*histogram)->GetBinContent((*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta()));
+		int globalBin = (*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta());
+		int xBin, yBin, zBin;
+		(*histogram)->GetBinXYZ(globalBin, xBin, yBin, zBin);
+		int globalBinUp = (*histogram)->GetBin((xBin <= (*histogram)->GetNbinsX() ? xBin+1 : xBin), yBin, zBin);
+		
+		float binContent = (*histogram)->GetBinContent(globalBin);
+		float binContentUp = (*histogram)->GetBinContent(globalBinUp);
+		
+		float interpolationFactor = (lepton->p4.Pt() - (*histogram)->GetXaxis()->GetBinLowEdge(globalBin)) /
+		                            ((*histogram)->GetXaxis()->GetBinUpEdge(globalBin) - (*histogram)->GetXaxis()->GetBinLowEdge(globalBin));
+		float linearInterpolation = (binContent * interpolationFactor) + (binContentUp * (1.0 - interpolationFactor));
+		
+		triggerEfficiency *= linearInterpolation;
+		//triggerEfficiency *= (*histogram)->GetBinContent((*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta()));
 	}
 	return triggerEfficiency;
 }
