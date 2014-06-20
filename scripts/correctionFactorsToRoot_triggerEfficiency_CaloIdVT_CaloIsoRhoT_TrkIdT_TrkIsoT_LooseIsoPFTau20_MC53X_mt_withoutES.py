@@ -17,13 +17,13 @@ import HiggsAnalysis.KITHiggsToTauTau.triggerTurnOnParametrisation as triggerTur
 
 if __name__ == "__main__":
 
-	parser = argparse.ArgumentParser(description="Store correction factors in ROOT histograms. Here: trigger efficiencies (Ele22, MC53X)",
+	parser = argparse.ArgumentParser(description="Store correction factors in ROOT histograms. Here: trigger efficiencies (Tau Trigger for MT channel (without ES correction), MC53X)",
 	                                 parents=[logger.loggingParser])
 
 	parser.add_argument("-n", "--histogram-name", default="triggerEfficiency",
 	                    help="Histogram name. [Default: %(default)s]")
 	parser.add_argument("-o", "--output",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Ele22_MC53X.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_MC53X_mt_withoutES.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
 	parser.add_argument("--n-bins-pt", type=int, default=300,
@@ -36,24 +36,25 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 
-	# # https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Tau_Trigger
-	# https://github.com/ajgilbert/ICHiggsTauTau/blob/cdfcbf79abd54d53f4751a71efb0b4807ed34bdc/Analysis/HiggsTauTau/src/HTTWeights.cc#L282-L372
-	eta_border_eb_ee = 1.479
+	# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Tau_Trigger
+	# http://benitezj.web.cern.ch/benitezj/Summer13Studies/TauTrigger/muTauABCD_June30/results.txt
+	# https://github.com/ajgilbert/ICHiggsTauTau/blob/cdfcbf79abd54d53f4751a71efb0b4807ed34bdc/Analysis/HiggsTauTau/src/HTTWeights.cc#L416-550
+	eta_border_eb_ee = 1.5
 	eta_bins_with_parameters = [
 		[
 			-10.0,
 			-eta_border_eb_ee,
-			[22.1217, 1.34054, 1.8885, 1.01855, 4.7241],
+			[18.212782, 0.338119, 0.122828, 12.577926, 0.893975],
 		],
 		[
 			-eta_border_eb_ee,
 			eta_border_eb_ee,
-			[21.7243, 0.619015, 0.739301, 1.34903, 1.02594],
+			[18.532997, 1.027880, 2.262950, 1.003322, 5.297292],
 		],
 		[
 			eta_border_eb_ee,
 			10.0,
-			[22.1217, 1.34054, 1.8885, 1.01855, 4.7241],
+			[18.212782, 0.338119, 0.122828, 12.577926, 0.893975],
 		],
 	]
 	

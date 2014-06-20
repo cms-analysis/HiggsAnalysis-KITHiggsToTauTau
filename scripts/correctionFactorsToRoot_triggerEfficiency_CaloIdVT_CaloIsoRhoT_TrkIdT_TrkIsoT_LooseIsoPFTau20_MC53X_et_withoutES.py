@@ -36,22 +36,25 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 
+	# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Tau_Trigger
+	# http://benitezj.web.cern.ch/benitezj/Summer13Studies/TauTrigger/eTauABCD_June30/results.txt
+	# https://github.com/ajgilbert/ICHiggsTauTau/blob/cdfcbf79abd54d53f4751a71efb0b4807ed34bdc/Analysis/HiggsTauTau/src/HTTWeights.cc#L282-L372
 	eta_border_eb_ee = 1.5
 	eta_bins_with_parameters = [
 		[
 			-10.0,
 			-eta_border_eb_ee,
-			[18.212782, 0.338119, 0.122828, 12.577926, 0.893975],
+			[18.557810, 0.280908, 0.119282, 17.749043, 0.865756],
 		],
 		[
 			-eta_border_eb_ee,
 			eta_border_eb_ee,
-			[18.532997, 1.027880, 2.262950, 1.003322, 5.297292],
+			[18.605055, 0.264062, 0.139561, 4.792849, 0.915035],
 		],
 		[
 			eta_border_eb_ee,
 			10.0,
-			[18.212782, 0.338119, 0.122828, 12.577926, 0.893975],
+			[18.557810, 0.280908, 0.119282, 17.749043, 0.865756],
 		],
 	]
 	

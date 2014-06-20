@@ -17,13 +17,13 @@ import HiggsAnalysis.KITHiggsToTauTau.triggerTurnOnParametrisation as triggerTur
 
 if __name__ == "__main__":
 
-	parser = argparse.ArgumentParser(description="Store correction factors in ROOT histograms. Here: trigger efficiencies (Tau Trigger for ET channel (without ES correction), Data2012ABCD)",
+	parser = argparse.ArgumentParser(description="Store correction factors in ROOT histograms. Here: trigger efficiencies (Tau Trigger for MT channel, Data2012ABCD)",
 	                                 parents=[logger.loggingParser])
 
 	parser.add_argument("-n", "--histogram-name", default="triggerEfficiency",
 	                    help="Histogram name. [Default: %(default)s]")
 	parser.add_argument("-o", "--output",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_Data2012ABCD_et_withoutES.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_Data2012ABCD_mt.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
 	parser.add_argument("--n-bins-pt", type=int, default=300,
@@ -36,6 +36,10 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 
+	# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Tau_Trigger
+	# http://benitezj.web.cern.ch/benitezj/Summer13Studies/TauTrigger/muTauABCD_June30/results.txt
+	# http://benitezj.web.cern.ch/benitezj/Summer13Studies/TauTrigger/muTauABCD_June28/results.txt
+	# https://github.com/ajgilbert/ICHiggsTauTau/blob/cdfcbf79abd54d53f4751a71efb0b4807ed34bdc/Analysis/HiggsTauTau/src/HTTWeights.cc#L416-550
 	eta_border_eb_ee = 1.5
 	eta_bins_with_parameters = [
 		[

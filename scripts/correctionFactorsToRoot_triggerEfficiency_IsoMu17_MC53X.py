@@ -36,6 +36,8 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 
+	# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Tau_Trigger
+	# https://github.com/ajgilbert/ICHiggsTauTau/blob/cdfcbf79abd54d53f4751a71efb0b4807ed34bdc/Analysis/HiggsTauTau/src/HTTWeights.cc#L416-L550
 	eta_bins_with_parameters = [
 		[
 			-10.0,
