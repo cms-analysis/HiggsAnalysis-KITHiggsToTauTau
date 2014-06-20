@@ -1,4 +1,0 @@
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF_DoubleMu_PFembedded_Run2012A_22Jan2013_muelec_8TeV.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF_DoubleMu_PFembedded_Run2012A_22Jan2013_muhad_8TeV.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF_TauPlusX_Run2012A_22Jan2013_8TeV.txt

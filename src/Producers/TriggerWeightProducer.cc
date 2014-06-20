@@ -73,13 +73,18 @@ void TriggerWeightProducer::Produce(event_type const& event, product_type& produ
 	for (size_t triggerEfficiencyIndex = 0; triggerEfficiencyIndex < triggerEfficienciesData.size();
 	     ++triggerEfficiencyIndex)
 	{
-		double triggerWeight = triggerEfficienciesData[triggerEfficiencyIndex] / triggerEfficienciesMc[triggerEfficiencyIndex];
+		double triggerWeight = 1.0;
+		if (triggerEfficienciesMc[triggerEfficiencyIndex] != 0.0)
+		{
+			triggerWeight = triggerEfficienciesData[triggerEfficiencyIndex] / triggerEfficienciesMc[triggerEfficiencyIndex];
+		}
 		product.m_weights[std::string("triggerWeight"+std::to_string(triggerEfficiencyIndex+1))] = triggerWeight;
 	}
 	
 }
 
 
+// return linear interpolation between bin contents of neighboring bins
 double TriggerWeightProducer::GetTriggerEfficienciesFromHistograms(std::vector<TH2F*> const& histograms,
                                                                    KLepton* lepton) const
 {
@@ -87,7 +92,20 @@ double TriggerWeightProducer::GetTriggerEfficienciesFromHistograms(std::vector<T
 	for (std::vector<TH2F*>::const_iterator histogram = histograms.begin();
 	     histogram != histograms.end(); ++histogram)
 	{
-		triggerEfficiency *= (*histogram)->GetBinContent((*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta()));
+		int globalBin = (*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta());
+		int xBin, yBin, zBin;
+		(*histogram)->GetBinXYZ(globalBin, xBin, yBin, zBin);
+		int globalBinUp = (*histogram)->GetBin((xBin <= (*histogram)->GetNbinsX() ? xBin+1 : xBin), yBin, zBin);
+		
+		float binContent = (*histogram)->GetBinContent(globalBin);
+		float binContentUp = (*histogram)->GetBinContent(globalBinUp);
+		
+		float interpolationFactor = (lepton->p4.Pt() - (*histogram)->GetXaxis()->GetBinLowEdge(xBin)) /
+		                            ((*histogram)->GetXaxis()->GetBinUpEdge(xBin) - (*histogram)->GetXaxis()->GetBinLowEdge(xBin));
+		float linearInterpolation = (binContent * interpolationFactor) + (binContentUp * (1.0 - interpolationFactor));
+		
+		triggerEfficiency *= linearInterpolation;
+		//triggerEfficiency *= (*histogram)->GetBinContent((*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta()));
 	}
 	return triggerEfficiency;
 }
@@ -107,8 +125,8 @@ std::vector<double> TriggerWeightProducer::GetTriggerEfficiencies(
 	{
 		if (triggerEfficiencyByHltName->first == "default")
 		{
-			for (std::vector<KLepton*>::const_iterator lepton = product.m_ptOrderedLeptons.begin();
-			     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
+			for (std::vector<KLepton*>::const_iterator lepton = product.m_flavourOrderedLeptons.begin();
+			     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 			{
 				triggerEfficiencies[index++] = GetTriggerEfficienciesFromHistograms(
 						triggerEfficiencyByHltName->second,
@@ -127,11 +145,11 @@ std::vector<double> TriggerWeightProducer::GetTriggerEfficiencies(
 	     triggerEfficiencyByIndex != triggerEfficienciesByIndex.end();
 	     ++triggerEfficiencyByIndex)
 	{
-		if (triggerEfficiencyByIndex->first < product.m_ptOrderedLeptons.size())
+		if (triggerEfficiencyByIndex->first < product.m_flavourOrderedLeptons.size())
 		{
 			triggerEfficiencies[index++] = GetTriggerEfficienciesFromHistograms(
 					triggerEfficiencyByIndex->second,
-					product.m_ptOrderedLeptons.at(triggerEfficiencyByIndex->first)
+					product.m_flavourOrderedLeptons.at(triggerEfficiencyByIndex->first)
 			);
 		}
 	}

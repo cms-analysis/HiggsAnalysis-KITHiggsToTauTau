@@ -38,7 +38,7 @@
 				"default" : [
 					"producer:hlt_selector",
 					"#filter:hlt_filter",
-					"#producer:trigger_matching",
+					"producer:trigger_matching",
 					"producer:met_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
@@ -55,7 +55,7 @@
 				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
 					"#filter:hlt_filter",
-					"#producer:trigger_matching",
+					"producer:trigger_matching",
 					"producer:met_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",

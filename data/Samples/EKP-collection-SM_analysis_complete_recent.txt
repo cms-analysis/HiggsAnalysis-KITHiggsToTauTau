@@ -1,0 +1,4 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/EKP-samples-DoubleMu_PFembedded_Run2012A_22Jan2013_muelec_8TeV_2014-05-23.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/EKP-samples-DoubleMu_PFembedded_Run2012A_22Jan2013_muhad_8TeV_2014-05-23.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/EKP-samples-SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_2014-05-23.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/EKP-samples-TauPlusX_Run2012A_22Jan2013_8TeV_2014-05-23.txt

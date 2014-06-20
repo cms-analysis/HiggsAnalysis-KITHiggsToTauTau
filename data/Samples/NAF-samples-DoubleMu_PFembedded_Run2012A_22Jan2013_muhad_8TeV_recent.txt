@@ -1,0 +1,1 @@
+/usr/users/friese/home/devel/analysis/CMSSW_6_1_1/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF-samples-DoubleMu_PFembedded_Run2012A_22Jan2013_muhad_8TeV_2014-05-23.txt

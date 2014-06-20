@@ -8,7 +8,9 @@
 				"producer:electron_eta_selector",
 				"producer:pu_weights",
 				"producer:valid_tagged_jets",
-				"producer:valid_btagged_jets"
+				"producer:valid_btagged_jets",
+				"producer:gen_taudecay",
+				"producer:gen_cp"
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
@@ -33,5 +35,6 @@
 			"TauPlusX" : "not needed"
 		}
 	},
+	"BosonPdgId" : 25,
 	"JetID" : "loose"
 }
