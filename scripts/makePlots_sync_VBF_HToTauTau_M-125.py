@@ -30,7 +30,14 @@ if __name__ == "__main__":
 	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_MIT/htt_vbf_tt_sm_125_select.root",
 	                    help="MIT input file (MT channel). [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
-	                    default=["1", "pt_1", "pt_2", "eta_1", "eta_2", "met"],
+	                    default=["1",
+	                             "pt_1", "eta_1", "phi_1", "iso_1",
+	                             "pt_2", "eta_2", "phi_2", "iso_2",
+	                             "mvis",
+	                             "met", "metphi", "metcov00", "metcov01", "metcov10", "metcov11",
+	                             "mvamet", "mvametphi", "mvacov00", "mvacov01", "mvacov10", "mvacov11",
+	                             "trigweight_1", "trigweight_2",
+	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
 	                    
 	
