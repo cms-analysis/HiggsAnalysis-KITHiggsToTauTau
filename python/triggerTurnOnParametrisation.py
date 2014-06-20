@@ -6,6 +6,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import array
+import decimal
 import math
 import numpy
 
@@ -20,30 +21,39 @@ def efficiency(m, m0, sigma, alpha, n, norm):
 	Code taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2012#ETau_MuTau_trigger_turn_on_Joshu
 	Parameter m seems to mean pt
 	"""
-	sqrtPiOver2 = 1.2533141373
-	sqrt2 = 1.4142135624
+	
+	# there are parametrisations that require more precision then float.
+	m = decimal.Decimal(m)
+	m0 = decimal.Decimal(m0)
+	sigma = decimal.Decimal(sigma)
+	alpha = decimal.Decimal(alpha)
+	n = decimal.Decimal(n)
+	norm = decimal.Decimal(norm)
+	
+	sqrtPiOver2 = decimal.Decimal(1.2533141373)
+	sqrt2 = decimal.Decimal(1.4142135624)
 	sig = abs(sigma)
 	t = (m - m0)/sig
 	if alpha < 0.0: t = -t
 	absAlpha = abs(alpha/sig)
-	a = pow(n/absAlpha, n)*math.exp(-0.5*absAlpha*absAlpha)
+	a = pow(n/absAlpha, n)*decimal.Decimal(math.exp(decimal.Decimal(-0.5)*absAlpha*absAlpha))
 	b = absAlpha - n/absAlpha
 	ApproxErf = None
 	arg = absAlpha / sqrt2
-	if arg > 5.0: ApproxErf = 1.0
-	elif arg < -5.0: ApproxErf = -1.0
-	else: ApproxErf = math.erf(arg)
-	leftArea = (1 + ApproxErf) * sqrtPiOver2
-	rightArea = ( a * 1/pow(absAlpha - b, n-1)) / (n - 1)
+	if arg > 5.0: ApproxErf = decimal.Decimal(1.0)
+	elif arg < -5.0: ApproxErf = decimal.Decimal(-1.0)
+	else: ApproxErf = decimal.Decimal(math.erf(arg))
+	leftArea = (decimal.Decimal(1.0) + ApproxErf) * sqrtPiOver2
+	rightArea = ( a * decimal.Decimal(1.0)/pow(absAlpha - b, n-decimal.Decimal(1.0))) / (n - decimal.Decimal(1.0))
 	area = leftArea + rightArea
 	if t <= absAlpha:
 		arg = t / sqrt2
-		if arg > 5.0: ApproxErf = 1.0
-		elif arg < -5.0: ApproxErf = -1.0
-		else: ApproxErf = math.erf(arg)
-		return norm * (1 + ApproxErf) * sqrtPiOver2 / area
+		if arg > 5.0: ApproxErf = decimal.Decimal(1.0)
+		elif arg < -5.0: ApproxErf = decimal.Decimal(-1.0)
+		else: ApproxErf = decimal.Decimal(math.erf(arg))
+		return norm * (decimal.Decimal(1) + ApproxErf) * sqrtPiOver2 / area
 	else:
-		return norm * (leftArea + a * (1.0/pow(t-b, n-1.0) - 1.0/pow(absAlpha - b, n-1.0)) / (1.0 - n)) / area
+		return norm * (leftArea + a * (decimal.Decimal(1.0)/pow(t-b, n-decimal.Decimal(1.0)) - decimal.Decimal(1.0)/pow(absAlpha - b, n-decimal.Decimal(1.0))) / (decimal.Decimal(1.0) - n)) / area
 
 
 def fill_root_histogram(n_bins_pt, min_pt, max_pt, eta_bins_with_parameters, histogram_name):
