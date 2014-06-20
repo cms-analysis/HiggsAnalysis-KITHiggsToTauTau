@@ -73,7 +73,11 @@ void TriggerWeightProducer::Produce(event_type const& event, product_type& produ
 	for (size_t triggerEfficiencyIndex = 0; triggerEfficiencyIndex < triggerEfficienciesData.size();
 	     ++triggerEfficiencyIndex)
 	{
-		double triggerWeight = triggerEfficienciesData[triggerEfficiencyIndex] / triggerEfficienciesMc[triggerEfficiencyIndex];
+		double triggerWeight = 1.0;
+		if (triggerEfficienciesMc[triggerEfficiencyIndex] != 0.0)
+		{
+			triggerEfficienciesData[triggerEfficiencyIndex] / triggerEfficienciesMc[triggerEfficiencyIndex];
+		}
 		product.m_weights[std::string("triggerWeight"+std::to_string(triggerEfficiencyIndex+1))] = triggerWeight;
 	}
 	
