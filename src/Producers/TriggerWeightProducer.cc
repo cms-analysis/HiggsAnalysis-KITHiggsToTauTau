@@ -100,8 +100,8 @@ double TriggerWeightProducer::GetTriggerEfficienciesFromHistograms(std::vector<T
 		float binContent = (*histogram)->GetBinContent(globalBin);
 		float binContentUp = (*histogram)->GetBinContent(globalBinUp);
 		
-		float interpolationFactor = (lepton->p4.Pt() - (*histogram)->GetXaxis()->GetBinLowEdge(globalBin)) /
-		                            ((*histogram)->GetXaxis()->GetBinUpEdge(globalBin) - (*histogram)->GetXaxis()->GetBinLowEdge(globalBin));
+		float interpolationFactor = (lepton->p4.Pt() - (*histogram)->GetXaxis()->GetBinLowEdge(xBin)) /
+		                            ((*histogram)->GetXaxis()->GetBinUpEdge(xBin) - (*histogram)->GetXaxis()->GetBinLowEdge(xBin));
 		float linearInterpolation = (binContent * interpolationFactor) + (binContentUp * (1.0 - interpolationFactor));
 		
 		triggerEfficiency *= linearInterpolation;
