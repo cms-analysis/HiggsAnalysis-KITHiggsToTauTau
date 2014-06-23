@@ -5,15 +5,11 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import Artus.HarryPlotter.core as harrycore
-import HiggsAnalysis.KITHiggsToTauTau.plotting.plotroothtt as plotroothtt
+import sys
+
+import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 
-if __name__ == "__main__":
-	harry_core = harrycore.HarryCore()
-	
-	# register custom version of ROOT plots which creates plots in the officital Htautau style
-	harry_core.register_processor(plotroothtt.PlotRootHtt.name(), plotroothtt.PlotRootHtt())
-	
-	harry_core.run()
+if __name__ == "__main__" and len(sys.argv) > 1:
+	higgsplot.higgs_plot()
 
