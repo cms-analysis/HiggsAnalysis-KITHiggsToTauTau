@@ -11,10 +11,9 @@ import os
 import ROOT
 
 import Artus.HarryPlotter.plotroot as plotroot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.plotsettingshtt as plotsettingshtt
 
 
-class PlotRootHtt(plotroot.PlotRoot, plotsettingshtt.PlotSettingsHtt):
+class PlotRootHtt(plotroot.PlotRoot):
 	def __init__(self):
 		super(PlotRootHtt, self).__init__()
 		
