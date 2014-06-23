@@ -1,0 +1,9 @@
+{
+	"plot_modules" : "PlotRootHtt",
+	"x_expressions" : [
+		"phi_2"
+	],
+	"ratio" : "True",
+	"x_label" : "phi_2",
+	"filename" : "phi_2"
+}

@@ -1,0 +1,11 @@
+{
+	"folders" : [
+		"mt/ntuple",
+		"TauCheck"
+	],
+	"labels" : [
+		"KIT",
+		"IC"
+	],
+	"output_dir" : "plots/VBF_HToTauTau_M-125/mt"
+}

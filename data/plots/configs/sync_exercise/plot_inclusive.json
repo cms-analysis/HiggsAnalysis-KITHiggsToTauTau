@@ -1,9 +1,5 @@
 {
 	"plot_modules" : "PlotRootHtt",
-	"folders" : [
-		"em/ntuple",
-		"TauCheck"
-	],
 	"x_expressions" : [
 		"0"
 	],
@@ -12,10 +8,5 @@
 	],
 	"ratio" : "True",
 	"x_label" : "Inclusive",
-	"labels" : [
-		"KIT",
-		"IC"
-	],
-	"output_dir" : "plots/VBF_HToTauTau_M-125/em",
 	"filename" : "inclusive"
 }
