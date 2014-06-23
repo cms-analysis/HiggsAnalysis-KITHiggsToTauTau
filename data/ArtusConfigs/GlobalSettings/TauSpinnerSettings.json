@@ -1,17 +1,16 @@
 {
-	"TauSpinnerSettings" :
-	[
-		"MSTW2008nnlo90cl.LHgrid",
-		"8000.0",
-		"true",
-		"1",
-		"0",
-		"0",
-		"boostedn"
-	],
+	"TauSpinnerSettingsPDF" : "MSTW2008nnlo90cl.LHgrid",
+	"TauSpinnerSettingsCmsEnergy" : 8000.0,
+	"TauSpinnerSettingsIpp" : true,
+	"TauSpinnerSettingsIpol" : "1",
+	"TauSpinnerSettingsNonSM2" : "0",
+	"TauSpinnerSettingsNonSMN" : "0",
+	"TauSpinnerSettingsBoost" : false,
+
+	"ChooseTauDaughter" : true,
+
 	"ChosenTauDaughters" :
-	[	"choose",
-		"211",
+	[	"211",
 		"20213",
 		"11",
 		"13",

@@ -69,8 +69,18 @@ public:
 	IMPL_SETTING(float, LowerCutHardLepPt);
 	
 	IMPL_SETTING(std::string, TauTauRestFrameReco);
-	
-	IMPL_SETTING_STRINGLIST(TauSpinnerSettings);
+
+	IMPL_SETTING(std::string, TauSpinnerSettingsPDF);
+	IMPL_SETTING(float, TauSpinnerSettingsCmsEnergy);
+	IMPL_SETTING(bool, TauSpinnerSettingsIpp);
+	IMPL_SETTING(int, TauSpinnerSettingsIpol);
+	IMPL_SETTING(int, TauSpinnerSettingsNonSM2);
+	IMPL_SETTING(int, TauSpinnerSettingsNonSMN);
+	IMPL_SETTING(bool, TauSpinnerSettingsBoost);
+
+	IMPL_SETTING(bool, ChooseTauDaughter);
 	IMPL_SETTING_STRINGLIST(ChosenTauDaughters);
+
+	IMPL_SETTING(int, BosonPdgId);
 
 };
