@@ -23,8 +23,8 @@ class PlotRootHtt(plotroot.PlotRoot):
 		ROOT.gROOT.LoadMacro(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/src/HttStyles.cc")+"+")
 		os.chdir(cwd)
 	
-	def modify_argument_parser(self, parser):
-		super(PlotRootHtt, self).modify_argument_parser(parser)
+	def modify_argument_parser(self, parser, args):
+		super(PlotRootHtt, self).modify_argument_parser(parser, args)
 		
 		parser.set_defaults(y_label="Number of Entries")
 	
