@@ -8,6 +8,8 @@ log = logging.getLogger(__name__)
 import argparse
 import shlex
 
+import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
+
 
 if __name__ == "__main__":
 
@@ -63,9 +65,5 @@ if __name__ == "__main__":
 	plot_commands = []
 	for channel, label in channels.items():
 		for quantity in args["quantities"]:
-			plot_commands.append("higgsplot.py --plot-modules PlotRootHtt -f png pdf --labels KIT %s --ratio -i \"%s\" \"%s\" --folder %s/ntuple %s -o plots/VBF_HToTauTau_M-125/%s -x %s" % (label, " ".join(args["input_1"]), args["input_2_%s" % channel], channel, folders[channels[channel]], channel, quantity))
-	
-	for plot_command in plot_commands:
-		log.info("\nMake plot \"%s\" ..." % plot_command)
-		logger.subprocessCall(shlex.split(plot_command))
+			higgsplot.higgs_plot("--plot-modules PlotRootHtt -f png pdf --labels KIT %s --ratio -i \"%s\" \"%s\" --folder %s/ntuple %s -o plots/VBF_HToTauTau_M-125/%s -x %s" % (label, " ".join(args["input_1"]), args["input_2_%s" % channel], channel, folders[channels[channel]], channel, quantity))
 
