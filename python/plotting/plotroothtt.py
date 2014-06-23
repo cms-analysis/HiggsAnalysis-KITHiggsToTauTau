@@ -15,7 +15,7 @@ import Artus.HarryPlotter.plotroot as plotroot
 
 class PlotRootHtt(plotroot.PlotRoot):
 	def __init__(self):
-		plotroot.PlotRoot.__init__(self)
+		super(PlotRootHtt, self).__init__()
 		
 		# load HttStyles
 		cwd = os.getcwd()
@@ -24,7 +24,7 @@ class PlotRootHtt(plotroot.PlotRoot):
 		os.chdir(cwd)
 	
 	def modify_argument_parser(self, parser):
-		plotroot.PlotRoot.modify_argument_parser(self, parser)
+		super(PlotRootHtt, self).modify_argument_parser(parser)
 		
 		parser.set_defaults(y_label="Number of Entries")
 	
@@ -32,7 +32,7 @@ class PlotRootHtt(plotroot.PlotRoot):
 		# apply HttStyles
 		ROOT.SetStyle()
 		
-		plotroot.PlotRoot.run(self, plotData)
+		super(PlotRootHtt, self).run(plotData)
 
 	def create_canvas(self, plotData):
 		self.canvas = ROOT.MakeCanvas("canvas", "")
@@ -49,16 +49,16 @@ class PlotRootHtt(plotroot.PlotRoot):
 			ROOT.InitSubPad(self.canvas, 1)
 			ROOT.InitSubPad(self.canvas, 2)
    		
-		plotroot.PlotRoot.create_canvas(self, plotData)
+		super(PlotRootHtt, self).create_canvas(plotData)
 
 	def prepare_histograms(self, plotData):
 		for root_histogram in plotData.plotdict["root_histos"].values() + plotData.plotdict.get("root_ratio_histos", []):
 			ROOT.InitHist(root_histogram, root_histogram.GetTitle())
 		
-		plotroot.PlotRoot.prepare_histograms(self, plotData)
+		super(PlotRootHtt, self).prepare_histograms(plotData)
 	
 	def add_labels(self, plotData):
-		plotroot.PlotRoot.add_labels(self, plotData)
+		super(PlotRootHtt, self).add_labels(plotData)
 		
 		if self.legend != None:
 			ROOT.SetLegendStyle(self.legend)
