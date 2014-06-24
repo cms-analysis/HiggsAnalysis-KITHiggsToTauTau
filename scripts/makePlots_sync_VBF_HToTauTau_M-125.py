@@ -6,6 +6,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse
+import os
 import shlex
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
@@ -62,8 +63,10 @@ if __name__ == "__main__":
 		"eta" : False,
 	}
 	
-	plot_commands = []
 	for channel, label in channels.items():
 		for quantity in args["quantities"]:
-			higgsplot.higgs_plot("--plot-modules PlotRootHtt -f png pdf --labels KIT %s --ratio -i \"%s\" \"%s\" --folder %s/ntuple %s -o plots/VBF_HToTauTau_M-125/%s -x %s" % (label, " ".join(args["input_1"]), args["input_2_%s" % channel], channel, folders[channels[channel]], channel, quantity))
+			plot_args = "--plot-modules PlotRootHtt -f png pdf --labels KIT %s --ratio -i %s %s --folder %s/ntuple %s -o plots/VBF_HToTauTau_M-125/%s -x %s" % (label, " ".join(args["input_1"]), args["input_2_%s" % channel], channel, folders[channels[channel]], channel, quantity)
+			plot_args = os.path.expandvars(plot_args)
+			log.info("\nhiggsplot.py %s" % plot_args)
+			higgsplot.higgs_plot(plot_args)
 
