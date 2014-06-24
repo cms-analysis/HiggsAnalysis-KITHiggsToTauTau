@@ -33,7 +33,7 @@ if __name__ == "__main__":
 	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_MIT/htt_vbf_tt_sm_125_select.root",
 	                    help="MIT input file (MT channel). [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
-	                    default=["1",
+	                    default=["inclusive",
 	                             "pt_1", "eta_1", "phi_1", "iso_1",
 	                             "pt_2", "eta_2", "phi_2", "iso_2",
 	                             "mvis",
@@ -46,27 +46,18 @@ if __name__ == "__main__":
 	
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
-
-	channels = {
-		"em" : "IC",
-		"et" : "IC",
-		"mt" : "IC",
-		"tt" : "MIT",
-	}
 	
-	folders = {
-		"IC" : "TauCheck",
-		"MIT" : "Events",
-	}
-	
-	labels = {
-		"eta" : False,
-	}
-	
-	for channel, label in channels.items():
+	for channel in ["em", "et", "mt", "tt"]:
 		for quantity in args["quantities"]:
-			plot_args = "--plot-modules PlotRootHtt -f png pdf --labels KIT %s --ratio -i %s %s --folder %s/ntuple %s -o plots/VBF_HToTauTau_M-125/%s -x %s" % (label, " ".join(args["input_1"]), args["input_2_%s" % channel], channel, folders[channels[channel]], channel, quantity)
+			json_exists = True
+			json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_%s.json" % (channel, quantity))
+			if not os.path.exists(json_config):
+				json_exists = False
+				json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
+			
+			plot_args = "--json-defaults %s -i %s %s %s -f png pdf" % (json_config, " ".join(args["input_1"]), args["input_2_%s" % channel], ("" if json_exists else ("-x %s" % quantity)))
 			plot_args = os.path.expandvars(plot_args)
+			
 			log.info("\nhiggsplot.py %s" % plot_args)
 			higgsplot.higgs_plot(plot_args)
 
