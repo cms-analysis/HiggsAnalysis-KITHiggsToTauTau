@@ -1,0 +1,18 @@
+{
+	"folders" : [
+		"tt/ntuple",
+		"Events"
+	],
+	"labels" : [
+		"KIT",
+		"MIT"
+	],
+	"output_dir" : "plots/VBF_HToTauTau_M-125/tt",
+	"plot_modules" : "PlotRootHtt",
+	"x_expressions" : [
+		"pt_2"
+	],
+	"ratio" : "True",
+	"x_label" : "pt_2",
+	"filename" : "pt_2"
+}
