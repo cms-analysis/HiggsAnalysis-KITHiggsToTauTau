@@ -3,16 +3,15 @@
 		"tt/ntuple",
 		"Events"
 	],
-	"labels" : [
-		"KIT",
-		"MIT"
-	],
 	"output_dir" : "plots/VBF_HToTauTau_M-125/tt",
 	"plot_modules" : "PlotRootHtt",
 	"x_expressions" : [
 		"phi_2"
 	],
+	"x_bins" : [
+		"32,-3.2,3.2"
+	],
 	"ratio" : "True",
-	"x_label" : "phi_2",
+	"x_label" : "Trailing Tau \\phi",
 	"filename" : "phi_2"
 }

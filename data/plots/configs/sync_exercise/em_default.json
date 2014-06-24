@@ -7,6 +7,7 @@
 		"KIT",
 		"IC"
 	],
+	"ratio" : "True",
 	"output_dir" : "plots/VBF_HToTauTau_M-125/em",
 	"plot_modules" : "PlotRootHtt"
 }
