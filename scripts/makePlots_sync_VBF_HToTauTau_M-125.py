@@ -34,12 +34,15 @@ if __name__ == "__main__":
 	                    help="MIT input file (MT channel). [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
 	                    default=["inclusive",
-	                             "pt_1", "eta_1", "phi_1", "iso_1",
-	                             "pt_2", "eta_2", "phi_2", "iso_2",
+	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
+	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2",
 	                             "mvis",
 	                             "met", "metphi", "metcov00", "metcov01", "metcov10", "metcov11",
 	                             "mvamet", "mvametphi", "mvacov00", "mvacov01", "mvacov10", "mvacov11",
-	                             "trigweight_1", "trigweight_2",
+	                             "jpt_1", "jeta_1", "jphi_1",
+	                             "jpt_2", "jeta_2", "jphi_2",
+	                             "njets", "mjj", "jdeta",
+	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
 	                    
