@@ -17,5 +17,13 @@
 	],
 	"ratio" : "True",
 	"x_label" : "Inclusive",
+	"y_lims" : [
+		0.0,
+		15000.0
+	],
+	"y_ratio_lims" : [
+		0.9,
+		1.1
+	],
 	"filename" : "inclusive"
 }
