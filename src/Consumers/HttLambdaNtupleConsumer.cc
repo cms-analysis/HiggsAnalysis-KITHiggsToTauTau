@@ -163,7 +163,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 
 	m_valueExtractorMap["TauSpinnerWeight"] = [](event_type const & event, product_type const & product)
 	{
-		return product.m_weights.at("tauspinnerweight");
+		return product.m_weights.at("tauSpinnerWeight");
 	};
 	m_valueExtractorMap["PhiStar"] = [](event_type const & event, product_type const & product)
 	{

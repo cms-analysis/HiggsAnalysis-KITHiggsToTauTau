@@ -35,11 +35,11 @@ public:
 
 private:
 	virtual TauSpinner::SimpleParticle getSimpleParticle(KGenParticle*& in) const;
-	virtual std::vector<TauSpinner::SimpleParticle> *getFinalStates(MotherDaughterBundle& mother,
+	virtual std::vector<TauSpinner::SimpleParticle> *GetFinalStates(MotherDaughterBundle& mother,
                                         std::vector<TauSpinner::SimpleParticle> *resultVector) const;
-	virtual double getMass(std::vector<TauSpinner::SimpleParticle> in) const;
-	virtual void logSimpleParticle(std::string particleName, TauSpinner::SimpleParticle in) const;
-	virtual void logSimpleParticle(std::string particleName, std::vector<TauSpinner::SimpleParticle> in) const;
+	virtual double GetMass(std::vector<TauSpinner::SimpleParticle> in) const;
+	virtual void LogSimpleParticle(std::string particleName, TauSpinner::SimpleParticle in) const;
+	virtual void LogSimpleParticle(std::string particleName, std::vector<TauSpinner::SimpleParticle> in) const;
 
 };
 
