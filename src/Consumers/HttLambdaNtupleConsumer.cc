@@ -169,6 +169,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	{
 		return product.m_genPhiStar;
 	};
+	m_valueExtractorMap["RecoPhiStar"] = [](event_type const & event, product_type const & product)
+	{
+		return product.RecoPhiStar;
+	};
 	m_valueExtractorMap["PsiStarCP"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genPsiStarCP;
@@ -768,14 +772,14 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["phi_1"] = m_valueExtractorMap["lep1Phi"];
 	m_valueExtractorMap["m_1"] = m_valueExtractorMap["lep1Mass"];
 	m_valueExtractorMap["q_1"] = m_valueExtractorMap["lep1Charge"];
-	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["leadingLepIsoOverPt"];
+	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["lep1IsoOverPt"];
 	m_valueExtractorMap["mt_1"] = m_valueExtractorMap["lep1Mt"];
 	m_valueExtractorMap["pt_2"] = m_valueExtractorMap["lep2Pt"];
 	m_valueExtractorMap["eta_2"] = m_valueExtractorMap["lep2Eta"];
 	m_valueExtractorMap["phi_2"] = m_valueExtractorMap["lep2Phi"];
 	m_valueExtractorMap["m_2"] = m_valueExtractorMap["lep2Mass"];
 	m_valueExtractorMap["q_2"] = m_valueExtractorMap["lep2Charge"];
-	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["trailingLepIsoOverPt"];
+	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["lep2IsoOverPt"];
 	m_valueExtractorMap["mt_2"] = m_valueExtractorMap["lep2Mt"];
 	m_valueExtractorMap["met"] = m_valueExtractorMap["pfMetPt"];
 	m_valueExtractorMap["metphi"] = m_valueExtractorMap["pfMetPhi"];
