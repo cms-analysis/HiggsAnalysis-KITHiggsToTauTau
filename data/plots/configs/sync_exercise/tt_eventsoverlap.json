@@ -1,0 +1,26 @@
+{
+	"folders" : [
+		"tt/ntuple",
+		"Events"
+	],
+	"labels" : [
+		"KIT",
+		"MIT"
+	],
+	"output_dir" : "plots/VBF_HToTauTau_M-125/tt",
+	"analysis_modules" : [
+		"EventSelectionOverlap"
+	],
+	"plot_modules" : "PlotRootHtt",
+	"x_expressions" : [
+		"evt"
+	],
+	"y_lims" : [
+		0.0,
+		8000.0
+	],
+	"colors" : [
+		"kRed"
+	],
+	"filename" : "eventsoverlap"
+}

@@ -1,0 +1,26 @@
+{
+	"folders" : [
+		"et/ntuple",
+		"TauCheck"
+	],
+	"labels" : [
+		"KIT",
+		"IC"
+	],
+	"output_dir" : "plots/VBF_HToTauTau_M-125/et",
+	"analysis_modules" : [
+		"EventSelectionOverlap"
+	],
+	"plot_modules" : "PlotRootHtt",
+	"x_expressions" : [
+		"evt"
+	],
+	"y_lims" : [
+		0.0,
+		17000.0
+	],
+	"colors" : [
+		"kRed"
+	],
+	"filename" : "eventsoverlap"
+}
