@@ -4,7 +4,9 @@
 		"TauCheck"
 	],
 	"output_dir" : "plots/VBF_HToTauTau_M-125/mt",
-	"plot_modules" : "PlotRootHtt",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
 	"x_expressions" : [
 		"jphi_1"
 	],

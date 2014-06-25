@@ -8,7 +8,9 @@
 		"MIT"
 	],
 	"output_dir" : "plots/VBF_HToTauTau_M-125/tt",
-	"plot_modules" : "PlotRootHtt",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
 	"x_expressions" : [
 		"mvacov01"
 	],

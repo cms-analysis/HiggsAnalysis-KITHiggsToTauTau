@@ -11,7 +11,9 @@
 	"analysis_modules" : [
 		"EventSelectionOverlap"
 	],
-	"plot_modules" : "PlotRootHtt",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
 	"x_expressions" : [
 		"evt"
 	],
