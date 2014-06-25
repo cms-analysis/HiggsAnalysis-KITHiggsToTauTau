@@ -169,6 +169,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	{
 		return product.m_genPhiStar;
 	};
+	m_valueExtractorMap["RecoPhiStar"] = [](event_type const & event, product_type const & product)
+	{
+		return product.RecoPhiStar;
+	};
 	m_valueExtractorMap["PsiStarCP"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genPsiStarCP;
