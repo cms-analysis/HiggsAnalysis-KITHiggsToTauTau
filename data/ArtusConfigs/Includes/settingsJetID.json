@@ -3,9 +3,11 @@
 	"PuJetIDs" : [
 		"puJetIDFullLoose"
 	],
+	"JetTaggerLowerCuts" : [
+	],
 	
 	"JetLowerPtCuts" : [
-		"5.0"
+		"15.0"
 	],
 	"JetUpperAbsEtaCuts" : [
 		"4.7"
