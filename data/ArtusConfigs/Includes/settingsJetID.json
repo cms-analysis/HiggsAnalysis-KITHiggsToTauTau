@@ -1,7 +1,11 @@
 {
 	"JetID" : "loose",
+	"PuJetIDs" : [
+		"puJetIDFullLoose"
+	],
 	
 	"JetLowerPtCuts" : [
+		"5.0"
 	],
 	"JetUpperAbsEtaCuts" : [
 		"4.7"
