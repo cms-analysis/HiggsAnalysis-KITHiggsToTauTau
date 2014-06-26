@@ -1,0 +1,9 @@
+{
+	"JetID" : "loose",
+	
+	"JetLowerPtCuts" : [
+	],
+	"JetUpperAbsEtaCuts" : [
+		"4.7"
+	]
+}
