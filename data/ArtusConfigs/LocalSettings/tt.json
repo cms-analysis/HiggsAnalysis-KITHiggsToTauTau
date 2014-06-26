@@ -57,6 +57,8 @@
 					"producer:valid_taus",
 					"filter:valid_taus",
 					"filter:n_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
 					"producer:event_weight"
@@ -73,6 +75,8 @@
 					"producer:valid_taus",
 					"filter:valid_taus",
 					"filter:n_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
 					"producer:event_weight"

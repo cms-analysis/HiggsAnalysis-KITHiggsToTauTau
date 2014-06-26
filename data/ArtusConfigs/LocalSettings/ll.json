@@ -41,6 +41,8 @@
 					"producer:valid_electrons",
 					"producer:valid_muons",
 					"producer:valid_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
@@ -50,6 +52,8 @@
 					"producer:valid_electrons",
 					"producer:valid_muons",
 					"producer:valid_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
 					"producer:event_weight"
 				]
 			}
