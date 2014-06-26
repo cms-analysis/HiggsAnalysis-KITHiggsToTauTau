@@ -99,10 +99,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return product.m_validJets.size() >= 1 ? product.m_validJets.at(0)->p4.Phi() : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["leadingJetCSV"] = [](event_type const& event, product_type const& product) {
-		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
+		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggerMetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["leadingJetTCHE"] = [](event_type const& event, product_type const& product) {
-		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
+		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("TrackCountingHighEffBJetTags", event.m_taggerMetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["trailingJetPt"] = [](event_type const& event, product_type const& product) {
 		return product.m_validJets.size() >= 2 ? product.m_validJets.at(1)->p4.Pt() : DefaultValues::UndefinedDouble;
@@ -114,10 +114,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return product.m_validJets.size() >= 2 ? product.m_validJets.at(1)->p4.Phi() : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["trailingJetCSV"] = [](event_type const& event, product_type const& product) {
-		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
+		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggerMetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["trailingJetTCHE"] = [](event_type const& event, product_type const& product) {
-		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
+		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggerMetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["nBTaggedJets"] = [](event_type const& event, product_type const& product) {
 		return product.m_bTaggedJets.size();

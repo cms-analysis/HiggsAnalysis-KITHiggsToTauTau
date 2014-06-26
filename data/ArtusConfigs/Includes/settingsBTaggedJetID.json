@@ -1,5 +1,8 @@
 {
-	"BTaggedJetID_documentation" : ["https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#bjets", "https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagPOG#Recommendation_for_Operating_Poi", "https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagPerformanceOP#B_tagging_Operating_Points_for_5"
+	"BTaggedJetID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#bjets",
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagPOG#Recommendation_for_Operating_Poi",
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagPerformanceOP#B_tagging_Operating_Points_for_5"
 	],
 	
 	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.679,

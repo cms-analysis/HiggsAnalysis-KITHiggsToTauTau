@@ -1,0 +1,15 @@
+{
+	"JetID" : "loose",
+	"PuJetIDs" : [
+		"puJetIDFullLoose"
+	],
+	"JetTaggerLowerCuts" : [
+	],
+	
+	"JetLowerPtCuts" : [
+		"15.0"
+	],
+	"JetUpperAbsEtaCuts" : [
+		"4.7"
+	]
+}
