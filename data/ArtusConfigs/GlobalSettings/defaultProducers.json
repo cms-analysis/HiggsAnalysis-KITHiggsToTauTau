@@ -13,7 +13,7 @@
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
-				"producer:electron_eta_selector",
+				"producer:electron_eta_selector"
 			]
 		}
 	},
