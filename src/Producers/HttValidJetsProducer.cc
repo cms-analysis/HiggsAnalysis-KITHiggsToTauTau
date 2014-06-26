@@ -18,10 +18,5 @@ bool HttValidTaggedJetsProducer::AdditionalCriteria(KDataPFTaggedJet* jet,
 {
 	bool validJet = ValidTaggedJetsProducer::AdditionalCriteria(jet, event, product, settings);
 
-	// TODO: implement actual preselection (possibly channel-dependent)
-	// the cuts below are just a temporary example to test the code
-	validJet = validJet && jet->p4.pt() > 50.
-                            && std::abs(jet->p4.eta()) < 4.;
-
 	return validJet;
 }
