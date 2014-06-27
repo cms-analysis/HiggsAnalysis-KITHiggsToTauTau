@@ -5,6 +5,8 @@
 	],
 	"JetTaggerLowerCuts" : [
 	],
+	"JetTaggerUpperCuts" : [
+	],
 	
 	"JetLowerPtCuts" : [
 		"15.0"
