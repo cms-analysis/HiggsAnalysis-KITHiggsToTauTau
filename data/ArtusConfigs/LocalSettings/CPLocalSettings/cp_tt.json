@@ -3,8 +3,12 @@
 	"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/tt.json"
 	],
 	"tt": {
+<<<<<<< HEAD
 	"Quantities":[
 	"RecoPhiStar"
 	]		
+=======
+		
+>>>>>>> 836c6d8... Cleanup
 	}
 }
