@@ -16,9 +16,9 @@
 	"IsoPtSumOverPtThresholdEE" : 0.1,
 	
 	"MuonChargedIsoVetoConeSize" : 0.0001,
-	"MuonNeutralIsoVetoConeSize" : 0.001,
-	"MuonPhotonIsoVetoConeSize" : 0.001,
-	"MuonDeltaBetaIsoVetoConeSize" : 0.001,
+	"MuonNeutralIsoVetoConeSize" : 0.01,
+	"MuonPhotonIsoVetoConeSize" : 0.01,
+	"MuonDeltaBetaIsoVetoConeSize" : 0.01,
 	"MuonChargedIsoPtThreshold" : 0.0,
 	"MuonNeutralIsoPtThreshold" : 0.5,
 	"MuonPhotonIsoPtThreshold" : 0.5,
