@@ -3,5 +3,9 @@
 	"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/LocalSettings/ee.json"
 	],
 	"ee": {
+	"Quantities":[
+	"RecoPhiStar"
+	],
+	"TauTauRestFrameReco": "collinear_approximation"
 	}
 } 

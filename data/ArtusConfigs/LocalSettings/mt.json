@@ -79,7 +79,8 @@
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
 					"producer:trigger_weight",
-					"producer:event_weight"
+					"producer:event_weight",
+					"producer:reco_cp"
 				],
 				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
