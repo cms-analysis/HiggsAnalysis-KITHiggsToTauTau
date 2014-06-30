@@ -59,7 +59,9 @@
 					"filter:n_taus",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"producer:event_weight"
+					"producer:event_weight",
+					"producer:tautau_restframe",
+					"producer:reco_cp"
 				],
 				"DoubleMu|TauPlusX" : [
 					"producer:hlt_selector",
