@@ -130,8 +130,8 @@ std::vector<RMLV> TauTauRestFrameProducer::ProduceCollinearApproximationRestFram
 	if (ratioVisToTau1 >= 0.0 && ratioVisToTau2 >= 0.0)
 	{
 		std::vector<RMLV> tauMomenta;
-		tauMomenta.push_back(RMLV(product.m_ptOrderedLeptons[0]->p4 * ratioVisToTau1));
-		tauMomenta.push_back(RMLV(product.m_ptOrderedLeptons[1]->p4 * ratioVisToTau2));
+		tauMomenta.push_back(RMLV(product.m_ptOrderedLeptons[0]->p4 / ratioVisToTau1));
+		tauMomenta.push_back(RMLV(product.m_ptOrderedLeptons[1]->p4 / ratioVisToTau2));
 		return tauMomenta;
 	}
 	else
