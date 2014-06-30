@@ -21,6 +21,7 @@
 			"1:2.1"
 		],
 		"EventWeight" : "eventWeight",
+		"TauTauRestFrameReco" : "collinear_approximation",
 		"Quantities" : [
 			{
 				"include" : [
@@ -51,6 +52,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
+					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
 					"producer:event_weight"
@@ -70,6 +72,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
+					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
 					"producer:event_weight"

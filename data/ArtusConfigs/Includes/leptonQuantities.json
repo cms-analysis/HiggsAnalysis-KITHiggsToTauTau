@@ -19,6 +19,8 @@
 		"lep2Eta",
 		"lep2Iso",
 		"lep2IsoOverPt",
-		"diLepMass"
+		"diLepMass",
+		"diTauMass",
+		"diTauMassReconstructed"
 	]
 }
