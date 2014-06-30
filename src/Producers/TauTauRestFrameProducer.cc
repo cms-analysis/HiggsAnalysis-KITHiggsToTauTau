@@ -44,7 +44,7 @@ void TauTauRestFrameProducer::Produce(event_type const& event, product_type& pro
 	}
 	
 	// fill product
-	if (tauTauMomenta.size() > 0)
+	if (tauTauMomenta.size() > 1)
 	{
 		product.m_tauTauMomenta = tauTauMomenta;
 		product.m_tauTauMomentaReconstructed = true;
@@ -111,7 +111,7 @@ std::vector<RMLV> TauTauRestFrameProducer::ProduceCollinearApproximationRestFram
                                                                                   product_type& product,
                                                                                   setting_type const& settings) const
 {
-	std::vector<RMLV> tauTauMomenta;
+	std::vector<RMLV> tauMomenta;
 	
 	// consider only the first two leptons
 	assert(product.m_ptOrderedLeptons.size() >= 2);
@@ -129,10 +129,10 @@ std::vector<RMLV> TauTauRestFrameProducer::ProduceCollinearApproximationRestFram
 	
 	if (ratioVisToTau1 >= 0.0 && ratioVisToTau2 >= 0.0)
 	{
-		std::vector<RMLV> tauTauMomenta;
-		tauTauMomenta.push_back(RMLV(product.m_ptOrderedLeptons[0]->p4 * ratioVisToTau1));
-		tauTauMomenta.push_back(RMLV(product.m_ptOrderedLeptons[1]->p4 * ratioVisToTau2));
-		return tauTauMomenta;
+		std::vector<RMLV> tauMomenta;
+		tauMomenta.push_back(RMLV(product.m_ptOrderedLeptons[0]->p4 * ratioVisToTau1));
+		tauMomenta.push_back(RMLV(product.m_ptOrderedLeptons[1]->p4 * ratioVisToTau2));
+		return tauMomenta;
 	}
 	else
 	{
@@ -146,9 +146,9 @@ std::vector<RMLV> TauTauRestFrameProducer::ProduceSvfitRestFrame(event_type cons
                                                                  product_type& product,
                                                                  setting_type const& settings) const
 {
-	std::vector<RMLV> tauTauMomenta;
+	std::vector<RMLV> tauMomenta;
 	
 	// TODO
 	
-	return tauTauMomenta;
+	return tauMomenta;
 }
