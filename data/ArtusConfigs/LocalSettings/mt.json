@@ -2,7 +2,9 @@
 	"mt" : {
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json"
 		],
 		"Channel" : "MT",
 		"NElectrons" : 0,
@@ -40,6 +42,7 @@
 			"0:2.3"
 		],
 		"EventWeight" : "eventWeight",
+		"TauTauRestFrameReco" : "collinear_approximation",
 		"Quantities" : [
 			{
 				"include" : [
@@ -68,8 +71,11 @@
 					"producer:valid_taus",
 					"filter:valid_taus",
 					"filter:n_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
+					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
 					"producer:trigger_weight",
@@ -88,8 +94,11 @@
 					"producer:valid_taus",
 					"filter:valid_taus",
 					"filter:n_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
+					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
 					"producer:event_weight"

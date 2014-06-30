@@ -2,7 +2,9 @@
 	"ll" : {
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json"
 		],
 		"Channel" : "LL",
 		"HltPaths" : [
@@ -41,6 +43,8 @@
 					"producer:valid_electrons",
 					"producer:valid_muons",
 					"producer:valid_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
@@ -50,6 +54,8 @@
 					"producer:valid_electrons",
 					"producer:valid_muons",
 					"producer:valid_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
 					"producer:event_weight"
 				]
 			}

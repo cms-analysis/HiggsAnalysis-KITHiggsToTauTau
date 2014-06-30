@@ -78,6 +78,14 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["diLepMass"] = [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.mass();
 	};
+	
+	m_valueExtractorMap["diTauMass"] = [](event_type const& event, product_type const& product) {
+		return product.m_tauTauMomentum.mass();
+	};
+	m_valueExtractorMap["diTauMassReconstructed"] = [](event_type const& event, product_type const& product) {
+		return (product.m_tauTauMomentaReconstructed ? 1.0 : 0.0);
+	};
+	
 	m_valueExtractorMap["decayChannelIndex"] = [](event_type const& event, product_type const& product) {
 		return Utility::ToUnderlyingValue(product.m_decayChannel);
 	};
@@ -99,10 +107,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return product.m_validJets.size() >= 1 ? product.m_validJets.at(0)->p4.Phi() : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["leadingJetCSV"] = [](event_type const& event, product_type const& product) {
-		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
+		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggerMetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["leadingJetTCHE"] = [](event_type const& event, product_type const& product) {
-		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
+		return product.m_validJets.size() >= 1 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(0))->getTagger("TrackCountingHighEffBJetTags", event.m_taggerMetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["trailingJetPt"] = [](event_type const& event, product_type const& product) {
 		return product.m_validJets.size() >= 2 ? product.m_validJets.at(1)->p4.Pt() : DefaultValues::UndefinedDouble;
@@ -114,10 +122,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return product.m_validJets.size() >= 2 ? product.m_validJets.at(1)->p4.Phi() : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["trailingJetCSV"] = [](event_type const& event, product_type const& product) {
-		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
+		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggerMetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["trailingJetTCHE"] = [](event_type const& event, product_type const& product) {
-		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggermetadata) : DefaultValues::UndefinedDouble;
+		return product.m_validJets.size() >= 2 ? static_cast<KDataPFTaggedJet*>(product.m_validJets.at(1))->getTagger("TrackCountingHighEffBJetTags", event.m_taggerMetadata) : DefaultValues::UndefinedDouble;
 	};
 	m_valueExtractorMap["nBTaggedJets"] = [](event_type const& event, product_type const& product) {
 		return product.m_bTaggedJets.size();
@@ -772,14 +780,14 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["phi_1"] = m_valueExtractorMap["lep1Phi"];
 	m_valueExtractorMap["m_1"] = m_valueExtractorMap["lep1Mass"];
 	m_valueExtractorMap["q_1"] = m_valueExtractorMap["lep1Charge"];
-	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["leadingLepIsoOverPt"];
+	m_valueExtractorMap["iso_1"] = m_valueExtractorMap["lep1IsoOverPt"];
 	m_valueExtractorMap["mt_1"] = m_valueExtractorMap["lep1Mt"];
 	m_valueExtractorMap["pt_2"] = m_valueExtractorMap["lep2Pt"];
 	m_valueExtractorMap["eta_2"] = m_valueExtractorMap["lep2Eta"];
 	m_valueExtractorMap["phi_2"] = m_valueExtractorMap["lep2Phi"];
 	m_valueExtractorMap["m_2"] = m_valueExtractorMap["lep2Mass"];
 	m_valueExtractorMap["q_2"] = m_valueExtractorMap["lep2Charge"];
-	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["trailingLepIsoOverPt"];
+	m_valueExtractorMap["iso_2"] = m_valueExtractorMap["lep2IsoOverPt"];
 	m_valueExtractorMap["mt_2"] = m_valueExtractorMap["lep2Mt"];
 	m_valueExtractorMap["met"] = m_valueExtractorMap["pfMetPt"];
 	m_valueExtractorMap["metphi"] = m_valueExtractorMap["pfMetPhi"];
