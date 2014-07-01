@@ -13,6 +13,9 @@
 	"x_bins" : [
 		"32,-3.2,3.2"
 	],
+	"weights" : [
+		"jpt_1 > 0.0"
+	],
 	"ratio" : "True",
 	"x_label" : "Leading Jet \\phi",
 	"filename" : "jphi_1"

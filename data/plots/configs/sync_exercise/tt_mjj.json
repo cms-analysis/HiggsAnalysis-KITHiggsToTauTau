@@ -18,7 +18,7 @@
 		"30,0.0,3000.0"
 	],
 	"weights" : [
-		"mjj > -998.0"
+		"mjj > 0.0"
 	],
 	"ratio" : "True",
 	"x_label" : "Leading Tau m_{jj}",
