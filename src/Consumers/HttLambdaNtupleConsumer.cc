@@ -78,6 +78,14 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["diLepMass"] = [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.mass();
 	};
+	
+	m_valueExtractorMap["diTauMass"] = [](event_type const& event, product_type const& product) {
+		return product.m_tauTauMomentum.mass();
+	};
+	m_valueExtractorMap["diTauMassReconstructed"] = [](event_type const& event, product_type const& product) {
+		return (product.m_tauTauMomentaReconstructed ? 1.0 : 0.0);
+	};
+	
 	m_valueExtractorMap["decayChannelIndex"] = [](event_type const& event, product_type const& product) {
 		return Utility::ToUnderlyingValue(product.m_decayChannel);
 	};

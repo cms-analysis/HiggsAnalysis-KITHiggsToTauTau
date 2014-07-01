@@ -1,7 +1,29 @@
 {
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json"
+	],
+	"#LumiWhitelist" : [
+		1555
+	],
+	"#EventWhitelist" : [
+		484363,
+		595487,
+		825415
+	],
+	"#EventWhitelist" : [
+		466238,
+		466286,
+		466295,
+		466368,
+		466381,
+		466434,
+		466453
+	],
 	"Processors" : {
 		"nick" : {
 			"default" : [
+				"#filter:run_lumi_event",
+				"producer:tagged_jet_energy_correction",
 				"producer:electron_eta_selector",
 				"producer:pu_weights",
 				"producer:gen_taudecay",
@@ -9,6 +31,7 @@
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
+				"producer:tagged_jet_energy_correction",
 				"producer:electron_eta_selector"
 			]
 		}

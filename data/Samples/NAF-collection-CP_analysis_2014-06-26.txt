@@ -1,0 +1,4 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF-samples-SM_GluGluToHToTauTau_M_125_powheg_pythia_8TeV_2014-06-25.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF-samples-SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_2014-06-25.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF-samples-TauPolarOff_HToTauTau_M_125_powheg_pythia_8TeV_2014-06-25.txt
+
