@@ -15,7 +15,7 @@ def checkout_packages(max_n_trials=2):
 		"cd $CMSSW_BASE/src",
 		
 		# needed by the JetEnergyCorrectionProducer
-		"git clone https://github.com:veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone",
+		"git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone",
 	]
 	checkoutpackages.execute_commands(commands, max_n_trials=max_n_trials)
 
