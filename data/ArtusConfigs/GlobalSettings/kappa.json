@@ -10,7 +10,7 @@
 	"Muons" : "muons",
 	"Taus" : "hpsPFTaus",
 	"TauDiscriminatorMetadata" : "hpsPFTaus",
-	"TaggedJets" : "AK5PFTaggedJetsCHS",
+	"TaggedJets" : "AK5PFTaggedJets",
 	"JetArea" : "KT6Area",
 	"Met" : "PFMET",
 	"MvaMetTT" : "PFMETMVATT",
