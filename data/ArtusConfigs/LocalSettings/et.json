@@ -42,7 +42,7 @@
 			"0:2.3"
 		],
 		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "collinear_approximation",
+		"TauTauRestFrameReco" : "svfit",
 		"Quantities" : [
 			{
 				"include" : [
