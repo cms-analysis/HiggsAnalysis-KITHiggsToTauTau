@@ -2,6 +2,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
+#include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
+
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameProducer.h"
@@ -34,10 +36,10 @@ void TauTauRestFrameProducer::Produce(event_type const& event, product_type& pro
 	{
 		tauTauMomenta = ProduceCollinearApproximationRestFrame(event, product, settings);
 	}
-	//else if (tauTauRestFrameReco == TauTauRestFrameReco::SVFIT)
-	//{
-	//	tauTauMomenta = ProduceSvfitRestFrame(event, product, settings);
-	//}
+	else if (tauTauRestFrameReco == TauTauRestFrameReco::SVFIT)
+	{
+		tauTauMomenta = ProduceSvfitRestFrame(event, product, settings);
+	}
 	else
 	{
 		LOG(FATAL) << "TauTau restframe reconstruction of type " << Utility::ToUnderlyingValue(tauTauRestFrameReco) << " not yet implemented!";
@@ -146,9 +148,70 @@ std::vector<RMLV> TauTauRestFrameProducer::ProduceSvfitRestFrame(event_type cons
                                                                  product_type& product,
                                                                  setting_type const& settings) const
 {
-	std::vector<RMLV> tauMomenta;
+	svFitStandalone::kDecayType decayType1 = svFitStandalone::kTauToHadDecay;
+	if (product.m_decayChannel == HttProduct::DecayChannel::MT || product.m_decayChannel == HttProduct::DecayChannel::MM)
+	{
+		decayType1 = svFitStandalone::kTauToMuDecay;
+	}
+	else if (product.m_decayChannel == HttProduct::DecayChannel::ET || product.m_decayChannel == HttProduct::DecayChannel::EE)
+	{
+		decayType1 = svFitStandalone::kTauToElecDecay;
+	}
 	
-	// TODO
+	svFitStandalone::kDecayType decayType2 = svFitStandalone::kTauToHadDecay;
+	if (product.m_decayChannel == HttProduct::DecayChannel::MM)
+	{
+		decayType2 = svFitStandalone::kTauToMuDecay;
+	}
+	else if (product.m_decayChannel == HttProduct::DecayChannel::EE)
+	{
+		decayType2 = svFitStandalone::kTauToElecDecay;
+	}
 	
-	return tauMomenta;
+	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
+		svFitStandalone::MeasuredTauLepton(decayType1, svFitStandalone::LorentzVector(product.m_flavourOrderedLeptons[0]->p4)),
+		svFitStandalone::MeasuredTauLepton(decayType2, svFitStandalone::LorentzVector(product.m_flavourOrderedLeptons[1]->p4))
+	};
+	
+	TMatrixD metCovariance(2, 2);
+	metCovariance[0][0] = product.m_met->significance.At(0, 0);
+	metCovariance[1][0] = product.m_met->significance.At(1, 0);
+	metCovariance[0][1] = product.m_met->significance.At(0, 1);
+	metCovariance[1][1] = product.m_met->significance.At(1, 1);
+	
+	int verbosity = 0;
+	
+	SVfitStandaloneAlgorithm svfitAlgorithm(measuredTauLeptons,
+	                                        svFitStandalone::Vector(product.m_met->p4.Vect()),
+	                                        metCovariance,
+	                                        verbosity);
+	
+	svfitAlgorithm.addLogM(false);
+	
+	if (settings.GetSvfitUseVegasInsteadOfMarkovChain())
+	{
+		svfitAlgorithm.integrateVEGAS();
+	}
+	else
+	{
+		svfitAlgorithm.integrateMarkovChain();
+	}
+	
+	RMLV tauMomentum;
+	tauMomentum.SetPt(svfitAlgorithm.pt());
+	tauMomentum.SetEta(svfitAlgorithm.eta());
+	tauMomentum.SetPhi(svfitAlgorithm.phi());
+	tauMomentum.SetM(svfitAlgorithm.mass());
+	
+	/*
+	if (! settings.GetSvfitUseVegasInsteadOfMarkovChain())
+	{
+		double diTauPtErr = svfitAlgorithm.getPtUncert();
+		double diTauEtaErr = svfitAlgorithm.getEtaUncert();
+		double diTauPhiErr = svfitAlgorithm.getPhiUncert();
+		double diTauMassErr = svfitAlgorithm.getMassUncert();
+	}
+	*/
+	
+	return std::vector<RMLV>(1, tauMomentum);
 }

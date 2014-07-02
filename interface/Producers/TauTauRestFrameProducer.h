@@ -9,7 +9,15 @@
 /** Producer for 
  *
  *  Required config tags:
- *  - 
+ *  - TauTauRestFrameReco
+ *
+ *  Required packages:
+ *  git clone https://github.com:veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone
+ *
+ *  Old version:
+ *  http://cms-sw.github.io/faq.html#how-do-i-access-the-old-cvs-repository-to-check-what-was-really-there
+ *  cvs co -r V00-02-03s TauAnalysis/CandidateTools
+ *  https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Di_Tau_Mass_Reconstruction
  */
 class TauTauRestFrameProducer: public ProducerBase<HttTypes> {
 public:
