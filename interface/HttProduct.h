@@ -81,18 +81,19 @@ public:
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;
+
+	// filled by GenTauCPProducer
 	double m_genPhi;
-	double m_genPhiStar;
-	double m_genPsiStarCP;
+	double m_genPhiStarCP;
 	std::pair <double,double> m_genChargedProngEnergies;
 	std::pair <double,double> m_genChargedPionEnergiesApprox;
 	double m_genThetaNuHadron;
 	double m_genAlphaTauNeutrinos;
-	double PhiDet;
-	double PhiStarDet;
-	double PhiOnePion;
-	double PhiStarOnePion;
-	double RecoPhiStar;
+	double m_genPhiDet;
+	double m_genPhiStarCPDet;
+
+	// filled by RecoTauCPProducer
+	double m_recoPhiStarCP;
 
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;

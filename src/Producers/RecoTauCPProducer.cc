@@ -15,16 +15,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		// Decays, which are compatible with collinear approximatiom, e.g. there are detectable neutral particles
 		if(tau1->signalChargedHadrCands.size()==1 && tau2->signalChargedHadrCands.size()==1 /*&& tau1->signalNeutrHadrCands.size()!=0 && tau2->signalNeutrHadrCands.size()!=0*/)
 		{
-			//std::cout << "Taus: " << tau1->p4 << "       " << tau2->p4 << std::endl;
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			KPFCandidate* chargePart2 = &(tau2->signalChargedHadrCands[0]);
-			//std::cout << "Hadrons: " << chargePart1->p4 << "       " << chargePart2->p4 << std::endl;
-			product.RecoPhiStar = (CPQuantities::CalculatePhiPsiStar(Tau1Mom, Tau2Mom, chargePart1->p4, chargePart2->p4) ).first;
-
-				//std::cout << "Difference of Tau1 and chargePart1 Pt: " << Tau1Mom.Pt()-chargePart1->p4.Pt() << std::endl;
-				//std::cout << "Mass DiTau System: " << (Tau1Mom+Tau2Mom).mass() << std::endl;
+			product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(Tau1Mom, Tau2Mom, chargePart1->p4, chargePart2->p4);
 		}
-		else product.RecoPhiStar = DefaultValues::UndefinedDouble;
+		else product.m_recoPhiStarCP = DefaultValues::UndefinedDouble;
 	}
 	else if (product.m_decayChannel == HttProduct::DecayChannel::EE  && product.m_tauTauMomentaReconstructed)
 	{
@@ -32,7 +27,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataElectron* electron2 = product.m_validElectrons[1];
 		RMDataLV Tau1Mom = static_cast<RMDataLV>(product.m_flavourOrderedTauTauMomenta[0]);
 		RMDataLV Tau2Mom = static_cast<RMDataLV>(product.m_flavourOrderedTauTauMomenta[1]);
-		product.RecoPhiStar = (CPQuantities::CalculatePhiPsiStar(Tau1Mom, Tau2Mom, electron1->p4, electron2->p4) ).first;
+		product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(Tau1Mom, Tau2Mom, electron1->p4, electron2->p4);
 	}
 	else if (product.m_decayChannel == HttProduct::DecayChannel::MM  && product.m_tauTauMomentaReconstructed)
 	{
@@ -40,7 +35,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataMuon* muon2 = product.m_validMuons[1];
 		RMDataLV Tau1Mom = static_cast<RMDataLV>(product.m_flavourOrderedTauTauMomenta[0]);
 		RMDataLV Tau2Mom = static_cast<RMDataLV>(product.m_flavourOrderedTauTauMomenta[1]);
-		product.RecoPhiStar = (CPQuantities::CalculatePhiPsiStar(Tau1Mom, Tau2Mom, muon1->p4, muon2->p4) ).first;
+		product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(Tau1Mom, Tau2Mom, muon1->p4, muon2->p4);
 	}
 	else if (product.m_decayChannel == HttProduct::DecayChannel::ET  && product.m_tauTauMomentaReconstructed)
 	{
@@ -51,9 +46,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if (tau1->signalChargedHadrCands.size()==1 /* && tau1->signalNeutrHadrCands.size()!=0 */)
 		{
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
-			product.RecoPhiStar = (CPQuantities::CalculatePhiPsiStar(Tau1Mom, Tau2Mom, electron1->p4, chargePart1->p4) ).first;
+			product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(Tau1Mom, Tau2Mom, electron1->p4, chargePart1->p4);
 		}
-		else product.RecoPhiStar = DefaultValues::UndefinedDouble;
+		else product.m_recoPhiStarCP = DefaultValues::UndefinedDouble;
 	}
 	else if (product.m_decayChannel == HttProduct::DecayChannel::MT  && product.m_tauTauMomentaReconstructed)
 	{
@@ -64,9 +59,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if (tau1->signalChargedHadrCands.size()==1 /* && tau1->signalNeutrHadrCands.size()!=0 */)
 		{
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
-			product.RecoPhiStar = (CPQuantities::CalculatePhiPsiStar(Tau1Mom, Tau2Mom, muon1->p4, chargePart1->p4) ).first;
+			product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(Tau1Mom, Tau2Mom, muon1->p4, chargePart1->p4);
 		}
-		else product.RecoPhiStar = DefaultValues::UndefinedDouble;
+		else product.m_recoPhiStarCP = DefaultValues::UndefinedDouble;
 	}
 	else if (product.m_decayChannel == HttProduct::DecayChannel::EM  && product.m_tauTauMomentaReconstructed)
 	{
@@ -74,7 +69,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataMuon* muon1 = product.m_validMuons[0];
 		RMDataLV Tau1Mom = static_cast<RMDataLV>(product.m_flavourOrderedTauTauMomenta[0]);
 		RMDataLV Tau2Mom = static_cast<RMDataLV>(product.m_flavourOrderedTauTauMomenta[1]);
-		product.RecoPhiStar = (CPQuantities::CalculatePhiPsiStar(Tau1Mom, Tau2Mom, electron1->p4, muon1->p4) ).first;
+		product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(Tau1Mom, Tau2Mom, electron1->p4, muon1->p4);
 	}
-	else product.RecoPhiStar = DefaultValues::UndefinedDouble;
+	else product.m_recoPhiStarCP = DefaultValues::UndefinedDouble;
 }

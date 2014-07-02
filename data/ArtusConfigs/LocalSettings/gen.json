@@ -5,15 +5,14 @@
 		"Quantities" : [
 		"#TauSpinnerWeight",
 		
-		"Phi",
+		"genPhi",
 		"TauMProngEnergy",
 		"TauPProngEnergy",
-		"PhiStar",
+		"genPhiStarCP",
 		"ThetaNuHadron",
 		"AlphaTauNeutrinos",
-		"PhiDet",
-		"PhiStarDet",
-		"PsiStarCP",
+		"genPhiDet",
+		"genPhiStarCPDet",
 		"MassRoundOff1",
 		"MassRoundOff2",
 

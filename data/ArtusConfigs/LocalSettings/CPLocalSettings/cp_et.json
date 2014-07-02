@@ -4,7 +4,7 @@
 	],
 	"et": {
 	"Quantities":[
-	"RecoPhiStar"
+	"recoPhiStarCP"
 	],
 	"TauTauRestFrameReco": "collinear_approximation"
 	}

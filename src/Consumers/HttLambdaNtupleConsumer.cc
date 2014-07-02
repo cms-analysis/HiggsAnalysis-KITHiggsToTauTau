@@ -173,17 +173,13 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	{
 		return product.m_weights.at("tauSpinnerWeight");
 	};
-	m_valueExtractorMap["PhiStar"] = [](event_type const & event, product_type const & product)
+	m_valueExtractorMap["genPhiStarCP"] = [](event_type const & event, product_type const & product)
 	{
-		return product.m_genPhiStar;
+		return product.m_genPhiStarCP;
 	};
-	m_valueExtractorMap["RecoPhiStar"] = [](event_type const & event, product_type const & product)
+	m_valueExtractorMap["recoPhiStarCP"] = [](event_type const & event, product_type const & product)
 	{
-		return product.RecoPhiStar;
-	};
-	m_valueExtractorMap["PsiStarCP"] = [](event_type const & event, product_type const & product)
-	{
-		return product.m_genPsiStarCP;
+		return product.m_recoPhiStarCP;
 	};
 	m_valueExtractorMap["MassRoundOff1"] = [](event_type const & event, product_type const & product)
 	{
@@ -193,7 +189,7 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	{
 		return product.m_genMassRoundOff2;
 	};
-	m_valueExtractorMap["Phi"] = [](event_type const & event, product_type const & product)
+	m_valueExtractorMap["genPhi"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genPhi;
 	};
@@ -205,13 +201,13 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	{
 		return product.m_genChargedProngEnergies.second;
 	};
-	m_valueExtractorMap["PhiDet"] = [](event_type const & event, product_type const & product)
+	m_valueExtractorMap["genPhiDet"] = [](event_type const & event, product_type const & product)
 	{
-		return product.PhiDet;
+		return product.m_genPhiDet;
 	};
-	m_valueExtractorMap["PhiStarDet"] = [](event_type const & event, product_type const & product)
+	m_valueExtractorMap["genPhiStarCPDet"] = [](event_type const & event, product_type const & product)
 	{
-		return product.PhiStarDet;
+		return product.m_genPhiStarCPDet;
 	};
 	m_valueExtractorMap["ThetaNuHadron"] = [](event_type const & event, product_type const & product)
 	{
