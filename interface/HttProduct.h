@@ -73,10 +73,10 @@ public:
 	KDataPFMET* m_met = 0;
 	
 	// filled by the TauTauRestFrameProducer
-	std::vector<RMLV> m_flavourOrderedTauTauMomenta;
+	std::vector<RMDataLV> m_flavourOrderedTauTauMomenta;
 	std::vector<ROOT::Math::Boost> m_boostToTauRestFrames;
 	bool m_tauTauMomentaReconstructed;
-	RMLV m_tauTauMomentum;
+	RMDataLV m_tauTauMomentum;
 	ROOT::Math::Boost m_boostToTauTauRestFrame;
 
 	double m_genMassRoundOff1;

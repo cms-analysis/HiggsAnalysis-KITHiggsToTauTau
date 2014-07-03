@@ -56,21 +56,21 @@ public:
 private:
 	TauTauRestFrameReco tauTauRestFrameReco;
 
-	std::vector<RMLV> ProduceVisibleLeptonsRestFrame(event_type const& event,
-	                                                 product_type& product,
-	                                                 setting_type const& settings) const;
+	std::vector<RMDataLV> ProduceVisibleLeptonsRestFrame(event_type const& event,
+	                                                     product_type& product,
+	                                                     setting_type const& settings) const;
 	
-	std::vector<RMLV> ProduceVisibleLeptonsMetRestFrame(event_type const& event,
-	                                                    product_type& product,
-	                                                    setting_type const& settings) const;
+	std::vector<RMDataLV> ProduceVisibleLeptonsMetRestFrame(event_type const& event,
+	                                                        product_type& product,
+	                                                        setting_type const& settings) const;
 	
-	std::vector<RMLV> ProduceCollinearApproximationRestFrame(event_type const& event,
-	                                                         product_type& product,
-	                                                         setting_type const& settings) const;
+	std::vector<RMDataLV> ProduceCollinearApproximationRestFrame(event_type const& event,
+	                                                             product_type& product,
+	                                                             setting_type const& settings) const;
 	
-	std::vector<RMLV> ProduceSvfitRestFrame(event_type const& event,
-	                                        product_type& product,
-	                                        setting_type const& settings) const;
+	std::vector<RMDataLV> ProduceSvfitRestFrame(event_type const& event,
+	                                            product_type& product,
+	                                            setting_type const& settings) const;
 
 };
 
