@@ -3,7 +3,7 @@
 
 #include "Artus/Utility/interface/Utility.h"
 
-	
+
 SvfitTools::SvfitTools(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                        RMDataLV* leptonMomentum1, RMDataLV* leptonMomentum2,
                        RMDataV const& metMomentum, RMSM* metCovariance,
@@ -16,8 +16,15 @@ SvfitTools::SvfitTools(svFitStandalone::kDecayType const& decayType1, svFitStand
 	metCovariance(metCovariance),
 	integrationMethod(Utility::ToUnderlyingValue(integrationMethod))
 {
-
+	Calculate();
 }
+
+
+SvfitTools::~SvfitTools()
+{
+	delete svfitStandaloneAlgorithm;
+}
+
 
 SVfitStandaloneAlgorithm* SvfitTools::Calculate()
 {
@@ -55,11 +62,6 @@ SVfitStandaloneAlgorithm* SvfitTools::Calculate()
 
 RMDataLV SvfitTools::GetTauTauMomentum()
 {
-	if (svfitStandaloneAlgorithm == 0)
-	{
-		Calculate();
-	}
-	
 	RMDataLV momentum;
 	momentum.SetPt(svfitStandaloneAlgorithm->pt());
 	momentum.SetEta(svfitStandaloneAlgorithm->eta());
@@ -71,11 +73,6 @@ RMDataLV SvfitTools::GetTauTauMomentum()
 
 RMDataLV SvfitTools::GetTauTauMomentumUncertainty()
 {
-	if (svfitStandaloneAlgorithm == 0)
-	{
-		Calculate();
-	}
-	
 	RMDataLV momentumUncertainty;
 	momentumUncertainty.SetPt(svfitStandaloneAlgorithm->ptUncert());
 	momentumUncertainty.SetEta(svfitStandaloneAlgorithm->etaUncert());

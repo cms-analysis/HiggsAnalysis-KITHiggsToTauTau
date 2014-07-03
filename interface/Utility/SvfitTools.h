@@ -26,6 +26,8 @@ public:
 	           RMDataV const& metMomentum, RMSM* metCovariance,
 	           IntegrationMethod integrationMethod);
 	
+	~SvfitTools();
+	
 	RMDataLV GetTauTauMomentum();
 	RMDataLV GetTauTauMomentumUncertainty();
 
