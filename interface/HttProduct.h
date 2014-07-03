@@ -5,7 +5,9 @@
 #include <string>
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
-#include "HttComputedObjects.h"
+
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttComputedObjects.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 
 class HttProduct : public KappaProduct
@@ -78,6 +80,10 @@ public:
 	bool m_tauTauMomentaReconstructed;
 	RMDataLV m_tauTauMomentum;
 	ROOT::Math::Boost m_boostToTauTauRestFrame;
+	
+	RunLumiEvent m_runLumiEvent;
+	SvfitInputs m_svfitInputs;
+	SvfitResults m_svfitResults;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;

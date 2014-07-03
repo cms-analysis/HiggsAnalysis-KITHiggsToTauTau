@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <TFile.h>
+#include <TTree.h>
+
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 #include "../HttTypes.h"
@@ -47,6 +50,8 @@ public:
 		return "tautau_restframe";
 	}
 	
+	~TauTauRestFrameProducer();
+	
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
 	virtual void Produce(event_type const& event, product_type& product,
@@ -55,6 +60,9 @@ public:
 
 private:
 	TauTauRestFrameReco tauTauRestFrameReco;
+	
+	TFile* svfitCacheFile;
+	TTree* svfitCacheTree;
 
 	std::vector<RMDataLV> ProduceVisibleLeptonsRestFrame(event_type const& event,
 	                                                     product_type& product,

@@ -70,6 +70,7 @@ public:
 	
 	IMPL_SETTING(std::string, TauTauRestFrameReco);
 	IMPL_SETTING_DEFAULT(bool, SvfitUseVegasInsteadOfMarkovChain, false);
+	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
 
 	IMPL_SETTING(std::string, TauSpinnerSettingsPDF);
 	IMPL_SETTING(float, TauSpinnerSettingsCmsEnergy);

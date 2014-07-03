@@ -5,7 +5,30 @@
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+
+typedef typename ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
+typedef typename ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
+
+
+/**
+ */
+class RunLumiEvent { // TODO: move to a more general place?
+
+public:
+	int run;
+	int lumi;
+	int event;
+	
+	RunLumiEvent() {};
+	RunLumiEvent(int run, int lumi, int event);
+	
+	void Set(int run, int lumi, int event);
+	
+	void CreateBranches(TTree* tree);
+	void SetBranchAddresses(TTree* tree);
+	
+	bool operator==(RunLumiEvent const& rhs) const;
+};
 
 
 /**
@@ -31,6 +54,11 @@ public:
 	         RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
 	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
 	
+	void CreateBranches(TTree* tree);
+	void SetBranchAddresses(TTree* tree);
+	
+	bool operator==(SvfitInputs const& rhs) const;
+	
 	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(int verbosity=0, bool addLogM=false) const;
 
 	
@@ -53,6 +81,12 @@ public:
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
 	void Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
+	
+	void CreateBranches(TTree* tree);
+	void SetBranchAddresses(TTree* tree);
+	
+	bool operator==(SvfitResults const& rhs) const;
 
 
 private:
