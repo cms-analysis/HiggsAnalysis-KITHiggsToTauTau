@@ -164,6 +164,7 @@ std::vector<RMDataLV> TauTauRestFrameProducer::ProduceSvfitRestFrame(event_type 
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
+	// construct decay types
 	svFitStandalone::kDecayType decayType1 = svFitStandalone::kTauToHadDecay;
 	if (product.m_decayChannel == HttProduct::DecayChannel::MT || product.m_decayChannel == HttProduct::DecayChannel::MM)
 	{
@@ -184,13 +185,27 @@ std::vector<RMDataLV> TauTauRestFrameProducer::ProduceSvfitRestFrame(event_type 
 		decayType2 = svFitStandalone::kTauToElecDecay;
 	}
 	
-	SvfitTools svfitTools(decayType1, decayType2,
-	                      &(product.m_flavourOrderedLeptons[0]->p4), &(product.m_flavourOrderedLeptons[1]->p4),
-	                      product.m_met->p4.Vect(), &(product.m_met->significance),
-	                      (settings.GetSvfitUseVegasInsteadOfMarkovChain() ? SvfitTools::IntegrationMethod::VEGAS : SvfitTools::IntegrationMethod::MARKOV_CHAIN));
+	// construct inputs
+	SvfitInputs svfitInputs(decayType1, decayType2,
+	                        product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
+	                        product.m_met->p4.Vect(), product.m_met->significance);
 	
-	RMDataLV tauTauMomentum = svfitTools.GetTauTauMomentum();
-	//RMDataLV tauTauMomentumUncertainty = svfitTools.GetTauTauMomentumUncertainty();
+	// construct algorithm
+	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm();
 	
-	return std::vector<RMDataLV>(1, tauTauMomentum);
+	// execute integration
+	if (settings.GetSvfitUseVegasInsteadOfMarkovChain())
+	{
+		svfitStandaloneAlgorithm.integrateVEGAS();
+	}
+	else
+	{
+		svfitStandaloneAlgorithm.integrateMarkovChain();
+	}
+	
+	// retrieve results
+	SvfitResults svfitResults(svfitStandaloneAlgorithm);
+	
+	return std::vector<RMDataLV>(1, svfitResults.momentum);
 }
+

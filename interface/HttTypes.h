@@ -39,4 +39,6 @@ typedef Pipeline<HttTypes> HttPipeline;
 typedef PipelineRunner<HttPipeline, HttTypes> HttPipelineRunner;
 typedef KappaPipelineInitializer<HttTypes> HttPipelineInitializer;
 
+typedef typename ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
+typedef typename ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 

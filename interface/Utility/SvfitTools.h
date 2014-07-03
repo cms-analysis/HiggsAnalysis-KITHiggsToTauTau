@@ -5,47 +5,58 @@
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+
 
 /**
  */
-class SvfitTools {
+class SvfitInputs {
 
 public:
-
-	typedef typename ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
-	typedef typename ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM;
-
-	enum class IntegrationMethod : int
-	{
-		MARKOV_CHAIN = 0,
-		VEGAS = 1,
-	};
-	
-	SvfitTools(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	           RMDataLV* leptonMomentum1, RMDataLV* leptonMomentum2,
-	           RMDataV const& metMomentum, RMSM* metCovariance,
-	           IntegrationMethod integrationMethod);
-	
-	~SvfitTools();
-	
-	RMDataLV GetTauTauMomentum();
-	RMDataLV GetTauTauMomentumUncertainty();
-
-
-private:
 	int decayType1;
 	int decayType2;
 	
-	RMDataLV* leptonMomentum1 = 0;
-	RMDataLV* leptonMomentum2 = 0;
+	RMDataLV leptonMomentum1;
+	RMDataLV leptonMomentum2;
 	
 	RMDataV metMomentum;
-	RMSM* metCovariance = 0;
+	RMSM2x2 metCovariance;
 	
-	int integrationMethod;
+	SvfitInputs() {};
+	SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
+	            RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
+	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
+	
+	void Set(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
+	         RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
+	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
+	
+	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(int verbosity=0, bool addLogM=false) const;
 
-	SVfitStandaloneAlgorithm* svfitStandaloneAlgorithm = 0;
 	
-	SVfitStandaloneAlgorithm* Calculate();
+private:
+	std::vector<svFitStandalone::MeasuredTauLepton> GetMeasuredTauLeptons() const;
+	TMatrixD GetMetCovarianceMatrix() const;
+};
+
+
+/**
+ */
+class SvfitResults {
+
+public:
+	RMDataLV momentum;
+	RMDataLV momentumUncertainty;
+	
+	SvfitResults() {};
+	SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
+	
+	void Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+
+
+private:
+	RMDataLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	RMDataLV GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 };
 
