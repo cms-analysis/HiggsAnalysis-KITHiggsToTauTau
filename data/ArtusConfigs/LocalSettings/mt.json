@@ -43,6 +43,7 @@
 		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "svfit",
+		"SvfitCacheFile" : "svfitCache_mt.root",
 		"Quantities" : [
 			{
 				"include" : [
