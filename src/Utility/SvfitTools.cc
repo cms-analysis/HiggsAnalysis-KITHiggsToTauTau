@@ -28,11 +28,24 @@ void RunLumiEvent::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("run", &run);
 	tree->SetBranchAddress("lumi", &lumi);
 	tree->SetBranchAddress("event", &event);
+	ActivateBranches(tree, true);
+}
+
+void RunLumiEvent::ActivateBranches(TTree* tree, bool activate)
+{
+	tree->SetBranchStatus("run", activate);
+	tree->SetBranchStatus("lumi", activate);
+	tree->SetBranchStatus("event", activate);
 }
 
 bool RunLumiEvent::operator==(RunLumiEvent const& rhs) const
 {
 	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event));
+}
+
+bool RunLumiEvent::operator!=(RunLumiEvent const& rhs) const
+{
+	return (! (*this == rhs));
 }
 
 SvfitInputs::SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
@@ -48,10 +61,10 @@ void SvfitInputs::Set(svFitStandalone::kDecayType const& decayType1, svFitStanda
 {
 	this->decayType1 = Utility::ToUnderlyingValue(decayType1);
 	this->decayType2 = Utility::ToUnderlyingValue(decayType2);
-	this->leptonMomentum1 = leptonMomentum1;
-	this->leptonMomentum2 = leptonMomentum2;
-	this->metMomentum = metMomentum;
-	this->metCovariance = metCovariance;
+	*(this->leptonMomentum1) = leptonMomentum1;
+	*(this->leptonMomentum2) = leptonMomentum2;
+	*(this->metMomentum) = metMomentum;
+	*(this->metCovariance) = metCovariance;
 }
 
 void SvfitInputs::CreateBranches(TTree* tree)
@@ -72,22 +85,38 @@ void SvfitInputs::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("leptonMomentum2", &leptonMomentum2);
 	tree->SetBranchAddress("metMomentum", &metMomentum);
 	tree->SetBranchAddress("metCovariance", &metCovariance);
+	ActivateBranches(tree, true);
+}
+
+void SvfitInputs::ActivateBranches(TTree* tree, bool activate)
+{
+	tree->SetBranchStatus("decayType1", activate);
+	tree->SetBranchStatus("decayType2", activate);
+	tree->SetBranchStatus("leptonMomentum1", activate);
+	tree->SetBranchStatus("leptonMomentum2", activate);
+	tree->SetBranchStatus("metMomentum", activate);
+	tree->SetBranchStatus("metCovariance", activate);
 }
 
 bool SvfitInputs::operator==(SvfitInputs const& rhs) const
 {
 	return ((decayType1 == rhs.decayType1) &&
 	        (decayType2 == rhs.decayType2) &&
-	        (leptonMomentum1 == rhs.leptonMomentum1) && // TODO: better comparison of float members?
-	        (leptonMomentum2 == rhs.leptonMomentum2) && // TODO: better comparison of float members?
-	        (metMomentum == rhs.metMomentum) && // TODO: better comparison of float members?
-	        (metCovariance == rhs.metCovariance)); // TODO: better comparison of float members?
+	        (*leptonMomentum1 == *(rhs.leptonMomentum1)) && // TODO: better comparison of float members?
+	        (*leptonMomentum2 == *(rhs.leptonMomentum2)) && // TODO: better comparison of float members?
+	        (*metMomentum == *(rhs.metMomentum)) && // TODO: better comparison of float members?
+	        (*metCovariance == *(rhs.metCovariance))); // TODO: better comparison of float members?
+}
+
+bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
+{
+	return (! (*this == rhs));
 }
 
 SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(int verbosity, bool addLogM) const
 {
 	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(GetMeasuredTauLeptons(),
-	                                                                             svFitStandalone::Vector(metMomentum),
+	                                                                             svFitStandalone::Vector(*metMomentum),
 	                                                                             GetMetCovarianceMatrix(),
 	                                                                             verbosity);
 	svfitStandaloneAlgorithm.addLogM(addLogM);
@@ -97,8 +126,8 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(int verbosity,
 std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons() const
 {
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType1), svFitStandalone::LorentzVector(leptonMomentum1)),
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType2), svFitStandalone::LorentzVector(leptonMomentum2))
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType1), svFitStandalone::LorentzVector(*leptonMomentum1)),
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType2), svFitStandalone::LorentzVector(*leptonMomentum2))
 	};
 	return measuredTauLeptons;
 }
@@ -106,10 +135,10 @@ std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLepto
 TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 {
 	TMatrixD metCovarianceMatrix(2, 2);
-	metCovarianceMatrix[0][0] = metCovariance.At(0, 0);
-	metCovarianceMatrix[1][0] = metCovariance.At(1, 0);
-	metCovarianceMatrix[0][1] = metCovariance.At(0, 1);
-	metCovarianceMatrix[1][1] = metCovariance.At(1, 1);
+	metCovarianceMatrix[0][0] = metCovariance->At(0, 0);
+	metCovarianceMatrix[1][0] = metCovariance->At(1, 0);
+	metCovarianceMatrix[0][1] = metCovariance->At(0, 1);
+	metCovarianceMatrix[1][1] = metCovariance->At(1, 1);
 	return metCovarianceMatrix;
 }
 
@@ -125,8 +154,8 @@ SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgori
 
 void SvfitResults::Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty)
 {
-	this->momentum = momentum;
-	this->momentumUncertainty= momentumUncertainty;
+	*(this->momentum) = momentum;
+	*(this->momentumUncertainty) = momentumUncertainty;
 }
 
 void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
@@ -144,12 +173,24 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 {
 	tree->SetBranchAddress("svfitMomentum", &momentum);
 	tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
+	ActivateBranches(tree, true);
+}
+
+void SvfitResults::ActivateBranches(TTree* tree, bool activate)
+{
+	tree->SetBranchStatus("svfitMomentum", activate);
+	tree->SetBranchStatus("svfitMomentumUncertainty", activate);
 }
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
 {
-	return ((momentum == rhs.momentum) && // TODO: better comparison of float members?
-	        (momentumUncertainty == rhs.momentumUncertainty)); // TODO: better comparison of float members?
+	return ((*momentum == *(rhs.momentum)) && // TODO: better comparison of float members?
+	        (*momentumUncertainty == *(rhs.momentumUncertainty))); // TODO: better comparison of float members?
+}
+
+bool SvfitResults::operator!=(SvfitResults const& rhs) const
+{
+	return (! (*this == rhs));
 }
 
 RMDataLV SvfitResults::GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
@@ -172,3 +213,81 @@ RMDataLV SvfitResults::GetMomentumUncertainty(SVfitStandaloneAlgorithm const& sv
 	return momentumUncertainty;
 }
 
+SvfitReadTools::SvfitReadTools(std::vector<std::string> const& fileNames, std::string const& treeName)
+{
+	Init(fileNames, treeName);
+}
+
+void SvfitReadTools::Init(std::vector<std::string> const& fileNames, std::string const& treeName)
+{
+	if ((! svfitCacheInputTree) && svfitCacheInputTreeIndices.empty())
+	{
+		svfitCacheInputTree = new TChain(treeName.c_str());
+		for (std::vector<std::string>::const_iterator fileName = fileNames.begin();
+		     fileName != fileNames.end(); ++fileName)
+		{
+			svfitCacheInputTree->Add(fileName->c_str());
+		}
+		
+		RunLumiEvent runLumiEvent;
+		runLumiEvent.SetBranchAddresses(svfitCacheInputTree);
+		for (int svfitCacheInputTreeIndex = 0;
+		     svfitCacheInputTreeIndex < svfitCacheInputTree->GetEntries();
+		     ++svfitCacheInputTreeIndex)
+		{
+			svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
+			svfitCacheInputTreeIndices[runLumiEvent] = svfitCacheInputTreeIndex;
+		}
+		runLumiEvent.ActivateBranches(svfitCacheInputTree, false);
+		
+		svfitInputs.SetBranchAddresses(svfitCacheInputTree);
+		svfitResults.SetBranchAddresses(svfitCacheInputTree);
+	}
+}
+
+SvfitResults SvfitReadTools::GetResults(RunLumiEvent const& runLumiEvent,
+                                        SvfitInputs const& svfitInputs,
+                                        bool& neededRecalculation)
+{
+	neededRecalculation = false;
+	
+	auto svfitCacheInputTreeIndicesItem = svfitCacheInputTreeIndices.find(runLumiEvent);
+	if (svfitCacheInputTreeIndicesItem == svfitCacheInputTreeIndices.end())
+	{
+		neededRecalculation = true;
+	}
+	else
+	{
+		svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndicesItem->second);
+		
+		if (this->svfitInputs != svfitInputs)
+		{
+			neededRecalculation = true;
+		}
+		else
+		{
+			return svfitResults;
+		}
+	}
+	
+	if (neededRecalculation)
+	{
+		// construct algorithm
+		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm();
+	
+		// execute integration
+		/*if (settings.GetSvfitUseVegasInsteadOfMarkovChain())
+		{
+			svfitStandaloneAlgorithm.integrateVEGAS();
+		}
+		else
+		{*/
+			svfitStandaloneAlgorithm.integrateMarkovChain();
+		//}
+	
+		// retrieve results
+		svfitResults.Set(svfitStandaloneAlgorithm);
+	}
+	
+	return svfitResults;
+}

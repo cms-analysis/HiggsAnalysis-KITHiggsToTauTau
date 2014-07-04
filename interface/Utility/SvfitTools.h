@@ -1,6 +1,10 @@
 
 #pragma once
 
+#include <unordered_map>
+
+#include <TChain.h>
+
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
 #include "Kappa/DataFormats/interface/Kappa.h"
@@ -26,9 +30,29 @@ public:
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
+	void ActivateBranches(TTree* tree, bool activate=true);
 	
 	bool operator==(RunLumiEvent const& rhs) const;
+	bool operator!=(RunLumiEvent const& rhs) const;
 };
+
+/** Hashing function for RunLumiEvent. This is needed when RunLumiEvent is used
+ *  as key type of a std::unordered_map.
+ */
+namespace std {
+	template<>
+	struct hash<RunLumiEvent>
+	{
+		std::size_t operator()(RunLumiEvent const& runLumiEvent) const
+		{
+			// Compute individual hash values for int members and
+			// combine them using XOR and bit shifting
+			return ((std::hash<int>()(runLumiEvent.run) ^
+					(std::hash<int>()(runLumiEvent.lumi) << 1)) >> 1) ^
+				    (std::hash<int>()(runLumiEvent.event) << 1);
+		}
+	};
+}
 
 
 /**
@@ -39,11 +63,11 @@ public:
 	int decayType1;
 	int decayType2;
 	
-	RMDataLV leptonMomentum1;
-	RMDataLV leptonMomentum2;
+	RMDataLV* leptonMomentum1 = 0;
+	RMDataLV* leptonMomentum2 = 0;
 	
-	RMDataV metMomentum;
-	RMSM2x2 metCovariance;
+	RMDataV* metMomentum = 0;
+	RMSM2x2* metCovariance = 0;
 	
 	SvfitInputs() {};
 	SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
@@ -56,8 +80,10 @@ public:
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
+	void ActivateBranches(TTree* tree, bool activate=true);
 	
 	bool operator==(SvfitInputs const& rhs) const;
+	bool operator!=(SvfitInputs const& rhs) const;
 	
 	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(int verbosity=0, bool addLogM=false) const;
 
@@ -73,8 +99,8 @@ private:
 class SvfitResults {
 
 public:
-	RMDataLV momentum;
-	RMDataLV momentumUncertainty;
+	RMDataLV* momentum = 0;
+	RMDataLV* momentumUncertainty = 0;
 	
 	SvfitResults() {};
 	SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
@@ -85,12 +111,35 @@ public:
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
+	void ActivateBranches(TTree* tree, bool activate=true);
 	
 	bool operator==(SvfitResults const& rhs) const;
+	bool operator!=(SvfitResults const& rhs) const;
 
 
 private:
 	RMDataLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMDataLV GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+};
+
+
+/**
+ */
+class SvfitReadTools {
+
+public:
+	SvfitReadTools() {}
+	SvfitReadTools(std::vector<std::string> const& fileNames, std::string const& treeName);
+	
+	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
+	SvfitResults GetResults(RunLumiEvent const& runLumiEvent, SvfitInputs const& svfitInputs,
+	                        bool& neededRecalculation);
+
+private:
+	TChain* svfitCacheInputTree = 0;
+	std::unordered_map<RunLumiEvent, int> svfitCacheInputTreeIndices;
+	
+	SvfitInputs svfitInputs;
+	SvfitResults svfitResults;
 };
 
