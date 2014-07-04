@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <unordered_map>
+
 #include <TFile.h>
 #include <TTree.h>
 
@@ -63,6 +65,7 @@ private:
 	
 	TFile* svfitCacheFile;
 	TTree* svfitCacheTree;
+	mutable std::unordered_map<RunLumiEvent, int> svfitCacheTreeIndices;
 
 	std::vector<RMDataLV> ProduceVisibleLeptonsRestFrame(event_type const& event,
 	                                                     product_type& product,

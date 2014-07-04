@@ -14,7 +14,7 @@ TauTauRestFrameProducer::~TauTauRestFrameProducer()
 {
 	if (svfitCacheFile) // TODO: move to more appropriate place
 	{
-		svfitCacheFile->Write();
+		//svfitCacheFile->Write();
 		svfitCacheFile->Close();
 	}
 }
@@ -25,8 +25,14 @@ void TauTauRestFrameProducer::Init(setting_type const& settings)
 	
 	if ((tauTauRestFrameReco == TauTauRestFrameReco::SVFIT) && (! settings.GetSvfitCacheFile().empty()))
 	{
-		svfitCacheFile = new TFile(settings.GetSvfitCacheFile().c_str(), "RECREATE"); // TODO: read possibly existing one
-		svfitCacheTree = new TTree("svfitCache", "");
+		//svfitCacheFile = new TFile(settings.GetSvfitCacheFile().c_str(), "RECREATE"); // TODO: read possibly existing one
+		//svfitCacheTree = new TTree(settings.GetSvfitCacheTree().c_str(), "");
+		
+		svfitCacheFile = new TFile(settings.GetSvfitCacheFile().c_str(), "READ");
+		if (svfitCacheFile)
+		{
+			svfitCacheFile->GetObject(settings.GetSvfitCacheTree().c_str(), svfitCacheTree);
+		}
 	}
 }
 
@@ -180,11 +186,23 @@ std::vector<RMDataLV> TauTauRestFrameProducer::ProduceSvfitRestFrame(event_type 
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
 	// setup tree in first event
-	if ((svfitCacheTree->GetNbranches() == 0) && svfitCacheFile && svfitCacheTree)
+	/*if ((svfitCacheTree->GetNbranches() == 0) && svfitCacheFile && svfitCacheTree)
 	{
 		product.m_runLumiEvent.CreateBranches(svfitCacheTree);
 		product.m_svfitInputs.CreateBranches(svfitCacheTree);
 		product.m_svfitResults.CreateBranches(svfitCacheTree);
+	}*/
+	if (svfitCacheTree && (svfitCacheTreeIndices.size() == 0))
+	{
+		product.m_runLumiEvent.SetBranchAddresses(svfitCacheTree);
+		product.m_svfitInputs.SetBranchAddresses(svfitCacheTree);
+		product.m_svfitResults.SetBranchAddresses(svfitCacheTree);
+		
+		for (int svfitCacheTreeIndex = 0; svfitCacheTreeIndex < svfitCacheTree->GetEntries(); ++svfitCacheTreeIndex)
+		{
+			svfitCacheTree->GetEntry(svfitCacheTreeIndex);
+			svfitCacheTreeIndices[product.m_runLumiEvent] = svfitCacheTreeIndex;
+		}
 	}
 	
 	// construct decay types
@@ -209,37 +227,44 @@ std::vector<RMDataLV> TauTauRestFrameProducer::ProduceSvfitRestFrame(event_type 
 	}
 	
 	// construct run, lumi, event
-	product.m_runLumiEvent.Set(event.m_eventMetadata->nRun,
-	                           event.m_eventMetadata->nLumi,
-	                           event.m_eventMetadata->nEvent);
-	
-	// construct inputs
-	product.m_svfitInputs.Set(decayType1, decayType2,
-	                          product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
-	                          product.m_met->p4.Vect(), product.m_met->significance);
-	
-	// construct algorithm
-	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = product.m_svfitInputs.GetSvfitStandaloneAlgorithm();
-	
-	// execute integration
-	if (settings.GetSvfitUseVegasInsteadOfMarkovChain())
+	RunLumiEvent currentRunLumiEvent(event.m_eventMetadata->nRun,
+	                                 event.m_eventMetadata->nLumi,
+	                                 event.m_eventMetadata->nEvent);
+	auto svfitCacheTreeIndicesItem = svfitCacheTreeIndices.find(currentRunLumiEvent);
+	if (svfitCacheTreeIndicesItem != svfitCacheTreeIndices.end())
 	{
-		svfitStandaloneAlgorithm.integrateVEGAS();
+		svfitCacheTree->GetEntry(svfitCacheTreeIndicesItem->second);
 	}
 	else
 	{
-		svfitStandaloneAlgorithm.integrateMarkovChain();
+		// construct inputs
+		product.m_svfitInputs.Set(decayType1, decayType2,
+			                      product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
+			                      product.m_met->p4.Vect(), product.m_met->significance);
+	
+		// construct algorithm
+		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = product.m_svfitInputs.GetSvfitStandaloneAlgorithm();
+	
+		// execute integration
+		if (settings.GetSvfitUseVegasInsteadOfMarkovChain())
+		{
+			svfitStandaloneAlgorithm.integrateVEGAS();
+		}
+		else
+		{
+			svfitStandaloneAlgorithm.integrateMarkovChain();
+		}
+	
+		// retrieve results
+		product.m_svfitResults.Set(svfitStandaloneAlgorithm);
+	
+		// fill tree
+		/*if (svfitCacheTree)
+		{
+			svfitCacheTree->Fill();
+		}*/
 	}
 	
-	// retrieve results
-	product.m_svfitResults.Set(svfitStandaloneAlgorithm);
-	
-	// fill tree
-	if (svfitCacheTree)
-	{
-		svfitCacheTree->Fill();
-	}
-	
-	return std::vector<RMDataLV>(1, product.m_svfitResults.momentum);
+	return std::vector<RMDataLV>(1, *(product.m_svfitResults.momentum));
 }
 
