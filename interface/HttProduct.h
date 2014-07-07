@@ -66,8 +66,8 @@ public:
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
 	
 	// filled by the DiLeptonQuantitiesProducer
-	RMLV m_diLeptonSystem;
-	RMLV m_deLeptonPlusMetSystem;
+	RMDataLV m_diLeptonSystem;
+	RMDataLV m_diLeptonPlusMetSystem;
 	
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMDataLV> m_flavourOrderedTauMomentaCA;
@@ -87,11 +87,12 @@ public:
 	KDataPFMET* m_met = 0;
 	
 	// filled by the TauTauRestFrameProducer
-	std::vector<RMDataLV> m_flavourOrderedTauTauMomenta;
-	std::vector<ROOT::Math::Boost> m_boostToTauRestFrames;
-	bool m_tauTauMomentaReconstructed;
-	RMDataLV m_tauTauMomentum;
-	ROOT::Math::Boost m_boostToTauTauRestFrame;
+	std::vector<RMDataLV> m_flavourOrderedTauMomenta;
+	std::vector<ROOT::Math::Boost> m_boostsToTauRestFrames;
+	bool m_tauMomentaReconstructed = false;
+	RMDataLV m_diTauSystem;
+	ROOT::Math::Boost m_boostToDiTauRestFrame;
+	bool m_diTauSystemReconstructed = false;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;

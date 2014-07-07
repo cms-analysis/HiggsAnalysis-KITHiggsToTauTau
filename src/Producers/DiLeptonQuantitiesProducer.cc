@@ -8,7 +8,7 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
 	product.m_diLeptonSystem = (product.m_flavourOrderedLeptons[0]->p4 + product.m_flavourOrderedLeptons[1]->p4);
-	product.m_deLeptonPlusMetSystem = (product.m_diLeptonSystem + product.m_met->p4);
+	product.m_diLeptonPlusMetSystem = (product.m_diLeptonSystem + product.m_met->p4);
 	
 	// collinear approximation
 	// reconstruct tau momenta assuming that the neutrinos fly collinear to the taus
