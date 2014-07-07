@@ -22,6 +22,7 @@
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
 
 
 ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
@@ -80,6 +81,8 @@ ConsumerBase<HttTypes> * HttFactory::createConsumer (std::string const& id)
 {
 	if(id == HttLambdaNtupleConsumer().GetConsumerId())
 		return new HttLambdaNtupleConsumer();
+	else if(id == SvfitCacheConsumer().GetConsumerId())
+		return new SvfitCacheConsumer();
 	else
 		return KappaFactory<HttTypes>::createConsumer( id );
 }

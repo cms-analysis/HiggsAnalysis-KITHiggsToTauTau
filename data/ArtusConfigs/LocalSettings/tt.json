@@ -95,6 +95,7 @@
 		},
 		"Consumers" : [
 			"lambda_ntuple",
+			"svfit_cache",
 			"cutflow_histogram"
 		]
 	}
