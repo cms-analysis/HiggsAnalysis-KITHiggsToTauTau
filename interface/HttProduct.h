@@ -67,6 +67,12 @@ public:
 	
 	// filled by the DiLeptonQuantitiesProducer
 	RMLV m_diLeptonSystem;
+	RMLV m_deLeptonPlusMetSystem;
+	
+	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
+	std::vector<RMDataLV> m_flavourOrderedTauMomentaCA;
+	RMDataLV m_diTauSystemCA;
+	bool m_validCollinearApproximation = false;
 	
 	// filled by the DiJetQuantitiesProducer
 	RMLV m_diJetSystem;

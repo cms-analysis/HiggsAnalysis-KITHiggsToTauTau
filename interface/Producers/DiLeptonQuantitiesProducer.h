@@ -3,7 +3,8 @@
 
 #include "../HttTypes.h"
 
-
+/** Producer for simple di-lepton/di-tau quantities.
+ */
 class DiLeptonQuantitiesProducer: public ProducerBase<HttTypes> {
 public:
 
