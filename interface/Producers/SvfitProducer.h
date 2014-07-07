@@ -4,10 +4,11 @@
 #include "../HttTypes.h"
 
 
-/** Producer for 
+/** Producer for SVfit
  *
  *  Required config tags:
- *  - TauTauRestFrameReco
+ *  - GetSvfitCacheFile (default: empty)
+ *  - GetSvfitCacheTree (default: svfitCache)
  *
  *  Required packages:
  *  git clone https://github.com:veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone

@@ -92,11 +92,6 @@ public:
 	bool m_tauTauMomentaReconstructed;
 	RMDataLV m_tauTauMomentum;
 	ROOT::Math::Boost m_boostToTauTauRestFrame;
-	
-	mutable RunLumiEvent m_runLumiEvent;
-	mutable SvfitInputs m_svfitInputs;
-	mutable SvfitResults m_svfitResults;
-	bool m_svfitCalculated = false;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;
