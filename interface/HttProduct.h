@@ -74,6 +74,12 @@ public:
 	RMDataLV m_diTauSystemCA;
 	bool m_validCollinearApproximation = false;
 	
+	// filled by the SvfitProducer
+	mutable RunLumiEvent m_runLumiEvent;
+	mutable SvfitInputs m_svfitInputs;
+	mutable SvfitResults m_svfitResults;
+	bool m_svfitCalculated = false;
+	
 	// filled by the DiJetQuantitiesProducer
 	RMLV m_diJetSystem;
 	bool m_diJetSystemAvailable = false;
