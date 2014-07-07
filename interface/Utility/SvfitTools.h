@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "Artus/Utility/interface/ArtusLogging.h"
+
 #include <unordered_map>
 
 #include <TChain.h>
@@ -10,8 +12,8 @@
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 
-typedef typename ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
-typedef typename ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
+typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
+typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 
 
 /**
@@ -69,7 +71,7 @@ public:
 	RMDataV* metMomentum = 0;
 	RMSM2x2* metCovariance = 0;
 	
-	SvfitInputs() {};
+	SvfitInputs();
 	SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
 	            RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
 	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
@@ -102,7 +104,7 @@ public:
 	RMDataLV* momentum = 0;
 	RMDataLV* momentumUncertainty = 0;
 	
-	SvfitResults() {};
+	SvfitResults();
 	SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
@@ -125,11 +127,11 @@ private:
 
 /**
  */
-class SvfitReadTools {
+class SvfitTools {
 
 public:
-	SvfitReadTools() {}
-	SvfitReadTools(std::vector<std::string> const& fileNames, std::string const& treeName);
+	SvfitTools() {}
+	SvfitTools(std::vector<std::string> const& fileNames, std::string const& treeName);
 	
 	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
 	SvfitResults GetResults(RunLumiEvent const& runLumiEvent, SvfitInputs const& svfitInputs,

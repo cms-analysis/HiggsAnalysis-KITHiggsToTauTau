@@ -22,7 +22,6 @@
 		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "svfit",
-		"SvfitCacheFile" : "svfitCache_mm.root",
 		"Quantities" : [
 			{
 				"include" : [

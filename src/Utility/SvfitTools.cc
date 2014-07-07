@@ -48,9 +48,18 @@ bool RunLumiEvent::operator!=(RunLumiEvent const& rhs) const
 	return (! (*this == rhs));
 }
 
+SvfitInputs::SvfitInputs()
+{
+	this->leptonMomentum1 = new RMDataLV();
+	this->leptonMomentum2 = new RMDataLV();
+	this->metMomentum = new RMDataV();
+	this->metCovariance = new RMSM2x2();
+}
+
 SvfitInputs::SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                          RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
                          RMDataV const& metMomentum, RMSM2x2 const& metCovariance)
+	: SvfitInputs()
 {
 	Set(decayType1, decayType2, leptonMomentum1, leptonMomentum2, metMomentum, metCovariance);
 }
@@ -73,8 +82,8 @@ void SvfitInputs::CreateBranches(TTree* tree)
 	tree->Branch("decayType2", &decayType2);
 	tree->Branch("leptonMomentum1", "RMDataLV", &leptonMomentum1);
 	tree->Branch("leptonMomentum2", "RMDataLV", &leptonMomentum2);
-	tree->Branch("metMomentum", "RMDataV", &metMomentum);
-	tree->Branch("metCovariance", "RMSM2x2", &metCovariance);
+	tree->Branch("metMomentum", "ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag>", &metMomentum);
+	tree->Branch("metCovariance", "ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >", &metCovariance);
 }
 
 void SvfitInputs::SetBranchAddresses(TTree* tree)
@@ -142,13 +151,22 @@ TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 	return metCovarianceMatrix;
 }
 
-SvfitResults::SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty)
+SvfitResults::SvfitResults()
+{
+	this->momentum = new RMDataLV();
+	this->momentumUncertainty = new RMDataLV();
+}
+
+SvfitResults::SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty) :
+	SvfitResults()
 {
 	Set(momentum, momentumUncertainty);
 }
 
 SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
+	this->momentum = new RMDataLV();
+	this->momentumUncertainty = new RMDataLV();
 	Set(svfitStandaloneAlgorithm);
 }
 
@@ -213,12 +231,12 @@ RMDataLV SvfitResults::GetMomentumUncertainty(SVfitStandaloneAlgorithm const& sv
 	return momentumUncertainty;
 }
 
-SvfitReadTools::SvfitReadTools(std::vector<std::string> const& fileNames, std::string const& treeName)
+SvfitTools::SvfitTools(std::vector<std::string> const& fileNames, std::string const& treeName)
 {
 	Init(fileNames, treeName);
 }
 
-void SvfitReadTools::Init(std::vector<std::string> const& fileNames, std::string const& treeName)
+void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string const& treeName)
 {
 	if ((! svfitCacheInputTree) && svfitCacheInputTreeIndices.empty())
 	{
@@ -245,7 +263,7 @@ void SvfitReadTools::Init(std::vector<std::string> const& fileNames, std::string
 	}
 }
 
-SvfitResults SvfitReadTools::GetResults(RunLumiEvent const& runLumiEvent,
+SvfitResults SvfitTools::GetResults(RunLumiEvent const& runLumiEvent,
                                         SvfitInputs const& svfitInputs,
                                         bool& neededRecalculation)
 {

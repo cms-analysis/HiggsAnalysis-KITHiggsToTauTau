@@ -4,53 +4,33 @@
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
+#include "Artus/Utility/interface/RootFileHelper.h"
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameProducer.h"
 
 
+SvfitTools TauTauRestFrameProducer::svfitTools = SvfitTools();
+
 TauTauRestFrameProducer::~TauTauRestFrameProducer()
 {
-	if (svfitCacheFile) // TODO: move to more appropriate place
-	{
-		//svfitCacheFile->Write();
-		svfitCacheFile->Close();
-	}
 }
 
 void TauTauRestFrameProducer::Init(setting_type const& settings)
 {
 	tauTauRestFrameReco = ToTauTauRestFrameReco(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauTauRestFrameReco())));
 	
-	if ((tauTauRestFrameReco == TauTauRestFrameReco::SVFIT) && (! settings.GetSvfitCacheFile().empty()))
+	if (! settings.GetSvfitCacheFile().empty())
 	{
-		//svfitCacheFile = new TFile(settings.GetSvfitCacheFile().c_str(), "RECREATE"); // TODO: read possibly existing one
-		//svfitCacheTree = new TTree(settings.GetSvfitCacheTree().c_str(), "");
-		
-		svfitCacheFile = new TFile(settings.GetSvfitCacheFile().c_str(), "READ");
-		if (svfitCacheFile)
-		{
-			svfitCacheFile->GetObject(settings.GetSvfitCacheTree().c_str(), svfitCacheTree);
-		}
+		TauTauRestFrameProducer::svfitTools.Init(std::vector<std::string>(1, settings.GetSvfitCacheFile()),
+		                                         settings.GetSvfitCacheTree());
 	}
 }
 
 void TauTauRestFrameProducer::Produce(event_type const& event, product_type& product,
                                       setting_type const& settings) const
 {
-	/*
-	TFile* file = new TFile("test.root", "RECREATE");
-	KLepton lepton;
-	TTree* tree = new TTree("tree", "");
-	tree->Branch("lepton", "KLepton", &lepton);
-	lepton = *(product.m_flavourOrderedLeptons[0]);
-	tree->Fill();
-	file->Write();
-	file->Close();
-	exit(0);
-	*/
-
 	std::vector<RMDataLV> tauTauMomenta;
 
 	// perform requested restframe reconstruction
@@ -185,26 +165,6 @@ std::vector<RMDataLV> TauTauRestFrameProducer::ProduceSvfitRestFrame(event_type 
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
-	// setup tree in first event
-	/*if ((svfitCacheTree->GetNbranches() == 0) && svfitCacheFile && svfitCacheTree)
-	{
-		product.m_runLumiEvent.CreateBranches(svfitCacheTree);
-		product.m_svfitInputs.CreateBranches(svfitCacheTree);
-		product.m_svfitResults.CreateBranches(svfitCacheTree);
-	}*/
-	if (svfitCacheTree && (svfitCacheTreeIndices.size() == 0))
-	{
-		product.m_runLumiEvent.SetBranchAddresses(svfitCacheTree);
-		product.m_svfitInputs.SetBranchAddresses(svfitCacheTree);
-		product.m_svfitResults.SetBranchAddresses(svfitCacheTree);
-		
-		for (int svfitCacheTreeIndex = 0; svfitCacheTreeIndex < svfitCacheTree->GetEntries(); ++svfitCacheTreeIndex)
-		{
-			svfitCacheTree->GetEntry(svfitCacheTreeIndex);
-			svfitCacheTreeIndices[product.m_runLumiEvent] = svfitCacheTreeIndex;
-		}
-	}
-	
 	// construct decay types
 	svFitStandalone::kDecayType decayType1 = svFitStandalone::kTauToHadDecay;
 	if (product.m_decayChannel == HttProduct::DecayChannel::MT || product.m_decayChannel == HttProduct::DecayChannel::MM)
@@ -227,43 +187,19 @@ std::vector<RMDataLV> TauTauRestFrameProducer::ProduceSvfitRestFrame(event_type 
 	}
 	
 	// construct run, lumi, event
-	RunLumiEvent currentRunLumiEvent(event.m_eventMetadata->nRun,
-	                                 event.m_eventMetadata->nLumi,
-	                                 event.m_eventMetadata->nEvent);
-	auto svfitCacheTreeIndicesItem = svfitCacheTreeIndices.find(currentRunLumiEvent);
-	if (svfitCacheTreeIndicesItem != svfitCacheTreeIndices.end())
-	{
-		svfitCacheTree->GetEntry(svfitCacheTreeIndicesItem->second);
-	}
-	else
-	{
-		// construct inputs
-		product.m_svfitInputs.Set(decayType1, decayType2,
-			                      product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
-			                      product.m_met->p4.Vect(), product.m_met->significance);
+	product.m_runLumiEvent.Set(event.m_eventMetadata->nRun,
+	                           event.m_eventMetadata->nLumi,
+	                           event.m_eventMetadata->nEvent);
 	
-		// construct algorithm
-		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = product.m_svfitInputs.GetSvfitStandaloneAlgorithm();
+	// construct inputs
+	product.m_svfitInputs.Set(decayType1, decayType2,
+	                          product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
+	                          product.m_met->p4.Vect(), product.m_met->significance);
 	
-		// execute integration
-		if (settings.GetSvfitUseVegasInsteadOfMarkovChain())
-		{
-			svfitStandaloneAlgorithm.integrateVEGAS();
-		}
-		else
-		{
-			svfitStandaloneAlgorithm.integrateMarkovChain();
-		}
-	
-		// retrieve results
-		product.m_svfitResults.Set(svfitStandaloneAlgorithm);
-	
-		// fill tree
-		/*if (svfitCacheTree)
-		{
-			svfitCacheTree->Fill();
-		}*/
-	}
+	// calculate results
+	product.m_svfitResults = TauTauRestFrameProducer::svfitTools.GetResults(product.m_runLumiEvent,
+	                                                                        product.m_svfitInputs,
+	                                                                        product.m_svfitCalculated);
 	
 	return std::vector<RMDataLV>(1, *(product.m_svfitResults.momentum));
 }

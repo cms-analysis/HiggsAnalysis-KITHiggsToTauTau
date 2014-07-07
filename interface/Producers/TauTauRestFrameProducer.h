@@ -31,6 +31,8 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
+	static SvfitTools svfitTools;
+	
 	enum class TauTauRestFrameReco : int
 	{
 		NONE  = -1,
@@ -62,10 +64,6 @@ public:
 
 private:
 	TauTauRestFrameReco tauTauRestFrameReco;
-	
-	TFile* svfitCacheFile;
-	TTree* svfitCacheTree;
-	mutable std::unordered_map<RunLumiEvent, int> svfitCacheTreeIndices;
 
 	std::vector<RMDataLV> ProduceVisibleLeptonsRestFrame(event_type const& event,
 	                                                     product_type& product,
