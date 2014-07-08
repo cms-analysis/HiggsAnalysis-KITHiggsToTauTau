@@ -1,5 +1,6 @@
 {
 	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json"
 	],
 	"#LumiWhitelist" : [
@@ -26,6 +27,7 @@
 				"producer:tagged_jet_energy_correction",
 				"producer:electron_eta_selector",
 				"producer:pu_weights",
+				"producer:gen_particle",
 				"producer:gen_taudecay",
 				"producer:gen_cp"
 			],
@@ -51,5 +53,6 @@
 			"TauPlusX" : "not needed"
 		}
 	},
-	"BosonPdgId" : 25
+	"BosonPdgId" : 25,
+	"genParticles" : ["genTau"]
 }

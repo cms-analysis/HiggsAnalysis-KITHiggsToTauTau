@@ -68,6 +68,10 @@ public:
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 	
+	IMPL_SETTING(std::string, SvfitIntegrationMethod);
+	IMPL_GLOBAL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
+	IMPL_GLOBAL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
+	
 	IMPL_SETTING(std::string, TauTauRestFrameReco);
 
 	IMPL_SETTING(std::string, TauSpinnerSettingsPDF);

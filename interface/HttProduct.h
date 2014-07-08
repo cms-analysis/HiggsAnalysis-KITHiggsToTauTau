@@ -5,7 +5,9 @@
 #include <string>
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
-#include "HttComputedObjects.h"
+
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttComputedObjects.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 
 class HttProduct : public KappaProduct
@@ -64,7 +66,19 @@ public:
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
 	
 	// filled by the DiLeptonQuantitiesProducer
-	RMLV m_diLeptonSystem;
+	RMDataLV m_diLeptonSystem;
+	RMDataLV m_diLeptonPlusMetSystem;
+	
+	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
+	std::vector<RMDataLV> m_flavourOrderedTauMomentaCA;
+	RMDataLV m_diTauSystemCA;
+	bool m_validCollinearApproximation = false;
+	
+	// filled by the SvfitProducer
+	mutable SvfitEventKey m_svfitEventKey;
+	mutable SvfitInputs m_svfitInputs;
+	mutable SvfitResults m_svfitResults;
+	bool m_svfitCalculated = false;
 	
 	// filled by the DiJetQuantitiesProducer
 	RMLV m_diJetSystem;
@@ -73,26 +87,28 @@ public:
 	KDataPFMET* m_met = 0;
 	
 	// filled by the TauTauRestFrameProducer
-	std::vector<RMLV> m_flavourOrderedTauTauMomenta;
-	std::vector<ROOT::Math::Boost> m_boostToTauRestFrames;
-	bool m_tauTauMomentaReconstructed;
-	RMLV m_tauTauMomentum;
-	ROOT::Math::Boost m_boostToTauTauRestFrame;
+	std::vector<RMDataLV> m_flavourOrderedTauMomenta;
+	std::vector<ROOT::Math::Boost> m_boostsToTauRestFrames;
+	bool m_tauMomentaReconstructed = false;
+	RMDataLV m_diTauSystem;
+	ROOT::Math::Boost m_boostToDiTauRestFrame;
+	bool m_diTauSystemReconstructed = false;
 
 	double m_genMassRoundOff1;
 	double m_genMassRoundOff2;
+
+	// filled by GenTauCPProducer
 	double m_genPhi;
-	double m_genPhiStar;
-	double m_genPsiStarCP;
+	double m_genPhiStarCP;
 	std::pair <double,double> m_genChargedProngEnergies;
 	std::pair <double,double> m_genChargedPionEnergiesApprox;
 	double m_genThetaNuHadron;
 	double m_genAlphaTauNeutrinos;
-	double PhiDet;
-	double PhiStarDet;
-	double PhiOnePion;
-	double PhiStarOnePion;
-	double RecoPhiStar;
+	double m_genPhiDet;
+	double m_genPhiStarCPDet;
+
+	// filled by RecoTauCPProducer
+	double m_recoPhiStarCP;
 
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;

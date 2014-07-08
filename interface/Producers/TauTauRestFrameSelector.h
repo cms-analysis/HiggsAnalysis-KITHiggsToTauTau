@@ -6,12 +6,12 @@
 #include "../HttTypes.h"
 
 
-/** Producer for 
+/** Producer to select the tautau restframe reconstruction method.
  *
  *  Required config tags:
- *  - 
+ *  - TauTauRestFrameReco (possible valus: visible_leptons, visible_leptons_met, collinear_approximation, svfit)
  */
-class TauTauRestFrameProducer: public ProducerBase<HttTypes> {
+class TauTauRestFrameSelector: public ProducerBase<HttTypes> {
 public:
 
 	typedef typename HttTypes::event_type event_type;
@@ -47,22 +47,6 @@ public:
 
 private:
 	TauTauRestFrameReco tauTauRestFrameReco;
-
-	std::vector<RMLV> ProduceVisibleLeptonsRestFrame(event_type const& event,
-	                                                 product_type& product,
-	                                                 setting_type const& settings) const;
-	
-	std::vector<RMLV> ProduceVisibleLeptonsMetRestFrame(event_type const& event,
-	                                                    product_type& product,
-	                                                    setting_type const& settings) const;
-	
-	std::vector<RMLV> ProduceCollinearApproximationRestFrame(event_type const& event,
-	                                                         product_type& product,
-	                                                         setting_type const& settings) const;
-	
-	std::vector<RMLV> ProduceSvfitRestFrame(event_type const& event,
-	                                        product_type& product,
-	                                        setting_type const& settings) const;
 
 };
 

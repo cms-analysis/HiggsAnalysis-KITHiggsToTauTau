@@ -3,16 +3,17 @@
 <Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
 <Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
 
-<use name="root"/>
-<use name="tauspinner"/>
-<use name="rootmath"/>
-<use name="boost"/>
-<use name="boost_regex"/>
-<use name="Artus/Configuration"/>
-<use name="Artus/Consumer"/>
-<use name="Artus/Filter"/>
-<use name="Artus/KappaAnalysis"/>
-<use name="Artus/Utility"/>
+<use name="root" />
+<use name="tauspinner" />
+<use name="rootmath" />
+<use name="boost" />
+<use name="boost_regex" />
+<use name="Artus/Configuration" />
+<use name="Artus/Consumer" />
+<use name="Artus/Filter" />
+<use name="Artus/KappaAnalysis" />
+<use name="Artus/Utility" />
+<use name="TauAnalysis/SVfitStandalone" />
 
 <flags ADD_SUBDIR="1"/>
 

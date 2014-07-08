@@ -12,7 +12,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
@@ -22,6 +23,7 @@
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
 
 
 ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
@@ -58,8 +60,10 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 		return new DiLeptonQuantitiesProducer();
 	if(id == DiJetQuantitiesProducer().GetProducerId())
 		return new DiJetQuantitiesProducer();
-	if(id == TauTauRestFrameProducer().GetProducerId())
-		return new TauTauRestFrameProducer();
+	if(id == SvfitProducer().GetProducerId())
+		return new SvfitProducer();
+	if(id == TauTauRestFrameSelector().GetProducerId())
+		return new TauTauRestFrameSelector();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
 	else if(id == RecoTauCPProducer().GetProducerId())
@@ -80,6 +84,8 @@ ConsumerBase<HttTypes> * HttFactory::createConsumer (std::string const& id)
 {
 	if(id == HttLambdaNtupleConsumer().GetConsumerId())
 		return new HttLambdaNtupleConsumer();
+	else if(id == SvfitCacheConsumer().GetConsumerId())
+		return new SvfitCacheConsumer();
 	else
 		return KappaFactory<HttTypes>::createConsumer( id );
 }

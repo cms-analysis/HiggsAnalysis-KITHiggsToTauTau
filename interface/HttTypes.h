@@ -39,4 +39,3 @@ typedef Pipeline<HttTypes> HttPipeline;
 typedef PipelineRunner<HttPipeline, HttTypes> HttPipelineRunner;
 typedef KappaPipelineInitializer<HttTypes> HttPipelineInitializer;
 
-

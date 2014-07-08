@@ -2,7 +2,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 
-std::pair<float, float> CPQuantities::CalculatePhiPsiStar(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
+float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
 {
 	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
 	RMDataLV PionImp = chargPart1 + chargPart2;
@@ -54,9 +54,17 @@ std::pair<float, float> CPQuantities::CalculatePhiPsiStar(RMDataLV tau1, RMDataL
 	LOG(DEBUG) <<  n1t.Dot(p1) << "                  " << n2t.Dot(p2) << std::endl;
 
 	//Step 5: Calculating Phi* and Psi*CP
-	std::pair<float, float> phiPsiStar = std::make_pair(acos(n1t.Dot(n2t)), acos(p1n.Dot(n1t.Cross(n2t))));
-	LOG(DEBUG)  << "Phi*: " << phiPsiStar.first << "   " <<  "Psi*CP: "  << phiPsiStar.second;
-	return phiPsiStar;
+	float phiStarCP = 0;
+	if(p1n.Dot(n2t.Cross(n1t))>=0)
+	{
+		phiStarCP = acos(n2t.Dot(n1t));
+	}
+	else
+	{
+		phiStarCP = 2*ROOT::Math::Pi()-acos(n2t.Dot(n1t));
+	}
+	LOG(DEBUG)  << "Phi*: " << phiStarCP;
+	return phiStarCP;
 }
 
 float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
