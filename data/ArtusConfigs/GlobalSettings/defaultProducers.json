@@ -1,5 +1,6 @@
 {
 	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json"
 	],
 	"#LumiWhitelist" : [
