@@ -1,14 +1,16 @@
 
 #pragma once
 
-#include "../HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 
 /** Producer for SVfit
  *
  *  Required config tags:
- *  - GetSvfitCacheFile (default: empty)
- *  - GetSvfitCacheTree (default: svfitCache)
+ *  - SvfitIntegrationMethod (possible values: markovchain, vegas)
+ *  - GetSvfitCacheFile (need to be implemented as global setting, default: empty)
+ *  - GetSvfitCacheTree (need to be implemented as global setting, default: svfitCache)
  *
  *  Required packages:
  *  git clone https://github.com:veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone
@@ -36,5 +38,8 @@ public:
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 
+
+private:
+	SvfitResults::IntegrationMethod integrationMethod;
 };
 

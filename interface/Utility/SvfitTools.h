@@ -15,7 +15,6 @@
 typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
 typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 
-
 /**
  */
 class RunLumiEvent { // TODO: move to a more general place?
@@ -101,15 +100,33 @@ private:
 class SvfitResults {
 
 public:
+	enum class IntegrationMethod : int
+	{
+		NONE = -1,
+		MARKOV_CHAIN = 0,
+		VEGAS = 1,
+	};
+	static IntegrationMethod ToIntegrationMethod(std::string const& integrationMethod)
+	{
+		if (integrationMethod == "markovchain") return IntegrationMethod::MARKOV_CHAIN;
+		else if (integrationMethod == "vegas") return IntegrationMethod::VEGAS;
+		else return IntegrationMethod::NONE;
+	}
+	
+	int integrationMethod;
 	RMDataLV* momentum = 0;
 	RMDataLV* momentumUncertainty = 0;
 	
 	SvfitResults();
-	SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
-	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
+	SvfitResults(IntegrationMethod const& integrationMethod,
+	             RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+	SvfitResults(IntegrationMethod const& integrationMethod,
+	             SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
-	void Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
-	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
+	void Set(IntegrationMethod const& integrationMethod,
+	         RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+	void Set(IntegrationMethod const& integrationMethod,
+	         SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
@@ -135,6 +152,7 @@ public:
 	
 	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
 	SvfitResults GetResults(RunLumiEvent const& runLumiEvent, SvfitInputs const& svfitInputs,
+	                        SvfitResults::IntegrationMethod const& integrationMethod,
 	                        bool& neededRecalculation);
 
 private:

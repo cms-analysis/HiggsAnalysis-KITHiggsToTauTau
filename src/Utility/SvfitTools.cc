@@ -111,10 +111,10 @@ bool SvfitInputs::operator==(SvfitInputs const& rhs) const
 {
 	return ((decayType1 == rhs.decayType1) &&
 	        (decayType2 == rhs.decayType2) &&
-	        (*leptonMomentum1 == *(rhs.leptonMomentum1)) && // TODO: better comparison of float members?
-	        (*leptonMomentum2 == *(rhs.leptonMomentum2)) && // TODO: better comparison of float members?
-	        (*metMomentum == *(rhs.metMomentum)) && // TODO: better comparison of float members?
-	        (*metCovariance == *(rhs.metCovariance))); // TODO: better comparison of float members?
+	        Utility::ApproxEqual(*leptonMomentum1, *(rhs.leptonMomentum1)) &&
+	        Utility::ApproxEqual(*leptonMomentum2, *(rhs.leptonMomentum2)) &&
+	        Utility::ApproxEqual(*metMomentum, *(rhs.metMomentum)) &&
+	        Utility::ApproxEqual(*metCovariance, *(rhs.metCovariance)));
 }
 
 bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
@@ -157,38 +157,46 @@ SvfitResults::SvfitResults()
 	this->momentumUncertainty = new RMDataLV();
 }
 
-SvfitResults::SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty) :
+SvfitResults::SvfitResults(IntegrationMethod const& integrationMethod,
+                           RMDataLV const& momentum, RMDataLV const& momentumUncertainty) :
 	SvfitResults()
 {
-	Set(momentum, momentumUncertainty);
+	Set(integrationMethod, momentum, momentumUncertainty);
 }
 
-SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
+SvfitResults::SvfitResults(IntegrationMethod const& integrationMethod,
+                           SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
 	this->momentum = new RMDataLV();
 	this->momentumUncertainty = new RMDataLV();
-	Set(svfitStandaloneAlgorithm);
+	Set(integrationMethod, svfitStandaloneAlgorithm);
 }
 
-void SvfitResults::Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty)
+void SvfitResults::Set(IntegrationMethod const& integrationMethod,
+                       RMDataLV const& momentum, RMDataLV const& momentumUncertainty)
 {
+	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
 	*(this->momentum) = momentum;
 	*(this->momentumUncertainty) = momentumUncertainty;
 }
 
-void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
+void SvfitResults::Set(IntegrationMethod const& integrationMethod,
+                       SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
-	Set(GetMomentum(svfitStandaloneAlgorithm), GetMomentumUncertainty(svfitStandaloneAlgorithm));
+	Set(integrationMethod, GetMomentum(svfitStandaloneAlgorithm),
+	    GetMomentumUncertainty(svfitStandaloneAlgorithm));
 }
 
 void SvfitResults::CreateBranches(TTree* tree)
 {
+	tree->Branch("integrationMethod", &integrationMethod);
 	tree->Branch("svfitMomentum", "RMDataLV", &momentum);
 	tree->Branch("svfitMomentumUncertainty", "RMDataLV", &momentumUncertainty);
 }
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
 {
+	tree->SetBranchAddress("integrationMethod", &integrationMethod);
 	tree->SetBranchAddress("svfitMomentum", &momentum);
 	tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
 	ActivateBranches(tree, true);
@@ -196,14 +204,15 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 
 void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 {
+	tree->SetBranchStatus("integrationMethod", activate);
 	tree->SetBranchStatus("svfitMomentum", activate);
 	tree->SetBranchStatus("svfitMomentumUncertainty", activate);
 }
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
 {
-	return ((*momentum == *(rhs.momentum)) && // TODO: better comparison of float members?
-	        (*momentumUncertainty == *(rhs.momentumUncertainty))); // TODO: better comparison of float members?
+	return (Utility::ApproxEqual(*momentum, *(rhs.momentum)) &&
+	        Utility::ApproxEqual(*momentumUncertainty, *(rhs.momentumUncertainty)));
 }
 
 bool SvfitResults::operator!=(SvfitResults const& rhs) const
@@ -264,8 +273,9 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 }
 
 SvfitResults SvfitTools::GetResults(RunLumiEvent const& runLumiEvent,
-                                        SvfitInputs const& svfitInputs,
-                                        bool& neededRecalculation)
+                                    SvfitInputs const& svfitInputs,
+                                    SvfitResults::IntegrationMethod const& integrationMethod,
+                                    bool& neededRecalculation)
 {
 	neededRecalculation = false;
 	
@@ -294,17 +304,21 @@ SvfitResults SvfitTools::GetResults(RunLumiEvent const& runLumiEvent,
 		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm();
 	
 		// execute integration
-		/*if (settings.GetSvfitUseVegasInsteadOfMarkovChain())
+		if (integrationMethod == SvfitResults::IntegrationMethod::VEGAS)
 		{
 			svfitStandaloneAlgorithm.integrateVEGAS();
 		}
-		else
-		{*/
+		else if (integrationMethod == SvfitResults::IntegrationMethod::MARKOV_CHAIN)
+		{
 			svfitStandaloneAlgorithm.integrateMarkovChain();
-		//}
+		}
+		else
+		{
+			LOG(FATAL) << "SVfit integration of type " << Utility::ToUnderlyingValue(integrationMethod) << " not yet implemented!";
+		}
 	
 		// retrieve results
-		svfitResults.Set(svfitStandaloneAlgorithm);
+		svfitResults.Set(integrationMethod, svfitStandaloneAlgorithm);
 	}
 	
 	return svfitResults;

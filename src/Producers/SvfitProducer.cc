@@ -1,7 +1,9 @@
 
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/trim.hpp>
+
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
 
 
@@ -9,6 +11,10 @@ SvfitTools SvfitProducer::svfitTools = SvfitTools();
 
 void SvfitProducer::Init(setting_type const& settings)
 {
+	integrationMethod = SvfitResults::ToIntegrationMethod(
+			boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetSvfitIntegrationMethod()))
+	);
+	
 	if (! settings.GetSvfitCacheFile().empty())
 	{
 		SvfitProducer::svfitTools.Init(std::vector<std::string>(1, settings.GetSvfitCacheFile()),
@@ -55,7 +61,8 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	
 	// calculate results
 	product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_runLumiEvent,
-	                                                                        product.m_svfitInputs,
-	                                                                        product.m_svfitCalculated);
+	                                                              product.m_svfitInputs,
+	                                                              integrationMethod,
+	                                                              product.m_svfitCalculated);
 }
 
