@@ -75,14 +75,32 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	};
 	
+	m_valueExtractorMap["diLepPt"] = [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Pt();
+	};
+	m_valueExtractorMap["diLepEta"] = [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Eta();
+	};
+	m_valueExtractorMap["diLepPhi"] = [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Phi();
+	};
 	m_valueExtractorMap["diLepMass"] = [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.mass();
 	};
 	
+	m_valueExtractorMap["diTauPt"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Pt();
+	};
+	m_valueExtractorMap["diTauEta"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Eta();
+	};
+	m_valueExtractorMap["diTauPhi"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Phi();
+	};
 	m_valueExtractorMap["diTauMass"] = [](event_type const& event, product_type const& product) {
 		return product.m_diTauSystem.mass();
 	};
-	m_valueExtractorMap["diTauMassReconstructed"] = [](event_type const& event, product_type const& product) {
+	m_valueExtractorMap["diTauSystemReconstructed"] = [](event_type const& event, product_type const& product) {
 		return (product.m_diTauSystemReconstructed ? 1.0 : 0.0);
 	};
 	
@@ -806,6 +824,10 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	m_valueExtractorMap["mjj"] = m_valueExtractorMap["diJetMass"];
 	m_valueExtractorMap["jdeta"] = m_valueExtractorMap["diJetAbsDeltaEta"];
 	m_valueExtractorMap["njets"] = m_valueExtractorMap["nJets"];
+	m_valueExtractorMap["pt_sv"] = m_valueExtractorMap["diTauPt"];
+	m_valueExtractorMap["eta_sv"] = m_valueExtractorMap["diTauEta"];
+	m_valueExtractorMap["phi_sv"] = m_valueExtractorMap["diTauPhi"];
+	m_valueExtractorMap["m_sv"] = m_valueExtractorMap["diTauMass"];
 	
 	// need to be called at last
 	KappaLambdaNtupleConsumer<HttTypes>::Init(pipeline);
