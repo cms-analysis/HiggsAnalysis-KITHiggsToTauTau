@@ -253,10 +253,12 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 {
 	if ((! svfitCacheInputTree) && svfitCacheInputTreeIndices.empty())
 	{
+		LOG(DEBUG) << "Loading SVfit cache trees from files...";
 		svfitCacheInputTree = new TChain(treeName.c_str());
 		for (std::vector<std::string>::const_iterator fileName = fileNames.begin();
 		     fileName != fileNames.end(); ++fileName)
 		{
+			LOG(DEBUG) << "\t" << *fileName << "/" << treeName;
 			svfitCacheInputTree->Add(fileName->c_str());
 		}
 		
@@ -270,6 +272,7 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 			svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
 		}
 		svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
+		LOG(DEBUG) << svfitCacheInputTreeIndices.size() << " entries found.";
 		
 		svfitInputs.SetBranchAddresses(svfitCacheInputTree);
 		svfitResults.SetBranchAddresses(svfitCacheInputTree);
