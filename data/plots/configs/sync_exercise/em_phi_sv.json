@@ -1,0 +1,19 @@
+{
+	"folders" : [
+		"em/ntuple",
+		"TauCheck"
+	],
+	"output_dir" : "plots/VBF_HToTauTau_M-125/em",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
+	"x_expressions" : [
+		"phi_sv"
+	],
+	"x_bins" : [
+		"32,-3.2,3.2"
+	],
+	"ratio" : "True",
+	"x_label" : "SVfit \\phi(\\tau\\tau)",
+	"filename" : "phi_sv"
+}
