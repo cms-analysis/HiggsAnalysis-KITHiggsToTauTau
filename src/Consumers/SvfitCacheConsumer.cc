@@ -20,7 +20,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 
 	if (! m_svfitCacheTreeInitialised)
 	{
-		product.m_runLumiEvent.CreateBranches(m_svfitCacheTree);
+		product.m_svfitEventKey.CreateBranches(m_svfitCacheTree);
 		product.m_svfitInputs.CreateBranches(m_svfitCacheTree);
 		product.m_svfitResults.CreateBranches(m_svfitCacheTree);
 		m_svfitCacheTreeInitialised = true;

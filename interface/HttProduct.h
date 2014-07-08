@@ -75,7 +75,7 @@ public:
 	bool m_validCollinearApproximation = false;
 	
 	// filled by the SvfitProducer
-	mutable RunLumiEvent m_runLumiEvent;
+	mutable SvfitEventKey m_svfitEventKey;
 	mutable SvfitInputs m_svfitInputs;
 	mutable SvfitResults m_svfitResults;
 	bool m_svfitCalculated = false;

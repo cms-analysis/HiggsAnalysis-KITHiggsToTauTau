@@ -17,40 +17,57 @@ typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMS
 
 /**
  */
-class RunLumiEvent { // TODO: move to a more general place?
+class SvfitEventKey { // TODO: move to a more general place?
 
 public:
+	enum class IntegrationMethod : int
+	{
+		NONE = -1,
+		MARKOV_CHAIN = 0,
+		VEGAS = 1,
+	};
+	static IntegrationMethod ToIntegrationMethod(std::string const& integrationMethod)
+	{
+		if (integrationMethod == "markovchain") return IntegrationMethod::MARKOV_CHAIN;
+		else if (integrationMethod == "vegas") return IntegrationMethod::VEGAS;
+		else return IntegrationMethod::NONE;
+	}
+	
 	int run;
 	int lumi;
 	int event;
+	int integrationMethod;
 	
-	RunLumiEvent() {};
-	RunLumiEvent(int run, int lumi, int event);
+	SvfitEventKey() {};
+	SvfitEventKey(int const& run, int const& lumi, int const& event,
+	              IntegrationMethod const& integrationMethod);
 	
-	void Set(int run, int lumi, int event);
+	void Set(int const& run, int const& lumi, int const& event,
+	         IntegrationMethod const& integrationMethod);
+	
+	IntegrationMethod GetIntegrationMethod() const;
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);
 	
-	bool operator==(RunLumiEvent const& rhs) const;
-	bool operator!=(RunLumiEvent const& rhs) const;
+	bool operator==(SvfitEventKey const& rhs) const;
+	bool operator!=(SvfitEventKey const& rhs) const;
 };
 
-/** Hashing function for RunLumiEvent. This is needed when RunLumiEvent is used
+/** Hashing function for SvfitEventKey. This is needed when SvfitEventKey is used
  *  as key type of a std::unordered_map.
  */
 namespace std {
 	template<>
-	struct hash<RunLumiEvent>
+	struct hash<SvfitEventKey>
 	{
-		std::size_t operator()(RunLumiEvent const& runLumiEvent) const
+		std::size_t operator()(SvfitEventKey const& svfitEventKey) const
 		{
-			// Compute individual hash values for int members and
-			// combine them using XOR and bit shifting
-			return ((std::hash<int>()(runLumiEvent.run) ^
-					(std::hash<int>()(runLumiEvent.lumi) << 1)) >> 1) ^
-				    (std::hash<int>()(runLumiEvent.event) << 1);
+			return ((std::hash<int>()(svfitEventKey.run)) ^
+			        (std::hash<int>()(svfitEventKey.lumi)) ^
+			        (std::hash<int>()(svfitEventKey.event)) ^
+			        (std::hash<int>()(svfitEventKey.integrationMethod)));
 		}
 	};
 }
@@ -100,33 +117,15 @@ private:
 class SvfitResults {
 
 public:
-	enum class IntegrationMethod : int
-	{
-		NONE = -1,
-		MARKOV_CHAIN = 0,
-		VEGAS = 1,
-	};
-	static IntegrationMethod ToIntegrationMethod(std::string const& integrationMethod)
-	{
-		if (integrationMethod == "markovchain") return IntegrationMethod::MARKOV_CHAIN;
-		else if (integrationMethod == "vegas") return IntegrationMethod::VEGAS;
-		else return IntegrationMethod::NONE;
-	}
-	
-	int integrationMethod;
 	RMDataLV* momentum = 0;
 	RMDataLV* momentumUncertainty = 0;
 	
 	SvfitResults();
-	SvfitResults(IntegrationMethod const& integrationMethod,
-	             RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
-	SvfitResults(IntegrationMethod const& integrationMethod,
-	             SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
+	SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
-	void Set(IntegrationMethod const& integrationMethod,
-	         RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
-	void Set(IntegrationMethod const& integrationMethod,
-	         SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
+	void Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
@@ -151,13 +150,12 @@ public:
 	SvfitTools(std::vector<std::string> const& fileNames, std::string const& treeName);
 	
 	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
-	SvfitResults GetResults(RunLumiEvent const& runLumiEvent, SvfitInputs const& svfitInputs,
-	                        SvfitResults::IntegrationMethod const& integrationMethod,
+	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation);
 
 private:
 	TChain* svfitCacheInputTree = 0;
-	std::unordered_map<RunLumiEvent, int> svfitCacheInputTreeIndices;
+	std::unordered_map<SvfitEventKey, int> svfitCacheInputTreeIndices;
 	
 	SvfitInputs svfitInputs;
 	SvfitResults svfitResults;

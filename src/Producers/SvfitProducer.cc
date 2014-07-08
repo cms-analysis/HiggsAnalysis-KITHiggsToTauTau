@@ -11,7 +11,7 @@ SvfitTools SvfitProducer::svfitTools = SvfitTools();
 
 void SvfitProducer::Init(setting_type const& settings)
 {
-	integrationMethod = SvfitResults::ToIntegrationMethod(
+	integrationMethod = SvfitEventKey::ToIntegrationMethod(
 			boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetSvfitIntegrationMethod()))
 	);
 	
@@ -49,10 +49,11 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 		decayType2 = svFitStandalone::kTauToElecDecay;
 	}
 	
-	// construct run, lumi, event
-	product.m_runLumiEvent.Set(event.m_eventMetadata->nRun,
-	                           event.m_eventMetadata->nLumi,
-	                           event.m_eventMetadata->nEvent);
+	// construct event key
+	product.m_svfitEventKey.Set(event.m_eventMetadata->nRun,
+	                            event.m_eventMetadata->nLumi,
+	                            event.m_eventMetadata->nEvent,
+	                            integrationMethod);
 	
 	// construct inputs
 	product.m_svfitInputs.Set(decayType1, decayType2,
@@ -60,9 +61,8 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	                          product.m_met->p4.Vect(), product.m_met->significance);
 	
 	// calculate results
-	product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_runLumiEvent,
+	product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_svfitEventKey,
 	                                                              product.m_svfitInputs,
-	                                                              integrationMethod,
 	                                                              product.m_svfitCalculated);
 }
 

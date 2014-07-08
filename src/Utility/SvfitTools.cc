@@ -4,46 +4,58 @@
 #include "Artus/Utility/interface/Utility.h"
 
 
-RunLumiEvent::RunLumiEvent(int run, int lumi, int event)
+SvfitEventKey::SvfitEventKey(int const& run, int const& lumi, int const& event,
+                             IntegrationMethod const& integrationMethod)
 {
-	Set(run, lumi, event);
+	Set(run, lumi, event, integrationMethod);
 }
 
-void RunLumiEvent::Set(int run, int lumi, int event)
+void SvfitEventKey::Set(int const& run, int const& lumi, int const& event,
+                        IntegrationMethod const& integrationMethod)
 {
 	this->run = run;
 	this->lumi = lumi;
 	this->event = event;
+	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
 }
 
-void RunLumiEvent::CreateBranches(TTree* tree)
+SvfitEventKey::IntegrationMethod SvfitEventKey::GetIntegrationMethod() const
+{
+	return Utility::ToEnum<IntegrationMethod>(integrationMethod);
+}
+
+void SvfitEventKey::CreateBranches(TTree* tree)
 {
 	tree->Branch("run", &run);
 	tree->Branch("lumi", &lumi);
 	tree->Branch("event", &event);
+	tree->Branch("integrationMethod", &integrationMethod);
 }
 
-void RunLumiEvent::SetBranchAddresses(TTree* tree)
+void SvfitEventKey::SetBranchAddresses(TTree* tree)
 {
 	tree->SetBranchAddress("run", &run);
 	tree->SetBranchAddress("lumi", &lumi);
 	tree->SetBranchAddress("event", &event);
+	tree->SetBranchAddress("integrationMethod", &integrationMethod);
 	ActivateBranches(tree, true);
 }
 
-void RunLumiEvent::ActivateBranches(TTree* tree, bool activate)
+void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 {
 	tree->SetBranchStatus("run", activate);
 	tree->SetBranchStatus("lumi", activate);
 	tree->SetBranchStatus("event", activate);
+	tree->SetBranchStatus("integrationMethod", activate);
 }
 
-bool RunLumiEvent::operator==(RunLumiEvent const& rhs) const
+bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 {
-	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event));
+	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event) &&
+	        (integrationMethod == rhs.integrationMethod));
 }
 
-bool RunLumiEvent::operator!=(RunLumiEvent const& rhs) const
+bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
 {
 	return (! (*this == rhs));
 }
@@ -157,46 +169,39 @@ SvfitResults::SvfitResults()
 	this->momentumUncertainty = new RMDataLV();
 }
 
-SvfitResults::SvfitResults(IntegrationMethod const& integrationMethod,
-                           RMDataLV const& momentum, RMDataLV const& momentumUncertainty) :
+SvfitResults::SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty) :
 	SvfitResults()
 {
-	Set(integrationMethod, momentum, momentumUncertainty);
+	Set(momentum, momentumUncertainty);
 }
 
-SvfitResults::SvfitResults(IntegrationMethod const& integrationMethod,
-                           SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
+SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
 	this->momentum = new RMDataLV();
 	this->momentumUncertainty = new RMDataLV();
-	Set(integrationMethod, svfitStandaloneAlgorithm);
+	Set(svfitStandaloneAlgorithm);
 }
 
-void SvfitResults::Set(IntegrationMethod const& integrationMethod,
-                       RMDataLV const& momentum, RMDataLV const& momentumUncertainty)
+void SvfitResults::Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty)
 {
-	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
 	*(this->momentum) = momentum;
 	*(this->momentumUncertainty) = momentumUncertainty;
 }
 
-void SvfitResults::Set(IntegrationMethod const& integrationMethod,
-                       SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
+void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
-	Set(integrationMethod, GetMomentum(svfitStandaloneAlgorithm),
+	Set(GetMomentum(svfitStandaloneAlgorithm),
 	    GetMomentumUncertainty(svfitStandaloneAlgorithm));
 }
 
 void SvfitResults::CreateBranches(TTree* tree)
 {
-	tree->Branch("integrationMethod", &integrationMethod);
 	tree->Branch("svfitMomentum", "RMDataLV", &momentum);
 	tree->Branch("svfitMomentumUncertainty", "RMDataLV", &momentumUncertainty);
 }
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
 {
-	tree->SetBranchAddress("integrationMethod", &integrationMethod);
 	tree->SetBranchAddress("svfitMomentum", &momentum);
 	tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
 	ActivateBranches(tree, true);
@@ -204,7 +209,6 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 
 void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 {
-	tree->SetBranchStatus("integrationMethod", activate);
 	tree->SetBranchStatus("svfitMomentum", activate);
 	tree->SetBranchStatus("svfitMomentumUncertainty", activate);
 }
@@ -256,30 +260,29 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 			svfitCacheInputTree->Add(fileName->c_str());
 		}
 		
-		RunLumiEvent runLumiEvent;
-		runLumiEvent.SetBranchAddresses(svfitCacheInputTree);
+		SvfitEventKey svfitEventKey;
+		svfitEventKey.SetBranchAddresses(svfitCacheInputTree);
 		for (int svfitCacheInputTreeIndex = 0;
 		     svfitCacheInputTreeIndex < svfitCacheInputTree->GetEntries();
 		     ++svfitCacheInputTreeIndex)
 		{
 			svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
-			svfitCacheInputTreeIndices[runLumiEvent] = svfitCacheInputTreeIndex;
+			svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
 		}
-		runLumiEvent.ActivateBranches(svfitCacheInputTree, false);
+		svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
 		
 		svfitInputs.SetBranchAddresses(svfitCacheInputTree);
 		svfitResults.SetBranchAddresses(svfitCacheInputTree);
 	}
 }
 
-SvfitResults SvfitTools::GetResults(RunLumiEvent const& runLumiEvent,
+SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
                                     SvfitInputs const& svfitInputs,
-                                    SvfitResults::IntegrationMethod const& integrationMethod,
                                     bool& neededRecalculation)
 {
 	neededRecalculation = false;
 	
-	auto svfitCacheInputTreeIndicesItem = svfitCacheInputTreeIndices.find(runLumiEvent);
+	auto svfitCacheInputTreeIndicesItem = svfitCacheInputTreeIndices.find(svfitEventKey);
 	if (svfitCacheInputTreeIndicesItem == svfitCacheInputTreeIndices.end())
 	{
 		neededRecalculation = true;
@@ -304,21 +307,21 @@ SvfitResults SvfitTools::GetResults(RunLumiEvent const& runLumiEvent,
 		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm();
 	
 		// execute integration
-		if (integrationMethod == SvfitResults::IntegrationMethod::VEGAS)
+		if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::VEGAS)
 		{
 			svfitStandaloneAlgorithm.integrateVEGAS();
 		}
-		else if (integrationMethod == SvfitResults::IntegrationMethod::MARKOV_CHAIN)
+		else if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::MARKOV_CHAIN)
 		{
 			svfitStandaloneAlgorithm.integrateMarkovChain();
 		}
 		else
 		{
-			LOG(FATAL) << "SVfit integration of type " << Utility::ToUnderlyingValue(integrationMethod) << " not yet implemented!";
+			LOG(FATAL) << "SVfit integration of type " << svfitEventKey.integrationMethod << " not yet implemented!";
 		}
 	
 		// retrieve results
-		svfitResults.Set(integrationMethod, svfitStandaloneAlgorithm);
+		svfitResults.Set(svfitStandaloneAlgorithm);
 	}
 	
 	return svfitResults;

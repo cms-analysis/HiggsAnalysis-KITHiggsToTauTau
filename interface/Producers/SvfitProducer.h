@@ -40,6 +40,6 @@ public:
 
 
 private:
-	SvfitResults::IntegrationMethod integrationMethod;
+	SvfitEventKey::IntegrationMethod integrationMethod;
 };
 
