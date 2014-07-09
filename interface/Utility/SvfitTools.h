@@ -11,15 +11,18 @@
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
+
 
 typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
 typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 
 /**
  */
-class SvfitEventKey { // TODO: move to a more general place?
+class SvfitEventKey {
 
 public:
+
 	enum class IntegrationMethod : int
 	{
 		NONE = -1,
@@ -36,15 +39,20 @@ public:
 	int run;
 	int lumi;
 	int event;
+	int systematicShift;
+	float systematicShiftSigma;
 	int integrationMethod;
 	
 	SvfitEventKey() {};
 	SvfitEventKey(int const& run, int const& lumi, int const& event,
+	              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
 	              IntegrationMethod const& integrationMethod);
 	
 	void Set(int const& run, int const& lumi, int const& event,
+	         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
 	         IntegrationMethod const& integrationMethod);
 	
+	HttEnumTypes::SystematicShift GetSystematicShift() const;
 	IntegrationMethod GetIntegrationMethod() const;
 	
 	void CreateBranches(TTree* tree);
@@ -67,6 +75,8 @@ namespace std {
 			return ((std::hash<int>()(svfitEventKey.run)) ^
 			        (std::hash<int>()(svfitEventKey.lumi)) ^
 			        (std::hash<int>()(svfitEventKey.event)) ^
+			        (std::hash<int>()(svfitEventKey.systematicShift)) ^
+			        (std::hash<float>()(svfitEventKey.systematicShiftSigma)) ^
 			        (std::hash<int>()(svfitEventKey.integrationMethod)));
 		}
 	};

@@ -5,18 +5,27 @@
 
 
 SvfitEventKey::SvfitEventKey(int const& run, int const& lumi, int const& event,
+                             HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
                              IntegrationMethod const& integrationMethod)
 {
-	Set(run, lumi, event, integrationMethod);
+	Set(run, lumi, event, systematicShift, systematicShiftSigma, integrationMethod);
 }
 
 void SvfitEventKey::Set(int const& run, int const& lumi, int const& event,
+                        HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
                         IntegrationMethod const& integrationMethod)
 {
 	this->run = run;
 	this->lumi = lumi;
 	this->event = event;
+	this->systematicShift = Utility::ToUnderlyingValue<HttEnumTypes::SystematicShift>(systematicShift);
+	this->systematicShiftSigma = systematicShiftSigma;
 	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
+}
+
+HttEnumTypes::SystematicShift SvfitEventKey::GetSystematicShift() const
+{
+	return Utility::ToEnum<HttEnumTypes::SystematicShift>(systematicShift);
 }
 
 SvfitEventKey::IntegrationMethod SvfitEventKey::GetIntegrationMethod() const
@@ -29,6 +38,8 @@ void SvfitEventKey::CreateBranches(TTree* tree)
 	tree->Branch("run", &run);
 	tree->Branch("lumi", &lumi);
 	tree->Branch("event", &event);
+	tree->Branch("systematicShift", &systematicShift);
+	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("integrationMethod", &integrationMethod);
 }
 
@@ -37,6 +48,8 @@ void SvfitEventKey::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("run", &run);
 	tree->SetBranchAddress("lumi", &lumi);
 	tree->SetBranchAddress("event", &event);
+	tree->SetBranchAddress("systematicShift", &systematicShift);
+	tree->SetBranchAddress("systematicShiftSigma", &systematicShiftSigma);
 	tree->SetBranchAddress("integrationMethod", &integrationMethod);
 	ActivateBranches(tree, true);
 }
@@ -46,12 +59,15 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("run", activate);
 	tree->SetBranchStatus("lumi", activate);
 	tree->SetBranchStatus("event", activate);
+	tree->SetBranchStatus("systematicShift", activate);
+	tree->SetBranchStatus("systematicShiftSigma", activate);
 	tree->SetBranchStatus("integrationMethod", activate);
 }
 
 bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 {
 	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event) &&
+	        (systematicShift == rhs.systematicShift) && (systematicShiftSigma == rhs.systematicShiftSigma) &&
 	        (integrationMethod == rhs.integrationMethod));
 }
 
