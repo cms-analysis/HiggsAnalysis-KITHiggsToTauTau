@@ -2,7 +2,7 @@
 	"SvfitIntegrationMethod" : "markovchain",
 	"SvfitCacheFile" : {
 		"nick" : {
-			"SM_VBFHToTauTau_M_125_powheg_pythia_8TeV" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/svfit/svfitCache_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV.root"
+			"SM_VBFHToTauTau_M_125_powheg_pythia_8TeV" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV.root"
 		}
 	}
 }
