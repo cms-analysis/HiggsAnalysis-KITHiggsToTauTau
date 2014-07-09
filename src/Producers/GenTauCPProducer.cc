@@ -31,7 +31,7 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		{
 			if (abs(selectedTau2OneProngs[i]->getCharge()) == 1) chargedPart2 = selectedTau2OneProngs[i]->node;
 		}
-		LOG(DEBUG) << chargedPart1->pdgId() << "               " << chargedPart2->pdgId() << std::endl;
+		LOG_N_TIMES(20, DEBUG) << chargedPart1->pdgId() << "               " << chargedPart2->pdgId() << std::endl;
 		// Saving the charged particles for  analysis
 		product.m_genOneProngCharged1 = chargedPart1;
 		product.m_genOneProngCharged2 = chargedPart2;

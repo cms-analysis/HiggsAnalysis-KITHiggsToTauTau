@@ -11,7 +11,6 @@
 void TauSpinnerProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
-	LOG(DEBUG) << "TauSpinnerProducer ";
 	// interface to TauSpinner
 	//Reading the settings from TauSpinnerSettings.json in following order:
 	//name of PDF, CMSENE, Ipp, Ipol, nonSM2, nonSMN (see tau_reweight_lib.cxx),
@@ -26,14 +25,13 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	int nonSM2 = settings.GetTauSpinnerSettingsNonSM2();
 	int nonSMN = settings.GetTauSpinnerSettingsNonSMN();
 	TauSpinner::initialize_spinner(ipp, ipol, nonSM2, nonSMN, CmsEnergy);
-	LOG(DEBUG) << "TauSpinnerProducer ende";
 }
 
 
 void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 								 setting_type const& settings) const
 {
-	LOG(DEBUG) << "TauSpinnerProducer::Produce ";
+	LOG_N_TIMES(20, DEBUG) << "TauSpinnerProducer::Produce ";
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 	if (higgs.size() == 0)
 	{
@@ -51,7 +49,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 	std::vector<MotherDaughterBundle> selectedTauDaughters1 = higgs[0].Daughters[0].Daughters;
 	std::vector<MotherDaughterBundle> selectedTauDaughters2 = higgs[0].Daughters[1].Daughters;
-	LOG(DEBUG) << "Higgs PdgId: " << selectedHiggs1->pdgId();
+	LOG_N_TIMES(20, DEBUG) << "Higgs PdgId: " << selectedHiggs1->pdgId();
 
 	//Boosting following vectors to the center of mass system of the Higgs, if nessesary: Higgs, Tau1, Tau2 and TauDaughters
 	//Information about boosting is read from TauSpinnerSettings.json, seventh entry.
@@ -76,8 +74,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 	if (abs(selectedTau1.node->pdgId()) == DefaultValues::pdgIdTau) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{
-		LOG(DEBUG) << "		Tau1 PdgId: " << selectedTau1.node->pdgId();
-		LOG(DEBUG) << "		Tau2 PdgId: " << selectedTau2.node->pdgId() << std::endl;
+		LOG_N_TIMES(20, DEBUG) << "		Tau1 PdgId: " << selectedTau1.node->pdgId();
+		LOG_N_TIMES(20, DEBUG) << "		Tau2 PdgId: " << selectedTau2.node->pdgId() << std::endl;
 
 		TauSpinner::SimpleParticle X = getSimpleParticle(selectedHiggs1);
 		TauSpinner::SimpleParticle tau1 = getSimpleParticle(selectedTau1.node);
@@ -110,13 +108,13 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		bool withoutchoise = true;
 
 		// Debug output for testing
-		LOG(DEBUG) << selectedHiggs1->p4.px() << std::endl;
-		LOG(DEBUG) << selectedTau1.node->p4.px() << std::endl;
-		LOG(DEBUG) << selectedTau2.node->p4.px() << std::endl;
-		LOG(DEBUG) << selectedTauDaughters1[1].node->p4.px() << std::endl;
-		LOG(DEBUG) << selectedTauDaughters2[1].node->p4.px() << std::endl;
+		LOG_N_TIMES(20, DEBUG) << selectedHiggs1->p4.px() << std::endl;
+		LOG_N_TIMES(20, DEBUG) << selectedTau1.node->p4.px() << std::endl;
+		LOG_N_TIMES(20, DEBUG) << selectedTau2.node->p4.px() << std::endl;
+		LOG_N_TIMES(20, DEBUG) << selectedTauDaughters1[1].node->p4.px() << std::endl;
+		LOG_N_TIMES(20, DEBUG) << selectedTauDaughters2[1].node->p4.px() << std::endl;
 
-		LOG(DEBUG) << tauFinalStates1.size() << "               " << tauFinalStates2.size() << std::endl;
+		LOG_N_TIMES(20, DEBUG) << tauFinalStates1.size() << "               " << tauFinalStates2.size() << std::endl;
 
 
 		if (((tauFinalStates1.size() > 0) && (tauFinalStates2.size()) > 0) || withoutchoise)
@@ -136,7 +134,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			else
 			{
 				// 'Nan' Debug output
-				LOG(DEBUG) << "Found a 'NaN' weight with the following particles: " << std::endl;
+				LOG_N_TIMES(20, DEBUG) << "Found a 'NaN' weight with the following particles: " << std::endl;
 				LogSimpleParticle(std::string("Higgs"), X);
 				LogSimpleParticle(std::string("Tau1"), tau1);
 				LogSimpleParticle(std::string("Tau2"), tau2);
@@ -187,11 +185,11 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(Moth
 
 void TauSpinnerProducer::LogSimpleParticle(std::string particleName, TauSpinner::SimpleParticle in) const
 {
-	LOG(DEBUG) << "\n" << particleName << "Px=" << in.px() << "|"
-			   << particleName << "Py=" << in.py() << "|"
-			   << particleName << "Pz=" << in.pz() << "|"
-			   << particleName << "E=" << in.e() << "|"
-			   << particleName << "PdgId=" << in.pdgid() << "|";
+	LOG_N_TIMES(20, DEBUG) << "\n" << particleName << "Px=" << in.px() << "|"
+	                       << particleName << "Py=" << in.py() << "|"
+	                       << particleName << "Pz=" << in.pz() << "|"
+	                       << particleName << "E=" << in.e() << "|"
+	                       << particleName << "PdgId=" << in.pdgid() << "|";
 }
 
 void TauSpinnerProducer::LogSimpleParticle(std::string particleName, std::vector<TauSpinner::SimpleParticle> in) const

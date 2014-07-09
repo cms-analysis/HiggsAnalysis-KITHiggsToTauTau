@@ -28,7 +28,7 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	n1 = n1.Unit();
 	n2 = n2.Unit();
 
-	LOG(DEBUG) << n1.Dot(p1) << "            " << n2.Dot(p2) << std::endl;
+	LOG_N_TIMES(20, DEBUG) << n1.Dot(p1) << "            " << n2.Dot(p2) << std::endl;
 
 	//Step 3: Boosting 4-vectors (n1,0), (n2,0), p1, p2 with M
 	RMDataLV n1_mu, n2_mu;
@@ -51,7 +51,7 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	RMDataLV::BetaVector n2t = n2 - ((n2.Dot(p2)) / (p2.Dot(p2))) * p2;
 	n2t = n2t.Unit();
 	RMDataLV::BetaVector p1n = p1.Unit();
-	LOG(DEBUG) <<  n1t.Dot(p1) << "                  " << n2t.Dot(p2) << std::endl;
+	LOG_N_TIMES(20, DEBUG) <<  n1t.Dot(p1) << "                  " << n2t.Dot(p2) << std::endl;
 
 	//Step 5: Calculating Phi* and Psi*CP
 	float phiStarCP = 0;
@@ -63,7 +63,7 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	{
 		phiStarCP = 2*ROOT::Math::Pi()-acos(n2t.Dot(n1t));
 	}
-	LOG(DEBUG)  << "Phi*: " << phiStarCP;
+	LOG_N_TIMES(20, DEBUG)  << "Phi*: " << phiStarCP;
 	return phiStarCP;
 }
 
@@ -97,7 +97,7 @@ float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, R
 
 	// Step 4: Calculating Phi
 	float phi = acos(nm.Dot(np));
-	LOG(DEBUG)  << "Phi: " << phi;
+	LOG_N_TIMES(20, DEBUG)  << "Phi: " << phi;
 	return phi;
 }
 float CPQuantities::CalculateChargedProngEnergy(RMDataLV tau, RMDataLV chargedProng)
