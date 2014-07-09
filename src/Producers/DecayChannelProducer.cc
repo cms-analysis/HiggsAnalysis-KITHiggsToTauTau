@@ -1,6 +1,7 @@
 
 #include "Artus/Utility/interface/DefaultValues.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 
 
@@ -8,7 +9,7 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 	                               setting_type const& settings) const
 {
 	
-	product.m_decayChannel = product_type::DecayChannel::NONE;
+	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 	
 	KLepton* lepton1 = 0;
 	KLepton* lepton2 = 0;
@@ -21,7 +22,7 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 	{
 		lepton1 = product.m_validElectrons[0];
 		lepton2 = product.m_validElectrons[1];
-		product.m_decayChannel = product_type::DecayChannel::EE;
+		product.m_decayChannel = HttEnumTypes::DecayChannel::EE;
 	}
 	else if (nElectrons == 1)
 	{
@@ -29,13 +30,13 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 		{
 			lepton1 = product.m_validElectrons[0];
 			lepton2 = product.m_validMuons[0];
-			product.m_decayChannel = product_type::DecayChannel::EM;
+			product.m_decayChannel = HttEnumTypes::DecayChannel::EM;
 		}
 		else if (nTaus >= 1)
 		{
 			lepton1 = product.m_validElectrons[0];
 			lepton2 = product.m_validTaus[0];
-			product.m_decayChannel = product_type::DecayChannel::ET;
+			product.m_decayChannel = HttEnumTypes::DecayChannel::ET;
 		}
 	}
 	else if (nElectrons == 0)
@@ -44,23 +45,23 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 		{
 			lepton1 = product.m_validMuons[0];
 			lepton2 = product.m_validMuons[1];
-			product.m_decayChannel = product_type::DecayChannel::MM;
+			product.m_decayChannel = HttEnumTypes::DecayChannel::MM;
 		}
 		else if (nMuons == 1 && nTaus >= 1)
 		{
 			lepton1 = product.m_validMuons[0];
 			lepton2 = product.m_validTaus[0];
-			product.m_decayChannel = product_type::DecayChannel::MT;
+			product.m_decayChannel = HttEnumTypes::DecayChannel::MT;
 		}
 		else if (nTaus >= 2)
 		{
 			lepton1 = product.m_validTaus[0];
 			lepton2 = product.m_validTaus[1];
-			product.m_decayChannel = product_type::DecayChannel::TT;
+			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
 		}
 	}
 
-	if(product.m_decayChannel != product_type::DecayChannel::NONE) {
+	if(product.m_decayChannel != HttEnumTypes::DecayChannel::NONE) {
 		
 		// fill leptons ordered by pt (high pt first)
 		if (lepton1->p4.Pt() >= lepton2->p4.Pt())

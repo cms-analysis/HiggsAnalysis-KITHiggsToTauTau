@@ -6,6 +6,7 @@
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttComputedObjects.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
@@ -14,47 +15,12 @@ class HttProduct : public KappaProduct
 {
 public:
 
-	enum class DecayChannel : int
-	{
-		NONE = -1,
-		TT   = 0,
-		MT   = 1,
-		ET   = 2,
-		EM   = 3,
-		MM   = 4,
-		EE   = 5
-	};
-	static DecayChannel ToDecayChannel(std::string const& decayChannelString)
-	{
-		if (decayChannelString == "TT") return DecayChannel::TT;
-		else if (decayChannelString == "MT") return DecayChannel::MT;
-		else if (decayChannelString == "ET") return DecayChannel::ET;
-		else if (decayChannelString == "EM") return DecayChannel::EM;
-		else if (decayChannelString == "MM") return DecayChannel::MM;
-		else if (decayChannelString == "EE") return DecayChannel::EE;
-		return DecayChannel::NONE;
-	}
-
-	// TODO: to be extended
-	enum class EventCategory : int
-	{
-		NONE      = -1,
-		INCLUSIVE = 0,
-		ZERO_JET  = 1,
-		BOOST     = 2,
-		VBF       = 3
-	};
-	static EventCategory ToEventCategory(std::string const& eventCategoryString)
-	{
-		if (eventCategoryString == "INCLUSIVE") return EventCategory::INCLUSIVE;
-		else if (eventCategoryString == "ZERO_JET") return EventCategory::ZERO_JET;
-		else if (eventCategoryString == "BOOST") return EventCategory::BOOST;
-		else if (eventCategoryString == "VBF") return EventCategory::VBF;
-		return EventCategory::NONE;
-	}
-
-	DecayChannel m_decayChannel;
-	std::vector<EventCategory> m_eventCategories;
+	HttEnumTypes::DecayChannel m_decayChannel;
+	std::vector<HttEnumTypes::EventCategory> m_eventCategories;
+	
+	// TODO: To be set by producers that apply shifts
+	HttEnumTypes::SystematicShift m_systematicShift = HttEnumTypes::SystematicShift::CENTRAL;
+	float m_systematicShiftSigma = 0.0;
 	
 	// filled by DecayChannelProducer
 	std::vector<KLepton*> m_ptOrderedLeptons; // highest pt leptons first
@@ -87,6 +53,7 @@ public:
 	KDataPFMET* m_met = 0;
 	
 	// filled by the TauTauRestFrameProducer
+	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;
 	std::vector<RMDataLV> m_flavourOrderedTauMomenta;
 	std::vector<ROOT::Math::Boost> m_boostsToTauRestFrames;
 	bool m_tauMomentaReconstructed = false;
