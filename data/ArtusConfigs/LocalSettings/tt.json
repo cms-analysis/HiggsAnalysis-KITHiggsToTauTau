@@ -51,7 +51,7 @@
 			"nick" : {
 				"default" : [
 					"producer:hlt_selector",
-					"#filter:hlt_filter",
+					"filter:hlt_filter",
 					"producer:trigger_matching",
 					"producer:mvamet_tt_selector",
 					"producer:valid_electrons",
@@ -60,7 +60,7 @@
 					"filter:n_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"filter:n_taus",
+					"#filter:n_taus",
 					"producer:valid_tagged_jets",
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
