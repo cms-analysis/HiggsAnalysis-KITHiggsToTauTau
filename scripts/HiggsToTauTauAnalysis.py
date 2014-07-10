@@ -6,11 +6,12 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import sys
-from Artus.Configuration.artusWrapper import ArtusWrapper
+
+import HiggsAnalysis.KITHiggsToTauTau.higgstotautauanalysiswrapper as higgstotautauanalysiswrapper
 
 
 if __name__ == "__main__":
 
-	artusWrapper = ArtusWrapper("HiggsToTauTauAnalysis")
-	sys.exit(artusWrapper.run())
+	higgsToTauTauAnalysisWrapper = higgstotautauanalysiswrapper.HiggsToTauTauAnalysisWrapper()
+	sys.exit(higgsToTauTauAnalysisWrapper.run())
 
