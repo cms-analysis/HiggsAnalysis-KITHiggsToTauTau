@@ -76,6 +76,22 @@ bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
 	return (! (*this == rhs));
 }
 
+std::string std::to_string(SvfitEventKey const& svfitEventKey)
+{
+	return std::string("SvfitEventKey(") +
+			"run=" + std::to_string(svfitEventKey.run) + ", " +
+			"lumi=" + std::to_string(svfitEventKey.lumi) + ", " +
+			"event=" + std::to_string(svfitEventKey.event) + ", " +
+			"systematicShift=" + std::to_string(svfitEventKey.systematicShift) + ", " +
+			"systematicShiftSigma=" + std::to_string(svfitEventKey.systematicShiftSigma) + ", " +
+			"integrationMethod=" + std::to_string(svfitEventKey.integrationMethod) + ")";
+}
+
+std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey)
+{
+	return os << std::to_string(svfitEventKey);
+}
+
 SvfitInputs::SvfitInputs()
 {
 	this->leptonMomentum1 = new RMDataLV();
@@ -286,6 +302,8 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		{
 			svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
 			svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
+			//LOG(DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
+			//LOG(DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
 		}
 		svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
 		LOG(DEBUG) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";

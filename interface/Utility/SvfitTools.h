@@ -80,7 +80,11 @@ namespace std {
 			        (std::hash<int>()(svfitEventKey.integrationMethod)));
 		}
 	};
+	
+	string to_string(SvfitEventKey const& svfitEventKey);
 }
+
+std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey);
 
 
 /**
