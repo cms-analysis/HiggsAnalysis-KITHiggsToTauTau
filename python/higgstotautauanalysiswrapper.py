@@ -14,5 +14,5 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 
 	def _initArgumentParser(self, userArgParsers=None):
 		super(HiggsToTauTauAnalysisWrapper, self)._initArgumentParser(userArgParsers)
-		self._parser.set_defaults(gc_config="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/gc/grid-control_base_config.conf")
+		self._parser.set_defaults(gc_config_includes=["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/gc/htt_includes.conf"])
 
