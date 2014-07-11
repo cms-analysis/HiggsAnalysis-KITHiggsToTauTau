@@ -21,6 +21,7 @@
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -79,6 +80,8 @@ FilterBase<HttTypes> * HttFactory::createFilter(std::string const& id)
 {
 	if(id == DecayChannelFilter().GetFilterId())
 		return new DecayChannelFilter();
+	else if(id == EventCategoryFilter().GetFilterId())
+		return new EventCategoryFilter();
 	else
 		return KappaFactory<HttTypes>::createFilter( id );
 }
