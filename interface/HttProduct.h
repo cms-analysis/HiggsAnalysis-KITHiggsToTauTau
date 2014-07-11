@@ -7,7 +7,6 @@
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttComputedObjects.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 
