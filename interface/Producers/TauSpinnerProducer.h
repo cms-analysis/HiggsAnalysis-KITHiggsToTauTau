@@ -11,7 +11,7 @@
 /**
    \brief GlobalProducer, for tau decays on generator level. Following quantities are calculated:
    
-   -This producer has the product of the GenTauDecayProducer as input and calculates the TauSpinnerWeight 
+   -This producer has the product of the GenTauDecayProducer as input and calculates the tauSpinnerWeight 
    for these particles, where tau is the daughter of Higgs
 
 */

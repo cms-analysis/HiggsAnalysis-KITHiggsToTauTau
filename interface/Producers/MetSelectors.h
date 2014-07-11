@@ -4,6 +4,7 @@
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 #include "Artus/Core/interface/ProducerBase.h"
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
@@ -26,8 +27,71 @@ public:
 		m_metMember(met)
 	{
 	}
+
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE
+	{
+		ProducerBase<HttTypes>::Init(settings);
+		
+		// add possible quantities for the lambda ntuples consumers
+		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetSumEt"] = [](event_type const& event, product_type const& product)
+		{
+			return event.m_met->sumEt;
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetPt"] = [](event_type const& event, product_type const& product)
+		{
+			return event.m_met->p4.Pt();
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetPhi"] = [](event_type const& event, product_type const& product)
+		{
+			return event.m_met->p4.Phi();
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetCov00"] = [](event_type const& event, product_type const& product)
+		{
+			return event.m_met->significance.At(0, 0);
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetCov01"] = [](event_type const& event, product_type const& product)
+		{
+			return event.m_met->significance.At(0, 1);
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetCov10"] = [](event_type const& event, product_type const& product)
+		{
+			return event.m_met->significance.At(1, 0);
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetCov11"] = [](event_type const& event, product_type const& product)
+		{
+			return event.m_met->significance.At(1, 1);
+		};
 	
-	// nothing to do here
+		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetSumEt"] = [](event_type const& event, product_type const& product)
+		{
+			return product.m_met->sumEt;
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetPt"] = [](event_type const& event, product_type const& product)
+		{
+			return product.m_met->p4.Pt();
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetPhi"] = [](event_type const& event, product_type const& product)
+		{
+			return product.m_met->p4.Phi();
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetCov00"] = [](event_type const& event, product_type const& product)
+		{
+			return product.m_met->significance.At(0, 0);
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetCov01"] = [](event_type const& event, product_type const& product)
+		{
+			return product.m_met->significance.At(0, 1);
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetCov10"] = [](event_type const& event, product_type const& product)
+		{
+			return product.m_met->significance.At(1, 0);
+		};
+		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetCov11"] = [](event_type const& event, product_type const& product)
+		{
+			return product.m_met->significance.At(1, 1);
+		};
+	}
+	
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE
 	{

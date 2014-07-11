@@ -3,6 +3,7 @@
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
 #include "Artus/Utility/interface/DefaultValues.h"
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #define NO_BOSON_FOUND -555
 #define NO_HIGGS_FOUND -666

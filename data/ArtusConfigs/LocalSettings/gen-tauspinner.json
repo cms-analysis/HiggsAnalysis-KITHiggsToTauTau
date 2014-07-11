@@ -1,7 +1,7 @@
 {
 	"gen" : {
 		"Quantities" : [
-		"TauSpinnerWeight",
+		"tauSpinnerWeight",
 		"MassRoundOff1",
 		"MassRoundOff2"
 		]

@@ -1,4 +1,5 @@
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
@@ -8,6 +9,26 @@ double DiJetQuantitiesProducer::GetDiJetQuantity(product_type const& product,
                                                  dijet_extractor_lambda dijetQuantity)
 {
 	return (product.m_diJetSystemAvailable ? dijetQuantity(product.m_diJetSystem) : DefaultValues::UndefinedDouble);
+}
+
+void DiJetQuantitiesProducer::Init(setting_type const& settings)
+{
+	ProducerBase<HttTypes>::Init(settings);
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::Quantities["diJetMass"] = [this](event_type const& event, product_type const& product) {
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMLV diJetSystem) -> double
+	{
+		return diJetSystem.mass(); });
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diJetDeltaPhi"] = [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
+		                                        DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diJetAbsDeltaEta"] = [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
+		                                        DefaultValues::UndefinedDouble;
+	};
 }
 
 void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& product,

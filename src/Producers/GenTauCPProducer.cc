@@ -2,10 +2,63 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/KappaAnalysis/interface/MotherDaughterBundle.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
+
+
+void GenTauCPProducer::Init(setting_type const& settings)
+{
+	ProducerBase<HttTypes>::Init(settings);
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiStarCP"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genPhiStarCP;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["recoPhiStarCP"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_recoPhiStarCP;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["MassRoundOff1"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genMassRoundOff1;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["MassRoundOff2"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genMassRoundOff2;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhi"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genPhi;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["TauMProngEnergy"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genChargedProngEnergies.first;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["TauPProngEnergy"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genChargedProngEnergies.second;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiDet"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genPhiDet;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiStarCPDet"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genPhiStarCPDet;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["ThetaNuHadron"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genThetaNuHadron;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["AlphaTauNeutrinos"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genAlphaTauNeutrinos;
+	};
+}
 
 void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 	                           setting_type const& settings) const

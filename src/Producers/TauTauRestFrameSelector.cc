@@ -2,6 +2,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
@@ -9,7 +10,26 @@
 
 void TauTauRestFrameSelector::Init(setting_type const& settings)
 {
+	ProducerBase<HttTypes>::Init(settings);
+	
 	tauTauRestFrameReco = HttEnumTypes::ToTauTauRestFrameReco(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauTauRestFrameReco())));
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauPt"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Pt();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauEta"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Eta();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauPhi"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Phi();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauMass"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.mass();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauSystemReconstructed"] = [](event_type const& event, product_type const& product) {
+		return (product.m_diTauSystemReconstructed ? 1.0 : 0.0);
+	};
 }
 
 void TauTauRestFrameSelector::Produce(event_type const& event, product_type& product,

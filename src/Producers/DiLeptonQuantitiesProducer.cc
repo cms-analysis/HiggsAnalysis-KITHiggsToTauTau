@@ -1,6 +1,27 @@
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 
+
+void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
+{
+	ProducerBase<HttTypes>::Init(settings);
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::Quantities["diLepPt"] = [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Pt();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diLepEta"] = [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Eta();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diLepPhi"] = [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Phi();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diLepMass"] = [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.mass();
+	};
+}
 
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
 	                                     setting_type const& settings) const
