@@ -14,6 +14,7 @@ class HttProduct : public KappaProduct
 {
 public:
 
+	// filled by DecayChannelProducer
 	HttEnumTypes::DecayChannel m_decayChannel;
 	std::vector<HttEnumTypes::EventCategory> m_eventCategories;
 	

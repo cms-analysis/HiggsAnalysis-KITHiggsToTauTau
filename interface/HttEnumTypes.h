@@ -22,12 +22,12 @@ public:
 	};
 	static DecayChannel ToDecayChannel(std::string const& decayChannelString)
 	{
-		if (decayChannelString == "TT") return DecayChannel::TT;
-		else if (decayChannelString == "MT") return DecayChannel::MT;
-		else if (decayChannelString == "ET") return DecayChannel::ET;
-		else if (decayChannelString == "EM") return DecayChannel::EM;
-		else if (decayChannelString == "MM") return DecayChannel::MM;
-		else if (decayChannelString == "EE") return DecayChannel::EE;
+		if (decayChannelString == "tt") return DecayChannel::TT;
+		else if (decayChannelString == "mt") return DecayChannel::MT;
+		else if (decayChannelString == "et") return DecayChannel::ET;
+		else if (decayChannelString == "em") return DecayChannel::EM;
+		else if (decayChannelString == "ee") return DecayChannel::MM;
+		else if (decayChannelString == "mm") return DecayChannel::EE;
 		return DecayChannel::NONE;
 	}
 	

@@ -1,9 +1,11 @@
 
 #pragma once
 
-#include "../HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 
+/** Producer that defines the decay channel.
+ */
 class DecayChannelProducer: public ProducerBase<HttTypes> {
 public:
 
