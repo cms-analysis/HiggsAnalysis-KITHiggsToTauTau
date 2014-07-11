@@ -33,18 +33,42 @@ public:
 	
 	enum class EventCategory : int
 	{
-		NONE      = -1,
-		INCLUSIVE = 0,
-		ZERO_JET  = 1,
-		BOOST     = 2,
-		VBF       = 3
+		NONE                  = -1,
+		
+		INCLUSIVE             = 0,
+		ZERO_JET              = 1,
+		ONE_JET               = 2,
+		TWO_JET               = 3,
+		
+		ZERO_JET_LOW_PT       = 4,
+		ZERO_JET_HIGH_PT      = 5,
+		ONE_JET_LOW_PT        = 6,
+		ONE_JET_HIGH_PT       = 7,
+		ONE_JET_HIGH_PT_BOOST = 8,
+		ONE_JET_BOOST         = 9,
+		ONE_JET_LARGE_BOOST   = 10,
+		TWO_JET_VBF           = 11,
+		TWO_JET_VBF_LOOSE     = 12,
+		TWO_JET_VBF_TIGHT     = 13,
 	};
-	static EventCategory ToEventCategory(std::string const& eventCategoryString)
+	static EventCategory ToEventCategory(std::string const& eventCategory)
 	{
-		if (eventCategoryString == "INCLUSIVE") return EventCategory::INCLUSIVE;
-		else if (eventCategoryString == "ZERO_JET") return EventCategory::ZERO_JET;
-		else if (eventCategoryString == "BOOST") return EventCategory::BOOST;
-		else if (eventCategoryString == "VBF") return EventCategory::VBF;
+		if (eventCategory == "inclusive") return EventCategory::INCLUSIVE;
+		else if (eventCategory == "zero_jet") return EventCategory::ZERO_JET;
+		else if (eventCategory == "one_jet") return EventCategory::ONE_JET;
+		else if (eventCategory == "two_jet") return EventCategory::TWO_JET;
+		
+		else if (eventCategory == "zero_jet_low_pt") return EventCategory::ZERO_JET_LOW_PT;
+		else if (eventCategory == "zero_jet_high_pt") return EventCategory::ZERO_JET_HIGH_PT;
+		else if (eventCategory == "one_jet_low_pt") return EventCategory::ONE_JET_LOW_PT;
+		else if (eventCategory == "one_jet_high_pt") return EventCategory::ONE_JET_HIGH_PT;
+		else if (eventCategory == "one_jet_high_pt_boost") return EventCategory::ONE_JET_HIGH_PT_BOOST;
+		else if (eventCategory == "one_jet_boost") return EventCategory::ONE_JET_BOOST;
+		else if (eventCategory == "one_jet_large_boost") return EventCategory::ONE_JET_LARGE_BOOST;
+		else if (eventCategory == "two_jet_vbf") return EventCategory::TWO_JET_VBF;
+		else if (eventCategory == "two_jet_vbf_loose") return EventCategory::TWO_JET_VBF_LOOSE;
+		else if (eventCategory == "two_jet_vbf_tight") return EventCategory::TWO_JET_VBF_TIGHT;
+		
 		return EventCategory::NONE;
 	}
 	

@@ -16,7 +16,10 @@ public:
 
 	// filled by DecayChannelProducer
 	HttEnumTypes::DecayChannel m_decayChannel;
+	
+	// filled by EventCategoryProducer
 	std::vector<HttEnumTypes::EventCategory> m_eventCategories;
+	HttEnumTypes::EventCategory m_exclusiveEventCategory;
 	
 	// TODO: To be set by producers that apply shifts
 	HttEnumTypes::SystematicShift m_systematicShift = HttEnumTypes::SystematicShift::CENTRAL;
