@@ -85,18 +85,18 @@ bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron*
 				(electron->p4.Pt() < 20.0)
 				&&
 				(
-					(abs(electron->p4.Eta()) < 0.8 && electron->idMvaNonTrigV0 > 0.925)
-					|| (abs(electron->p4.Eta()) > 0.8 && abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > 0.915)
-					|| (abs(electron->p4.Eta()) > DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > 0.965)
+					(std::abs(electron->p4.Eta()) < 0.8 && electron->idMvaNonTrigV0 > 0.925)
+					|| (std::abs(electron->p4.Eta()) > 0.8 && std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > 0.915)
+					|| (std::abs(electron->p4.Eta()) > DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > 0.965)
 				)
 			)
 			||
 			(
 				(electron->p4.Pt() >= 20.0) &&
 				(
-					(abs(electron->p4.Eta()) < 0.8 && electron->idMvaNonTrigV0 > (tightID ? 0.925 : 0.905))
-					|| (abs(electron->p4.Eta()) > 0.8 && abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > (tightID ? 0.975 : 0.955))
-					|| (abs(electron->p4.Eta()) > DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > (tightID ? 0.985 : 0.975))
+					(std::abs(electron->p4.Eta()) < 0.8 && electron->idMvaNonTrigV0 > (tightID ? 0.925 : 0.905))
+					|| (std::abs(electron->p4.Eta()) > 0.8 && std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > (tightID ? 0.975 : 0.955))
+					|| (std::abs(electron->p4.Eta()) > DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > (tightID ? 0.985 : 0.975))
 				)
 			)
 		);
