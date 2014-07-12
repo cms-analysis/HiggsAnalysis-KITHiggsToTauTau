@@ -76,6 +76,7 @@
 					"producer:dijet_quantities",
 					"producer:event_categories",
 					"producer:trigger_weight",
+					"#producer:anti_ttbar_mva",
 					"producer:event_weight",
 					"producer:reco_cp"
 				],
@@ -99,6 +100,7 @@
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
+					"#producer:anti_ttbar_mva",
 					"producer:event_categories",
 					"producer:event_weight"
 				]

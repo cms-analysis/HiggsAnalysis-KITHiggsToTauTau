@@ -82,5 +82,7 @@ public:
 
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
-
+	
+	// MVA outputs
+	std::vector<double> m_antiTtbarDiscriminators;
 };
