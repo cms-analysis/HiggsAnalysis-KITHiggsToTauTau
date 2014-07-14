@@ -90,7 +90,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdW)
 		tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
 	else if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdH)
-		tauSpinnerWeight = calculateWeightFromParticlesH(X, tau2, tau1, tauFinalStates2, tauFinalStates1);
+		tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates2, tauFinalStates1);
 	else
 		tauSpinnerWeight = NO_BOSON_FOUND;
 
