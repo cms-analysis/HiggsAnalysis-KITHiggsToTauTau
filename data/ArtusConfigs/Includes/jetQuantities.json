@@ -1,6 +1,8 @@
 {
 	"property" : [
 		"nJets",
+		"nJets20",
+		"nJets30",
 		"rho",
 		"leadingJetPt",
 		"leadingJetEta",
@@ -12,7 +14,9 @@
 		"trailingJetPhi",
 		"trailingJetCSV",
 		"trailingJetTCHE",
-		"nBTaggedJets",
+		"nBJets",
+		"nBJets20",
+		"nBJets30",
 		"bJetPt",
 		"bJetEta",
 		"bJetPhi",
