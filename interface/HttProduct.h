@@ -64,8 +64,8 @@ public:
 	ROOT::Math::Boost m_boostToDiTauRestFrame;
 	bool m_diTauSystemReconstructed = false;
 
-	double m_genMassRoundOff1;
-	double m_genMassRoundOff2;
+	// filled by TauSpinnerProducer
+	bool m_allMassesPhysical;
 
 	// filled by GenTauCPProducer
 	double m_genPhi;

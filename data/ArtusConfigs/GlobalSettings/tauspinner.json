@@ -2,9 +2,7 @@
 	"Processors" : {
 		"nick" : {
 			"default" : [
-				"producer:gen_taudecay",
-				"producer:tauspinner",
-				"producer:gen_cp"
+				"producer:tauspinner"
 			]
 		}
 	}

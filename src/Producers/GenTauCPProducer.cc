@@ -22,14 +22,6 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_recoPhiStarCP;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["MassRoundOff1"] = [](event_type const & event, product_type const & product)
-	{
-		return product.m_genMassRoundOff1;
-	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["MassRoundOff2"] = [](event_type const & event, product_type const & product)
-	{
-		return product.m_genMassRoundOff2;
-	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["genPhi"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genPhi;

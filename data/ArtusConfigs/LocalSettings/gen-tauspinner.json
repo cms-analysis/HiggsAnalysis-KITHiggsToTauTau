@@ -2,8 +2,7 @@
 	"gen" : {
 		"Quantities" : [
 		"tauSpinnerWeight",
-		"MassRoundOff1",
-		"MassRoundOff2"
+		"allMassesPhysical"
 		]
 	}
 }
