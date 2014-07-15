@@ -29,7 +29,10 @@ public:
 	std::vector<KLepton*> m_ptOrderedLeptons; // highest pt leptons first
 	std::vector<KLepton*> m_flavourOrderedLeptons; // according to channel definition
 	std::vector<KLepton*> m_chargeOrderedLeptons; // positively charged leptons first
-
+	
+	// filled by HttTauEnergyCorrectionProducer
+	std::map<KDataPFTau*, double> m_tauEnergyScaleWeight;
+	
 	// filled by HttValid<Leptons>Producer
 	std::map<KLepton*, double> m_leptonIsolation;
 	std::map<KLepton*, double> m_leptonIsolationOverPt;

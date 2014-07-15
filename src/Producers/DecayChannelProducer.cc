@@ -196,8 +196,21 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
 		}
 	}
+	
+	// fill tau energy scale weights
+	if ((product.m_decayChannel == HttEnumTypes::DecayChannel::ET) ||
+	    (product.m_decayChannel == HttEnumTypes::DecayChannel::MT) ||
+	    (product.m_decayChannel == HttEnumTypes::DecayChannel::TT))
+	{
+		product.m_weights["tauEnergyScaleWeight"] = SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KDataPFTau*>(lepton2));
+		if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT)
+		{
+			product.m_weights["tauEnergyScaleWeight"] *= SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KDataPFTau*>(lepton1));
+		}
+	}
 
-	if(product.m_decayChannel != HttEnumTypes::DecayChannel::NONE) {
+	if (product.m_decayChannel != HttEnumTypes::DecayChannel::NONE)
+	{
 		
 		// fill leptons ordered by pt (high pt first)
 		if (lepton1->p4.Pt() >= lepton2->p4.Pt())

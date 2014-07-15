@@ -1,6 +1,7 @@
 {
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauES.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json"
 	],
 	"#LumiWhitelist" : [
@@ -24,6 +25,16 @@
 		"nick" : {
 			"default" : [
 				"#filter:run_lumi_event",
+				"producer:tagged_jet_energy_correction",
+				"producer:electron_eta_selector",
+				"producer:pu_weights",
+				"producer:gen_particle",
+				"producer:gen_taudecay",
+				"producer:gen_cp"
+			],
+			"HToTauTau" : [
+				"#filter:run_lumi_event",
+				"producer:tau_energy_correction",
 				"producer:tagged_jet_energy_correction",
 				"producer:electron_eta_selector",
 				"producer:pu_weights",

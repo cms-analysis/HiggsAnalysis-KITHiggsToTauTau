@@ -66,6 +66,8 @@ public:
 	IMPL_SETTING_FLOATLIST(TauDiscriminatorAntiElectronMvaCuts);
 	IMPL_SETTING_INTLIST(TauDiscriminatorAntiElectronMvaCutsLeptonIndices);
 	
+	IMPL_SETTING(std::string, TauEnergyCorrection);
+	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 	
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);

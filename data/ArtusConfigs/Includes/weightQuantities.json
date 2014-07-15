@@ -4,6 +4,7 @@
 		"triggerWeight1",
 		"triggerWeight2",
 		"puWeight",
+		"tauEnergyScaleWeight",
 		"eventWeight"
 	]
 }
