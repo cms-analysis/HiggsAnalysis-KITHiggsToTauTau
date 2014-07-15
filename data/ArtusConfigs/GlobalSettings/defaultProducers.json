@@ -25,7 +25,7 @@
 		"nick" : {
 			"default" : [
 				"#filter:run_lumi_event",
-				"producer:tagged_jet_energy_correction",
+				"producer:tagged_jet_corrections",
 				"producer:electron_eta_selector",
 				"producer:pu_weights",
 				"producer:gen_particle",
@@ -34,8 +34,8 @@
 			],
 			"HToTauTau" : [
 				"#filter:run_lumi_event",
-				"producer:tau_energy_correction",
-				"producer:tagged_jet_energy_correction",
+				"producer:tau_corrections",
+				"producer:tagged_jet_corrections",
 				"producer:electron_eta_selector",
 				"producer:pu_weights",
 				"producer:gen_particle",
@@ -44,7 +44,7 @@
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
-				"producer:tagged_jet_energy_correction",
+				"producer:tagged_jet_corrections",
 				"producer:electron_eta_selector"
 			]
 		}

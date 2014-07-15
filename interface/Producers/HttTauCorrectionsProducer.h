@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Artus/KappaAnalysis/interface/Producers/TauEnergyCorrectionProducer.h"
+#include "Artus/KappaAnalysis/interface/Producers/TauCorrectionsProducer.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
@@ -12,7 +12,7 @@
    Required config tags
    - TauEnergyCorrection (possible value: summer2013)
 */
-class HttTauEnergyCorrectionProducer: public TauEnergyCorrectionProducer<HttTypes>
+class HttTauCorrectionsProducer: public TauCorrectionsProducer<HttTypes>
 {
 
 public:

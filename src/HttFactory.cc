@@ -3,12 +3,12 @@
 
 // producers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ElectronEtaSelector.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTauCorrectionsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidElectronsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMuonsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTauEnergyCorrectionProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetSelectors.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetSelectors.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventCategoryProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerWeightProducer.h"
@@ -34,14 +34,18 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 {
 	if(id == ElectronEtaSelector().GetProducerId())
 		return new ElectronEtaSelector();
+	else if(id == HttTauCorrectionsProducer().GetProducerId())
+		return new HttTauCorrectionsProducer();
 	else if(id == HttValidElectronsProducer().GetProducerId())
 		return new HttValidElectronsProducer();
 	else if(id == HttValidMuonsProducer().GetProducerId())
 		return new HttValidMuonsProducer();
 	else if(id == HttValidTausProducer().GetProducerId())
 		return new HttValidTausProducer();
-	else if(id == HttTauEnergyCorrectionProducer().GetProducerId())
-		return new HttTauEnergyCorrectionProducer();
+	else if(id == HttValidJetsProducer().GetProducerId())
+		return new HttValidJetsProducer();
+	else if(id == HttValidTaggedJetsProducer().GetProducerId())
+		return new HttValidTaggedJetsProducer();
 	else if(id == MetSelector().GetProducerId())
 		return new MetSelector();
 	else if(id == MvaMetTTSelector().GetProducerId())
@@ -52,10 +56,6 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 		return new MvaMetETSelector();
 	else if(id == MvaMetEMSelector().GetProducerId())
 		return new MvaMetEMSelector();
-	else if(id == HttValidJetsProducer().GetProducerId())
-		return new HttValidJetsProducer();
-	else if(id == HttValidTaggedJetsProducer().GetProducerId())
-		return new HttValidTaggedJetsProducer();
 	else if(id == DecayChannelProducer().GetProducerId())
 		return new DecayChannelProducer();
 	else if(id == EventCategoryProducer().GetProducerId())

@@ -7,20 +7,20 @@
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTauEnergyCorrectionProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTauCorrectionsProducer.h"
 
 	
-void HttTauEnergyCorrectionProducer::Init(setting_type const& settings)
+void HttTauCorrectionsProducer::Init(setting_type const& settings)
 {
-	TauEnergyCorrectionProducer<HttTypes>::Init(settings);
+	TauCorrectionsProducer<HttTypes>::Init(settings);
 	
 	tauEnergyCorrection = ToTauEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauEnergyCorrection())));
 }
 
-void HttTauEnergyCorrectionProducer::AdditionalCorrections(KDataPFTau* tau, event_type const& event,
-                                                           product_type& product, setting_type const& settings) const
+void HttTauCorrectionsProducer::AdditionalCorrections(KDataPFTau* tau, event_type const& event,
+                                                      product_type& product, setting_type const& settings) const
 {
-	TauEnergyCorrectionProducer<HttTypes>::AdditionalCorrections(tau, event, product, settings);
+	TauCorrectionsProducer<HttTypes>::AdditionalCorrections(tau, event, product, settings);
 	
 	double normalisationFactor = 1.0;
 	
