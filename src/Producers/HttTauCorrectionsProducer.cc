@@ -32,7 +32,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KDataPFTau* tau, event_typ
 		{
 			normalisationFactor = 0.88;
 		}
-		else if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero)
+		else if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero || tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng2PiZero)
 		{
 			tau->p4 = tau->p4 * (1.025 + 0.001 * std::min(std::max(tau->p4.Pt() - 45.0, 0.0), 10.0));
 		}
