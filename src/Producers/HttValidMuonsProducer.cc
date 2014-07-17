@@ -5,6 +5,20 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
 
 
+HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KDataMuon*> product_type::*validMuons,
+                                             std::vector<KDataMuon*> product_type::*invalidMuons,
+                                             std::string (setting_type::*GetMuonID)(void) const,
+                                             std::string (setting_type::*GetMuonIsoType)(void) const,
+                                             std::string (setting_type::*GetMuonIso)(void) const,
+                                             std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const,
+                                             std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const) :
+	ValidMuonsProducer(validMuons, invalidMuons,
+	                   GetMuonID, GetMuonIsoType, GetMuonIso,
+	                   GetLowerPtCuts, GetUpperAbsEtaCuts)
+{
+}
+
+
 bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
                                                event_type const& event, product_type& product,
                                                setting_type const& settings) const

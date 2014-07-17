@@ -21,6 +21,14 @@ public:
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
+	
+	HttValidMuonsProducer(std::vector<KDataMuon*> product_type::*validMuons=&product_type::m_validMuons,
+	                      std::vector<KDataMuon*> product_type::*invalidMuons=&product_type::m_invalidMuons,
+	                      std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetMuonID,
+	                      std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetMuonIsoType,
+	                      std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetMuonIso,
+	                      std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetMuonLowerPtCuts,
+	                      std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetMuonUpperAbsEtaCuts);
 
 
 protected:
