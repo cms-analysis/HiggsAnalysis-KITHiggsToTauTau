@@ -5,6 +5,20 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
 
 
+HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KDataElectron*> product_type::*validElectrons,
+                                                     std::vector<KDataElectron*> product_type::*invalidElectrons,
+                                                     std::string (setting_type::*GetElectronID)(void) const,
+                                                     std::string (setting_type::*GetElectronIsoType)(void) const,
+                                                     std::string (setting_type::*GetElectronIso)(void) const,
+                                                     std::string (setting_type::*GetElectronReco)(void) const,
+                                                     std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const,
+                                                     std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const) :
+	ValidElectronsProducer(validElectrons, invalidElectrons,
+	                       GetElectronID, GetElectronIsoType, GetElectronIso, GetElectronReco,
+	                       GetLowerPtCuts, GetUpperAbsEtaCuts)
+{
+}
+
 void HttValidElectronsProducer::Init(setting_type const& settings)
 {
 	ValidElectronsProducer<HttTypes>::Init(settings);

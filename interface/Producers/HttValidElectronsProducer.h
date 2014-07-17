@@ -34,6 +34,15 @@ public:
 		else if (electronIDType == "summer2013tight") return ElectronIDType::SUMMER2013TIGHT;
 		else return ElectronIDType::NONE;
 	}
+	
+	HttValidElectronsProducer(std::vector<KDataElectron*> product_type::*validElectrons=&product_type::m_validElectrons,
+	                      std::vector<KDataElectron*> product_type::*invalidElectrons=&product_type::m_invalidElectrons,
+	                      std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetElectronID,
+	                      std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetElectronIsoType,
+	                      std::string (setting_type::*GetElectronIso)(void) const=&setting_type::GetElectronIso,
+	                      std::string (setting_type::*GetElectronReco)(void) const=&setting_type::GetElectronReco,
+	                      std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetElectronLowerPtCuts,
+	                      std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetElectronUpperAbsEtaCuts);
 
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
