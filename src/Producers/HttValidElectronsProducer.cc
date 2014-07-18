@@ -8,14 +8,48 @@
 HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KDataElectron*> product_type::*validElectrons,
                                                      std::vector<KDataElectron*> product_type::*invalidElectrons,
                                                      std::string (setting_type::*GetElectronID)(void) const,
+                                                     std::string (setting_type::*GetElectronIDType)(void) const,
                                                      std::string (setting_type::*GetElectronIsoType)(void) const,
                                                      std::string (setting_type::*GetElectronIso)(void) const,
                                                      std::string (setting_type::*GetElectronReco)(void) const,
                                                      std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const,
-                                                     std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const) :
+                                                     std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const,
+                                                     float (setting_type::*GetElectronChargedIsoVetoConeSizeEB)(void) const,
+                                                     float (setting_type::*GetElectronChargedIsoVetoConeSizeEE)(void) const,
+                                                     float (setting_type::*GetElectronNeutralIsoVetoConeSize)(void) const,
+                                                     float (setting_type::*GetElectronPhotonIsoVetoConeSizeEB)(void) const,
+                                                     float (setting_type::*GetElectronPhotonIsoVetoConeSizeEE)(void) const,
+                                                     float (setting_type::*GetElectronDeltaBetaIsoVetoConeSize)(void) const,
+                                                     float (setting_type::*GetElectronChargedIsoPtThreshold)(void) const,
+                                                     float (setting_type::*GetElectronNeutralIsoPtThreshold)(void) const,
+                                                     float (setting_type::*GetElectronPhotonIsoPtThreshold)(void) const,
+                                                     float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const,
+                                                     float (setting_type::*GetElectronIsoSignalConeSize)(void) const,
+                                                     float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const,
+                                                     float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const,
+                                                     float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const,
+                                                     float (setting_type::*GetElectronTrackDxyCut)(void) const,
+                                                     float (setting_type::*GetElectronTrackDzCut)(void) const) :
 	ValidElectronsProducer(validElectrons, invalidElectrons,
 	                       GetElectronID, GetElectronIsoType, GetElectronIso, GetElectronReco,
-	                       GetLowerPtCuts, GetUpperAbsEtaCuts)
+	                       GetLowerPtCuts, GetUpperAbsEtaCuts),
+	GetElectronIDType(GetElectronIDType),
+	GetElectronChargedIsoVetoConeSizeEB(GetElectronChargedIsoVetoConeSizeEB),
+	GetElectronChargedIsoVetoConeSizeEE(GetElectronChargedIsoVetoConeSizeEE),
+	GetElectronNeutralIsoVetoConeSize(GetElectronNeutralIsoVetoConeSize),
+	GetElectronPhotonIsoVetoConeSizeEB(GetElectronPhotonIsoVetoConeSizeEB),
+	GetElectronPhotonIsoVetoConeSizeEE(GetElectronPhotonIsoVetoConeSizeEE),
+	GetElectronDeltaBetaIsoVetoConeSize(GetElectronDeltaBetaIsoVetoConeSize),
+	GetElectronChargedIsoPtThreshold(GetElectronChargedIsoPtThreshold),
+	GetElectronNeutralIsoPtThreshold(GetElectronNeutralIsoPtThreshold),
+	GetElectronPhotonIsoPtThreshold(GetElectronPhotonIsoPtThreshold),
+	GetElectronDeltaBetaIsoPtThreshold(GetElectronDeltaBetaIsoPtThreshold),
+	GetElectronIsoSignalConeSize(GetElectronIsoSignalConeSize),
+	GetElectronDeltaBetaCorrectionFactor(GetElectronDeltaBetaCorrectionFactor),
+	GetElectronIsoPtSumOverPtThresholdEB(GetElectronIsoPtSumOverPtThresholdEB),
+	GetElectronIsoPtSumOverPtThresholdEE(GetElectronIsoPtSumOverPtThresholdEE),
+	GetElectronTrackDxyCut(GetElectronTrackDxyCut),
+	GetElectronTrackDzCut(GetElectronTrackDzCut)
 {
 }
 
@@ -23,7 +57,7 @@ void HttValidElectronsProducer::Init(setting_type const& settings)
 {
 	ValidElectronsProducer<HttTypes>::Init(settings);
 	
-	electronIDType = ToElectronIDType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetElectronIDType())));
+	electronIDType = ToElectronIDType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetElectronIDType)())));
 }
 
 bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
@@ -55,18 +89,18 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	if (validElectron && electronIsoType == ElectronIsoType::USER) {
 		isolationPtSum = ParticleIsolation::IsolationPtSum(
 				electron->p4, event,
-				settings.GetElectronIsoSignalConeSize(),
-				settings.GetElectronDeltaBetaCorrectionFactor(),
-				settings.GetElectronChargedIsoVetoConeSizeEB(),
-				settings.GetElectronChargedIsoVetoConeSizeEE(),
-				settings.GetElectronNeutralIsoVetoConeSize(),
-				settings.GetElectronPhotonIsoVetoConeSizeEB(),
-				settings.GetElectronPhotonIsoVetoConeSizeEE(),
-				settings.GetElectronDeltaBetaIsoVetoConeSize(),
-				settings.GetElectronChargedIsoPtThreshold(),
-				settings.GetElectronNeutralIsoPtThreshold(),
-				settings.GetElectronPhotonIsoPtThreshold(),
-				settings.GetElectronDeltaBetaIsoPtThreshold()
+				(settings.*GetElectronIsoSignalConeSize)(),
+				(settings.*GetElectronDeltaBetaCorrectionFactor)(),
+				(settings.*GetElectronChargedIsoVetoConeSizeEB)(),
+				(settings.*GetElectronChargedIsoVetoConeSizeEE)(),
+				(settings.*GetElectronNeutralIsoVetoConeSize)(),
+				(settings.*GetElectronPhotonIsoVetoConeSizeEB)(),
+				(settings.*GetElectronPhotonIsoVetoConeSizeEE)(),
+				(settings.*GetElectronDeltaBetaIsoVetoConeSize)(),
+				(settings.*GetElectronChargedIsoPtThreshold)(),
+				(settings.*GetElectronNeutralIsoPtThreshold)(),
+				(settings.*GetElectronPhotonIsoPtThreshold)(),
+				(settings.*GetElectronDeltaBetaIsoPtThreshold)()
 		);
 		
 		double isolationPtSumOverPt = isolationPtSum / electron->p4.Pt();
@@ -74,16 +108,16 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 		product.m_leptonIsolation[electron] = isolationPtSum;
 		product.m_leptonIsolationOverPt[electron] = isolationPtSumOverPt;
 		
-		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetElectronIsoPtSumOverPtThresholdEB()) ||
-		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetElectronIsoPtSumOverPtThresholdEE())) {
+		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > (settings.*GetElectronIsoPtSumOverPtThresholdEB)()) ||
+		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > (settings.*GetElectronIsoPtSumOverPtThresholdEE)())) {
 			validElectron = false;
 		}
 	}
 	
 	// (tighter) cut on impact parameters of track
 	validElectron = validElectron
-	                && (settings.GetElectronTrackDxyCut() <= 0.0 || std::abs(electron->track.getDxy(&event.m_vertexSummary->pv)) < settings.GetElectronTrackDxyCut())
-	                && (settings.GetElectronTrackDzCut() <= 0.0 || std::abs(electron->track.getDz(&event.m_vertexSummary->pv)) < settings.GetElectronTrackDzCut());
+	                && ((settings.*GetElectronTrackDxyCut)() <= 0.0 || std::abs(electron->track.getDxy(&event.m_vertexSummary->pv)) < (settings.*GetElectronTrackDxyCut)())
+	                && ((settings.*GetElectronTrackDzCut)() <= 0.0 || std::abs(electron->track.getDz(&event.m_vertexSummary->pv)) < (settings.*GetElectronTrackDzCut)());
 
 	return validElectron;
 }
