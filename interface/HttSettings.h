@@ -92,6 +92,9 @@ public:
 	
 	IMPL_SETTING(std::string, TauEnergyCorrection);
 	
+	IMPL_SETTING(int, MaxNLooseElectrons);
+	IMPL_SETTING(int, MaxNLooseMuons);
+	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 	
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);

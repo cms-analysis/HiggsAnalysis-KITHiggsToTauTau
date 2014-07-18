@@ -8,6 +8,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
 		"Channel" : "MT",
+		"MaxNLooseElectrons" : 0,
+		"MaxNLooseMuons" : 1,
 		"NElectrons" : 0,
 		"NMuons" : 1,
 		"NTaus" : 1,
@@ -61,6 +63,8 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"filter:max_n_loose_electrons",
+					"filter:max_n_loose_muons",
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:trigger_matching",
@@ -87,6 +91,8 @@
 					"producer:reco_cp"
 				],
 				"DoubleMu|TauPlusX" : [
+					"filter:max_n_loose_electrons",
+					"filter:max_n_loose_muons",
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:trigger_matching",
