@@ -6,7 +6,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 
-/** Filter checking for the existance of exactly the given number of valid loose electrons.
+/** Filter checking for the existance of at most the given number of valid loose electrons.
  *  Required config tag: MaxNLooseElectrons
  */
 class MaxLooseElectronsCountFilter: public CutRangeFilterBase<HttTypes> {
@@ -25,7 +25,7 @@ public:
 };
 
 
-/** Filter checking for the existance of exactly the given number of valid loose muons.
+/** Filter checking for the existance of at most the given number of valid loose muons.
  *  Required config tag: MaxNLooseMuons
  */
 class MaxLooseMuonsCountFilter: public CutRangeFilterBase<HttTypes> {
