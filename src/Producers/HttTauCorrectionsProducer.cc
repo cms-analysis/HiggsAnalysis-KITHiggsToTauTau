@@ -34,11 +34,13 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KDataPFTau* tau, event_typ
 		}
 		else if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero || tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng2PiZero)
 		{
-			tau->p4 = tau->p4 * (1.025 + 0.001 * std::min(std::max(tau->p4.Pt() - 45.0, 0.0), 10.0));
+			tau->p4 = tau->p4 * (1.012);
+// 			tau->p4 = tau->p4 * (1.015 + 0.001 * std::min(std::max(tau->p4.Pt() - 45.0, 0.0), 10.0));
 		}
 		else if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero)
 		{
-			tau->p4 = tau->p4 * (1.012 + 0.001 * std::min(std::max(tau->p4.Pt() - 32.0, 0.0), 18.0));
+			tau->p4 = tau->p4 * (1.012);
+// 			tau->p4 = tau->p4 * (1.012 + 0.001 * std::min(std::max(tau->p4.Pt() - 32.0, 0.0), 18.0));
 		}
 	}
 	else if (tauEnergyCorrection != TauEnergyCorrection::NONE)
