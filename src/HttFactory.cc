@@ -38,8 +38,12 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 		return new HttTauCorrectionsProducer();
 	else if(id == HttValidElectronsProducer().GetProducerId())
 		return new HttValidElectronsProducer();
+	else if(id == HttValidLooseElectronsProducer().GetProducerId())
+		return new HttValidLooseElectronsProducer();
 	else if(id == HttValidMuonsProducer().GetProducerId())
 		return new HttValidMuonsProducer();
+	else if(id == HttValidLooseMuonsProducer().GetProducerId())
+		return new HttValidLooseMuonsProducer();
 	else if(id == HttValidTausProducer().GetProducerId())
 		return new HttValidTausProducer();
 	else if(id == HttValidJetsProducer().GetProducerId())

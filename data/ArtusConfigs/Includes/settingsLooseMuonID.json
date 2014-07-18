@@ -1,0 +1,16 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+	],
+	"LooseMuonID" : "tight",
+	"LooseMuonIsoType" : "user",
+	"LooseMuonIso" : "none",
+	"LooseMuonIsoPtSumOverPtThresholdEB" : 0.3,
+	"LooseMuonIsoPtSumOverPtThresholdEE" : 0.3,
+	"LooseMuonLowerPtCuts" : [
+		"10.0"
+	],
+	"LooseMuonUpperAbsEtaCuts" : [
+		"2.5"
+	]
+}

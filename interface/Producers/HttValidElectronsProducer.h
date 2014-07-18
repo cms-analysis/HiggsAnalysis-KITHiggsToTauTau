@@ -111,3 +111,49 @@ private:
 	bool IsMVANonTrigElectronHttSummer2013(KDataElectron* electron, bool tightID) const;
 };
 
+
+/**
+ */
+class HttValidLooseElectronsProducer: public HttValidElectronsProducer
+{
+
+public:
+
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
+
+	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+		return "valid_loose_electrons";
+	}
+	
+	HttValidLooseElectronsProducer(
+			std::vector<KDataElectron*> product_type::*validElectrons=&product_type::m_validLooseElectrons,
+			std::vector<KDataElectron*> product_type::*invalidElectrons=&product_type::m_invalidLooseElectrons,
+			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetLooseElectronID,
+			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetLooseElectronIDType,
+			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetLooseElectronIsoType,
+			std::string (setting_type::*GetElectronIso)(void) const=&setting_type::GetLooseElectronIso,
+			std::string (setting_type::*GetElectronReco)(void) const=&setting_type::GetLooseElectronReco,
+			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetLooseElectronLowerPtCuts,
+			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetLooseElectronUpperAbsEtaCuts,
+			float (setting_type::*GetElectronChargedIsoVetoConeSizeEB)(void) const=&setting_type::GetElectronChargedIsoVetoConeSizeEB,
+			float (setting_type::*GetElectronChargedIsoVetoConeSizeEE)(void) const=&setting_type::GetElectronChargedIsoVetoConeSizeEE,
+			float (setting_type::*GetElectronNeutralIsoVetoConeSize)(void) const=&setting_type::GetElectronNeutralIsoVetoConeSize,
+			float (setting_type::*GetElectronPhotonIsoVetoConeSizeEB)(void) const=&setting_type::GetElectronPhotonIsoVetoConeSizeEB,
+			float (setting_type::*GetElectronPhotonIsoVetoConeSizeEE)(void) const=&setting_type::GetElectronPhotonIsoVetoConeSizeEE,
+			float (setting_type::*GetElectronDeltaBetaIsoVetoConeSize)(void) const=&setting_type::GetElectronDeltaBetaIsoVetoConeSize,
+			float (setting_type::*GetElectronChargedIsoPtThreshold)(void) const=&setting_type::GetElectronChargedIsoPtThreshold,
+			float (setting_type::*GetElectronNeutralIsoPtThreshold)(void) const=&setting_type::GetElectronNeutralIsoPtThreshold,
+			float (setting_type::*GetElectronPhotonIsoPtThreshold)(void) const=&setting_type::GetElectronPhotonIsoPtThreshold,
+			float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const=&setting_type::GetElectronDeltaBetaIsoPtThreshold,
+			float (setting_type::*GetElectronIsoSignalConeSize)(void) const=&setting_type::GetElectronIsoSignalConeSize,
+			float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const=&setting_type::GetElectronDeltaBetaCorrectionFactor,
+			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtThresholdEB,
+			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtThresholdEE,
+			float (setting_type::*GetElectronTrackDxyCut)(void) const=&setting_type::GetElectronTrackDxyCut,
+			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetElectronTrackDzCut
+	);
+
+};
+

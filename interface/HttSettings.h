@@ -67,6 +67,25 @@ public:
 	IMPL_SETTING(float, MuonTrackDxyCut);
 	IMPL_SETTING(float, MuonTrackDzCut);
 	
+	IMPL_SETTING(std::string, LooseElectronID);
+	IMPL_SETTING(std::string, LooseElectronIDType);
+	IMPL_SETTING(std::string, LooseElectronReco);
+	IMPL_SETTING(std::string, LooseMuonID);
+	
+	IMPL_SETTING(std::string, LooseElectronIsoType);
+	IMPL_SETTING(std::string, LooseElectronIso);
+	IMPL_SETTING(float, LooseElectronIsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, LooseElectronIsoPtSumOverPtThresholdEE);
+	IMPL_SETTING(std::string, LooseMuonIsoType);
+	IMPL_SETTING(std::string, LooseMuonIso);
+	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtThresholdEE);
+	
+	IMPL_SETTING_STRINGLIST(LooseElectronLowerPtCuts);
+	IMPL_SETTING_STRINGLIST(LooseMuonLowerPtCuts);
+	IMPL_SETTING_STRINGLIST(LooseElectronUpperAbsEtaCuts);
+	IMPL_SETTING_STRINGLIST(LooseMuonUpperAbsEtaCuts);
+	
 	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_FLOATLIST(TauDiscriminatorAntiElectronMvaCuts);
 	IMPL_SETTING_INTLIST(TauDiscriminatorAntiElectronMvaCutsLeptonIndices);

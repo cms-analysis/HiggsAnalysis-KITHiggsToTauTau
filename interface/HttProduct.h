@@ -14,6 +14,14 @@ class HttProduct : public KappaProduct
 {
 public:
 
+	/// added by HttValidLooseElectronsProducer
+	std::vector<KDataElectron*> m_validLooseElectrons;
+	std::vector<KDataElectron*> m_invalidLooseElectrons;
+
+	/// added by HttValidLoosMuonsProducer
+	std::vector<KDataMuon*> m_validLooseMuons;
+	std::vector<KDataMuon*> m_invalidLooseMuons;
+
 	// filled by DecayChannelProducer
 	HttEnumTypes::DecayChannel m_decayChannel;
 	
