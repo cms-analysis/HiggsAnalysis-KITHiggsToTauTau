@@ -42,6 +42,11 @@ public:
 	IMPL_SETTING_DEFAULT(float, ElectronPhotonIsoPtThreshold, 0.0);
 	IMPL_SETTING_DEFAULT(float, ElectronDeltaBetaIsoPtThreshold, 0.0);
 	
+	IMPL_SETTING(float, ElectronIsoSignalConeSize);
+	IMPL_SETTING(float, ElectronDeltaBetaCorrectionFactor);
+	IMPL_SETTING(float, ElectronIsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, ElectronIsoPtSumOverPtThresholdEE);
+	
 	IMPL_SETTING_DEFAULT(float, MuonChargedIsoVetoConeSize, 0.0);
 	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoVetoConeSize, 0.0);
 	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoVetoConeSize, 0.0);
@@ -52,10 +57,10 @@ public:
 	IMPL_SETTING_DEFAULT(float, MuonPhotonIsoPtThreshold, 0.0);
 	IMPL_SETTING_DEFAULT(float, MuonDeltaBetaIsoPtThreshold, 0.0);
 	
-	IMPL_SETTING(float, IsoSignalConeSize);
-	IMPL_SETTING(float, DeltaBetaCorrectionFactor);
-	IMPL_SETTING(float, IsoPtSumOverPtThresholdEB);
-	IMPL_SETTING(float, IsoPtSumOverPtThresholdEE);
+	IMPL_SETTING(float, MuonIsoSignalConeSize);
+	IMPL_SETTING(float, MuonDeltaBetaCorrectionFactor);
+	IMPL_SETTING(float, MuonIsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, MuonIsoPtSumOverPtThresholdEE);
 	
 	IMPL_SETTING(float, ElectronTrackDxyCut);
 	IMPL_SETTING(float, ElectronTrackDzCut);

@@ -29,8 +29,8 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 	if (validMuon && muonIsoType == MuonIsoType::USER) {
 		isolationPtSum = ParticleIsolation::IsolationPtSum(
 				muon->p4, event,
-				settings.GetIsoSignalConeSize(),
-				settings.GetDeltaBetaCorrectionFactor(),
+				settings.GetMuonIsoSignalConeSize(),
+				settings.GetMuonDeltaBetaCorrectionFactor(),
 				settings.GetMuonChargedIsoVetoConeSize(),
 				settings.GetMuonChargedIsoVetoConeSize(),
 				settings.GetMuonNeutralIsoVetoConeSize(),
@@ -48,8 +48,8 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 		product.m_leptonIsolation[muon] = isolationPtSum;
 		product.m_leptonIsolationOverPt[muon] = isolationPtSumOverPt;
 		
-		if ((muon->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetIsoPtSumOverPtThresholdEB()) ||
-		    (muon->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetIsoPtSumOverPtThresholdEE())) {
+		if ((muon->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetMuonIsoPtSumOverPtThresholdEB()) ||
+		    (muon->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetMuonIsoPtSumOverPtThresholdEE())) {
 			validMuon = false;
 		}
 	}

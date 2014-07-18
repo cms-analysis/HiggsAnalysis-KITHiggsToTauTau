@@ -55,8 +55,8 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	if (validElectron && electronIsoType == ElectronIsoType::USER) {
 		isolationPtSum = ParticleIsolation::IsolationPtSum(
 				electron->p4, event,
-				settings.GetIsoSignalConeSize(),
-				settings.GetDeltaBetaCorrectionFactor(),
+				settings.GetElectronIsoSignalConeSize(),
+				settings.GetElectronDeltaBetaCorrectionFactor(),
 				settings.GetElectronChargedIsoVetoConeSizeEB(),
 				settings.GetElectronChargedIsoVetoConeSizeEE(),
 				settings.GetElectronNeutralIsoVetoConeSize(),
@@ -74,8 +74,8 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 		product.m_leptonIsolation[electron] = isolationPtSum;
 		product.m_leptonIsolationOverPt[electron] = isolationPtSumOverPt;
 		
-		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetIsoPtSumOverPtThresholdEB()) ||
-		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetIsoPtSumOverPtThresholdEE())) {
+		if ((electron->p4.Eta() < DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetElectronIsoPtSumOverPtThresholdEB()) ||
+		    (electron->p4.Eta() >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > settings.GetElectronIsoPtSumOverPtThresholdEE())) {
 			validElectron = false;
 		}
 	}

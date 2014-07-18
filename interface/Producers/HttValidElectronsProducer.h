@@ -11,6 +11,20 @@
    
    Required config tags in addtion to the ones of the base class:
    - ElectronIDType
+   - ElectronChargedIsoVetoConeSizeEB (default given)
+   - ElectronChargedIsoVetoConeSizeEE (default given)
+   - ElectronNeutralIsoVetoConeSize (default given)
+   - ElectronPhotonIsoVetoConeSizeEB (default given)
+   - ElectronPhotonIsoVetoConeSizeEE (default given)
+   - ElectronDeltaBetaIsoVetoConeSize (default given)
+   - ElectronChargedIsoPtThreshold (default given)
+   - ElectronNeutralIsoPtThreshold (default given)
+   - ElectronPhotonIsoPtThreshold (default given)
+   - ElectronDeltaBetaIsoPtThreshold (default given)
+   - ElectronIsoSignalConeSize
+   - ElectronDeltaBetaCorrectionFactor
+   - ElectronIsoPtSumOverPtThresholdEB
+   - ElectronIsoPtSumOverPtThresholdEE
 */
 
 class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>

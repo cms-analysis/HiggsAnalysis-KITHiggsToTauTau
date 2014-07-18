@@ -10,7 +10,20 @@
    \brief GlobalProducer, for valid muons.
    
    Required config tags in addtion to the ones of the base class:
-   - Channel
+   - MuonChargedIsoVetoConeSizeEB (default given)
+   - MuonChargedIsoVetoConeSizeEE (default given)
+   - MuonNeutralIsoVetoConeSize (default given)
+   - MuonPhotonIsoVetoConeSizeEB (default given)
+   - MuonPhotonIsoVetoConeSizeEE (default given)
+   - MuonDeltaBetaIsoVetoConeSize (default given)
+   - MuonChargedIsoPtThreshold (default given)
+   - MuonNeutralIsoPtThreshold (default given)
+   - MuonPhotonIsoPtThreshold (default given)
+   - MuonDeltaBetaIsoPtThreshold (default given)
+   - MuonIsoSignalConeSize
+   - MuonDeltaBetaCorrectionFactor
+   - MuonIsoPtSumOverPtThresholdEB
+   - MuonIsoPtSumOverPtThresholdEE
 */
 
 class HttValidMuonsProducer: public ValidMuonsProducer<HttTypes>
