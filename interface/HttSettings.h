@@ -92,6 +92,9 @@ public:
 	
 	IMPL_SETTING(std::string, TauEnergyCorrection);
 	
+	IMPL_SETTING(int, NLooseElectrons);
+	IMPL_SETTING(int, NLooseMuons);
+	
 	IMPL_SETTING(int, MaxNLooseElectrons);
 	IMPL_SETTING(int, MaxNLooseMuons);
 	

@@ -22,6 +22,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTmvaClassificationReaders.h"
 
 // filters
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/MaxLooseObjectsCountFilters.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
@@ -89,7 +90,11 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 
 FilterBase<HttTypes> * HttFactory::createFilter(std::string const& id)
 {
-	if(id == MaxLooseElectronsCountFilter().GetFilterId())
+	if(id == LooseElectronsCountFilter().GetFilterId())
+		return new LooseElectronsCountFilter();
+	else if(id == LooseMuonsCountFilter().GetFilterId())
+		return new LooseMuonsCountFilter();
+	else if(id == MaxLooseElectronsCountFilter().GetFilterId())
 		return new MaxLooseElectronsCountFilter();
 	else if(id == MaxLooseMuonsCountFilter().GetFilterId())
 		return new MaxLooseMuonsCountFilter();
