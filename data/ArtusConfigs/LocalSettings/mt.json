@@ -8,6 +8,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
 		"Channel" : "MT",
+		"NLooseElectrons" : 0,
+		"NLooseMuons" : 1,
 		"NElectrons" : 0,
 		"NMuons" : 1,
 		"NTaus" : 1,
@@ -55,11 +57,42 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
 				]
 			},
-			"decayChannelIndex"
+			"decayChannelIndex",
+			"exclusiveEventCategoryIndex"
 		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"filter:n_loose_electrons",
+					"filter:n_loose_muons",
+					"producer:hlt_selector",
+					"filter:hlt_filter",
+					"producer:trigger_matching",
+					"producer:mvamet_mt_selector",
+					"producer:valid_electrons",
+					"filter:n_electrons",
+					"producer:valid_muons",
+					"filter:valid_muons",
+					"filter:n_muons",
+					"producer:valid_taus",
+					"filter:valid_taus",
+					"#filter:n_taus",
+					"producer:valid_tagged_jets",
+					"producer:valid_btagged_jets",
+					"producer:decay_channels",
+					"filter:decay_channel",
+					"#producer:svfit",
+					"producer:tautau_restframe",
+					"producer:dilepton_quantities",
+					"producer:dijet_quantities",
+					"producer:event_categories",
+					"producer:trigger_weight",
+					"producer:event_weight",
+					"producer:reco_cp"
+				],
+				"DoubleMu|TauPlusX" : [
+					"filter:n_loose_electrons",
+					"filter:n_loose_muons",
 					"producer:hlt_selector",
 					"filter:hlt_filter",
 					"producer:trigger_matching",
@@ -80,31 +113,7 @@
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
-					"producer:trigger_weight",
-					"producer:event_weight",
-					"producer:reco_cp"
-				],
-				"DoubleMu|TauPlusX" : [
-					"producer:hlt_selector",
-					"filter:hlt_filter",
-					"producer:trigger_matching",
-					"producer:mvamet_mt_selector",
-					"producer:valid_electrons",
-					"filter:n_electrons",
-					"producer:valid_muons",
-					"filter:valid_muons",
-					"filter:n_muons",
-					"producer:valid_taus",
-					"filter:valid_taus",
-					"filter:n_taus",
-					"producer:valid_tagged_jets",
-					"producer:valid_btagged_jets",
-					"producer:decay_channels",
-					"filter:decay_channel",
-					"producer:svfit",
-					"producer:tautau_restframe",
-					"producer:dilepton_quantities",
-					"producer:dijet_quantities",
+					"producer:event_categories",
 					"producer:event_weight"
 				]
 			}

@@ -1,6 +1,8 @@
 
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
+
 
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
@@ -11,7 +13,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataVertex primevertex = event.m_vertexSummary->pv;
 		KDataPFTau* tau1 = product.m_validTaus[0];
 		KDataPFTau* tau2 = product.m_validTaus[1];
-		if(tau1->signalChargedHadrCands.size()==1 && tau2->signalChargedHadrCands.size()==1 /*&& tau1->signalNeutrHadrCands.size()!=0 && tau2->signalNeutrHadrCands.size()!=0*/)
+		if(tau1->signalChargedHadrCands.size()==1 && tau2->signalChargedHadrCands.size()==1)
 		{
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			KPFCandidate* chargePart2 = &(tau2->signalChargedHadrCands[0]);
@@ -19,6 +21,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		}
 		else product.m_recoPhiStarCP = DefaultValues::UndefinedDouble;
 	}
+
 	else if (product.m_decayChannel == HttProduct::DecayChannel::EE)
 	{
 		KDataVertex primevertex = event.m_vertexSummary->pv;
@@ -38,7 +41,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataVertex primevertex = event.m_vertexSummary->pv;
 		KDataElectron* electron1 = product.m_validElectrons[0];
 		KDataPFTau* tau1 = product.m_validTaus[0];
-		if (tau1->signalChargedHadrCands.size()==1 /* && tau1->signalNeutrHadrCands.size()!=0 */)
+		if (tau1->signalChargedHadrCands.size()==1)
 		{
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(primevertex, electron1->track, tau1->track, electron1->p4, chargePart1->p4);
@@ -50,7 +53,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataVertex primevertex = event.m_vertexSummary->pv;
 		KDataMuon* muon1 = product.m_validMuons[0];
 		KDataPFTau* tau1 = product.m_validTaus[0];
-		if (tau1->signalChargedHadrCands.size()==1 /* && tau1->signalNeutrHadrCands.size()!=0 */)
+		if (tau1->signalChargedHadrCands.size()==1
 		{
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(primevertex, muon1->track, tau1->track, muon1->p4, chargePart1->p4);

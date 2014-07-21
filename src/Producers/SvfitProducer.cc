@@ -4,6 +4,7 @@
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
 
 
@@ -30,30 +31,28 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	
 	// construct decay types
 	svFitStandalone::kDecayType decayType1 = svFitStandalone::kTauToHadDecay;
-	if (product.m_decayChannel == HttProduct::DecayChannel::MT || product.m_decayChannel == HttProduct::DecayChannel::MM)
+	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::MM)
 	{
 		decayType1 = svFitStandalone::kTauToMuDecay;
 	}
-	else if (product.m_decayChannel == HttProduct::DecayChannel::ET || product.m_decayChannel == HttProduct::DecayChannel::EE)
+	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET || product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
 	{
 		decayType1 = svFitStandalone::kTauToElecDecay;
 	}
 	
 	svFitStandalone::kDecayType decayType2 = svFitStandalone::kTauToHadDecay;
-	if (product.m_decayChannel == HttProduct::DecayChannel::MM)
+	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MM)
 	{
 		decayType2 = svFitStandalone::kTauToMuDecay;
 	}
-	else if (product.m_decayChannel == HttProduct::DecayChannel::EE)
+	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
 	{
 		decayType2 = svFitStandalone::kTauToElecDecay;
 	}
 	
 	// construct event key
-	product.m_svfitEventKey.Set(event.m_eventMetadata->nRun,
-	                            event.m_eventMetadata->nLumi,
-	                            event.m_eventMetadata->nEvent,
-	                            integrationMethod);
+	product.m_svfitEventKey.Set(event.m_eventMetadata->nRun, event.m_eventMetadata->nLumi, event.m_eventMetadata->nEvent,
+	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod);
 	
 	// construct inputs
 	product.m_svfitInputs.Set(decayType1, decayType2,

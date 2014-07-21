@@ -26,12 +26,16 @@
 */
 
 /// all data types which are used for Htt analyses
-struct HttTypes {
-        /// content of the kappa ntuple
+class HttTypes {
+
+public:
+	/// content of the kappa ntuple
 	typedef HttEvent event_type;
-        /// objects that have been produced for plotting within Artus (i.e. logic implemented at analysis level)
+	
+	/// objects that have been produced for plotting within Artus (i.e. logic implemented at analysis level)
 	typedef HttProduct product_type;
-        /// configuration settings which are Htt specific? 
+	
+	/// configuration settings which are Htt specific? 
 	typedef HttSettings setting_type;
 };
 

@@ -2,6 +2,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
@@ -9,7 +10,26 @@
 
 void TauTauRestFrameSelector::Init(setting_type const& settings)
 {
-	tauTauRestFrameReco = ToTauTauRestFrameReco(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauTauRestFrameReco())));
+	ProducerBase<HttTypes>::Init(settings);
+	
+	tauTauRestFrameReco = HttEnumTypes::ToTauTauRestFrameReco(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauTauRestFrameReco())));
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauPt"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Pt();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauEta"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Eta();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauPhi"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Phi();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauMass"] = [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.mass();
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["diTauSystemReconstructed"] = [](event_type const& event, product_type const& product) {
+		return (product.m_diTauSystemReconstructed ? 1.0 : 0.0);
+	};
 }
 
 void TauTauRestFrameSelector::Produce(event_type const& event, product_type& product,
@@ -21,7 +41,7 @@ void TauTauRestFrameSelector::Produce(event_type const& event, product_type& pro
 	product.m_flavourOrderedTauMomenta.clear();
 
 	// select the requested restframe reconstruction
-	if (tauTauRestFrameReco == TauTauRestFrameReco::VISIBLE_LEPTONS)
+	if (tauTauRestFrameReco == HttEnumTypes::TauTauRestFrameReco::VISIBLE_LEPTONS)
 	{
 		product.m_flavourOrderedTauMomenta.push_back(product.m_flavourOrderedLeptons[0]->p4);
 		product.m_flavourOrderedTauMomenta.push_back(product.m_flavourOrderedLeptons[1]->p4);
@@ -30,14 +50,14 @@ void TauTauRestFrameSelector::Produce(event_type const& event, product_type& pro
 		product.m_diTauSystem = product.m_diLeptonSystem;
 		product.m_diTauSystemReconstructed = false;
 	}
-	if (tauTauRestFrameReco == TauTauRestFrameReco::VISIBLE_LEPTONS_MET)
+	if (tauTauRestFrameReco == HttEnumTypes::TauTauRestFrameReco::VISIBLE_LEPTONS_MET)
 	{
 		product.m_tauMomentaReconstructed = false;
 		
 		product.m_diTauSystem = product.m_diLeptonPlusMetSystem;
 		product.m_diTauSystemReconstructed = false;
 	}
-	else if (tauTauRestFrameReco == TauTauRestFrameReco::COLLINEAR_APPROXIMATION)
+	else if (tauTauRestFrameReco == HttEnumTypes::TauTauRestFrameReco::COLLINEAR_APPROXIMATION)
 	{
 		product.m_flavourOrderedTauMomenta = product.m_flavourOrderedTauMomentaCA;
 		
@@ -45,7 +65,7 @@ void TauTauRestFrameSelector::Produce(event_type const& event, product_type& pro
 		product.m_diTauSystem = (product.m_validCollinearApproximation ? product.m_diTauSystemCA : product.m_diLeptonPlusMetSystem);
 		product.m_diTauSystemReconstructed = product.m_validCollinearApproximation;
 	}
-	else if (tauTauRestFrameReco == TauTauRestFrameReco::SVFIT)
+	else if (tauTauRestFrameReco == HttEnumTypes::TauTauRestFrameReco::SVFIT)
 	{
 		product.m_tauMomentaReconstructed = false;
 		
@@ -68,5 +88,7 @@ void TauTauRestFrameSelector::Produce(event_type const& event, product_type& pro
 	}
 	
 	product.m_boostToDiTauRestFrame = ROOT::Math::Boost(product.m_diTauSystem.BoostToCM());
+	
+	product.m_tauTauRestFrameReco = tauTauRestFrameReco;
 }
 

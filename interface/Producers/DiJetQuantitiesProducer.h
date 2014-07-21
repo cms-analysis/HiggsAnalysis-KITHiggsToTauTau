@@ -19,6 +19,8 @@ public:
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
 		return "dijet_quantities";
 	}
+	
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE;

@@ -1,7 +1,10 @@
 {
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json"
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauES.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsLooseElectronID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsLooseMuonID.json"
 	],
 	"#LumiWhitelist" : [
 		1555
@@ -24,8 +27,22 @@
 		"nick" : {
 			"default" : [
 				"#filter:run_lumi_event",
-				"producer:tagged_jet_energy_correction",
 				"producer:electron_eta_selector",
+				"producer:tagged_jet_corrections",
+				"producer:valid_loose_electrons",
+				"producer:valid_loose_muons",
+				"producer:pu_weights",
+				"producer:gen_particle",
+				"producer:gen_taudecay",
+				"producer:gen_cp"
+			],
+			"HToTauTau" : [
+				"#filter:run_lumi_event",
+				"producer:electron_eta_selector",
+				"producer:tau_corrections",
+				"producer:tagged_jet_corrections",
+				"producer:valid_loose_electrons",
+				"producer:valid_loose_muons",
 				"producer:pu_weights",
 				"producer:gen_particle",
 				"producer:gen_taudecay",
@@ -33,8 +50,10 @@
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
-				"producer:tagged_jet_energy_correction",
-				"producer:electron_eta_selector"
+				"producer:electron_eta_selector",
+				"producer:tagged_jet_corrections",
+				"producer:valid_loose_electrons",
+				"producer:valid_loose_muons"
 			]
 		}
 	},

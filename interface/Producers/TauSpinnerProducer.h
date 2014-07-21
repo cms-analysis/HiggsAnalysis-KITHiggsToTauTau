@@ -10,37 +10,41 @@
 
 /**
    \brief GlobalProducer, for tau decays on generator level. Following quantities are calculated:
-   
-   -This producer has the product of the GenTauDecayProducer as input and calculates the TauSpinnerWeight 
+   -This producer has the product of the GenTauDecayProducer as input and calculates the TauSpinnerWeight
    for these particles, where tau is the daughter of Higgs
 
 */
 
-class TauSpinnerProducer: public ProducerBase<HttTypes> {
+class TauSpinnerProducer: public ProducerBase<HttTypes>
+{
 public:
 
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
-	
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE
+	{
 		return "tauspinner";
 	}
 
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
-	
+						 setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
+
 
 private:
 	virtual TauSpinner::SimpleParticle getSimpleParticle(KGenParticle*& in) const;
-	virtual std::vector<TauSpinner::SimpleParticle> *GetFinalStates(MotherDaughterBundle& mother,
-                                        std::vector<TauSpinner::SimpleParticle> *resultVector) const;
-	virtual double GetMass(std::vector<TauSpinner::SimpleParticle> in) const;
-	virtual void LogSimpleParticle(std::string particleName, TauSpinner::SimpleParticle in) const;
-	virtual void LogSimpleParticle(std::string particleName, std::vector<TauSpinner::SimpleParticle> in) const;
-
+	virtual std::vector<TauSpinner::SimpleParticle>* GetFinalStates(MotherDaughterBundle& mother,
+			std::vector<TauSpinner::SimpleParticle>* resultVector) const;
+	inline bool isMassPhysical(TauSpinner::SimpleParticle in) const
+	{
+		return ((pow(in.e(), 2) - pow(in.px(), 2) - pow(in.py(), 2) - pow(in.pz(), 2)) >= 0);
+	}
+	virtual bool isMassPhysical(std::vector<TauSpinner::SimpleParticle> in) const;
 };
 
-
+namespace std{
+	string to_string(TauSpinner::SimpleParticle& particle);
+	string to_string(std::vector<TauSpinner::SimpleParticle>& particleVector);
+}

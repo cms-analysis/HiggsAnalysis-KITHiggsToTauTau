@@ -13,8 +13,6 @@ public:
 
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
-
-	typedef std::function<float(event_type const&, product_type const&)> float_extractor_lambda;
 	
 	virtual void Init(Pipeline<HttTypes> * pipeline) ARTUS_CPP11_OVERRIDE;
 };

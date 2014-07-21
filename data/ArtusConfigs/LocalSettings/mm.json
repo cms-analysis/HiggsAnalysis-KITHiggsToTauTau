@@ -8,6 +8,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
 		"Channel" : "MM",
+		"NLooseElectrons" : 0,
+		"NLooseMuons" : 2,
 		"NElectrons" : 0,
 		"NMuons" : 2,
 		"HltPaths" : [
@@ -34,11 +36,14 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
 				]
 			},
-			"decayChannelIndex"
+			"decayChannelIndex",
+			"exclusiveEventCategoryIndex"
 		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"filter:n_loose_electrons",
+					"filter:n_loose_muons",
 					"producer:hlt_selector",
 					"#filter:hlt_filter",
 					"producer:trigger_matching",
@@ -57,10 +62,13 @@
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
+					"producer:event_categories",
 					"producer:event_weight",
 					"producer:reco_cp"
 				],
 				"DoubleMu|TauPlusX" : [
+					"filter:n_loose_electrons",
+					"filter:n_loose_muons",
 					"producer:hlt_selector",
 					"#filter:hlt_filter",
 					"producer:trigger_matching",
@@ -75,10 +83,11 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"producer:svfit",
+					"#producer:svfit",
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
+					"producer:event_categories",
 					"producer:event_weight"
 				]
 			}

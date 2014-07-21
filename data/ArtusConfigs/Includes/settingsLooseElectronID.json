@@ -1,0 +1,19 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json"
+	],
+	
+	"LooseElectronReco" : "user",
+	"LooseElectronID" : "user",
+	"LooseElectronIDType" : "summer2013loose",
+	"LooseElectronIsoType" : "user",
+	"LooseElectronIso" : "none",
+	"LooseElectronIsoPtSumOverPtThresholdEB" : 0.3,
+	"LooseElectronIsoPtSumOverPtThresholdEE" : 0.3,
+	"LooseElectronLowerPtCuts" : [
+		"10.0"
+	],
+	"LooseElectronUpperAbsEtaCuts" : [
+		"2.5"
+	]
+}

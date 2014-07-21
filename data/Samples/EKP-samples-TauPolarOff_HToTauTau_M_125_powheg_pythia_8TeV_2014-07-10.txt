@@ -1,0 +1,3 @@
+/storage/a/friese/skimming/2014-07-10-sync-exercise/TauPolarOff_DYJetsToLL_M_50_madgraph_8TeV/
+/storage/a/friese/skimming/2014-07-10-sync-exercise/TauPolarOff_GluGlu_HToTauTau_M_125_pythia_8TeV/
+/storage/a/friese/skimming/2014-07-10-sync-exercise/TauPolarOff_VBF_HToTauTau_M_125_pythia_8TeV/
