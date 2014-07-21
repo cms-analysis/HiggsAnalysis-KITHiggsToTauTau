@@ -26,8 +26,8 @@ public:
 		else if (decayChannelString == "mt") return DecayChannel::MT;
 		else if (decayChannelString == "et") return DecayChannel::ET;
 		else if (decayChannelString == "em") return DecayChannel::EM;
-		else if (decayChannelString == "ee") return DecayChannel::MM;
-		else if (decayChannelString == "mm") return DecayChannel::EE;
+		else if (decayChannelString == "mm") return DecayChannel::MM;
+		else if (decayChannelString == "ee") return DecayChannel::EE;
 		return DecayChannel::NONE;
 	}
 	
