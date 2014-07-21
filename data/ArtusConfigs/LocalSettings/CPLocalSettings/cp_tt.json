@@ -5,7 +5,6 @@
 	"tt": {
 	"Quantities":[
 	"recoPhiStarCP"
-	],
-	"TauTauRestFrameReco": "collinear_approximation"
+	]
 	}
 }

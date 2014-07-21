@@ -66,7 +66,7 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 			}
 		}
 		product.m_genPhiDet = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
-		product.m_genPhiStarCPDet = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
+		//product.m_genPhiStarCPDet = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
 	}
 	else
 	{
