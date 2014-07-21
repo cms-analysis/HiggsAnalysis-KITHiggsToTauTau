@@ -18,10 +18,6 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_genPhiStarCP;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["recoPhiStarCP"] = [](event_type const & event, product_type const & product)
-	{
-		return product.m_recoPhiStarCP;
-	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["genPhi"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genPhi;

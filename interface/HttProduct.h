@@ -82,17 +82,16 @@ public:
 	double m_genPhi;
 	double m_genPhiStarCP;
 	std::pair <double,double> m_genChargedProngEnergies;
-	std::pair <double,double> m_genChargedPionEnergiesApprox;
 	double m_genThetaNuHadron;
 	double m_genAlphaTauNeutrinos;
 	double m_genPhiDet;
 	double m_genPhiStarCPDet;
+	KGenParticle* m_genOneProngCharged1 = 0;
+	KGenParticle* m_genOneProngCharged2 = 0;
 
 	// filled by RecoTauCPProducer
 	double m_recoPhiStarCP;
-
-	KGenParticle* m_genOneProngCharged1 = 0;
-	KGenParticle* m_genOneProngCharged2 = 0;
+	std::pair <double,double> m_recoChargedHadronEnergies;
 	
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;

@@ -4,7 +4,9 @@
 	],
 	"tt": {
 	"Quantities":[
-	"recoPhiStarCP"
+	"recoPhiStarCP",
+	"recoChargedHadron1Energy",
+	"recoChargedHadron2Energy"
 	]
 	}
 }

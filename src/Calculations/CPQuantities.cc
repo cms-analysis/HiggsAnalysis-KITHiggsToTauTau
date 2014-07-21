@@ -1,14 +1,14 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
-
+// this version uses tau 4-momenta to calculate decay planes (usefull for GenTauCPProducer)
 float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
 {
 	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
 	RMDataLV PionImp = chargPart1 + chargPart2;
 	RMDataLV::BetaVector boostvec = PionImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
-	std::cout <<"Gen: " << chargPart1 << " " << chargPart2 << std::endl;
+	//std::cout <<"Gen: " << chargPart1 << " " << chargPart2 << std::endl;
 	//Step 2: Calculating impact parameter vectors n1 n2
 
 	//Momentum vectors of the charged particles
@@ -29,7 +29,7 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	n1 = n1.Unit();
 	n2 = n2.Unit();
 	
-	LOG_N_TIMES(20, DEBUG) << n1.Dot(p1) << "            " << n2.Dot(p2) << std::endl;
+	//std::cout << n1.Dot(p1) << "            " << n2.Dot(p2) << std::endl;
 
 	//Step 3: Boosting 4-vectors (n1,0), (n2,0), p1, p2 with M
 	RMDataLV n1_mu, n2_mu;
@@ -67,13 +67,14 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	LOG_N_TIMES(20, DEBUG)  << "Phi*: " << phiStarCP;
 	return phiStarCP;
 }
+// this version uses track and vertex information to calculate the decay planes (usefull for RecoTauCPProducer)
 float CPQuantities::CalculatePhiStarCP(KDataVertex pv, KDataTrack track1, KDataTrack track2,  RMDataLV chargPart1, RMDataLV chargPart2)
 {
 	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
 	RMDataLV PionImp = chargPart1 + chargPart2;
 	RMDataLV::BetaVector boostvec = PionImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
-	std::cout <<"Reco: " << chargPart1 << " " << chargPart2 << std::endl << "--------------------" << std::endl;
+	//std::cout <<"Reco: " << chargPart1 << " " << chargPart2 << std::endl << "--------------------" << std::endl;
 	//Step 2: Calculating impact parameter vectors n1 n2
 
 	//Momentum vectors of the charged particles
@@ -83,13 +84,13 @@ float CPQuantities::CalculatePhiStarCP(KDataVertex pv, KDataTrack track1, KDataT
 
 	//Primary vertex
 	RMDataLV::BetaVector pvpos;
-	pvpos.SetXYZ((pv.position).X(), (pv.position).Y(), (pv.position).Y());
+	pvpos.SetXYZ((pv.position).X(), (pv.position).Y(), (pv.position).Z());
 
 	//Points on tau tracks
 	RMDataLV::BetaVector track1pos, track2pos;
 	track1pos.SetXYZ((track1.ref).X(), (track1.ref).Y(), (track1.ref).Z());
 	track2pos.SetXYZ((track2.ref).X(), (track2.ref).Y(), (track2.ref).Z());
-	// std::cout << pvpos << " " << track1pos << " " << track2pos << std::endl;
+	//std::cout << pvpos << " " << track1pos << " " << track2pos << std::endl;
 
 	//Flight direction of taus determined from pv and trackpos
 	RMDataLV::BetaVector k1, k2;
@@ -140,6 +141,15 @@ float CPQuantities::CalculatePhiStarCP(KDataVertex pv, KDataTrack track1, KDataT
 	}
 	//std::cout  << "Phi*CP: " << phiStarCP << std::endl;
 	return phiStarCP;
+}
+float CPQuantities::CalculateChargedHadronEnergy(RMDataLV diTauMomentum, RMDataLV chargHad)
+{
+	// Step 1: Creating Boost into diTau rest frame
+	RMDataLV::BetaVector boostditau = diTauMomentum.BoostToCM();
+	ROOT::Math::Boost Mditau(boostditau);
+	// Step 2: Boosting hadron and extracting energy
+	chargHad = Mditau * chargHad;
+	return chargHad.E();
 }
 float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
 {
