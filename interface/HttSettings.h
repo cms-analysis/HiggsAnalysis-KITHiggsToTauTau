@@ -27,6 +27,11 @@ public:
 	
 	IMPL_SETTING_STRINGLIST(TriggerEfficiencyData);
 	IMPL_SETTING_STRINGLIST(TriggerEfficiencyMc);
+	IMPL_SETTING_DEFAULT(std::string, TriggerEfficiencyHistogram, "triggerEfficiency");
+	
+	IMPL_SETTING_STRINGLIST(IdentificationEfficiencyData);
+	IMPL_SETTING_STRINGLIST(IdentificationEfficiencyMc);
+	IMPL_SETTING_DEFAULT(std::string, IdentificationEfficiencyHistogram, "identificationEfficiency");
 	
 	IMPL_SETTING(std::string, ElectronIDType);
 	
