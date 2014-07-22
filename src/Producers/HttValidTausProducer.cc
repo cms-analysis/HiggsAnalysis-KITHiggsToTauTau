@@ -36,6 +36,16 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 		}
 	}
 	
+	// remove taus which overlap with electrons and muons in a DeltaR cone
+	for (std::vector<KDataElectron*>::const_iterator electron = product.m_validElectrons.begin(); validTau && electron != product.m_validElectrons.end(); ++electron)
+		{
+			validTau = validTau && ROOT::Math::VectorUtil::DeltaR(tau->p4, (*electron)->p4) > settings.GetTauElectronLowerDeltaRCut();
+		}
+	for (std::vector<KDataMuon*>::const_iterator muon = product.m_validMuons.begin(); validTau && muon != product.m_validMuons.end(); ++muon)
+		{
+			validTau = validTau && ROOT::Math::VectorUtil::DeltaR(tau->p4, (*muon)->p4) > settings.GetTauMuonLowerDeltaRCut();
+		}
+
 	return validTau;
 }
 
