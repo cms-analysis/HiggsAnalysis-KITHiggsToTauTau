@@ -3,6 +3,7 @@
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsVetoMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
@@ -77,6 +78,8 @@
 					"producer:valid_taus",
 					"filter:valid_taus",
 					"#filter:n_taus",
+					"producer:valid_veto_muons",
+					"filter:di_veto_muon_veto",
 					"producer:valid_tagged_jets",
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
@@ -105,6 +108,8 @@
 					"producer:valid_taus",
 					"filter:valid_taus",
 					"filter:n_taus",
+					"producer:valid_veto_muons",
+					"filter:di_veto_muon_veto",
 					"producer:valid_tagged_jets",
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
