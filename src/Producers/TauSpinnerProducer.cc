@@ -23,7 +23,7 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	int nonSM2 = settings.GetTauSpinnerSettingsNonSM2();
 	int nonSMN = settings.GetTauSpinnerSettingsNonSMN();
 	TauSpinner::initialize_spinner(ipp, ipol, nonSM2, nonSMN, CmsEnergy);
-
+	TauSpinner::setHiggsParametersTR(-1, 1, 0, 0);
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::Quantities["allMassesPhysical"] = [](event_type const& event, product_type const& product) {
 		return product.m_allMassesPhysical;
