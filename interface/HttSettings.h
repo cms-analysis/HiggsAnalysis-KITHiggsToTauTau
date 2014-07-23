@@ -110,6 +110,13 @@ public:
 	IMPL_SETTING_STRINGLIST(VetoElectronUpperAbsEtaCuts);
 	IMPL_SETTING_STRINGLIST(VetoMuonUpperAbsEtaCuts);
 	
+	IMPL_SETTING(std::string, DiVetoElectronVetoMode);
+	IMPL_SETTING(std::string, DiVetoMuonVetoMode);
+	
+	IMPL_SETTING(float, RecoMuonInElectronConeLowerPtCut);
+	IMPL_SETTING(float, RecoMuonInElectronConeUpperAbsEtaCut);
+	IMPL_SETTING(float, RecoMuonInElectronConeSize);
+	
 	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_FLOATLIST(TauDiscriminatorAntiElectronMvaCuts);
 	IMPL_SETTING_INTLIST(TauDiscriminatorAntiElectronMvaCutsLeptonIndices);

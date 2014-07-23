@@ -24,6 +24,8 @@
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/MaxLooseObjectsCountFilters.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DiLeptonVetoFilters.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/RecoMuonInElectronConeVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
 
@@ -104,6 +106,12 @@ FilterBase<HttTypes> * HttFactory::createFilter(std::string const& id)
 		return new MaxLooseElectronsCountFilter();
 	else if(id == MaxLooseMuonsCountFilter().GetFilterId())
 		return new MaxLooseMuonsCountFilter();
+	else if(id == DiVetoElectronVetoFilter().GetFilterId())
+		return new DiVetoElectronVetoFilter();
+	else if(id == DiVetoMuonVetoFilter().GetFilterId())
+		return new DiVetoMuonVetoFilter();
+	else if(id == RecoMuonInElectronConeVetoFilter().GetFilterId())
+		return new RecoMuonInElectronConeVetoFilter();
 	else if(id == DecayChannelFilter().GetFilterId())
 		return new DecayChannelFilter();
 	else if(id == EventCategoryFilter().GetFilterId())
