@@ -127,3 +127,47 @@ public:
 
 };
 
+
+/**
+   \brief 
+*/
+
+class HttValidVetoMuonsProducer: public HttValidMuonsProducer
+{
+
+public:
+
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
+
+	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+		return "valid_veto_muons";
+	}
+	
+	HttValidVetoMuonsProducer(
+			std::vector<KDataMuon*> product_type::*validMuons=&product_type::m_validVetoMuons,
+			std::vector<KDataMuon*> product_type::*invalidMuons=&product_type::m_invalidVetoMuons,
+			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetVetoMuonID,
+			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetVetoMuonIsoType,
+			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetVetoMuonIso,
+			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetVetoMuonLowerPtCuts,
+			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetVetoMuonUpperAbsEtaCuts,
+			float (setting_type::*GetMuonChargedIsoVetoConeSize)(void) const=&setting_type::GetMuonChargedIsoVetoConeSize,
+			float (setting_type::*GetMuonNeutralIsoVetoConeSize)(void) const=&setting_type::GetMuonNeutralIsoVetoConeSize,
+			float (setting_type::*GetMuonPhotonIsoVetoConeSize)(void) const=&setting_type::GetMuonPhotonIsoVetoConeSize,
+			float (setting_type::*GetMuonDeltaBetaIsoVetoConeSize)(void) const=&setting_type::GetMuonDeltaBetaIsoVetoConeSize,
+			float (setting_type::*GetMuonChargedIsoPtThreshold)(void) const=&setting_type::GetMuonChargedIsoPtThreshold,
+			float (setting_type::*GetMuonNeutralIsoPtThreshold)(void) const=&setting_type::GetMuonNeutralIsoPtThreshold,
+			float (setting_type::*GetMuonPhotonIsoPtThreshold)(void) const=&setting_type::GetMuonPhotonIsoPtThreshold,
+			float (setting_type::*GetMuonDeltaBetaIsoPtThreshold)(void) const=&setting_type::GetMuonDeltaBetaIsoPtThreshold,
+			float (setting_type::*GetMuonIsoSignalConeSize)(void) const=&setting_type::GetMuonIsoSignalConeSize,
+			float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const=&setting_type::GetMuonDeltaBetaCorrectionFactor,
+			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetVetoMuonIsoPtSumOverPtThresholdEB,
+			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetVetoMuonIsoPtSumOverPtThresholdEE,
+			float (setting_type::*GetMuonTrackDxyCut)(void) const=&setting_type::GetMuonTrackDxyCut,
+			float (setting_type::*GetMuonTrackDzCut)(void) const=&setting_type::GetMuonTrackDzCut
+	);
+
+};
+

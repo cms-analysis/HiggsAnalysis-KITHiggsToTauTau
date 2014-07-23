@@ -91,6 +91,25 @@ public:
 	IMPL_SETTING_STRINGLIST(LooseElectronUpperAbsEtaCuts);
 	IMPL_SETTING_STRINGLIST(LooseMuonUpperAbsEtaCuts);
 	
+	IMPL_SETTING(std::string, VetoElectronID);
+	IMPL_SETTING(std::string, VetoElectronIDType);
+	IMPL_SETTING(std::string, VetoElectronReco);
+	IMPL_SETTING(std::string, VetoMuonID);
+	
+	IMPL_SETTING(std::string, VetoElectronIsoType);
+	IMPL_SETTING(std::string, VetoElectronIso);
+	IMPL_SETTING(float, VetoElectronIsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, VetoElectronIsoPtSumOverPtThresholdEE);
+	IMPL_SETTING(std::string, VetoMuonIsoType);
+	IMPL_SETTING(std::string, VetoMuonIso);
+	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtThresholdEB);
+	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtThresholdEE);
+	
+	IMPL_SETTING_STRINGLIST(VetoElectronLowerPtCuts);
+	IMPL_SETTING_STRINGLIST(VetoMuonLowerPtCuts);
+	IMPL_SETTING_STRINGLIST(VetoElectronUpperAbsEtaCuts);
+	IMPL_SETTING_STRINGLIST(VetoMuonUpperAbsEtaCuts);
+	
 	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_FLOATLIST(TauDiscriminatorAntiElectronMvaCuts);
 	IMPL_SETTING_INTLIST(TauDiscriminatorAntiElectronMvaCutsLeptonIndices);

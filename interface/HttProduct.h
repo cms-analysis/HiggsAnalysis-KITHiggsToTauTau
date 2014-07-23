@@ -18,9 +18,17 @@ public:
 	std::vector<KDataElectron*> m_validLooseElectrons;
 	std::vector<KDataElectron*> m_invalidLooseElectrons;
 
-	/// added by HttValidLoosMuonsProducer
+	/// added by HttValidVetoElectronsProducer
+	std::vector<KDataElectron*> m_validVetoElectrons;
+	std::vector<KDataElectron*> m_invalidVetoElectrons;
+
+	/// added by HttValidLooseMuonsProducer
 	std::vector<KDataMuon*> m_validLooseMuons;
 	std::vector<KDataMuon*> m_invalidLooseMuons;
+
+	/// added by HttValidVetoMuonsProducer
+	std::vector<KDataMuon*> m_validVetoMuons;
+	std::vector<KDataMuon*> m_invalidVetoMuons;
 
 	// filled by DecayChannelProducer
 	HttEnumTypes::DecayChannel m_decayChannel;
