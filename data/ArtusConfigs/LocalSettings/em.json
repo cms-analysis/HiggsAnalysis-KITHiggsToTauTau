@@ -30,6 +30,14 @@
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Mu17_Ele8_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_MC53X_electronLeg.root",
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Mu17_Ele8_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_MC53X_muonLeg.root"
 		],
+		"IdentificationEfficiencyData" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Data2012ABCD_em_muon.root",
+			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Data2012ABCD_em_muon.root"
+		],
+		"IdentificationEfficiencyMc" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_em_muon.root",
+			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_em_muon.root"
+		],
 		"TauDiscriminatorIsolationCut" : 1.5,
 		"ElectronLowerPtCuts" : [
 			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0",
@@ -94,6 +102,7 @@
 					"producer:dijet_quantities",
 					"producer:event_categories",
 					"producer:trigger_weight",
+					"producer:identification_weight",
 					"#producer:anti_ttbar_mva",
 					"producer:event_weight",
 					"producer:reco_cp"

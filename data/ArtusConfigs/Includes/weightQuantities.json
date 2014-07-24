@@ -3,6 +3,8 @@
 		"hltWeight",
 		"triggerWeight1",
 		"triggerWeight2",
+		"identificationWeight1",
+		"identificationWeight2",
 		"puWeight",
 		"tauEnergyScaleWeight",
 		"eventWeight"
