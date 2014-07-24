@@ -26,13 +26,6 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output",
 	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Mu17_Ele8_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_MC53X_electronLeg.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
-	
-	parser.add_argument("--n-bins-pt", type=int, default=300,
-	                    help="Number of pt bins. [Default: %(default)s]")
-	parser.add_argument("--min-pt", type=float, default=0.0,
-	                    help="Minium pt. [Default: %(default)s]")
-	parser.add_argument("--max-pt", type=float, default=300.0,
-	                    help="Maxium pt. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
