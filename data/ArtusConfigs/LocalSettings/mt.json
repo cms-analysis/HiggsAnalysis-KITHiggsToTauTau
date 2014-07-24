@@ -27,6 +27,14 @@
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_IsoMu17_MC53X.root",
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_MC53X_mt_withoutES.root"
 		],
+		"IdentificationEfficiencyData" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Data2012ABCD_mt_muon_ID.root",
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Data2012ABCD_mt_muon_Iso.root"
+		],
+		"IdentificationEfficiencyMc" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_mt_muon_ID.root",
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_mt_muon_Iso.root"
+		],
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByLooseElectronRejection",
@@ -91,6 +99,7 @@
 					"producer:dijet_quantities",
 					"producer:event_categories",
 					"producer:trigger_weight",
+					"producer:identification_weight",
 					"producer:event_weight",
 					"producer:reco_cp"
 				],
