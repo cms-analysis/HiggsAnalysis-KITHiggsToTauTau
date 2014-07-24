@@ -122,6 +122,9 @@ public:
 	IMPL_SETTING_FLOATLIST(TauDiscriminatorAntiElectronMvaCuts);
 	IMPL_SETTING_INTLIST(TauDiscriminatorAntiElectronMvaCutsLeptonIndices);
 	
+	IMPL_SETTING_DEFAULT(float, TauLowerZImpactCut, std::numeric_limits<float>::max());
+	IMPL_SETTING_DEFAULT(float, TauUpperZImpactCut, std::numeric_limits<float>::max());
+	
 	IMPL_SETTING(std::string, TauEnergyCorrection);
 	
 	IMPL_SETTING(int, NLooseElectrons);

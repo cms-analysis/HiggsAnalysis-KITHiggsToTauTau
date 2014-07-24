@@ -58,7 +58,16 @@ bool HttValidTausProducer::ApplyCustomElectronRejection(KDataPFTau* tau, event_t
 	                                                    setting_type const& settings) const
 {
 	bool validTau = true;
-	
+
+	// cut designed to suppress a spike in the tau eta distribution when using the MVA3 discriminator
+	float zImpact = tau->track.ref.z() + (130. / tan(tau->p4.Theta()));
+
+	if (zImpact > settings.GetTauLowerZImpactCut() && zImpact < settings.GetTauUpperZImpactCut())
+	{
+		validTau = validTau && false;
+		return validTau;
+	}
+
 	int category = (int)(tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejectioncategory", event.m_tauDiscriminatorMetadata) + 0.5);
 	float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejection", event.m_tauDiscriminatorMetadata);
 
