@@ -67,10 +67,11 @@ public:
 	IMPL_SETTING(float, MuonIsoPtSumOverPtThresholdEB);
 	IMPL_SETTING(float, MuonIsoPtSumOverPtThresholdEE);
 	
-	IMPL_SETTING(float, ElectronTrackDxyCut);
-	IMPL_SETTING(float, ElectronTrackDzCut);
-	IMPL_SETTING(float, MuonTrackDxyCut);
-	IMPL_SETTING(float, MuonTrackDzCut);
+	IMPL_SETTING_DEFAULT(float, ElectronTrackDxyCut, -1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronTrackDzCut, -1.0);
+	IMPL_SETTING_DEFAULT(float, MuonTrackDxyCut, -1.0);
+	IMPL_SETTING_DEFAULT(float, MuonTrackDzCut, -1.0);
+	IMPL_SETTING_DEFAULT(float, TauTrackDzCut, -1.0);
 	
 	IMPL_SETTING(std::string, LooseElectronID);
 	IMPL_SETTING(std::string, LooseElectronIDType);

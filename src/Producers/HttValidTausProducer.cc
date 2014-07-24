@@ -46,6 +46,10 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 			validTau = validTau && ROOT::Math::VectorUtil::DeltaR(tau->p4, (*muon)->p4) > settings.GetTauMuonLowerDeltaRCut();
 		}
 
+	// cut on impact parameters of track
+	validTau = validTau
+	                && (settings.GetTauTrackDzCut() <= 0.0 || std::abs(tau->track.getDz(&event.m_vertexSummary->pv)) < settings.GetTauTrackDzCut());
+
 	return validTau;
 }
 
