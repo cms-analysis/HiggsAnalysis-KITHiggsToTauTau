@@ -27,7 +27,6 @@
 		"nick" : {
 			"default" : [
 				"#filter:run_lumi_event",
-				"producer:electron_eta_selector",
 				"producer:tagged_jet_corrections",
 				"producer:valid_loose_electrons",
 				"producer:valid_loose_muons",
@@ -38,7 +37,6 @@
 			],
 			"HToTauTau" : [
 				"#filter:run_lumi_event",
-				"producer:electron_eta_selector",
 				"producer:tau_corrections",
 				"producer:tagged_jet_corrections",
 				"producer:valid_loose_electrons",
@@ -50,7 +48,6 @@
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
-				"producer:electron_eta_selector",
 				"producer:tagged_jet_corrections",
 				"producer:valid_loose_electrons",
 				"producer:valid_loose_muons"
