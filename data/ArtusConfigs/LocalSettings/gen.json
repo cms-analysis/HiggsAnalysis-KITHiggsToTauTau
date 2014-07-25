@@ -3,7 +3,7 @@
 		"Channel" : "gen",
 		"EventWeight" : "eventWeight",
 		"Quantities" : [
-		"#tauSpinnerWeight",
+		"tauSpinnerWeight",
 		
 		"genPhi",
 		"TauMProngEnergy",

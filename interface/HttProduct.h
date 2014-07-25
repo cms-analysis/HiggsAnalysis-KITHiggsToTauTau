@@ -99,7 +99,14 @@ public:
 
 	// filled by RecoTauCPProducer
 	double m_recoPhiStarCP;
+	KGenParticle* m_recoChargedParticle1 = 0;
+	KGenParticle* m_recoChargedParitcle2 = 0;
 	std::pair <double,double> m_recoChargedHadronEnergies;
+	float abs_n1 = -999;
+	float abs_n2 = -999;
+	
+	float ABS_n1 = -999;
+	float ABS_n2 = -999;
 	
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;

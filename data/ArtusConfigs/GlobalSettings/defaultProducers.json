@@ -33,7 +33,8 @@
 				"producer:pu_weights",
 				"producer:gen_particle",
 				"producer:gen_taudecay",
-				"producer:gen_cp"
+				"producer:gen_cp",
+				"producer:tauspinner"
 			],
 			"HToTauTau" : [
 				"#filter:run_lumi_event",
@@ -44,7 +45,8 @@
 				"producer:pu_weights",
 				"producer:gen_particle",
 				"producer:gen_taudecay",
-				"producer:gen_cp"
+				"producer:gen_cp",
+				"producer:tauspinner"
 			],
 			"TauPlusX" : [
 				"filter:json_filter",

@@ -2,7 +2,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 // this version uses tau 4-momenta to calculate decay planes (usefull for GenTauCPProducer)
-float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
+float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2, float& ABS_n1, float& ABS_n2)
 {
 	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
 	RMDataLV PionImp = chargPart1 + chargPart2;
@@ -25,6 +25,9 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	RMDataLV::BetaVector n1 = k1 - ((k1.Dot(p1)) / (p1.Dot(p1))) * p1;
 	RMDataLV::BetaVector n2 = k2 - ((k2.Dot(p2)) / (p2.Dot(p2))) * p2;
 	//std::cout << "Gen: "<< n1.R() << " " << n2.R() << std::endl;
+
+	ABS_n1 = n1.R();
+	ABS_n2 = n2.R();
 	//Normalized n1, n2
 	n1 = n1.Unit();
 	n2 = n2.Unit();
@@ -68,7 +71,7 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	return phiStarCP;
 }
 // this version uses track and vertex information to calculate the decay planes (usefull for RecoTauCPProducer)
-float CPQuantities::CalculatePhiStarCP(KDataVertex pv, KDataTrack track1, KDataTrack track2,  RMDataLV chargPart1, RMDataLV chargPart2)
+float CPQuantities::CalculatePhiStarCP(KDataVertex pv, KDataTrack track1, KDataTrack track2,  RMDataLV chargPart1, RMDataLV chargPart2, float& abs_n1, float& abs_n2)
 {
 	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
 	RMDataLV PionImp = chargPart1 + chargPart2;
@@ -101,6 +104,9 @@ float CPQuantities::CalculatePhiStarCP(KDataVertex pv, KDataTrack track1, KDataT
 	//Not normalized n1, n2
 	RMDataLV::BetaVector n1 = k1 - ((k1.Dot(p1)) / (p1.Dot(p1))) * p1;
 	RMDataLV::BetaVector n2 = k2 - ((k2.Dot(p2)) / (p2.Dot(p2))) * p2;
+	
+	abs_n1 = n1.R();
+	abs_n2 = n2.R();
 	//Normalized n1, n2
 	n1 = n1.Unit();
 	n2 = n2.Unit();
