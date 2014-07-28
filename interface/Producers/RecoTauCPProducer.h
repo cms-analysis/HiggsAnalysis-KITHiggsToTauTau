@@ -23,10 +23,7 @@ public:
 		return "reco_cp";
 	}
 	
-	virtual void Init(setting_type const& settings)  ARTUS_CPP11_OVERRIDE
-	{
-		ProducerBase<HttTypes>::Init(settings);
-	}
+	virtual void Init(setting_type const& settings)  ARTUS_CPP11_OVERRIDE;
 
 	virtual void Produce(event_type const& event, product_type& product, setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 };

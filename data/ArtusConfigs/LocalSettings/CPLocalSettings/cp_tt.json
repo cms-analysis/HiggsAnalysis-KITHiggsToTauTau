@@ -4,8 +4,9 @@
 	],
 	"tt": {
 	"Quantities":[
-	"recoPhiStarCP"
-	],
-	"TauTauRestFrameReco": "collinear_approximation"
+	"recoPhiStarCP",
+	"recoChargedHadron1Energy",
+	"recoChargedHadron2Energy"
+	]
 	}
 }

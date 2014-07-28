@@ -5,18 +5,27 @@
 
 
 SvfitEventKey::SvfitEventKey(int const& run, int const& lumi, int const& event,
+                             HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
                              IntegrationMethod const& integrationMethod)
 {
-	Set(run, lumi, event, integrationMethod);
+	Set(run, lumi, event, systematicShift, systematicShiftSigma, integrationMethod);
 }
 
 void SvfitEventKey::Set(int const& run, int const& lumi, int const& event,
+                        HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
                         IntegrationMethod const& integrationMethod)
 {
 	this->run = run;
 	this->lumi = lumi;
 	this->event = event;
+	this->systematicShift = Utility::ToUnderlyingValue<HttEnumTypes::SystematicShift>(systematicShift);
+	this->systematicShiftSigma = systematicShiftSigma;
 	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
+}
+
+HttEnumTypes::SystematicShift SvfitEventKey::GetSystematicShift() const
+{
+	return Utility::ToEnum<HttEnumTypes::SystematicShift>(systematicShift);
 }
 
 SvfitEventKey::IntegrationMethod SvfitEventKey::GetIntegrationMethod() const
@@ -29,6 +38,8 @@ void SvfitEventKey::CreateBranches(TTree* tree)
 	tree->Branch("run", &run);
 	tree->Branch("lumi", &lumi);
 	tree->Branch("event", &event);
+	tree->Branch("systematicShift", &systematicShift);
+	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("integrationMethod", &integrationMethod);
 }
 
@@ -37,6 +48,8 @@ void SvfitEventKey::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("run", &run);
 	tree->SetBranchAddress("lumi", &lumi);
 	tree->SetBranchAddress("event", &event);
+	tree->SetBranchAddress("systematicShift", &systematicShift);
+	tree->SetBranchAddress("systematicShiftSigma", &systematicShiftSigma);
 	tree->SetBranchAddress("integrationMethod", &integrationMethod);
 	ActivateBranches(tree, true);
 }
@@ -46,18 +59,37 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("run", activate);
 	tree->SetBranchStatus("lumi", activate);
 	tree->SetBranchStatus("event", activate);
+	tree->SetBranchStatus("systematicShift", activate);
+	tree->SetBranchStatus("systematicShiftSigma", activate);
 	tree->SetBranchStatus("integrationMethod", activate);
 }
 
 bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 {
 	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event) &&
+	        (systematicShift == rhs.systematicShift) && (systematicShiftSigma == rhs.systematicShiftSigma) &&
 	        (integrationMethod == rhs.integrationMethod));
 }
 
 bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
 {
 	return (! (*this == rhs));
+}
+
+std::string std::to_string(SvfitEventKey const& svfitEventKey)
+{
+	return std::string("SvfitEventKey(") +
+			"run=" + std::to_string(svfitEventKey.run) + ", " +
+			"lumi=" + std::to_string(svfitEventKey.lumi) + ", " +
+			"event=" + std::to_string(svfitEventKey.event) + ", " +
+			"systematicShift=" + std::to_string(svfitEventKey.systematicShift) + ", " +
+			"systematicShiftSigma=" + std::to_string(svfitEventKey.systematicShiftSigma) + ", " +
+			"integrationMethod=" + std::to_string(svfitEventKey.integrationMethod) + ")";
+}
+
+std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey)
+{
+	return os << std::to_string(svfitEventKey);
 }
 
 SvfitInputs::SvfitInputs()
@@ -253,12 +285,12 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 {
 	if ((! svfitCacheInputTree) && svfitCacheInputTreeIndices.empty())
 	{
-		LOG(DEBUG) << "Loading SVfit cache trees from files...";
+		LOG(DEBUG) << "\tLoading SVfit cache trees from files...";
 		svfitCacheInputTree = new TChain(treeName.c_str());
 		for (std::vector<std::string>::const_iterator fileName = fileNames.begin();
 		     fileName != fileNames.end(); ++fileName)
 		{
-			LOG(DEBUG) << "\t" << *fileName << "/" << treeName;
+			LOG(DEBUG) << "\t\t" << *fileName << "/" << treeName;
 			svfitCacheInputTree->Add(fileName->c_str());
 		}
 		
@@ -270,9 +302,11 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		{
 			svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
 			svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
+			//LOG(DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
+			//LOG(DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
 		}
 		svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
-		LOG(DEBUG) << svfitCacheInputTreeIndices.size() << " entries found.";
+		LOG(DEBUG) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
 		
 		svfitInputs.SetBranchAddresses(svfitCacheInputTree);
 		svfitResults.SetBranchAddresses(svfitCacheInputTree);

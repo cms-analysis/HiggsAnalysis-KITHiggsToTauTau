@@ -41,7 +41,7 @@ particledict = {
 
 xlimsdict = {
 
-	"TauSpinnerWeight": [0, 2],
+	"tauSpinnerWeight": [0, 2],
 	"Pt": [0, 400],
 	"Eta": [-6.5, 6.5],
 	"Phi": [-3.15, 3.15],
@@ -99,7 +99,7 @@ def ratioplot(plotdict):
 def multiplot(plotdict):
 	"""This function makes similar plots with the same quantities and different cuts and selections"""
 	pdgids = [211, 321, 11, 13]
-	quantities = ["TauSpinnerWeight", "1genBoson1Daughter2GranddaughterPt", "1genBoson1Daughter2GranddaughterEta", "1genBoson1Daughter2GranddaughterPhi", "1genBoson1Daughter2GranddaughterMass"]
+	quantities = ["tauSpinnerWeight", "1genBoson1Daughter2GranddaughterPt", "1genBoson1Daughter2GranddaughterEta", "1genBoson1Daughter2GranddaughterPhi", "1genBoson1Daughter2GranddaughterMass"]
 	for i in pdgids:
 		for quantity in quantities:
 			local_plotdict = utils.copyplotdict(plotdict)
@@ -110,9 +110,9 @@ def multiplot(plotdict):
 						local_plotdict['xlims'] = particledict.get(i)[1]
 
 			local_plotdict["x"] = [quantity]
-			if quantity == "TauSpinnerWeight":
+			if quantity == "tauSpinnerWeight":
 				local_plotdict["log"] = True
-			local_plotdict["weights"][0] = 'abs(1genBoson1Daughter2GranddaughterPdgId) == %0.0f && TauSpinnerWeight != -999 && TauSpinnerWeight != -777' % i
+			local_plotdict["weights"][0] = 'abs(1genBoson1Daughter2GranddaughterPdgId) == %0.0f && tauSpinnerWeight != -999 && tauSpinnerWeight != -777' % i
 			#print local_plotdict["weights"][0]
 			local_plotdict["filename"] = local_plotdict["x"][0] + 'ForPdgId%s' % i
 			local_plotdict["title"] = local_plotdict["x"][0] + ' for ' + particledict.get(i)[0] + ' and ' + particledict.get(-i)[0]

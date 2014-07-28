@@ -3,11 +3,15 @@
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsVetoMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
 		"Channel" : "MT",
+		"NLooseElectrons" : 0,
+		"NLooseMuons" : 1,
 		"NElectrons" : 0,
 		"NMuons" : 1,
 		"NTaus" : 1,
@@ -22,6 +26,14 @@
 		"TriggerEfficiencyMc" : [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_IsoMu17_MC53X.root",
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_MC53X_mt_withoutES.root"
+		],
+		"IdentificationEfficiencyData" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Data2012ABCD_mt_muon_ID.root",
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Data2012ABCD_mt_muon_Iso.root"
+		],
+		"IdentificationEfficiencyMc" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_mt_muon_ID.root",
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_mt_muon_Iso.root"
 		],
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
@@ -55,23 +67,30 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
 				]
 			},
-			"decayChannelIndex"
+			"decayChannelIndex",
+			"exclusiveEventCategoryIndex"
 		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"filter:n_loose_electrons",
+					"filter:n_loose_muons",
 					"producer:hlt_selector",
 					"filter:hlt_filter",
-					"producer:trigger_matching",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
 					"filter:n_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
+					"producer:muon_trigger_matching",
 					"filter:n_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
-					"filter:n_taus",
+					"producer:tau_trigger_matching",
+					"#filter:n_taus",
+					"producer:valid_leptons",
+					"producer:valid_veto_muons",
+					"filter:di_veto_muon_veto",
 					"producer:valid_tagged_jets",
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
@@ -80,23 +99,31 @@
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
+					"producer:event_categories",
 					"producer:trigger_weight",
+					"producer:identification_weight",
 					"producer:event_weight",
 					"producer:reco_cp"
 				],
 				"DoubleMu|TauPlusX" : [
+					"filter:n_loose_electrons",
+					"filter:n_loose_muons",
 					"producer:hlt_selector",
 					"filter:hlt_filter",
-					"producer:trigger_matching",
 					"producer:mvamet_mt_selector",
 					"producer:valid_electrons",
 					"filter:n_electrons",
 					"producer:valid_muons",
 					"filter:valid_muons",
+					"producer:muon_trigger_matching",
 					"filter:n_muons",
 					"producer:valid_taus",
 					"filter:valid_taus",
+					"producer:tau_trigger_matching",
 					"filter:n_taus",
+					"producer:valid_leptons",
+					"producer:valid_veto_muons",
+					"filter:di_veto_muon_veto",
 					"producer:valid_tagged_jets",
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
@@ -105,6 +132,7 @@
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
+					"producer:event_categories",
 					"producer:event_weight"
 				]
 			}

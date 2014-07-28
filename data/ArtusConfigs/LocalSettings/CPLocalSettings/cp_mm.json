@@ -5,7 +5,6 @@
 	"mm": {
 	"Quantities":[
 	"recoPhiStarCP"
-	],
-	"TauTauRestFrameReco": "collinear_approximation"
+	]
 	}
 } 

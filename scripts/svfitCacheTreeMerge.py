@@ -24,7 +24,9 @@ def main():
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
 	parser.add_argument("--input-trees", nargs="+",
-	                    default=["ee/svfitCache", "em/svfitCache", "et/svfitCache", "mm/svfitCache", "mt/svfitCache", "tt/svfitCache"],
+	                    default=["svfitCache",
+	                             "ee/svfitCache", "em/svfitCache", "et/svfitCache",
+	                             "mm/svfitCache", "mt/svfitCache", "tt/svfitCache"],
 	                    help="Paths of input SVfit cache trees. [Default: %(default)s]")
 	parser.add_argument("--output-tree", default="svfitCache",
 	                    help="Name of output SVfit cache tree. [Default: %(default)s]")

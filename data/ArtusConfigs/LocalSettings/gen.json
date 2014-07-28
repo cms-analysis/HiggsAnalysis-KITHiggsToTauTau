@@ -3,7 +3,7 @@
 		"Channel" : "gen",
 		"EventWeight" : "eventWeight",
 		"Quantities" : [
-		"#TauSpinnerWeight",
+		"#tauSpinnerWeight",
 		
 		"genPhi",
 		"TauMProngEnergy",
@@ -13,8 +13,6 @@
 		"AlphaTauNeutrinos",
 		"genPhiDet",
 		"genPhiStarCPDet",
-		"MassRoundOff1",
-		"MassRoundOff2",
 
 		"genBosonSize",
 		"1genBosonPt",

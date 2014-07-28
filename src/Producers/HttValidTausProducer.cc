@@ -36,6 +36,20 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 		}
 	}
 	
+	// remove taus which overlap with electrons and muons in a DeltaR cone
+	for (std::vector<KDataElectron*>::const_iterator electron = product.m_validElectrons.begin(); validTau && electron != product.m_validElectrons.end(); ++electron)
+		{
+			validTau = validTau && ROOT::Math::VectorUtil::DeltaR(tau->p4, (*electron)->p4) > settings.GetTauElectronLowerDeltaRCut();
+		}
+	for (std::vector<KDataMuon*>::const_iterator muon = product.m_validMuons.begin(); validTau && muon != product.m_validMuons.end(); ++muon)
+		{
+			validTau = validTau && ROOT::Math::VectorUtil::DeltaR(tau->p4, (*muon)->p4) > settings.GetTauMuonLowerDeltaRCut();
+		}
+
+	// cut on impact parameters of track
+	validTau = validTau
+	                && (settings.GetTauTrackDzCut() <= 0.0 || std::abs(tau->track.getDz(&event.m_vertexSummary->pv)) < settings.GetTauTrackDzCut());
+
 	return validTau;
 }
 
@@ -44,7 +58,16 @@ bool HttValidTausProducer::ApplyCustomElectronRejection(KDataPFTau* tau, event_t
 	                                                    setting_type const& settings) const
 {
 	bool validTau = true;
-	
+
+	// cut designed to suppress a spike in the tau eta distribution when using the MVA3 discriminator
+	float zImpact = tau->track.ref.z() + (130. / tan(tau->p4.Theta()));
+
+	if (zImpact > settings.GetTauLowerZImpactCut() && zImpact < settings.GetTauUpperZImpactCut())
+	{
+		validTau = validTau && false;
+		return validTau;
+	}
+
 	int category = (int)(tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejectioncategory", event.m_tauDiscriminatorMetadata) + 0.5);
 	float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejection", event.m_tauDiscriminatorMetadata);
 

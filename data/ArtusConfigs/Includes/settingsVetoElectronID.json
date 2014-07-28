@@ -1,0 +1,20 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json"
+	],
+	
+	"VetoElectronReco" : "none",
+	"VetoElectronID" : "vbft95_veto",
+	"VetoElectronIDType" : "none",
+	"VetoElectronIsoType" : "user",
+	"VetoElectronIso" : "none",
+	"VetoElectronIsoPtSumOverPtThresholdEB" : 0.3,
+	"VetoElectronIsoPtSumOverPtThresholdEE" : 0.3,
+	"VetoElectronLowerPtCuts" : [
+		"15.0"
+	],
+	"VetoElectronUpperAbsEtaCuts" : [
+		"2.5"
+	],
+	"DiVetoElectronVetoMode" : "veto_os_keep_ss"
+}

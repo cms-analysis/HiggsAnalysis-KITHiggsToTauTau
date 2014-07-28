@@ -1,0 +1,17 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+	],
+	"VetoMuonID" : "veto",
+	"VetoMuonIsoType" : "user",
+	"VetoMuonIso" : "none",
+	"VetoMuonIsoPtSumOverPtThresholdEB" : 0.3,
+	"VetoMuonIsoPtSumOverPtThresholdEE" : 0.3,
+	"VetoMuonLowerPtCuts" : [
+		"15.0"
+	],
+	"VetoMuonUpperAbsEtaCuts" : [
+		"2.4"
+	],
+	"DiVetoMuonVetoMode" : "veto_os_keep_ss"
+}

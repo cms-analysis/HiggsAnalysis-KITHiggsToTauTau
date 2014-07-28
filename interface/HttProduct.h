@@ -6,7 +6,7 @@
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttComputedObjects.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 
@@ -14,53 +14,41 @@ class HttProduct : public KappaProduct
 {
 public:
 
-	enum class DecayChannel : int
-	{
-		NONE = -1,
-		TT   = 0,
-		MT   = 1,
-		ET   = 2,
-		EM   = 3,
-		MM   = 4,
-		EE   = 5
-	};
-	static DecayChannel ToDecayChannel(std::string const& decayChannelString)
-	{
-		if (decayChannelString == "TT") return DecayChannel::TT;
-		else if (decayChannelString == "MT") return DecayChannel::MT;
-		else if (decayChannelString == "ET") return DecayChannel::ET;
-		else if (decayChannelString == "EM") return DecayChannel::EM;
-		else if (decayChannelString == "MM") return DecayChannel::MM;
-		else if (decayChannelString == "EE") return DecayChannel::EE;
-		return DecayChannel::NONE;
-	}
+	/// added by HttValidLooseElectronsProducer
+	std::vector<KDataElectron*> m_validLooseElectrons;
+	std::vector<KDataElectron*> m_invalidLooseElectrons;
 
-	// TODO: to be extended
-	enum class EventCategory : int
-	{
-		NONE      = -1,
-		INCLUSIVE = 0,
-		ZERO_JET  = 1,
-		BOOST     = 2,
-		VBF       = 3
-	};
-	static EventCategory ToEventCategory(std::string const& eventCategoryString)
-	{
-		if (eventCategoryString == "INCLUSIVE") return EventCategory::INCLUSIVE;
-		else if (eventCategoryString == "ZERO_JET") return EventCategory::ZERO_JET;
-		else if (eventCategoryString == "BOOST") return EventCategory::BOOST;
-		else if (eventCategoryString == "VBF") return EventCategory::VBF;
-		return EventCategory::NONE;
-	}
+	/// added by HttValidVetoElectronsProducer
+	std::vector<KDataElectron*> m_validVetoElectrons;
+	std::vector<KDataElectron*> m_invalidVetoElectrons;
 
-	DecayChannel m_decayChannel;
-	std::vector<EventCategory> m_eventCategories;
+	/// added by HttValidLooseMuonsProducer
+	std::vector<KDataMuon*> m_validLooseMuons;
+	std::vector<KDataMuon*> m_invalidLooseMuons;
+
+	/// added by HttValidVetoMuonsProducer
+	std::vector<KDataMuon*> m_validVetoMuons;
+	std::vector<KDataMuon*> m_invalidVetoMuons;
+
+	// filled by DecayChannelProducer
+	HttEnumTypes::DecayChannel m_decayChannel;
+	
+	// filled by EventCategoryProducer
+	std::vector<HttEnumTypes::EventCategory> m_eventCategories;
+	HttEnumTypes::EventCategory m_exclusiveEventCategory;
+	
+	// TODO: To be set by producers that apply shifts
+	HttEnumTypes::SystematicShift m_systematicShift = HttEnumTypes::SystematicShift::CENTRAL;
+	float m_systematicShiftSigma = 0.0;
 	
 	// filled by DecayChannelProducer
 	std::vector<KLepton*> m_ptOrderedLeptons; // highest pt leptons first
 	std::vector<KLepton*> m_flavourOrderedLeptons; // according to channel definition
 	std::vector<KLepton*> m_chargeOrderedLeptons; // positively charged leptons first
-
+	
+	// filled by HttTauEnergyCorrectionProducer
+	std::map<KDataPFTau*, double> m_tauEnergyScaleWeight;
+	
 	// filled by HttValid<Leptons>Producer
 	std::map<KLepton*, double> m_leptonIsolation;
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
@@ -87,6 +75,7 @@ public:
 	KDataPFMET* m_met = 0;
 	
 	// filled by the TauTauRestFrameProducer
+	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;
 	std::vector<RMDataLV> m_flavourOrderedTauMomenta;
 	std::vector<ROOT::Math::Boost> m_boostsToTauRestFrames;
 	bool m_tauMomentaReconstructed = false;
@@ -94,23 +83,24 @@ public:
 	ROOT::Math::Boost m_boostToDiTauRestFrame;
 	bool m_diTauSystemReconstructed = false;
 
-	double m_genMassRoundOff1;
-	double m_genMassRoundOff2;
+	// filled by TauSpinnerProducer
+	bool m_allMassesPhysical;
 
 	// filled by GenTauCPProducer
 	double m_genPhi;
 	double m_genPhiStarCP;
 	std::pair <double,double> m_genChargedProngEnergies;
-	std::pair <double,double> m_genChargedPionEnergiesApprox;
 	double m_genThetaNuHadron;
 	double m_genAlphaTauNeutrinos;
 	double m_genPhiDet;
 	double m_genPhiStarCPDet;
-
-	// filled by RecoTauCPProducer
-	double m_recoPhiStarCP;
-
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
 
+	// filled by RecoTauCPProducer
+	double m_recoPhiStarCP;
+	std::pair <double,double> m_recoChargedHadronEnergies;
+	
+	// MVA outputs
+	std::vector<double> m_antiTtbarDiscriminators;
 };

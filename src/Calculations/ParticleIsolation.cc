@@ -20,11 +20,11 @@ double ParticleIsolation::IsolationPtSumForParticleClass(RMDataLV const& particl
 			&&
 			(
 				(
-					(particle.Eta() < DefaultValues::EtaBorderEB) && (deltaR > isoVetoConeSizeEB)
+					(std::abs(particle.Eta()) < DefaultValues::EtaBorderEB) && (deltaR > isoVetoConeSizeEB)
 				)
 				||
 				(
-					(particle.Eta() >= DefaultValues::EtaBorderEB) && (deltaR > isoVetoConeSizeEE)
+					(std::abs(particle.Eta()) >= DefaultValues::EtaBorderEB) && (deltaR > isoVetoConeSizeEE)
 				)
 			)
 		)
