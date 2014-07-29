@@ -13,6 +13,9 @@
 	"genImpactParameter2",
 	"tauSpinnerWeight",
 
+	"TauMProngEnergy",
+	"TauPProngEnergy",
+
 	"OneProngChargedPart1PdgId",
 	"OneProngChargedPart1Pt",
 	"OneProngChargedPart1Pz",
