@@ -56,6 +56,10 @@
 		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "svfit",
+		"InvalidateNonMatchingElectrons" : false,
+		"InvalidateNonMatchingMuons" : false,
+		"InvalidateNonMatchingTaus" : false,
+		"InvalidateNonMatchingJets" : false,
 		"Quantities" : [
 			{
 				"include" : [
