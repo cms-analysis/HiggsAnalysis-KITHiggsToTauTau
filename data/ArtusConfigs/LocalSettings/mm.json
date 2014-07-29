@@ -24,7 +24,7 @@
 			"1:2.1"
 		],
 		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "svfit",
+		"TauTauRestFrameReco" : "collinear_approximation",
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : false,
 		"InvalidateNonMatchingTaus" : false,

@@ -60,7 +60,7 @@
 		"RecoMuonInElectronConeUpperAbsEtaCut" : 2.4,
 		"RecoMuonInElectronConeSize" : 0.3,
 		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "svfit",
+		"TauTauRestFrameReco" : "collinear_approximation",
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : false,
 		"InvalidateNonMatchingTaus" : false,
