@@ -84,7 +84,8 @@ public:
 	bool m_diTauSystemReconstructed = false;
 
 	// filled by TauSpinnerProducer
-	bool m_allMassesPhysical;
+	bool m_tauSpinnerWeight;
+
 
 	// filled by GenTauCPProducer
 	double m_genPhi;

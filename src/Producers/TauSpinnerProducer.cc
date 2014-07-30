@@ -25,8 +25,8 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	TauSpinner::initialize_spinner(ipp, ipol, nonSM2, nonSMN, CmsEnergy);
 	TauSpinner::setHiggsParametersTR(-1, 1, 0, 0);
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::Quantities["allMassesPhysical"] = [](event_type const& event, product_type const& product) {
-		return product.m_allMassesPhysical;
+	LambdaNtupleConsumer<HttTypes>::Quantities["tauSpinnerWeight"] = [](event_type const& event, product_type const& product) {
+		return product.m_tauSpinnerWeight;
 	};
 }
 
@@ -37,7 +37,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 	if (higgs.size() == 0)
 	{
-		product.m_weights["tauSpinnerWeight"] = NO_HIGGS_FOUND;
+		product.m_tauSpinnerWeight = NO_HIGGS_FOUND;
 		return;
 	}
 
@@ -49,7 +49,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		|| (abs(selectedTau2.node->pdgId()) != DefaultValues::pdgIdTau)) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{
 		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find two taus as daughters of Boson" << std::endl;
-		product.m_weights["tauSpinnerWeight"] = DefaultValues::UndefinedDouble;
+		product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble;
 		return;
 	}
 
@@ -68,20 +68,11 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	LOG_N_TIMES(20, DEBUG) << std::string("Tau1FinalState") << std::to_string(tauFinalStates1);
 	LOG_N_TIMES(20, DEBUG) << std::string("Tau2FinalState") << std::to_string(tauFinalStates2);
 
-	// check for negative masses
-	product.m_allMassesPhysical = isMassPhysical(X) && isMassPhysical(tau1) && isMassPhysical(tau2)
-								  && isMassPhysical(tauFinalStates1) && isMassPhysical(tauFinalStates2);
-
-	if (!product.m_allMassesPhysical)
-	{
-		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer found a particle with an unphysical mass." << std::endl;
-		product.m_weights["tauSpinnerWeight"] = DefaultValues::UndefinedDouble;
-	}
 
 	if ((tauFinalStates1.size() == 0) || (tauFinalStates2.size() == 0))
 	{
 		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find enogh genParticles for the TauSpinner Algorithm" << std::endl;
-		product.m_weights["tauSpinnerWeight"] = DefaultValues::UndefinedDouble;
+		product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble;
 		return;
 	}
 
@@ -95,11 +86,11 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		tauSpinnerWeight = NO_BOSON_FOUND;
 
 	if (tauSpinnerWeight == tauSpinnerWeight)
-		product.m_weights["tauSpinnerWeight"] = tauSpinnerWeight;
+		product.m_tauSpinnerWeight = tauSpinnerWeight;
 	else
 	{
 		LOG_N_TIMES(20, WARNING) << "Found a 'NaN' TauSpinner weight " << std::endl;
-		product.m_weights["tauSpinnerWeight"] = WEIGHT_NAN;
+		product.m_tauSpinnerWeight = WEIGHT_NAN;
 	}
 
 }
@@ -107,16 +98,6 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 TauSpinner::SimpleParticle TauSpinnerProducer::getSimpleParticle(KGenParticle*& in) const
 {
 	return TauSpinner::SimpleParticle(in->p4.px(), in->p4.py(), in->p4.pz(), in->p4.e(), in->pdgId());
-}
-
-bool TauSpinnerProducer::isMassPhysical(std::vector<TauSpinner::SimpleParticle> in) const
-{
-	bool result = true;
-	for (size_t i = 0; i < in.size(); i++)
-	{
-		result = result && isMassPhysical(in[i]);
-	}
-	return result;
 }
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
