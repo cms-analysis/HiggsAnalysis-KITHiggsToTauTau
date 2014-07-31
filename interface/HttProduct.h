@@ -111,4 +111,13 @@ public:
 	
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
+
+	// filled by HttValidGenTausProducer. Naming scheme like for the reco particles
+	std::vector<KDataGenTau*> m_ptOrderedGenTaus;
+	std::vector<KDataGenTau*> m_flavourOrderedGenTaus;
+	std::vector<KDataGenTau*> m_chargeOrderedGenTaus;
+	std::vector<KDataGenTau*> m_validGenTausToElectrons;
+	std::vector<KDataGenTau*> m_validGenTausToMuons;
+	std::vector<KDataGenTau*> m_validGenTausToTaus;
+
 };
