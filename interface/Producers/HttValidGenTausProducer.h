@@ -9,8 +9,6 @@
    This producer needs the m_genTaus vector from Artus filled.
 */
 
-//template<class TTypes>
-
 class HttValidGenTausProducer: public ProducerBase<HttTypes>
 {
 
@@ -30,6 +28,19 @@ public:
 	virtual void Produce(event_type const& event, product_type& product,
 						 setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 
+	template <typename T>
+	bool doesGenRecoMatch(std::vector<T> const recoTaus, std::vector<KDataGenTau*> const genTaus) const;
+
+private:
+	double m_deltaR;
+	bool m_validateMatching;
+	bool m_swapIfNecessary;
+	void validateMatching(event_type const& event, product_type& product,
+						  setting_type const& settings) const;
+	void sortVectors(event_type const& event, product_type& product,
+					 setting_type const& settings) const;
+	void copyVectors(event_type const& event, product_type& product,
+					 setting_type const& settings) const;
 
 };
 
