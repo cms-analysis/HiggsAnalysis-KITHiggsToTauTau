@@ -15,15 +15,15 @@ void HttValidGenTausProducer::Produce(event_type const& event, product_type& pro
 {
 	if (event.m_genTaus->empty()) return; // no genTaus, nothing to do
 
-	copyVectors(event, product, settings);
-	sortVectors(event, product, settings);
+	CopyVectors(event, product, settings);
+	SortVectors(event, product, settings);
 	if (m_validateMatching)
-		validateMatching(event, product, settings);
+		ValidateMatching(event, product, settings);
 
 	return;
 }
 
-void HttValidGenTausProducer::copyVectors(event_type const& event, product_type& product,
+void HttValidGenTausProducer::CopyVectors(event_type const& event, product_type& product,
 		setting_type const& settings) const
 {
 	for (unsigned int i = 0; i < event.m_genTaus->size(); i++)
@@ -41,7 +41,7 @@ void HttValidGenTausProducer::copyVectors(event_type const& event, product_type&
 	}
 }
 
-void HttValidGenTausProducer::sortVectors(event_type const& event, product_type& product,
+void HttValidGenTausProducer::SortVectors(event_type const& event, product_type& product,
 		setting_type const& settings) const
 {
 	// count to determine the decay channel according to generator Taus
@@ -85,37 +85,21 @@ void HttValidGenTausProducer::sortVectors(event_type const& event, product_type&
 			std::cout << "Event Category does not match generated Taus"; //Todo: do something with this insight
 	}
 	return;
-};
+}
 
-void HttValidGenTausProducer::validateMatching(event_type const& event, product_type& product,
+void HttValidGenTausProducer::ValidateMatching(event_type const& event, product_type& product,
 		setting_type const& settings) const
 {
-	if (doesGenRecoMatch(product.m_ptOrderedLeptons, product.m_ptOrderedGenTaus)) {}  // do something
-	if (doesGenRecoMatch(product.m_flavourOrderedLeptons , product.m_flavourOrderedGenTaus)) {} // do something
-	if (doesGenRecoMatch(product.m_chargeOrderedLeptons, product.m_chargeOrderedGenTaus)) {}  // do something
-	if (doesGenRecoMatch(product.m_validElectrons, product.m_validGenTausToElectrons)) {}  // do something
-	if (doesGenRecoMatch(product.m_validMuons, product.m_validGenTausToMuons)) {}  // do something
-	if (doesGenRecoMatch(product.m_validTaus, product.m_validGenTausToTaus)) {}  // do something
+	if (DoesGenRecoMatch(product.m_ptOrderedLeptons, product.m_ptOrderedGenTaus)) {}  // do something
+	if (DoesGenRecoMatch(product.m_flavourOrderedLeptons , product.m_flavourOrderedGenTaus)) {} // do something
+	if (DoesGenRecoMatch(product.m_chargeOrderedLeptons, product.m_chargeOrderedGenTaus)) {}  // do something
+	if (DoesGenRecoMatch(product.m_validElectrons, product.m_validGenTausToElectrons)) {}  // do something
+	if (DoesGenRecoMatch(product.m_validMuons, product.m_validGenTausToMuons)) {}  // do something
+	if (DoesGenRecoMatch(product.m_validTaus, product.m_validGenTausToTaus)) {}  // do something
 
 	// todo: try to swap leptons in genTau vectors and see if this better to reco.
 	// flag: m_swapIfNecessary
 
 	return;
-}
-
-template <typename T>
-bool HttValidGenTausProducer::doesGenRecoMatch(std::vector<T> const recoTaus, std::vector<KDataGenTau*> const genTaus) const
-{
-	if (recoTaus.size() != genTaus.size())
-		return false;
-
-	for (unsigned int i = 0; i < recoTaus.size(); i++)
-	{
-		RMDataLV deltaVector = recoTaus.at(i)->p4 - genTaus.at(i)->p4_vis;
-		float deltaR = deltaVector.eta() * deltaVector.eta() + deltaVector.Phi() * deltaVector.Phi();
-		if (deltaR > m_deltaR)
-			return false;
-	}
-	return true;
 }
 
