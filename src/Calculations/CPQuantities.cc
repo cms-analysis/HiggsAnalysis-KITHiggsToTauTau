@@ -157,6 +157,10 @@ float CPQuantities::CalculateChargedHadronEnergy(RMDataLV diTauMomentum, RMDataL
 	chargHad = Mditau * chargHad;
 	return chargHad.E();
 }
+float CPQuantities::CalculateTrackReferenceError(KDataTrack track)
+{
+	return sqrt(track.errDz*track.errDz+track.errDxy*track.errDxy);
+}
 float CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
 {
 	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost charged particles 4-momentums

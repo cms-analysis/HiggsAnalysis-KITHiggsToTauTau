@@ -108,6 +108,8 @@ public:
 	std::pair <double,double> m_recoChargedHadronEnergies;
 	float m_recoAbs_n1 = DefaultValues::UndefinedDouble;
 	float m_recoAbs_n2 = DefaultValues::UndefinedDouble;
+	float m_recoTrackRefError1 = DefaultValues::UndefinedDouble;
+	float m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
 	
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;

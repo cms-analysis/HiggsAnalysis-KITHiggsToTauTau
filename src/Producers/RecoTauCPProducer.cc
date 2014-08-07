@@ -27,6 +27,14 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_recoAbs_n2;
 	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["recoTrackRefError1"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_recoTrackRefError1;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["recoTrackRefError2"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_recoTrackRefError2;
+	};
 }
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
@@ -44,6 +52,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(primevertex, tau1->track, tau2->track, chargePart1->p4, chargePart2->p4, product.m_recoAbs_n1, product.m_recoAbs_n2);
 			product.m_recoChargedHadronEnergies.first = CPQuantities::CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
 			product.m_recoChargedHadronEnergies.second = CPQuantities::CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart2->p4);
+			product.m_recoTrackRefError1 = CPQuantities::CalculateTrackReferenceError(tau1->track);
+			product.m_recoTrackRefError2 = CPQuantities::CalculateTrackReferenceError(tau2->track);
 		}
 		else 
 		{
@@ -59,7 +69,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataElectron* electron1 = product.m_validElectrons[0];
 		KDataElectron* electron2 = product.m_validElectrons[1];
 		product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(primevertex, electron1->track, electron2->track, electron1->p4, electron2->p4,product.m_recoAbs_n1, product.m_recoAbs_n2);
-		
+		product.m_recoTrackRefError1 = CPQuantities::CalculateTrackReferenceError(electron1->track);
+		product.m_recoTrackRefError2 = CPQuantities::CalculateTrackReferenceError(electron2->track);
+
 		product.m_recoChargedHadronEnergies.first = DefaultValues::UndefinedDouble;
 		product.m_recoChargedHadronEnergies.second = DefaultValues::UndefinedDouble;
 	}
@@ -69,6 +81,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataMuon* muon1 = product.m_validMuons[0];
 		KDataMuon* muon2 = product.m_validMuons[1];
 		product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(primevertex, muon1->track, muon2->track, muon1->p4, muon2->p4, product.m_recoAbs_n1, product.m_recoAbs_n2);
+		product.m_recoTrackRefError1 = CPQuantities::CalculateTrackReferenceError(muon1->track);
+		product.m_recoTrackRefError2 = CPQuantities::CalculateTrackReferenceError(muon2->track);
 		
 		product.m_recoChargedHadronEnergies.first = DefaultValues::UndefinedDouble;
 		product.m_recoChargedHadronEnergies.second = DefaultValues::UndefinedDouble;
@@ -83,7 +97,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(primevertex, electron1->track, tau1->track, electron1->p4, chargePart1->p4, product.m_recoAbs_n1, product.m_recoAbs_n2);
 			product.m_recoChargedHadronEnergies.first = CPQuantities::CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
-			
+			product.m_recoTrackRefError1 = CPQuantities::CalculateTrackReferenceError(electron1->track);
+			product.m_recoTrackRefError2 = CPQuantities::CalculateTrackReferenceError(tau1->track);
+
 			product.m_recoChargedHadronEnergies.second = DefaultValues::UndefinedDouble;
 		}
 		else 
@@ -103,6 +119,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(primevertex, muon1->track, tau1->track, muon1->p4, chargePart1->p4, product.m_recoAbs_n1, product.m_recoAbs_n2);
 			product.m_recoChargedHadronEnergies.first = CPQuantities::CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
+			product.m_recoTrackRefError1 = CPQuantities::CalculateTrackReferenceError(muon1->track);
+			product.m_recoTrackRefError2 = CPQuantities::CalculateTrackReferenceError(tau1->track);
 			
 			product.m_recoChargedHadronEnergies.second = DefaultValues::UndefinedDouble;
 		}
@@ -119,6 +137,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataElectron* electron1 = product.m_validElectrons[0];
 		KDataMuon* muon1 = product.m_validMuons[0];
 		product.m_recoPhiStarCP = CPQuantities::CalculatePhiStarCP(primevertex, electron1->track, muon1->track, electron1->p4, muon1->p4, product.m_recoAbs_n1, product.m_recoAbs_n2);
+		product.m_recoTrackRefError1 = CPQuantities::CalculateTrackReferenceError(electron1->track);
+		product.m_recoTrackRefError2 = CPQuantities::CalculateTrackReferenceError(muon1->track);
 		
 		product.m_recoChargedHadronEnergies.first = DefaultValues::UndefinedDouble;
 		product.m_recoChargedHadronEnergies.second = DefaultValues::UndefinedDouble;

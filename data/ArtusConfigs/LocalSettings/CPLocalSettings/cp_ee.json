@@ -11,6 +11,8 @@
 	"recoImpactParameter2",
 	"genImpactParameter1",
 	"genImpactParameter2",
+	"recoTrackRefError1",
+	"recoTrackRefError2",
 	"tauSpinnerWeight",
 	
 	"TauMProngEnergy",

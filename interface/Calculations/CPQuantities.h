@@ -23,4 +23,5 @@ public:
 	static float CalculateChargedProngEnergyApprox(RMDataLV tau, RMDataLV chargedProng);
 	static float CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMDataLV hadron);
 	static float CalculateAlphaTauNeutrinos(RMDataLV tauM, RMDataLV nuTauM, RMDataLV tauP, RMDataLV nuTauP);
+	static float CalculateTrackReferenceError(KDataTrack track);
 };
