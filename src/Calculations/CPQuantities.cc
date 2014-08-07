@@ -57,7 +57,7 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	RMDataLV::BetaVector p1n = p1.Unit();
 	LOG_N_TIMES(20, DEBUG) <<  n1t.Dot(p1) << "                  " << n2t.Dot(p2) << std::endl;
 
-	//Step 5: Calculating Phi* and Psi*CP
+	//Step 5: Calculating Phi*CP
 	float phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
 	{
@@ -67,7 +67,7 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	{
 		phiStarCP = 2*ROOT::Math::Pi()-acos(n2t.Dot(n1t));
 	}
-	LOG_N_TIMES(20, DEBUG)  << "Phi*: " << phiStarCP;
+	LOG_N_TIMES(20, DEBUG)  << "Phi*CP: " << phiStarCP;
 	return phiStarCP;
 }
 // this version uses track and vertex information to calculate the decay planes (usefull for RecoTauCPProducer)
@@ -135,7 +135,7 @@ float CPQuantities::CalculatePhiStarCP(KDataVertex pv, KDataTrack track1, KDataT
 	RMDataLV::BetaVector p1n = p1.Unit();
 	//std::cout <<  n1t.Dot(p1) << "                  " << n2t.Dot(p2) << std::endl;
 
-	//Step 5: Calculating Phi* and Psi*CP
+	//Step 5: Calculating Phi*CP
 	float phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
 	{
@@ -157,7 +157,7 @@ float CPQuantities::CalculateChargedHadronEnergy(RMDataLV diTauMomentum, RMDataL
 	chargHad = Mditau * chargHad;
 	return chargHad.E();
 }
-float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
+float CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
 {
 	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost charged particles 4-momentums
 	RMDataLV::BetaVector boostvectm = tau1.BoostToCM();
@@ -178,17 +178,24 @@ float CPQuantities::CalculatePhi(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, R
 	chargPart2 = Mtp * chargPart2;
 
 	// Step 3: Creating 3-momentum normal vectors on decay planes
-	RMDataLV::BetaVector km, pm, pp, nm, np;
+	RMDataLV::BetaVector km, pm, pp, nm, np, ez;
 	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());
 	pm.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
 	pp.SetXYZ(chargPart2.Px(),chargPart2.Py(),chargPart2.Pz());
 
-	nm = (km.Cross(pm)).Unit(); np = (km.Cross(pp)).Unit();
+	nm = (km.Cross(pm)).Unit(); np = (km.Cross(pp)).Unit(); ez = pm.Unit();
 
-	// Step 4: Calculating Phi
-	float phi = acos(nm.Dot(np));
-	LOG_N_TIMES(20, DEBUG)  << "Phi: " << phi;
-	return phi;
+	// Step 4: Calculating PhiCP
+	float phiCP = 0;
+	if(ez.Dot(np.Cross(nm))>=0)
+	{
+		phiCP = acos(np.Dot(nm));
+	}
+	else
+	{
+		phiCP = 2*ROOT::Math::Pi()-acos(np.Dot(nm));
+	}
+	return phiCP;
 }
 float CPQuantities::CalculateChargedProngEnergy(RMDataLV tau, RMDataLV chargedProng)
 {

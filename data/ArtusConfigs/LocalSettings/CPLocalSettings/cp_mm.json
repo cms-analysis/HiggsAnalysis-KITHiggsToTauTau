@@ -7,8 +7,8 @@
 	"recoPhiStarCP",
 	"genPhiStarCP",
 
-	"ImpactParameter1",
-	"ImpactParameter2",
+	"recoImpactParameter1",
+	"recoImpactParameter2",
 	"genImpactParameter1",
 	"genImpactParameter2",
 	"tauSpinnerWeight",

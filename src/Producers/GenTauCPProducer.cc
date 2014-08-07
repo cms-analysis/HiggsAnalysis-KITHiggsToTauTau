@@ -18,9 +18,9 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_genPhiStarCP;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhi"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiCP"] = [](event_type const & event, product_type const & product)
 	{
-		return product.m_genPhi;
+		return product.m_genPhiCP;
 	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["TauMProngEnergy"] = [](event_type const & event, product_type const & product)
 	{
@@ -29,14 +29,6 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::Quantities["TauPProngEnergy"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genChargedProngEnergies.second;
-	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiDet"] = [](event_type const & event, product_type const & product)
-	{
-		return product.m_genPhiDet;
-	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiStarCPDet"] = [](event_type const & event, product_type const & product)
-	{
-		return product.m_genPhiStarCPDet;
 	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["ThetaNuHadron"] = [](event_type const & event, product_type const & product)
 	{
@@ -48,11 +40,11 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["genImpactParameter1"] = [](event_type const & event, product_type const & product)
 	{
-		return product.ABS_n1;
+		return product.m_genABS_n1;
 	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["genImpactParameter2"] = [](event_type const & event, product_type const & product)
 	{
-		return product.ABS_n2;
+		return product.m_genABS_n2;
 	};
 	// charged particles of a one-prong
 	LambdaNtupleConsumer<HttTypes>::Quantities["Tau1OneProngsSize"] = [](event_type const & event, product_type const & product)
@@ -156,41 +148,15 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		product.m_genChargedProngEnergies.second = CPQuantities::CalculateChargedProngEnergy(selectedTau2->node->p4, chargedPart2->p4);
 		// Calculation of Phi* and Psi*CP itself
 
-		product.m_genPhiStarCP = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.ABS_n1, product.ABS_n2);
+		product.m_genPhiStarCP = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genABS_n1, product.m_genABS_n2);
 		// Calculatiion of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
-		product.m_genPhi = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
-		
-		/*//Cross check with neutral Pions
-		RMDataLV summedMomentum1;
-		RMDataLV summedMomentum2;
-		for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
-		{
-			if (selectedTau1OneProngs[i]->isDetectable())
-			{
-				//std::cout << "  " << selectedTau1OneProngs[i]->node->pdgId();
-				summedMomentum1 += selectedTau1OneProngs[i]->node->p4;
-			}
-		}
-		for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
-		{
-			if (selectedTau2OneProngs[i]->isDetectable()) 
-			{
-				//std::cout << "  " << selectedTau2OneProngs[i]->node->pdgId();
-				summedMomentum2 += selectedTau2OneProngs[i]->node->p4;
-			}
-		}
-		product.m_genPhiDet = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
-		//product.m_genPhiStarCPDet = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);*/
-		//std::cout << "Gen Particle vectors: " << std::endl;
-		//std::cout << "negative prong" << std::endl;
+		product.m_genPhiCP = CPQuantities::CalculatePhiCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
 	}
 	else
 	{
-		product.m_genPhiStarCPDet = DefaultValues::UndefinedDouble;
-		product.m_genPhiDet = DefaultValues::UndefinedDouble;
 		product.m_genPhiStarCP = DefaultValues::UndefinedDouble;
-		product.m_genPhi = DefaultValues::UndefinedDouble;
+		product.m_genPhiCP = DefaultValues::UndefinedDouble;
 	}
 	if(selectedTau1->Daughters.size() == 2)
 	{

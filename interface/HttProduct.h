@@ -6,6 +6,7 @@
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
+#include "Artus/Utility/interface/DefaultValues.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
@@ -88,7 +89,7 @@ public:
 
 
 	// filled by GenTauCPProducer
-	double m_genPhi;
+	double m_genPhiCP;
 	double m_genPhiStarCP;
 	std::pair <double,double> m_genChargedProngEnergies;
 	double m_genThetaNuHadron;
@@ -97,17 +98,16 @@ public:
 	double m_genPhiStarCPDet;
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
+	float m_genABS_n1 = DefaultValues::UndefinedDouble;
+	float m_genABS_n2 = DefaultValues::UndefinedDouble;
 
 	// filled by RecoTauCPProducer
 	double m_recoPhiStarCP;
 	KGenParticle* m_recoChargedParticle1 = 0;
 	KGenParticle* m_recoChargedParitcle2 = 0;
 	std::pair <double,double> m_recoChargedHadronEnergies;
-	float abs_n1 = -999;
-	float abs_n2 = -999;
-	
-	float ABS_n1 = -999;
-	float ABS_n2 = -999;
+	float m_recoAbs_n1 = DefaultValues::UndefinedDouble;
+	float m_recoAbs_n2 = DefaultValues::UndefinedDouble;
 	
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;

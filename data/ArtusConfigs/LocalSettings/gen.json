@@ -5,14 +5,12 @@
 		"Quantities" : [
 		"tauSpinnerWeight",
 		
-		"genPhi",
+		"genPhiCP",
 		"TauMProngEnergy",
 		"TauPProngEnergy",
 		"genPhiStarCP",
 		"ThetaNuHadron",
 		"AlphaTauNeutrinos",
-		"genPhiDet",
-		"genPhiStarCPDet",
 
 		"genBosonSize",
 		"1genBosonPt",
@@ -42,7 +40,6 @@
 		"OneProngChargedPart2Energy",
 		"Tau1OneProngsSize",
 		"Tau2OneProngsSize",
-		"TauMinusParent",
 		"1genBoson1DaughterPt",
 		"1genBoson1DaughterPz",
 		"1genBoson1DaughterEta",
