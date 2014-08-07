@@ -157,6 +157,8 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 	{
 		product.m_genPhiStarCP = DefaultValues::UndefinedDouble;
 		product.m_genPhiCP = DefaultValues::UndefinedDouble;
+		product.m_genChargedProngEnergies.first = DefaultValues::UndefinedDouble;
+		product.m_genChargedProngEnergies.second = DefaultValues::UndefinedDouble;
 	}
 	if(selectedTau1->Daughters.size() == 2)
 	{
