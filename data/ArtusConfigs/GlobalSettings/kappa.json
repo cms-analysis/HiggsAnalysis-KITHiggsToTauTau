@@ -20,6 +20,7 @@
 	"MvaMetEM" : "PFMETMVAEM",
 	"PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
 	"PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
+	"#PFChargedHadronsNoPileUp" : "pfAllChargedParticles",
 	"PFNeutralHadronsNoPileUp" : "pfNoPileUpNeutralHadrons",
 	"PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
 	"BeamSpot" : "offlineBeamSpot",
