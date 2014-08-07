@@ -33,6 +33,7 @@
 	"TaggerMetadata" : "KTaggerMetadata",
 	"BeamSpot" : "offlineBeamSpot",
 	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
+	"TriggerInfos" : "KTriggerInfos",
 	"TriggerObjects" : "KTriggerObjects"
 }
 
