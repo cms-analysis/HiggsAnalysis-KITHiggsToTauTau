@@ -41,8 +41,8 @@
 			"#hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits",
 			"hpsPFTauDiscriminationByTightIsolationMVA3oldDMwLT",
 			"hpsPFTauDiscriminationByDecayModeFindingOldDMs",
-			"hpsPFTauDiscriminationByMVA5MediumElectronRejection",
-			"hpsPFTauDiscriminationByLooseMuonRejection3",
+			"#hpsPFTauDiscriminationByMVA5MediumElectronRejection",
+			"#hpsPFTauDiscriminationByLooseMuonRejection3",
 			"hpsPFTauDiscriminationByMVAMediumMuonRejection"
 		],
 		"MuonLowerPtCuts" : [
