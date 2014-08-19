@@ -261,3 +261,36 @@ float CPQuantities::CalculateAlphaTauNeutrinos(RMDataLV tauM, RMDataLV nuTauM, R
 	float alpha  = acos(nuMVec.Dot(nuPVec));
 	return alpha;
 }
+float CPQuantities::CalculateZPlusMinus(RMDataLV higgs, RMDataLV chargedPart)
+{
+	//calculating boost into higgs restframe
+	RMDataLV::BetaVector boostHiggs = higgs.BoostToCM();
+	ROOT::Math::Boost higgsRestFrame(boostHiggs);
+
+	//boost particles into rest frame
+	higgs = higgsRestFrame * higgs;
+	chargedPart = higgsRestFrame * chargedPart;
+
+	// calculate Z+-
+	float zPlusMinus = 2 * chargedPart.E() / higgs.E();
+	return zPlusMinus;
+}
+float CPQuantities::CalculateZs(float zPlus, float zMinus)
+{
+	//calculate the surface between z+ = z- and z+ = z- + a for each event
+	//z+ and z- are in range [0,1]. So maximum surface is 0.5
+	//negative a defines the surface below the diagonal line
+	float a = zPlus - zMinus;
+	float zs = 0;
+	if (a >= 0)
+	{
+		zs = 0.5 * (1 - ((1 - a) * (1 - a)));
+	}
+	else
+	{
+		a = -a;
+		zs = 0.5 * (1 - ((1 - a) * (1 - a)));
+		zs = -zs;
+	}
+	return zs;
+}
