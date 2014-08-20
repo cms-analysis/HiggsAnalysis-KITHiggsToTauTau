@@ -41,13 +41,13 @@
 		"TauDiscriminatorIsolationCut" : 1.5,
 		"ElectronLowerPtCuts" : [
 			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0",
-			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:20.0"
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0"
 		],
 		"TauLowerPtCuts" : [
 			"20.0"
 		],
 		"MuonLowerPtCuts" : [
-			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:20.0",
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0",
 			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:10.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
