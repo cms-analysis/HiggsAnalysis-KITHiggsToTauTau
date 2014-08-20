@@ -85,12 +85,14 @@ public:
 	bool m_diTauSystemReconstructed = false;
 
 	// filled by TauSpinnerProducer
-	bool m_tauSpinnerWeight;
+	double m_tauSpinnerWeight;
 
 
 	// filled by GenTauCPProducer
 	double m_genPhiCP;
 	double m_genPhiStarCP;
+	double m_genPhi = DefaultValues::UndefinedDouble;
+	double m_genPhiStar = DefaultValues::UndefinedDouble;
 	std::pair <double,double> m_genChargedProngEnergies;
 	double m_genThetaNuHadron;
 	double m_genAlphaTauNeutrinos;

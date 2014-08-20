@@ -2,7 +2,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 // this version uses tau 4-momenta to calculate decay planes (usefull for GenTauCPProducer)
-float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2, float& ABS_n1, float& ABS_n2)
+float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2, float& ABS_n1, float& ABS_n2, double& phiStar)
 {
 	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
 	RMDataLV PionImp = chargPart1 + chargPart2;
@@ -58,6 +58,7 @@ float CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV ch
 	LOG_N_TIMES(20, DEBUG) <<  n1t.Dot(p1) << "                  " << n2t.Dot(p2) << std::endl;
 
 	//Step 5: Calculating Phi*CP
+	phiStar = acos(n2t.Dot(n1t));
 	float phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
 	{
@@ -161,7 +162,7 @@ float CPQuantities::CalculateTrackReferenceError(KDataTrack track)
 {
 	return sqrt(track.errDz*track.errDz+track.errDxy*track.errDxy);
 }
-float CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
+float CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2, double& phi)
 {
 	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost charged particles 4-momentums
 	RMDataLV::BetaVector boostvectm = tau1.BoostToCM();
@@ -190,6 +191,7 @@ float CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2,
 	nm = (km.Cross(pm)).Unit(); np = (km.Cross(pp)).Unit(); ez = pm.Unit();
 
 	// Step 4: Calculating PhiCP
+	phi = acos(np.Dot(nm));
 	float phiCP = 0;
 	if(ez.Dot(np.Cross(nm))>=0)
 	{

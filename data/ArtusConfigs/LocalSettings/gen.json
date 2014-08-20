@@ -6,9 +6,11 @@
 		"tauSpinnerWeight",
 		
 		"genPhiCP",
+		"genPhi",
 		"TauMProngEnergy",
 		"TauPProngEnergy",
 		"genPhiStarCP",
+		"genPhiStar",
 		"ThetaNuHadron",
 		"AlphaTauNeutrinos",
 
