@@ -29,6 +29,7 @@ public:
 	static TauEnergyCorrection ToTauEnergyCorrection(std::string const& tauEnergyCorrection)
 	{
 		if (tauEnergyCorrection == "summer2013") return TauEnergyCorrection::SUMMER2013;
+		else if(tauEnergyCorrection == "newTauID") return TauEnergyCorrection::NEWTAUID;
 		else return TauEnergyCorrection::NONE;
 	}
 	
