@@ -25,6 +25,7 @@ public:
 	{
 		NONE  = -1,
 		SUMMER2013 = 0,
+		NEWTAUID = 1,      
 	};
 	static TauEnergyCorrection ToTauEnergyCorrection(std::string const& tauEnergyCorrection)
 	{
