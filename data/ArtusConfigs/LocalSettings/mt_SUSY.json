@@ -57,8 +57,8 @@
 		"TauUpperAbsEtaCuts" : [
 			"0:2.3"
 		],
-		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "collinear_approximation",
+		"EventWeight" : "eventWeight",		
+		"TauTauRestFrameReco" : "svfit",
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : false,
 		"InvalidateNonMatchingTaus" : false,
@@ -135,7 +135,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"#producer:svfit",
+					"producer:svfit",
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
