@@ -38,10 +38,13 @@
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByLooseElectronRejection",
-			"hpsPFTauDiscriminationByTightMuonRejection",
-			"hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits"
+			"#hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits",
+			"hpsPFTauDiscriminationByTightIsolationMVA3oldDMwLT",
+			"hpsPFTauDiscriminationByDecayModeFindingOldDMs",
+			"#hpsPFTauDiscriminationByMVA5MediumElectronRejection",
+			"#hpsPFTauDiscriminationByLooseMuonRejection3",
+			"hpsPFTauDiscriminationByMVAMediumMuonRejection"
 		],
-		"TauDiscriminatorIsolationCut" : 1.5,
 		"MuonLowerPtCuts" : [
 			"0:20.0"
 		],
@@ -54,19 +57,11 @@
 		"TauUpperAbsEtaCuts" : [
 			"0:2.3"
 		],
-		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "collinear_approximation",
-		"MuonTriggerFilterNames" : [
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15",
-			"HLT_IsoMu18_eta2p1_LooseIsoPFTau20:hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15"
-		],
-		"TauTriggerFilterNames" : [
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltIsoMuPFTau20TrackLooseIso",
-			"HLT_IsoMu18_eta2p1_LooseIsoPFTau20:hltIsoMuPFTau20TrackLooseIso"
-		],
+		"EventWeight" : "eventWeight",		
+		"TauTauRestFrameReco" : "svfit",
 		"InvalidateNonMatchingElectrons" : false,
-		"InvalidateNonMatchingMuons" : true,
-		"InvalidateNonMatchingTaus" : true,
+		"InvalidateNonMatchingMuons" : false,
+		"InvalidateNonMatchingTaus" : false,
 		"InvalidateNonMatchingJets" : false,
 		"Quantities" : [
 			{
@@ -107,7 +102,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"#producer:svfit",
+					"producer:svfit",
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
@@ -140,7 +135,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"#producer:svfit",
+					"producer:svfit",
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",

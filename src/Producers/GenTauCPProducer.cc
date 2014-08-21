@@ -18,6 +18,14 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_genPhiStarCP;
 	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiCP"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genPhiCP;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiStar"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genPhiStar;
+	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["genPhi"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genPhi;
@@ -30,14 +38,6 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_genChargedProngEnergies.second;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiDet"] = [](event_type const & event, product_type const & product)
-	{
-		return product.m_genPhiDet;
-	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiStarCPDet"] = [](event_type const & event, product_type const & product)
-	{
-		return product.m_genPhiStarCPDet;
-	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["ThetaNuHadron"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genThetaNuHadron;
@@ -45,6 +45,80 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::Quantities["AlphaTauNeutrinos"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genAlphaTauNeutrinos;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genImpactParameter1"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genABS_n1;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genImpactParameter2"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genABS_n2;
+	};
+	// charged particles of a one-prong
+	LambdaNtupleConsumer<HttTypes>::Quantities["Tau1OneProngsSize"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["Tau2OneProngsSize"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1PdgId"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->pdgId() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Pt"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.Pt() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Pz"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.Pz() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Eta"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.Eta() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Phi"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.Phi() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Mass"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.mass() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Energy"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.E() : DefaultValues::UndefinedDouble;
+	};
+
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2PdgId"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->pdgId() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Pt"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.Pt() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Pz"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.Pz() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Eta"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.Eta() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Phi"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.Phi() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Mass"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.mass() : DefaultValues::UndefinedDouble;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Energy"] = [](event_type const & event, product_type const & product)
+	{
+		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.E() : DefaultValues::UndefinedDouble;
 	};
 }
 
@@ -82,39 +156,17 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		product.m_genChargedProngEnergies.second = CPQuantities::CalculateChargedProngEnergy(selectedTau2->node->p4, chargedPart2->p4);
 		// Calculation of Phi* and Psi*CP itself
 
-		product.m_genPhiStarCP = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genPhiStarCP = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genABS_n1, product.m_genABS_n2, product.m_genPhiStar);
 		// Calculatiion of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
-		product.m_genPhi = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
-		
-		//Cross check with neutral Pions
-		RMDataLV summedMomentum1;
-		RMDataLV summedMomentum2;
-		for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
-		{
-			if (selectedTau1OneProngs[i]->isDetectable())
-			{
-				//std::cout << "  " << selectedTau1OneProngs[i]->node->pdgId();
-				summedMomentum1 += selectedTau1OneProngs[i]->node->p4;
-			}
-		}
-		for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
-		{
-			if (selectedTau2OneProngs[i]->isDetectable()) 
-			{
-				//std::cout << "  " << selectedTau2OneProngs[i]->node->pdgId();
-				summedMomentum2 += selectedTau2OneProngs[i]->node->p4;
-			}
-		}
-		product.m_genPhiDet = CPQuantities::CalculatePhi(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
-		//product.m_genPhiStarCPDet = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, summedMomentum1, summedMomentum2);
+		product.m_genPhiCP = CPQuantities::CalculatePhiCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genPhi);
 	}
 	else
 	{
-		product.m_genPhiStarCPDet = DefaultValues::UndefinedDouble;
-		product.m_genPhiDet = DefaultValues::UndefinedDouble;
 		product.m_genPhiStarCP = DefaultValues::UndefinedDouble;
-		product.m_genPhi = DefaultValues::UndefinedDouble;
+		product.m_genPhiCP = DefaultValues::UndefinedDouble;
+		product.m_genChargedProngEnergies.first = DefaultValues::UndefinedDouble;
+		product.m_genChargedProngEnergies.second = DefaultValues::UndefinedDouble;
 	}
 	if(selectedTau1->Daughters.size() == 2)
 	{

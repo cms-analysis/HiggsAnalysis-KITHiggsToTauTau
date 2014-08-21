@@ -37,11 +37,6 @@ private:
 	virtual TauSpinner::SimpleParticle getSimpleParticle(KGenParticle*& in) const;
 	virtual std::vector<TauSpinner::SimpleParticle>* GetFinalStates(MotherDaughterBundle& mother,
 			std::vector<TauSpinner::SimpleParticle>* resultVector) const;
-	inline bool isMassPhysical(TauSpinner::SimpleParticle in) const
-	{
-		return ((pow(in.e(), 2) - pow(in.px(), 2) - pow(in.py(), 2) - pow(in.pz(), 2)) >= 0);
-	}
-	virtual bool isMassPhysical(std::vector<TauSpinner::SimpleParticle> in) const;
 };
 
 namespace std{

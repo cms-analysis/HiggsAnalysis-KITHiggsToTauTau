@@ -25,7 +25,11 @@
 			"1:2.3"
 		],
 		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "svfit",
+		"TauTauRestFrameReco" : "collinear_approximation",
+		"InvalidateNonMatchingElectrons" : false,
+		"InvalidateNonMatchingMuons" : false,
+		"InvalidateNonMatchingTaus" : false,
+		"InvalidateNonMatchingJets" : false,
 		"Quantities" : [
 			{
 				"include" : [
@@ -46,7 +50,7 @@
 					"filter:n_loose_electrons",
 					"filter:n_loose_muons",
 					"producer:hlt_selector",
-					"#filter:hlt_filter",
+					"filter:hlt_filter",
 					"producer:met_selector",
 					"producer:valid_electrons",
 					"producer:electron_trigger_matching",
@@ -60,7 +64,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"producer:svfit",
+					"#producer:svfit",
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
@@ -72,7 +76,7 @@
 					"filter:n_loose_electrons",
 					"filter:n_loose_muons",
 					"producer:hlt_selector",
-					"#filter:hlt_filter",
+					"filter:hlt_filter",
 					"producer:met_selector",
 					"producer:valid_electrons",
 					"filter:valid_electrons",
@@ -86,7 +90,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"producer:svfit",
+					"#producer:svfit",
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",

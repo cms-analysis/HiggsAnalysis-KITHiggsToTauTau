@@ -5,8 +5,37 @@
 	"tt": {
 	"Quantities":[
 	"recoPhiStarCP",
-	"recoChargedHadron1Energy",
-	"recoChargedHadron2Energy"
+	"genPhiStarCP",
+
+	"recoImpactParameter1",
+	"recoImpactParameter2",
+	"genImpactParameter1",
+	"genImpactParameter2",
+	"recoTrackRefError1",
+	"recoTrackRefError2",
+	"tauSpinnerWeight",
+
+	"TauMProngEnergy",
+	"TauPProngEnergy",
+
+	"OneProngChargedPart1PdgId",
+	"OneProngChargedPart1Pt",
+	"OneProngChargedPart1Pz",
+	"OneProngChargedPart1Eta",
+	"OneProngChargedPart1Phi",
+	"OneProngChargedPart1Mass",
+	"OneProngChargedPart1Energy",
+
+	"OneProngChargedPart2PdgId",
+	"OneProngChargedPart2Pt",
+	"OneProngChargedPart2Pz",
+	"OneProngChargedPart2Eta",
+	"OneProngChargedPart2Phi",
+	"OneProngChargedPart2Mass",
+	"OneProngChargedPart2Energy",
+
+	"recoChargedHadron1HiggsFrameEnergy",
+	"recoChargedHadron2HiggsFrameEnergy"
 	]
 	}
 }

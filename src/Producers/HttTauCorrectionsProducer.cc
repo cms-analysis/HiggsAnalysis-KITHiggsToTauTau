@@ -43,6 +43,22 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KDataPFTau* tau, event_typ
 // 			tau->p4 = tau->p4 * (1.012 + 0.001 * std::min(std::max(tau->p4.Pt() - 32.0, 0.0), 18.0));
 		}
 	}
+	else if (tauEnergyCorrection == TauEnergyCorrection::NEWTAUID)
+	{
+		// http://cmslxr.fnal.gov/lxr/source/DataFormats/TauReco/interface/PFTau.h#035
+		if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero)
+		{
+			normalisationFactor = 0.88;
+		}
+		else if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero || tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng2PiZero)
+		{
+			tau->p4 = tau->p4 * (1.01);
+		}
+		else if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero)
+		{
+			tau->p4 = tau->p4 * (1.01);
+		}
+	}
 	else if (tauEnergyCorrection != TauEnergyCorrection::NONE)
 	{
 		LOG(FATAL) << "Tau energy correction of type " << Utility::ToUnderlyingValue(tauEnergyCorrection) << " not yet implemented!";

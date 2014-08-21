@@ -6,6 +6,7 @@
 
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
+#include "Artus/Utility/interface/DefaultValues.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
@@ -84,11 +85,14 @@ public:
 	bool m_diTauSystemReconstructed = false;
 
 	// filled by TauSpinnerProducer
-	bool m_allMassesPhysical;
+	double m_tauSpinnerWeight;
+
 
 	// filled by GenTauCPProducer
-	double m_genPhi;
+	double m_genPhiCP;
 	double m_genPhiStarCP;
+	double m_genPhi = DefaultValues::UndefinedDouble;
+	double m_genPhiStar = DefaultValues::UndefinedDouble;
 	std::pair <double,double> m_genChargedProngEnergies;
 	double m_genThetaNuHadron;
 	double m_genAlphaTauNeutrinos;
@@ -96,11 +100,28 @@ public:
 	double m_genPhiStarCPDet;
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
+	float m_genABS_n1 = DefaultValues::UndefinedDouble;
+	float m_genABS_n2 = DefaultValues::UndefinedDouble;
 
 	// filled by RecoTauCPProducer
 	double m_recoPhiStarCP;
+	KGenParticle* m_recoChargedParticle1 = 0;
+	KGenParticle* m_recoChargedParitcle2 = 0;
 	std::pair <double,double> m_recoChargedHadronEnergies;
+	float m_recoAbs_n1 = DefaultValues::UndefinedDouble;
+	float m_recoAbs_n2 = DefaultValues::UndefinedDouble;
+	float m_recoTrackRefError1 = DefaultValues::UndefinedDouble;
+	float m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
 	
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
+
+	// filled by HttValidGenTausProducer. Naming scheme like for the reco particles
+	std::vector<KDataGenTau*> m_ptOrderedGenTaus;
+	std::vector<KDataGenTau*> m_flavourOrderedGenTaus;
+	std::vector<KDataGenTau*> m_chargeOrderedGenTaus;
+	std::vector<KDataGenTau*> m_validGenTausToElectrons;
+	std::vector<KDataGenTau*> m_validGenTausToMuons;
+	std::vector<KDataGenTau*> m_validGenTausToTaus;
+
 };

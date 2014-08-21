@@ -57,7 +57,19 @@
 			"0:2.3"
 		],
 		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "svfit",
+		"TauTauRestFrameReco" : "collinear_approximation",
+		"ElectronTriggerFilterNames" : [
+			"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20:hltEle22WP90RhoTrackIsoFilter",
+			"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20:hltEle22WP90RhoTrackIsoFilter"
+		],
+		"TauTriggerFilterNames" : [
+			"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20:hltIsoElePFTau20TrackLooseIso",
+			"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20:hltIsoElePFTau20TrackLooseIso"
+		],
+		"InvalidateNonMatchingElectrons" : true,
+		"InvalidateNonMatchingMuons" : false,
+		"InvalidateNonMatchingTaus" : true,
+		"InvalidateNonMatchingJets" : false,
 		"Quantities" : [
 			{
 				"include" : [
@@ -97,7 +109,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"producer:svfit",
+					"#producer:svfit",
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
@@ -130,7 +142,7 @@
 					"producer:valid_btagged_jets",
 					"producer:decay_channels",
 					"filter:decay_channel",
-					"producer:svfit",
+					"#producer:svfit",
 					"producer:tautau_restframe",
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
