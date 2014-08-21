@@ -22,6 +22,14 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_genPhiCP;
 	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiStar"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genPhiStar;
+	};
+	LambdaNtupleConsumer<HttTypes>::Quantities["genPhi"] = [](event_type const & event, product_type const & product)
+	{
+		return product.m_genPhi;
+	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["TauMProngEnergy"] = [](event_type const & event, product_type const & product)
 	{
 		return product.m_genChargedProngEnergies.first;
@@ -148,10 +156,10 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		product.m_genChargedProngEnergies.second = CPQuantities::CalculateChargedProngEnergy(selectedTau2->node->p4, chargedPart2->p4);
 		// Calculation of Phi* and Psi*CP itself
 
-		product.m_genPhiStarCP = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genABS_n1, product.m_genABS_n2);
+		product.m_genPhiStarCP = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genABS_n1, product.m_genABS_n2, product.m_genPhiStar);
 		// Calculatiion of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
-		product.m_genPhiCP = CPQuantities::CalculatePhiCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genPhiCP = CPQuantities::CalculatePhiCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genPhi);
 	}
 	else
 	{

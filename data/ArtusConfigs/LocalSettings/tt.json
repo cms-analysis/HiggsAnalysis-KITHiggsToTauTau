@@ -24,11 +24,11 @@
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByLooseMuonRejection",
 			"hpsPFTauDiscriminationByLooseElectronRejection",
-			"1:hpsPFTauDiscriminationByMVA3LooseElectronRejection",
+			"#1:hpsPFTauDiscriminationByMVA3LooseElectronRejection",
 			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"TauLowerPtCuts" : [
-			"45."
+			"40."
 		],
 		"TauUpperAbsEtaCuts" : [
 			"0:2.1",
