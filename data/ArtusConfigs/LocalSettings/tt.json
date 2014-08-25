@@ -80,8 +80,8 @@
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
 					"producer:event_categories",
-					"producer:event_weight",
-					"producer:reco_cp"
+					"producer:reco_cp",
+					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
 					"filter:n_loose_electrons",
@@ -107,6 +107,7 @@
 					"producer:dilepton_quantities",
 					"producer:dijet_quantities",
 					"producer:event_categories",
+					"producer:reco_cp",
 					"producer:event_weight"
 				]
 			}
