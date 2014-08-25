@@ -22,7 +22,7 @@ class RecoMuonInElectronConeVetoFilter: public FilterBase<HttTypes> {
 public:
 	
 	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
-			return "reco_muon_in_electron_cone_veto";
+			return "RecoMuonInElectronConeVetoFilter";
 	}
 
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,

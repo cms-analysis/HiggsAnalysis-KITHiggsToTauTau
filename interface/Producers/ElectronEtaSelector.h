@@ -23,7 +23,7 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "electron_eta_selector";
+		return "ElectronEtaSelector";
 	}
 
 	virtual void Produce(event_type const& event, product_type& product,

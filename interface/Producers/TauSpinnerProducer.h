@@ -24,7 +24,7 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE
 	{
-		return "tauspinner";
+		return "TauSpinnerProducer";
 	}
 
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;

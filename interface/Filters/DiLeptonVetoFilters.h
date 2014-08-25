@@ -141,7 +141,7 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 	
 	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
-			return "di_veto_muon_veto";
+			return "DiVetoMuonVetoFilter";
 	}
 	
 	DiVetoMuonVetoFilter();

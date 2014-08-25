@@ -19,7 +19,7 @@ public:
 
 	virtual std::string GetConsumerId() const ARTUS_CPP11_OVERRIDE
 	{
-		return "svfit_cache";
+		return "SvfitCacheConsumer";
 	}
 
 	virtual void Init(Pipeline<HttTypes>* pipeline) ARTUS_CPP11_OVERRIDE;

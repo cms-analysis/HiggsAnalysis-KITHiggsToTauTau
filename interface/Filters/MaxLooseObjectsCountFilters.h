@@ -18,7 +18,7 @@ public:
 	typedef typename std::function<double(event_type const&, product_type const&)> double_extractor_lambda;
 	
 	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
-		return "max_n_loose_electrons";
+		return "MaxLooseElectronsCountFilter";
 	}
 	
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
@@ -37,7 +37,7 @@ public:
 	typedef typename std::function<double(event_type const&, product_type const&)> double_extractor_lambda;
 	
 	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
-		return "max_n_loose_muons";
+		return "MaxLooseMuonsCountFilter";
 	}
 	
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;

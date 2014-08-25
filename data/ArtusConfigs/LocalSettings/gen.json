@@ -154,7 +154,7 @@
 		"1genBoson1Daughter2Granddaughter6GrandGranddaughterStatus"
 		],
 		"Consumers" : [
-			"lambda_ntuple",
+			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram"
 		]
 	}

@@ -15,7 +15,7 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "event_categories";
+		return "EventCategoryProducer";
 	}
 	
 	static bool EventInEventCategory(HttEnumTypes::EventCategory const& eventCategory,

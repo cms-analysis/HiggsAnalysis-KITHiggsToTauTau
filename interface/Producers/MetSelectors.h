@@ -128,7 +128,7 @@ public:
 	MvaMetTTSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetTT) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "mvamet_tt_selector";
+		return "MvaMetTTSelector";
 	}
 };
 
@@ -143,7 +143,7 @@ public:
 	MvaMetMTSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetMT) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "mvamet_mt_selector";
+		return "MvaMetMTSelector";
 	}
 };
 
@@ -158,7 +158,7 @@ public:
 	MvaMetETSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetET) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "mvamet_et_selector";
+		return "MvaMetETSelector";
 	}
 };
 
@@ -173,7 +173,7 @@ public:
 	MvaMetEMSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_mvaMetEM) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "mvamet_em_selector";
+		return "MvaMetEMSelector";
 	}
 };
 

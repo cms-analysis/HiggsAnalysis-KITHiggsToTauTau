@@ -24,7 +24,7 @@ public:
 
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE
 	{
-		return "anti_ttbar_mva";
+		return "AntiTtbarDiscriminatorTmvaReader";
 	}
 	
 	AntiTtbarDiscriminatorTmvaReader();

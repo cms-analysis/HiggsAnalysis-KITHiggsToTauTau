@@ -21,7 +21,7 @@ public:
 
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE
 	{
-		return "valid_gen_taus";
+		return "HttValidGenTausProducer";
 	}
 
 	virtual void Init(setting_type const& settings)  ARTUS_CPP11_OVERRIDE;

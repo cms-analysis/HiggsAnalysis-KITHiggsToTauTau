@@ -2,7 +2,7 @@
 	"Processors" : {
 		"nick" : {
 			"default" : [
-				"producer:tauspinner"
+				"producer:TauSpinnerProducer"
 			]
 		}
 	}

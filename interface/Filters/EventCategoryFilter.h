@@ -19,7 +19,7 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 	
 	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
-            return "event_category";
+            return "EventCategoryFilter";
     }
     
     virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;

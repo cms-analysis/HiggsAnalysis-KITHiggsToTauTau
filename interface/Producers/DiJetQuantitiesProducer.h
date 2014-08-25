@@ -17,7 +17,7 @@ public:
 	                               dijet_extractor_lambda dijetQuantity);
 
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "dijet_quantities";
+		return "DiJetQuantitiesProducer";
 	}
 	
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;

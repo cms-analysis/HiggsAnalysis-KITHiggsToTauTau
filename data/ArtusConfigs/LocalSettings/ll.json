@@ -37,31 +37,31 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"producer:hlt_selector",
-					"filter:hlt_filter",
+					"producer:HltProducer",
+					"filter:HltFilter",
 					"producer:met_selector",
-					"producer:valid_electrons",
-					"producer:valid_muons",
-					"producer:valid_taus",
-					"producer:valid_tagged_jets",
-					"producer:valid_btagged_jets",
-					"producer:event_weight"
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTausProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:EventWeightProducer"
 				],
 				"DoubleMu|TauPlusX" : [
-					"producer:hlt_selector",
-					"filter:hlt_filter",
+					"producer:HltProducer",
+					"filter:HltFilter",
 					"producer:met_selector",
-					"producer:valid_electrons",
-					"producer:valid_muons",
-					"producer:valid_taus",
-					"producer:valid_tagged_jets",
-					"producer:valid_btagged_jets",
-					"producer:event_weight"
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTausProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:EventWeightProducer"
 				]
 			}
 		},
 		"Consumers" : [
-			"lambda_ntuple",
+			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram"
 		]
 	}
