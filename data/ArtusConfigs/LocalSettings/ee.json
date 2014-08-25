@@ -70,6 +70,8 @@
 					"producer:dijet_quantities",
 					"producer:event_categories",
 					"producer:reco_cp",
+					"producer:generator_weight",
+					"producer:cross_section_weight",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [

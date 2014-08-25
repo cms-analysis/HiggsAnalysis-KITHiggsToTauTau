@@ -117,6 +117,8 @@
 					"producer:trigger_weight",
 					"producer:identification_weight",
 					"producer:reco_cp",
+					"producer:generator_weight",
+					"producer:cross_section_weight",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
