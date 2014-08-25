@@ -5,7 +5,8 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsLooseElectronID.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsLooseMuonID.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json"
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json"
 	],
 	"#LumiWhitelist" : [
 		1555
@@ -35,7 +36,10 @@
 				"producer:gen_particle",
 				"producer:gen_taudecay",
 				"producer:gen_cp",
-				"producer:tauspinner"
+				"producer:tauspinner",
+				"producer:generator_weight",
+				"producer:cross_section_weight",
+				"producer:NumberGeneratedEventsWeightProducer"
 			],
 			"HToTauTau" : [
 				"#filter:run_lumi_event",
@@ -47,13 +51,19 @@
 				"producer:gen_particle",
 				"producer:gen_taudecay",
 				"producer:gen_cp",
-				"producer:tauspinner"
+				"producer:tauspinner",
+				"producer:generator_weight",
+				"producer:cross_section_weight",
+				"producer:NumberGeneratedEventsWeightProducer"
 			],
 			"TauPlusX" : [
 				"filter:json_filter",
 				"producer:tagged_jet_corrections",
 				"producer:valid_loose_electrons",
-				"producer:valid_loose_muons"
+				"producer:valid_loose_muons",
+				"producer:generator_weight",
+				"producer:cross_section_weight",
+				"producer:NumberGeneratedEventsWeightProducer"
 			]
 		}
 	},
