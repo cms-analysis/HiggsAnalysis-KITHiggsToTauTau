@@ -44,6 +44,11 @@
 			"decayChannelIndex",
 			"exclusiveEventCategoryIndex"
 		],
+		"NumberGeneratedEvents" : {
+			"nick" : {
+				"default" : 1.0
+			}
+		},
 		"Processors" : {
 			"nick" : {
 				"default" : [
@@ -72,6 +77,7 @@
 					"producer:reco_cp",
 					"producer:generator_weight",
 					"producer:cross_section_weight",
+					"producer:NumberGeneratedEventsWeightProducer",
 					"producer:event_weight"
 				],
 				"DoubleMu|TauPlusX" : [
