@@ -294,3 +294,8 @@ float CPQuantities::CalculateZs(float zPlus, float zMinus)
 	}
 	return zs;
 }
+float CPQuantities::PhiTransform(float phi)
+{
+	phi = 	fmod((phi + ROOT::Math::Pi()),(2 * ROOT::Math::Pi()));
+	return phi;
+}

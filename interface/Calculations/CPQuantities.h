@@ -10,6 +10,7 @@
    \brief Place to collect functions calculating CP quantities
    -Phi* : this is a variable, with which one can say, whether the considered boson is a scalar (CP even) or a pseudoscalar (CP odd)
    -Psi*CP : this is a variable, with which one can figure out, whether the have a CP-mixture or not
+   -Zs : this is a variable, with which one can figure out, wether the considered boson is a scalar (CP even) or a pseudoscalar (CP odd)
 */
 
 class CPQuantities
@@ -26,4 +27,5 @@ public:
 	static float CalculateTrackReferenceError(KDataTrack track);
 	static float CalculateZPlusMinus(RMDataLV higgs, RMDataLV chargedPart);
 	static float CalculateZs(float zPlus, float zMinus);
+	static float PhiTransform(float phi);
 };

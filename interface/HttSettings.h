@@ -157,6 +157,8 @@ public:
 
 	IMPL_SETTING(int, BosonPdgId);
 
+	IMPL_SETTING(bool, PhiTransform);
+
 	// TMVA reader settings
 	IMPL_SETTING_STRINGLIST(AntiTtbarTmvaInputQuantities);
 	IMPL_SETTING_STRINGLIST(AntiTtbarTmvaMethods);

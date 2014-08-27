@@ -122,15 +122,15 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["genZPlus"] = [](event_type const & event, product_type const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genZPlus : DefaultValues::UndefinedDouble;
+		return product.m_genZPlus;
 	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["genZMinus"] = [](event_type const & event, product_type const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genZMinus : DefaultValues::UndefinedDouble;
+		return product.m_genZMinus;
 	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["genZs"] = [](event_type const & event, product_type const & product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genZs : DefaultValues::UndefinedDouble;
+		return product.m_genZs;
 	};
 }
 
@@ -167,15 +167,25 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		product.m_genChargedProngEnergies.first = CPQuantities::CalculateChargedProngEnergy(selectedTau1->node->p4, chargedPart1->p4);
 		product.m_genChargedProngEnergies.second = CPQuantities::CalculateChargedProngEnergy(selectedTau2->node->p4, chargedPart2->p4);
 		// Calculation of Phi* and Psi*CP itself
-
-		product.m_genPhiStarCP = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genABS_n1, product.m_genABS_n2, product.m_genPhiStar);
+		float genPhiStarCP = CPQuantities::CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genABS_n1, product.m_genABS_n2, product.m_genPhiStar);
 		// Calculatiion of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
-		product.m_genPhiCP = CPQuantities::CalculatePhiCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genPhi);
-
-		//Zs calculation
-		product.m_genZMinus = CPQuantities::CalculateZPlusMinus(higgs->node->p4, chargedPart2->p4);
+		float genPhiCP = CPQuantities::CalculatePhiCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4, product.m_genPhi);
+		
+		//CPTransformation for semileptonic case
+		if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId() == DefaultValues::pdgIdElectron || chargedPart1->pdgId() == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId() == 211)) || ((chargedPart2->pdgId() == -DefaultValues::pdgIdElectron || chargedPart2->pdgId() == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId() == -211))))
+		{	
+			product.m_genPhiStarCP = CPQuantities::PhiTransform(genPhiStarCP);
+			product.m_genPhiCP = CPQuantities::PhiTransform(genPhiCP);
+		}
+		else
+		{
+			product.m_genPhiStarCP = genPhiStarCP;
+			product.m_genPhiCP = genPhiCP;
+		}
+		//ZPlusMinus calculation
 		product.m_genZPlus = CPQuantities::CalculateZPlusMinus(higgs->node->p4, chargedPart1->p4);
+		product.m_genZMinus = CPQuantities::CalculateZPlusMinus(higgs->node->p4, chargedPart2->p4);
 		product.m_genZs = CPQuantities::CalculateZs(product.m_genZPlus, product.m_genZMinus);
 	}
 	else
