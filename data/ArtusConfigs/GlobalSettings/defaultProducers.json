@@ -30,8 +30,8 @@
 			"default" : [
 				"#filter:RunLumiEventFilter",
 				"producer:TaggedJetCorrectionsProducer",
-				"producer:valid_loose_electrons",
-				"producer:valid_loose_muons",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenTauDecayProducer",
@@ -45,8 +45,8 @@
 				"#filter:RunLumiEventFilter",
 				"producer:TauCorrectionsProducer",
 				"producer:TaggedJetCorrectionsProducer",
-				"producer:valid_loose_electrons",
-				"producer:valid_loose_muons",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenTauDecayProducer",
@@ -59,8 +59,8 @@
 			"TauPlusX" : [
 				"filter:JsonFilter",
 				"producer:TaggedJetCorrectionsProducer",
-				"producer:valid_loose_electrons",
-				"producer:valid_loose_muons",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"

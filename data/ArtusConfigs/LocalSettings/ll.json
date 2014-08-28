@@ -39,7 +39,7 @@
 				"default" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:met_selector",
+					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",
@@ -50,7 +50,7 @@
 				"DoubleMu|TauPlusX" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:met_selector",
+					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",

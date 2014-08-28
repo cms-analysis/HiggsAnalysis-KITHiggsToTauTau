@@ -115,7 +115,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:trigger_weight",
+					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:RecoTauCPProducer",

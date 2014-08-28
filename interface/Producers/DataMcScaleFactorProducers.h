@@ -59,7 +59,7 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "trigger_weight";
+		return "TriggerWeightProducer";
 	}
 	
 	TriggerWeightProducer();

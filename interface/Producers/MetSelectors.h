@@ -113,7 +113,7 @@ public:
 	MetSelector() : MetSelectorBase<KDataPFMET>(&HttTypes::event_type::m_met) {};
 	
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
-		return "met_selector";
+		return "MetSelector";
 	}
 };
 
