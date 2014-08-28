@@ -13,6 +13,9 @@
 		"genPhiStar",
 		"ThetaNuHadron",
 		"AlphaTauNeutrinos",
+		"genZPlus",
+		"genZMinus",
+		"genZs",
 
 		"genBosonSize",
 		"1genBosonPt",

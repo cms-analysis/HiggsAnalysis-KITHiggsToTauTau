@@ -89,6 +89,10 @@ public:
 
 
 	// filled by GenTauCPProducer
+	double m_genZMinus;
+	double m_genZPlus;
+	double m_genZs;
+
 	double m_genPhiCP;
 	double m_genPhiStarCP;
 	double m_genPhi = DefaultValues::UndefinedDouble;
