@@ -5,7 +5,7 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import Artus.HarryPlotter.core as harrycore
+import HarryPlotter.Plotting.core as harrycore
 import HiggsAnalysis.KITHiggsToTauTau.plotting.plotroothtt as plotroothtt
 
 

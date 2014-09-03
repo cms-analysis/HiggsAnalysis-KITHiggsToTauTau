@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import sys
-import Artus.HarryPlotter.harrycore as harrycore
-import Artus.HarryPlotter.plot1d as plot1d
-import Artus.HarryPlotter.tools.utils as utils
-import Artus.HarryPlotter.tools.labels as labels
-import Artus.HarryPlotter.tools.mplconvert as mplconvert
+import HarryPlotter.Plotting.harrycore as harrycore
+import HarryPlotter.Plotting.plot1d as plot1d
+import HarryPlotter.Plotting.tools.utils as utils
+import HarryPlotter.Plotting.tools.labels as labels
+import HarryPlotter.Plotting.tools.mplconvert as mplconvert
 import copy
 
 # particle dictionary with name, masslims, ...

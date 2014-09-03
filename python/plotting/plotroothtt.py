@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 import os
 import ROOT
 
-import Artus.HarryPlotter.plotroot as plotroot
+import HarryPlotter.Plotting.plotroot as plotroot
 
 
 class PlotRootHtt(plotroot.PlotRoot):
