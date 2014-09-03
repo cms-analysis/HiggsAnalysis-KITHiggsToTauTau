@@ -1,0 +1,23 @@
+{
+	"folders" : [
+		"tt/ntuple",
+		"Events"
+	],
+	"labels" : [
+		"KIT",
+		"MIT"
+	],
+	"output_dir" : "plots/VBF_HToTauTau_M-125/tt",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
+	"x_expressions" : [
+		"pt_sv"
+	],
+	"x_bins" : [
+		"25,0.0,250"
+	],
+	"ratio" : "True",
+	"x_label" : "SVfit p_{T}(\\tau\\tau)",
+	"filename" : "pt_sv"
+}

@@ -5,22 +5,11 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import Artus.HarryPlotter.harrycore as harrycore
+import sys
 
-# import analysis specific functions
-import HiggsAnalysis.KITHiggsToTauTau.HarryPlotterModules.decayproducts as higgsmodule
+import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
-if __name__ == "__main__":
-	"""This is a template for users to make analysis-specific plots with HarryPlotter."""
 
-	basedict = harrycore.get_basic_dictionary()
+if __name__ == "__main__" and len(sys.argv) > 1:
+	higgsplot.higgs_plot()
 
-	parser = harrycore.get_basic_parser(**basedict)
-
-	plotdict = harrycore.create_dictionary_from_parser(parser)
-
-	# Add the module with the user-written functions to the plotdict
-
-	plotdict['analysismodules'] = [higgsmodule]
-
-	harrycore.plot(plotdict)
