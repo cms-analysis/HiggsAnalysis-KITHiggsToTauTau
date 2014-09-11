@@ -9,7 +9,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
 
 
-void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
+void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 {
 	// add possible quantities for the lambda ntuples consumers
 	
@@ -27,8 +27,8 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	LambdaNtupleConsumer<HttTypes>::Quantities["trigweight_2"] = [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_weights, std::string("triggerWeight2"), 1.0);
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["weight"] = [pipeline](event_type const& event, product_type const& product) {
-		return SafeMap::GetWithDefault(product.m_weights, pipeline->GetSettings().GetEventWeight(), 1.0);
+	LambdaNtupleConsumer<HttTypes>::Quantities["weight"] = [settings](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_weights, settings.GetEventWeight(), 1.0);
 	};
 	LambdaNtupleConsumer<HttTypes>::Quantities["mvis"] = LambdaNtupleConsumer<HttTypes>::Quantities["diLepMass"];
 	LambdaNtupleConsumer<HttTypes>::Quantities["pt_1"] = LambdaNtupleConsumer<HttTypes>::Quantities["lep1Pt"];
@@ -72,5 +72,5 @@ void HttLambdaNtupleConsumer::Init(Pipeline<HttTypes> * pipeline)
 	LambdaNtupleConsumer<HttTypes>::Quantities["m_sv"] = LambdaNtupleConsumer<HttTypes>::Quantities["diTauMass"];
 	
 	// need to be called at last
-	KappaLambdaNtupleConsumer<HttTypes>::Init(pipeline);
+	KappaLambdaNtupleConsumer::Init(settings);
 }

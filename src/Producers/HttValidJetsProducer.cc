@@ -6,7 +6,7 @@ bool HttValidJetsProducer::AdditionalCriteria(KDataPFJet* jet,
                                               event_type const& event, product_type& product,
                                               setting_type const& settings) const
 {
-	bool validJet = ValidJetsProducer<HttTypes>::AdditionalCriteria(jet, event, product, settings);
+	bool validJet = ValidJetsProducer::AdditionalCriteria(jet, event, product, settings);
 	
 	return validJet;
 }

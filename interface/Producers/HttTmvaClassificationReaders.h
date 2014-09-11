@@ -18,9 +18,12 @@ class AntiTtbarDiscriminatorTmvaReader: public TmvaClassificationReaderBase<HttT
 {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
+	typedef KappaEvent event_type;
+	typedef KappaProduct product_type;
+	typedef KappaSettings setting_type;
+	typedef typename HttTypes::event_type spec_event_type;
+	typedef typename HttTypes::product_type spec_product_type;
+	typedef typename HttTypes::setting_type spec_setting_type;
 
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE
 	{

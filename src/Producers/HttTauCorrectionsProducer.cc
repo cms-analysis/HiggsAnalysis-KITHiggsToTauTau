@@ -12,15 +12,15 @@
 	
 void HttTauCorrectionsProducer::Init(setting_type const& settings)
 {
-	TauCorrectionsProducer<HttTypes>::Init(settings);
+	TauCorrectionsProducer::Init(settings);
 	
-	tauEnergyCorrection = ToTauEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauEnergyCorrection())));
+	tauEnergyCorrection = ToTauEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(static_cast<HttSettings const&>(settings).GetTauEnergyCorrection())));
 }
 
 void HttTauCorrectionsProducer::AdditionalCorrections(KDataPFTau* tau, event_type const& event,
                                                       product_type& product, setting_type const& settings) const
 {
-	TauCorrectionsProducer<HttTypes>::AdditionalCorrections(tau, event, product, settings);
+	TauCorrectionsProducer::AdditionalCorrections(tau, event, product, settings);
 	
 	double normalisationFactor = 1.0;
 	
@@ -52,6 +52,6 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KDataPFTau* tau, event_typ
 		LOG(FATAL) << "Tau energy correction of type " << Utility::ToUnderlyingValue(tauEnergyCorrection) << " not yet implemented!";
 	}
 	
-	product.m_tauEnergyScaleWeight[tau] = normalisationFactor;
+	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = normalisationFactor;
 }
 

@@ -3,10 +3,10 @@
 
 	
 AntiTtbarDiscriminatorTmvaReader::AntiTtbarDiscriminatorTmvaReader() :
-	TmvaClassificationReaderBase<HttTypes>(&setting_type::GetAntiTtbarTmvaInputQuantities,
-	                                       &setting_type::GetAntiTtbarTmvaMethods,
-	                                       &setting_type::GetAntiTtbarTmvaWeights,
-	                                       &product_type::m_antiTtbarDiscriminators)
+	TmvaClassificationReaderBase<HttTypes>(&spec_setting_type::GetAntiTtbarTmvaInputQuantities,
+	                                       &spec_setting_type::GetAntiTtbarTmvaMethods,
+	                                       &spec_setting_type::GetAntiTtbarTmvaWeights,
+	                                       &spec_product_type::m_antiTtbarDiscriminators)
 {
 }
 

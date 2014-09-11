@@ -22,11 +22,12 @@ public:
 		return "SvfitCacheConsumer";
 	}
 
-	virtual void Init(Pipeline<HttTypes>* pipeline) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
-	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product) ARTUS_CPP11_OVERRIDE;
+	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product,
+	                                  setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
-	virtual void Finish() ARTUS_CPP11_OVERRIDE;
+	virtual void Finish(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
 
 private:

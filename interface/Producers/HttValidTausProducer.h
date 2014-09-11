@@ -12,26 +12,19 @@
    - TauDiscriminatorAntiElectronMvaCuts (optional)
 */
 
-class HttValidTausProducer: public ValidTausProducer<HttTypes>
+class HttValidTausProducer: public ValidTausProducer
 {
-
-public:
-
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 
 protected:
 
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KDataPFTau* tau, event_type const& event,
-	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
+	virtual bool AdditionalCriteria(KDataPFTau* tau, KappaEvent const& event,
+	                                KappaProduct& product, KappaSettings const& settings) const  ARTUS_CPP11_OVERRIDE;
 
 
 private:
-	bool ApplyCustomElectronRejection(KDataPFTau* tau, event_type const& event,
-	                                  setting_type const& settings) const;
+	bool ApplyCustomElectronRejection(KDataPFTau* tau, KappaEvent const& event,
+	                                  HttSettings const& settings) const;
 
 };
 

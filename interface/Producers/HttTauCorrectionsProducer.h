@@ -12,14 +12,17 @@
    Required config tags
    - TauEnergyCorrection (possible value: summer2013)
 */
-class HttTauCorrectionsProducer: public TauCorrectionsProducer<HttTypes>
+class HttTauCorrectionsProducer: public TauCorrectionsProducer
 {
 
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
+	typedef KappaEvent event_type;
+	typedef KappaProduct product_type;
+	typedef KappaSettings setting_type;
+	typedef typename HttTypes::event_type spec_event_type;
+	typedef typename HttTypes::product_type spec_product_type;
+	typedef typename HttTypes::setting_type spec_setting_type;
 
 	enum class TauEnergyCorrection : int
 	{

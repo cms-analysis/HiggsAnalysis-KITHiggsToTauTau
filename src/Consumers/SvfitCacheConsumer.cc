@@ -5,18 +5,22 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 
-void SvfitCacheConsumer::Init(Pipeline<HttTypes>* pipeline) {
-	ConsumerBase<HttTypes>::Init(pipeline);
+void SvfitCacheConsumer::Init(setting_type const& settings)
+{
+	ConsumerBase<HttTypes>::Init(settings);
 
-	RootFileHelper::SafeCd(GetPipelineSettings().GetRootOutFile(),
-	                       GetPipelineSettings().GetRootFileFolder());
+	RootFileHelper::SafeCd(settings.GetRootOutFile(),
+	                       settings.GetRootFileFolder());
 	
-	m_svfitCacheTree = new TTree(GetPipelineSettings().GetSvfitCacheTree().c_str(), GetPipelineSettings().GetSvfitCacheTree().c_str());
+	m_svfitCacheTree = new TTree(settings.GetSvfitCacheTree().c_str(),
+	                             settings.GetSvfitCacheTree().c_str());
 	m_svfitCacheTreeInitialised = false;
 }
 
-void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product) {
-	ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product);
+void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product,
+                                              setting_type const& settings)
+{
+	ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings);
 
 	if (! m_svfitCacheTreeInitialised)
 	{
@@ -33,10 +37,10 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 }
 
 
-void SvfitCacheConsumer::Finish()
+void SvfitCacheConsumer::Finish(setting_type const& settings)
 {
-	RootFileHelper::SafeCd(GetPipelineSettings().GetRootOutFile(),
-	                       GetPipelineSettings().GetRootFileFolder());
+	RootFileHelper::SafeCd(settings.GetRootOutFile(),
+	                       settings.GetRootFileFolder());
 	
 	m_svfitCacheTree->Write(m_svfitCacheTree->GetName());
 }

@@ -8,14 +8,14 @@
 #include "HttTypes.h"
 
 
-class HttFactory: public KappaFactory<HttTypes> {
+class HttFactory: public KappaFactory {
 public:
 
-	HttFactory() : KappaFactory<HttTypes>() {  };
+	HttFactory() : KappaFactory() {  };
 	virtual ~HttFactory() {  };
 
-	virtual ProducerBase<HttTypes> * createProducer(std::string const& id) ARTUS_CPP11_OVERRIDE;
-	virtual FilterBase<HttTypes> * createFilter(std::string const& id) ARTUS_CPP11_OVERRIDE;
-	virtual ConsumerBase<HttTypes> * createConsumer(std::string const& id) ARTUS_CPP11_OVERRIDE;
+	virtual ProducerBaseUntemplated * createProducer(std::string const& id) ARTUS_CPP11_OVERRIDE;
+	virtual FilterBaseUntemplated * createFilter(std::string const& id) ARTUS_CPP11_OVERRIDE;
+	virtual ConsumerBaseUntemplated * createConsumer(std::string const& id) ARTUS_CPP11_OVERRIDE;
 
 };

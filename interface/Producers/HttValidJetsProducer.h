@@ -10,14 +10,17 @@
    \brief Producer for valid jets (simple PF jets).
    
 */
-class HttValidJetsProducer: public ValidJetsProducer<HttTypes>
+class HttValidJetsProducer: public ValidJetsProducer
 {
 
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
+	typedef KappaEvent event_type;
+	typedef KappaProduct product_type;
+	typedef KappaSettings setting_type;
+	typedef typename HttTypes::event_type spec_event_type;
+	typedef typename HttTypes::product_type spec_product_type;
+	typedef typename HttTypes::setting_type spec_setting_type;
 
 
 protected:
@@ -34,14 +37,17 @@ protected:
    \brief Producer for valid jets (tagged PF jets).
    
 */
-class HttValidTaggedJetsProducer: public ValidTaggedJetsProducer<HttTypes>
+class HttValidTaggedJetsProducer: public ValidTaggedJetsProducer
 {
 
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
+	typedef KappaEvent event_type;
+	typedef KappaProduct product_type;
+	typedef KappaSettings setting_type;
+	typedef typename HttTypes::event_type spec_event_type;
+	typedef typename HttTypes::product_type spec_product_type;
+	typedef typename HttTypes::setting_type spec_setting_type;
 
 
 protected:

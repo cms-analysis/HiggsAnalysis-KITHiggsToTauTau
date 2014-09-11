@@ -35,7 +35,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
 
 
-ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
+ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 {
 	if(id == ElectronEtaSelector().GetProducerId())
 		return new ElectronEtaSelector();
@@ -96,10 +96,10 @@ ProducerBase<HttTypes> * HttFactory::createProducer(std::string const& id)
 	else if(id == HttValidGenTausProducer().GetProducerId())
 		return new HttValidGenTausProducer();
 	else
-		return KappaFactory<HttTypes>::createProducer( id );
+		return KappaFactory::createProducer( id );
 }
 
-FilterBase<HttTypes> * HttFactory::createFilter(std::string const& id)
+FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 {
 	if(id == LooseElectronsCountFilter().GetFilterId())
 		return new LooseElectronsCountFilter();
@@ -120,16 +120,16 @@ FilterBase<HttTypes> * HttFactory::createFilter(std::string const& id)
 	else if(id == EventCategoryFilter().GetFilterId())
 		return new EventCategoryFilter();
 	else
-		return KappaFactory<HttTypes>::createFilter( id );
+		return KappaFactory::createFilter( id );
 }
 
-ConsumerBase<HttTypes> * HttFactory::createConsumer (std::string const& id)
+ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 {
 	if(id == HttLambdaNtupleConsumer().GetConsumerId())
 		return new HttLambdaNtupleConsumer();
 	else if(id == SvfitCacheConsumer().GetConsumerId())
 		return new SvfitCacheConsumer();
 	else
-		return KappaFactory<HttTypes>::createConsumer( id );
+		return KappaFactory::createConsumer( id );
 }
 
