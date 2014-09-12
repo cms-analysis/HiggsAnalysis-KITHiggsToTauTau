@@ -1,11 +1,13 @@
 
+#include "Artus/KappaAnalysis/interface/KappaTypes.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
 
 
 void LooseElectronsCountFilter::Init(setting_type const& settings) {
 	this->m_cuts.push_back(std::pair<double_extractor_lambda, CutRange>(
-			[](event_type const& event, product_type const& product) {
-				return product.m_validLooseElectrons.size();
+			[](KappaEvent const& event, KappaProduct const& product) {
+				return (static_cast<HttProduct const&>(product)).m_validLooseElectrons.size();
 			},
 			CutRange::EqualsCut(double(settings.GetNLooseElectrons()))
 	));
@@ -13,8 +15,8 @@ void LooseElectronsCountFilter::Init(setting_type const& settings) {
 
 void LooseMuonsCountFilter::Init(setting_type const& settings) {
 	this->m_cuts.push_back(std::pair<double_extractor_lambda, CutRange>(
-			[](event_type const& event, product_type const& product) {
-				return product.m_validLooseMuons.size();
+			[](KappaEvent const& event, KappaProduct const& product) {
+				return (static_cast<HttProduct const&>(product)).m_validLooseMuons.size();
 			},
 			CutRange::EqualsCut(double(settings.GetNLooseMuons()))
 	));

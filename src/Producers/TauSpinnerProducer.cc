@@ -4,6 +4,7 @@
 
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "Artus/KappaAnalysis/interface/KappaTypes.h"
 
 #define NO_BOSON_FOUND -555
 #define NO_HIGGS_FOUND -666
@@ -24,9 +25,10 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	int nonSMN = settings.GetTauSpinnerSettingsNonSMN();
 	TauSpinner::initialize_spinner(ipp, ipol, nonSM2, nonSMN, CmsEnergy);
 	TauSpinner::setHiggsParametersTR(-1, 1, 0, 0);
+	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::Quantities["tauSpinnerWeight"] = [](event_type const& event, product_type const& product) {
-		return product.m_tauSpinnerWeight;
+	LambdaNtupleConsumer<KappaTypes>::Quantities["tauSpinnerWeight"] = [](KappaEvent const& event, KappaProduct const& product) {
+		return (static_cast<HttProduct const&>(product)).m_tauSpinnerWeight;
 	};
 }
 

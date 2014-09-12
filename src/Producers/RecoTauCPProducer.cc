@@ -1,39 +1,43 @@
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "Artus/KappaAnalysis/interface/KappaTypes.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
+
+
 void RecoTauCPProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 	
 	//adding possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::Quantities["recoPhiStarCP"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["recoPhiStarCP"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_recoPhiStarCP;
+		return (static_cast<HttProduct const&>(product)).m_recoPhiStarCP;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["recoChargedHadron1HiggsFrameEnergy"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["recoChargedHadron1HiggsFrameEnergy"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_recoChargedHadronEnergies.first;
+		return (static_cast<HttProduct const&>(product)).m_recoChargedHadronEnergies.first;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["recoChargedHadron2HiggsFrameEnergy"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["recoChargedHadron2HiggsFrameEnergy"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_recoChargedHadronEnergies.second;
+		return (static_cast<HttProduct const&>(product)).m_recoChargedHadronEnergies.second;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["recoImpactParameter1"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["recoImpactParameter1"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_recoAbs_n1;
+		return (static_cast<HttProduct const&>(product)).m_recoAbs_n1;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["recoImpactParameter2"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["recoImpactParameter2"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_recoAbs_n2;
+		return (static_cast<HttProduct const&>(product)).m_recoAbs_n2;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["recoTrackRefError1"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["recoTrackRefError1"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_recoTrackRefError1;
+		return (static_cast<HttProduct const&>(product)).m_recoTrackRefError1;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["recoTrackRefError2"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["recoTrackRefError2"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_recoTrackRefError2;
+		return (static_cast<HttProduct const&>(product)).m_recoTrackRefError2;
 	};
 }
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const

@@ -5,6 +5,7 @@
 
 #include "Artus/Core/interface/ProducerBase.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "Artus/KappaAnalysis/interface/KappaTypes.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
@@ -33,62 +34,62 @@ public:
 		ProducerBase<HttTypes>::Init(settings);
 		
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetSumEt"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["pfMetSumEt"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
 			return event.m_met->sumEt;
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetPt"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["pfMetPt"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
 			return event.m_met->p4.Pt();
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetPhi"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["pfMetPhi"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
 			return event.m_met->p4.Phi();
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetCov00"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["pfMetCov00"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
 			return event.m_met->significance.At(0, 0);
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetCov01"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["pfMetCov01"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
 			return event.m_met->significance.At(0, 1);
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetCov10"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["pfMetCov10"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
 			return event.m_met->significance.At(1, 0);
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["pfMetCov11"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["pfMetCov11"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
 			return event.m_met->significance.At(1, 1);
 		};
 	
-		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetSumEt"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["mvaMetSumEt"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return product.m_met->sumEt;
+			return (static_cast<HttProduct const&>(product)).m_met->sumEt;
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetPt"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["mvaMetPt"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return product.m_met->p4.Pt();
+			return (static_cast<HttProduct const&>(product)).m_met->p4.Pt();
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetPhi"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["mvaMetPhi"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return product.m_met->p4.Phi();
+			return (static_cast<HttProduct const&>(product)).m_met->p4.Phi();
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetCov00"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["mvaMetCov00"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return product.m_met->significance.At(0, 0);
+			return (static_cast<HttProduct const&>(product)).m_met->significance.At(0, 0);
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetCov01"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["mvaMetCov01"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return product.m_met->significance.At(0, 1);
+			return (static_cast<HttProduct const&>(product)).m_met->significance.At(0, 1);
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetCov10"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["mvaMetCov10"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return product.m_met->significance.At(1, 0);
+			return (static_cast<HttProduct const&>(product)).m_met->significance.At(1, 0);
 		};
-		LambdaNtupleConsumer<HttTypes>::Quantities["mvaMetCov11"] = [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<KappaTypes>::Quantities["mvaMetCov11"] = [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return product.m_met->significance.At(1, 1);
+			return (static_cast<HttProduct const&>(product)).m_met->significance.At(1, 1);
 		};
 	}
 	

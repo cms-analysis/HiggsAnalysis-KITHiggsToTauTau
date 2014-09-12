@@ -5,6 +5,8 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/KappaAnalysis/interface/MotherDaughterBundle.h"
+#include "Artus/KappaAnalysis/interface/KappaTypes.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 
@@ -14,123 +16,123 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiStarCP"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genPhiStarCP"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genPhiStarCP;
+		return (static_cast<HttProduct const&>(product)).m_genPhiStarCP;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiCP"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genPhiCP"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genPhiCP;
+		return (static_cast<HttProduct const&>(product)).m_genPhiCP;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhiStar"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genPhiStar"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genPhiStar;
+		return (static_cast<HttProduct const&>(product)).m_genPhiStar;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genPhi"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genPhi"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genPhi;
+		return (static_cast<HttProduct const&>(product)).m_genPhi;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["TauMProngEnergy"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["TauMProngEnergy"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genChargedProngEnergies.first;
+		return (static_cast<HttProduct const&>(product)).m_genChargedProngEnergies.first;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["TauPProngEnergy"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["TauPProngEnergy"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genChargedProngEnergies.second;
+		return (static_cast<HttProduct const&>(product)).m_genChargedProngEnergies.second;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["ThetaNuHadron"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["ThetaNuHadron"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genThetaNuHadron;
+		return (static_cast<HttProduct const&>(product)).m_genThetaNuHadron;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["AlphaTauNeutrinos"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["AlphaTauNeutrinos"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genAlphaTauNeutrinos;
+		return (static_cast<HttProduct const&>(product)).m_genAlphaTauNeutrinos;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genImpactParameter1"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genImpactParameter1"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genABS_n1;
+		return (static_cast<HttProduct const&>(product)).m_genABS_n1;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genImpactParameter2"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genImpactParameter2"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genABS_n2;
+		return (static_cast<HttProduct const&>(product)).m_genABS_n2;
 	};
 	// charged particles of a one-prong
-	LambdaNtupleConsumer<HttTypes>::Quantities["Tau1OneProngsSize"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["Tau1OneProngsSize"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["Tau2OneProngsSize"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["Tau2OneProngsSize"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1PdgId"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart1PdgId"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->pdgId() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged1->pdgId() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Pt"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart1Pt"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.Pt() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged1->p4.Pt() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Pz"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart1Pz"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.Pz() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged1->p4.Pz() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Eta"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart1Eta"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.Eta() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged1->p4.Eta() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Phi"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart1Phi"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.Phi() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged1->p4.Phi() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Mass"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart1Mass"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.mass() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged1->p4.mass() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart1Energy"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart1Energy"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged1->p4.E() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged1->p4.E() : DefaultValues::UndefinedDouble;
 	};
 
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2PdgId"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart2PdgId"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->pdgId() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged2->pdgId() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Pt"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart2Pt"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.Pt() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged2->p4.Pt() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Pz"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart2Pz"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.Pz() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged2->p4.Pz() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Eta"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart2Eta"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.Eta() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged2->p4.Eta() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Phi"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart2Phi"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.Phi() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged2->p4.Phi() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Mass"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart2Mass"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.mass() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged2->p4.mass() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["OneProngChargedPart2Energy"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["OneProngChargedPart2Energy"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? product.m_genOneProngCharged2->p4.E() : DefaultValues::UndefinedDouble;
+		return ((static_cast<HttProduct const&>(product)).m_genBoson.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters.size() > 1) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && ((static_cast<HttProduct const&>(product)).m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0)? (static_cast<HttProduct const&>(product)).m_genOneProngCharged2->p4.E() : DefaultValues::UndefinedDouble;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genZPlus"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genZPlus"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genZPlus;
+		return (static_cast<HttProduct const&>(product)).m_genZPlus;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genZMinus"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genZMinus"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genZMinus;
+		return (static_cast<HttProduct const&>(product)).m_genZMinus;
 	};
-	LambdaNtupleConsumer<HttTypes>::Quantities["genZs"] = [](event_type const & event, product_type const & product)
+	LambdaNtupleConsumer<KappaTypes>::Quantities["genZs"] = [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return product.m_genZs;
+		return (static_cast<HttProduct const&>(product)).m_genZs;
 	};
 }
 
