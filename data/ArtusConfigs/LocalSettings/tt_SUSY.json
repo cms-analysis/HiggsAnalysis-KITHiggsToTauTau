@@ -1,73 +1,43 @@
 {
-	"mt" : {
+	"tt" : {
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsVetoMuonID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
-		"Channel" : "MT",
+		"Channel" : "TT",
 		"NLooseElectrons" : 0,
-		"NLooseMuons" : 1,
+		"NLooseMuons" : 0,
 		"NElectrons" : 0,
-		"NMuons" : 1,
-		"NTaus" : 1,
+		"NMuons" : 0,
+		"NTaus" : 2,
 		"HltPaths" : [
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
-			"HLT_IsoMu18_eta2p1_LooseIsoPFTau20"
-		],
-		"TriggerEfficiencyData" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_IsoMu17_Data2012ABCD.root",
-			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_Data2012ABCD_mt.root"
-		],
-		"TriggerEfficiencyMc" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_IsoMu17_MC53X.root",
-			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20_MC53X_mt_withoutES.root"
-		],
-		"IdentificationEfficiencyData" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Data2012ABCD_mt_muon_ID.root",
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Data2012ABCD_mt_muon_Iso.root"
-		],
-		"IdentificationEfficiencyMc" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_mt_muon_ID.root",
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_mt_muon_Iso.root"
+			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1",
+			"HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1",
+			"HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30",
+			"HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30",
+			"HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30"
 		],
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
-			"hpsPFTauDiscriminationByDecayModeFindingOldDMs",
+			"hpsPFTauDiscriminationByLooseMuonRejection",
 			"hpsPFTauDiscriminationByLooseElectronRejection",
-			"hpsPFTauDiscriminationByTightIsolationMVA3oldDMwLT",
-			"hpsPFTauDiscriminationByMVAMediumMuonRejection"	
-			"#hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits",
-		],
-		"MuonLowerPtCuts" : [
-			"0:20.0"
+			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"TauLowerPtCuts" : [
-			"20.0"
-		],
-		"MuonUpperAbsEtaCuts" : [
-			"0:2.1"
+			"40."
 		],
 		"TauUpperAbsEtaCuts" : [
-			"0:2.3"
+			"0:2.1",
+			"1:2.1"
 		],
-		"EventWeight" : "eventWeight",		
+		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "svfit",
-		"MuonTriggerFilterNames" : [
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15",
-			"HLT_IsoMu18_eta2p1_LooseIsoPFTau20:hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15"
-		],
-		"TauTriggerFilterNames" : [
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltIsoMuPFTau20TrackLooseIso",
-			"HLT_IsoMu18_eta2p1_LooseIsoPFTau20:hltIsoMuPFTau20TrackLooseIso"
-		],
 		"InvalidateNonMatchingElectrons" : false,
-		"InvalidateNonMatchingMuons" : true,
-		"InvalidateNonMatchingTaus" : true,
+		"InvalidateNonMatchingMuons" : false,
+		"InvalidateNonMatchingTaus" : false,
 		"InvalidateNonMatchingJets" : false,
 		"Quantities" : [
 			{
@@ -90,20 +60,16 @@
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MvaMetMTSelector",
+					"producer:MvaMetTTSelector",
 					"producer:ValidElectronsProducer",
 					"filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
 					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
 					"#filter:TausCountFilter",
 					"producer:ValidLeptonsProducer",
-					"producer:HttValidVetoMuonsProducer",
-					"filter:DiVetoMuonVetoFilter",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:DecayChannelProducer",
@@ -113,8 +79,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -123,20 +87,16 @@
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MvaMetMTSelector",
+					"producer:MvaMetTTSelector",
 					"producer:ValidElectronsProducer",
 					"filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
 					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
 					"filter:TausCountFilter",
 					"producer:ValidLeptonsProducer",
-					"producer:HttValidVetoMuonsProducer",
-					"filter:DiVetoMuonVetoFilter",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:DecayChannelProducer",
@@ -146,6 +106,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
+					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]
 			}
