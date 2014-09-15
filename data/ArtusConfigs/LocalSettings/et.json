@@ -58,14 +58,30 @@
 		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
-		"ElectronTriggerFilterNames" : [
-			"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20:hltEle22WP90RhoTrackIsoFilter",
-			"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20:hltEle22WP90RhoTrackIsoFilter"
-		],
-		"TauTriggerFilterNames" : [
-			"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20:hltIsoElePFTau20TrackLooseIso",
-			"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20:hltIsoElePFTau20TrackLooseIso"
-		],
+		"ElectronTriggerFilterNames" : {
+			"nick" : {
+				"default" : [
+					"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20:hltEle22WP90RhoTrackIsoFilter",
+					"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20:hltEle22WP90RhoTrackIsoFilter"
+				],
+				"DoubleMu|TauPlusX" : [
+					"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20:hltEle22WP90RhoTrackIsoFilter",
+					"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20:hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1IsoEG18OrEG20"
+				]
+			}
+		},
+		"TauTriggerFilterNames" : {
+			"nick" : {
+				"default" : [
+					"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20:hltIsoElePFTau20TrackLooseIso",
+					"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20:hltIsoElePFTau20TrackLooseIso"
+				],
+				"DoubleMu|TauPlusX" : [
+					"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20:hltIsoElePFTau20TrackLooseIso",
+					"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20:hltPFTauIsoEleVertex20"
+				]
+			}
+		},
 		"InvalidateNonMatchingElectrons" : true,
 		"InvalidateNonMatchingMuons" : false,
 		"InvalidateNonMatchingTaus" : true,
