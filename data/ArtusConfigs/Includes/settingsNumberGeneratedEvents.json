@@ -8,7 +8,8 @@
 			"SM_VBFHToTauTau_M_135_powheg_pythia_8TeV" : 998816,
 			"SM_VBFHToTauTau_M_120_powheg_pythia_8TeV" : 4799645,
 			"SM_VBFHToTauTau_M_140_powheg_pythia_8TeV" : 998892,
-			"SM_VBFHToTauTau_M_115_powheg_pythia_8TeV" : 998869
+			"SM_VBFHToTauTau_M_115_powheg_pythia_8TeV" : 998869,
+			"SUSYGluGluToHToTauTau_M-120_8TeV-pythia6-tauola_8TeV" : 1000620
 		}
 	}
 }
