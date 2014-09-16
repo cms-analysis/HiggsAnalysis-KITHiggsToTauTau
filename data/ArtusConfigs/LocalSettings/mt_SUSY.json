@@ -40,8 +40,8 @@
 			"hpsPFTauDiscriminationByDecayModeFindingOldDMs",
 			"hpsPFTauDiscriminationByLooseElectronRejection",
 			"hpsPFTauDiscriminationByTightIsolationMVA3oldDMwLT",
-			"hpsPFTauDiscriminationByMVAMediumMuonRejection"	
-			"#hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits",
+			"hpsPFTauDiscriminationByMVAMediumMuonRejection",	
+			"#hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"MuonLowerPtCuts" : [
 			"0:20.0"
