@@ -1,0 +1,121 @@
+{
+    "analysis_modules": null, 
+    "author": null, 
+    "colors": [
+        "kBlack", 
+        "602", 
+        "634"
+    ], 
+    "date": null, 
+    "energy": null, 
+    "err_level": "info", 
+    "errorbars": null, 
+    "event_number_label": false, 
+    "filename": null, 
+    "files": [
+        "/nfs/dust/cms/user/fcolombo/Data.root", 
+        "/nfs/dust/cms/user/fcolombo/DYJetsToLL_M_50_madgraph_8TeV.root", 
+        "/nfs/dust/cms/user/fcolombo/WJetsToLN_madgraph_8TeV.root"
+    ], 
+    "folders": [
+        "et/ntuple"
+    ], 
+    "formats": [
+        "png"
+    ], 
+    "grid": false, 
+    "help": false, 
+    "input_module": "InputRoot", 
+    "json_defaults": null, 
+    "labels": [
+        "data", 
+        "DY", 
+        "WJets"
+    ], 
+    "legloc": [
+        0.6, 
+        0.6
+    ], 
+    "live": null, 
+    "log_files": [], 
+    "log_level": "info", 
+    "log_stream": "NONE", 
+    "lumi": null, 
+    "markers": null, 
+    "nicks": [
+        "data", 
+        "DY", 
+        "WJets"
+    ], 
+    "norm_references": null, 
+    "out_level": "info", 
+    "output_dir": "plots", 
+    "plot_modules": [
+        "PlotRootHtt"
+    ], 
+    "quantities": false, 
+    "ratio": true, 
+    "ratio_colors": null, 
+    "ratio_denom": null, 
+    "ratio_errorbars": [
+        true
+    ], 
+    "ratio_grid": false, 
+    "ratio_labels": null, 
+    "ratio_markers": null, 
+    "ratio_num": null, 
+    "stack": [
+        "data", 
+        "bkg", 
+        "bkg"
+    ], 
+    "text": null, 
+    "title": null, 
+    "type": null, 
+    "verbose": false, 
+    "weights": [
+        "weight", 
+        "19000*weight", 
+        "19000*weight"
+    ], 
+    "x_bins": [
+        "100"
+    ], 
+    "x_expressions": [
+        "mvis"
+    ], 
+    "x_grid": false, 
+    "x_label": null, 
+    "x_lims": [
+        0.0, 
+        200.0
+    ], 
+    "x_log": false, 
+    "x_tick_labels": null, 
+    "x_ticks": null, 
+    "y_bins": [
+        "25"
+    ], 
+    "y_expressions": null, 
+    "y_grid": false, 
+    "y_label": "Number of Entries", 
+    "y_lims": [
+        0.1, 
+        100000000.0
+    ], 
+    "y_log": true, 
+    "y_ratio_label": "Ratio", 
+    "y_ratio_lims": null, 
+    "y_tick_labels": null, 
+    "y_ticks": null, 
+    "z_bins": [
+        "25"
+    ], 
+    "z_expressions": null, 
+    "z_grid": false, 
+    "z_label": "Events", 
+    "z_lims": null, 
+    "z_log": false, 
+    "z_tick_labels": null, 
+    "z_ticks": null
+}
