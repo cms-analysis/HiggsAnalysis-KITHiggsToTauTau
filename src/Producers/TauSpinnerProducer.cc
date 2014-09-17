@@ -1,8 +1,13 @@
 
+#include <math.h>
+
+#include <boost/format.hpp>
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
 #include "Artus/Utility/interface/DefaultValues.h"
+#include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #define NO_BOSON_FOUND -555
@@ -12,22 +17,31 @@
 void TauSpinnerProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
+	
 	// interface to TauSpinner
 	// see tau_reweight_lib.cxx for explanation of paramesters
 	Tauolapp::Tauola::initialize();
-	string name = settings.GetTauSpinnerSettingsPDF();
-	LHAPDF::initPDFSetByName(name);
-	double CmsEnergy = settings.GetTauSpinnerSettingsCmsEnergy();
-	bool ipp = settings.GetTauSpinnerSettingsIpp();
-	int ipol = settings.GetTauSpinnerSettingsIpol();
-	int nonSM2 = settings.GetTauSpinnerSettingsNonSM2();
-	int nonSMN = settings.GetTauSpinnerSettingsNonSMN();
-	TauSpinner::initialize_spinner(ipp, ipol, nonSM2, nonSMN, CmsEnergy);
-	TauSpinner::setHiggsParametersTR(-1, 1, 0, 0);
-	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::Quantities["tauSpinnerWeight"] = [](event_type const& event, product_type const& product) {
-		return product.m_tauSpinnerWeight;
-	};
+	LHAPDF::initPDFSetByName(settings.GetTauSpinnerSettingsPDF());
+	
+	TauSpinner::initialize_spinner(settings.GetTauSpinnerSettingsIpp(),
+	                               settings.GetTauSpinnerSettingsIpol(),
+	                               settings.GetTauSpinnerSettingsNonSM2(),
+	                               settings.GetTauSpinnerSettingsNonSMN(),
+	                               settings.GetTauSpinnerSettingsCmsEnergy());
+	
+	// without specifying mixing angles, running this producer does not make sense.
+	assert(settings.GetTauSpinnerMixingAnglesOverPiHalf().size() > 0);
+	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
+	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
+	     ++mixingAngleOverPiHalfIt)
+	{
+		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
+		std::string label = "tauSpinnerWeight" + str(boost::format("%d") % mixingAngleOverPiHalf);
+		
+		LambdaNtupleConsumer<HttTypes>::Quantities[label] = [mixingAngleOverPiHalf](event_type const& event, product_type const& product) {
+			return SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalf, DefaultValues::UndefinedDouble);
+		};
+	}
 }
 
 
@@ -37,7 +51,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 	if (higgs.size() == 0)
 	{
-		product.m_tauSpinnerWeight = NO_HIGGS_FOUND;
+		// product.m_tauSpinnerWeight = NO_HIGGS_FOUND; // TODO
 		return;
 	}
 
@@ -49,7 +63,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		|| (abs(selectedTau2.node->pdgId()) != DefaultValues::pdgIdTau)) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{
 		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find two taus as daughters of Boson" << std::endl;
-		product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble;
+		// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
 		return;
 	}
 
@@ -72,27 +86,46 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	if ((tauFinalStates1.size() == 0) || (tauFinalStates2.size() == 0))
 	{
 		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find enogh genParticles for the TauSpinner Algorithm" << std::endl;
-		product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble;
+		// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
 		return;
 	}
-
-	//Decision for a certain weight calculation depending on BosonPdgId
-	double tauSpinnerWeight;
-	if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdW)
-		tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
-	else if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdH)
-		tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	else
-		tauSpinnerWeight = NO_BOSON_FOUND;
-
-	if (tauSpinnerWeight == tauSpinnerWeight)
-		product.m_tauSpinnerWeight = tauSpinnerWeight;
-	else
+	
+	// calculate the weights for different mixing angles
+	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
+	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
+	     ++mixingAngleOverPiHalfIt)
 	{
-		LOG_N_TIMES(20, WARNING) << "Found a 'NaN' TauSpinner weight " << std::endl;
-		product.m_tauSpinnerWeight = WEIGHT_NAN;
-	}
+		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
+		
+		// set mixing angle
+		// http://arxiv.org/pdf/1406.1647.pdf, section A.1, page 15
+		float twoTimesMixingAngleRad = M_PI * mixingAngleOverPiHalf;
+		TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRad), cos(twoTimesMixingAngleRad),
+		                                 -sin(twoTimesMixingAngleRad), -sin(twoTimesMixingAngleRad));
 
+		//Decision for a certain weight calculation depending on BosonPdgId
+		double tauSpinnerWeight;
+		if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdW)
+		{
+			tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
+		}
+		else if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdH)
+		{
+			tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
+		}
+		else {
+			tauSpinnerWeight = NO_BOSON_FOUND;
+		}
+
+		// check for nan values // TODO: check inputs
+		if (tauSpinnerWeight != tauSpinnerWeight)
+		{
+			tauSpinnerWeight = WEIGHT_NAN;
+			LOG_N_TIMES(20, WARNING) << "Found a 'NaN' TauSpinner weight " << std::endl;
+		}
+		
+		product.m_tauSpinnerWeights[mixingAngleOverPiHalf] = tauSpinnerWeight;
+	}
 }
 
 TauSpinner::SimpleParticle TauSpinnerProducer::getSimpleParticle(KGenParticle*& in) const
