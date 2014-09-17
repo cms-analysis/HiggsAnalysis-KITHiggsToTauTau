@@ -85,8 +85,8 @@ public:
 	bool m_diTauSystemReconstructed = false;
 
 	// filled by TauSpinnerProducer
-	double m_tauSpinnerWeight;
-
+	// key: mixingAngleOverPiHalf
+	std::map<float, double> m_tauSpinnerWeights;
 
 	// filled by GenTauCPProducer
 	double m_genZMinus;
