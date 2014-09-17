@@ -6,5 +6,8 @@
 	],
 	
 	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.679,
-	"BTaggedJetAbsEtaCut" : 2.4
+	"BTaggedJetAbsEtaCut" : 2.4,
+	"applyBTagSF" : false,
+	"BTagShift" : 0,
+	"BMistagShift" : 0
 }
