@@ -36,9 +36,10 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	     ++mixingAngleOverPiHalfIt)
 	{
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
-		std::string label = "tauSpinnerWeight" + str(boost::format("%d") % mixingAngleOverPiHalf);
+		std::string label = "tauSpinnerWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0));
 		
-		LambdaNtupleConsumer<HttTypes>::Quantities[label] = [mixingAngleOverPiHalf](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::Quantities[label] = [mixingAngleOverPiHalf](event_type const& event, product_type const& product)
+		{
 			return SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalf, DefaultValues::UndefinedDouble);
 		};
 	}
@@ -104,7 +105,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		                                 -sin(twoTimesMixingAngleRad), -sin(twoTimesMixingAngleRad));
 
 		//Decision for a certain weight calculation depending on BosonPdgId
-		double tauSpinnerWeight;
+		double tauSpinnerWeight = 1.0;
 		if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdW)
 		{
 			tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);

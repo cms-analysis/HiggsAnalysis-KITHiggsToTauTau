@@ -11,10 +11,10 @@
 		"crossSectionPerEventWeight",
 		"numberGeneratedEventsWeight",
 		"eventWeight",
-		"tauSpinnerWeight0",
-		"tauSpinnerWeight0.25",
-		"tauSpinnerWeight0.5",
-		"tauSpinnerWeight0.75",
-		"tauSpinnerWeight1"
+		"tauSpinnerWeight000",
+		"tauSpinnerWeight025",
+		"tauSpinnerWeight050",
+		"tauSpinnerWeight075",
+		"tauSpinnerWeight100"
 	]
 }
