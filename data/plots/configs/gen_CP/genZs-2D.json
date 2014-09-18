@@ -1,0 +1,20 @@
+{
+	"plot_modules" : "PlotRootHtt",
+
+	"folders" : "gen/ntuple",
+	"x_expressions" : "genZPlus",
+	"x_label" : "\\$_{gen}Z_+\\$",
+	"y_expressions" : "genZMinus",
+	"y_label" : "\\$_{gen}Z_-\\$",
+
+
+	"weights" : "1 * (((OneProngChargedPart1PdgId == -211 && OneProngChargedPart2PdgId == 211) && ((Tau1OneProngsSize == 2 && Tau2OneProngsSize == 2))))",
+
+	"title" : "\\$\\tau^-\\tau^+\\rightarrow \\pi^-\\pi^+\\$",
+
+	"markers" : "col",
+	"errorbars" : "true",
+
+	"filename" : "genZs-2D",
+	"output_dir" : "plots/CP"
+}
