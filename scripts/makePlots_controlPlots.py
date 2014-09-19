@@ -99,7 +99,17 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Make data-MC control plots.",
 	                                 parents=[logger.loggingParser])
 	parser.add_argument("--quantities", nargs="*",
-	                    default=["mvis"],
+	                    default=["inclusive",
+	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
+	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2",
+	                             "mvis",
+	                             "met", "metphi", "metcov00", "metcov01", "metcov10", "metcov11",
+	                             "mvamet", "mvametphi", "mvacov00", "mvacov01", "mvacov10", "mvacov11",
+	                             "jpt_1", "jeta_1", "jphi_1",
+	                             "jpt_2", "jeta_2", "jphi_2",
+	                             "njets", "mjj", "jdeta",
+	                             "trigweight_1", "trigweight_2", "puweight",
+	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
 	
 	args = vars(parser.parse_args())
@@ -112,9 +122,9 @@ if __name__ == "__main__":
 		for quantity in args["quantities"]:
 			json_exists = True
 			json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))
-			#if not os.path.exists(json_config):
-				#json_exists = False
-				#json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
+			if not os.path.exists(json_config):
+				json_exists = False
+				json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_default.json" % (channel))
 			
 			filesString = ""
 			weightsString = ""
@@ -153,7 +163,9 @@ if __name__ == "__main__":
 					nickString = nickString + "%s " % (sigDict["nick"])
 					stackString = stackString + "%s " % (sigDict["stack"])
 			
-			plot_args = "--json-defaults %s -i %s--weights %s--colors %s--labels %s--nicks %s--stack %s" % (json_config, filesString, weightsString, colorsString, labelsString, nickString, stackString)
+			
+			# build the config line sequence, connecting all the strings created above
+			plot_args = "--json-defaults %s -i %s--weights %s--colors %s--labels %s--nicks %s--stack %s %s" % (json_config, filesString, weightsString, colorsString, labelsString, nickString, stackString, ("" if json_exists else ("-x %s" % quantity)))
 			
 			plot_args = os.path.expandvars(plot_args)
 			print plot_args

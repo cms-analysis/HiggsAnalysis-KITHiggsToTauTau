@@ -2,22 +2,23 @@
 	"folders" : [
 		"et/ntuple"
 	],
+	"ratio": true,
 	"output_dir" : "plots/controlPlots/et",
 	"plot_modules" : [
 		"PlotRootHtt"
 	],
 	"x_expressions" : [
-		"mvis"
+		"njets"
 	],
 	"x_bins" : [
-		"50,0.0,200"
+		"10,0.0,10.0"
 	],
 	"ratio" : "True",
-	"x_label" : "Visible Mass m_{vis}",
+	"x_label" : "Number of Jets",
 	"y_log": true,
 	"y_lims": [
 		0.1,
 		100000000.0
 	],
-	"filename" : "mvis"
+	"filename" : "njets"
 }

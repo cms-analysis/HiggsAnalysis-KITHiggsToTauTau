@@ -2,22 +2,23 @@
 	"folders" : [
 		"et/ntuple"
 	],
+	"ratio": true,
 	"output_dir" : "plots/controlPlots/et",
 	"plot_modules" : [
 		"PlotRootHtt"
 	],
 	"x_expressions" : [
-		"mvis"
+		"mvacov00"
 	],
 	"x_bins" : [
-		"50,0.0,200"
+		"25,0.0,1000.0"
 	],
 	"ratio" : "True",
-	"x_label" : "Visible Mass m_{vis}",
+	"x_label" : "Cov_{0,0}(MVA MET)",
 	"y_log": true,
 	"y_lims": [
 		0.1,
 		100000000.0
 	],
-	"filename" : "mvis"
+	"filename" : "mvacov00"
 }
