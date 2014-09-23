@@ -27,9 +27,9 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	TauSpinner::setHiggsParametersTR(-1, 1, 0, 0);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<KappaTypes>::Quantities["tauSpinnerWeight"] = [](KappaEvent const& event, KappaProduct const& product) {
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("tauSpinnerWeight", [](KappaEvent const& event, KappaProduct const& product) {
 		return (static_cast<HttProduct const&>(product)).m_tauSpinnerWeight;
-	};
+	});
 }
 
 

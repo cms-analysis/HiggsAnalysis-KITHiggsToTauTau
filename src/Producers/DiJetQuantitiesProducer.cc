@@ -17,19 +17,19 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<KappaTypes>::Quantities["diJetMass"] = [this](KappaEvent const& event, KappaProduct const& product) {
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diJetMass", [this](KappaEvent const& event, KappaProduct const& product) {
 		return DiJetQuantitiesProducer::GetDiJetQuantity(static_cast<HttProduct const&>(product), [](RMLV diJetSystem) -> double
 	{
 		return diJetSystem.mass(); });
-	};
-	LambdaNtupleConsumer<KappaTypes>::Quantities["diJetDeltaPhi"] = [](KappaEvent const& event, KappaProduct const& product) {
+	});
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diJetDeltaPhi", [](KappaEvent const& event, KappaProduct const& product) {
 		return (static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
 		                                        DefaultValues::UndefinedDouble;
-	};
-	LambdaNtupleConsumer<KappaTypes>::Quantities["diJetAbsDeltaEta"] = [](KappaEvent const& event, KappaProduct const& product) {
+	});
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diJetAbsDeltaEta", [](KappaEvent const& event, KappaProduct const& product) {
 		return (static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
 		                                        DefaultValues::UndefinedDouble;
-	};
+	});
 }
 
 void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& product,

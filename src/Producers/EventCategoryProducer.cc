@@ -20,9 +20,9 @@ void EventCategoryProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<KappaTypes>::Quantities["exclusiveEventCategoryIndex"] = [](KappaEvent const& event, KappaProduct const& product) {
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("exclusiveEventCategoryIndex", [](KappaEvent const& event, KappaProduct const& product) {
 		return Utility::ToUnderlyingValue((static_cast<HttProduct const&>(product)).m_exclusiveEventCategory);
-	};
+	});
 }
 
 void EventCategoryProducer::Produce(event_type const& event, product_type& product,

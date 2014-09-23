@@ -10,18 +10,18 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<KappaTypes>::Quantities["diLepPt"] = [](KappaEvent const& event, KappaProduct const& product) {
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diLepPt", [](KappaEvent const& event, KappaProduct const& product) {
 		return (static_cast<HttProduct const&>(product)).m_diLeptonSystem.Pt();
-	};
-	LambdaNtupleConsumer<KappaTypes>::Quantities["diLepEta"] = [](KappaEvent const& event, KappaProduct const& product) {
+	});
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diLepEta", [](KappaEvent const& event, KappaProduct const& product) {
 		return (static_cast<HttProduct const&>(product)).m_diLeptonSystem.Eta();
-	};
-	LambdaNtupleConsumer<KappaTypes>::Quantities["diLepPhi"] = [](KappaEvent const& event, KappaProduct const& product) {
+	});
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diLepPhi", [](KappaEvent const& event, KappaProduct const& product) {
 		return (static_cast<HttProduct const&>(product)).m_diLeptonSystem.Phi();
-	};
-	LambdaNtupleConsumer<KappaTypes>::Quantities["diLepMass"] = [](KappaEvent const& event, KappaProduct const& product) {
+	});
+	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diLepMass", [](KappaEvent const& event, KappaProduct const& product) {
 		return (static_cast<HttProduct const&>(product)).m_diLeptonSystem.mass();
-	};
+	});
 }
 
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
