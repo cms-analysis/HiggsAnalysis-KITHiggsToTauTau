@@ -18,6 +18,7 @@
 		],
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
+			"hpsPFTauDiscriminationByDecayModeFindingOldDMs",
 			"hpsPFTauDiscriminationByLooseMuonRejection",
 			"hpsPFTauDiscriminationByLooseElectronRejection",
 			"hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits"
@@ -60,31 +61,15 @@
 		"RecoMuonInElectronConeUpperAbsEtaCut" : 2.4,
 		"RecoMuonInElectronConeSize" : 0.3,
 		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "collinear_approximation",
-		"ElectronTriggerFilterNames" : {
-			"nick" : {
-				"default" : [
-					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter",
-					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter"
-				],
-				"DoubleMu|TauPlusX" : [
-					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter",
-					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter"
-				]
-			}
-		},
-		"MuonTriggerFilterNames" : {
-			"nick" : {
-				"default" : [
-					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1Mu12EG7L3MuFiltered17",
-					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8"
-				],
-				"DoubleMu|TauPlusX" : [
-					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1Mu12EG7L3MuFiltered17",
-					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8"
-				]
-			}
-		},
+		"TauTauRestFrameReco" : "svfit",
+		"ElectronTriggerFilterNames" : [
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltMu8Ele17CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter"
+		],
+		"MuonTriggerFilterNames" : [
+			"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1Mu12EG7L3MuFiltered17",
+			"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8"
+		],
 		"InvalidateNonMatchingElectrons" : true,
 		"InvalidateNonMatchingMuons" : true,
 		"InvalidateNonMatchingTaus" : false,
@@ -126,7 +111,7 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -158,7 +143,7 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",

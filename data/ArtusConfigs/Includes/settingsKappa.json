@@ -8,7 +8,12 @@
 	"GenMet" : "GenMETTrue",
 	"Electrons" : "electrons",
 	"Muons" : "muons",
-	"GenTaus" : "genTaus",
+	"GenTaus" : {
+		"nick" : {
+			"DoubleMu|TauPlusX" : "",
+			"default" : "genTaus"
+		}
+	},
 	"Taus" : "hpsPFTaus",
 	"TauDiscriminatorMetadata" : "hpsPFTaus",
 	"TaggedJets" : "AK5PFTaggedJets",

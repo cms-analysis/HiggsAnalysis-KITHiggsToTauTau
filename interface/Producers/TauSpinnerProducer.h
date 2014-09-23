@@ -37,6 +37,8 @@ private:
 	virtual TauSpinner::SimpleParticle getSimpleParticle(KGenParticle*& in) const;
 	virtual std::vector<TauSpinner::SimpleParticle>* GetFinalStates(MotherDaughterBundle& mother,
 			std::vector<TauSpinner::SimpleParticle>* resultVector) const;
+	
+	std::vector<float> mixingAnglesOverPiHalf;
 };
 
 namespace std{

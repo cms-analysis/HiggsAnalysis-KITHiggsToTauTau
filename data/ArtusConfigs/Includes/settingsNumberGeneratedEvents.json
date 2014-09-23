@@ -8,7 +8,23 @@
 			"SM_VBFHToTauTau_M_135_powheg_pythia_8TeV" : 998816,
 			"SM_VBFHToTauTau_M_120_powheg_pythia_8TeV" : 4799645,
 			"SM_VBFHToTauTau_M_140_powheg_pythia_8TeV" : 998892,
-			"SM_VBFHToTauTau_M_115_powheg_pythia_8TeV" : 998869
+			"SM_VBFHToTauTau_M_115_powheg_pythia_8TeV" : 998869,
+
+			"DY1JetsToLL_M_50_madgraph_8TeV" : 24045184,
+			"DY2JetsToLL_M_50_madgraph_8TeV" : 21852129,
+			"DY3JetsToLL_M_50_madgraph_8TeV" : 11015426,
+			"DY4JetsToLL_M_50_madgraph_8TeV" : 6402809,
+			"DYJetsToLL_M_50_madgraph_8TeV" : 30459425,
+
+			"W1JetsToLN_madgraph_8TeV" : 29784749,
+			"W2JetsToLN_madgraph_8TeV" : 30693808,
+			"W3JetsToLN_madgraph_8TeV" : 15241132,
+			"W4JetsToLN_madgraph_8TeV" : 13382786,
+			"WJetsToLN_madgraph_8TeV" : 48266744,
+
+			"TTJets_madgraph_tauola_8TeV" : 1344782,
+
+			"SUSYGluGluToHToTauTau_M-120_8TeV-pythia6-tauola_8TeV" : 1000620
 		}
 	}
 }

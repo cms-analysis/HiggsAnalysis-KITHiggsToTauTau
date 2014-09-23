@@ -1,0 +1,22 @@
+{
+	"CrossSection" : {
+		"nick" : {
+			"DY1JetsToLL_M_50_madgraph_8TeV" : 561,
+			"DY2JetsToLL_M_50_madgraph_8TeV" : 181,
+			"DY3JetsToLL_M_50_madgraph_8TeV" : 51.1,
+			"DY4JetsToLL_M_50_madgraph_8TeV" : 23,
+			"DYJetsToLL_M_50_madgraph_8TeV" : 3504,
+
+			"W1JetsToLN_madgraph_8TeV" : 5400,
+			"W2JetsToLN_madgraph_8TeV" : 1750,
+			"W3JetsToLN_madgraph_8TeV" : 519,
+			"W4JetsToLN_madgraph_8TeV" : 214,
+			"WJetsToLN_madgraph_8TeV" : 36257,
+
+			"TTJetsToHH_madgraph_tauola_8TeV" : 114.0215,
+			"TTJetsToLH_madgraph_tauola_8TeV" : 109.281,
+			"TTJetsToLL_madgraph_tauola_8TeV" : 26.1975,
+			"TTJets_madgraph_tauola_8TeV" : 249.5
+		}
+	}
+}

@@ -1,0 +1,42 @@
+{
+	"folders" : "gen/ntuple",
+	"x_expressions" : "genPhiStarCP",
+
+	"x_bins" : "20,0,6.3",
+	"x_lims" : [
+		0,
+		6.3
+		],
+	"x_label" : "$\\phi^*_{CP}$",
+	"y_lims" : [
+		0,
+		7500
+	],
+	"title" : "",
+
+	"weights" : [
+		"1 * (((OneProngChargedPart1PdgId == -211 && OneProngChargedPart2PdgId == 211) && ((Tau1OneProngsSize > 2 && Tau2OneProngsSize > 2))) && (((OneProngChargedPart1Pt >= 20 && OneProngChargedPart2Pt >= 20) && (TauMProngEnergy >= 0.55 && TauPProngEnergy >= 0.55)) && ((OneProngChargedPart1Eta<=2.5 && OneProngChargedPart1Eta >= -2.5) && (OneProngChargedPart2Eta <=2.5 && OneProngChargedPart2Eta >= -2.5))))",
+		"1 * ((((OneProngChargedPart1PdgId == 11 || OneProngChargedPart1PdgId == 13) && (OneProngChargedPart2PdgId == -11 || OneProngChargedPart2PdgId == -13)) || ((OneProngChargedPart1PdgId == -11 || OneProngChargedPart1PdgId == -13) && (OneProngChargedPart2PdgId == 11 || OneProngChargedPart2PdgId == 13))) && (((OneProngChargedPart1Pt >= 20 && OneProngChargedPart2Pt >= 20) && (TauMProngEnergy >= 0.55 && TauPProngEnergy >= 0.55)) && ((OneProngChargedPart1Eta<=2.5 && OneProngChargedPart1Eta >= -2.5) && (OneProngChargedPart2Eta <=2.5 && OneProngChargedPart2Eta >= -2.5))))",
+		"1 * (((OneProngChargedPart1PdgId == -211 && OneProngChargedPart2PdgId == 211) && ((Tau1OneProngsSize == 2 && Tau2OneProngsSize == 2))) && (((OneProngChargedPart1Pt >= 20 && OneProngChargedPart2Pt >= 20) && (TauMProngEnergy >= 0.55 && TauPProngEnergy >= 0.55)) && ((OneProngChargedPart1Eta<=2.5 && OneProngChargedPart1Eta >= -2.5) && (OneProngChargedPart2Eta <=2.5 && OneProngChargedPart2Eta >= -2.5))))",
+	"1 * ((((OneProngChargedPart1PdgId == -211 && Tau1OneProngsSize >= 2) && (OneProngChargedPart2PdgId == -11 || OneProngChargedPart2PdgId == -13)) || ((OneProngChargedPart2PdgId == 211 && Tau2OneProngsSize >= 2) && (OneProngChargedPart1PdgId == 11 || OneProngChargedPart1PdgId == 13))) && (((OneProngChargedPart1Pt >= 20 && OneProngChargedPart2Pt >= 20) && (TauMProngEnergy >= 0.55 && TauPProngEnergy >= 0.55)) && ((OneProngChargedPart1Eta<=2.5 && OneProngChargedPart1Eta >= -2.5) && (OneProngChargedPart2Eta <=2.5 && OneProngChargedPart2Eta >= -2.5))))"
+	],
+
+	"labels" : [
+		"$\\tau^-\\tau^+\\rightarrow \\{\\rho^-,a_1^-,\\pi^-\\}\\{\\rho^+,a_1^+,\\pi^+\\}$",
+		"$\\tau^-\\tau^+\\rightarrow l^{-}l^{+}$",
+		"$\\tau^-\\tau^+\\rightarrow \\pi^-\\pi^+$",
+		"$\\tau^-\\tau^+\\rightarrow l^{\\pm}\\{\\rho^\\mp,a_1^\\mp,\\pi^\\mp\\}$"
+	],
+	"markers" : "bar",
+	"colors" : [
+		"#243e60",
+		"#f15a60",
+		"#5a9bd4",
+		"#9e67ab"
+	],
+	"stack" : "1",
+	"errorbars" : "true",
+
+	"filename" : "genPhiStarCP",
+	"output_dir" : "plots/CP"
+}

@@ -151,6 +151,8 @@ public:
 	IMPL_SETTING(int, TauSpinnerSettingsNonSM2);
 	IMPL_SETTING(int, TauSpinnerSettingsNonSMN);
 	IMPL_SETTING(bool, TauSpinnerSettingsBoost);
+	
+	IMPL_SETTING_FLOATLIST(TauSpinnerMixingAnglesOverPiHalf);
 
 	IMPL_SETTING(bool, ChooseTauDaughter);
 	IMPL_SETTING_STRINGLIST(ChosenTauDaughters);
