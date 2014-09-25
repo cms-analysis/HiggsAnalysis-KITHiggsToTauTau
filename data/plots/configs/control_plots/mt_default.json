@@ -1,0 +1,13 @@
+{
+	"folders": [
+        	"mt/ntuple"
+	],
+	"formats": [
+		"png"
+	],
+	"plot_modules": [
+		"PlotRootHtt"
+	],
+	"ratio": True,
+	"output_dir" : "plots/controlPlots/mt"
+}

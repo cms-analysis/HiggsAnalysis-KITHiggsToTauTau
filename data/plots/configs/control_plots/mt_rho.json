@@ -1,0 +1,24 @@
+{
+	"folders" : [
+		"mt/ntuple"
+	],
+	"ratio": true,
+	"output_dir" : "plots/controlPlots/mt",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
+	"x_expressions" : [
+		"rho"
+	],
+	"x_bins" : [
+		"25,0.0,50.0"
+	],
+	"ratio" : "True",
+	"x_label" : "rho",
+	"y_log": true,
+	"y_lims": [
+		0.1,
+		100000000.0
+	],
+	"filename" : "rho"
+}

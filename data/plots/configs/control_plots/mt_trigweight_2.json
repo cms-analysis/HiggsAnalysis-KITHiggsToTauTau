@@ -1,0 +1,24 @@
+{
+	"folders" : [
+		"mt/ntuple"
+	],
+	"ratio": true,
+	"output_dir" : "plots/controlPlots/mt",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
+	"x_expressions" : [
+		"trigweight_2"
+	],
+	"x_bins" : [
+		"20,0.5,1.5"
+	],
+	"ratio" : "True",
+	"x_label" : "Tau Trigger Weight",
+	"y_log": true,
+	"y_lims": [
+		0.1,
+		100000000.0
+	],
+	"filename" : "trigweight_2"
+}

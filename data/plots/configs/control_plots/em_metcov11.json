@@ -1,0 +1,24 @@
+{
+	"folders" : [
+		"em/ntuple"
+	],
+	"ratio": true,
+	"output_dir" : "plots/controlPlots/em",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
+	"x_expressions" : [
+		"metcov11"
+	],
+	"x_bins" : [
+		"25,0.0,1000.0"
+	],
+	"ratio" : "True",
+	"x_label" : "Cov_{1,1}(MET)",
+	"y_log": true,
+	"y_lims": [
+		0.1,
+		100000000.0
+	],
+	"filename" : "metcov11"
+}

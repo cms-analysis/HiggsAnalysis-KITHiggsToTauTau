@@ -1,0 +1,24 @@
+{
+	"folders" : [
+		"tt/ntuple"
+	],
+	"ratio": true,
+	"output_dir" : "plots/controlPlots/tt",
+	"plot_modules" : [
+		"PlotRootHtt"
+	],
+	"x_expressions" : [
+		"jphi_1"
+	],
+	"x_bins" : [
+		"32,-3.2,3.2"
+	],
+	"ratio" : "True",
+	"x_label" : "Leading Jet \\phi",
+	"y_log": true,
+	"y_lims": [
+		0.1,
+		100000000.0
+	],
+	"filename" : "jphi_1"
+}
