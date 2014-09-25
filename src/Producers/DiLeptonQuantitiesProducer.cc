@@ -1,6 +1,5 @@
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
-#include "Artus/KappaAnalysis/interface/KappaTypes.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 
@@ -10,17 +9,17 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diLepPt", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diLeptonSystem.Pt();
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepPt", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Pt();
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diLepEta", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diLeptonSystem.Eta();
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepEta", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Eta();
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diLepPhi", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diLeptonSystem.Phi();
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepPhi", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Phi();
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diLepMass", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diLeptonSystem.mass();
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMass", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.mass();
 	});
 }
 

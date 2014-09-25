@@ -4,7 +4,6 @@
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/Utility.h"
-#include "Artus/KappaAnalysis/interface/KappaTypes.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
 
@@ -16,20 +15,20 @@ void TauTauRestFrameSelector::Init(setting_type const& settings)
 	tauTauRestFrameReco = HttEnumTypes::ToTauTauRestFrameReco(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauTauRestFrameReco())));
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diTauPt", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diTauSystem.Pt();
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauPt", [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Pt();
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diTauEta", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diTauSystem.Eta();
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauEta", [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Eta();
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diTauPhi", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diTauSystem.Phi();
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauPhi", [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.Phi();
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diTauMass", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diTauSystem.mass();
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauMass", [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystem.mass();
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diTauSystemReconstructed", [](KappaEvent const& event, KappaProduct const& product) {
-		return ((static_cast<HttProduct const&>(product)).m_diTauSystemReconstructed ? 1.0 : 0.0);
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauSystemReconstructed", [](event_type const& event, product_type const& product) {
+		return (product.m_diTauSystemReconstructed ? 1.0 : 0.0);
 	});
 }
 

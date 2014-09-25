@@ -1,7 +1,6 @@
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
-#include "Artus/KappaAnalysis/interface/KappaTypes.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
 
@@ -17,17 +16,17 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diJetMass", [this](KappaEvent const& event, KappaProduct const& product) {
-		return DiJetQuantitiesProducer::GetDiJetQuantity(static_cast<HttProduct const&>(product), [](RMLV diJetSystem) -> double
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diJetMass", [this](event_type const& event, product_type const& product) {
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMLV diJetSystem) -> double
 	{
 		return diJetSystem.mass(); });
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diJetDeltaPhi", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diJetDeltaPhi", [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
 		                                        DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("diJetAbsDeltaEta", [](KappaEvent const& event, KappaProduct const& product) {
-		return (static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("diJetAbsDeltaEta", [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
 		                                        DefaultValues::UndefinedDouble;
 	});
 }

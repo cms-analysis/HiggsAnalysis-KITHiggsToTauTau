@@ -9,7 +9,6 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
-#include "Artus/KappaAnalysis/interface/KappaTypes.h"
 
 #define NO_BOSON_FOUND -555
 #define NO_HIGGS_FOUND -666
@@ -39,9 +38,9 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
 		std::string label = "tauSpinnerWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0));
 		
-		LambdaNtupleConsumer<KappaTypes>::AddQuantity("label", [mixingAngleOverPiHalf](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("label", [mixingAngleOverPiHalf](event_type const& event, product_type const& product)
 		{
-			return SafeMap::GetWithDefault((static_cast<HttProduct const&>(product)).m_tauSpinnerWeights, mixingAngleOverPiHalf, DefaultValues::UndefinedDouble);
+			return SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalf, DefaultValues::UndefinedDouble);
 		});
 	}
 }

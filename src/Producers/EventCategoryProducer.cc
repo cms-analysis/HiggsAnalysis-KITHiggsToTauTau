@@ -2,7 +2,6 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/Utility.h"
-#include "Artus/KappaAnalysis/interface/KappaTypes.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventCategoryProducer.h"
@@ -20,8 +19,8 @@ void EventCategoryProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<KappaTypes>::AddQuantity("exclusiveEventCategoryIndex", [](KappaEvent const& event, KappaProduct const& product) {
-		return Utility::ToUnderlyingValue((static_cast<HttProduct const&>(product)).m_exclusiveEventCategory);
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("exclusiveEventCategoryIndex", [](event_type const& event, product_type const& product) {
+		return Utility::ToUnderlyingValue(product.m_exclusiveEventCategory);
 	});
 }
 
