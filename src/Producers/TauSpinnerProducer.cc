@@ -15,9 +15,20 @@
 #define NO_HIGGS_FOUND -666
 #define WEIGHT_NAN -777
 
+TauSpinnerProducer::~TauSpinnerProducer()
+{
+	if (numberOfNanWeights > 0)
+	{
+		LOG(WARNING) << "Found " << numberOfNanWeights << " events with a 'NaN' TauSpinner weight in the pipeline \"" << pipelineName << "\"! "
+		             << "The weight is set to zero in order to avoid considering such events in any plots.";
+	}
+}
+
 void TauSpinnerProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
+	
+	pipelineName = settings.GetName();
 	
 	// interface to TauSpinner
 	// see tau_reweight_lib.cxx for explanation of paramesters
@@ -144,7 +155,10 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		if (tauSpinnerWeight != tauSpinnerWeight)
 		{
 			tauSpinnerWeight = 0.0; // WEIGHT_NAN;
-			LOG_N_TIMES(20, WARNING) << "Found a 'NaN' TauSpinner weight " << std::endl;
+			++numberOfNanWeights;
+			LOG_N_TIMES(20, DEBUG) << "Found a 'NaN' TauSpinner weight in (run, lumi, event) = ("
+			           << event.m_eventMetadata->nRun << ", " << event.m_eventMetadata->nLumi << ", "
+			           << event.m_eventMetadata->nEvent << ") in the pipeline \"" << pipelineName << "\".";
 		}
 		
 		product.m_tauSpinnerWeights[mixingAngleOverPiHalf] = tauSpinnerWeight;

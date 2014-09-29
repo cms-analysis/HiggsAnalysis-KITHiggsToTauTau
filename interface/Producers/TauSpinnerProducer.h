@@ -26,6 +26,8 @@ public:
 	{
 		return "TauSpinnerProducer";
 	}
+	
+	~TauSpinnerProducer();
 
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 
@@ -39,6 +41,9 @@ private:
 			std::vector<TauSpinner::SimpleParticle>* resultVector) const;
 	
 	std::vector<float> mixingAnglesOverPiHalf;
+	
+	std::string pipelineName;
+	mutable int numberOfNanWeights = 0;
 };
 
 namespace std{
