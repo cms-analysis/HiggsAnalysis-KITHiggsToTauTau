@@ -1,4 +1,5 @@
 
+#include <algorithm>
 #include <math.h>
 
 #include <boost/format.hpp>
@@ -38,9 +39,30 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
 		std::string label = "tauSpinnerWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0));
 		
-		LambdaNtupleConsumer<HttTypes>::AddQuantity("label", [mixingAngleOverPiHalf](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddQuantity(label, [mixingAngleOverPiHalf](event_type const& event, product_type const& product)
 		{
-			return SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalf, DefaultValues::UndefinedDouble);
+			return SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalf, 0.0);
+		});
+	}
+	
+	
+	if (settings.GetTauSpinnerMixingAnglesOverPiHalfSample() >= 0.0)
+	{
+		float mixingAngleOverPiHalfSample = settings.GetTauSpinnerMixingAnglesOverPiHalfSample();
+	
+		// if mixing angle for curent sample is defined, it has to be in the list TauSpinnerMixingAnglesOverPiHalf
+		assert(std::find(settings.GetTauSpinnerMixingAnglesOverPiHalf().begin(),
+		                 settings.GetTauSpinnerMixingAnglesOverPiHalf().end(),
+		                 mixingAngleOverPiHalfSample) != settings.GetTauSpinnerMixingAnglesOverPiHalf().end());
+		
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("tauSpinnerWeightSample", [mixingAngleOverPiHalfSample](event_type const& event, product_type const& product)
+		{
+			return SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalfSample, 0.0);
+		});
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSample](event_type const& event, product_type const& product)
+		{
+			double weight = SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalfSample, 0.0);
+			return std::min(((weight > 0.0) ? (1.0 / weight) : 0.0), 10.0);
 		});
 	}
 }
@@ -115,13 +137,13 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
 		}
 		else {
-			tauSpinnerWeight = NO_BOSON_FOUND;
+			tauSpinnerWeight = 0.0; // NO_BOSON_FOUND;
 		}
 
 		// check for nan values // TODO: check inputs
 		if (tauSpinnerWeight != tauSpinnerWeight)
 		{
-			tauSpinnerWeight = WEIGHT_NAN;
+			tauSpinnerWeight = 0.0; // WEIGHT_NAN;
 			LOG_N_TIMES(20, WARNING) << "Found a 'NaN' TauSpinner weight " << std::endl;
 		}
 		

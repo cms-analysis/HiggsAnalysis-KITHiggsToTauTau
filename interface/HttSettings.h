@@ -153,6 +153,7 @@ public:
 	IMPL_SETTING(bool, TauSpinnerSettingsBoost);
 	
 	IMPL_SETTING_FLOATLIST(TauSpinnerMixingAnglesOverPiHalf);
+	IMPL_SETTING_DEFAULT(float, TauSpinnerMixingAnglesOverPiHalfSample, -1.0);
 
 	IMPL_SETTING(bool, ChooseTauDaughter);
 	IMPL_SETTING_STRINGLIST(ChosenTauDaughters);
