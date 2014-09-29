@@ -122,7 +122,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		if (tauSpinnerWeight != tauSpinnerWeight)
 		{
 			tauSpinnerWeight = WEIGHT_NAN;
-			LOG_N_TIMES(20, WARNING) << "Found a 'NaN' TauSpinner weight " << std::endl;
+			LOG_N_TIMES(20, WARNING) << "Found a 'NaN' TauSpinner weight. Assigning -777 as weight. Cut on \"tauSpinnerWeight <= 0\" to remove this event from your plot. " << std::endl;
 		}
 		
 		product.m_tauSpinnerWeights[mixingAngleOverPiHalf] = tauSpinnerWeight;
