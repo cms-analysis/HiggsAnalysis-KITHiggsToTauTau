@@ -20,11 +20,13 @@
 			"W2JetsToLN_madgraph_8TeV" : 30693808,
 			"W3JetsToLN_madgraph_8TeV" : 15241132,
 			"W4JetsToLN_madgraph_8TeV" : 13382786,
-			"WJetsToLN_madgraph_8TeV" : 48266744,
+			"WJetsToLN_madgraph_8TeV" : 57709689,
 
 			"TTJets_madgraph_tauola_8TeV" : 1344782,
 
-			"SUSYGluGluToHToTauTau_M-120_8TeV-pythia6-tauola_8TeV" : 1000620
+			"SUSYGluGluToHToTauTau_M-120_8TeV-pythia6-tauola_8TeV" : 1000620,
+
+			"SM_TTH_HToTauTau_M_125_pythia_8TeV" : 999997
 		}
 	}
 }

@@ -16,7 +16,9 @@
 			"TTJetsToHH_madgraph_tauola_8TeV" : 114.0215,
 			"TTJetsToLH_madgraph_tauola_8TeV" : 109.281,
 			"TTJetsToLL_madgraph_tauola_8TeV" : 26.1975,
-			"TTJets_madgraph_tauola_8TeV" : 249.5
+			"TTJets_madgraph_tauola_8TeV" : 249.5,
+
+			"SM_TTH_HToTauTau_M_125_pythia_8TeV" : 0.0082
 		}
 	}
 }
