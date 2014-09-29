@@ -1,0 +1,121 @@
+{
+	"tt" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
+		],
+		"Channel" : "TT",
+		"NLooseElectrons" : 0,
+		"NLooseMuons" : 0,
+		"NElectrons" : 0,
+		"NMuons" : 0,
+		"NTaus" : 2,
+		"HltPaths" : [
+			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1",
+			"HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1",
+			"HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30",
+			"HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30",
+			"HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30"
+		],
+		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
+		"TauDiscriminators" : [
+			"hpsPFTauDiscriminationByLooseMuonRejection",
+			"hpsPFTauDiscriminationByLooseElectronRejection",
+			"#1:hpsPFTauDiscriminationByMVA3LooseElectronRejection",
+			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
+		],
+		"TauLowerPtCuts" : [
+			"40."
+		],
+		"TauUpperAbsEtaCuts" : [
+			"0:2.1",
+			"1:2.1"
+		],
+		"EventWeight" : "eventWeight",
+		"TauTauRestFrameReco" : "collinear_approximation",
+		"InvalidateNonMatchingElectrons" : false,
+		"InvalidateNonMatchingMuons" : false,
+		"InvalidateNonMatchingTaus" : false,
+		"InvalidateNonMatchingJets" : false,
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
+				]
+			},
+			"decayChannelIndex",
+			"exclusiveEventCategoryIndex"
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"#filter:LooseElectronsCountFilter",
+					"#filter:LooseMuonsCountFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MvaMetTTSelector",
+					"producer:ValidElectronsProducer",
+					"#filter:ElectronsCountFilter",
+					"producer:ValidMuonsProducer",
+					"#filter:MuonsCountFilter",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"#filter:TausCountFilter",
+					"producer:ValidLeptonsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:DecayChannelProducer",
+					"filter:DecayChannelFilter",
+					"#producer:SvfitProducer",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:EventCategoryProducer",
+					"producer:RecoTauCPProducer",
+					"producer:EventWeightProducer"
+				],
+				"DoubleMu|TauPlusX" : [
+					"filter:LooseElectronsCountFilter",
+					"filter:LooseMuonsCountFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MvaMetTTSelector",
+					"producer:ValidElectronsProducer",
+					"filter:ElectronsCountFilter",
+					"producer:ValidMuonsProducer",
+					"filter:MuonsCountFilter",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:TausCountFilter",
+					"producer:ValidLeptonsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:DecayChannelProducer",
+					"filter:DecayChannelFilter",
+					"#producer:SvfitProducer",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:EventCategoryProducer",
+					"producer:RecoTauCPProducer",
+					"producer:EventWeightProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"SvfitCacheConsumer",
+			"cutflow_histogram"
+		]
+	}
+}
