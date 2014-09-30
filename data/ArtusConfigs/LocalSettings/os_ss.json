@@ -1,0 +1,8 @@
+{
+	"os" : {
+		"OSChargeLeptons" : true
+	},
+	"ss" : {
+		"OSChargeLeptons" : false
+	}
+}
