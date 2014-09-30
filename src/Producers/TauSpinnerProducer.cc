@@ -101,9 +101,9 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		return;
 	}
 
-	TauSpinner::SimpleParticle X = getSimpleParticle(selectedHiggs1);
-	TauSpinner::SimpleParticle tau1 = getSimpleParticle(selectedTau1.node);
-	TauSpinner::SimpleParticle tau2 = getSimpleParticle(selectedTau2.node);
+	TauSpinner::SimpleParticle X = GetSimpleParticle(selectedHiggs1);
+	TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.node);
+	TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.node);
 	std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
 	GetFinalStates(selectedTau1, &tauFinalStates1);
 	std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
@@ -165,7 +165,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	}
 }
 
-TauSpinner::SimpleParticle TauSpinnerProducer::getSimpleParticle(KGenParticle*& in) const
+TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(KGenParticle*& in) const
 {
 	return TauSpinner::SimpleParticle(in->p4.px(), in->p4.py(), in->p4.pz(), in->p4.e(), in->pdgId());
 }
@@ -190,7 +190,7 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(Moth
 			pdgId == DefaultValues::pdgIdNuMu ||
 			pdgId == DefaultValues::pdgIdNuTau)
 		{
-			resultVector->push_back(getSimpleParticle(mother.Daughters[i].node));
+			resultVector->push_back(GetSimpleParticle(mother.Daughters[i].node));
 		}
 		else
 		{
