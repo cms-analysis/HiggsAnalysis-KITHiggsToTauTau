@@ -8,7 +8,6 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
 		"Channel" : "EE",
-		"OSChargeLeptons" : true,
 		"NLooseElectrons" : 2,
 		"NLooseMuons" : 0,
 		"NElectrons" : 2,
