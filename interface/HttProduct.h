@@ -84,10 +84,6 @@ public:
 	ROOT::Math::Boost m_boostToDiTauRestFrame;
 	bool m_diTauSystemReconstructed = false;
 
-	// filled by TauSpinnerProducer
-	// key: mixingAngleOverPiHalf
-	std::map<float, double> m_tauSpinnerWeights;
-
 	// filled by GenTauCPProducer
 	double m_genZMinus;
 	double m_genZPlus;

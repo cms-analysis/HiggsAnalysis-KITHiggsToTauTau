@@ -48,11 +48,10 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	     ++mixingAngleOverPiHalfIt)
 	{
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
-		std::string label = "tauSpinnerWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0));
-		
-		LambdaNtupleConsumer<HttTypes>::AddQuantity(label, [mixingAngleOverPiHalf](event_type const& event, product_type const& product)
+		std::string mixingAngleOverPiHalfLabel = GetLabelForWeightsMap(mixingAngleOverPiHalf);
+		LambdaNtupleConsumer<HttTypes>::AddQuantity(mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product)
 		{
-			return SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalf, 0.0);
+			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfLabel, 0.0);
 		});
 	}
 	
@@ -66,13 +65,14 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 		                 settings.GetTauSpinnerMixingAnglesOverPiHalf().end(),
 		                 mixingAngleOverPiHalfSample) != settings.GetTauSpinnerMixingAnglesOverPiHalf().end());
 		
-		LambdaNtupleConsumer<HttTypes>::AddQuantity("tauSpinnerWeightSample", [mixingAngleOverPiHalfSample](event_type const& event, product_type const& product)
+		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("tauSpinnerWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
-			return SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalfSample, 0.0);
+			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddQuantity("tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSample](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
-			double weight = SafeMap::GetWithDefault(product.m_tauSpinnerWeights, mixingAngleOverPiHalfSample, 0.0);
+			double weight = SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
 			return std::min(((weight > 0.0) ? (1.0 / weight) : 0.0), 10.0);
 		});
 	}
@@ -161,7 +161,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			           << event.m_eventMetadata->nEvent << ") in the pipeline \"" << pipelineName << "\".";
 		}
 		
-		product.m_tauSpinnerWeights[mixingAngleOverPiHalf] = tauSpinnerWeight;
+		product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = tauSpinnerWeight;
 	}
 }
 
@@ -203,6 +203,12 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(Moth
 		}
 	}
 	return resultVector;
+}
+
+
+std::string TauSpinnerProducer::GetLabelForWeightsMap(float mixingAngleOverPiHalf) const
+{
+	return ("tauSpinnerWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
 
 
