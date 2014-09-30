@@ -7,7 +7,7 @@
 	"InputIsData" : {
 		"nick" : {
 			"default" : "false",
-			"DoubleMu|TauPlusX" : "true"
+			"DoubleMu|TauPlusX|TauParked" : "true"
 		}
 	},
 	"InputFiles" : [

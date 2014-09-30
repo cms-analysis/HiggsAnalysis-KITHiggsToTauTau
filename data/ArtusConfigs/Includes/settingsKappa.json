@@ -1,7 +1,7 @@
 {
 	"GenParticles" : {
 		"nick" : {
-			"DoubleMu|TauPlusX" : "",
+			"DoubleMu|TauPlusX|TauParked" : "",
 			"default" : "genParticles"
 		}
 	},
@@ -10,7 +10,7 @@
 	"Muons" : "muons",
 	"GenTaus" : {
 		"nick" : {
-			"DoubleMu|TauPlusX" : "",
+			"DoubleMu|TauPlusX|TauParked" : "",
 			"default" : "genTaus"
 		}
 	},

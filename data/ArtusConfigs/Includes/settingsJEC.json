@@ -6,7 +6,7 @@
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/START53_V23__All_L2Relative_AK5PF.txt",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/START53_V23__All_L3Absolute_AK5PF.txt"
 			],
-			"TauPlusX" : [
+			"DoubleMu|TauPlusX|TauParked" : [
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/FT_53_V21_AN4__All_L1FastJet_AK5PF.txt",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/FT_53_V21_AN4__All_L2Relative_AK5PF.txt",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/FT_53_V21_AN4__All_L3Absolute_AK5PF.txt",
