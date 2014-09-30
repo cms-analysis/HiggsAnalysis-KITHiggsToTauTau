@@ -8,6 +8,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
 		"Channel" : "EM",
+		"OSChargeLeptons" : true,
 		"NLooseElectrons" : 1,
 		"NLooseMuons" : 1,
 		"NElectrons" : 1,
@@ -126,6 +127,7 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
+					"filter:DiLeptonChargeFilter",
 					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
@@ -158,6 +160,7 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
+					"filter:DiLeptonChargeFilter",
 					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",

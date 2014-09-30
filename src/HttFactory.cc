@@ -28,6 +28,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DiLeptonVetoFilters.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/RecoMuonInElectronConeVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DiLeptonChargeFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
 
 // consumers
@@ -117,6 +118,8 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new RecoMuonInElectronConeVetoFilter();
 	else if(id == DecayChannelFilter().GetFilterId())
 		return new DecayChannelFilter();
+	else if(id == DiLeptonChargeFilter().GetFilterId())
+		return new DiLeptonChargeFilter();
 	else if(id == EventCategoryFilter().GetFilterId())
 		return new EventCategoryFilter();
 	else

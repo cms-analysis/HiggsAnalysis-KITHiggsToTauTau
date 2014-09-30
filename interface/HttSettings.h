@@ -25,6 +25,8 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");
 	IMPL_SETTING_DEFAULT(std::string, Category, "");
 	
+	IMPL_SETTING(bool, OSChargeLeptons);
+	
 	IMPL_SETTING_STRINGLIST(TriggerEfficiencyData);
 	IMPL_SETTING_STRINGLIST(TriggerEfficiencyMc);
 	IMPL_SETTING_DEFAULT(std::string, TriggerEfficiencyHistogram, "triggerEfficiency");
