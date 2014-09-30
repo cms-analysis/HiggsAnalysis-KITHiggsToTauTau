@@ -13,5 +13,7 @@
 	"LooseMuonUpperAbsEtaCuts" : [
 		"2.4"
 	],
+	"LooseMuonTrackDxyCut" : 0.045,
+	"LooseMuonTrackDzCut" : 0.2,
 	"DirectIso" : true
 }
