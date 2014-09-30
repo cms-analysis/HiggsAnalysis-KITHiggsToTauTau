@@ -101,6 +101,16 @@ public:
 		return "HttValidLooseMuonsProducer";
 	}
 	
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE {
+	
+		HttValidMuonsProducer::Init(settings);
+	
+		// add possible quantities for the lambda ntuples consumers
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("nLooseMuons", [this](event_type const& event, product_type const& product) {
+			return product.m_validLooseMuons.size();
+		});
+	}
+	
 	HttValidLooseMuonsProducer(
 			std::vector<KDataMuon*> product_type::*validMuons=&product_type::m_validLooseMuons,
 			std::vector<KDataMuon*> product_type::*invalidMuons=&product_type::m_invalidLooseMuons,
@@ -121,8 +131,8 @@ public:
 			float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const=&setting_type::GetMuonDeltaBetaCorrectionFactor,
 			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetLooseMuonIsoPtSumOverPtThresholdEB,
 			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetLooseMuonIsoPtSumOverPtThresholdEE,
-			float (setting_type::*GetMuonTrackDxyCut)(void) const=&setting_type::GetMuonTrackDxyCut,
-			float (setting_type::*GetMuonTrackDzCut)(void) const=&setting_type::GetMuonTrackDzCut
+			float (setting_type::*GetMuonTrackDxyCut)(void) const=&setting_type::GetLooseMuonTrackDxyCut,
+			float (setting_type::*GetMuonTrackDzCut)(void) const=&setting_type::GetLooseMuonTrackDzCut
 	);
 
 };
