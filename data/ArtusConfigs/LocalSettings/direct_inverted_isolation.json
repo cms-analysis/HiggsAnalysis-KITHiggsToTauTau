@@ -1,0 +1,8 @@
+{
+	"dirIso" : {
+		"DirectIso" : true
+	},
+	"invIso" : {
+		"DirectIso" : false
+	}
+}

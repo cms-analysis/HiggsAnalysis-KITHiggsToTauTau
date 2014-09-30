@@ -18,7 +18,7 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 	specProduct.m_leptonIsolationOverPt[tau] = isolationPtSumOverPt;
 	
 	// custom isolation cut
-	validTau = validTau && isolationPtSum < specSettings.GetTauDiscriminatorIsolationCut();
+	validTau = validTau && ((isolationPtSum < specSettings.GetTauDiscriminatorIsolationCut()) ? settings.GetDirectIso() : (!settings.GetDirectIso()));
 	
 	// custom electron rejection
 	if (validTau && (! specSettings.GetTauDiscriminatorAntiElectronMvaCuts().empty())) {

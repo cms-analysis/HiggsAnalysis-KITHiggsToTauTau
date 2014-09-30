@@ -108,8 +108,8 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 		product.m_leptonIsolation[electron] = isolationPtSum;
 		product.m_leptonIsolationOverPt[electron] = isolationPtSumOverPt;
 		
-		if ((std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && isolationPtSumOverPt > (settings.*GetElectronIsoPtSumOverPtThresholdEB)()) ||
-		    (std::abs(electron->p4.Eta()) >= DefaultValues::EtaBorderEB && isolationPtSumOverPt > (settings.*GetElectronIsoPtSumOverPtThresholdEE)())) {
+		if ((std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetElectronIsoPtSumOverPtThresholdEB)()) ? settings.GetDirectIso() : (!settings.GetDirectIso()))) ||
+		    (std::abs(electron->p4.Eta()) >= DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetElectronIsoPtSumOverPtThresholdEE)()) ? settings.GetDirectIso() : (!settings.GetDirectIso())))) {
 			validElectron = false;
 		}
 	}

@@ -13,5 +13,6 @@
 	"VetoMuonUpperAbsEtaCuts" : [
 		"2.4"
 	],
-	"DiVetoMuonVetoMode" : "veto_os_keep_ss"
+	"DiVetoMuonVetoMode" : "veto_os_keep_ss",
+	"DirectIso" : true
 }

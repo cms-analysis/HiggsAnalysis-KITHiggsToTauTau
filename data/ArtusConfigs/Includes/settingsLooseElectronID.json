@@ -15,5 +15,6 @@
 	],
 	"LooseElectronUpperAbsEtaCuts" : [
 		"2.5"
-	]
+	],
+	"DirectIso" : true
 }
