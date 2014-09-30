@@ -1,0 +1,12 @@
+{
+	"property" : [
+		"run",
+		"lumi",
+		"evt",
+		"npv",
+		"npu",
+		"rho",
+		"nLooseMuons",
+		"nMuons"
+	]
+}

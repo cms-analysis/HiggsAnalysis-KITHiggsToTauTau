@@ -43,45 +43,40 @@
 		"Quantities" : [
 			{
 				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/ttHQuantities.json"
 				]
 			},
-			"decayChannelIndex",
-			"exclusiveEventCategoryIndex"
+			"#decayChannelIndex",
+			"#exclusiveEventCategoryIndex"
 		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
 					"#filter:LooseElectronsCountFilter",
 					"#filter:LooseMuonsCountFilter",
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MvaMetTTSelector",
-					"producer:ValidElectronsProducer",
+					"#producer:HltProducer",
+					"#filter:HltFilter",
+					"#producer:MvaMetTTSelector",
+					"#producer:ValidElectronsProducer",
 					"#filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
 					"#filter:MuonsCountFilter",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
+					"#producer:ValidTausProducer",
+					"#filter:ValidTausFilter",
+					"#producer:TauTriggerMatchingProducer",
 					"#filter:TausCountFilter",
-					"producer:ValidLeptonsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:DecayChannelProducer",
-					"filter:DecayChannelFilter",
-					"#producer:SvfitProducer",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
-					"producer:RecoTauCPProducer",
-					"producer:EventWeightProducer"
+					"#producer:ValidLeptonsProducer",
+					"#producer:ValidTaggedJetsProducer",
+					"#producer:ValidBTaggedJetsProducer",
+					"#producer:DecayChannelProducer",
+					"#filter:DecayChannelFilter",
+					"##producer:SvfitProducer",
+					"#producer:TauTauRestFrameSelector",
+					"#producer:DiLeptonQuantitiesProducer",
+					"#producer:DiJetQuantitiesProducer",
+					"#producer:EventCategoryProducer",
+					"#producer:RecoTauCPProducer",
+					"#producer:EventWeightProducer"
 				],
 				"DoubleMu|TauPlusX" : [
 					"filter:LooseElectronsCountFilter",
