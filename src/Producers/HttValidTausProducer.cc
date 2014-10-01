@@ -20,6 +20,18 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 	// custom isolation cut
 	validTau = validTau && ((isolationPtSum < specSettings.GetTauDiscriminatorIsolationCut()) ? settings.GetDirectIso() : (!settings.GetDirectIso()));
 	
+	// custom electron isolation based on BDT
+	if (validTau && (! specSettings.GetTauDiscriminatorMvaIsolation().empty())) {
+		int currentTauIndex = product.m_validTaus.size();
+		for (std::map<size_t, std::vector<float> >::const_iterator MvaIsolationCutByIndex = MvaIsolationCutsByIndex.begin(); MvaIsolationCutByIndex != MvaIsolationCutsByIndex.end(); ++MvaIsolationCutByIndex)
+		{
+			if (currentTauIndex == (int) MvaIsolationCutByIndex->first)
+			{
+				validTau = validTau && ApplyCustomMvaIsolationCut(tau, event, MvaIsolationCutByIndex->second);
+			}
+		}
+	}
+	
 	// custom electron rejection
 	if (validTau && (! specSettings.GetTauDiscriminatorAntiElectronMvaCuts().empty())) {
 		if(specSettings.GetTauDiscriminatorAntiElectronMvaCutsLeptonIndices().empty())
@@ -53,6 +65,22 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 	validTau = validTau
 	                && (specSettings.GetTauTrackDzCut() <= 0.0 || std::abs(tau->track.getDz(&event.m_vertexSummary->pv)) < specSettings.GetTauTrackDzCut());
 
+	// cut on the pT of the leading tau track
+	validTau = validTau && tau->leadCand.Pt() > specSettings.GetTauLeadingTrackPtCut();
+
+	return validTau;
+}
+
+
+bool HttValidTausProducer::ApplyCustomMvaIsolationCut(KDataPFTau* tau, KappaEvent const& event,
+	                                              std::vector<float> MvaIsolationCuts) const
+{
+	bool validTau = true;
+
+	float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
+
+	validTau = validTau && discriminator > *std::max_element(MvaIsolationCuts.begin(), MvaIsolationCuts.end());
+	
 	return validTau;
 }
 

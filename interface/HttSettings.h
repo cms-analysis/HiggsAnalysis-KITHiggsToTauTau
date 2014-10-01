@@ -124,11 +124,14 @@ public:
 	IMPL_SETTING(float, RecoMuonInElectronConeSize);
 	
 	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
+	IMPL_SETTING_STRINGLIST(TauDiscriminatorMvaIsolation);
 	IMPL_SETTING_FLOATLIST(TauDiscriminatorAntiElectronMvaCuts);
 	IMPL_SETTING_INTLIST(TauDiscriminatorAntiElectronMvaCutsLeptonIndices);
 	
 	IMPL_SETTING_DEFAULT(float, TauLowerZImpactCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_DEFAULT(float, TauUpperZImpactCut, std::numeric_limits<float>::max());
+	
+	IMPL_SETTING_DEFAULT(float, TauLeadingTrackPtCut, -1.0);
 	
 	IMPL_SETTING(std::string, TauEnergyCorrection);
 	

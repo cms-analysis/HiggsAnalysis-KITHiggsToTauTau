@@ -7,6 +7,8 @@
 		"npu",
 		"rho",
 		"nLooseMuons",
-		"nMuons"
+		"nMuons",
+		"nTaus",
+		"weight"
 	]
 }

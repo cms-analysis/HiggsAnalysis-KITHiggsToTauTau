@@ -9,31 +9,39 @@
 		],
 		"Channel" : "TT",
 		"NLooseElectrons" : 0,
-		"NLooseMuons" : 0,
+		"NLooseMuons" : 1,
 		"NElectrons" : 0,
-		"NMuons" : 0,
+		"NMuons" : 1,
 		"NTaus" : 2,
 		"HltPaths" : [
-			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1",
-			"HLT_DoubleMediumIsoPFTau35_Trk5_eta2p1",
-			"HLT_DoubleMediumIsoPFTau30_Trk1_eta2p1_Jet30",
-			"HLT_DoubleMediumIsoPFTau30_Trk5_eta2p1_Jet30",
-			"HLT_DoubleMediumIsoPFTau25_Trk5_eta2p1_Jet30"
+			"HLT_IsoMu24_eta2p1",
+			"HLT_Ele27_WP80"
 		],
 		"TauDiscriminators_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation",
 		"TauDiscriminators" : [
+			"hpsPFTauDiscriminationByDecayModeFinding",
 			"hpsPFTauDiscriminationByLooseMuonRejection",
-			"hpsPFTauDiscriminationByLooseElectronRejection",
-			"#1:hpsPFTauDiscriminationByMVA3LooseElectronRejection",
-			"hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits"
+			"hpsPFTauDiscriminationByLooseElectronRejection"
+		],
+		"TauDiscriminatorMvaIsolation" : [
+			"0:0.25",
+			"1:0.0"
+		],
+		"MuonLowerPtCuts" : [
+			"30."
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
 		],
 		"TauLowerPtCuts" : [
-			"40."
+			"20."
 		],
 		"TauUpperAbsEtaCuts" : [
-			"0:2.1",
-			"1:2.1"
+			"2.1"
 		],
+		"TauLeadingTrackPtCut" : 5.0,
+		"TauElectronLowerDeltaRCut" : 0.25,
+		"TauMuonLowerDeltaRCut" : 0.25,
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"InvalidateNonMatchingElectrons" : false,
@@ -53,18 +61,18 @@
 			"nick" : {
 				"default" : [
 					"#filter:LooseElectronsCountFilter",
-					"#filter:LooseMuonsCountFilter",
-					"#producer:HltProducer",
-					"#filter:HltFilter",
+					"filter:LooseMuonsCountFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
 					"#producer:MvaMetTTSelector",
 					"#producer:ValidElectronsProducer",
 					"#filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"#filter:MuonsCountFilter",
-					"#producer:ValidTausProducer",
+					"filter:MuonsCountFilter",
+					"producer:ValidTausProducer",
 					"#filter:ValidTausFilter",
 					"#producer:TauTriggerMatchingProducer",
-					"#filter:TausCountFilter",
+					"filter:TausCountFilter",
 					"#producer:ValidLeptonsProducer",
 					"#producer:ValidTaggedJetsProducer",
 					"#producer:ValidBTaggedJetsProducer",
@@ -76,7 +84,7 @@
 					"#producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"#producer:RecoTauCPProducer",
-					"#producer:EventWeightProducer"
+					"producer:EventWeightProducer"
 				],
 				"DoubleMu|TauPlusX" : [
 					"filter:LooseElectronsCountFilter",
