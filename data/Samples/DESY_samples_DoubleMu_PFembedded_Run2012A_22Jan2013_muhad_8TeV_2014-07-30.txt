@@ -1,0 +1,1 @@
+root://dcache-cms-xrootd.desy.de//store/user/yanstrut/skimming/2014-07-30/DoubleMu_PFembedded_Run2012A_22Jan2013_muhad_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_muhad_8TeV_2.root
