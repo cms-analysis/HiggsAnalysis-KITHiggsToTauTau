@@ -26,7 +26,9 @@
 
 			"SUSYGluGluToHToTauTau_M-120_8TeV-pythia6-tauola_8TeV" : 1000620,
 
-			"SM_TTH_HToTauTau_M_125_pythia_8TeV" : 999997
+			"SM_TTH_HToTauTau_M_125_pythia_8TeV" : 999997,
+			
+			"default" : -1
 		}
 	}
 }
