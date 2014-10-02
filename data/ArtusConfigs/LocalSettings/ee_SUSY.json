@@ -72,7 +72,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
-				"DoubleMu|TauPlusX" : [
+				"TauPlusX|TauParked|MuEG|DoubleElectron|DoubleMu" : [
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",

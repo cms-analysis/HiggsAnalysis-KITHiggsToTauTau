@@ -47,7 +47,7 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:EventWeightProducer"
 				],
-				"DoubleMu|TauPlusX" : [
+				"TauPlusX|TauParked|MuEG|DoubleElectron|DoubleMu" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
