@@ -89,6 +89,8 @@ public:
 	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtThresholdEB);
 	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtThresholdEE);
 	
+	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDxyCut, -1.0);
+	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDzCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseMuonTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseMuonTrackDzCut, -1.0);
 	

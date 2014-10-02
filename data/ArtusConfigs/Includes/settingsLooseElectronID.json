@@ -16,5 +16,7 @@
 	"LooseElectronUpperAbsEtaCuts" : [
 		"2.5"
 	],
+	"LooseElectronTrackDxyCut" : 0.045,
+	"LooseElectronTrackDzCut" : 0.2,
 	"DirectIso" : true
 }

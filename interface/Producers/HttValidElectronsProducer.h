@@ -151,8 +151,8 @@ public:
 			float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const=&setting_type::GetElectronDeltaBetaCorrectionFactor,
 			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtThresholdEB,
 			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtThresholdEE,
-			float (setting_type::*GetElectronTrackDxyCut)(void) const=&setting_type::GetElectronTrackDxyCut,
-			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetElectronTrackDzCut
+			float (setting_type::*GetElectronTrackDxyCut)(void) const=&setting_type::GetLooseElectronTrackDxyCut,
+			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetLooseElectronTrackDzCut
 	);
 
 };
