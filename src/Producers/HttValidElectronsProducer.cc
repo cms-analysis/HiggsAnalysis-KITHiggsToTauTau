@@ -80,6 +80,10 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), false);
 		else if (electronIDType == ElectronIDType::SUMMER2013TIGHT)
 			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), true);
+		else if (electronIDType == ElectronIDType::SUMMER2013TTHLOOSE)
+			validElectron = validElectron && IsMVATrigElectronTTHSummer2013(&(*electron), false);
+		else if (electronIDType == ElectronIDType::SUMMER2013TTHTIGHT)
+			validElectron = validElectron && IsMVATrigElectronTTHSummer2013(&(*electron), true);
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
 	}
@@ -118,6 +122,15 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	validElectron = validElectron
 	                && ((settings.*GetElectronTrackDxyCut)() <= 0.0 || std::abs(electron->track.getDxy(&event.m_vertexSummary->pv)) < (settings.*GetElectronTrackDxyCut)())
 	                && ((settings.*GetElectronTrackDzCut)() <= 0.0 || std::abs(electron->track.getDz(&event.m_vertexSummary->pv)) < (settings.*GetElectronTrackDzCut)());
+
+	return validElectron;
+}
+
+bool HttValidElectronsProducer::IsMVATrigElectronTTHSummer2013(KDataElectron* electron, bool tightID) const
+{
+	bool validElectron = true;
+	
+	validElectron = validElectron && electron->idMvaTrigV0 > (tightID ? 0.5 : 0.5);
 
 	return validElectron;
 }
