@@ -37,7 +37,6 @@
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GenTauCPProducer",
 				"producer:TauSpinnerProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:CrossSectionWeightProducer",
@@ -58,7 +57,22 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"
 			],
-			"DoubleMu|TauPlusX|TauParked" : [
+			"DYJetsToLL" : [
+				"#filter:RunLumiEventFilter",
+				"producer:TauCorrectionsProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:PUWeightProducer",
+				"producer:GenParticleProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GenTauCPProducer",
+				"producer:TauSpinnerProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer"
+			],
+			"TauPlusX|TauParked|MuEG|DoubleElectron|DoubleMu" : [
 				"filter:JsonFilter",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",

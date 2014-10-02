@@ -138,6 +138,8 @@ void GenTauCPProducer::Init(setting_type const& settings)
 void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 	                           setting_type const& settings) const
 {
+	assert(! product.m_genBoson.empty());
+	
 	MotherDaughterBundle* higgs = &(product.m_genBoson[0]);	
 	MotherDaughterBundle* selectedTau1 = &(higgs->Daughters[0]);
 	MotherDaughterBundle* selectedTau2 = &(higgs->Daughters[1]);
