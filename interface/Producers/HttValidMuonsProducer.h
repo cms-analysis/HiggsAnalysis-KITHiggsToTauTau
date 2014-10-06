@@ -56,6 +56,19 @@ public:
 			float (setting_type::*GetMuonTrackDxyCut)(void) const=&setting_type::GetMuonTrackDxyCut,
 			float (setting_type::*GetMuonTrackDzCut)(void) const=&setting_type::GetMuonTrackDzCut
 	);
+	
+	virtual void Init(setting_type const& settings) {
+
+		ValidMuonsProducer<HttTypes>::Init(settings);
+
+		// add possible quantities for the lambda ntuples consumers
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingMuonIso", [this](event_type const& event, product_type const& product) {
+			return product.m_validMuons.size() >=1 ? SafeMap::GetWithDefault(product.m_muonIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingMuonIsoOverPt", [this](event_type const& event, product_type const& product) {
+			return product.m_validMuons.size() >=1 ? SafeMap::GetWithDefault(product.m_muonIsolationOverPt, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		});
+	}
 
 
 protected:

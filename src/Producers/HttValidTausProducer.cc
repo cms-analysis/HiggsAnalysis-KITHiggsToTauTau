@@ -16,6 +16,8 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 	
 	specProduct.m_leptonIsolation[tau] = isolationPtSum;
 	specProduct.m_leptonIsolationOverPt[tau] = isolationPtSumOverPt;
+	specProduct.m_tauIsolation[tau] = isolationPtSum;
+	specProduct.m_tauIsolationOverPt[tau] = isolationPtSumOverPt;
 	
 	// custom isolation cut
 	validTau = validTau && ((isolationPtSum < specSettings.GetTauDiscriminatorIsolationCut()) ? settings.GetDirectIso() : (!settings.GetDirectIso()));

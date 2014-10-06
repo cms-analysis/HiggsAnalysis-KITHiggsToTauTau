@@ -53,7 +53,13 @@ public:
 	// filled by HttValid<Leptons>Producer
 	std::map<KLepton*, double> m_leptonIsolation;
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
-	
+	std::map<KDataElectron*, double> m_electronIsolation;
+	std::map<KDataElectron*, double> m_electronIsolationOverPt;
+	std::map<KDataMuon*, double> m_muonIsolation;
+	std::map<KDataMuon*, double> m_muonIsolationOverPt;
+	std::map<KDataPFTau*, double> m_tauIsolation;
+	std::map<KDataPFTau*, double> m_tauIsolationOverPt;
+
 	// filled by the DiLeptonQuantitiesProducer
 	RMDataLV m_diLeptonSystem;
 	RMDataLV m_diLeptonPlusMetSystem;

@@ -23,6 +23,20 @@ protected:
 		
 		HttSettings const& specSettings = static_cast<HttSettings const&>(settings);
 		MvaIsolationCutsByIndex = Utility::ParseMapTypes<size_t, float>(Utility::ParseVectorToMap(specSettings.GetTauDiscriminatorMvaIsolation()), MvaIsolationCutsByName);
+
+		// add possible quantities for the lambda ntuples consumers
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingTauIso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+			return product.m_validTaus.size() >=1 ? SafeMap::GetWithDefault(product.m_tauIsolation, product.m_validTaus[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingTauIsoOverPt", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+			return product.m_validTaus.size() >=1 ? SafeMap::GetWithDefault(product.m_tauIsolationOverPt, product.m_validTaus[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingTauIso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+			return product.m_validTaus.size() >=2 ? SafeMap::GetWithDefault(product.m_tauIsolation, product.m_validTaus[1], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingTauIsoOverPt", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+			return product.m_validTaus.size() >=2 ? SafeMap::GetWithDefault(product.m_tauIsolationOverPt, product.m_validTaus[1], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		});
 	}
 	
 	// Htautau specific additional definitions

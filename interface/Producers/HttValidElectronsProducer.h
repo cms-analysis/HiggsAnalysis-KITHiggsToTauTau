@@ -132,6 +132,16 @@ public:
 		return "HttValidLooseElectronsProducer";
 	}
 	
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE {
+	
+		HttValidElectronsProducer::Init(settings);
+	
+		// add possible quantities for the lambda ntuples consumers
+		LambdaNtupleConsumer<HttTypes>::AddQuantity("nLooseElectrons", [this](event_type const& event, product_type const& product) {
+			return product.m_validLooseElectrons.size();
+		});
+	}
+	
 	HttValidLooseElectronsProducer(
 			std::vector<KDataElectron*> product_type::*validElectrons=&product_type::m_validLooseElectrons,
 			std::vector<KDataElectron*> product_type::*invalidElectrons=&product_type::m_invalidLooseElectrons,

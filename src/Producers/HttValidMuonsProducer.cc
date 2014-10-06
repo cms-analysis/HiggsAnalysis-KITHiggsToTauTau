@@ -75,6 +75,8 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 		
 		product.m_leptonIsolation[muon] = isolationPtSum;
 		product.m_leptonIsolationOverPt[muon] = isolationPtSumOverPt;
+		product.m_muonIsolation[muon] = isolationPtSum;
+		product.m_muonIsolationOverPt[muon] = isolationPtSumOverPt;
 		
 		if ((std::abs(muon->p4.Eta()) < DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetMuonIsoPtSumOverPtThresholdEB)()) ? settings.GetDirectIso() : (!settings.GetDirectIso()))) ||
 		    (std::abs(muon->p4.Eta()) >= DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetMuonIsoPtSumOverPtThresholdEE)()) ? settings.GetDirectIso() : (!settings.GetDirectIso())))) {

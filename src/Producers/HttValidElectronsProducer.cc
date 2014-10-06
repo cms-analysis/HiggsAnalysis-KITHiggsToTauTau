@@ -58,6 +58,14 @@ void HttValidElectronsProducer::Init(setting_type const& settings)
 	ValidElectronsProducer<HttTypes>::Init(settings);
 	
 	electronIDType = ToElectronIDType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetElectronIDType)())));
+
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingEleIso", [this](event_type const& event, product_type const& product) {
+		return product.m_validElectrons.size() >=1 ? SafeMap::GetWithDefault(product.m_electronIsolation, product.m_validElectrons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingEleIsoOverPt", [this](event_type const& event, product_type const& product) {
+		return product.m_validElectrons.size() >=1 ? SafeMap::GetWithDefault(product.m_electronIsolationOverPt, product.m_validElectrons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+	});
 }
 
 bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
@@ -111,6 +119,8 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 		
 		product.m_leptonIsolation[electron] = isolationPtSum;
 		product.m_leptonIsolationOverPt[electron] = isolationPtSumOverPt;
+		product.m_electronIsolation[electron] = isolationPtSum;
+		product.m_electronIsolationOverPt[electron] = isolationPtSumOverPt;
 		
 		if ((std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetElectronIsoPtSumOverPtThresholdEB)()) ? settings.GetDirectIso() : (!settings.GetDirectIso()))) ||
 		    (std::abs(electron->p4.Eta()) >= DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetElectronIsoPtSumOverPtThresholdEE)()) ? settings.GetDirectIso() : (!settings.GetDirectIso())))) {
