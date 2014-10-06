@@ -1,5 +1,5 @@
 {
-	"tt" : {
+	"tte" : {
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json",
@@ -7,11 +7,10 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
-		"Channel" : "TT",
-		"NLooseElectrons" : 0,
-		"NLooseMuons" : 1,
-		"NElectrons" : 0,
-		"NMuons" : 1,
+		"Channel" : "TTE",
+		"NLooseElectrons" : 1,
+		"NElectrons" : 1,
+		"NMuons" : 0,
 		"NTaus" : 2,
 		"HltPaths" : [
 			"HLT_IsoMu24_eta2p1",
@@ -26,6 +25,12 @@
 		"TauDiscriminatorMvaIsolation" : [
 			"0:0.25",
 			"1:0.0"
+		],
+		"ElectronLowerPtCuts" : [
+			"30."
+		],
+		"ElectronUpperAbsEtaCuts" : [
+			"2.5"
 		],
 		"MuonLowerPtCuts" : [
 			"30."
@@ -60,22 +65,21 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"#filter:LooseElectronsCountFilter",
-					"filter:LooseMuonsCountFilter",
+					"filter:LooseElectronsCountFilter",
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"#producer:MvaMetTTSelector",
-					"#producer:ValidElectronsProducer",
-					"#filter:ElectronsCountFilter",
+					"producer:MvaMetTTSelector",
+					"producer:ValidElectronsProducer",
 					"producer:ValidMuonsProducer",
+					"filter:ElectronsCountFilter",
 					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"#filter:ValidTausFilter",
 					"#producer:TauTriggerMatchingProducer",
 					"filter:TausCountFilter",
-					"#producer:ValidLeptonsProducer",
-					"#producer:ValidTaggedJetsProducer",
-					"#producer:ValidBTaggedJetsProducer",
+					"producer:ValidLeptonsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
 					"#producer:DecayChannelProducer",
 					"#filter:DecayChannelFilter",
 					"##producer:SvfitProducer",
