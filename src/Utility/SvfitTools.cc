@@ -92,14 +92,6 @@ std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey)
 	return os << std::to_string(svfitEventKey);
 }
 
-SvfitInputs::SvfitInputs()
-{
-	this->leptonMomentum1 = new RMDataLV();
-	this->leptonMomentum2 = new RMDataLV();
-	this->metMomentum = new RMDataV();
-	this->metCovariance = new RMSM2x2();
-}
-
 SvfitInputs::SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                          RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
                          RMDataV const& metMomentum, RMSM2x2 const& metCovariance)
@@ -114,10 +106,10 @@ void SvfitInputs::Set(svFitStandalone::kDecayType const& decayType1, svFitStanda
 {
 	this->decayType1 = Utility::ToUnderlyingValue(decayType1);
 	this->decayType2 = Utility::ToUnderlyingValue(decayType2);
-	*(this->leptonMomentum1) = leptonMomentum1;
-	*(this->leptonMomentum2) = leptonMomentum2;
-	*(this->metMomentum) = metMomentum;
-	*(this->metCovariance) = metCovariance;
+	this->leptonMomentum1 = leptonMomentum1;
+	this->leptonMomentum2 = leptonMomentum2;
+	this->metMomentum = metMomentum;
+	this->metCovariance = metCovariance;
 }
 
 void SvfitInputs::CreateBranches(TTree* tree)
@@ -155,10 +147,10 @@ bool SvfitInputs::operator==(SvfitInputs const& rhs) const
 {
 	return ((decayType1 == rhs.decayType1) &&
 	        (decayType2 == rhs.decayType2) &&
-	        Utility::ApproxEqual(*leptonMomentum1, *(rhs.leptonMomentum1)) &&
-	        Utility::ApproxEqual(*leptonMomentum2, *(rhs.leptonMomentum2)) &&
-	        Utility::ApproxEqual(*metMomentum, *(rhs.metMomentum)) &&
-	        Utility::ApproxEqual(*metCovariance, *(rhs.metCovariance)));
+	        Utility::ApproxEqual(leptonMomentum1, rhs.leptonMomentum1) &&
+	        Utility::ApproxEqual(leptonMomentum2, rhs.leptonMomentum2) &&
+	        Utility::ApproxEqual(metMomentum, rhs.metMomentum) &&
+	        Utility::ApproxEqual(metCovariance, rhs.metCovariance));
 }
 
 bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
@@ -169,7 +161,7 @@ bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
 SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(int verbosity, bool addLogM) const
 {
 	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(GetMeasuredTauLeptons(),
-	                                                                             svFitStandalone::Vector(*metMomentum),
+	                                                                             svFitStandalone::Vector(metMomentum),
 	                                                                             GetMetCovarianceMatrix(),
 	                                                                             verbosity);
 	svfitStandaloneAlgorithm.addLogM(addLogM);
@@ -179,8 +171,8 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(int verbosity,
 std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons() const
 {
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType1), svFitStandalone::LorentzVector(*leptonMomentum1)),
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType2), svFitStandalone::LorentzVector(*leptonMomentum2))
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType1), svFitStandalone::LorentzVector(leptonMomentum1)),
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType2), svFitStandalone::LorentzVector(leptonMomentum2))
 	};
 	return measuredTauLeptons;
 }
@@ -188,17 +180,11 @@ std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLepto
 TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 {
 	TMatrixD metCovarianceMatrix(2, 2);
-	metCovarianceMatrix[0][0] = metCovariance->At(0, 0);
-	metCovarianceMatrix[1][0] = metCovariance->At(1, 0);
-	metCovarianceMatrix[0][1] = metCovariance->At(0, 1);
-	metCovarianceMatrix[1][1] = metCovariance->At(1, 1);
+	metCovarianceMatrix[0][0] = metCovariance.At(0, 0);
+	metCovarianceMatrix[1][0] = metCovariance.At(1, 0);
+	metCovarianceMatrix[0][1] = metCovariance.At(0, 1);
+	metCovarianceMatrix[1][1] = metCovariance.At(1, 1);
 	return metCovarianceMatrix;
-}
-
-SvfitResults::SvfitResults()
-{
-	this->momentum = new RMDataLV();
-	this->momentumUncertainty = new RMDataLV();
 }
 
 SvfitResults::SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty) :
@@ -207,17 +193,16 @@ SvfitResults::SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUnc
 	Set(momentum, momentumUncertainty);
 }
 
-SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
+SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) :
+	SvfitResults()
 {
-	this->momentum = new RMDataLV();
-	this->momentumUncertainty = new RMDataLV();
 	Set(svfitStandaloneAlgorithm);
 }
 
 void SvfitResults::Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty)
 {
-	*(this->momentum) = momentum;
-	*(this->momentumUncertainty) = momentumUncertainty;
+	this->momentum = momentum;
+	this->momentumUncertainty = momentumUncertainty;
 }
 
 void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
@@ -247,8 +232,8 @@ void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
 {
-	return (Utility::ApproxEqual(*momentum, *(rhs.momentum)) &&
-	        Utility::ApproxEqual(*momentumUncertainty, *(rhs.momentumUncertainty)));
+	return (Utility::ApproxEqual(momentum, rhs.momentum) &&
+	        Utility::ApproxEqual(momentumUncertainty, rhs.momentumUncertainty));
 }
 
 bool SvfitResults::operator!=(SvfitResults const& rhs) const

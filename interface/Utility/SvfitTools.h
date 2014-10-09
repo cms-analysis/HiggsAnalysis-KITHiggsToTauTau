@@ -95,13 +95,13 @@ public:
 	int decayType1;
 	int decayType2;
 	
-	RMDataLV* leptonMomentum1 = 0;
-	RMDataLV* leptonMomentum2 = 0;
+	RMDataLV leptonMomentum1;
+	RMDataLV leptonMomentum2;
 	
-	RMDataV* metMomentum = 0;
-	RMSM2x2* metCovariance = 0;
+	RMDataV metMomentum;
+	RMSM2x2 metCovariance;
 	
-	SvfitInputs();
+	SvfitInputs() {};
 	SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
 	            RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
 	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
@@ -131,10 +131,10 @@ private:
 class SvfitResults {
 
 public:
-	RMDataLV* momentum = 0;
-	RMDataLV* momentumUncertainty = 0;
+	RMDataLV momentum;
+	RMDataLV momentumUncertainty;
 	
-	SvfitResults();
+	SvfitResults() {};
 	SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	

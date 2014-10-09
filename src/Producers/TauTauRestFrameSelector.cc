@@ -68,12 +68,8 @@ void TauTauRestFrameSelector::Produce(event_type const& event, product_type& pro
 	else if (tauTauRestFrameReco == HttEnumTypes::TauTauRestFrameReco::SVFIT)
 	{
 		product.m_tauMomentaReconstructed = false;
-		
-		if (product.m_svfitResults.momentum != 0)
-		{
-			product.m_diTauSystem = *(product.m_svfitResults.momentum);
-		}
-		product.m_diTauSystemReconstructed = (product.m_svfitResults.momentum != 0);
+		product.m_diTauSystem = product.m_svfitResults.momentum;
+		product.m_diTauSystemReconstructed = (product.m_diTauSystem.mass() > 0.0); // TODO
 	}
 	else
 	{
