@@ -91,33 +91,30 @@ public:
 	bool m_diTauSystemReconstructed = false;
 
 	// filled by GenTauCPProducer
-	double m_genZMinus;
-	double m_genZPlus;
-	double m_genZs;
+	double m_genZMinus  = DefaultValues::UndefinedDouble;
+	double m_genZPlus  = DefaultValues::UndefinedDouble;
+	double m_genZs  = DefaultValues::UndefinedDouble;
 
-	double m_genPhiCP;
-	double m_genPhiStarCP;
+	double m_genPhiCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_genPhi = DefaultValues::UndefinedDouble;
 	double m_genPhiStar = DefaultValues::UndefinedDouble;
-	std::pair <double,double> m_genChargedProngEnergies;
-	double m_genThetaNuHadron;
-	double m_genAlphaTauNeutrinos;
-	double m_genPhiDet;
-	double m_genPhiStarCPDet;
+	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
+	double m_genThetaNuHadron  = DefaultValues::UndefinedDouble;
+	double m_genAlphaTauNeutrinos  = DefaultValues::UndefinedDouble;
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
-	float m_genABS_n1 = DefaultValues::UndefinedDouble;
-	float m_genABS_n2 = DefaultValues::UndefinedDouble;
 
 	// filled by RecoTauCPProducer
-	double m_recoPhiStarCP;
+	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	KGenParticle* m_recoChargedParticle1 = 0;
 	KGenParticle* m_recoChargedParitcle2 = 0;
-	std::pair <double,double> m_recoChargedHadronEnergies;
-	float m_recoAbs_n1 = DefaultValues::UndefinedDouble;
-	float m_recoAbs_n2 = DefaultValues::UndefinedDouble;
-	float m_recoTrackRefError1 = DefaultValues::UndefinedDouble;
-	float m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
+	std::pair <double,double> m_recoChargedHadronEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
+	double m_recoIP1 = DefaultValues::UndefinedDouble;
+	double m_recoIP2 = DefaultValues::UndefinedDouble;
+	double m_recoTrackRefError1 = DefaultValues::UndefinedDouble;
+	double m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
 	
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
