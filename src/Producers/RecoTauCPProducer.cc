@@ -58,9 +58,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			KPFCandidate* chargePart2 = &(tau2->signalChargedHadrCands[0]);
 			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, tau1->track, tau2->track, chargePart1->p4, chargePart2->p4);
-			product.m_recoPhiStar = cpq.GetrecoPhiStar();
-			product.m_recoIP1 = cpq.GetrecoIP1();
-			product.m_recoIP2 = cpq.GetrecoIP2();
+			product.m_recoPhiStar = cpq.GetRecoPhiStar();
+			product.m_recoIP1 = cpq.GetRecoIP1();
+			product.m_recoIP2 = cpq.GetRecoIP2();
 			product.m_recoChargedHadronEnergies.first = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
 			product.m_recoChargedHadronEnergies.second = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart2->p4);
 			product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(tau1->track);
@@ -74,9 +74,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataElectron* electron1 = product.m_validElectrons[0];
 		KDataElectron* electron2 = product.m_validElectrons[1];
 		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, electron2->track, electron1->p4, electron2->p4);
-		product.m_recoPhiStar = cpq.GetrecoPhiStar();
-		product.m_recoIP1 = cpq.GetrecoIP1();
-		product.m_recoIP2 = cpq.GetrecoIP2();
+		product.m_recoPhiStar = cpq.GetRecoPhiStar();
+		product.m_recoIP1 = cpq.GetRecoIP1();
+		product.m_recoIP2 = cpq.GetRecoIP2();
 		product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(electron1->track);
 		product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(electron2->track);
 	}
@@ -86,9 +86,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataMuon* muon1 = product.m_validMuons[0];
 		KDataMuon* muon2 = product.m_validMuons[1];
 		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, muon1->track, muon2->track, muon1->p4, muon2->p4);
-		product.m_recoPhiStar = cpq.GetrecoPhiStar();
-		product.m_recoIP1 = cpq.GetrecoIP1();
-		product.m_recoIP2 = cpq.GetrecoIP2();
+		product.m_recoPhiStar = cpq.GetRecoPhiStar();
+		product.m_recoIP1 = cpq.GetRecoIP1();
+		product.m_recoIP2 = cpq.GetRecoIP2();
 		product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(muon1->track);
 		product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(muon2->track);
 	}
@@ -101,9 +101,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		{
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, tau1->track, electron1->p4, chargePart1->p4);
-			product.m_recoPhiStar = cpq.GetrecoPhiStar();
-			product.m_recoIP1 = cpq.GetrecoIP1();
-			product.m_recoIP2 = cpq.GetrecoIP2();
+			product.m_recoPhiStar = cpq.GetRecoPhiStar();
+			product.m_recoIP1 = cpq.GetRecoIP1();
+			product.m_recoIP2 = cpq.GetRecoIP2();
 			product.m_recoChargedHadronEnergies.first = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
 			product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(electron1->track);
 			product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(tau1->track);
@@ -118,9 +118,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		{
 			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
 			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, muon1->track, tau1->track, muon1->p4, chargePart1->p4);
-			product.m_recoPhiStar = cpq.GetrecoPhiStar();
-			product.m_recoIP1 = cpq.GetrecoIP1();
-			product.m_recoIP2 = cpq.GetrecoIP2();
+			product.m_recoPhiStar = cpq.GetRecoPhiStar();
+			product.m_recoIP1 = cpq.GetRecoIP1();
+			product.m_recoIP2 = cpq.GetRecoIP2();
 			product.m_recoChargedHadronEnergies.first = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
 			product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(muon1->track);
 			product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(tau1->track);
@@ -132,9 +132,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		KDataElectron* electron1 = product.m_validElectrons[0];
 		KDataMuon* muon1 = product.m_validMuons[0];
 		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, muon1->track, electron1->p4, muon1->p4);
-		product.m_recoPhiStar = cpq.GetrecoPhiStar();
-		product.m_recoIP1 = cpq.GetrecoIP1();
-		product.m_recoIP2 = cpq.GetrecoIP2();
+		product.m_recoPhiStar = cpq.GetRecoPhiStar();
+		product.m_recoIP1 = cpq.GetRecoIP1();
+		product.m_recoIP2 = cpq.GetRecoIP2();
 		product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(electron1->track);
 		product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(muon1->track);
 	}

@@ -49,8 +49,8 @@ double CPQuantities::CalculatePhiStarCPSame(RMDataLV::BetaVector k1, RMDataLV::B
 	
 	if(level=="reco")
 	{
-		this->SetrecoIP1(n1.R());
-		this->SetrecoIP2(n2.R());
+		this->SetRecoIP1(n1.R());
+		this->SetRecoIP2(n2.R());
 	}
 	//Normalized n1, n2
 	n1 = n1.Unit();
@@ -80,11 +80,11 @@ double CPQuantities::CalculatePhiStarCPSame(RMDataLV::BetaVector k1, RMDataLV::B
 
 	if(level=="reco")
 	{
-		this->SetrecoPhiStar(acos(n2t.Dot(n1t)));
+		this->SetRecoPhiStar(acos(n2t.Dot(n1t)));
 	}
 	else if (level=="gen")
 	{
-		this->SetgenPhiStar(acos(n2t.Dot(n1t)));
+		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
 	}
 	//Step 5: Calculating Phi*CP
 	double phiStarCP = 0;
@@ -143,7 +143,7 @@ double CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2
 	nm = (km.Cross(pm)).Unit(); np = (km.Cross(pp)).Unit(); ez = pm.Unit();
 
 	// Step 4: Calculating PhiCP
-	this->SetgenPhi(acos(np.Dot(nm)));
+	this->SetGenPhi(acos(np.Dot(nm)));
 	double phiCP = 0;
 	if(ez.Dot(np.Cross(nm))>=0)
 	{
