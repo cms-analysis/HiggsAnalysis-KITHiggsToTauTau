@@ -248,3 +248,76 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 		}
 	}
 }
+
+void TTHDecayChannelProducer::Produce(event_type const& event, product_type& product,
+	                              setting_type const& settings) const
+{
+	
+	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+	
+	KLepton* lepton1 = 0;
+	KLepton* lepton2 = 0;
+	KLepton* lepton3 = 0;
+	
+	size_t nElectrons = product.m_validElectrons.size();
+	size_t nMuons = product.m_validMuons.size();
+	size_t nTaus = product.m_validTaus.size();
+	
+	if (nElectrons == 1)
+	{
+		if (nTaus >= 2) {
+			lepton1 = product.m_validTaus[0];
+			lepton2 = product.m_validTaus[1];
+			lepton3 = product.m_validElectrons[0];
+			product.m_decayChannel = HttEnumTypes::DecayChannel::TTH_TTE;
+		}
+	}
+	else if (nMuons == 1)
+	{
+		if (nTaus >= 2) {
+			lepton1 = product.m_validTaus[0];
+			lepton2 = product.m_validTaus[1];
+			lepton3 = product.m_validMuons[0];
+			product.m_decayChannel = HttEnumTypes::DecayChannel::TTH_TTM;
+		}
+	}
+	
+	// fill tau energy scale weights
+	if (! product.m_tauEnergyScaleWeight.empty())
+	{
+		if ((product.m_decayChannel == HttEnumTypes::DecayChannel::TTH_TTE) ||
+		    (product.m_decayChannel == HttEnumTypes::DecayChannel::TTH_TTM))
+		{
+			product.m_weights["tauEnergyScaleWeight"] = SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KDataPFTau*>(lepton1));
+			product.m_weights["tauEnergyScaleWeight"] *= SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KDataPFTau*>(lepton2));
+		}
+	}
+
+	if (product.m_decayChannel != HttEnumTypes::DecayChannel::NONE)
+	{
+		// fill leptons ordered by pt (high pt first)
+		product.m_ptOrderedLeptons.push_back(lepton1);
+		product.m_ptOrderedLeptons.push_back(lepton2);
+		product.m_ptOrderedLeptons.push_back(lepton3);
+		
+		std::sort(product.m_ptOrderedLeptons.begin(), product.m_ptOrderedLeptons.end(),
+	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
+	          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
+
+
+		// fill leptons ordered by flavour (according to channel definition)
+		product.m_flavourOrderedLeptons.push_back(lepton1);
+		product.m_flavourOrderedLeptons.push_back(lepton2);
+		product.m_flavourOrderedLeptons.push_back(lepton3);
+
+
+		// fill leptons ordered by charge (positive charges first)
+		product.m_chargeOrderedLeptons.push_back(lepton1);
+		product.m_chargeOrderedLeptons.push_back(lepton2);
+		product.m_chargeOrderedLeptons.push_back(lepton3);
+		
+		std::sort(product.m_chargeOrderedLeptons.begin(), product.m_chargeOrderedLeptons.end(),
+	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
+	          { return lepton1->charge > lepton2->charge; });
+	}
+}

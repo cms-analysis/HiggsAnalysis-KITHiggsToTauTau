@@ -27,6 +27,11 @@
 		"trailingTauEta",
 		"trailingTauIso",
 		"trailingTauIsoOverPt",
+		"diTauPt",
+		"diTauEta",
+		"diTauPhi",
+		"diTauMass",
+		"diTauSystemReconstructed",
 		"weight"
 	]
 }
