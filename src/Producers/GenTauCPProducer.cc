@@ -190,6 +190,10 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 	{
 		product.m_genThetaNuHadron = cpq.CalculateThetaNuHadron(selectedTau1->node->p4, selectedTau1->Daughters[0].node->p4, selectedTau1->Daughters[1].node->p4);
 	}
-	product.m_genAlphaTauNeutrinos = cpq.CalculateAlphaTauNeutrinos(selectedTau1->node->p4, selectedTau1->Daughters[0].node->p4, selectedTau2->node->p4, selectedTau2->Daughters[0].node->p4);
+	
+	if ((! selectedTau1->Daughters.empty()) && (! selectedTau2->Daughters.empty()))
+	{
+		product.m_genAlphaTauNeutrinos = cpq.CalculateAlphaTauNeutrinos(selectedTau1->node->p4, selectedTau1->Daughters[0].node->p4, selectedTau2->node->p4, selectedTau2->Daughters[0].node->p4);
+	}
 
 }
