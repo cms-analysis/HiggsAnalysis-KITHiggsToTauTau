@@ -7,7 +7,7 @@
 	"InputIsData" : {
 		"nick" : {
 			"default" : "false",
-			"TauPlusX|TauParked|MuEG|DoubleElectron|DoubleMu" : "true"
+			"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : "true"
 		}
 	},
 	"InputFiles" : [

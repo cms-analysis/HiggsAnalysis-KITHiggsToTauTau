@@ -70,7 +70,7 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"
 			],
-			"TauPlusX|TauParked|MuEG|DoubleElectron|DoubleMu" : [
+			"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : [
 				"filter:JsonFilter",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
@@ -84,7 +84,7 @@
 	"JsonFiles_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#JSON_and_PU_re_weighting",
 	"JsonFiles" : {
 		"nick" : {
-			"TauPlusX|TauParked|MuEG|DoubleElectron|DoubleMu" : [
+			"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : [
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt"
 			]
 		}
@@ -93,7 +93,7 @@
 	"PileupWeightFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2012_ReReco-600bins_OVER_MC_Summer12_PU_S10-600bins.root",
-			"TauPlusX|TauParked|MuEG|DoubleElectron|DoubleMu" : "not needed"
+			"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : "not needed"
 		}
 	},
 	"BosonPdgId" : {
