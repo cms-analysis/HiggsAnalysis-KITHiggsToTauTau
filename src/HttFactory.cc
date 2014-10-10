@@ -72,6 +72,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MvaMetEMSelector();
 	else if(id == DecayChannelProducer().GetProducerId())
 		return new DecayChannelProducer();
+	else if(id == TTHDecayChannelProducer().GetProducerId())
+		return new TTHDecayChannelProducer();
 	else if(id == EventCategoryProducer().GetProducerId())
 		return new EventCategoryProducer();
 	else if(id == TriggerWeightProducer().GetProducerId())

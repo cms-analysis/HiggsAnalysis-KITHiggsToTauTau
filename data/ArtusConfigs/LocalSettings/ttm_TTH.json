@@ -56,6 +56,8 @@
 		"Quantities" : [
 			{
 				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/ttHQuantities.json"
 				]
 			},
@@ -80,41 +82,14 @@
 					"producer:ValidLeptonsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"#producer:DecayChannelProducer",
-					"#filter:DecayChannelFilter",
-					"##producer:SvfitProducer",
-					"#producer:TauTauRestFrameSelector",
-					"#producer:DiLeptonQuantitiesProducer",
-					"#producer:DiJetQuantitiesProducer",
-					"#producer:EventCategoryProducer",
-					"#producer:RecoTauCPProducer",
-					"producer:EventWeightProducer"
-				],
-				"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : [
-					"filter:LooseElectronsCountFilter",
-					"filter:LooseMuonsCountFilter",
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MvaMetTTSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"filter:MuonsCountFilter",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:TausCountFilter",
-					"producer:ValidLeptonsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:DecayChannelProducer",
+					"producer:TTHDecayChannelProducer",
 					"filter:DecayChannelFilter",
 					"#producer:SvfitProducer",
-					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
+					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
-					"producer:RecoTauCPProducer",
+					"#producer:EventCategoryProducer",
+					"#producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]
 			}

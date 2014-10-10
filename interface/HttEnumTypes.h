@@ -18,7 +18,11 @@ public:
 		ET   = 2,
 		EM   = 3,
 		MM   = 4,
-		EE   = 5
+		EE   = 5,
+
+		//Higgs produced in association with a top quark pair (TTH)
+		TTH_TTE = 6,
+		TTH_TTM = 7
 	};
 	static DecayChannel ToDecayChannel(std::string const& decayChannelString)
 	{
@@ -28,6 +32,8 @@ public:
 		else if (decayChannelString == "em") return DecayChannel::EM;
 		else if (decayChannelString == "mm") return DecayChannel::MM;
 		else if (decayChannelString == "ee") return DecayChannel::EE;
+		else if (decayChannelString == "tte") return DecayChannel::TTH_TTE;
+		else if (decayChannelString == "ttm") return DecayChannel::TTH_TTM;
 		return DecayChannel::NONE;
 	}
 	
