@@ -1,5 +1,5 @@
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_samples_W1JetsToLN_madgraph_8TeV_2014-07-30.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_samples_W2JetsToLN_madgraph_8TeV_2014-07-30.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_samples_W3JetsToLN_madgraph_8TeV_2014-07-30.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_samples_W4JetsToLN_madgraph_8TeV_2014-07-30.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_samples_WJetsToLN_madgraph_8TeV_2014-07-30.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_W1JetsToLN_madgraph_8TeV_2014-07-30.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_W2JetsToLN_madgraph_8TeV_2014-07-30.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_W3JetsToLN_madgraph_8TeV_2014-07-30.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_W4JetsToLN_madgraph_8TeV_2014-07-30.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_WJetsToLN_madgraph_8TeV_2014-07-30.txt

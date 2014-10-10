@@ -1,4 +1,0 @@
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/EKP-samples-SM_GluGluToHToTauTau_M_125_powheg_pythia_8TeV_2014-07-10.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/EKP-samples-SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_2014-07-10.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/EKP-samples-DYJetsToLL_M_50_madgraph_8TeV_8TeV_2014-07-10.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/EKP-samples-TauPolarOff_HToTauTau_M_125_powheg_pythia_8TeV_2014-07-10.txt
