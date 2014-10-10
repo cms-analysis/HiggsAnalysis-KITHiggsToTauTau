@@ -1,0 +1,16 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/SM_Htautau.json"
+	],
+	"folders" : [
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_ss_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple"
+	]
+}
