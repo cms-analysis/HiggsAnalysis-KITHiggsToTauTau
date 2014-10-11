@@ -62,7 +62,7 @@
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15",
 					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20:hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15"
 				],
-				"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : [
+				"Run2012" : [
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15",
 					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20:hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoFiltered10"
 				]
@@ -74,7 +74,7 @@
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltIsoMuPFTau20TrackLooseIso",
 					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20:hltIsoMuPFTau20TrackLooseIso"
 				],
-				"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : [
+				"Run2012" : [
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltIsoMuPFTau20TrackLooseIso",
 					"HLT_IsoMu18_eta2p1_LooseIsoPFTau20:hltPFTau20IsoMuVertex"
 				]
@@ -134,7 +134,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
-				"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : [
+				"Run2012" : [
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",

@@ -71,7 +71,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
-				"TauPlusX_Run|TauParked_Run|Tau_Run|MuEG_Run|DoubleElectron_Run|DoubleMu_Run" : [
+				"Run2012" : [
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
