@@ -62,7 +62,7 @@
 				]
 			},
 			"decayChannelIndex",
-			"#exclusiveEventCategoryIndex"
+			"exclusiveEventCategoryIndex"
 		],
 		"Processors" : {
 			"nick" : {
@@ -88,7 +88,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
-					"#producer:EventCategoryProducer",
+					"producer:TTHEventCategoryProducer",
 					"#producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]

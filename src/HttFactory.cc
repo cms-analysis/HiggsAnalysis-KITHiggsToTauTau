@@ -76,6 +76,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TTHDecayChannelProducer();
 	else if(id == EventCategoryProducer().GetProducerId())
 		return new EventCategoryProducer();
+	else if(id == TTHEventCategoryProducer().GetProducerId())
+		return new TTHEventCategoryProducer();
 	else if(id == TriggerWeightProducer().GetProducerId())
 		return new TriggerWeightProducer();
 	else if(id == IdentificationWeightProducer().GetProducerId())
