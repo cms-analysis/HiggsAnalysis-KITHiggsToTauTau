@@ -11,12 +11,14 @@ double ParticleIsolation::IsolationPtSumForParticleClass(RMDataLV const& particl
                                                          float const& isoPtThreshold)
 {
 	double isolationPtSum = 0.0;
-	for(KPFCandidate const& pfCandidate : *(pfCandidates)) {
-		double deltaR = ROOT::Math::VectorUtil::DeltaR(particle, pfCandidate.p4);
+	for (std::vector<KPFCandidate>::const_iterator pfCandidate = pfCandidates->begin();
+	     pfCandidate != pfCandidates->end(); ++pfCandidate)
+	{
+		double deltaR = ROOT::Math::VectorUtil::DeltaR(particle, pfCandidate->p4);
 		if (
 			(deltaR < isoSignalConeSize)
 			&&
-			(pfCandidate.p4.Pt() > isoPtThreshold)
+			(pfCandidate->p4.Pt() > isoPtThreshold)
 			&&
 			(
 				(
@@ -29,7 +31,7 @@ double ParticleIsolation::IsolationPtSumForParticleClass(RMDataLV const& particl
 			)
 		)
 		{
-			isolationPtSum += pfCandidate.p4.Pt();
+			isolationPtSum += pfCandidate->p4.Pt();
 		}
 	}
 	return isolationPtSum;
