@@ -31,6 +31,9 @@ public:
 	std::vector<KDataMuon*> m_validVetoMuons;
 	std::vector<KDataMuon*> m_invalidVetoMuons;
 
+	// filled by TTHTauPairProducer
+	std::vector<KDataPFTau*> m_validTTHTaus;
+	
 	// filled by DecayChannelProducer
 	HttEnumTypes::DecayChannel m_decayChannel;
 	
