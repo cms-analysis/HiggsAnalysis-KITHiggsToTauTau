@@ -2,11 +2,12 @@
 #pragma once
 
 #include "Artus/Utility/interface/ArtusLogging.h"
+#include "Artus/KappaAnalysis/interface/KappaEnumTypes.h"
 
 
 /**
 */
-class HttEnumTypes {
+class HttEnumTypes : public KappaEnumTypes {
 
 public:
 
