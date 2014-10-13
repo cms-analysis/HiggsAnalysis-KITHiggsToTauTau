@@ -1130,7 +1130,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-07-30-
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-07-30-full_skim/DoubleElectron_Run2012B_22Jan2013_8TeV/kappa_DoubleElectron_Run2012B_22Jan2013_8TeV_3542.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-07-30-full_skim/DoubleElectron_Run2012B_22Jan2013_8TeV/kappa_DoubleElectron_Run2012B_22Jan2013_8TeV_3543.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-07-30-full_skim/DoubleElectron_Run2012B_22Jan2013_8TeV/kappa_DoubleElectron_Run2012B_22Jan2013_8TeV_3544.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-07-30-full_skim/DoubleElectron_Run2012B_22Jan2013_8TeV/kappa_DoubleElectron_Run2012B_22Jan2013_8TeV_3545.root
+
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-07-30-full_skim/DoubleElectron_Run2012B_22Jan2013_8TeV/kappa_DoubleElectron_Run2012B_22Jan2013_8TeV_3546.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-07-30-full_skim/DoubleElectron_Run2012B_22Jan2013_8TeV/kappa_DoubleElectron_Run2012B_22Jan2013_8TeV_3547.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-07-30-full_skim/DoubleElectron_Run2012B_22Jan2013_8TeV/kappa_DoubleElectron_Run2012B_22Jan2013_8TeV_3548.root
