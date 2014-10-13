@@ -7,7 +7,6 @@ log = logging.getLogger(__name__)
 
 import argparse
 import os
-import shlex
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
@@ -32,6 +31,9 @@ if __name__ == "__main__":
 	parser.add_argument("--input-2-tt",
 	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_MIT/htt_vbf_tt_sm_125_select.root",
 	                    help="MIT input file (MT channel). [Default: %(default)s]")
+	parser.add_argument("--channels", nargs="*",
+	                    default=["tt", "mt", "et", "em"],
+	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
 	                    default=["inclusive", "eventsoverlap",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
@@ -50,7 +52,7 @@ if __name__ == "__main__":
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
 	
-	for channel in ["em", "et", "mt", "tt"]:
+	for channel in args["channels"]:
 		for quantity in args["quantities"]:
 			json_exists = True
 			json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_%s.json" % (channel, quantity))
