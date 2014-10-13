@@ -5,6 +5,8 @@
 void ElectronEtaSelector::Produce(event_type const& event, product_type& product,
 	                              setting_type const& settings) const
 {
+	assert(event.m_electrons);
+	
 	for (KDataElectrons::iterator electron = event.m_electrons->begin();
 		 electron != event.m_electrons->end(); electron++)
 	{

@@ -46,6 +46,8 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 }
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
+	assert(event.m_vertexSummary);
+
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
 	if(product.m_decayChannel == HttEnumTypes::DecayChannel::TT)

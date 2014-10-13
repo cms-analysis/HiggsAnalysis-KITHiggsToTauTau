@@ -26,6 +26,9 @@ void SvfitProducer::Init(setting_type const& settings)
 void SvfitProducer::Produce(event_type const& event, product_type& product,
                             setting_type const& settings) const
 {
+	assert(event.m_eventMetadata);
+	assert(product.m_met);
+
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	

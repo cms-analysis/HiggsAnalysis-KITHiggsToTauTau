@@ -72,6 +72,8 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
                                                    event_type const& event, product_type& product,
                                                    setting_type const& settings) const
 {
+	assert(event.m_vertexSummary);
+	
 	bool validElectron = ValidElectronsProducer<HttTypes>::AdditionalCriteria(electron, event, product, settings);
 	
 	double isolationPtSum = DefaultValues::UndefinedDouble;

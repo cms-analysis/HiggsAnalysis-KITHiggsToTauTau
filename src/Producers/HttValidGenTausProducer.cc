@@ -13,6 +13,8 @@ void HttValidGenTausProducer::Init(setting_type const& settings)
 void HttValidGenTausProducer::Produce(event_type const& event, product_type& product,
 									  setting_type const& settings) const
 {
+	assert(event.m_genTaus);
+	
 	if (event.m_genTaus->empty()) return; // no genTaus, nothing to do
 
 	CopyVectors(event, product, settings);

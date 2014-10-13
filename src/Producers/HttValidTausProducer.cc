@@ -6,6 +6,8 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
                                               KappaEvent const& event, KappaProduct& product,
                                               KappaSettings const& settings) const
 {
+	assert(event.m_tauDiscriminatorMetadata);
+	
 	HttProduct& specProduct = static_cast<HttProduct&>(product);
 	HttSettings const& specSettings = static_cast<HttSettings const&>(settings);
 

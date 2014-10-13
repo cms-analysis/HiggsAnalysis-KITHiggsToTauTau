@@ -51,6 +51,8 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
                                                event_type const& event, product_type& product,
                                                setting_type const& settings) const
 {
+	assert(event.m_vertexSummary);
+	
 	bool validMuon = ValidMuonsProducer<HttTypes>::AdditionalCriteria(muon, event, product, settings);
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 
