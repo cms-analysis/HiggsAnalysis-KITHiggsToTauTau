@@ -160,3 +160,44 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 	}
 		
 }
+
+void TTHEventCategoryProducer::Produce(event_type const& event, product_type& product,
+	                               setting_type const& settings) const
+{
+	// define exclusive event categories
+	product.m_exclusiveEventCategory = HttEnumTypes::EventCategory::NONE;
+	
+	// 1-tag categories
+	if (product.m_bTaggedJets.size() == 1)
+	{
+		if (product.m_nonBTaggedJets.size() == 4)
+		{
+			product.m_exclusiveEventCategory = HttEnumTypes::EventCategory::TTH_1TAG_4JETS;
+		}
+		else if (product.m_nonBTaggedJets.size() == 5)
+		{
+			product.m_exclusiveEventCategory = HttEnumTypes::EventCategory::TTH_1TAG_5JETS;
+		}
+		else if (product.m_nonBTaggedJets.size() >= 6)
+		{
+			product.m_exclusiveEventCategory = HttEnumTypes::EventCategory::TTH_1TAG_6JETS;
+		}
+	}
+	
+	// 2-tags categories
+	else if (product.m_bTaggedJets.size() == 2)
+	{
+		if (product.m_nonBTaggedJets.size() == 4)
+		{
+			product.m_exclusiveEventCategory = HttEnumTypes::EventCategory::TTH_2TAG_4JETS;
+		}
+		else if (product.m_nonBTaggedJets.size() == 5)
+		{
+			product.m_exclusiveEventCategory = HttEnumTypes::EventCategory::TTH_2TAG_5JETS;
+		}
+		else if (product.m_nonBTaggedJets.size() >= 6)
+		{
+			product.m_exclusiveEventCategory = HttEnumTypes::EventCategory::TTH_2TAG_6JETS;
+		}
+	}
+}
