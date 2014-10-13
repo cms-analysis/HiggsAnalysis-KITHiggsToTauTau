@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/ee_default.json"
+	],
+	"x_expressions" : [
+		"metphi"
+	],
+	"x_bins" : [
+		"32,-3.2,3.2"
+	],
+	"x_label" : "\\phi(MET)",
+	"filename" : "metphi"
+}

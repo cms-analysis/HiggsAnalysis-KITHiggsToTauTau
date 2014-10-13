@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/mm_default.json"
+	],
+	"x_expressions" : [
+		"metcov01"
+	],
+	"x_bins" : [
+		"25,-500.0,500.0"
+	],
+	"x_label" : "Cov_{0,1}(MET)",
+	"filename" : "metcov01"
+}

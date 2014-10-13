@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/mt_default.json"
+	],
+	"x_expressions" : [
+		"eta_sv"
+	],
+	"x_bins" : [
+		"25,-5.0,5.0"
+	],
+	"x_label" : "SVfit \\eta(\\tau\\tau)",
+	"filename" : "eta_sv"
+}

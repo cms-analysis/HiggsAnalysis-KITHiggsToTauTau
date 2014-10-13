@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/ee_default.json"
+	],
+	"x_expressions" : [
+		"npu"
+	],
+	"x_bins" : [
+		"30,0.0,60.0"
+	],
+	"x_label" : "NPU",
+	"filename" : "npu"
+}

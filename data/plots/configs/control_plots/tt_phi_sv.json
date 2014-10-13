@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/tt_default.json"
+	],
+	"x_expressions" : [
+		"phi_sv"
+	],
+	"x_bins" : [
+		"32,-3.2,3.2"
+	],
+	"x_label" : "SVfit \\phi(\\tau\\tau)",
+	"filename" : "phi_sv"
+}

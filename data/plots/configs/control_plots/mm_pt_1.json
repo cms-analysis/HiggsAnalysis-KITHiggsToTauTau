@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/mm_default.json"
+	],
+	"x_expressions" : [
+		"pt_1"
+	],
+	"x_bins" : [
+		"25,0.0,250.0"
+	],
+	"x_label" : "Leading Muon p_{T}",
+	"filename" : "pt_1"
+}

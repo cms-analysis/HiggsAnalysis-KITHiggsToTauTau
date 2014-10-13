@@ -1,0 +1,6 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/mm.json"
+	],
+	"output_dir" : "plots/mm"
+}

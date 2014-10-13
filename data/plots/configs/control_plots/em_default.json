@@ -1,13 +1,6 @@
 {
-	"folders": [
-        	"em/ntuple"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/em.json"
 	],
-	"formats": [
-		"png"
-	],
-	"plot_modules": [
-		"PlotRootHtt"
-	],
-	"ratio": True,
-	"output_dir" : "plots/controlPlots/em"
+	"output_dir" : "plots/em"
 }

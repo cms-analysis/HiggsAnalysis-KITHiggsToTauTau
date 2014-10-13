@@ -1,14 +1,11 @@
 {
 	"files" : [
 		"*_Run2012*_8TeV/*.root",
-		"DY*JetsToLL_M_50_madgraph_8TeV/*.root",
-		"DY*JetsToLL_M_50_madgraph_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
-		"W*JetsToLN_madgraph_8TeV/*.root ??_pythia_tauola_8TeV/*.root",
-		"*_Run2012*_8TeV/*.root",
-		"SM_GluGluToHToTauTau_M_125_powheg_pythia_8TeV/*.root",
-		"SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/*.root",
-		"SM_WH_ZH_TTH_HToTauTau_M_125_powheg_pythia_8TeV/*.root"
+		"WJetsToLN_madgraph_8TeV/*.root ??_pythia_tauola_8TeV/*.root",
+		"*_Run2012*_8TeV/*.root"
 	],
 	"nicks" : [
 		"data",
@@ -16,10 +13,7 @@
 		"zll",
 		"ttj",
 		"diboson",
-		"qcd",
-		"ggh125",
-		"qqh125",
-		"vh125"
+		"qcd"
 	],
 	"stack" : [
 		"data",
@@ -27,10 +21,7 @@
 		"bkg",
 		"bkg",
 		"bkg",
-		"bkg",
-		"sig",
-		"sig",
-		"sig"
+		"bkg"
 	],
 	"colors" : [
 		"#000000",
@@ -38,9 +29,22 @@
 		"#64B6E8",
 		"#9999CC",
 		"#DE5A6A",
-		"#FFCCFF",
-		"#0000FF",
-		"#0000FF",
-		"#0000FF"
+		"#FFCCFF"
+	],
+	"labels" : [
+		"Data",
+		"ZTT",
+		"ZLL",
+		"TTJ",
+		"VV,WJ",
+		"QCD"
+	],
+	"weights" : [
+		"eventWeight",
+		"eventWeight*20000",
+		"eventWeight*20000",
+		"eventWeight*20000",
+		"eventWeight*20000",
+		"eventWeight"
 	]
 }

@@ -4,13 +4,10 @@
 	],
 	"folders" : [
 		"et_os_dirIso/ntuple",
+		"et_os_dirIso_tt/ntuple",
+		"et_os_dirIso_ee/ntuple",
 		"et_os_dirIso/ntuple",
 		"et_os_dirIso/ntuple",
-		"et_os_dirIso/ntuple",
-		"et_os_dirIso/ntuple",
-		"et_ss_dirIso/ntuple",
-		"et_os_dirIso/ntuple",
-		"et_os_dirIso/ntuple",
-		"et_os_dirIso/ntuple"
+		"et_ss_dirIso/ntuple"
 	]
 }

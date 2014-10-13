@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/ee_default.json"
+	],
+	"x_expressions" : [
+		"rho"
+	],
+	"x_bins" : [
+		"25,0.0,50.0"
+	],
+	"x_label" : "rho",
+	"filename" : "rho"
+}

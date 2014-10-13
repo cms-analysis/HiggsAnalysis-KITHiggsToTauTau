@@ -1,10 +1,6 @@
 {
-	"folders" : [
-		"mt/ntuple"
-	],
-	"output_dir" : "plots/controlPlots/mt",
-	"plot_modules" : [
-		"PlotRootHtt"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/mt_default.json"
 	],
 	"x_expressions" : [
 		"mvis"
@@ -12,12 +8,6 @@
 	"x_bins" : [
 		"50,0.0,200"
 	],
-	"ratio" : "True",
 	"x_label" : "Visible Mass m_{vis}",
-	"y_log": true,
-	"y_lims": [
-		0.1,
-		100000000.0
-	],
 	"filename" : "mvis"
 }

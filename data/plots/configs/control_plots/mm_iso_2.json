@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/mm_default.json"
+	],
+	"x_expressions" : [
+		"iso_2"
+	],
+	"x_bins" : [
+		"25,0.0,0.1"
+	],
+	"x_label" : "Trailing Muon Isolation",
+	"filename" : "iso_2"
+}

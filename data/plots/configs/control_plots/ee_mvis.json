@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/ee_default.json"
+	],
+	"x_expressions" : [
+		"mvis"
+	],
+	"x_bins" : [
+		"50,0.0,200"
+	],
+	"x_label" : "Visible Mass m_{vis}",
+	"filename" : "mvis"
+}

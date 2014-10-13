@@ -1,11 +1,6 @@
 {
-	"folders" : [
-		"mt/ntuple"
-	],
-	"ratio": true,
-	"output_dir" : "plots/controlPlots/mt",
-	"plot_modules" : [
-		"PlotRootHtt"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/mt_default.json"
 	],
 	"x_expressions" : [
 		"iso_2"
@@ -13,12 +8,6 @@
 	"x_bins" : [
 		"25,0.0,0.1"
 	],
-	"ratio" : "True",
 	"x_label" : "Tau Isolation",
-	"y_log": true,
-	"y_lims": [
-		0.1,
-		100000000.0
-	],
 	"filename" : "iso_2"
 }

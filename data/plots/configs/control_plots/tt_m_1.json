@@ -1,11 +1,6 @@
 {
-	"folders" : [
-		"tt/ntuple"
-	],
-	"ratio": true,
-	"output_dir" : "plots/controlPlots/tt",
-	"plot_modules" : [
-		"PlotRootHtt"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/tt_default.json"
 	],
 	"x_expressions" : [
 		"m_1"
@@ -13,12 +8,6 @@
 	"x_bins" : [
 		"20,-0.2,0.2"
 	],
-	"ratio" : "True",
 	"x_label" : "Leading Tau Mass",
-	"y_log": true,
-	"y_lims": [
-		0.1,
-		100000000.0
-	],
 	"filename" : "m_1"
 }
