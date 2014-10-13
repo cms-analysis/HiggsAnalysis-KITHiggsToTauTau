@@ -4,7 +4,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTTHElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTTHMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTTHTauID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTTHJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
@@ -12,7 +12,6 @@
 		"NLooseElectrons" : 1,
 		"NElectrons" : 1,
 		"NMuons" : 0,
-		"NTaus" : 2,
 		"HltPaths" : [
 			"HLT_IsoMu24_eta2p1",
 			"HLT_Ele27_WP80"
@@ -79,10 +78,10 @@
 					"producer:ValidTausProducer",
 					"#filter:ValidTausFilter",
 					"#producer:TauTriggerMatchingProducer",
-					"#filter:TausCountFilter",
 					"producer:ValidLeptonsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TTHTauPairProducer",
 					"producer:TTHDecayChannelProducer",
 					"filter:DecayChannelFilter",
 					"#producer:SvfitProducer",

@@ -261,22 +261,22 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 	
 	size_t nElectrons = product.m_validElectrons.size();
 	size_t nMuons = product.m_validMuons.size();
-	size_t nTaus = product.m_validTaus.size();
+	size_t nTaus = product.m_validTTHTaus.size();
 	
 	if (nElectrons == 1)
 	{
-		if (nTaus >= 2) {
-			lepton1 = product.m_validTaus[0];
-			lepton2 = product.m_validTaus[1];
+		if (nTaus == 2) {
+			lepton1 = product.m_validTTHTaus[0];
+			lepton2 = product.m_validTTHTaus[1];
 			lepton3 = product.m_validElectrons[0];
 			product.m_decayChannel = HttEnumTypes::DecayChannel::TTH_TTE;
 		}
 	}
 	else if (nMuons == 1)
 	{
-		if (nTaus >= 2) {
-			lepton1 = product.m_validTaus[0];
-			lepton2 = product.m_validTaus[1];
+		if (nTaus == 2) {
+			lepton1 = product.m_validTTHTaus[0];
+			lepton2 = product.m_validTTHTaus[1];
 			lepton3 = product.m_validMuons[0];
 			product.m_decayChannel = HttEnumTypes::DecayChannel::TTH_TTM;
 		}
