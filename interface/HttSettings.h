@@ -154,6 +154,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauElectronLowerDeltaRCut, 0.5);
 	IMPL_SETTING_DEFAULT(float, TauMuonLowerDeltaRCut, 0.5);
 	IMPL_SETTING_DEFAULT(float, TauTauLowerDeltaRCut, 0.5);
+	IMPL_SETTING_DEFAULT(float, JetTauLowerDeltaRCut, 0.5);
 	
 	IMPL_SETTING(std::string, TauSpinnerSettingsPDF);
 	IMPL_SETTING(float, TauSpinnerSettingsCmsEnergy);
