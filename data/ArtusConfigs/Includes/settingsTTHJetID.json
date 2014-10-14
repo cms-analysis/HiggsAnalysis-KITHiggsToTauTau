@@ -9,10 +9,11 @@
 	],
 	
 	"JetLowerPtCuts" : [
-		"15.0"
+		"30.0"
 	],
 	"JetUpperAbsEtaCuts" : [
-		"4.7"
+		"2.4"
 	],
-	"JetLeptonLowerDeltaRCut" : 0.25
+	"JetLeptonLowerDeltaRCut" : -1.0,
+	"JetTauLowerDeltaRCut" : 0.25
 }
