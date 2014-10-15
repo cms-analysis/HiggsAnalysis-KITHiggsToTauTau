@@ -2,5 +2,5 @@
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/ee.json"
 	],
-	"output_dir" : "plots/ee"
+	"output_dir" : "plots/control_plots/ee"
 }
