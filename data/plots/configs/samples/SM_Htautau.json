@@ -1,14 +1,16 @@
 {
 	"files" : [
 		"*_Run2012*_8TeV/*.root",
+		"WJetsToLN_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
-		"WJetsToLN_madgraph_8TeV/*.root ??_pythia_tauola_8TeV/*.root",
+		"??_pythia_tauola_8TeV/*.root",
 		"*_Run2012*_8TeV/*.root"
 	],
 	"nicks" : [
 		"data",
+		"wjets",
 		"ztt",
 		"zll",
 		"ttj",
@@ -21,10 +23,12 @@
 		"bkg",
 		"bkg",
 		"bkg",
+		"bkg",
 		"bkg"
 	],
 	"colors" : [
 		"#000000",
+		"#FE7A8A",
 		"#FFCC66",
 		"#64B6E8",
 		"#9999CC",
@@ -33,10 +37,11 @@
 	],
 	"labels" : [
 		"Data",
+		"WJ",
 		"ZTT",
 		"ZLL",
 		"TTJ",
-		"VV,WJ",
+		"VV",
 		"QCD"
 	],
 	"weights" : [
@@ -45,6 +50,11 @@
 		"eventWeight*20000",
 		"eventWeight*20000",
 		"eventWeight*20000",
+		"eventWeight*20000",
 		"eventWeight"
+	],
+	"legloc" : [
+		0.75,
+		0.55
 	]
 }

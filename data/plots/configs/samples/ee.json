@@ -4,8 +4,9 @@
 	],
 	"folders" : [
 		"ee_os_dirIso/ntuple",
+		"ee_os_dirIso/ntuple",
 		"ee_os_dirIso_tt/ntuple",
-		"ee_os_dirIso_ee/ntuple",
+		"ee_os_dirIso_ee/ntuple ee_os_dirIso_mm/ntuple",
 		"ee_os_dirIso/ntuple",
 		"ee_os_dirIso/ntuple",
 		"ee_ss_dirIso/ntuple"
