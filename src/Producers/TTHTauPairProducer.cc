@@ -5,6 +5,20 @@
 void TTHTauPairProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1Iso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+		return product.m_validTTHTaus[0]->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2Iso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+		return product.m_validTTHTaus[1]->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+		return product.m_validTTHTaus[0]->hpsDecayMode;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+		return product.m_validTTHTaus[1]->hpsDecayMode;
+	});
 }
 
 void TTHTauPairProducer::Produce(event_type const& event, product_type& product,

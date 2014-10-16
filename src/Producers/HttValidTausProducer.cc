@@ -24,7 +24,7 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 	// custom isolation cut
 	validTau = validTau && ((isolationPtSum < specSettings.GetTauDiscriminatorIsolationCut()) ? settings.GetDirectIso() : (!settings.GetDirectIso()));
 	
-	// custom electron isolation based on BDT
+	// custom tau isolation based on BDT
 	if (validTau && (! specSettings.GetTauDiscriminatorMvaIsolation().empty())) {
 		int currentTauIndex = product.m_validTaus.size();
 		for (std::map<size_t, std::vector<float> >::const_iterator MvaIsolationCutByIndex = MvaIsolationCutsByIndex.begin(); MvaIsolationCutByIndex != MvaIsolationCutsByIndex.end(); ++MvaIsolationCutByIndex)
@@ -71,6 +71,9 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 
 	// cut on the pT of the leading tau track
 	validTau = validTau && tau->leadCand.Pt() > specSettings.GetTauLeadingTrackPtCut();
+
+	// cut on the tau track multiplicity
+	validTau = validTau && (specSettings.GetTauTrackMultiplicityCut() <= 0.0 || tau->nSignalChargedHadrCands <= specSettings.GetTauTrackMultiplicityCut());
 
 	return validTau;
 }

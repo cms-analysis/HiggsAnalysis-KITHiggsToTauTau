@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "Artus/KappaAnalysis/interface/Consumers/KappaLambdaNtupleConsumer.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 

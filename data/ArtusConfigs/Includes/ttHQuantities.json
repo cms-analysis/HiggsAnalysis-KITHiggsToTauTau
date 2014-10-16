@@ -32,6 +32,10 @@
 		"diTauPhi",
 		"diTauMass",
 		"diTauSystemReconstructed",
+		"TTHTau1Iso",
+		"TTHTau2Iso",
+		"TTHTau1DecayMode",
+		"TTHTau2DecayMode",
 		"weight"
 	]
 }

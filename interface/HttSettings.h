@@ -134,6 +134,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauUpperZImpactCut, std::numeric_limits<float>::max());
 	
 	IMPL_SETTING_DEFAULT(float, TauLeadingTrackPtCut, -1.0);
+	IMPL_SETTING_DEFAULT(float, TauTrackMultiplicityCut, -1.0);
 	
 	IMPL_SETTING(std::string, TauEnergyCorrection);
 	
