@@ -27,15 +27,19 @@
 		"trailingTauEta",
 		"trailingTauIso",
 		"trailingTauIsoOverPt",
+		"TTHTau1Pt",
+		"TTHTau1Eta",
+		"TTHTau1Iso",
+		"TTHTau1DecayMode",
+		"TTHTau2Pt",
+		"TTHTau2Eta",
+		"TTHTau2Iso",
+		"TTHTau2DecayMode",
 		"diTauPt",
 		"diTauEta",
 		"diTauPhi",
 		"diTauMass",
 		"diTauSystemReconstructed",
-		"TTHTau1Iso",
-		"TTHTau2Iso",
-		"TTHTau1DecayMode",
-		"TTHTau2DecayMode",
 		"weight"
 	]
 }
