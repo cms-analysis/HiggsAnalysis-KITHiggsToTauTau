@@ -58,12 +58,12 @@ public:
 		TWO_JET_VBF_LOOSE     = 12,
 		TWO_JET_VBF_TIGHT     = 13,
 
-		TTH_1TAG_4JETS        = 14,
-		TTH_1TAG_5JETS        = 15,
-		TTH_1TAG_6JETS        = 16,
-		TTH_2TAG_4JETS        = 17,
-		TTH_2TAG_5JETS        = 18,
-		TTH_2TAG_6JETS        = 19,
+		TTH_1TAG_2JETS        = 14,
+		TTH_1TAG_3JETS        = 15,
+		TTH_1TAG_4JETS        = 16,
+		TTH_2TAG_2JETS        = 17,
+		TTH_2TAG_3JETS        = 18,
+		TTH_2TAG_4JETS        = 19,
 	};
 	static EventCategory ToEventCategory(std::string const& eventCategory)
 	{
@@ -83,12 +83,12 @@ public:
 		else if (eventCategory == "two_jet_vbf_loose") return EventCategory::TWO_JET_VBF_LOOSE;
 		else if (eventCategory == "two_jet_vbf_tight") return EventCategory::TWO_JET_VBF_TIGHT;
 		
+		else if (eventCategory == "tth_1tag_2jets") return EventCategory::TTH_1TAG_2JETS;
+		else if (eventCategory == "tth_1tag_3jets") return EventCategory::TTH_1TAG_3JETS;
 		else if (eventCategory == "tth_1tag_4jets") return EventCategory::TTH_1TAG_4JETS;
-		else if (eventCategory == "tth_1tag_5jets") return EventCategory::TTH_1TAG_5JETS;
-		else if (eventCategory == "tth_1tag_6jets") return EventCategory::TTH_1TAG_6JETS;
+		else if (eventCategory == "tth_2tag_2jets") return EventCategory::TTH_2TAG_2JETS;
+		else if (eventCategory == "tth_2tag_3jets") return EventCategory::TTH_2TAG_3JETS;
 		else if (eventCategory == "tth_2tag_4jets") return EventCategory::TTH_2TAG_4JETS;
-		else if (eventCategory == "tth_2tag_5jets") return EventCategory::TTH_2TAG_5JETS;
-		else if (eventCategory == "tth_2tag_6jets") return EventCategory::TTH_2TAG_6JETS;
 		return EventCategory::NONE;
 	}
 	

@@ -31,6 +31,18 @@ void TTHTauPairProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[1]->hpsDecayMode;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1EleDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+		return product.m_validElectrons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[0]->p4, product.m_validTTHTaus[0]->p4) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1MuonDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+		return product.m_validMuons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validMuons[0]->p4, product.m_validTTHTaus[0]->p4) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2EleDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+		return product.m_validElectrons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[0]->p4, product.m_validTTHTaus[1]->p4) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2MuonDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+		return product.m_validMuons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validMuons[0]->p4, product.m_validTTHTaus[1]->p4) : DefaultValues::UndefinedDouble;
+	});
 }
 
 void TTHTauPairProducer::Produce(event_type const& event, product_type& product,
