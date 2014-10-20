@@ -91,6 +91,7 @@ void TTHTauPairProducer::Produce(event_type const& event, product_type& product,
 	if (nPossiblePairs != 0)
 		{
 			//choose the pair with the highest value of the combined isolation
+			//the pair is already pT-ordered
 			product.m_validTTHTaus.push_back(product.m_validTaus[selectedTau1]);
 			product.m_validTTHTaus.push_back(product.m_validTaus[selectedTau2]);
 		}

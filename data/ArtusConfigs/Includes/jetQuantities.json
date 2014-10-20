@@ -20,6 +20,8 @@
 		"bJetPt",
 		"bJetEta",
 		"bJetPhi",
+		"leadingBJetCSV",
+		"trailingBJetCSV",
 		"diJetMass",
 		"diJetDeltaPhi",
 		"diJetAbsDeltaEta"
