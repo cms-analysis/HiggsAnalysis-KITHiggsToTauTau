@@ -90,6 +90,7 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TTHEventCategoryProducer",
+					"filter:EventCategoryFilter",
 					"#producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]
