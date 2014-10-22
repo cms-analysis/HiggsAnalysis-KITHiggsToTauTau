@@ -4,8 +4,6 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
 		],
-		"NLooseElectrons" : 1,
-		"NLooseMuons" : 1,
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByLooseMuonRejection"
 		],
