@@ -11,7 +11,7 @@
 		}
 	},
 	"InputFiles" : [
-		"/afs/cern.ch/user/t/tmuller/public/kappaTuple.root"
+		"/nfs/dust/cms/user/fcolombo/skimming/2014-08-12-skim/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_0.root"
 	],
 	"OutputPath" : "output.root"
 }

@@ -1,0 +1,55 @@
+{
+	"pipeline" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+		],
+		"NLooseElectrons" : 1,
+		"NLooseMuons" : 1,
+		"TauDiscriminators" : [
+			"hpsPFTauDiscriminationByLooseMuonRejection"
+		],
+		"TauDiscriminatorIsolationCut" : 1.5,
+		"ElectronLowerPtCuts" : [
+			"30.0"
+		],
+		"TauLowerPtCuts" : [
+			"20.0"
+		],
+		"MuonLowerPtCuts" : [
+			"30.0"
+		],
+		"ElectronUpperAbsEtaCuts" : [
+			"0:2.3"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"0:2.1"
+		],
+		"EventWeight" : "eventWeight",
+		"DirectIso" : true,
+		"Quantities" : [
+			"nElectrons",
+			"leadingElePt",
+			"leadingEleEta",
+			"nMuons",
+			"leadingMuonPt",
+			"leadingMuonEta",
+			"nTaus"
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:ValidElectronsProducer",
+					"filter:ValidElectronsFilter",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:ValidTausProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"cutflow_histogram"
+		]
+	}
+}
