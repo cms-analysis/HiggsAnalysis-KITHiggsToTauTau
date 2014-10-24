@@ -43,6 +43,7 @@ public:
 		SUMMER2013TIGHT = 1,
 		SUMMER2013TTHTIGHT = 2,
 		SUMMER2013TTHLOOSE = 3,
+		IsMVANonTrigElectronRun2 = 4,
 	};
 	static ElectronIDType ToElectronIDType(std::string const& electronIDType)
 	{
@@ -50,6 +51,7 @@ public:
 		else if (electronIDType == "summer2013tight") return ElectronIDType::SUMMER2013TIGHT;
 		else if (electronIDType == "summer2013tthloose") return ElectronIDType::SUMMER2013TTHLOOSE;
 		else if (electronIDType == "summer2013tthtight") return ElectronIDType::SUMMER2013TTHTIGHT;
+		else if (electronIDType == "isMVANonTrigElectronRun2") return ElectronIDType::IsMVANonTrigElectronRun2;
 		else return ElectronIDType::NONE;
 	}
 	
@@ -112,8 +114,9 @@ private:
 
 	ElectronIDType electronIDType;
 	
-	bool IsMVATrigElectronTTHSummer2013(KDataElectron* electron, bool tightID) const;
-	bool IsMVANonTrigElectronHttSummer2013(KDataElectron* electron, bool tightID) const;
+	bool IsMVATrigElectronTTHSummer2013(KDataElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVANonTrigElectronHttSummer2013(KDataElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVANonTrigElectronRun2(KDataElectron* electron, event_type const& event, bool tightID) const;
 };
 
 
