@@ -87,13 +87,30 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_ID
 	if (validElectron && electronID == ElectronID::USER) {
 		if (electronIDType == ElectronIDType::SUMMER2013LOOSE)
-			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), false);
+		{
+			std::cout << "electronIDType: ElectronIDType::SUMMER2013LOOSE" << std::endl;
+			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), event, false);
+		}
 		else if (electronIDType == ElectronIDType::SUMMER2013TIGHT)
-			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), true);
+		{
+			std::cout << "electronIDType: ElectronIDType::SUMMER2013TIGHT" << std::endl;
+			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), event, true);
+		}
 		else if (electronIDType == ElectronIDType::SUMMER2013TTHLOOSE)
-			validElectron = validElectron && IsMVATrigElectronTTHSummer2013(&(*electron), false);
+		{
+			std::cout << "electronIDType: ElectronIDType::SUMMER2013TTHLOOSE" << std::endl;
+			validElectron = validElectron && IsMVATrigElectronTTHSummer2013(&(*electron), event, false);
+		}
 		else if (electronIDType == ElectronIDType::SUMMER2013TTHTIGHT)
-			validElectron = validElectron && IsMVATrigElectronTTHSummer2013(&(*electron), true);
+		{
+			std::cout << "electronIDType: ElectronIDType::SUMMER2013TTHTIGHT" << std::endl;
+			validElectron = validElectron && IsMVATrigElectronTTHSummer2013(&(*electron), event, true);
+		}
+		else if (electronIDType == ElectronIDType::IsMVANonTrigElectronRun2)
+		{
+			std::cout << "electronIDType: ElectronIDType::IsMVANonTrigElectronRun2" << std::endl;
+			validElectron = validElectron && IsMVANonTrigElectronRun2(&(*electron), event, true);
+		}
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
 	}
@@ -138,16 +155,16 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVATrigElectronTTHSummer2013(KDataElectron* electron, bool tightID) const
+bool HttValidElectronsProducer::IsMVATrigElectronTTHSummer2013(KDataElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 	
-	validElectron = validElectron && electron->idMvaTrigV0 > (tightID ? 0.5 : 0.5);
+	validElectron = validElectron && electron->getId("mvaTrigV0", event.m_electronIdMetadata) > (tightID ? 0.5 : 0.5);
 
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron* electron, bool tightID) const
+bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 	
@@ -158,18 +175,18 @@ bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron*
 				(electron->p4.Pt() < 20.0)
 				&&
 				(
-					(std::abs(electron->superclusterposition.Eta()) < 0.8 && electron->idMvaNonTrigV0 > 0.925)
-					|| (std::abs(electron->superclusterposition.Eta()) > 0.8 && std::abs(electron->superclusterposition.Eta()) < DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > 0.915)
-					|| (std::abs(electron->superclusterposition.Eta()) > DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > 0.965)
+					(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > 0.925)
+					|| (std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > 0.915)
+					|| (std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > 0.965)
 				)
 			)
 			||
 			(
 				(electron->p4.Pt() >= 20.0) &&
 				(
-					(std::abs(electron->superclusterposition.Eta()) < 0.8 && electron->idMvaNonTrigV0 > (tightID ? 0.925 : 0.905))
-					|| (std::abs(electron->superclusterposition.Eta()) > 0.8 && std::abs(electron->superclusterposition.Eta()) < DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > (tightID ? 0.975 : 0.955))
-					|| (std::abs(electron->superclusterposition.Eta()) > DefaultValues::EtaBorderEB && electron->idMvaNonTrigV0 > (tightID ? 0.985 : 0.975))
+					(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > (tightID ? 0.925 : 0.905))
+					|| (std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > (tightID ? 0.975 : 0.955))
+					|| (std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > (tightID ? 0.985 : 0.975))
 				)
 			)
 		);
@@ -177,6 +194,31 @@ bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron*
 	return validElectron;
 }
 
+bool HttValidElectronsProducer::IsMVANonTrigElectronRun2(KDataElectron* electron, event_type const& event, bool tightID) const
+{
+	bool validElectron = true;
+	
+	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_ID
+	validElectron = validElectron &&
+		(
+			(
+				(electron->p4.Pt() < 20.0)
+				&&
+				(
+					(electron->getId("mvaNonTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+				)
+			)
+			||
+			(
+				(electron->p4.Pt() >= 20.0) &&
+				(
+					(electron->getId("mvaNonTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+				)
+			)
+		);
+
+	return validElectron;
+}
 
 HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 		std::vector<KDataElectron*> product_type::*validElectrons,
