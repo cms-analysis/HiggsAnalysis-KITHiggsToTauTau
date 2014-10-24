@@ -12,7 +12,7 @@ void ElectronEtaSelector::Produce(event_type const& event, product_type& product
 	{
 		// This modifies the const event, which is possible due to the const pointer
 		// of the electrons vector but should be avoided in normal cases.
-		electron->p4.SetEta(electron->superclusterposition.Eta());
+		electron->p4.SetEta(electron->superclusterPosition.Eta());
 	}
 }
 
