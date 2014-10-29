@@ -1,19 +1,12 @@
 {
-	"folders" : [
-		"em/ntuple",
-		"TauCheck"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/em_default.json"
 	],
 	"labels" : [
 		"KIT",
 		"IC"
 	],
-	"output_dir" : "plots/VBF_HToTauTau_M-125/em",
-	"analysis_modules" : [
-		"EventSelectionOverlap"
-	],
-	"plot_modules" : [
-		"PlotRootHtt"
-	],
+	"ratio" : false,
 	"x_expressions" : [
 		"evt"
 	],
