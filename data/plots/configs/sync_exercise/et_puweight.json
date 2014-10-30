@@ -1,11 +1,6 @@
 {
-	"folders" : [
-		"et/ntuple",
-		"TauCheck"
-	],
-	"output_dir" : "plots/VBF_HToTauTau_M-125/et",
-	"plot_modules" : [
-		"PlotRootHtt"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/et_default.json"
 	],
 	"x_expressions" : [
 		"puweight"
@@ -13,7 +8,6 @@
 	"x_bins" : [
 		"20,0.0,2.0"
 	],
-	"ratio" : "True",
 	"x_label" : "PU Weight",
 	"filename" : "puweight"
 }

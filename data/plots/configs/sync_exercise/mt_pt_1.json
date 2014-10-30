@@ -1,15 +1,10 @@
 {
-	"folders" : [
-		"mt/ntuple",
-		"TauCheck"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/mt_default.json"
 	],
 	"labels" : [
 		"KIT",
 		"IC"
-	],
-	"output_dir" : "plots/VBF_HToTauTau_M-125/mt",
-	"plot_modules" : [
-		"PlotRootHtt"
 	],
 	"x_expressions" : [
 		"pt_1"
@@ -17,7 +12,6 @@
 	"x_bins" : [
 		"25,0.0,250.0"
 	],
-	"ratio" : "True",
 	"x_label" : "Muon p_{T}",
 	"filename" : "pt_1"
 }

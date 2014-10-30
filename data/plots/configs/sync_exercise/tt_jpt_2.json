@@ -1,15 +1,10 @@
 {
-	"folders" : [
-		"tt/ntuple",
-		"Events"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/tt_default.json"
 	],
 	"labels" : [
 		"KIT",
 		"MIT"
-	],
-	"output_dir" : "plots/VBF_HToTauTau_M-125/tt",
-	"plot_modules" : [
-		"PlotRootHtt"
 	],
 	"x_expressions" : [
 		"jpt_2"
@@ -18,9 +13,8 @@
 		"25,0.0,500.0"
 	],
 	"weights" : [
-		"jpt_2 > 0.0"
+		"jpt_2 > 30.0"
 	],
-	"ratio" : "True",
 	"x_label" : "Trailing Jet p_{T}",
 	"filename" : "jpt_2"
 }

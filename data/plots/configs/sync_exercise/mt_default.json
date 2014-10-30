@@ -1,15 +1,15 @@
 {
 	"folders" : [
-		"mt/ntuple",
+		"mt_os_dirIso/ntuple",
 		"TauCheck"
 	],
-	"labels" : [
-		"KIT",
-		"IC"
-	],
-	"ratio" : "True",
+	"ratio" : true,
 	"output_dir" : "plots/VBF_HToTauTau_M-125/mt",
 	"plot_modules" : [
 		"PlotRootHtt"
-	]
+	],
+	"nicks": [
+		"kit",
+		"ic"
+	] 
 }

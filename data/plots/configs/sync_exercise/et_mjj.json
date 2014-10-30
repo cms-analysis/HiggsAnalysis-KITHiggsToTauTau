@@ -1,15 +1,10 @@
 {
-	"folders" : [
-		"et/ntuple",
-		"TauCheck"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/et_default.json"
 	],
 	"labels" : [
 		"KIT",
 		"IC"
-	],
-	"output_dir" : "plots/VBF_HToTauTau_M-125/et",
-	"plot_modules" : [
-		"PlotRootHtt"
 	],
 	"x_expressions" : [
 		"mjj"
@@ -18,9 +13,8 @@
 		"30,0.0,3000.0"
 	],
 	"weights" : [
-		"mjj > 0.0"
+		"mjj > 0.0 && jpt_1 > 30.0 && jpt_2 > 30.0"
 	],
-	"ratio" : "True",
 	"x_label" : "m_{jj}",
 	"filename" : "mjj"
 }

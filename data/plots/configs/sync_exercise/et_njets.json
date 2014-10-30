@@ -1,15 +1,10 @@
 {
-	"folders" : [
-		"et/ntuple",
-		"TauCheck"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/et_default.json"
 	],
 	"labels" : [
 		"KIT",
 		"IC"
-	],
-	"output_dir" : "plots/VBF_HToTauTau_M-125/et",
-	"plot_modules" : [
-		"PlotRootHtt"
 	],
 	"x_expressions" : [
 		"njets"
@@ -17,7 +12,9 @@
 	"x_bins" : [
 		"10,0.0,10.0"
 	],
-	"ratio" : "True",
+	"weights" : [
+		"jpt_1 > 30.0 && jpt_2 > 30.0"
+	],
 	"x_label" : "Number of Jets",
 	"filename" : "njets"
 }

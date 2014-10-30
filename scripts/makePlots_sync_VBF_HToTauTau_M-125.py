@@ -32,7 +32,7 @@ if __name__ == "__main__":
 	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/SyncNtuples_MIT/htt_vbf_tt_sm_125_select.root",
 	                    help="MIT input file (MT channel). [Default: %(default)s]")
 	parser.add_argument("--channels", nargs="*",
-	                    default=["em"],
+	                    default=["em", "et", "mt", "tt"],
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
 	                    default=["inclusive", "eventsoverlap",

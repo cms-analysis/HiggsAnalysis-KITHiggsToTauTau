@@ -1,15 +1,15 @@
 {
 	"folders" : [
-		"tt/ntuple",
+		"tt_os_dirIso/ntuple",
 		"Events"
 	],
-	"labels" : [
-		"KIT",
-		"MIT"
-	],
-	"ratio" : "True",
+	"ratio" : true,
 	"output_dir" : "plots/VBF_HToTauTau_M-125/tt",
 	"plot_modules" : [
 		"PlotRootHtt"
+	],
+	"nicks": [
+		"kit",
+		"mit"
 	]
 }

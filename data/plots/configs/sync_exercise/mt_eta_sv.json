@@ -1,11 +1,6 @@
 {
-	"folders" : [
-		"mt/ntuple",
-		"TauCheck"
-	],
-	"output_dir" : "plots/VBF_HToTauTau_M-125/mt",
-	"plot_modules" : [
-		"PlotRootHtt"
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/mt_default.json"
 	],
 	"x_expressions" : [
 		"eta_sv"
@@ -13,7 +8,6 @@
 	"x_bins" : [
 		"25,-5.0,5.0"
 	],
-	"ratio" : "True",
 	"x_label" : "SVfit \\eta(\\tau\\tau)",
 	"filename" : "eta_sv"
 }
