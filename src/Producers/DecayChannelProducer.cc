@@ -77,6 +77,26 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1IsoOverPt", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetPt", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetEta", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).Eta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetPhi", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).Phi();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetMass", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).mass();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetMt", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).Mt();
+	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepCharge", [](event_type const& event, product_type const& product)
 	{
