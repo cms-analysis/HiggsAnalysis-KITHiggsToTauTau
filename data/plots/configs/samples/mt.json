@@ -9,6 +9,11 @@
 		"mt_os_dirIso_ee/ntuple mt_os_dirIso_mm/ntuple",
 		"mt_os_dirIso/ntuple",
 		"mt_os_dirIso/ntuple",
+		"mt_ss_dirIso/ntuple",
+		"mt_ss_dirIso/ntuple",
+		"mt_ss_dirIso_tt/ntuple",
+		"mt_ss_dirIso_ee/ntuple mt_ss_dirIso_mm/ntuple",
+		"mt_ss_dirIso/ntuple",
 		"mt_ss_dirIso/ntuple"
 	]
 }

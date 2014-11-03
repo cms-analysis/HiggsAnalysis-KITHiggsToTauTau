@@ -6,7 +6,12 @@
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
 		"??_pythia_tauola_8TeV/*.root",
-		"*_Run2012*_8TeV/*.root"
+		"*_Run2012*_8TeV/*.root",
+		"WJetsToLN_madgraph_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"TTJets*_madgraph_tauola_8TeV/*.root",
+		"??_pythia_tauola_8TeV/*.root"
 	],
 	"nicks" : [
 		"data",
@@ -15,6 +20,11 @@
 		"zll",
 		"ttj",
 		"diboson",
+		"qcd",
+		"qcd",
+		"qcd",
+		"qcd",
+		"qcd",
 		"qcd"
 	],
 	"stack" : [
@@ -44,6 +54,20 @@
 		"VV",
 		"QCD"
 	],
+	"scale_factors" : [
+		1.0,
+		1.0,
+		1.0,
+		1.0,
+		1.0,
+		1.0,
+		1.0,
+		-1.0,
+		-1.0,
+		-1.0,
+		-1.0,
+		-1.0
+	],
 	"weights" : [
 		"eventWeight",
 		"eventWeight*20000",
@@ -51,7 +75,12 @@
 		"eventWeight*20000",
 		"eventWeight*20000",
 		"eventWeight*20000",
-		"eventWeight"
+		"eventWeight",
+		"eventWeight*20000",
+		"eventWeight*20000",
+		"eventWeight*20000",
+		"eventWeight*20000",
+		"eventWeight*20000"
 	],
 	"legloc" : [
 		0.75,
