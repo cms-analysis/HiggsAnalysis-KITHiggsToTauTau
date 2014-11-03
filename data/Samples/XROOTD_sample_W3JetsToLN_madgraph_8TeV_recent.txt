@@ -1,1 +1,1 @@
-XROOTD_samples_W3JetsToLN_madgraph_8TeV_2014-07-30.txt
+XROOTD_sample_W3JetsToLN_madgraph_8TeV_2014-07-30.txt

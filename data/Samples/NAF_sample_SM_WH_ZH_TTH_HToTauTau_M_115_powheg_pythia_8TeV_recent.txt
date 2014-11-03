@@ -1,1 +1,1 @@
-NAF_samples_SM_WH_ZH_TTH_HToTauTau_M_115_powheg_pythia_8TeV_2014-07-30.txt
+NAF_sample_SM_WH_ZH_TTH_HToTauTau_M_115_powheg_pythia_8TeV_2014-07-30.txt
