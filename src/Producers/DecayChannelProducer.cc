@@ -5,6 +5,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/Quantities.h"
 
 
 void DecayChannelProducer::Init(setting_type const& settings)
@@ -95,7 +96,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetMt", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).Mt();
+		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met->p4);
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepCharge", [](event_type const& event, product_type const& product)

@@ -2,6 +2,7 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/Quantities.h"
 
 
 void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
@@ -22,7 +23,7 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 		return product.m_diLeptonSystem.mass();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMt", [](event_type const& event, product_type const& product) {
-		return product.m_diLeptonSystem.Mt();
+		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMetPt", [](event_type const& event, product_type const& product) {
@@ -38,7 +39,7 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 		return product.m_diLeptonPlusMetSystem.mass();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMetMt", [](event_type const& event, product_type const& product) {
-		return product.m_diLeptonPlusMetSystem.Mt();
+		return Quantities::CalculateMt(product.m_diLeptonSystem, product.m_met->p4);
 	});
 }
 
