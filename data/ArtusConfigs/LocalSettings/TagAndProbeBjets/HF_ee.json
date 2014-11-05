@@ -33,6 +33,7 @@
 		"JetLowerPtCuts" : [
 			"30.0"
 		],
+		"MetLowerPtCuts" : "50.0",
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"DirectIso" : true,
@@ -67,13 +68,16 @@
 					"producer:ValidTausProducer",
 					"producer:ValidLeptonsProducer",
 					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
 					"filter:JetsCountFilter",
+					"producer:ValidBTaggedJetsProducer",
+					"filter:ValidBTaggedJetsFilter",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
 					"filter:DiLeptonChargeFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
+					"filter:ZBosonVetoFilter",
+					"filter:MetLowerPtCutsFilter",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventWeightProducer"
 				]

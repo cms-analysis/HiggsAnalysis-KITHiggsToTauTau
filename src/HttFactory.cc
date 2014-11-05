@@ -31,6 +31,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DiLeptonChargeFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ZBosonVetoFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/HttObjectsCutFilters.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -129,6 +131,10 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new DiLeptonChargeFilter();
 	else if(id == EventCategoryFilter().GetFilterId())
 		return new EventCategoryFilter();
+	else if(id == ZBosonVetoFilter().GetFilterId())
+		return new ZBosonVetoFilter();
+	else if(id == MetLowerPtCutsFilter().GetFilterId())
+		return new MetLowerPtCutsFilter();
 	else
 		return KappaFactory::createFilter( id );
 }

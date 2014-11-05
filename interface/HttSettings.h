@@ -125,6 +125,8 @@ public:
 	IMPL_SETTING(float, RecoMuonInElectronConeUpperAbsEtaCut);
 	IMPL_SETTING(float, RecoMuonInElectronConeSize);
 	
+	IMPL_SETTING(float, MetLowerPtCuts);
+	
 	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_STRINGLIST(TauDiscriminatorMvaIsolation);
 	IMPL_SETTING_FLOATLIST(TauDiscriminatorAntiElectronMvaCuts);
