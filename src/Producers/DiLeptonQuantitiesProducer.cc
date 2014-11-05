@@ -53,6 +53,7 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
 	                                     setting_type const& settings) const
 {
+	assert(product.m_met);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert(product.m_met);
 	
