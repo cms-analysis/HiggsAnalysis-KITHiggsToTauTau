@@ -3,13 +3,13 @@
 		"CorrectNegativeBinContents"
 	],
 	"files" : [
-		"*_Run2012*_8TeV/*.root",
+		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
 		"??_pythia_tauola_8TeV/*.root",
-		"*_Run2012*_8TeV/*.root",
+		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
