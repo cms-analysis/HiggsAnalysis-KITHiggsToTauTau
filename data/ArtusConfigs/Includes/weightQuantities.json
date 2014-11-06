@@ -10,6 +10,7 @@
 		"generatorWeight",
 		"crossSectionPerEventWeight",
 		"numberGeneratedEventsWeight",
+		"embeddingWeight",
 		"eventWeight",
 		"tauSpinnerWeight000",
 		"tauSpinnerWeight025",

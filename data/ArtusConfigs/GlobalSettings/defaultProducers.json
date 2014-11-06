@@ -70,14 +70,18 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"
 			],
-			"Run2012" : [
+			"(?<!PFembedded).Run2012" : [
+				"filter:JsonFilter",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer"
+			],
+			"PFembedded" : [
 				"filter:JsonFilter",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
 				"producer:HttValidLooseMuonsProducer",
-				"#producer:GeneratorWeightProducer",
-				"#producer:CrossSectionWeightProducer",
-				"#producer:NumberGeneratedEventsWeightProducer"
+				"producer:EmbeddingWeightProducer"
 			]
 		}
 	},
