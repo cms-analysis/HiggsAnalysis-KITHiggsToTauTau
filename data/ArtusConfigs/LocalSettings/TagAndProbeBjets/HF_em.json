@@ -1,17 +1,18 @@
 {
-	"hf_ee" : {
+	"hf_em" : {
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauES.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID_em.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID_em.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json"
 		],
-		"Channel" : "EE",
-		"NMuons" : 0,
+		"Channel" : "EM",
+		"NElectrons" : 1,
+		"NMuons" : 1,
 		"NJets" : 2,
 		"EventWhitelist" : [
 			7514856
@@ -23,15 +24,19 @@
 		],
 		"TauDiscriminatorIsolationCut" : 1.5,
 		"ElectronLowerPtCuts" : [
-			"0:20.0",
-			"1:10.0"
+			"10.0"
+		],
+		"MuonLowerPtCuts" : [
+			"10.0"
 		],
 		"TauLowerPtCuts" : [
 			"20.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
-			"0:2.3",
-			"1:2.3"
+			"0:2.3"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"0:2.1"
 		],
 		"JetLowerPtCuts" : [
 			"30.0"
@@ -67,6 +72,7 @@
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"producer:ValidMuonsProducer",
+					"filter:ElectronsCountFilter",
 					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
@@ -97,6 +103,7 @@
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"producer:ValidMuonsProducer",
+					"filter:ElectronsCountFilter",
 					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
@@ -121,6 +128,7 @@
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"producer:ValidMuonsProducer",
+					"filter:ElectronsCountFilter",
 					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
