@@ -1,5 +1,5 @@
 {
-	"hf_ee" : {
+	"hf_mm" : {
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauES.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json",
@@ -10,8 +10,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json"
 		],
-		"Channel" : "EE",
-		"NMuons" : 0,
+		"Channel" : "MM",
+		"NMuons" : 2,
 		"NJets" : 2,
 		"EventWhitelist" : [
 			7514856
@@ -22,16 +22,16 @@
 			"hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits"
 		],
 		"TauDiscriminatorIsolationCut" : 1.5,
-		"ElectronLowerPtCuts" : [
+		"MuonLowerPtCuts" : [
 			"0:20.0",
 			"1:10.0"
 		],
 		"TauLowerPtCuts" : [
 			"20.0"
 		],
-		"ElectronUpperAbsEtaCuts" : [
-			"0:2.3",
-			"1:2.3"
+		"MuonUpperAbsEtaCuts" : [
+			"0:2.1",
+			"1:2.1"
 		],
 		"JetLowerPtCuts" : [
 			"30.0"
