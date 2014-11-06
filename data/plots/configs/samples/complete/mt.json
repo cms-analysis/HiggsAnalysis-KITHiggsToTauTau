@@ -1,20 +1,48 @@
 {
-	"analysis_modules" : [
-		"CorrectNegativeBinContents"
-	],
 	"files" : [
 		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
-		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_muhad_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
 		"??_pythia_tauola_8TeV/*.root",
 		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
-		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_muhad_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
 		"??_pythia_tauola_8TeV/*.root"
+	],
+	"folders" : [
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso_ee/ntuple mt_os_dirIso_mm/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_os_dirIso/ntuple",
+		"mt_ss_dirIso/ntuple",
+		"mt_ss_dirIso/ntuple",
+		"mt_ss_dirIso/ntuple",
+		"mt_ss_dirIso_ee/ntuple mt_ss_dirIso_mm/ntuple",
+		"mt_ss_dirIso/ntuple",
+		"mt_ss_dirIso/ntuple"
+	],
+	"scale_factors" : [
+		1.0,
+		20000.0,
+		1.0,
+		20000.0,
+		20000.0,
+		20000.0,
+		1.0,
+		-20000.0,
+		-1.0,
+		-20000.0,
+		-20000.0,
+		-20000.0
+	],
+	"weights" : [
+		"eventWeight"
 	],
 	"nicks" : [
 		"data",
@@ -56,34 +84,6 @@
 		"TTJ",
 		"VV",
 		"QCD"
-	],
-	"scale_factors" : [
-		1.0,
-		1.0,
-		1.0,
-		1.0,
-		1.0,
-		1.0,
-		1.0,
-		-1.0,
-		-1.0,
-		-1.0,
-		-1.0,
-		-1.0
-	],
-	"weights" : [
-		"eventWeight",
-		"eventWeight*20000",
-		"eventWeight*20000",
-		"eventWeight*20000",
-		"eventWeight*20000",
-		"eventWeight*20000",
-		"eventWeight",
-		"eventWeight*20000",
-		"eventWeight*20000",
-		"eventWeight*20000",
-		"eventWeight*20000",
-		"eventWeight*20000"
 	],
 	"legloc" : [
 		0.75,

@@ -1,0 +1,92 @@
+{
+	"files" : [
+		"*_Run2012?_22Jan2013_8TeV/*.root",
+		"WJetsToLN_madgraph_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_electau_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"TTJets*_madgraph_tauola_8TeV/*.root",
+		"??_pythia_tauola_8TeV/*.root",
+		"*_Run2012?_22Jan2013_8TeV/*.root",
+		"WJetsToLN_madgraph_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_electau_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"TTJets*_madgraph_tauola_8TeV/*.root",
+		"??_pythia_tauola_8TeV/*.root"
+	],
+	"folders" : [
+		"et_os_dirIso/ntuple",
+		"et_os_dirIso/ntuple",
+		"et_os_dirIso/ntuple",
+		"et_os_dirIso_ee/ntuple et_os_dirIso_mm/ntuple",
+		"et_os_dirIso/ntuple",
+		"et_os_dirIso/ntuple",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso_ee/ntuple et_ss_dirIso_mm/ntuple",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso/ntuple"
+	],
+	"scale_factors" : [
+		1.0,
+		20000.0,
+		1.0,
+		20000.0,
+		20000.0,
+		20000.0,
+		1.0,
+		-20000.0,
+		-1.0,
+		-20000.0,
+		-20000.0,
+		-20000.0
+	],
+	"weights" : [
+		"eventWeight"
+	],
+	"nicks" : [
+		"data",
+		"wjets",
+		"ztt",
+		"zll",
+		"ttj",
+		"diboson",
+		"qcd",
+		"qcd",
+		"qcd",
+		"qcd",
+		"qcd",
+		"qcd"
+	],
+	"stack" : [
+		"data",
+		"bkg",
+		"bkg",
+		"bkg",
+		"bkg",
+		"bkg",
+		"bkg"
+	],
+	"colors" : [
+		"#000000",
+		"#FE7A8A",
+		"#FFCC66",
+		"#64B6E8",
+		"#9999CC",
+		"#DE5A6A",
+		"#FFCCFF"
+	],
+	"labels" : [
+		"Data",
+		"WJ",
+		"ZTT",
+		"ZLL",
+		"TTJ",
+		"VV",
+		"QCD"
+	],
+	"legloc" : [
+		0.75,
+		0.55
+	]
+}

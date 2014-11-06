@@ -46,12 +46,17 @@ if __name__ == "__main__":
 	for channel in args["channels"]:
 		for quantity in args["quantities"]:
 			json_exists = True
-			json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))
-			if not os.path.exists(json_config):
+			json_configs = [
+				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity)),
+				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/%s.json" % (channel))
+			]
+			if not os.path.exists(json_configs[0]):
 				json_exists = False
-				json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
+				json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
 			
-			plot_args = "--json-defaults %s -d %s %s -f png pdf %s" % (json_config, args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"])
+			plot_args = "--json-defaults %s -d %s %s -f png pdf %s" % (" ".join(json_configs), args["input_dir"],
+			                                                           ("" if json_exists else ("-x %s" % quantity)),
+			                                                           args["args"])
 			plot_args = os.path.expandvars(plot_args)
 			
 			log.info("\nhiggsplot.py %s" % plot_args)
