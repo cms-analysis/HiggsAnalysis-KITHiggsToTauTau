@@ -11,7 +11,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json"
 		],
 		"Channel" : "MM",
-		"NMuons" : 2,
+		"NElectrons" : 0,
 		"NJets" : 2,
 		"EventWhitelist" : [
 			7514856
@@ -66,8 +66,8 @@
 					"producer:NumberGeneratedEventsWeightProducer",
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
+					"filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
 					"producer:ValidLeptonsProducer",
@@ -96,8 +96,8 @@
 					"filter:GenDiLeptonDecayModeFilter",
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
+					"filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
 					"producer:ValidLeptonsProducer",
@@ -120,8 +120,8 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
+					"filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"filter:MuonsCountFilter",
 					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
 					"producer:ValidLeptonsProducer",
