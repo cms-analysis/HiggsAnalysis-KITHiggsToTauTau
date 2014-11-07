@@ -1,4 +1,8 @@
 {
+	"analysis_modules" : [
+		"@CorrectNegativeBinContents",
+		"PrintInfos"
+	],
 	"files" : [
 		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",

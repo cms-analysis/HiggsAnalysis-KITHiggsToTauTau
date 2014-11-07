@@ -1,14 +1,21 @@
 {
+	"analysis_modules" : [
+		"@CorrectNegativeBinContents",
+		"ExtrapolationFactor",
+		"PrintInfos"
+	],
 	"files" : [
 		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
 		"*_PFembedded_Run2012?_22Jan2013_mumu_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_mumu_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
 		"??_pythia_tauola_8TeV/*.root",
 		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
-		"*_PFembedded_Run2012?_22Jan2013_mumu_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
 		"??_pythia_tauola_8TeV/*.root"
@@ -17,12 +24,14 @@
 		"mm_os_dirIso/ntuple",
 		"mm_os_dirIso/ntuple",
 		"mm_os_dirIso/ntuple",
+		"mm_os_dirIso/ntuple",
+		"mm_os_dirIso_ee/ntuple mm_os_dirIso_mm/ntuple mm_os_dirIso_tt/ntuple",
 		"mm_os_dirIso_ee/ntuple mm_os_dirIso_mm/ntuple",
 		"mm_os_dirIso/ntuple",
 		"mm_os_dirIso/ntuple",
 		"mm_ss_dirIso/ntuple",
 		"mm_ss_dirIso/ntuple",
-		"mm_ss_dirIso/ntuple",
+		"mm_ss_dirIso_tt/ntuple",
 		"mm_ss_dirIso_ee/ntuple mm_ss_dirIso_mm/ntuple",
 		"mm_ss_dirIso/ntuple",
 		"mm_ss_dirIso/ntuple"
@@ -31,12 +40,14 @@
 		1.0,
 		20000.0,
 		1.0,
+		1.0,
+		20000.0,
 		20000.0,
 		20000.0,
 		20000.0,
 		1.0,
 		-20000.0,
-		-1.0,
+		-20000.0,
 		-20000.0,
 		-20000.0,
 		-20000.0
@@ -48,6 +59,8 @@
 		"data",
 		"wjets",
 		"ztt",
+		"noplot_embedding_inc",
+		"noplot_zttmc_inc",
 		"zll",
 		"ttj",
 		"diboson",
@@ -57,6 +70,18 @@
 		"qcd",
 		"qcd",
 		"qcd"
+	],
+	"nicks_blacklist" : [
+		"noplot"
+	],
+	"extrapolation_numerator_nicks" : [
+		"noplot_zttmc_inc"
+	],
+	"extrapolation_denominator_nicks" : [
+		"noplot_embedding_inc"
+	],
+	"extrapolation_nicks" : [
+		"ztt"
 	],
 	"stack" : [
 		"data",
