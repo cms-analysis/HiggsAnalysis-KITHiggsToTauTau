@@ -1,6 +1,8 @@
 {
 	"hf_mm" : {
 		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsLooseElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsLooseMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauES.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
@@ -11,10 +13,15 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json"
 		],
 		"Channel" : "MM",
+		"NLooseElectrons" : 0,
+		"NLooseMuons" : 2,
 		"NElectrons" : 0,
 		"NJets" : 2,
 		"EventWhitelist" : [
 			7514856
+		],
+		"HltPaths" : [
+			"HLT_Mu17_Mu8"
 		],
 		"TauDiscriminators" : [
 			"hpsPFTauDiscriminationByLooseMuonRejection",
@@ -36,6 +43,7 @@
 		"JetLowerPtCuts" : [
 			"30.0"
 		],
+		"VetoZBoson" : true,
 		"MetLowerPtCuts" : "50.0",
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
@@ -60,15 +68,20 @@
 				"default" : [
 					"#filter:RunLumiEventFilter",
 					"producer:TaggedJetCorrectionsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:PUWeightProducer",
 					"producer:GeneratorWeightProducer",
 					"producer:CrossSectionWeightProducer",
 					"producer:NumberGeneratedEventsWeightProducer",
+					"filter:LooseElectronsCountFilter",
+					"filter:LooseMuonsCountFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
 					"producer:ValidLeptonsProducer",
 					"producer:ValidTaggedJetsProducer",
@@ -88,17 +101,22 @@
 				"DY.?JetsToLL" : [
 					"#filter:RunLumiEventFilter",
 					"producer:TaggedJetCorrectionsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:PUWeightProducer",
 					"producer:GeneratorWeightProducer",
 					"producer:CrossSectionWeightProducer",
 					"producer:NumberGeneratedEventsWeightProducer",
 					"producer:GenDiLeptonDecayModeProducer",
 					"filter:GenDiLeptonDecayModeFilter",
+					"filter:LooseElectronsCountFilter",
+					"filter:LooseMuonsCountFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
 					"producer:ValidLeptonsProducer",
 					"producer:ValidTaggedJetsProducer",
@@ -118,11 +136,16 @@
 				"Run2012" : [
 					"filter:JsonFilter",
 					"producer:TaggedJetCorrectionsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"filter:LooseElectronsCountFilter",
+					"filter:LooseMuonsCountFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"filter:ElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"producer:ValidTausProducer",
 					"producer:ValidTausProducer",
 					"producer:ValidLeptonsProducer",
 					"producer:ValidTaggedJetsProducer",
