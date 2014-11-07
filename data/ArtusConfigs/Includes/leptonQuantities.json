@@ -38,6 +38,8 @@
 		"diTauEta",
 		"diTauPhi",
 		"diTauMass",
-		"diTauSystemReconstructed"
+		"diTauSystemReconstructed",
+		"pZetaVis",
+		"pZetaMissVis"
 	]
 }

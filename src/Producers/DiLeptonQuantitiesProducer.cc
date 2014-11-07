@@ -41,12 +41,20 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMetMt", [](event_type const& event, product_type const& product) {
 		return Quantities::CalculateMt(product.m_diLeptonSystem, product.m_met->p4);
 	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("pZetaVis", [](event_type const& event, product_type const& product) {
+		return product.pZetaVis;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddQuantity("pZetaMissVis", [](event_type const& event, product_type const& product) {
+		return product.pZetaMissVis;
+	});
 }
 
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
 	                                     setting_type const& settings) const
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
+	assert(product.m_met);
 	
 	product.m_diLeptonSystem = (product.m_flavourOrderedLeptons[0]->p4 + product.m_flavourOrderedLeptons[1]->p4);
 	product.m_diLeptonPlusMetSystem = (product.m_diLeptonSystem + product.m_met->p4);
@@ -75,4 +83,8 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	{
 		product.m_validCollinearApproximation = false;
 	}
+	
+	product.pZetaVis = Quantities::PZetaVis(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
+	product.pZetaMissVis = Quantities::PZetaMissVis(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
+	                                                product.m_met->p4, 0.85);
 }
