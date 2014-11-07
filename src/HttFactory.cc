@@ -135,6 +135,8 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new ZBosonVetoFilter();
 	else if(id == MetLowerPtCutsFilter().GetFilterId())
 		return new MetLowerPtCutsFilter();
+	else if(id == MetUpperPtCutsFilter().GetFilterId())
+		return new MetUpperPtCutsFilter();
 	else
 		return KappaFactory::createFilter( id );
 }
