@@ -2,6 +2,10 @@
 #pragma once
 
 
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/regex.hpp>
+
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 #include "Artus/Core/interface/FilterBase.h"
@@ -18,8 +22,27 @@ public:
 			return "ZBosonVetoFilter";
 	}
 
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
-							   setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
+				   setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 
+private:
+	
+	enum class ZBosonVetoType : int
+	{
+		NONE  = -1,
+		HF = 0,
+		LF = 1
+	};
+	
+	static ZBosonVetoType ToZBosonVetoType(std::string const& vetoType)
+	{
+		if (vetoType == "heavyflavor") return ZBosonVetoType::HF;
+		else if (vetoType == "lightflavor") return ZBosonVetoType::LF;
+		else return ZBosonVetoType::NONE;
+	}
+	
+	ZBosonVetoType vetoType;
 };
 

@@ -43,7 +43,7 @@
 		"JetLowerPtCuts" : [
 			"30.0"
 		],
-		"VetoZBoson" : false,
+		"ZBosonVetoType" : "LightFlavor",
 		"MetUpperPtCuts" : "30.0",
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",

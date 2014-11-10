@@ -125,7 +125,7 @@ public:
 	IMPL_SETTING(float, RecoMuonInElectronConeUpperAbsEtaCut);
 	IMPL_SETTING(float, RecoMuonInElectronConeSize);
 	
-	IMPL_SETTING_DEFAULT(bool, VetoZBoson, false);
+	IMPL_SETTING(std::string, ZBosonVetoType);
 	IMPL_SETTING(float, MetLowerPtCuts);
 	IMPL_SETTING(float, MetUpperPtCuts);
 	

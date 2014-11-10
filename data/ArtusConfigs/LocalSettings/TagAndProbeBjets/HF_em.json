@@ -67,7 +67,7 @@
 		"JetLowerPtCuts" : [
 			"30.0"
 		],
-		"VetoZBoson" : true,
+		"ZBosonVetoType" : "HeavyFlavor",
 		"MetLowerPtCuts" : "50.0",
 		"RecoMuonInElectronConeLowerPtCut" : 3.0,
 		"RecoMuonInElectronConeUpperAbsEtaCut" : 2.4,
