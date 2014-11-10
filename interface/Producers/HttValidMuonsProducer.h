@@ -62,10 +62,10 @@ public:
 		ValidMuonsProducer<HttTypes>::Init(settings);
 
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingMuonIso", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonIso", [this](event_type const& event, product_type const& product) {
 			return product.m_validMuons.size() >=1 ? SafeMap::GetWithDefault(product.m_muonIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingMuonIsoOverPt", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonIsoOverPt", [this](event_type const& event, product_type const& product) {
 			return product.m_validMuons.size() >=1 ? SafeMap::GetWithDefault(product.m_muonIsolationOverPt, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
 	}
@@ -119,7 +119,7 @@ public:
 		HttValidMuonsProducer::Init(settings);
 	
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddQuantity("nLooseMuons", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nLooseMuons", [this](event_type const& event, product_type const& product) {
 			return product.m_validLooseMuons.size();
 		});
 	}

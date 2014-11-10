@@ -15,19 +15,19 @@ void TauTauRestFrameSelector::Init(setting_type const& settings)
 	tauTauRestFrameReco = HttEnumTypes::ToTauTauRestFrameReco(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauTauRestFrameReco())));
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diTauPt", [](event_type const& event, product_type const& product) {
 		return product.m_diTauSystem.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauEta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diTauEta", [](event_type const& event, product_type const& product) {
 		return product.m_diTauSystem.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diTauPhi", [](event_type const& event, product_type const& product) {
 		return product.m_diTauSystem.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diTauMass", [](event_type const& event, product_type const& product) {
 		return product.m_diTauSystem.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diTauSystemReconstructed", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diTauSystemReconstructed", [](event_type const& event, product_type const& product) {
 		return (product.m_diTauSystemReconstructed ? 1.0 : 0.0);
 	});
 }

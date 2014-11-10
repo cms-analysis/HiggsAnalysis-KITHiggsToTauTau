@@ -10,42 +10,42 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepPt", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepEta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepEta", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepPhi", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMass", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMt", [](event_type const& event, product_type const& product) {
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMetPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetPt", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMetEta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetEta", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMetPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetPhi", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMetMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetMass", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("diLepMetMt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetMt", [](event_type const& event, product_type const& product) {
 		return Quantities::CalculateMt(product.m_diLeptonSystem, product.m_met->p4);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("pZetaVis", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pZetaVis", [](event_type const& event, product_type const& product) {
 		return product.pZetaVis;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("pZetaMissVis", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pZetaMissVis", [](event_type const& event, product_type const& product) {
 		return product.pZetaMissVis;
 	});
 }

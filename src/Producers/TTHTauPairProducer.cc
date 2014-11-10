@@ -7,40 +7,40 @@ void TTHTauPairProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1Pt", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau1Pt", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[0]->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2Pt", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau2Pt", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[1]->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1Eta", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau1Eta", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[0]->p4.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2Eta", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau2Eta", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[1]->p4.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1Iso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau1Iso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[0]->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2Iso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau2Iso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[1]->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("TTHTau1DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[0]->hpsDecayMode;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("TTHTau2DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validTTHTaus[1]->hpsDecayMode;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1EleDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau1EleDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validElectrons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[0]->p4, product.m_validTTHTaus[0]->p4) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau1MuonDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau1MuonDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validMuons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validMuons[0]->p4, product.m_validTTHTaus[0]->p4) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2EleDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau2EleDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validElectrons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[0]->p4, product.m_validTTHTaus[1]->p4) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("TTHTau2MuonDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau2MuonDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validMuons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validMuons[0]->p4, product.m_validTTHTaus[1]->p4) : DefaultValues::UndefinedDouble;
 	});
 }

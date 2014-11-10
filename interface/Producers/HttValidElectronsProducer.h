@@ -137,7 +137,7 @@ public:
 		HttValidElectronsProducer::Init(settings);
 	
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddQuantity("nLooseElectrons", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nLooseElectrons", [this](event_type const& event, product_type const& product) {
 			return product.m_validLooseElectrons.size();
 		});
 	}

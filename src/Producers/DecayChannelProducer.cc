@@ -13,151 +13,151 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("decayChannelIndex", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("decayChannelIndex", [](event_type const& event, product_type const& product) {
 		return Utility::ToUnderlyingValue(product.m_decayChannel);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingLepCharge", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepCharge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->charge;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingLepPt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepPt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingLepEta", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepEta", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->p4.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingLepPhi", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepPhi", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->p4.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingLepMass", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepMass", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->p4.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingLepMt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepMt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->p4.Mt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingLepIso", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepIso", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolation, product.m_ptOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("leadingLepIsoOverPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepIsoOverPt", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1Charge", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->charge;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1Pt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Pt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1Eta", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Eta", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->p4.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1Phi", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Phi", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->p4.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1Mass", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Mass", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->p4.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1Mt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Mt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->p4.Mt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1Iso", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Iso", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolation, product.m_flavourOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1IsoOverPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1IsoOverPt", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetPt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1MetPt", [](event_type const& event, product_type const& product)
 	{
 		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetEta", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1MetEta", [](event_type const& event, product_type const& product)
 	{
 		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetPhi", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1MetPhi", [](event_type const& event, product_type const& product)
 	{
 		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetMass", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1MetMass", [](event_type const& event, product_type const& product)
 	{
 		return (product.m_flavourOrderedLeptons[0]->p4 + product.m_met->p4).mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep1MetMt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1MetMt", [](event_type const& event, product_type const& product)
 	{
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met->p4);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepCharge", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepCharge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->charge;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepPt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepPt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepEta", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepEta", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->p4.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepPhi", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepPhi", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->p4.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepMass", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepMass", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->p4.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepMt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepMt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->p4.Mt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepIso", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepIso", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolation, product.m_ptOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("trailingLepIsoOverPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepIsoOverPt", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep2Charge", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->charge;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep2Pt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Pt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep2Eta", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Eta", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->p4.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep2Phi", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Phi", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->p4.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep2Mass", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Mass", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->p4.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep2Mt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Mt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->p4.Mt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep2Iso", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Iso", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolation, product.m_flavourOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("lep2IsoOverPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2IsoOverPt", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
 }

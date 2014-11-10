@@ -11,35 +11,35 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	//adding possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("recoPhiStarCP", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCP;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("recoPhiStar", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStar", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStar;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("recoChargedHadron1HiggsFrameEnergy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoChargedHadron1HiggsFrameEnergy", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoChargedHadronEnergies.first;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("recoChargedHadron2HiggsFrameEnergy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoChargedHadron2HiggsFrameEnergy", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoChargedHadronEnergies.second;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("recoImpactParameter1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoImpactParameter1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoIP1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("recoImpactParameter2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoImpactParameter2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoIP2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("recoTrackRefError1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoTrackRefError1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoTrackRefError1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddQuantity("recoTrackRefError2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoTrackRefError2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoTrackRefError2;
 	});
