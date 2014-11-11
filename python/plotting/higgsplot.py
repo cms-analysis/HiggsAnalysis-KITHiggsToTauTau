@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 
 import HarryPlotter.Plotting.core as harrycore
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.plotroothtt as plotroothtt
+import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.estimateztt as estimateztt
 
 
 def higgs_plot(args_from_script = None):
@@ -21,6 +22,9 @@ def higgs_plot(args_from_script = None):
 	
 	# register custom version of ROOT plots which creates plots in the officital Htautau style
 	harry_core.register_processor(plotroothtt.PlotRootHtt.name(), plotroothtt.PlotRootHtt())
+	
+	# register analysis modules for sample estimations
+	harry_core.register_processor(estimateztt.EstimateZtt.name(), estimateztt.EstimateZtt())
 	
 	harry_core.run(args_from_script)
 
