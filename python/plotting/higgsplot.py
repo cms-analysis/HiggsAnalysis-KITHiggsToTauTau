@@ -6,7 +6,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import HarryPlotter.Plotting.core as harrycore
-import HiggsAnalysis.KITHiggsToTauTau.plotting.plotroothtt as plotroothtt
+import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.plotroothtt as plotroothtt
 
 
 def higgs_plot(args_from_script = None):
