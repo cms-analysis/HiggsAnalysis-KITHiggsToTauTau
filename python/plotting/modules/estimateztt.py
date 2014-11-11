@@ -10,7 +10,6 @@ log = logging.getLogger(__name__)
 import ROOT
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.estimatebase as estimatebase
-import HarryPlotter.Plotting.analysisbase as analysisbase
 
 
 class EstimateZtt(estimatebase.EstimateBase):
@@ -37,11 +36,11 @@ class EstimateZtt(estimatebase.EstimateBase):
 		super(EstimateZtt, self).run(plotData)
 		
 		if not plotData.plotdict["ztt_from_mc"]:
-			inc_mc = plotData.plotdict["root_objects"]["noplot_ztt_mc_inc"].Integral()
-			inc_emb = plotData.plotdict["root_objects"]["noplot_ztt_emb_inc"].Integral()
-		
-			inc_scale_factor = inc_mc / (inc_emb if inc_emb != 0.0 else 1.0)
-			plotData.plotdict["root_objects"]["ztt"].Scale(inc_scale_factor)
+			yield_inclusive_mc = plotData.plotdict["root_objects"]["noplot_ztt_mc_inc"].Integral()
+			yield_inclusive_emb = plotData.plotdict["root_objects"]["noplot_ztt_emb_inc"].Integral()
+			
+			assert yield_inclusive_emb != 0.0
+			plotData.plotdict["root_objects"]["ztt"].Scale(yield_inclusive_mc / yield_inclusive_emb)
 		
 		else:
 			pass # TODO
