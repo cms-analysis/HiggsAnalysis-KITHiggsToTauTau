@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 import HarryPlotter.Plotting.core as harrycore
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.plotroothtt as plotroothtt
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.estimateztt as estimateztt
+import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.estimatewjets as estimatewjets
 
 
 def higgs_plot(args_from_script = None):
@@ -25,6 +26,7 @@ def higgs_plot(args_from_script = None):
 	
 	# register analysis modules for sample estimations
 	harry_core.register_processor(estimateztt.EstimateZtt.name(), estimateztt.EstimateZtt())
+	harry_core.register_processor(estimatewjets.EstimateWjets.name(), estimatewjets.EstimateWjets())
 	
 	harry_core.run(args_from_script)
 
