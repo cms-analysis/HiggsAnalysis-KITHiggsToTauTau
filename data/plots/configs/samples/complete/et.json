@@ -3,6 +3,7 @@
 		"@CorrectNegativeBinContents",
 		"ExtrapolationFactor",
 		"ShapeYieldMerge",
+		"SumOfHistograms",
 		"PrintInfos"
 	],
 	"files" : [
@@ -24,6 +25,15 @@
 		"??_pythia_tauola_8TeV/*.root",
 		
 		"@ WJets",
+		"WJetsToLN_madgraph_8TeV/*.root",
+		"*_Run2012?_22Jan2013_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"TTJets*_madgraph_tauola_8TeV/*.root",
+		"??_pythia_tauola_8TeV/*.root",
+		"WJetsToLN_madgraph_8TeV/*.root",
+		"WJetsToLN_madgraph_8TeV/*.root",
+		
+		"@ WJets (SS, for substraction in QCD estimation)",
 		"WJetsToLN_madgraph_8TeV/*.root",
 		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
@@ -67,6 +77,15 @@
 		"et_os_dirIso/ntuple",
 		"et_os_dirIso/ntuple",
 		
+		"@ WJets (SS, for substraction in QCD estimation)",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso_ee/ntuple et_ss_dirIso_mm/ntuple et_ss_dirIso_tt/ntuple",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso/ntuple",
+		"et_ss_dirIso/ntuple",
+		
 		"@ QCD",
 		"et_ss_dirIso/ntuple",
 		"et_ss_dirIso/ntuple",
@@ -94,6 +113,15 @@
 		20000.0,
 		
 		"@ WJets",
+		20000.0,
+		1.0,
+		-20000.0,
+		-20000.0,
+		-20000.0,
+		20000.0,
+		20000.0,
+		
+		"@ WJets (SS, for substraction in QCD estimation)",
 		20000.0,
 		1.0,
 		-20000.0,
@@ -137,6 +165,15 @@
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt>70.0)",
 		
+		"@ WJets (SS, for substraction in QCD estimation)",
+		"eventWeight*(lep1MetMt<30.0)",
+		"eventWeight*(lep1MetMt>70.0)",
+		"eventWeight*(lep1MetMt>70.0)",
+		"eventWeight*(lep1MetMt>70.0)",
+		"eventWeight*(lep1MetMt>70.0)",
+		"eventWeight*(lep1MetMt<30.0)",
+		"eventWeight*(lep1MetMt>70.0)",
+		
 		"@ QCD",
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
@@ -172,37 +209,61 @@
 		"noplot_wjets_mc_signal",
 		"noplot_wjets_mc_sideband",
 		
+		"@ WJets (SS, for substraction in QCD estimation)",
+		"noplot_wjets_ss_shape",
+		"noplot_wjets_ss_data_sideband",
+		"noplot_wjets_ss_data_sideband",
+		"noplot_wjets_ss_data_sideband",
+		"noplot_wjets_ss_data_sideband",
+		"noplot_wjets_ss_mc_signal",
+		"noplot_wjets_ss_mc_sideband",
+		
 		"@ QCD",
-		"qcd",
-		"qcd",
-		"qcd",
-		"qcd",
-		"qcd",
-		"qcd"
+		"noplot_qcd",
+		"noplot_qcd",
+		"noplot_qcd",
+		"noplot_qcd",
+		"noplot_qcd",
+		"noplot_qcd"
 	],
 	"nicks_blacklist" : [
 		"noplot"
 	],
 	"extrapolation_numerator_nicks" : [
 		"noplot_zttmc_inc",
-		"noplot_wjets_mc_signal"
+		"noplot_wjets_mc_signal",
+		"noplot_wjets_ss_mc_signal"
 	],
 	"extrapolation_denominator_nicks" : [
 		"noplot_embedding_inc",
-		"noplot_wjets_mc_sideband"
+		"noplot_wjets_mc_sideband",
+		"noplot_wjets_ss_mc_sideband"
 	],
 	"extrapolation_nicks" : [
 		"ztt",
-		"noplot_wjets_data_sideband"
+		"noplot_wjets_data_sideband",
+		"noplot_wjets_ss_data_sideband"
 	],
 	"shape_nicks" : [
-		"noplot_wjets_shape"
+		"noplot_wjets_shape",
+		"noplot_wjets_ss_shape"
 	],
 	"yield_nicks" : [
-		"noplot_wjets_data_sideband"
+		"noplot_wjets_data_sideband",
+		"noplot_wjets_ss_data_sideband"
 	],
 	"shape_yield_nicks" : [
-		"wjets"
+		"wjets",
+		"noplot_wjets_ss"
+	],
+	"sum_nicks" : [
+		"noplot_wjets_ss noplot_qcd"
+	],
+	"sum_scale_factors" : [
+		"-1.06 1.06"
+	],
+	"sum_result_nicks" : [
+		"qcd"
 	],
 	"stack" : [
 		"data",
