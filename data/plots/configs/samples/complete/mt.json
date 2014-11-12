@@ -3,7 +3,7 @@
 		"@CorrectNegativeBinContents",
 		"EstimateZtt",
 		"EstimateWjets",
-		"SumOfHistograms",
+		"EstimateQcd",
 		"PrintInfos"
 	],
 	"files" : [
@@ -47,7 +47,6 @@
 		
 		"@ QCD",
 		"*_Run2012?_22Jan2013_8TeV/*.root",
-		"WJetsToLN_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
@@ -93,7 +92,6 @@
 		"mt_ss_dirIso/ntuple",
 		
 		"@ QCD",
-		"mt_ss_dirIso/ntuple",
 		"mt_ss_dirIso/ntuple",
 		"mt_ss_dirIso_tt/ntuple",
 		"mt_ss_dirIso_ee/ntuple mt_ss_dirIso_mm/ntuple",
@@ -141,11 +139,10 @@
 		
 		"@ QCD",
 		1.0,
-		-20000.0,
-		-20000.0,
-		-20000.0,
-		-20000.0,
-		-20000.0
+		20000.0,
+		20000.0,
+		20000.0,
+		20000.0
 	],
 	"weights" : [
 		"@ Data",
@@ -187,7 +184,6 @@
 		"eventWeight*(lep1MetMt>70.0)",
 		
 		"@ QCD",
-		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
@@ -234,24 +230,14 @@
 		"noplot_wjets_ss_mc_control",
 		
 		"@ QCD",
-		"noplot_qcd",
-		"noplot_qcd",
-		"noplot_qcd",
-		"noplot_qcd",
-		"noplot_qcd",
-		"noplot_qcd"
+		"qcd",
+		"noplot_ztt_mc_qcd_control",
+		"noplot_zll_qcd_control",
+		"noplot_ttj_qcd_control",
+		"noplot_diboson_qcd_control"
 	],
 	"nicks_blacklist" : [
 		"noplot"
-	],
-	"sum_nicks" : [
-		"noplot_wjets_ss noplot_qcd"
-	],
-	"sum_scale_factors" : [
-		"-1.06 1.06"
-	],
-	"sum_result_nicks" : [
-		"qcd"
 	],
 	"stack" : [
 		"data",
