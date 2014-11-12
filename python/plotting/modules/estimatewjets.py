@@ -59,24 +59,18 @@ class EstimateWjets(estimatebase.EstimateBase):
 		super(EstimateWjets, self).run(plotData)
 		
 		for wjets_shape_nick, wjets_data_control_nick, wjets_data_substract_nicks, wjets_mc_signal_nick, wjets_mc_control_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			self._estimate_wjets(plotData, wjets_shape_nick, wjets_data_control_nick, wjets_data_substract_nicks,
-			                     wjets_mc_signal_nick, wjets_mc_control_nick)
-	
-	def _estimate_wjets(self, plotData, wjets_shape_nick, wjets_data_control_nick, wjets_data_substract_nicks,
-	                    wjets_mc_signal_nick, wjets_mc_control_nick):
+			yield_data_control = plotData.plotdict["root_objects"][wjets_data_control_nick].Integral()
+			for nick in wjets_data_substract_nicks:
+				yield_data_control -= plotData.plotdict["root_objects"][nick].Integral()
+			yield_data_control = max(0.0, yield_data_control)
 		
-		yield_data_control = plotData.plotdict["root_objects"][wjets_data_control_nick].Integral()
-		for nick in wjets_data_substract_nicks:
-			yield_data_control -= plotData.plotdict["root_objects"][nick].Integral()
-		yield_data_control = max(0.0, yield_data_control)
+			yield_mc_signal = plotData.plotdict["root_objects"][wjets_mc_signal_nick].Integral()
+			yield_mc_control = plotData.plotdict["root_objects"][wjets_mc_control_nick].Integral()
 		
-		yield_mc_signal = plotData.plotdict["root_objects"][wjets_mc_signal_nick].Integral()
-		yield_mc_control = plotData.plotdict["root_objects"][wjets_mc_control_nick].Integral()
+			assert yield_mc_control != 0.0
+			final_yield = yield_data_control * yield_mc_signal / yield_mc_control
 		
-		assert yield_mc_control != 0.0
-		final_yield = yield_data_control * yield_mc_signal / yield_mc_control
-		
-		integral_shape = plotData.plotdict["root_objects"][wjets_shape_nick].Integral()
-		if integral_shape != 0.0:
-			plotData.plotdict["root_objects"][wjets_shape_nick].Scale(final_yield / integral_shape)
+			integral_shape = plotData.plotdict["root_objects"][wjets_shape_nick].Integral()
+			if integral_shape != 0.0:
+				plotData.plotdict["root_objects"][wjets_shape_nick].Scale(final_yield / integral_shape)
 
