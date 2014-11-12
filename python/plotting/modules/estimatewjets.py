@@ -20,46 +20,45 @@ class EstimateWjets(estimatebase.EstimateBase):
 		super(EstimateWjets, self).modify_argument_parser(parser, args)
 		
 		self.estimate_wjets_options = parser.add_argument_group("WJets estimation options")
-		self.estimate_wjets_options.add_argument("--wjets-do-main-bkg", action="store_true", default=True,
-		                                         help="Estimate main WJets background")
-		self.estimate_wjets_options.add_argument("--wjets-do-bkg-for-qcd", action="store_true", default=True,
-		                                         help="Estimate WJets contribution for QCD estimation")
+		self.estimate_wjets_options.add_argument("--wjets-shape-nicks", nargs="+",
+		                                         default=["wjets", "noplot_wjets_ss"],
+		                                         help="Nicks for histogram to plot. [Default: %(default)s]")
+		self.estimate_wjets_options.add_argument("--wjets-data-control-nicks", nargs="+",
+		                                         default=["noplot_wjets_data_control", "noplot_wjets_ss_data_control"],
+		                                         help="Nicks for control region data histogram. [Default: %(default)s]")
+		self.estimate_wjets_options.add_argument("--wjets-mc-signal-nicks", nargs="+",
+		                                         default=["noplot_wjets_mc_signal", "noplot_wjets_ss_mc_signal"],
+		                                         help="Nicks for signal region MC histogram. [Default: %(default)s]")
+		self.estimate_wjets_options.add_argument("--wjets-mc-control-nicks", nargs="+",
+		                                         default=["noplot_wjets_mc_control", "noplot_wjets_ss_mc_control"],
+		                                         help="Nicks for control region MC histogram. [Default: %(default)s]")
 
 	def prepare_args(self, parser, plotData):
 		super(EstimateWjets, self).prepare_args(parser, plotData)
 		
-		# make sure that all necessary histograms are available
-		necessary_histograms = []
-		if plotData.plotdict["wjets_do_main_bkg"]:
-			necessary_histograms.extend(["wjets", "noplot_wjets_data_control",
-			                             "noplot_wjets_mc_signal", "noplot_wjets_mc_control"])
-		if plotData.plotdict["wjets_do_bkg_for_qcd"]:
-			necessary_histograms.extend(["noplot_wjets_ss", "noplot_wjets_ss_data_control",
-			                             "noplot_wjets_ss_mc_signal", "noplot_wjets_ss_mc_control"])
+		self._plotdict_keys = ["wjets_shape_nicks", "wjets_data_control_nicks", "wjets_mc_signal_nicks", "wjets_mc_control_nicks"]
+		self.prepare_list_args(plotData, self._plotdict_keys)
 		
-		for histogram in necessary_histograms:
-			assert isinstance(plotData.plotdict["root_objects"].get(histogram), ROOT.TH1)
+		# make sure that all necessary histograms are available
+		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+			for nick in nicks:
+				assert isinstance(plotData.plotdict["root_objects"].get(nick), ROOT.TH1)
 	
 	def run(self, plotData=None):
 		super(EstimateWjets, self).run(plotData)
 		
-		if plotData.plotdict["wjets_do_main_bkg"]:
-			self._estimate_wjets(plotData, "wjets", "noplot_wjets_data_control",
-			                     "noplot_wjets_mc_signal", "noplot_wjets_mc_control")
-		
-		if plotData.plotdict["wjets_do_bkg_for_qcd"]:
-			self._estimate_wjets(plotData, "noplot_wjets_ss", "noplot_wjets_ss_data_control",
-			                     "noplot_wjets_ss_mc_signal", "noplot_wjets_ss_mc_control")
+		for wjets_shape_nick, wjets_data_control_nick, wjets_mc_signal_nick, wjets_mc_control_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+			self._estimate_wjets(plotData, wjets_shape_nick, wjets_data_control_nick, wjets_mc_signal_nick, wjets_mc_control_nick)
 	
-	def _estimate_wjets(self, plotData, nick_shape, nick_data_control, nick_mc_signal, nick_mc_control):
-		yield_data_control = plotData.plotdict["root_objects"][nick_data_control].Integral()
-		yield_mc_signal = plotData.plotdict["root_objects"][nick_mc_signal].Integral()
-		yield_mc_control = plotData.plotdict["root_objects"][nick_mc_control].Integral()
+	def _estimate_wjets(self, plotData, wjets_shape_nick, wjets_data_control_nick, wjets_mc_signal_nick, wjets_mc_control_nick):
+		yield_data_control = plotData.plotdict["root_objects"][wjets_data_control_nick].Integral()
+		yield_mc_signal = plotData.plotdict["root_objects"][wjets_mc_signal_nick].Integral()
+		yield_mc_control = plotData.plotdict["root_objects"][wjets_mc_control_nick].Integral()
 		
 		assert yield_mc_control != 0.0
 		final_yield = yield_data_control * yield_mc_signal / yield_mc_control
 		
-		integral_shape = plotData.plotdict["root_objects"][nick_shape].Integral()
+		integral_shape = plotData.plotdict["root_objects"][wjets_shape_nick].Integral()
 		if integral_shape != 0.0:
-			plotData.plotdict["root_objects"][nick_shape].Scale(final_yield / integral_shape)
+			plotData.plotdict["root_objects"][wjets_shape_nick].Scale(final_yield / integral_shape)
 
