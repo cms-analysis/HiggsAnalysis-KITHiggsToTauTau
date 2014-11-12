@@ -1,9 +1,9 @@
 {
 	"analysis_modules" : [
 		"@CorrectNegativeBinContents",
-		"ExtrapolationFactor",
-		"ShapeYieldMerge",
-		"SumOfHistograms",
+		"EstimateZtt",
+		"EstimateWjets",
+		"EstimateQcd",
 		"PrintInfos"
 	],
 	"files" : [
@@ -13,6 +13,7 @@
 		"@ DY->tautau",
 		"*_PFembedded_Run2012?_22Jan2013_electau_8TeV/*.root",
 		"*_PFembedded_Run2012?_22Jan2013_electau_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		
 		"@ DY->ll",
@@ -28,6 +29,7 @@
 		"WJetsToLN_madgraph_8TeV/*.root",
 		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
 		"??_pythia_tauola_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
@@ -37,6 +39,7 @@
 		"WJetsToLN_madgraph_8TeV/*.root",
 		"*_Run2012?_22Jan2013_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
 		"??_pythia_tauola_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
@@ -44,7 +47,6 @@
 		
 		"@ QCD",
 		"*_Run2012?_22Jan2013_8TeV/*.root",
-		"WJetsToLN_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
@@ -57,7 +59,8 @@
 		"@ DY->tautau",
 		"et_os_dirIso/ntuple",
 		"et_os_dirIso/ntuple",
-		"et_os_dirIso_ee/ntuple et_os_dirIso_mm/ntuple et_os_dirIso_tt/ntuple",
+		"et_os_dirIso_tt/ntuple",
+		"et_os_dirIso_tt/ntuple",
 		
 		"@ DY->ll",
 		"et_os_dirIso_ee/ntuple et_os_dirIso_mm/ntuple",
@@ -71,7 +74,8 @@
 		"@ WJets",
 		"et_os_dirIso/ntuple",
 		"et_os_dirIso/ntuple",
-		"et_os_dirIso_ee/ntuple et_os_dirIso_mm/ntuple et_os_dirIso_tt/ntuple",
+		"et_os_dirIso_tt/ntuple",
+		"et_os_dirIso_ee/ntuple et_os_dirIso_mm/ntuple",
 		"et_os_dirIso/ntuple",
 		"et_os_dirIso/ntuple",
 		"et_os_dirIso/ntuple",
@@ -80,14 +84,14 @@
 		"@ WJets (SS, for substraction in QCD estimation)",
 		"et_ss_dirIso/ntuple",
 		"et_ss_dirIso/ntuple",
-		"et_ss_dirIso_ee/ntuple et_ss_dirIso_mm/ntuple et_ss_dirIso_tt/ntuple",
+		"et_ss_dirIso_tt/ntuple",
+		"et_ss_dirIso_ee/ntuple et_ss_dirIso_mm/ntuple",
 		"et_ss_dirIso/ntuple",
 		"et_ss_dirIso/ntuple",
 		"et_ss_dirIso/ntuple",
 		"et_ss_dirIso/ntuple",
 		
 		"@ QCD",
-		"et_ss_dirIso/ntuple",
 		"et_ss_dirIso/ntuple",
 		"et_ss_dirIso_tt/ntuple",
 		"et_ss_dirIso_ee/ntuple et_ss_dirIso_mm/ntuple",
@@ -102,6 +106,7 @@
 		1.0,
 		1.0,
 		20000.0,
+		20000.0,
 		
 		"@ DY->ll",
 		20000.0,
@@ -115,28 +120,29 @@
 		"@ WJets",
 		20000.0,
 		1.0,
-		-20000.0,
-		-20000.0,
-		-20000.0,
+		20000.0,
+		20000.0,
+		20000.0,
+		20000.0,
 		20000.0,
 		20000.0,
 		
 		"@ WJets (SS, for substraction in QCD estimation)",
 		20000.0,
 		1.0,
-		-20000.0,
-		-20000.0,
-		-20000.0,
+		20000.0,
+		20000.0,
+		20000.0,
+		20000.0,
 		20000.0,
 		20000.0,
 		
 		"@ QCD",
 		1.0,
-		-20000.0,
-		-20000.0,
-		-20000.0,
-		-20000.0,
-		-20000.0
+		20000.0,
+		20000.0,
+		20000.0,
+		20000.0
 	],
 	"weights" : [
 		"@ Data",
@@ -146,6 +152,7 @@
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
+		"eventWeight*(lep1MetMt<30.0)",
 		
 		"@ DY->ll",
 		"eventWeight*(lep1MetMt<30.0)",
@@ -162,6 +169,7 @@
 		"eventWeight*(lep1MetMt>70.0)",
 		"eventWeight*(lep1MetMt>70.0)",
 		"eventWeight*(lep1MetMt>70.0)",
+		"eventWeight*(lep1MetMt>70.0)",
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt>70.0)",
 		
@@ -171,11 +179,11 @@
 		"eventWeight*(lep1MetMt>70.0)",
 		"eventWeight*(lep1MetMt>70.0)",
 		"eventWeight*(lep1MetMt>70.0)",
+		"eventWeight*(lep1MetMt>70.0)",
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt>70.0)",
 		
 		"@ QCD",
-		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
 		"eventWeight*(lep1MetMt<30.0)",
@@ -188,8 +196,9 @@
 		
 		"@ DY->tautau",
 		"ztt",
-		"noplot_embedding_inc",
-		"noplot_zttmc_inc",
+		"noplot_ztt_emb_inc",
+		"noplot_ztt_mc_inc",
+		"noplot_ztt_mc",
 		
 		"@ DY->ll",
 		"zll",
@@ -201,69 +210,34 @@
 		"diboson",
 		
 		"@ WJets",
-		"noplot_wjets_shape",
-		"noplot_wjets_data_sideband",
-		"noplot_wjets_data_sideband",
-		"noplot_wjets_data_sideband",
-		"noplot_wjets_data_sideband",
+		"wjets",
+		"noplot_wjets_data_control",
+		"noplot_ztt_mc_wjet_control",
+		"noplot_zll_wjet_control",
+		"noplot_ttj_wjet_control",
+		"noplot_diboson_wjet_control",
 		"noplot_wjets_mc_signal",
-		"noplot_wjets_mc_sideband",
+		"noplot_wjets_mc_control",
 		
 		"@ WJets (SS, for substraction in QCD estimation)",
-		"noplot_wjets_ss_shape",
-		"noplot_wjets_ss_data_sideband",
-		"noplot_wjets_ss_data_sideband",
-		"noplot_wjets_ss_data_sideband",
-		"noplot_wjets_ss_data_sideband",
+		"noplot_wjets_ss",
+		"noplot_wjets_ss_data_control",
+		"noplot_ztt_ss_mc_wjet_control",
+		"noplot_zll_ss_wjet_control",
+		"noplot_ttj_ss_wjet_control",
+		"noplot_diboson_ss_wjet_control",
 		"noplot_wjets_ss_mc_signal",
-		"noplot_wjets_ss_mc_sideband",
+		"noplot_wjets_ss_mc_control",
 		
 		"@ QCD",
-		"noplot_qcd",
-		"noplot_qcd",
-		"noplot_qcd",
-		"noplot_qcd",
-		"noplot_qcd",
-		"noplot_qcd"
+		"qcd",
+		"noplot_ztt_mc_qcd_control",
+		"noplot_zll_qcd_control",
+		"noplot_ttj_qcd_control",
+		"noplot_diboson_qcd_control"
 	],
 	"nicks_blacklist" : [
 		"noplot"
-	],
-	"extrapolation_numerator_nicks" : [
-		"noplot_zttmc_inc",
-		"noplot_wjets_mc_signal",
-		"noplot_wjets_ss_mc_signal"
-	],
-	"extrapolation_denominator_nicks" : [
-		"noplot_embedding_inc",
-		"noplot_wjets_mc_sideband",
-		"noplot_wjets_ss_mc_sideband"
-	],
-	"extrapolation_nicks" : [
-		"ztt",
-		"noplot_wjets_data_sideband",
-		"noplot_wjets_ss_data_sideband"
-	],
-	"shape_nicks" : [
-		"noplot_wjets_shape",
-		"noplot_wjets_ss_shape"
-	],
-	"yield_nicks" : [
-		"noplot_wjets_data_sideband",
-		"noplot_wjets_ss_data_sideband"
-	],
-	"shape_yield_nicks" : [
-		"wjets",
-		"noplot_wjets_ss"
-	],
-	"sum_nicks" : [
-		"noplot_wjets_ss noplot_qcd"
-	],
-	"sum_scale_factors" : [
-		"-1.06 1.06"
-	],
-	"sum_result_nicks" : [
-		"qcd"
 	],
 	"stack" : [
 		"data",
