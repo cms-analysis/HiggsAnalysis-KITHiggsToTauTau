@@ -1,1 +1,1 @@
-NAF_sample_TauPlusX_Run2012B_22Jan2013_8TeV_2014-11-05.txt
+NAF_sample_TauPlusX_Run2012B_22Jan2013_8TeV_2014-07-30.txt
