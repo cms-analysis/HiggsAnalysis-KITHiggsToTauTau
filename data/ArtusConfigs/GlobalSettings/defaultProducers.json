@@ -104,7 +104,9 @@
 	},
 	"BosonPdgId" : {
 		"nick" : {
+			"default" : 0,
 			"DY.?JetsToLL" : 23,
+			"W.?JetsToLN" : 24,
 			"HToTauTau" : 25
 		}
 	},
