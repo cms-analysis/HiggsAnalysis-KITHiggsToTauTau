@@ -15,8 +15,8 @@
 	
 	"ElectronIsoSignalConeSize" : 0.3,
 	"ElectronDeltaBetaCorrectionFactor" : 0.5,
-	"ElectronIsoPtSumOverPtThresholdEB" : 0.1,
-	"ElectronIsoPtSumOverPtThresholdEE" : 0.1,
+	"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.1,
+	"ElectronIsoPtSumOverPtUpperThresholdEE" : 0.1,
 	
 	"ElectronChargedIsoVetoConeSizeEB" : 0.01,
 	"ElectronChargedIsoVetoConeSizeEE" : 0.015,

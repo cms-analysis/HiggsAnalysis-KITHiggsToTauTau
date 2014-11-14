@@ -5,8 +5,8 @@
 	"LooseMuonID" : "loose",
 	"LooseMuonIsoType" : "user",
 	"LooseMuonIso" : "none",
-	"LooseMuonIsoPtSumOverPtThresholdEB" : 0.2,
-	"LooseMuonIsoPtSumOverPtThresholdEE" : 0.2,
+	"LooseMuonIsoPtSumOverPtUpperThresholdEB" : 0.2,
+	"LooseMuonIsoPtSumOverPtUpperThresholdEE" : 0.2,
 	"LooseMuonLowerPtCuts" : [
 		"10.0"
 	],

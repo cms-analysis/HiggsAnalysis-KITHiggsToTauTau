@@ -22,8 +22,10 @@ HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KDataMuon*> product_typ
                                              float (setting_type::*GetMuonDeltaBetaIsoPtThreshold)(void) const,
                                              float (setting_type::*GetMuonIsoSignalConeSize)(void) const,
                                              float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const,
-                                             float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const,
-                                             float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const,
+                                             float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEB)(void) const,
+                                             float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEE)(void) const,
+                                             float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const,
+                                             float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const,
                                              float (setting_type::*GetMuonTrackDxyCut)(void) const,
                                              float (setting_type::*GetMuonTrackDzCut)(void) const) :
 	ValidMuonsProducer(validMuons, invalidMuons,
@@ -39,8 +41,10 @@ HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KDataMuon*> product_typ
 	GetMuonDeltaBetaIsoPtThreshold(GetMuonDeltaBetaIsoPtThreshold),
 	GetMuonIsoSignalConeSize(GetMuonIsoSignalConeSize),
 	GetMuonDeltaBetaCorrectionFactor(GetMuonDeltaBetaCorrectionFactor),
-	GetMuonIsoPtSumOverPtThresholdEB(GetMuonIsoPtSumOverPtThresholdEB),
-	GetMuonIsoPtSumOverPtThresholdEE(GetMuonIsoPtSumOverPtThresholdEE),
+	GetMuonIsoPtSumOverPtLowerThresholdEB(GetMuonIsoPtSumOverPtLowerThresholdEB),
+	GetMuonIsoPtSumOverPtLowerThresholdEE(GetMuonIsoPtSumOverPtLowerThresholdEE),
+	GetMuonIsoPtSumOverPtUpperThresholdEB(GetMuonIsoPtSumOverPtUpperThresholdEB),
+	GetMuonIsoPtSumOverPtUpperThresholdEE(GetMuonIsoPtSumOverPtUpperThresholdEE),
 	GetMuonTrackDxyCut(GetMuonTrackDxyCut),
 	GetMuonTrackDzCut(GetMuonTrackDzCut)
 {
@@ -80,9 +84,29 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 		product.m_muonIsolation[muon] = isolationPtSum;
 		product.m_muonIsolationOverPt[muon] = isolationPtSumOverPt;
 		
-		if ((std::abs(muon->p4.Eta()) < DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetMuonIsoPtSumOverPtThresholdEB)()) ? settings.GetDirectIso() : (!settings.GetDirectIso()))) ||
-		    (std::abs(muon->p4.Eta()) >= DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetMuonIsoPtSumOverPtThresholdEE)()) ? settings.GetDirectIso() : (!settings.GetDirectIso())))) {
-			validMuon = false;
+		if (std::abs(muon->p4.Eta()) < DefaultValues::EtaBorderEB)
+		{
+			if ((isolationPtSumOverPt > (settings.*GetMuonIsoPtSumOverPtLowerThresholdEB)()) &&
+			    (isolationPtSumOverPt < (settings.*GetMuonIsoPtSumOverPtUpperThresholdEB)()))
+			{
+				validMuon = settings.GetDirectIso();
+			}
+			else
+			{
+				validMuon = (! settings.GetDirectIso());
+			}
+		}
+		else
+		{
+			if ((isolationPtSumOverPt > (settings.*GetMuonIsoPtSumOverPtLowerThresholdEE)()) &&
+			    (isolationPtSumOverPt < (settings.*GetMuonIsoPtSumOverPtUpperThresholdEE)()))
+			{
+				validMuon = settings.GetDirectIso();
+			}
+			else
+			{
+				validMuon = (! settings.GetDirectIso());
+			}
 		}
 	}
 	
@@ -113,8 +137,10 @@ HttValidLooseMuonsProducer::HttValidLooseMuonsProducer(
 		float (setting_type::*GetMuonDeltaBetaIsoPtThreshold)(void) const,
 		float (setting_type::*GetMuonIsoSignalConeSize)(void) const,
 		float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const,
-		float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const,
-		float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const,
+		float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEB)(void) const,
+		float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEE)(void) const,
+		float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const,
+		float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const,
 		float (setting_type::*GetMuonTrackDxyCut)(void) const,
 		float (setting_type::*GetMuonTrackDzCut)(void) const
 ) :
@@ -135,8 +161,10 @@ HttValidLooseMuonsProducer::HttValidLooseMuonsProducer(
 	                      GetMuonDeltaBetaIsoPtThreshold,
 	                      GetMuonIsoSignalConeSize,
 	                      GetMuonDeltaBetaCorrectionFactor,
-	                      GetMuonIsoPtSumOverPtThresholdEB,
-	                      GetMuonIsoPtSumOverPtThresholdEE,
+	                      GetMuonIsoPtSumOverPtLowerThresholdEB,
+	                      GetMuonIsoPtSumOverPtLowerThresholdEE,
+	                      GetMuonIsoPtSumOverPtUpperThresholdEB,
+	                      GetMuonIsoPtSumOverPtUpperThresholdEE,
 	                      GetMuonTrackDxyCut,
 	                      GetMuonTrackDzCut)
 {
@@ -161,8 +189,10 @@ HttValidVetoMuonsProducer::HttValidVetoMuonsProducer(
 		float (setting_type::*GetMuonDeltaBetaIsoPtThreshold)(void) const,
 		float (setting_type::*GetMuonIsoSignalConeSize)(void) const,
 		float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const,
-		float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const,
-		float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const,
+		float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEB)(void) const,
+		float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEE)(void) const,
+		float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const,
+		float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const,
 		float (setting_type::*GetMuonTrackDxyCut)(void) const,
 		float (setting_type::*GetMuonTrackDzCut)(void) const
 ) :
@@ -183,8 +213,10 @@ HttValidVetoMuonsProducer::HttValidVetoMuonsProducer(
 	                      GetMuonDeltaBetaIsoPtThreshold,
 	                      GetMuonIsoSignalConeSize,
 	                      GetMuonDeltaBetaCorrectionFactor,
-	                      GetMuonIsoPtSumOverPtThresholdEB,
-	                      GetMuonIsoPtSumOverPtThresholdEE,
+	                      GetMuonIsoPtSumOverPtLowerThresholdEB,
+	                      GetMuonIsoPtSumOverPtLowerThresholdEE,
+	                      GetMuonIsoPtSumOverPtUpperThresholdEB,
+	                      GetMuonIsoPtSumOverPtUpperThresholdEE,
 	                      GetMuonTrackDxyCut,
 	                      GetMuonTrackDzCut)
 {

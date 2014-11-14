@@ -23,8 +23,10 @@
    - ElectronDeltaBetaIsoPtThreshold (default given)
    - ElectronIsoSignalConeSize
    - ElectronDeltaBetaCorrectionFactor
-   - ElectronIsoPtSumOverPtThresholdEB
-   - ElectronIsoPtSumOverPtThresholdEE
+   - ElectronIsoPtSumOverPtLowerThresholdEB
+   - ElectronIsoPtSumOverPtLowerThresholdEE
+   - ElectronIsoPtSumOverPtUpperThresholdEB
+   - ElectronIsoPtSumOverPtUpperThresholdEE
 */
 
 class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
@@ -75,8 +77,10 @@ public:
 			float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const=&setting_type::GetElectronDeltaBetaIsoPtThreshold,
 			float (setting_type::*GetElectronIsoSignalConeSize)(void) const=&setting_type::GetElectronIsoSignalConeSize,
 			float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const=&setting_type::GetElectronDeltaBetaCorrectionFactor,
-			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetElectronIsoPtSumOverPtThresholdEB,
-			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetElectronIsoPtSumOverPtThresholdEE,
+			float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEB)(void) const=&setting_type::GetElectronIsoPtSumOverPtLowerThresholdEB,
+			float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEE)(void) const=&setting_type::GetElectronIsoPtSumOverPtLowerThresholdEE,
+			float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEB)(void) const=&setting_type::GetElectronIsoPtSumOverPtUpperThresholdEB,
+			float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const=&setting_type::GetElectronIsoPtSumOverPtUpperThresholdEE,
 			float (setting_type::*GetElectronTrackDxyCut)(void) const=&setting_type::GetElectronTrackDxyCut,
 			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetElectronTrackDzCut
 	);
@@ -105,8 +109,10 @@ private:
 	float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const;
 	float (setting_type::*GetElectronIsoSignalConeSize)(void) const;
 	float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const;
-	float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const;
-	float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const;
+	float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEB)(void) const;
+	float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEE)(void) const;
+	float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEB)(void) const;
+	float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const;
 	float (setting_type::*GetElectronTrackDxyCut)(void) const;
 	float (setting_type::*GetElectronTrackDzCut)(void) const;
 
@@ -164,8 +170,10 @@ public:
 			float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const=&setting_type::GetElectronDeltaBetaIsoPtThreshold,
 			float (setting_type::*GetElectronIsoSignalConeSize)(void) const=&setting_type::GetElectronIsoSignalConeSize,
 			float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const=&setting_type::GetElectronDeltaBetaCorrectionFactor,
-			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtThresholdEB,
-			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtThresholdEE,
+			float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEB)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtLowerThresholdEB,
+			float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEE)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtLowerThresholdEE,
+			float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEB)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtUpperThresholdEB,
+			float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const=&setting_type::GetLooseElectronIsoPtSumOverPtUpperThresholdEE,
 			float (setting_type::*GetElectronTrackDxyCut)(void) const=&setting_type::GetLooseElectronTrackDxyCut,
 			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetLooseElectronTrackDzCut
 	);
@@ -210,8 +218,10 @@ public:
 			float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const=&setting_type::GetElectronDeltaBetaIsoPtThreshold,
 			float (setting_type::*GetElectronIsoSignalConeSize)(void) const=&setting_type::GetElectronIsoSignalConeSize,
 			float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const=&setting_type::GetElectronDeltaBetaCorrectionFactor,
-			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetVetoElectronIsoPtSumOverPtThresholdEB,
-			float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetVetoElectronIsoPtSumOverPtThresholdEE,
+			float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEB)(void) const=&setting_type::GetVetoElectronIsoPtSumOverPtLowerThresholdEB,
+			float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEE)(void) const=&setting_type::GetVetoElectronIsoPtSumOverPtLowerThresholdEE,
+			float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEB)(void) const=&setting_type::GetVetoElectronIsoPtSumOverPtUpperThresholdEB,
+			float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const=&setting_type::GetVetoElectronIsoPtSumOverPtUpperThresholdEE,
 			float (setting_type::*GetElectronTrackDxyCut)(void) const=&setting_type::GetElectronTrackDxyCut,
 			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetElectronTrackDzCut
 	);

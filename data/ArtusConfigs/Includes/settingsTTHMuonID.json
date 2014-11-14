@@ -13,8 +13,8 @@
 	
 	"MuonIsoSignalConeSize" : 0.4,
 	"MuonDeltaBetaCorrectionFactor" : 0.5,
-	"MuonIsoPtSumOverPtThresholdEB" : 0.12,
-	"MuonIsoPtSumOverPtThresholdEE" : 0.12,
+	"MuonIsoPtSumOverPtUpperThresholdEB" : 0.12,
+	"MuonIsoPtSumOverPtUpperThresholdEE" : 0.12,
 	
 	"MuonChargedIsoVetoConeSize" : 0.0001,
 	"MuonNeutralIsoVetoConeSize" : 0.01,

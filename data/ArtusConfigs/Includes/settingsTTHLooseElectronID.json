@@ -8,8 +8,8 @@
 	"LooseElectronIDType" : "summer2013tthloose",
 	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",
-	"LooseElectronIsoPtSumOverPtThresholdEB" : 0.2,
-	"LooseElectronIsoPtSumOverPtThresholdEE" : 0.2,
+	"LooseElectronIsoPtSumOverPtUpperThresholdEB" : 0.2,
+	"LooseElectronIsoPtSumOverPtUpperThresholdEE" : 0.2,
 	"LooseElectronLowerPtCuts" : [
 		"10.0"
 	],

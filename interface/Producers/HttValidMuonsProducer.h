@@ -20,8 +20,10 @@
    - MuonDeltaBetaIsoPtThreshold (default given)
    - MuonIsoSignalConeSize
    - MuonDeltaBetaCorrectionFactor
-   - MuonIsoPtSumOverPtThresholdEB
-   - MuonIsoPtSumOverPtThresholdEE
+   - MuonIsoPtSumOverPtLowerThresholdEB
+   - MuonIsoPtSumOverPtLowerThresholdEE
+   - MuonIsoPtSumOverPtUpperThresholdEB
+   - MuonIsoPtSumOverPtUpperThresholdEE
 */
 
 class HttValidMuonsProducer: public ValidMuonsProducer<HttTypes>
@@ -51,8 +53,10 @@ public:
 			float (setting_type::*GetMuonDeltaBetaIsoPtThreshold)(void) const=&setting_type::GetMuonDeltaBetaIsoPtThreshold,
 			float (setting_type::*GetMuonIsoSignalConeSize)(void) const=&setting_type::GetMuonIsoSignalConeSize,
 			float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const=&setting_type::GetMuonDeltaBetaCorrectionFactor,
-			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetMuonIsoPtSumOverPtThresholdEB,
-			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetMuonIsoPtSumOverPtThresholdEE,
+			float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEB)(void) const=&setting_type::GetMuonIsoPtSumOverPtLowerThresholdEB,
+			float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEE)(void) const=&setting_type::GetMuonIsoPtSumOverPtLowerThresholdEE,
+			float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const=&setting_type::GetMuonIsoPtSumOverPtUpperThresholdEB,
+			float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const=&setting_type::GetMuonIsoPtSumOverPtUpperThresholdEE,
 			float (setting_type::*GetMuonTrackDxyCut)(void) const=&setting_type::GetMuonTrackDxyCut,
 			float (setting_type::*GetMuonTrackDzCut)(void) const=&setting_type::GetMuonTrackDzCut
 	);
@@ -89,8 +93,10 @@ private:
 	float (setting_type::*GetMuonDeltaBetaIsoPtThreshold)(void) const;
 	float (setting_type::*GetMuonIsoSignalConeSize)(void) const;
 	float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const;
-	float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const;
-	float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const;
+	float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEB)(void) const;
+	float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEE)(void) const;
+	float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const;
+	float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const;
 	float (setting_type::*GetMuonTrackDxyCut)(void) const;
 	float (setting_type::*GetMuonTrackDzCut)(void) const;
 
@@ -142,8 +148,10 @@ public:
 			float (setting_type::*GetMuonDeltaBetaIsoPtThreshold)(void) const=&setting_type::GetMuonDeltaBetaIsoPtThreshold,
 			float (setting_type::*GetMuonIsoSignalConeSize)(void) const=&setting_type::GetMuonIsoSignalConeSize,
 			float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const=&setting_type::GetMuonDeltaBetaCorrectionFactor,
-			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetLooseMuonIsoPtSumOverPtThresholdEB,
-			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetLooseMuonIsoPtSumOverPtThresholdEE,
+			float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEB)(void) const=&setting_type::GetLooseMuonIsoPtSumOverPtLowerThresholdEB,
+			float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEE)(void) const=&setting_type::GetLooseMuonIsoPtSumOverPtLowerThresholdEE,
+			float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const=&setting_type::GetLooseMuonIsoPtSumOverPtUpperThresholdEB,
+			float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const=&setting_type::GetLooseMuonIsoPtSumOverPtUpperThresholdEE,
 			float (setting_type::*GetMuonTrackDxyCut)(void) const=&setting_type::GetLooseMuonTrackDxyCut,
 			float (setting_type::*GetMuonTrackDzCut)(void) const=&setting_type::GetLooseMuonTrackDzCut
 	);
@@ -186,8 +194,10 @@ public:
 			float (setting_type::*GetMuonDeltaBetaIsoPtThreshold)(void) const=&setting_type::GetMuonDeltaBetaIsoPtThreshold,
 			float (setting_type::*GetMuonIsoSignalConeSize)(void) const=&setting_type::GetMuonIsoSignalConeSize,
 			float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const=&setting_type::GetMuonDeltaBetaCorrectionFactor,
-			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEB)(void) const=&setting_type::GetVetoMuonIsoPtSumOverPtThresholdEB,
-			float (setting_type::*GetMuonIsoPtSumOverPtThresholdEE)(void) const=&setting_type::GetVetoMuonIsoPtSumOverPtThresholdEE,
+			float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEB)(void) const=&setting_type::GetVetoMuonIsoPtSumOverPtLowerThresholdEB,
+			float (setting_type::*GetMuonIsoPtSumOverPtLowerThresholdEE)(void) const=&setting_type::GetVetoMuonIsoPtSumOverPtLowerThresholdEE,
+			float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const=&setting_type::GetVetoMuonIsoPtSumOverPtUpperThresholdEB,
+			float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const=&setting_type::GetVetoMuonIsoPtSumOverPtUpperThresholdEE,
 			float (setting_type::*GetMuonTrackDxyCut)(void) const=&setting_type::GetMuonTrackDxyCut,
 			float (setting_type::*GetMuonTrackDzCut)(void) const=&setting_type::GetMuonTrackDzCut
 	);

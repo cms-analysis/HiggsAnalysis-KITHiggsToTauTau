@@ -26,8 +26,10 @@ HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KDataElectron*>
                                                      float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const,
                                                      float (setting_type::*GetElectronIsoSignalConeSize)(void) const,
                                                      float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const,
-                                                     float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const,
-                                                     float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const,
+                                                     float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEB)(void) const,
+                                                     float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEE)(void) const,
+                                                     float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEB)(void) const,
+                                                     float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const,
                                                      float (setting_type::*GetElectronTrackDxyCut)(void) const,
                                                      float (setting_type::*GetElectronTrackDzCut)(void) const) :
 	ValidElectronsProducer(validElectrons, invalidElectrons,
@@ -46,8 +48,10 @@ HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KDataElectron*>
 	GetElectronDeltaBetaIsoPtThreshold(GetElectronDeltaBetaIsoPtThreshold),
 	GetElectronIsoSignalConeSize(GetElectronIsoSignalConeSize),
 	GetElectronDeltaBetaCorrectionFactor(GetElectronDeltaBetaCorrectionFactor),
-	GetElectronIsoPtSumOverPtThresholdEB(GetElectronIsoPtSumOverPtThresholdEB),
-	GetElectronIsoPtSumOverPtThresholdEE(GetElectronIsoPtSumOverPtThresholdEE),
+	GetElectronIsoPtSumOverPtLowerThresholdEB(GetElectronIsoPtSumOverPtLowerThresholdEB),
+	GetElectronIsoPtSumOverPtLowerThresholdEE(GetElectronIsoPtSumOverPtLowerThresholdEE),
+	GetElectronIsoPtSumOverPtUpperThresholdEB(GetElectronIsoPtSumOverPtUpperThresholdEB),
+	GetElectronIsoPtSumOverPtUpperThresholdEE(GetElectronIsoPtSumOverPtUpperThresholdEE),
 	GetElectronTrackDxyCut(GetElectronTrackDxyCut),
 	GetElectronTrackDzCut(GetElectronTrackDzCut)
 {
@@ -124,9 +128,29 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 		product.m_electronIsolation[electron] = isolationPtSum;
 		product.m_electronIsolationOverPt[electron] = isolationPtSumOverPt;
 		
-		if ((std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetElectronIsoPtSumOverPtThresholdEB)()) ? settings.GetDirectIso() : (!settings.GetDirectIso()))) ||
-		    (std::abs(electron->p4.Eta()) >= DefaultValues::EtaBorderEB && ((isolationPtSumOverPt >= (settings.*GetElectronIsoPtSumOverPtThresholdEE)()) ? settings.GetDirectIso() : (!settings.GetDirectIso())))) {
-			validElectron = false;
+		if (std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB)
+		{
+			if ((isolationPtSumOverPt > (settings.*GetElectronIsoPtSumOverPtLowerThresholdEB)()) &&
+			    (isolationPtSumOverPt < (settings.*GetElectronIsoPtSumOverPtUpperThresholdEB)()))
+			{
+				validElectron = settings.GetDirectIso();
+			}
+			else
+			{
+				validElectron = (! settings.GetDirectIso());
+			}
+		}
+		else
+		{
+			if ((isolationPtSumOverPt > (settings.*GetElectronIsoPtSumOverPtLowerThresholdEE)()) &&
+			    (isolationPtSumOverPt < (settings.*GetElectronIsoPtSumOverPtUpperThresholdEE)()))
+			{
+				validElectron = settings.GetDirectIso();
+			}
+			else
+			{
+				validElectron = (! settings.GetDirectIso());
+			}
 		}
 	}
 	
@@ -200,8 +224,10 @@ HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 		float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const,
 		float (setting_type::*GetElectronIsoSignalConeSize)(void) const,
 		float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const,
-		float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const,
-		float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const,
+		float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEB)(void) const,
+		float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEE)(void) const,
+		float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEB)(void) const,
+		float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const,
 		float (setting_type::*GetElectronTrackDxyCut)(void) const,
 		float (setting_type::*GetElectronTrackDzCut)(void) const
 ) :
@@ -226,8 +252,10 @@ HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 	                          GetElectronDeltaBetaIsoPtThreshold,
 	                          GetElectronIsoSignalConeSize,
 	                          GetElectronDeltaBetaCorrectionFactor,
-	                          GetElectronIsoPtSumOverPtThresholdEB,
-	                          GetElectronIsoPtSumOverPtThresholdEE,
+	                          GetElectronIsoPtSumOverPtLowerThresholdEB,
+	                          GetElectronIsoPtSumOverPtLowerThresholdEE,
+	                          GetElectronIsoPtSumOverPtUpperThresholdEB,
+	                          GetElectronIsoPtSumOverPtUpperThresholdEE,
 	                          GetElectronTrackDxyCut,
 	                          GetElectronTrackDzCut)
 {
@@ -257,8 +285,10 @@ HttValidVetoElectronsProducer::HttValidVetoElectronsProducer(
 		float (setting_type::*GetElectronDeltaBetaIsoPtThreshold)(void) const,
 		float (setting_type::*GetElectronIsoSignalConeSize)(void) const,
 		float (setting_type::*GetElectronDeltaBetaCorrectionFactor)(void) const,
-		float (setting_type::*GetElectronIsoPtSumOverPtThresholdEB)(void) const,
-		float (setting_type::*GetElectronIsoPtSumOverPtThresholdEE)(void) const,
+		float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEB)(void) const,
+		float (setting_type::*GetElectronIsoPtSumOverPtLowerThresholdEE)(void) const,
+		float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEB)(void) const,
+		float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const,
 		float (setting_type::*GetElectronTrackDxyCut)(void) const,
 		float (setting_type::*GetElectronTrackDzCut)(void) const
 ) :
@@ -283,8 +313,10 @@ HttValidVetoElectronsProducer::HttValidVetoElectronsProducer(
 	                          GetElectronDeltaBetaIsoPtThreshold,
 	                          GetElectronIsoSignalConeSize,
 	                          GetElectronDeltaBetaCorrectionFactor,
-	                          GetElectronIsoPtSumOverPtThresholdEB,
-	                          GetElectronIsoPtSumOverPtThresholdEE,
+	                          GetElectronIsoPtSumOverPtLowerThresholdEB,
+	                          GetElectronIsoPtSumOverPtLowerThresholdEE,
+	                          GetElectronIsoPtSumOverPtUpperThresholdEB,
+	                          GetElectronIsoPtSumOverPtUpperThresholdEE,
 	                          GetElectronTrackDxyCut,
 	                          GetElectronTrackDzCut)
 {

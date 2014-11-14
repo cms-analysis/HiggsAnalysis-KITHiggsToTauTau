@@ -8,8 +8,8 @@
 	"VetoElectronIDType" : "none",
 	"VetoElectronIsoType" : "user",
 	"VetoElectronIso" : "none",
-	"VetoElectronIsoPtSumOverPtThresholdEB" : 0.3,
-	"VetoElectronIsoPtSumOverPtThresholdEE" : 0.3,
+	"VetoElectronIsoPtSumOverPtUpperThresholdEB" : 0.3,
+	"VetoElectronIsoPtSumOverPtUpperThresholdEE" : 0.3,
 	"VetoElectronLowerPtCuts" : [
 		"15.0"
 	],

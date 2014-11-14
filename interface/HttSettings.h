@@ -51,8 +51,10 @@ public:
 	
 	IMPL_SETTING(float, ElectronIsoSignalConeSize);
 	IMPL_SETTING(float, ElectronDeltaBetaCorrectionFactor);
-	IMPL_SETTING(float, ElectronIsoPtSumOverPtThresholdEB);
-	IMPL_SETTING(float, ElectronIsoPtSumOverPtThresholdEE);
+	IMPL_SETTING_DEFAULT(float, ElectronIsoPtSumOverPtLowerThresholdEB, -1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronIsoPtSumOverPtLowerThresholdEE, -1.0);
+	IMPL_SETTING(float, ElectronIsoPtSumOverPtUpperThresholdEB);
+	IMPL_SETTING(float, ElectronIsoPtSumOverPtUpperThresholdEE);
 	
 	IMPL_SETTING_DEFAULT(float, MuonChargedIsoVetoConeSize, 0.0);
 	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoVetoConeSize, 0.0);
@@ -66,8 +68,10 @@ public:
 	
 	IMPL_SETTING(float, MuonIsoSignalConeSize);
 	IMPL_SETTING(float, MuonDeltaBetaCorrectionFactor);
-	IMPL_SETTING(float, MuonIsoPtSumOverPtThresholdEB);
-	IMPL_SETTING(float, MuonIsoPtSumOverPtThresholdEE);
+	IMPL_SETTING_DEFAULT(float, MuonIsoPtSumOverPtLowerThresholdEB, -1.0);
+	IMPL_SETTING_DEFAULT(float, MuonIsoPtSumOverPtLowerThresholdEE, -1.0);
+	IMPL_SETTING(float, MuonIsoPtSumOverPtUpperThresholdEB);
+	IMPL_SETTING(float, MuonIsoPtSumOverPtUpperThresholdEE);
 	
 	IMPL_SETTING_DEFAULT(float, ElectronTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, ElectronTrackDzCut, -1.0);
@@ -82,12 +86,16 @@ public:
 	
 	IMPL_SETTING(std::string, LooseElectronIsoType);
 	IMPL_SETTING(std::string, LooseElectronIso);
-	IMPL_SETTING(float, LooseElectronIsoPtSumOverPtThresholdEB);
-	IMPL_SETTING(float, LooseElectronIsoPtSumOverPtThresholdEE);
+	IMPL_SETTING_DEFAULT(float, LooseElectronIsoPtSumOverPtLowerThresholdEB, -1.0);
+	IMPL_SETTING_DEFAULT(float, LooseElectronIsoPtSumOverPtLowerThresholdEE, -1.0);
+	IMPL_SETTING(float, LooseElectronIsoPtSumOverPtUpperThresholdEB);
+	IMPL_SETTING(float, LooseElectronIsoPtSumOverPtUpperThresholdEE);
 	IMPL_SETTING(std::string, LooseMuonIsoType);
 	IMPL_SETTING(std::string, LooseMuonIso);
-	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtThresholdEB);
-	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtThresholdEE);
+	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtLowerThresholdEB, -1.0);
+	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtLowerThresholdEE, -1.0);
+	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtUpperThresholdEB);
+	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtUpperThresholdEE);
 	
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDzCut, -1.0);
@@ -106,12 +114,16 @@ public:
 	
 	IMPL_SETTING(std::string, VetoElectronIsoType);
 	IMPL_SETTING(std::string, VetoElectronIso);
-	IMPL_SETTING(float, VetoElectronIsoPtSumOverPtThresholdEB);
-	IMPL_SETTING(float, VetoElectronIsoPtSumOverPtThresholdEE);
+	IMPL_SETTING_DEFAULT(float, VetoElectronIsoPtSumOverPtLowerThresholdEB, -1.0);
+	IMPL_SETTING_DEFAULT(float, VetoElectronIsoPtSumOverPtLowerThresholdEE, -1.0);
+	IMPL_SETTING(float, VetoElectronIsoPtSumOverPtUpperThresholdEB);
+	IMPL_SETTING(float, VetoElectronIsoPtSumOverPtUpperThresholdEE);
 	IMPL_SETTING(std::string, VetoMuonIsoType);
 	IMPL_SETTING(std::string, VetoMuonIso);
-	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtThresholdEB);
-	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtThresholdEE);
+	IMPL_SETTING_DEFAULT(float, VetoMuonIsoPtSumOverPtLowerThresholdEB, -1.0);
+	IMPL_SETTING_DEFAULT(float, VetoMuonIsoPtSumOverPtLowerThresholdEE, -1.0);
+	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtUpperThresholdEB);
+	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtUpperThresholdEE);
 	
 	IMPL_SETTING_STRINGLIST(VetoElectronLowerPtCuts);
 	IMPL_SETTING_STRINGLIST(VetoMuonLowerPtCuts);
