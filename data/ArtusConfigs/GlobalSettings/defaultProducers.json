@@ -36,6 +36,7 @@
 				"producer:HttValidLooseMuonsProducer",
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"
@@ -63,6 +64,7 @@
 				"producer:HttValidLooseMuonsProducer",
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
 				"#producer:GenTauCPProducer",
 				"producer:TauSpinnerProducer",

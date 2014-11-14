@@ -101,6 +101,7 @@
 				]
 			},
 			"genDiLeptonDecayMode",
+			"genNPartons",
 			"decayChannelIndex",
 			"exclusiveEventCategoryIndex"
 		],
