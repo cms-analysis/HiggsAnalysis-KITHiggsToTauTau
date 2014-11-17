@@ -55,7 +55,6 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 {
 	assert(product.m_met);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
-	assert(product.m_met);
 	
 	product.m_diLeptonSystem = (product.m_flavourOrderedLeptons[0]->p4 + product.m_flavourOrderedLeptons[1]->p4);
 	product.m_diLeptonPlusMetSystem = (product.m_diLeptonSystem + product.m_met->p4);
