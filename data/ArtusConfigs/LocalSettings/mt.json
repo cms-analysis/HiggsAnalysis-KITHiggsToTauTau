@@ -41,7 +41,6 @@
 			"hpsPFTauDiscriminationByTightMuonRejection",
 			"hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits"
 		],
-		"TauDiscriminatorIsolationCut" : 1.5,
 		"MuonLowerPtCuts" : [
 			"0:20.0"
 		],

@@ -40,7 +40,6 @@
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_et_electron_ID.root",
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC53X_et_electron_Iso.root"
 		],
-		"TauDiscriminatorIsolationCut" : 1.5,
 		"TauDiscriminatorAntiElectronMvaCuts" : [0.933,0.921,0.944,0.945,0.918,0.941,0.981,0.943,0.956,0.947,0.951,0.95,0.897,0.958,0.955,0.942],
 		"TauLowerZImpactCut" : -1.5,
 		"TauUpperZImpactCut" : 0.5,

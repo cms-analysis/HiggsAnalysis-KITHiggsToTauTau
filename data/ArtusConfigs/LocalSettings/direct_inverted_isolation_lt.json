@@ -1,0 +1,28 @@
+{
+	"dirIso" : {
+		"DirectIso" : true
+	},
+	"invLepIso" : {
+		"DirectIso" : true,
+		"ElectronIsoPtSumOverPtLowerThresholdEB" : 0.2,
+		"ElectronIsoPtSumOverPtLowerThresholdEE" : 0.2,
+		"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.5,
+		"ElectronIsoPtSumOverPtUpperThresholdEE" : 0.5,
+		"MuonIsoPtSumOverPtLowerThresholdEB" : 0.2,
+		"MuonIsoPtSumOverPtLowerThresholdEE" : 0.2,
+		"MuonIsoPtSumOverPtUpperThresholdEB" : 0.5,
+		"MuonIsoPtSumOverPtUpperThresholdEE" : 0.5
+	},
+	"invLepLooseTauIso" : {
+		"DirectIso" : true,
+		"ElectronIsoPtSumOverPtLowerThresholdEB" : 0.2,
+		"ElectronIsoPtSumOverPtLowerThresholdEE" : 0.2,
+		"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.5,
+		"ElectronIsoPtSumOverPtUpperThresholdEE" : 0.5,
+		"MuonIsoPtSumOverPtLowerThresholdEB" : 0.2,
+		"MuonIsoPtSumOverPtLowerThresholdEE" : 0.2,
+		"MuonIsoPtSumOverPtUpperThresholdEB" : 0.5,
+		"MuonIsoPtSumOverPtUpperThresholdEE" : 0.5,
+		"TauDiscriminatorIsolationCut" : 10.0
+	} 
+}
