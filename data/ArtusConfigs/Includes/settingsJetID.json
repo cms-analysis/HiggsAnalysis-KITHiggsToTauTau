@@ -13,5 +13,7 @@
 	],
 	"JetUpperAbsEtaCuts" : [
 		"4.7"
-	]
+	],
+	
+	"JetLeptonLowerDeltaRCut" : 0.5
 }
