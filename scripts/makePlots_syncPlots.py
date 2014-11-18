@@ -60,7 +60,8 @@ if __name__ == "__main__":
 		
 		try:
 			higgsplot.higgs_plot(plot_args)
-		except Exception:
+		except Exception, e:
+			log.info(str(e))
 			failed_plots.append(plot_args)
 	
 	if len(failed_plots) > 0:
