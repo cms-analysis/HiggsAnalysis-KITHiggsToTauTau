@@ -71,6 +71,6 @@ if __name__ == "__main__":
 			except Exception:
 				failed_plots.append(plot_args)
 	
-	if len(plot_args) > 0:
-		log.error("Failed plots:\n\thiggsplot.py %s" % "\n\thiggsplot.py ".join(plot_args))
+	if len(failed_plots) > 0:
+		log.error("%d failed plots:\n\thiggsplot.py %s" % (len(failed_plots), "\n\thiggsplot.py ".join(failed_plots)))
 
