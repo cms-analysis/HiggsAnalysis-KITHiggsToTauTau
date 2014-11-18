@@ -45,6 +45,7 @@ if __name__ == "__main__":
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
 	
+	failed_plots = []
 	for quantity in args["quantities"]:
 		json_exists = True
 		json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_%s.json" % (args["channel"], quantity))
@@ -56,5 +57,12 @@ if __name__ == "__main__":
 		plot_args = os.path.expandvars(plot_args)
 		
 		log.info("\nhiggsplot.py %s" % plot_args)
-		higgsplot.higgs_plot(plot_args)
+		
+		try:
+			higgsplot.higgs_plot(plot_args)
+		except Exception:
+			failed_plots.append(plot_args)
+	
+	if len(plot_args) > 0:
+		log.error("Failed plots:\n\thiggsplot.py %s" % "\n\thiggsplot.py ".join(plot_args))
 
