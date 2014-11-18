@@ -22,10 +22,56 @@ void EventCategoryProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("exclusiveEventCategoryIndex", [](event_type const& event, product_type const& product) {
 		return Utility::ToUnderlyingValue(product.m_exclusiveEventCategory);
 	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCatInc", [](event_type const& event, product_type const& product) -> bool {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::INCLUSIVE);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat0Jet", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ZERO_JET);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat1Jet", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ONE_JET);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat2Jet", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::TWO_JET);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat0JetLow", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ZERO_JET_LOW_PT);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat0JetMedium", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ZERO_JET_MEDIUM_PT);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat0JetHigh", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ZERO_JET_HIGH_PT);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat1JetLow", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ONE_JET_LOW_PT);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat1JetHigh", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ONE_JET_HIGH_PT);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat1JetHighBoost", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ONE_JET_HIGH_PT_BOOST);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat1JetBoost", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ONE_JET_BOOST);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat1JetLargeBoost", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ONE_JET_LARGE_BOOST);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat2JetVbf", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::TWO_JET_VBF);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat2JetVbfLoose", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::TWO_JET_VBF_LOOSE);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("isCat2JetVbfTight", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::TWO_JET_VBF_TIGHT);
+	});
 }
 
 void EventCategoryProducer::Produce(event_type const& event, product_type& product,
-	                               setting_type const& settings) const
+                                    setting_type const& settings) const
 {
 	// https://twiki.cern.ch/twiki/pub/CMSPublic/Hig13004TWikiUpdate/categories_2012.png
 

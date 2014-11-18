@@ -47,23 +47,26 @@ public:
 		ONE_JET               = 2,
 		TWO_JET               = 3,
 		
-		ZERO_JET_LOW_PT       = 4,
-		ZERO_JET_HIGH_PT      = 5,
-		ONE_JET_LOW_PT        = 6,
-		ONE_JET_HIGH_PT       = 7,
-		ONE_JET_HIGH_PT_BOOST = 8,
-		ONE_JET_BOOST         = 9,
-		ONE_JET_LARGE_BOOST   = 10,
-		TWO_JET_VBF           = 11,
-		TWO_JET_VBF_LOOSE     = 12,
-		TWO_JET_VBF_TIGHT     = 13,
+		ZERO_JET_LOW_PT       = 11,
+		ZERO_JET_MEDIUM_PT    = 12,
+		ZERO_JET_HIGH_PT      = 13,
+		
+		ONE_JET_LOW_PT        = 21,
+		ONE_JET_HIGH_PT       = 22,
+		ONE_JET_HIGH_PT_BOOST = 23,
+		ONE_JET_BOOST         = 24,
+		ONE_JET_LARGE_BOOST   = 25,
+		
+		TWO_JET_VBF           = 31,
+		TWO_JET_VBF_LOOSE     = 32,
+		TWO_JET_VBF_TIGHT     = 33,
 
-		TTH_1TAG_2JETS        = 14,
-		TTH_1TAG_3JETS        = 15,
-		TTH_1TAG_4JETS        = 16,
-		TTH_2TAG_2JETS        = 17,
-		TTH_2TAG_3JETS        = 18,
-		TTH_2TAG_4JETS        = 19,
+		TTH_1TAG_2JETS        = 41,
+		TTH_1TAG_3JETS        = 42,
+		TTH_1TAG_4JETS        = 43,
+		TTH_2TAG_2JETS        = 44,
+		TTH_2TAG_3JETS        = 45,
+		TTH_2TAG_4JETS        = 46,
 	};
 	static EventCategory ToEventCategory(std::string const& eventCategory)
 	{
