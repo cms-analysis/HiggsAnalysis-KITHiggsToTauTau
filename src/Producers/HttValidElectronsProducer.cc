@@ -92,28 +92,35 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	if (validElectron && electronID == ElectronID::USER) {
 		if (electronIDType == ElectronIDType::SUMMER2013LOOSE)
 		{
-			std::cout << "electronIDType: ElectronIDType::SUMMER2013LOOSE" << std::endl;
 			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), event, false);
 		}
 		else if (electronIDType == ElectronIDType::SUMMER2013TIGHT)
 		{
-			std::cout << "electronIDType: ElectronIDType::SUMMER2013TIGHT" << std::endl;
 			validElectron = validElectron && IsMVANonTrigElectronHttSummer2013(&(*electron), event, true);
 		}
 		else if (electronIDType == ElectronIDType::SUMMER2013TTHLOOSE)
 		{
-			std::cout << "electronIDType: ElectronIDType::SUMMER2013TTHLOOSE" << std::endl;
 			validElectron = validElectron && IsMVATrigElectronTTHSummer2013(&(*electron), event, false);
 		}
 		else if (electronIDType == ElectronIDType::SUMMER2013TTHTIGHT)
 		{
-			std::cout << "electronIDType: ElectronIDType::SUMMER2013TTHTIGHT" << std::endl;
 			validElectron = validElectron && IsMVATrigElectronTTHSummer2013(&(*electron), event, true);
 		}
-		else if (electronIDType == ElectronIDType::IsMVANonTrigElectronRun2)
+		else if (electronIDType == ElectronIDType::MVATRIGV050NSCSA14)
 		{
-			std::cout << "electronIDType: ElectronIDType::IsMVANonTrigElectronRun2" << std::endl;
-			validElectron = validElectron && IsMVANonTrigElectronRun2(&(*electron), event, true);
+			validElectron = validElectron && IsMVATrigV050nsCsa14(&(*electron), event, true);
+		}
+		else if (electronIDType == ElectronIDType::MVATRIGV025NSCSA14)
+		{
+			validElectron = validElectron && IsMVATrigV025nsCsa14(&(*electron), event, true);
+		}
+		else if (electronIDType == ElectronIDType::MVANONTRIGV050NSCSA14)
+		{
+			validElectron = validElectron && IsMVANonTrigV050nsCsa14(&(*electron), event, true);
+		}
+		else if (electronIDType == ElectronIDType::MVANONTRIGV025NSCSA14)
+		{
+			validElectron = validElectron && IsMVANonTrigV025nsCsa14(&(*electron), event, true);
 		}
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
@@ -218,11 +225,60 @@ bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron*
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVANonTrigElectronRun2(KDataElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVATrigV050nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 	
-	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_ID
+	validElectron = validElectron &&
+		(
+			(
+				(electron->p4.Pt() < 20.0)
+				&&
+				(
+					(electron->getId("mvaTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+				)
+			)
+			||
+			(
+				(electron->p4.Pt() >= 20.0) &&
+				(
+					(electron->getId("mvaTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+				)
+			)
+		);
+
+	return validElectron;
+}
+
+bool HttValidElectronsProducer::IsMVATrigV025nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const
+{
+	bool validElectron = true;
+
+	validElectron = validElectron &&
+		(
+			(
+				(electron->p4.Pt() < 20.0)
+				&&
+				(
+					(electron->getId("mvaTrigV025nsCSA14", event.m_electronIdMetadata) > 0.9)
+				)
+			)
+			||
+			(
+				(electron->p4.Pt() >= 20.0) &&
+				(
+					(electron->getId("mvaTrigV025nsCSA14", event.m_electronIdMetadata) > 0.9)
+				)
+			)
+		);
+
+	return validElectron;
+}
+
+bool HttValidElectronsProducer::IsMVANonTrigV050nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const
+{
+	bool validElectron = true;
+
 	validElectron = validElectron &&
 		(
 			(
@@ -237,6 +293,31 @@ bool HttValidElectronsProducer::IsMVANonTrigElectronRun2(KDataElectron* electron
 				(electron->p4.Pt() >= 20.0) &&
 				(
 					(electron->getId("mvaNonTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+				)
+			)
+		);
+
+	return validElectron;
+}
+
+bool HttValidElectronsProducer::IsMVANonTrigV025nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const
+{
+	bool validElectron = true;
+
+	validElectron = validElectron &&
+		(
+			(
+				(electron->p4.Pt() < 20.0)
+				&&
+				(
+					(electron->getId("mvaNonTrigV025nsCSA14", event.m_electronIdMetadata) > 0.9)
+				)
+			)
+			||
+			(
+				(electron->p4.Pt() >= 20.0) &&
+				(
+					(electron->getId("mvaNonTrigV025nsCSA14", event.m_electronIdMetadata) > 0.9)
 				)
 			)
 		);
