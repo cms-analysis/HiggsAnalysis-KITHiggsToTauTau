@@ -3,11 +3,11 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/et_default.json"
 	],
 	"x_expressions" : [
-		"diLepMetMt"
+		"lep1MetMt"
 	],
 	"x_bins" : [
 		"40,0.0,400"
 	],
-	"x_label" : "m_{T}^{ll,MEt}",
-	"filename" : "mt_llmet"
+	"x_label" : "m_{T}^{e,MEt}",
+	"filename" : "mt_lep1met"
 }
