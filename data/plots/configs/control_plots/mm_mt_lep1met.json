@@ -6,7 +6,7 @@
 		"lep1MetMt"
 	],
 	"x_bins" : [
-		"40,0.0,400"
+		"30,0.0,300"
 	],
 	"x_label" : "m_{T}^{mu,MEt}",
 	"filename" : "mt_lep1met"
