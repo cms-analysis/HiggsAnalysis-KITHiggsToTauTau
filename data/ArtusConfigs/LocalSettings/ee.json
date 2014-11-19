@@ -14,7 +14,8 @@
 		"NMuons" : 0,
 		"HltPaths" : [
 			"HLT_Ele17_Ele8_CaloIdL_CaloIsoVL",
-			"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
+			"HLT_Ele17_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL",
+			"HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL"
 		],
 		"ElectronLowerPtCuts" : [
 			"0:20.0",
