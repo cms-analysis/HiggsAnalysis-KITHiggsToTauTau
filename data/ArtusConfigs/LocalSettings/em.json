@@ -98,11 +98,27 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/emAntiTTbarMvaQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/categoryQuantities.json"
 				]
 			},
 			"genDiLeptonDecayMode",
 			"genNPartons"
+		],
+		"AntiTtbarTmvaInputQuantities" : [
+			"pzetavis",
+			"pzetamiss",
+			"dphi",
+			"mvamet",
+			"mtll",
+			"csv",
+			"d01"
+		],
+		"AntiTtbarTmvaMethods" : [
+			"BDTG method"
+		],
+		"AntiTtbarTmvaWeights" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/mva_weights/EmuMVA/data/HttEmu_v3.weights.xml"
 		],
 		"Processors" : {
 			"nick" : {
@@ -135,7 +151,7 @@
 					"producer:EventCategoryProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:AntiTtbarDiscriminatorTmvaReader",
+					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -170,7 +186,7 @@
 					"producer:EventCategoryProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:AntiTtbarDiscriminatorTmvaReader",
+					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -200,7 +216,7 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"#producer:AntiTtbarDiscriminatorTmvaReader",
+					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventCategoryProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"

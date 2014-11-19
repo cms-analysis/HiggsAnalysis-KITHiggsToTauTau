@@ -31,6 +31,11 @@ public:
 	}
 	
 	AntiTtbarDiscriminatorTmvaReader();
+	
+	virtual void Init(spec_setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	
+	virtual void Produce(spec_event_type const& event, spec_product_type& product,
+	                     spec_setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 
 };
 
