@@ -75,6 +75,7 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
                                     setting_type const& settings) const
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
+	assert((product.m_decayChannel != HttEnumTypes::DecayChannel::EM) || (! product.m_antiTtbarDiscriminators.empty()));
 	
 	// https://twiki.cern.ch/twiki/pub/CMSPublic/Hig13004TWikiUpdate/categories_2012.png
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Event_Categories_SM
@@ -133,7 +134,7 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 				product.m_eventCategories.push_back(HttEnumTypes::EventCategory::TWO_JET);
 			}
 		}
-		else
+		else if ((product.m_decayChannel != HttEnumTypes::DecayChannel::EM) || (product.m_antiTtbarDiscriminators[0] > -0.15))
 		{
 			if ((nJets30 >= 2) &&
 			    (product.m_diJetSystem.mass() > 700.0) &&
@@ -163,7 +164,8 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 		}
 		
 		// 1 Jet categories
-		if (! Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::TWO_JET_VBF))
+		if ((! Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::TWO_JET_VBF)) &&
+		    ((product.m_decayChannel != HttEnumTypes::DecayChannel::EM) || (product.m_antiTtbarDiscriminators[0] > -0.5)))
 		{
 			if ((nJets30 >= 1) &&
 		        ((product.m_decayChannel != HttEnumTypes::DecayChannel::ET) || (product.m_met->p4.Pt() > 30.0)))
@@ -201,7 +203,8 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 		}
 		
 		// 0 Jet categories
-		if (! Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ONE_JET))
+		if ((! Utility::Contains(product.m_eventCategories, HttEnumTypes::EventCategory::ONE_JET)) &&
+		    ((product.m_decayChannel != HttEnumTypes::DecayChannel::EM) || (product.m_antiTtbarDiscriminators[0] > -0.5)))
 		{
 			if (product.m_flavourOrderedLeptons[leptonPtCutIndex]->p4.Pt() > leptonHighPtCut)
 			{
