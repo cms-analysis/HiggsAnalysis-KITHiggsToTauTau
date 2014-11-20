@@ -1,12 +1,12 @@
 {
 	"property" : [
-		"pzetavis",
-		"pzetamiss",
-		"dphi",
-		"mvamet",
-		"mtll",
-		"csv",
-		"d01",
+		"emAntiTTbarMva_pzetavis",
+		"emAntiTTbarMva_pzetamiss",
+		"emAntiTTbarMva_dphi",
+		"emAntiTTbarMva_mvamet",
+		"emAntiTTbarMva_mtll",
+		"emAntiTTbarMva_csv",
+		"emAntiTTbarMva_d01",
 		"emAntiTTbarMva"
 	]
 }

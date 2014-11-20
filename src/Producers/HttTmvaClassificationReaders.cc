@@ -17,29 +17,29 @@ AntiTtbarDiscriminatorTmvaReader::AntiTtbarDiscriminatorTmvaReader() :
 void AntiTtbarDiscriminatorTmvaReader::Init(spec_setting_type const& settings)
 {
 	// register variables needed for the MVA evaluation
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pzetavis", [](spec_event_type const& event, spec_product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("emAntiTTbarMva_pzetavis", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		return product.pZetaVis;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pzetamiss", [](spec_event_type const& event, spec_product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("emAntiTTbarMva_pzetamiss", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		return product.pZetaMissVis;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dphi", [](spec_event_type const& event, spec_product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("emAntiTTbarMva_dphi", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		return std::abs(ROOT::Math::VectorUtil::DeltaPhi(product.m_flavourOrderedLeptons[0]->p4,
 		                                                 product.m_flavourOrderedLeptons[1]->p4));
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvamet", [](spec_event_type const& event, spec_product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("emAntiTTbarMva_mvamet", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		return product.m_met->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mtll", [](spec_event_type const& event, spec_product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("emAntiTTbarMva_mtll", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4,
 		                               product.m_flavourOrderedLeptons[1]->p4);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("csv", [](spec_event_type const& event, spec_product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("emAntiTTbarMva_csv", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		float csv = -1.0;
 		for (std::vector<KDataPFJet*>::const_iterator jet = product.m_validJets.begin();
@@ -54,7 +54,7 @@ void AntiTtbarDiscriminatorTmvaReader::Init(spec_setting_type const& settings)
 		}
 		return csv;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d01", [](spec_event_type const& event, spec_product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("emAntiTTbarMva_d01", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->track.getDxy(&(event.m_vertexSummary->pv));
 	});

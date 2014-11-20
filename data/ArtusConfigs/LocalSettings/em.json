@@ -106,13 +106,13 @@
 			"genNPartons"
 		],
 		"AntiTtbarTmvaInputQuantities" : [
-			"pzetavis",
-			"pzetamiss",
-			"dphi",
-			"mvamet",
-			"mtll",
-			"csv",
-			"d01"
+			"emAntiTTbarMva_pzetavis:=pzetavis",
+			"emAntiTTbarMva_pzetavis:=pzetamiss",
+			"emAntiTTbarMva_pzetavis:=dphi",
+			"emAntiTTbarMva_pzetavis:=mvamet",
+			"emAntiTTbarMva_pzetavis:=mtll",
+			"emAntiTTbarMva_pzetavis:=csv",
+			"emAntiTTbarMva_pzetavis:=d01"
 		],
 		"AntiTtbarTmvaMethods" : [
 			"BDTG method"
