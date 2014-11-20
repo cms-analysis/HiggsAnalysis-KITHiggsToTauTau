@@ -1,6 +1,7 @@
 {
 	"property" : [
 		"decayChannelIndex",
+		"exclusiveEventCategoryIndex",
 		"isCatInc",
 		"isCat0Jet",
 		"isCat1Jet",
@@ -9,10 +10,10 @@
 		"isCat0JetMedium",
 		"isCat0JetHigh",
 		"isCat1JetLow",
+		"isCat1JetMedium",
 		"isCat1JetHigh",
 		"isCat1JetHighBoost",
-		"isCat1JetBoost",
-		"isCat1JetLargeBoost",
+		"isCat1JetHighLargeBoost",
 		"isCat2JetVbf",
 		"isCat2JetVbfLoose",
 		"isCat2JetVbfTight"

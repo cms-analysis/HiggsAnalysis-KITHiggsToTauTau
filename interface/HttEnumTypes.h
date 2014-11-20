@@ -40,33 +40,33 @@ public:
 	
 	enum class EventCategory : int
 	{
-		NONE                  = -1,
+		NONE                        = -1,
 		
-		INCLUSIVE             = 0,
-		ZERO_JET              = 1,
-		ONE_JET               = 2,
-		TWO_JET               = 3,
+		INCLUSIVE                   = 0,
+		ZERO_JET                    = 1,
+		ONE_JET                     = 2,
+		TWO_JET                     = 3,
 		
-		ZERO_JET_LOW_PT       = 11,
-		ZERO_JET_MEDIUM_PT    = 12,
-		ZERO_JET_HIGH_PT      = 13,
+		ZERO_JET_LOW_PT             = 11,
+		ZERO_JET_MEDIUM_PT          = 12,
+		ZERO_JET_HIGH_PT            = 13,
 		
-		ONE_JET_LOW_PT        = 21,
-		ONE_JET_HIGH_PT       = 22,
-		ONE_JET_HIGH_PT_BOOST = 23,
-		ONE_JET_BOOST         = 24,
-		ONE_JET_LARGE_BOOST   = 25,
+		ONE_JET_LOW_PT              = 21,
+		ONE_JET_MEDIUM_PT           = 22,
+		ONE_JET_HIGH_PT             = 23,
+		ONE_JET_HIGH_PT_BOOST       = 24,
+		ONE_JET_HIGH_PT_LARGE_BOOST = 25,
 		
-		TWO_JET_VBF           = 31,
-		TWO_JET_VBF_LOOSE     = 32,
-		TWO_JET_VBF_TIGHT     = 33,
+		TWO_JET_VBF                 = 31,
+		TWO_JET_VBF_LOOSE           = 32,
+		TWO_JET_VBF_TIGHT           = 33,
 
-		TTH_1TAG_2JETS        = 41,
-		TTH_1TAG_3JETS        = 42,
-		TTH_1TAG_4JETS        = 43,
-		TTH_2TAG_2JETS        = 44,
-		TTH_2TAG_3JETS        = 45,
-		TTH_2TAG_4JETS        = 46,
+		TTH_1TAG_2JETS              = 41,
+		TTH_1TAG_3JETS              = 42,
+		TTH_1TAG_4JETS              = 43,
+		TTH_2TAG_2JETS              = 44,
+		TTH_2TAG_3JETS              = 45,
+		TTH_2TAG_4JETS              = 46,
 	};
 	static EventCategory ToEventCategory(std::string const& eventCategory)
 	{
@@ -76,12 +76,15 @@ public:
 		else if (eventCategory == "two_jet") return EventCategory::TWO_JET;
 		
 		else if (eventCategory == "zero_jet_low_pt") return EventCategory::ZERO_JET_LOW_PT;
+		else if (eventCategory == "zero_jet_medium_pt") return EventCategory::ZERO_JET_MEDIUM_PT;
 		else if (eventCategory == "zero_jet_high_pt") return EventCategory::ZERO_JET_HIGH_PT;
+		
 		else if (eventCategory == "one_jet_low_pt") return EventCategory::ONE_JET_LOW_PT;
+		else if (eventCategory == "one_jet_medium_pt") return EventCategory::ONE_JET_MEDIUM_PT;
 		else if (eventCategory == "one_jet_high_pt") return EventCategory::ONE_JET_HIGH_PT;
 		else if (eventCategory == "one_jet_high_pt_boost") return EventCategory::ONE_JET_HIGH_PT_BOOST;
-		else if (eventCategory == "one_jet_boost") return EventCategory::ONE_JET_BOOST;
-		else if (eventCategory == "one_jet_large_boost") return EventCategory::ONE_JET_LARGE_BOOST;
+		else if (eventCategory == "one_jet_high_pt_large_boost") return EventCategory::ONE_JET_HIGH_PT_LARGE_BOOST;
+		
 		else if (eventCategory == "two_jet_vbf") return EventCategory::TWO_JET_VBF;
 		else if (eventCategory == "two_jet_vbf_loose") return EventCategory::TWO_JET_VBF_LOOSE;
 		else if (eventCategory == "two_jet_vbf_tight") return EventCategory::TWO_JET_VBF_TIGHT;
