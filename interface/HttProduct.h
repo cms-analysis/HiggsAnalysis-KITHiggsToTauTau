@@ -84,6 +84,7 @@ public:
 	// filled by the DiJetQuantitiesProducer
 	RMLV m_diJetSystem;
 	bool m_diJetSystemAvailable = false;
+	bool m_centralJet30Exists = false;
 	
 	KDataPFMET* m_met = 0;
 	

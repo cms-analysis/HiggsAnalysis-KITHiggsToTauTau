@@ -24,6 +24,7 @@
 		"trailingBJetCSV",
 		"diJetMass",
 		"diJetDeltaPhi",
-		"diJetAbsDeltaEta"
+		"diJetAbsDeltaEta",
+		"centralJet30Exists"
 	]
 }
