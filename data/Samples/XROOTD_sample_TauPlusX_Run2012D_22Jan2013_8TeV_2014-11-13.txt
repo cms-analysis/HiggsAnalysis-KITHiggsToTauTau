@@ -2297,7 +2297,6 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3064.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3065.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3066.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3067.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3068.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3069.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_307.root
@@ -2412,7 +2411,6 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3168.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3169.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_317.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3170.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3171.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3172.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3173.root

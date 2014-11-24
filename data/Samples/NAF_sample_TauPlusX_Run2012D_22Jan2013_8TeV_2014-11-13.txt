@@ -2297,7 +2297,6 @@
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3064.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3065.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3066.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3067.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3068.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3069.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_307.root
@@ -2412,7 +2411,6 @@
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3168.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3169.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_317.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3170.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3171.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3172.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-11-13/TauPlusX_Run2012D_22Jan2013_8TeV/kappa_TauPlusX_Run2012D_22Jan2013_8TeV_3173.root
