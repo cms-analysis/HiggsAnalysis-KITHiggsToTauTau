@@ -39,6 +39,8 @@ if __name__ == "__main__":
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter.")
+	parser.add_argument("-r", "--ratio", default=False, action="store_true",
+	                    help="Add ratio subplot. [Default: %(default)s]")
 	                    
 	
 	args = vars(parser.parse_args())
@@ -52,6 +54,8 @@ if __name__ == "__main__":
 				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity)),
 				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/%s.json" % (channel))
 			]
+			if args["ratio"]:
+				json_configs.append(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/ratio.json"))
 			if not os.path.exists(json_configs[0]):
 				json_exists = False
 				json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
