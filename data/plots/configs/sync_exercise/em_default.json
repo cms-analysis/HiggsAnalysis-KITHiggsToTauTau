@@ -1,10 +1,10 @@
 {
 	"folders" : [
-		"em_os_dirIso/ntuple",
+		"em_os_dirIso/ntuple em_ss_dirIso/ntuple",
 		"TauCheck"
 	],
 	"ratio" : true,
-	"output_dir" : "plots/VBF_HToTauTau_M-125/em",
+	"output_dir" : "plots/sync_plots/em",
 	"plot_modules" : [
 		"PlotRootHtt"
 	],

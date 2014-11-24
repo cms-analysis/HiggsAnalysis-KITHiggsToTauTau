@@ -1,10 +1,10 @@
 {
 	"folders" : [
-		"tt_os_dirIso/ntuple",
+		"tt_os_dirIso/ntuple tt_ss_dirIso/ntuple",
 		"Events"
 	],
 	"ratio" : true,
-	"output_dir" : "plots/VBF_HToTauTau_M-125/tt",
+	"output_dir" : "plots/sync_plots/tt",
 	"plot_modules" : [
 		"PlotRootHtt"
 	],
