@@ -37,7 +37,7 @@ if __name__ == "__main__":
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
-	parser.add_argument("-a", "--args", default="",
+	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter.")
 	                    
 	

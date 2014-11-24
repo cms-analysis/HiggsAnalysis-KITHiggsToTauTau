@@ -39,7 +39,7 @@ if __name__ == "__main__":
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
-	parser.add_argument("-a", "--args", default="",
+	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter.")
 	
 	args = vars(parser.parse_args())
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 			json_exists = False
 			json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % args["channel"])
 		
-		plot_args = "--json-defaults %s -i %s %s --folders %s %s %s -f png --plot-modules PlotRootHtt %s %s" % (json_config, args["input_1"], args["input_2"], args["folder_1"], args["folder_2"], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")), args["args"])
+		plot_args = "--json-defaults %s -i %s %s --folders %s %s %s -f png %s %s" % (json_config, args["input_1"], args["input_2"], args["folder_1"], args["folder_2"], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")), args["args"])
 		plot_args = os.path.expandvars(plot_args)
 		
 		log.info("\nhiggsplot.py %s" % plot_args)
