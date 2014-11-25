@@ -11,21 +11,10 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsGenTauCP.json"
 	],
 	"#LumiWhitelist" : [
-		1555
 	],
 	"#EventWhitelist" : [
-		484363,
-		595487,
-		825415
 	],
 	"#EventWhitelist" : [
-		466238,
-		466286,
-		466295,
-		466368,
-		466381,
-		466434,
-		466453
 	],
 	"Processors" : {
 		"nick" : {
@@ -73,12 +62,14 @@
 				"producer:NumberGeneratedEventsWeightProducer"
 			],
 			"(?<!PFembedded).Run2012" : [
+				"#filter:RunLumiEventFilter",
 				"filter:JsonFilter",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
 				"producer:HttValidLooseMuonsProducer"
 			],
 			"PFembedded" : [
+				"#filter:RunLumiEventFilter",
 				"filter:JsonFilter",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
