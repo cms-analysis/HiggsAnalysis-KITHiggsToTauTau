@@ -10,11 +10,17 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsGenTauCP.json"
 	],
+	"#RunWhitelist" : [
+	],
 	"#LumiWhitelist" : [
 	],
 	"#EventWhitelist" : [
 	],
-	"#EventWhitelist" : [
+	"#RunBlacklist" : [
+	],
+	"#LumiBlacklist" : [
+	],
+	"#EventBlacklist" : [
 	],
 	"Processors" : {
 		"nick" : {
