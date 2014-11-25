@@ -1,1 +1,3 @@
-NAF_collection_WW_WZ_ZZ_pythia_tauola_8TeV_2014-07-30.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF_sample_WW_pythia_tauola_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF_sample_WZ_pythia_tauola_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/NAF_sample_ZZ_pythia_tauola_8TeV_recent.txt
