@@ -6,8 +6,8 @@
 */
 
 
-HttEventProvider::HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType) :
-		KappaEventProvider<HttTypes>(fileInterface, inpType)
+HttEventProvider::HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType, bool batchMode) :
+		KappaEventProvider<HttTypes>(fileInterface, inpType, batchMode)
 {
 
 }

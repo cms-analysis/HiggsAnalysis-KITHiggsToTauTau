@@ -16,7 +16,7 @@ public:
 	
 	typedef typename HttTypes::setting_type setting_type;
 	
-	HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType);
+	HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType, bool batchMode=false);
 
 	virtual void WireEvent(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
 };

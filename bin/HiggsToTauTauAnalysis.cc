@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 	// will load the Ntuples from the root file
 	// this must be modified if you want to load more/new quantities
 	FileInterface2 fileInterface(myConfig.GetInputFiles());
-	HttEventProvider evtProvider(fileInterface, (settings.GetInputIsData() ? DataInput : McInput));
+	HttEventProvider evtProvider(fileInterface, (settings.GetInputIsData() ? DataInput : McInput), settings.GetBatchMode());
 	evtProvider.WireEvent(settings);
 
 	// the pipeline initializer will setup the pipeline, with
