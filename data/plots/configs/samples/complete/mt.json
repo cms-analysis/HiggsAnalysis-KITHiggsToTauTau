@@ -8,7 +8,7 @@
 	],
 	"files" : [
 		"@ Data",
-		"*_Run2012?_22Jan2013_8TeV/*.root",
+		"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 		
 		"@ DY->tautau",
 		"*_PFembedded_Run2012?_22Jan2013_muhad_8TeV/*.root",
@@ -27,7 +27,7 @@
 		
 		"@ WJets",
 		"WJetsToLN_madgraph_8TeV/*.root",
-		"*_Run2012?_22Jan2013_8TeV/*.root",
+		"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
@@ -37,7 +37,7 @@
 		
 		"@ WJets (SS, for substraction in QCD estimation)",
 		"WJetsToLN_madgraph_8TeV/*.root",
-		"*_Run2012?_22Jan2013_8TeV/*.root",
+		"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
@@ -46,7 +46,7 @@
 		"WJetsToLN_madgraph_8TeV/*.root",
 		
 		"@ QCD",
-		"*_Run2012?_22Jan2013_8TeV/*.root",
+		"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
