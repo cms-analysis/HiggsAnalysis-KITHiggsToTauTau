@@ -38,7 +38,7 @@ if __name__ == "__main__":
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
-	                    help="Additional Arguments for HarryPlotter.")
+	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	                    

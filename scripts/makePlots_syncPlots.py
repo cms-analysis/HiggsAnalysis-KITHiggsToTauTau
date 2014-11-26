@@ -19,12 +19,6 @@ if __name__ == "__main__":
 	parser.add_argument("--input-1", help="Input files 1.", required=True)
 	parser.add_argument("--input-2", help="Input files 2.", required=True)
 	
-	parser.add_argument("--folder-1", help="Input folders 1.", required=True)
-	parser.add_argument("--folder-2", help="Input folders 2.", required=True)
-	
-	parser.add_argument("--label-1", default="1", help="Label 1 [Default: %(default)s].")
-	parser.add_argument("--label-2", default="2", help="Label 2 [Default: %(default)s].")
-	
 	parser.add_argument("--channel", help="Channel", required=True)
 	parser.add_argument("--quantities", nargs="*",
 	                    default=["inclusive", "eventsoverlap",
@@ -40,7 +34,7 @@ if __name__ == "__main__":
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
-	                    help="Additional Arguments for HarryPlotter.")
+	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
@@ -53,7 +47,7 @@ if __name__ == "__main__":
 			json_exists = False
 			json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % args["channel"])
 		
-		plot_args = "--json-defaults %s -i %s %s --folders %s %s %s -f png %s %s" % (json_config, args["input_1"], args["input_2"], args["folder_1"], args["folder_2"], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")), args["args"])
+		plot_args = "--json-defaults %s -i %s %s %s -f png %s %s" % (json_config, args["input_1"], args["input_2"], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")), args["args"])
 		plot_args = os.path.expandvars(plot_args)
 		
 		log.info("\nhiggsplot.py %s" % plot_args)
