@@ -15,7 +15,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	// add possible quantities for the lambda ntuples consumers
 	
 	// settings for synch ntuples
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("evt", [](KappaEvent const& event, KappaProduct const& product) -> float
+	LambdaNtupleConsumer<KappaTypes>::AddUInt64Quantity("evt", [](KappaEvent const& event, KappaProduct const& product) -> uint64_t
  	{
  		return event.m_eventMetadata->nEvent;
  	});
