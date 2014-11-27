@@ -1,5 +1,6 @@
 {
 	"property" : [
+		"nickname",
 		"run",
 		"lumi",
 		"event",

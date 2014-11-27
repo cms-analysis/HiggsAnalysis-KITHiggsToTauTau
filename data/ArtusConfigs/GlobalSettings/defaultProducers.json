@@ -34,7 +34,8 @@
 				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer"
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer"
 			],
 			"HToTauTau" : [
 				"#filter:RunLumiEventFilter",
@@ -49,7 +50,8 @@
 				"producer:TauSpinnerProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer"
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer"
 			],
 			"DY.?JetsToLL" : [
 				"#filter:RunLumiEventFilter",
@@ -65,14 +67,16 @@
 				"producer:TauSpinnerProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer"
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer"
 			],
 			"(?<!PFembedded).Run2012" : [
 				"#filter:RunLumiEventFilter",
 				"filter:JsonFilter",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
-				"producer:HttValidLooseMuonsProducer"
+				"producer:HttValidLooseMuonsProducer",
+				"producer:NicknameProducer"
 			],
 			"PFembedded" : [
 				"#filter:RunLumiEventFilter",
@@ -80,7 +84,8 @@
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
 				"producer:HttValidLooseMuonsProducer",
-				"producer:EmbeddingWeightProducer"
+				"producer:EmbeddingWeightProducer",
+				"producer:NicknameProducer"
 			]
 		}
 	},
