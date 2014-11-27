@@ -5,7 +5,7 @@
 	
 	"LooseElectronReco" : "user",
 	"LooseElectronID" : "user",
-	"LooseElectronIDType" : "summer2013loose",
+	"LooseElectronIDType" : "mvanontrigv050nscsa14",
 	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",
 	"LooseElectronIsoPtSumOverPtUpperThresholdEB" : 0.3,

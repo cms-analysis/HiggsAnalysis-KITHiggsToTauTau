@@ -7,6 +7,7 @@
 	},
 	"GenMet" : "GenMETTrue",
 	"Electrons" : "electrons",
+	"ElectronIdMetadata" : "KElectronIdMetadata",
 	"Muons" : "muons",
 	"GenTaus" : {
 		"nick" : {
