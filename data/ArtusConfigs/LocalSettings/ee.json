@@ -136,7 +136,8 @@
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"SvfitCacheConsumer",
-			"cutflow_histogram"
+			"cutflow_histogram",
+			"CutFlowTreeConsumer"
 		]
 	}
 }
