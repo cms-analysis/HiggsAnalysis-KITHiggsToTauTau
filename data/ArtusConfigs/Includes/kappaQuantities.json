@@ -1,6 +1,7 @@
 {
 	"property" : [
 		"nickname",
+		"input",
 		"run",
 		"lumi",
 		"event",
