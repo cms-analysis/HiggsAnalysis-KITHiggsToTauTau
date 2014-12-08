@@ -2,50 +2,50 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 
 // this version uses tau 4-momenta to calculate decay planes (usefull for GenTauCPProducer)
-double CPQuantities::CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
+double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
 {
 	//Momentum vectors of the Taus
-	RMDataLV::BetaVector k1, k2;
+	RMFLV::BetaVector k1, k2;
 	k1.SetXYZ(tau1.Px(), tau1.Py() , tau1.Pz());
 	k2.SetXYZ(tau2.Px(), tau2.Py() , tau2.Pz());
 	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "gen");
 }
 // this version uses track and vertex information to calculate the decay planes (usefull for RecoTauCPProducer)
-double CPQuantities::CalculatePhiStarCP(KDataVertex pv, KDataTrack track1, KDataTrack track2,  RMDataLV chargPart1, RMDataLV chargPart2)
+double CPQuantities::CalculatePhiStarCP(KVertex pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
 {
 	//Primary vertex
-	RMDataLV::BetaVector pvpos;
+	RMFLV::BetaVector pvpos;
 	pvpos.SetXYZ((pv.position).X(), (pv.position).Y(), (pv.position).Z());
 
 	//Points on tau tracks
-	RMDataLV::BetaVector track1pos, track2pos;
+	RMFLV::BetaVector track1pos, track2pos;
 	track1pos.SetXYZ((track1.ref).X(), (track1.ref).Y(), (track1.ref).Z());
 	track2pos.SetXYZ((track2.ref).X(), (track2.ref).Y(), (track2.ref).Z());
 
 	//Flight direction of taus determined from pv and trackpos
-	RMDataLV::BetaVector k1, k2;
+	RMFLV::BetaVector k1, k2;
 	k1 = track1pos - pvpos;
 	k2 = track2pos - pvpos;
 	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "reco");
 
 }
 // calculation of variables Phi* and Phi*CP
-double CPQuantities::CalculatePhiStarCPSame(RMDataLV::BetaVector k1, RMDataLV::BetaVector k2, RMDataLV chargPart1, RMDataLV chargPart2, std::string level)
+double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level)
 {
 	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
-	RMDataLV ProngImp = chargPart1 + chargPart2;
-	RMDataLV::BetaVector boostvec = ProngImp.BoostToCM();
+	RMFLV ProngImp = chargPart1 + chargPart2;
+	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
 	//Step 2: Calculating impact parameter vectors n1 n2
 
 	//Momentum vectors of the charged particles
-	RMDataLV::BetaVector p1, p2;
+	RMFLV::BetaVector p1, p2;
 	p1.SetXYZ(chargPart1.Px(), chargPart1.Py() , chargPart1.Pz());
 	p2.SetXYZ(chargPart2.Px(), chargPart2.Py() , chargPart2.Pz());
 	
 	//Not normalized n1, n2
-	RMDataLV::BetaVector n1 = k1 - ((k1.Dot(p1)) / (p1.Dot(p1))) * p1;
-	RMDataLV::BetaVector n2 = k2 - ((k2.Dot(p2)) / (p2.Dot(p2))) * p2;
+	RMFLV::BetaVector n1 = k1 - ((k1.Dot(p1)) / (p1.Dot(p1))) * p1;
+	RMFLV::BetaVector n2 = k2 - ((k2.Dot(p2)) / (p2.Dot(p2))) * p2;
 	
 	if(level=="reco")
 	{
@@ -57,7 +57,7 @@ double CPQuantities::CalculatePhiStarCPSame(RMDataLV::BetaVector k1, RMDataLV::B
 	n2 = n2.Unit();
 
 	//Step 3: Boosting 4-vectors (n1,0), (n2,0), p1, p2 with M
-	RMDataLV n1_mu, n2_mu;
+	RMFLV n1_mu, n2_mu;
 	n1_mu.SetPxPyPzE(n1.X(), n1.Y(), n1.Z(), 0);
 	n2_mu.SetPxPyPzE(n2.X(), n2.Y(), n2.Z(), 0);
 
@@ -72,11 +72,11 @@ double CPQuantities::CalculatePhiStarCPSame(RMDataLV::BetaVector k1, RMDataLV::B
 	p1.SetXYZ(chargPart1.Px(), chargPart1.Py(), chargPart1.Pz());
 	p2.SetXYZ(chargPart2.Px(), chargPart2.Py(), chargPart2.Pz());
 
-	RMDataLV::BetaVector n1t = n1 - ((n1.Dot(p1)) / (p1.Dot(p1))) * p1;
+	RMFLV::BetaVector n1t = n1 - ((n1.Dot(p1)) / (p1.Dot(p1))) * p1;
 	n1t = n1t.Unit();
-	RMDataLV::BetaVector n2t = n2 - ((n2.Dot(p2)) / (p2.Dot(p2))) * p2;
+	RMFLV::BetaVector n2t = n2 - ((n2.Dot(p2)) / (p2.Dot(p2))) * p2;
 	n2t = n2t.Unit();
-	RMDataLV::BetaVector p1n = p1.Unit();
+	RMFLV::BetaVector p1n = p1.Unit();
 
 	if(level=="reco")
 	{
@@ -99,27 +99,27 @@ double CPQuantities::CalculatePhiStarCPSame(RMDataLV::BetaVector k1, RMDataLV::B
 	return phiStarCP;
 }
 // calculation of the hadron Energies in the approximate diTau restframe
-double CPQuantities::CalculateChargedHadronEnergy(RMDataLV diTauMomentum, RMDataLV chargHad)
+double CPQuantities::CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad)
 {
 	// Step 1: Creating Boost into diTau rest frame
-	RMDataLV::BetaVector boostditau = diTauMomentum.BoostToCM();
+	RMFLV::BetaVector boostditau = diTauMomentum.BoostToCM();
 	ROOT::Math::Boost Mditau(boostditau);
 	// Step 2: Boosting hadron and extracting energy
 	chargHad = Mditau * chargHad;
 	return chargHad.E();
 }
 // estimation of the impact parameter error (used on recostruction level)
-double CPQuantities::CalculateTrackReferenceError(KDataTrack track)
+double CPQuantities::CalculateTrackReferenceError(KTrack track)
 {
 	return sqrt(track.errDz*track.errDz+track.errDxy*track.errDxy);
 }
 // calculation of the angle Phi between the tau decay planes
-double CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2)
+double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
 {
 	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost charged particles 4-momentums
-	RMDataLV::BetaVector boostvectm = tau1.BoostToCM();
-	RMDataLV::BetaVector boostvectp = tau2.BoostToCM();
-	RMDataLV::BetaVector boostvech = boson.BoostToCM();
+	RMFLV::BetaVector boostvectm = tau1.BoostToCM();
+	RMFLV::BetaVector boostvectp = tau2.BoostToCM();
+	RMFLV::BetaVector boostvech = boson.BoostToCM();
 	ROOT::Math::Boost Mtm(boostvectm);
 	ROOT::Math::Boost Mtp(boostvectp);
 	ROOT::Math::Boost Mh(boostvech);
@@ -135,7 +135,7 @@ double CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2
 	chargPart2 = Mtp * chargPart2;
 
 	// Step 3: Creating 3-momentum normal vectors on decay planes
-	RMDataLV::BetaVector km, pm, pp, nm, np, ez;
+	RMFLV::BetaVector km, pm, pp, nm, np, ez;
 	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());
 	pm.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
 	pp.SetXYZ(chargPart2.Px(),chargPart2.Py(),chargPart2.Pz());
@@ -156,10 +156,10 @@ double CPQuantities::CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2
 	return phiCP;
 }
 // calculation of the charged prong energy in tau restframe
-double CPQuantities::CalculateChargedProngEnergy(RMDataLV tau, RMDataLV chargedProng)
+double CPQuantities::CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng)
 {
 	// Step 1: Creating boost to Tau restframe
-	RMDataLV::BetaVector boosttauvect = tau.BoostToCM();
+	RMFLV::BetaVector boosttauvect = tau.BoostToCM();
 	ROOT::Math::Boost TauRestFrame(boosttauvect);
 
 	// Step 2: Boosting charged Prong 4-momentum vector and extracting energy
@@ -167,10 +167,10 @@ double CPQuantities::CalculateChargedProngEnergy(RMDataLV tau, RMDataLV chargedP
 	return chargedProng.E();
 }
 // calculation of the angle between the hadron and the tau-neutrino flight directions
-double CPQuantities::CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMDataLV hadron)
+double CPQuantities::CalculateThetaNuHadron(RMFLV tau, RMFLV nuTau, RMFLV hadron)
 {
 	// Step 1: Creating boost to Tau- restframe
-	RMDataLV::BetaVector boosttauvect = tau.BoostToCM();
+	RMFLV::BetaVector boosttauvect = tau.BoostToCM();
 	ROOT::Math::Boost TauRestFrame(boosttauvect);
 
 	// Step 2: Boosting neutrino and hadron 4-momentum vectors
@@ -179,7 +179,7 @@ double CPQuantities::CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMData
 
 	// Step 3: Extracting boosted 3-momentum vectors and normalizing them
 	
-	RMDataLV::BetaVector nuVec, hadVec;
+	RMFLV::BetaVector nuVec, hadVec;
 	nuVec.SetXYZ(nuTau.Px(),nuTau.Py(),nuTau.Pz());
 	hadVec.SetXYZ(hadron.Px(),hadron.Py(),hadron.Pz());
 
@@ -191,11 +191,11 @@ double CPQuantities::CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMData
 	return theta;
 }
 // calculation of the angle between the tau-neutrino and the tau-antineutrino flight directions
-double CPQuantities::CalculateAlphaTauNeutrinos(RMDataLV tauM, RMDataLV nuTauM, RMDataLV tauP, RMDataLV nuTauP)
+double CPQuantities::CalculateAlphaTauNeutrinos(RMFLV tauM, RMFLV nuTauM, RMFLV tauP, RMFLV nuTauP)
 {
 	// Step 1: Creating boosts to tau restframes
-	RMDataLV::BetaVector boostTauMVec = tauM.BoostToCM();
-	RMDataLV::BetaVector boostTauPVec = tauP.BoostToCM();
+	RMFLV::BetaVector boostTauMVec = tauM.BoostToCM();
+	RMFLV::BetaVector boostTauPVec = tauP.BoostToCM();
 
 	ROOT::Math::Boost TauMRestFrame(boostTauMVec);
 	ROOT::Math::Boost TauPRestFrame(boostTauPVec);
@@ -205,7 +205,7 @@ double CPQuantities::CalculateAlphaTauNeutrinos(RMDataLV tauM, RMDataLV nuTauM, 
 	nuTauP = TauPRestFrame * nuTauP;
 
 	// Step 3: Extracting boosted 3-momentum vectors and normalizing them
-	RMDataLV::BetaVector nuMVec, nuPVec;
+	RMFLV::BetaVector nuMVec, nuPVec;
 	nuMVec.SetXYZ(nuTauM.Px(),nuTauM.Py(),nuTauM.Pz());
 	nuPVec.SetXYZ(nuTauP.Px(),nuTauP.Py(),nuTauP.Pz());
 
@@ -216,10 +216,10 @@ double CPQuantities::CalculateAlphaTauNeutrinos(RMDataLV tauM, RMDataLV nuTauM, 
 	double alpha  = acos(nuMVec.Dot(nuPVec));
 	return alpha;
 }
-double CPQuantities::CalculateZPlusMinus(RMDataLV higgs, RMDataLV chargedPart)
+double CPQuantities::CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart)
 {
 	//calculating boost into higgs restframe
-	RMDataLV::BetaVector boostHiggs = higgs.BoostToCM();
+	RMFLV::BetaVector boostHiggs = higgs.BoostToCM();
 	ROOT::Math::Boost higgsRestFrame(boostHiggs);
 
 	//boost particles into rest frame

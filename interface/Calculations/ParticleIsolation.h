@@ -18,7 +18,7 @@ class ParticleIsolation {
 
 public:
 
-	static double IsolationPtSum(RMDataLV const& particle, HttEvent const& event,
+	static double IsolationPtSum(RMFLV const& particle, HttEvent const& event,
 	                             float const& isoSignalConeSize = 0.4,
 	                             float const& deltaBetaCorrectionFactor = 0.5,
 	                             float const& chargedIsoVetoConeSizeEB = -1.0,
@@ -35,7 +35,7 @@ public:
 private:
 	ParticleIsolation() {  };
 
-	static double IsolationPtSumForParticleClass(RMDataLV const& particle, KPFCandidates* pfCandidates,
+	static double IsolationPtSumForParticleClass(RMFLV const& particle, KPFCandidates* pfCandidates,
 	                                             float const& isoSignalConeSize = 0.4,
 	                                             float const& isoVetoConeSizeEB = -1.0,
 	                                             float const& isoVetoConeSizeEE = -1.0,

@@ -51,13 +51,13 @@ void HttValidGenTausProducer::SortVectors(event_type const& event, product_type&
 	int nMuons = product.m_validGenTausToMuons.size();
 	int nHadrons = product.m_validGenTausToTaus.size();
 
-	auto ptSorter = [](const KDataGenTau * a, const KDataGenTau * b) -> bool { return a->p4_vis.Pt() > b->p4_vis.Pt(); };
+	auto ptSorter = [](const KGenTau * a, const KGenTau * b) -> bool { return a->visible.Pt() > b->visible.Pt(); };
 	std::sort(product.m_ptOrderedGenTaus.begin(), product.m_ptOrderedGenTaus.end(), ptSorter);
 	std::sort(product.m_validGenTausToElectrons.begin(), product.m_validGenTausToElectrons.end(), ptSorter);
 	std::sort(product.m_validGenTausToMuons.begin(), product.m_validGenTausToMuons.end(), ptSorter);
 	std::sort(product.m_validGenTausToTaus.begin(), product.m_validGenTausToTaus.end(), ptSorter);
 	std::sort(product.m_flavourOrderedGenTaus.begin(), product.m_flavourOrderedGenTaus.end(), ptSorter);
-	auto chargeSorter = [](const KDataGenTau * a, const KDataGenTau * b) -> bool { return a->charge() > b->charge(); };
+	auto chargeSorter = [](const KGenTau * a, const KGenTau * b) -> bool { return a->charge() > b->charge(); };
 	std::sort(product.m_chargeOrderedGenTaus.begin(), product.m_chargeOrderedGenTaus.end(), chargeSorter);
 
 	if (event.m_genTaus->size() == 2) // everything else would be ambigious

@@ -5,8 +5,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
 
 
-HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KDataElectron*> product_type::*validElectrons,
-                                                     std::vector<KDataElectron*> product_type::*invalidElectrons,
+HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KElectron*> product_type::*validElectrons,
+                                                     std::vector<KElectron*> product_type::*invalidElectrons,
                                                      std::string (setting_type::*GetElectronID)(void) const,
                                                      std::string (setting_type::*GetElectronIDType)(void) const,
                                                      std::string (setting_type::*GetElectronIsoType)(void) const,
@@ -72,7 +72,7 @@ void HttValidElectronsProducer::Init(setting_type const& settings)
 	});
 }
 
-bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
+bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
                                                    event_type const& event, product_type& product,
                                                    setting_type const& settings) const
 {
@@ -186,16 +186,16 @@ bool HttValidElectronsProducer::AdditionalCriteria(KDataElectron* electron,
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVATrigElectronTTHSummer2013(KDataElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 	
-	validElectron = validElectron && electron->getId("mvaTrigV0", event.m_electronIdMetadata) > (tightID ? 0.5 : 0.5);
+	validElectron = validElectron && electron->getId("mvaTrigV0", event.m_electronMetadata) > (tightID ? 0.5 : 0.5);
 
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 	
@@ -206,18 +206,18 @@ bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron*
 				(electron->p4.Pt() < 20.0)
 				&&
 				(
-					(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > 0.925)
-					|| (std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > 0.915)
-					|| (std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > 0.965)
+					(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId("mvaNonTrigV0", event.m_electronMetadata) > 0.925)
+					|| (std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronMetadata) > 0.915)
+					|| (std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronMetadata) > 0.965)
 				)
 			)
 			||
 			(
 				(electron->p4.Pt() >= 20.0) &&
 				(
-					(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > (tightID ? 0.925 : 0.905))
-					|| (std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > (tightID ? 0.975 : 0.955))
-					|| (std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronIdMetadata) > (tightID ? 0.985 : 0.975))
+					(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId("mvaNonTrigV0", event.m_electronMetadata) > (tightID ? 0.925 : 0.905))
+					|| (std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronMetadata) > (tightID ? 0.975 : 0.955))
+					|| (std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId("mvaNonTrigV0", event.m_electronMetadata) > (tightID ? 0.985 : 0.975))
 				)
 			)
 		);
@@ -225,7 +225,7 @@ bool HttValidElectronsProducer::IsMVANonTrigElectronHttSummer2013(KDataElectron*
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVATrigV050nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVATrigV050nsCsa14(KElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 	
@@ -235,14 +235,14 @@ bool HttValidElectronsProducer::IsMVATrigV050nsCsa14(KDataElectron* electron, ev
 				(electron->p4.Pt() < 20.0)
 				&&
 				(
-					(electron->getId("mvaTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+					(electron->getId("mvaTrigV050nsCSA14", event.m_electronMetadata) > 0.9)
 				)
 			)
 			||
 			(
 				(electron->p4.Pt() >= 20.0) &&
 				(
-					(electron->getId("mvaTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+					(electron->getId("mvaTrigV050nsCSA14", event.m_electronMetadata) > 0.9)
 				)
 			)
 		);
@@ -250,7 +250,7 @@ bool HttValidElectronsProducer::IsMVATrigV050nsCsa14(KDataElectron* electron, ev
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVATrigV025nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVATrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 
@@ -260,14 +260,14 @@ bool HttValidElectronsProducer::IsMVATrigV025nsCsa14(KDataElectron* electron, ev
 				(electron->p4.Pt() < 20.0)
 				&&
 				(
-					(electron->getId("mvaTrigV025nsCSA14", event.m_electronIdMetadata) > 0.9)
+					(electron->getId("mvaTrigV025nsCSA14", event.m_electronMetadata) > 0.9)
 				)
 			)
 			||
 			(
 				(electron->p4.Pt() >= 20.0) &&
 				(
-					(electron->getId("mvaTrigV025nsCSA14", event.m_electronIdMetadata) > 0.9)
+					(electron->getId("mvaTrigV025nsCSA14", event.m_electronMetadata) > 0.9)
 				)
 			)
 		);
@@ -275,7 +275,7 @@ bool HttValidElectronsProducer::IsMVATrigV025nsCsa14(KDataElectron* electron, ev
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVANonTrigV050nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVANonTrigV050nsCsa14(KElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 
@@ -285,14 +285,14 @@ bool HttValidElectronsProducer::IsMVANonTrigV050nsCsa14(KDataElectron* electron,
 				(electron->p4.Pt() < 20.0)
 				&&
 				(
-					(electron->getId("mvaNonTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+					(electron->getId("mvaNonTrigV050nsCSA14", event.m_electronMetadata) > 0.9)
 				)
 			)
 			||
 			(
 				(electron->p4.Pt() >= 20.0) &&
 				(
-					(electron->getId("mvaNonTrigV050nsCSA14", event.m_electronIdMetadata) > 0.9)
+					(electron->getId("mvaNonTrigV050nsCSA14", event.m_electronMetadata) > 0.9)
 				)
 			)
 		);
@@ -300,7 +300,7 @@ bool HttValidElectronsProducer::IsMVANonTrigV050nsCsa14(KDataElectron* electron,
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVANonTrigV025nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVANonTrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 
@@ -310,14 +310,14 @@ bool HttValidElectronsProducer::IsMVANonTrigV025nsCsa14(KDataElectron* electron,
 				(electron->p4.Pt() < 20.0)
 				&&
 				(
-					(electron->getId("mvaNonTrigV025nsCSA14", event.m_electronIdMetadata) > 0.9)
+					(electron->getId("mvaNonTrigV025nsCSA14", event.m_electronMetadata) > 0.9)
 				)
 			)
 			||
 			(
 				(electron->p4.Pt() >= 20.0) &&
 				(
-					(electron->getId("mvaNonTrigV025nsCSA14", event.m_electronIdMetadata) > 0.9)
+					(electron->getId("mvaNonTrigV025nsCSA14", event.m_electronMetadata) > 0.9)
 				)
 			)
 		);
@@ -326,8 +326,8 @@ bool HttValidElectronsProducer::IsMVANonTrigV025nsCsa14(KDataElectron* electron,
 }
 
 HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
-		std::vector<KDataElectron*> product_type::*validElectrons,
-		std::vector<KDataElectron*> product_type::*invalidElectrons,
+		std::vector<KElectron*> product_type::*validElectrons,
+		std::vector<KElectron*> product_type::*invalidElectrons,
 		std::string (setting_type::*GetElectronID)(void) const,
 		std::string (setting_type::*GetElectronIDType)(void) const,
 		std::string (setting_type::*GetElectronIsoType)(void) const,
@@ -387,8 +387,8 @@ HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 
 
 HttValidVetoElectronsProducer::HttValidVetoElectronsProducer(
-		std::vector<KDataElectron*> product_type::*validElectrons,
-		std::vector<KDataElectron*> product_type::*invalidElectrons,
+		std::vector<KElectron*> product_type::*validElectrons,
+		std::vector<KElectron*> product_type::*invalidElectrons,
 		std::string (setting_type::*GetElectronID)(void) const,
 		std::string (setting_type::*GetElectronIDType)(void) const,
 		std::string (setting_type::*GetElectronIsoType)(void) const,

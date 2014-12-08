@@ -157,8 +157,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			tauSpinnerWeight = 0.0; // WEIGHT_NAN;
 			++numberOfNanWeights;
 			LOG_N_TIMES(20, DEBUG) << "Found a 'NaN' TauSpinner weight in (run, lumi, event) = ("
-			           << event.m_eventMetadata->nRun << ", " << event.m_eventMetadata->nLumi << ", "
-			           << event.m_eventMetadata->nEvent << ") in the pipeline \"" << pipelineName << "\".";
+			           << event.m_eventInfo->nRun << ", " << event.m_eventInfo->nLumi << ", "
+			           << event.m_eventInfo->nEvent << ") in the pipeline \"" << pipelineName << "\".";
 		}
 		
 		product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = tauSpinnerWeight;

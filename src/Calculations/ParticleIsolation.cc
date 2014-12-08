@@ -4,7 +4,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
 
 
-double ParticleIsolation::IsolationPtSumForParticleClass(RMDataLV const& particle, KPFCandidates* pfCandidates,
+double ParticleIsolation::IsolationPtSumForParticleClass(RMFLV const& particle, KPFCandidates* pfCandidates,
                                                          float const& isoSignalConeSize,
                                                          float const& isoVetoConeSizeEB,
                                                          float const& isoVetoConeSizeEE,
@@ -38,7 +38,7 @@ double ParticleIsolation::IsolationPtSumForParticleClass(RMDataLV const& particl
 }
 
 
-double ParticleIsolation::IsolationPtSum(RMDataLV const& particle, HttEvent const& event,
+double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttEvent const& event,
                                          float const& isoSignalConeSize,
                                          float const& deltaBetaCorrectionFactor,
                                          float const& chargedIsoVetoConeSizeEB,

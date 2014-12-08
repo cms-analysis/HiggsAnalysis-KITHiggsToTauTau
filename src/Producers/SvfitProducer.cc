@@ -26,7 +26,7 @@ void SvfitProducer::Init(setting_type const& settings)
 void SvfitProducer::Produce(event_type const& event, product_type& product,
                             setting_type const& settings) const
 {
-	assert(event.m_eventMetadata);
+	assert(event.m_eventInfo);
 	assert(product.m_met);
 
 	// consider only the first two leptons
@@ -54,7 +54,7 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	}
 	
 	// construct event key
-	product.m_svfitEventKey.Set(event.m_eventMetadata->nRun, event.m_eventMetadata->nLumi, event.m_eventMetadata->nEvent,
+	product.m_svfitEventKey.Set(event.m_eventInfo->nRun, event.m_eventInfo->nLumi, event.m_eventInfo->nEvent,
 	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod);
 	
 	// construct inputs

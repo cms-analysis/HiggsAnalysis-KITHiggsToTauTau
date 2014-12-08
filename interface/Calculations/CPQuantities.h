@@ -16,16 +16,16 @@
 class CPQuantities
 {
 public:
-	double CalculatePhiStarCP(RMDataLV tau1, RMDataLV tau2, RMDataLV chargPart1, RMDataLV chargPart2);
-	double CalculatePhiStarCP(KDataVertex pv , KDataTrack track1, KDataTrack track2, RMDataLV chargPart1,RMDataLV chargPart2);
-	double CalculateChargedHadronEnergy(RMDataLV diTauMomentum, RMDataLV chargHad);
-	double CalculatePhiCP(RMDataLV boson, RMDataLV tau1, RMDataLV tau2, RMDataLV pion1, RMDataLV pion2);
-	double CalculateChargedProngEnergy(RMDataLV tau, RMDataLV chargedProng);
-	double CalculateChargedProngEnergyApprox(RMDataLV tau, RMDataLV chargedProng);
-	double CalculateThetaNuHadron(RMDataLV tau, RMDataLV nuTau, RMDataLV hadron);
-	double CalculateAlphaTauNeutrinos(RMDataLV tauM, RMDataLV nuTauM, RMDataLV tauP, RMDataLV nuTauP);
-	double CalculateTrackReferenceError(KDataTrack track);
-	double CalculateZPlusMinus(RMDataLV higgs, RMDataLV chargedPart);
+	double CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2);
+	double CalculatePhiStarCP(KVertex pv , KTrack track1, KTrack track2, RMFLV chargPart1,RMFLV chargPart2);
+	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
+	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
+	double CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng);
+	double CalculateChargedProngEnergyApprox(RMFLV tau, RMFLV chargedProng);
+	double CalculateThetaNuHadron(RMFLV tau, RMFLV nuTau, RMFLV hadron);
+	double CalculateAlphaTauNeutrinos(RMFLV tauM, RMFLV nuTauM, RMFLV tauP, RMFLV nuTauP);
+	double CalculateTrackReferenceError(KTrack track);
+	double CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart);
 	double CalculateZs(double zPlus, double zMinus);
 	double PhiTransform(double phi);
 	inline double GetGenPhiStar()
@@ -55,7 +55,7 @@ private:
 	double recoIP1;
 	double recoIP2;
 	//level: "gen", "reco" 
-	double CalculatePhiStarCPSame(RMDataLV::BetaVector k1, RMDataLV::BetaVector k2, RMDataLV chargPart1, RMDataLV chargPart2, std::string level);
+	double CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level);
 	inline void SetGenPhiStar(double genphistar)
 	{
 		genPhiStar = genphistar;

@@ -2,7 +2,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
 
 
-bool HttValidJetsProducer::AdditionalCriteria(KDataPFJet* jet,
+bool HttValidJetsProducer::AdditionalCriteria(KBasicJet* jet,
                                               event_type const& event, product_type& product,
                                               setting_type const& settings) const
 {
@@ -12,7 +12,7 @@ bool HttValidJetsProducer::AdditionalCriteria(KDataPFJet* jet,
 }
 
 
-bool HttValidTaggedJetsProducer::AdditionalCriteria(KDataPFTaggedJet* jet,
+bool HttValidTaggedJetsProducer::AdditionalCriteria(KJet* jet,
                                                     event_type const& event, product_type& product,
                                                     setting_type const& settings) const
 {
@@ -23,7 +23,7 @@ bool HttValidTaggedJetsProducer::AdditionalCriteria(KDataPFTaggedJet* jet,
 	
 	// remove taus from list of jets via simple DeltaR isolation
 	// (targeted at ttH analysis, harmless if m_validTTHTaus is not filled)
-	for (std::vector<KDataPFTau*>::const_iterator tau = specProduct.m_validTTHTaus.begin();
+	for (std::vector<KTau*>::const_iterator tau = specProduct.m_validTTHTaus.begin();
 		validJet && tau != specProduct.m_validTTHTaus.end(); ++tau)
 		{
 			validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*tau)->p4) > specSettings.GetJetTauLowerDeltaRCut();

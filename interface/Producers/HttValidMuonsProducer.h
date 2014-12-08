@@ -36,8 +36,8 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 	
 	HttValidMuonsProducer(
-			std::vector<KDataMuon*> product_type::*validMuons=&product_type::m_validMuons,
-			std::vector<KDataMuon*> product_type::*invalidMuons=&product_type::m_invalidMuons,
+			std::vector<KMuon*> product_type::*validMuons=&product_type::m_validMuons,
+			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetMuonIsoType,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetMuonIso,
@@ -78,7 +78,7 @@ public:
 protected:
 
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KDataMuon* muon, event_type const& event,
+	virtual bool AdditionalCriteria(KMuon* muon, event_type const& event,
 	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
 
 
@@ -131,8 +131,8 @@ public:
 	}
 	
 	HttValidLooseMuonsProducer(
-			std::vector<KDataMuon*> product_type::*validMuons=&product_type::m_validLooseMuons,
-			std::vector<KDataMuon*> product_type::*invalidMuons=&product_type::m_invalidLooseMuons,
+			std::vector<KMuon*> product_type::*validMuons=&product_type::m_validLooseMuons,
+			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidLooseMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetLooseMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetLooseMuonIsoType,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetLooseMuonIso,
@@ -177,8 +177,8 @@ public:
 	}
 	
 	HttValidVetoMuonsProducer(
-			std::vector<KDataMuon*> product_type::*validMuons=&product_type::m_validVetoMuons,
-			std::vector<KDataMuon*> product_type::*invalidMuons=&product_type::m_invalidVetoMuons,
+			std::vector<KMuon*> product_type::*validMuons=&product_type::m_validVetoMuons,
+			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidVetoMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetVetoMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetVetoMuonIsoType,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetVetoMuonIso,

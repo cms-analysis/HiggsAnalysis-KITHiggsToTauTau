@@ -5,8 +5,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
 
 
-HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KDataMuon*> product_type::*validMuons,
-                                             std::vector<KDataMuon*> product_type::*invalidMuons,
+HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KMuon*> product_type::*validMuons,
+                                             std::vector<KMuon*> product_type::*invalidMuons,
                                              std::string (setting_type::*GetMuonID)(void) const,
                                              std::string (setting_type::*GetMuonIsoType)(void) const,
                                              std::string (setting_type::*GetMuonIso)(void) const,
@@ -51,7 +51,7 @@ HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KDataMuon*> product_typ
 }
 
 
-bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
+bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
                                                event_type const& event, product_type& product,
                                                setting_type const& settings) const
 {
@@ -120,8 +120,8 @@ bool HttValidMuonsProducer::AdditionalCriteria(KDataMuon* muon,
 
 
 HttValidLooseMuonsProducer::HttValidLooseMuonsProducer(
-		std::vector<KDataMuon*> product_type::*validMuons,
-		std::vector<KDataMuon*> product_type::*invalidMuons,
+		std::vector<KMuon*> product_type::*validMuons,
+		std::vector<KMuon*> product_type::*invalidMuons,
 		std::string (setting_type::*GetMuonID)(void) const,
 		std::string (setting_type::*GetMuonIsoType)(void) const,
 		std::string (setting_type::*GetMuonIso)(void) const,
@@ -172,8 +172,8 @@ HttValidLooseMuonsProducer::HttValidLooseMuonsProducer(
 
 
 HttValidVetoMuonsProducer::HttValidVetoMuonsProducer(
-		std::vector<KDataMuon*> product_type::*validMuons,
-		std::vector<KDataMuon*> product_type::*invalidMuons,
+		std::vector<KMuon*> product_type::*validMuons,
+		std::vector<KMuon*> product_type::*invalidMuons,
 		std::string (setting_type::*GetMuonID)(void) const,
 		std::string (setting_type::*GetMuonIsoType)(void) const,
 		std::string (setting_type::*GetMuonIso)(void) const,

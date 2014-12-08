@@ -52,13 +52,13 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	CPQuantities cpq;
 	if(product.m_decayChannel == HttEnumTypes::DecayChannel::TT)
 	{
-		KDataVertex primevertex = event.m_vertexSummary->pv;
-		KDataPFTau* tau1 = product.m_validTaus[0];
-		KDataPFTau* tau2 = product.m_validTaus[1];
-		if(tau1->signalChargedHadrCands.size()==1 && tau2->signalChargedHadrCands.size()==1)
+		KVertex primevertex = event.m_vertexSummary->pv;
+		KTau* tau1 = product.m_validTaus[0];
+		KTau* tau2 = product.m_validTaus[1];
+		if(tau1->chargedHadronCandidates.size()==1 && tau2->chargedHadronCandidates.size()==1)
 		{
-			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
-			KPFCandidate* chargePart2 = &(tau2->signalChargedHadrCands[0]);
+			KPFCandidate* chargePart1 = &(tau1->chargedHadronCandidates[0]);
+			KPFCandidate* chargePart2 = &(tau2->chargedHadronCandidates[0]);
 			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, tau1->track, tau2->track, chargePart1->p4, chargePart2->p4);
 			product.m_recoPhiStar = cpq.GetRecoPhiStar();
 			product.m_recoIP1 = cpq.GetRecoIP1();
@@ -72,9 +72,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
 	{
-		KDataVertex primevertex = event.m_vertexSummary->pv;
-		KDataElectron* electron1 = product.m_validElectrons[0];
-		KDataElectron* electron2 = product.m_validElectrons[1];
+		KVertex primevertex = event.m_vertexSummary->pv;
+		KElectron* electron1 = product.m_validElectrons[0];
+		KElectron* electron2 = product.m_validElectrons[1];
 		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, electron2->track, electron1->p4, electron2->p4);
 		product.m_recoPhiStar = cpq.GetRecoPhiStar();
 		product.m_recoIP1 = cpq.GetRecoIP1();
@@ -84,9 +84,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::MM)
 	{
-		KDataVertex primevertex = event.m_vertexSummary->pv;
-		KDataMuon* muon1 = product.m_validMuons[0];
-		KDataMuon* muon2 = product.m_validMuons[1];
+		KVertex primevertex = event.m_vertexSummary->pv;
+		KMuon* muon1 = product.m_validMuons[0];
+		KMuon* muon2 = product.m_validMuons[1];
 		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, muon1->track, muon2->track, muon1->p4, muon2->p4);
 		product.m_recoPhiStar = cpq.GetRecoPhiStar();
 		product.m_recoIP1 = cpq.GetRecoIP1();
@@ -96,12 +96,12 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET)
 	{
-		KDataVertex primevertex = event.m_vertexSummary->pv;
-		KDataElectron* electron1 = product.m_validElectrons[0];
-		KDataPFTau* tau1 = product.m_validTaus[0];
-		if (tau1->signalChargedHadrCands.size()==1)
+		KVertex primevertex = event.m_vertexSummary->pv;
+		KElectron* electron1 = product.m_validElectrons[0];
+		KTau* tau1 = product.m_validTaus[0];
+		if (tau1->chargedHadronCandidates.size()==1)
 		{
-			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
+			KPFCandidate* chargePart1 = &(tau1->chargedHadronCandidates[0]);
 			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, tau1->track, electron1->p4, chargePart1->p4);
 			product.m_recoPhiStar = cpq.GetRecoPhiStar();
 			product.m_recoIP1 = cpq.GetRecoIP1();
@@ -113,12 +113,12 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT)
 	{
-		KDataVertex primevertex = event.m_vertexSummary->pv;
-		KDataMuon* muon1 = product.m_validMuons[0];
-		KDataPFTau* tau1 = product.m_validTaus[0];
-		if (tau1->signalChargedHadrCands.size()==1)
+		KVertex primevertex = event.m_vertexSummary->pv;
+		KMuon* muon1 = product.m_validMuons[0];
+		KTau* tau1 = product.m_validTaus[0];
+		if (tau1->chargedHadronCandidates.size()==1)
 		{
-			KPFCandidate* chargePart1 = &(tau1->signalChargedHadrCands[0]);
+			KPFCandidate* chargePart1 = &(tau1->chargedHadronCandidates[0]);
 			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, muon1->track, tau1->track, muon1->p4, chargePart1->p4);
 			product.m_recoPhiStar = cpq.GetRecoPhiStar();
 			product.m_recoIP1 = cpq.GetRecoIP1();
@@ -130,9 +130,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::EM)
 	{
-		KDataVertex primevertex = event.m_vertexSummary->pv;
-		KDataElectron* electron1 = product.m_validElectrons[0];
-		KDataMuon* muon1 = product.m_validMuons[0];
+		KVertex primevertex = event.m_vertexSummary->pv;
+		KElectron* electron1 = product.m_validElectrons[0];
+		KMuon* muon1 = product.m_validMuons[0];
 		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, muon1->track, electron1->p4, muon1->p4);
 		product.m_recoPhiStar = cpq.GetRecoPhiStar();
 		product.m_recoIP1 = cpq.GetRecoIP1();

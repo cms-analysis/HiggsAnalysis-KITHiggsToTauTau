@@ -43,7 +43,7 @@ public:
 protected:
 
 	// Htt type tau energy corrections
-	virtual void AdditionalCorrections(KDataPFTau* tau, event_type const& event,
+	virtual void AdditionalCorrections(KTau* tau, event_type const& event,
 	                                   product_type& product, setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 
 

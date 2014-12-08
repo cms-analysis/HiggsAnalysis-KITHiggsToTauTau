@@ -26,7 +26,7 @@ public:
 protected:
 
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KDataPFJet* jet, event_type const& event,
+	virtual bool AdditionalCriteria(KBasicJet* jet, event_type const& event,
 	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
 
 };
@@ -53,7 +53,7 @@ public:
 protected:
 
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KDataPFTaggedJet* jet, event_type const& event,
+	virtual bool AdditionalCriteria(KJet* jet, event_type const& event,
 	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
 
 };

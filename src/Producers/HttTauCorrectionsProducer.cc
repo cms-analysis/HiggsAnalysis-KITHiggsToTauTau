@@ -17,7 +17,7 @@ void HttTauCorrectionsProducer::Init(setting_type const& settings)
 	tauEnergyCorrection = ToTauEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(static_cast<HttSettings const&>(settings).GetTauEnergyCorrection())));
 }
 
-void HttTauCorrectionsProducer::AdditionalCorrections(KDataPFTau* tau, event_type const& event,
+void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type const& event,
                                                       product_type& product, setting_type const& settings) const
 {
 	TauCorrectionsProducer::AdditionalCorrections(tau, event, product, settings);
@@ -28,16 +28,16 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KDataPFTau* tau, event_typ
 	if (tauEnergyCorrection == TauEnergyCorrection::SUMMER2013)
 	{
 		// http://cmslxr.fnal.gov/lxr/source/DataFormats/TauReco/interface/PFTau.h#035
-		if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero)
+		if (tau->decayMode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero)
 		{
 			normalisationFactor = 0.88;
 		}
-		else if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero || tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kOneProng2PiZero)
+		else if (tau->decayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero || tau->decayMode == reco::PFTau::hadronicDecayMode::kOneProng2PiZero)
 		{
 			tau->p4 = tau->p4 * (1.012);
 // 			tau->p4 = tau->p4 * (1.015 + 0.001 * std::min(std::max(tau->p4.Pt() - 45.0, 0.0), 10.0));
 		}
-		else if (tau->hpsDecayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero)
+		else if (tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero)
 		{
 			tau->p4 = tau->p4 * (1.012);
 // 			tau->p4 = tau->p4 * (1.012 + 0.001 * std::min(std::max(tau->p4.Pt() - 32.0, 0.0), 18.0));

@@ -40,14 +40,14 @@ protected:
 	}
 	
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KDataPFTau* tau, KappaEvent const& event,
+	virtual bool AdditionalCriteria(KTau* tau, KappaEvent const& event,
 	                                KappaProduct& product, KappaSettings const& settings) const  ARTUS_CPP11_OVERRIDE;
 
 
 private:
-	bool ApplyCustomMvaIsolationCut(KDataPFTau* tau, KappaEvent const& event,
+	bool ApplyCustomMvaIsolationCut(KTau* tau, KappaEvent const& event,
 	                                  std::vector<float>) const;
-	bool ApplyCustomElectronRejection(KDataPFTau* tau, KappaEvent const& event,
+	bool ApplyCustomElectronRejection(KTau* tau, KappaEvent const& event,
 	                                  HttSettings const& settings) const;
 
 	std::map<size_t, std::vector<float> > MvaIsolationCutsByIndex;

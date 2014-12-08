@@ -17,7 +17,7 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 	
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetMass", [this](event_type const& event, product_type const& product) {
-		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMLV diJetSystem) -> double
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
 	{
 		return diJetSystem.mass(); });
 	});
@@ -43,7 +43,7 @@ void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& pro
 	{
 		float minJetEta = std::min(product.m_validJets[0]->p4.Eta(), product.m_validJets[1]->p4.Eta());
 		float maxJetEta = std::max(product.m_validJets[0]->p4.Eta(), product.m_validJets[1]->p4.Eta());
-		for (std::vector<KDataPFJet*>::const_iterator jet = product.m_validJets.begin();
+		for (std::vector<KBasicJet*>::const_iterator jet = product.m_validJets.begin();
 		     ((jet != product.m_validJets.end()) && ((*jet)->p4.Pt() > 30.0) && (! product.m_centralJet30Exists)); ++jet)
 		{
 			// skip first two jets

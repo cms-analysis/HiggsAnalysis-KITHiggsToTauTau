@@ -16,23 +16,23 @@ class HttProduct : public KappaProduct
 public:
 
 	/// added by HttValidLooseElectronsProducer
-	std::vector<KDataElectron*> m_validLooseElectrons;
-	std::vector<KDataElectron*> m_invalidLooseElectrons;
+	std::vector<KElectron*> m_validLooseElectrons;
+	std::vector<KElectron*> m_invalidLooseElectrons;
 
 	/// added by HttValidVetoElectronsProducer
-	std::vector<KDataElectron*> m_validVetoElectrons;
-	std::vector<KDataElectron*> m_invalidVetoElectrons;
+	std::vector<KElectron*> m_validVetoElectrons;
+	std::vector<KElectron*> m_invalidVetoElectrons;
 
 	/// added by HttValidLooseMuonsProducer
-	std::vector<KDataMuon*> m_validLooseMuons;
-	std::vector<KDataMuon*> m_invalidLooseMuons;
+	std::vector<KMuon*> m_validLooseMuons;
+	std::vector<KMuon*> m_invalidLooseMuons;
 
 	/// added by HttValidVetoMuonsProducer
-	std::vector<KDataMuon*> m_validVetoMuons;
-	std::vector<KDataMuon*> m_invalidVetoMuons;
+	std::vector<KMuon*> m_validVetoMuons;
+	std::vector<KMuon*> m_invalidVetoMuons;
 
 	// filled by TTHTauPairProducer
-	std::vector<KDataPFTau*> m_validTTHTaus;
+	std::vector<KTau*> m_validTTHTaus;
 	
 	// filled by DecayChannelProducer
 	HttEnumTypes::DecayChannel m_decayChannel;
@@ -51,25 +51,25 @@ public:
 	std::vector<KLepton*> m_chargeOrderedLeptons; // positively charged leptons first
 	
 	// filled by HttTauEnergyCorrectionProducer
-	std::map<KDataPFTau*, double> m_tauEnergyScaleWeight;
+	std::map<KTau*, double> m_tauEnergyScaleWeight;
 	
 	// filled by HttValid<Leptons>Producer
 	std::map<KLepton*, double> m_leptonIsolation;
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
-	std::map<KDataElectron*, double> m_electronIsolation;
-	std::map<KDataElectron*, double> m_electronIsolationOverPt;
-	std::map<KDataMuon*, double> m_muonIsolation;
-	std::map<KDataMuon*, double> m_muonIsolationOverPt;
-	std::map<KDataPFTau*, double> m_tauIsolation;
-	std::map<KDataPFTau*, double> m_tauIsolationOverPt;
+	std::map<KElectron*, double> m_electronIsolation;
+	std::map<KElectron*, double> m_electronIsolationOverPt;
+	std::map<KMuon*, double> m_muonIsolation;
+	std::map<KMuon*, double> m_muonIsolationOverPt;
+	std::map<KTau*, double> m_tauIsolation;
+	std::map<KTau*, double> m_tauIsolationOverPt;
 
 	// filled by the DiLeptonQuantitiesProducer
-	RMDataLV m_diLeptonSystem;
-	RMDataLV m_diLeptonPlusMetSystem;
+	RMFLV m_diLeptonSystem;
+	RMFLV m_diLeptonPlusMetSystem;
 	
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
-	std::vector<RMDataLV> m_flavourOrderedTauMomentaCA;
-	RMDataLV m_diTauSystemCA;
+	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
+	RMFLV m_diTauSystemCA;
 	bool m_validCollinearApproximation = false;
 	
 	double pZetaVis = 0.0;
@@ -82,18 +82,18 @@ public:
 	bool m_svfitCalculated = false;
 	
 	// filled by the DiJetQuantitiesProducer
-	RMLV m_diJetSystem;
+	RMDLV m_diJetSystem;
 	bool m_diJetSystemAvailable = false;
 	bool m_centralJet30Exists = false;
 	
-	KDataPFMET* m_met = 0;
+	KMET* m_met = 0;
 	
 	// filled by the TauTauRestFrameProducer
 	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;
-	std::vector<RMDataLV> m_flavourOrderedTauMomenta;
+	std::vector<RMFLV> m_flavourOrderedTauMomenta;
 	std::vector<ROOT::Math::Boost> m_boostsToTauRestFrames;
 	bool m_tauMomentaReconstructed = false;
-	RMDataLV m_diTauSystem;
+	RMFLV m_diTauSystem;
 	ROOT::Math::Boost m_boostToDiTauRestFrame;
 	bool m_diTauSystemReconstructed = false;
 
@@ -127,11 +127,11 @@ public:
 	std::vector<double> m_antiTtbarDiscriminators;
 
 	// filled by HttValidGenTausProducer. Naming scheme like for the reco particles
-	std::vector<KDataGenTau*> m_ptOrderedGenTaus;
-	std::vector<KDataGenTau*> m_flavourOrderedGenTaus;
-	std::vector<KDataGenTau*> m_chargeOrderedGenTaus;
-	std::vector<KDataGenTau*> m_validGenTausToElectrons;
-	std::vector<KDataGenTau*> m_validGenTausToMuons;
-	std::vector<KDataGenTau*> m_validGenTausToTaus;
+	std::vector<KGenTau*> m_ptOrderedGenTaus;
+	std::vector<KGenTau*> m_flavourOrderedGenTaus;
+	std::vector<KGenTau*> m_chargeOrderedGenTaus;
+	std::vector<KGenTau*> m_validGenTausToElectrons;
+	std::vector<KGenTau*> m_validGenTausToMuons;
+	std::vector<KGenTau*> m_validGenTausToTaus;
 
 };

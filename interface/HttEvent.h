@@ -18,10 +18,10 @@ public:
 	//~HttEvent() : ~KappaEvent() {};
 
 	/// pointer to MET collections
-	KDataPFMET* m_mvaMetTT = 0;
-	KDataPFMET* m_mvaMetMT = 0;
-	KDataPFMET* m_mvaMetET = 0;
-	KDataPFMET* m_mvaMetEM = 0;
+	KMET* m_mvaMetTT = 0;
+	KMET* m_mvaMetMT = 0;
+	KMET* m_mvaMetET = 0;
+	KMET* m_mvaMetEM = 0;
 	
 };
 

@@ -2,18 +2,18 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidTausProducer.h"
 
 
-bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
+bool HttValidTausProducer::AdditionalCriteria(KTau* tau,
                                               KappaEvent const& event, KappaProduct& product,
                                               KappaSettings const& settings) const
 {
-	assert(event.m_tauDiscriminatorMetadata);
+	assert(event.m_tauMetadata);
 	
 	HttProduct& specProduct = static_cast<HttProduct&>(product);
 	HttSettings const& specSettings = static_cast<HttSettings const&>(settings);
 
 	bool validTau = ValidTausProducer::AdditionalCriteria(tau, event, product, settings);
 	
-	double isolationPtSum = tau->getDiscriminator("hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits", event.m_tauDiscriminatorMetadata);
+	double isolationPtSum = tau->getDiscriminator("hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits", event.m_tauMetadata);
 	double isolationPtSumOverPt = isolationPtSum / tau->p4.Pt();
 	
 	specProduct.m_leptonIsolation[tau] = isolationPtSum;
@@ -56,11 +56,11 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 	}
 	
 	// remove taus which overlap with electrons and muons in a DeltaR cone
-	for (std::vector<KDataElectron*>::const_iterator electron = product.m_validElectrons.begin(); validTau && electron != product.m_validElectrons.end(); ++electron)
+	for (std::vector<KElectron*>::const_iterator electron = product.m_validElectrons.begin(); validTau && electron != product.m_validElectrons.end(); ++electron)
 		{
 			validTau = validTau && ROOT::Math::VectorUtil::DeltaR(tau->p4, (*electron)->p4) > specSettings.GetTauElectronLowerDeltaRCut();
 		}
-	for (std::vector<KDataMuon*>::const_iterator muon = product.m_validMuons.begin(); validTau && muon != product.m_validMuons.end(); ++muon)
+	for (std::vector<KMuon*>::const_iterator muon = product.m_validMuons.begin(); validTau && muon != product.m_validMuons.end(); ++muon)
 		{
 			validTau = validTau && ROOT::Math::VectorUtil::DeltaR(tau->p4, (*muon)->p4) > specSettings.GetTauMuonLowerDeltaRCut();
 		}
@@ -73,18 +73,18 @@ bool HttValidTausProducer::AdditionalCriteria(KDataPFTau* tau,
 	validTau = validTau && tau->leadCand.Pt() > specSettings.GetTauLeadingTrackPtCut();
 
 	// cut on the tau track multiplicity
-	validTau = validTau && (specSettings.GetTauTrackMultiplicityCut() <= 0.0 || tau->nSignalChargedHadrCands <= specSettings.GetTauTrackMultiplicityCut());
+	validTau = validTau && (specSettings.GetTauTrackMultiplicityCut() <= 0.0 || tau->chargedHadronCandidates.size() <= specSettings.GetTauTrackMultiplicityCut());
 
 	return validTau;
 }
 
 
-bool HttValidTausProducer::ApplyCustomMvaIsolationCut(KDataPFTau* tau, KappaEvent const& event,
+bool HttValidTausProducer::ApplyCustomMvaIsolationCut(KTau* tau, KappaEvent const& event,
 	                                              std::vector<float> MvaIsolationCuts) const
 {
 	bool validTau = true;
 
-	float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
+	float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauMetadata);
 
 	validTau = validTau && discriminator > *std::max_element(MvaIsolationCuts.begin(), MvaIsolationCuts.end());
 	
@@ -92,7 +92,7 @@ bool HttValidTausProducer::ApplyCustomMvaIsolationCut(KDataPFTau* tau, KappaEven
 }
 
 
-bool HttValidTausProducer::ApplyCustomElectronRejection(KDataPFTau* tau, KappaEvent const& event,
+bool HttValidTausProducer::ApplyCustomElectronRejection(KTau* tau, KappaEvent const& event,
 	                                                    HttSettings const& settings) const
 {
 	bool validTau = true;
@@ -106,8 +106,8 @@ bool HttValidTausProducer::ApplyCustomElectronRejection(KDataPFTau* tau, KappaEv
 		return validTau;
 	}
 
-	int category = (int)(tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejectioncategory", event.m_tauDiscriminatorMetadata) + 0.5);
-	float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejection", event.m_tauDiscriminatorMetadata);
+	int category = (int)(tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejectioncategory", event.m_tauMetadata) + 0.5);
+	float discriminator = tau->getDiscriminator("hpsPFTauDiscriminationByMVA3rawElectronRejection", event.m_tauMetadata);
 
 	if (category < 0)
 	{

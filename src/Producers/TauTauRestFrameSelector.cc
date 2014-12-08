@@ -77,7 +77,7 @@ void TauTauRestFrameSelector::Produce(event_type const& event, product_type& pro
 	}
 	
 	// calculate boosts
-	for (std::vector<RMDataLV>::const_iterator tauMomentum = product.m_flavourOrderedTauMomenta.begin();
+	for (std::vector<RMFLV>::const_iterator tauMomentum = product.m_flavourOrderedTauMomenta.begin();
 	     tauMomentum != product.m_flavourOrderedTauMomenta.end(); ++tauMomentum)
 	{
 		product.m_boostsToTauRestFrames.push_back(ROOT::Math::Boost(tauMomentum->BoostToCM()));

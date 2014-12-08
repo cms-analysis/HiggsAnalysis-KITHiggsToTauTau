@@ -29,14 +29,14 @@ public:
 						 setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
 
 	template <typename T>
-	bool DoesGenRecoMatch(std::vector<T> const recoTaus, std::vector<KDataGenTau*> const genTaus) const
+	bool DoesGenRecoMatch(std::vector<T> const recoTaus, std::vector<KGenTau*> const genTaus) const
 	{
 		if (recoTaus.size() != genTaus.size())
 			return false;
 
 		for (unsigned int i = 0; i < recoTaus.size(); i++)
 		{
-			float deltaR = ROOT::Math::VectorUtil::DeltaR(recoTaus.at(i)->p4, genTaus.at(i)->p4_vis);
+			float deltaR = ROOT::Math::VectorUtil::DeltaR(recoTaus.at(i)->p4, genTaus.at(i)->visible);
 			if (deltaR > m_deltaR)
 				return false;
 		}

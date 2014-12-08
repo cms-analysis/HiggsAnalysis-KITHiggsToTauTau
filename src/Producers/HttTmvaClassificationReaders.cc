@@ -42,12 +42,12 @@ void AntiTtbarDiscriminatorTmvaReader::Init(spec_setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("emAntiTTbarMva_csv", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		float csv = -1.0;
-		for (std::vector<KDataPFJet*>::const_iterator jet = product.m_validJets.begin();
+		for (std::vector<KBasicJet*>::const_iterator jet = product.m_validJets.begin();
 		     ((jet != product.m_validJets.end()) && ((*jet)->p4.Pt() > 20.0)); ++jet)
 		{
 			if (((*jet)->p4.Pt() > 20.0) && (std::abs((*jet)->p4.Eta()) < 2.4))
 			{
-				csv = static_cast<KDataPFTaggedJet const*>(*jet)->getTagger("CombinedSecondaryVertexBJetTags", event.m_taggerMetadata);
+				csv = static_cast<KJet const*>(*jet)->getTag("CombinedSecondaryVertexBJetTags", event.m_jetMetadata);
 				csv = ((csv > 0.244) ? csv : -1.0);
 				break;
 			}
@@ -73,7 +73,7 @@ void AntiTtbarDiscriminatorTmvaReader::Produce(spec_event_type const& event,
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert(event.m_tjets);
-	assert(event.m_taggerMetadata);
+	assert(event.m_jetMetadata);
 	assert(event.m_mvaMetEM);
 	
 	// has to be called at the end of the subclass function

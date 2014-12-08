@@ -11,7 +11,7 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	typedef std::function<double(RMLV const&)> dijet_extractor_lambda;
+	typedef std::function<double(RMDLV const&)> dijet_extractor_lambda;
 	
 	static double GetDiJetQuantity(product_type const& product,
 	                               dijet_extractor_lambda dijetQuantity);

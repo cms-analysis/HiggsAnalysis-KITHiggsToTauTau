@@ -229,10 +229,10 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 			(product.m_decayChannel == HttEnumTypes::DecayChannel::MT) ||
 			(product.m_decayChannel == HttEnumTypes::DecayChannel::TT))
 		{
-			product.m_weights["tauEnergyScaleWeight"] = SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KDataPFTau*>(lepton2));
+			product.m_weights["tauEnergyScaleWeight"] = SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KTau*>(lepton2));
 			if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT)
 			{
-				product.m_weights["tauEnergyScaleWeight"] *= SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KDataPFTau*>(lepton1));
+				product.m_weights["tauEnergyScaleWeight"] *= SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KTau*>(lepton1));
 			}
 		}
 	}
@@ -309,8 +309,8 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 		if ((product.m_decayChannel == HttEnumTypes::DecayChannel::TTH_TTE) ||
 		    (product.m_decayChannel == HttEnumTypes::DecayChannel::TTH_TTM))
 		{
-			product.m_weights["tauEnergyScaleWeight"] = SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KDataPFTau*>(lepton1));
-			product.m_weights["tauEnergyScaleWeight"] *= SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KDataPFTau*>(lepton2));
+			product.m_weights["tauEnergyScaleWeight"] = SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KTau*>(lepton1));
+			product.m_weights["tauEnergyScaleWeight"] *= SafeMap::Get(product.m_tauEnergyScaleWeight, static_cast<KTau*>(lepton2));
 		}
 	}
 

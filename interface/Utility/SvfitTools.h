@@ -95,19 +95,19 @@ public:
 	int decayType1;
 	int decayType2;
 	
-	RMDataLV leptonMomentum1;
-	RMDataLV leptonMomentum2;
+	RMFLV leptonMomentum1;
+	RMFLV leptonMomentum2;
 	
 	RMDataV metMomentum;
 	RMSM2x2 metCovariance;
 	
 	SvfitInputs() {};
 	SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	            RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
+	            RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
 	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
 	
 	void Set(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	         RMDataLV const& leptonMomentum1, RMDataLV const& leptonMomentum2,
+	         RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
 	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
 	
 	void CreateBranches(TTree* tree);
@@ -131,14 +131,14 @@ private:
 class SvfitResults {
 
 public:
-	RMDataLV momentum;
-	RMDataLV momentumUncertainty;
+	RMFLV momentum;
+	RMFLV momentumUncertainty;
 	
 	SvfitResults() {};
-	SvfitResults(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+	SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty);
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
-	void Set(RMDataLV const& momentum, RMDataLV const& momentumUncertainty);
+	void Set(RMFLV const& momentum, RMFLV const& momentumUncertainty);
 	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
 	void CreateBranches(TTree* tree);
@@ -150,8 +150,8 @@ public:
 
 
 private:
-	RMDataLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
-	RMDataLV GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	RMFLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	RMFLV GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 };
 
 

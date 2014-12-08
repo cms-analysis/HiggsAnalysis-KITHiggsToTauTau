@@ -11,10 +11,10 @@ bool RecoMuonInElectronConeVetoFilter::DoesEventPass(event_type const& event,
                                                      product_type const& product,
                                                      setting_type const& settings) const
 {
-	for (std::vector<KDataElectron*>::const_iterator electron = product.m_validElectrons.begin();
+	for (std::vector<KElectron*>::const_iterator electron = product.m_validElectrons.begin();
 	     electron != product.m_validElectrons.end(); ++electron)
 	{
-		for (std::vector<KDataMuon>::const_iterator muon = event.m_muons->begin();
+		for (std::vector<KMuon>::const_iterator muon = event.m_muons->begin();
 		     muon != event.m_muons->end(); ++muon)
 		{
 			if ((muon->p4.Pt() > settings.GetRecoMuonInElectronConeLowerPtCut()) &&

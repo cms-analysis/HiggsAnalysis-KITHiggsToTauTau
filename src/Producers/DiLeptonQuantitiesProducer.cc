@@ -74,8 +74,8 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	product.m_flavourOrderedTauMomentaCA.clear();
 	if (ratioVisToTau1 >= 0.0 && ratioVisToTau2 >= 0.0)
 	{
-		product.m_flavourOrderedTauMomentaCA.push_back(RMDataLV(product.m_flavourOrderedLeptons[0]->p4 / ratioVisToTau1));
-		product.m_flavourOrderedTauMomentaCA.push_back(RMDataLV(product.m_flavourOrderedLeptons[1]->p4 / ratioVisToTau2));
+		product.m_flavourOrderedTauMomentaCA.push_back(RMFLV(product.m_flavourOrderedLeptons[0]->p4 / ratioVisToTau1));
+		product.m_flavourOrderedTauMomentaCA.push_back(RMFLV(product.m_flavourOrderedLeptons[1]->p4 / ratioVisToTau2));
 		product.m_diTauSystemCA = product.m_flavourOrderedTauMomentaCA[0] + product.m_flavourOrderedTauMomentaCA[1];
 		product.m_validCollinearApproximation = true;
 	}

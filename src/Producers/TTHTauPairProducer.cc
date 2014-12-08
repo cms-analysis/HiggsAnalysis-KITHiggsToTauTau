@@ -20,16 +20,16 @@ void TTHTauPairProducer::Init(setting_type const& settings)
 		return product.m_validTTHTaus[1]->p4.Eta();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau1Iso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
-		return product.m_validTTHTaus[0]->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
+		return product.m_validTTHTaus[0]->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauMetadata);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau2Iso", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
-		return product.m_validTTHTaus[1]->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
+		return product.m_validTTHTaus[1]->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauMetadata);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("TTHTau1DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
-		return product.m_validTTHTaus[0]->hpsDecayMode;
+		return product.m_validTTHTaus[0]->decayMode;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("TTHTau2DecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
-		return product.m_validTTHTaus[1]->hpsDecayMode;
+		return product.m_validTTHTaus[1]->decayMode;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau1EleDeltaR", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_validElectrons.size() >=1 ?  ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[0]->p4, product.m_validTTHTaus[0]->p4) : DefaultValues::UndefinedDouble;
@@ -51,8 +51,8 @@ void TTHTauPairProducer::Produce(event_type const& event, product_type& product,
 	
 	size_t nTaus = product.m_validTaus.size();
 	
-	KDataPFTau* tau1;
-	KDataPFTau* tau2;
+	KTau* tau1;
+	KTau* tau2;
 	
 	int nPossiblePairs = 0;
 	unsigned int selectedTau1 = 0;
@@ -71,8 +71,8 @@ void TTHTauPairProducer::Produce(event_type const& event, product_type& product,
 				continue;
 		
 			//check the combined isolation of the tau pair
-			float iso1 = tau1->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
-			float iso2 = tau2->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauDiscriminatorMetadata);
+			float iso1 = tau1->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauMetadata);
+			float iso2 = tau2->getDiscriminator("hpsPFTauDiscriminationByIsolationMVA2raw", event.m_tauMetadata);
 			
 			float tempCombinedIso = (iso1 + 1.0)*(iso1 + 1.0) + (iso2 + 1.0)*(iso2 + 1.0);
 			

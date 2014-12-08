@@ -64,8 +64,8 @@ public:
 	}
 	
 	HttValidElectronsProducer(
-			std::vector<KDataElectron*> product_type::*validElectrons=&product_type::m_validElectrons,
-			std::vector<KDataElectron*> product_type::*invalidElectrons=&product_type::m_invalidElectrons,
+			std::vector<KElectron*> product_type::*validElectrons=&product_type::m_validElectrons,
+			std::vector<KElectron*> product_type::*invalidElectrons=&product_type::m_invalidElectrons,
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetElectronIDType,
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetElectronIsoType,
@@ -99,7 +99,7 @@ public:
 protected:
 
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KDataElectron* electron, event_type const& event,
+	virtual bool AdditionalCriteria(KElectron* electron, event_type const& event,
 	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
 
 
@@ -126,12 +126,12 @@ private:
 
 	ElectronIDType electronIDType;
 	
-	bool IsMVATrigElectronTTHSummer2013(KDataElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVANonTrigElectronHttSummer2013(KDataElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVATrigV050nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVATrigV025nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVANonTrigV050nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVANonTrigV025nsCsa14(KDataElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVATrigV050nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVATrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVANonTrigV050nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVANonTrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
 };
 
 
@@ -161,8 +161,8 @@ public:
 	}
 	
 	HttValidLooseElectronsProducer(
-			std::vector<KDataElectron*> product_type::*validElectrons=&product_type::m_validLooseElectrons,
-			std::vector<KDataElectron*> product_type::*invalidElectrons=&product_type::m_invalidLooseElectrons,
+			std::vector<KElectron*> product_type::*validElectrons=&product_type::m_validLooseElectrons,
+			std::vector<KElectron*> product_type::*invalidElectrons=&product_type::m_invalidLooseElectrons,
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetLooseElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetLooseElectronIDType,
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetLooseElectronIsoType,
@@ -209,8 +209,8 @@ public:
 	}
 	
 	HttValidVetoElectronsProducer(
-			std::vector<KDataElectron*> product_type::*validElectrons=&product_type::m_validVetoElectrons,
-			std::vector<KDataElectron*> product_type::*invalidElectrons=&product_type::m_invalidVetoElectrons,
+			std::vector<KElectron*> product_type::*validElectrons=&product_type::m_validVetoElectrons,
+			std::vector<KElectron*> product_type::*invalidElectrons=&product_type::m_invalidVetoElectrons,
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetVetoElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetVetoElectronIDType,
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetVetoElectronIsoType,

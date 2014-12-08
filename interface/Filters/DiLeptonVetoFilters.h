@@ -114,7 +114,7 @@ private:
  *  Required config tag:
  *  - DiVetoElectronVetoMode
  */
-class DiVetoElectronVetoFilter : public DiLeptonVetoFilterBase<KDataElectron> {
+class DiVetoElectronVetoFilter : public DiLeptonVetoFilterBase<KElectron> {
 public:
 
 	typedef typename HttTypes::event_type event_type;
@@ -133,7 +133,7 @@ public:
  *  Required config tag:
  *  - DiVetoMuonVetoMode
  */
-class DiVetoMuonVetoFilter : public DiLeptonVetoFilterBase<KDataMuon> {
+class DiVetoMuonVetoFilter : public DiLeptonVetoFilterBase<KMuon> {
 public:
 
 	typedef typename HttTypes::event_type event_type;
