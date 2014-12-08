@@ -6,10 +6,10 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import Artus.HarryPlotter.core as harrycore
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.plotroothtt as plotroothtt
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.estimateztt as estimateztt
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.estimatewjets as estimatewjets
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.estimateqcd as estimateqcd
+import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.plot_modules.plotroothtt as plotroothtt
+import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimateztt as estimateztt
+import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatewjets as estimatewjets
+import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimateqcd as estimateqcd
 
 
 def higgs_plot(args_from_script = None):
