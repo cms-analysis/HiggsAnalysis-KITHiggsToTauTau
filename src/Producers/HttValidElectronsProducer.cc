@@ -84,7 +84,7 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 	
 	// require no missing inner hits
 	if (validElectron && electronReco == ElectronReco::USER) {
-		validElectron = validElectron && (electron->track.nInnerHits == 0);
+		validElectron = validElectron && (electron->track.nValidTrackerHits() == 0);
 	}
 
 	// custom WPs for electron ID

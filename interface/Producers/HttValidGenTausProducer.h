@@ -36,7 +36,7 @@ public:
 
 		for (unsigned int i = 0; i < recoTaus.size(); i++)
 		{
-			float deltaR = ROOT::Math::VectorUtil::DeltaR(recoTaus.at(i)->p4, genTaus.at(i)->visible);
+			float deltaR = ROOT::Math::VectorUtil::DeltaR(recoTaus.at(i)->p4, genTaus.at(i)->visible.p4);
 			if (deltaR > m_deltaR)
 				return false;
 		}

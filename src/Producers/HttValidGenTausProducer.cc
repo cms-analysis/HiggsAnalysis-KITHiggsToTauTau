@@ -51,7 +51,7 @@ void HttValidGenTausProducer::SortVectors(event_type const& event, product_type&
 	int nMuons = product.m_validGenTausToMuons.size();
 	int nHadrons = product.m_validGenTausToTaus.size();
 
-	auto ptSorter = [](const KGenTau * a, const KGenTau * b) -> bool { return a->visible.Pt() > b->visible.Pt(); };
+	auto ptSorter = [](const KGenTau * a, const KGenTau * b) -> bool { return a->visible.p4.Pt() > b->visible.p4.Pt(); };
 	std::sort(product.m_ptOrderedGenTaus.begin(), product.m_ptOrderedGenTaus.end(), ptSorter);
 	std::sort(product.m_validGenTausToElectrons.begin(), product.m_validGenTausToElectrons.end(), ptSorter);
 	std::sort(product.m_validGenTausToMuons.begin(), product.m_validGenTausToMuons.end(), ptSorter);

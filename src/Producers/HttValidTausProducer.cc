@@ -70,7 +70,7 @@ bool HttValidTausProducer::AdditionalCriteria(KTau* tau,
 	                && (specSettings.GetTauTrackDzCut() <= 0.0 || std::abs(tau->track.getDz(&event.m_vertexSummary->pv)) < specSettings.GetTauTrackDzCut());
 
 	// cut on the pT of the leading tau track
-	validTau = validTau && tau->leadCand.Pt() > specSettings.GetTauLeadingTrackPtCut();
+	validTau = validTau && tau->chargedHadronCandidates.size() > 0 && tau->chargedHadronCandidates[0].p4.Pt() > specSettings.GetTauLeadingTrackPtCut();
 
 	// cut on the tau track multiplicity
 	validTau = validTau && (specSettings.GetTauTrackMultiplicityCut() <= 0.0 || tau->chargedHadronCandidates.size() <= specSettings.GetTauTrackMultiplicityCut());

@@ -19,7 +19,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepCharge", [](event_type const& event, product_type const& product)
 	{
-		return product.m_ptOrderedLeptons[0]->charge;
+		return product.m_ptOrderedLeptons[0]->charge();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepPt", [](event_type const& event, product_type const& product)
 	{
@@ -50,7 +50,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Charge", [](event_type const& event, product_type const& product)
 	{
-		return product.m_flavourOrderedLeptons[0]->charge;
+		return product.m_flavourOrderedLeptons[0]->charge();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Pt", [](event_type const& event, product_type const& product)
 	{
@@ -101,7 +101,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepCharge", [](event_type const& event, product_type const& product)
 	{
-		return product.m_ptOrderedLeptons[1]->charge;
+		return product.m_ptOrderedLeptons[1]->charge();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepPt", [](event_type const& event, product_type const& product)
 	{
@@ -132,7 +132,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Charge", [](event_type const& event, product_type const& product)
 	{
-		return product.m_flavourOrderedLeptons[1]->charge;
+		return product.m_flavourOrderedLeptons[1]->charge();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Pt", [](event_type const& event, product_type const& product)
 	{
@@ -257,7 +257,7 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 		product.m_flavourOrderedLeptons.push_back(lepton2);
 		
 		// fill leptons ordered by charge (positive charges first)
-		if (lepton1->charge >= lepton2->charge)
+		if (lepton1->charge() >= lepton2->charge())
 		{
 			product.m_chargeOrderedLeptons.push_back(lepton1);
 			product.m_chargeOrderedLeptons.push_back(lepton2);
@@ -339,6 +339,6 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 		
 		std::sort(product.m_chargeOrderedLeptons.begin(), product.m_chargeOrderedLeptons.end(),
 	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
-	          { return lepton1->charge > lepton2->charge; });
+	          { return lepton1->charge() > lepton2->charge(); });
 	}
 }

@@ -70,7 +70,7 @@ public:
 			for (typename std::vector<TLepton*>::const_iterator lepton = (product.*m_leptons).begin();
 				 lepton != (product.*m_leptons).end(); ++lepton)
 			{
-				if ((int)((*lepton)->charge) > 0)
+				if ((int)((*lepton)->charge()) > 0)
 				{
 					++nPosLeptons;
 				}
