@@ -4,10 +4,10 @@
 """
 
 import logging
-import HarryPlotter.Utility.logger as logger
+import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import HarryPlotter.Plotting.analysisbase as analysisbase
+import Artus.HarryPlotter.analysisbase as analysisbase
 
 
 class EstimateBase(analysisbase.AnalysisBase):

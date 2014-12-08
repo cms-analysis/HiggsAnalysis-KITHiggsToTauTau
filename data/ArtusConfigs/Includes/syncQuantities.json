@@ -1,7 +1,7 @@
 {
 	"property" : [
-		"run",
-		"lumi",
+		"#run",
+		"#lumi",
 		"evt",
 		"npv",
 		"npu",
