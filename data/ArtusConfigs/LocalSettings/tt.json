@@ -162,7 +162,12 @@
 			"KappaLambdaNtupleConsumer",
 			"SvfitCacheConsumer",
 			"cutflow_histogram",
-			"CutFlowTreeConsumer"
+			"CutFlowTreeConsumer",
+			"#KappaElectronsConsumer",
+			"#KappaMuonsConsumer",
+			"#KappaTausConsumer",
+			"#KappaJetsConsumer",
+			"#KappaTaggedJetsConsumer"
 		]
 	}
 }
