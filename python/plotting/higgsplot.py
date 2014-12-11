@@ -6,10 +6,6 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import Artus.HarryPlotter.core as harrycore
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.plot_modules.plotroothtt as plotroothtt
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimateztt as estimateztt
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatewjets as estimatewjets
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimateqcd as estimateqcd
 
 
 def higgs_plot(args_from_script = None):
@@ -20,15 +16,10 @@ def higgs_plot(args_from_script = None):
 	as it would be done by calling this script in the bash.
 	"""
 	
-	harry_core = harrycore.HarryCore()
+	harry_core = harrycore.HarryCore(args_from_script=args_from_script)
 	
-	# register custom version of ROOT plots which creates plots in the officital Htautau style
-	harry_core.register_processor(plotroothtt.PlotRootHtt.name(), plotroothtt.PlotRootHtt())
+	harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/analysis_modules")
+	harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/plot_modules")
 	
-	# register analysis modules for sample estimations
-	harry_core.register_processor(estimateztt.EstimateZtt.name(), estimateztt.EstimateZtt())
-	harry_core.register_processor(estimatewjets.EstimateWjets.name(), estimatewjets.EstimateWjets())
-	harry_core.register_processor(estimateqcd.EstimateQcd.name(), estimateqcd.EstimateQcd())
-	
-	harry_core.run(args_from_script)
+	harry_core.run()
 
