@@ -41,12 +41,14 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
+	parser.add_argument("-n", "--n-processes", type=int, default=4,
+	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	                    
 	
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
 	
-	failed_plots = []
+	plots = []
 	for channel in args["channels"]:
 		for quantity in args["quantities"]:
 			json_exists = True
@@ -64,15 +66,7 @@ if __name__ == "__main__":
 			                                                           ("" if json_exists else ("-x %s" % quantity)),
 			                                                           args["args"])
 			plot_args = os.path.expandvars(plot_args)
+			plots.append(plot_args)
 			
-			log.info("\nhiggsplot.py %s" % plot_args)
-			
-			try:
-				higgsplot.higgs_plot(plot_args)
-			except Exception, e:
-				log.info(str(e))
-				failed_plots.append(plot_args)
-	
-	if len(failed_plots) > 0:
-		log.error("%d failed plots:\n\thiggsplot.py %s" % (len(failed_plots), "\n\thiggsplot.py ".join(failed_plots)))
+	higgsplot.HiggsPlotter(plots, n_processes=args["n_processes"])
 

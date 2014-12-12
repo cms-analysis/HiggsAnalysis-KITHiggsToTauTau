@@ -34,12 +34,14 @@ if __name__ == "__main__":
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
-	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]"
+	parser.add_argument("-n", "--n-processes", type=int, default=4,
+	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
 	
-	failed_plots = []
+	plots = []
 	for quantity in args["quantities"]:
 		json_exists = True
 		json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_%s.json" % (args["channel"], quantity))
@@ -49,15 +51,7 @@ if __name__ == "__main__":
 		
 		plot_args = "--json-defaults %s -i %s %s %s -f png %s %s" % (json_config, args["input_1"], args["input_2"], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")), args["args"])
 		plot_args = os.path.expandvars(plot_args)
-		
-		log.info("\nhiggsplot.py %s" % plot_args)
-		
-		try:
-			higgsplot.higgs_plot(plot_args)
-		except Exception, e:
-			log.info(str(e))
-			failed_plots.append(plot_args)
-	
-	if len(failed_plots) > 0:
-		log.error("%d failed plots:\n\thiggsplot.py %s" % (len(failed_plots), "\n\thiggsplot.py ".join(failed_plots)))
+			plots.append(plot_args)
+			
+	higgsplot.HiggsPlotter(plots, n_processes=args["n_processes"])
 
