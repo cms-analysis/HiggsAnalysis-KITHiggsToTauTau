@@ -1,0 +1,4 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_TTJetsToHH_madgraph_tauola_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_TTJetsToLH_madgraph_tauola_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_TTJetsToLL_madgraph_tauola_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_TTJets_madgraph_tauola_8TeV_recent.txt

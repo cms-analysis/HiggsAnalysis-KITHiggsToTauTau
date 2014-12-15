@@ -1,0 +1,3 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_WW_pythia_tauola_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_WZ_pythia_tauola_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_sample_ZZ_pythia_tauola_8TeV_recent.txt
