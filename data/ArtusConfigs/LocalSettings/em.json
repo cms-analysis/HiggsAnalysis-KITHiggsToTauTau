@@ -85,6 +85,7 @@
 				],
 				"Run2012" : [
 					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1Mu12EG7L3MuFiltered17",
+					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1MuOpenEG12L3Filtered8",
 					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8"
 				]
 			}
