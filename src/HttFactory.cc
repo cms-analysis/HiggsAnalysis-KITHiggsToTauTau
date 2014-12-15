@@ -22,6 +22,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTmvaClassificationReaders.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidGenTausProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTriggerSettingsProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -105,6 +106,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new AntiTtbarDiscriminatorTmvaReader();
 	else if(id == HttValidGenTausProducer().GetProducerId())
 		return new HttValidGenTausProducer();
+	else if(id == HttTriggerSettingsProducer().GetProducerId())
+		return new HttTriggerSettingsProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
