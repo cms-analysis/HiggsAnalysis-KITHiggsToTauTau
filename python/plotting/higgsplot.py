@@ -11,7 +11,7 @@ import Artus.HarryPlotter.core as harrycore
 
 class HiggsPlotter(harry.HarryPlotter):
 
-	def __init__(self, plots=None, n_processes=4):
+	def __init__(self, plots=None, n_processes=1):
 		super(HiggsPlotter, self).__init__(plots, n_processes=n_processes)
 	
 	def plot(self, harry_args):
