@@ -7,7 +7,7 @@
 	},
 	"GenMet" : "GenMETTrue",
 	"Electrons" : "electrons",
-	"ElectronIdMetadata" : "KElectronIdMetadata",
+	"ElectronIdMetadata" : "electronMetadata",
 	"Muons" : "muons",
 	"GenTaus" : {
 		"nick" : {
@@ -15,8 +15,8 @@
 			"default" : "genTaus"
 		}
 	},
-	"Taus" : "hpsPFTaus",
-	"TauDiscriminatorMetadata" : "hpsPFTaus",
+	"Taus" : "taus",
+	"TauDiscriminatorMetadata" : "taus",
 	"TaggedJets" : "AK5PFTaggedJets",
 	"JetArea" : "KT6Area",
 	"Met" : "PFMET",
@@ -31,14 +31,14 @@
 	"PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
 	"BeamSpot" : "offlineBeamSpot",
 	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
-	"EventMetadata" : "KEventMetadata",
-	"LumiMetadata" : "KLumiMetadata",
+	"EventMetadata" : "eventInfo",
+	"LumiMetadata" : "lumiInfo",
 	"FilterMetadata" : "",
 	"FilterSummary" : "",
-	"TaggerMetadata" : "KTaggerMetadata",
+	"TaggerMetadata" : "jetMetadata",
 	"BeamSpot" : "offlineBeamSpot",
 	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
-	"TriggerInfos" : "KTriggerInfos",
-	"TriggerObjects" : "KTriggerObjects"
+	"TriggerInfos" : "triggerObjectMetadata",
+	"TriggerObjects" : "triggerObjects"
 }
 
