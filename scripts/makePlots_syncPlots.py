@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
-	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]"
+	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	
@@ -51,7 +51,7 @@ if __name__ == "__main__":
 		
 		plot_args = "--json-defaults %s -i %s %s %s -f png %s %s" % (json_config, args["input_1"], args["input_2"], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")), args["args"])
 		plot_args = os.path.expandvars(plot_args)
-			plots.append(plot_args)
+		plots.append(plot_args)
 			
 	higgsplot.HiggsPlotter(plots, n_processes=args["n_processes"])
 
