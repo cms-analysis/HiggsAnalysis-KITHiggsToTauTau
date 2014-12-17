@@ -10,6 +10,9 @@ import sys
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 
-if __name__ == "__main__" and len(sys.argv) > 1:
-	higgsplot.higgs_plot()
-
+if __name__ == "__main__":
+	"""This script executes all steps necessary to create a plot."""
+	if len(sys.argv) == 1:
+		sys.argv.append("-h")
+		
+	higgsplot.HiggsPlotter()

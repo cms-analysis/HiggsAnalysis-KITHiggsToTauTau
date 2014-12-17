@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
 	HttFactory factory;
 
 	// initialize the pipeline runner
-	HttPipelineRunner runner;
+	HttPipelineRunner runner(true);
 
 	// load the pipeline with their configuration from the config file
 	myConfig.LoadConfiguration(pInit, runner, factory, rootEnv.GetRootFile());

@@ -85,6 +85,7 @@
 				],
 				"Run2012" : [
 					"HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1Mu12EG7L3MuFiltered17",
+					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1MuOpenEG12L3Filtered8",
 					"HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL:hltL1sL1Mu3p5EG12ORL1MuOpenEG12L3Filtered8"
 				]
 			}
@@ -147,6 +148,10 @@
 					"filter:RecoMuonInElectronConeVetoFilter",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"#producer:ElectronGenMatchingProducer",
+					"#producer:MuonGenMatchingProducer",
+					"#producer:TauGenMatchingProducer",
+					"#producer:JetGenMatchingProducer",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
 					"filter:DiLeptonChargeFilter",
@@ -184,6 +189,10 @@
 					"filter:RecoMuonInElectronConeVetoFilter",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"#producer:ElectronGenMatchingProducer",
+					"#producer:MuonGenMatchingProducer",
+					"#producer:TauGenMatchingProducer",
+					"#producer:JetGenMatchingProducer",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
 					"filter:DiLeptonChargeFilter",
@@ -198,7 +207,45 @@
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
-				"Run2012" : [
+				"(?<!PFembedded).Run2012" : [
+					"filter:LooseElectronsCountFilter",
+					"filter:LooseMuonsCountFilter",
+					"producer:HttTriggerSettingsProducer",
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MvaMetEMSelector",
+					"producer:ValidElectronsProducer",
+					"filter:ValidElectronsFilter",
+					"producer:ElectronTriggerMatchingProducer",
+					"filter:MinElectronsCountFilter",
+					"filter:MaxElectronsCountFilter",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"filter:MaxMuonsCountFilter",
+					"producer:ValidTausProducer",
+					"producer:ValidLeptonsProducer",
+					"filter:RecoMuonInElectronConeVetoFilter",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"#producer:ElectronGenMatchingProducer",
+					"#producer:MuonGenMatchingProducer",
+					"#producer:TauGenMatchingProducer",
+					"#producer:JetGenMatchingProducer",
+					"producer:DecayChannelProducer",
+					"filter:DecayChannelFilter",
+					"filter:DiLeptonChargeFilter",
+					"#producer:SvfitProducer",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:AntiTtbarDiscriminatorTmvaReader",
+					"producer:EventCategoryProducer",
+					"producer:RecoTauCPProducer",
+					"producer:EventWeightProducer"
+				],
+				"PFembedded" : [
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
@@ -219,6 +266,10 @@
 					"filter:RecoMuonInElectronConeVetoFilter",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"#producer:ElectronGenMatchingProducer",
+					"#producer:MuonGenMatchingProducer",
+					"#producer:TauGenMatchingProducer",
+					"#producer:JetGenMatchingProducer",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
 					"filter:DiLeptonChargeFilter",
@@ -237,7 +288,12 @@
 			"KappaLambdaNtupleConsumer",
 			"SvfitCacheConsumer",
 			"cutflow_histogram",
-			"CutFlowTreeConsumer"
+			"CutFlowTreeConsumer",
+			"#KappaElectronsConsumer",
+			"#KappaMuonsConsumer",
+			"#KappaTausConsumer",
+			"#KappaJetsConsumer",
+			"#KappaTaggedJetsConsumer"
 		]
 	}
 }

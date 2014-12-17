@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 
 import ROOT
 
-import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.estimatebase as estimatebase
+import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
 
 
 class EstimateZtt(estimatebase.EstimateBase):
