@@ -61,21 +61,27 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 
 	if (validMuon && muonIsoType == MuonIsoType::USER) {
-		isolationPtSum = ParticleIsolation::IsolationPtSum(
-				muon->p4, event,
-				(settings.*GetMuonIsoSignalConeSize)(),
-				(settings.*GetMuonDeltaBetaCorrectionFactor)(),
-				(settings.*GetMuonChargedIsoVetoConeSize)(),
-				(settings.*GetMuonChargedIsoVetoConeSize)(),
-				(settings.*GetMuonNeutralIsoVetoConeSize)(),
-				(settings.*GetMuonPhotonIsoVetoConeSize)(),
-				(settings.*GetMuonPhotonIsoVetoConeSize)(),
-				(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
-				(settings.*GetMuonChargedIsoPtThreshold)(),
-				(settings.*GetMuonNeutralIsoPtThreshold)(),
-				(settings.*GetMuonPhotonIsoPtThreshold)(),
-				(settings.*GetMuonDeltaBetaIsoPtThreshold)()
-		);
+		if (usePfCandidatesForIso)
+		{
+			isolationPtSum = ParticleIsolation::IsolationPtSum(
+					muon->p4, event,
+					(settings.*GetMuonIsoSignalConeSize)(),
+					(settings.*GetMuonDeltaBetaCorrectionFactor)(),
+					(settings.*GetMuonChargedIsoVetoConeSize)(),
+					(settings.*GetMuonChargedIsoVetoConeSize)(),
+					(settings.*GetMuonNeutralIsoVetoConeSize)(),
+					(settings.*GetMuonPhotonIsoVetoConeSize)(),
+					(settings.*GetMuonPhotonIsoVetoConeSize)(),
+					(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
+					(settings.*GetMuonChargedIsoPtThreshold)(),
+					(settings.*GetMuonNeutralIsoPtThreshold)(),
+					(settings.*GetMuonPhotonIsoPtThreshold)(),
+					(settings.*GetMuonDeltaBetaIsoPtThreshold)()
+			);
+		}
+		else {
+			isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
+		}
 		
 		double isolationPtSumOverPt = isolationPtSum / muon->p4.Pt();
 		

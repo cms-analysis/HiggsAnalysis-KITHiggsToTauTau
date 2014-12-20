@@ -129,21 +129,27 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 	// custom electron isolation with delta beta correction
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation
 	if (validElectron && electronIsoType == ElectronIsoType::USER) {
-		isolationPtSum = ParticleIsolation::IsolationPtSum(
-				electron->p4, event,
-				(settings.*GetElectronIsoSignalConeSize)(),
-				(settings.*GetElectronDeltaBetaCorrectionFactor)(),
-				(settings.*GetElectronChargedIsoVetoConeSizeEB)(),
-				(settings.*GetElectronChargedIsoVetoConeSizeEE)(),
-				(settings.*GetElectronNeutralIsoVetoConeSize)(),
-				(settings.*GetElectronPhotonIsoVetoConeSizeEB)(),
-				(settings.*GetElectronPhotonIsoVetoConeSizeEE)(),
-				(settings.*GetElectronDeltaBetaIsoVetoConeSize)(),
-				(settings.*GetElectronChargedIsoPtThreshold)(),
-				(settings.*GetElectronNeutralIsoPtThreshold)(),
-				(settings.*GetElectronPhotonIsoPtThreshold)(),
-				(settings.*GetElectronDeltaBetaIsoPtThreshold)()
-		);
+		if (usePfCandidatesForIso)
+		{
+			isolationPtSum = ParticleIsolation::IsolationPtSum(
+					electron->p4, event,
+					(settings.*GetElectronIsoSignalConeSize)(),
+					(settings.*GetElectronDeltaBetaCorrectionFactor)(),
+					(settings.*GetElectronChargedIsoVetoConeSizeEB)(),
+					(settings.*GetElectronChargedIsoVetoConeSizeEE)(),
+					(settings.*GetElectronNeutralIsoVetoConeSize)(),
+					(settings.*GetElectronPhotonIsoVetoConeSizeEB)(),
+					(settings.*GetElectronPhotonIsoVetoConeSizeEE)(),
+					(settings.*GetElectronDeltaBetaIsoVetoConeSize)(),
+					(settings.*GetElectronChargedIsoPtThreshold)(),
+					(settings.*GetElectronNeutralIsoPtThreshold)(),
+					(settings.*GetElectronPhotonIsoPtThreshold)(),
+					(settings.*GetElectronDeltaBetaIsoPtThreshold)()
+			);
+		}
+		else {
+			isolationPtSum = electron->pfIso((settings.*GetElectronDeltaBetaCorrectionFactor)());
+		}
 		
 		double isolationPtSumOverPt = isolationPtSum / electron->p4.Pt();
 		

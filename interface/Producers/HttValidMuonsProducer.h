@@ -99,6 +99,8 @@ private:
 	float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const;
 	float (setting_type::*GetMuonTrackDxyCut)(void) const;
 	float (setting_type::*GetMuonTrackDzCut)(void) const;
+	
+	bool usePfCandidatesForIso = false;
 
 };
 
