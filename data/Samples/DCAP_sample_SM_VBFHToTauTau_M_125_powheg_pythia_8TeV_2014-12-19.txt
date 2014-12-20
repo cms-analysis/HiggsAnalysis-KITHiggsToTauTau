@@ -46,6 +46,7 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-19_Kappa_2_0_0/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_412.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-19_Kappa_2_0_0/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_390.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-19_Kappa_2_0_0/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_399.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-19_Kappa_2_0_0/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_398.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-19_Kappa_2_0_0/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_391.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-19_Kappa_2_0_0/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_369.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-19_Kappa_2_0_0/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_370.root
