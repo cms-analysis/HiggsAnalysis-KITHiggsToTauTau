@@ -30,7 +30,7 @@
 	"#PFNeutralHadronsNoPileUp" : "pfNoPileUpNeutralHadrons",
 	"#PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
 	"BeamSpot" : "offlineBeamSpot",
-	"VertexSummary" : "offlinePrimaryVerticesSummary",
+	"VertexSummary" : "goddOfflinePrimaryVerticesSummary",
 	"EventMetadata" : "eventInfo",
 	"LumiMetadata" : "lumiInfo",
 	"FilterMetadata" : "",
