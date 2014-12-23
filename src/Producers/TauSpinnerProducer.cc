@@ -82,6 +82,8 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 								 setting_type const& settings) const
 {
+	assert(event.m_eventMetadata);
+	
 	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
 	if (higgs.size() == 0)
 	{

@@ -11,6 +11,8 @@ bool RecoMuonInElectronConeVetoFilter::DoesEventPass(event_type const& event,
                                                      product_type const& product,
                                                      setting_type const& settings) const
 {
+	assert(event.m_muons);
+	
 	for (std::vector<KDataElectron*>::const_iterator electron = product.m_validElectrons.begin();
 	     electron != product.m_validElectrons.end(); ++electron)
 	{
