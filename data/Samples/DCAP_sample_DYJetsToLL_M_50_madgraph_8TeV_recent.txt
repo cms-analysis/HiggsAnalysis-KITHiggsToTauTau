@@ -1,1 +1,1 @@
-DCAP_sample_DYJetsToLL_M_50_madgraph_8TeV_2014-07-30.txt
+DCAP_sample_DYJetsToLL_M_50_madgraph_8TeV_2014-12-24.txt
