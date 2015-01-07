@@ -1,0 +1,3 @@
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7577.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7632.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7777.root
