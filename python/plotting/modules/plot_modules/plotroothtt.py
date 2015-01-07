@@ -16,12 +16,6 @@ import Artus.HarryPlotter.plot_modules.plotroot as plotroot
 class PlotRootHtt(plotroot.PlotRoot):
 	def __init__(self):
 		super(PlotRootHtt, self).__init__()
-		
-		# load HttStyles
-		cwd = os.getcwd()
-		os.chdir(os.path.expandvars("$CMSSW_BASE/src"))
-		ROOT.gROOT.LoadMacro(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/src/HttStyles.cc")+"+")
-		os.chdir(cwd)
 	
 	def modify_argument_parser(self, parser, args):
 		super(PlotRootHtt, self).modify_argument_parser(parser, args)
@@ -29,11 +23,18 @@ class PlotRootHtt(plotroot.PlotRoot):
 		parser.set_defaults(y_label="Number of Entries")
 	
 	def run(self, plotData):
-		# apply HttStyles
-		ROOT.SetStyle()
-		
 		super(PlotRootHtt, self).run(plotData)
 
+	def set_style(self, plotData):
+		super(PlotRootHtt, self).set_style(plotData)
+		
+		# load HttStyles
+		cwd = os.getcwd()
+		os.chdir(os.path.expandvars("$CMSSW_BASE/src"))
+		ROOT.gROOT.LoadMacro(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/src/HttStyles.cc")+"+")
+		ROOT.SetStyle()
+		os.chdir(cwd)
+	
 	def create_canvas(self, plotData):
 		self.canvas = ROOT.MakeCanvas("canvas", "")
 		

@@ -96,7 +96,9 @@ public:
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE
 	{
-		product.m_met = event.*m_metMember;
+		assert((event.*m_metMember));
+		
+		product.m_met = (event.*m_metMember);
 	}
 
 private:

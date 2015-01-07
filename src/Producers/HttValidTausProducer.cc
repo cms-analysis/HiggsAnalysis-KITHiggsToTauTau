@@ -7,6 +7,7 @@ bool HttValidTausProducer::AdditionalCriteria(KTau* tau,
                                               KappaSettings const& settings) const
 {
 	assert(event.m_tauMetadata);
+	assert(event.m_vertexSummary);
 	
 	HttProduct& specProduct = static_cast<HttProduct&>(product);
 	HttSettings const& specSettings = static_cast<HttSettings const&>(settings);

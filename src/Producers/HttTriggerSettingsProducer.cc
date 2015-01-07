@@ -34,6 +34,7 @@ void HttTriggerSettingsProducer::Init(setting_type const& settings)
 void HttTriggerSettingsProducer::Produce(event_type const& event, product_type& product,
                                          setting_type const& settings) const
 {
+	assert(event.m_eventInfo);
 
 	product.m_settingsHltPaths.clear();
 	
