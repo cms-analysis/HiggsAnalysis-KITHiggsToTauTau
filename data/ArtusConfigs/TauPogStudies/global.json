@@ -3,6 +3,9 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json"
 	],
+	
+	"GetTauJets" : "genTauJets",
+	
 	"Processors" : {
 		"nick" : {
 			"default" : [
