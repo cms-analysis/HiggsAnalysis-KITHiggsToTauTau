@@ -31,38 +31,38 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	GenTauMatchingProducerBase(std::map<TValidObject*, KGenParticle*> product_type::*genMatchedObjects, //changed to KGenParticle from const KDataLV
+	GenTauMatchingProducerBase(std::map<TValidObject*, KDataGenTau*> product_type::*genTauMatchedObjects, //changed to KGenParticle from const KDataLV
 	                           std::vector<TValidObject*> product_type::*validObjects,
 	                           std::vector<TValidObject*> product_type::*invalidObjects,
 	                           TauDecayMode tauDecayMode,
 	                           float (setting_type::*GetDeltaRMatchingRecoObjectsGenTau)(void) const,
-	                           bool (setting_type::*GetInvalidateNonGenMatchingObjects)(void) const) :
-		m_genMatchedObjects(genMatchedObjects),
+	                           bool (setting_type::*GetInvalidateNonGenTauMatchingObjects)(void) const) :
+		m_genTauMatchedObjects(genTauMatchedObjects),
 		m_validObjects(validObjects),
 		m_invalidObjects(invalidObjects),
 		tauDecayMode(tauDecayMode),
 		GetDeltaRMatchingRecoObjectsGenTau(GetDeltaRMatchingRecoObjectsGenTau),
-		GetInvalidateNonGenMatchingObjects(GetInvalidateNonGenMatchingObjects)
+		GetInvalidateNonGenTauMatchingObjects(GetInvalidateNonGenTauMatchingObjects)
 	{
 	}
 
 	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE 
 	{
 		ProducerBase<HttTypes>::Init(settings);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("ratioGenMatched", [](event_type const & event, product_type const & product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("ratioGenTauMatched", [](event_type const & event, product_type const & product)
 		{
-			return product.m_ratioGenMatched;
+			return product.m_ratioGenTauMatched;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMatchDeltaR", [](event_type const & event, product_type const & product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genTauMatchTauDeltaR", [](event_type const & event, product_type const & product)
 		{
-			return product.m_genMatchDeltaR;
+			return product.m_genTauMatchDeltaR;
 		});
 	}
 
 	virtual void Produce(event_type const& event, product_type& product,
 						 setting_type const& settings) const ARTUS_CPP11_OVERRIDE
 	{
-		float ratioGenMatched = 0;
+		float ratioGenTauMatched = 0;
 		
 		assert(event.m_genTaus);
 		
@@ -85,17 +85,17 @@ public:
 						deltaR = ROOT::Math::VectorUtil::DeltaR((*validObject)->p4, genTau->p4_vis);
 						if(deltaR<(settings.*GetDeltaRMatchingRecoObjectsGenTau)())
 						{
-							(product.*m_genMatchedObjects)[*validObject] = &(*genTau);
-							ratioGenMatched += 1./(product.*m_validObjects).size();
-							product.m_genMatchDeltaR = deltaR;
+							(product.*m_genTauMatchedObjects)[*validObject] = &(*genTau);
+							ratioGenTauMatched += 1./(product.*m_validObjects).size();
+							product.m_genTauMatchDeltaR = deltaR;
 							objectMatched = true;
 						}
-						else product.m_genMatchDeltaR = DefaultValues::UndefinedFloat;
+						else product.m_genTauMatchDeltaR = DefaultValues::UndefinedFloat;
 					}
-					else product.m_genMatchDeltaR = DefaultValues::UndefinedFloat;
+					else product.m_genTauMatchDeltaR = DefaultValues::UndefinedFloat;
 				}
 				// invalidate the object if the trigger has not matched
-				if ((! objectMatched) && (settings.*GetInvalidateNonGenMatchingObjects)())
+				if ((! objectMatched) && (settings.*GetInvalidateNonGenTauMatchingObjects)())
 				{
 					(product.*m_invalidObjects).push_back(*validObject);
 					validObject = (product.*m_validObjects).erase(validObject);
@@ -106,7 +106,7 @@ public:
 				}
 			}
 			// preserve sorting of invalid objects
-			if ((settings.*GetInvalidateNonGenMatchingObjects)())
+			if ((settings.*GetInvalidateNonGenTauMatchingObjects)())
 			{
 				std::sort((product.*m_invalidObjects).begin(), (product.*m_invalidObjects).end(),
 						  [](TValidObject const* object1, TValidObject const* object2) -> bool
@@ -115,9 +115,9 @@ public:
 		}
 		else
 		{
-			product.m_genMatchDeltaR = DefaultValues::UndefinedFloat;
+			product.m_genTauMatchDeltaR = DefaultValues::UndefinedFloat;
 		}
-		product.m_ratioGenMatched = ratioGenMatched;
+		product.m_ratioGenTauMatched = ratioGenTauMatched;
 	}
 	
 	virtual bool MatchDecayMode(KDataGenTau const &genTau, TauDecayMode tauDecayMode) const
@@ -129,12 +129,12 @@ public:
 	}
 	
 private:
-	std::map<TValidObject*, KGenParticle*> product_type::*m_genMatchedObjects; //changed to KGenParticle from const KDataLV
+	std::map<TValidObject*, KDataGenTau*> product_type::*m_genTauMatchedObjects; //changed to KGenParticle from const KDataLV
 	std::vector<TValidObject*> product_type::*m_validObjects;
 	std::vector<TValidObject*> product_type::*m_invalidObjects;
 	TauDecayMode tauDecayMode;
 	float (setting_type::*GetDeltaRMatchingRecoObjectsGenTau)(void) const;
-	bool (setting_type::*GetInvalidateNonGenMatchingObjects)(void) const;
+	bool (setting_type::*GetInvalidateNonGenTauMatchingObjects)(void) const;
 	
 	std::map<size_t, std::vector<std::string> > m_objectTriggerFiltersByIndex;
 	std::map<std::string, std::vector<std::string> > m_objectTriggerFiltersByHltName;

@@ -63,6 +63,13 @@ public:
 	std::map<KDataPFTau*, double> m_tauIsolation;
 	std::map<KDataPFTau*, double> m_tauIsolationOverPt;
 
+	/// added by GenTauMatchingProducers
+	std::map<KDataElectron*, KDataGenTau*> m_genTauMatchedElectrons;
+	std::map<KDataMuon*, KDataGenTau*> m_genTauMatchedMuons;
+	std::map<KDataPFTau*, KDataGenTau*> m_genTauMatchedTaus;
+	float m_ratioGenTauMatched;
+	float m_genTauMatchDeltaR;
+	
 	// filled by the DiLeptonQuantitiesProducer
 	RMDataLV m_diLeptonSystem;
 	RMDataLV m_diLeptonPlusMetSystem;
