@@ -175,6 +175,14 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauMuonLowerDeltaRCut, 0.5);
 	IMPL_SETTING_DEFAULT(float, TauTauLowerDeltaRCut, 0.5);
 	IMPL_SETTING_DEFAULT(float, JetTauLowerDeltaRCut, 0.5);
+
+	IMPL_SETTING_DEFAULT(float, DeltaRMatchingRecoElectronsGenTau, 0.5);
+	IMPL_SETTING_DEFAULT(float, DeltaRMatchingRecoMuonGenTau, 0.5);
+	IMPL_SETTING_DEFAULT(float, DeltaRMatchingRecoTauGenTau, 0.5);
+	
+	IMPL_SETTING_DEFAULT(bool, InvalidateNonGenTauMatchingRecoElectrons, false);
+	IMPL_SETTING_DEFAULT(bool, InvalidateNonGenTauMatchingRecoMuons, false);
+	IMPL_SETTING_DEFAULT(bool, InvalidateNonGenTauMatchingRecoTaus, false);
 	
 	IMPL_SETTING(std::string, TauSpinnerSettingsPDF);
 	IMPL_SETTING(float, TauSpinnerSettingsCmsEnergy);
