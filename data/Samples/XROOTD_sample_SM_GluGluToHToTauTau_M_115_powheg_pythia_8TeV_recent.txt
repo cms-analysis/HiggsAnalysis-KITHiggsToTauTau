@@ -1,1 +1,1 @@
-XROOTD_sample_SM_GluGluToHToTauTau_M_115_powheg_pythia_8TeV_2014-07-30.txt
+XROOTD_sample_SM_GluGluToHToTauTau_M_115_powheg_pythia_8TeV_2014-12-24.txt

@@ -1,0 +1,2 @@
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_115_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_115_powheg_pythia_8TeV_648.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_115_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_115_powheg_pythia_8TeV_672.root

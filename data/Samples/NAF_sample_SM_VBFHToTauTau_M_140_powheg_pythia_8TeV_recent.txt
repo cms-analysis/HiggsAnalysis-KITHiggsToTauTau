@@ -1,1 +1,1 @@
-NAF_sample_SM_VBFHToTauTau_M_140_powheg_pythia_8TeV_2014-07-30.txt
+NAF_sample_SM_VBFHToTauTau_M_140_powheg_pythia_8TeV_2014-12-24.txt
