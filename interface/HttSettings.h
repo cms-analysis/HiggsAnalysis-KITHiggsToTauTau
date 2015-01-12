@@ -153,6 +153,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauTrackMultiplicityCut, -1.0);
 	
 	IMPL_SETTING(std::string, TauEnergyCorrection);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionShift, 1.0);
 	
 	IMPL_SETTING(int, NLooseElectrons);
 	IMPL_SETTING(int, NLooseMuons);
