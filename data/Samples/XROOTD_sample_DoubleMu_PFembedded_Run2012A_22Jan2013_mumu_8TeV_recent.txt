@@ -1,1 +1,0 @@
-XROOTD_sample_DoubleMu_PFembedded_Run2012A_22Jan2013_mumu_8TeV_2014-10-11.txt

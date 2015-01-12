@@ -1,1 +1,0 @@
-DCAP_sample_SM_JJH0MToTauTau_M_125_JHUGen_8TeV_2014-11-01.txt

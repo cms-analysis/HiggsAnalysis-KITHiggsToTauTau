@@ -1,1 +1,0 @@
-DCAP_sample_W1JetsToLN_madgraph_8TeV_2014-07-30.txt
