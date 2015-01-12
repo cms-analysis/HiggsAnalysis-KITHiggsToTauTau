@@ -66,5 +66,8 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_svfitEventKey,
 	                                                              product.m_svfitInputs,
 	                                                              product.m_svfitCalculated);
+	
+	// apply systematic shifts
+	product.m_svfitResults.momentum.SetM(product.m_svfitResults.momentum.M() * settings.GetSvfitMassShift());
 }
 
