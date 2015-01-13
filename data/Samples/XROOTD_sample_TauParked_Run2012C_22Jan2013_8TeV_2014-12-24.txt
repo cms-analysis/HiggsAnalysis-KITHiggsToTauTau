@@ -862,6 +862,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7925.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7926.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7927.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7928.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7929.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7930.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7931.root
@@ -1631,6 +1632,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8695.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8696.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8697.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8698.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8699.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8700.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8701.root
@@ -1649,6 +1651,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8714.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8715.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8716.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8717.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8718.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8719.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8720.root
@@ -1670,6 +1673,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8736.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8737.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8738.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8739.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8740.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8741.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8742.root
@@ -1686,6 +1690,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8753.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8754.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8755.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8756.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8757.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8758.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8759.root
@@ -2183,6 +2188,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9251.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9252.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9253.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9254.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9255.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9256.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9257.root
@@ -2552,11 +2558,13 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9621.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9622.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9623.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9624.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9625.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9626.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9627.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9628.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9629.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9630.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9631.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9632.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9633.root
@@ -2865,6 +2873,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9936.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9937.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9938.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9939.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9940.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9941.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9942.root

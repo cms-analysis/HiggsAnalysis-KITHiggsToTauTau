@@ -862,6 +862,7 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7925.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7926.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7927.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7928.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7929.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7930.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_7931.root
@@ -1631,6 +1632,7 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8695.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8696.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8697.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8698.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8699.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8700.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8701.root
@@ -1649,6 +1651,7 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8714.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8715.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8716.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8717.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8718.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8719.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8720.root
@@ -1670,6 +1673,7 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8736.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8737.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8738.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8739.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8740.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8741.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8742.root
@@ -1686,6 +1690,7 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8753.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8754.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8755.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8756.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8757.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8758.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_8759.root
@@ -2183,6 +2188,7 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9251.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9252.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9253.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9254.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9255.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9256.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9257.root
@@ -2552,11 +2558,13 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9621.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9622.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9623.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9624.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9625.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9626.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9627.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9628.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9629.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9630.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9631.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9632.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9633.root
@@ -2865,6 +2873,7 @@ dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9936.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9937.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9938.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9939.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9940.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9941.root
 dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/TauParked_Run2012C_22Jan2013_8TeV/kappa_TauParked_Run2012C_22Jan2013_8TeV_9942.root
