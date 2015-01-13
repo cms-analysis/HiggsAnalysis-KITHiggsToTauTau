@@ -31,7 +31,7 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	GenTauMatchingProducerBase(std::map<TValidObject*, KDataGenTau*> product_type::*genTauMatchedObjects, //changed to KGenParticle from const KDataLV
+	GenTauMatchingProducerBase(std::map<TValidObject*, KGenTau*> product_type::*genTauMatchedObjects, //changed to KGenParticle from const KDataLV
 	                           std::vector<TValidObject*> product_type::*validObjects,
 	                           std::vector<TValidObject*> product_type::*invalidObjects,
 	                           TauDecayMode tauDecayMode,
@@ -76,13 +76,13 @@ public:
 				float deltaR = 0;
 				
 				// loop over all genTaus
-				for (typename std::vector<KDataGenTau>::iterator genTau = event.m_genTaus->begin();
+				for (typename std::vector<KGenTau>::iterator genTau = event.m_genTaus->begin();
 					 !objectMatched && genTau != event.m_genTaus->end();++genTau) 
 				{
 					// only use genTaus that will decay into comparable particles
 					if (MatchDecayMode(*genTau,tauDecayMode))
 					{
-						deltaR = ROOT::Math::VectorUtil::DeltaR((*validObject)->p4, genTau->p4_vis);
+						deltaR = ROOT::Math::VectorUtil::DeltaR((*validObject)->p4, genTau->visible.p4);
 						if(deltaR<(settings.*GetDeltaRMatchingRecoObjectsGenTau)())
 						{
 							(product.*m_genTauMatchedObjects)[*validObject] = &(*genTau);
@@ -120,7 +120,7 @@ public:
 		product.m_ratioGenTauMatched = ratioGenTauMatched;
 	}
 	
-	virtual bool MatchDecayMode(KDataGenTau const &genTau, TauDecayMode tauDecayMode) const
+	virtual bool MatchDecayMode(KGenTau const &genTau, TauDecayMode tauDecayMode) const
 	{
 		bool decayModeMatched = (((tauDecayMode == TauDecayMode::E) && genTau.isElectronicDecay()) ||
 		                         ((tauDecayMode == TauDecayMode::M) && genTau.isMuonicDecay()) ||
@@ -129,7 +129,7 @@ public:
 	}
 	
 private:
-	std::map<TValidObject*, KDataGenTau*> product_type::*m_genTauMatchedObjects; //changed to KGenParticle from const KDataLV
+	std::map<TValidObject*, KGenTau*> product_type::*m_genTauMatchedObjects; //changed to KGenParticle from const KDataLV
 	std::vector<TValidObject*> product_type::*m_validObjects;
 	std::vector<TValidObject*> product_type::*m_invalidObjects;
 	TauDecayMode tauDecayMode;
@@ -147,7 +147,7 @@ private:
  *  - DeltaRMatchingRecoElectronsGenTau (default provided)
  *  - InvalidateNonGenTauMatchingRecoElectrons (default provided)
  */
-class RecoElectronGenTauMatchingProducer: public GenTauMatchingProducerBase<KDataElectron>
+class RecoElectronGenTauMatchingProducer: public GenTauMatchingProducerBase<KElectron>
 {
 
 public:
@@ -164,7 +164,7 @@ public:
  *  - DeltaRMatchingRecoMuonGenTau (default provided)
  *  - InvalidateNonGenTauMatchingRecoMuons (default provided)
  */
-class RecoMuonGenTauMatchingProducer: public GenTauMatchingProducerBase<KDataMuon>
+class RecoMuonGenTauMatchingProducer: public GenTauMatchingProducerBase<KMuon>
 {
 
 public:
@@ -181,7 +181,7 @@ public:
  *  - DeltaRMatchingRecoTauGenTau (default provided)
  *  - InvalidateNonGenTauMatchingRecoTaus (default provided)
  */
-class RecoTauGenTauMatchingProducer: public GenTauMatchingProducerBase<KDataPFTau>
+class RecoTauGenTauMatchingProducer: public GenTauMatchingProducerBase<KTau>
 {
 
 public:

@@ -64,9 +64,9 @@ public:
 	std::map<KTau*, double> m_tauIsolationOverPt;
 
 	/// added by GenTauMatchingProducers
-	std::map<KDataElectron*, KDataGenTau*> m_genTauMatchedElectrons;
-	std::map<KDataMuon*, KDataGenTau*> m_genTauMatchedMuons;
-	std::map<KDataPFTau*, KDataGenTau*> m_genTauMatchedTaus;
+	std::map<KElectron*, KGenTau*> m_genTauMatchedElectrons;
+	std::map<KMuon*, KGenTau*> m_genTauMatchedMuons;
+	std::map<KTau*, KGenTau*> m_genTauMatchedTaus;
 	float m_ratioGenTauMatched;
 	float m_genTauMatchDeltaR;
 	
