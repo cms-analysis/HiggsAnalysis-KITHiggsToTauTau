@@ -23,8 +23,8 @@
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 
 		"@ TTJets and single Top",
-		"TTJetsTo*_madgraph_tauola_8TeV/*.root",
-		"T*_powheg_tauola_8TeV/*.root",
+		"TTJets*_madgraph_tauola_8TeV/*.root",
+		"@T*_powheg_tauola_8TeV/*.root",
 
 		"@ Dibosons",
 		"WWJetsTo*_madgraph_tauola_8TeV/*.root",
@@ -52,7 +52,7 @@
 
 		"@ TTJets and single Top",
 		"em_os_dirIso/ntuple",
-		"em_os_dirIso/ntuple",
+		"@em_os_dirIso/ntuple",
 
 		"@ Dibosons",
 		"em_os_dirIso/ntuple",
@@ -80,7 +80,7 @@
 
 		"@ TTJets and single Top",
 		19712.0,
-		19712.0,
+		"@19712.0",
 
 		"@ Dibosons",
 		19712.0,
@@ -111,7 +111,7 @@
 
 		"@ TTJets and single Top",
 		"ttj",
-		"ttj",
+		"@ttj",
 
 		"@ Dibosons",
 		"diboson",
