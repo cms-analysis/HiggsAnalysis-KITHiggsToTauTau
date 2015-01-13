@@ -15,6 +15,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_687.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_688.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_689.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_690.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_691.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_692.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_693.root

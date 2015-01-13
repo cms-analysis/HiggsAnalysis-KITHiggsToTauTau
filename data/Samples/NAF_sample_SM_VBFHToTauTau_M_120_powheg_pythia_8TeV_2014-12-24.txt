@@ -15,6 +15,7 @@
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_687.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_688.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_689.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_690.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_691.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_692.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2014-12-24_full_skim/SM_VBFHToTauTau_M_120_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_120_powheg_pythia_8TeV_693.root
