@@ -11,8 +11,8 @@
 		"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 		
 		"@ DY->tautau",
-		"*_PFembedded_Run2012?_22Jan2013_muhad_8TeV/*.root",
-		"*_PFembedded_Run2012?_22Jan2013_muhad_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_mt_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_mt_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		

@@ -7,8 +7,8 @@
 	"files" : [
 		"DoubleMu*_Run2012?_22Jan2013_8TeV/*.root",
 		"WJetsToLN_madgraph_8TeV/*.root",
-		"*_PFembedded_Run2012?_22Jan2013_mumu_8TeV/*.root",
-		"*_PFembedded_Run2012?_22Jan2013_mumu_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_mm_8TeV/*.root",
+		"*_PFembedded_Run2012?_22Jan2013_mm_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"TTJets*_madgraph_tauola_8TeV/*.root",
