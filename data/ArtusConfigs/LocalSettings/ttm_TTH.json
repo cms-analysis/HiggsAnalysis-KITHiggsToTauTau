@@ -81,7 +81,7 @@
 					"producer:TTHTauPairProducer",
 					"producer:ValidLeptonsProducer",
 					"producer:ValidTaggedJetsProducer",
-					"producer:JetGenMatchingProducer",
+					"producer:RecoJetGenParticleMatchingProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:TTHDecayChannelProducer",
 					"filter:DecayChannelFilter",
