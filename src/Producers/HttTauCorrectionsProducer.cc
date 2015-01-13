@@ -52,6 +52,6 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		LOG(FATAL) << "Tau energy correction of type " << Utility::ToUnderlyingValue(tauEnergyCorrection) << " not yet implemented!";
 	}
 	
-	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = normalisationFactor;
+	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = (normalisationFactor * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionShift());
 }
 
