@@ -107,7 +107,7 @@ void HttTriggerSettingsProducer::Produce(event_type const& event, product_type& 
 			std::string hltPath("HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20");
 			if (Utility::Contains(settings.GetHltPaths(), hltPath))
 			{
-				product.m_settingsHltPaths.push_back("HLT_IsoMu17_eta2p1_LooseIsoPFTau20");
+				product.m_settingsHltPaths.push_back("HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20");
 			}
 			
 			std::vector<std::string> filters;
@@ -129,7 +129,7 @@ void HttTriggerSettingsProducer::Produce(event_type const& event, product_type& 
 			std::string hltPath("HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20");
 			if (Utility::Contains(settings.GetHltPaths(), hltPath))
 			{
-				product.m_settingsHltPaths.push_back("HLT_IsoMu17_eta2p1_LooseIsoPFTau20");
+				product.m_settingsHltPaths.push_back("HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20");
 			}
 			
 			std::vector<std::string> filters;
