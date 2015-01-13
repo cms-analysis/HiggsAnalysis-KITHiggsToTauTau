@@ -42,8 +42,8 @@
 		"em_os_dirIso/ntuple",
 
 		"@ DY->tautau",
-		"hf_em_os_dirIso/ntuple",
-		"hf_em_os_dirIso/ntuple",
+		"em_os_dirIso/ntuple",
+		"em_os_dirIso/ntuple",
 		"em_os_dirIso_tt/ntuple",
 		"em_os_dirIso_tt/ntuple",
 
@@ -95,7 +95,7 @@
 		"data",
 
 		"@ Data SS",
-		"dataSS",
+		"qcd",
 
 		"@ WJets",
 		"wjets",
