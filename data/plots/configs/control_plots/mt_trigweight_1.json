@@ -8,6 +8,6 @@
 	"x_bins" : [
 		"20,0.5,1.5"
 	],
-	"x_label" : "Tau Trigger Weight",
+	"x_label" : "Muon Trigger Weight",
 	"filename" : "trigweight_1"
 }

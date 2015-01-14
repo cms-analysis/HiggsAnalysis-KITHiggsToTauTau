@@ -8,6 +8,6 @@
 	"x_bins" : [
 		"25,0.0,0.1"
 	],
-	"x_label" : "Tau Isolation",
+	"x_label" : "Muon Isolation",
 	"filename" : "iso_1"
 }
