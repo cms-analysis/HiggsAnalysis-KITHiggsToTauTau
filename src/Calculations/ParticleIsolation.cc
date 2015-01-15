@@ -55,6 +55,7 @@ double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttEvent const& 
 	assert(event.m_pfChargedHadronsNoPileUp);
 	assert(event.m_pfNeutralHadronsNoPileUp);
 	assert(event.m_pfPhotonsNoPileUp);
+	assert(event.m_pfChargedHadronsPileUp);
 	
 	double chargedIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 			particle,

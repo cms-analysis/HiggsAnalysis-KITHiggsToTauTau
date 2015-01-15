@@ -61,7 +61,10 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 
 	if (validMuon && muonIsoType == MuonIsoType::USER) {
-		if (usePfCandidatesForIso)
+		if (event.m_pfChargedHadronsNoPileUp &&
+		    event.m_pfNeutralHadronsNoPileUp &&
+		    event.m_pfPhotonsNoPileUp &&
+		    event.m_pfChargedHadronsPileUp)
 		{
 			isolationPtSum = ParticleIsolation::IsolationPtSum(
 					muon->p4, event,

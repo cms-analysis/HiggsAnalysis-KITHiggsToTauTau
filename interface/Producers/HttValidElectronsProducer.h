@@ -125,7 +125,6 @@ private:
 	float (setting_type::*GetElectronTrackDzCut)(void) const;
 
 	ElectronIDType electronIDType;
-	bool usePfCandidatesForIso = false;
 	
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;

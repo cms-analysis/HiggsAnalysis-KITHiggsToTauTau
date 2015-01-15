@@ -129,7 +129,10 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 	// custom electron isolation with delta beta correction
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation
 	if (validElectron && electronIsoType == ElectronIsoType::USER) {
-		if (usePfCandidatesForIso)
+		if (event.m_pfChargedHadronsNoPileUp &&
+		    event.m_pfNeutralHadronsNoPileUp &&
+		    event.m_pfPhotonsNoPileUp &&
+		    event.m_pfChargedHadronsPileUp)
 		{
 			isolationPtSum = ParticleIsolation::IsolationPtSum(
 					electron->p4, event,
