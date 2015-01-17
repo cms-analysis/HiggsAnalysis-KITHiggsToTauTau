@@ -35,13 +35,13 @@ public:
 	                           std::vector<TValidObject*> product_type::*validObjects,
 	                           std::vector<TValidObject*> product_type::*invalidObjects,
 	                           TauDecayMode tauDecayMode,
-	                           float (setting_type::*GetDeltaRMatchingRecoObjectsGenTau)(void) const,
+	                           float (setting_type::*GetDeltaRMatchingRecoObjectGenTau)(void) const,
 	                           bool (setting_type::*GetInvalidateNonGenTauMatchingObjects)(void) const) :
 		m_genTauMatchedObjects(genTauMatchedObjects),
 		m_validObjects(validObjects),
 		m_invalidObjects(invalidObjects),
 		tauDecayMode(tauDecayMode),
-		GetDeltaRMatchingRecoObjectsGenTau(GetDeltaRMatchingRecoObjectsGenTau),
+		GetDeltaRMatchingRecoObjectGenTau(GetDeltaRMatchingRecoObjectGenTau),
 		GetInvalidateNonGenTauMatchingObjects(GetInvalidateNonGenTauMatchingObjects)
 	{
 	}
@@ -66,7 +66,7 @@ public:
 		
 		assert(event.m_genTaus);
 		
-		if ((settings.*GetDeltaRMatchingRecoObjectsGenTau)() > 0.0)
+		if ((settings.*GetDeltaRMatchingRecoObjectGenTau)() > 0.0)
 		{
 			// loop over all valid objects to check
 			for (typename std::vector<TValidObject*>::iterator validObject = (product.*m_validObjects).begin();
@@ -83,7 +83,7 @@ public:
 					if (MatchDecayMode(*genTau,tauDecayMode))
 					{
 						deltaR = ROOT::Math::VectorUtil::DeltaR((*validObject)->p4, genTau->visible.p4);
-						if(deltaR<(settings.*GetDeltaRMatchingRecoObjectsGenTau)())
+						if(deltaR<(settings.*GetDeltaRMatchingRecoObjectGenTau)())
 						{
 							(product.*m_genTauMatchedObjects)[*validObject] = &(*genTau);
 							ratioGenTauMatched += 1./(product.*m_validObjects).size();
@@ -133,7 +133,7 @@ private:
 	std::vector<TValidObject*> product_type::*m_validObjects;
 	std::vector<TValidObject*> product_type::*m_invalidObjects;
 	TauDecayMode tauDecayMode;
-	float (setting_type::*GetDeltaRMatchingRecoObjectsGenTau)(void) const;
+	float (setting_type::*GetDeltaRMatchingRecoObjectGenTau)(void) const;
 	bool (setting_type::*GetInvalidateNonGenTauMatchingObjects)(void) const;
 	
 	std::map<size_t, std::vector<std::string> > m_objectTriggerFiltersByIndex;

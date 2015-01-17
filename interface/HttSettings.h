@@ -176,7 +176,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauTauLowerDeltaRCut, 0.5);
 	IMPL_SETTING_DEFAULT(float, JetTauLowerDeltaRCut, 0.5);
 
-	IMPL_SETTING_DEFAULT(float, DeltaRMatchingRecoElectronsGenTau, 0.5);
+	IMPL_SETTING_DEFAULT(float, DeltaRMatchingRecoElectronGenTau, 0.5);
 	IMPL_SETTING_DEFAULT(float, DeltaRMatchingRecoMuonGenTau, 0.5);
 	IMPL_SETTING_DEFAULT(float, DeltaRMatchingRecoTauGenTau, 0.5);
 	

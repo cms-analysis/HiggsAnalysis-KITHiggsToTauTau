@@ -11,7 +11,7 @@ RecoElectronGenTauMatchingProducer::RecoElectronGenTauMatchingProducer() :
 	                                          &product_type::m_validElectrons,
 	                                          &product_type::m_invalidElectrons,
 	                                          RecoElectronGenTauMatchingProducer::TauDecayMode::E,
-	                                          &setting_type::GetDeltaRMatchingRecoElectronsGenTau,
+	                                          &setting_type::GetDeltaRMatchingRecoElectronGenTau,
 	                                          &setting_type::GetInvalidateNonGenTauMatchingRecoElectrons)
 {
 }
