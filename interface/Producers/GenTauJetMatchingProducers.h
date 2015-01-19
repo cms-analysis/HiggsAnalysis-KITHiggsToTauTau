@@ -70,6 +70,8 @@ public:
 					 !objectMatched && genTauJet != event.m_genTauJets->end(); ++genTauJet) 
 				{
 					// TODO: maybe need to match to visible component of genTauJet
+					// depends on setting for TauGenJetProducer.includeNeutrinos
+					// PhysicsTools/JetMCAlgos/python/TauGenJets_cfi.py
 					deltaR = ROOT::Math::VectorUtil::DeltaR((*validObject)->p4, genTauJet->p4);
 					if(deltaR<(settings.*GetDeltaRMatchingRecoObjectGenTauJet)())
 					{
