@@ -62,18 +62,6 @@ public:
 	std::map<KMuon*, double> m_muonIsolationOverPt;
 	std::map<KTau*, double> m_tauIsolation;
 	std::map<KTau*, double> m_tauIsolationOverPt;
-
-	/// added by GenTauMatchingProducers
-	std::map<KElectron*, KGenTau*> m_genTauMatchedElectrons;
-	std::map<KMuon*, KGenTau*> m_genTauMatchedMuons;
-	std::map<KTau*, KGenTau*> m_genTauMatchedTaus;
-	float m_ratioGenTauMatched;
-	float m_genTauMatchDeltaR;
-
-	/// added by GenTauJetMatchingProducers
-	std::map<KElectron*, KGenJet*> m_genTauJetMatchedElectrons;
-	std::map<KMuon*, KGenJet*> m_genTauJetMatchedMuons;
-	std::map<KTau*, KGenJet*> m_genTauJetMatchedTaus;
 	
 	// filled by the DiLeptonQuantitiesProducer
 	RMFLV m_diLeptonSystem;
