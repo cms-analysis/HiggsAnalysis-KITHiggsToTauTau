@@ -1,19 +1,19 @@
 {
 	"GenParticles" : {
 		"nick" : {
-			"Run2012" : "",
+			"(?<!PFembedded).Run2012" : "",
 			"default" : "genParticles"
 		}
 	},
 	"GenTaus" : {
 		"nick" : {
-			"Run2012" : "",
+			"(?<!PFembedded).Run2012" : "",
 			"default" : "genTaus"
 		}
 	},
 	"GenTauJets" : {
 		"nick" : {
-			"Run2012" : "",
+			"(?<!PFembedded).Run2012" : "",
 			"_default" : "tauGenJets"
 		}
 	},
