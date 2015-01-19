@@ -5,16 +5,22 @@
 			"default" : "genParticles"
 		}
 	},
-	"GenMet" : "GenMETTrue",
-	"Electrons" : "electrons",
-	"ElectronMetadata" : "electronMetadata",
-	"Muons" : "muons",
 	"GenTaus" : {
 		"nick" : {
 			"Run2012" : "",
 			"default" : "genTaus"
 		}
 	},
+	"GenTauJets" : {
+		"nick" : {
+			"Run2012" : "",
+			"_default" : "tauGenJets"
+		}
+	},
+	"GenMet" : "GenMETTrue",
+	"Electrons" : "electrons",
+	"ElectronMetadata" : "electronMetadata",
+	"Muons" : "muons",
 	"Taus" : "taus",
 	"TauMetadata" : "taus",
 	"TaggedJets" : "AK5PFTaggedJets",
