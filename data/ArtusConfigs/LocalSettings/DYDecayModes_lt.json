@@ -1,0 +1,63 @@
+{
+	"ztt" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"zl" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvertGenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"zj" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvertGenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	}
+}
