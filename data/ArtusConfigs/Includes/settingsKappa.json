@@ -20,7 +20,7 @@
 	"GenMet" : {
 		"nick" : {
 			"(?<!PFembedded).Run2012" : "",
-			"default" : "GenMETTrue"
+			"default" : "genmetTrue"
 		}
 	},
 	"Electrons" : "electrons",
