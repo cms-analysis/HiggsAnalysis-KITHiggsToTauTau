@@ -89,6 +89,10 @@
 		"InvalidateNonMatchingMuons" : false,
 		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
+		"RecoTauMatchingGenParticlePdgIds" : [
+			11,
+			13
+		],
 		"Quantities" : [
 			{
 				"include" : [
