@@ -17,7 +17,12 @@
 			"_default" : "tauGenJets"
 		}
 	},
-	"GenMet" : "GenMETTrue",
+	"GenMet" : {
+		"nick" : {
+			"(?<!PFembedded).Run2012" : "",
+			"default" : "GenMETTrue"
+		}
+	},
 	"Electrons" : "electrons",
 	"ElectronMetadata" : "electronMetadata",
 	"Muons" : "muons",
