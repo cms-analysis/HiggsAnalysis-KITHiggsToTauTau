@@ -20,6 +20,7 @@ root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-01-15_
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_26.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_27.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_28.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_29.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_3.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_30.root
 root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_31.root

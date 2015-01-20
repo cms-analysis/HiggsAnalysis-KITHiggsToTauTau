@@ -20,6 +20,7 @@
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_26.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_27.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_28.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_29.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_3.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_30.root
 /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-01-15_full_skim/DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV/kappa_DoubleMu_PFembedded_Run2012A_22Jan2013_em_8TeV_31.root
