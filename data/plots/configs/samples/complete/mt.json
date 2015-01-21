@@ -63,7 +63,7 @@
 		"mt_os_dirIso_ztt_tauEsNom/ntuple",
 		
 		"@ DY->ll",
-		"mt_os_dirIso_zl_tauEsNom/ntuple",
+		"mt_os_dirIso_zl_tauEsNom/ntuple mt_os_dirIso_zj_tauEsNom/ntuple",
 		
 		"@ TTJets",
 		"mt_os_dirIso_z_tauEs/ntuple",
@@ -75,7 +75,7 @@
 		"mt_os_dirIso_z_tauEs/ntuple",
 		"mt_os_dirIso_z_tauEs/ntuple",
 		"mt_os_dirIso_ztt_tauEsNom/ntuple",
-		"mt_os_dirIso_zl_tauEsNom/ntuple",
+		"mt_os_dirIso_zl_tauEsNom/ntuple mt_os_dirIso_zj_tauEsNom/ntuple",
 		"mt_os_dirIso_z_tauEs/ntuple",
 		"mt_os_dirIso_z_tauEs/ntuple",
 		"mt_os_dirIso_z_tauEs/ntuple",
@@ -85,7 +85,7 @@
 		"mt_ss_dirIso_z_tauEs/ntuple",
 		"mt_ss_dirIso_z_tauEs/ntuple",
 		"mt_ss_dirIso_ztt_tauEsNom/ntuple",
-		"mt_ss_dirIso_zl_tauEsNom/ntuple",
+		"mt_ss_dirIso_zl_tauEsNom/ntuple mt_ss_dirIso_zj_tauEsNom/ntuple",
 		"mt_ss_dirIso_z_tauEs/ntuple",
 		"mt_ss_dirIso_z_tauEs/ntuple",
 		"mt_ss_dirIso_z_tauEs/ntuple",
@@ -94,7 +94,7 @@
 		"@ QCD",
 		"mt_ss_dirIso_z_tauEs/ntuple",
 		"mt_ss_dirIso_ztt_tauEsNom/ntuple",
-		"mt_ss_dirIso_zl_tauEsNom/ntuple",
+		"mt_ss_dirIso_zl_tauEsNom/ntuple mt_ss_dirIso_zj_tauEsNom/ntuple",
 		"mt_ss_dirIso_z_tauEs/ntuple",
 		"mt_ss_dirIso_z_tauEs/ntuple"
 	],
