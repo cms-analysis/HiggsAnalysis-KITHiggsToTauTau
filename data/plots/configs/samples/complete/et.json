@@ -16,7 +16,10 @@
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		
-		"@ DY->ll",
+		"@ ZL",
+		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+		
+		"@ ZJ",
 		"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 		
 		"@ TTJets",
@@ -62,8 +65,11 @@
 		"et_os_dirIso_ztt_tauEsNom/ntuple",
 		"et_os_dirIso_ztt_tauEsNom/ntuple",
 		
-		"@ DY->ll",
-		"et_os_dirIso_zl_tauEsNom/ntuple et_os_dirIso_zj_tauEsNom/ntuple",
+		"@ ZL",
+		"et_os_dirIso_zl_tauEsNom/ntuple",
+		
+		"@ ZJ",
+		"et_os_dirIso_zj_tauEsNom/ntuple",
 		
 		"@ TTJets",
 		"et_os_dirIso_z_tauEs/ntuple",
@@ -108,7 +114,10 @@
 		19712.0,
 		19712.0,
 		
-		"@ DY->ll",
+		"@ ZL",
+		19712.0,
+		
+		"@ ZJ",
 		19712.0,
 		
 		"@ TTJets",
@@ -154,7 +163,10 @@
 		"eventWeight*(pt_2>30.0)*(lep1MetMt<30.0)",
 		"eventWeight*(pt_2>30.0)*(lep1MetMt<30.0)",
 		
-		"@ DY->ll",
+		"@ ZL",
+		"eventWeight*(pt_2>30.0)*(lep1MetMt<30.0)",
+		
+		"@ ZJ",
 		"eventWeight*(pt_2>30.0)*(lep1MetMt<30.0)",
 		
 		"@ TTJets",
@@ -200,8 +212,11 @@
 		"noplot_ztt_mc_inc",
 		"noplot_ztt_mc",
 		
-		"@ DY->ll",
-		"zll",
+		"@ ZL",
+		"zl",
+		
+		"@ ZJ",
+		"zj",
 		
 		"@ TTJets",
 		"ttj",
@@ -246,11 +261,13 @@
 		"bkg",
 		"bkg",
 		"bkg",
+		"bkg",
 		"bkg"
 	],
 	"colors" : [
 		"#000000",
 		"#FFCC66",
+		"#4496C8",
 		"#64B6E8",
 		"#9999CC",
 		"#DE5A6A",
@@ -260,7 +277,8 @@
 	"labels" : [
 		"Data",
 		"ZTT",
-		"ZLL",
+		"ZL",
+		"ZJ",
 		"TTJ",
 		"VV",
 		"WJ",
