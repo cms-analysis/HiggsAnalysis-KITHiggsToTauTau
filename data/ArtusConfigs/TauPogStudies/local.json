@@ -12,12 +12,14 @@
 			"#CutFlowTreeConsumer",
 			"KappaElectronsConsumer",
 			"KappaMuonsConsumer",
-			"KappaTausConsumer"
+			"KappaTausConsumer",
+			"KappaJetsConsumer"
 		],
 		
 		"BranchGenMatchedElectrons" : true,
 		"BranchGenMatchedMuons" : true,
 		"BranchGenMatchedTaus" : true,
+		"BranchGenMatchedJets" : true,
 		
 		"EventWeight" : "eventWeight"
 	}
