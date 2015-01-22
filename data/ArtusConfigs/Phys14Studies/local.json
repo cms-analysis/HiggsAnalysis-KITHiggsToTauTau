@@ -1,0 +1,26 @@
+{
+	"all" : {
+		"Processors" : {
+			"nick" : {
+				"default" : [
+				]
+			}
+		},
+		"Consumers" : [
+			"#KappaLambdaNtupleConsumer",
+			"#cutflow_histogram",
+			"#CutFlowTreeConsumer",
+			"KappaElectronsConsumer",
+			"KappaMuonsConsumer",
+			"KappaTausConsumer",
+			"KappaJetsConsumer"
+		],
+		
+		"BranchGenMatchedElectrons" : true,
+		"BranchGenMatchedMuons" : true,
+		"BranchGenMatchedTaus" : true,
+		"BranchGenMatchedJets" : true,
+		
+		"EventWeight" : "eventWeight"
+	}
+}
