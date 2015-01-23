@@ -92,7 +92,7 @@
 					"producer:ValidElectronsProducer",
 					"filter:ValidElectronsFilter",
 					"filter:MaxElectronsCountFilter",
-					"producer:ElectronTriggerMatchingProducer",
+					"#producer:ElectronTriggerMatchingProducer",
 					"producer:RecoElectronGenParticleMatchingProducer",
 					"producer:RecoElectronGenTauMatchingProducer",
 					"#producer:RecoElectronGenTauJetMatchingProducer",
