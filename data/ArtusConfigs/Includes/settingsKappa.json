@@ -20,7 +20,8 @@
 	"GenMet" : {
 		"nick" : {
 			"(?<!PFembedded).Run2012" : "",
-			"default" : "genmetTrue"
+			"default" : "genmetTrue",
+			"13TeV" : ""
 		}
 	},
 	"Electrons" : "electrons",
@@ -34,11 +35,31 @@
 			"8TeV" : "KT6Area"
 		}
 	},
-	"Met" : "met",
-	"MvaMetTT" : "metMVATT",
-	"MvaMetMT" : "metMVAMT",
-	"MvaMetET" : "metMVAET",
-	"MvaMetEM" : "metMVAEM",
+	"Met" : {
+		"nick" : {
+			"8TeV" : "met"
+		}
+	},
+	"MvaMetTT" : {
+		"nick" : {
+			"8TeV" : "metMVATT"
+		}
+	},
+	"MvaMetMT" : {
+		"nick" : {
+			"8TeV" : "metMVAMT"
+		}
+	},
+	"MvaMetET" : {
+		"nick" : {
+			"8TeV" : "metMVAET"
+		}
+	},
+	"MvaMetEM" : {
+		"nick" : {
+			"8TeV" : "metMVAEM"
+		}
+	},
 	"#PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
 	"##PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
 	"#PFChargedHadronsNoPileUp" : "pfAllChargedParticles",
