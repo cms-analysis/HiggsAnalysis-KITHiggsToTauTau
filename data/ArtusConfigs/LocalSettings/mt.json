@@ -152,7 +152,7 @@
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
-					"filter:HltFilter",
+					"#filter:HltFilter",
 					"#producer:MvaMetMTSelector",
 					"producer:ValidElectronsProducer",
 					"filter:MinElectronsCountFilter",
