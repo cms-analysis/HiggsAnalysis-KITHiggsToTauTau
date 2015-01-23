@@ -29,7 +29,11 @@
 	"Taus" : "taus",
 	"TauMetadata" : "taus",
 	"TaggedJets" : "AK5PFTaggedJets",
-	"PileupDensity" : "KT6Area",
+	"PileupDensity" : {
+		"nick" : {
+			"8TeV" : "KT6Area"
+		}
+	},
 	"Met" : "met",
 	"MvaMetTT" : "metMVATT",
 	"MvaMetMT" : "metMVAMT",
