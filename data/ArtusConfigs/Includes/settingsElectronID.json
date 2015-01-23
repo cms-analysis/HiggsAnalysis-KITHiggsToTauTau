@@ -8,7 +8,12 @@
 	"ElectronReco" : "user",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "summer2013tight",
+	"ElectronIDType" : {
+		"nick" : {
+			"8TeV" : "summer2013tight",
+			"13TeV" : "mvanontrig"
+		}
+	},
 	
 	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",
