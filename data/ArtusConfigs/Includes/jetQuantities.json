@@ -3,7 +3,7 @@
 		"nJets",
 		"nJets20",
 		"nJets30",
-		"rho",
+		"#rho",
 		"leadingJetPt",
 		"leadingJetEta",
 		"leadingJetPhi",
