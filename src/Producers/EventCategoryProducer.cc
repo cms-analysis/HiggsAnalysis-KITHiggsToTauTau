@@ -76,6 +76,7 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert((product.m_decayChannel != HttEnumTypes::DecayChannel::EM) || (! product.m_antiTtbarDiscriminators.empty()));
+	assert(((product.m_decayChannel != HttEnumTypes::DecayChannel::ET) && (product.m_decayChannel != HttEnumTypes::DecayChannel::MT)) || (product.m_met));
 	
 	// https://twiki.cern.ch/twiki/pub/CMSPublic/Hig13004TWikiUpdate/categories_2012.png
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Event_Categories_SM
