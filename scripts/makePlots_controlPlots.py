@@ -68,5 +68,5 @@ if __name__ == "__main__":
 			plot_args = os.path.expandvars(plot_args)
 			plots.append(plot_args)
 			
-	higgsplot.HiggsPlotter(plots, n_processes=args["n_processes"])
+	higgsplot.HiggsPlotter(list_of_args_strings=plots, n_processes=args["n_processes"])
 

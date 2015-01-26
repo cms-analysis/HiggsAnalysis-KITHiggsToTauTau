@@ -35,7 +35,8 @@ if __name__ == "__main__":
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
 	
-	plots = []
+	harry_configs = []
+	harry_args = []
 	for channel in args["channels"]:
 		for quantity in args["quantities"]:
 			json_exists = True
@@ -51,11 +52,8 @@ if __name__ == "__main__":
 			for index, label in enumerate(json_defaults.setdefault("labels", [])):
 				json_defaults["labels"][index] = os.path.join(channel, label)
 			
-			plot_args = "--json-defaults \"%s\" -d %s %s -f png pdf %s" % (json_defaults.toString(indent=None).replace("\"", "'"),
-			                                                               args["input_dir"],
-			                                                               ("" if json_exists else ("-x %s" % quantity)),
-			                                                               args["args"])
-			plots.append(plot_args)
+			harry_configs.append(json_defaults)
+			harry_args.append("-d %s %s -f png pdf %s" % (args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"]))
 			
-	higgsplot.HiggsPlotter(plots, n_processes=args["n_processes"])
+	higgsplot.HiggsPlotter(list_of_config_dicts=harry_configs, list_of_args_strings=harry_args, n_processes=args["n_processes"])
 
