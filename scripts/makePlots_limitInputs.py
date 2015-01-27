@@ -10,7 +10,9 @@ import os
 
 import Artus.Utility.jsonTools as jsonTools
 
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.mt as mt
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
+
 
 
 if __name__ == "__main__":
@@ -43,11 +45,13 @@ if __name__ == "__main__":
 			json_configs = [
 				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity)),
 				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/%s.json" % (channel))
-			]
+			] if channel != "mt" else [os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))]
 			if not os.path.exists(json_configs[0]):
 				json_exists = False
 				json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
 			json_defaults = jsonTools.JsonDict([os.path.expandvars(json_file) for json_file in json_configs]).doIncludes().doComments()
+			if channel == "mt":
+				json_defaults += mt.MT().get_config()
 			
 			for index, label in enumerate(json_defaults.setdefault("labels", [])):
 				json_defaults["labels"][index] = os.path.join(channel, label)
