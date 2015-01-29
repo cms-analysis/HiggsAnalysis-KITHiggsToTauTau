@@ -7,12 +7,12 @@
 		},
 		"InvalidateNonGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : true
+				"DY.?JetsToLL" : false
 			}
 		},
 		"InvalidateGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : false
+				"DY.?JetsToLL" : true
 			}
 		},
 		"BosonPdgId" : {
