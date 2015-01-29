@@ -22,5 +22,8 @@ class HiggsPlotter(harry.HarryPlotter):
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/analysis_modules")
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/plot_modules")
 		
+		# disable logo
+		harry_core.parser.set_defaults(no_logo=True)
+		
 		harry_core.run()
 
