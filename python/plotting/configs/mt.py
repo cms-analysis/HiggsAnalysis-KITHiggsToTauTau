@@ -1,9 +1,14 @@
 
 # -*- coding: utf-8 -*-
 
+import copy
+
 import Artus.Utility.jsonTools as jsonTools
 
+
+
 class MT(object):
+
 	def __init__(self, add_data=True, add_ztt=True, add_zl=True, add_zj=True, add_ttj=True, add_diboson=True, add_wjets=True, add_qcd=True):
 		self.config = jsonTools.JsonDict({})
 		
@@ -109,6 +114,9 @@ class MT(object):
 			0.55
 		]
 		
+		# finish baseline config
+		self.config = self.config.doIncludes().doComments()
+		
 	def add_input(self, file, folder, scale_factor, weight, nick):
 		self.config.setdefault("files", []).append(file)
 		self.config.setdefault("folders", []).append(folder)
@@ -116,6 +124,11 @@ class MT(object):
 		self.config.setdefault("weights", []).append(weight)
 		self.config.setdefault("nicks", []).append(nick)
 	
-	def get_config(self):
-		return self.config.doIncludes().doComments()
+	def get_config(self, category=None):
+		if category is None:
+			return self.config
+		else:
+			config = copy.deepcopy(self.config)
+			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
+			return config
 
