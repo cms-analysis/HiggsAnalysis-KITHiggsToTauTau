@@ -8,6 +8,11 @@ log = logging.getLogger(__name__)
 import argparse
 import os
 
+import ROOT
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
+from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
+
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.mt as mt
@@ -35,15 +40,34 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["110_145:5"],
+	                    help="Higgs masses. [Default: %(default)s]")
 	                    
 	
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
+	args["higgs_masses"] = parseArgs(args["higgs_masses"])
+	
+	channel_renamings = {
+		"mt" : "muTau",
+	}
+	category_renamings = {
+		"0Jet" : "0jet",
+		"1Jet" : "1jet",
+		"2Jet" : "vbf",
+	}
+	label_renamings = {
+		"Data" : "data_obs",
+	}
 	
 	harry_configs = []
 	harry_args = []
 	for channel in args["channels"]:
+		channel_settings = mt.MT(add_ggh_signal=args["higgs_masses"], add_vbf_signal=args["higgs_masses"], add_vh_signal=args["higgs_masses"]) if channel == "mt" else None
+		
 		for category in args["categories"]:
+			config = channel_settings.get_config(category=category) if channel == "mt" else jsonTools.JsonDict()
+			
 			if category == "None":
 				category = None
 			for quantity in args["quantities"]:
@@ -57,13 +81,15 @@ if __name__ == "__main__":
 					json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
 				json_defaults = jsonTools.JsonDict([os.path.expandvars(json_file) for json_file in json_configs]).doIncludes().doComments()
 				if channel == "mt":
-					json_defaults += mt.MT().get_config(category=category)
+					json_defaults += config
 				
 				if not category is None:
 					json_defaults["output_dir"] = os.path.join(json_defaults.setdefault("output_dir", "plots"), category)
 			
 				for index, label in enumerate(json_defaults.setdefault("labels", [])):
-					json_defaults["labels"][index] = os.path.join(channel, label)
+					json_defaults["labels"][index] = os.path.join("%s_%s" % (channel_renamings.get(channel, channel),
+					                                                         category_renamings.get(category, category)),
+					                                              label_renamings.get(label, label))
 			
 				harry_configs.append(json_defaults)
 				harry_args.append("-d %s %s -f png pdf %s" % (args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"]))
