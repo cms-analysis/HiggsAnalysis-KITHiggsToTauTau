@@ -9,7 +9,8 @@ import Artus.Utility.jsonTools as jsonTools
 
 class MT(object):
 
-	def __init__(self, add_data=True, add_ztt=True, add_zl=True, add_zj=True, add_ttj=True, add_diboson=True, add_wjets=True, add_qcd=True):
+	def __init__(self, add_data=True, add_ztt=True, add_zl=True, add_zj=True, add_ttj=True, add_diboson=True, add_wjets=True, add_qcd=True,
+	             add_ggh_signal=[], add_vbf_signal=[], add_vh_signal=[]):
 		self.config = jsonTools.JsonDict({})
 		
 		# Data
@@ -68,6 +69,15 @@ class MT(object):
 			self.add_input("TTJets*_madgraph_tauola_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_ttj_qcd_control")
 			self.add_input("??_pythia_tauola_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_diboson_qcd_control")
 		
+		for higgs_mass in add_ggh_signal:
+			self.add_input("SM_GluGluToHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "ggH%s" % str(higgs_mass))
+		
+		for higgs_mass in add_vbf_signal:
+			self.add_input("SM_VBFHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "VBF%s" % str(higgs_mass))
+		
+		for higgs_mass in add_vh_signal:
+			self.add_input("SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "VH%s" % str(higgs_mass))
+		
 		# additional settings
 		self.config["analysis_modules"] = [
 			"@CorrectNegativeBinContents",
@@ -88,7 +98,7 @@ class MT(object):
 			"bkg",
 			"bkg",
 			"bkg"
-		]
+		] + ["ggH%s" % str(mh) for mh in add_ggh_signal] + ["VBF%s" % str(mh) for mh in add_vbf_signal] + ["VH%s" % str(mh) for mh in add_vh_signal]
 		self.config["colors"] = [
 			"#000000",
 			"#FFCC66",
@@ -98,7 +108,7 @@ class MT(object):
 			"#DE5A6A",
 			"#FE7A8A",
 			"#FFCCFF"
-		]
+		] + (["#000000"]*(len(add_ggh_signal)+len(add_vbf_signal)+len(add_vh_signal)))
 		self.config["labels"] = [
 			"Data",
 			"ZTT",
@@ -108,7 +118,7 @@ class MT(object):
 			"VV",
 			"WJ",
 			"QCD"
-		]
+		] + ["ggH%s" % str(mh) for mh in add_ggh_signal] + ["VBF%s" % str(mh) for mh in add_vbf_signal] + ["VH%s" % str(mh) for mh in add_vh_signal]
 		self.config["legloc"] = [
 			0.75,
 			0.55
