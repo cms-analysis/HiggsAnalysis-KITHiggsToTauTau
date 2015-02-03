@@ -16,6 +16,8 @@ class MT(object):
 		# Data
 		if add_data:
 			self.add_input("Tau*_Run2012?_22Jan2013_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 1.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "data")
+			
+			self.add_plot("data", "#000000", "Data")
 		
 		# DY->tautau
 		if add_ztt:
@@ -23,22 +25,32 @@ class MT(object):
 			self.add_input("*_PFembedded_Run2012?_22Jan2013_mt_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 1.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_ztt_emb_inc")
 			self.add_input("DYJetsToLL_M_50_madgraph_8TeV/*.root", "mt_dirIso_ztt_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_ztt_mc_inc")
 			self.add_input("DYJetsToLL_M_50_madgraph_8TeV/*.root", "mt_dirIso_ztt_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_ztt_mc")
+			
+			self.add_plot("bkg", "#FFCC66", "ZTT")
 		
 		# ZL
 		if add_zl:
 			self.add_input("DYJetsToLL_M_50_madgraph_8TeV/*.root", "mt_dirIso_zl_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "zl")
+			
+			self.add_plot("bkg", "#4496C8", "ZL")
 		
 		# ZJ
 		if add_zj:
 			self.add_input("DYJetsToLL_M_50_madgraph_8TeV/*.root", "mt_dirIso_zj_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "zj")
+			
+			self.add_plot("bkg", "#64B6E8", "ZJ")
 		
 		# TTJets
 		if add_ttj:
 			self.add_input("TTJets*_madgraph_tauola_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "ttj")
+			
+			self.add_plot("bkg", "#9999CC", "TTJ")
 		
 		# Dibosons
 		if add_diboson:
 			self.add_input("??_pythia_tauola_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "diboson")
+			
+			self.add_plot("bkg", "#DE5A6A", "VV")
 		
 		# WJets
 		if add_wjets:
@@ -50,6 +62,8 @@ class MT(object):
 			self.add_input("??_pythia_tauola_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)", "noplot_diboson_wjet_control")
 			self.add_input("WJetsToLN_madgraph_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_wjets_mc_signal")
 			self.add_input("WJetsToLN_madgraph_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)", "noplot_wjets_mc_control")
+			
+			self.add_plot("bkg", "#FE7A8A", "WJets")
 		
 		if add_qcd:
 			# WJets (SS, for substraction in QCD estimation)
@@ -68,15 +82,23 @@ class MT(object):
 			self.add_input("DYJetsToLL_M_50_madgraph_8TeV/*.root", "mt_dirIso_zl_tauEsNom/ntuple mt_dirIso_zj_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_zll_qcd_control")
 			self.add_input("TTJets*_madgraph_tauola_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_ttj_qcd_control")
 			self.add_input("??_pythia_tauola_8TeV/*.root", "mt_dirIso_z_tauEs/ntuple", 19712.0, "eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "noplot_diboson_qcd_control")
+			
+			self.add_plot("bkg", "#FFCCFF", "QCD")
 		
 		for higgs_mass in add_ggh_signal:
 			self.add_input("SM_GluGluToHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "ggH%s" % str(higgs_mass))
+			
+			self.add_plot("sig", "#000000", "ggH%s" % str(higgs_mass))
 		
 		for higgs_mass in add_vbf_signal:
 			self.add_input("SM_VBFHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "VBF%s" % str(higgs_mass))
+			
+			self.add_plot("sig", "#000000", "VBF%s" % str(higgs_mass))
 		
 		for higgs_mass in add_vh_signal:
 			self.add_input("SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "VH%s" % str(higgs_mass))
+			
+			self.add_plot("sig", "#000000", "VH%s" % str(higgs_mass))
 		
 		# additional settings
 		self.config["analysis_modules"] = [
@@ -89,36 +111,6 @@ class MT(object):
 		self.config["nicks_blacklist"] = [
 			"noplot"
 		]
-		self.config["stack"] = [
-			"data",
-			"bkg",
-			"bkg",
-			"bkg",
-			"bkg",
-			"bkg",
-			"bkg",
-			"bkg"
-		] + ["ggH%s" % str(mh) for mh in add_ggh_signal] + ["VBF%s" % str(mh) for mh in add_vbf_signal] + ["VH%s" % str(mh) for mh in add_vh_signal]
-		self.config["colors"] = [
-			"#000000",
-			"#FFCC66",
-			"#4496C8",
-			"#64B6E8",
-			"#9999CC",
-			"#DE5A6A",
-			"#FE7A8A",
-			"#FFCCFF"
-		] + (["#000000"]*(len(add_ggh_signal)+len(add_vbf_signal)+len(add_vh_signal)))
-		self.config["labels"] = [
-			"Data",
-			"ZTT",
-			"ZL",
-			"ZJ",
-			"TTJ",
-			"VV",
-			"WJ",
-			"QCD"
-		] + ["ggH%s" % str(mh) for mh in add_ggh_signal] + ["VBF%s" % str(mh) for mh in add_vbf_signal] + ["VH%s" % str(mh) for mh in add_vh_signal]
 		self.config["legloc"] = [
 			0.75,
 			0.55
@@ -133,6 +125,11 @@ class MT(object):
 		self.config.setdefault("scale_factors", []).append(scale_factor)
 		self.config.setdefault("weights", []).append(weight)
 		self.config.setdefault("nicks", []).append(nick)
+		
+	def add_plot(self, stack, color, label):
+		self.config.setdefault("stack", []).append(stack)
+		self.config.setdefault("colors", []).append(color)
+		self.config.setdefault("labels", []).append(label)
 	
 	def get_config(self, category=None):
 		if category is None:
