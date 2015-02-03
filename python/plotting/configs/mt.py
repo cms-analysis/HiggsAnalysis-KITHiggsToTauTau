@@ -101,13 +101,15 @@ class MT(object):
 			self.add_plot("sig", "#000000", "VH%s" % str(higgs_mass))
 		
 		# additional settings
-		self.config["analysis_modules"] = [
-			"@CorrectNegativeBinContents",
-			"EstimateZtt",
-			"EstimateWjets",
-			"EstimateQcd",
-			"PrintInfos"
-		]
+		self.config.setdefault("analysis_modules", []).append("@CorrectNegativeBinContents")
+		if add_ztt:
+			self.config.setdefault("analysis_modules", []).append("EstimateZtt")
+		if add_wjets:
+			self.config.setdefault("analysis_modules", []).append("EstimateWjets")
+		if add_qcd:
+			self.config.setdefault("analysis_modules", []).append("EstimateQcd")
+		self.config.setdefault("analysis_modules", []).append("PrintInfos")
+		
 		self.config["nicks_blacklist"] = [
 			"noplot"
 		]
