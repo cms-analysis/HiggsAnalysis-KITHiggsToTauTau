@@ -117,6 +117,7 @@ class MT(object):
 			0.75,
 			0.55
 		]
+		self.config["file_mode"] = "UPDATE"
 		
 		# finish baseline config
 		self.config = self.config.doIncludes().doComments()
@@ -133,11 +134,11 @@ class MT(object):
 		self.config.setdefault("colors", []).append(color)
 		self.config.setdefault("labels", []).append(label)
 	
-	def get_config(self, category=None, tauEsShift="tauEsNom"):
+	def get_config(self, category=None, tau_es_shift="Nom"):
 		config = copy.deepcopy(self.config)
 		
 		# tau ES shifts
-		config["files"] = [input_file.replace("tauEsNom", "tauEsNom") for input_file in config.setdefault("files", [])]
+		config["files"] = [input_file.replace("tauEsNom", "tauEs"+tau_es_shift) for input_file in config.setdefault("files", [])]
 		
 		# categories
 		if category is None:
