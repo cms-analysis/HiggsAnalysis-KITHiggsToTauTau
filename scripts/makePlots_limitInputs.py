@@ -66,10 +66,11 @@ if __name__ == "__main__":
 		channel_settings = mt.MT(add_ggh_signal=args["higgs_masses"], add_vbf_signal=args["higgs_masses"], add_vh_signal=args["higgs_masses"]) if channel == "mt" else None
 		
 		for category in args["categories"]:
-			config = channel_settings.get_config(category=category) if channel == "mt" else jsonTools.JsonDict()
-			
 			if category == "None":
 				category = None
+			
+			config = channel_settings.get_config(category=category) if channel == "mt" else jsonTools.JsonDict()
+			
 			for quantity in args["quantities"]:
 				json_exists = True
 				json_configs = [

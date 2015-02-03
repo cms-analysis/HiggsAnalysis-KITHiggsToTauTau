@@ -138,7 +138,7 @@ class MT(object):
 		config["files"] = [input_file.replace("tauEsNom", "tauEsNom") for input_file in config.setdefault("files", [])]
 		
 		# categories
-		if category is None or category == "None":
+		if category is None:
 			return config
 		else:
 			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
