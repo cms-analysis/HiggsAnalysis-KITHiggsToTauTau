@@ -131,11 +131,16 @@ class MT(object):
 		self.config.setdefault("colors", []).append(color)
 		self.config.setdefault("labels", []).append(label)
 	
-	def get_config(self, category=None):
-		if category is None:
-			return self.config
+	def get_config(self, category=None, tauEsShift="tauEsNom"):
+		config = copy.deepcopy(self.config)
+		
+		# tau ES shifts
+		config["files"] = [input_file.replace("tauEsNom", "tauEsNom") for input_file in config.setdefault("files", [])]
+		
+		# categories
+		if category is None or category == "None":
+			return config
 		else:
-			config = copy.deepcopy(self.config)
 			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
 			return config
 
