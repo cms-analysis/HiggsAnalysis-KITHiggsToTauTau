@@ -137,9 +137,6 @@ class MT(object):
 	def get_config(self, category=None, tau_es_shift="Nom"):
 		config = copy.deepcopy(self.config)
 		
-		# tau ES shifts
-		config["files"] = [input_file.replace("tauEsNom", "tauEs"+tau_es_shift) for input_file in config.setdefault("files", [])]
-		
 		# categories
 		if category is None:
 			return config

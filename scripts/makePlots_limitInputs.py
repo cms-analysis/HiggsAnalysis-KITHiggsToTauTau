@@ -16,6 +16,7 @@ from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.mt as mt
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics as systematics
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 
@@ -39,8 +40,7 @@ if __name__ == "__main__":
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["110_145:5"],
 	                    help="Higgs masses. [Default: %(default)s]")
-	parser.add_argument("--tau-es-shifts", nargs="+", default=["Nom", "Up", "Down"],
-	                    choices=["Nom", "Up", "Down"],
+	parser.add_argument("--tau-es-shifts", nargs="+", type=float, default=[0.0, 1.0, -1.0],
 	                    help="Tau ES shifts. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules ExportRoot PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
@@ -63,45 +63,36 @@ if __name__ == "__main__":
 	label_renamings = {
 		"Data" : "data_obs",
 	}
-	label_suffix = ""
 	
 	harry_configs = []
 	harry_args = []
 	
-	for tau_es_shift in args["tau_es_shifts"]:
-		label_suffix = ("_CMS_scale_t_%s_8TeV" + tau_es_shift) if tau_es_shift != "Nom" else ""
+	systematic_shifts = [(systematics.Nominal, "", 0.0)]
+	systematic_shifts += [(systematics.TauEsSystematic, "CMS_scale_t_%s_8TeV", shift) for shift in args["tau_es_shifts"] if shift != 0.0]
+	
+	for uncertainty, name, shift in systematic_shifts:
 		
 		for channel in args["channels"]:
-			if "%" in label_suffix:
-				label_suffix = label_suffix % channel_renamings.get(channel, channel)
-			
-			add_data = (tau_es_shift == "Nom")
-			add_ztt = True
-			add_zl = (tau_es_shift == "Nom")
-			add_zj = (tau_es_shift == "Nom")
-			add_ttj = (tau_es_shift == "Nom")
-			add_diboson = (tau_es_shift == "Nom")
-			add_wjets = (tau_es_shift == "Nom")
-			add_qcd = (tau_es_shift == "Nom")
-			add_signal = args["higgs_masses"]
-			
-			channel_settings = mt.MT(add_data=add_data,
-			                         add_ztt=add_ztt,
-			                         add_zl=add_zl,
-			                         add_zj=add_zj,
-			                         add_ttj=add_ttj,
-			                         add_diboson=add_diboson,
-			                         add_wjets=add_wjets,
-			                         add_qcd=add_qcd,
-			                         add_ggh_signal=add_signal,
-			                         add_vbf_signal=add_signal,
-			                         add_vh_signal=add_signal) if channel == "mt" else None
+			if "%s" in name:
+				name = name % channel_renamings.get(channel, channel)
+		
+			channel_settings = mt.MT(add_data=uncertainty.add_data(),
+			                         add_ztt=uncertainty.add_ztt(),
+			                         add_zl=uncertainty.add_zl(),
+			                         add_zj=uncertainty.add_zj(),
+			                         add_ttj=uncertainty.add_ttj(),
+			                         add_diboson=uncertainty.add_vv(),
+			                         add_wjets=uncertainty.add_wjets(),
+			                         add_qcd=uncertainty.add_qcd(),
+			                         add_ggh_signal=args["higgs_masses"] if uncertainty.add_ggh() else [],
+			                         add_vbf_signal=args["higgs_masses"] if uncertainty.add_qqh() else [],
+			                         add_vh_signal=args["higgs_masses"] if uncertainty.add_vh() else []) if channel == "mt" else None
 			
 			for category in args["categories"]:
 				if category == "None":
 					category = None
 			
-				config = channel_settings.get_config(category=category, tau_es_shift=tau_es_shift) if channel == "mt" else jsonTools.JsonDict()
+				config = channel_settings.get_config(category=category) if channel == "mt" else jsonTools.JsonDict()
 			
 				for quantity in args["quantities"]:
 					json_exists = True
@@ -122,8 +113,10 @@ if __name__ == "__main__":
 					for index, label in enumerate(json_defaults.setdefault("labels", [])):
 						json_defaults["labels"][index] = os.path.join("%s_%s" % (channel_renamings.get(channel, channel),
 							                                                     category_renamings.get(category, category)),
-							                                          label_renamings.get(label, label)+label_suffix)
-			
+							                                          label_renamings.get(label, label))
+					
+					json_defaults = uncertainty(json_defaults, name).get_config(shift)
+					
 					harry_configs.append(json_defaults)
 					harry_args.append("-d %s %s -f png pdf %s" % (args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"]))
 			
