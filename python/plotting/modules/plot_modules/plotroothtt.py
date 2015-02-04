@@ -37,9 +37,11 @@ class PlotRootHtt(plotroot.PlotRoot):
 	
 	def create_canvas(self, plotData):
 		self.canvas = ROOT.MakeCanvas("canvas", "")
+
 		#Modify right side margin for 2d-plots
-		if plotData.plotdict["root_objects"].values()[0].GetDimension():
-			self.canvas.SetRightMargin(0.15)
+		if not isinstance(root_object, ROOT.TGraph)
+			if plotData.plotdict["root_objects"][plotData.plotdict["nicks"][0]].GetDimension():
+				self.canvas.SetRightMargin(0.15)
 
 		if plotData.plotdict["ratio"]:
 			plot_ratio_slider_y = 0.35
