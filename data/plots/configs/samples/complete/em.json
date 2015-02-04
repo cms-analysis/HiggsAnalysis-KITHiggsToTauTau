@@ -33,31 +33,31 @@
 	],
 	"folders" : [
 		"@ Data",
-		"em_os_dirIso/ntuple",
+		"em_dirIso/ntuple",
 
 		"@ Data SS",
-		"em_ss_dirIso/ntuple",
+		"em_dirIso/ntuple",
 
 		"@ WJets",
-		"em_os_dirIso/ntuple",
+		"em_dirIso/ntuple",
 
 		"@ DY->tautau",
-		"em_os_dirIso/ntuple",
-		"em_os_dirIso/ntuple",
-		"em_os_dirIso_tt/ntuple",
-		"em_os_dirIso_tt/ntuple",
+		"em_dirIso/ntuple",
+		"em_dirIso/ntuple",
+		"em_dirIso_tt/ntuple",
+		"em_dirIso_tt/ntuple",
 
 		"@ DY->ll(ee/mm)",
-		"em_os_dirIso_ee/ntuple em_os_dirIso_mm/ntuple",
+		"em_dirIso_ee/ntuple em_dirIso_mm/ntuple",
 
 		"@ TTJets and single Top",
-		"em_os_dirIso/ntuple",
-		"em_os_dirIso/ntuple",
+		"em_dirIso/ntuple",
+		"em_dirIso/ntuple",
 
 		"@ Dibosons",
-		"em_os_dirIso/ntuple",
-		"em_os_dirIso/ntuple",
-		"em_os_dirIso/ntuple"
+		"em_dirIso/ntuple",
+		"em_dirIso/ntuple",
+		"em_dirIso/ntuple"
 	],
 	"scale_factors" : [
 		"@ Data",
@@ -88,7 +88,32 @@
 		19712.0
 	],
 	"weights" : [
-		"eventWeight"
+		"@ Data",
+		"eventWeight*((q_1*q_2)<0.0)",
+
+		"@ Data SS",
+		"eventWeight*((q_1*q_2)>0.0)",
+
+		"@ WJets",
+		"eventWeight*((q_1*q_2)<0.0)",
+
+		"@ DY->tautau",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+
+		"@ DY->ll(ee/mm)",
+		"eventWeight*((q_1*q_2)<0.0)",
+
+		"@ TTJets and single Top",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+
+		"@ Dibosons",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)"
 	],
 	"nicks" : [
 		"@ Data",

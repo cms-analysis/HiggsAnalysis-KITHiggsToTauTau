@@ -7,6 +7,28 @@
 		},
 		"InvalidateNonGenParticleMatchingRecoTaus" : {
 			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"InvalidateGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"zttlep" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
 				"DY.?JetsToLL" : true
 			}
 		},

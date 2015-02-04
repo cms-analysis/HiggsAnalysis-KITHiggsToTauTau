@@ -18,18 +18,18 @@
 		"??_pythia_tauola_8TeV/*.root"
 	],
 	"folders" : [
-		"ee_os_dirIso/ntuple",
-		"ee_os_dirIso/ntuple",
-		"ee_os_dirIso_tt/ntuple",
-		"ee_os_dirIso_ee/ntuple ee_os_dirIso_mm/ntuple",
-		"ee_os_dirIso/ntuple",
-		"ee_os_dirIso/ntuple",
-		"ee_ss_dirIso/ntuple",
-		"ee_ss_dirIso/ntuple",
-		"ee_ss_dirIso_tt/ntuple",
-		"ee_ss_dirIso_ee/ntuple ee_ss_dirIso_mm/ntuple",
-		"ee_ss_dirIso/ntuple",
-		"ee_ss_dirIso/ntuple"
+		"ee_dirIso/ntuple",
+		"ee_dirIso/ntuple",
+		"ee_dirIso_tt/ntuple",
+		"ee_dirIso_ee/ntuple ee_dirIso_mm/ntuple",
+		"ee_dirIso/ntuple",
+		"ee_dirIso/ntuple",
+		"ee_dirIso/ntuple",
+		"ee_dirIso/ntuple",
+		"ee_dirIso_tt/ntuple",
+		"ee_dirIso_ee/ntuple ee_dirIso_mm/ntuple",
+		"ee_dirIso/ntuple",
+		"ee_dirIso/ntuple"
 	],
 	"scale_factors" : [
 		1.0,
@@ -46,7 +46,18 @@
 		-19712.0
 	],
 	"weights" : [
-		"eventWeight"
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)<0.0)",
+		"eventWeight*((q_1*q_2)>0.0)",
+		"eventWeight*((q_1*q_2)>0.0)",
+		"eventWeight*((q_1*q_2)>0.0)",
+		"eventWeight*((q_1*q_2)>0.0)",
+		"eventWeight*((q_1*q_2)>0.0)",
+		"eventWeight*((q_1*q_2)>0.0)"
 	],
 	"nicks" : [
 		"data",

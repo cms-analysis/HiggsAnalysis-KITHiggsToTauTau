@@ -66,9 +66,11 @@ class EstimateWjets(estimatebase.EstimateBase):
 		
 			yield_mc_signal = plotData.plotdict["root_objects"][wjets_mc_signal_nick].Integral()
 			yield_mc_control = plotData.plotdict["root_objects"][wjets_mc_control_nick].Integral()
-		
-			assert yield_mc_control != 0.0
-			final_yield = yield_data_control * yield_mc_signal / yield_mc_control
+			
+			assert (yield_data_control*yield_mc_signal == 0.0) or (yield_mc_control != 0.0)
+			final_yield = yield_data_control * yield_mc_signal
+			if final_yield != 0.0:
+				final_yield /= yield_mc_control
 		
 			integral_shape = plotData.plotdict["root_objects"][wjets_shape_nick].Integral()
 			if integral_shape != 0.0:
