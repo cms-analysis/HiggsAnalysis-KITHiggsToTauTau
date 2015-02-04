@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 
 import argparse
 import os
+import shlex
 
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
@@ -14,6 +15,7 @@ ROOT.gErrorIgnoreLevel = ROOT.kError
 from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
 
 import Artus.Utility.jsonTools as jsonTools
+import Artus.Utility.tools as tools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.mt as mt
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics as systematics
@@ -28,6 +30,8 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
+	parser.add_argument("-o", "--root-output", default="htt.inputs-sm-8TeV.root",
+	                    help="Merged ROOT output. [Default: %(default)s]")
 	parser.add_argument("--channels", nargs="*",
 	                    default=["mt"], choices=["mt"],
 	                    #default=["tt", "mt", "et", "em", "mm", "ee"], # other channels currently not supported
@@ -120,8 +124,15 @@ if __name__ == "__main__":
 					
 					json_defaults = uncertainty(json_defaults, name).get_config(shift)
 					
+					if "PrintInfos" in json_defaults.get("analysis_modules", []):
+						json_defaults.get("analysis_modules", []).remove("PrintInfos")
+					
 					harry_configs.append(json_defaults)
 					harry_args.append("-d %s %s -f png pdf %s" % (args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"]))
 			
-	higgsplot.HiggsPlotter(list_of_config_dicts=harry_configs, list_of_args_strings=harry_args, n_processes=args["n_processes"])
+	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=harry_configs, list_of_args_strings=harry_args, n_processes=args["n_processes"])
+	
+	root_outputs = list(set([output for output in tools.flattenList(higgs_plotter.output_filenames) if output.endswith(".root")]))
+	logger.subprocessCall(shlex.split("hadd -f %s %s" % (args["root_output"], " ".join(root_outputs))))
+	log.info("Merged ROOT output is saved to \"%s\"." % args["root_output"])
 
