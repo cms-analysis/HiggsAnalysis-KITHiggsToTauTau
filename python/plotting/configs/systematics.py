@@ -144,3 +144,17 @@ class TauEsSystematic(SystematicShiftBase):
 	def add_vh():
 		return True
 
+
+class SvfitMassSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(SvfitMassSystematic, self).get_config(shift=shift)
+		
+		plot_config["x_expressions"] = ["((%s) * %f)" % (x, 1.0+0.02*shift) if x == "m_sv" else x for x in plot_config.setdefault("x_expressions", [])]
+		
+		return plot_config
+	
+	@staticmethod
+	def add_zl():
+		return True
+

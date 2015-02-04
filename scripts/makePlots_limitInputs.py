@@ -40,8 +40,10 @@ if __name__ == "__main__":
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["110_145:5"],
 	                    help="Higgs masses. [Default: %(default)s]")
-	parser.add_argument("--tau-es-shifts", nargs="+", type=float, default=[0.0, 1.0, -1.0],
+	parser.add_argument("--tau-es-shifts", nargs="+", type=float, default=[1.0, -1.0],
 	                    help="Tau ES shifts. [Default: %(default)s]")
+	parser.add_argument("--svfit-mass-shifts", nargs="+", type=float, default=[1.0, -1.0],
+	                    help="Svfit mass shifts. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules ExportRoot PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -68,7 +70,8 @@ if __name__ == "__main__":
 	harry_args = []
 	
 	systematic_shifts = [(systematics.Nominal, "", 0.0)]
-	systematic_shifts += [(systematics.TauEsSystematic, "CMS_scale_t_%s_8TeV", shift) for shift in args["tau_es_shifts"] if shift != 0.0]
+	systematic_shifts += [(systematics.TauEsSystematic, "CMS_scale_t_%s_8TeV", shift) for shift in args["tau_es_shifts"]]
+	systematic_shifts += [(systematics.SvfitMassSystematic, "CMS_htt_ZLScale_%s_8TeV", shift) for shift in args["svfit_mass_shifts"]]
 	
 	for uncertainty, name, shift in systematic_shifts:
 		
