@@ -25,5 +25,5 @@ class HiggsPlotter(harry.HarryPlotter):
 		# modify default program args
 		harry_core.parser.set_defaults(plot_modules=["PlotRootHtt"])
 		
-		harry_core.run()
+		return harry_core.run()
 
