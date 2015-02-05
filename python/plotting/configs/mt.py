@@ -113,7 +113,7 @@ class MT(object):
 		self.config["nicks_blacklist"] = [
 			"noplot"
 		]
-		self.config["legloc"] = [
+		self.config["legend"] = [
 			0.75,
 			0.55
 		]
