@@ -22,3 +22,14 @@
 	<flags EDM_PLUGIN="1"/>
 	<!-- dependencies of TauSpinner -->
 </bin>
+
+<bin name="HiggsExample" file="HiggsExample.cc">
+	<Flags CXXFLAGS="-g" />
+	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
+	<Flags LDFLAGS="-rdynamic" />
+	<Flags LDFLAGS="-Lsrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib -lCHCombineTools" />
+	<use name="root"/>
+	<use name="roofit"/>
+	<use name="boost"/>
+	<flags EDM_PLUGIN="1"/>
+</bin>
