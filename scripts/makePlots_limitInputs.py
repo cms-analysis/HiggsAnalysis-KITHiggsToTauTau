@@ -38,7 +38,7 @@ if __name__ == "__main__":
 	                    #default=["tt", "mt", "et", "em", "mm", "ee"], # other channels currently not supported
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="*",
-	                    default=["Inc", "0Jet", "1Jet", "2Jet"],
+	                    default=["Inc", "0JetLow", "0JetHigh", "1JetLow", "1JetMedium", "1JetHigh", "1JetHighBoost", "2JetVbfLoose", "2JetVbfTight"],
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
 	                    default=["inclusive", "m_ll", "m_sv"],
@@ -53,8 +53,7 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
-	                    
-	
+
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
 	args["higgs_masses"] = parseArgs(args["higgs_masses"])
@@ -64,11 +63,22 @@ if __name__ == "__main__":
 	}
 	category_renamings = {
 		"0Jet" : "0jet",
+		"0JetLow" : "0jet_low",
+		"0JetHigh" : "0jet_high",
 		"1Jet" : "1jet",
+		"1JetLow" : "1jet_low",
+		"1JetMedium" : "1jet_medium",
+		"1JetHigh" : "1jet_high",
+		"1JetHighBoost" : "1jet_high_boost",
 		"2Jet" : "vbf",
+		"2JetVbfLoose" : "vbf_loose",
+		"2JetVbfTight" : "vbf_tight",
 	}
 	label_renamings = {
 		"Data" : "data_obs",
+		"WJets" : "W",
+		"TTJ" : "TT",
+		"VBF125" : "qqH125",
 	}
 	
 	harry_configs = []
