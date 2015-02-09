@@ -17,6 +17,7 @@ class HiggsPlotter(harry.HarryPlotter):
 		                                   n_processes=n_processes)
 	
 	def plot(self, harry_args):
+		log.debug("higgsplot.py " + harry_args)
 		harry_core = harrycore.HarryCore(args_from_script=harry_args)
 		
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/analysis_modules")
