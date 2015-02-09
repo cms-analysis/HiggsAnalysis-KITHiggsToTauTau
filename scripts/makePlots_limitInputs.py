@@ -137,6 +137,6 @@ if __name__ == "__main__":
 	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=harry_configs, list_of_args_strings=harry_args, n_processes=args["n_processes"])
 	
 	root_outputs = list(set([output for output in tools.flattenList(higgs_plotter.output_filenames) if output.endswith(".root")]))
-	logger.subprocessCall(shlex.split("hadd --formats %s %s" % (args["root_output"], " ".join(root_outputs))))
+	logger.subprocessCall(shlex.split("hadd -f %s %s" % (args["root_output"], " ".join(root_outputs))))
 	log.info("Merged ROOT output is saved to \"%s\"." % args["root_output"])
 
