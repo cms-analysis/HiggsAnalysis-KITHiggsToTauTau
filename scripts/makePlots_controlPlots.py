@@ -62,7 +62,7 @@ if __name__ == "__main__":
 				json_exists = False
 				json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
 			
-			plot_args = "--json-defaults %s -d %s %s -f png pdf %s" % (" ".join(json_configs), args["input_dir"],
+			plot_args = "--json-defaults %s -d %s %s --formats png pdf %s" % (" ".join(json_configs), args["input_dir"],
 			                                                           ("" if json_exists else ("-x %s" % quantity)),
 			                                                           args["args"])
 			plot_args = os.path.expandvars(plot_args)

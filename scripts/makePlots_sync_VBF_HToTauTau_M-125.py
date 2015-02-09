@@ -61,7 +61,7 @@ if __name__ == "__main__":
 				json_exists = False
 				json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
 			
-			plot_args = "--json-defaults %s -i %s %s %s -f png --plot-modules PlotRootHtt %s" % (json_config, " ".join(args["input_1"]), args["input_2_%s" % channel], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")))
+			plot_args = "--json-defaults %s -i %s %s %s --formats png --plot-modules PlotRootHtt %s" % (json_config, " ".join(args["input_1"]), args["input_2_%s" % channel], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")))
 			plot_args = os.path.expandvars(plot_args)
 			
 			log.info("\nhiggsplot.py %s" % plot_args)

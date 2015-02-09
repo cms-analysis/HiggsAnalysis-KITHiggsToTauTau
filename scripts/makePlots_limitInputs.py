@@ -132,11 +132,11 @@ if __name__ == "__main__":
 						json_defaults.get("analysis_modules", []).remove("PrintInfos")
 					
 					harry_configs.append(json_defaults)
-					harry_args.append("-d %s %s -f png pdf %s" % (args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"]))
+					harry_args.append("-d %s %s --formats png pdf %s" % (args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"]))
 			
 	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=harry_configs, list_of_args_strings=harry_args, n_processes=args["n_processes"])
 	
 	root_outputs = list(set([output for output in tools.flattenList(higgs_plotter.output_filenames) if output.endswith(".root")]))
-	logger.subprocessCall(shlex.split("hadd -f %s %s" % (args["root_output"], " ".join(root_outputs))))
+	logger.subprocessCall(shlex.split("hadd --formats %s %s" % (args["root_output"], " ".join(root_outputs))))
 	log.info("Merged ROOT output is saved to \"%s\"." % args["root_output"])
 
