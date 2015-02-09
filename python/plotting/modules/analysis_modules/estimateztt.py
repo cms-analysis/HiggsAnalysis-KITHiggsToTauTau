@@ -49,9 +49,12 @@ class EstimateZtt(estimatebase.EstimateBase):
 			if not ztt_from_mc:
 				yield_inclusive_mc = plotData.plotdict["root_objects"][ztt_mc_inc_nick].Integral()
 				yield_inclusive_emb = plotData.plotdict["root_objects"][ztt_emb_inc_nick].Integral()
-			
-				assert yield_inclusive_emb != 0.0
-				plotData.plotdict["root_objects"][ztt_plot_nick].Scale(yield_inclusive_mc / yield_inclusive_emb)
+				
+				if yield_inclusive_mc == 0.0:
+					plotData.plotdict["root_objects"][ztt_plot_nick].Scale(0.0)
+				else:
+					assert yield_inclusive_emb != 0.0
+					plotData.plotdict["root_objects"][ztt_plot_nick].Scale(yield_inclusive_mc / yield_inclusive_emb)
 			
 			else:
 				pass # TODO
