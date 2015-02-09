@@ -23,7 +23,7 @@
 	<!-- dependencies of TauSpinner -->
 </bin>
 
-<bin name="HiggsExample" file="HiggsExample.cc">
+<bin name="DatacardsMT" file="DatacardsMT.cc">
 	<Flags CXXFLAGS="-g" />
 	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
 	<Flags LDFLAGS="-rdynamic" />
