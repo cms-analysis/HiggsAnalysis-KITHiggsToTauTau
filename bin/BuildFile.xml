@@ -31,5 +31,6 @@
 	<use name="root"/>
 	<use name="roofit"/>
 	<use name="boost"/>
+	<use name="boost_filesystem"/>
 	<flags EDM_PLUGIN="1"/>
 </bin>
