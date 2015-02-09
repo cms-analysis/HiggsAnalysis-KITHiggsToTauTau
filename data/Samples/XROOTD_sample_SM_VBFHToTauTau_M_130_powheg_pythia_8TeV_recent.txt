@@ -1,1 +1,1 @@
-XROOTD_sample_SM_VBFHToTauTau_M_130_powheg_pythia_8TeV_2014-12-24.txt
+XROOTD_sample_SM_VBFHToTauTau_M_130_powheg_pythia_8TeV_2015-02-06.txt

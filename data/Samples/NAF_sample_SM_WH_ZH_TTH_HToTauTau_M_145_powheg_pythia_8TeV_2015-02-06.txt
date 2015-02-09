@@ -1,0 +1,11 @@
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1293.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1294.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1295.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1296.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1297.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1298.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1299.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1300.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1301.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1302.root
+/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV_1303.root

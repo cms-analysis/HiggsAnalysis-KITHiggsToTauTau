@@ -1,0 +1,11 @@
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1203.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1204.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1205.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1206.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1207.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1208.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1209.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1210.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1211.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1212.root
+root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV_1213.root
