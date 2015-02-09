@@ -16,6 +16,9 @@ ln -sf $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/pre-commit  $CMSSW
 cp $KITHIGGSTOTAUTAUPATH/data/tauspinner.xml $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected/tauspinner.xml
 scram setup tauspinner
 
+# setup CombineHarvester
+export LD_LIBRARY_PATH="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib/:$LD_LIBRARY_PATH"
+
 # overwrite artus settings
 if [[ `hostname` == *naf* ]]; then
 	export ARTUS_WORK_BASE="/nfs/dust/cms/user/${USER}/htautau/artus/"
