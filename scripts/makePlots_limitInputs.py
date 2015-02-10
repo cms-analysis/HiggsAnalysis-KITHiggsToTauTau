@@ -78,7 +78,21 @@ if __name__ == "__main__":
 		"Data" : "data_obs",
 		"WJets" : "W",
 		"TTJ" : "TT",
+		"VBF90" : "qqH90",
+		"VBF95" : "qqH95",
+		"VBF100" : "qqH100",
+		"VBF105" : "qqH105",
+		"VBF110" : "qqH110",
+		"VBF115" : "qqH115",
+		"VBF120" : "qqH120",
 		"VBF125" : "qqH125",
+		"VBF130" : "qqH130",
+		"VBF135" : "qqH135",
+		"VBF140" : "qqH140",
+		"VBF145" : "qqH145",
+		"VBF150" : "qqH150",
+		"VBF155" : "qqH155",
+		"VBF160" : "qqH160",
 	}
 	
 	harry_configs = []

@@ -50,7 +50,7 @@ int main() {
 
 	// Now we define the signal mass points we will build datacards for, but note
 	// these are specified as strings, not floats.
-	vector<string> masses = {"125"}; // ch::MassesFromRange("120-135:5");
+	vector<string> masses = ch::MassesFromRange("110-145:5");
 	// Or equivalently, specify the mass points explicitly:
 	// vector<string> masses = {"120", "125", "130", "135"};
 
@@ -207,24 +207,27 @@ int main() {
 	// datacard.
 	string aux_output = aux + "datacards/";
 	boost::filesystem::create_directories(aux_output);
-	boost::filesystem::create_directories(aux_output+"common");
-	for (auto m : masses) {
-		boost::filesystem::create_directories(aux_output+m);
-	}
 
 	for (string chn : {"mt"}) {
+		string channelDir = aux_output + chn + "/";
+		boost::filesystem::create_directories(channelDir);
+		string channelCommonDir = channelDir + "common/";
+		boost::filesystem::create_directories(channelCommonDir);
+		
 		// We create the output root file that will contain all the shapes.
-		TFile output((aux_output + "common/htt_" + chn + ".input.root").c_str(), "RECREATE");
+		TFile output((channelCommonDir + "htt_" + chn + ".input.root").c_str(), "RECREATE");
+		
 		auto bins = cb.cp().channel({chn}).bin_set();
 		for (auto b : bins) {
 			for (auto m : masses) {
-				cout << ">> Writing datacard for bin: " << b << " and mass: " << m << "\r" << flush;
-				cb.cp().channel({chn}).bin({b}).mass({m, "*"}).WriteDatacard(
-						aux_output + m + "/" + b + ".txt", output);
+				string channelMassDir = channelDir + m + "/";
+				string dataCardPath = channelMassDir + b + ".txt";
+				boost::filesystem::create_directories(channelMassDir);
+				
+				cout << ">> Writing datacard to \"" << dataCardPath << "\"\r" << flush;
+				cb.cp().channel({chn}).bin({b}).mass({m, "*"}).WriteDatacard(dataCardPath, output);
 			}
 		}
-		cb.cp().channel({chn}).mass({"125", "*"}).WriteDatacard(
-				aux_output+"htt_" + chn + "_125.txt", output);
 		output.Close();
 	}
 
