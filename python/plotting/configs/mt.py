@@ -96,9 +96,11 @@ class MT(object):
 			self.add_plot("sig", "#000000", "VBF%s" % str(higgs_mass))
 		
 		for higgs_mass in add_vh_signal:
-			self.add_input("SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "VH%s" % str(higgs_mass))
+			self.add_input("SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0 / 2.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "WH%s" % str(higgs_mass))
+			self.add_input("SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0 / 2.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "ZH%s" % str(higgs_mass))
 			
-			self.add_plot("sig", "#000000", "VH%s" % str(higgs_mass))
+			self.add_plot("sig", "#000000", "WH%s" % str(higgs_mass))
+			self.add_plot("sig", "#000000", "ZH%s" % str(higgs_mass))
 		
 		# additional settings
 		self.config.setdefault("analysis_modules", []).append("@CorrectNegativeBinContents")

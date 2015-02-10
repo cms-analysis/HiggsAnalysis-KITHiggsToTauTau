@@ -59,7 +59,7 @@ if __name__ == "__main__":
 	args["higgs_masses"] = parseArgs(args["higgs_masses"])
 	
 	channel_renamings = {
-		"mt" : "muTau",
+		#"mt" : "muTau",
 	}
 	category_renamings = {
 		"0Jet" : "0jet",

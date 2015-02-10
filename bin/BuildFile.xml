@@ -23,7 +23,7 @@
 	<!-- dependencies of TauSpinner -->
 </bin>
 
-<bin name="DatacardsMT" file="DatacardsMT.cc">
+<bin name="DatacardsSM" file="DatacardsSM.cc">
 	<Flags CXXFLAGS="-g" />
 	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
 	<Flags LDFLAGS="-rdynamic" />
@@ -32,5 +32,6 @@
 	<use name="roofit"/>
 	<use name="boost"/>
 	<use name="boost_filesystem"/>
+	<use name="HiggsAnalysis/KITHiggsToTauTau"/>
 	<flags EDM_PLUGIN="1"/>
 </bin>

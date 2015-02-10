@@ -1,11 +1,14 @@
 <Flags CXXFLAGS="-g" />
+<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
 <Flags LDFLAGS="-rdynamic" />
 <Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
 <Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
+<Flags LDFLAGS="-Lsrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib -lCHCombineTools" />
 
 <use name="root" />
 <use name="tauspinner" />
 <use name="rootmath" />
+<use name="roofit"/>
 <use name="boost" />
 <use name="boost_regex" />
 <use name="Artus/Configuration" />
