@@ -161,7 +161,8 @@ bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
 SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(int verbosity, bool addLogM) const
 {
 	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(GetMeasuredTauLeptons(),
-	                                                                             svFitStandalone::Vector(metMomentum),
+	                                                                             metMomentum.x(),
+	                                                                             metMomentum.y(),
 	                                                                             GetMetCovarianceMatrix(),
 	                                                                             verbosity);
 	svfitStandaloneAlgorithm.addLogM(addLogM);
@@ -171,8 +172,8 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(int verbosity,
 std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons() const
 {
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType1), svFitStandalone::LorentzVector(leptonMomentum1)),
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType2), svFitStandalone::LorentzVector(leptonMomentum2))
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType1), leptonMomentum1.pt(), leptonMomentum1.eta(), leptonMomentum1.phi(), leptonMomentum1.M()),
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType2), leptonMomentum2.pt(), leptonMomentum2.eta(), leptonMomentum2.phi(), leptonMomentum2.M())
 	};
 	return measuredTauLeptons;
 }
