@@ -113,7 +113,7 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 		if ((product.m_decayChannel == HttEnumTypes::DecayChannel::ET) ||
 		    (product.m_decayChannel == HttEnumTypes::DecayChannel::MT))
 		{
-			leptonHighPtCut = 30.0;
+			leptonMediumPtCut = 30.0;
 		}
 		
 		int leptonPtCutIndex = 1;

@@ -25,6 +25,9 @@ int main() {
 	string aux_shapes = auxiliaries +"shapes/";
 	string aux_pruning = string(getenv("CMSSW_BASE")) + "/src/auxiliaries/pruning/";
 
+	//VString eras =  {"7TeV", "8TeV"};
+	VString eras =  {"8TeV"};
+	
 	//VString chns = {"et", "mt", "em", "ee", "mm", "tt"};
 	VString chns = {"mt"};
 
@@ -40,44 +43,56 @@ int main() {
 
 	map<string, Categories> cats;
 	cats["et_7TeV"] = {
-			{1, "et_0jet_medium"}, {2, "et_0jet_high"},
-			{3, "et_1jet_medium"}, {5, "et_1jet_high_mediumhiggs"},
+			{1, "et_0jet_medium"},
+			{2, "et_0jet_high"},
+			{3, "et_1jet_medium"},
+			{5, "et_1jet_high_mediumhiggs"},
 			{6, "et_vbf"}
 	};
 
 	cats["et_8TeV"] = {
-			{1, "et_0jet_medium"}, {2, "et_0jet_high"},
-			{3, "et_1jet_medium"}, {5, "et_1jet_high_mediumhiggs"},
-			{6, "et_vbf_loose"}, {7, "et_vbf_tight"}
+			{1, "et_0jet_medium"},
+			{2, "et_0jet_high"},
+			{3, "et_1jet_medium"},
+			{5, "et_1jet_high_mediumhiggs"},
+			{6, "et_vbf_loose"},
+			{7, "et_vbf_tight"}
 	};
 
 	cats["mt_7TeV"] = {
-			{1, "mt_0jet_medium"}, {2, "mt_0jet_high"},
-			{3, "mt_1jet_medium"}, {4, "mt_1jet_high_lowhiggs"}, {5, "mt_1jet_high_mediumhiggs"},
+			{1, "mt_0jet_medium"},
+			{2, "mt_0jet_high"},
+			{3, "mt_1jet_medium"},
+			{4, "mt_1jet_high_lowhiggs"},
+			{5, "mt_1jet_high_mediumhiggs"},
 			{6, "mt_vbf"}
 	};
 
 	cats["mt_8TeV"] = {
-			//{1, "mt_0jet_medium"},
-			//{2, "mt_0jet_high"},
-			//{3, "mt_1jet_medium"},
-			//{4, "mt_1jet_high_lowhiggs"},
-			//{5, "mt_1jet_high_mediumhiggs"},
-			{5, "mt_1jet_high"},
+			{1, "mt_0jet_medium"},
+			{2, "mt_0jet_high"},
+			{3, "mt_1jet_medium"},
+			{4, "mt_1jet_high_lowhiggs"},
+			{5, "mt_1jet_high_mediumhiggs"},
 			{6, "mt_vbf_loose"},
-			//{7, "mt_vbf_tight"}
+			{7, "mt_vbf_tight"}
 	};
 
 	cats["em_7TeV"] = {
-			{0, "em_0jet_low"}, {1, "em_0jet_high"},
-			{2, "em_1jet_low"}, {3, "em_1jet_high"},
+			{0, "em_0jet_low"},
+			{1, "em_0jet_high"},
+			{2, "em_1jet_low"},
+			{3, "em_1jet_high"},
 			{4, "em_vbf_loose"}
 	};
 
 	cats["em_8TeV"] = {
-			{0, "em_0jet_low"}, {1, "em_0jet_high"},
-			{2, "em_1jet_low"}, {3, "em_1jet_high"},
-			{4, "em_vbf_loose"}, {5, "em_vbf_tight"}
+			{0, "em_0jet_low"},
+			{1, "em_0jet_high"},
+			{2, "em_1jet_low"},
+			{3, "em_1jet_high"},
+			{4, "em_vbf_loose"},
+			{5, "em_vbf_tight"}
 	};
 
 	cats["ee_7TeV"] = {
@@ -88,22 +103,24 @@ int main() {
 	cats["ee_8TeV"] = cats["ee_7TeV"];
 
 	cats["mm_7TeV"] = {
-			{0, "mm_0jet_low"}, {1, "mm_0jet_high"},
-			{2, "mm_1jet_low"}, {3, "mm_1jet_high"},
+			{0, "mm_0jet_low"},
+			{1, "mm_0jet_high"},
+			{2, "mm_1jet_low"},
+			{3, "mm_1jet_high"},
 			{4, "mm_vbf"}
 	};
 	cats["mm_8TeV"] = cats["mm_7TeV"];
 
 	cats["tt_8TeV"] = {
-			{0, "tt_1jet_high_mediumhiggs"}, {1, "tt_1jet_high_highhiggs"},
+			{0, "tt_1jet_high_mediumhiggs"},
+			{1, "tt_1jet_high_highhiggs"},
 			{2, "tt_vbf"}
 	};
 
 	vector<string> masses = ch::MassesFromRange("110-145:5");
 
 	cout << ">> Creating processes and observations...\n";
-	//for (string era : {"7TeV", "8TeV"}) {
-	for (string era : {"8TeV"}) {
+	for (string era : eras) {
 		for (auto chn : chns) {
 			cb.AddObservations({"*"}, {"htt"}, {era}, {chn}, cats[chn+"_"+era]);
 			cb.AddProcesses({"*"}, {"htt"}, {era}, {chn}, bkg_procs[chn], cats[chn+"_"+era], false);
@@ -134,7 +151,7 @@ int main() {
 	}
 
 	cout << ">> Extracting histograms from input root files...\n";
-	for (string era : {"7TeV", "8TeV"}) {
+	for (string era : eras) {
 		for (string chn : chns) {
 			// Skip 7TeV tt:
 			if (chn == "tt" && era == "7TeV") continue;
@@ -151,7 +168,7 @@ int main() {
 	
 	// Get the table of H->tau tau BRs vs mass
 	ch::ParseTable(&xs, xsecs_dir+"htt_YR3.txt", {"htt"});
-	for (string const& e : {"7TeV", "8TeV"}) {
+	for (string const& e : eras) {
 		for (string const& p : sig_procs) {
 			// Get the table of xsecs vs mass for process "p" and era "e":
 			ch::ParseTable(&xs, xsecs_dir+p+"_"+e+"_YR3.txt", {p+"_"+e});
@@ -162,7 +179,7 @@ int main() {
 		}
 	}
 	ch::ParseTable(&xs, xsecs_dir+"hww_over_htt.txt", {"hww_over_htt"});
-	for (string const& e : {"7TeV", "8TeV"}) {
+	for (string const& e : eras) {
 		for (string const& p : {"ggH", "qqH"}) {
 			cb.cp().channel({"em"}).process({p+"_hww125"}).era({e}).ForEachProc([&](ch::Process *proc) {
 				ch::ScaleProcessRate(proc, &xs, p+"_"+e, "htt", "125");
@@ -173,7 +190,7 @@ int main() {
 
 	cout << ">> Merging bin errors...\n";
 	ch::CombineHarvester cb_et = move(cb.cp().channel({"et"}));
-	for (string era : {"7TeV", "8TeV"}) {
+	for (string era : eras) {
 		cb_et.cp().era({era}).bin_id({1, 2}).process({"ZL", "ZJ", "QCD", "W"}).MergeBinErrors(0.1, 0.5);
 		cb_et.cp().era({era}).bin_id({3, 5}).process({"W"}).MergeBinErrors(0.1, 0.5);
 	}
@@ -182,7 +199,7 @@ int main() {
 	cb_et.cp().era({"8TeV"}).bin_id({6}).process({"ZL", "ZJ", "W"}).MergeBinErrors(0.1, 0.5);
 
 	ch::CombineHarvester cb_mt = move(cb.cp().channel({"mt"}));
-	for (string era : {"7TeV", "8TeV"}) {
+	for (string era : eras) {
 		cb_mt.cp().era({era}).bin_id({1, 2, 3, 4}).process({"W", "QCD"}).MergeBinErrors(0.1, 0.5);
 	}
 	cb_mt.cp().era({"7TeV"}).bin_id({5}).process({"W"}).MergeBinErrors(0.1, 0.5);
@@ -191,7 +208,7 @@ int main() {
 	cb_mt.cp().era({"8TeV"}).bin_id({7}).process({"W", "ZTT"}).MergeBinErrors(0.1, 0.5);
 
 	ch::CombineHarvester cb_em = move(cb.cp().channel({"em"}));
-	for (string era : {"7TeV", "8TeV"}) {
+	for (string era : eras) {
 		cb_em.cp().era({era}).bin_id({1, 3}).process({"Fakes"}).MergeBinErrors(0.1, 0.5);
 	}
 	cb_em.cp().era({"7TeV"}).bin_id({4}).process({"Fakes", "EWK", "Ztt"}).MergeBinErrors(0.1, 0.5);
@@ -199,7 +216,7 @@ int main() {
 	cb_em.cp().era({"8TeV"}).bin_id({4}).process({"Fakes", "EWK"}).MergeBinErrors(0.1, 0.5);
 
 	ch::CombineHarvester cb_ee_mm = move(cb.cp().channel({"ee", "mm"}));
-	for (string era : {"7TeV", "8TeV"}) {
+	for (string era : eras) {
 		cb_ee_mm.cp().era({era}).bin_id({1, 3, 4}).process({"ZTT", "ZEE", "ZMM", "TTJ"}).MergeBinErrors(0.0, 0.5);
 	}
 
