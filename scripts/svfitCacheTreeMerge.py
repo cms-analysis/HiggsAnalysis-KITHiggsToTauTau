@@ -15,6 +15,9 @@ ROOT.gROOT.SetBatch(True)
 import HiggsAnalysis.KITHiggsToTauTau.treemerge as treemerge
 
 
+# Example usage for multiple nicknames:
+# for x in /nfs/dust/cms/user/tmuller/htautau/artus/2015-02-10_17-33_svfitComputation/output/*; do echo $x; svfitCacheTreeMerge.py -i $x/*.root --input-trees `artusPipelines.py $x/*.root | sed -e 's@\$@/svfitCache@g'` -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${x}.root" | sed -e 's@/nfs/dust/cms/user/tmuller/htautau/artus/2015-02-10_17-33_svfitComputation/output/@@g'`; done
+
 def main():
 	parser = argparse.ArgumentParser(description="Collect matching trees from input files into one output tree",
 	                                 parents=[logger.loggingParser])
