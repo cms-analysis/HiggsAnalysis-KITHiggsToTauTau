@@ -102,6 +102,7 @@ SvfitInputs::SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitSta
 
 SvfitInputs::~SvfitInputs()
 {
+	/* TODO: freeing memory here creates segmentation faults
 	if (leptonMomentum1)
 	{
 		delete leptonMomentum1;
@@ -118,6 +119,7 @@ SvfitInputs::~SvfitInputs()
 	{
 		delete metCovariance;
 	}
+	*/
 }
 
 void SvfitInputs::Set(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
@@ -240,6 +242,7 @@ SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgori
 
 SvfitResults::~SvfitResults()
 {
+	/* TODO: freeing memory here creates segmentation faults
 	if (momentum)
 	{
 		delete momentum;
@@ -248,6 +251,7 @@ SvfitResults::~SvfitResults()
 	{
 		delete momentumUncertainty;
 	}
+	*/
 }
 
 void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty)
