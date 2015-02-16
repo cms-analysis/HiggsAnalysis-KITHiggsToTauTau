@@ -58,9 +58,11 @@ class PlotRootHtt(plotroot.PlotRoot):
 		super(PlotRootHtt, self).create_canvas(plotData)
 
 	def prepare_histograms(self, plotData):
-		for root_object in plotData.plotdict["root_objects"].values() + plotData.plotdict.get("root_ratio_histos", []):
+		for nick, color, fill_style in zip(plotData.plotdict["nicks"], plotData.plotdict["colors"], plotData.plotdict["fill_styles"]):
+			root_object = plotData.plotdict["root_objects"][nick]
 			if isinstance(root_object, ROOT.TH1):
-				ROOT.InitHist(root_object, root_object.GetTitle())
+				ROOT.InitHist(root_object, "", "", color, fill_style)
+		# TODO: prepare ratio histograms
 		
 		super(PlotRootHtt, self).prepare_histograms(plotData)
 	
