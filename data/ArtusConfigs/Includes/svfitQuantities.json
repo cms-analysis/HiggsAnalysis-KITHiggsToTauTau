@@ -1,0 +1,14 @@
+{
+	"property" : [
+		"svfitAvailable",
+		"svfitPt",
+		"svfitEta",
+		"svfitPhi",
+		"svfitMass",
+		"svfitUncAvailable",
+		"svfitUncPt",
+		"svfitUncEta",
+		"svfitUncPhi",
+		"svfitUncMass"
+	]
+}

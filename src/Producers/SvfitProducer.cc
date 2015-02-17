@@ -4,6 +4,9 @@
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "Artus/Utility/interface/DefaultValues.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
 
@@ -21,6 +24,39 @@ void SvfitProducer::Init(setting_type const& settings)
 		SvfitProducer::svfitTools.Init(std::vector<std::string>(1, settings.GetSvfitCacheFile()),
 		                               settings.GetSvfitCacheTree());
 	}
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitAvailable", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentum ? true : false);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitPt", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->Pt() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitEta", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->Eta() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitPhi", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->Phi() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitMass", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->mass() : DefaultValues::UndefinedFloat);
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitUncAvailable", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentumUncertainty ? true : false);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitUncPt", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentumUncertainty ? product.m_svfitResults.momentumUncertainty->Pt() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitUncEta", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentumUncertainty ? product.m_svfitResults.momentumUncertainty->Eta() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitUncPhi", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentumUncertainty ? product.m_svfitResults.momentumUncertainty->Phi() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitUncMass", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentumUncertainty ? product.m_svfitResults.momentumUncertainty->mass() : DefaultValues::UndefinedFloat);
+	});
 }
 
 void SvfitProducer::Produce(event_type const& event, product_type& product,
