@@ -186,7 +186,7 @@
 					"producer:TauTauRestFrameSelector",
 					"#producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"#producer:EventCategoryProducer",
+					"producer:EventCategoryProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:RecoTauCPProducer",
