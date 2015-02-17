@@ -7,6 +7,7 @@
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTauCorrectionsProducer.h"
 
 	
@@ -52,6 +53,16 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		LOG(FATAL) << "Tau energy correction of type " << Utility::ToUnderlyingValue(tauEnergyCorrection) << " not yet implemented!";
 	}
 	
-	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = (normalisationFactor * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionShift());
+	float tauEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionShift();
+	if (tauEnergyCorrectionShift != 0.0)
+	{
+		tau->p4 = tau->p4 * tauEnergyCorrectionShift;
+		
+		// settings for (cached) Svfit calculation
+		(static_cast<HttProduct&>(product)).m_systematicShift = HttEnumTypes::SystematicShift::TAU_ES;
+		(static_cast<HttProduct&>(product)).m_systematicShiftSigma = std::abs(tauEnergyCorrectionShift);
+	}
+	
+	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = normalisationFactor;
 }
 

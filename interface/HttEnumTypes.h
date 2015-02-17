@@ -119,11 +119,7 @@ public:
 	{
 		NONE = -1,
 		CENTRAL = 0,
+		TAU_ES = 1,
 	};
-	static SystematicShift ToSystematicShift(std::string const& systematicShift)
-	{
-		if (systematicShift == "central") return SystematicShift::CENTRAL;
-		else return SystematicShift::NONE;
-	}
 };
 
