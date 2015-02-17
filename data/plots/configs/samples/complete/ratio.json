@@ -1,10 +1,4 @@
 {
 	"ratio" : true,
-	"ratio_num" : [
-		"data"
-	],
-	"ratio_denom" : [
-		"ztt zll ttj wjets diboson qcd"
-	],
 	"y_ratio_label" : "Data/MC"
 }
