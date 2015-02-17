@@ -41,7 +41,7 @@ if __name__ == "__main__":
 	                    default=["0JetMedium", "0JetHigh", "1JetMedium", "1JetHigh", "1JetHighBoost", "2JetVbfLoose", "2JetVbfTight"],
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
-	                    default=["inclusive", "m_ll", "m_sv"],
+	                    default=["inclusive", "m_ll", "svitMass"],
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["110_145:5"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -152,6 +152,8 @@ if __name__ == "__main__":
 					json_defaults = uncertainty(json_defaults, name).get_config(shift)
 					
 					if quantity == "m_ll":
+						json_defaults = quantities.VisibleMass(json_defaults).get_config(channel, category)
+					if quantity == "svitMass":
 						json_defaults = quantities.VisibleMass(json_defaults).get_config(channel, category)
 					
 					if "PrintInfos" in json_defaults.get("analysis_modules", []):
