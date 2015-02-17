@@ -1,0 +1,54 @@
+{
+	"all" : {
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTausProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:RecoElectronGenParticleMatchingProducer",
+					"producer:RecoElectronGenTauMatchingProducer",
+					"#producer:RecoElectronGenTauJetMatchingProducer",
+					"producer:RecoMuonGenParticleMatchingProducer",
+					"producer:RecoMuonGenTauMatchingProducer",
+					"#producer:RecoMuonGenTauJetMatchingProducer",
+					"producer:RecoTauGenParticleMatchingProducer",
+					"producer:RecoTauGenTauMatchingProducer",
+					"#producer:RecoTauGenTauJetMatchingProducer",
+					"producer:RecoJetGenParticleMatchingProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"#KappaLambdaNtupleConsumer",
+			"#cutflow_histogram",
+			"#CutFlowTreeConsumer",
+			"KappaElectronsConsumer",
+			"KappaMuonsConsumer",
+			"KappaTausConsumer",
+			"KappaTaggedJetsConsumer"
+		],
+		
+		"ElectronID" : "None",
+		"ElectronIDType" : "None",
+		"ElectronIso" : "None",
+		"ElectronIsoType" : "None",
+		"ElectronReco" : "None",
+		
+		"MuonID" : "None",
+		"MuonIso" : "None",
+		"MuonIsoType" : "None",
+		
+		"JetID" : "tight",
+		
+		"DirectIso" : true,
+		
+		"BranchGenMatchedElectrons" : true,
+		"BranchGenMatchedMuons" : true,
+		"BranchGenMatchedTaus" : true,
+		"BranchGenMatchedJets" : true,
+		
+		"EventWeight" : "eventWeight"
+	}
+}
