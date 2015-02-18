@@ -132,7 +132,7 @@ class MT(object):
 		self.config.setdefault("nicks", []).append(nick)
 		
 	def add_plot(self, stack, color, label):
-		self.config.setdefault("stack", []).append(stack)
+		self.config.setdefault("stacks", []).append(stack)
 		self.config.setdefault("colors", []).append(color)
 		self.config.setdefault("labels", []).append(label)
 	

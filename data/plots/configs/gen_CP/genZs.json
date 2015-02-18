@@ -14,7 +14,7 @@
 	"labels" : "$\\tau^-\\tau^+\\rightarrow \\pi^-\\pi^+ $",
 	"markers" : "bar",
 	"colors" : "cornflowerblue",
-	"stack" : "1",
+	"stacks" : "1",
 	"errorbars" : "true",
 
 	"filename" : "genZs",

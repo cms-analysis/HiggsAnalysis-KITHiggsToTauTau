@@ -96,7 +96,7 @@
 	"extrapolation_nicks" : [
 		"ztt"
 	],
-	"stack" : [
+	"stacks" : [
 		"data",
 		"bkg",
 		"bkg",

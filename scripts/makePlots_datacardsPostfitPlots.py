@@ -133,7 +133,7 @@ if __name__ == "__main__":
 					plot_configs[-1]["folders"] = [directory]
 					plot_configs[-1]["x_expressions"] = data + background + signal
 					plot_configs[-1]["nicks"] = (["data"]*len(data)) + background + (["sig"]*len(signal))
-					plot_configs[-1]["stack"] = ["data"] + (["bkg"]*len(background)) + (["sig"]*(1 if len(signal) > 0 else 0))
+					plot_configs[-1]["stacks"] = ["data"] + (["bkg"]*len(background)) + (["sig"]*(1 if len(signal) > 0 else 0))
 					plot_configs[-1]["ratio"] = args.ratio
 					plot_configs[-1]["markers"] = ["E"] + (["HIST"]*len(background)) + (["L"]*(1 if len(signal) > 0 else 0))
 					plot_configs[-1]["colors"] = [colors.get(x, "#000000") for index, x in enumerate(plot_configs[-1]["x_expressions"])]

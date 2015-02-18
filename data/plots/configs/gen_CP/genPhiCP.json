@@ -34,7 +34,7 @@
 		"#5a9bd4",
 		"#9e67ab"
 	],
-	"stack" : "1",
+	"stacks" : "1",
 	"errorbars" : "true",
 
 	"filename" : "genPhiCP",
