@@ -37,26 +37,10 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer"
 			],
-			"HToTauTau.*8TeV" : [
+			"HToTauTau" : [
 				"#filter:RunLumiEventFilter",
 				"producer:TauCorrectionsProducer",
 				"producer:TaggedJetCorrectionsProducer",
-				"producer:HttValidLooseElectronsProducer",
-				"producer:HttValidLooseMuonsProducer",
-				"producer:PUWeightProducer",
-				"producer:GenParticleProducer",
-				"producer:GenTauDecayProducer",
-				"producer:GenTauCPProducer",
-				"producer:TauSpinnerProducer",
-				"producer:GeneratorWeightProducer",
-				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:NicknameProducer"
-			],
-			"HToTauTau.*13TeV" : [
-				"#filter:RunLumiEventFilter",
-				"producer:TauCorrectionsProducer",
-				"#producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
 				"producer:HttValidLooseMuonsProducer",
 				"producer:PUWeightProducer",
