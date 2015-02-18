@@ -1,0 +1,13 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/mt_default.json"
+	],
+	"x_expressions" : [
+		"svfitMass"
+	],
+	"x_bins" : [
+		"25,0.0,250"
+	],
+	"x_label" : "SVfit Mass m(\\tau\\tau)",
+	"filename" : "svfitMass"
+}
