@@ -34,6 +34,9 @@ if __name__ == "__main__":
 	parser.add_argument("--background-processes", nargs="+",
 	                    default=["ZTT", "ZL", "ZJ", "TT", "W", "VV", "QCD"],
 	                    help="Background processes. [Default: %(default)s]")
+	parser.add_argument("--background-uncertainties", nargs="+",
+	                    default=["TotalBkg"],
+	                    help="Background uncertainties. [Default: %(default)s]")
 	parser.add_argument("--signal-processes", nargs="+",
 	                    default=["TotalSig"],
 	                    help="Signal processes. [Default: %(default)s]")
@@ -105,6 +108,7 @@ if __name__ == "__main__":
 				
 				datas = {directory : [h for h in histos if h in args.data_processes] for directory, histos in histograms.items()}
 				backgrounds = {directory : [h for h in histos if h in args.background_processes] for directory, histos in histograms.items()}
+				background_uncertainties = {directory : [h for h in histos if h in args.background_uncertainties] for directory, histos in histograms.items()}
 				signals = {directory : [h for h in histos if h in args.signal_processes] for directory, histos in histograms.items()}
 				
 				colors = {
@@ -117,27 +121,29 @@ if __name__ == "__main__":
 					"W" : "#FE7A8A",
 					"QCD" : "#FFCCFF",
 					"TotalSig" : "#000000",
+					"TotalBkg" : "#000000",
 				}
 				
-				for directory in list(set(datas.keys()+backgrounds.keys()+signals.keys())):
+				for directory in list(set(datas.keys()+backgrounds.keys()+background_uncertainties.keys()+signals.keys())):
 					if "prefit" in directory and index_fit_type > 0:
 						continue
 					
 					data = datas.get(directory, [])
-					background = backgrounds.get(directory, [])
+					background = backgrounds.get(directory, [])[::-1]
+					background_uncertainty = background_uncertainties.get(directory, [])
 					signal = signals.get(directory, [])
 					
 					plot_configs.append(jsonTools.JsonDict())
 		
 					plot_configs[-1]["files"] = [shapes_root_file]
 					plot_configs[-1]["folders"] = [directory]
-					plot_configs[-1]["x_expressions"] = data + background + signal
-					plot_configs[-1]["nicks"] = (["data"]*len(data)) + background + (["sig"]*len(signal))
-					plot_configs[-1]["stacks"] = ["data"] + (["bkg"]*len(background)) + (["sig"]*(1 if len(signal) > 0 else 0))
+					plot_configs[-1]["x_expressions"] = data + background + background_uncertainty + signal
+					plot_configs[-1]["nicks"] = (["data"]*len(data)) + background + (["bkg_unc"]*len(background_uncertainty)) + (["sig"]*len(signal))
+					plot_configs[-1]["stacks"] = ["data"] + (["bkg"]*len(background)) + (["bkg_unc"]*(1 if len(background_uncertainty) > 0 else 0)) + (["sig"]*(1 if len(signal) > 0 else 0))
 					plot_configs[-1]["ratio"] = args.ratio
-					plot_configs[-1]["markers"] = ["E"] + (["HIST"]*len(background)) + (["L"]*(1 if len(signal) > 0 else 0))
+					plot_configs[-1]["markers"] = ["E"] + (["HIST"]*len(background)) + (["E2"]*(1 if len(background_uncertainty) > 0 else 0)) + (["L"]*(1 if len(signal) > 0 else 0))
 					plot_configs[-1]["colors"] = [colors.get(x, "#000000") for index, x in enumerate(plot_configs[-1]["x_expressions"])]
-					plot_configs[-1]["labels"] = ["Data"] + background + (["Signal (%s)" % mass]*(1 if len(signal) > 0 else 0))
+					plot_configs[-1]["labels"] = ["Data"] + background + (["Bkg. unc."]*(1 if len(background_uncertainty) > 0 else 0)) + (["Signal (%s)" % mass]*(1 if len(signal) > 0 else 0))
 					plot_configs[-1]["legend"] = [0.75, 0.6]
 					plot_configs[-1]["x_label"] = ""
 					plot_configs[-1]["y_label"] = "Events"
