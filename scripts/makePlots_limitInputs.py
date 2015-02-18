@@ -120,7 +120,8 @@ if __name__ == "__main__":
 			                         add_qcd=uncertainty.add_qcd(),
 			                         add_ggh_signal=args["higgs_masses"] if uncertainty.add_ggh() else [],
 			                         add_vbf_signal=args["higgs_masses"] if uncertainty.add_qqh() else [],
-			                         add_vh_signal=args["higgs_masses"] if uncertainty.add_vh() else []) if channel == "mt" else None
+			                         add_vh_signal=args["higgs_masses"] if uncertainty.add_vh() else [],
+			                         normalise_signal_one_pb=True) if channel == "mt" else None
 			
 			for category in args["categories"]:
 				if category == "None":

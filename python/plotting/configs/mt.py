@@ -10,7 +10,7 @@ import Artus.Utility.jsonTools as jsonTools
 class MT(object):
 
 	def __init__(self, add_data=True, add_ztt=True, add_zl=True, add_zj=True, add_ttj=True, add_diboson=True, add_wjets=True, add_qcd=True,
-	             add_ggh_signal=[], add_vbf_signal=[], add_vh_signal=[]):
+	             add_ggh_signal=[], add_vbf_signal=[], add_vh_signal=[], normalise_signal_one_pb=False):
 		self.config = jsonTools.JsonDict({})
 		
 		# Data
@@ -86,18 +86,42 @@ class MT(object):
 			self.add_plot("bkg", "#FFCCFF", "QCD")
 		
 		for higgs_mass in add_ggh_signal:
-			self.add_input("SM_GluGluToHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "ggH%s" % str(higgs_mass))
+			self.add_input(
+					"SM_GluGluToHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass),
+					"mt_dirIso_z_tauEsNom/ntuple",
+					19712.0,
+					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_one_pb else ""),
+					"ggH%s" % str(higgs_mass)
+			)
 			
 			self.add_plot("sig", "#000000", "ggH%s" % str(higgs_mass))
 		
 		for higgs_mass in add_vbf_signal:
-			self.add_input("SM_VBFHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "VBF%s" % str(higgs_mass))
+			self.add_input(
+					"SM_VBFHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass),
+					"mt_dirIso_z_tauEsNom/ntuple",
+					19712.0,
+					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_one_pb else ""),
+					"VBF%s" % str(higgs_mass)
+			)
 			
 			self.add_plot("sig", "#000000", "VBF%s" % str(higgs_mass))
 		
 		for higgs_mass in add_vh_signal:
-			self.add_input("SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0 / 2.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "WH%s" % str(higgs_mass))
-			self.add_input("SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass), "mt_dirIso_z_tauEsNom/ntuple", 19712.0 / 2.0, "eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)", "ZH%s" % str(higgs_mass))
+			self.add_input(
+					"SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass),
+					"mt_dirIso_z_tauEsNom/ntuple",
+					19712.0 / 2.0,
+					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_one_pb else ""),
+					"WH%s" % str(higgs_mass)
+			)
+			self.add_input(
+					"SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(higgs_mass),
+					"mt_dirIso_z_tauEsNom/ntuple",
+					19712.0 / 2.0,
+					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_one_pb else ""),
+					"ZH%s" % str(higgs_mass)
+			)
 			
 			self.add_plot("sig", "#000000", "WH%s" % str(higgs_mass))
 			self.add_plot("sig", "#000000", "ZH%s" % str(higgs_mass))
