@@ -81,7 +81,7 @@ if __name__ == "__main__":
 				          " --datacard " + datacard + \
 				          " --fitresult " + fit_result + ":" + fit_type + \
 				          " --mass " + mass + \
-				          " --postfit" + \
+				          " --postfit --sampling" + \
 				          " --output " + shapes_root_file
 				command = os.path.expandvars(command)
 				logger.subprocessCall(shlex.split(command))
