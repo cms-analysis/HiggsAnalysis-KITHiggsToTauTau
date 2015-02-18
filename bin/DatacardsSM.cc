@@ -273,27 +273,29 @@ int main() {
 	string aux_output = auxiliaries + "datacards/";
 	boost::filesystem::create_directories(aux_output);
 
-	for (string chn : chns) {
-		string channelDir = aux_output + chn + "/";
-		boost::filesystem::create_directories(channelDir);
-		string channelCommonDir = channelDir + "common/";
-		boost::filesystem::create_directories(channelCommonDir);
+	for (string era : eras) {
+		for (string chn : chns) {
+			string channelDir = aux_output + chn + "/";
+			boost::filesystem::create_directories(channelDir);
+			string channelCommonDir = channelDir + "common/";
+			boost::filesystem::create_directories(channelCommonDir);
 		
-		// We create the output root file that will contain all the shapes.
-		TFile output((channelCommonDir + "htt_" + chn + ".input.root").c_str(), "RECREATE");
+			// We create the output root file that will contain all the shapes.
+			TFile output((channelCommonDir + "htt_" + chn + ".input_" + era + ".root").c_str(), "RECREATE");
 		
-		auto bins = cb.cp().channel({chn}).bin_set();
-		for (auto b : bins) {
-			for (auto m : masses) {
-				string channelMassDir = channelDir + m + "/";
-				string dataCardPath = channelMassDir + b + ".txt";
-				boost::filesystem::create_directories(channelMassDir);
+			auto bins = cb.cp().channel({chn}).bin_set();
+			for (auto b : bins) {
+				for (auto m : masses) {
+					string channelMassDir = channelDir + m + "/";
+					string dataCardPath = channelMassDir + b + ".txt";
+					boost::filesystem::create_directories(channelMassDir);
 				
-				cout << ">> Writing datacard to \"" << dataCardPath << "\"." << endl;
-				cb.cp().channel({chn}).bin({b}).mass({m, "*"}).WriteDatacard(dataCardPath, output);
+					cout << ">> Writing datacard to \"" << dataCardPath << "\"." << endl;
+					cb.cp().channel({chn}).era({era}).bin({b}).mass({m, "*"}).WriteDatacard(dataCardPath, output);
+				}
 			}
+			output.Close();
 		}
-		output.Close();
 	}
 
 	cout << "\n>> Done!\n";
