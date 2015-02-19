@@ -55,11 +55,11 @@ class Sample(object):
 	
 	@staticmethod
 	def data(config, channel, category, **kwargs):
-		if channel == "mt":
+		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"data"
@@ -72,19 +72,19 @@ class Sample(object):
 	
 	@staticmethod
 	def ztt(config, channel, category, lumi=19712.0, **kwargs):
-		if channel == "mt":
+		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
-					"*_PFembedded_Run2012?_22Jan2013_mt_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
+					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"ztt"
 			)
 			Sample._add_input(
 					config,
-					"*_PFembedded_Run2012?_22Jan2013_mt_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
+					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_ztt_emb_inc"
@@ -92,7 +92,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_ztt_tauEsNom/ntuple",
+					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_ztt_mc_inc"
@@ -100,7 +100,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_ztt_tauEsNom/ntuple",
+					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_ztt_mc"
@@ -115,11 +115,11 @@ class Sample(object):
 	
 	@staticmethod
 	def zl(config, channel, category, lumi=19712.0, **kwargs):
-		if channel == "mt":
+		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_zl_tauEsNom/ntuple",
+					channel+"_dirIso_zl_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"zl"
@@ -132,11 +132,11 @@ class Sample(object):
 	
 	@staticmethod
 	def zj(config, channel, category, lumi=19712.0, **kwargs):
-		if channel == "mt":
+		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_zj_tauEsNom/ntuple",
+					channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"zj"
@@ -149,11 +149,11 @@ class Sample(object):
 	
 	@staticmethod
 	def ttj(config, channel, category, lumi=19712.0, **kwargs):
-		if channel == "mt":
+		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"ttj"
@@ -166,11 +166,11 @@ class Sample(object):
 	
 	@staticmethod
 	def vv(config, channel, category, lumi=19712.0, **kwargs):
-		if channel == "mt":
+		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
 					"??_pythia_tauola_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"diboson"
@@ -183,11 +183,11 @@ class Sample(object):
 	
 	@staticmethod
 	def wj(config, channel, category, lumi=19712.0, **kwargs):
-		if channel == "mt":
+		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"wjets"
@@ -195,7 +195,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_wjets_data_control"
@@ -203,7 +203,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_ztt_tauEsNom/ntuple",
+					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_ztt_mc_wjet_control"
@@ -211,7 +211,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_zl_tauEsNom/ntuple mt_dirIso_zj_tauEsNom/ntuple",
+					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_zll_wjet_control"
@@ -219,7 +219,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_ttj_wjet_control"
@@ -227,7 +227,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"??_pythia_tauola_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_diboson_wjet_control"
@@ -235,7 +235,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_wjets_mc_signal"
@@ -243,7 +243,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_wjets_mc_control"
@@ -257,11 +257,11 @@ class Sample(object):
 	
 	@staticmethod
 	def qcd(config, channel, category, lumi=19712.0, **kwargs):
-		if channel == "mt":
+		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_wjets_ss"
@@ -269,7 +269,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_wjets_ss_data_control"
@@ -277,7 +277,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_ztt_tauEsNom/ntuple",
+					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_ztt_ss_mc_wjet_control"
@@ -285,7 +285,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_zl_tauEsNom/ntuple mt_dirIso_zj_tauEsNom/ntuple",
+					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_zll_ss_wjet_control"
@@ -293,7 +293,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_ttj_ss_wjet_control"
@@ -301,7 +301,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"??_pythia_tauola_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_diboson_ss_wjet_control"
@@ -309,7 +309,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_wjets_ss_mc_signal"
@@ -317,7 +317,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_wjets_ss_mc_control"
@@ -327,7 +327,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"qcd"
@@ -335,7 +335,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_ztt_tauEsNom/ntuple",
+					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_ztt_mc_qcd_control"
@@ -343,7 +343,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					"mt_dirIso_zl_tauEsNom/ntuple mt_dirIso_zj_tauEsNom/ntuple",
+					channel+"t_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_zll_qcd_control"
@@ -351,7 +351,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_ttj_qcd_control"
@@ -359,7 +359,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"??_pythia_tauola_8TeV/*.root",
-					"mt_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_diboson_qcd_control"
@@ -374,11 +374,11 @@ class Sample(object):
 	@staticmethod
 	def ggh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
 		for mass in higgs_masses:
-			if channel == "mt":
+			if (channel == "et") or (channel == "mt"):
 				Sample._add_input(
 						config,
 						"SM_GluGluToHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						"mt_dirIso_z_tauEsNom/ntuple",
+						channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
 						"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ggH%s" % str(mass)
@@ -392,11 +392,11 @@ class Sample(object):
 	@staticmethod
 	def qqh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
 		for mass in higgs_masses:
-			if channel == "mt":
+			if (channel == "et") or (channel == "mt"):
 				Sample._add_input(
 						config,
 						"SM_VBFHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						"mt_dirIso_z_tauEsNom/ntuple",
+						channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
 						"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"VBF%s" % str(mass)
@@ -410,11 +410,11 @@ class Sample(object):
 	@staticmethod
 	def vh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
 		for mass in higgs_masses:
-			if channel == "mt":
+			if (channel == "et") or (channel == "mt"):
 				Sample._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						"mt_dirIso_z_tauEsNom/ntuple",
+						channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
 						"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"WH%s" % str(mass)
@@ -422,7 +422,7 @@ class Sample(object):
 				Sample._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						"mt_dirIso_z_tauEsNom/ntuple",
+						channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
 						"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ZH%s" % str(mass)

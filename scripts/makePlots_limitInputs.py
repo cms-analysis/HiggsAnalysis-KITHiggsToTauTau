@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--root-output", default="htt.inputs-sm-8TeV.root",
 	                    help="Merged ROOT output. [Default: %(default)s]")
 	parser.add_argument("--channels", nargs="*",
-	                    default=["mt"], choices=["mt"],
+	                    default=["mt"], choices=["et", "mt"],
 	                    #default=["tt", "mt", "et", "em", "mm", "ee"], # other channels currently not supported
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="*",
