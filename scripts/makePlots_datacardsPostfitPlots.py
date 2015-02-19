@@ -120,7 +120,7 @@ if __name__ == "__main__":
 					"VV" : "#DE5A6A",
 					"W" : "#FE7A8A",
 					"QCD" : "#FFCCFF",
-					"TotalSig" : "#000000",
+					"TotalSig" : "#000080",
 					"TotalBkg" : "#000000",
 				}
 				
@@ -137,13 +137,13 @@ if __name__ == "__main__":
 		
 					plot_configs[-1]["files"] = [shapes_root_file]
 					plot_configs[-1]["folders"] = [directory]
-					plot_configs[-1]["x_expressions"] = data + background + background_uncertainty + signal
-					plot_configs[-1]["nicks"] = (["data"]*len(data)) + background + (["bkg_unc"]*len(background_uncertainty)) + (["sig"]*len(signal))
-					plot_configs[-1]["stacks"] = ["data"] + (["bkg"]*len(background)) + (["bkg_unc"]*(1 if len(background_uncertainty) > 0 else 0)) + (["sig"]*(1 if len(signal) > 0 else 0))
+					plot_configs[-1]["x_expressions"] = data + signal + background + background_uncertainty
+					plot_configs[-1]["nicks"] = (["data"]*len(data)) + (["sig"]*len(signal)) + background + (["bkg_unc"]*len(background_uncertainty))
+					plot_configs[-1]["stacks"] = ["data"] + (["bkg_sig"]*(1 if len(signal) > 0 else 0)) + (["bkg_sig"]*len(background)) + (["bkg_unc"]*(1 if len(background_uncertainty) > 0 else 0))
 					plot_configs[-1]["ratio"] = args.ratio
-					plot_configs[-1]["markers"] = ["E"] + (["HIST"]*len(background)) + (["E2"]*(1 if len(background_uncertainty) > 0 else 0)) + (["L"]*(1 if len(signal) > 0 else 0))
+					plot_configs[-1]["markers"] = ["E"] + (["L"]*(1 if len(signal) > 0 else 0)) + (["HIST"]*len(background)) + (["E2"]*(1 if len(background_uncertainty) > 0 else 0))
 					plot_configs[-1]["colors"] = [colors.get(x, "#000000") for index, x in enumerate(plot_configs[-1]["x_expressions"])]
-					plot_configs[-1]["labels"] = ["Data"] + background + (["Bkg. unc."]*(1 if len(background_uncertainty) > 0 else 0)) + (["Signal (%s)" % mass]*(1 if len(signal) > 0 else 0))
+					plot_configs[-1]["labels"] = ["Data"] + (["Signal (%s)" % mass]*(1 if len(signal) > 0 else 0)) + background + (["Bkg. unc."]*(1 if len(background_uncertainty) > 0 else 0))
 					plot_configs[-1]["legend"] = [0.75, 0.6]
 					plot_configs[-1]["x_label"] = ""
 					plot_configs[-1]["y_label"] = "Events"
