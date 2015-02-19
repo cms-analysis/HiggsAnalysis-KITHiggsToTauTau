@@ -44,6 +44,15 @@ class Sample(object):
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"data"
 			)
+		elif channel == "em":
+			Sample._add_input(
+					config,
+					"MuEG_Run2012?_22Jan2013_8TeV/*.root",
+					"em_dirIso/ntuple",
+					1.0,
+					"eventWeight*((q_1*q_2)<0.0)",
+					"data"
+			)
 		else:
 			log.error("Sample config currently not implemented for channel \"%s\"!" % channel)
 		
@@ -52,56 +61,56 @@ class Sample(object):
 	
 	@staticmethod
 	def ztt(config, channel, category, lumi=19712.0, **kwargs):
-		if (channel == "et") or (channel == "mt"):
+		if (channel == "et") or (channel == "mt") or (channel == "em"):
 			Sample._add_input(
 					config,
 					"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
-					channel+"_dirIso_z_tauEs/ntuple",
+					"em_dirIso/ntuple" if channel == "em" else channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
-					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"ztt"
 			)
 			Sample._add_input(
 					config,
 					"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
-					channel+"_dirIso_z_tauEs/ntuple",
+					"em_dirIso/ntuple" if channel == "em" else channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
-					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"noplot_ztt_emb_inc"
 			)
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"_dirIso_ztt_tauEsNom/ntuple",
+					"em_dirIso_tt/ntuple" if channel == "em" else channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
-					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"noplot_ztt_mc_inc"
 			)
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"_dirIso_ztt_tauEsNom/ntuple",
+					"em_dirIso_tt/ntuple" if channel == "em" else channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
-					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"noplot_ztt_mc"
 			)
+			config.setdefault("analysis_modules", []).append("EstimateZtt")
 		else:
 			log.error("Sample config currently not implemented for channel \"%s\"!" % channel)
 		
 		Sample._add_plot(config, "bkg", "#FFCC66", "ZTT")
 		
-		config.setdefault("analysis_modules", []).append("EstimateZtt")
 		return config
 	
 	@staticmethod
 	def zl(config, channel, category, lumi=19712.0, **kwargs):
-		if (channel == "et") or (channel == "mt"):
+		if (channel == "et") or (channel == "mt") or (channel == "em"):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"_dirIso_zl_tauEsNom/ntuple",
+					"em_dirIso_ee/ntuple em_dirIso_mm/ntuple" if channel == "em" else channel+"_dirIso_zl_tauEsNom/ntuple",
 					lumi,
-					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"zl"
 			)
 		else:
@@ -121,10 +130,12 @@ class Sample(object):
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"zj"
 			)
+			Sample._add_plot(config, "bkg", "#64B6E8", "ZJ")
+		elif channel == "em":
+			pass
 		else:
 			log.error("Sample config currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "#64B6E8", "ZJ")
 		return config
 	
 	@staticmethod
@@ -136,6 +147,23 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
+					"ttj"
+			)
+		elif channel == "em":
+			Sample._add_input(
+					config,
+					"TTJetsTo*_madgraph_tauola_8TeV/*.root",
+					"em_dirIso/ntuple",
+					lumi,
+					"eventWeight*((q_1*q_2)<0.0)",
+					"ttj"
+			)
+			Sample._add_input(
+					config,
+					"T*_powheg_tauola_8TeV/*.root",
+					"em_dirIso/ntuple",
+					lumi,
+					"eventWeight*((q_1*q_2)<0.0)",
 					"ttj"
 			)
 		else:
@@ -153,6 +181,15 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
+					"diboson"
+			)
+		elif channel == "em":
+			Sample._add_input(
+					config,
+					"??JetsTo*_madgraph_tauola_8TeV/*.root",
+					"em_dirIso/ntuple",
+					lumi,
+					"eventWeight*((q_1*q_2)<0.0)",
 					"diboson"
 			)
 		else:
@@ -228,11 +265,20 @@ class Sample(object):
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_wjets_mc_control"
 			)
+			config.setdefault("analysis_modules", []).append("EstimateWjets")
+		elif channel == "em":
+			Sample._add_input(
+					config,
+					"WJetsToLN_madgraph_8TeV/*.root",
+					"em_dirIso/ntuple",
+					lumi,
+					"eventWeight*((q_1*q_2)<0.0)",
+					"wjets"
+			)
 		else:
 			log.error("Sample config currently not implemented for channel \"%s\"!" % channel)
 		
 		Sample._add_plot(config, "bkg", "#FE7A8A", "WJets")
-		config.setdefault("analysis_modules", []).append("EstimateWjets")
 		return config
 	
 	@staticmethod
@@ -344,23 +390,32 @@ class Sample(object):
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_diboson_qcd_control"
 			)
+			config.setdefault("analysis_modules", []).append("EstimateQcd")
+		elif channel == "em":
+			Sample._add_input(
+					config,
+					"MuEG_Run2012?_22Jan2013_8TeV/*.root",
+					"em_dirIso/ntuple",
+					1.0,
+					"eventWeight*((q_1*q_2)>0.0)",
+					"qcd"
+			)
 		else:
 			log.error("Sample config currently not implemented for channel \"%s\"!" % channel)
 		
 		Sample._add_plot(config, "bkg", "#FFCCFF", "QCD")
-		config.setdefault("analysis_modules", []).append("EstimateQcd")
 		return config
 	
 	@staticmethod
 	def ggh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
 		for mass in higgs_masses:
-			if (channel == "et") or (channel == "mt"):
+			if (channel == "et") or (channel == "mt") or (channel == "em"):
 				Sample._add_input(
 						config,
 						"SM_GluGluToHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						channel+"_dirIso_z_tauEsNom/ntuple",
+						"em_dirIso/ntuple" if channel == "em" else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
-						"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ggH%s" % str(mass)
 				)
 			else:
@@ -372,13 +427,13 @@ class Sample(object):
 	@staticmethod
 	def qqh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
 		for mass in higgs_masses:
-			if (channel == "et") or (channel == "mt"):
+			if (channel == "et") or (channel == "mt") or (channel == "em"):
 				Sample._add_input(
 						config,
 						"SM_VBFHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						channel+"_dirIso_z_tauEsNom/ntuple",
+						"em_dirIso/ntuple" if channel == "em" else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
-						"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"VBF%s" % str(mass)
 			)
 			else:
@@ -390,21 +445,21 @@ class Sample(object):
 	@staticmethod
 	def vh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
 		for mass in higgs_masses:
-			if (channel == "et") or (channel == "mt"):
+			if (channel == "et") or (channel == "mt") or (channel == "em"):
 				Sample._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						channel+"_dirIso_z_tauEsNom/ntuple",
+						"em_dirIso/ntuple" if channel == "em" else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
-						"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"WH%s" % str(mass)
 				)
 				Sample._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						channel+"_dirIso_z_tauEsNom/ntuple",
+						"em_dirIso/ntuple" if channel == "em" else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
-						"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)" + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel == "em" else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ZH%s" % str(mass)
 				)
 			else:
