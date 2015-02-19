@@ -17,30 +17,6 @@ class Sample(object):
 		
 		for sample in samples:
 			config = sample(config, channel, category, **kwargs)
-		"""
-		if "data" in samples:
-			Sample.add_data(config, channel, category, **kwargs)
-		if "ztt" in samples:
-			Sample.add_ztt(config, channel, category, **kwargs)
-		if "zl" in samples:
-			Sample.add_zl(config, channel, category, **kwargs)
-		if "zj" in samples:
-			Sample.add_zj(config, channel, category, **kwargs)
-		if "ttj" in samples:
-			Sample.add_ttj(config, channel, category, **kwargs)
-		if "vv" in samples:
-			Sample.add_vv(config, channel, category, **kwargs)
-		if "wj" in samples:
-			Sample.add_wj(config, channel, category, **kwargs)
-		if "qcd" in samples:
-			Sample.add_qcd(config, channel, category, **kwargs)
-		if "ggh" in samples:
-			Sample.add_ggh(config, channel, category, **kwargs)
-		if "qqh" in samples:
-			Sample.add_qqh(config, channel, category, **kwargs)
-		if "vh" in samples:
-			Sample.add_vh(config, channel, category, **kwargs)
-		"""
 		
 		config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
 		
