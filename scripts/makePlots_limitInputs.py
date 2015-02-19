@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--root-output", default="htt.inputs-sm-8TeV.root",
 	                    help="Merged ROOT output. [Default: %(default)s]")
 	parser.add_argument("--channels", nargs="*",
-	                    default=["mt"], choices=["et", "mt"],
+	                    default=["mt"], choices=["et", "mt", "em"],
 	                    #default=["tt", "mt", "et", "em", "mm", "ee"], # other channels currently not supported
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="*",
@@ -148,16 +148,12 @@ if __name__ == "__main__":
 			
 				for quantity in args["quantities"]:
 					json_exists = True
-					json_configs = [
-						os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity)),
-						os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/%s.json" % (channel))
-					] if channel != "mt" else [os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))]
+					json_configs = [os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))]
 					if not os.path.exists(json_configs[0]):
 						json_exists = False
 						json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
 					json_defaults = jsonTools.JsonDict([os.path.expandvars(json_file) for json_file in json_configs]).doIncludes().doComments()
-					if channel == "mt":
-						json_defaults += config
+					json_defaults += config
 				
 					if not category is None:
 						json_defaults["output_dir"] = os.path.join(json_defaults.setdefault("output_dir", "plots"), category)
