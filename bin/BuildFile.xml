@@ -24,7 +24,6 @@
 </bin>
 
 <bin name="DatacardsSM" file="DatacardsSM.cc">
-	<Flags CXXFLAGS="-g" />
 	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
 	<Flags LDFLAGS="-rdynamic" />
 	<Flags LDFLAGS="-Lsrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib -lCHCombineTools" />
