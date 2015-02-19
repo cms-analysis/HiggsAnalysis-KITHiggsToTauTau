@@ -46,7 +46,7 @@ class SystematicShiftBase(object):
 		return False
 	
 	@staticmethod
-	def add_wjets():
+	def add_wj():
 		return False
 	
 	@staticmethod
@@ -96,7 +96,7 @@ class Nominal(SystematicShiftBase):
 		return True
 	
 	@staticmethod
-	def add_wjets():
+	def add_wj():
 		return True
 	
 	@staticmethod
