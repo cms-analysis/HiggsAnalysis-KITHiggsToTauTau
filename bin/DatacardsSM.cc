@@ -164,7 +164,7 @@ int main() {
 	cout << ">> Scaling signal process rates...\n";
 	map<string, TGraph> xs;
 	
-	string xsecs_dir = string(getenv("CMSSW_BASE")) + "/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/data/xsecs_brs/";
+	string xsecs_dir = string(getenv("CMSSW_BASE")) + "/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/input/xsecs_brs/";
 	
 	// Get the table of H->tau tau BRs vs mass
 	ch::ParseTable(&xs, xsecs_dir+"htt_YR3.txt", {"htt"});
