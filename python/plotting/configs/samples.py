@@ -369,7 +369,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"t_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
+					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"noplot_zll_qcd_control"
