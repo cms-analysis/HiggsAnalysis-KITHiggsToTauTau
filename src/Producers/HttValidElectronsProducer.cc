@@ -122,6 +122,22 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			validElectron = validElectron && IsMVANonTrigV025nsCsa14(&(*electron), event, true);
 		}
+		else if (electronIDType == ElectronIDType::PHYS14CUTBASEDLOOSE)
+		{
+			validElectron = validElectron && IsCutBasedPhys14(&(*electron), event, WorkingPoint::LOOSE);
+		}
+		else if (electronIDType == ElectronIDType::PHYS14CUTBASEDMEDIUM)
+		{
+			validElectron = validElectron && IsCutBasedPhys14(&(*electron), event, WorkingPoint::MEDIUM);
+		}
+		else if (electronIDType == ElectronIDType::PHYS14CUTBASEDTIGHT)
+		{
+			validElectron = validElectron && IsCutBasedPhys14(&(*electron), event, WorkingPoint::TIGHT);
+		}
+		else if (electronIDType == ElectronIDType::MVANONTRIGV025NSPHYS14)
+		{
+			validElectron = validElectron && IsMVANonTrigV025nsPhys14(&(*electron), event, true);
+		}
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
 	}
@@ -327,6 +343,47 @@ bool HttValidElectronsProducer::IsMVANonTrigV025nsCsa14(KElectron* electron, eve
 				(electron->p4.Pt() >= 20.0) &&
 				(
 					(electron->getId("mvaNonTrigV025nsCSA14", event.m_electronMetadata) > 0.9)
+				)
+			)
+		);
+
+	return validElectron;
+}
+
+bool HttValidElectronsProducer::IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const
+{
+	bool validElectron = true;
+	
+	if (wp == WorkingPoint::LOOSE)
+		validElectron = validElectron && electron->getId("cutBasedEleIdPHYS14Loose", event.m_electronMetadata);
+	
+	if (wp == WorkingPoint::MEDIUM)
+		validElectron = validElectron && electron->getId("cutBasedEleIdPHYS14Medium", event.m_electronMetadata);
+	
+	if (wp == WorkingPoint::TIGHT)
+		validElectron = validElectron && electron->getId("cutBasedEleIdPHYS14Tight", event.m_electronMetadata);
+	
+	return validElectron;
+}
+
+bool HttValidElectronsProducer::IsMVANonTrigV025nsPhys14(KElectron* electron, event_type const& event, bool tightID) const
+{
+	bool validElectron = true;
+
+	validElectron = validElectron &&
+		(
+			(
+				(electron->p4.Pt() < 20.0)
+				&&
+				(
+					(electron->getId("mvaNonTrigV025nsPHYS14", event.m_electronMetadata) > 0.9)
+				)
+			)
+			||
+			(
+				(electron->p4.Pt() >= 20.0) &&
+				(
+					(electron->getId("mvaNonTrigV025nsPHYS14", event.m_electronMetadata) > 0.9)
 				)
 			)
 		);

@@ -49,6 +49,16 @@ public:
 		MVATRIGV025NSCSA14 = 5,
 		MVANONTRIGV050NSCSA14 = 6,
 		MVANONTRIGV025NSCSA14 = 7,
+		PHYS14CUTBASEDLOOSE = 8,
+		PHYS14CUTBASEDMEDIUM = 9,
+		PHYS14CUTBASEDTIGHT = 10,
+		MVANONTRIGV025NSPHYS14 = 11,
+	};
+	enum class WorkingPoint : int
+	{
+		LOOSE = 0,
+		MEDIUM = 1,
+		TIGHT = 2,
 	};
 	static ElectronIDType ToElectronIDType(std::string const& electronIDType)
 	{
@@ -60,6 +70,10 @@ public:
 		else if (electronIDType == "mvatrigv025nscsa14") return ElectronIDType::MVATRIGV025NSCSA14;
 		else if (electronIDType == "mvanontrigv050nscsa14") return ElectronIDType::MVANONTRIGV050NSCSA14;
 		else if (electronIDType == "mvanontrigv025nscsa14") return ElectronIDType::MVANONTRIGV025NSCSA14;
+		else if (electronIDType == "phys14cutbasedloose") return ElectronIDType::PHYS14CUTBASEDLOOSE;
+		else if (electronIDType == "phys14cutbasedmedium") return ElectronIDType::PHYS14CUTBASEDMEDIUM;
+		else if (electronIDType == "phys14cutbasedtight") return ElectronIDType::PHYS14CUTBASEDTIGHT;
+		else if (electronIDType == "mvanontrigv025nsphys14") return ElectronIDType::MVANONTRIGV025NSPHYS14;
 		else return ElectronIDType::NONE;
 	}
 	
@@ -132,6 +146,8 @@ private:
 	bool IsMVATrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigV050nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const;
+	bool IsMVANonTrigV025nsPhys14(KElectron* electron, event_type const& event, bool tightID) const;
 };
 
 
