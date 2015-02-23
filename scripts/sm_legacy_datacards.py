@@ -10,15 +10,14 @@ import argparse
 
 if __name__ == "__main__":
 
-	parser = argparse.ArgumentParser(description="Print commands for statistical inference studies of SMLegacyExample datacards.",
+	parser = argparse.ArgumentParser(description="Print commands for statistical inference studies of SMLegacyDatacards datacards.",
 	                                 parents=[logger.loggingParser])
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
 	commands = [
-		"make -C HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/",
-		"./HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/bin/SMLegacyExample",
+		"SMLegacyDatacards",
 		"limit.py --stable-new --max-likelihood output/sm_cards/*/",
 		"submit.py --stable-new --multidim-fit --physics-model cV-cF output/sm_cards/125/ --lxq --queue=\"-l h_vmem=4000M -l h_rt=00:30:00 -l distro=sld6\"",
 		"submit.py --stable-new --multidim-fit --physics-model cV-cF output/sm_cards/125/ --lxq --queue=\"-l h_vmem=4000M -l h_rt=00:30:00 -l distro=sld6\" --collect",
