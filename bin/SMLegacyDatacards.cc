@@ -199,6 +199,23 @@ int main(int argc, char* argv[]) {
 			});
 		}
 	}
+	
+	cout << ">> Scaling luminosity for all 8TeV signal and background processes ...\n";
+	for (string const& era : eras) {
+		if (era == "7TeV") {
+			continue;
+		}
+		for (string const& chn : chns) {
+			cb.cp().channel({chn}).era({era}).backgrounds().ForEachProc([&](ch::Process *proc) {
+					proc->set_rate(proc->rate() * lumi / 19712.0);
+			});
+		}
+		for (string const& chn : chns) {
+			cb.cp().channel({chn}).era({era}).signals().ForEachProc([&](ch::Process *proc) {
+					proc->set_rate(proc->rate() * lumi / 19712.0);
+			});
+		}
+	}
 
 	cout << ">> Merging bin errors...\n";
 	ch::CombineHarvester cb_et = move(cb.cp().channel({"et"}));
