@@ -6,13 +6,60 @@
 #include <utility>
 #include <cstdlib>
 #include "boost/filesystem.hpp"
+#include "boost/program_options.hpp"
 #include "CombineTools/interface/CombineHarvester.h"
 #include "CombineTools/interface/Utilities.h"
 #include "CombineTools/interface/HttSystematics.h"
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
+  vector<string> eras = {"8TeV"}; // {"7TeV", "8TeV"}
+  vector<string> chns = {"mt"}; // {"et", "mt", "em", "ee", "mm", "tt"}
+  float lumi = 19712.0;
+  float energy = 8.0;
+
+  boost::program_options::options_description help_config("Help");
+  help_config.add_options()
+    ("help,h", "produce help message");
+  boost::program_options::options_description config("Configuration");
+  config.add_options()
+    ("eras", boost::program_options::value<std::vector<string> >(&eras)->default_value(eras, ""),
+        "Eras")
+    ("channels,c", boost::program_options::value<std::vector<string> >(&chns)->default_value(chns, ""),
+        "Channels")
+    ("lumi,l", boost::program_options::value<float>(&lumi)->default_value(lumi)->implicit_value(true),
+        "Integrated luminosity (in 1/pb) to scale to [Default: 19712.0]")
+    ("energy,e", boost::program_options::value<float>(&energy)->default_value(energy)->implicit_value(true),
+        "Center-of-mass energy (in TeV) to scale cross sections to [Default: 8.0]");
+
+  boost::program_options::variables_map vm;
+  boost::program_options::store(boost::program_options::command_line_parser(argc, argv)
+                .options(help_config)
+                .allow_unregistered()
+                .run(),
+            vm);
+  boost::program_options::notify(vm);
+  if (vm.count("help")) {
+    cout << config << endl;
+    return 1;
+  }
+  boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(config).run(), vm);
+  boost::program_options::notify(vm);
+  cout << ">> Choosen program arguments:" << endl;
+  cout << ">>>> eras: ";
+  for (string era : eras) {
+    cout << era << " ";
+  }
+  cout << endl;
+  cout << ">>>> channels: ";
+  for (string chn : chns) {
+    cout << chn << " ";
+  }
+  cout << endl;
+  cout << ">>>> lumi: " << lumi << endl;
+  cout << ">>>> energy: " << energy << endl;
+  
   ch::CombineHarvester cb;
 
   // cb.SetVerbosity(1);
@@ -23,12 +70,6 @@ int main() {
   string auxiliaries  = string(getenv("CMSSW_BASE")) + "/src/auxiliaries/";
   string aux_shapes   = auxiliaries +"shapes/";
   string aux_pruning  = auxiliaries +"pruning/";
-
-  //VString eras = {"7TeV", "8TeV"};
-  VString eras = {"8TeV"};
-  
-  //VString chns = {"et", "mt", "em", "ee", "mm", "tt"};
-  VString chns = {"mt"};
 
   map<string, string> input_folders = {
       {"et", "Imperial"},
