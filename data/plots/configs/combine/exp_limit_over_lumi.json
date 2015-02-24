@@ -1,0 +1,81 @@
+{
+    "analysis_modules": [
+        "GraphCombination"
+    ],
+    "colors": [
+        "#FFFF00",
+        "#00FF00",
+        "#000000"
+    ],
+    "files" : [
+    	"higgsCombine-*.Asymptotic.mH*.root"
+    ],
+    "fill_styles": [
+        1001
+    ],
+    "folders": [
+        "limit_friend"
+    ],
+    "graph_error_modes": [
+        "abs"
+    ],
+    "graph_high_errors_nicks": [
+        "p2s_noplot",
+        "p1s_noplot"
+    ],
+    "graph_low_errors_nicks": [
+        "m2s_noplot",
+        "m1s_noplot"
+    ],
+    "graph_result_nicks": [
+        "2s",
+        "1s"
+    ],
+    "graph_values_nicks": [
+        "central",
+        "central"
+    ],
+    "markers": [
+        "E3",
+        "E3",
+        "EL"
+    ],
+    "nicks": [
+        "central",
+        "m2s_noplot",
+        "m1s_noplot",
+        "p1s_noplot",
+        "p2s_noplot"
+    ],
+    "tree_draw_options": [
+        "TGraph",
+        "TGraphErrors",
+        "TGraphErrors",
+        "TGraphErrors",
+        "TGraphErrors"
+    ],
+    "weights": [
+        "quantileExpected>0.2 && quantileExpected<0.8",
+        "quantileExpected>0.0 && quantileExpected<0.1",
+        "quantileExpected>0.1 && quantileExpected<0.2",
+        "quantileExpected>0.8 && quantileExpected<0.9",
+        "quantileExpected>0.9"
+    ],
+    "x_expressions": [
+        "lumi",
+        "0:lumi",
+        "0:lumi",
+        "0:lumi",
+        "0:lumi"
+    ],
+    "x_label" : "Lumi Scale Factor",
+    "y_expressions": [
+        "limit",
+        "0:limit",
+        "0:limit",
+        "0:limit",
+        "0:limit"
+    ],
+    "y_label" : "95% CL Limit on #sigma/#sigma_{SM}",
+    "filename" : "exp_limit_over_lumi"
+}

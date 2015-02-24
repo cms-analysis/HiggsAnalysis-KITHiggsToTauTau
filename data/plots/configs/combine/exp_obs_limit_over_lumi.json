@@ -5,13 +5,17 @@
     "colors": [
         "#FFFF00",
         "#00FF00",
+        "#000000",
         "#000000"
+    ],
+    "files" : [
+    	"higgsCombine-*.Asymptotic.mH*.root"
     ],
     "fill_styles": [
         1001
     ],
     "folders": [
-        "limit"
+        "limit_friend"
     ],
     "graph_error_modes": [
         "abs"
@@ -35,6 +39,7 @@
     "markers": [
         "E3",
         "E3",
+        "EL",
         "EPL"
     ],
     "nicks": [
@@ -42,34 +47,42 @@
         "m2s_noplot",
         "m1s_noplot",
         "p1s_noplot",
-        "p2s_noplot"
+        "p2s_noplot",
+        "obs"
     ],
     "tree_draw_options": [
         "TGraph",
         "TGraphErrors",
         "TGraphErrors",
         "TGraphErrors",
-        "TGraphErrors"
+        "TGraphErrors",
+        "TGraph"
     ],
     "weights": [
         "quantileExpected>0.2 && quantileExpected<0.8",
-        "quantileExpected<0.1",
+        "quantileExpected>0.0 && quantileExpected<0.1",
         "quantileExpected>0.1 && quantileExpected<0.2",
         "quantileExpected>0.8 && quantileExpected<0.9",
-        "quantileExpected>0.9"
+        "quantileExpected>0.9",
+        "quantileExpected<0.0"
     ],
     "x_expressions": [
-        "mh",
-        "mh:mh",
-        "mh:mh",
-        "mh:mh",
-        "mh:mh"
+        "lumi",
+        "0:lumi",
+        "0:lumi",
+        "0:lumi",
+        "0:lumi",
+        "lumi"
     ],
+    "x_label" : "Lumi Scale Factor",
     "y_expressions": [
         "limit",
         "0:limit",
         "0:limit",
         "0:limit",
-        "0:limit"
-    ]
+        "0:limit",
+        "limit"
+    ],
+    "y_label" : "95% CL Limit on #sigma/#sigma_{SM}",
+    "filename" : "exp_obs_limit_over_lumi"
 }
