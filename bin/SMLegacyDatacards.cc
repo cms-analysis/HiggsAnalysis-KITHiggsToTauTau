@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 	vector<string> eras = {"8TeV"}; // {"7TeV", "8TeV"}
 	vector<string> chns = {"mt"}; // {"et", "mt", "em", "ee", "mm", "tt"}
 	vector<string> masses = ch::MassesFromRange("110-145:5");
-	float lumi = 19712.0;
+	float lumiScale = 1.0;
 	string energy = "8";
 	string outputDirectory = "datacards/sm";
 
@@ -32,8 +32,8 @@ int main(int argc, char* argv[]) {
 		"Channels")
 		("masses,m", boost::program_options::value<std::vector<string> >(&masses)->default_value(masses, ""),
 		"Higgs masses")
-		("lumi,l", boost::program_options::value<float>(&lumi)->default_value(lumi),
-		"Integrated luminosity (in 1/pb) to scale to [Default: 19712.0]")
+		("lumi-scale,l", boost::program_options::value<float>(&lumiScale)->default_value(lumiScale),
+		"Scale factor for integrated luminosity [Default: 1.0]")
 		("energy,e", boost::program_options::value<string>(&energy)->default_value(energy),
 		"Center-of-mass energy (in TeV) to scale cross sections to [Default: \"8\"]")
 		("output,o", boost::program_options::value<string>(&outputDirectory)->default_value(outputDirectory),
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
 		cout << m << " ";
 	}
 	cout << endl;
-	cout << ">>>> lumi: " << lumi << endl;
+	cout << ">>>> lumiScale: " << lumiScale << endl;
 	cout << ">>>> energy: " << energy << endl;
 	cout << ">>>> output: " << outputDirectory << endl;
 	
@@ -243,12 +243,12 @@ int main(int argc, char* argv[]) {
 		}
 		for (string const& chn : chns) {
 			cb.cp().channel({chn}).era({era}).backgrounds().ForEachProc([&](ch::Process *proc) {
-				proc->set_rate(proc->rate() * lumi / 19712.0);
+				proc->set_rate(proc->rate() * lumiScale);
 			});
 		}
 		for (string const& chn : chns) {
 			cb.cp().channel({chn}).era({era}).signals().ForEachProc([&](ch::Process *proc) {
-				proc->set_rate(proc->rate() * lumi / 19712.0);
+				proc->set_rate(proc->rate() * lumiScale);
 			});
 		}
 	}
