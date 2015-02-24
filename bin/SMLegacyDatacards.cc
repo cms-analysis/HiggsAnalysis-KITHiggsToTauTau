@@ -211,6 +211,27 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	
+	if (boost::lexical_cast<float>(energy) > 8.0) {
+		cout << ">> Scaling 8TeV background process rates to " << energy << "TeV cross sections...\n";
+		map<string, double> xsRatios;
+		ch::ParseTable(&xsRatios, xsecs_dir+"sm_"+energy+"TeV_over_8TeV.txt");
+		cb.cp().era({"8TeV"}).process({"ZTT", "ZL", "ZJ", "Ztt", "ZEE", "ZMM"}).ForEachProc([&](ch::Process *proc) {
+			proc->set_rate(proc->rate() * xsRatios["Z(->ll)"]);
+		});
+		cb.cp().era({"8TeV"}).process({"TT", "ttbar", "TTJ"}).ForEachProc([&](ch::Process *proc) {
+			proc->set_rate(proc->rate() * xsRatios["tt"]);
+		});
+		cb.cp().era({"8TeV"}).process({"W", "WJets"}).ForEachProc([&](ch::Process *proc) {
+			proc->set_rate(proc->rate() * xsRatios["W(->lnu)"]);
+		});
+		cb.cp().era({"8TeV"}).process({"VV", "EWK", "Dibosons"}).ForEachProc([&](ch::Process *proc) {
+			proc->set_rate(proc->rate() * (xsRatios["WW"]+xsRatios["WZ"]+xsRatios["ZZ"]) / 3.0);
+		});
+		cb.cp().era({"8TeV"}).process({"QCD", "Fakes"}).ForEachProc([&](ch::Process *proc) {
+			proc->set_rate(proc->rate() * xsRatios["sq"]);
+		});
+	}
+	
 	cout << ">> Scaling luminosity for all 8TeV signal and background processes ...\n";
 	for (string const& era : eras) {
 		if (era == "7TeV") {
@@ -218,12 +239,12 @@ int main(int argc, char* argv[]) {
 		}
 		for (string const& chn : chns) {
 			cb.cp().channel({chn}).era({era}).backgrounds().ForEachProc([&](ch::Process *proc) {
-					proc->set_rate(proc->rate() * lumi / 19712.0);
+				proc->set_rate(proc->rate() * lumi / 19712.0);
 			});
 		}
 		for (string const& chn : chns) {
 			cb.cp().channel({chn}).era({era}).signals().ForEachProc([&](ch::Process *proc) {
-					proc->set_rate(proc->rate() * lumi / 19712.0);
+				proc->set_rate(proc->rate() * lumi / 19712.0);
 			});
 		}
 	}
