@@ -16,8 +16,9 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	vector<string> eras = {"8TeV"}; // {"7TeV", "8TeV"}
 	vector<string> chns = {"mt"}; // {"et", "mt", "em", "ee", "mm", "tt"}
+	vector<string> masses = ch::MassesFromRange("110-145:5");
 	float lumi = 19712.0;
-	float energy = 8.0;
+	string energy = "8";
 
 	boost::program_options::options_description help_config("Help");
 	help_config.add_options()
@@ -28,10 +29,12 @@ int main(int argc, char* argv[]) {
 		"Eras")
 		("channels,c", boost::program_options::value<std::vector<string> >(&chns)->default_value(chns, ""),
 		"Channels")
-		("lumi,l", boost::program_options::value<float>(&lumi)->default_value(lumi)->implicit_value(true),
+		("masses,m", boost::program_options::value<std::vector<string> >(&masses)->default_value(masses, ""),
+		"Higgs masses")
+		("lumi,l", boost::program_options::value<float>(&lumi)->default_value(lumi),
 		"Integrated luminosity (in 1/pb) to scale to [Default: 19712.0]")
-		("energy,e", boost::program_options::value<float>(&energy)->default_value(energy)->implicit_value(true),
-		"Center-of-mass energy (in TeV) to scale cross sections to [Default: 8.0]");
+		("energy,e", boost::program_options::value<string>(&energy)->default_value(energy),
+		"Center-of-mass energy (in TeV) to scale cross sections to [Default: \"8\"]");
 
 	boost::program_options::variables_map vm;
 	boost::program_options::store(
@@ -54,6 +57,11 @@ int main(int argc, char* argv[]) {
 	cout << ">>>> channels: ";
 	for (string chn : chns) {
 		cout << chn << " ";
+	}
+	cout << endl;
+	cout << ">>>> Higgs masses: ";
+	for (string m : masses) {
+		cout << m << " ";
 	}
 	cout << endl;
 	cout << ">>>> lumi: " << lumi << endl;
@@ -136,8 +144,6 @@ int main(int argc, char* argv[]) {
 			{0, "tauTau_1jet_high_mediumhiggs"}, {1, "tauTau_1jet_high_highhiggs"},
 			{2, "tauTau_vbf"}};
 
-	vector<string> masses = ch::MassesFromRange("110-145:5");
-
 	cout << ">> Creating processes and observations...\n";
 	for (string era : eras) {
 		for (auto chn : chns) {
@@ -181,11 +187,16 @@ int main(int argc, char* argv[]) {
 	ch::ParseTable(&xs, xsecs_dir+"htt_YR3.txt", {"htt"});
 	for (string const& e : eras) {
 		for (string const& p : sig_procs) {
+			string dstEra = e;
+			if (e != "7TeV") {
+				dstEra = energy+"TeV";
+			}
+			
 			// Get the table of xsecs vs mass for process "p" and era "e":
-			ch::ParseTable(&xs, xsecs_dir+p+"_"+e+"_YR3.txt", {p+"_"+e});
-			cout << ">>>> Scaling for process " << p << " and era " << e << "\n";
+			ch::ParseTable(&xs, xsecs_dir+p+"_"+dstEra+"_YR3.txt", {p+"_"+dstEra});
+			cout << ">>>> Scaling for process " << p << " and era " << dstEra << "\n";
 			cb.cp().process({p}).era({e}).ForEachProc([&](ch::Process *proc) {
-				ch::ScaleProcessRate(proc, &xs, p+"_"+e, "htt");
+				ch::ScaleProcessRate(proc, &xs, p+"_"+dstEra, "htt");
 			});
 		}
 	}
