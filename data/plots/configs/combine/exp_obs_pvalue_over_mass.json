@@ -1,0 +1,38 @@
+{
+    "colors": [
+        "#0000FF",
+        "#000000"
+    ],
+    "files" : [
+    	"higgsCombinePVAL-exp.ProfileLikelihood.mH*.root",
+    	"higgsCombinePVAL-obs.ProfileLikelihood.mH*.root"
+    ],
+    "folders": [
+        "limit"
+    ],
+    "line_styles": [
+    	2,
+    	1
+    ],
+    "markers": [
+        "EL",
+        "EPL"
+    ],
+    "nicks": [
+        "exp",
+        "obs"
+    ],
+    "tree_draw_options": [
+        "TGraph",
+        "TGraph"
+    ],
+    "x_expressions": [
+        "mh"
+    ],
+    "x_label" : "m_{H} / GeV",
+    "y_expressions": [
+        "limit"
+    ],
+    "y_label" : "Local p-value",
+    "filename" : "exp_obs_pvalue_over_mass"
+}
