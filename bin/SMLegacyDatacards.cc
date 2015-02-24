@@ -19,6 +19,7 @@ int main(int argc, char* argv[]) {
 	vector<string> masses = ch::MassesFromRange("110-145:5");
 	float lumi = 19712.0;
 	string energy = "8";
+	string outputDirectory = "datacards/sm";
 
 	boost::program_options::options_description help_config("Help");
 	help_config.add_options()
@@ -34,7 +35,9 @@ int main(int argc, char* argv[]) {
 		("lumi,l", boost::program_options::value<float>(&lumi)->default_value(lumi),
 		"Integrated luminosity (in 1/pb) to scale to [Default: 19712.0]")
 		("energy,e", boost::program_options::value<string>(&energy)->default_value(energy),
-		"Center-of-mass energy (in TeV) to scale cross sections to [Default: \"8\"]");
+		"Center-of-mass energy (in TeV) to scale cross sections to [Default: \"8\"]")
+		("output,o", boost::program_options::value<string>(&outputDirectory)->default_value(outputDirectory),
+		"Output directory [Default: \"datacards/sm\"]");
 
 	boost::program_options::variables_map vm;
 	boost::program_options::store(
@@ -66,6 +69,7 @@ int main(int argc, char* argv[]) {
 	cout << endl;
 	cout << ">>>> lumi: " << lumi << endl;
 	cout << ">>>> energy: " << energy << endl;
+	cout << ">>>> output: " << outputDirectory << endl;
 	
 	ch::CombineHarvester cb;
 
@@ -366,28 +370,25 @@ int main(int argc, char* argv[]) {
 	//   cout << " - " << x << "\n";
 	// }
 
-	string folder = "output/sm_cards";
-	boost::filesystem::create_directories(folder);
-	boost::filesystem::create_directories(folder+"/common");
+	boost::filesystem::create_directories(outputDirectory);
+	boost::filesystem::create_directories(outputDirectory+"/common");
 	for (auto m : masses) {
-		boost::filesystem::create_directories(folder+"/"+m);
+		boost::filesystem::create_directories(outputDirectory+"/"+m);
 	}
 
 	for (string chn : chns) {
-		TFile output((folder + "/common/htt_" + chn + ".input.root").c_str(),
-								 "RECREATE");
+		TFile output((outputDirectory + "/common/htt_" + chn + ".input.root").c_str(), "RECREATE");
 		auto bins = cb.cp().channel({chn}).bin_set();
 		for (auto b : bins) {
 			for (auto m : masses) {
-				string dataCardPath = folder + "/" + m + "/" + b + ".txt";
+				string dataCardPath = outputDirectory + "/" + m + "/" + b + ".txt";
 				cout << ">> Writing datacard for bin: " << b << " and mass: " << m
-									<< " --> " << dataCardPath << "\r" << flush;
+									<< " to " << dataCardPath << "\r" << flush;
 				cb.cp().channel({chn}).bin({b}).mass({m, "*"}).WriteDatacard(
 						dataCardPath, output);
 			}
 		}
-		cb.cp().channel({chn}).mass({"125", "*"}).WriteDatacard(
-				folder+"/htt_" + chn + "_125.txt", output);
+		cb.cp().channel({chn}).mass({"125", "*"}).WriteDatacard(outputDirectory+"/htt_" + chn + "_125.txt", output);
 		output.Close();
 	}
 
