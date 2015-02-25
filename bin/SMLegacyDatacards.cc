@@ -10,6 +10,7 @@
 #include "CombineTools/interface/CombineHarvester.h"
 #include "CombineTools/interface/Utilities.h"
 #include "CombineTools/interface/HttSystematics.h"
+#include "CombineTools/interface/MakeUnique.h"
 
 using namespace std;
 
@@ -19,6 +20,8 @@ int main(int argc, char* argv[]) {
 	vector<string> masses = ch::MassesFromRange("110-145:5");
 	float lumiScale = 1.0;
 	string energy = "8";
+	bool asimovDataset = false;
+	string asimovDatasetMass = "125";
 	string outputDirectory = "datacards/sm";
 
 	boost::program_options::options_description help_config("Help");
@@ -36,6 +39,10 @@ int main(int argc, char* argv[]) {
 		"Scale factor for integrated luminosity [Default: 1.0]")
 		("energy,e", boost::program_options::value<string>(&energy)->default_value(energy),
 		"Center-of-mass energy (in TeV) to scale cross sections to [Default: \"8\"]")
+		("asimov,a", boost::program_options::value<bool>(&asimovDataset)->default_value(asimovDataset)->implicit_value(true),
+		"Replace observation by an asimov dataset [Default: False]")
+		("asimov-mass", boost::program_options::value<string>(&asimovDatasetMass)->default_value(asimovDatasetMass),
+		"Mass for the signal used in asimov dataset [Default: \"125\"]")
 		("output,o", boost::program_options::value<string>(&outputDirectory)->default_value(outputDirectory),
 		"Output directory [Default: \"datacards/sm\"]");
 
@@ -69,6 +76,8 @@ int main(int argc, char* argv[]) {
 	cout << endl;
 	cout << ">>>> lumiScale: " << lumiScale << endl;
 	cout << ">>>> energy: " << energy << endl;
+	cout << ">>>> asimovDataset: " << (asimovDataset ? "true" : "false") << endl;
+	cout << ">>>> asimovDatasetMass: " << asimovDatasetMass << endl;
 	cout << ">>>> output: " << outputDirectory << endl;
 	
 	ch::CombineHarvester cb;
@@ -236,21 +245,33 @@ int main(int argc, char* argv[]) {
 		});
 	}
 	
-	cout << ">> Scaling luminosity for all 8TeV signal and background processes ...\n";
-	for (string const& era : eras) {
-		if (era == "7TeV") {
-			continue;
+	if (lumiScale != 1.0) {
+		cout << ">> Scaling luminosity for all 8TeV signal and background processes ...\n";
+		for (string const& era : eras) {
+			if (era == "7TeV") {
+				continue;
+			}
+			for (string const& chn : chns) {
+				cb.cp().channel({chn}).era({era}).backgrounds().ForEachProc([&](ch::Process *proc) {
+					proc->set_rate(proc->rate() * lumiScale);
+				});
+			}
+			for (string const& chn : chns) {
+				cb.cp().channel({chn}).era({era}).signals().ForEachProc([&](ch::Process *proc) {
+					proc->set_rate(proc->rate() * lumiScale);
+				});
+			}
 		}
-		for (string const& chn : chns) {
-			cb.cp().channel({chn}).era({era}).backgrounds().ForEachProc([&](ch::Process *proc) {
-				proc->set_rate(proc->rate() * lumiScale);
-			});
-		}
-		for (string const& chn : chns) {
-			cb.cp().channel({chn}).era({era}).signals().ForEachProc([&](ch::Process *proc) {
-				proc->set_rate(proc->rate() * lumiScale);
-			});
-		}
+	}
+	
+	if (asimovDataset) {
+		cout << ">> Replacing observation by an asimov dataset ...\n";
+		cb.ForEachObs([&](ch::Observation *observation) {
+			observation->set_shape(ch::make_unique<TH1F>(
+					cb.cp().bin({observation->bin()}).backgrounds().GetShape() +
+					cb.cp().bin({observation->bin()}).signals().mass({asimovDatasetMass}).GetShape()
+			), true);
+		});
 	}
 
 	cout << ">> Merging bin errors...\n";
