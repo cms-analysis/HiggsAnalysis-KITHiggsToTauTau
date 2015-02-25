@@ -34,5 +34,6 @@
         "limit"
     ],
     "y_label" : "Local p-value",
+    "y_log" : true,
     "filename" : "exp_obs_pvalue_over_mass"
 }
