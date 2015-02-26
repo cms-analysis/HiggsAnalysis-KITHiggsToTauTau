@@ -33,11 +33,21 @@ def do_limits(output_dir):
 	log.info(command)
 	logger.subprocessCall(shlex.split(command))
 
-
 def do_p_values(output_dir):
 	command = "submit.py --interactive --stable-new --pvalue-frequentist {datacards}".format(
 		datacards=os.path.join(output_dir, "*")
 	)
+	log.info(command)
+	logger.subprocessCall(shlex.split(command))
+
+def do_cv_cf_scan(output_dir, mass="125"):
+	command = "submit.py --interactive --stable-new --multidim-fit --physics-model cV-cF {datacards}".format(
+		datacards=os.path.join(output_dir, mass)
+	)
+	log.info(command)
+	logger.subprocessCall(shlex.split(command))
+	
+	command = command.replace("submit.py --interactive", "limit.py --algo grid")
 	log.info(command)
 	logger.subprocessCall(shlex.split(command))
 
@@ -49,6 +59,8 @@ def annotate_lumi_scale(output_dir, lumi_scale):
 	)
 	log.info(command)
 	logger.subprocessCall(shlex.split(command))
+
+
 	
 
 
@@ -89,6 +101,9 @@ if __name__ == "__main__":
 	# p-values
 	do_p_values(output_dir)
 	
+	# cV-cF scan
+	do_cv_cf_scan(output_dir)
+	
 	# annotations for plotting
 	annotate_lumi_scale(output_dir, lumi_scale=-1.0)
 	
@@ -100,8 +115,12 @@ if __name__ == "__main__":
 				"output_dir" : os.path.join(output_dir, "plots"),
 		})
 	
-	
 	# 13TeV projections
+	cv_cf_scan_plot_config = {
+		"json_defaults" : ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan_1sigma_over_lumi.json"],
+		"output_dir" : os.path.join(args.output_dir, "13TeV", "plots"),
+	}
+	
 	for lumi_scale in progressiterator.ProgressIterator(args.lumi_scales, description="Process projections"):
 		output_dir = os.path.join(args.output_dir, "13TeV", "lumi_scale_{l}".format(l=lumi_scale))
 		clear_output_dir(output_dir)
@@ -120,10 +139,22 @@ if __name__ == "__main__":
 		# p-values
 		do_p_values(output_dir)
 		
+		# cV-cF scan
+		do_cv_cf_scan(output_dir)
+		
 		# annotations for plotting
 		annotate_lumi_scale(output_dir, lumi_scale=lumi_scale)
 		
+		# plotting
+		cv_cf_scan_plot_config.setdefault("directories", []).append(os.path.join(output_dir, "*"))
+		cv_cf_scan_plot_config.setdefault("nicks", []).append("noplot_2d_hist_{l}".format(l=lumi_scale))
+		cv_cf_scan_plot_config.setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_config["nicks"][-1])
+		cv_cf_scan_plot_config.setdefault("contour_graph_nicks", []).append("contour_{l}".format(l=lumi_scale))
+		cv_cf_scan_plot_config.setdefault("labels", []).append("lumi scale {l}".format(l=lumi_scale))
+		
+		
 	# plotting
+	plot_configs.append(cv_cf_scan_plot_config)
 	for json in ["exp_limit_over_lumi.json", "exp_obs_limit_over_lumi.json", "exp_obs_pvalue_over_lumi.json"]:
 		plot_configs.append({
 				"json_defaults" : [os.path.join("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/", json)],

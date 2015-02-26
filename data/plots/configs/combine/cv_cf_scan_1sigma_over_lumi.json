@@ -1,0 +1,63 @@
+{
+    "analysis_modules": [
+        "ContourFromHistogram"
+    ],
+    "colors": [
+    	"#99CCFF",
+    	"#66CCFF",
+    	"#3399FF",
+    	"#3366FF",
+    	"#0000FF",
+    	"#0000CC",
+    	"#000099",
+    	"#000066"
+    ],
+    "contour_thresholds": [
+        "1.0"
+    ],
+    "filename" : "cv_cf_scan_1sigma_over_lumi",
+    "files": [
+    	"higgsCombineTest.MultiDimFit.mH*.root"
+    ],
+    "folders": [
+        "limit"
+    ],
+    "legend": [
+    	0.65,
+    	0.5
+    ],
+    "markers": [
+        "C"
+    ],
+    "merge_contours": [
+    	true
+    ],
+    "tree_draw_options": [
+        "COLZ"
+    ],
+    "weights": [
+        "deltaNLL"
+    ],
+    "x_bins": [
+        "10,0.0,2"
+    ],
+    "x_expressions": [
+        "CF"
+    ],
+    "x_label" : "#kappa_{F}",
+    "x_lims": [
+        0.0,
+        3.0
+    ],
+    "y_bins": [
+        "10,0.0,3"
+    ],
+    "y_expressions": [
+        "CV"
+    ],
+    "y_label" : "#kappa_{V}",
+    "y_lims": [
+        0.0,
+        3.0
+    ]
+}
