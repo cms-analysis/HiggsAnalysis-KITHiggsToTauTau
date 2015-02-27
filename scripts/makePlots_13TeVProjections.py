@@ -124,7 +124,7 @@ if __name__ == "__main__":
 	cv_cf_scan_plot_configs = [copy.deepcopy(cv_cf_scan_plot_configs), copy.deepcopy(cv_cf_scan_plot_configs)]
 	
 	cv_cf_scan_plot_configs[0].setdefault("directories", []).append(os.path.join(output_dir, "125"))
-	cv_cf_scan_plot_configs[0].setdefault("nicks", []).append("noplot_2d_hist_8TeV")
+	cv_cf_scan_plot_configs[0].setdefault("nicks", []).append("2d_hist_8TeV")
 	cv_cf_scan_plot_configs[0].setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_configs[0]["nicks"][-1])
 	cv_cf_scan_plot_configs[0].setdefault("contour_graph_nicks", []).append("contour_8TeV")
 	cv_cf_scan_plot_configs[0].setdefault("labels", []).append("8 TeV")
@@ -169,7 +169,7 @@ if __name__ == "__main__":
 		# plotting
 		for cv_cf_scan_plot_config in cv_cf_scan_plot_configs:
 			cv_cf_scan_plot_config.setdefault("directories", []).append(os.path.join(output_dir, "*"))
-			cv_cf_scan_plot_config.setdefault("nicks", []).append("noplot_2d_hist_{l}".format(l=lumi_scale))
+			cv_cf_scan_plot_config.setdefault("nicks", []).append("2d_hist_{l}".format(l=lumi_scale))
 			cv_cf_scan_plot_config.setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_config["nicks"][-1])
 			cv_cf_scan_plot_config.setdefault("contour_graph_nicks", []).append("contour_{l}".format(l=lumi_scale))
 			cv_cf_scan_plot_config.setdefault("labels", []).append("lumi scale {l}".format(l=lumi_scale))

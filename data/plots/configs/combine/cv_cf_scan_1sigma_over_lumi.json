@@ -27,10 +27,10 @@
     	0.5
     ],
     "markers": [
-        "C"
+        "CONT3"
     ],
-    "merge_contours": [
-    	true
+    "contour_modes": [
+    	"histogram"
     ],
     "tree_draw_options": [
         "COLZ"
