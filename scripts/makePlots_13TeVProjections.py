@@ -6,6 +6,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse
+import copy
 import glob
 import os
 import shlex
@@ -116,10 +117,30 @@ if __name__ == "__main__":
 		})
 	
 	# 13TeV projections
-	cv_cf_scan_plot_config = {
+	cv_cf_scan_plot_configs = {
 		"json_defaults" : ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan_1sigma_over_lumi.json"],
 		"output_dir" : os.path.join(args.output_dir, "13TeV", "plots"),
 	}
+	cv_cf_scan_plot_configs = [copy.deepcopy(cv_cf_scan_plot_configs), copy.deepcopy(cv_cf_scan_plot_configs)]
+	
+	cv_cf_scan_plot_configs[0].setdefault("directories", []).append(os.path.join(output_dir, "125"))
+	cv_cf_scan_plot_configs[0].setdefault("nicks", []).append("noplot_2d_hist_8TeV")
+	cv_cf_scan_plot_configs[0].setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_configs[0]["nicks"][-1])
+	cv_cf_scan_plot_configs[0].setdefault("contour_graph_nicks", []).append("contour_8TeV")
+	cv_cf_scan_plot_configs[0].setdefault("labels", []).append("8 TeV")
+	cv_cf_scan_plot_configs[0]["colors"] = [
+		"#FF0000",
+		"#99CCFF",
+		"#66CCFF",
+		"#3399FF",
+		"#3366FF",
+		"#0000FF",
+		"#0000CC",
+		"#000099",
+		"#000066"
+	]
+	cv_cf_scan_plot_configs[0]["filename"] = "cv_cf_scan_1sigma_over_lumi_8_13_TeV"
+	cv_cf_scan_plot_configs[1]["filename"] = "cv_cf_scan_1sigma_over_lumi_13_TeV"
 	
 	for lumi_scale in progressiterator.ProgressIterator(args.lumi_scales, description="Process projections"):
 		output_dir = os.path.join(args.output_dir, "13TeV", "lumi_scale_{l}".format(l=lumi_scale))
@@ -146,15 +167,15 @@ if __name__ == "__main__":
 		annotate_lumi_scale(output_dir, lumi_scale=lumi_scale)
 		
 		# plotting
-		cv_cf_scan_plot_config.setdefault("directories", []).append(os.path.join(output_dir, "*"))
-		cv_cf_scan_plot_config.setdefault("nicks", []).append("noplot_2d_hist_{l}".format(l=lumi_scale))
-		cv_cf_scan_plot_config.setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_config["nicks"][-1])
-		cv_cf_scan_plot_config.setdefault("contour_graph_nicks", []).append("contour_{l}".format(l=lumi_scale))
-		cv_cf_scan_plot_config.setdefault("labels", []).append("lumi scale {l}".format(l=lumi_scale))
-		
+		for cv_cf_scan_plot_config in cv_cf_scan_plot_configs:
+			cv_cf_scan_plot_config.setdefault("directories", []).append(os.path.join(output_dir, "*"))
+			cv_cf_scan_plot_config.setdefault("nicks", []).append("noplot_2d_hist_{l}".format(l=lumi_scale))
+			cv_cf_scan_plot_config.setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_config["nicks"][-1])
+			cv_cf_scan_plot_config.setdefault("contour_graph_nicks", []).append("contour_{l}".format(l=lumi_scale))
+			cv_cf_scan_plot_config.setdefault("labels", []).append("lumi scale {l}".format(l=lumi_scale))
 		
 	# plotting
-	plot_configs.append(cv_cf_scan_plot_config)
+	plot_configs.extend(cv_cf_scan_plot_configs)
 	for json in ["exp_limit_over_lumi.json", "exp_obs_limit_over_lumi.json", "exp_obs_pvalue_over_lumi.json"]:
 		plot_configs.append({
 				"json_defaults" : [os.path.join("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/", json)],
