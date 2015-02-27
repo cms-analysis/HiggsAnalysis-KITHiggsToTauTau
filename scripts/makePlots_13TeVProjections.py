@@ -42,13 +42,18 @@ def do_p_values(output_dir):
 	logger.subprocessCall(shlex.split(command))
 
 def do_cv_cf_scan(output_dir, mass="125"):
-	command = "submit.py --interactive --stable-new --multidim-fit --physics-model cV-cF {datacards}".format(
+	command = "submit.py --interactive --stable-new --multidim-fit --physics-model cV-cF --points 400 {datacards}".format(
 		datacards=os.path.join(output_dir, mass)
 	)
 	log.info(command)
 	logger.subprocessCall(shlex.split(command))
 	
 	command = command.replace("submit.py --interactive", "limit.py --algo grid")
+	log.info(command)
+	logger.subprocessCall(shlex.split(command))
+	
+	command = "rm -rfv {dirs} log/".format(dirs=" ".join(glob.glob("*CV-CF-{mass}/".format(mass=mass)))
+	)
 	log.info(command)
 	logger.subprocessCall(shlex.split(command))
 
@@ -75,6 +80,8 @@ if __name__ == "__main__":
 	                    help="Luminosity scale factors. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir", default="output/datacards/projection",
 	                    help="Output directory. Contents will be cleaned up. [Default: %(default)s]")
+	parser.add_argument("-p", "--plots-only", default=False, action="store_true",
+	                    help="Do only the plotting assuming the ROOT files are only created. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -87,21 +94,22 @@ if __name__ == "__main__":
 	
 	# 8TeV results
 	output_dir = os.path.join(args.output_dir, "8TeV")
-	clear_output_dir(output_dir)
-	
-	# datacards
-	command = "SMLegacyDatacards --output {output_dir} --asimov --asimov-mass 125".format(
-			output_dir=output_dir
-	)
-	log.info(command)
-	logger.subprocessCall(shlex.split(command))
-	
-	# limits
-	do_limits(output_dir)
-	
-	# p-values
-	do_p_values(output_dir)
-	
+	if not args.plots_only:
+		clear_output_dir(output_dir)
+		
+		# datacards
+		command = "SMLegacyDatacards --output {output_dir} --asimov --asimov-mass 125".format(
+				output_dir=output_dir
+		)
+		log.info(command)
+		logger.subprocessCall(shlex.split(command))
+		
+		# limits
+		do_limits(output_dir)
+		
+		# p-values
+		do_p_values(output_dir)
+		
 	# cV-cF scan
 	do_cv_cf_scan(output_dir)
 	
@@ -144,27 +152,28 @@ if __name__ == "__main__":
 	
 	for lumi_scale in progressiterator.ProgressIterator(args.lumi_scales, description="Process projections"):
 		output_dir = os.path.join(args.output_dir, "13TeV", "lumi_scale_{l}".format(l=lumi_scale))
-		clear_output_dir(output_dir)
+		if not args.plots_only:
+			clear_output_dir(output_dir)
 		
-		# datacards
-		command = "SMLegacyDatacards --output {output_dir} --asimov --asimov-mass 125 --energy 13 --lumi-scale {l} --masses 125".format(
-				output_dir=output_dir,
-				l=lumi_scale
-		)
-		log.info(command)
-		logger.subprocessCall(shlex.split(command))
+			# datacards
+			command = "SMLegacyDatacards --output {output_dir} --asimov --asimov-mass 125 --energy 13 --lumi-scale {l} --masses 125".format(
+					output_dir=output_dir,
+					l=lumi_scale
+			)
+			log.info(command)
+			logger.subprocessCall(shlex.split(command))
 		
-		# limits
-		do_limits(output_dir)
+			# limits
+			do_limits(output_dir)
 		
-		# p-values
-		do_p_values(output_dir)
+			# p-values
+			do_p_values(output_dir)
 		
-		# cV-cF scan
-		do_cv_cf_scan(output_dir)
+			# cV-cF scan
+			do_cv_cf_scan(output_dir)
 		
-		# annotations for plotting
-		annotate_lumi_scale(output_dir, lumi_scale=lumi_scale)
+			# annotations for plotting
+			annotate_lumi_scale(output_dir, lumi_scale=lumi_scale)
 		
 		# plotting
 		for cv_cf_scan_plot_config in cv_cf_scan_plot_configs:
