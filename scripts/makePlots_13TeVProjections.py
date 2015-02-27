@@ -110,14 +110,15 @@ if __name__ == "__main__":
 		# p-values
 		do_p_values(output_dir)
 		
-	# cV-cF scan
-	do_cv_cf_scan(output_dir)
-	
-	# annotations for plotting
-	annotate_lumi_scale(output_dir, lumi_scale=-1.0)
+		# cV-cF scan
+		do_cv_cf_scan(output_dir)
+		
+		# annotations for plotting
+		annotate_lumi_scale(output_dir, lumi_scale=-1.0)
 	
 	# plotting
-	for json in ["exp_limit_over_mass.json", "exp_obs_limit_over_mass.json", "exp_obs_pvalue_over_mass.json"]:
+	for json in ["exp_limit_over_mass.json", "exp_obs_limit_over_mass.json",
+	             "exp_pvalue_over_mass.json", "exp_obs_pvalue_over_mass.json"]:
 		plot_configs.append({
 				"json_defaults" : [os.path.join("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/", json)],
 				"directories" : [os.path.join(output_dir, "*")],
@@ -162,16 +163,16 @@ if __name__ == "__main__":
 			)
 			log.info(command)
 			logger.subprocessCall(shlex.split(command))
-		
+			
 			# limits
 			do_limits(output_dir)
-		
+			
 			# p-values
 			do_p_values(output_dir)
-		
+			
 			# cV-cF scan
 			do_cv_cf_scan(output_dir)
-		
+			
 			# annotations for plotting
 			annotate_lumi_scale(output_dir, lumi_scale=lumi_scale)
 		
@@ -185,7 +186,8 @@ if __name__ == "__main__":
 		
 	# plotting
 	plot_configs.extend(cv_cf_scan_plot_configs)
-	for json in ["exp_limit_over_lumi.json", "exp_obs_limit_over_lumi.json", "exp_obs_pvalue_over_lumi.json"]:
+	for json in ["exp_limit_over_lumi.json", "exp_obs_limit_over_lumi.json",
+	             "exp_pvalue_over_lumi.json", "exp_obs_pvalue_over_lumi.json"]:
 		plot_configs.append({
 				"json_defaults" : [os.path.join("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/", json)],
 				"directories" : [os.path.join(args.output_dir, "13TeV", "lumi_scale_*", "125")],

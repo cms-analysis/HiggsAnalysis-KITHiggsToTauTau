@@ -1,39 +1,75 @@
 {
-    "colors": [
-        "#0000FF",
-        "#000000"
-    ],
-    "files" : [
-    	"higgsCombinePVAL-exp.ProfileLikelihood.mH*.root",
-    	"higgsCombinePVAL-obs.ProfileLikelihood.mH*.root"
-    ],
-    "folders": [
-        "limit_friend"
-    ],
-    "line_styles": [
-    	2,
-    	1
-    ],
-    "markers": [
-        "EL",
-        "EPL"
-    ],
-    "nicks": [
-        "exp",
-        "obs"
-    ],
-    "tree_draw_options": [
-        "TGraph",
-        "TGraph"
-    ],
-    "x_expressions": [
-        "lumi"
-    ],
-    "x_label" : "Lumi Scale Factor",
-    "y_expressions": [
-        "limit"
-    ],
-    "y_label" : "Local p-value",
-    "y_log" : true,
-    "filename" : "exp_obs_pvalue_over_lumi"
+	"analysis_modules": [
+		"AddLine"
+	],
+	"colors": [
+		"#0000FF",
+		"#000000",
+		"#FF0000",
+		"#FF0000",
+		"#FF0000",
+		"#FF0000",
+		"#FF0000"
+	],
+	"files" : [
+		"higgsCombinePVAL-exp.ProfileLikelihood.mH*.root",
+		"higgsCombinePVAL-obs.ProfileLikelihood.mH*.root"
+	],
+	"folders": [
+		"limit_friend"
+	],
+	"line_styles": [
+		2,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1
+	],
+	"markers": [
+		"EL",
+		"EPL",
+		"EL",
+		"EL",
+		"EL",
+		"EL",
+		"EL"
+	],
+	"nicks": [
+		"exp",
+		"obs"
+	],
+	"tree_draw_options": [
+		"TGraph"
+	],
+	"x_expressions": [
+		"lumi"
+	],
+	"x_label" : "Lumi Scale Factor",
+	"x_lims": [
+		0.0,
+		10.0
+	],
+	"x_lines": [
+		"-10.0 10000.0"
+	],
+	"y_expressions": [
+		"limit"
+	],
+	"y_label" : "Local p-value",
+	"y_lims": [
+		1e-8,
+		1.0
+	],
+	"y_lines": [
+		"@ for x in range(5): print \"\"{s} {s}\",\".format(s=ROOT.Math.normal_cdf_c(x+1.0))",
+		"0.158655253931 0.158655253931",
+		"0.0227501319482 0.0227501319482",
+		"0.00134989803163 0.00134989803163",
+		"3.16712418331e-05 3.16712418331e-05",
+		"2.86651571879e-07 2.86651571879e-07"
+	],
+	"y_log" : true,
+	"filename" : "exp_obs_pvalue_over_lumi"
 }
