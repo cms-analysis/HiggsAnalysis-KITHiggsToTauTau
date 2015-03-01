@@ -43,15 +43,15 @@ class PlotRootHtt(plotroot.PlotRoot):
 			if plotData.plotdict["root_objects"][plotData.plotdict["nicks"][0]].GetDimension() == 2:
 				self.canvas.SetRightMargin(0.15)
 
-		if plotData.plotdict["ratio"]:
+		if len(plotData.plotdict["subplot_nicks"]) > 0:
 			plot_ratio_slider_y = 0.35
 			self.canvas.cd()
 			self.plot_pad = ROOT.TPad("plot_pad", "", 0.0, plot_ratio_slider_y, 1.0, 1.0)
-			self.ratio_pad = ROOT.TPad("ratio_pad", "", 0.0, 0.0, 1.0, plot_ratio_slider_y)
+			self.subplot_pad = ROOT.TPad("subplot_pad", "", 0.0, 0.0, 1.0, plot_ratio_slider_y)
 			self.plot_pad.SetNumber(1)
-			self.ratio_pad.SetNumber(2)
+			self.subplot_pad.SetNumber(2)
 			self.plot_pad.Draw()
-			self.ratio_pad.Draw()
+			self.subplot_pad.Draw()
 			ROOT.InitSubPad(self.canvas, 1)
 			ROOT.InitSubPad(self.canvas, 2)
    		
@@ -62,7 +62,6 @@ class PlotRootHtt(plotroot.PlotRoot):
 			root_object = plotData.plotdict["root_objects"][nick]
 			if isinstance(root_object, ROOT.TH1):
 				ROOT.InitHist(root_object, "", "", color, fill_style)
-		# TODO: prepare ratio histograms
 		
 		super(PlotRootHtt, self).prepare_histograms(plotData)
 	
