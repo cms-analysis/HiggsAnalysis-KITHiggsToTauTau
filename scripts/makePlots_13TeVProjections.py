@@ -65,10 +65,10 @@ def do_cv_cf_scan(output_dir, mass="125", print_only=False):
 			logger.subprocessCall(shlex.split(command))
 
 
-def annotate_lumi_scale(output_dir, lumi_scale, print_only=False):
+def annotate_lumi(output_dir, lumi, print_only=False):
 	command = "annotate-trees.py {root_files} --tree limit --values {l} --branches lumi".format(
 		root_files=" ".join(glob.glob(os.path.join(output_dir, "*", "higgsCombine*.root"))),
-		l=lumi_scale
+		l=lumi
 	)
 	log.info(command)
 	if not print_only:
@@ -83,9 +83,9 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Project results to 13TeV conditions.",
 	                                 parents=[logger.loggingParser])
 	
-	parser.add_argument("-l", "--lumi-scales", nargs="+",
-	                    default=[0.1, 0.25, 0.5, 1.0, 2.0, 5.0, 10.0],
-	                    help="Luminosity scale factors. [Default: %(default)s]")
+	parser.add_argument("-l", "--lumis", nargs="+",
+	                    default=[5.0, 10.0, 15.0, 20.0, 50.0, 100.0, 300.0],
+	                    help="Luminosities. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir", default="output/datacards/projection",
 	                    help="Output directory. Contents will be cleaned up. [Default: %(default)s]")
 	parser.add_argument("-p", "--plots-only", default=False, action="store_true",
@@ -125,7 +125,7 @@ if __name__ == "__main__":
 		do_cv_cf_scan(output_dir, print_only=args.print_only)
 		
 		# annotations for plotting
-		annotate_lumi_scale(output_dir, lumi_scale=-1.0, print_only=args.print_only)
+		annotate_lumi(output_dir, lumi=-1.0, print_only=args.print_only)
 	
 	# plotting
 	for json in ["exp_limit_over_mass.json", "exp_obs_limit_over_mass.json",
@@ -162,15 +162,16 @@ if __name__ == "__main__":
 	cv_cf_scan_plot_configs[0]["filename"] = "cv_cf_scan_1sigma_over_lumi_8_13_TeV"
 	cv_cf_scan_plot_configs[1]["filename"] = "cv_cf_scan_1sigma_over_lumi_13_TeV"
 	
-	for lumi_scale in progressiterator.ProgressIterator(args.lumi_scales, description="Process projections"):
-		output_dir = os.path.join(args.output_dir, "13TeV", "lumi_scale_{l}".format(l=lumi_scale))
+	for lumi in progressiterator.ProgressIterator(args.lumis, description="Process projections"):
+		output_dir = os.path.join(args.output_dir, "13TeV", "lumi_{l}".format(l=lumi))
 		if not args.plots_only:
 			clear_output_dir(output_dir, args.print_only)
 		
 			# datacards
-			command = "SMLegacyDatacards --output {output_dir} --asimov --asimov-mass 125 --energy 13 --lumi-scale {l} --masses 125".format(
+			command = "SMLegacyDatacards {channels} --output {output_dir} --asimov --asimov-mass 125 --energy 13 --lumi {l} --masses 125".format(
+					channels=channels,
 					output_dir=output_dir,
-					l=lumi_scale
+					l=lumi
 			)
 			log.info(command)
 			if not args.print_only:
@@ -186,15 +187,15 @@ if __name__ == "__main__":
 			do_cv_cf_scan(output_dir, print_only=args.print_only)
 			
 			# annotations for plotting
-			annotate_lumi_scale(output_dir, lumi_scale=lumi_scale, print_only=args.print_only)
+			annotate_lumi(output_dir, lumi=lumi, print_only=args.print_only)
 		
 		# plotting
 		for cv_cf_scan_plot_config in cv_cf_scan_plot_configs:
 			cv_cf_scan_plot_config.setdefault("directories", []).append(os.path.join(output_dir, "*"))
-			cv_cf_scan_plot_config.setdefault("nicks", []).append("2d_hist_{l}".format(l=lumi_scale))
+			cv_cf_scan_plot_config.setdefault("nicks", []).append("2d_hist_{l}".format(l=lumi))
 			cv_cf_scan_plot_config.setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_config["nicks"][-1])
-			cv_cf_scan_plot_config.setdefault("contour_graph_nicks", []).append("contour_{l}".format(l=lumi_scale))
-			cv_cf_scan_plot_config.setdefault("labels", []).append("lumi scale {l}".format(l=lumi_scale))
+			cv_cf_scan_plot_config.setdefault("contour_graph_nicks", []).append("contour_{l}".format(l=lumi))
+			cv_cf_scan_plot_config.setdefault("labels", []).append("{l}/fb".format(l=lumi))
 		
 	# plotting
 	plot_configs.extend(cv_cf_scan_plot_configs)
@@ -202,7 +203,7 @@ if __name__ == "__main__":
 	             "exp_pvalue_over_lumi.json", "exp_obs_pvalue_over_lumi.json"]:
 		plot_configs.append({
 				"json_defaults" : [os.path.join("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/", json)],
-				"directories" : [os.path.join(args.output_dir, "13TeV", "lumi_scale_*", "125")],
+				"directories" : [os.path.join(args.output_dir, "13TeV", "lumi_*", "125")],
 				"output_dir" : os.path.join(args.output_dir, "13TeV", "plots"),
 		})
 	
