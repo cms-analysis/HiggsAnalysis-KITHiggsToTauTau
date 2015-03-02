@@ -46,7 +46,7 @@ def do_p_values(output_dir, print_only=False):
 			logger.subprocessCall(shlex.split(command))
 
 def do_cv_cf_scan(output_dir, mass="125", print_only=False):
-	command = "submit.py --interactive --stable-new --multidim-fit --physics-model cV-cF --points 400 {datacards}".format(
+	command = "submit.py --interactive --stable-new --multidim-fit --physics-model cV-cF --points 900 {datacards}".format(
 		datacards=os.path.join(output_dir, mass)
 	)
 	log.info(command)
@@ -100,6 +100,8 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	channels = "--channels mt --channels et --channels tt --channels em --channels ee --channels mm"
+	
 	plot_configs = []
 	
 	# 8TeV results
@@ -108,7 +110,8 @@ if __name__ == "__main__":
 		clear_output_dir(output_dir, args.print_only)
 		
 		# datacards
-		command = "SMLegacyDatacards --output {output_dir} --asimov --asimov-mass 125".format(
+		command = "SMLegacyDatacards {channels} --output {output_dir} --asimov --asimov-mass 125".format(
+				channels=channels,
 				output_dir=output_dir
 		)
 		log.info(command)
