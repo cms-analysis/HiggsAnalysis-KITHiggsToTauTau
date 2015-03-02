@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 	vector<string> eras = {"8TeV"}; // {"7TeV", "8TeV"}
 	vector<string> chns = {"mt"}; // {"et", "mt", "em", "ee", "mm", "tt"}
 	vector<string> masses = ch::MassesFromRange("110-145:5");
-	float lumiScale = 1.0;
+	float lumi = 0.0;
 	string energy = "8";
 	bool asimovDataset = false;
 	string asimovDatasetMass = "125";
@@ -35,8 +35,8 @@ int main(int argc, char* argv[]) {
 		"Channels")
 		("masses,m", boost::program_options::value<std::vector<string> >(&masses)->default_value(masses, ""),
 		"Higgs masses")
-		("lumi-scale,l", boost::program_options::value<float>(&lumiScale)->default_value(lumiScale),
-		"Scale factor for integrated luminosity [Default: 1.0]")
+		("lumi,l", boost::program_options::value<float>(&lumi)->default_value(lumi),
+		"Scale integrated luminosity to specified value [Default: no scaling]")
 		("energy,e", boost::program_options::value<string>(&energy)->default_value(energy),
 		"Center-of-mass energy (in TeV) to scale cross sections to [Default: \"8\"]")
 		("asimov,a", boost::program_options::value<bool>(&asimovDataset)->default_value(asimovDataset)->implicit_value(true),
@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
 		cout << m << " ";
 	}
 	cout << endl;
-	cout << ">>>> lumiScale: " << lumiScale << endl;
+	cout << ">>>> lumi: " << lumi << endl;
 	cout << ">>>> energy: " << energy << endl;
 	cout << ">>>> asimovDataset: " << (asimovDataset ? "true" : "false") << endl;
 	cout << ">>>> asimovDatasetMass: " << asimovDatasetMass << endl;
@@ -91,6 +91,15 @@ int main(int argc, char* argv[]) {
 	string aux_shapes   = auxiliaries +"shapes/";
 	string aux_pruning  = auxiliaries +"pruning/";
 
+	map<string, float> lumis8TeV = {
+			{"et", 19.7},
+			{"mt", 19.7},
+			{"em", 19.7},
+			{"ee", 19.7},
+			{"mm", 19.7},
+			{"tt", 18.4}
+	};
+	
 	map<string, string> input_folders = {
 			{"et", "Imperial"},
 			{"mt", "Imperial"},
@@ -215,10 +224,14 @@ int main(int argc, char* argv[]) {
 	}
 	ch::ParseTable(&xs, xsecs_dir+"hww_over_htt.txt", {"hww_over_htt"});
 	for (string const& e : eras) {
+		string dstEra = e;
+		if (e != "7TeV") {
+			dstEra = energy+"TeV";
+		}
 		for (string const& p : {"ggH", "qqH"}) {
-		 cb.cp().channel({"em"}).process({p+"_hww125"}).era({e})
+		 cb.cp().channel({"em"}).process({p+"_hww125"}).era({dstEra})
 			 .ForEachProc([&](ch::Process *proc) {
-				 ch::ScaleProcessRate(proc, &xs, p+"_"+e, "htt", "125");
+				 ch::ScaleProcessRate(proc, &xs, p+"_"+dstEra, "htt", "125");
 				 ch::ScaleProcessRate(proc, &xs, "hww_over_htt", "", "125");
 			});
 		}
@@ -226,26 +239,27 @@ int main(int argc, char* argv[]) {
 	
 	if (boost::lexical_cast<float>(energy) > 8.0) {
 		cout << ">> Scaling 8TeV background process rates to " << energy << "TeV cross sections...\n";
-		map<string, double> xsRatios;
-		ch::ParseTable(&xsRatios, xsecs_dir+"sm_"+energy+"TeV_over_8TeV.txt");
+		//map<string, double> xsRatios;
+		//ch::ParseTable(&xsRatios, xsecs_dir+"sm_"+energy+"TeV_over_8TeV.txt");
+		// scale factors taken from https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau/blob/master/scripts/scaleTo14TeV.py#L18-L30
 		cb.cp().era({"8TeV"}).process({"ZTT", "ZL", "ZJ", "Ztt", "ZEE", "ZMM"}).ForEachProc([&](ch::Process *proc) {
-			proc->set_rate(proc->rate() * xsRatios["Z(->ll)"]);
+			proc->set_rate(proc->rate() * 2.02904/1.14951);
 		});
 		cb.cp().era({"8TeV"}).process({"TT", "ttbar", "TTJ"}).ForEachProc([&](ch::Process *proc) {
-			proc->set_rate(proc->rate() * xsRatios["tt"]);
+			proc->set_rate(proc->rate() * 5.59001/1.42982);
 		});
 		cb.cp().era({"8TeV"}).process({"W", "WJets"}).ForEachProc([&](ch::Process *proc) {
-			proc->set_rate(proc->rate() * xsRatios["W(->lnu)"]);
+			proc->set_rate(proc->rate() * 2.09545/1.15786);
 		});
 		cb.cp().era({"8TeV"}).process({"VV", "EWK", "Dibosons"}).ForEachProc([&](ch::Process *proc) {
-			proc->set_rate(proc->rate() * (xsRatios["WW"]+xsRatios["WZ"]+xsRatios["ZZ"]) / 3.0);
+			proc->set_rate(proc->rate() * (2.79381/1.23344+2.62549/1.21510+2.64949/1.21944) / 3.0);
 		});
 		cb.cp().era({"8TeV"}).process({"QCD", "Fakes"}).ForEachProc([&](ch::Process *proc) {
-			proc->set_rate(proc->rate() * xsRatios["sq"]);
+			proc->set_rate(proc->rate() * 3.0);
 		});
 	}
 	
-	if (lumiScale != 1.0) {
+	if (lumi > 0.0) {
 		cout << ">> Scaling luminosity for all 8TeV signal and background processes ...\n";
 		for (string const& era : eras) {
 			if (era == "7TeV") {
@@ -253,12 +267,12 @@ int main(int argc, char* argv[]) {
 			}
 			for (string const& chn : chns) {
 				cb.cp().channel({chn}).era({era}).backgrounds().ForEachProc([&](ch::Process *proc) {
-					proc->set_rate(proc->rate() * lumiScale);
+					proc->set_rate(proc->rate() * lumi / lumis8TeV[chn]);
 				});
 			}
 			for (string const& chn : chns) {
 				cb.cp().channel({chn}).era({era}).signals().ForEachProc([&](ch::Process *proc) {
-					proc->set_rate(proc->rate() * lumiScale);
+					proc->set_rate(proc->rate() * lumi / lumis8TeV[chn]);
 				});
 			}
 		}

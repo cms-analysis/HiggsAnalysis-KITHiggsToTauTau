@@ -68,7 +68,7 @@
         "0:lumi",
         "0:lumi"
     ],
-    "x_label" : "Lumi Scale Factor",
+    "x_label" : "Integrated Luminosity / fb",
     "y_expressions": [
         "limit",
         "0:limit",
