@@ -20,51 +20,59 @@ import Artus.Utility.progressiterator as progressiterator
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 
-def clear_output_dir(output_dir):
+def clear_output_dir(output_dir, print_only=False):
 	if os.path.exists(output_dir):
 		command = "rm -rfv {o}".format(o=output_dir)
 		log.info(command)
-		logger.subprocessCall(shlex.split(command))
-	os.makedirs(output_dir)
+		if not print_only:
+			logger.subprocessCall(shlex.split(command))
+	if not print_only:
+		os.makedirs(output_dir)
 
-def do_limits(output_dir):
+def do_limits(output_dir, print_only=False):
 	command = "submit.py --interactive --stable-new --asymptotic {datacards}".format(
 		datacards=os.path.join(output_dir, "*")
 	)
 	log.info(command)
-	logger.subprocessCall(shlex.split(command))
+	if not print_only:
+			logger.subprocessCall(shlex.split(command))
 
-def do_p_values(output_dir):
+def do_p_values(output_dir, print_only=False):
 	command = "submit.py --interactive --stable-new --pvalue-frequentist {datacards}".format(
 		datacards=os.path.join(output_dir, "*")
 	)
 	log.info(command)
-	logger.subprocessCall(shlex.split(command))
+	if not print_only:
+			logger.subprocessCall(shlex.split(command))
 
-def do_cv_cf_scan(output_dir, mass="125"):
+def do_cv_cf_scan(output_dir, mass="125", print_only=False):
 	command = "submit.py --interactive --stable-new --multidim-fit --physics-model cV-cF --points 400 {datacards}".format(
 		datacards=os.path.join(output_dir, mass)
 	)
 	log.info(command)
-	logger.subprocessCall(shlex.split(command))
+	if not print_only:
+			logger.subprocessCall(shlex.split(command))
 	
 	command = command.replace("submit.py --interactive", "limit.py --algo grid")
 	log.info(command)
-	logger.subprocessCall(shlex.split(command))
+	if not print_only:
+			logger.subprocessCall(shlex.split(command))
 	
 	command = "rm -rfv {dirs} log/".format(dirs=" ".join(glob.glob("*CV-CF-{mass}/".format(mass=mass)))
 	)
 	log.info(command)
-	logger.subprocessCall(shlex.split(command))
+	if not print_only:
+			logger.subprocessCall(shlex.split(command))
 
 
-def annotate_lumi_scale(output_dir, lumi_scale):
+def annotate_lumi_scale(output_dir, lumi_scale, print_only=False):
 	command = "annotate-trees.py {root_files} --tree limit --values {l} --branches lumi".format(
 		root_files=" ".join(glob.glob(os.path.join(output_dir, "*", "higgsCombine*.root"))),
 		l=lumi_scale
 	)
 	log.info(command)
-	logger.subprocessCall(shlex.split(command))
+	if not print_only:
+			logger.subprocessCall(shlex.split(command))
 
 
 	
@@ -82,6 +90,8 @@ if __name__ == "__main__":
 	                    help="Output directory. Contents will be cleaned up. [Default: %(default)s]")
 	parser.add_argument("-p", "--plots-only", default=False, action="store_true",
 	                    help="Do only the plotting assuming the ROOT files are only created. [Default: %(default)s]")
+	parser.add_argument("--print-only", default=False, action="store_true",
+	                    help="Print only the commands to be executed. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -95,26 +105,27 @@ if __name__ == "__main__":
 	# 8TeV results
 	output_dir = os.path.join(args.output_dir, "8TeV")
 	if not args.plots_only:
-		clear_output_dir(output_dir)
+		clear_output_dir(output_dir, args.print_only)
 		
 		# datacards
 		command = "SMLegacyDatacards --output {output_dir} --asimov --asimov-mass 125".format(
 				output_dir=output_dir
 		)
 		log.info(command)
-		logger.subprocessCall(shlex.split(command))
+		if not args.print_only:
+			logger.subprocessCall(shlex.split(command))
 		
 		# limits
-		do_limits(output_dir)
+		do_limits(output_dir, args.print_only)
 		
 		# p-values
-		do_p_values(output_dir)
+		do_p_values(output_dir, args.print_only)
 		
 		# cV-cF scan
-		do_cv_cf_scan(output_dir)
+		do_cv_cf_scan(output_dir, print_only=args.print_only)
 		
 		# annotations for plotting
-		annotate_lumi_scale(output_dir, lumi_scale=-1.0)
+		annotate_lumi_scale(output_dir, lumi_scale=-1.0, print_only=args.print_only)
 	
 	# plotting
 	for json in ["exp_limit_over_mass.json", "exp_obs_limit_over_mass.json",
@@ -154,7 +165,7 @@ if __name__ == "__main__":
 	for lumi_scale in progressiterator.ProgressIterator(args.lumi_scales, description="Process projections"):
 		output_dir = os.path.join(args.output_dir, "13TeV", "lumi_scale_{l}".format(l=lumi_scale))
 		if not args.plots_only:
-			clear_output_dir(output_dir)
+			clear_output_dir(output_dir, args.print_only)
 		
 			# datacards
 			command = "SMLegacyDatacards --output {output_dir} --asimov --asimov-mass 125 --energy 13 --lumi-scale {l} --masses 125".format(
@@ -162,19 +173,20 @@ if __name__ == "__main__":
 					l=lumi_scale
 			)
 			log.info(command)
-			logger.subprocessCall(shlex.split(command))
+			if not args.print_only:
+				logger.subprocessCall(shlex.split(command))
 			
 			# limits
-			do_limits(output_dir)
+			do_limits(output_dir, args.print_only)
 			
 			# p-values
-			do_p_values(output_dir)
+			do_p_values(output_dir, args.print_only)
 			
 			# cV-cF scan
-			do_cv_cf_scan(output_dir)
+			do_cv_cf_scan(output_dir, print_only=args.print_only)
 			
 			# annotations for plotting
-			annotate_lumi_scale(output_dir, lumi_scale=lumi_scale)
+			annotate_lumi_scale(output_dir, lumi_scale=lumi_scale, print_only=args.print_only)
 		
 		# plotting
 		for cv_cf_scan_plot_config in cv_cf_scan_plot_configs:
@@ -194,5 +206,6 @@ if __name__ == "__main__":
 				"output_dir" : os.path.join(args.output_dir, "13TeV", "plots"),
 		})
 	
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
+	if not args.print_only:
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
 	

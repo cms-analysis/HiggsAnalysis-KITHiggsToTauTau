@@ -1,0 +1,26 @@
+{
+    "files" : [
+    	"higgsCombine-*.Asymptotic.mH*.root"
+    ],
+    "folders": [
+        "limit"
+    ],
+    "markers": [
+        "L"
+    ],
+    "tree_draw_options": [
+        "TGraph"
+    ],
+    "weights": [
+        "quantileExpected>0.2 && quantileExpected<0.8"
+    ],
+    "x_expressions": [
+        "mh"
+    ],
+    "x_label" : "m_{H} / GeV",
+    "y_expressions": [
+        "limit"
+    ],
+    "y_label" : "95% CL Limit on #sigma/#sigma_{SM}",
+    "filename" : "exp_limit_over_mass_without_band"
+}
