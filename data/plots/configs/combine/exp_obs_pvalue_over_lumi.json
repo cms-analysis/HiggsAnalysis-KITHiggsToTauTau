@@ -48,8 +48,8 @@
 	],
 	"x_label" : "Integrated Luminosity / fb",
 	"x_lims": [
-		0.0,
-		100.0
+		4.0,
+		21.0
 	],
 	"x_lines": [
 		"-10.0 10000.0"
@@ -59,7 +59,7 @@
 	],
 	"y_label" : "Local p-value",
 	"y_lims": [
-		1e-15,
+		1e-10,
 		1.0
 	],
 	"y_lines": [
