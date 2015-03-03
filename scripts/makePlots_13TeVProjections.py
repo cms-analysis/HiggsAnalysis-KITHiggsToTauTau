@@ -150,7 +150,7 @@ if __name__ == "__main__":
 	cv_cf_scan_plot_configs[0].setdefault("nicks", []).append("2d_hist_8TeV")
 	cv_cf_scan_plot_configs[0].setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_configs[0]["nicks"][-1])
 	cv_cf_scan_plot_configs[0].setdefault("contour_graph_nicks", []).append("contour_8TeV")
-	cv_cf_scan_plot_configs[0].setdefault("labels", []).append("8 TeV")
+	cv_cf_scan_plot_configs[0].setdefault("labels", []).append(" 8 TeV, 20/fb")
 	cv_cf_scan_plot_configs[0]["colors"] = [
 		"#FF0000",
 		"#99CCFF",
@@ -198,8 +198,8 @@ if __name__ == "__main__":
 			cv_cf_scan_plot_config.setdefault("nicks", []).append("2d_hist_{l}".format(l=lumi))
 			cv_cf_scan_plot_config.setdefault("2d_histogram_nicks", []).append(cv_cf_scan_plot_config["nicks"][-1])
 			cv_cf_scan_plot_config.setdefault("contour_graph_nicks", []).append("contour_{l}".format(l=lumi))
-			cv_cf_scan_plot_config.setdefault("labels", []).append("{l}/fb".format(l=lumi))
-		
+			cv_cf_scan_plot_config.setdefault("labels", []).append("13TeV, {l}/fb".format(l=lumi))
+	
 	# plotting
 	plot_configs.extend(cv_cf_scan_plot_configs)
 	for json in ["exp_limit_over_lumi.json", "exp_obs_limit_over_lumi.json",
