@@ -22,7 +22,8 @@ class Sample(object):
 		for sample in samples:
 			config = sample(config, channel, category, **kwargs)
 		
-		config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
+		if not category is None:
+			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
 		
 		config.setdefault("analysis_modules", []).append("@CorrectNegativeBinContents")
 		config.setdefault("analysis_modules", []).append("PrintInfos")
