@@ -1,0 +1,29 @@
+{
+	"RecoTauGenTauJetMatch" : {
+		"Quantities" : [
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:RecoTauGenTauJetMatchingProducer",
+					"filter:ValidTausFilter",
+					"producer:DecayChannelProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"KappaTausConsumer"
+		],
+		
+		"DeltaRMatchingRecoTauGenTauJet" : 0.3,
+		"InvalidateNonGenTauJetMatchingRecoTaus" : false,
+		
+		"BranchGenMatchedElectrons" : true,
+		"BranchGenMatchedMuons" : true,
+		"BranchGenMatchedTaus" : true,
+		"BranchGenMatchedJets" : true,
+		
+		"EventWeight" : "eventWeight"
+	}
+}

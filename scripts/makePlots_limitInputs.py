@@ -151,9 +151,10 @@ if __name__ == "__main__":
 					json_configs = [os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))]
 					if not os.path.exists(json_configs[0]):
 						json_exists = False
-						json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
-					json_defaults = jsonTools.JsonDict([os.path.expandvars(json_file) for json_file in json_configs]).doIncludes().doComments()
-					json_defaults += config
+						#json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
+					json_defaults = config
+					if json_exists:
+						json_defaults += jsonTools.JsonDict([os.path.expandvars(json_file) for json_file in json_configs]).doIncludes().doComments()
 				
 					if not category is None:
 						json_defaults["output_dir"] = os.path.join(json_defaults.setdefault("output_dir", "plots"), category)
