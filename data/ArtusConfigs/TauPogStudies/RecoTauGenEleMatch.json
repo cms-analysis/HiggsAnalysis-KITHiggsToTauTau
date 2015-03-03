@@ -1,0 +1,34 @@
+{
+	"RecoTauGenEleMatch" : {
+		"Quantities" : [
+			"ratioGenParticleMatched",
+			"genParticleMatchDeltaR"
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:RecoTauGenParticleMatchingProducer",
+					"filter:ValidTausFilter",
+					"producer:DecayChannelProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"KappaTausConsumer"
+		],
+		
+		"RecoTauMatchingGenParticlePdgIds" : [
+			11
+		],
+		"DeltaRMatchingRecoTauGenParticle" : 0.3,
+		"InvalidateNonGenParticleMatchingRecoTaus" : false,
+		
+		"BranchGenMatchedElectrons" : true,
+		"BranchGenMatchedMuons" : true,
+		"BranchGenMatchedTaus" : true,
+		"BranchGenMatchedJets" : true,
+		
+		"EventWeight" : "eventWeight"
+	}
+}
