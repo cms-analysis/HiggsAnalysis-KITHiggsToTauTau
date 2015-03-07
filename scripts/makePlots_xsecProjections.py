@@ -34,19 +34,19 @@ if __name__ == "__main__":
 	plot_configs = []
 	
 	backgrounds = [
-		["DY", 3503.7, 3503.7*2.02904/1.14951],
+		["QCD", 1.0, 1.0*3.0], # TODO: 1.0 is just a dummy value
 		["tt", 245.2585, 245.2585*5.59001/1.42982],
+		["DY", 3503.7, 3503.7*2.02904/1.14951],
 		["W", 36257, 36257*2.09545/1.15786],
 		["WW", 57.0, 57.0*2.62549/1.21510],
 		["WZ", 32.0, 32.0*2.79381/1.23344],
 		["ZZ", 8.3, 8.3*2.64949/1.21944],
-		["QCD", 1.0, 1.0*3.0], # TODO: 1.0 is just a dummy value
 	]
 	signals = [
-		["ggH (125)", 15.13, 43.92],
-		["qqH (125)", 1.578, 3.748],
-		["ZH (125)", 0.4153, 0.8696],
-		["WH (125)", 0.7046, 1.380],
+		["ggH", 15.13, 43.92],
+		["qqH", 1.578, 3.748],
+		["ZH", 0.4153, 0.8696],
+		["WH", 0.7046, 1.380],
 	]
 	
 	plot_configs.append({
@@ -129,12 +129,13 @@ if __name__ == "__main__":
 	plot_configs[-1]["nicks_whitelist"] = ["divide"]
 	plot_configs[-1]["filename"] = "xsecs_13TeV_over_8TeV_2"
 	plot_configs[-1]["y_log"] = False
-	plot_configs[-1]["y_lims"] = [1.4, 4.4]
+	plot_configs[-1]["y_lims"] = [1.0, 4.4]
 	plot_configs[-1]["legend"] = None
 	plot_configs[-1]["markers"] = ["bar"]
 	plot_configs[-1]["y_label"] = "#sigma_{13 TeV} / #sigma_{8 TeV}"
-	plot_configs[-1]["labels"] = ["Backgrounds"]
-	plot_configs[-1]["legend"] = [0.6, 0.6]
+	plot_configs[-1]["labels"] = [""]
+	plot_configs[-1]["legend"] = [0.75, 0.7]
+	plot_configs[-1]["title"] = "m_{H} = 125 GeV"
 	plot_configs[-1]["colors"] = [
 		"kBlack",
 		"#00a88f",

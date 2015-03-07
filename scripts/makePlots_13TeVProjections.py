@@ -152,15 +152,11 @@ if __name__ == "__main__":
 	cv_cf_scan_plot_configs[0].setdefault("contour_graph_nicks", []).append("contour_8TeV")
 	cv_cf_scan_plot_configs[0].setdefault("labels", []).append(" 8 TeV, 20/fb")
 	cv_cf_scan_plot_configs[0]["colors"] = [
-		"#FF0000",
-		"#99CCFF",
-		"#66CCFF",
-		"#3399FF",
-		"#3366FF",
-		"#0000FF",
-		"#0000CC",
-		"#000099",
-		"#000066"
+		"#bf2229",
+		"#b2e4d1",
+		"#7fd2b8",
+		"#4cc1a5",
+		"#00a88f"
 	]
 	cv_cf_scan_plot_configs[0]["filename"] = "cv_cf_scan_1sigma_over_lumi_8_13_TeV"
 	cv_cf_scan_plot_configs[1]["filename"] = "cv_cf_scan_1sigma_over_lumi_13_TeV"
