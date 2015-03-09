@@ -4,14 +4,14 @@
 #include "Artus/Utility/interface/Utility.h"
 
 
-SvfitEventKey::SvfitEventKey(int const& run, int const& lumi, int const& event,
+SvfitEventKey::SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
                              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
                              IntegrationMethod const& integrationMethod)
 {
 	Set(run, lumi, event, systematicShift, systematicShiftSigma, integrationMethod);
 }
 
-void SvfitEventKey::Set(int const& run, int const& lumi, int const& event,
+void SvfitEventKey::Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
                         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
                         IntegrationMethod const& integrationMethod)
 {
@@ -35,9 +35,9 @@ SvfitEventKey::IntegrationMethod SvfitEventKey::GetIntegrationMethod() const
 
 void SvfitEventKey::CreateBranches(TTree* tree)
 {
-	tree->Branch("run", &run);
-	tree->Branch("lumi", &lumi);
-	tree->Branch("event", &event);
+	tree->Branch("run", &run, "run/l");
+	tree->Branch("lumi", &lumi, "lumi/l");
+	tree->Branch("event", &event, "event/l");
 	tree->Branch("systematicShift", &systematicShift);
 	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("integrationMethod", &integrationMethod);
@@ -345,8 +345,8 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		
 		SvfitEventKey svfitEventKey;
 		svfitEventKey.SetBranchAddresses(svfitCacheInputTree);
-		for (int svfitCacheInputTreeIndex = 0;
-		     svfitCacheInputTreeIndex < svfitCacheInputTree->GetEntries();
+		for (uint64_t svfitCacheInputTreeIndex = 0;
+		     svfitCacheInputTreeIndex < uint64_t(svfitCacheInputTree->GetEntries());
 		     ++svfitCacheInputTreeIndex)
 		{
 			svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
