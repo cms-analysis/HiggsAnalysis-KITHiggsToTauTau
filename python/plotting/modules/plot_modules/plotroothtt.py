@@ -36,25 +36,28 @@ class PlotRootHtt(plotroot.PlotRoot):
 		os.chdir(cwd)
 	
 	def create_canvas(self, plotData):
-		self.canvas = ROOT.MakeCanvas("canvas", "")
+		canvas = ROOT.MakeCanvas("canvas", "")
+		plot_pad = None
+		subplot_pad = None
 
 		#Modify right side margin for 2d-plots
 		if not isinstance(plotData.plotdict["root_objects"][plotData.plotdict["nicks"][0]], ROOT.TGraph):
 			if plotData.plotdict["root_objects"][plotData.plotdict["nicks"][0]].GetDimension() == 2:
-				self.canvas.SetRightMargin(0.15)
+				canvas.SetRightMargin(0.15)
 
 		if len(plotData.plotdict["subplot_nicks"]) > 0:
-			self.plot_subplot_slider_y = 0.35
-			self.canvas.cd()
-			self.plot_pad = ROOT.TPad("plot_pad", "", 0.0, self.plot_subplot_slider_y, 1.0, 1.0)
-			self.subplot_pad = ROOT.TPad("subplot_pad", "", 0.0, 0.0, 1.0, self.plot_subplot_slider_y)
-			self.plot_pad.SetNumber(1)
-			self.subplot_pad.SetNumber(2)
-			self.plot_pad.Draw()
-			self.subplot_pad.Draw()
-			ROOT.InitSubPad(self.canvas, 1)
-			ROOT.InitSubPad(self.canvas, 2)
+			plot_subplot_slider_y = 0.35
+			canvas.cd()
+			plot_pad = ROOT.TPad("plot_pad", "", 0.0, self.plot_subplot_slider_y, 1.0, 1.0)
+			subplot_pad = ROOT.TPad("subplot_pad", "", 0.0, 0.0, 1.0, self.plot_subplot_slider_y)
+			plot_pad.SetNumber(1)
+			subplot_pad.SetNumber(2)
+			plot_pad.Draw()
+			subplot_pad.Draw()
+			ROOT.InitSubPad(canvas, 1)
+			ROOT.InitSubPad(canvas, 2)
    		
+		plotData.plot = plotroot.RootPlotContainer(canvas, plot_pad, subplot_pad)
 		super(PlotRootHtt, self).create_canvas(plotData)
 
 	def prepare_histograms(self, plotData):
