@@ -20,5 +20,6 @@
 			"Run2012" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/FT_53_V21_AN4__All_Uncertainty_AK5PF.txt"
 		}
 	},
+	"#JetEnergyCorrectionUncertaintySource" : "Total",
 	"JetEnergyCorrectionUncertaintyShift" : 0.0
 }

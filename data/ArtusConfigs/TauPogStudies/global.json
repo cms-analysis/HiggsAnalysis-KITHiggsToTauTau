@@ -4,24 +4,12 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json"
 	],
 	
-	"GetTauJets" : "genTauJets",
+	"GenTauJets" : "tauGenJets",
 	
 	"Processors" : {
 		"nick" : {
 			"default" : [
-				"producer:ValidElectronsProducer",
-				"producer:ValidMuonsProducer",
 				"producer:ValidTausProducer",
-				"producer:RecoElectronGenParticleMatchingProducer",
-				"producer:RecoElectronGenTauMatchingProducer",
-				"#producer:RecoElectronGenTauJetMatchingProducer",
-				"producer:RecoMuonGenParticleMatchingProducer",
-				"producer:RecoMuonGenTauMatchingProducer",
-				"#producer:RecoMuonGenTauJetMatchingProducer",
-				"producer:RecoTauGenParticleMatchingProducer",
-				"producer:RecoTauGenTauMatchingProducer",
-				"#producer:RecoTauGenTauJetMatchingProducer",
-				"producer:RecoJetGenParticleMatchingProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
@@ -40,5 +28,12 @@
 	"MuonIso" : "None",
 	"MuonIsoType" : "None",
 	
+	"TauLowerPtCuts" : [
+		"20.0"
+	],
+	"TauUpperAbsEtaCuts" : [
+		"2.3"
+	],
+
 	"DirectIso" : true
 }

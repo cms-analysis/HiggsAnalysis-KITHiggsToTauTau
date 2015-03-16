@@ -1,6 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
+import logging
+import Artus.Utility.logger as logger
+log = logging.getLogger(__name__)
+
 import copy
 
 
@@ -46,7 +50,7 @@ class SystematicShiftBase(object):
 		return False
 	
 	@staticmethod
-	def add_wjets():
+	def add_wj():
 		return False
 	
 	@staticmethod
@@ -96,7 +100,7 @@ class Nominal(SystematicShiftBase):
 		return True
 	
 	@staticmethod
-	def add_wjets():
+	def add_wj():
 		return True
 	
 	@staticmethod

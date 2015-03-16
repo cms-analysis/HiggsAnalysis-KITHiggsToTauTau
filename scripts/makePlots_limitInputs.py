@@ -17,7 +17,7 @@ from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
 import Artus.Utility.jsonTools as jsonTools
 import Artus.Utility.tools as tools
 
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.mt as mt
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.quantities as quantities
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics as systematics
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--root-output", default="htt.inputs-sm-8TeV.root",
 	                    help="Merged ROOT output. [Default: %(default)s]")
 	parser.add_argument("--channels", nargs="*",
-	                    default=["mt"], choices=["mt"],
+	                    default=["mt"], choices=["et", "mt", "em"],
 	                    #default=["tt", "mt", "et", "em", "mm", "ee"], # other channels currently not supported
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="*",
@@ -104,42 +104,57 @@ if __name__ == "__main__":
 	systematic_shifts += [(systematics.TauEsSystematic, "CMS_scale_t_%s_8TeV", shift) for shift in args["tau_es_shifts"] if shift != 0.0]
 	systematic_shifts += [(systematics.SvfitMassSystematic, "CMS_htt_ZLScale_%s_8TeV", shift) for shift in args["svfit_mass_shifts"] if shift != 0.0]
 	
+	sample_settings = samples.Sample()
 	for uncertainty, name, shift in systematic_shifts:
-		
+		list_of_samples = []
+		if uncertainty.add_data():
+			list_of_samples.append(samples.Sample.data)
+		if uncertainty.add_ztt():
+			list_of_samples.append(samples.Sample.ztt)
+		if uncertainty.add_zl():
+			list_of_samples.append(samples.Sample.zl)
+		if uncertainty.add_zj():
+			list_of_samples.append(samples.Sample.zj)
+		if uncertainty.add_ttj():
+			list_of_samples.append(samples.Sample.ttj)
+		if uncertainty.add_vv():
+			list_of_samples.append(samples.Sample.vv)
+		if uncertainty.add_wj():
+			list_of_samples.append(samples.Sample.wj)
+		if uncertainty.add_qcd():
+			list_of_samples.append(samples.Sample.qcd)
+		if uncertainty.add_ggh():
+			list_of_samples.append(samples.Sample.ggh)
+		if uncertainty.add_qqh():
+			list_of_samples.append(samples.Sample.qqh)
+		if uncertainty.add_vh():
+			list_of_samples.append(samples.Sample.vh)
+			
 		for channel in args["channels"]:
 			if "%s" in name:
 				name = name % channel_renamings.get(channel, channel)
-		
-			channel_settings = mt.MT(add_data=uncertainty.add_data(),
-			                         add_ztt=uncertainty.add_ztt(),
-			                         add_zl=uncertainty.add_zl(),
-			                         add_zj=uncertainty.add_zj(),
-			                         add_ttj=uncertainty.add_ttj(),
-			                         add_diboson=uncertainty.add_vv(),
-			                         add_wjets=uncertainty.add_wjets(),
-			                         add_qcd=uncertainty.add_qcd(),
-			                         add_ggh_signal=args["higgs_masses"] if uncertainty.add_ggh() else [],
-			                         add_vbf_signal=args["higgs_masses"] if uncertainty.add_qqh() else [],
-			                         add_vh_signal=args["higgs_masses"] if uncertainty.add_vh() else []) if channel == "mt" else None
 			
 			for category in args["categories"]:
 				if category == "None":
 					category = None
-			
-				config = channel_settings.get_config(category=category) if channel == "mt" else jsonTools.JsonDict()
+				
+				config = sample_settings.get_config(
+						samples=list_of_samples,
+						channel=channel,
+						category=category,
+						higgs_masses=args["higgs_masses"],
+						normalise_signal_to_one_pb=True
+				)
 			
 				for quantity in args["quantities"]:
 					json_exists = True
-					json_configs = [
-						os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity)),
-						os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/%s.json" % (channel))
-					] if channel != "mt" else [os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))]
+					json_configs = [os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))]
 					if not os.path.exists(json_configs[0]):
 						json_exists = False
-						json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
-					json_defaults = jsonTools.JsonDict([os.path.expandvars(json_file) for json_file in json_configs]).doIncludes().doComments()
-					if channel == "mt":
-						json_defaults += config
+						#json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
+					json_defaults = config
+					if json_exists:
+						json_defaults += jsonTools.JsonDict([os.path.expandvars(json_file) for json_file in json_configs]).doIncludes().doComments()
 				
 					if not category is None:
 						json_defaults["output_dir"] = os.path.join(json_defaults.setdefault("output_dir", "plots"), category)

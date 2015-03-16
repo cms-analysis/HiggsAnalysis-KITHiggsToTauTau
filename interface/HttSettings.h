@@ -27,12 +27,12 @@ public:
 	
 	IMPL_SETTING(bool, OSChargeLeptons);
 	
-	IMPL_SETTING_STRINGLIST(TriggerEfficiencyData);
-	IMPL_SETTING_STRINGLIST(TriggerEfficiencyMc);
+	IMPL_SETTING_STRINGLIST_DEFAULT(TriggerEfficiencyData, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(TriggerEfficiencyMc, {});
 	IMPL_SETTING_DEFAULT(std::string, TriggerEfficiencyHistogram, "triggerEfficiency");
 	
-	IMPL_SETTING_STRINGLIST(IdentificationEfficiencyData);
-	IMPL_SETTING_STRINGLIST(IdentificationEfficiencyMc);
+	IMPL_SETTING_STRINGLIST_DEFAULT(IdentificationEfficiencyData, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(IdentificationEfficiencyMc, {});
 	IMPL_SETTING_DEFAULT(std::string, IdentificationEfficiencyHistogram, "identificationEfficiency");
 	
 	IMPL_SETTING(std::string, ElectronIDType);
@@ -102,10 +102,10 @@ public:
 	IMPL_SETTING_DEFAULT(float, LooseMuonTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseMuonTrackDzCut, -1.0);
 	
-	IMPL_SETTING_STRINGLIST(LooseElectronLowerPtCuts);
-	IMPL_SETTING_STRINGLIST(LooseMuonLowerPtCuts);
-	IMPL_SETTING_STRINGLIST(LooseElectronUpperAbsEtaCuts);
-	IMPL_SETTING_STRINGLIST(LooseMuonUpperAbsEtaCuts);
+	IMPL_SETTING_STRINGLIST_DEFAULT(LooseElectronLowerPtCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(LooseMuonLowerPtCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(LooseElectronUpperAbsEtaCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(LooseMuonUpperAbsEtaCuts, {});
 	
 	IMPL_SETTING(std::string, VetoElectronID);
 	IMPL_SETTING(std::string, VetoElectronIDType);
@@ -125,10 +125,10 @@ public:
 	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtUpperThresholdEB);
 	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtUpperThresholdEE);
 	
-	IMPL_SETTING_STRINGLIST(VetoElectronLowerPtCuts);
-	IMPL_SETTING_STRINGLIST(VetoMuonLowerPtCuts);
-	IMPL_SETTING_STRINGLIST(VetoElectronUpperAbsEtaCuts);
-	IMPL_SETTING_STRINGLIST(VetoMuonUpperAbsEtaCuts);
+	IMPL_SETTING_STRINGLIST_DEFAULT(VetoElectronLowerPtCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(VetoMuonLowerPtCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(VetoElectronUpperAbsEtaCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(VetoMuonUpperAbsEtaCuts, {});
 	
 	IMPL_SETTING(std::string, DiVetoElectronVetoMode);
 	IMPL_SETTING(std::string, DiVetoMuonVetoMode);
@@ -142,9 +142,9 @@ public:
 	IMPL_SETTING(float, MetUpperPtCuts);
 	
 	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
-	IMPL_SETTING_STRINGLIST(TauDiscriminatorMvaIsolation);
-	IMPL_SETTING_FLOATLIST(TauDiscriminatorAntiElectronMvaCuts);
-	IMPL_SETTING_INTLIST(TauDiscriminatorAntiElectronMvaCutsLeptonIndices);
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauDiscriminatorMvaIsolation, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(TauDiscriminatorAntiElectronMvaCuts, {});
+	IMPL_SETTING_INTLIST_DEFAULT(TauDiscriminatorAntiElectronMvaCutsLeptonIndices, {});
 	
 	IMPL_SETTING_DEFAULT(float, TauLowerZImpactCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_DEFAULT(float, TauUpperZImpactCut, std::numeric_limits<float>::max());
@@ -166,8 +166,8 @@ public:
 	IMPL_SETTING(float, LowerCutHardLepPt);
 	
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
-	IMPL_GLOBAL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
-	IMPL_GLOBAL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
+	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
+	IMPL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
 	
 	IMPL_SETTING(std::string, TauTauRestFrameReco);
 
@@ -184,18 +184,18 @@ public:
 	IMPL_SETTING(int, TauSpinnerSettingsNonSMN);
 	IMPL_SETTING(bool, TauSpinnerSettingsBoost);
 	
-	IMPL_SETTING_FLOATLIST(TauSpinnerMixingAnglesOverPiHalf);
+	IMPL_SETTING_FLOATLIST_DEFAULT(TauSpinnerMixingAnglesOverPiHalf, {});
 	IMPL_SETTING_DEFAULT(float, TauSpinnerMixingAnglesOverPiHalfSample, -1.0);
 
 	IMPL_SETTING(bool, ChooseTauDaughter);
-	IMPL_SETTING_STRINGLIST(ChosenTauDaughters);
+	IMPL_SETTING_STRINGLIST_DEFAULT(ChosenTauDaughters, {});
 
 	IMPL_SETTING(int, BosonPdgId);
 
 	IMPL_SETTING(bool, PhiTransform);
 
 	// TMVA reader settings
-	IMPL_SETTING_STRINGLIST(AntiTtbarTmvaInputQuantities);
-	IMPL_SETTING_STRINGLIST(AntiTtbarTmvaMethods);
-	IMPL_SETTING_STRINGLIST(AntiTtbarTmvaWeights);
+	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaInputQuantities, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
 };

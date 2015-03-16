@@ -254,7 +254,7 @@
 	"nicks_blacklist" : [
 		"noplot"
 	],
-	"stack" : [
+	"stacks" : [
 		"data",
 		"bkg",
 		"bkg",

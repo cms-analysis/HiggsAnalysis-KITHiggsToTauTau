@@ -36,19 +36,19 @@ public:
 		else return IntegrationMethod::NONE;
 	}
 	
-	int run;
-	int lumi;
-	int event;
+	uint64_t run;
+	uint64_t lumi;
+	uint64_t event;
 	int systematicShift;
 	float systematicShiftSigma;
 	int integrationMethod;
 	
 	SvfitEventKey() {};
-	SvfitEventKey(int const& run, int const& lumi, int const& event,
+	SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
 	              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
 	              IntegrationMethod const& integrationMethod);
 	
-	void Set(int const& run, int const& lumi, int const& event,
+	void Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
 	         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
 	         IntegrationMethod const& integrationMethod);
 	
@@ -72,9 +72,9 @@ namespace std {
 	{
 		std::size_t operator()(SvfitEventKey const& svfitEventKey) const
 		{
-			return ((std::hash<int>()(svfitEventKey.run)) ^
-			        (std::hash<int>()(svfitEventKey.lumi)) ^
-			        (std::hash<int>()(svfitEventKey.event)) ^
+			return ((std::hash<uint64_t>()(svfitEventKey.run)) ^
+			        (std::hash<uint64_t>()(svfitEventKey.lumi)) ^
+			        (std::hash<uint64_t>()(svfitEventKey.event)) ^
 			        (std::hash<int>()(svfitEventKey.systematicShift)) ^
 			        (std::hash<float>()(svfitEventKey.systematicShiftSigma)) ^
 			        (std::hash<int>()(svfitEventKey.integrationMethod)));
@@ -171,7 +171,7 @@ public:
 
 private:
 	TChain* svfitCacheInputTree = 0;
-	std::unordered_map<SvfitEventKey, int> svfitCacheInputTreeIndices;
+	std::unordered_map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
 	
 	SvfitInputs svfitInputs;
 	SvfitResults svfitResults;

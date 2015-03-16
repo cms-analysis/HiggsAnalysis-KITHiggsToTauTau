@@ -24,7 +24,6 @@
 </bin>
 
 <bin name="DatacardsSM" file="DatacardsSM.cc">
-	<Flags CXXFLAGS="-g" />
 	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
 	<Flags LDFLAGS="-rdynamic" />
 	<Flags LDFLAGS="-Lsrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib -lCHCombineTools" />
@@ -33,5 +32,17 @@
 	<use name="boost"/>
 	<use name="boost_filesystem"/>
 	<use name="HiggsAnalysis/KITHiggsToTauTau"/>
+	<flags EDM_PLUGIN="1"/>
+</bin>
+
+<bin name="SMLegacyDatacards" file="SMLegacyDatacards.cc">
+	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
+	<Flags LDFLAGS="-rdynamic" />
+	<Flags LDFLAGS="-Lsrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib -lCHCombineTools" />
+	<use name="root"/>
+	<use name="roofit"/>
+	<use name="boost"/>
+	<use name="boost_filesystem"/>
+	<use name="boost_program_options"/>
 	<flags EDM_PLUGIN="1"/>
 </bin>

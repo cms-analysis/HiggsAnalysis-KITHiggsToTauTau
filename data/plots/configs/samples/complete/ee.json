@@ -73,7 +73,7 @@
 		"qcd",
 		"qcd"
 	],
-	"stack" : [
+	"stacks" : [
 		"data",
 		"bkg",
 		"bkg",

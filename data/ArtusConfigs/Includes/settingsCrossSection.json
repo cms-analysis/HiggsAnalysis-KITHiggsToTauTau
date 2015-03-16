@@ -1,6 +1,7 @@
 {
 	"CrossSection_documentation" : [
-		"https://github.com/ajgilbert/ICHiggsTauTau/blob/master/Analysis/HiggsTauTau/scripts/Paper_params_2012.dat"
+		"https://github.com/ajgilbert/ICHiggsTauTau/blob/master/Analysis/HiggsTauTau/scripts/Paper_params_2012.dat",
+		"https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/scripts/signal_xsecs.py"
 	],
 	"CrossSection" : {
 		"nick" : {
@@ -34,6 +35,51 @@
 			"ZZJetsToLLLL_madgraph_tauola_8TeV" : 0.181,
 			"ZZJetsToLLNN_madgraph_tauola_8TeV" : 0.716,
 			"ZZJetsToLLQQ_madgraph_tauola_8TeV" : 2.502,
+			
+			"SM_GluGluToHToTauTau_M_90_powheg_pythia_8TeV" : 36.230000,
+			"SM_GluGluToHToTauTau_M_95_powheg_pythia_8TeV" : 32.690000,
+			"SM_GluGluToHToTauTau_M_100_powheg_pythia_8TeV" : 29.680000,
+			"SM_GluGluToHToTauTau_M_105_powheg_pythia_8TeV" : 27.010000,
+			"SM_GluGluToHToTauTau_M_110_powheg_pythia_8TeV" : 24.700000,
+			"SM_GluGluToHToTauTau_M_115_powheg_pythia_8TeV" : 22.660000,
+			"SM_GluGluToHToTauTau_M_120_powheg_pythia_8TeV" : 20.860000,
+			"SM_GluGluToHToTauTau_M_125_powheg_pythia_8TeV" : 19.270000,
+			"SM_GluGluToHToTauTau_M_130_powheg_pythia_8TeV" : 17.850000,
+			"SM_GluGluToHToTauTau_M_135_powheg_pythia_8TeV" : 16.570000,
+			"SM_GluGluToHToTauTau_M_140_powheg_pythia_8TeV" : 15.420000,
+			"SM_GluGluToHToTauTau_M_145_powheg_pythia_8TeV" : 14.460000,
+			"SM_GluGluToHToTauTau_M_150_powheg_pythia_8TeV" : 13.550000,
+			"SM_GluGluToHToTauTau_M_160_powheg_pythia_8TeV" : 11.960000,
+			
+			"SM_VBFHToTauTau_M_90_powheg_pythia_8TeV" : 2.191000,
+			"SM_VBFHToTauTau_M_95_powheg_pythia_8TeV" : 2.084000,
+			"SM_VBFHToTauTau_M_100_powheg_pythia_8TeV" : 1.988000,
+			"SM_VBFHToTauTau_M_105_powheg_pythia_8TeV" : 1.897000,
+			"SM_VBFHToTauTau_M_110_powheg_pythia_8TeV" : 1.809000,
+			"SM_VBFHToTauTau_M_115_powheg_pythia_8TeV" : 1.729000,
+			"SM_VBFHToTauTau_M_120_powheg_pythia_8TeV" : 1.649000,
+			"SM_VBFHToTauTau_M_125_powheg_pythia_8TeV" : 1.578000,
+			"SM_VBFHToTauTau_M_130_powheg_pythia_8TeV" : 1.511000,
+			"SM_VBFHToTauTau_M_135_powheg_pythia_8TeV" : 1.448000,
+			"SM_VBFHToTauTau_M_140_powheg_pythia_8TeV" : 1.389000,
+			"SM_VBFHToTauTau_M_145_powheg_pythia_8TeV" : 1.333000,
+			"SM_VBFHToTauTau_M_150_powheg_pythia_8TeV" : 1.280000,
+			"SM_VBFHToTauTau_M_160_powheg_pythia_8TeV" : 1.185000,
+			
+			"SM_WH_ZH_TTH_HToTauTau_M_90_powheg_pythia_8TeV" : 3.082000,
+			"SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV" : 2.633300,
+			"SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV" : 2.257200,
+			"SM_WH_ZH_TTH_HToTauTau_M_105_powheg_pythia_8TeV" : 1.944200,
+			"SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV" : 1.683500,
+			"SM_WH_ZH_TTH_HToTauTau_M_115_powheg_pythia_8TeV" : 1.462400,
+			"SM_WH_ZH_TTH_HToTauTau_M_120_powheg_pythia_8TeV" : 1.276200,
+			"SM_WH_ZH_TTH_HToTauTau_M_125_powheg_pythia_8TeV" : 1.119900,
+			"SM_WH_ZH_TTH_HToTauTau_M_130_powheg_pythia_8TeV" : 0.984000,
+			"SM_WH_ZH_TTH_HToTauTau_M_135_powheg_pythia_8TeV" : 0.867500,
+			"SM_WH_ZH_TTH_HToTauTau_M_140_powheg_pythia_8TeV" : 0.766600,
+			"SM_WH_ZH_TTH_HToTauTau_M_145_powheg_pythia_8TeV" : 0.679900,
+			"SM_WH_ZH_TTH_HToTauTau_M_150_powheg_pythia_8TeV" : 0.603600,
+			"SM_WH_ZH_TTH_HToTauTau_M_160_powheg_pythia_8TeV" : 0.467100,
 			
 			"SM_TTH_HToTauTau_M_125_pythia_8TeV" : 0.0082
 		}
