@@ -39,7 +39,6 @@
 			{
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/svfitQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/categoryQuantities.json"
@@ -87,7 +86,7 @@
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
-					"#filter:HltFilter",
+					"filter:HltFilter",
 					"#producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"filter:ValidElectronsFilter",
@@ -107,7 +106,7 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:DecayChannelProducer",
 					"filter:DecayChannelFilter",
-					"filter:DiLeptonChargeFilter",
+					"#filter:DiLeptonChargeFilter",
 					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"#producer:DiLeptonQuantitiesProducer",
