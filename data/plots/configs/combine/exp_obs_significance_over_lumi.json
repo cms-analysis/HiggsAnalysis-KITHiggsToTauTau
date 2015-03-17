@@ -1,0 +1,48 @@
+{
+	"analysis_modules": [
+		"AddLine"
+	],
+	"colors": [
+		"#0000FF",
+		"#000000"
+	],
+	"files" : [
+		"higgsCombinePVAL-exp.ProfileLikelihood.mH*.root",
+		"higgsCombinePVAL-obs.ProfileLikelihood.mH*.root"
+	],
+	"folders": [
+		"limit_friend"
+	],
+	"line_styles": [
+		2,
+		1
+	],
+	"markers": [
+		"EL",
+		"EPL"
+	],
+	"nicks": [
+		"exp",
+		"obs"
+	],
+	"tree_draw_options": [
+		"TGraph"
+	],
+	"x_expressions": [
+		"lumi"
+	],
+	"x_label" : "Integrated Luminosity / fb",
+	"x_lims": [
+		4.0,
+		21.0
+	],
+	"y_expressions": [
+		"ROOT::Math::normal_quantile_c(limit, 1.0)"
+	],
+	"y_label" : "Significance / #sigma",
+	"y_lims": [
+		0.0,
+		6.0
+	],
+	"filename" : "exp_obs_significance_over_lumi"
+}

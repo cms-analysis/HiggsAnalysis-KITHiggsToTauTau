@@ -5,7 +5,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/Quantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
 
 void DecayChannelProducer::Init(setting_type const& settings)

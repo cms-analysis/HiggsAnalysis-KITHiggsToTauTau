@@ -4,7 +4,7 @@
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/Quantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventCategoryProducer.h"
 
 
