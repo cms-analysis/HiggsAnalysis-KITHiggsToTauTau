@@ -103,8 +103,20 @@ JSON configurations (\*.json, \*.root, "{...}") can be compared by [artusConfigD
 
 The (committed) status of two different Artus runs can be compared using [artusRepositoryDiff.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/artusRepositoryDiff.py):
 
-	cd <repositoy to compare>
+	cd <repository to compare>
 	artusRepositoryDiff.py <config 1> <config 2>
+
+#### Svfit
+
+Svfit is run by the `producer:SvfitProducer` and a tree with inputs and results is written out by the consumer `SvfitCacheConsumer`. These results can be collected by [svfitCacheTreeMerge.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/svfitCacheTreeMerge.py):
+
+	for dir in <Artus project directory>/[output|merged]/*; do echo $dir; svfitCacheTreeMerge.py -i $dir/*.root --input-trees `artusPipelines.py $dir/*.root | sed -e 's@\$@/svfitCache@g'` -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${dir}.root" | sed -e 's@<Artus project directory>/[output|merged]/@@g'`; done
+
+The cached values are configured in [data/ArtusConfigs/Includes/settingsSvfit.json](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/data/ArtusConfigs/Includes/settingsSvfit.json).
+
+It is recommended to calculate the Svfit values file by file:
+
+	HiggsToTauTauAnalysis.py -b --files-per-job 1 --wall-time 48:00:00 ...
 
 ### Post-processing
 
