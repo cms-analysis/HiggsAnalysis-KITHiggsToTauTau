@@ -1,5 +1,5 @@
 {
-	"idIso" : {
+	"idEleMVA" : {
 		"Quantities" : [
 			"nElectrons",
 			"leadingElePt",
@@ -45,16 +45,18 @@
 		"InvalidateNonGenParticleMatchingRecoElectrons" : false,
 		
 		"ElectronID" : "user",
-		"ElectronIDType" : "phys14cutbasedloose",
+		"ElectronIDType" : "mvanontrigv025nsphys14",
 		"ElectronIso" : "None",
 		"ElectronIsoType" : "None",
-		"ElectronReco" : "None",
+		"ElectronReco" : "user",
+		"ElectronIsoSignalConeSize" : 0.4,
+		"ElectronDeltaBetaCorrectionFactor" : 0.5,
+		"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.1,
+		"ElectronIsoPtSumOverPtUpperThresholdEE" : 0.1,
 		
-		"MuonID" : "tight",
+		"MuonID" : "None",
 		"MuonIso" : "None",
 		"MuonIsoType" : "None",
-		
-		"Year" : 2012,
 		
 		"JetID" : "tight",
 		

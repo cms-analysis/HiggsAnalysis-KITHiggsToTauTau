@@ -9,12 +9,19 @@
 #include "boost/program_options.hpp"
 #include "CombineTools/interface/CombineHarvester.h"
 #include "CombineTools/interface/Utilities.h"
-#include "CombineTools/interface/HttSystematics.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/CombineTools/HttSystematics.h"
 #include "CombineTools/interface/MakeUnique.h"
+#include "Artus/Utility/interface/Utility.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
+	string higgsAuxiliaries  = string(getenv("CMSSW_BASE")) + "/src/auxiliaries/";
+	string aux_pruning  = higgsAuxiliaries +"pruning/";
+	
+	string kitAuxiliaries  = string(getenv("CMSSW_BASE")) + "/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/combine/";
+	string aux_shapes   = kitAuxiliaries +"shapes/";
+	
 	vector<string> eras = {"8TeV"}; // {"7TeV", "8TeV"}
 	vector<string> chns = {"mt"}; // {"et", "mt", "em", "ee", "mm", "tt"}
 	vector<string> masses = ch::MassesFromRange("110-145:5");
@@ -22,7 +29,7 @@ int main(int argc, char* argv[]) {
 	string energy = "8";
 	bool asimovDataset = false;
 	string asimovDatasetMass = "125";
-	string outputDirectory = "datacards/sm";
+	string outputDirectory = kitAuxiliaries +"datacards/";
 
 	boost::program_options::options_description help_config("Help");
 	help_config.add_options()
@@ -87,10 +94,6 @@ int main(int argc, char* argv[]) {
 	typedef vector<pair<int, string>> Categories;
 	typedef vector<string> VString;
 
-	string auxiliaries  = string(getenv("CMSSW_BASE")) + "/src/auxiliaries/";
-	string aux_shapes   = auxiliaries +"shapes/";
-	string aux_pruning  = auxiliaries +"pruning/";
-
 	map<string, float> lumis8TeV = {
 			{"et", 19.7},
 			{"mt", 19.7},
@@ -101,12 +104,12 @@ int main(int argc, char* argv[]) {
 	};
 	
 	map<string, string> input_folders = {
-			{"et", "Imperial"},
-			{"mt", "Imperial"},
-			{"em", "MIT"},
-			{"ee", "DESY-KIT"},
-			{"mm", "DESY-KIT"},
-			{"tt", "CERN"}
+			{"et", "et"},
+			{"mt", "mt"},
+			{"em", "em"},
+			{"ee", "ee"},
+			{"mm", "mm"},
+			{"tt", "tt"}
 	};
 
 	map<string, VString> bkg_procs;
@@ -121,34 +124,34 @@ int main(int argc, char* argv[]) {
 
 	map<string, Categories> cats;
 	cats["et_7TeV"] = {
-			{1, "eleTau_0jet_medium"}, {2, "eleTau_0jet_high"},
-			{3, "eleTau_1jet_medium"}, {5, "eleTau_1jet_high_mediumhiggs"},
-			{6, "eleTau_vbf"}};
+			{1, "et_0jet_medium"}, {2, "et_0jet_high"},
+			{3, "et_1jet_medium"}, {5, "et_1jet_high_mediumhiggs"},
+			{6, "et_vbf"}};
 
 	cats["et_8TeV"] = {
-			{1, "eleTau_0jet_medium"}, {2, "eleTau_0jet_high"},
-			{3, "eleTau_1jet_medium"}, {5, "eleTau_1jet_high_mediumhiggs"},
-			{6, "eleTau_vbf_loose"}, {7, "eleTau_vbf_tight"}};
+			{1, "et_0jet_medium"}, {2, "et_0jet_high"},
+			{3, "et_1jet_medium"}, {5, "et_1jet_high_mediumhiggs"},
+			{6, "et_vbf_loose"}, {7, "et_vbf_tight"}};
 
 	cats["mt_7TeV"] = {
-			{1, "muTau_0jet_medium"}, {2, "muTau_0jet_high"},
-			{3, "muTau_1jet_medium"}, {4, "muTau_1jet_high_lowhiggs"}, {5, "muTau_1jet_high_mediumhiggs"},
-			{6, "muTau_vbf"}};
+			{1, "mt_0jet_medium"}, {2, "mt_0jet_high"},
+			{3, "mt_1jet_medium"}, {4, "mt_1jet_high_lowhiggs"}, {5, "mt_1jet_high_mediumhiggs"},
+			{6, "mt_vbf"}};
 
 	cats["mt_8TeV"] = {
-			{1, "muTau_0jet_medium"}, {2, "muTau_0jet_high"},
-			{3, "muTau_1jet_medium"}, {4, "muTau_1jet_high_lowhiggs"}, {5, "muTau_1jet_high_mediumhiggs"},
-			{6, "muTau_vbf_loose"}, {7, "muTau_vbf_tight"}};
+			{1, "mt_0jet_medium"}, {2, "mt_0jet_high"},
+			{3, "mt_1jet_medium"}, {4, "mt_1jet_high_lowhiggs"}, {5, "mt_1jet_high_mediumhiggs"},
+			{6, "mt_vbf_loose"}, {7, "mt_vbf_tight"}};
 
 	cats["em_7TeV"] = {
-			{0, "emu_0jet_low"}, {1, "emu_0jet_high"},
-			{2, "emu_1jet_low"}, {3, "emu_1jet_high"},
-			{4, "emu_vbf_loose"}};
+			{0, "em_0jet_low"}, {1, "em_0jet_high"},
+			{2, "em_1jet_low"}, {3, "em_1jet_high"},
+			{4, "em_vbf_loose"}};
 
 	cats["em_8TeV"] = {
-			{0, "emu_0jet_low"}, {1, "emu_0jet_high"},
-			{2, "emu_1jet_low"}, {3, "emu_1jet_high"},
-			{4, "emu_vbf_loose"}, {5, "emu_vbf_tight"}};
+			{0, "em_0jet_low"}, {1, "em_0jet_high"},
+			{2, "em_1jet_low"}, {3, "em_1jet_high"},
+			{4, "em_vbf_loose"}, {5, "em_vbf_tight"}};
 
 	cats["ee_7TeV"] = {
 			{0, "ee_0jet_low"}, {1, "ee_0jet_high"},
@@ -157,14 +160,14 @@ int main(int argc, char* argv[]) {
 	cats["ee_8TeV"] = cats["ee_7TeV"];
 
 	cats["mm_7TeV"] = {
-			{0, "mumu_0jet_low"}, {1, "mumu_0jet_high"},
-			{2, "mumu_1jet_low"}, {3, "mumu_1jet_high"},
-			{4, "mumu_vbf"}};
+			{0, "mm_0jet_low"}, {1, "mm_0jet_high"},
+			{2, "mm_1jet_low"}, {3, "mm_1jet_high"},
+			{4, "mm_vbf"}};
 	cats["mm_8TeV"] = cats["mm_7TeV"];
 
 	cats["tt_8TeV"] = {
-			{0, "tauTau_1jet_high_mediumhiggs"}, {1, "tauTau_1jet_high_highhiggs"},
-			{2, "tauTau_vbf"}};
+			{0, "tt_1jet_high_mediumhiggs"}, {1, "tt_1jet_high_highhiggs"},
+			{2, "tt_vbf"}};
 
 	cout << ">> Creating processes and observations...\n";
 	for (string era : eras) {
@@ -177,16 +180,28 @@ int main(int argc, char* argv[]) {
 				masses, {"htt"}, {era}, {chn}, sig_procs, cats[chn+"_"+era], true);
 		}
 	}
-	// Have to drop ZL from tautau_vbf category
+	// Have to drop ZL from tt_vbf category
 	cb.FilterProcs([](ch::Process const* p) {
-		return p->bin() == "tauTau_vbf" && p->process() == "ZL";
+		return p->bin() == "tt_vbf" && p->process() == "ZL";
 	});
 
 	cout << ">> Adding systematic uncertainties...\n";
-	ch::AddSystematics_et_mt(cb);
-	ch::AddSystematics_em(cb);
-	ch::AddSystematics_ee_mm(cb);
-	ch::AddSystematics_tt(cb);
+	if (Utility::Contains(chns, string("et")) || Utility::Contains(chns, string("mt")))
+	{
+		HttSystematics::AddSystematicsETMT(cb);
+	}
+	if (Utility::Contains(chns, string("em")))
+	{
+		HttSystematics::AddSystematicsEM(cb);
+	}
+	if (Utility::Contains(chns, string("ee")) || Utility::Contains(chns, string("mm")))
+	{
+		HttSystematics::AddSystematicsEEMM(cb);
+	}
+	if (Utility::Contains(chns, string("tt")))
+	{
+		HttSystematics::AddSystematicsTT(cb);
+	}
 
 	cout << ">> Extracting histograms from input root files...\n";
 	for (string era : eras) {
@@ -194,7 +209,7 @@ int main(int argc, char* argv[]) {
 			// Skip 7TeV tt:
 			if (chn == "tt" && era == "7TeV") continue;
 			string file = aux_shapes + input_folders[chn] + "/htt_" + chn +
-										".inputs-sm-" + era + "-hcg.root";
+										".inputs-sm-" + era + ".root";
 			cb.cp().channel({chn}).era({era}).backgrounds().ExtractShapes(
 					file, "$BIN/$PROCESS", "$BIN/$PROCESS_$SYSTEMATIC");
 			cb.cp().channel({chn}).era({era}).signals().ExtractShapes(

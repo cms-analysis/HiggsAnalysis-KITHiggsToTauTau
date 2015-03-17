@@ -1,19 +1,16 @@
 {
-	"idIso" : {
+	"idTight" : {
 		"Quantities" : [
 			"nElectrons",
-			"leadingElePt",
-			"leadingEleEta",
-			"leadingEleIso",
-			"leadingEleIsoOverPt"
+			"nMuons"
 		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
 					"producer:ValidElectronsProducer",
 					"producer:RecoElectronGenParticleMatchingProducer",
-					"filter:ValidElectronsFilter",
-					"#producer:ValidMuonsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:RecoMuonGenParticleMatchingProducer",
 					"#producer:ValidTausProducer",
 					"#producer:ValidTaggedJetsProducer",
 					"#producer:RecoElectronGenParticleMatchingProducer",
@@ -34,7 +31,7 @@
 			"#cutflow_histogram",
 			"#CutFlowTreeConsumer",
 			"KappaElectronsConsumer",
-			"#KappaMuonsConsumer",
+			"KappaMuonsConsumer",
 			"#KappaTausConsumer",
 			"#KappaTaggedJetsConsumer"
 		],
@@ -43,16 +40,28 @@
 			11
 		],
 		"InvalidateNonGenParticleMatchingRecoElectrons" : false,
+		"RecoMuonMatchingGenParticlePdgIds" : [
+			13
+		],
+		"InvalidateNonGenParticleMatchingRecoMuons" : false,
 		
-		"ElectronID" : "user",
-		"ElectronIDType" : "phys14cutbasedloose",
+		"ElectronID" : "None",
+		"ElectronIDType" : "phys14cutbasedtight",
 		"ElectronIso" : "None",
 		"ElectronIsoType" : "None",
 		"ElectronReco" : "None",
+		"ElectronIsoSignalConeSize" : 0.4,
+		"ElectronDeltaBetaCorrectionFactor" : 0.5,
+		"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.1,
+		"ElectronIsoPtSumOverPtUpperThresholdEE" : 0.1,
 		
 		"MuonID" : "tight",
 		"MuonIso" : "None",
 		"MuonIsoType" : "None",
+		"MuonIsoSignalConeSize" : 0.4,
+		"MuonDeltaBetaCorrectionFactor" : 0.5,
+		"MuonIsoPtSumOverPtUpperThresholdEB" : 0.1,
+		"MuonIsoPtSumOverPtUpperThresholdEE" : 0.1,
 		
 		"Year" : 2012,
 		

@@ -1,44 +1,67 @@
 {
 	"all" : {
+		"Quantities" : [
+			"nElectrons",
+			"nMuons"
+		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
 					"producer:ValidElectronsProducer",
-					"producer:ValidMuonsProducer",
-					"producer:ValidTausProducer",
-					"producer:ValidTaggedJetsProducer",
 					"producer:RecoElectronGenParticleMatchingProducer",
-					"producer:RecoElectronGenTauMatchingProducer",
-					"#producer:RecoElectronGenTauJetMatchingProducer",
+					"producer:ValidMuonsProducer",
 					"producer:RecoMuonGenParticleMatchingProducer",
-					"producer:RecoMuonGenTauMatchingProducer",
-					"#producer:RecoMuonGenTauJetMatchingProducer",
-					"producer:RecoTauGenParticleMatchingProducer",
-					"producer:RecoTauGenTauMatchingProducer",
-					"#producer:RecoTauGenTauJetMatchingProducer",
-					"producer:RecoJetGenParticleMatchingProducer"
+					"#producer:ValidTausProducer",
+					"#producer:ValidTaggedJetsProducer",
+					"#producer:RecoElectronGenParticleMatchingProducer",
+					"#producer:RecoElectronGenTauMatchingProducer",
+					"##producer:RecoElectronGenTauJetMatchingProducer",
+					"#producer:RecoMuonGenParticleMatchingProducer",
+					"#producer:RecoMuonGenTauMatchingProducer",
+					"##producer:RecoMuonGenTauJetMatchingProducer",
+					"#producer:RecoTauGenParticleMatchingProducer",
+					"#producer:RecoTauGenTauMatchingProducer",
+					"##producer:RecoTauGenTauJetMatchingProducer",
+					"#producer:RecoJetGenParticleMatchingProducer"
 				]
 			}
 		},
 		"Consumers" : [
-			"#KappaLambdaNtupleConsumer",
+			"KappaLambdaNtupleConsumer",
 			"#cutflow_histogram",
 			"#CutFlowTreeConsumer",
 			"KappaElectronsConsumer",
 			"KappaMuonsConsumer",
-			"KappaTausConsumer",
-			"KappaTaggedJetsConsumer"
+			"#KappaTausConsumer",
+			"#KappaTaggedJetsConsumer"
 		],
 		
+		"RecoElectronMatchingGenParticlePdgIds" : [
+			11
+		],
+		"InvalidateNonGenParticleMatchingRecoElectrons" : false,
+		"RecoMuonMatchingGenParticlePdgIds" : [
+			13
+		],
+		"InvalidateNonGenParticleMatchingRecoMuons" : false,
+
 		"ElectronID" : "None",
 		"ElectronIDType" : "None",
 		"ElectronIso" : "None",
 		"ElectronIsoType" : "None",
-		"ElectronReco" : "None",
+		"ElectronReco" : "user",
+		"ElectronIsoSignalConeSize" : 0.4,
+		"ElectronDeltaBetaCorrectionFactor" : 0.5,
+		"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.1,
+		"ElectronIsoPtSumOverPtUpperThresholdEE" : 0.1,
 		
 		"MuonID" : "None",
 		"MuonIso" : "None",
 		"MuonIsoType" : "None",
+		"MuonIsoSignalConeSize" : 0.4,
+		"MuonDeltaBetaCorrectionFactor" : 0.5,
+		"MuonIsoPtSumOverPtUpperThresholdEB" : 0.1,
+		"MuonIsoPtSumOverPtUpperThresholdEE" : 0.1,
 		
 		"JetID" : "tight",
 		

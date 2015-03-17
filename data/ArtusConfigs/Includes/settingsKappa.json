@@ -14,7 +14,7 @@
 	"GenTauJets" : {
 		"nick" : {
 			"(?<!PFembedded).Run2012" : "",
-			"_default" : "tauGenJets"
+			"default" : "tauGenJets"
 		}
 	},
 	"GenMet" : {
@@ -29,12 +29,8 @@
 	"Taus" : "taus",
 	"TauMetadata" : "taus",
 	"TaggedJets" : "AK5PFTaggedJets",
-	"PileupDensity" : {
-		"nick" : {
-			"8TeV" : "KT6Area"
-		}
-	},
-	"Met" : "met",
+	"PileupDensity" : "KT6Area",
+	"Met" :  "met",
 	"MvaMetTT" : "metMVATT",
 	"MvaMetMT" : "metMVAMT",
 	"MvaMetET" : "metMVAET",

@@ -157,10 +157,10 @@ Prefit plots are created by [makePlots\_limitInputsPrefitPlots.py](https://githu
 
 	makePlots_limitInputsPrefitPlots.py -i <limit inputs>.root
 
-Datacards are created by [SMLegacyDatacards.cc](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/bin/SMLegacyDatacards.cc) [DatacardsSM.cc](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/bin/DatacardsSM.cc):
+Datacards are created by [SMLegacyDatacards.cc](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/bin/SMLegacyDatacards.cc) or [SMDatacards.cc](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/bin/SMDatacards.cc):
 
 	SMLegacyDatacards [--help]
-	DatacardsSM
+	SMDatacards [--help]
 
 These tools are based on [CombineHarvester/CombineTools](https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau/blob/master/CombineHarvester/docs/Main.md) and require `scram b` after changes. Migration to Python is possible but not done yet. These scripts provide the configuration for the datacards.
 
