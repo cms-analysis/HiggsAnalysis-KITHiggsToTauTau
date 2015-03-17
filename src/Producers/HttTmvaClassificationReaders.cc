@@ -2,7 +2,7 @@
 #include <Math/VectorUtil.h>
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTmvaClassificationReaders.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/Quantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 
 	

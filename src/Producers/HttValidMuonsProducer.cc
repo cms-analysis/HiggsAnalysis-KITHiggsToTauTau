@@ -2,7 +2,7 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMuonsProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/ParticleIsolation.h"
 
 
 HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KMuon*> product_type::*validMuons,

@@ -2,7 +2,7 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/Quantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
 
 void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
