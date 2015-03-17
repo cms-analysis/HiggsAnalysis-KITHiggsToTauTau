@@ -46,7 +46,7 @@ class PlotRootHtt(plotroot.PlotRoot):
 				canvas.SetRightMargin(0.15)
 
 		if len(plotData.plotdict["subplot_nicks"]) > 0:
-			plot_subplot_slider_y = 0.35
+			self.plot_subplot_slider_y = 0.35
 			canvas.cd()
 			plot_pad = ROOT.TPad("plot_pad", "", 0.0, self.plot_subplot_slider_y, 1.0, 1.0)
 			subplot_pad = ROOT.TPad("subplot_pad", "", 0.0, 0.0, 1.0, self.plot_subplot_slider_y)
