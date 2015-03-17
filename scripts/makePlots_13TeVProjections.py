@@ -35,7 +35,7 @@ def do_limits(output_dir, print_only=False):
 	)
 	log.info(command)
 	if not print_only:
-			logger.subprocessCall(shlex.split(command))
+		logger.subprocessCall(shlex.split(command))
 
 def do_p_values(output_dir, print_only=False):
 	command = "submit.py --interactive --stable-new --pvalue-frequentist {datacards}".format(
@@ -43,7 +43,7 @@ def do_p_values(output_dir, print_only=False):
 	)
 	log.info(command)
 	if not print_only:
-			logger.subprocessCall(shlex.split(command))
+		logger.subprocessCall(shlex.split(command))
 
 def do_cv_cf_scan(output_dir, mass="125", print_only=False):
 	command = "submit.py --interactive --stable-new --multidim-fit --physics-model cV-cF --points 900 {datacards}".format(
@@ -51,18 +51,18 @@ def do_cv_cf_scan(output_dir, mass="125", print_only=False):
 	)
 	log.info(command)
 	if not print_only:
-			logger.subprocessCall(shlex.split(command))
+		logger.subprocessCall(shlex.split(command))
 	
 	command = command.replace("submit.py --interactive", "limit.py --algo grid")
 	log.info(command)
 	if not print_only:
-			logger.subprocessCall(shlex.split(command))
+		logger.subprocessCall(shlex.split(command))
 	
 	command = "rm -rfv {dirs} log/".format(dirs=" ".join(glob.glob("*CV-CF-{mass}/".format(mass=mass)))
 	)
 	log.info(command)
 	if not print_only:
-			logger.subprocessCall(shlex.split(command))
+		logger.subprocessCall(shlex.split(command))
 
 
 def annotate_lumi(output_dir, lumi, print_only=False):
@@ -72,7 +72,7 @@ def annotate_lumi(output_dir, lumi, print_only=False):
 	)
 	log.info(command)
 	if not print_only:
-			logger.subprocessCall(shlex.split(command))
+		logger.subprocessCall(shlex.split(command))
 
 
 	
@@ -83,6 +83,10 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Project results to 13TeV conditions.",
 	                                 parents=[logger.loggingParser])
 	
+	parser.add_argument("--channels", nargs="*",
+	                    default=["mt", "et"], choices=["et", "mt", "em"],
+	                    #default=["tt", "mt", "et", "em", "mm", "ee"], # other channels currently not supported
+	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("-l", "--lumis", nargs="+",
 	                    default=[5.0, 10.0, 15.0, 20.0, 50.0, 100.0, 300.0],
 	                    help="Luminosities. [Default: %(default)s]")
@@ -100,7 +104,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	channels = "--channels mt --channels et --channels tt --channels em --channels ee --channels mm"
+	channels = " ".join(["--channel "+channel for channel in args.channels])
 	
 	plot_configs = []
 	
