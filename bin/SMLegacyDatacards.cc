@@ -423,7 +423,7 @@ int main(int argc, char* argv[]) {
 						dataCardPath, output);
 			}
 		}
-		cb.cp().channel({chn}).mass({"125", "*"}).WriteDatacard(outputDirectory+"/htt_" + chn + "_125.txt", output);
+		//cb.cp().channel({chn}).mass({"125", "*"}).WriteDatacard(outputDirectory+"/htt_" + chn + "_125.txt", output);
 		output.Close();
 	}
 
