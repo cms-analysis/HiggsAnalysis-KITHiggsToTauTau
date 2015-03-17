@@ -1,7 +1,7 @@
 
 #include "Artus/Utility/interface/DefaultValues.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/ParticleIsolation.h"
 
 
 double ParticleIsolation::IsolationPtSumForParticleClass(RMFLV const& particle, KPFCandidates* pfCandidates,

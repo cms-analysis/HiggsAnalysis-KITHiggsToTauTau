@@ -6,7 +6,7 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/KappaAnalysis/interface/MotherDaughterBundle.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
 
 

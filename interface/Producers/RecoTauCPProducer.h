@@ -5,7 +5,6 @@
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 
 /**

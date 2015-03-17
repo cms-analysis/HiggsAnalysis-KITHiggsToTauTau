@@ -2,7 +2,7 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidElectronsProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/ParticleIsolation.h"
 
 
 HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KElectron*> product_type::*validElectrons,

@@ -3,6 +3,7 @@
 #include "Artus/KappaAnalysis/interface/KappaTypes.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 
 

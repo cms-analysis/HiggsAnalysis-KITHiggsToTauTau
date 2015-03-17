@@ -1,5 +1,5 @@
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/CPQuantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
 // this version uses tau 4-momenta to calculate decay planes (usefull for GenTauCPProducer)
 double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)

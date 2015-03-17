@@ -1,5 +1,5 @@
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/Quantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
 // transverse mass in the approximation of massless objects
 double Quantities::CalculateMt(RMFLV const& vector1, RMFLV const& vector2)
