@@ -1,0 +1,43 @@
+{
+	"analysis_modules": [
+		"AddLine"
+	],
+	"colors": [
+		"#0000FF"
+	],
+	"files" : [
+		"higgsCombinePVAL-exp.ProfileLikelihood.mH*.root"
+	],
+	"folders": [
+		"limit"
+	],
+	"line_styles": [
+		2
+	],
+	"markers": [
+		"EL"
+	],
+	"nicks": [
+		"exp"
+	],
+	"tree_draw_options": [
+		"TGraph"
+	],
+	"x_expressions": [
+		"mh"
+	],
+	"x_label" : "m_{H} / GeV",
+	"x_lims": [
+		110.0,
+		145.0
+	],
+	"y_expressions": [
+		"ROOT::Math::normal_quantile_c(limit, 1.0)"
+	],
+	"y_label" : "Significance / #sigma",
+	"y_lims": [
+		0.0,
+		6.0
+	],
+	"filename" : "exp_significance_over_mass"
+}
