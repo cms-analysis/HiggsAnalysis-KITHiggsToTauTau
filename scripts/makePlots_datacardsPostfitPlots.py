@@ -142,6 +142,7 @@ if __name__ == "__main__":
 					plot_configs[-1]["stacks"] = (["bkg_sig"]*(1 if len(signal) > 0 else 0)) + (["bkg_sig"]*len(background)) + (["bkg_unc"]*(1 if len(background_uncertainty) > 0 else 0)) + ["data"]
 					plot_configs[-1]["ratio"] = args.ratio
 					plot_configs[-1]["markers"] = (["LINE"]*(1 if len(signal) > 0 else 0)) + (["HIST"]*len(background)) + (["E2"]*(1 if len(background_uncertainty) > 0 else 0)) + ["E"]
+					plot_configs[-1]["marker_styles"] = ([20]*(1 if len(signal) > 0 else 0)) + ([20]*len(background)) + ([0]*(1 if len(background_uncertainty) > 0 else 0)) + [20]
 					plot_configs[-1]["colors"] = [colors.get(x, "#000000") for index, x in enumerate(plot_configs[-1]["x_expressions"])]
 					plot_configs[-1]["labels"] = (["Signal (%s)" % mass]*(1 if len(signal) > 0 else 0)) + background + (["Bkg. unc."]*(1 if len(background_uncertainty) > 0 else 0)) + ["Data"]
 					plot_configs[-1]["legend"] = [0.75, 0.6]
