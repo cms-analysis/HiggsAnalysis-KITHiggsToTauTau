@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--root-output", default="htt.inputs-sm-8TeV.root",
 	                    help="Merged ROOT output. [Default: %(default)s]")
 	parser.add_argument("--channels", nargs="*",
-	                    default=["mt"], choices=["et", "mt", "em"],
+	                    default=["mt"], choices=["et", "mt", "em", "mm"],
 	                    #default=["tt", "mt", "et", "em", "mm", "ee"], # other channels currently not supported
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="*",
@@ -107,8 +107,6 @@ if __name__ == "__main__":
 	sample_settings = samples.Sample()
 	for uncertainty, name, shift in systematic_shifts:
 		list_of_samples = []
-		if uncertainty.add_data():
-			list_of_samples.append(samples.Sample.data)
 		if uncertainty.add_ztt():
 			list_of_samples.append(samples.Sample.ztt)
 		if uncertainty.add_zl():
@@ -129,6 +127,8 @@ if __name__ == "__main__":
 			list_of_samples.append(samples.Sample.qqh)
 		if uncertainty.add_vh():
 			list_of_samples.append(samples.Sample.vh)
+		if uncertainty.add_data():
+			list_of_samples.append(samples.Sample.data)
 			
 		for channel in args["channels"]:
 			if "%s" in name:
