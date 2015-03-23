@@ -449,8 +449,8 @@ class Sample(object):
 			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
 				Sample._add_input(
 						config,
-						"SM_GluGluToHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						"em_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
+						"SM_GluGluToHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
+						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ggH%s" % str(mass)
@@ -467,8 +467,8 @@ class Sample(object):
 			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
 				Sample._add_input(
 						config,
-						"SM_VBFHToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						"em_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
+						"SM_VBFHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
+						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"VBF%s" % str(mass)
@@ -485,15 +485,15 @@ class Sample(object):
 			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
 				Sample._add_input(
 						config,
-						"SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
-						"em_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
+						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
+						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"WH%s" % str(mass)
 				)
 				Sample._add_input(
 						config,
-						"SM_WH_ZH_TTH_HToTauTau_M_%s_powheg_pythia_8TeV/*.root" % str(mass),
+						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root" % str(mass),
 						"em_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
@@ -504,6 +504,24 @@ class Sample(object):
 			
 			Sample._add_plot(config, "sig", "LINE", "#000000", "WH%s" % str(mass))
 			Sample._add_plot(config, "sig", "LINE", "#000000", "ZH%s" % str(mass))
+		return config
+	
+	@staticmethod
+	def htt(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
+		for mass in higgs_masses:
+			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
+				Sample._add_input(
+						config,
+						"SM_GluGluToHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root SM_VBFHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
+						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
+						lumi,
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"VBF%s" % str(mass)
+			)
+			else:
+				log.error("Sample config (HTT%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+			
+			Sample._add_plot(config, "sig", "LINE", "#000000", "HTT%s" % str(mass))
 		return config
 	
 	@staticmethod
