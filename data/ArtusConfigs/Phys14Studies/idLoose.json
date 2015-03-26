@@ -39,17 +39,19 @@
 		"RecoElectronMatchingGenParticlePdgIds" : [
 			11
 		],
+		"DeltaRMatchingRecoElectronGenParticle" : 0.1,
 		"InvalidateNonGenParticleMatchingRecoElectrons" : false,
 		"RecoMuonMatchingGenParticlePdgIds" : [
 			13
 		],
+		"DeltaRMatchingRecoMuonGenParticle" : 0.1,
 		"InvalidateNonGenParticleMatchingRecoMuons" : false,
 		
-		"ElectronID" : "None",
+		"ElectronID" : "user",
 		"ElectronIDType" : "phys14cutbasedloose",
 		"ElectronIso" : "None",
 		"ElectronIsoType" : "None",
-		"ElectronReco" : "None",
+		"ElectronReco" : "user",
 		"ElectronIsoSignalConeSize" : 0.4,
 		"ElectronDeltaBetaCorrectionFactor" : 0.5,
 		"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.1,
@@ -62,7 +64,10 @@
 		"MuonDeltaBetaCorrectionFactor" : 0.5,
 		"MuonIsoPtSumOverPtUpperThresholdEB" : 0.1,
 		"MuonIsoPtSumOverPtUpperThresholdEE" : 0.1,
-		
+		"MuonUpperAbsEtaCuts" : [
+			"2.4"
+		],		
+
 		"Year" : 2012,
 		
 		"JetID" : "tight",
