@@ -39,10 +39,12 @@
 		"RecoElectronMatchingGenParticlePdgIds" : [
 			11
 		],
+		"DeltaRMatchingRecoElectronGenParticle" : 0.1,
 		"InvalidateNonGenParticleMatchingRecoElectrons" : false,
 		"RecoMuonMatchingGenParticlePdgIds" : [
 			13
 		],
+		"DeltaRMatchingRecoMuonGenParticle" : 0.1,
 		"InvalidateNonGenParticleMatchingRecoMuons" : false,
 
 		"ElectronID" : "None",
@@ -62,6 +64,9 @@
 		"MuonDeltaBetaCorrectionFactor" : 0.5,
 		"MuonIsoPtSumOverPtUpperThresholdEB" : 0.1,
 		"MuonIsoPtSumOverPtUpperThresholdEE" : 0.1,
+		"MuonUpperAbsEtaCuts" : [
+			"2.4"
+		],
 		
 		"JetID" : "tight",
 		
