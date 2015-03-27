@@ -61,10 +61,10 @@ class PlotRootHtt(plotroot.PlotRoot):
 		super(PlotRootHtt, self).create_canvas(plotData)
 
 	def prepare_histograms(self, plotData):
-		for nick, color, fill_style in zip(plotData.plotdict["nicks"], plotData.plotdict["colors"], plotData.plotdict["fill_styles"]):
+		for nick, colors, fill_style in zip(plotData.plotdict["nicks"], plotData.plotdict["colors"], plotData.plotdict["fill_styles"]):
 			root_object = plotData.plotdict["root_objects"][nick]
 			if isinstance(root_object, ROOT.TH1):
-				ROOT.InitHist(root_object, "", "", color, fill_style)
+				ROOT.InitHist(root_object, "", "", colors[0], fill_style)
 		
 		super(PlotRootHtt, self).prepare_histograms(plotData)
 	
