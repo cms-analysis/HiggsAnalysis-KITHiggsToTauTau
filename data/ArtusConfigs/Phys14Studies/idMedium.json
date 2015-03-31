@@ -2,7 +2,10 @@
 	"idMedium" : {
 		"Quantities" : [
 			"nElectrons",
-			"nMuons"
+			"nMuons",
+			"leadingMuonPt",
+			"trailingMuonPt",
+			"genParticleMatchDeltaR"
 		],
 		"Processors" : {
 			"nick" : {
@@ -44,7 +47,7 @@
 		"RecoMuonMatchingGenParticlePdgIds" : [
 			13
 		],
-		"DeltaRMatchingRecoMuonGenParticle" : 0.1,
+		"DeltaRMatchingRecoMuonGenParticle" : 0.05,
 		"InvalidateNonGenParticleMatchingRecoMuons" : false,
 
 		"ElectronID" : "user",
