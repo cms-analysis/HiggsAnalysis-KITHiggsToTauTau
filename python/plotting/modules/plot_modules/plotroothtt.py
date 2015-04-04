@@ -39,12 +39,7 @@ class PlotRootHtt(plotroot.PlotRoot):
 		canvas = ROOT.MakeCanvas("canvas", "")
 		plot_pad = None
 		subplot_pad = None
-
-		#Modify right side margin for 2d-plots
-		if not isinstance(plotData.plotdict["root_objects"][plotData.plotdict["nicks"][0]], ROOT.TGraph):
-			if plotData.plotdict["root_objects"][plotData.plotdict["nicks"][0]].GetDimension() == 2:
-				canvas.SetRightMargin(0.15)
-
+		
 		if len(plotData.plotdict["subplot_nicks"]) > 0:
 			self.plot_subplot_slider_y = 0.35
 			canvas.cd()
