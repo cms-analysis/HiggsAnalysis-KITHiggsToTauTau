@@ -55,7 +55,6 @@
 		"1genBoson1DaughterPdgId",
 		"1genBoson1DaughterStatus",
 
-		"TauPlusParent",
 		"1genBoson2DaughterPt",
 		"1genBoson2DaughterPz",
 		"1genBoson2DaughterEta",
@@ -156,6 +155,7 @@
 		"1genBoson1Daughter2Granddaughter6GrandGranddaughterPdgId",
 		"1genBoson1Daughter2Granddaughter6GrandGranddaughterStatus"
 		],
+		"Processors" : [],
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram"
