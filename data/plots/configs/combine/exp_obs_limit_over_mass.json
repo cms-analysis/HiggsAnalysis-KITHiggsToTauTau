@@ -36,6 +36,18 @@
 		"central",
 		"central"
 	],
+	"labels": [
+		"#pm2#sigma Expected",
+		"#pm1#sigma Expected",
+		"Expected",
+		"Observed"
+	],
+	"legend_markers": [
+		"F",
+		"F",
+		"L",
+		"LP"
+	],
 	"line_widths": [
 		2
 	],
