@@ -168,6 +168,7 @@ public:
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
+	IMPL_SETTING_DEFAULT(bool, SvfitCheckInputs, false);
 	
 	IMPL_SETTING(std::string, TauTauRestFrameReco);
 

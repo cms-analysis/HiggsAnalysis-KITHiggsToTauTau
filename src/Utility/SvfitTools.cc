@@ -364,7 +364,8 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 
 SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
                                     SvfitInputs const& svfitInputs,
-                                    bool& neededRecalculation)
+                                    bool& neededRecalculation,
+                                    bool checkInputs)
 {
 	neededRecalculation = false;
 	
@@ -373,18 +374,10 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	{
 		neededRecalculation = true;
 	}
-	else
+	else if (checkInputs)
 	{
 		svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndicesItem->second);
-		
-		if (this->svfitInputs != svfitInputs)
-		{
-			neededRecalculation = true;
-		}
-		else
-		{
-			return svfitResults;
-		}
+		neededRecalculation = (this->svfitInputs != svfitInputs);
 	}
 	
 	if (neededRecalculation)

@@ -167,7 +167,7 @@ public:
 	
 	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
-	                        bool& neededRecalculation);
+	                        bool& neededRecalculation, bool checkInputs=false);
 
 private:
 	TChain* svfitCacheInputTree = 0;
