@@ -11,11 +11,14 @@ import os
 import ROOT
 
 import Artus.HarryPlotter.plot_modules.plotroot as plotroot
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.labels as labels
 
 
 class PlotRootHtt(plotroot.PlotRoot):
 	def __init__(self):
 		super(PlotRootHtt, self).__init__()
+		
+		self.nice_labels = labels.LabelsDict(latex_version="root")
 	
 	def modify_argument_parser(self, parser, args):
 		super(PlotRootHtt, self).modify_argument_parser(parser, args)
