@@ -148,6 +148,8 @@ private:
 	bool IsMVANonTrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const;
 	bool IsMVANonTrigV025nsPhys14(KElectron* electron, event_type const& event, bool tightID) const;
+
+	std::string choseID(const KElectronMetadata* meta, const std::string option1, const std::string option2) const;
 };
 
 

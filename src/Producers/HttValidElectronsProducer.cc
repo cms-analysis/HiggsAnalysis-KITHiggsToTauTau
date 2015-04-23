@@ -350,19 +350,32 @@ bool HttValidElectronsProducer::IsMVANonTrigV025nsCsa14(KElectron* electron, eve
 	return validElectron;
 }
 
+std::string HttValidElectronsProducer::choseID(const KElectronMetadata* meta, const std::string option1, const std::string option2) const
+{
+	for(size_t i = 0; i < meta->idNames.size(); ++i)
+	{
+		if(option1 == meta->idNames[i])
+			return option1;
+		if(option2 == meta->idNames[i])
+			return option2;
+	}
+	return "";
+}
+
+
 bool HttValidElectronsProducer::IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const
 {
 	bool validElectron = true;
-	
+
 	if (wp == WorkingPoint::LOOSE)
-		validElectron = validElectron && electron->getId("cutBasedEleIdPHYS14Loose", event.m_electronMetadata);
+		validElectron = validElectron && electron->getId( choseID(event.m_electronMetadata, "cutBasedEleIdPHYS14Loose", "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-loose"), event.m_electronMetadata);
 	
 	if (wp == WorkingPoint::MEDIUM)
-		validElectron = validElectron && electron->getId("cutBasedEleIdPHYS14Medium", event.m_electronMetadata);
+		validElectron = validElectron && electron->getId( choseID(event.m_electronMetadata, "cutBasedEleIdPHYS14Medium", "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-medium"), event.m_electronMetadata);
 	
 	if (wp == WorkingPoint::TIGHT)
-		validElectron = validElectron && electron->getId("cutBasedEleIdPHYS14Tight", event.m_electronMetadata);
-	
+		validElectron = validElectron && electron->getId( choseID(event.m_electronMetadata, "cutBasedEleIdPHYS14Tight", "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-tight"), event.m_electronMetadata);
+
 	return validElectron;
 }
 
