@@ -40,6 +40,8 @@ if __name__ == "__main__":
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	parser.add_argument("-f", "--n-plots", type=int,
+	                    help="Number of plots. [Default: all]")
 	                    
 	
 	args = vars(parser.parse_args())
@@ -101,5 +103,5 @@ if __name__ == "__main__":
 			plot_configs[-1]["output_dir"] = os.path.join("plots", "prefit", os.path.splitext(os.path.basename(args["input"]))[0])
 			plot_configs[-1]["filename"] = directory + "_mH" + str(mass)
 	
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args["args"]], n_processes=args["n_processes"])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args["args"]], n_processes=args["n_processes"], n_plots=args["n_plots"])
 

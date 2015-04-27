@@ -45,6 +45,8 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	parser.add_argument("-f", "--n-plots", type=int,
+	                    help="Number of plots. [Default: all]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -71,5 +73,5 @@ if __name__ == "__main__":
 			configs[-1]["directories"] = [args.input_dir]
 			configs[-1]["weights"] = ["({w1})*({w2})".format(w1=weight, w2=args.weight) for weight in configs[-1].get("weights", ["1.0"])]
 	
-	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
+	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
