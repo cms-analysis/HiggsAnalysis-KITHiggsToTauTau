@@ -11,10 +11,11 @@ import Artus.HarryPlotter.core as harrycore
 
 class HiggsPlotter(harry.HarryPlotter):
 
-	def __init__(self, list_of_config_dicts=None, list_of_args_strings=None, n_processes=1):
+	def __init__(self, list_of_config_dicts=None, list_of_args_strings=None, n_processes=1, n_plots=None):
 		super(HiggsPlotter, self).__init__(list_of_config_dicts=list_of_config_dicts,
 		                                   list_of_args_strings=list_of_args_strings,
-		                                   n_processes=n_processes)
+		                                   n_processes=n_processes,
+		                                   n_plots=n_plots)
 	
 	def plot(self, harry_args):
 		harry_core = harrycore.HarryCore(args_from_script=harry_args)
