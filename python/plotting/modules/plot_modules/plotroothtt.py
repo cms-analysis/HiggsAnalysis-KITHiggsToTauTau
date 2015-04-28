@@ -44,7 +44,6 @@ class PlotRootHtt(plotroot.PlotRoot):
 		subplot_pad = None
 		
 		if len(plotData.plotdict["subplot_nicks"]) > 0:
-			self.plot_subplot_slider_y = 0.35
 			canvas.cd()
 			plot_pad = ROOT.TPad("plot_pad", "", 0.0, self.plot_subplot_slider_y, 1.0, 1.0)
 			subplot_pad = ROOT.TPad("subplot_pad", "", 0.0, 0.0, 1.0, self.plot_subplot_slider_y)
