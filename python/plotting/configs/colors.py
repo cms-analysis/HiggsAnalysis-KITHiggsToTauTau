@@ -12,8 +12,6 @@ class ColorsDict(colors.ColorsDict):
 	def __init__(self, color_scheme="default", additional_colors=None):
 		super(ColorsDict, self).__init__(color_scheme=color_scheme, additional_colors=additional_colors)
 		
-		self.color_scheme = color_scheme
-		self.colors_dict = {}
 		self.colors_dict["data"] = "#000000"
 		self.colors_dict["data_obs"] = self.colors_dict["data"]
 		
