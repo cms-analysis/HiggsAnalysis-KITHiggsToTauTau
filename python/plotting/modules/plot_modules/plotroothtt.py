@@ -11,6 +11,7 @@ import os
 import ROOT
 
 import Artus.HarryPlotter.plot_modules.plotroot as plotroot
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.colors as colors
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.labels as labels
 
 
@@ -24,6 +25,12 @@ class PlotRootHtt(plotroot.PlotRoot):
 		super(PlotRootHtt, self).modify_argument_parser(parser, args)
 		
 		parser.set_defaults(y_label="Number of Entries")
+	
+	def prepare_args(self, parser, plotData):
+		if self.predefined_colors is None:
+			self.predefined_colors = colors.ColorsDict(color_scheme=plotData.plotdict["color_scheme"])
+		
+		super(PlotRootHtt, self).prepare_args(parser, plotData)
 	
 	def run(self, plotData):
 		super(PlotRootHtt, self).run(plotData)
