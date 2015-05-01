@@ -26,17 +26,24 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ttbar"] = self.labels_dict["tt"]
 			self.labels_dict["wj"]  = "W + jets"
 			self.labels_dict["wjets"]  = self.labels_dict["wj"]
-			self.labels_dict["vv"]  = "di-bosons"
+			self.labels_dict["vv"]  = "Di-bosons"
 			self.labels_dict["dibosons"]  = self.labels_dict["vv"]
 			self.labels_dict["ewk"]  = self.labels_dict["vv"]
 			self.labels_dict["qcd"] = "QCD"
 			self.labels_dict["fakes"] = self.labels_dict["qcd"]
 			self.labels_dict["htt"] = "H #rightarrow #tau#tau"
-			self.labels_dict["ggh"] = "ggH #rightarrow #tau#tau"
-			self.labels_dict["qqh"] = "qqH #rightarrow #tau#tau"
-			self.labels_dict["vh"]  = "VH #rightarrow #tau#tau"
+			self.labels_dict["ggh"] = "ggH"
+			self.labels_dict["qqh"] = "qqH"
+			self.labels_dict["vh"]  = "VH"
 			self.labels_dict["totalsig"] = self.labels_dict["htt"]
-		
+			
 		else:
+			# put labels for MPL plots here
 			pass
+		
+		for higgs_mass in xrange(90, 161, 5):
+			self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
+			self.labels_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
+			self.labels_dict["qqh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["qqh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
+			self.labels_dict["vh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["vh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 
