@@ -8,6 +8,8 @@ log = logging.getLogger(__name__)
 import argparse
 import os
 
+import Artus.Utility.jsonTools as jsonTools
+
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 
@@ -45,30 +47,34 @@ if __name__ == "__main__":
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int,
 	                    help="Number of plots. [Default: all]")
-	                    
 	
-	args = vars(parser.parse_args())
+	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	plots = []
-	for channel in args["channels"]:
-		for quantity in args["quantities"]:
+	plot_configs = []
+	for channel in args.channels:
+		for quantity in args.quantities:
 			json_exists = True
 			json_configs = [
 				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity)),
 				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/%s.json" % (channel))
 			]
-			if args["ratio"]:
+			if args.ratio:
 				json_configs.append(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/ratio.json"))
 			if not os.path.exists(json_configs[0]):
 				json_exists = False
 				json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
 			
-			plot_args = "--json-defaults %s -d %s %s --formats png pdf %s" % (" ".join(json_configs), args["input_dir"],
-			                                                           ("" if json_exists else ("-x %s" % quantity)),
-			                                                           args["args"])
-			plot_args = os.path.expandvars(plot_args)
-			plots.append(plot_args)
+			config = jsonTools.JsonDict(json_configs).doIncludes().doComments()
+			config["directories"] = [args.input_dir]
+			if not json_exists:
+				config["x_expressions"] = quantity
 			
-	higgsplot.HiggsPlotter(list_of_args_strings=plots, n_processes=args["n_processes"], n_plots=args["n_plots"])
+			plot_configs.append(config)
+	
+	if log.isEnabledFor(logging.DEBUG):
+		import pprint
+		pprint.pprint(plot_configs)
+			
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
