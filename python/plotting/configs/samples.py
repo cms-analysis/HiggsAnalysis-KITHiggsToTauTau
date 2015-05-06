@@ -211,7 +211,7 @@ class Sample(object):
 					"eventWeight*((q_1*q_2)<0.0)",
 					"diboson"
 			)
-		if channel == "mm":
+		elif channel == "mm":
 			Sample._add_input(
 					config,
 					"??_pythia_tauola_8TeV/*.root",
