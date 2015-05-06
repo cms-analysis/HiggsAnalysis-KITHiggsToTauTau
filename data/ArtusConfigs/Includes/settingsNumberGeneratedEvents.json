@@ -97,6 +97,8 @@
 			"ZZJetsToLLNN_madgraph_tauola_8TeV": 954911,
 			"ZZJetsToLLQQ_madgraph_tauola_8TeV": 1936726,
 			"ZZ_pythia_tauola_8TeV": 9799891,
+			"DYJetsToLLM50_Phys14DR_PU20bx25_13TeV_MINIAODSIM" : 2829164,
+			"VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM" : 464755,
 			"default": -1
 		}
 	}
