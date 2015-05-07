@@ -6,11 +6,13 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse
+import copy
 import os
 
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 
 
 if __name__ == "__main__":
@@ -20,9 +22,15 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
+	parser.add_argument("-s", "--samples", nargs="+",
+	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
+	                    choices=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
+	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
+	parser.add_argument("--categories", nargs="+", default=[None],
+	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
 	                    default=["inclusive",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
@@ -39,6 +47,12 @@ if __name__ == "__main__":
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
+	parser.add_argument("-w", "--weight", default="1.0",
+	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
+	                    help="Higgs masses. [Default: %(default)s]")
+	parser.add_argument("--analysis-modules", default=[], nargs="+",
+	                    help="Additional analysis Modules. [Default: %(default)s]")	
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -51,27 +65,51 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
+	sample_settings = samples.Sample()
+	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
+
+	args.categories = [None if category == "None" else category for category in args.categories]
+
 	plot_configs = []
 	for channel in args.channels:
-		for quantity in args.quantities:
-			json_exists = True
-			json_configs = [
-				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity)),
-				os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/%s.json" % (channel))
-			]
-			if args.ratio:
-				json_configs.append(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/samples/complete/ratio.json"))
-			if not os.path.exists(json_configs[0]):
-				json_exists = False
-				json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
+		for category in args.categories:
+			for quantity in args.quantities:
 			
-			config = jsonTools.JsonDict(json_configs).doIncludes().doComments()
-			config["directories"] = [args.input_dir]
-			if not json_exists:
-				config["x_expressions"] = quantity
-			
-			plot_configs.append(config)
-	
+				config = sample_settings.get_config(
+						samples=list_of_samples,
+						channel=channel,
+						category=category,
+						higgs_masses=args.higgs_masses,
+						normalise_signal_to_one_pb=False
+				)
+
+				# handle possible JSON files
+				json_exists = True
+				json_config_file = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/{channel}_{quantity}.json".format(channel=channel, quantity=quantity))
+
+				if not os.path.exists(json_config_file):
+					json_exists = False
+					json_config_file =  os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/{channel}_default.json".format(channel=channel))
+
+				json_config = jsonTools.JsonDict(json_config_file).doIncludes().doComments()
+				config = copy.deepcopy(json_config) + config
+
+				config["directories"] = [args.input_dir]
+
+				if not json_exists:
+					config["x_expressions"] = quantity
+				
+				if args.ratio:
+					config.setdefault("analysis_modules", []).append("Ratio")
+					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples), "data"])
+					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples)] * 2)
+					config.setdefault("colors", []).extend(["#000000"] * 2)
+					config.setdefault("markers", []).extend(["E2", "E"])
+					config.setdefault("labels", []).extend([""] * 2)	
+
+				plot_configs.append(config)
+
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
