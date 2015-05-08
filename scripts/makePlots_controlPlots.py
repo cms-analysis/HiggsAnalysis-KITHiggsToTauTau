@@ -106,6 +106,7 @@ if __name__ == "__main__":
 					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples)] * 2)
 					config.setdefault("colors", []).extend(["#000000"] * 2)
 					config.setdefault("markers", []).extend(["E2", "E"])
+					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)	
 
 				plot_configs.append(config)

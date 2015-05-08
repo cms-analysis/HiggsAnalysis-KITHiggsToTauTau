@@ -66,7 +66,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "data", "E", "#000000", "Data")
+		Sample._add_plot(config, "data", "E", "ELP", "#000000", "Data")
 		return config
 	
 	@staticmethod
@@ -108,7 +108,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#FFCC66", "ZTT")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#FFCC66", "ZTT")
 		
 		return config
 	
@@ -126,7 +126,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#4496C8", "ZL")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#4496C8", "ZL")
 		return config
 	
 	@staticmethod
@@ -140,7 +140,7 @@ class Sample(object):
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"zj"
 			)
-			Sample._add_plot(config, "bkg", "HIST", "#64B6E8", "ZJ")
+			Sample._add_plot(config, "bkg", "HIST", "F", "#64B6E8", "ZJ")
 		elif (channel == "em") or (channel == "mm"):
 			pass
 		else:
@@ -188,7 +188,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#9999CC", "TTJ")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#9999CC", "TTJ")
 		return config
 	
 	@staticmethod
@@ -223,7 +223,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#DE5A6A", "VV")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#DE5A6A", "VV")
 		return config
 	
 	@staticmethod
@@ -306,7 +306,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#FE7A8A", "WJets")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#FE7A8A", "WJets")
 		return config
 	
 	@staticmethod
@@ -440,7 +440,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#FFCCFF", "QCD")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#FFCCFF", "QCD")
 		return config
 	
 	@staticmethod
@@ -458,7 +458,7 @@ class Sample(object):
 			else:
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "#000000", "ggH%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "ggH%s" % str(mass))
 		return config
 	
 	@staticmethod
@@ -476,7 +476,7 @@ class Sample(object):
 			else:
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "#000000", "VBF%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "VBF%s" % str(mass))
 		return config
 	
 	@staticmethod
@@ -502,8 +502,8 @@ class Sample(object):
 			else:
 				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "#000000", "WH%s" % str(mass))
-			Sample._add_plot(config, "sig", "LINE", "#000000", "ZH%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "WH%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "ZH%s" % str(mass))
 		return config
 	
 	@staticmethod
@@ -521,7 +521,7 @@ class Sample(object):
 			else:
 				log.error("Sample config (HTT%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "#000000", "HTT%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "HTT%s" % str(mass))
 		return config
 	
 	@staticmethod
@@ -534,9 +534,10 @@ class Sample(object):
 		return config
 		
 	@staticmethod
-	def _add_plot(config, stack, marker, color, label):
+	def _add_plot(config, stack, marker, legend_marker, color, label):
 		config.setdefault("stacks", []).append(stack)
 		config.setdefault("markers", []).append(marker)
+		config.setdefault("legend_markers", []).append(legend_marker)
 		config.setdefault("colors", []).append(color)
 		config.setdefault("labels", []).append(label)
 		return config
