@@ -493,7 +493,7 @@ class Sample(object):
 				)
 				Sample._add_input(
 						config,
-						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root" % str(mass),
+						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						"em_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
