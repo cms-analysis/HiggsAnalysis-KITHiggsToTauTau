@@ -21,20 +21,20 @@ class EstimateWjets(estimatebase.EstimateBase):
 		
 		self.estimate_wjets_options = parser.add_argument_group("WJets estimation options")
 		self.estimate_wjets_options.add_argument("--wjets-shape-nicks", nargs="+",
-				default=["wjets", "noplot_wjets_ss"],
+				default=["wj", "noplot_wj_ss"],
 				help="Nicks for histogram to plot. [Default: %(default)s]")
 		self.estimate_wjets_options.add_argument("--wjets-data-control-nicks", nargs="+",
-				default=["noplot_wjets_data_control", "noplot_wjets_ss_data_control"],
+				default=["noplot_wj_data_control", "noplot_wj_ss_data_control"],
 				help="Nicks for control region data histogram. [Default: %(default)s]")
 		self.estimate_wjets_options.add_argument("--wjets-data-substract-nicks", nargs="+",
-				default=["noplot_ztt_mc_wjet_control noplot_zll_wjet_control noplot_ttj_wjet_control noplot_diboson_wjet_control",
-		                 "noplot_ztt_ss_mc_wjet_control noplot_zll_ss_wjet_control noplot_ttj_ss_wjet_control noplot_diboson_ss_wjet_control"],
+				default=["noplot_ztt_mc_wj_control noplot_zll_wj_control noplot_ttj_wj_control noplot_vv_wj_control",
+		                 "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control"],
 				help="Nicks for control region histogram to substract from data (whitespace separated). [Default: %(default)s]")
 		self.estimate_wjets_options.add_argument("--wjets-mc-signal-nicks", nargs="+",
-				default=["noplot_wjets_mc_signal", "noplot_wjets_ss_mc_signal"],
+				default=["noplot_wj_mc_signal", "noplot_wj_ss_mc_signal"],
 				help="Nicks for signal region MC histogram. [Default: %(default)s]")
 		self.estimate_wjets_options.add_argument("--wjets-mc-control-nicks", nargs="+",
-				default=["noplot_wjets_mc_control", "noplot_wjets_ss_mc_control"],
+				default=["noplot_wj_mc_control", "noplot_wj_ss_mc_control"],
 				help="Nicks for control region MC histogram. [Default: %(default)s]")
 
 	def prepare_args(self, parser, plotData):

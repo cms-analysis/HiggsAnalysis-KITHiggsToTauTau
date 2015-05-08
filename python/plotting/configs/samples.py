@@ -200,7 +200,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"diboson"
+					"vv"
 			)
 		elif channel == "em":
 			Sample._add_input(
@@ -209,7 +209,7 @@ class Sample(object):
 					"em_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"diboson"
+					"vv"
 			)
 		elif channel == "mm":
 			Sample._add_input(
@@ -218,7 +218,7 @@ class Sample(object):
 					channel+"_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"diboson"
+					"vv"
 			)
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
@@ -235,7 +235,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"wjets"
+					"wj"
 			)
 			Sample._add_input(
 					config,
@@ -243,7 +243,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wjets_data_control"
+					"noplot_wj_data_control"
 			)
 			Sample._add_input(
 					config,
@@ -251,7 +251,7 @@ class Sample(object):
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ztt_mc_wjet_control"
+					"noplot_ztt_mc_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -259,7 +259,7 @@ class Sample(object):
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_zll_wjet_control"
+					"noplot_zll_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -267,7 +267,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ttj_wjet_control"
+					"noplot_ttj_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -275,7 +275,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_diboson_wjet_control"
+					"noplot_vv_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -283,7 +283,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wjets_mc_signal"
+					"noplot_wj_mc_signal"
 			)
 			Sample._add_input(
 					config,
@@ -291,7 +291,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wjets_mc_control"
+					"noplot_wj_mc_control"
 			)
 			config.setdefault("analysis_modules", []).append("EstimateWjets")
 		elif (channel == "em") or (channel == "mm"):
@@ -301,7 +301,7 @@ class Sample(object):
 					channel+"_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"wjets"
+					"wj"
 			)
 		else:
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
@@ -318,7 +318,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wjets_ss"
+					"noplot_wj_ss"
 			)
 			Sample._add_input(
 					config,
@@ -326,7 +326,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wjets_ss_data_control"
+					"noplot_wj_ss_data_control"
 			)
 			Sample._add_input(
 					config,
@@ -334,7 +334,7 @@ class Sample(object):
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ztt_ss_mc_wjet_control"
+					"noplot_ztt_ss_mc_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -342,7 +342,7 @@ class Sample(object):
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_zll_ss_wjet_control"
+					"noplot_zll_ss_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -350,7 +350,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ttj_ss_wjet_control"
+					"noplot_ttj_ss_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -358,7 +358,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_diboson_ss_wjet_control"
+					"noplot_vv_ss_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -366,7 +366,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wjets_ss_mc_signal"
+					"noplot_wj_ss_mc_signal"
 			)
 			Sample._add_input(
 					config,
@@ -374,7 +374,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wjets_ss_mc_control"
+					"noplot_wj_ss_mc_control"
 			)
 		
 			# QCD
@@ -416,7 +416,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_diboson_qcd_control"
+					"noplot_vv_qcd_control"
 			)
 			config.setdefault("analysis_modules", []).append("EstimateQcd")
 		elif channel == "em":

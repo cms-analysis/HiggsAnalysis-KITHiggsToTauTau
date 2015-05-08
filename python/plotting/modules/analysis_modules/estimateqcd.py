@@ -23,7 +23,7 @@ class EstimateQcd(estimatebase.EstimateBase):
 		self.estimate_qcd_options.add_argument("--qcd-data-control-nicks", nargs="+", default=["qcd"],
 				help="Nicks for histogram to plot. [Default: %(default)s]")
 		self.estimate_qcd_options.add_argument("--qcd-data-substract-nicks", nargs="+",
-				default=["noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_diboson_qcd_control noplot_wjets_ss"],
+				default=["noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss"],
 				help="Nicks for control region histogram to substract from data (whitespace separated). [Default: %(default)s]")
 		self.estimate_qcd_options.add_argument("--qcd-extrapolation-factors-ss-os", nargs="+", type=float, default=[1.06],
 				help="Extrapolation factors of OS/SS yields. [Default: %(default)s]")
