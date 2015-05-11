@@ -8,6 +8,6 @@
 	"x_bins" : [
 		"32,-3.2,3.2"
 	],
-	"x_label" : "Trailing Muon \\phi",
+	"x_label" : "Trailing Muon #phi",
 	"filename" : "phi_2"
 }

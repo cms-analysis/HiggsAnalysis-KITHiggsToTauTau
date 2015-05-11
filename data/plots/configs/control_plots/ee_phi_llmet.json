@@ -8,6 +8,6 @@
 	"x_bins" : [
 		"32,-3.2,3.2"
 	],
-	"x_label" : "\\phi^{ll,MEt}",
+	"x_label" : "#phi^{ll,MEt}",
 	"filename" : "phi_llmet"
 }

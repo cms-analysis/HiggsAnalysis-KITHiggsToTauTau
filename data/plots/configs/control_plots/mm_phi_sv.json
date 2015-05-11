@@ -8,6 +8,6 @@
 	"x_bins" : [
 		"32,-3.2,3.2"
 	],
-	"x_label" : "SVfit \\phi(\\tau\\tau)",
+	"x_label" : "SVfit #phi(#tau#tau)",
 	"filename" : "phi_sv"
 }

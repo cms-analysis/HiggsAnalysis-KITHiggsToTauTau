@@ -8,6 +8,6 @@
 	"x_bins" : [
 		"25,-5.0,5.0"
 	],
-	"x_label" : "SVfit \\eta(\\tau\\tau)",
+	"x_label" : "SVfit #eta(#tau#tau)",
 	"filename" : "eta_sv"
 }

@@ -8,6 +8,6 @@
 	"x_bins" : [
 		"25,0.0,250"
 	],
-	"x_label" : "SVfit Mass m(\\tau\\tau)",
+	"x_label" : "SVfit Mass m(#tau#tau)",
 	"filename" : "svfitMass"
 }
