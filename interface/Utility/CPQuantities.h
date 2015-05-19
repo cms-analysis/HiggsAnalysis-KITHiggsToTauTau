@@ -17,9 +17,17 @@ class CPQuantities
 {
 public:
 	double CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2);
+	double CalculateOStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2); //claudia
 	double CalculatePhiStarCP(KVertex pv , KTrack track1, KTrack track2, RMFLV chargPart1,RMFLV chargPart2);
+	double CalculatePhiStarCPTauDir(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2); //claudia
+	double CalculateOStarCPTauDir(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2); //claudia
 	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
+	double CalculateOCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2); //claudia
+	double CalculatePhiCPTauDir(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2); //claudia
+	double CalculateOCPTauDir(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2); //claudia
+	double CalculatePhiCP2(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2); //claudia
+	double CalculateOCP2(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2); //claudia
 	double CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng);
 	double CalculateChargedProngEnergyApprox(RMFLV tau, RMFLV chargedProng);
 	double CalculateThetaNuHadron(RMFLV tau, RMFLV nuTau, RMFLV hadron);
@@ -56,6 +64,9 @@ private:
 	double recoIP2;
 	//level: "gen", "reco" 
 	double CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level);
+	double CalculateOStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2); //claudia
+	double CalculatePhiStarCPTauDirSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level); //claudia
+	double CalculateOStarCPTauDirSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2); //claudia
 	inline void SetGenPhiStar(double genphistar)
 	{
 		genPhiStar = genphistar;

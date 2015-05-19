@@ -103,7 +103,15 @@ public:
 	double m_genZs  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiCP  = DefaultValues::UndefinedDouble;
+	double m_genOCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiCPTauDir  = DefaultValues::UndefinedDouble;
+	double m_genOCPTauDir  = DefaultValues::UndefinedDouble;
+	double m_genPhiCP2  = DefaultValues::UndefinedDouble;
+	double m_genOCP2  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
+	double m_genOStarCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCPTauDir  = DefaultValues::UndefinedDouble;
+	double m_genOStarCPTauDir  = DefaultValues::UndefinedDouble;
 	double m_genPhi = DefaultValues::UndefinedDouble;
 	double m_genPhiStar = DefaultValues::UndefinedDouble;
 	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
