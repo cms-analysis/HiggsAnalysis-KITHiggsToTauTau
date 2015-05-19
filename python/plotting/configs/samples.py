@@ -66,7 +66,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "data", "E", "#000000", "Data")
+		Sample._add_plot(config, "data", "E", "ELP", "#000000", "Data")
 		return config
 	
 	@staticmethod
@@ -108,7 +108,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#FFCC66", "ZTT")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#FFCC66", "ZTT")
 		
 		return config
 	
@@ -126,7 +126,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#4496C8", "ZL")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#4496C8", "ZL")
 		return config
 	
 	@staticmethod
@@ -140,7 +140,7 @@ class Sample(object):
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"zj"
 			)
-			Sample._add_plot(config, "bkg", "HIST", "#64B6E8", "ZJ")
+			Sample._add_plot(config, "bkg", "HIST", "F", "#64B6E8", "ZJ")
 		elif (channel == "em") or (channel == "mm"):
 			pass
 		else:
@@ -188,7 +188,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#9999CC", "TTJ")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#9999CC", "TTJ")
 		return config
 	
 	@staticmethod
@@ -200,7 +200,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"diboson"
+					"vv"
 			)
 		elif channel == "em":
 			Sample._add_input(
@@ -209,21 +209,21 @@ class Sample(object):
 					"em_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"diboson"
+					"vv"
 			)
-		if channel == "mm":
+		elif channel == "mm":
 			Sample._add_input(
 					config,
 					"??_pythia_tauola_8TeV/*.root",
 					channel+"_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"diboson"
+					"vv"
 			)
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#DE5A6A", "VV")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#DE5A6A", "VV")
 		return config
 	
 	@staticmethod
@@ -235,7 +235,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"wjets"
+					"wj"
 			)
 			Sample._add_input(
 					config,
@@ -243,7 +243,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wjets_data_control"
+					"noplot_wj_data_control"
 			)
 			Sample._add_input(
 					config,
@@ -251,7 +251,7 @@ class Sample(object):
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ztt_mc_wjet_control"
+					"noplot_ztt_mc_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -259,7 +259,7 @@ class Sample(object):
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_zll_wjet_control"
+					"noplot_zll_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -267,7 +267,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ttj_wjet_control"
+					"noplot_ttj_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -275,7 +275,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_diboson_wjet_control"
+					"noplot_vv_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -283,7 +283,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wjets_mc_signal"
+					"noplot_wj_mc_signal"
 			)
 			Sample._add_input(
 					config,
@@ -291,7 +291,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wjets_mc_control"
+					"noplot_wj_mc_control"
 			)
 			config.setdefault("analysis_modules", []).append("EstimateWjets")
 		elif (channel == "em") or (channel == "mm"):
@@ -301,12 +301,12 @@ class Sample(object):
 					channel+"_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"wjets"
+					"wj"
 			)
 		else:
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#FE7A8A", "WJets")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#FE7A8A", "WJets")
 		return config
 	
 	@staticmethod
@@ -318,7 +318,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wjets_ss"
+					"noplot_wj_ss"
 			)
 			Sample._add_input(
 					config,
@@ -326,7 +326,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wjets_ss_data_control"
+					"noplot_wj_ss_data_control"
 			)
 			Sample._add_input(
 					config,
@@ -334,7 +334,7 @@ class Sample(object):
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ztt_ss_mc_wjet_control"
+					"noplot_ztt_ss_mc_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -342,7 +342,7 @@ class Sample(object):
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_zll_ss_wjet_control"
+					"noplot_zll_ss_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -350,7 +350,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ttj_ss_wjet_control"
+					"noplot_ttj_ss_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -358,7 +358,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_diboson_ss_wjet_control"
+					"noplot_vv_ss_wj_control"
 			)
 			Sample._add_input(
 					config,
@@ -366,7 +366,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wjets_ss_mc_signal"
+					"noplot_wj_ss_mc_signal"
 			)
 			Sample._add_input(
 					config,
@@ -374,7 +374,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wjets_ss_mc_control"
+					"noplot_wj_ss_mc_control"
 			)
 		
 			# QCD
@@ -416,7 +416,7 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_diboson_qcd_control"
+					"noplot_vv_qcd_control"
 			)
 			config.setdefault("analysis_modules", []).append("EstimateQcd")
 		elif channel == "em":
@@ -440,7 +440,7 @@ class Sample(object):
 		else:
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "#FFCCFF", "QCD")
+		Sample._add_plot(config, "bkg", "HIST", "F", "#FFCCFF", "QCD")
 		return config
 	
 	@staticmethod
@@ -458,7 +458,7 @@ class Sample(object):
 			else:
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "#000000", "ggH%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "ggH%s" % str(mass))
 		return config
 	
 	@staticmethod
@@ -476,7 +476,7 @@ class Sample(object):
 			else:
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "#000000", "VBF%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "VBF%s" % str(mass))
 		return config
 	
 	@staticmethod
@@ -493,7 +493,7 @@ class Sample(object):
 				)
 				Sample._add_input(
 						config,
-						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root" % str(mass),
+						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						"em_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
@@ -502,8 +502,8 @@ class Sample(object):
 			else:
 				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "#000000", "WH%s" % str(mass))
-			Sample._add_plot(config, "sig", "LINE", "#000000", "ZH%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "WH%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "ZH%s" % str(mass))
 		return config
 	
 	@staticmethod
@@ -521,7 +521,7 @@ class Sample(object):
 			else:
 				log.error("Sample config (HTT%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "#000000", "HTT%s" % str(mass))
+			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "HTT%s" % str(mass))
 		return config
 	
 	@staticmethod
@@ -534,9 +534,10 @@ class Sample(object):
 		return config
 		
 	@staticmethod
-	def _add_plot(config, stack, marker, color, label):
+	def _add_plot(config, stack, marker, legend_marker, color, label):
 		config.setdefault("stacks", []).append(stack)
 		config.setdefault("markers", []).append(marker)
+		config.setdefault("legend_markers", []).append(legend_marker)
 		config.setdefault("colors", []).append(color)
 		config.setdefault("labels", []).append(label)
 		return config

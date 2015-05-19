@@ -53,6 +53,8 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	parser.add_argument("-f", "--n-plots", type=int,
+	                    help="Number of plots. [Default: all]")
 
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
@@ -177,7 +179,7 @@ if __name__ == "__main__":
 					harry_configs.append(json_defaults)
 					harry_args.append("-d %s %s --formats png pdf %s" % (args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"]))
 			
-	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=harry_configs, list_of_args_strings=harry_args, n_processes=args["n_processes"])
+	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=harry_configs, list_of_args_strings=harry_args, n_processes=args["n_processes"], n_plots=args["n_plots"])
 	
 	root_outputs = list(set([output for output in tools.flattenList(higgs_plotter.output_filenames) if output.endswith(".root")]))
 	command = "hadd -f %s %s" % (args["root_output"], " ".join(root_outputs))

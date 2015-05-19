@@ -336,7 +336,7 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 	pm.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
 	pp.SetXYZ(chargPart2.Px(),chargPart2.Py(),chargPart2.Pz());
 
-	nm = (km.Cross(pm)).Unit(); np = (km.Cross(pp)).Unit(); ez = pm.Unit();
+	nm = (km.Cross(pm)).Unit(); np = (km.Cross(pp)).Unit(); ez = km.Unit();
 
 	// Step 4: Calculating PhiCP
 	this->SetGenPhi(acos(np.Dot(nm)));

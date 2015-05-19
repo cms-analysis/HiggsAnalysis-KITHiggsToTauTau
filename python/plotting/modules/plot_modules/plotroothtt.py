@@ -11,16 +11,26 @@ import os
 import ROOT
 
 import Artus.HarryPlotter.plot_modules.plotroot as plotroot
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.colors as colors
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.labels as labels
 
 
 class PlotRootHtt(plotroot.PlotRoot):
 	def __init__(self):
 		super(PlotRootHtt, self).__init__()
+		
+		self.nice_labels = labels.LabelsDict(latex_version="root")
 	
 	def modify_argument_parser(self, parser, args):
 		super(PlotRootHtt, self).modify_argument_parser(parser, args)
 		
 		parser.set_defaults(y_label="Number of Entries")
+	
+	def prepare_args(self, parser, plotData):
+		if self.predefined_colors is None:
+			self.predefined_colors = colors.ColorsDict(color_scheme=plotData.plotdict["color_scheme"])
+		
+		super(PlotRootHtt, self).prepare_args(parser, plotData)
 	
 	def run(self, plotData):
 		super(PlotRootHtt, self).run(plotData)
@@ -41,9 +51,8 @@ class PlotRootHtt(plotroot.PlotRoot):
 		subplot_pad = None
 		
 		if len(plotData.plotdict["subplot_nicks"]) > 0:
-			self.plot_subplot_slider_y = 0.35
 			canvas.cd()
-			plot_pad = ROOT.TPad("plot_pad", "", 0.0, self.plot_subplot_slider_y, 1.0, 1.0)
+			plot_pad = ROOT.TPad("plot_pad", "", 0.0, self.plot_subplot_slider_y, 1.0, 0.95)
 			subplot_pad = ROOT.TPad("subplot_pad", "", 0.0, 0.0, 1.0, self.plot_subplot_slider_y)
 			plot_pad.SetNumber(1)
 			subplot_pad.SetNumber(2)

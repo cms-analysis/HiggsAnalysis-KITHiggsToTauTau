@@ -8,6 +8,6 @@
 	"x_bins" : [
 		"32,-3.2,3.2"
 	],
-	"x_label" : "Electron \\phi",
+	"x_label" : "Electron #phi",
 	"filename" : "phi_1"
 }
