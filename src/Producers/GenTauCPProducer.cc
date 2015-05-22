@@ -23,37 +23,37 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_genOStarCP; //claudia
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStarCPTauDir", [](event_type const& event, product_type const& product)
-	{
-		return product.m_genPhiStarCPTauDir; //claudia
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genOStarCPTauDir", [](event_type const& event, product_type const& product)
-	{
-		return product.m_genOStarCPTauDir; //claudia
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhiCP;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_genPhiCP2; //claudia
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genOCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genOCP; //claudia
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiCP2; //claudia
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genOCP2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genOCP2; //claudia
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCPTauDir", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP3", [](event_type const& event, product_type const& product)
 	{
-		return product.m_genPhiCPTauDir; //claudia
+		return product.m_genPhiCP3; //claudia
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genOCPTauDir", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genOCP3", [](event_type const& event, product_type const& product)
 	{
-		return product.m_genOCPTauDir; //claudia
+		return product.m_genOCP3; //claudia
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP4", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiCP4; //claudia
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genOCP4", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genOCP4; //claudia
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStar", [](event_type const& event, product_type const& product)
 	{
@@ -62,6 +62,30 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhi", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhi;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genTauMinusDirX", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genTauMinusDirX; //claudia
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genTauMinusDirY", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genTauMinusDirY; //claudia
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genTauMinusDirZ", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genTauMinusDirZ; //claudia
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPiMinusDirX", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPiMinusDirX; //claudia
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPiMinusDirY", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPiMinusDirY; //claudia
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPiMinusDirZ", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPiMinusDirZ; //claudia
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TauMProngEnergy", [](event_type const& event, product_type const& product)
 	{
@@ -196,17 +220,27 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
 		product.m_genPhiStar = cpq.GetGenPhiStar();
 		product.m_genOStarCP = cpq.CalculateOStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
-		product.m_genPhiStarCPTauDir = cpq.CalculatePhiStarCPTauDir(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
-		product.m_genOStarCPTauDir = cpq.CalculatePhiStarCPTauDir(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
 		// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
 		double genPhiCP = cpq.CalculatePhiCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
 		product.m_genPhi = cpq.GetGenPhi();
 		product.m_genOCP = cpq.CalculateOCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
-		product.m_genPhiCPTauDir = cpq.CalculatePhiCPTauDir(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
-		product.m_genOCPTauDir = cpq.CalculateOCPTauDir(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
 		product.m_genPhiCP2 = cpq.CalculatePhiCP2(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
 		product.m_genOCP2 = cpq.CalculateOCP2(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genPhiCP3 = cpq.CalculatePhiCP3(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genOCP3 = cpq.CalculateOCP3(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genPhiCP4 = cpq.CalculatePhiCP4(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genOCP4 = cpq.CalculateOCP4(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+
+		std::vector<float> tauDir = cpq.CalculateTauMinusDirection(higgs->node->p4, selectedTau1->node->p4);
+		product.m_genTauMinusDirX = tauDir.at(0);
+		product.m_genTauMinusDirY = tauDir.at(1);
+		product.m_genTauMinusDirZ = tauDir.at(2);
+
+		std::vector<float> piDir = cpq.CalculatePiMinusDirection(selectedTau1->node->p4, chargedPart1->p4);
+		product.m_genPiMinusDirX = piDir.at(0);
+		product.m_genPiMinusDirY = piDir.at(1);
+		product.m_genPiMinusDirZ = piDir.at(2);
 
 		//CPTransformation for semileptonic case
 		if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId() == DefaultValues::pdgIdElectron || chargedPart1->pdgId() == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId() == 211)) || ((chargedPart2->pdgId() == -DefaultValues::pdgIdElectron || chargedPart2->pdgId() == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId() == -211))))
