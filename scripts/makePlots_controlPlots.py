@@ -100,6 +100,15 @@ if __name__ == "__main__":
 				if not json_exists:
 					config["x_expressions"] = quantity
 				
+				if args.weight != parser.get_default("weight"):
+					if "weights" in config:
+						newWeights = []
+						for weight in config["weights"]:
+							newWeights.append(weight + '*' + args.weight)
+						config["weights"] = newWeights
+					else:
+						config["weights"] = args.weight
+
 				if args.ratio:
 					config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples), "data"])
