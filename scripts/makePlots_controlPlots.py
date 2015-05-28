@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
 				if not os.path.exists(json_config_file):
 					json_exists = False
-					json_config_file =  os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/{channel}_default.json".format(channel=channel))
+					json_config_file =  os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/{channel}_default.json".format(channel=channel))
 
 				json_config = jsonTools.JsonDict(json_config_file).doIncludes().doComments()
 				config = copy.deepcopy(json_config) + config
