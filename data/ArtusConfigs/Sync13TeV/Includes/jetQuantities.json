@@ -1,0 +1,30 @@
+{
+	"property" : [
+		"nJets",
+		"nJets20",
+		"nJets30",
+		"rho",
+		"leadingJetPt",
+		"leadingJetEta",
+		"leadingJetPhi",
+		"leadingJetCSV",
+		"leadingJetTCHE",
+		"trailingJetPt",
+		"trailingJetEta",
+		"trailingJetPhi",
+		"trailingJetCSV",
+		"trailingJetTCHE",
+		"nBJets",
+		"nBJets20",
+		"nBJets30",
+		"bJetPt",
+		"bJetEta",
+		"bJetPhi",
+		"leadingBJetCSV",
+		"trailingBJetCSV",
+		"diJetMass",
+		"diJetDeltaPhi",
+		"diJetAbsDeltaEta",
+		"centralJet30Exists"
+	]
+}

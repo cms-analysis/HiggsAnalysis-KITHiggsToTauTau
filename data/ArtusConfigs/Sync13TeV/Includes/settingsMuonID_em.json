@@ -1,0 +1,7 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
+	],
+	"MuonIsoPtSumOverPtUpperThresholdEB" : 0.15,
+	"MuonTrackDxyCut" : 0.02
+}

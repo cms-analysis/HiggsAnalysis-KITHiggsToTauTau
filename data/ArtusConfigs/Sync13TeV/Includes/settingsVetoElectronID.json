@@ -1,0 +1,17 @@
+{
+	"VetoElectronReco" : "none",
+	"VetoElectronID" : "vbft95_veto",
+	"VetoElectronIDType" : "none",
+	"VetoElectronIsoType" : "user",
+	"VetoElectronIso" : "none",
+	"VetoElectronIsoPtSumOverPtUpperThresholdEB" : 0.3,
+	"VetoElectronIsoPtSumOverPtUpperThresholdEE" : 0.3,
+	"VetoElectronLowerPtCuts" : [
+		"15.0"
+	],
+	"VetoElectronUpperAbsEtaCuts" : [
+		"2.5"
+	],
+	"DiVetoElectronVetoMode" : "veto_os_keep_ss",
+	"DirectIso" : true
+}
