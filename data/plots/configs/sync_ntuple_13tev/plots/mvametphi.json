@@ -1,0 +1,30 @@
+{
+    "files": [
+        "aod.root", 
+        "miniaod.root", 
+        "cern.root"
+    ], 
+    "folders": [
+        "tt/ntuple", 
+        "tt/ntuple", 
+        "tree"
+    ], 
+    "labels": [
+        "KIT miniAOD", 
+        "KIT AOD", 
+        "CERN miniAOD"
+    ], 
+    "line_styles": [
+        "-"
+    ], 
+    "markers": [
+        "."
+    ], 
+    "step": [
+        true
+    ], 
+    "title": "MVA MET $\\phi$", 
+    "x_expressions": [
+        "mvametphi"
+    ]
+}

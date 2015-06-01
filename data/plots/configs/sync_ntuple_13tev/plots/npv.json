@@ -1,0 +1,27 @@
+{
+    "files": [
+        "aod.root", 
+        "miniaod.root", 
+        "cern.root"
+    ], 
+    "folders": [
+        "tt/ntuple", 
+        "tt/ntuple", 
+        "tree"
+    ], 
+    "labels": [
+        "npv"
+    ], 
+    "line_styles": [
+        "-"
+    ], 
+    "markers": [
+        "."
+    ], 
+    "step": [
+        true
+    ], 
+    "x_expressions": [
+        "npv"
+    ]
+}

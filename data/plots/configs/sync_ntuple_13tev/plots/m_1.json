@@ -1,0 +1,33 @@
+{
+    "files": [
+        "aod.root", 
+        "miniaod.root", 
+        "cern.root"
+    ], 
+    "folders": [
+        "tt/ntuple", 
+        "tt/ntuple", 
+        "tree"
+    ], 
+    "labels": [
+        "KIT miniAOD", 
+        "KIT AOD", 
+        "CERN miniAOD"
+    ], 
+    "line_styles": [
+        "-"
+    ], 
+    "markers": [
+        "."
+    ], 
+    "step": [
+        true
+    ], 
+    "title": "Leading Lepton mass", 
+    "x_bins": [
+        "30,0,2.0"
+    ], 
+    "x_expressions": [
+        "m_1"
+    ]
+}
