@@ -8,13 +8,15 @@
 	"LooseElectronIDType" : {
 		"nick" : {
 			"8TeV" : "summer2013loose",
-			"13TeV" : "mvanontrig"
+			"13TeV" : "vbft95_veto"
 		}
 	},
+
 	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",
 	"LooseElectronIsoPtSumOverPtUpperThresholdEB" : 0.3,
 	"LooseElectronIsoPtSumOverPtUpperThresholdEE" : 0.3,
+
 	"LooseElectronLowerPtCuts" : [
 		"10.0"
 	],

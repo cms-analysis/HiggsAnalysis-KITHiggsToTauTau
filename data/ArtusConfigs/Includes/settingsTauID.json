@@ -1,7 +1,14 @@
 {
-	"TauID_documentation" : [
-		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation"
-	],
+	"TauID_documentation" : {
+		"nick" : {
+			"8TeV" : [
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation"	
+			],
+			"13TeV" : [
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Taus"
+			] 
+		}
+	},
 
 	"TauTrackDzCut" : 0.2,
 	"TauDiscriminatorIsolationCut" : 1.5
