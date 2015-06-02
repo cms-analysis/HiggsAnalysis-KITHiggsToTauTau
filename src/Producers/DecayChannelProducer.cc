@@ -52,6 +52,14 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	{
 		return product.m_flavourOrderedLeptons[0]->charge();
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Dz", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons[0]->track.getDz(&event.m_vertexSummary->pv);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons[0]->track.getDxy(&event.m_vertexSummary->pv);
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Pt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->p4.Pt();
@@ -133,6 +141,14 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->charge();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Dz", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons[1]->track.getDz(&event.m_vertexSummary->pv);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons[1]->track.getDxy(&event.m_vertexSummary->pv);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Pt", [](event_type const& event, product_type const& product)
 	{
