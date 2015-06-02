@@ -40,6 +40,7 @@ public:
 
 	enum class ElectronIDType : int
 	{
+		INVALID = -2,
 		NONE  = -1,
 		SUMMER2013LOOSE = 0,
 		SUMMER2013TIGHT = 1,
@@ -74,7 +75,10 @@ public:
 		else if (electronIDType == "phys14cutbasedmedium") return ElectronIDType::PHYS14CUTBASEDMEDIUM;
 		else if (electronIDType == "phys14cutbasedtight") return ElectronIDType::PHYS14CUTBASEDTIGHT;
 		else if (electronIDType == "mvanontrigv025nsphys14") return ElectronIDType::MVANONTRIGV025NSPHYS14;
-		else return ElectronIDType::NONE;
+		else if (electronIDType == "none") return ElectronIDType::NONE;
+		else
+			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;
+		return ElectronIDType::INVALID;
 	}
 	
 	HttValidElectronsProducer(
