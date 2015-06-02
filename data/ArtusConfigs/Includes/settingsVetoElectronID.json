@@ -8,13 +8,13 @@
 	"VetoElectronID" : {
 		"nick" : {
 			"8TeV" : "vbft95_veto",
-			"13TeV" : "vbft95_veto"
+			"13TeV" : "user"
 		}
 	},
 	"VetoElectronIDType" : {
 		"nick" : {
 			"8TeV" : "none",
-			"13TeV" : "none"
+			"13TeV" : "phys14cutbasedveto"
 		}
 	},
 

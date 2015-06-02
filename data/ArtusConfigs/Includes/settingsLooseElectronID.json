@@ -8,7 +8,7 @@
 	"LooseElectronIDType" : {
 		"nick" : {
 			"8TeV" : "summer2013loose",
-			"13TeV" : "vbft95_veto"
+			"13TeV" : "phys14cutbasedveto"
 		}
 	},
 

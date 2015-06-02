@@ -53,13 +53,15 @@ public:
 		PHYS14CUTBASEDLOOSE = 8,
 		PHYS14CUTBASEDMEDIUM = 9,
 		PHYS14CUTBASEDTIGHT = 10,
-		MVANONTRIGV025NSPHYS14 = 11,
+		PHYS14CUTBASEDVETO = 11,
+		MVANONTRIGV025NSPHYS14 = 12,
 	};
 	enum class WorkingPoint : int
 	{
 		LOOSE = 0,
 		MEDIUM = 1,
 		TIGHT = 2,
+		VETO = 3,
 	};
 	static ElectronIDType ToElectronIDType(std::string const& electronIDType)
 	{
@@ -74,6 +76,7 @@ public:
 		else if (electronIDType == "phys14cutbasedloose") return ElectronIDType::PHYS14CUTBASEDLOOSE;
 		else if (electronIDType == "phys14cutbasedmedium") return ElectronIDType::PHYS14CUTBASEDMEDIUM;
 		else if (electronIDType == "phys14cutbasedtight") return ElectronIDType::PHYS14CUTBASEDTIGHT;
+		else if (electronIDType == "phys14cutbasedveto") return ElectronIDType::PHYS14CUTBASEDVETO;
 		else if (electronIDType == "mvanontrigv025nsphys14") return ElectronIDType::MVANONTRIGV025NSPHYS14;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else

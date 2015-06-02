@@ -1,7 +1,7 @@
 {
 	"VetoElectronReco" : "none",
-	"VetoElectronID" : "vbft95_veto",
-	"VetoElectronIDType" : "none",
+	"VetoElectronID" : "user",
+	"VetoElectronIDType" : "phys14cutbasedveto",
 	"VetoElectronIsoType" : "user",
 	"VetoElectronIso" : "none",
 	"VetoElectronIsoPtSumOverPtUpperThresholdEB" : 0.3,
