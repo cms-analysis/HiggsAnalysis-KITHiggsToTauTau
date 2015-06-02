@@ -28,8 +28,19 @@
 	"Muons" : "muons",
 	"Taus" : "taus",
 	"TauMetadata" : "taus",
-	"TaggedJets" : "AK5PFTaggedJets",
-	"PileupDensity" : "KT6Area",
+	"TaggedJets" : {
+		"nick" : {
+			"8TeV" : "AK5PFTaggedJets",
+			"13TeV.*_AODSIM" : "AK5PFTaggedJets",
+			"13TeV.*_MINIAODSIM": "ak5PFJets"
+		}
+	},
+	"PileupDensity" : {
+		"nick" : {
+			"8TeV" : "KT6Area",
+			"13TeV" : "pileupDensity"
+		}
+	},
 	"Met" :  "met",
 	"MvaMetTT" : "metMVATT",
 	"MvaMetMT" : "metMVAMT",
