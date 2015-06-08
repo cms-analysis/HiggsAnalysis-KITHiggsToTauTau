@@ -46,6 +46,7 @@
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenTauDecayProducer",
+				"producer:GenTauDecayModeProducer",
 				"producer:GenTauCPProducer",
 				"producer:TauSpinnerProducer",
 				"producer:GeneratorWeightProducer",
