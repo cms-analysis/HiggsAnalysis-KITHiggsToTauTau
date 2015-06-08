@@ -20,11 +20,8 @@
     "step": [
         true
     ], 
-    "title": "Sub-Leading Lepton transverse mass", 
-    "x_bins": [
-        "40,0,400"
-    ], 
+    "title": "dZ leading tau", 
     "x_expressions": [
-        "mt_2"
+        "dZ_1"
     ]
 }

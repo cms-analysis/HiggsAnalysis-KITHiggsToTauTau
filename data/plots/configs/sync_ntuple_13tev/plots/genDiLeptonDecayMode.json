@@ -1,0 +1,11 @@
+{
+    "files": [
+        "miniaod.root"
+    ], 
+    "folders": [
+        "tt/ntuple"
+    ], 
+    "x_expressions": [
+        "genDiLeptonDecayMode"
+    ]
+}

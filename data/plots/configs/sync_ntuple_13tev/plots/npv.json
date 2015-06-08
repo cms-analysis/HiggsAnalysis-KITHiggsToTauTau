@@ -1,16 +1,15 @@
 {
     "files": [
-        "aod.root", 
         "miniaod.root", 
         "cern.root"
     ], 
     "folders": [
         "tt/ntuple", 
-        "tt/ntuple", 
         "tree"
     ], 
     "labels": [
-        "npv"
+        "KIT miniAOD", 
+        "CERN miniAOD"
     ], 
     "line_styles": [
         "-"

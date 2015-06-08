@@ -20,11 +20,7 @@
     "step": [
         true
     ], 
-    "title": "Sub-Leading Lepton transverse mass", 
-    "x_bins": [
-        "40,0,400"
-    ], 
     "x_expressions": [
-        "mt_2"
+        "m_vis"
     ]
 }
