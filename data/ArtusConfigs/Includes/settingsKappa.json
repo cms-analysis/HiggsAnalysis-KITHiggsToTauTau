@@ -14,6 +14,7 @@
 	"GenTauJets" : {
 		"nick" : {
 			"(?<!PFembedded).Run2012" : "",
+			"8TeV" : "",
 			"default" : "tauGenJets"
 		}
 	},
