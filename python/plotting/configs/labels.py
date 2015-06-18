@@ -26,7 +26,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ttbar"] = self.labels_dict["tt"]
 			self.labels_dict["wj"]  = "W + jets"
 			self.labels_dict["wjets"]  = self.labels_dict["wj"]
-			self.labels_dict["vv"]  = "Di-bosons"
+			self.labels_dict["vv"]  = "Di-boson"
 			self.labels_dict["dibosons"]  = self.labels_dict["vv"]
 			self.labels_dict["ewk"]  = self.labels_dict["vv"]
 			self.labels_dict["qcd"] = "QCD"
