@@ -31,6 +31,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ewk"]  = self.labels_dict["vv"]
 			self.labels_dict["qcd"] = "QCD"
 			self.labels_dict["fakes"] = self.labels_dict["qcd"]
+			self.labels_dict["qcdwj"] = self.labels_dict["qcd"]
 			self.labels_dict["htt"] = "H #rightarrow #tau#tau"
 			self.labels_dict["ggh"] = "ggH"
 			self.labels_dict["qqh"] = "qqH"
