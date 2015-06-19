@@ -38,6 +38,9 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["qqh"] = "#F69110"
 			self.colors_dict["vh"]  = "#BC0C8D"
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
+			self.colors_dict["hww"] = "#D97CC4 #E7AEDB"
+			self.colors_dict["hww125"] = self.colors_dict["hww"]
+			self.colors_dict["totalbkg"] = "#000000"
 		
 		else: # if color_scheme.lower() == "cern":
 			self.colors_dict["zll"] = "#4496C8"
@@ -62,6 +65,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["qqh"] = self.colors_dict["htt"]
 			self.colors_dict["vh"]  = self.colors_dict["htt"]
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
+			self.colors_dict["totalbkg"] = "#000000"
 
 		for higgs_mass in xrange(90, 161, 5):
 			self.colors_dict["htt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["htt"]

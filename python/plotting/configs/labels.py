@@ -37,6 +37,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["qqh"] = "qqH"
 			self.labels_dict["vh"]  = "VH"
 			self.labels_dict["totalsig"] = self.labels_dict["htt"]
+			self.labels_dict["hww"] = "H #rightarrow WW"
+			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			
 		else:
 			# put labels for MPL plots here
