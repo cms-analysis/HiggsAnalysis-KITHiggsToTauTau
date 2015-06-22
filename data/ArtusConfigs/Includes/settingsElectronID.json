@@ -1,17 +1,23 @@
 {
-	"ElectronID_documentation" : [
-		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_ID",
-		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentification#Non_triggering_MVA",
-		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation"
-	],
-	
+	"ElectronID_documentation" : {
+		"nick" : {
+			"8TeV" : [
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_ID",
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentification#Non_triggering_MVA",
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation"	
+			],
+			"13TeV" : [
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"
+			] 
+		}
+	},
 	"ElectronReco" : "user",
 	
 	"ElectronID" : "user",
 	"ElectronIDType" : {
 		"nick" : {
 			"8TeV" : "summer2013tight",
-			"13TeV" : "mvanontrig"
+			"13TeV" : "mvanontrigv025nsphys14"
 		}
 	},
 	

@@ -2,12 +2,26 @@
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json"
 	],
+
 	"ElectronIDType" : {
 		"nick" : {
 			"8TeV" : "summer2013loose",
-			"13TeV" : "mvanontrig"
+			"13TeV" : "mvanontrigv025nsphys14"
 		}
 	},
+
 	"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.15,
-	"ElectronTrackDxyCut" : 0.02
+	"ElectronIsoPtSumOverPtUpperThresholdEE" : {
+		"nick": {
+			"8TeV" : 0.1,
+			"13TeV" : 0.15
+		}
+	},
+
+	"ElectronTrackDxyCut" : {
+		"nick" : {
+			"8TeV" : 0.02,
+			"13TeV" : 0.045
+		}
+	}
 }

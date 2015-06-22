@@ -1,0 +1,25 @@
+{
+    "analysis_modules": [
+        "EventSelectionOverlap"
+    ], 
+    "branch_names": [
+        "run", 
+        "lumi", 
+        "evt"
+    ], 
+    "dict": true, 
+    "filename": "eventselectionOverlap", 
+    "files": [
+        "miniaod.root", 
+        "cern.root"
+    ], 
+    "folders": [
+        "tt/ntuple", 
+        "tree"
+    ], 
+    "labels": [
+        "KIT", 
+        "CERN"
+    ], 
+    "title": "Event Selection Overlap"
+}

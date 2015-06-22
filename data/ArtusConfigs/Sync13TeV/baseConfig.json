@@ -1,0 +1,36 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsKappa.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json"
+	],
+	"SkipEvents" : 0,
+	"EventCount" : -1,
+	"InputIsData" : "false",
+	"InputFiles" : [
+		"/pnfs/desy.de/cms/tier2/store/user/rfriese/skimming/2015-04-24/VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM_0.root"
+	],
+	"BosonPdgId" : {
+		"nick" : {
+			"default" : 0,
+			"VBFHToTauTau" : 25
+		}
+	},
+	"OutputPath" : "output.root",
+	"Processors" : {
+		"nick" : {
+			"default" : [
+				"#producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer",
+				"#producer:HttValidLooseElectronsProducer",
+				"#producer:HttValidLooseMuonsProducer",
+				"#producer:PUWeightProducer",
+				"producer:GenParticleProducer",
+				"#producer:GenPartonCounterProducer",
+				"producer:GeneratorWeightProducer",
+				"#producer:TaggedJetCorrectionsProducer"
+			]
+		}
+	}
+}
+

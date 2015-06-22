@@ -49,17 +49,35 @@
 		],
 		"DeltaRMatchingRecoMuonGenParticle" : 0.05,
 		"InvalidateNonGenParticleMatchingRecoMuons" : false,
-
-		"ElectronID" : "None",
+		
+		"ElectronID" : "user",
 		"ElectronIDType" : "None",
 		"ElectronIso" : "None",
-		"ElectronIsoType" : "None",
+		"ElectronIsoType" : "user",
 		"ElectronReco" : "user",
 		"ElectronIsoSignalConeSize" : 0.4,
 		"ElectronDeltaBetaCorrectionFactor" : 0.5,
 		"ElectronIsoPtSumOverPtUpperThresholdEB" : 0.1,
 		"ElectronIsoPtSumOverPtUpperThresholdEE" : 0.1,
-		
+		"ElectronChargedIsoVetoConeSizeEB" : 0.01,
+		"ElectronChargedIsoVetoConeSizeEE" : 0.015,
+		"ElectronNeutralIsoVetoConeSize" : -1.0,
+		"ElectronPhotonIsoVetoConeSizeEB" : 0.08,
+		"ElectronPhotonIsoVetoConeSizeEE" : 0.08,
+		"ElectronDeltaBetaIsoVetoConeSize" : -1.0,
+		"ElectronChargedIsoPtThreshold" : 0.0,
+		"ElectronNeutralIsoPtThreshold" : 0.0,
+		"ElectronPhotonIsoPtThreshold" : 0.0,
+		"ElectronDeltaBetaIsoPtThreshold" : 0.0,
+		"ElectronLowerPtCuts" : [
+			"10."
+		],
+		"ElectronUpperAbsEtaCuts" : [
+			"2.5"
+		],
+		"ElectronTrackDxyCut" : 0.045,
+		"ElectronTrackDzCut" : 0.2,
+	
 		"MuonID" : "None",
 		"MuonIso" : "None",
 		"MuonIsoType" : "None",
@@ -70,6 +88,8 @@
 		"MuonUpperAbsEtaCuts" : [
 			"2.4"
 		],
+		
+		"Year" : 2012,
 		
 		"JetID" : "tight",
 		

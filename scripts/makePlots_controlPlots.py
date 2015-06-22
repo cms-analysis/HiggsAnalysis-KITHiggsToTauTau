@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
 				if not os.path.exists(json_config_file):
 					json_exists = False
-					json_config_file =  os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/{channel}_default.json".format(channel=channel))
+					json_config_file =  os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/{channel}_default.json".format(channel=channel))
 
 				json_config = jsonTools.JsonDict(json_config_file).doIncludes().doComments()
 				config = copy.deepcopy(json_config) + config
@@ -100,6 +100,15 @@ if __name__ == "__main__":
 				if not json_exists:
 					config["x_expressions"] = quantity
 				
+				if args.weight != parser.get_default("weight"):
+					if "weights" in config:
+						newWeights = []
+						for weight in config["weights"]:
+							newWeights.append(weight + '*' + args.weight)
+						config["weights"] = newWeights
+					else:
+						config["weights"] = args.weight
+
 				if args.ratio:
 					config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples), "data"])

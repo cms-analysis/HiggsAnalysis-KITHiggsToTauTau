@@ -46,6 +46,7 @@
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenTauDecayProducer",
+				"producer:GenTauDecayModeProducer",
 				"producer:GenTauCPProducer",
 				"producer:TauSpinnerProducer",
 				"producer:GeneratorWeightProducer",
@@ -110,7 +111,7 @@
 			"DY.?JetsToLL" : 23,
 			"W.?JetsToLN" : 24,
 			"SUSY(BB|GluGluTo)HToTauTau" : 36,
-			"SM_(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : 25
+			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : 25
 		}
 	},
 

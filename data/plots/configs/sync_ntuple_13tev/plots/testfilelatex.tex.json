@@ -1,0 +1,32 @@
+{
+    "analysis_modules": [
+        "DecayModes"
+    ], 
+    "filename": "testfilelatex.tex", 
+    "files": [
+        "/afs/desy.de/user/r/rfriese/xxl/analysis/CMSSW_7_3_5/src/test/miniaod-test.root"
+    ], 
+    "folders": [
+        "tt/ntuple", 
+        "tt/ntuple"
+    ], 
+    "plot_modules": [
+        "PlotLaTeX"
+    ], 
+    "title": "titel", 
+    "x_expressions": [
+        "1"
+    ], 
+    "x_tick_labels": [
+        "tt", 
+        "et", 
+        "mt", 
+        "em", 
+        "other"
+    ], 
+    "y_tick_labels": [
+        "tt", 
+        "alsott", 
+        "other"
+    ]
+}

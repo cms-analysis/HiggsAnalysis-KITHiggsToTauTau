@@ -14,7 +14,7 @@ typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Ma
 class Quantities {
 
 public:
-	
+	static double CalculateMtH2Tau(RMFLV const& vector1, RMFLV const& vector2);
 	static double CalculateMt(RMFLV const& vector1, RMFLV const& vector2);
 	
 	static RMDataV Zeta(RMFLV const& lepton1, RMFLV const& lepton2);

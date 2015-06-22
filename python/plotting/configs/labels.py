@@ -26,16 +26,19 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ttbar"] = self.labels_dict["tt"]
 			self.labels_dict["wj"]  = "W + jets"
 			self.labels_dict["wjets"]  = self.labels_dict["wj"]
-			self.labels_dict["vv"]  = "Di-bosons"
+			self.labels_dict["vv"]  = "Di-boson"
 			self.labels_dict["dibosons"]  = self.labels_dict["vv"]
 			self.labels_dict["ewk"]  = self.labels_dict["vv"]
 			self.labels_dict["qcd"] = "QCD"
 			self.labels_dict["fakes"] = self.labels_dict["qcd"]
+			self.labels_dict["qcdwj"] = self.labels_dict["qcd"]
 			self.labels_dict["htt"] = "H #rightarrow #tau#tau"
 			self.labels_dict["ggh"] = "ggH"
 			self.labels_dict["qqh"] = "qqH"
 			self.labels_dict["vh"]  = "VH"
 			self.labels_dict["totalsig"] = self.labels_dict["htt"]
+			self.labels_dict["hww"] = "H #rightarrow WW"
+			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			
 		else:
 			# put labels for MPL plots here
