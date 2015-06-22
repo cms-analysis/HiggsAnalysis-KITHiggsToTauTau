@@ -1,0 +1,30 @@
+{
+    "files": [
+        "miniaod.root", 
+        "cern.root"
+    ], 
+    "folders": [
+        "tt/ntuple", 
+        "tree"
+    ], 
+    "labels": [
+        "KIT miniAOD", 
+        "CERN miniAOD"
+    ], 
+    "line_styles": [
+        "-"
+    ], 
+    "markers": [
+        "."
+    ], 
+    "step": [
+        true
+    ], 
+    "title": "Sub-Leading Lepton charge", 
+    "x_bins": [
+        "2,-1.1,1.1"
+    ], 
+    "x_expressions": [
+        "q_2"
+    ]
+}

@@ -25,18 +25,22 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["tt"] = "#4372C1 #7691D2"
 			self.colors_dict["ttj"] = self.colors_dict["tt"]
 			self.colors_dict["ttbar"] = self.colors_dict["tt"]
-			self.colors_dict["wj"]  = "#66C42F #93D561"
-			self.colors_dict["wjets"]  = self.colors_dict["wj"]
-			self.colors_dict["vv"]  = self.colors_dict["wj"]
-			self.colors_dict["dibosons"]  = self.colors_dict["wj"]
-			self.colors_dict["ewk"]  = self.colors_dict["wj"]
-			self.colors_dict["qcd"] = "#FEE701 #FEED4B"
+			self.colors_dict["vv"]  = "#FEE701 #FEED4B"
+			self.colors_dict["dibosons"]  = self.colors_dict["vv"]
+			self.colors_dict["ewk"]  = self.colors_dict["vv"]
+			self.colors_dict["qcd"] = "#66C42F #93D561"
 			self.colors_dict["fakes"] = self.colors_dict["qcd"]
+			self.colors_dict["wj"]  = self.colors_dict["qcd"]
+			self.colors_dict["wjets"]  = self.colors_dict["qcd"]
+			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
 			self.colors_dict["htt"] = "#BF2229 #CD574A"
 			self.colors_dict["ggh"] = "#BF2229"
 			self.colors_dict["qqh"] = "#F69110"
 			self.colors_dict["vh"]  = "#BC0C8D"
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
+			self.colors_dict["hww"] = "#D97CC4 #E7AEDB"
+			self.colors_dict["hww125"] = self.colors_dict["hww"]
+			self.colors_dict["totalbkg"] = "#000000"
 		
 		else: # if color_scheme.lower() == "cern":
 			self.colors_dict["zll"] = "#4496C8"
@@ -55,11 +59,13 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["ewk"]  = self.colors_dict["wj"]
 			self.colors_dict["qcd"] = "#FFCCFF"
 			self.colors_dict["fakes"] = self.colors_dict["qcd"]
+			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
 			self.colors_dict["htt"] = "#000000"
 			self.colors_dict["ggh"] = self.colors_dict["htt"]
 			self.colors_dict["qqh"] = self.colors_dict["htt"]
 			self.colors_dict["vh"]  = self.colors_dict["htt"]
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
+			self.colors_dict["totalbkg"] = "#000000"
 
 		for higgs_mass in xrange(90, 161, 5):
 			self.colors_dict["htt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["htt"]

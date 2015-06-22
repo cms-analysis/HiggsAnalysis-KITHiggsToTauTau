@@ -2,6 +2,26 @@
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
 	],
+
+	"MuonID" : {
+		"nick" : {
+			"8TeV" : "tight",
+			"13TeV" : "medium"
+		}
+	},
+
 	"MuonIsoPtSumOverPtUpperThresholdEB" : 0.15,
-	"MuonTrackDxyCut" : 0.02
+	"MuonIsoPtSumOverPtUpperThresholdEE" : {
+		"nick": {
+			"8TeV" : 0.1,
+			"13TeV" : 0.15
+		}
+	},
+
+	"MuonTrackDxyCut" : {
+		"nick" : {
+			"8TeV" : 0.02,
+			"13TeV" : 0.045
+		}
+	}
 }

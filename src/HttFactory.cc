@@ -80,6 +80,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new DecayChannelProducer();
 	else if(id == TTHDecayChannelProducer().GetProducerId())
 		return new TTHDecayChannelProducer();
+	else if(id == Run2DecayChannelProducer().GetProducerId())
+		return new Run2DecayChannelProducer();
 	else if(id == EventCategoryProducer().GetProducerId())
 		return new EventCategoryProducer();
 	else if(id == TTHEventCategoryProducer().GetProducerId())

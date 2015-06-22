@@ -1,0 +1,27 @@
+{
+    "files": [
+        "miniaod.root", 
+        "cern.root"
+    ], 
+    "folders": [
+        "tt/ntuple", 
+        "tree"
+    ], 
+    "labels": [
+        "KIT miniAOD", 
+        "CERN miniAOD"
+    ], 
+    "line_styles": [
+        "-"
+    ], 
+    "markers": [
+        "."
+    ], 
+    "step": [
+        true
+    ], 
+    "title": "againstMuonLoose3 trailing tau", 
+    "x_expressions": [
+        "againstMuonLoose3_2"
+    ]
+}

@@ -1,6 +1,13 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
+// transverse mass in the H2Taus definition
+// https://github.com/CERN-PH-CMG/cmg-cmssw/blob/CMGTools-from-CMSSW_7_2_3/CMGTools/H2TauTau/python/proto/physicsobjects/DiObject.py#L119
+double Quantities::CalculateMtH2Tau(RMFLV const& vector1, RMFLV const& vector2)
+{
+	return sqrt(pow(vector1.Pt() + vector2.Pt(), 2) - pow(vector1.Px() + vector2.Px(), 2) - pow(vector1.Py() + vector2.Py(), 2));
+}
+
 // transverse mass in the approximation of massless objects
 double Quantities::CalculateMt(RMFLV const& vector1, RMFLV const& vector2)
 {

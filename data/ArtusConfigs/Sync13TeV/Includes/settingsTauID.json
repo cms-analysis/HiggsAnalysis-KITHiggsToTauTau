@@ -1,0 +1,8 @@
+{
+	"TauID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Tau_ID_Isolation"
+	],
+
+	"TauTrackDzCut" : 0.2,
+	"TauDiscriminatorIsolationCut" : 1.5
+}

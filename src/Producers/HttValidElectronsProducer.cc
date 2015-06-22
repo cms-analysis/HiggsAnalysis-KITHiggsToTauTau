@@ -134,6 +134,10 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			validElectron = validElectron && IsCutBasedPhys14(&(*electron), event, WorkingPoint::TIGHT);
 		}
+		else if (electronIDType == ElectronIDType::PHYS14CUTBASEDVETO)
+		{
+			validElectron = validElectron && IsCutBasedPhys14(&(*electron), event, WorkingPoint::VETO);
+		}
 		else if (electronIDType == ElectronIDType::MVANONTRIGV025NSPHYS14)
 		{
 			validElectron = validElectron && IsMVANonTrigV025nsPhys14(&(*electron), event, true);
@@ -363,6 +367,9 @@ bool HttValidElectronsProducer::IsCutBasedPhys14(KElectron* electron, event_type
 	
 	if (wp == WorkingPoint::TIGHT)
 		validElectron = validElectron && electron->getId( choseID(event.m_electronMetadata, "cutBasedEleIdPHYS14Tight", "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-tight"), event.m_electronMetadata);
+
+	if (wp == WorkingPoint::VETO)
+		validElectron = validElectron && electron->getId( choseID(event.m_electronMetadata, "cutBasedEleIdPHYS14Veto", "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-veto"), event.m_electronMetadata);
 
 	return validElectron;
 }

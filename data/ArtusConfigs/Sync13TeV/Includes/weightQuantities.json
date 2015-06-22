@@ -1,0 +1,23 @@
+{
+	"property" : [
+		"hltWeight",
+		"triggerWeight1",
+		"triggerWeight2",
+		"identificationWeight1",
+		"identificationWeight2",
+		"puWeight",
+		"tauEnergyScaleWeight",
+		"generatorWeight",
+		"crossSectionPerEventWeight",
+		"numberGeneratedEventsWeight",
+		"embeddingWeight",
+		"eventWeight",
+		"tauSpinnerWeight000",
+		"tauSpinnerWeight025",
+		"tauSpinnerWeight050",
+		"tauSpinnerWeight075",
+		"tauSpinnerWeight100",
+		"tauSpinnerWeightSample",
+		"tauSpinnerWeightInvSample"
+	]
+}

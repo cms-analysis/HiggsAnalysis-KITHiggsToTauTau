@@ -1,8 +1,11 @@
 {
 	"JetID" : "loose",
-	"PuJetIDs" : [
-		"puJetIDFullLoose"
-	],
+	"PuJetIDs" : {
+		"nick" : {
+			"default" : [ "puJetIDFullLoose" ],
+			"13TeV*._MINIAODSIM" : [ "puJetIDFullDiscriminant" ]
+		}
+	},
 	"JetTaggerLowerCuts" : [
 	],
 	"JetTaggerUpperCuts" : [

@@ -1,12 +1,30 @@
 {
-	"MuonID_documentation" : [
-		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Muon_ID",
-		"https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tight_Muon",
-		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation"
-	],
+	"MuonID_documentation" : {
+		"nick" : {
+			"8TeV" : [
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Muon_ID",
+				"https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Tight_Muon",
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Electron_Muon_Isolation"	
+			],
+			"13TeV" : [
+				"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Muons"
+			] 
+		}
+	},
 	
-	"Year" : 2012,
-	"MuonID" : "tight",
+	"Year" : {
+		"nick" : {
+			"8TeV" : 2012,
+			"13TeV" : 2015
+		}
+	},
+
+	"MuonID" : {
+		"nick" : {
+			"8TeV" : "tight",
+			"13TeV" : "medium"
+		}
+	},
 	
 	"MuonIsoType" : "user",
 	"MuonIso" : "none",
