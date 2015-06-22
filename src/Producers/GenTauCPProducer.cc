@@ -19,9 +19,17 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_genPhiStarCP;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genOStarCP", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genOStarCP;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhiCP;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genOCP", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genOCP; 
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStar", [](event_type const& event, product_type const& product)
 	{
@@ -30,6 +38,30 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhi", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhi;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genTauMinusDirX", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genTauMinusDirX; 
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genTauMinusDirY", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genTauMinusDirY;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genTauMinusDirZ", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genTauMinusDirZ;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPiMinusDirX", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPiMinusDirX; 
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPiMinusDirY", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPiMinusDirY;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPiMinusDirZ", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPiMinusDirZ;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TauMProngEnergy", [](event_type const& event, product_type const& product)
 	{
@@ -160,13 +192,25 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		// Saving Energies of charged particles in tau rest frames
 		product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->node->p4, chargedPart1->p4);
 		product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->node->p4, chargedPart2->p4);
-		// Calculation of Phi* and Psi*CP itself
+		// Calculation of Phi* and Phi*CP itself
 		double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
 		product.m_genPhiStar = cpq.GetGenPhiStar();
-		// Calculatiion of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
+		product.m_genOStarCP = cpq.CalculateOStarCP(selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+		// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
 		double genPhiCP = cpq.CalculatePhiCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
 		product.m_genPhi = cpq.GetGenPhi();
+		product.m_genOCP = cpq.CalculateOCP(higgs->node->p4, selectedTau1->node->p4, selectedTau2->node->p4, chargedPart1->p4, chargedPart2->p4);
+
+		std::vector<float> tauDir = cpq.CalculateTauMinusDirection(higgs->node->p4, selectedTau1->node->p4);
+		product.m_genTauMinusDirX = tauDir.at(0);
+		product.m_genTauMinusDirY = tauDir.at(1);
+		product.m_genTauMinusDirZ = tauDir.at(2);
+
+		std::vector<float> piDir = cpq.CalculatePiMinusDirection(selectedTau1->node->p4, chargedPart1->p4);
+		product.m_genPiMinusDirX = piDir.at(0);
+		product.m_genPiMinusDirY = piDir.at(1);
+		product.m_genPiMinusDirZ = piDir.at(2);
 
 		//CPTransformation for semileptonic case
 		if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId() == DefaultValues::pdgIdElectron || chargedPart1->pdgId() == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId() == 211)) || ((chargedPart2->pdgId() == -DefaultValues::pdgIdElectron || chargedPart2->pdgId() == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId() == -211))))
