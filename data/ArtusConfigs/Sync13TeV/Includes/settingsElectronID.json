@@ -4,8 +4,8 @@
 	
 	"ElectronReco" : "user",
 	
-	"ElectronID" : "tight",
-	"ElectronIDType" : "mvanontrig",
+	"ElectronID" : "user",
+	"ElectronIDType" : "none",
 	
 	"ElectronIsoType" : "PF",
 	"ElectronIso" : "none",
