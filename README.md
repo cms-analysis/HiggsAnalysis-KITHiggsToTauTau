@@ -83,11 +83,17 @@ Pile-up weights are determined using [puWeightCalc.py](https://github.com/artus-
 
 The C++ executable ([HiggsToTauTauAnalysis](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/bin/HiggsToTauTauAnalysis.cc)) is called by a python wrapper ([HiggsToTauTauAnalysis.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/HiggsToTauTauAnalysis.py)) for convenience reasons.
 
-Example for running the (8TeV) SM analysis:
+The (8TeV) SM analysis can be run with:
 
 	HiggsToTauTauAnalysis.py @HiggsAnalysis/KITHiggsToTauTau/data/ArtusWrapperConfigs/SM_Htautau.cfg -i HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_sample_*_8TeV_recent.txt [-b --project-name <project name>]
 
-For beeing able to use the --batch mode, go.py from grid-control needs to be in the $PATH. Per default configurations, log files and outputs are written to `$ARTUS_WORK_BASE/<date>_<project name>`
+Beware that the above example runs on a (very!) large number of input files and has a complicated structure, which is driven by the complexity of the analysis. A more didactic example, which runs locally on a Kappa skim and applies only a very basic selection on electrons and muons, can be executed with:
+
+	HiggsToTauTauAnalysis.py -i /afs/cern.ch/user/f/fcolombo/public/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM.root @HiggsAnalysis/KITHiggsToTauTau/data/ArtusWrapperConfigs/exampleConfig.cfg
+
+Especially for beginners, it is advisable to look carefully into the content of the above exemplary configs and json files, in order to get familiar with the way in which the Producers, Consumers and Filters are organized and called in Artus and how settings such as cut thresholds are defined.
+
+For beeing able to use the --batch mode, go.py from grid-control needs to be in the $PATH. Default configurations, log files and outputs are written to `$ARTUS_WORK_BASE/<date>_<project name>`
 
 To speed up the post-processing of the outputs, they can be merged (per nick name) by [artusMergeOutputs.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/artusMergeOutputs.py):
 
