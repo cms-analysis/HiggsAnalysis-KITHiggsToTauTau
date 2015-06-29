@@ -4,9 +4,6 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMuonID.json"
 		],
-		"TauDiscriminators" : [
-			"hpsPFTauDiscriminationByLooseMuonRejection"
-		],
 		"TauDiscriminatorIsolationCut" : 1.5,
 		"ElectronLowerPtCuts" : [
 			"30.0"
@@ -15,7 +12,7 @@
 			"20.0"
 		],
 		"MuonLowerPtCuts" : [
-			"30.0"
+			"18.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"0:2.3"

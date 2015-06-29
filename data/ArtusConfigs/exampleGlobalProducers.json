@@ -1,0 +1,37 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json"
+	],
+	"#RunWhitelist" : [
+	],
+	"#LumiWhitelist" : [
+	],
+	"#EventWhitelist" : [
+	],
+	"#RunBlacklist" : [
+	],
+	"#LumiBlacklist" : [
+	],
+	"#EventBlacklist" : [
+	],
+	"Processors" : {
+		"nick" : {
+			"default" : [
+				"#filter:RunLumiEventFilter",
+				"producer:GenParticleProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GenTauDecayModeProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer"
+			]
+		}
+	},
+	"BosonPdgId" : {
+		"nick" : {
+			"default" : 0,
+			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : 25
+		}
+	},
+	"genParticles" : ["genTau"]
+}
