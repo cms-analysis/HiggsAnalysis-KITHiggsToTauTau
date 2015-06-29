@@ -9,7 +9,7 @@
 /**
    \brief Place to collect functions calculating CP quantities
    -Phi* : this is a variable, with which one can say, whether the considered boson is a scalar (CP even) or a pseudoscalar (CP odd)
-   -Psi*CP : this is a variable, with which one can figure out, whether the have a CP-mixture or not
+   -Phi*CP : this is a variable, with which one can figure out, whether the Higgs is a CP-mixture or not
    -Zs : this is a variable, with which one can figure out, wether the considered boson is a scalar (CP even) or a pseudoscalar (CP odd)
 */
 

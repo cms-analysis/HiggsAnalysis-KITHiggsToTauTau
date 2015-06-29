@@ -104,12 +104,6 @@ public:
 
 	double m_genPhiCP  = DefaultValues::UndefinedDouble;
 	double m_genOCP  = DefaultValues::UndefinedDouble;
-	double m_genPhiCP2  = DefaultValues::UndefinedDouble;
-	double m_genOCP2  = DefaultValues::UndefinedDouble;
-	double m_genPhiCP3  = DefaultValues::UndefinedDouble;
-	double m_genOCP3  = DefaultValues::UndefinedDouble;
-	double m_genPhiCP4  = DefaultValues::UndefinedDouble;
-	double m_genOCP4  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_genOStarCP  = DefaultValues::UndefinedDouble;
 	double m_genPhi  = DefaultValues::UndefinedDouble;

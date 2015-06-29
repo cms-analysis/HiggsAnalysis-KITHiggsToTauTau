@@ -211,25 +211,21 @@ double CPQuantities::CalculateTrackReferenceError(KTrack track)
 // calculation of the angle Phi between the tau decay planes
 // - using tau- direction in the tautau RF as reference
 // - calculating the normal vectors to the planes
+// - everything is defined in the Higgs boson rest frame
 double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
 {
-	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost charged particles 4-momentums
-	RMFLV::BetaVector boostvectm = tau1.BoostToCM();
-	RMFLV::BetaVector boostvectp = tau2.BoostToCM();
+	// Step 1: Boosts into the boson rest frames to boost charged particles 4-momentums
 	RMFLV::BetaVector boostvech = boson.BoostToCM();
-	ROOT::Math::Boost Mtm(boostvectm);
-	ROOT::Math::Boost Mtp(boostvectp);
 	ROOT::Math::Boost Mh(boostvech);
 
-	// Step 2: Boosting the 4-momentum vectors to respective rest frames: tau to boson rest frame,
-	// charged particles to tau rest frames.
+	// Step 2: Boosting the 4-momentum vectors to boson rest frame
 	tau1 = Mh * tau1;
 	tau2 = Mh * tau2;
 
 	//std::cout << tau1 << "               " << -1*tau2 << std::endl;
 
-	chargPart1 = Mtm * chargPart1;
-	chargPart2 = Mtp * chargPart2;
+	chargPart1 = Mh * chargPart1;
+	chargPart2 = Mh * chargPart2;
 
 	// Step 3: Creating 3-momentum normal vectors on decay planes
 	RMFLV::BetaVector km, pm, pp, nm, np, ez;
@@ -255,23 +251,18 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 // calculation of the observable OCP
 double CPQuantities::CalculateOCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
 {
-	// Step 1: Boosts into the Tau-(Tau+) rest frames to boost charged particles 4-momentums
-	RMFLV::BetaVector boostvectm = tau1.BoostToCM();
-	RMFLV::BetaVector boostvectp = tau2.BoostToCM();
+	// Step 1: Boosts into the boson rest frames to boost charged particles 4-momentums
 	RMFLV::BetaVector boostvech = boson.BoostToCM();
-	ROOT::Math::Boost Mtm(boostvectm);
-	ROOT::Math::Boost Mtp(boostvectp);
 	ROOT::Math::Boost Mh(boostvech);
 
-	// Step 2: Boosting the 4-momentum vectors to respective rest frames: tau to boson rest frame,
-	// charged particles to tau rest frames.
+	// Step 2: Boosting the 4-momentum vectors to boson rest frame
 	tau1 = Mh * tau1;
 	tau2 = Mh * tau2;
 
 	//std::cout << tau1 << "               " << -1*tau2 << std::endl;
 
-	chargPart1 = Mtm * chargPart1;
-	chargPart2 = Mtp * chargPart2;
+	chargPart1 = Mh * chargPart1;
+	chargPart2 = Mh * chargPart2;
 
 	// Step 3: Creating 3-momentum normal vectors on decay planes
 	RMFLV::BetaVector km, kp, pm, pp, nm, np, ez;
