@@ -46,15 +46,11 @@ public:
 		SUMMER2013TIGHT = 1,
 		SUMMER2013TTHTIGHT = 2,
 		SUMMER2013TTHLOOSE = 3,
-		MVATRIGV050NSCSA14 = 4,
-		MVATRIGV025NSCSA14 = 5,
-		MVANONTRIGV050NSCSA14 = 6,
-		MVANONTRIGV025NSCSA14 = 7,
-		PHYS14CUTBASEDLOOSE = 8,
-		PHYS14CUTBASEDMEDIUM = 9,
-		PHYS14CUTBASEDTIGHT = 10,
-		PHYS14CUTBASEDVETO = 11,
-		MVANONTRIGV025NSPHYS14 = 12,
+		PHYS14CUTBASEDLOOSE = 4,
+		PHYS14CUTBASEDMEDIUM = 5,
+		PHYS14CUTBASEDTIGHT = 6,
+		PHYS14CUTBASEDVETO = 7,
+		MVANONTRIGV025NSPHYS14 = 8,
 	};
 	enum class WorkingPoint : int
 	{
@@ -69,10 +65,6 @@ public:
 		else if (electronIDType == "summer2013tight") return ElectronIDType::SUMMER2013TIGHT;
 		else if (electronIDType == "summer2013tthloose") return ElectronIDType::SUMMER2013TTHLOOSE;
 		else if (electronIDType == "summer2013tthtight") return ElectronIDType::SUMMER2013TTHTIGHT;
-		else if (electronIDType == "mvatrigv050nscsa14") return ElectronIDType::MVATRIGV050NSCSA14;
-		else if (electronIDType == "mvatrigv025nscsa14") return ElectronIDType::MVATRIGV025NSCSA14;
-		else if (electronIDType == "mvanontrigv050nscsa14") return ElectronIDType::MVANONTRIGV050NSCSA14;
-		else if (electronIDType == "mvanontrigv025nscsa14") return ElectronIDType::MVANONTRIGV025NSCSA14;
 		else if (electronIDType == "phys14cutbasedloose") return ElectronIDType::PHYS14CUTBASEDLOOSE;
 		else if (electronIDType == "phys14cutbasedmedium") return ElectronIDType::PHYS14CUTBASEDMEDIUM;
 		else if (electronIDType == "phys14cutbasedtight") return ElectronIDType::PHYS14CUTBASEDTIGHT;
@@ -149,12 +141,9 @@ private:
 	
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVATrigV050nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVATrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVANonTrigV050nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVANonTrigV025nsCsa14(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const;
 	bool IsMVANonTrigV025nsPhys14(KElectron* electron, event_type const& event, bool tightID) const;
+	std::string chooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const;
 };
 
 
