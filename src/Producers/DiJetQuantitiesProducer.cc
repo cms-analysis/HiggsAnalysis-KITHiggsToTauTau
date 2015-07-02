@@ -21,6 +21,16 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 	{
 		return diJetSystem.mass(); });
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetPt", [this](event_type const& event, product_type const& product) {
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
+	{
+		return diJetSystem.Pt(); });
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetPhi", [this](event_type const& event, product_type const& product) {
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
+	{
+		return diJetSystem.Phi(); });
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetDeltaPhi", [](event_type const& event, product_type const& product) {
 		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
 		                                        DefaultValues::UndefinedDouble;
@@ -30,7 +40,10 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 		                                        DefaultValues::UndefinedDouble;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("centralJet30Exists", [](event_type const& event, product_type const& product) {
-		return product.m_centralJet30Exists;
+		return (product.m_nCentralJets30 > 0 ? true : false);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nCentralJets30", [](event_type const& event, product_type const& product) {
+		return product.m_nCentralJets30;
 	});
 }
 
@@ -38,13 +51,13 @@ void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& pro
 	                                  setting_type const& settings) const
 {
 	// central jet veto
-	product.m_centralJet30Exists = false;
+	product.m_nCentralJets30 = 0;
 	if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 30.0) >= 2)
 	{
 		float minJetEta = std::min(product.m_validJets[0]->p4.Eta(), product.m_validJets[1]->p4.Eta());
 		float maxJetEta = std::max(product.m_validJets[0]->p4.Eta(), product.m_validJets[1]->p4.Eta());
 		for (std::vector<KBasicJet*>::const_iterator jet = product.m_validJets.begin();
-		     ((jet != product.m_validJets.end()) && ((*jet)->p4.Pt() > 30.0) && (! product.m_centralJet30Exists)); ++jet)
+		     ((jet != product.m_validJets.end()) && ((*jet)->p4.Pt() > 30.0)); ++jet)
 		{
 			// skip first two jets
 			if ((*jet) == product.m_validJets[0]) continue;
@@ -52,7 +65,7 @@ void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& pro
 			
 			if ((minJetEta < (*jet)->p4.Eta()) && ((*jet)->p4.Eta() < maxJetEta))
 			{
-				product.m_centralJet30Exists = true;
+				product.m_nCentralJets30++;
 			}
 		}
 	}

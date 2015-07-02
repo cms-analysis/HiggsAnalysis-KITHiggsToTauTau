@@ -128,7 +128,7 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 		    (product.m_decayChannel == HttEnumTypes::DecayChannel::EE))
 		{
 			if ((nJets30 >= 2) &&
-			    (! product.m_centralJet30Exists) &&
+			    (product.m_nCentralJets30 > 0) &&
 			    (product.m_validJets[0]->p4.Eta() * product.m_validJets[1]->p4.Eta() < 0.0))
 			{
 				product.m_eventCategories.push_back(HttEnumTypes::EventCategory::TWO_JET_VBF);
