@@ -39,6 +39,10 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 		return product.m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
 		                                        DefaultValues::UndefinedDouble;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetdiLepPhi", [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? (product.m_diJetSystem + product.m_diLeptonSystem).Phi() :
+		                                        DefaultValues::UndefinedDouble;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("centralJet30Exists", [](event_type const& event, product_type const& product) {
 		return (product.m_nCentralJets30 > 0 ? true : false);
 	});

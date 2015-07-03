@@ -14,7 +14,7 @@ bool HttValidTausProducer::AdditionalCriteria(KTau* tau,
 
 	bool validTau = ValidTausProducer::AdditionalCriteria(tau, event, product, settings);
 	
-	double isolationPtSum = tau->getDiscriminator("hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits", event.m_tauMetadata);
+	double isolationPtSum = tau->getDiscriminator("byCombinedIsolationDeltaBetaCorrRaw3Hits", event.m_tauMetadata);
 	double isolationPtSumOverPt = isolationPtSum / tau->p4.Pt();
 	
 	specProduct.m_leptonIsolation[tau] = isolationPtSum;

@@ -7,7 +7,7 @@
 	"MuonID" : "medium",
 	
 	"MuonIsoType" : "none",
-	"MuonIso" : "medium",
+	"MuonIso" : "none",
 	
 	"MuonIsoSignalConeSize" : 0.3,
 	"MuonDeltaBetaCorrectionFactor" : 0.5,

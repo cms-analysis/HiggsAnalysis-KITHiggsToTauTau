@@ -18,17 +18,26 @@
 		"MinNTaus" : 2,
 		"MaxNElectrons" : 0,
 		"MaxNMuons" : 0,
+		"HltPaths" : [
+			"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
+		],
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauLowerPtCuts" : [
-			"0:45.0",
-			"1:45.0"
+			"45.0"
 		],
 		"TauUpperAbsEtaCuts" : [
-			"0:2.1",
-			"1:2.1"
+			"2.1"
 		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
+		"TauTriggerFilterNames" : {
+			"nick" : {
+				"default" : [
+					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltL1sDoubleTauJet36erORDoubleTauJet68er"
+				]
+			}
+		},
+		"SvfitIntegrationMethod" : "MarkovChain",
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : false,
 		"InvalidateNonMatchingTaus" : false,
@@ -41,7 +50,10 @@
 				]
 			},
 			"genDiLeptonDecayMode",
-			"genNPartons"
+			"nElectrons",
+			"nMuons",
+			"nTaus",
+			"centralJet30Exists"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
@@ -49,39 +61,35 @@
 				"default" : [
 					"#filter:LooseElectronsCountFilter",
 					"#filter:LooseMuonsCountFilter",
-					"#producer:HltProducer",
-					"#filter:HltFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
 					"producer:MvaMetTTSelector",
 					"producer:ValidElectronsProducer",
-					"#filter:MinElectronsCountFilter",
-					"#filter:MaxElectronsCountFilter",
+					"filter:MinElectronsCountFilter",
+					"filter:MaxElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"#filter:MinMuonsCountFilter",
-					"#filter:MaxMuonsCountFilter",
+					"filter:MinMuonsCountFilter",
+					"filter:MaxMuonsCountFilter",
 					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"filter:TauLowerPtCutsFilter",
-					"filter:TauUpperAbsEtaCutsFilter",
-					"#producer:TauTriggerMatchingProducer",
+					"#filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
 					"producer:RecoTauGenParticleMatchingProducer",
-					"#producer:RecoTauGenTauMatchingProducer",
+					"producer:RecoTauGenTauMatchingProducer",
 					"#producer:RecoTauGenTauJetMatchingProducer",
 					"producer:ValidLeptonsProducer",
 					"#producer:TaggedJetCorrectionsProducer",
-					"#producer:ValidTaggeJetsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"#producer:RecoJetGenParticleMatchingProducer",
-					"#producer:ValidBTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
 					"producer:Run2DecayChannelProducer",
 					"filter:DecayChannelFilter",
 					"filter:MinTausCountFilter",
 					"#filter:DiLeptonChargeFilter",
 					"#producer:SvfitProducer",
-					"#producer:TauTauRestFrameSelector",
+					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"#producer:RecoTauCPProducer",
 					"producer:GenDiLeptonDecayModeProducer",
 					"producer:GenTauDecayProducer",
 					"producer:GenTauDecayModeProducer",

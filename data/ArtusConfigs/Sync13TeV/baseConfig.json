@@ -1,7 +1,9 @@
 {
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json"
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsLooseElectronID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsLooseMuonID.json"
 	],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
@@ -12,7 +14,13 @@
 	"BosonPdgId" : {
 		"nick" : {
 			"default" : 0,
+			"DY.?JetsToLL" : 23,
 			"VBFHToTauTau" : 25
+		}
+	},
+	"BosonStatus" : {
+		"nick" : {
+			"Spring15" : 62
 		}
 	},
 	"OutputPath" : "output.root",
@@ -26,7 +34,7 @@
 				"#producer:HttValidLooseMuonsProducer",
 				"#producer:PUWeightProducer",
 				"producer:GenParticleProducer",
-				"#producer:GenPartonCounterProducer",
+				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			]

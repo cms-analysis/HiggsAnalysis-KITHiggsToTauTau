@@ -551,6 +551,11 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_validTaus.push_back(tau1);
 		product.m_validTaus.push_back(tau2);
 	}
+
+	// require the pair to pass a separation requirement
+	if (ROOT::Math::VectorUtil::DeltaR(tau1->p4, tau2->p4) < 0.5)
+		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+
 	// fill leptons ordered by pt (high pt first)
 	KLepton* lepton1 = tau1;
 	KLepton* lepton2 = tau2;

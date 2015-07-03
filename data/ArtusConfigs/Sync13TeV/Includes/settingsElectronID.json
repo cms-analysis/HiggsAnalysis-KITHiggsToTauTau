@@ -5,9 +5,9 @@
 	"ElectronReco" : "user",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "none",
+	"ElectronIDType" : "phys14cutbasedtight",
 	
-	"ElectronIsoType" : "PF",
+	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",
 	
 	"ElectronIsoSignalConeSize" : 0.3,
