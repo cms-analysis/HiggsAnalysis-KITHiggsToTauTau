@@ -141,6 +141,7 @@ public:
 	IMPL_SETTING(float, MetLowerPtCuts);
 	IMPL_SETTING(float, MetUpperPtCuts);
 	
+	IMPL_SETTING_DEFAULT(std::string, TauDiscriminatorIsolationName, "hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits");	
 	IMPL_SETTING_DEFAULT(float, TauDiscriminatorIsolationCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_STRINGLIST_DEFAULT(TauDiscriminatorMvaIsolation, {});
 	IMPL_SETTING_FLOATLIST_DEFAULT(TauDiscriminatorAntiElectronMvaCuts, {});
