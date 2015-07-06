@@ -33,14 +33,16 @@
 		"TauTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltL1sDoubleTauJet36erORDoubleTauJet68er"
+					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltL1sDoubleTauJet36erORDoubleTauJet68er",
+					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltDoubleL2IsoTau35eta2p1",
+					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
 				]
 			}
 		},
 		"SvfitIntegrationMethod" : "MarkovChain",
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : false,
-		"InvalidateNonMatchingTaus" : false,
+		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
 		"DirectIso" : true,
 		"Quantities" : [
@@ -65,11 +67,11 @@
 					"filter:HltFilter",
 					"producer:MvaMetTTSelector",
 					"producer:ValidElectronsProducer",
-					"filter:MinElectronsCountFilter",
-					"filter:MaxElectronsCountFilter",
+					"#filter:MinElectronsCountFilter",
+					"#filter:MaxElectronsCountFilter",
 					"producer:ValidMuonsProducer",
-					"filter:MinMuonsCountFilter",
-					"filter:MaxMuonsCountFilter",
+					"#filter:MinMuonsCountFilter",
+					"#filter:MaxMuonsCountFilter",
 					"producer:ValidTausProducer",
 					"#filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
@@ -82,8 +84,8 @@
 					"#producer:RecoJetGenParticleMatchingProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:Run2DecayChannelProducer",
-					"filter:DecayChannelFilter",
 					"filter:MinTausCountFilter",
+					"filter:DecayChannelFilter",
 					"#filter:DiLeptonChargeFilter",
 					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",

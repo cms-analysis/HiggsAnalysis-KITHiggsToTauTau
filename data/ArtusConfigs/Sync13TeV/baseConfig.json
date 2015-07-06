@@ -23,10 +23,13 @@
 			"Spring15" : 62
 		}
 	},
+	"#EventWhitelist" : [	
+	],
 	"OutputPath" : "output.root",
 	"Processors" : {
 		"nick" : {
 			"default" : [
+				"#filter:RunLumiEventFilter",
 				"#producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
