@@ -1,4 +1,7 @@
 
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/trim.hpp>
+
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/Utility.h"
@@ -507,92 +510,128 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 void Run2DecayChannelProducer::Produce(event_type const& event, product_type& product,
 	                              setting_type const& settings) const
 {
-	size_t nTaus = product.m_validTaus.size();
-	KTau* tau1 = 0;
-	KTau* tau2 = 0;
-	if (nTaus < 2)
-	{
-		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
-		return;
-	}
-	else if (nTaus == 2)
-	{
-		// sort the pair (first tau is the most isolated)
-		const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
-		auto compareTaus = [&] (KTau* tau1, KTau* tau2) 
-			{ return (tau1->getDiscriminator(idString, event.m_tauMetadata) < tau2->getDiscriminator(idString, event.m_tauMetadata)); };
-		std::sort(product.m_validTaus.begin(), product.m_validTaus.end(), compareTaus);
-		
-		product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
-		tau1 = product.m_validTaus[0];
-		tau2 = product.m_validTaus[1];
-		
-		// require the pair to pass a separation requirement
-		if (ROOT::Math::VectorUtil::DeltaR(tau1->p4, tau2->p4) < 0.5)
-			product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
-	}
-	else
-	{
-		product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
-		std::vector<std::pair<KTau*, KTau*>> allDiTauPairs;
-		std::vector<std::pair<KTau*, KTau*>> osDiTauPairs;
-		// Produce di-tau pairs
-		for(size_t i = 0; i < nTaus - 1; ++i)
-		{
-			for(size_t j = i+1; j < nTaus; ++j)
-			{
-				// require the pair to pass a separation requirement
-				if (ROOT::Math::VectorUtil::DeltaR(product.m_validTaus[i]->p4, product.m_validTaus[j]->p4) < 0.5)
-					continue;
+	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+	
+	KLepton* lepton1 = 0;
+	KLepton* lepton2 = 0;
 
-				std::pair<KTau*, KTau*> diTauPair = std::make_pair(product.m_validTaus[i], product.m_validTaus[j]);
-				allDiTauPairs.push_back(diTauPair);
-				if(diTauPair.first->charge() == - diTauPair.second->charge())
-					osDiTauPairs.push_back(diTauPair);
+	//size_t nElectrons = product.m_validElectrons.size();
+	//size_t nMuons = product.m_validMuons.size();
+	size_t nTaus = product.m_validTaus.size();
+
+	if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
+	    HttEnumTypes::DecayChannel::TT)
+	{
+		KTau* tau1 = 0;
+		KTau* tau2 = 0;
+
+		if (nTaus < 2)
+		{
+			product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+			return;
+		}
+		else if (nTaus == 2)
+		{
+			// sort the pair (first tau is the most isolated)
+			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
+			auto compareTaus = [&] (KTau* tau1, KTau* tau2) 
+				{ return (tau1->getDiscriminator(idString, event.m_tauMetadata) < tau2->getDiscriminator(idString, event.m_tauMetadata)); };
+			std::sort(product.m_validTaus.begin(), product.m_validTaus.end(), compareTaus);
+		
+			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
+			tau1 = product.m_validTaus[0];
+			tau2 = product.m_validTaus[1];
+		
+			// require the pair to pass a separation requirement
+			if (ROOT::Math::VectorUtil::DeltaR(tau1->p4, tau2->p4) < 0.5)
+				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+		}
+		else
+		{
+			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
+			std::vector<std::pair<KTau*, KTau*>> allDiTauPairs;
+			std::vector<std::pair<KTau*, KTau*>> osDiTauPairs;
+			// Produce di-tau pairs
+			for(size_t i = 0; i < nTaus - 1; ++i)
+			{
+				for(size_t j = i+1; j < nTaus; ++j)
+				{
+					// require the pair to pass a separation requirement
+					if (ROOT::Math::VectorUtil::DeltaR(product.m_validTaus[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+						continue;
+
+					std::pair<KTau*, KTau*> diTauPair = std::make_pair(product.m_validTaus[i], product.m_validTaus[j]);
+					allDiTauPairs.push_back(diTauPair);
+					if(diTauPair.first->charge() == - diTauPair.second->charge())
+						osDiTauPairs.push_back(diTauPair);
+				}
 			}
+
+			auto diTauPairs = osDiTauPairs.size() > 0 ? osDiTauPairs : allDiTauPairs;
+			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
+			auto compareDiTauPairs = [&] (std::pair<KTau*, KTau*> pair1, std::pair<KTau*, KTau*> pair2) 
+				{ return (std::max(pair1.first->getDiscriminator(idString, event.m_tauMetadata), pair1.second->getDiscriminator(idString, event.m_tauMetadata)) < std::max(pair2.first->getDiscriminator(idString, event.m_tauMetadata), pair2.second->getDiscriminator(idString, event.m_tauMetadata))); };
+			std::sort(diTauPairs.begin(), diTauPairs.end(), compareDiTauPairs);
+		
+			tau1 = diTauPairs[0].first;
+			tau2 = diTauPairs[0].second;
+
+			product.m_validTaus.clear();
+			product.m_validTaus.push_back(tau1);
+			product.m_validTaus.push_back(tau2);
 		}
 
-		auto diTauPairs = osDiTauPairs.size() > 0 ? osDiTauPairs : allDiTauPairs;
-		const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
-		auto compareDiTauPairs = [&] (std::pair<KTau*, KTau*> pair1, std::pair<KTau*, KTau*> pair2) 
-			{ return (std::max(pair1.first->getDiscriminator(idString, event.m_tauMetadata), pair1.second->getDiscriminator(idString, event.m_tauMetadata)) < std::max(pair2.first->getDiscriminator(idString, event.m_tauMetadata), pair2.second->getDiscriminator(idString, event.m_tauMetadata))); };
-		std::sort(diTauPairs.begin(), diTauPairs.end(), compareDiTauPairs);
-		
-		tau1 = diTauPairs[0].first;
-		tau2 = diTauPairs[0].second;
-
-		product.m_validTaus.clear();
-		product.m_validTaus.push_back(tau1);
-		product.m_validTaus.push_back(tau2);
+		lepton1 = tau1;
+		lepton2 = tau2;
 	}
 
-	// fill leptons ordered by pt (high pt first)
-	KLepton* lepton1 = tau1;
-	KLepton* lepton2 = tau2;
-	if (lepton1->p4.Pt() >= lepton2->p4.Pt())
+	else if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
+	         HttEnumTypes::DecayChannel::ET)
 	{
-		product.m_ptOrderedLeptons.push_back(lepton1);
-		product.m_ptOrderedLeptons.push_back(lepton2);
+		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 	}
+
+	else if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
+	         HttEnumTypes::DecayChannel::MT)
+	{
+		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+	}
+
 	else
 	{
-		product.m_ptOrderedLeptons.push_back(lepton2);
-		product.m_ptOrderedLeptons.push_back(lepton1);
+		LOG(FATAL) << "Run2DecayChannelProducer: The given channel (" << settings.GetChannel() << ") is not included in the producer";
 	}
-	
-	// fill leptons ordered by flavour (according to channel definition)
-	product.m_flavourOrderedLeptons.push_back(lepton1);
-	product.m_flavourOrderedLeptons.push_back(lepton2);
-	
-	// fill leptons ordered by charge (positive charges first)
-	if (lepton1->charge() >= lepton2->charge())
+
+
+	// fill the lepton vectors
+	if (product.m_decayChannel != HttEnumTypes::DecayChannel::NONE)
 	{
-		product.m_chargeOrderedLeptons.push_back(lepton1);
-		product.m_chargeOrderedLeptons.push_back(lepton2);
-	}
-	else
-	{
-		product.m_chargeOrderedLeptons.push_back(lepton2);
-		product.m_chargeOrderedLeptons.push_back(lepton1);
+		// fill leptons ordered by pt (high pt first)
+		if (lepton1->p4.Pt() >= lepton2->p4.Pt())
+		{
+			product.m_ptOrderedLeptons.push_back(lepton1);
+			product.m_ptOrderedLeptons.push_back(lepton2);
+		}
+		else
+		{
+			product.m_ptOrderedLeptons.push_back(lepton2);
+			product.m_ptOrderedLeptons.push_back(lepton1);
+		}
+	
+		// fill leptons ordered by flavour (according to channel definition)
+		product.m_flavourOrderedLeptons.push_back(lepton1);
+		product.m_flavourOrderedLeptons.push_back(lepton2);
+	
+		// fill leptons ordered by charge (positive charges first)
+		if (lepton1->charge() >= lepton2->charge())
+		{
+			product.m_chargeOrderedLeptons.push_back(lepton1);
+			product.m_chargeOrderedLeptons.push_back(lepton2);
+		}
+		else
+		{
+			product.m_chargeOrderedLeptons.push_back(lepton2);
+			product.m_chargeOrderedLeptons.push_back(lepton1);
+		}
 	}
 }
