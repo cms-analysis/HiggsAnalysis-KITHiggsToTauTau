@@ -510,16 +510,26 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	size_t nTaus = product.m_validTaus.size();
 	KTau* tau1 = 0;
 	KTau* tau2 = 0;
-	if( nTaus <2 )
+	if (nTaus < 2)
 	{
 		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 		return;
 	}
-	else if(nTaus == 2)
+	else if (nTaus == 2)
 	{
+		// sort the pair (first tau is the most isolated)
+		const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
+		auto compareTaus = [&] (KTau* tau1, KTau* tau2) 
+			{ return (tau1->getDiscriminator(idString, event.m_tauMetadata) < tau2->getDiscriminator(idString, event.m_tauMetadata)); };
+		std::sort(product.m_validTaus.begin(), product.m_validTaus.end(), compareTaus);
+		
 		product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
 		tau1 = product.m_validTaus[0];
 		tau2 = product.m_validTaus[1];
+		
+		// require the pair to pass a separation requirement
+		if (ROOT::Math::VectorUtil::DeltaR(tau1->p4, tau2->p4) < 0.5)
+			product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 	}
 	else
 	{
@@ -531,6 +541,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		{
 			for(size_t j = i+1; j < nTaus; ++j)
 			{
+				// require the pair to pass a separation requirement
+				if (ROOT::Math::VectorUtil::DeltaR(product.m_validTaus[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+					continue;
+
 				std::pair<KTau*, KTau*> diTauPair = std::make_pair(product.m_validTaus[i], product.m_validTaus[j]);
 				allDiTauPairs.push_back(diTauPair);
 				if(diTauPair.first->charge() == - diTauPair.second->charge())
@@ -551,10 +565,6 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_validTaus.push_back(tau1);
 		product.m_validTaus.push_back(tau2);
 	}
-
-	// require the pair to pass a separation requirement
-	if (ROOT::Math::VectorUtil::DeltaR(tau1->p4, tau2->p4) < 0.5)
-		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 
 	// fill leptons ordered by pt (high pt first)
 	KLepton* lepton1 = tau1;
