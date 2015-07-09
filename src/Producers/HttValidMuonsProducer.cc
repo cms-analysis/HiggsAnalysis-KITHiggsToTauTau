@@ -119,8 +119,8 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 	
 	// (tighter) cut on impact parameters of track
 	validMuon = validMuon
-	            && ((settings.*GetMuonTrackDxyCut)() <= 0.0 || std::abs(muon->dxy) < (settings.*GetMuonTrackDxyCut)())
-	            && ((settings.*GetMuonTrackDzCut)() <= 0.0 || std::abs(muon->dz) < (settings.*GetMuonTrackDzCut)());
+	            && ((settings.*GetMuonTrackDxyCut)() <= 0.0 || std::abs(muon->track.getDxy(&event.m_vertexSummary->pv)) < (settings.*GetMuonTrackDxyCut)())
+	            && ((settings.*GetMuonTrackDzCut)() <= 0.0 || std::abs(muon->track.getDz(&event.m_vertexSummary->pv)) < (settings.*GetMuonTrackDzCut)());
 
 	return validMuon;
 }
