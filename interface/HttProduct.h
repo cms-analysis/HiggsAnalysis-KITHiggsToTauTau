@@ -74,6 +74,7 @@ public:
 	
 	double pZetaVis = 0.0;
 	double pZetaMissVis = 0.0;
+	double pZetaMissVisNoLep = 0.0;
 	
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;
