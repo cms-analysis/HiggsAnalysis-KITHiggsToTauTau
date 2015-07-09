@@ -1,38 +1,54 @@
 {
-	"tt" : {
+	"mt" : {
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsVetoElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsBTaggedJetID.json"
 		],
-		"Channel" : "TT",
-		"MinNTaus" : 2,
+		"Channel" : "MT",
+		"MinNMuons" : 1,
+		"MinNTaus" : 1,
 		"HltPaths" : [
-			"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
+			"HLT_IsoMu24_eta2p1_IterTrk02",
+			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
+		"MuonLowerPtCuts" : [
+			"18.0"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
 		"TauLowerPtCuts" : [
-			"45.0"
+			"20.0"
 		],
 		"TauUpperAbsEtaCuts" : [
-			"2.1"
+			"2.3"
 		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
+		"MuonTriggerFilterNames" : {
+			"nick" : {
+				"default" : [
+					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltOverlapFilterIsoMu17LooseIsoPFTau20",
+					"HLT_IsoMu24_eta2p1_IterTrk02:hltL3crIsoL1sMu20Eta2p1L1f0L2f20QL3f24QL3crIsoRhoFiltered0p15IterTrk02"
+				]
+			}
+		},
 		"TauTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltL1sDoubleTauJet36erORDoubleTauJet68er",
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltDoubleL2IsoTau35eta2p1",
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
+					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltL1sMu16erTauJet20er",
+					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20:hltOverlapFilterIsoMu17LooseIsoPFTau20"
 				]
 			}
 		},
 		"SvfitIntegrationMethod" : "MarkovChain",
 		"InvalidateNonMatchingElectrons" : false,
-		"InvalidateNonMatchingMuons" : false,
+		"InvalidateNonMatchingMuons" : true,
 		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
 		"DirectIso" : true,
@@ -43,6 +59,7 @@
 				]
 			},
 			"genDiLeptonDecayMode",
+			"nMuons",
 			"nTaus"
 		],
 		"OSChargeLeptons" : true,
@@ -53,14 +70,17 @@
 					"#filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MvaMetTTSelector",
+					"producer:MvaMetMTSelector",
+					"producer:ValidMuonsProducer",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
 					"producer:ValidTausProducer",
 					"producer:TauTriggerMatchingProducer",
 					"producer:RecoTauGenParticleMatchingProducer",
 					"producer:RecoTauGenTauMatchingProducer",
 					"#producer:RecoTauGenTauJetMatchingProducer",
-					"producer:Run2DecayChannelProducer",
 					"filter:MinTausCountFilter",
+					"producer:Run2DecayChannelProducer",
 					"filter:DecayChannelFilter",
 					"producer:ValidLeptonsProducer",
 					"#producer:TaggedJetCorrectionsProducer",
