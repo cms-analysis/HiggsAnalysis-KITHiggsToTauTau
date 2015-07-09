@@ -14,6 +14,8 @@
 void DecayChannelProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
+
+	HttEnumTypes::DecayChannel decayChannel = HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel())));
 	
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("decayChannelIndex", [](event_type const& event, product_type const& product) {
@@ -179,149 +181,154 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2IsoOverPt", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byCombinedIsolationDeltaBetaCorrRaw3Hits_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2MetMt", [](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("byCombinedIsolationDeltaBetaCorrRaw3Hits", event.m_tauMetadata);
+		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[1]->p4, product.m_met->p4);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byCombinedIsolationDeltaBetaCorrRaw3Hits_2", [](event_type const& event, product_type const& product)
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byCombinedIsolationDeltaBetaCorrRaw3Hits_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("byCombinedIsolationDeltaBetaCorrRaw3Hits", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("byCombinedIsolationDeltaBetaCorrRaw3Hits", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trigweight_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byCombinedIsolationDeltaBetaCorrRaw3Hits_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("trigweight", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("byCombinedIsolationDeltaBetaCorrRaw3Hits", event.m_tauMetadata) :  product.m_validTaus[0]->getDiscriminator("byCombinedIsolationDeltaBetaCorrRaw3Hits", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trigweight_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trigweight_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("trigweight", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("trigweight", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronLooseMVA5_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trigweight_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("againstElectronLooseMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("trigweight", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("trigweight", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronLooseMVA5_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronLooseMVA5_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("againstElectronLooseMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("againstElectronLooseMVA5", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronMediumMVA5_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronLooseMVA5_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("againstElectronMediumMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("againstElectronLooseMVA5", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("againstElectronLooseMVA5", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronMediumMVA5_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronMediumMVA5_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("againstElectronMediumMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("againstElectronMediumMVA5", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronTightMVA5_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronMediumMVA5_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("againstElectronTightMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("againstElectronMediumMVA5", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("againstElectronMediumMVA5", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronTightMVA5_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronTightMVA5_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("againstElectronTightMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("againstElectronTightMVA5", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronVLooseMVA5_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronTightMVA5_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("againstElectronVLooseMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("againstElectronTightMVA5", event.m_tauMetadata) :  product.m_validTaus[0]->getDiscriminator("againstElectronTightMVA5", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronVLooseMVA5_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronVLooseMVA5_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("againstElectronVLooseMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("againstElectronVLooseMVA5", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronVTightMVA5_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronVLooseMVA5_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("againstElectronVTightMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("againstElectronVLooseMVA5", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("againstElectronVLooseMVA5", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronVTightMVA5_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronVTightMVA5_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("againstElectronVTightMVA5", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("againstElectronVTightMVA5", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstMuonLoose3_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstElectronVTightMVA5_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("againstMuonLoose3", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("againstElectronVTightMVA5", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("againstElectronVTightMVA5", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstMuonLoose3_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstMuonLoose3_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("againstMuonLoose3", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("againstMuonLoose3", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstMuonTight3_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstMuonLoose3_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("againstMuonTight3", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("againstMuonLoose3", event.m_tauMetadata) :  product.m_validTaus[0]->getDiscriminator("againstMuonLoose3", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstMuonTight3_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstMuonTight3_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("againstMuonTight3", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("againstMuonTight3", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3newDMwoLTraw_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("againstMuonTight3_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("byIsolationMVA3newDMwoLTraw", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("againstMuonTight3", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("againstMuonTight3", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3newDMwoLTraw_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3newDMwoLTraw_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("byIsolationMVA3newDMwoLTraw", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("byIsolationMVA3newDMwoLTraw", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3oldDMwoLTraw_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3newDMwoLTraw_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("byIsolationMVA3oldDMwoLTraw", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("byIsolationMVA3newDMwoLTraw", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("byIsolationMVA3newDMwoLTraw", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3oldDMwoLTraw_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3oldDMwoLTraw_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("byIsolationMVA3oldDMwoLTraw", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("byIsolationMVA3oldDMwoLTraw", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3newDMwLTraw_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3oldDMwoLTraw_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("byIsolationMVA3newDMwLTraw", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("byIsolationMVA3oldDMwoLTraw", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("byIsolationMVA3oldDMwoLTraw", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3newDMwLTraw_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3newDMwLTraw_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("byIsolationMVA3newDMwLTraw", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("byIsolationMVA3newDMwLTraw", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3oldDMwLTraw_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3newDMwLTraw_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("byIsolationMVA3oldDMwLTraw", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("byIsolationMVA3newDMwLTraw", event.m_tauMetadata) :  product.m_validTaus[0]->getDiscriminator("byIsolationMVA3newDMwLTraw", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3oldDMwLTraw_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3oldDMwLTraw_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("byIsolationMVA3oldDMwLTraw", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("byIsolationMVA3oldDMwLTraw", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("chargedIsoPtSum_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("byIsolationMVA3oldDMwLTraw_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("chargedIsoPtSum", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("byIsolationMVA3oldDMwLTraw", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("byIsolationMVA3oldDMwLTraw", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("chargedIsoPtSum_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("chargedIsoPtSum_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("chargedIsoPtSum", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("chargedIsoPtSum", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("decayModeFinding_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("chargedIsoPtSum_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("decayModeFinding", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("chargedIsoPtSum", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("chargedIsoPtSum", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("decayModeFinding_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("decayModeFinding_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("decayModeFinding", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("decayModeFinding", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("decayModeFindingNewDMs_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("decayModeFinding_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("decayModeFindingNewDMs", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("decayModeFinding", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("decayModeFinding", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("decayModeFindingNewDMs_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("decayModeFindingNewDMs_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("decayModeFindingNewDMs", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("decayModeFindingNewDMs", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("neutralIsoPtSum_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("decayModeFindingNewDMs_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("neutralIsoPtSum", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("decayModeFindingNewDMs", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("decayModeFindingNewDMs", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("neutralIsoPtSum_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("neutralIsoPtSum_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("neutralIsoPtSum", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("neutralIsoPtSum", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("puCorrPtSum_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("neutralIsoPtSum_2", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[0]->getDiscriminator("puCorrPtSum", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("neutralIsoPtSum", event.m_tauMetadata): product.m_validTaus[0]->getDiscriminator("neutralIsoPtSum", event.m_tauMetadata);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("puCorrPtSum_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("puCorrPtSum_1", [decayChannel](event_type const& event, product_type const& product)
 	{
-		return product.m_validTaus[1]->getDiscriminator("puCorrPtSum", event.m_tauMetadata);
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[0]->getDiscriminator("puCorrPtSum", event.m_tauMetadata) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("puCorrPtSum_2", [decayChannel](event_type const& event, product_type const& product)
+	{
+		return (decayChannel == HttEnumTypes::DecayChannel::TT) ? product.m_validTaus[1]->getDiscriminator("puCorrPtSum", event.m_tauMetadata) : product.m_validTaus[0]->getDiscriminator("puCorrPtSum", event.m_tauMetadata);
 	});
 }
 
@@ -516,9 +523,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	KLepton* lepton2 = 0;
 
 	//size_t nElectrons = product.m_validElectrons.size();
-	//size_t nMuons = product.m_validMuons.size();
+	size_t nMuons = product.m_validMuons.size();
 	size_t nTaus = product.m_validTaus.size();
 
+	// TT channel
 	if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
 	    HttEnumTypes::DecayChannel::TT)
 	{
@@ -526,10 +534,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		KTau* tau2 = 0;
 
 		if (nTaus < 2)
-		{
-			product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 			return;
-		}
 		else if (nTaus == 2)
 		{
 			// sort the pair (first tau is the most isolated)
@@ -548,7 +553,6 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		}
 		else
 		{
-			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
 			std::vector<std::pair<KTau*, KTau*>> allDiTauPairs;
 			std::vector<std::pair<KTau*, KTau*>> osDiTauPairs;
 			// Produce di-tau pairs
@@ -567,6 +571,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 				}
 			}
 
+			if (allDiTauPairs.size() == 0)
+				return;
+
+			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
 			auto diTauPairs = osDiTauPairs.size() > 0 ? osDiTauPairs : allDiTauPairs;
 			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
 			auto compareDiTauPairs = [&] (std::pair<KTau*, KTau*> pair1, std::pair<KTau*, KTau*> pair2) 
@@ -585,16 +593,71 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		lepton2 = tau2;
 	}
 
+	// ET channel
 	else if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
 	         HttEnumTypes::DecayChannel::ET)
 	{
 		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 	}
 
+	// MT channel
 	else if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
 	         HttEnumTypes::DecayChannel::MT)
 	{
-		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+		KMuon* muon = 0;
+		KTau* tau = 0;
+		
+		if (nMuons == 1 && nTaus == 1)
+		{
+			product.m_decayChannel = HttEnumTypes::DecayChannel::MT;
+			muon = product.m_validMuons[0];
+			tau = product.m_validTaus[0];
+
+			// require the pair to pass a separation requirement
+			if (ROOT::Math::VectorUtil::DeltaR(muon->p4, tau->p4) < 0.5)
+				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+		}
+		else
+		{
+			std::vector<std::pair<KMuon*, KTau*>> allMuonTauPairs;
+			std::vector<std::pair<KMuon*, KTau*>> osMuonTauPairs;
+			// Produce muon-tau pairs
+			for(size_t i = 0; i < nMuons; i++)
+			{
+				for(size_t j = 0; j < nTaus; j++)
+				{
+					// require the pair to pass a separation requirement
+					if (ROOT::Math::VectorUtil::DeltaR(product.m_validMuons[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+						continue;
+
+					std::pair<KMuon*, KTau*> muonTauPair = std::make_pair(product.m_validMuons[i], product.m_validTaus[j]);
+					allMuonTauPairs.push_back(muonTauPair);
+					if(muonTauPair.first->charge() == - muonTauPair.second->charge())
+						osMuonTauPairs.push_back(muonTauPair);
+				}
+			}
+	
+			if (allMuonTauPairs.size() == 0)
+				return;
+
+			product.m_decayChannel = HttEnumTypes::DecayChannel::MT;
+			auto muonTauPairs = osMuonTauPairs.size() > 0 ? osMuonTauPairs : allMuonTauPairs;
+			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
+			auto compareMuonTauPairs = [&] (std::pair<KMuon*, KTau*> pair1, std::pair<KMuon*, KTau*> pair2) 
+				{ return (std::max(float(pair1.first->pfIso()), pair1.second->getDiscriminator(idString, event.m_tauMetadata)) < std::max(float(pair2.first->pfIso()), pair2.second->getDiscriminator(idString, event.m_tauMetadata))); };
+			std::sort(muonTauPairs.begin(), muonTauPairs.end(), compareMuonTauPairs);
+		
+			muon = muonTauPairs[0].first;
+			tau = muonTauPairs[0].second;
+
+			product.m_validMuons.clear();
+			product.m_validTaus.clear();
+			product.m_validMuons.push_back(muon);
+			product.m_validTaus.push_back(tau);
+		}
+
+		lepton1 = muon;
+		lepton2 = tau;	
 	}
 
 	else
