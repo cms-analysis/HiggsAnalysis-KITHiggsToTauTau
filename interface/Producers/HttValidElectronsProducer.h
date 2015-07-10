@@ -50,7 +50,7 @@ public:
 		PHYS14CUTBASEDMEDIUM = 5,
 		PHYS14CUTBASEDTIGHT = 6,
 		PHYS14CUTBASEDVETO = 7,
-		MVANONTRIGV025NSPHYS14 = 8,
+		MVANONTRIGPHYS14 = 8,
 	};
 	enum class WorkingPoint : int
 	{
@@ -69,7 +69,7 @@ public:
 		else if (electronIDType == "phys14cutbasedmedium") return ElectronIDType::PHYS14CUTBASEDMEDIUM;
 		else if (electronIDType == "phys14cutbasedtight") return ElectronIDType::PHYS14CUTBASEDTIGHT;
 		else if (electronIDType == "phys14cutbasedveto") return ElectronIDType::PHYS14CUTBASEDVETO;
-		else if (electronIDType == "mvanontrigv025nsphys14") return ElectronIDType::MVANONTRIGV025NSPHYS14;
+		else if (electronIDType == "mvanontrigphys14") return ElectronIDType::MVANONTRIGPHYS14;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else
 			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;
@@ -142,8 +142,9 @@ private:
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const;
-	bool IsMVANonTrigV025nsPhys14(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const;
 	std::string chooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const;
+	std::string chooseMvaNonTrigId(const KElectronMetadata *meta) const;	
 };
 
 

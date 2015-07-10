@@ -5,7 +5,7 @@
 	"ElectronReco" : "user",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "none",
+	"ElectronIDType" : "mvanontrigphys14",
 	
 	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",

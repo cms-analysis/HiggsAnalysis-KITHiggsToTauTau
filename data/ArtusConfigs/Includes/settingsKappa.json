@@ -43,10 +43,30 @@
 		}
 	},
 	"Met" :  "met",
-	"MvaMetTT" : "metMVATT",
-	"MvaMetMT" : "metMVAMT",
-	"MvaMetET" : "metMVAET",
-	"MvaMetEM" : "metMVAEM",
+	"MvaMetTT" : {
+		"nick" : {
+			"default" : "metMVATT",
+			"Spring15" : ""
+		}
+	},
+	"MvaMetMT" : {
+		"nick" : {
+			"default" : "metMVAMT",
+			"Spring15" : ""
+		}
+	},
+	"MvaMetET" : {
+		"nick" : {
+			"default" : "metMVAET",
+			"Spring15" : ""
+		}
+	},
+	"MvaMetEM" : {
+		"nick" : {
+			"default" : "metMVAEM",
+			"Spring15" : ""
+		}
+	},
 	"#PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
 	"##PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
 	"#PFChargedHadronsNoPileUp" : "pfAllChargedParticles",

@@ -122,9 +122,9 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			validElectron = validElectron && IsCutBasedPhys14(&(*electron), event, WorkingPoint::VETO);
 		}
-		else if (electronIDType == ElectronIDType::MVANONTRIGV025NSPHYS14)
+		else if (electronIDType == ElectronIDType::MVANONTRIGPHYS14)
 		{
-			validElectron = validElectron && IsMVANonTrigV025nsPhys14(&(*electron), event, true);
+			validElectron = validElectron && IsMVANonTrigPhys14(&(*electron), event, true);
 		}
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
@@ -245,26 +245,19 @@ bool HttValidElectronsProducer::IsCutBasedPhys14(KElectron* electron, event_type
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVANonTrigV025nsPhys14(KElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
 
+	// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#Non_triggering_electron_MVA
+	// pT always greater than 10 GeV
 	validElectron = validElectron &&
-		(
-			(
-				(electron->p4.Pt() < 20.0)
-				&&
-				(
-					(electron->getId("mvaNonTrigV025nsPHYS14", event.m_electronMetadata) > 0.9)
-				)
-			)
+		( 
+			(std::abs(electron->p4.Eta()) < 0.8 && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > 0.965)
 			||
-			(
-				(electron->p4.Pt() >= 20.0) &&
-				(
-					(electron->getId("mvaNonTrigV025nsPHYS14", event.m_electronMetadata) > 0.9)
-				)
-			)
+			(std::abs(electron->p4.Eta()) > 0.8 && std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > 0.917)
+			||
+			(std::abs(electron->p4.Eta()) > DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > 0.683)
 		);
 
 	return validElectron;
@@ -317,6 +310,22 @@ std::string HttValidElectronsProducer::chooseCutBasedId(const KElectronMetadata 
 		else
 			LOG(FATAL) << "HttValidElectronsProducer::chooseCutBasedId: could not find any Id for the veto WP" << std::endl;
 	}
+
+	return stringID;
+}
+
+std::string HttValidElectronsProducer::chooseMvaNonTrigId(const KElectronMetadata *meta) const
+{
+	std::string stringID;
+
+	if (Utility::Contains(meta->idNames, std::string("mvaNonTrigV025nsPHYS14")))
+		stringID = "mvaNonTrigV025nsPHYS14";
+	else if (Utility::Contains(meta->idNames, std::string("mvaNonTrig25nsPHYS14")))
+		stringID = "mvaNonTrig25nsPHYS14";
+	else if (Utility::Contains(meta->idNames, std::string("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigValues")))
+		stringID = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigValues";
+	else
+		LOG(FATAL) << "HttValidElectronsProducer::chooseMvaNotTrigId: could not find any Id" << std::endl;
 
 	return stringID;
 }
