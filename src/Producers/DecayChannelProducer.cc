@@ -522,7 +522,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	KLepton* lepton1 = 0;
 	KLepton* lepton2 = 0;
 
-	//size_t nElectrons = product.m_validElectrons.size();
+	size_t nElectrons = product.m_validElectrons.size();
 	size_t nMuons = product.m_validMuons.size();
 	size_t nTaus = product.m_validTaus.size();
 
@@ -597,7 +597,60 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	else if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
 	         HttEnumTypes::DecayChannel::ET)
 	{
-		product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+		KElectron* electron = 0;
+		KTau* tau = 0;
+		
+		if (nElectrons == 1 && nTaus == 1)
+		{
+			product.m_decayChannel = HttEnumTypes::DecayChannel::ET;
+			electron = product.m_validElectrons[0];
+			tau = product.m_validTaus[0];
+
+			// require the pair to pass a separation requirement
+			if (ROOT::Math::VectorUtil::DeltaR(electron->p4, tau->p4) < 0.5)
+				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+		}
+		else
+		{
+			std::vector<std::pair<KElectron*, KTau*>> allEleTauPairs;
+			std::vector<std::pair<KElectron*, KTau*>> osEleTauPairs;
+			// Produce electron-tau pairs
+			for(size_t i = 0; i < nElectrons; i++)
+			{
+				for(size_t j = 0; j < nTaus; j++)
+				{
+					// require the pair to pass a separation requirement
+					if (ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+						continue;
+
+					std::pair<KElectron*, KTau*> eleTauPair = std::make_pair(product.m_validElectrons[i], product.m_validTaus[j]);
+					allEleTauPairs.push_back(eleTauPair);
+					if(eleTauPair.first->charge() == - eleTauPair.second->charge())
+						osEleTauPairs.push_back(eleTauPair);
+				}
+			}
+	
+			if (allEleTauPairs.size() == 0)
+				return;
+
+			product.m_decayChannel = HttEnumTypes::DecayChannel::ET;
+			auto eleTauPairs = osEleTauPairs.size() > 0 ? osEleTauPairs : allEleTauPairs;
+			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
+			auto compareEleTauPairs = [&] (std::pair<KElectron*, KTau*> pair1, std::pair<KElectron*, KTau*> pair2) 
+				{ return (std::max(float(pair1.first->pfIso()), pair1.second->getDiscriminator(idString, event.m_tauMetadata)) < std::max(float(pair2.first->pfIso()), pair2.second->getDiscriminator(idString, event.m_tauMetadata))); };
+			std::sort(eleTauPairs.begin(), eleTauPairs.end(), compareEleTauPairs);
+		
+			electron = eleTauPairs[0].first;
+			tau = eleTauPairs[0].second;
+
+			product.m_validElectrons.clear();
+			product.m_validTaus.clear();
+			product.m_validElectrons.push_back(electron);
+			product.m_validTaus.push_back(tau);
+		}
+
+		lepton1 = electron;
+		lepton2 = tau;
 	}
 
 	// MT channel
