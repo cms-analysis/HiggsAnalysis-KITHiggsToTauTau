@@ -4,6 +4,8 @@
 
 void HttValidGenTausProducer::Init(setting_type const& settings)
 {
+	ProducerBase<HttTypes>::Init(settings);
+	
 	m_deltaR = 0.3; //todo: read in from settings
 	m_validateMatching = true;
 	m_swapIfNecessary = true;

@@ -20,6 +20,8 @@ DataMcScaleFactorProducerBase::DataMcScaleFactorProducerBase(
 
 void DataMcScaleFactorProducerBase::Init(setting_type const& settings)
 {
+	ProducerBase<HttTypes>::Init(settings);
+	
 	// parse settings for efficiency files
 	// and read the histograms from the files
 	// Data

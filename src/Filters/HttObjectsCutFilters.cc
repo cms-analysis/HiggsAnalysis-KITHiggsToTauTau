@@ -6,6 +6,7 @@ std::string MetLowerPtCutsFilter::GetFilterId() const {
 }
 
 void MetLowerPtCutsFilter::Init(HttSettings const& settings) {
+	CutRangeFilterBase<HttTypes>::Init(settings);
 	
 	this->m_cuts.push_back(std::pair<double_extractor_lambda, CutRange>(
 		[this](HttEvent const& event, HttProduct const& product) -> double {
@@ -21,6 +22,7 @@ std::string MetUpperPtCutsFilter::GetFilterId() const {
 }
 
 void MetUpperPtCutsFilter::Init(HttSettings const& settings) {
+	CutRangeFilterBase<HttTypes>::Init(settings);
 	
 	this->m_cuts.push_back(std::pair<double_extractor_lambda, CutRange>(
 		[this](HttEvent const& event, HttProduct const& product) -> double {
