@@ -2,7 +2,12 @@
 	"BTaggedJetID_documentation" : [
 	],
 
-	"BTaggedJetCombinedSecondaryVertexName" : "CombinedInclusiveSecondaryVertexV2BJetTags",	
+	"BTaggedJetCombinedSecondaryVertexName" : {
+		"nick" : {
+			"default" : "CombinedInclusiveSecondaryVertexV2BJetTags",
+			"Spring15" : "PfCombinedInclusiveSecondaryVertexV2BJetTags"
+		}
+	},
 	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.814,
 	"BTaggedJetAbsEtaCut" : 2.4,
 	"ApplyBTagSF" : false,

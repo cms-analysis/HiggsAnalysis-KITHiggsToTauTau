@@ -7,7 +7,7 @@
 	"ElectronID" : "user",
 	"ElectronIDType" : "mvanontrigphys14",
 	
-	"ElectronIsoType" : "user",
+	"ElectronIsoType" : "none",
 	"ElectronIso" : "none",
 	
 	"ElectronIsoSignalConeSize" : 0.3,
