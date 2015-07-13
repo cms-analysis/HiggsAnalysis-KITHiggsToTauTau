@@ -67,10 +67,26 @@ public:
 
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonIso", [this](event_type const& event, product_type const& product) {
-			return product.m_validMuons.size() >=1 ? SafeMap::GetWithDefault(product.m_muonIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+			return product.m_validMuons.size() >= 1 ? SafeMap::GetWithDefault(product.m_muonIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonIsoOverPt", [this](event_type const& event, product_type const& product) {
-			return product.m_validMuons.size() >=1 ? SafeMap::GetWithDefault(product.m_muonIsolationOverPt, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+			return product.m_validMuons.size() >= 1 ? SafeMap::GetWithDefault(product.m_muonIsolationOverPt, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_m_loose_1", [this](event_type const& event, product_type const& product)
+		{
+			return product.m_validMuons.size() >= 1 ? product.m_validMuons[0]->idLoose() : DefaultValues::UndefinedFloat;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_m_medium_1", [this](event_type const& event, product_type const& product)
+		{
+			return product.m_validMuons.size() >= 1 ? product.m_validMuons[0]->idMedium() : DefaultValues::UndefinedFloat;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_m_tight_1", [this](event_type const& event, product_type const& product)
+		{
+			return product.m_validMuons.size() >= 1 ? product.m_validMuons[0]->idTight() : DefaultValues::UndefinedFloat;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_m_highpt_1", [this](event_type const& event, product_type const& product)
+		{
+			return product.m_validMuons.size() >= 1 ? product.m_validMuons[0]->idHighPt() : DefaultValues::UndefinedFloat;
 		});
 	}
 

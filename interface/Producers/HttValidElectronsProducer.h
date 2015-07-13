@@ -50,7 +50,8 @@ public:
 		PHYS14CUTBASEDMEDIUM = 5,
 		PHYS14CUTBASEDTIGHT = 6,
 		PHYS14CUTBASEDVETO = 7,
-		MVANONTRIGPHYS14 = 8,
+		MVANONTRIGPHYS14LOOSE = 8,
+		MVANONTRIGPHYS14TIGHT = 9,
 	};
 	enum class WorkingPoint : int
 	{
@@ -69,7 +70,8 @@ public:
 		else if (electronIDType == "phys14cutbasedmedium") return ElectronIDType::PHYS14CUTBASEDMEDIUM;
 		else if (electronIDType == "phys14cutbasedtight") return ElectronIDType::PHYS14CUTBASEDTIGHT;
 		else if (electronIDType == "phys14cutbasedveto") return ElectronIDType::PHYS14CUTBASEDVETO;
-		else if (electronIDType == "mvanontrigphys14") return ElectronIDType::MVANONTRIGPHYS14;
+		else if (electronIDType == "mvanontrigphys14loose") return ElectronIDType::MVANONTRIGPHYS14LOOSE;
+		else if (electronIDType == "mvanontrigphys14tight") return ElectronIDType::MVANONTRIGPHYS14TIGHT;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else
 			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;

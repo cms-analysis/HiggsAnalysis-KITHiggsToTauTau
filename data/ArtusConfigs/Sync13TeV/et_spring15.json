@@ -61,6 +61,7 @@
 			},
 			"genDiLeptonDecayMode",
 			"nElectrons",
+			"nMuons",
 			"nTaus"
 		],
 		"OSChargeLeptons" : true,
@@ -75,6 +76,7 @@
 					"producer:ValidElectronsProducer",
 					"producer:ElectronTriggerMatchingProducer",
 					"filter:MinElectronsCountFilter",
+					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",
 					"producer:TauTriggerMatchingProducer",
 					"producer:RecoTauGenParticleMatchingProducer",
@@ -83,7 +85,6 @@
 					"filter:MinTausCountFilter",
 					"producer:Run2DecayChannelProducer",
 					"filter:DecayChannelFilter",
-					"producer:ValidLeptonsProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"#producer:RecoJetGenParticleMatchingProducer",

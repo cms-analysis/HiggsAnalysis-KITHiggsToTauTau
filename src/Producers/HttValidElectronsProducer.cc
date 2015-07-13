@@ -65,10 +65,30 @@ void HttValidElectronsProducer::Init(setting_type const& settings)
 
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingEleIso", [this](event_type const& event, product_type const& product) {
-		return product.m_validElectrons.size() >=1 ? SafeMap::GetWithDefault(product.m_electronIsolation, product.m_validElectrons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		return product.m_validElectrons.size() >= 1 ? SafeMap::GetWithDefault(product.m_electronIsolation, product.m_validElectrons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingEleIsoOverPt", [this](event_type const& event, product_type const& product) {
-		return product.m_validElectrons.size() >=1 ? SafeMap::GetWithDefault(product.m_electronIsolationOverPt, product.m_validElectrons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+		return product.m_validElectrons.size() >= 1 ? SafeMap::GetWithDefault(product.m_electronIsolationOverPt, product.m_validElectrons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_e_mva_nt_loose_1", [this](event_type const& event, product_type const& product)
+	{
+		return (product.m_validElectrons.size() >= 1 && electronIDType != ElectronIDType::NONE) ? product.m_validElectrons[0]->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_e_cut_veto_1", [this](event_type const& event, product_type const& product)
+	{
+		return (product.m_validElectrons.size() >= 1 && electronIDType != ElectronIDType::NONE) ? product.m_validElectrons[0]->getId(chooseCutBasedId(event.m_electronMetadata, WorkingPoint::VETO), event.m_electronMetadata) : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_e_cut_loose_1", [this](event_type const& event, product_type const& product)
+	{
+		return (product.m_validElectrons.size() >= 1 && electronIDType != ElectronIDType::NONE) ? product.m_validElectrons[0]->getId(chooseCutBasedId(event.m_electronMetadata, WorkingPoint::LOOSE), event.m_electronMetadata) : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_e_cut_medium_1", [this](event_type const& event, product_type const& product)
+	{
+		return (product.m_validElectrons.size() >= 1 && electronIDType != ElectronIDType::NONE) ? product.m_validElectrons[0]->getId(chooseCutBasedId(event.m_electronMetadata, WorkingPoint::MEDIUM), event.m_electronMetadata) : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("id_e_cut_tight_1", [this](event_type const& event, product_type const& product)
+	{
+		return (product.m_validElectrons.size() >= 1 && electronIDType != ElectronIDType::NONE) ? product.m_validElectrons[0]->getId(chooseCutBasedId(event.m_electronMetadata, WorkingPoint::TIGHT), event.m_electronMetadata) : DefaultValues::UndefinedFloat;
 	});
 }
 
@@ -122,7 +142,11 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			validElectron = validElectron && IsCutBasedPhys14(&(*electron), event, WorkingPoint::VETO);
 		}
-		else if (electronIDType == ElectronIDType::MVANONTRIGPHYS14)
+		else if (electronIDType == ElectronIDType::MVANONTRIGPHYS14LOOSE)
+		{
+			validElectron = validElectron && IsMVANonTrigPhys14(&(*electron), event, false);
+		}
+		else if (electronIDType == ElectronIDType::MVANONTRIGPHYS14TIGHT)
 		{
 			validElectron = validElectron && IsMVANonTrigPhys14(&(*electron), event, true);
 		}
@@ -253,11 +277,11 @@ bool HttValidElectronsProducer::IsMVANonTrigPhys14(KElectron* electron, event_ty
 	// pT always greater than 10 GeV
 	validElectron = validElectron &&
 		( 
-			(std::abs(electron->p4.Eta()) < 0.8 && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > 0.965)
+			(std::abs(electron->p4.Eta()) < 0.8 && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.965 : 0.933))
 			||
-			(std::abs(electron->p4.Eta()) > 0.8 && std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > 0.917)
+			(std::abs(electron->p4.Eta()) > 0.8 && std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID? 0.917 : 0.825))
 			||
-			(std::abs(electron->p4.Eta()) > DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > 0.683)
+			(std::abs(electron->p4.Eta()) > DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.683 : 0.337))
 		);
 
 	return validElectron;

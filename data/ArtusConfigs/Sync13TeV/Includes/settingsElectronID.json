@@ -5,7 +5,12 @@
 	"ElectronReco" : "user",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "mvanontrigphys14",
+	"ElectronIDType" : {
+		"nick" : {
+			"default" : "none",
+			"Spring15" : "mvanontrigphys14tight"
+		}
+	},
 	
 	"ElectronIsoType" : "none",
 	"ElectronIso" : "none",

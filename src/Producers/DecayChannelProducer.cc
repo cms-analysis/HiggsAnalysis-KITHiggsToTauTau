@@ -589,6 +589,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			product.m_validTaus.push_back(tau2);
 		}
 
+		product.m_validLeptons.clear();
+		product.m_validLeptons.push_back(tau1);
+		product.m_validLeptons.push_back(tau2);
+
 		lepton1 = tau1;
 		lepton2 = tau2;
 	}
@@ -649,6 +653,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			product.m_validTaus.push_back(tau);
 		}
 
+		product.m_validLeptons.clear();
+		product.m_validLeptons.push_back(electron);
+		product.m_validLeptons.push_back(tau);
+
 		lepton1 = electron;
 		lepton2 = tau;
 	}
@@ -708,6 +716,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			product.m_validMuons.push_back(muon);
 			product.m_validTaus.push_back(tau);
 		}
+
+		product.m_validLeptons.clear();
+		product.m_validLeptons.push_back(muon);
+		product.m_validLeptons.push_back(tau);
 
 		lepton1 = muon;
 		lepton2 = tau;	
