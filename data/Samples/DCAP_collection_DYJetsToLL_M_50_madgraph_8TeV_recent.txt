@@ -1,1 +1,5 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_sample_DY1JetsToLL_M_50_madgraph_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_sample_DY2JetsToLL_M_50_madgraph_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_sample_DY3JetsToLL_M_50_madgraph_8TeV_recent.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_sample_DY4JetsToLL_M_50_madgraph_8TeV_recent.txt
 $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_sample_DYJetsToLL_M_50_madgraph_8TeV_recent.txt
