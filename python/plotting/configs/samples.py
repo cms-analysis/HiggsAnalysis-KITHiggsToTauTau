@@ -159,7 +159,14 @@ class Sample(object):
 					"noplot_ztt_mc",
 					nick_suffix=nick_suffix
 			)
-			config.setdefault("analysis_modules", []).append("EstimateZtt")
+			
+			if not "EstimateZtt" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateZtt")
+			config.setdefault("ztt_from_mc", []).append(False)
+			config.setdefault("ztt_plot_nicks", []).append("ztt"+nick_suffix)
+			config.setdefault("ztt_mc_inc_nicks", []).append("noplot_ztt_mc_inc"+nick_suffix)
+			config.setdefault("ztt_emb_inc_nicks", []).append("noplot_ztt_emb_inc"+nick_suffix)
+			
 		else:
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		
@@ -379,7 +386,15 @@ class Sample(object):
 					"noplot_wj_mc_control",
 					nick_suffix=nick_suffix
 			)
-			config.setdefault("analysis_modules", []).append("EstimateWjets")
+			
+			if not "EstimateWjets" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateWjets")
+			config.setdefault("wjets_shape_nicks", []).append("wj"+nick_suffix)
+			config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_data_control"+nick_suffix)
+			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_wj_control noplot_zll_wj_control noplot_ttj_wj_control noplot_vv_wj_control".split()]))
+			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_mc_signal"+nick_suffix)
+			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_mc_control"+nick_suffix)
+			
 		elif (channel == "em") or (channel == "mm"):
 			Sample._add_input(
 					config,
@@ -475,7 +490,15 @@ class Sample(object):
 					"noplot_wj_ss_mc_control",
 					nick_suffix=nick_suffix
 			)
-		
+			
+			if not "EstimateWjets" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateWjets")
+			config.setdefault("wjets_shape_nicks", []).append("noplot_wj_ss"+nick_suffix)
+			config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_ss_data_control"+nick_suffix)
+			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
+			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_ss_mc_signal"+nick_suffix)
+			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
+			
 			# QCD
 			Sample._add_input(
 					config,
@@ -522,7 +545,13 @@ class Sample(object):
 					"noplot_vv_qcd_control",
 					nick_suffix=nick_suffix
 			)
-			config.setdefault("analysis_modules", []).append("EstimateQcd")
+			
+			if not "EstimateQcd" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateQcd")
+			config.setdefault("qcd_data_control_nicks", []).append("qcd"+nick_suffix)
+			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
+			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06)
+			
 		elif channel == "em":
 			Sample._add_input(
 					config,

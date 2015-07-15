@@ -21,7 +21,7 @@ class EstimateZtt(estimatebase.EstimateBase):
 		
 		self.estimate_ztt_options = parser.add_argument_group("ZTT estimation options")
 		self.estimate_ztt_options.add_argument("--ztt-from-mc", nargs="+", type="bool", default=[False],
-		                                       help="Estimate ZTT from MC samples.")
+		                                       help="Estimate ZTT from MC samples. [Default: %(default)s]")
 		self.estimate_ztt_options.add_argument("--ztt-plot-nicks", nargs="+", default=["ztt"],
 		                                       help="Nicks for histogram to plot. [Default: %(default)s]")
 		self.estimate_ztt_options.add_argument("--ztt-mc-inc-nicks", nargs="+", default=["noplot_ztt_mc_inc"],
