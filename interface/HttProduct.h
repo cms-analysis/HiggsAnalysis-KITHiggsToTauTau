@@ -85,6 +85,7 @@ public:
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
 	bool m_diJetSystemAvailable = false;
+	int m_nCentralJets20 = 0;
 	int m_nCentralJets30 = 0;
 	
 	KMET* m_met = 0;

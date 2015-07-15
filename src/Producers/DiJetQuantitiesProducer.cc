@@ -46,6 +46,9 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("centralJet30Exists", [](event_type const& event, product_type const& product) {
 		return (product.m_nCentralJets30 > 0 ? true : false);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nCentralJets20", [](event_type const& event, product_type const& product) {
+		return product.m_nCentralJets20;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nCentralJets30", [](event_type const& event, product_type const& product) {
 		return product.m_nCentralJets30;
 	});
@@ -61,7 +64,7 @@ void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& pro
 		float minJetEta = std::min(product.m_validJets[0]->p4.Eta(), product.m_validJets[1]->p4.Eta());
 		float maxJetEta = std::max(product.m_validJets[0]->p4.Eta(), product.m_validJets[1]->p4.Eta());
 		for (std::vector<KBasicJet*>::const_iterator jet = product.m_validJets.begin();
-		     ((jet != product.m_validJets.end()) && ((*jet)->p4.Pt() > 30.0)); ++jet)
+		     jet != product.m_validJets.end(); ++jet)
 		{
 			// skip first two jets
 			if ((*jet) == product.m_validJets[0]) continue;
@@ -69,7 +72,11 @@ void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& pro
 			
 			if ((minJetEta < (*jet)->p4.Eta()) && ((*jet)->p4.Eta() < maxJetEta))
 			{
-				product.m_nCentralJets30++;
+				if ((*jet)->p4.Pt() > 20.0)
+					product.m_nCentralJets20++;
+
+				if ((*jet)->p4.Pt() > 30.0)
+					product.m_nCentralJets30++;
 			}
 		}
 	}
