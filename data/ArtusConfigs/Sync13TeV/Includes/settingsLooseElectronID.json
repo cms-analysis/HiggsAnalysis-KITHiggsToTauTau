@@ -13,7 +13,7 @@
 		}
 	},
 
-	"LooseElectronIsoType" : "none",
+	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",
 
 	"LooseElectronIsoPtSumOverPtUpperThresholdEB" : 0.3,

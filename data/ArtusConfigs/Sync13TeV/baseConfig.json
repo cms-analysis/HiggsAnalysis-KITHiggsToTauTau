@@ -1,9 +1,7 @@
 {
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsLooseElectronID.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsLooseMuonID.json"
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json"
 	],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
@@ -33,8 +31,6 @@
 				"#producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
-				"producer:HttValidLooseElectronsProducer",
-				"producer:HttValidLooseMuonsProducer",
 				"#producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",

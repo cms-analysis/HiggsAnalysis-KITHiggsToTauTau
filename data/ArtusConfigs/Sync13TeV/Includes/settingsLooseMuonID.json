@@ -6,7 +6,7 @@
 	"Year" : 2015,
 	"LooseMuonID" : "medium",
 
-	"LooseMuonIsoType" : "none",
+	"LooseMuonIsoType" : "user",
 	"LooseMuonIso" : "none",
 
 	"LooseMuonIsoPtSumOverPtUpperThresholdEB" : 0.3,

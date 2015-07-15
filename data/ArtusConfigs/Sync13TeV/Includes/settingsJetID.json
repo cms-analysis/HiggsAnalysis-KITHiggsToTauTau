@@ -9,9 +9,12 @@
 	"JetTaggerUpperCuts" : [
 	],
 	
-	"JetLowerPtCuts" : [
-		"30.0"
-	],
+	"JetLowerPtCuts" : {
+		"nick" : {
+			"default" : ["30.0"],
+			"Spring15" : ["20.0"]
+		}
+	},
 	"JetUpperAbsEtaCuts" : [
 		"4.7"
 	],
