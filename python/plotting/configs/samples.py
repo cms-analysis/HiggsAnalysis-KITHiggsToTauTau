@@ -10,32 +10,77 @@ import copy
 import Artus.Utility.jsonTools as jsonTools
 
 
-
 class Sample(object):
 
 	def __init__(self):
 		self.config = jsonTools.JsonDict({})
+		self.postfit_scales = None
 	
-	def get_config(self, samples, channel, category, **kwargs):
+	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
+		self.postfit_scales = postfit_scales
+		
 		config = copy.deepcopy(self.config)
 		
 		for sample in samples:
-			config = sample(config, channel, category, **kwargs)
+			config = sample(self, config, channel, category, nick_suffix, **kwargs)
 		
 		if not category is None:
 			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
 		
 		config.setdefault("analysis_modules", []).append("@CorrectNegativeBinContents")
-		config.setdefault("analysis_modules", []).append("PrintInfos")
+		config.setdefault("analysis_modules", []).append("@PrintInfos")
 		
 		config["nicks_blacklist"] = ["noplot"]
-		config["legend"] = [0.75, 0.55]
-		config["file_mode"] = "UPDATE"
+		#config["file_mode"] = "UPDATE"
 		
 		return config.doIncludes().doComments()
-	
+		
 	@staticmethod
-	def data(config, channel, category, **kwargs):
+	def merge_configs(config1, config2):
+		merged_config = copy.deepcopy(config1)
+		
+		for key in [
+				"nicks",
+				"directories",
+				"files",
+				"folders",
+				"x_expressions",
+				"scale_factors",
+				"weights",
+				"x_bins",
+				"y_bins",
+				"z_bins",
+				"histogram_to_scale_nicks",
+				"integral_histogram_nicks",
+				"scale_by_inverse_integrals",
+				"histogram_nicks",
+				"sum_result_nicks",
+				"stacks",
+				"markers",
+				"colors",
+				"labels",
+		]:
+			if key in merged_config or key in config2:
+				merged_config.setdefault(key, []).extend(config2.get(key, []))
+		
+		for key in [
+				"analysis_modules",
+		]:
+			for item in config2.get(key, []):
+				if not item in merged_config.get(key, []):
+					merged_config.setdefault(key, []).append(item)
+		
+		for key, value in config2.iteritems():
+			if not key in merged_config:
+				merged_config[key] = value
+		
+		return merged_config
+	
+	def data(self, config, channel, category, nick_suffix, **kwargs):
+		scale_factor = 1.0
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
+		
 		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
@@ -43,7 +88,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"data"
+					"data",
+					nick_suffix=nick_suffix
 			)
 		elif channel == "em":
 			Sample._add_input(
@@ -52,7 +98,8 @@ class Sample(object):
 					"em_dirIso/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"data"
+					"data",
+					nick_suffix=nick_suffix
 			)
 		elif channel == "mm":
 			Sample._add_input(
@@ -61,16 +108,20 @@ class Sample(object):
 					"mm_dirIso/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"data"
+					"data",
+					nick_suffix=nick_suffix
 			)
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "data", "E", "ELP", "#000000", "Data")
+		Sample._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 	
-	@staticmethod
-	def ztt(config, channel, category, lumi=19712.0, **kwargs):
+	def ztt(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+		scale_factor = 1.0
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
+		
 		if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
 			Sample._add_input(
 					config,
@@ -78,7 +129,8 @@ class Sample(object):
 					channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"ztt"
+					"ztt",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -86,7 +138,8 @@ class Sample(object):
 					channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"noplot_ztt_emb_inc"
+					"noplot_ztt_emb_inc",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -94,7 +147,8 @@ class Sample(object):
 					channel+"_dirIso_tt/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"noplot_ztt_mc_inc"
+					"noplot_ztt_mc_inc",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -102,18 +156,22 @@ class Sample(object):
 					channel+"_dirIso_tt/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"noplot_ztt_mc"
+					"noplot_ztt_mc",
+					nick_suffix=nick_suffix
 			)
 			config.setdefault("analysis_modules", []).append("EstimateZtt")
 		else:
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "#FFCC66", "ZTT")
+		Sample._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
 		
 		return config
 	
-	@staticmethod
-	def zl(config, channel, category, lumi=19712.0, **kwargs):
+	def zl(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("ZL", 1.0)
+		
 		if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
 			Sample._add_input(
 					config,
@@ -121,16 +179,20 @@ class Sample(object):
 					channel+"_dirIso_ee/ntuple "+channel+"_dirIso_mm/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_zl_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"zl"
+					"zl",
+					nick_suffix=nick_suffix
 			)
 		else:
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "#4496C8", "ZL")
+		Sample._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
 		return config
 	
-	@staticmethod
-	def zj(config, channel, category, lumi=19712.0, **kwargs):
+	def zj(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("ZJ", 1.0)
+		
 		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
@@ -140,7 +202,8 @@ class Sample(object):
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
 					"zj"
 			)
-			Sample._add_plot(config, "bkg", "HIST", "F", "#64B6E8", "ZJ")
+			
+			Sample._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
 		elif (channel == "em") or (channel == "mm"):
 			pass
 		else:
@@ -148,8 +211,11 @@ class Sample(object):
 		
 		return config
 	
-	@staticmethod
-	def ttj(config, channel, category, lumi=19712.0, **kwargs):
+	def ttj(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
+		
 		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
@@ -157,7 +223,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"ttj"
+					"ttj",
+					nick_suffix=nick_suffix
 			)
 		elif channel == "em":
 			Sample._add_input(
@@ -166,7 +233,8 @@ class Sample(object):
 					"em_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"ttj"
+					"ttj",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -174,7 +242,8 @@ class Sample(object):
 					"em_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"ttj"
+					"ttj",
+					nick_suffix=nick_suffix
 			)
 		elif channel == "mm":
 			Sample._add_input(
@@ -183,16 +252,20 @@ class Sample(object):
 					"mm_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"ttj"
+					"ttj",
+					nick_suffix=nick_suffix
 			)
 		else:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "#9999CC", "TTJ")
+		Sample._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 	
-	@staticmethod
-	def vv(config, channel, category, lumi=19712.0, **kwargs):
+	def vv(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+		
 		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
@@ -200,7 +273,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"vv"
+					"vv",
+					nick_suffix=nick_suffix
 			)
 		elif channel == "em":
 			Sample._add_input(
@@ -209,7 +283,8 @@ class Sample(object):
 					"em_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"vv"
+					"vv",
+					nick_suffix=nick_suffix
 			)
 		elif channel == "mm":
 			Sample._add_input(
@@ -218,16 +293,20 @@ class Sample(object):
 					channel+"_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"vv"
+					"vv",
+					nick_suffix=nick_suffix
 			)
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "#DE5A6A", "VV")
+		Sample._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 	
-	@staticmethod
-	def wj(config, channel, category, lumi=19712.0, **kwargs):
+	def wj(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("WJets", 1.0)
+		
 		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
@@ -235,7 +314,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"wj"
+					"wj",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -251,7 +331,8 @@ class Sample(object):
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ztt_mc_wj_control"
+					"noplot_ztt_mc_wj_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -259,7 +340,8 @@ class Sample(object):
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_zll_wj_control"
+					"noplot_zll_wj_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -267,7 +349,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ttj_wj_control"
+					"noplot_ttj_wj_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -275,7 +358,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_vv_wj_control"
+					"noplot_vv_wj_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -283,7 +367,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wj_mc_signal"
+					"noplot_wj_mc_signal",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -291,7 +376,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wj_mc_control"
+					"noplot_wj_mc_control",
+					nick_suffix=nick_suffix
 			)
 			config.setdefault("analysis_modules", []).append("EstimateWjets")
 		elif (channel == "em") or (channel == "mm"):
@@ -301,16 +387,21 @@ class Sample(object):
 					channel+"_dirIso/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)",
-					"wj"
+					"wj",
+					nick_suffix=nick_suffix
 			)
 		else:
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "#FE7A8A", "WJets")
+		if not kwargs.get("no_plot", False):
+			Sample._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
 	
-	@staticmethod
-	def qcd(config, channel, category, lumi=19712.0, **kwargs):
+	def qcd(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+		scale_factor = 1.0
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("QCD", 1.0)
+		
 		if (channel == "et") or (channel == "mt"):
 			Sample._add_input(
 					config,
@@ -318,7 +409,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wj_ss"
+					"noplot_wj_ss",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -326,7 +418,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wj_ss_data_control"
+					"noplot_wj_ss_data_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -334,7 +427,8 @@ class Sample(object):
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ztt_ss_mc_wj_control"
+					"noplot_ztt_ss_mc_wj_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -342,7 +436,8 @@ class Sample(object):
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_zll_ss_wj_control"
+					"noplot_zll_ss_wj_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -350,7 +445,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_ttj_ss_wj_control"
+					"noplot_ttj_ss_wj_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -358,7 +454,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_vv_ss_wj_control"
+					"noplot_vv_ss_wj_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -366,7 +463,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_wj_ss_mc_signal"
+					"noplot_wj_ss_mc_signal",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -374,7 +472,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
-					"noplot_wj_ss_mc_control"
+					"noplot_wj_ss_mc_control",
+					nick_suffix=nick_suffix
 			)
 		
 			# QCD
@@ -384,7 +483,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"qcd"
+					"qcd",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -392,7 +492,8 @@ class Sample(object):
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_ztt_mc_qcd_control"
+					"noplot_ztt_mc_qcd_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -400,7 +501,8 @@ class Sample(object):
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_zll_qcd_control"
+					"noplot_zll_qcd_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -408,7 +510,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_ttj_qcd_control"
+					"noplot_ttj_qcd_control",
+					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
@@ -416,7 +519,8 @@ class Sample(object):
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"noplot_vv_qcd_control"
+					"noplot_vv_qcd_control",
+					nick_suffix=nick_suffix
 			)
 			config.setdefault("analysis_modules", []).append("EstimateQcd")
 		elif channel == "em":
@@ -426,7 +530,8 @@ class Sample(object):
 					"em_dirIso/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)>0.0)",
-					"qcd"
+					"qcd",
+					nick_suffix=nick_suffix
 			)
 		elif channel == "mm":
 			Sample._add_input(
@@ -435,16 +540,46 @@ class Sample(object):
 					"mm_dirIso/ntuple",
 					1.0,
 					"eventWeight*((q_1*q_2)>0.0)",
-					"qcd"
+					"qcd",
+					nick_suffix=nick_suffix
 			)
 		else:
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "#FFCCFF", "QCD")
+		if not kwargs.get("no_plot", False):
+			Sample._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 	
-	@staticmethod
-	def ggh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
+	def qcdwj(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+		config = self.qcd(config, channel, category, nick_suffix+"_noplot", lumi, no_plot=True, **kwargs)
+		config = self.wj(config, channel, category, nick_suffix+"_noplot", lumi, no_plot=True, **kwargs)
+		if not "AddHistograms" in config.get("analysis_modules", []):
+			config.setdefault("analysis_modules", []).append("AddHistograms")
+		config.setdefault("histogram_nicks", []).append(" ".join([sample+nick_suffix+"_noplot" for sample in ["qcd", "wj"]]))
+		config.setdefault("sum_result_nicks", []).append("qcdwj"+nick_suffix)
+		
+		Sample._add_plot(config, "bkg", "HIST", "F", "qcdwj", nick_suffix)
+		return config
+	
+	def htt(self, config, channel, category, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
+		config = self.ggh(config, channel, category, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb, lumi, no_plot=True, **kwargs)
+		config = self.qqh(config, channel, category, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb, lumi, no_plot=True, **kwargs)
+		config = self.vh(config, channel, category, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb, lumi, no_plot=True, **kwargs)
+		
+		for mass in higgs_masses:
+			if not "AddHistograms" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("AddHistograms")
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
+			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
+			
+			Sample._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+		return config
+	
+	def ggh(self, config, channel, category, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("ggH", 1.0)
+		
 		for mass in higgs_masses:
 			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
 				Sample._add_input(
@@ -453,16 +588,21 @@ class Sample(object):
 						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"ggH%s" % str(mass)
+						"ggH%s" % str(mass),
+						nick_suffix=nick_suffix
 				)
 			else:
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "ggH%s" % str(mass))
+			if not kwargs.get("no_plot", False):
+				Sample._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
-	@staticmethod
-	def qqh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
+	def qqh(self, config, channel, category, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("qqH", 1.0)
+		
 		for mass in higgs_masses:
 			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
 				Sample._add_input(
@@ -471,16 +611,21 @@ class Sample(object):
 						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"VBF%s" % str(mass)
+						"VBF%s" % str(mass),
+						nick_suffix=nick_suffix
 			)
 			else:
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "VBF%s" % str(mass))
+			if not kwargs.get("no_plot", False):
+				Sample._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
-	@staticmethod
-	def vh(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
+	def vh(self, config, channel, category, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("VH", 1.0)
+		
 		for mass in higgs_masses:
 			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
 				Sample._add_input(
@@ -489,7 +634,8 @@ class Sample(object):
 						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"WH%s" % str(mass)
+						"WH%s" % str(mass),
+						nick_suffix=nick_suffix
 				)
 				Sample._add_input(
 						config,
@@ -497,48 +643,31 @@ class Sample(object):
 						"em_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
 						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"ZH%s" % str(mass)
+						"ZH%s" % str(mass),
+						nick_suffix=nick_suffix
 				)
 			else:
 				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
-			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "WH%s" % str(mass))
-			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "ZH%s" % str(mass))
+			if not kwargs.get("no_plot", False):
+				Sample._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
 	@staticmethod
-	def htt(config, channel, category, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
-		for mass in higgs_masses:
-			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
-				Sample._add_input(
-						config,
-						"SM_GluGluToHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root SM_VBFHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
-						lumi,
-						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"VBF%s" % str(mass)
-			)
-			else:
-				log.error("Sample config (HTT%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
-			
-			Sample._add_plot(config, "sig", "LINE", "L", "#000000", "HTT%s" % str(mass))
-		return config
-	
-	@staticmethod
-	def _add_input(config, file, folder, scale_factor, weight, nick):
-		config.setdefault("files", []).append(file)
+	def _add_input(config, input_file, folder, scale_factor, weight, nick, nick_suffix=""):
+		config.setdefault("files", []).append(input_file)
 		config.setdefault("folders", []).append(folder)
 		config.setdefault("scale_factors", []).append(scale_factor)
 		config.setdefault("weights", []).append(weight)
-		config.setdefault("nicks", []).append(nick)
+		config.setdefault("nicks", []).append(nick+nick_suffix)
 		return config
 		
 	@staticmethod
-	def _add_plot(config, stack, marker, legend_marker, color, label):
-		config.setdefault("stacks", []).append(stack)
+	def _add_plot(config, stack, marker, legend_marker, color_label_key, nick_suffix=""):
+		config.setdefault("stacks", []).append(stack+nick_suffix)
 		config.setdefault("markers", []).append(marker)
 		config.setdefault("legend_markers", []).append(legend_marker)
-		config.setdefault("colors", []).append(color)
-		config.setdefault("labels", []).append(label)
+		config.setdefault("colors", []).append(color_label_key)
+		config.setdefault("labels", []).append(color_label_key)
 		return config
 
