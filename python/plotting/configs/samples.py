@@ -81,7 +81,7 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
 		
-		if (channel == "et") or (channel == "mt"):
+		if channel in ["et", "mt"]:
 			Sample._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
@@ -122,40 +122,40 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 		
-		if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
+		if channel in ["et", "mt", "em", "mm"]:
 			Sample._add_input(
 					config,
 					"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
-					channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
 					"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
-					channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEs/ntuple",
+					channel+"_dirIso/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"noplot_ztt_emb_inc",
 					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"_dirIso_tt/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_ztt_tauEsNom/ntuple",
+					channel+"_dirIso_tt/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"noplot_ztt_mc_inc",
 					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"_dirIso_tt/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_ztt_tauEsNom/ntuple",
+					channel+"_dirIso_tt/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"noplot_ztt_mc",
 					nick_suffix=nick_suffix
 			)
@@ -179,13 +179,13 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZL", 1.0)
 		
-		if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
+		if channel in ["et", "mt", "em", "mm"]:
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"_dirIso_ee/ntuple "+channel+"_dirIso_mm/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_zl_tauEsNom/ntuple",
+					channel+"_dirIso_ee/ntuple "+channel+"_dirIso_mm/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_zl_tauEsNom/ntuple",
 					lumi,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
 					"zl",
 					nick_suffix=nick_suffix
 			)
@@ -200,7 +200,7 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZJ", 1.0)
 		
-		if (channel == "et") or (channel == "mt"):
+		if channel in ["et", "mt"]:
 			Sample._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
@@ -211,7 +211,7 @@ class Sample(object):
 			)
 			
 			Sample._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
-		elif (channel == "em") or (channel == "mm"):
+		elif channel in ["em", "mm"]:
 			pass
 		else:
 			log.error("Sample config (ZJ) currently not implemented for channel \"%s\"!" % channel)
@@ -223,7 +223,7 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		
-		if (channel == "et") or (channel == "mt"):
+		if channel in ["et", "mt"]:
 			Sample._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
@@ -273,7 +273,7 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 		
-		if (channel == "et") or (channel == "mt"):
+		if channel in ["et", "mt"]:
 			Sample._add_input(
 					config,
 					"??_pythia_tauola_8TeV/*.root",
@@ -314,7 +314,7 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 		
-		if (channel == "et") or (channel == "mt"):
+		if channel in ["et", "mt"]:
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
@@ -395,7 +395,7 @@ class Sample(object):
 			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_mc_signal"+nick_suffix)
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_mc_control"+nick_suffix)
 			
-		elif (channel == "em") or (channel == "mm"):
+		elif channel in ["em", "mm"]:
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
@@ -417,7 +417,7 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("QCD", 1.0)
 		
-		if (channel == "et") or (channel == "mt"):
+		if channel in ["et", "mt"]:
 			Sample._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
@@ -610,13 +610,13 @@ class Sample(object):
 			scale_factor *= self.postfit_scales.get("ggH", 1.0)
 		
 		for mass in higgs_masses:
-			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
+			if channel in ["et", "mt", "em", "mm"]:
 				Sample._add_input(
 						config,
 						"SM_GluGluToHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
+						channel+"_dirIso/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
-						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ggH%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
@@ -633,13 +633,13 @@ class Sample(object):
 			scale_factor *= self.postfit_scales.get("qqH", 1.0)
 		
 		for mass in higgs_masses:
-			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
+			if channel in ["et", "mt", "em", "mm"]:
 				Sample._add_input(
 						config,
 						"SM_VBFHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
+						channel+"_dirIso/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi,
-						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"VBF%s" % str(mass),
 						nick_suffix=nick_suffix
 			)
@@ -656,22 +656,22 @@ class Sample(object):
 			scale_factor *= self.postfit_scales.get("VH", 1.0)
 		
 		for mass in higgs_masses:
-			if (channel == "et") or (channel == "mt") or (channel == "em") or (channel == "mm"):
+			if channel in ["et", "mt", "em", "mm"]:
 				Sample._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
+						channel+"_dirIso/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
-						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"WH%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
 				Sample._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						"em_dirIso/ntuple" if (channel == "em") or (channel == "mm") else channel+"_dirIso_z_tauEsNom/ntuple",
+						"em_dirIso/ntuple" if channel in ["em", "mm"] else channel+"_dirIso_z_tauEsNom/ntuple",
 						lumi / 2.0,
-						"eventWeight*((q_1*q_2)<0.0)" + ("" if (channel == "em") or (channel == "mm") else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ZH%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
