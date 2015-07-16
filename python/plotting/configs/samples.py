@@ -283,7 +283,7 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 		
-		if channel in ["tt", "em"]:
+		if channel in ["tt", "et", "mt", "em"]:
 			Sample._add_input(
 					config,
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
