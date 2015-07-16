@@ -287,7 +287,7 @@ class Sample(object):
 			Sample._add_input(
 					config,
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
-					channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel == "tt" else "") + "/ntuple",
+					channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)" + ("*(pt_2>30.0)*(lep1MetMt<30.0)" if channel in ["et", "mt"] else ""),
 					"vv",
