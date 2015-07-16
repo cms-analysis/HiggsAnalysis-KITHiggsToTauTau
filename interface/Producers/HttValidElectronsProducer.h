@@ -222,6 +222,16 @@ public:
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
 		return "HttValidVetoElectronsProducer";
 	}
+
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE {
+	
+		HttValidElectronsProducer::Init(settings);
+	
+		// add possible quantities for the lambda ntuples consumers
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nVetoElectrons", [this](event_type const& event, product_type const& product) {
+			return product.m_validVetoElectrons.size();
+		});
+	}
 	
 	HttValidVetoElectronsProducer(
 			std::vector<KElectron*> product_type::*validElectrons=&product_type::m_validVetoElectrons,

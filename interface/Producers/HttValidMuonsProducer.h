@@ -191,6 +191,16 @@ public:
 	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
 		return "HttValidVetoMuonsProducer";
 	}
+
+	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE {
+	
+		HttValidMuonsProducer::Init(settings);
+	
+		// add possible quantities for the lambda ntuples consumers
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nVetoMuons", [this](event_type const& event, product_type const& product) {
+			return product.m_validVetoMuons.size();
+		});
+	}
 	
 	HttValidVetoMuonsProducer(
 			std::vector<KMuon*> product_type::*validMuons=&product_type::m_validVetoMuons,
