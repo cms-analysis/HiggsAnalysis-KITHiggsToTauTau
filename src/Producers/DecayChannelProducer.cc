@@ -611,6 +611,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_validLeptons.push_back(tau1);
 		product.m_validLeptons.push_back(tau2);
 
+		// set boolean veto variables
+		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > 0);
+		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > 0);
+
 		lepton1 = tau1;
 		lepton2 = tau2;
 	}
@@ -675,6 +679,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_validLeptons.push_back(electron);
 		product.m_validLeptons.push_back(tau);
 
+		// set boolean veto variables
+		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > product.m_validElectrons.size());
+		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > 0);
+
 		lepton1 = electron;
 		lepton2 = tau;
 	}
@@ -738,6 +746,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_validLeptons.clear();
 		product.m_validLeptons.push_back(muon);
 		product.m_validLeptons.push_back(tau);
+
+		// set boolean veto variables
+		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > 0);
+		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > product.m_validMuons.size());
 
 		lepton1 = muon;
 		lepton2 = tau;	

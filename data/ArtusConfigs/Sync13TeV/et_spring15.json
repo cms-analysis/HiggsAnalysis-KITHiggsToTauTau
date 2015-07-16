@@ -1,6 +1,8 @@
 {
 	"et" : {
 		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsLooseElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsLooseMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsVetoElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsMuonID.json",
@@ -60,6 +62,9 @@
 				]
 			},
 			"genDiLeptonDecayMode",
+			"nVetoElectrons",
+			"nLooseElectrons",
+			"nLooseMuons",
 			"nElectrons",
 			"nMuons",
 			"nTaus"
@@ -68,14 +73,15 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"#filter:LooseElectronsCountFilter",
-					"#filter:LooseMuonsCountFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:ValidElectronsProducer",
 					"producer:ElectronTriggerMatchingProducer",
 					"filter:MinElectronsCountFilter",
+					"producer:HttValidVetoElectronsProducer",
 					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",
 					"producer:TauTriggerMatchingProducer",

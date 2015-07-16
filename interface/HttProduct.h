@@ -31,6 +31,10 @@ public:
 	std::vector<KMuon*> m_validVetoMuons;
 	std::vector<KMuon*> m_invalidVetoMuons;
 
+	// filled by DecayChannelProducer
+	bool m_extraElecVeto = false;
+	bool m_extraMuonVeto = false;
+
 	// filled by TTHTauPairProducer
 	std::vector<KTau*> m_validTTHTaus;
 	
