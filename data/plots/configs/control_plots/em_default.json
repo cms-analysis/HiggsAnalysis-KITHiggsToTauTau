@@ -1,4 +1,3 @@
 {
-	"output_dir" : "plots/control_plots/em",
-	"ratio" : true
+	"output_dir" : "plots/control_plots/em"
 }
