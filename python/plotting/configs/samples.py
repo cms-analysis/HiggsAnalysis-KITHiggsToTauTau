@@ -283,23 +283,13 @@ class Sample(object):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 		
-		if channel in ["et", "mt"]:
+		if channel in ["tt", "em"]:
 			Sample._add_input(
 					config,
-					"??_pythia_tauola_8TeV/*.root",
-					channel+"_dirIso_z_tauEs/ntuple",
+					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
+					channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel == "tt" else "") + "/ntuple",
 					lumi,
-					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
-					"vv",
-					nick_suffix=nick_suffix
-			)
-		elif channel in ["tt", "em"]:
-			Sample._add_input(
-					config,
-					"??JetsTo*_madgraph_tauola_8TeV/*.root",
-					channel+"_dirIso" + ("_tauEs" if channel == "tt" else "") + "/ntuple",
-					lumi,
-					"eventWeight*((q_1*q_2)<0.0)",
+					"eventWeight*((q_1*q_2)<0.0)" + ("*(pt_2>30.0)*(lep1MetMt<30.0)" if channel in ["et", "mt"] else ""),
 					"vv",
 					nick_suffix=nick_suffix
 			)
@@ -381,7 +371,7 @@ class Sample(object):
 			)
 			Sample._add_input(
 					config,
-					"??_pythia_tauola_8TeV/*.root",
+					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
@@ -476,7 +466,7 @@ class Sample(object):
 			)
 			Sample._add_input(
 					config,
-					"??JetsTo*_madgraph_tauola_8TeV/*.root",
+					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					"tt_dirIso_tauEs/ntuple",
 					-lumi,
 					"eventWeight*((q_1*q_2)>0.0)",
@@ -541,7 +531,7 @@ class Sample(object):
 			)
 			Sample._add_input(
 					config,
-					"??_pythia_tauola_8TeV/*.root",
+					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
@@ -614,7 +604,7 @@ class Sample(object):
 			)
 			Sample._add_input(
 					config,
-					"??_pythia_tauola_8TeV/*.root",
+					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
 					lumi,
 					"eventWeight*((q_1*q_2)>0.0)*(pt_2>30.0)*(lep1MetMt<30.0)",
