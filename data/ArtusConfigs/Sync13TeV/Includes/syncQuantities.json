@@ -146,7 +146,7 @@
 		"id_e_cut_loose_1",
 		"id_e_cut_medium_1",
 		"id_e_cut_tight_1",
-		"pth",
+		"pt_tt",
 		"dilepton_veto",
 		"extraelec_veto",
 		"extramuon_veto"

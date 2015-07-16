@@ -1,6 +1,8 @@
 {
 	"tt" : {
 		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsLooseElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsLooseMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsTauID.json",
@@ -41,6 +43,8 @@
 				]
 			},
 			"genDiLeptonDecayMode",
+			"nLooseElectrons",
+			"nLooseMuons",
 			"nElectrons",
 			"nMuons",
 			"nTaus"
@@ -49,8 +53,8 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"#filter:LooseElectronsCountFilter",
-					"#filter:LooseMuonsCountFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
