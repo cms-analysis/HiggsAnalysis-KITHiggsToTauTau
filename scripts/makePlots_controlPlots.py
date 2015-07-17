@@ -110,9 +110,10 @@ if __name__ == "__main__":
 						config["weights"] = args.weight
 
 				if args.ratio:
+					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 					config.setdefault("analysis_modules", []).append("Ratio")
-					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples), "data"])
-					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples)] * 2)
+					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
+					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
 					config.setdefault("colors", []).extend(["#000000"] * 2)
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
