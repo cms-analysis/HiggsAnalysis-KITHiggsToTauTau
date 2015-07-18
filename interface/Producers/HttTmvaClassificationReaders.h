@@ -25,17 +25,17 @@ public:
 	typedef typename HttTypes::product_type spec_product_type;
 	typedef typename HttTypes::setting_type spec_setting_type;
 
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE
+	virtual std::string GetProducerId() const override
 	{
 		return "AntiTtbarDiscriminatorTmvaReader";
 	}
 	
 	AntiTtbarDiscriminatorTmvaReader();
 	
-	virtual void Init(spec_setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(spec_setting_type const& settings) override;
 	
 	virtual void Produce(spec_event_type const& event, spec_product_type& product,
-	                     spec_setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
+	                     spec_setting_type const& settings) const override;
 
 };
 

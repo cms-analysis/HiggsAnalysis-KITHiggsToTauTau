@@ -29,7 +29,7 @@ public:
 	{
 	}
 
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE
+	virtual void Init(setting_type const& settings) override
 	{
 		ProducerBase<HttTypes>::Init(settings);
 		
@@ -94,7 +94,7 @@ public:
 	}
 	
 	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE
+	                     setting_type const& settings) const override
 	{
 		assert((event.*m_metMember));
 		
@@ -115,7 +115,7 @@ class MetSelector: public MetSelectorBase<KMET>
 public:
 	MetSelector() : MetSelectorBase<KMET>(&HttTypes::event_type::m_met) {};
 	
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "MetSelector";
 	}
 };
@@ -130,7 +130,7 @@ class MvaMetTTSelector: public MetSelectorBase<KMET>
 public:
 	MvaMetTTSelector() : MetSelectorBase<KMET>(&HttTypes::event_type::m_mvaMetTT) {};
 	
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "MvaMetTTSelector";
 	}
 };
@@ -145,7 +145,7 @@ class MvaMetMTSelector: public MetSelectorBase<KMET>
 public:
 	MvaMetMTSelector() : MetSelectorBase<KMET>(&HttTypes::event_type::m_mvaMetMT) {};
 	
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "MvaMetMTSelector";
 	}
 };
@@ -160,7 +160,7 @@ class MvaMetETSelector: public MetSelectorBase<KMET>
 public:
 	MvaMetETSelector() : MetSelectorBase<KMET>(&HttTypes::event_type::m_mvaMetET) {};
 	
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "MvaMetETSelector";
 	}
 };
@@ -175,7 +175,7 @@ class MvaMetEMSelector: public MetSelectorBase<KMET>
 public:
 	MvaMetEMSelector() : MetSelectorBase<KMET>(&HttTypes::event_type::m_mvaMetEM) {};
 	
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "MvaMetEMSelector";
 	}
 };

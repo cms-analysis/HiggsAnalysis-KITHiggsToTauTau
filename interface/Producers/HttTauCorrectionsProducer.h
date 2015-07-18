@@ -37,14 +37,14 @@ public:
 		else return TauEnergyCorrection::NONE;
 	}
 	
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(setting_type const& settings) override;
 
 
 protected:
 
 	// Htt type tau energy corrections
 	virtual void AdditionalCorrections(KTau* tau, event_type const& event,
-	                                   product_type& product, setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
+	                                   product_type& product, setting_type const& settings) const override;
 
 
 private:

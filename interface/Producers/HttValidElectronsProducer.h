@@ -108,14 +108,14 @@ public:
 			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetElectronTrackDzCut
 	);
 
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(setting_type const& settings) override;
 
 
 protected:
 
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KElectron* electron, event_type const& event,
-	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
+	                                product_type& product, setting_type const& settings) const  override;
 
 
 private:
@@ -161,11 +161,11 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "HttValidLooseElectronsProducer";
 	}
 	
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE {
+	virtual void Init(setting_type const& settings) override {
 	
 		HttValidElectronsProducer::Init(settings);
 	
@@ -219,11 +219,11 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "HttValidVetoElectronsProducer";
 	}
 
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE {
+	virtual void Init(setting_type const& settings) override {
 	
 		HttValidElectronsProducer::Init(settings);
 	

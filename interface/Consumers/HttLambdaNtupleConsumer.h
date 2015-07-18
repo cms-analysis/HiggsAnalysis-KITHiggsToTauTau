@@ -1,8 +1,6 @@
 
 #pragma once
 
-#include "Artus/Core/interface/Cpp11Support.h"
-
 #include "Artus/KappaAnalysis/interface/Consumers/KappaLambdaNtupleConsumer.h"
 
 #include "../HttTypes.h"
@@ -15,5 +13,5 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(setting_type const& settings) override;
 };

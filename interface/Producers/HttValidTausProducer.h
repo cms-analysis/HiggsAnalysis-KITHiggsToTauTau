@@ -17,7 +17,7 @@ class HttValidTausProducer: public ValidTausProducer
 
 protected:
 
-	virtual void Init(KappaSettings const& settings) ARTUS_CPP11_OVERRIDE {
+	virtual void Init(KappaSettings const& settings) override {
 	
 		ValidTausProducer::Init(settings);
 		
@@ -41,7 +41,7 @@ protected:
 	
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KTau* tau, KappaEvent const& event,
-	                                KappaProduct& product, KappaSettings const& settings) const  ARTUS_CPP11_OVERRIDE;
+	                                KappaProduct& product, KappaSettings const& settings) const  override;
 
 
 private:

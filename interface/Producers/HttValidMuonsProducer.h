@@ -95,7 +95,7 @@ protected:
 
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KMuon* muon, event_type const& event,
-	                                product_type& product, setting_type const& settings) const  ARTUS_CPP11_OVERRIDE;
+	                                product_type& product, setting_type const& settings) const  override;
 
 
 private:
@@ -132,11 +132,11 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "HttValidLooseMuonsProducer";
 	}
 	
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE {
+	virtual void Init(setting_type const& settings) override {
 	
 		HttValidMuonsProducer::Init(settings);
 	
@@ -188,11 +188,11 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "HttValidVetoMuonsProducer";
 	}
 
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE {
+	virtual void Init(setting_type const& settings) override {
 	
 		HttValidMuonsProducer::Init(settings);
 	

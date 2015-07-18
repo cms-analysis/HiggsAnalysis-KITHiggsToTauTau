@@ -18,14 +18,14 @@
 class ZBosonVetoFilter: public FilterBase<HttTypes> {
 public:
 	
-	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetFilterId() const override {
 			return "ZBosonVetoFilter";
 	}
 
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(setting_type const& settings) override;
 	
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
-				   setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
+				   setting_type const& settings) const override;
 
 private:
 	

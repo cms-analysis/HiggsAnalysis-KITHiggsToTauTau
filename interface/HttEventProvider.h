@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "Artus/Core/interface/Cpp11Support.h"
 #include "Artus/KappaAnalysis/interface/KappaEventProvider.h"
 
 #include "HttTypes.h"
@@ -18,6 +17,6 @@ public:
 	
 	HttEventProvider(FileInterface2 & fileInterface, InputTypeEnum inpType, bool batchMode=false);
 
-	virtual void WireEvent(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void WireEvent(setting_type const& settings) override;
 };
 

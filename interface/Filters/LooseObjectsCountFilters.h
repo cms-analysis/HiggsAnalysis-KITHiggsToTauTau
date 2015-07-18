@@ -17,11 +17,11 @@ public:
 	
 	typedef typename std::function<double(event_type const&, product_type const&)> double_extractor_lambda;
 	
-	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetFilterId() const override {
 		return "LooseElectronsCountFilter";
 	}
 	
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(setting_type const& settings) override;
 };
 
 
@@ -36,10 +36,10 @@ public:
 	
 	typedef typename std::function<double(event_type const&, product_type const&)> double_extractor_lambda;
 	
-	virtual std::string GetFilterId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetFilterId() const override {
 		return "LooseMuonsCountFilter";
 	}
 	
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(setting_type const& settings) override;
 };
 

@@ -18,10 +18,10 @@ public:
 	                              std::string (setting_type::*GetEfficiencyHistogram)(void) const,
 	                              std::string const& weightName);
 	
-	virtual void Init(setting_type const& settings) ARTUS_CPP11_OVERRIDE;
+	virtual void Init(setting_type const& settings) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const ARTUS_CPP11_OVERRIDE;
+	                     setting_type const& settings) const override;
 
 
 private:
@@ -58,7 +58,7 @@ public:
 
 	typedef typename HttTypes::setting_type setting_type;
 
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "TriggerWeightProducer";
 	}
 	
@@ -79,7 +79,7 @@ public:
 
 	typedef typename HttTypes::setting_type setting_type;
 
-	virtual std::string GetProducerId() const ARTUS_CPP11_OVERRIDE {
+	virtual std::string GetProducerId() const override {
 		return "IdentificationWeightProducer";
 	}
 	
