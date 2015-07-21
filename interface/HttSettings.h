@@ -131,7 +131,10 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(VetoMuonUpperAbsEtaCuts, {});
 	
 	IMPL_SETTING(std::string, DiVetoElectronVetoMode);
+	IMPL_SETTING_DEFAULT(float, DiVetoElectronMinDeltaRCut, -1.0);
+	
 	IMPL_SETTING(std::string, DiVetoMuonVetoMode);
+	IMPL_SETTING_DEFAULT(float, DiVetoMuonMinDeltaRCut, -1.0);
 	
 	IMPL_SETTING(float, RecoMuonInElectronConeLowerPtCut);
 	IMPL_SETTING(float, RecoMuonInElectronConeUpperAbsEtaCut);

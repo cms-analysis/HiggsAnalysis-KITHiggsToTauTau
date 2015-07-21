@@ -34,6 +34,12 @@ public:
 	// filled by DecayChannelProducer
 	bool m_extraElecVeto = false;
 	bool m_extraMuonVeto = false;
+	
+	// filled by DiLeptonVetoProducers
+	int m_nDiElectronVetoPairsOS = 0;
+	int m_nDiElectronVetoPairsSS = 0;
+	int m_nDiMuonVetoPairsOS = 0;
+	int m_nDiMuonVetoPairsSS = 0;
 
 	// filled by TTHTauPairProducer
 	std::vector<KTau*> m_validTTHTaus;

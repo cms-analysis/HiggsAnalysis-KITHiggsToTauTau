@@ -3,14 +3,14 @@
 
 
 DiVetoElectronVetoFilter::DiVetoElectronVetoFilter() :
-	DiLeptonVetoFilterBase(&product_type::m_validVetoElectrons,
-	                       &setting_type::GetDiVetoElectronVetoMode)
+	DiLeptonVetoFilterBase<KElectron>(&product_type::m_validVetoElectrons,
+	                                  &setting_type::GetDiVetoElectronVetoMode)
 {
 }
 
 DiVetoMuonVetoFilter::DiVetoMuonVetoFilter() :
-	DiLeptonVetoFilterBase(&product_type::m_validVetoMuons,
-	                       &setting_type::GetDiVetoMuonVetoMode)
+	DiLeptonVetoFilterBase<KMuon>(&product_type::m_validVetoMuons,
+	                              &setting_type::GetDiVetoMuonVetoMode)
 {
 }
 

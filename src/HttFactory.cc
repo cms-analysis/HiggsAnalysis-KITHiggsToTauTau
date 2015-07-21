@@ -23,6 +23,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTmvaClassificationReaders.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidGenTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTriggerSettingsProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonVetoProducers.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -110,6 +111,10 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new HttValidGenTausProducer();
 	else if(id == HttTriggerSettingsProducer().GetProducerId())
 		return new HttTriggerSettingsProducer();
+	else if(id == DiVetoElectronVetoProducer().GetProducerId())
+		return new DiVetoElectronVetoProducer();
+	else if(id == DiVetoMuonVetoProducer().GetProducerId())
+		return new DiVetoMuonVetoProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

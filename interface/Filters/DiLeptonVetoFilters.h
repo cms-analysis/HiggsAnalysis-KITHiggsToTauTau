@@ -56,6 +56,8 @@ public:
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
 							   setting_type const& settings) const override
 	{
+		// TODO: This producer should be adapted to use the outputs of the new DiLeptonVetoProducers.
+		
 		if ((vetoMode == VetoMode::KEEP_OS_KEEP_SS) ||
 		    (vetoMode == VetoMode::NONE) ||
 		    ((product.*m_leptons).size() < 2))
