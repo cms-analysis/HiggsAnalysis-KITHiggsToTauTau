@@ -91,6 +91,7 @@
 					"filter:MinTausCountFilter",
 					"producer:Run2DecayChannelProducer",
 					"filter:DecayChannelFilter",
+					"producer:DiVetoElectronVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"#producer:RecoJetGenParticleMatchingProducer",

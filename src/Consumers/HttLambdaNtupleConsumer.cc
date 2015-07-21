@@ -38,6 +38,16 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, settings.GetEventWeight(), 1.0);
 	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiLeptonVetoPairsOS", [](event_type const& event, product_type const& product)
+	{
+		return product.m_nDiElectronVetoPairsOS + product.m_nDiMuonVetoPairsOS;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiLeptonVetoPairsSS", [](event_type const& event, product_type const& product)
+	{
+		return product.m_nDiElectronVetoPairsSS + product.m_nDiMuonVetoPairsSS;
+	});
+	
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_vis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_tt", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetPt"]);
@@ -112,6 +122,8 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("eta_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diTauEta"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diTauPhi"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diTauMass"]);
+	
+	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("dilepton_veto", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nDiLeptonVetoPairsOS"]);
 	
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("isZEE", [](KappaEvent const& event, KappaProduct const& product)
 	{
@@ -217,12 +229,6 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpuid_2", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("dilepton_veto", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return DefaultValues::UndefinedInt;
-			//(static_cast<HttProduct const&>(product).m_validVetoElectrons.size() > product.m_validElectrons.size() || 
-			//static_cast<HttProduct const&>(product).m_validVetoMuons.size() > product.m_validMuons.size()) ? 1 : 0;
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("extraelec_veto", [](KappaEvent const& event, KappaProduct const& product)
 	{
