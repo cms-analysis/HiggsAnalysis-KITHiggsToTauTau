@@ -544,6 +544,31 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	size_t nMuons = product.m_validMuons.size();
 	size_t nTaus = product.m_validTaus.size();
 
+	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Pair_Selection_Algorithm
+	auto comparePairs = [&] (std::pair<KLepton*, KLepton*> pair1, std::pair<KLepton*, KLepton*> pair2) 
+	{
+		double firstPairIso1 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair1.first, DefaultValues::UndefinedDouble);
+		double firstPairIso2 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair1.second, DefaultValues::UndefinedDouble);
+		double secondPairIso1 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair2.first, DefaultValues::UndefinedDouble);
+		double secondPairIso2 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair2.second, DefaultValues::UndefinedDouble);
+		
+		if (!Utility::ApproxEqual(firstPairIso1, secondPairIso1))
+			return (firstPairIso1 < secondPairIso1);
+		else {
+			if (!Utility::ApproxEqual(pair1.first->p4.Pt(), pair2.first->p4.Pt())) {
+				return (pair1.first->p4.Pt() > pair2.first->p4.Pt());
+			}
+			else {
+				if (!Utility::ApproxEqual(firstPairIso2, secondPairIso2)) {
+					return (firstPairIso2 < secondPairIso2);
+				}
+				else {
+					return (pair1.second->p4.Pt() > pair2.second->p4.Pt());
+				}
+			}
+		}
+	};
+
 	// TT channel
 	if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
 	    HttEnumTypes::DecayChannel::TT)
@@ -593,14 +618,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 				return;
 
 			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
-			auto diTauPairs = osDiTauPairs.size() > 0 ? osDiTauPairs : allDiTauPairs;
-			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
-			auto compareDiTauPairs = [&] (std::pair<KTau*, KTau*> pair1, std::pair<KTau*, KTau*> pair2) 
-				{ return (std::max(pair1.first->getDiscriminator(idString, event.m_tauMetadata), pair1.second->getDiscriminator(idString, event.m_tauMetadata)) < std::max(pair2.first->getDiscriminator(idString, event.m_tauMetadata), pair2.second->getDiscriminator(idString, event.m_tauMetadata))); };
-			std::sort(diTauPairs.begin(), diTauPairs.end(), compareDiTauPairs);
+			std::sort(allDiTauPairs.begin(), allDiTauPairs.end(), comparePairs);
 		
-			tau1 = diTauPairs[0].first;
-			tau2 = diTauPairs[0].second;
+			tau1 = allDiTauPairs[0].first;
+			tau2 = allDiTauPairs[0].second;
 
 			product.m_validTaus.clear();
 			product.m_validTaus.push_back(tau1);
@@ -660,14 +681,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 				return;
 
 			product.m_decayChannel = HttEnumTypes::DecayChannel::ET;
-			auto eleTauPairs = osEleTauPairs.size() > 0 ? osEleTauPairs : allEleTauPairs;
-			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
-			auto compareEleTauPairs = [&] (std::pair<KElectron*, KTau*> pair1, std::pair<KElectron*, KTau*> pair2) 
-				{ return (std::max(float(pair1.first->pfIso()), pair1.second->getDiscriminator(idString, event.m_tauMetadata)) < std::max(float(pair2.first->pfIso()), pair2.second->getDiscriminator(idString, event.m_tauMetadata))); };
-			std::sort(eleTauPairs.begin(), eleTauPairs.end(), compareEleTauPairs);
+			std::sort(allEleTauPairs.begin(), allEleTauPairs.end(), comparePairs);
 		
-			electron = eleTauPairs[0].first;
-			tau = eleTauPairs[0].second;
+			electron = allEleTauPairs[0].first;
+			tau = allEleTauPairs[0].second;
 
 			product.m_validElectrons.clear();
 			product.m_validTaus.clear();
@@ -728,14 +745,10 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 				return;
 
 			product.m_decayChannel = HttEnumTypes::DecayChannel::MT;
-			auto muonTauPairs = osMuonTauPairs.size() > 0 ? osMuonTauPairs : allMuonTauPairs;
-			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
-			auto compareMuonTauPairs = [&] (std::pair<KMuon*, KTau*> pair1, std::pair<KMuon*, KTau*> pair2) 
-				{ return (std::max(float(pair1.first->pfIso()), pair1.second->getDiscriminator(idString, event.m_tauMetadata)) < std::max(float(pair2.first->pfIso()), pair2.second->getDiscriminator(idString, event.m_tauMetadata))); };
-			std::sort(muonTauPairs.begin(), muonTauPairs.end(), compareMuonTauPairs);
+			std::sort(allMuonTauPairs.begin(), allMuonTauPairs.end(), comparePairs);
 		
-			muon = muonTauPairs[0].first;
-			tau = muonTauPairs[0].second;
+			muon = allMuonTauPairs[0].first;
+			tau = allMuonTauPairs[0].second;
 
 			product.m_validMuons.clear();
 			product.m_validTaus.clear();
@@ -787,20 +800,19 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			}
 			if(allEleMuonPairs.size() == 0)
 				return;
-			product.m_decayChannel = HttEnumTypes::DecayChannel::EM;
-			auto eleMuonPairs = osEleMuonPairs.size() > 0 ? osEleMuonPairs : allEleMuonPairs;
-			auto compareEleMuonPairs = [&] (std::pair<KElectron*, KMuon*> pair1, std::pair<KElectron*, KMuon*> pair2)
-				{ return (float(pair1.first->pfIso()) < (float(pair2.first->pfIso()))); };
-			std::sort(eleMuonPairs.begin(), eleMuonPairs.end(), compareEleMuonPairs);
 
-			electron = eleMuonPairs[0].first;
-			muon = eleMuonPairs[0].second;
+			product.m_decayChannel = HttEnumTypes::DecayChannel::EM;
+			std::sort(allEleMuonPairs.begin(), allEleMuonPairs.end(), comparePairs);
+
+			electron = allEleMuonPairs[0].first;
+			muon = allEleMuonPairs[0].second;
 
 			product.m_validMuons.clear();
 			product.m_validElectrons.clear();
 			product.m_validMuons.push_back(muon);
 			product.m_validElectrons.push_back(electron);
 		}
+
 		lepton1 = electron;
 		lepton2 = muon;
 	}
