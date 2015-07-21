@@ -61,6 +61,9 @@ if __name__ == "__main__":
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int,
 	                    help="Number of plots. [Default: all]")
+	parser.add_argument("-o", "--output-dir",
+	                    default="$CMSSW_BASE/src/plots/control_plots/",
+	                    help="Output directory. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -119,6 +122,7 @@ if __name__ == "__main__":
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)	
 
+				config["output_dir"] = os.path.expandvars(args.output_dir)
 				plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
