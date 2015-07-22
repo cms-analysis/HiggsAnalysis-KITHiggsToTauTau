@@ -609,17 +609,17 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			std::vector<std::pair<KTau*, KTau*>> allDiTauPairs;
 			std::vector<std::pair<KTau*, KTau*>> osDiTauPairs;
 			// Produce di-tau pairs
-			for(size_t i = 0; i < nTaus; i++)
+			for (std::vector<KTau*>::iterator iTau1 = product.m_validTaus.begin(); iTau1 != product.m_validTaus.end(); ++iTau1)
 			{
-				for(size_t j = 0; j < nTaus; j++)
+				for (std::vector<KTau*>::iterator iTau2 = product.m_validTaus.begin(); iTau2 != product.m_validTaus.end(); ++iTau2)
 				{
 					// require the pair to pass a separation requirement
-					if (ROOT::Math::VectorUtil::DeltaR(product.m_validTaus[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+					if (ROOT::Math::VectorUtil::DeltaR((*iTau1)->p4, (*iTau2)->p4) < 0.5)
 					{
 						continue;
 					}
 
-					std::pair<KTau*, KTau*> diTauPair = std::make_pair(product.m_validTaus[i], product.m_validTaus[j]);
+					std::pair<KTau*, KTau*> diTauPair = std::make_pair(*iTau1, *iTau2);
 					allDiTauPairs.push_back(diTauPair);
 					if(diTauPair.first->charge() == - diTauPair.second->charge())
 					{
@@ -680,27 +680,27 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			std::vector<std::pair<KElectron*, KTau*>> allEleTauPairs;
 			std::vector<std::pair<KElectron*, KTau*>> osEleTauPairs;
 			// Produce electron-tau pairs
-			for(size_t i = 0; i < nElectrons; i++)
+			for (std::vector<KElectron*>::iterator iElectron = product.m_validElectrons.begin(); iElectron != product.m_validElectrons.end(); ++iElectron)
 			{
 				// Electron pt cut if only single muon trigger fired
 				// The single muon trigger has to be the first one in the HltPaths setting.
-				std::map<std::string, std::map<std::string, KLV*> > detailedTriggerMatchedElectron = SafeMap::GetWithDefault(product.m_detailedTriggerMatchedElectrons, product.m_validElectrons[i], std::map<std::string, std::map<std::string, KLV*> >());
-				if ((product.m_validElectrons[i]->p4.Pt() <= 33.0) &&
+				std::map<std::string, std::map<std::string, KLV*> > detailedTriggerMatchedElectron = SafeMap::GetWithDefault(product.m_detailedTriggerMatchedElectrons, (*iElectron), std::map<std::string, std::map<std::string, KLV*> >());
+				if (((*iElectron)->p4.Pt() <= 33.0) &&
 				    (detailedTriggerMatchedElectron.size() == 1) &&
 				    boost::regex_search(detailedTriggerMatchedElectron.begin()->first, boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
 				{
 					continue;
 				}
 			
-				for(size_t j = 0; j < nTaus; j++)
+				for (std::vector<KTau*>::iterator iTau = product.m_validTaus.begin(); iTau != product.m_validTaus.end(); ++iTau)
 				{
 					// require the pair to pass a separation requirement
-					if (ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+					if (ROOT::Math::VectorUtil::DeltaR((*iElectron)->p4, (*iTau)->p4) < 0.5)
 					{
 						continue;
 					}
 
-					std::pair<KElectron*, KTau*> eleTauPair = std::make_pair(product.m_validElectrons[i], product.m_validTaus[j]);
+					std::pair<KElectron*, KTau*> eleTauPair = std::make_pair(*iElectron, *iTau);
 					allEleTauPairs.push_back(eleTauPair);
 					if(eleTauPair.first->charge() == - eleTauPair.second->charge())
 					{
@@ -762,27 +762,27 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			std::vector<std::pair<KMuon*, KTau*>> allMuonTauPairs;
 			std::vector<std::pair<KMuon*, KTau*>> osMuonTauPairs;
 			// Produce muon-tau pairs
-			for(size_t i = 0; i < nMuons; i++)
+			for (std::vector<KMuon*>::iterator iMuon = product.m_validMuons.begin(); iMuon != product.m_validMuons.end(); ++iMuon)
 			{
 				// Muon pt cut if only single muon trigger fired
 				// The single muon trigger has to be the first one in the HltPaths setting.
-				std::map<std::string, std::map<std::string, KLV*> > detailedTriggerMatchedMuon = SafeMap::GetWithDefault(product.m_detailedTriggerMatchedMuons, product.m_validMuons[i], std::map<std::string, std::map<std::string, KLV*> >());
-				if ((product.m_validMuons[i]->p4.Pt() <= 25.0) &&
+				std::map<std::string, std::map<std::string, KLV*> > detailedTriggerMatchedMuon = SafeMap::GetWithDefault(product.m_detailedTriggerMatchedMuons, (*iMuon), std::map<std::string, std::map<std::string, KLV*> >());
+				if (((*iMuon)->p4.Pt() <= 25.0) &&
 				    (detailedTriggerMatchedMuon.size() == 1) &&
 				    boost::regex_search(detailedTriggerMatchedMuon.begin()->first, boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
 				{
 					continue;
 				}
 				
-				for(size_t j = 0; j < nTaus; j++)
+				for (std::vector<KTau*>::iterator iTau = product.m_validTaus.begin(); iTau != product.m_validTaus.end(); ++iTau)
 				{
 					// require the pair to pass a separation requirement
-					if (ROOT::Math::VectorUtil::DeltaR(product.m_validMuons[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+					if (ROOT::Math::VectorUtil::DeltaR((*iMuon)->p4, (*iTau)->p4) < 0.5)
 					{
 						continue;
 					}
 
-					std::pair<KMuon*, KTau*> muonTauPair = std::make_pair(product.m_validMuons[i], product.m_validTaus[j]);
+					std::pair<KMuon*, KTau*> muonTauPair = std::make_pair(*iMuon, *iTau);
 					allMuonTauPairs.push_back(muonTauPair);
 					if(muonTauPair.first->charge() == - muonTauPair.second->charge())
 					{
@@ -841,13 +841,13 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		{
 			std::vector<std::pair<KElectron*, KMuon*>> allEleMuonPairs;
 			std::vector<std::pair<KElectron*, KMuon*>> osEleMuonPairs;
-			for(size_t i = 0; i < nElectrons; i++)
+			for (std::vector<KElectron*>::iterator iElectron = product.m_validElectrons.begin(); iElectron != product.m_validElectrons.end(); ++iElectron)
 			{
 				// Electron pt cut if trigger with higher electron threshold has fired
 				// Only the first fired trigger is considered.
 				// The trigger with the higher electron threshold has to be the first one in the HltPaths setting.
 				// TODO: check if one needs to access the info from the trigger matching in case both leptons fire different cross triggers
-				if ((product.m_validElectrons[i]->p4.Pt() <= 24.0) &&
+				if (((*iElectron)->p4.Pt() <= 24.0) &&
 				    (! product.m_selectedHltNames.empty()) &&
 				    (settings.GetHltPaths().size() == 2) &&
 				    boost::regex_search(product.m_selectedHltNames.at(0), boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
@@ -855,13 +855,13 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 					continue;
 				}
 				
-				for(size_t j = 0; j < nMuons; j++)
+				for (std::vector<KMuon*>::iterator iMuon = product.m_validMuons.begin(); iMuon != product.m_validMuons.end(); ++iMuon)
 				{
 					// Muon pt cut if trigger with higher muon threshold has fired
 					// Only the first fired trigger is considered.
 					// The trigger with the higher muon threshold has to be the first one in the HltPaths setting.
 					// TODO: check if one needs to access the info from the trigger matching in case both leptons fire different cross triggers
-					if ((product.m_validMuons[j]->p4.Pt() <= 24.0) &&
+					if (((*iMuon)->p4.Pt() <= 24.0) &&
 					    (! product.m_selectedHltNames.empty()) &&
 					    (settings.GetHltPaths().size() == 2) &&
 					    boost::regex_search(product.m_selectedHltNames.at(0), boost::regex(settings.GetHltPaths().at(1), boost::regex::icase | boost::regex::extended)))
@@ -869,11 +869,11 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 						continue;
 					}
 				
-					if(ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[i]->p4, product.m_validMuons[j]->p4) < 0.3)
+					if(ROOT::Math::VectorUtil::DeltaR((*iElectron)->p4, (*iMuon)->p4) < 0.3)
 					{
 						continue;
 					}
-					std::pair<KElectron*, KMuon*> eleMuonPair = std::make_pair(product.m_validElectrons[i], product.m_validMuons[j]);
+					std::pair<KElectron*, KMuon*> eleMuonPair = std::make_pair(*iElectron, *iMuon);
 					allEleMuonPairs.push_back(eleMuonPair);
 					if(eleMuonPair.first->charge() == -eleMuonPair.second->charge())
 					{
