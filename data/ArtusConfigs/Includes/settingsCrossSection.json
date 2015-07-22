@@ -82,7 +82,11 @@
 			"SM_WH_ZH_TTH_HToTauTau_M_150_powheg_pythia_8TeV" : 0.603600,
 			"SM_WH_ZH_TTH_HToTauTau_M_160_powheg_pythia_8TeV" : 0.467100,
 			
-			"SM_TTH_HToTauTau_M_125_pythia_8TeV" : 0.0082
+			"SM_TTH_HToTauTau_M_125_pythia_8TeV" : 0.0082,
+
+			"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM" : 6025,
+			"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM" : 20509,
+			"TTJets_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM" : 831.76
 		}
 	}
 }
