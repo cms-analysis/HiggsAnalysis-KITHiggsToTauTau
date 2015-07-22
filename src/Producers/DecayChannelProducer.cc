@@ -843,8 +843,32 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			std::vector<std::pair<KElectron*, KMuon*>> osEleMuonPairs;
 			for(size_t i = 0; i < nElectrons; i++)
 			{
+				// Electron pt cut if trigger with higher electron threshold has fired
+				// Only the first fired trigger is considered.
+				// The trigger with the higher electron threshold has to be the first one in the HltPaths setting.
+				// TODO: check if one needs to access the info from the trigger matching in case both leptons fire different cross triggers
+				if ((product.m_validElectrons[i]->p4.Pt() <= 24.0) &&
+				    (! product.m_selectedHltNames.empty()) &&
+				    (settings.GetHltPaths().size() == 2) &&
+				    boost::regex_search(product.m_selectedHltNames.at(0), boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
+				{
+					continue;
+				}
+				
 				for(size_t j = 0; j < nMuons; j++)
 				{
+					// Muon pt cut if trigger with higher muon threshold has fired
+					// Only the first fired trigger is considered.
+					// The trigger with the higher muon threshold has to be the first one in the HltPaths setting.
+					// TODO: check if one needs to access the info from the trigger matching in case both leptons fire different cross triggers
+					if ((product.m_validMuons[j]->p4.Pt() <= 24.0) &&
+					    (! product.m_selectedHltNames.empty()) &&
+					    (settings.GetHltPaths().size() == 2) &&
+					    boost::regex_search(product.m_selectedHltNames.at(0), boost::regex(settings.GetHltPaths().at(1), boost::regex::icase | boost::regex::extended)))
+					{
+						continue;
+					}
+				
 					if(ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[i]->p4, product.m_validMuons[j]->p4) < 0.3)
 					{
 						continue;
