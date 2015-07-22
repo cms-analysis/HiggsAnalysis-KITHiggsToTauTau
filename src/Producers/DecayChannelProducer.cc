@@ -553,16 +553,22 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		double secondPairIso2 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair2.second, DefaultValues::UndefinedDouble);
 		
 		if (!Utility::ApproxEqual(firstPairIso1, secondPairIso1))
+		{
 			return (firstPairIso1 < secondPairIso1);
+		}
 		else {
-			if (!Utility::ApproxEqual(pair1.first->p4.Pt(), pair2.first->p4.Pt())) {
+			if (!Utility::ApproxEqual(pair1.first->p4.Pt(), pair2.first->p4.Pt()))
+			{
 				return (pair1.first->p4.Pt() > pair2.first->p4.Pt());
 			}
-			else {
-				if (!Utility::ApproxEqual(firstPairIso2, secondPairIso2)) {
+			else
+			{
+				if (!Utility::ApproxEqual(firstPairIso2, secondPairIso2))
+				{
 					return (firstPairIso2 < secondPairIso2);
 				}
-				else {
+				else
+				{
 					return (pair1.second->p4.Pt() > pair2.second->p4.Pt());
 				}
 			}
@@ -577,7 +583,9 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		KTau* tau2 = 0;
 
 		if (nTaus < 2)
+		{
 			return;
+		}
 		else if (nTaus == 2)
 		{
 			// sort the pair (first tau is the most isolated)
@@ -592,7 +600,9 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		
 			// require the pair to pass a separation requirement
 			if (ROOT::Math::VectorUtil::DeltaR(tau1->p4, tau2->p4) < 0.5)
+			{
 				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+			}
 		}
 		else
 		{
@@ -605,17 +615,23 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 				{
 					// require the pair to pass a separation requirement
 					if (ROOT::Math::VectorUtil::DeltaR(product.m_validTaus[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+					{
 						continue;
+					}
 
 					std::pair<KTau*, KTau*> diTauPair = std::make_pair(product.m_validTaus[i], product.m_validTaus[j]);
 					allDiTauPairs.push_back(diTauPair);
 					if(diTauPair.first->charge() == - diTauPair.second->charge())
+					{
 						osDiTauPairs.push_back(diTauPair);
+					}
 				}
 			}
 
 			if (allDiTauPairs.size() == 0)
+			{
 				return;
+			}
 
 			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
 			std::sort(allDiTauPairs.begin(), allDiTauPairs.end(), comparePairs);
@@ -655,7 +671,9 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 
 			// require the pair to pass a separation requirement
 			if (ROOT::Math::VectorUtil::DeltaR(electron->p4, tau->p4) < 0.5)
+			{
 				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+			}
 		}
 		else
 		{
@@ -668,17 +686,23 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 				{
 					// require the pair to pass a separation requirement
 					if (ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+					{
 						continue;
+					}
 
 					std::pair<KElectron*, KTau*> eleTauPair = std::make_pair(product.m_validElectrons[i], product.m_validTaus[j]);
 					allEleTauPairs.push_back(eleTauPair);
 					if(eleTauPair.first->charge() == - eleTauPair.second->charge())
+					{
 						osEleTauPairs.push_back(eleTauPair);
+					}
 				}
 			}
 	
 			if (allEleTauPairs.size() == 0)
+			{
 				return;
+			}
 
 			product.m_decayChannel = HttEnumTypes::DecayChannel::ET;
 			std::sort(allEleTauPairs.begin(), allEleTauPairs.end(), comparePairs);
@@ -719,7 +743,9 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 
 			// require the pair to pass a separation requirement
 			if (ROOT::Math::VectorUtil::DeltaR(muon->p4, tau->p4) < 0.5)
+			{
 				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+			}
 		}
 		else
 		{
@@ -732,17 +758,23 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 				{
 					// require the pair to pass a separation requirement
 					if (ROOT::Math::VectorUtil::DeltaR(product.m_validMuons[i]->p4, product.m_validTaus[j]->p4) < 0.5)
+					{
 						continue;
+					}
 
 					std::pair<KMuon*, KTau*> muonTauPair = std::make_pair(product.m_validMuons[i], product.m_validTaus[j]);
 					allMuonTauPairs.push_back(muonTauPair);
 					if(muonTauPair.first->charge() == - muonTauPair.second->charge())
+					{
 						osMuonTauPairs.push_back(muonTauPair);
+					}
 				}
 			}
 	
 			if (allMuonTauPairs.size() == 0)
+			{
 				return;
+			}
 
 			product.m_decayChannel = HttEnumTypes::DecayChannel::MT;
 			std::sort(allMuonTauPairs.begin(), allMuonTauPairs.end(), comparePairs);
@@ -781,7 +813,9 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			electron = product.m_validElectrons[0];
 			muon = product.m_validMuons[0];
 			if (ROOT::Math::VectorUtil::DeltaR(electron->p4, muon->p4) < 0.3)
+			{
 				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+			}
 		}
 		else
 		{
@@ -792,14 +826,21 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 				for(size_t j = 0; j < nMuons; j++)
 				{
 					if(ROOT::Math::VectorUtil::DeltaR(product.m_validElectrons[i]->p4, product.m_validMuons[j]->p4) < 0.3)
+					{
 						continue;
+					}
 					std::pair<KElectron*, KMuon*> eleMuonPair = std::make_pair(product.m_validElectrons[i], product.m_validMuons[j]);
 					allEleMuonPairs.push_back(eleMuonPair);
-					if(eleMuonPair.first->charge() == -eleMuonPair.second->charge()) osEleMuonPairs.push_back(eleMuonPair);
+					if(eleMuonPair.first->charge() == -eleMuonPair.second->charge())
+					{
+						osEleMuonPairs.push_back(eleMuonPair);
+					}
 				}
 			}
 			if(allEleMuonPairs.size() == 0)
+			{
 				return;
+			}
 
 			product.m_decayChannel = HttEnumTypes::DecayChannel::EM;
 			std::sort(allEleMuonPairs.begin(), allEleMuonPairs.end(), comparePairs);
