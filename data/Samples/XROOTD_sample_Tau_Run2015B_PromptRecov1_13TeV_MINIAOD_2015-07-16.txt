@@ -1,0 +1,16 @@
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_190.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_191.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_192.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_193.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_194.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_195.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_196.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_197.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_198.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_199.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_200.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_201.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_202.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_203.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_204.root
+root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-07-16-spring15-fullskim/Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/kappa_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_205.root
