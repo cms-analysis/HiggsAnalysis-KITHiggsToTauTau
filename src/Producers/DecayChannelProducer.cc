@@ -599,9 +599,9 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			std::vector<std::pair<KTau*, KTau*>> allDiTauPairs;
 			std::vector<std::pair<KTau*, KTau*>> osDiTauPairs;
 			// Produce di-tau pairs
-			for(size_t i = 0; i < nTaus - 1; ++i)
+			for(size_t i = 0; i < nTaus; i++)
 			{
-				for(size_t j = i+1; j < nTaus; ++j)
+				for(size_t j = 0; j < nTaus; j++)
 				{
 					// require the pair to pass a separation requirement
 					if (ROOT::Math::VectorUtil::DeltaR(product.m_validTaus[i]->p4, product.m_validTaus[j]->p4) < 0.5)
