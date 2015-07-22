@@ -13,9 +13,10 @@
 		"Channel" : "ET",
 		"MinNElectrons" : 1,
 		"MinNTaus" : 1,
+		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : [
-			"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20",
-			"HLT_Ele32_eta2p1_WP75_Gsf"
+			"HLT_Ele32_eta2p1_WP75_Gsf",
+			"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
 		"ElectronLowerPtCuts" : [

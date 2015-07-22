@@ -682,6 +682,16 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			// Produce electron-tau pairs
 			for(size_t i = 0; i < nElectrons; i++)
 			{
+				// Electron pt cut if only single muon trigger fired
+				// The single muon trigger has to be the first one in the HltPaths setting.
+				std::map<std::string, std::map<std::string, KLV*> > detailedTriggerMatchedElectron = SafeMap::GetWithDefault(product.m_detailedTriggerMatchedElectrons, product.m_validElectrons[i], std::map<std::string, std::map<std::string, KLV*> >());
+				if ((product.m_validElectrons[i]->p4.Pt() <= 33.0) &&
+				    (detailedTriggerMatchedElectron.size() == 1) &&
+				    boost::regex_search(detailedTriggerMatchedElectron.begin()->first, boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
+				{
+					continue;
+				}
+			
 				for(size_t j = 0; j < nTaus; j++)
 				{
 					// require the pair to pass a separation requirement
@@ -754,6 +764,16 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			// Produce muon-tau pairs
 			for(size_t i = 0; i < nMuons; i++)
 			{
+				// Muon pt cut if only single muon trigger fired
+				// The single muon trigger has to be the first one in the HltPaths setting.
+				std::map<std::string, std::map<std::string, KLV*> > detailedTriggerMatchedMuon = SafeMap::GetWithDefault(product.m_detailedTriggerMatchedMuons, product.m_validMuons[i], std::map<std::string, std::map<std::string, KLV*> >());
+				if ((product.m_validMuons[i]->p4.Pt() <= 25.0) &&
+				    (detailedTriggerMatchedMuon.size() == 1) &&
+				    boost::regex_search(detailedTriggerMatchedMuon.begin()->first, boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
+				{
+					continue;
+				}
+				
 				for(size_t j = 0; j < nTaus; j++)
 				{
 					// require the pair to pass a separation requirement

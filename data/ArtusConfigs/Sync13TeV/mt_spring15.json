@@ -13,6 +13,7 @@
 		"Channel" : "MT",
 		"MinNMuons" : 1,
 		"MinNTaus" : 1,
+		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : [
 			"HLT_IsoMu24_eta2p1",
 			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
