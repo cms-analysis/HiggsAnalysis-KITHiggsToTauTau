@@ -3,7 +3,7 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsElectronID.json"
 	],
 	
-	"LooseElectronReco" : "user",
+	"LooseElectronReco" : "mvanontrig",
 
 	"LooseElectronID" : "user",
 	"LooseElectronIDType" : {
