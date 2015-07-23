@@ -45,26 +45,22 @@
 	"Met" :  "met",
 	"MvaMetTT" : {
 		"nick" : {
-			"default" : "metMVATT",
-			"Spring15" : ""
+			"default" : "metMVATT"
 		}
 	},
 	"MvaMetMT" : {
 		"nick" : {
-			"default" : "metMVAMT",
-			"Spring15" : ""
+			"default" : "metMVAMT"
 		}
 	},
 	"MvaMetET" : {
 		"nick" : {
-			"default" : "metMVAET",
-			"Spring15" : ""
+			"default" : "metMVAET"
 		}
 	},
 	"MvaMetEM" : {
 		"nick" : {
-			"default" : "metMVAEM",
-			"Spring15" : ""
+			"default" : "metMVAEM"
 		}
 	},
 	"#PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
