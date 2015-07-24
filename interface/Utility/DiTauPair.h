@@ -8,6 +8,8 @@ class DiTauPair : public std::pair<KLepton*, KLepton*>
 {
 public:
 	DiTauPair(KLepton* lepton1, KLepton* lepton2);
+	
+	std::vector<std::string> GetCommonHltPaths(std::map<KLepton*, std::map<std::string, std::map<std::string, KLV*> > >* detailedTriggerMatchedLeptons);
 };
 
 
