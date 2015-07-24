@@ -52,9 +52,12 @@ public:
 			for (typename std::vector<TLepton2*>::iterator lepton2 = (product.*m_validLeptonsMember2).begin();
 			     lepton2 != (product.*m_validLeptonsMember2).end(); ++lepton2)
 			{
-				product.diTauPairCandidates.push_back(std::pair<KLepton*, KLepton*>(*lepton1, *lepton2));
+				product.diTauPairCandidates.push_back(DiTauPair(*lepton1, *lepton2));
 			}
 		}
+		
+		std::sort(product.diTauPairCandidates.begin(), product.diTauPairCandidates.end(),
+		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt)));
 	}
 
 private:
