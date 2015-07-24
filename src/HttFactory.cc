@@ -24,6 +24,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidGenTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTriggerSettingsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonVetoProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiTauPairCandidatesProducers.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -115,6 +116,18 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new DiVetoElectronVetoProducer();
 	else if(id == DiVetoMuonVetoProducer().GetProducerId())
 		return new DiVetoMuonVetoProducer();
+	else if(id == TTPairCandidatesProducer().GetProducerId())
+		return new TTPairCandidatesProducer();
+	else if(id == MTPairCandidatesProducer().GetProducerId())
+		return new MTPairCandidatesProducer();
+	else if(id == ETPairCandidatesProducer().GetProducerId())
+		return new ETPairCandidatesProducer();
+	else if(id == EMPairCandidatesProducer().GetProducerId())
+		return new EMPairCandidatesProducer();
+	else if(id == MMPairCandidatesProducer().GetProducerId())
+		return new MMPairCandidatesProducer();
+	else if(id == EEPairCandidatesProducer().GetProducerId())
+		return new EEPairCandidatesProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

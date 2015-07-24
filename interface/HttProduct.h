@@ -30,6 +30,9 @@ public:
 	/// added by HttValidVetoMuonsProducer
 	std::vector<KMuon*> m_validVetoMuons;
 	std::vector<KMuon*> m_invalidVetoMuons;
+	
+	/// added by DiTauPairCandidatesProducers
+	std::vector<std::pair<KLepton*, KLepton*> > diTauPairCandidates;
 
 	// filled by DecayChannelProducer
 	bool m_extraElecVeto = false;
