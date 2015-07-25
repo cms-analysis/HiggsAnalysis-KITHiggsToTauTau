@@ -1,10 +1,13 @@
 
 #pragma once
 
+#include <boost/regex.hpp>
+
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 #include "Artus/Core/interface/ProducerBase.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
@@ -34,6 +37,17 @@ public:
 	{
 		ProducerBase<HttTypes>::Init(settings);
 		
+		// configurations possible:
+		// "cut" --> applied to all pairs
+		// "<index in setting HltPaths>:<cut>" --> applied to pairs that fired and matched ONLY the indexed HLT path
+		// "<HLT path regex>:<cut>" --> applied to pairs that fired and matched ONLY the given HLT path
+		m_lepton1LowerPtCutsByIndex = Utility::ParseMapTypes<size_t, float>(
+				Utility::ParseVectorToMap(settings.GetDiTauPairLepton1LowerPtCuts()), m_lepton1LowerPtCutsByHltName
+		);
+		m_lepton2LowerPtCutsByIndex = Utility::ParseMapTypes<size_t, float>(
+				Utility::ParseVectorToMap(settings.GetDiTauPairLepton2LowerPtCuts()), m_lepton2LowerPtCutsByHltName
+		);
+		
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiTauPairCandidates", [](event_type const& event, product_type const& product)
 		{
@@ -57,6 +71,64 @@ public:
 				
 				// pair selections
 				bool validDiTauPair = true;
+				
+				// OS charge requirement
+				//validDiTauPair = validDiTauPair && diTauPair.IsOppositelyCharged();
+				
+				// delta R cut
+				validDiTauPair = validDiTauPair && ((settings.GetDiTauPairMinDeltaRCut() < 0.0) || (diTauPair.GetDeltaR() > static_cast<double>(settings.GetDiTauPairMinDeltaRCut())));
+				
+				// require matchings with the same triggers
+				std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons);
+				validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);
+				
+				// pt cuts in case only HLT path is matched
+				if (validDiTauPair && (commonHltPaths.size() == 1))
+				{
+					// lepton 1
+					for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton1LowerPtCutsByIndex.begin();
+						 lowerPtCutByIndex != m_lepton1LowerPtCutsByIndex.end() && validDiTauPair; ++lowerPtCutByIndex)
+					{
+						if ((diTauPair.first->p4.Pt() <= *std::max_element(lowerPtCutByIndex->second.begin(), lowerPtCutByIndex->second.end())) &&
+						    boost::regex_search(commonHltPaths.at(0), boost::regex(settings.GetHltPaths().at(lowerPtCutByIndex->first), boost::regex::icase | boost::regex::extended)))
+						{
+							validDiTauPair = false;
+						}
+					}
+					
+					// lepton 1
+					for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton1LowerPtCutsByHltName.begin();
+						 lowerPtCutByHltName != m_lepton1LowerPtCutsByHltName.end() && validDiTauPair; ++lowerPtCutByHltName)
+					{
+						if ((diTauPair.first->p4.Pt() <= *std::max_element(lowerPtCutByHltName->second.begin(), lowerPtCutByHltName->second.end())) &&
+						    boost::regex_search(commonHltPaths.at(0), boost::regex(lowerPtCutByHltName->first, boost::regex::icase | boost::regex::extended)))
+						{
+							validDiTauPair = false;
+						}
+					}
+					
+					// lepton 2
+					for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton2LowerPtCutsByIndex.begin();
+						 lowerPtCutByIndex != m_lepton2LowerPtCutsByIndex.end() && validDiTauPair; ++lowerPtCutByIndex)
+					{
+						if ((diTauPair.second->p4.Pt() <= *std::max_element(lowerPtCutByIndex->second.begin(), lowerPtCutByIndex->second.end())) &&
+						    boost::regex_search(commonHltPaths.at(0), boost::regex(settings.GetHltPaths().at(lowerPtCutByIndex->first), boost::regex::icase | boost::regex::extended)))
+						{
+							validDiTauPair = false;
+						}
+					}
+					
+					// lepton 2
+					for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton2LowerPtCutsByHltName.begin();
+						 lowerPtCutByHltName != m_lepton2LowerPtCutsByHltName.end() && validDiTauPair; ++lowerPtCutByHltName)
+					{
+						if ((diTauPair.second->p4.Pt() <= *std::max_element(lowerPtCutByHltName->second.begin(), lowerPtCutByHltName->second.end())) &&
+						    boost::regex_search(commonHltPaths.at(0), boost::regex(lowerPtCutByHltName->first, boost::regex::icase | boost::regex::extended)))
+						{
+							validDiTauPair = false;
+						}
+					}
+				}
 				
 				// check possible additional criteria from subclasses
 				validDiTauPair = validDiTauPair && AdditionalCriteria(diTauPair, event, product, settings);
@@ -93,6 +165,11 @@ protected:
 private:
 	std::vector<TLepton1*> product_type::*m_validLeptonsMember1;
 	std::vector<TLepton2*> product_type::*m_validLeptonsMember2;
+
+	std::map<size_t, std::vector<float> > m_lepton1LowerPtCutsByIndex;
+	std::map<std::string, std::vector<float> > m_lepton1LowerPtCutsByHltName;
+	std::map<size_t, std::vector<float> > m_lepton2LowerPtCutsByIndex;
+	std::map<std::string, std::vector<float> > m_lepton2LowerPtCutsByHltName;
 
 };
 

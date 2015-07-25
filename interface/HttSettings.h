@@ -169,6 +169,10 @@ public:
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
 	
+	IMPL_SETTING_DEFAULT(float, DiTauPairMinDeltaRCut, -1.0);
+	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton1LowerPtCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton2LowerPtCuts, {});
+	
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");

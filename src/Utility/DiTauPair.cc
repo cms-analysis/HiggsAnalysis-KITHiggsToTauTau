@@ -1,4 +1,6 @@
 
+#include <Math/VectorUtil.h>
+
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
@@ -10,12 +12,21 @@ DiTauPair::DiTauPair(KLepton* lepton1, KLepton* lepton2) :
 {
 }
 
+bool DiTauPair::IsOppositelyCharged()
+{
+	return (first->charge() * second->charge() < 0);
+}
+
+double DiTauPair::GetDeltaR()
+{
+	return ROOT::Math::VectorUtil::DeltaR(first->p4, second->p4);
+}
 
 // TODO: this function should probably get cached
-std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::map<std::string, std::map<std::string, KLV*> >* >* detailedTriggerMatchedLeptons)
+std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::map<std::string, std::map<std::string, KLV*> >* > const& detailedTriggerMatchedLeptons)
 {
 	std::map<std::string, std::map<std::string, KLV*> >* detailedTriggerMatchedLepton1 = SafeMap::GetWithDefault(
-			*detailedTriggerMatchedLeptons,
+			detailedTriggerMatchedLeptons,
 			&(*first),
 			new std::map<std::string, std::map<std::string, KLV*> >()
 	);
@@ -28,7 +39,7 @@ std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::ma
 	}
 	
 	std::map<std::string, std::map<std::string, KLV*> >* detailedTriggerMatchedLepton2 = SafeMap::GetWithDefault(
-			*detailedTriggerMatchedLeptons,
+			detailedTriggerMatchedLeptons,
 			&(*second),
 			new std::map<std::string, std::map<std::string, KLV*> >()
 	);
