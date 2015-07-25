@@ -1,1 +1,1 @@
-XROOTD_sample_SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD_2015-07-16.txt
+XROOTD_sample_SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD_2015-07-22.txt
