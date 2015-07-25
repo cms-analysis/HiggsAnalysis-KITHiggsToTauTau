@@ -14,7 +14,7 @@
 
 
 template<class TLepton1, class TLepton2>
-class DiTauPairCandidatesProducerBase: public ProducerBase<HttTypes>
+class ValidDiTauPairCandidatesProducerBase: public ProducerBase<HttTypes>
 {
 public:
 
@@ -22,7 +22,7 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	DiTauPairCandidatesProducerBase(std::vector<TLepton1*> product_type::*validLeptonsMember1,
+	ValidDiTauPairCandidatesProducerBase(std::vector<TLepton1*> product_type::*validLeptonsMember1,
 	                                std::vector<TLepton2*> product_type::*validLeptonsMember2) :
 		ProducerBase<HttTypes>(),
 		m_validLeptonsMember1(validLeptonsMember1),
@@ -37,28 +37,58 @@ public:
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiTauPairCandidates", [](event_type const& event, product_type const& product)
 		{
-			return static_cast<int>(product.diTauPairCandidates.size());
+			return static_cast<int>(product.m_validDiTauPairCandidates.size());
 		});
 	}
 	
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override
 	{
-		product.diTauPairCandidates.clear();
+		product.m_validDiTauPairCandidates.clear();
 		
+		// build pairs for all combinations
 		for (typename std::vector<TLepton1*>::iterator lepton1 = (product.*m_validLeptonsMember1).begin();
 		     lepton1 != (product.*m_validLeptonsMember1).end(); ++lepton1)
 		{
 			for (typename std::vector<TLepton2*>::iterator lepton2 = (product.*m_validLeptonsMember2).begin();
 			     lepton2 != (product.*m_validLeptonsMember2).end(); ++lepton2)
 			{
-				product.diTauPairCandidates.push_back(DiTauPair(*lepton1, *lepton2));
+				DiTauPair diTauPair(*lepton1, *lepton2);
+				
+				// pair selections
+				bool validDiTauPair = true;
+				
+				// check possible additional criteria from subclasses
+				validDiTauPair = validDiTauPair && AdditionalCriteria(diTauPair, event, product, settings);
+			
+				if (validDiTauPair)
+				{
+					product.m_validDiTauPairCandidates.push_back(diTauPair);
+				}
+				else
+				{
+					product.m_invalidDiTauPairCandidates.push_back(diTauPair);
+				}
 			}
 		}
 		
-		std::sort(product.diTauPairCandidates.begin(), product.diTauPairCandidates.end(),
+		// sort pairs
+		std::sort(product.m_validDiTauPairCandidates.begin(), product.m_validDiTauPairCandidates.end(),
+		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt)));
+		std::sort(product.m_invalidDiTauPairCandidates.begin(), product.m_invalidDiTauPairCandidates.end(),
 		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt)));
 	}
+	
+
+protected:
+	// Can be overwritten for special use cases
+	virtual bool AdditionalCriteria(DiTauPair const& diTauPair, event_type const& event,
+	                                product_type& product, setting_type const& settings) const
+	{
+		bool validDiTauPair = true;
+		return validDiTauPair;
+	}
+
 
 private:
 	std::vector<TLepton1*> product_type::*m_validLeptonsMember1;
@@ -67,45 +97,45 @@ private:
 };
 
 
-class TTPairCandidatesProducer: public DiTauPairCandidatesProducerBase<KTau, KTau>
+class ValidTTPairCandidatesProducer: public ValidDiTauPairCandidatesProducerBase<KTau, KTau>
 {
 public:
-	TTPairCandidatesProducer();
+	ValidTTPairCandidatesProducer();
 	virtual std::string GetProducerId() const override;
 };
 
-class MTPairCandidatesProducer: public DiTauPairCandidatesProducerBase<KMuon, KTau>
+class ValidMTPairCandidatesProducer: public ValidDiTauPairCandidatesProducerBase<KMuon, KTau>
 {
 public:
-	MTPairCandidatesProducer();
+	ValidMTPairCandidatesProducer();
 	virtual std::string GetProducerId() const override;
 };
 
-class ETPairCandidatesProducer: public DiTauPairCandidatesProducerBase<KElectron, KTau>
+class ValidETPairCandidatesProducer: public ValidDiTauPairCandidatesProducerBase<KElectron, KTau>
 {
 public:
-	ETPairCandidatesProducer();
+	ValidETPairCandidatesProducer();
 	virtual std::string GetProducerId() const override;
 };
 
-class EMPairCandidatesProducer: public DiTauPairCandidatesProducerBase<KMuon, KElectron>
+class ValidEMPairCandidatesProducer: public ValidDiTauPairCandidatesProducerBase<KMuon, KElectron>
 {
 public:
-	EMPairCandidatesProducer();
+	ValidEMPairCandidatesProducer();
 	virtual std::string GetProducerId() const override;
 };
 
-class MMPairCandidatesProducer: public DiTauPairCandidatesProducerBase<KMuon, KMuon>
+class ValidMMPairCandidatesProducer: public ValidDiTauPairCandidatesProducerBase<KMuon, KMuon>
 {
 public:
-	MMPairCandidatesProducer();
+	ValidMMPairCandidatesProducer();
 	virtual std::string GetProducerId() const override;
 };
 
-class EEPairCandidatesProducer: public DiTauPairCandidatesProducerBase<KElectron, KElectron>
+class ValidEEPairCandidatesProducer: public ValidDiTauPairCandidatesProducerBase<KElectron, KElectron>
 {
 public:
-	EEPairCandidatesProducer();
+	ValidEEPairCandidatesProducer();
 	virtual std::string GetProducerId() const override;
 };
 

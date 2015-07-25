@@ -24,7 +24,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidGenTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTriggerSettingsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonVetoProducers.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiTauPairCandidatesProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ValidDiTauPairCandidatesProducers.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -116,18 +116,18 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new DiVetoElectronVetoProducer();
 	else if(id == DiVetoMuonVetoProducer().GetProducerId())
 		return new DiVetoMuonVetoProducer();
-	else if(id == TTPairCandidatesProducer().GetProducerId())
-		return new TTPairCandidatesProducer();
-	else if(id == MTPairCandidatesProducer().GetProducerId())
-		return new MTPairCandidatesProducer();
-	else if(id == ETPairCandidatesProducer().GetProducerId())
-		return new ETPairCandidatesProducer();
-	else if(id == EMPairCandidatesProducer().GetProducerId())
-		return new EMPairCandidatesProducer();
-	else if(id == MMPairCandidatesProducer().GetProducerId())
-		return new MMPairCandidatesProducer();
-	else if(id == EEPairCandidatesProducer().GetProducerId())
-		return new EEPairCandidatesProducer();
+	else if(id == ValidTTPairCandidatesProducer().GetProducerId())
+		return new ValidTTPairCandidatesProducer();
+	else if(id == ValidMTPairCandidatesProducer().GetProducerId())
+		return new ValidMTPairCandidatesProducer();
+	else if(id == ValidETPairCandidatesProducer().GetProducerId())
+		return new ValidETPairCandidatesProducer();
+	else if(id == ValidEMPairCandidatesProducer().GetProducerId())
+		return new ValidEMPairCandidatesProducer();
+	else if(id == ValidMMPairCandidatesProducer().GetProducerId())
+		return new ValidMMPairCandidatesProducer();
+	else if(id == ValidEEPairCandidatesProducer().GetProducerId())
+		return new ValidEEPairCandidatesProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
