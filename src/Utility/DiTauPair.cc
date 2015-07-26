@@ -72,8 +72,8 @@ bool DiTauPairIsoPtComparator::operator() (DiTauPair const& diTauPair1, DiTauPai
 {
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Pair_Selection_Algorithm
 	
-	double isoPair1Lepton1 = SafeMap::Get(*m_leptonIsolationOverPt, diTauPair1.first);
-	double isoPair2Lepton1 = SafeMap::Get(*m_leptonIsolationOverPt, diTauPair2.first);
+	double isoPair1Lepton1 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair1.first, static_cast<double>(diTauPair1.first->pfIso()));
+	double isoPair2Lepton1 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair2.first, static_cast<double>(diTauPair1.first->pfIso()));
 	
 	if (! Utility::ApproxEqual(isoPair1Lepton1, isoPair2Lepton1))
 	{
@@ -87,8 +87,8 @@ bool DiTauPairIsoPtComparator::operator() (DiTauPair const& diTauPair1, DiTauPai
 		}
 		else
 		{
-			double isoPair1Lepton2 = SafeMap::Get(*m_leptonIsolationOverPt, diTauPair1.second);
-			double isoPair2Lepton2 = SafeMap::Get(*m_leptonIsolationOverPt, diTauPair2.second);
+			double isoPair1Lepton2 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair1.second, static_cast<double>(diTauPair1.second->pfIso()));
+			double isoPair2Lepton2 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair2.second, static_cast<double>(diTauPair1.second->pfIso()));
 			
 			if (! Utility::ApproxEqual(isoPair1Lepton2, isoPair2Lepton2))
 			{
