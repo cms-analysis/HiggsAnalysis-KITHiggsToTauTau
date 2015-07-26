@@ -21,6 +21,9 @@ public:
 	
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings) const override;
+
+protected:
+	HttEnumTypes::DecayChannel m_decayChannel;
 };
 
 
@@ -47,6 +50,7 @@ public:
 	virtual std::string GetProducerId() const override {
 		return "Run2DecayChannelProducer";
 	}
+	
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings) const override;
 };

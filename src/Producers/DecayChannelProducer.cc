@@ -15,7 +15,8 @@ void DecayChannelProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 
-	HttEnumTypes::DecayChannel decayChannel = HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel())));
+	m_decayChannel = HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel())));
+	HttEnumTypes::DecayChannel decayChannel = m_decayChannel; // for being captured in lambda functions
 	
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("decayChannelIndex", [](event_type const& event, product_type const& product) {
@@ -576,8 +577,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	};
 
 	// TT channel
-	if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
-	    HttEnumTypes::DecayChannel::TT)
+	if (m_decayChannel == HttEnumTypes::DecayChannel::TT)
 	{
 		KTau* tau1 = 0;
 		KTau* tau2 = 0;
@@ -657,8 +657,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	}
 
 	// ET channel
-	else if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
-	         HttEnumTypes::DecayChannel::ET)
+	else if (m_decayChannel == HttEnumTypes::DecayChannel::ET)
 	{
 		KElectron* electron = 0;
 		KTau* tau = 0;
@@ -739,8 +738,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	}
 
 	// MT channel
-	else if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
-	         HttEnumTypes::DecayChannel::MT)
+	else if (m_decayChannel == HttEnumTypes::DecayChannel::MT)
 	{
 		KMuon* muon = 0;
 		KTau* tau = 0;
@@ -821,8 +819,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	}
 
 	// EM channel
-	else if (HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel()))) ==
-	         HttEnumTypes::DecayChannel::EM)
+	else if (m_decayChannel == HttEnumTypes::DecayChannel::EM)
 	{
 		KElectron* electron = 0;
 		KMuon* muon = 0;
