@@ -43,6 +43,7 @@ std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::ma
 			&(*second),
 			new std::map<std::string, std::map<std::string, KLV*> >()
 	);
+	std::sort(hltPaths1.begin(), hltPaths1.end()); // sorting needed for std::set_intersection
 	
 	std::vector<std::string> hltPaths2;
 	for (std::map<std::string, std::map<std::string, KLV*> >::iterator it = detailedTriggerMatchedLepton2->begin();
@@ -50,9 +51,15 @@ std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::ma
 	{
 		hltPaths2.push_back(it->first);
 	}
+	std::sort(hltPaths2.begin(), hltPaths2.end()); // sorting needed for std::set_intersection
 	
-	std::vector<std::string> commonHltPaths;
-	std::set_intersection(hltPaths1.begin(), hltPaths1.end(), hltPaths2.begin(), hltPaths2.end(), commonHltPaths.begin());
+	std::vector<std::string> commonHltPaths(hltPaths1.size() + hltPaths2.size());
+	std::vector<std::string>::iterator commonHltPathsEnd = std::set_intersection(
+			hltPaths1.begin(), hltPaths1.end(),
+			hltPaths2.begin(), hltPaths2.end(),
+			commonHltPaths.begin()
+	);
+	commonHltPaths.resize(commonHltPathsEnd - commonHltPaths.begin());
 	return commonHltPaths;
 }
 
