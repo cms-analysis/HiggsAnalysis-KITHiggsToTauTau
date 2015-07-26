@@ -36,6 +36,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ZBosonVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/HttObjectsCutFilters.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ValidDiTauPairCandidateFilter.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -160,6 +161,8 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new MetLowerPtCutsFilter();
 	else if(id == MetUpperPtCutsFilter().GetFilterId())
 		return new MetUpperPtCutsFilter();
+	else if(id == ValidDiTauPairCandidateFilter().GetFilterId())
+		return new ValidDiTauPairCandidateFilter();
 	else
 		return KappaFactory::createFilter( id );
 }
