@@ -536,404 +536,60 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 void Run2DecayChannelProducer::Produce(event_type const& event, product_type& product,
 	                              setting_type const& settings) const
 {
-	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
+	assert(product.m_validDiTauPairCandidates.size() > 0);
+
+	product.m_decayChannel = m_decayChannel;
 	
-	KLepton* lepton1 = 0;
-	KLepton* lepton2 = 0;
-
-	size_t nElectrons = product.m_validElectrons.size();
-	size_t nMuons = product.m_validMuons.size();
-	size_t nTaus = product.m_validTaus.size();
-
-	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Pair_Selection_Algorithm
-	auto comparePairs = [&] (std::pair<KLepton*, KLepton*> pair1, std::pair<KLepton*, KLepton*> pair2) 
-	{
-		double firstPairIso1 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair1.first, DefaultValues::UndefinedDouble);
-		double firstPairIso2 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair1.second, DefaultValues::UndefinedDouble);
-		double secondPairIso1 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair2.first, DefaultValues::UndefinedDouble);
-		double secondPairIso2 = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, pair2.second, DefaultValues::UndefinedDouble);
-		
-		if (!Utility::ApproxEqual(firstPairIso1, secondPairIso1))
-		{
-			return (firstPairIso1 < secondPairIso1);
-		}
-		else {
-			if (!Utility::ApproxEqual(pair1.first->p4.Pt(), pair2.first->p4.Pt()))
-			{
-				return (pair1.first->p4.Pt() > pair2.first->p4.Pt());
-			}
-			else
-			{
-				if (!Utility::ApproxEqual(firstPairIso2, secondPairIso2))
-				{
-					return (firstPairIso2 < secondPairIso2);
-				}
-				else
-				{
-					return (pair1.second->p4.Pt() > pair2.second->p4.Pt());
-				}
-			}
-		}
-	};
-
-	// TT channel
-	if (m_decayChannel == HttEnumTypes::DecayChannel::TT)
-	{
-		KTau* tau1 = 0;
-		KTau* tau2 = 0;
-
-		if (nTaus < 2)
-		{
-			return;
-		}
-		else if (nTaus == 2)
-		{
-			// sort the pair (first tau is the most isolated)
-			const std::string idString = "byCombinedIsolationDeltaBetaCorrRaw3Hits";
-			auto compareTaus = [&] (KTau* tau1, KTau* tau2) 
-				{ return (tau1->getDiscriminator(idString, event.m_tauMetadata) < tau2->getDiscriminator(idString, event.m_tauMetadata)); };
-			std::sort(product.m_validTaus.begin(), product.m_validTaus.end(), compareTaus);
-		
-			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
-			tau1 = product.m_validTaus[0];
-			tau2 = product.m_validTaus[1];
-		
-			// require the pair to pass a separation requirement
-			if (ROOT::Math::VectorUtil::DeltaR(tau1->p4, tau2->p4) < 0.5)
-			{
-				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
-			}
-		}
-		else
-		{
-			std::vector<std::pair<KTau*, KTau*>> allDiTauPairs;
-			std::vector<std::pair<KTau*, KTau*>> osDiTauPairs;
-			// Produce di-tau pairs
-			for (std::vector<KTau*>::iterator iTau1 = product.m_validTaus.begin(); iTau1 != product.m_validTaus.end(); ++iTau1)
-			{
-				for (std::vector<KTau*>::iterator iTau2 = product.m_validTaus.begin(); iTau2 != product.m_validTaus.end(); ++iTau2)
-				{
-					// require the pair to pass a separation requirement
-					if (ROOT::Math::VectorUtil::DeltaR((*iTau1)->p4, (*iTau2)->p4) < 0.5)
-					{
-						continue;
-					}
-
-					std::pair<KTau*, KTau*> diTauPair = std::make_pair(*iTau1, *iTau2);
-					allDiTauPairs.push_back(diTauPair);
-					if(diTauPair.first->charge() == - diTauPair.second->charge())
-					{
-						osDiTauPairs.push_back(diTauPair);
-					}
-				}
-			}
-
-			if (allDiTauPairs.size() == 0)
-			{
-				return;
-			}
-
-			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
-			std::sort(allDiTauPairs.begin(), allDiTauPairs.end(), comparePairs);
-		
-			tau1 = allDiTauPairs[0].first;
-			tau2 = allDiTauPairs[0].second;
-
-			product.m_validTaus.clear();
-			product.m_validTaus.push_back(tau1);
-			product.m_validTaus.push_back(tau2);
-		}
-
-		product.m_validLeptons.clear();
-		product.m_validLeptons.push_back(tau1);
-		product.m_validLeptons.push_back(tau2);
-
-		// set boolean veto variables
-		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > 0);
-		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > 0);
-
-		lepton1 = tau1;
-		lepton2 = tau2;
-	}
-
-	// ET channel
-	else if (m_decayChannel == HttEnumTypes::DecayChannel::ET)
-	{
-		KElectron* electron = 0;
-		KTau* tau = 0;
-		
-		if (nElectrons == 1 && nTaus == 1)
-		{
-			product.m_decayChannel = HttEnumTypes::DecayChannel::ET;
-			electron = product.m_validElectrons[0];
-			tau = product.m_validTaus[0];
-
-			// require the pair to pass a separation requirement
-			if (ROOT::Math::VectorUtil::DeltaR(electron->p4, tau->p4) < 0.5)
-			{
-				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
-			}
-		}
-		else
-		{
-			std::vector<std::pair<KElectron*, KTau*>> allEleTauPairs;
-			std::vector<std::pair<KElectron*, KTau*>> osEleTauPairs;
-			// Produce electron-tau pairs
-			for (std::vector<KElectron*>::iterator iElectron = product.m_validElectrons.begin(); iElectron != product.m_validElectrons.end(); ++iElectron)
-			{
-				// Electron pt cut if only single muon trigger fired
-				// The single muon trigger has to be the first one in the HltPaths setting.
-				std::map<std::string, std::map<std::string, KLV*> > detailedTriggerMatchedElectron = SafeMap::GetWithDefault(product.m_detailedTriggerMatchedElectrons, (*iElectron), std::map<std::string, std::map<std::string, KLV*> >());
-				if (((*iElectron)->p4.Pt() <= 33.0) &&
-				    (detailedTriggerMatchedElectron.size() == 1) &&
-				    boost::regex_search(detailedTriggerMatchedElectron.begin()->first, boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
-				{
-					continue;
-				}
-			
-				for (std::vector<KTau*>::iterator iTau = product.m_validTaus.begin(); iTau != product.m_validTaus.end(); ++iTau)
-				{
-					// require the pair to pass a separation requirement
-					if (ROOT::Math::VectorUtil::DeltaR((*iElectron)->p4, (*iTau)->p4) < 0.5)
-					{
-						continue;
-					}
-
-					std::pair<KElectron*, KTau*> eleTauPair = std::make_pair(*iElectron, *iTau);
-					allEleTauPairs.push_back(eleTauPair);
-					if(eleTauPair.first->charge() == - eleTauPair.second->charge())
-					{
-						osEleTauPairs.push_back(eleTauPair);
-					}
-				}
-			}
+	// fill the lepton vectors
+	DiTauPair diTauPair = product.m_validDiTauPairCandidates.at(0);
+	KLepton* lepton1 = diTauPair.first;
+	KLepton* lepton2 = diTauPair.second;
 	
-			if (allEleTauPairs.size() == 0)
-			{
-				return;
-			}
-
-			product.m_decayChannel = HttEnumTypes::DecayChannel::ET;
-			std::sort(allEleTauPairs.begin(), allEleTauPairs.end(), comparePairs);
-		
-			electron = allEleTauPairs[0].first;
-			tau = allEleTauPairs[0].second;
-
-			product.m_validElectrons.clear();
-			product.m_validTaus.clear();
-			product.m_validElectrons.push_back(electron);
-			product.m_validTaus.push_back(tau);
-		}
-
-		product.m_validLeptons.clear();
-		product.m_validLeptons.push_back(electron);
-		product.m_validLeptons.push_back(tau);
-
-		// set boolean veto variables
-		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > product.m_validElectrons.size());
-		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > 0);
-
-		lepton1 = electron;
-		lepton2 = tau;
-	}
-
-	// MT channel
-	else if (m_decayChannel == HttEnumTypes::DecayChannel::MT)
+	// fill leptons ordered by pt (high pt first)
+	if (lepton1->p4.Pt() >= lepton2->p4.Pt())
 	{
-		KMuon* muon = 0;
-		KTau* tau = 0;
-		
-		if (nMuons == 1 && nTaus == 1)
-		{
-			product.m_decayChannel = HttEnumTypes::DecayChannel::MT;
-			muon = product.m_validMuons[0];
-			tau = product.m_validTaus[0];
-
-			// require the pair to pass a separation requirement
-			if (ROOT::Math::VectorUtil::DeltaR(muon->p4, tau->p4) < 0.5)
-			{
-				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
-			}
-		}
-		else
-		{
-			std::vector<std::pair<KMuon*, KTau*>> allMuonTauPairs;
-			std::vector<std::pair<KMuon*, KTau*>> osMuonTauPairs;
-			// Produce muon-tau pairs
-			for (std::vector<KMuon*>::iterator iMuon = product.m_validMuons.begin(); iMuon != product.m_validMuons.end(); ++iMuon)
-			{
-				// Muon pt cut if only single muon trigger fired
-				// The single muon trigger has to be the first one in the HltPaths setting.
-				std::map<std::string, std::map<std::string, KLV*> > detailedTriggerMatchedMuon = SafeMap::GetWithDefault(product.m_detailedTriggerMatchedMuons, (*iMuon), std::map<std::string, std::map<std::string, KLV*> >());
-				if (((*iMuon)->p4.Pt() <= 25.0) &&
-				    (detailedTriggerMatchedMuon.size() == 1) &&
-				    boost::regex_search(detailedTriggerMatchedMuon.begin()->first, boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
-				{
-					continue;
-				}
-				
-				for (std::vector<KTau*>::iterator iTau = product.m_validTaus.begin(); iTau != product.m_validTaus.end(); ++iTau)
-				{
-					// require the pair to pass a separation requirement
-					if (ROOT::Math::VectorUtil::DeltaR((*iMuon)->p4, (*iTau)->p4) < 0.5)
-					{
-						continue;
-					}
-
-					std::pair<KMuon*, KTau*> muonTauPair = std::make_pair(*iMuon, *iTau);
-					allMuonTauPairs.push_back(muonTauPair);
-					if(muonTauPair.first->charge() == - muonTauPair.second->charge())
-					{
-						osMuonTauPairs.push_back(muonTauPair);
-					}
-				}
-			}
-	
-			if (allMuonTauPairs.size() == 0)
-			{
-				return;
-			}
-
-			product.m_decayChannel = HttEnumTypes::DecayChannel::MT;
-			std::sort(allMuonTauPairs.begin(), allMuonTauPairs.end(), comparePairs);
-		
-			muon = allMuonTauPairs[0].first;
-			tau = allMuonTauPairs[0].second;
-
-			product.m_validMuons.clear();
-			product.m_validTaus.clear();
-			product.m_validMuons.push_back(muon);
-			product.m_validTaus.push_back(tau);
-		}
-
-		product.m_validLeptons.clear();
-		product.m_validLeptons.push_back(muon);
-		product.m_validLeptons.push_back(tau);
-
-		// set boolean veto variables
-		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > 0);
-		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > product.m_validMuons.size());
-
-		lepton1 = muon;
-		lepton2 = tau;	
+		product.m_ptOrderedLeptons.push_back(lepton1);
+		product.m_ptOrderedLeptons.push_back(lepton2);
 	}
-
-	// EM channel
-	else if (m_decayChannel == HttEnumTypes::DecayChannel::EM)
-	{
-		KElectron* electron = 0;
-		KMuon* muon = 0;
-
-		if (nElectrons == 1 && nMuons ==1)
-		{
-			product.m_decayChannel = HttEnumTypes::DecayChannel::EM;
-			electron = product.m_validElectrons[0];
-			muon = product.m_validMuons[0];
-			if (ROOT::Math::VectorUtil::DeltaR(electron->p4, muon->p4) < 0.3)
-			{
-				product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
-			}
-		}
-		else
-		{
-			std::vector<std::pair<KElectron*, KMuon*>> allEleMuonPairs;
-			std::vector<std::pair<KElectron*, KMuon*>> osEleMuonPairs;
-			for (std::vector<KElectron*>::iterator iElectron = product.m_validElectrons.begin(); iElectron != product.m_validElectrons.end(); ++iElectron)
-			{
-				// Electron pt cut if trigger with higher electron threshold has fired
-				// Only the first fired trigger is considered.
-				// The trigger with the higher electron threshold has to be the first one in the HltPaths setting.
-				// TODO: check if one needs to access the info from the trigger matching in case both leptons fire different cross triggers
-				if (((*iElectron)->p4.Pt() <= 24.0) &&
-				    (! product.m_selectedHltNames.empty()) &&
-				    (settings.GetHltPaths().size() == 2) &&
-				    boost::regex_search(product.m_selectedHltNames.at(0), boost::regex(settings.GetHltPaths().at(0), boost::regex::icase | boost::regex::extended)))
-				{
-					continue;
-				}
-				
-				for (std::vector<KMuon*>::iterator iMuon = product.m_validMuons.begin(); iMuon != product.m_validMuons.end(); ++iMuon)
-				{
-					// Muon pt cut if trigger with higher muon threshold has fired
-					// Only the first fired trigger is considered.
-					// The trigger with the higher muon threshold has to be the first one in the HltPaths setting.
-					// TODO: check if one needs to access the info from the trigger matching in case both leptons fire different cross triggers
-					if (((*iMuon)->p4.Pt() <= 24.0) &&
-					    (! product.m_selectedHltNames.empty()) &&
-					    (settings.GetHltPaths().size() == 2) &&
-					    boost::regex_search(product.m_selectedHltNames.at(0), boost::regex(settings.GetHltPaths().at(1), boost::regex::icase | boost::regex::extended)))
-					{
-						continue;
-					}
-				
-					if(ROOT::Math::VectorUtil::DeltaR((*iElectron)->p4, (*iMuon)->p4) < 0.3)
-					{
-						continue;
-					}
-					std::pair<KElectron*, KMuon*> eleMuonPair = std::make_pair(*iElectron, *iMuon);
-					allEleMuonPairs.push_back(eleMuonPair);
-					if(eleMuonPair.first->charge() == -eleMuonPair.second->charge())
-					{
-						osEleMuonPairs.push_back(eleMuonPair);
-					}
-				}
-			}
-			if(allEleMuonPairs.size() == 0)
-			{
-				return;
-			}
-
-			product.m_decayChannel = HttEnumTypes::DecayChannel::EM;
-			std::sort(allEleMuonPairs.begin(), allEleMuonPairs.end(), comparePairs);
-
-			electron = allEleMuonPairs[0].first;
-			muon = allEleMuonPairs[0].second;
-
-			product.m_validMuons.clear();
-			product.m_validElectrons.clear();
-			product.m_validMuons.push_back(muon);
-			product.m_validElectrons.push_back(electron);
-		}
-
-		lepton1 = electron;
-		lepton2 = muon;
-	}
-
 	else
 	{
-		LOG(FATAL) << "Run2DecayChannelProducer: The given channel (" << settings.GetChannel() << ") is not included in the producer";
+		product.m_ptOrderedLeptons.push_back(lepton2);
+		product.m_ptOrderedLeptons.push_back(lepton1);
 	}
-
-
-	// fill the lepton vectors
-	if (product.m_decayChannel != HttEnumTypes::DecayChannel::NONE)
-	{
-		// fill leptons ordered by pt (high pt first)
-		if (lepton1->p4.Pt() >= lepton2->p4.Pt())
-		{
-			product.m_ptOrderedLeptons.push_back(lepton1);
-			product.m_ptOrderedLeptons.push_back(lepton2);
-		}
-		else
-		{
-			product.m_ptOrderedLeptons.push_back(lepton2);
-			product.m_ptOrderedLeptons.push_back(lepton1);
-		}
 	
-		// fill leptons ordered by flavour (according to channel definition)
+	// fill leptons ordered by charge (positive charges first)
+	if (lepton1->charge() >= lepton2->charge())
+	{
+		product.m_chargeOrderedLeptons.push_back(lepton1);
+		product.m_chargeOrderedLeptons.push_back(lepton2);
+	}
+	else
+	{
+		product.m_chargeOrderedLeptons.push_back(lepton2);
+		product.m_chargeOrderedLeptons.push_back(lepton1);
+	}
+	
+	// fill leptons ordered by flavour (according to channel definition)
+	if (m_decayChannel == HttEnumTypes::DecayChannel::EM)
+	{
+		product.m_flavourOrderedLeptons.push_back(lepton2);
+		product.m_flavourOrderedLeptons.push_back(lepton1);
+	}
+	else
+	{
 		product.m_flavourOrderedLeptons.push_back(lepton1);
 		product.m_flavourOrderedLeptons.push_back(lepton2);
+	}
 	
-		// fill leptons ordered by charge (positive charges first)
-		if (lepton1->charge() >= lepton2->charge())
-		{
-			product.m_chargeOrderedLeptons.push_back(lepton1);
-			product.m_chargeOrderedLeptons.push_back(lepton2);
-		}
-		else
-		{
-			product.m_chargeOrderedLeptons.push_back(lepton2);
-			product.m_chargeOrderedLeptons.push_back(lepton1);
-		}
+	// set boolean veto variables
+	product.m_extraElecVeto = (product.m_validLooseElectrons.size() > product.m_validElectrons.size());
+	product.m_extraMuonVeto = (product.m_validLooseMuons.size() > product.m_validMuons.size());
+	if ((m_decayChannel == HttEnumTypes::DecayChannel::TT) || (m_decayChannel == HttEnumTypes::DecayChannel::ET))
+	{
+		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > 0);
+	}
+	if ((m_decayChannel == HttEnumTypes::DecayChannel::TT) || (m_decayChannel == HttEnumTypes::DecayChannel::MT))
+	{
+		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > 0);
 	}
 }
