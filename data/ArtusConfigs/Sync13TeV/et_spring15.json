@@ -31,6 +31,10 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
+		"DiTauPairMinDeltaRCut" : 0.5,
+		"DiTauPairLepton1LowerPtCuts" : [
+			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0"
+		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
@@ -90,8 +94,10 @@
 					"producer:RecoTauGenTauMatchingProducer",
 					"#producer:RecoTauGenTauJetMatchingProducer",
 					"filter:MinTausCountFilter",
+					"producer:ValidETPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
-					"filter:DecayChannelFilter",
+					"#filter:DecayChannelFilter",
 					"producer:DiVetoElectronVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",

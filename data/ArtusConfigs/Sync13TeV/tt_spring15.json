@@ -21,6 +21,7 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.1"
 		],
+		"DiTauPairMinDeltaRCut" : 0.5,
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"TauTriggerFilterNames" : {
@@ -65,9 +66,11 @@
 					"#producer:RecoTauGenTauJetMatchingProducer",
 					"producer:ValidElectronsProducer",
 					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
 					"filter:MinTausCountFilter",
-					"filter:DecayChannelFilter",
+					"#filter:DecayChannelFilter",
 					"producer:ValidLeptonsProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
