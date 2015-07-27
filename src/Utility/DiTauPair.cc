@@ -40,6 +40,17 @@ std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::ma
 	));
 	std::sort(hltPaths2.begin(), hltPaths2.end()); // sorting needed for std::set_intersection
 	
+	// some leptons might not have matches because of single lepton HLTs
+	if (hltPaths2.empty())
+	{
+		return hltPaths1;
+	}
+	else if (hltPaths1.empty())
+	{
+		return hltPaths2;
+	}
+	
+	// find common HLTs as intersection of individual HLTs lists
 	std::vector<std::string> commonHltPaths(hltPaths1.size() + hltPaths2.size());
 	std::vector<std::string>::iterator commonHltPathsEnd = std::set_intersection(
 			hltPaths1.begin(), hltPaths1.end(),

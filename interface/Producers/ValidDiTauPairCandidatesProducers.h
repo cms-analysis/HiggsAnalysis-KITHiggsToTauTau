@@ -80,7 +80,7 @@ public:
 				
 				// require matchings with the same triggers
 				std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons);
-				//validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);
+				validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);
 				
 				// pt cuts in case only HLT path is matched
 				if (validDiTauPair && (commonHltPaths.size() == 1))
