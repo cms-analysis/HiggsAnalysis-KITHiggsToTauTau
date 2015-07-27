@@ -27,7 +27,7 @@
 		"TauTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
+					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
 				]
 			}
 		},

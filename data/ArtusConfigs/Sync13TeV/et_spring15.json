@@ -40,17 +40,17 @@
 		"ElectronTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20:hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
-					"HLT_Ele32_eta2p1_WP75_Gsf:hltEle32WP75GsfTrackIsoFilter"
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter",
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
+					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
 				]
 			}
 		},
 		"TauTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20:hltPFTau20TrackLooseIso",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20"
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso",
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20"
 				]
 			}
 		},
