@@ -23,30 +23,30 @@ double DiTauPair::GetDeltaR()
 }
 
 // TODO: this function should probably get cached
-std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::map<std::string, std::map<std::string, KLV*> >* > const& detailedTriggerMatchedLeptons)
+std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > const& detailedTriggerMatchedLeptons)
 {
-	std::map<std::string, std::map<std::string, KLV*> >* detailedTriggerMatchedLepton1 = SafeMap::GetWithDefault(
+	std::map<std::string, std::map<std::string, std::vector<KLV*> > >* detailedTriggerMatchedLepton1 = SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
 			&(*first),
-			new std::map<std::string, std::map<std::string, KLV*> >()
+			new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
 	);
 	
 	std::vector<std::string> hltPaths1;
-	for (std::map<std::string, std::map<std::string, KLV*> >::iterator it = detailedTriggerMatchedLepton1->begin();
+	for (std::map<std::string, std::map<std::string, std::vector<KLV*> > >::iterator it = detailedTriggerMatchedLepton1->begin();
 	     it != detailedTriggerMatchedLepton1->end(); ++it)
 	{
 		hltPaths1.push_back(it->first);
 	}
 	
-	std::map<std::string, std::map<std::string, KLV*> >* detailedTriggerMatchedLepton2 = SafeMap::GetWithDefault(
+	std::map<std::string, std::map<std::string, std::vector<KLV*> > >* detailedTriggerMatchedLepton2 = SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
 			&(*second),
-			new std::map<std::string, std::map<std::string, KLV*> >()
+			new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
 	);
 	std::sort(hltPaths1.begin(), hltPaths1.end()); // sorting needed for std::set_intersection
 	
 	std::vector<std::string> hltPaths2;
-	for (std::map<std::string, std::map<std::string, KLV*> >::iterator it = detailedTriggerMatchedLepton2->begin();
+	for (std::map<std::string, std::map<std::string, std::vector<KLV*> > >::iterator it = detailedTriggerMatchedLepton2->begin();
 	     it != detailedTriggerMatchedLepton2->end(); ++it)
 	{
 		hltPaths2.push_back(it->first);
