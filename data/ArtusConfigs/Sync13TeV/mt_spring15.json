@@ -35,6 +35,9 @@
 		"DiTauPairLepton1LowerPtCuts" : [
 			"HLT_IsoMu24_eta2p1_v:25.0"
 		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
+			"HLT_IsoMu24_eta2p1_v"
+		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"MuonTriggerFilterNames" : {

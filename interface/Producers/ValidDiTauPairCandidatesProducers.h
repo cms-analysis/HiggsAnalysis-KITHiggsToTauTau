@@ -26,7 +26,7 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 	
 	ValidDiTauPairCandidatesProducerBase(std::vector<TLepton1*> product_type::*validLeptonsMember1,
-	                                std::vector<TLepton2*> product_type::*validLeptonsMember2) :
+	                                     std::vector<TLepton2*> product_type::*validLeptonsMember2) :
 		ProducerBase<HttTypes>(),
 		m_validLeptonsMember1(validLeptonsMember1),
 		m_validLeptonsMember2(validLeptonsMember2)
@@ -79,7 +79,7 @@ public:
 				validDiTauPair = validDiTauPair && ((settings.GetDiTauPairMinDeltaRCut() < 0.0) || (diTauPair.GetDeltaR() > static_cast<double>(settings.GetDiTauPairMinDeltaRCut())));
 				
 				// require matchings with the same triggers
-				std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons);
+				std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons, settings.GetDiTauPairHltPathsWithoutCommonMatchRequired());
 				validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);
 				
 				// pt cuts in case only HLT path is matched

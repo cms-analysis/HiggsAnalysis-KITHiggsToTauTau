@@ -24,40 +24,46 @@ double DiTauPair::GetDeltaR()
 }
 
 // TODO: this function should probably get cached
-std::vector<std::string> DiTauPair::GetCommonHltPaths(std::map<KLepton*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > const& detailedTriggerMatchedLeptons)
-{
+std::vector<std::string> DiTauPair::GetCommonHltPaths(
+		std::map<KLepton*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > const& detailedTriggerMatchedLeptons,
+		std::vector<std::string> const& hltPathsWithoutCommonMatchRequired
+) {
 	std::vector<std::string> hltPaths1 = TriggerMatchingProducerBase<KLepton>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
 			&(*first),
 			new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
 	));
-	std::sort(hltPaths1.begin(), hltPaths1.end()); // sorting needed for std::set_intersection
 	
 	std::vector<std::string> hltPaths2 = TriggerMatchingProducerBase<KLepton>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
 			&(*second),
 			new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
 	));
-	std::sort(hltPaths2.begin(), hltPaths2.end()); // sorting needed for std::set_intersection
 	
-	// some leptons might not have matches because of single lepton HLTs
-	if (hltPaths2.empty())
-	{
-		return hltPaths1;
-	}
-	else if (hltPaths1.empty())
-	{
-		return hltPaths2;
-	}
+	std::vector<std::string> commonHltPaths = Utility::Intersection(hltPaths1, hltPaths2);
 	
-	// find common HLTs as intersection of individual HLTs lists
-	std::vector<std::string> commonHltPaths(hltPaths1.size() + hltPaths2.size());
-	std::vector<std::string>::iterator commonHltPathsEnd = std::set_intersection(
-			hltPaths1.begin(), hltPaths1.end(),
-			hltPaths2.begin(), hltPaths2.end(),
-			commonHltPaths.begin()
-	);
-	commonHltPaths.resize(commonHltPathsEnd - commonHltPaths.begin());
+	// in case no common triggers are found, use the fired ones of hltPathsWithoutCommonMatchRequired
+	if (commonHltPaths.size() == 0)
+	{
+		for (std::vector<std::string>::const_iterator hltPathWithoutCommonMatchRequired = hltPathsWithoutCommonMatchRequired.begin();
+		     hltPathWithoutCommonMatchRequired != hltPathsWithoutCommonMatchRequired.end(); ++hltPathWithoutCommonMatchRequired)
+		{
+			for (std::vector<std::string>::iterator hltPath1 = hltPaths1.begin(); hltPath1 != hltPaths1.end(); ++hltPath1)
+			{
+				if (boost::regex_search(*hltPath1, boost::regex(*hltPathWithoutCommonMatchRequired, boost::regex::icase | boost::regex::extended)))
+				{
+					commonHltPaths.push_back(*hltPath1);
+				}
+			}
+			for (std::vector<std::string>::iterator hltPath2 = hltPaths2.begin(); hltPath2 != hltPaths2.end(); ++hltPath2)
+			{
+				if (boost::regex_search(*hltPath2, boost::regex(*hltPathWithoutCommonMatchRequired, boost::regex::icase | boost::regex::extended)))
+				{
+					commonHltPaths.push_back(*hltPath2);
+				}
+			}
+		}
+	}
 	
 	return commonHltPaths;
 }
