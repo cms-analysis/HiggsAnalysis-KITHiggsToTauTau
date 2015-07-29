@@ -88,7 +88,7 @@
 					"producer:MetSelector",
 					"producer:MvaMetEMSelector",
 					"#filter:DiLeptonChargeFilter",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
