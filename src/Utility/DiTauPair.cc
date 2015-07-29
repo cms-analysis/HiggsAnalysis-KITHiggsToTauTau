@@ -79,7 +79,17 @@ bool DiTauPairIsoPtComparator::operator() (DiTauPair const& diTauPair1, DiTauPai
 	
 	double isoPair1Lepton1 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair1.first, static_cast<double>(diTauPair1.first->pfIso()));
 	double isoPair2Lepton1 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair2.first, static_cast<double>(diTauPair1.first->pfIso()));
-	
+
+	// for taus, do not divide the isolation by pT
+	if (diTauPair1.first->flavour() == KLeptonFlavour::TAU)
+	{
+		isoPair1Lepton1 *= diTauPair1.first->p4.Pt();
+	}
+	if (diTauPair2.first->flavour() == KLeptonFlavour::TAU)
+	{
+		isoPair2Lepton1 *= diTauPair2.first->p4.Pt();
+	}
+
 	if (! Utility::ApproxEqual(isoPair1Lepton1, isoPair2Lepton1))
 	{
 		return (isoPair1Lepton1 < isoPair2Lepton1);
@@ -94,7 +104,16 @@ bool DiTauPairIsoPtComparator::operator() (DiTauPair const& diTauPair1, DiTauPai
 		{
 			double isoPair1Lepton2 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair1.second, static_cast<double>(diTauPair1.second->pfIso()));
 			double isoPair2Lepton2 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair2.second, static_cast<double>(diTauPair1.second->pfIso()));
-			
+			// for taus, do not divide the isolation by pT
+			if (diTauPair1.second->flavour() == KLeptonFlavour::TAU)
+			{
+				isoPair1Lepton2 *= diTauPair1.second->p4.Pt();
+			}
+			if (diTauPair2.second->flavour() == KLeptonFlavour::TAU)
+			{
+				isoPair2Lepton2 *= diTauPair2.second->p4.Pt();
+			}
+
 			if (! Utility::ApproxEqual(isoPair1Lepton2, isoPair2Lepton2))
 			{
 				return (isoPair1Lepton2 < isoPair2Lepton2);
