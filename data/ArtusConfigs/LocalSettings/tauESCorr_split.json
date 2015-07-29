@@ -1,0 +1,18 @@
+{
+	"ESCorr" : {
+	"DirectIso" : true,
+		"Processors" : {
+			"nick" : {
+				"DY.?JetsToLL" : [
+					"producer:TauCorrectionsProducer"
+				],
+				"HToTauTau" : [
+					"producer:TauCorrectionsProducer"
+				]
+			}
+		}
+	},
+	"noESCorr" : {
+		"DirectIso" : true
+	}
+}
