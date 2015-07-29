@@ -90,7 +90,8 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return SafeMap::GetWithDefault(product.m_leptonIsolation, product.m_flavourOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1IsoOverPt", [](event_type const& event, product_type const& product) {
-		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], DefaultValues::UndefinedDouble);
+		float iso = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], std::numeric_limits<double>::max());
+		return (product.m_flavourOrderedLeptons[0]->flavour() == KLeptonFlavour::TAU ? (iso * product.m_flavourOrderedLeptons[0]->p4.Pt()) : iso);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1MetPt", [](event_type const& event, product_type const& product)
 	{
@@ -180,7 +181,8 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return SafeMap::GetWithDefault(product.m_leptonIsolation, product.m_flavourOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2IsoOverPt", [](event_type const& event, product_type const& product) {
-		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[1], DefaultValues::UndefinedDouble);
+		float iso = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[1], std::numeric_limits<double>::max());
+		return (product.m_flavourOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU ? (iso * product.m_flavourOrderedLeptons[1]->p4.Pt()) : iso);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2MetMt", [](event_type const& event, product_type const& product)
 	{
@@ -544,6 +546,11 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	DiTauPair diTauPair = product.m_validDiTauPairCandidates.at(0);
 	KLepton* lepton1 = diTauPair.first;
 	KLepton* lepton2 = diTauPair.second;
+
+	// validLeptons collection: necessary for jet overlap removal
+	product.m_validLeptons.clear();
+	product.m_validLeptons.push_back(lepton1);
+	product.m_validLeptons.push_back(lepton2);
 	
 	// fill leptons ordered by pt (high pt first)
 	if (lepton1->p4.Pt() >= lepton2->p4.Pt())
@@ -580,7 +587,36 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_flavourOrderedLeptons.push_back(lepton1);
 		product.m_flavourOrderedLeptons.push_back(lepton2);
 	}
-	
+
+	// update valid leptons list with the leptons from the chosen pair
+	if (m_decayChannel == HttEnumTypes::DecayChannel::TT)
+	{
+		product.m_validTaus.clear();
+		product.m_validTaus.push_back(static_cast<KTau*>(diTauPair.first));
+		product.m_validTaus.push_back(static_cast<KTau*>(diTauPair.second));
+	}
+	if (m_decayChannel == HttEnumTypes::DecayChannel::MT)
+	{
+		product.m_validMuons.clear();
+		product.m_validTaus.clear();
+		product.m_validMuons.push_back(static_cast<KMuon*>(diTauPair.first));
+		product.m_validTaus.push_back(static_cast<KTau*>(diTauPair.second));	
+	}
+	if (m_decayChannel == HttEnumTypes::DecayChannel::ET)
+	{
+		product.m_validElectrons.clear();
+		product.m_validTaus.clear();
+		product.m_validElectrons.push_back(static_cast<KElectron*>(diTauPair.first));
+		product.m_validTaus.push_back(static_cast<KTau*>(diTauPair.second));	
+	}
+	if (m_decayChannel == HttEnumTypes::DecayChannel::EM)
+	{
+		product.m_validElectrons.clear();
+		product.m_validMuons.clear();
+		product.m_validElectrons.push_back(static_cast<KElectron*>(diTauPair.first));
+		product.m_validMuons.push_back(static_cast<KMuon*>(diTauPair.second));	
+	}
+
 	// set boolean veto variables
 	product.m_extraElecVeto = (product.m_validLooseElectrons.size() > product.m_validElectrons.size());
 	product.m_extraMuonVeto = (product.m_validLooseMuons.size() > product.m_validMuons.size());
