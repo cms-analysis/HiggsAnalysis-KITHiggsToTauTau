@@ -1,0 +1,119 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauES.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJEC.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsLooseElectronID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsLooseMuonID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsGenTauCP.json"
+	],
+	"#RunWhitelist" : [
+	],
+	"#LumiWhitelist" : [
+	],
+	"#EventWhitelist" : [
+	],
+	"#RunBlacklist" : [
+	],
+	"#LumiBlacklist" : [
+	],
+	"#EventBlacklist" : [
+	],
+	"Processors" : {
+		"nick" : {
+			"default" : [
+				"#filter:RunLumiEventFilter",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:PUWeightProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer"
+			],
+			"HToTauTau" : [
+				"#filter:RunLumiEventFilter",
+				"#producer:TauCorrectionsProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:PUWeightProducer",
+				"producer:GenParticleProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GenTauDecayModeProducer",
+				"producer:GenTauCPProducer",
+				"producer:TauSpinnerProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer"
+			],
+			"DY.?JetsToLL" : [
+				"#filter:RunLumiEventFilter",
+				"#producer:TauCorrectionsProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:PUWeightProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GenTauCPProducer",
+				"producer:TauSpinnerProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer"
+			],
+			"(?<!PFembedded).Run2012" : [
+				"#filter:RunLumiEventFilter",
+				"filter:JsonFilter",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:NicknameProducer"
+			],
+			"PFembedded" : [
+				"#filter:RunLumiEventFilter",
+				"filter:JsonFilter",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:EmbeddingWeightProducer",
+				"producer:NicknameProducer"
+			]
+		}
+	},
+	"JsonFiles_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#JSON_and_PU_re_weighting",
+	"JsonFiles" : {
+		"nick" : {
+			"Run2012" : [
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt"
+			]
+		}
+	},
+	"PileupWeightFile_documentation" : "https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#JSON_and_PU_re_weighting",
+	"PileupWeightFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2012_ReReco-600bins_OVER_MC_Summer12_PU_S10-600bins.root",
+			"Run2012" : "not needed"
+		}
+	},
+	"BosonPdgId" : {
+		"nick" : {
+			"default" : 0,
+			"DY.?JetsToLL" : 23,
+			"W.?JetsToLN" : 24,
+			"SUSY(BB|GluGluTo)HToTauTau" : 36,
+			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : 25
+		}
+	},
+
+	"genParticles" : ["genTau"]
+}
