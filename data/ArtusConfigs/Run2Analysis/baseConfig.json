@@ -27,8 +27,7 @@
 			"13TeV" : 62
 		}
 	},
-	"EventWhitelist" : [
-		179958661
+	"#EventWhitelist" : [
 	],
 	"OutputPath" : "output.root",
 	"Processors" : {
@@ -71,7 +70,6 @@
 				"/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-251252_13TeV_PromptReco_Collisions15_JSON.txt"
 			]
 		}
-	},
-	"genParticles" : ["genTau"]
+	}
 }
 

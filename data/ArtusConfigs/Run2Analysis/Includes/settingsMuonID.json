@@ -6,13 +6,11 @@
 	"Year" : 2015,
 	"MuonID" : "medium",
 	
-	"MuonIsoType" : "none",
+	"MuonIsoType" : "user",
 	"MuonIso" : "none",
 	
 	"MuonIsoSignalConeSize" : 0.3,
 	"MuonDeltaBetaCorrectionFactor" : 0.5,
-	"MuonIsoPtSumOverPtUpperThresholdEB" : 0.15,
-	"MuonIsoPtSumOverPtUpperThresholdEE" : 0.15,
 	
 	"MuonTrackDxyCut" : 0.045,
 	"MuonTrackDzCut" : 0.2
