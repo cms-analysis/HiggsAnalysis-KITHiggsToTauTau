@@ -1,1 +1,1 @@
-NAF_sample_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_2015-07-22.txt
+NAF_sample_Tau_Run2015B_PromptRecov1_13TeV_MINIAOD_2015-07-26.txt
