@@ -45,9 +45,9 @@ std::string ValidETPairCandidatesProducer::GetProducerId() const
 
 
 ValidEMPairCandidatesProducer::ValidEMPairCandidatesProducer() :
-	ValidDiTauPairCandidatesProducerBase<KMuon, KElectron>(
-			&HttTypes::product_type::m_validMuons,
-			&HttTypes::product_type::m_validElectrons
+	ValidDiTauPairCandidatesProducerBase<KElectron, KMuon>(
+			&HttTypes::product_type::m_validElectrons,
+			&HttTypes::product_type::m_validMuons
 	)
 {
 }
