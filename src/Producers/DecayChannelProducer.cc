@@ -613,8 +613,8 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	{
 		product.m_validElectrons.clear();
 		product.m_validMuons.clear();
-		product.m_validElectrons.push_back(static_cast<KElectron*>(diTauPair.first));
-		product.m_validMuons.push_back(static_cast<KMuon*>(diTauPair.second));	
+		product.m_validElectrons.push_back(static_cast<KElectron*>(diTauPair.second));
+		product.m_validMuons.push_back(static_cast<KMuon*>(diTauPair.first));
 	}
 
 	// set boolean veto variables
