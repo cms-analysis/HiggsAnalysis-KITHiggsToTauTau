@@ -195,7 +195,7 @@ public:
 	virtual std::string GetProducerId() const override;
 };
 
-class ValidEMPairCandidatesProducer: public ValidDiTauPairCandidatesProducerBase<KElectron, KMuon>
+class ValidEMPairCandidatesProducer: public ValidDiTauPairCandidatesProducerBase<KMuon, KElectron>
 {
 public:
 	ValidEMPairCandidatesProducer();

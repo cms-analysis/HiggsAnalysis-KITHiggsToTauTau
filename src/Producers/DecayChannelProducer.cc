@@ -577,8 +577,16 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	}
 	
 	// fill leptons ordered by flavour (according to channel definition)
-	product.m_flavourOrderedLeptons.push_back(lepton1);
-	product.m_flavourOrderedLeptons.push_back(lepton2);
+	if (m_decayChannel == HttEnumTypes::DecayChannel::EM)
+	{
+		product.m_flavourOrderedLeptons.push_back(lepton2);
+		product.m_flavourOrderedLeptons.push_back(lepton1);
+	}
+	else
+	{
+		product.m_flavourOrderedLeptons.push_back(lepton1);
+		product.m_flavourOrderedLeptons.push_back(lepton2);
+	}
 
 	// update valid leptons list with the leptons from the chosen pair
 	if (m_decayChannel == HttEnumTypes::DecayChannel::TT)
