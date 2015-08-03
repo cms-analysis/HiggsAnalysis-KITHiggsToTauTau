@@ -546,11 +546,6 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	DiTauPair diTauPair = product.m_validDiTauPairCandidates.at(0);
 	KLepton* lepton1 = diTauPair.first;
 	KLepton* lepton2 = diTauPair.second;
-
-	// validLeptons collection: necessary for jet overlap removal
-	product.m_validLeptons.clear();
-	product.m_validLeptons.push_back(lepton1);
-	product.m_validLeptons.push_back(lepton2);
 	
 	// fill leptons ordered by pt (high pt first)
 	if (lepton1->p4.Pt() >= lepton2->p4.Pt())
@@ -588,33 +583,68 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_flavourOrderedLeptons.push_back(lepton2);
 	}
 
+	// validLeptons collection: necessary for jet overlap removal
+	product.m_validLeptons.clear();
+	product.m_validLeptons.push_back(lepton1);
+	product.m_validLeptons.push_back(lepton2);
+	
 	// update valid leptons list with the leptons from the chosen pair
-	if (m_decayChannel == HttEnumTypes::DecayChannel::TT)
+	bool electronsCleared = false;
+	bool muonsCleared = false;
+	bool tausCleared = false;
+	for (std::vector<KLepton*>::iterator lepton = product.m_validLeptons.begin();
+	     lepton != product.m_validLeptons.begin(); ++lepton)
 	{
-		product.m_validTaus.clear();
-		product.m_validTaus.push_back(static_cast<KTau*>(diTauPair.first));
-		product.m_validTaus.push_back(static_cast<KTau*>(diTauPair.second));
+		if ((*lepton)->flavour() == KLeptonFlavour::ELECTRON)
+		{
+			if (! electronsCleared)
+			{
+				product.m_validElectrons.clear();
+				electronsCleared = true;
+			}
+			product.m_validElectrons.push_back(static_cast<KElectron*>(*lepton));
+		}
+		else if ((*lepton)->flavour() == KLeptonFlavour::MUON)
+		{
+			if (! muonsCleared)
+			{
+				product.m_validMuons.clear();
+				muonsCleared = true;
+			}
+			product.m_validMuons.push_back(static_cast<KMuon*>(*lepton));
+		}
+		else if ((*lepton)->flavour() == KLeptonFlavour::TAU)
+		{
+			if (! tausCleared)
+			{
+				product.m_validTaus.clear();
+				tausCleared = true;
+			}
+			product.m_validTaus.push_back(static_cast<KTau*>(*lepton));
+		}
 	}
-	if (m_decayChannel == HttEnumTypes::DecayChannel::MT)
+	
+	// resort leptons vectors if needed
+	std::sort(product.m_validLeptons.begin(), product.m_validLeptons.end(),
+	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
+	          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
+	if (electronsCleared && (product.m_validElectrons.size() > 1))
 	{
-		product.m_validMuons.clear();
-		product.m_validTaus.clear();
-		product.m_validMuons.push_back(static_cast<KMuon*>(diTauPair.first));
-		product.m_validTaus.push_back(static_cast<KTau*>(diTauPair.second));	
+		std::sort(product.m_validElectrons.begin(), product.m_validElectrons.end(),
+		          [](KElectron const* lepton1, KElectron const* lepton2) -> bool
+		          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
 	}
-	if (m_decayChannel == HttEnumTypes::DecayChannel::ET)
+	if (muonsCleared && (product.m_validMuons.size() > 1))
 	{
-		product.m_validElectrons.clear();
-		product.m_validTaus.clear();
-		product.m_validElectrons.push_back(static_cast<KElectron*>(diTauPair.first));
-		product.m_validTaus.push_back(static_cast<KTau*>(diTauPair.second));	
+		std::sort(product.m_validMuons.begin(), product.m_validMuons.end(),
+		          [](KMuon const* lepton1, KMuon const* lepton2) -> bool
+		          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
 	}
-	if (m_decayChannel == HttEnumTypes::DecayChannel::EM)
+	if (tausCleared && (product.m_validTaus.size() > 1))
 	{
-		product.m_validElectrons.clear();
-		product.m_validMuons.clear();
-		product.m_validElectrons.push_back(static_cast<KElectron*>(diTauPair.second));
-		product.m_validMuons.push_back(static_cast<KMuon*>(diTauPair.first));
+		std::sort(product.m_validTaus.begin(), product.m_validTaus.end(),
+		          [](KTau const* lepton1, KTau const* lepton2) -> bool
+		          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
 	}
 
 	// set boolean veto variables
