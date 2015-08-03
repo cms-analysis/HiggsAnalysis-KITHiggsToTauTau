@@ -24,13 +24,13 @@
 		"ElectronLowerPtCuts" : [
 			"13.0"
 		],
-		"ElectronUpperAbsEtaCut" : [
+		"ElectronUpperAbsEtaCuts" : [
 			"2.5"
 		],
 		"MuonLowerPtCuts" : [
 			"10.0"
 		],
-		"MuonUpperAbsEtaCut" : [
+		"MuonUpperAbsEtaCuts" : [
 			"2.4"
 		],
 		"DiTauPairMinDeltaRCut" : 0.3,
