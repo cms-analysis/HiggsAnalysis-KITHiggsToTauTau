@@ -1,0 +1,10 @@
+{
+	"GeneratorWeight": {
+		"nick": {
+
+			"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM" : 0.66993046207,
+			"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM" : 0.683948214732,
+			"TTJets_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM" : 0.331626362415
+		}
+	}
+}
