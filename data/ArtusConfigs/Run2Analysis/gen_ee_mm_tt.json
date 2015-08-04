@@ -1,0 +1,38 @@
+{
+	"ee" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "ee"
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"mm" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "mm"
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"tt" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	}
+}
