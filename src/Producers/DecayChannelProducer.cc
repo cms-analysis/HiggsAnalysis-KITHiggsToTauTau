@@ -459,19 +459,17 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_flavourOrderedLeptons.push_back(lepton1);
 		product.m_flavourOrderedLeptons.push_back(lepton2);
 	}
-
-	// validLeptons collection: necessary for jet overlap removal
-	product.m_validLeptons.clear();
-	product.m_validLeptons.push_back(lepton1);
-	product.m_validLeptons.push_back(lepton2);
 	
-	// update valid leptons list with the leptons from the chosen pair
+	// update valid leptons list with the leptons from the chosen pair: necessary for jet overlap removal
+	product.m_validLeptons.clear();
 	bool electronsCleared = false;
 	bool muonsCleared = false;
 	bool tausCleared = false;
-	for (std::vector<KLepton*>::iterator lepton = product.m_validLeptons.begin();
-	     lepton != product.m_validLeptons.begin(); ++lepton)
+	for (std::vector<KLepton*>::iterator lepton = product.m_ptOrderedLeptons.begin();
+	     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
 	{
+		product.m_validLeptons.push_back(*lepton);
+		
 		if ((*lepton)->flavour() == KLeptonFlavour::ELECTRON)
 		{
 			if (! electronsCleared)
@@ -499,29 +497,6 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 			}
 			product.m_validTaus.push_back(static_cast<KTau*>(*lepton));
 		}
-	}
-	
-	// resort leptons vectors if needed
-	std::sort(product.m_validLeptons.begin(), product.m_validLeptons.end(),
-	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
-	          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
-	if (electronsCleared && (product.m_validElectrons.size() > 1))
-	{
-		std::sort(product.m_validElectrons.begin(), product.m_validElectrons.end(),
-		          [](KElectron const* lepton1, KElectron const* lepton2) -> bool
-		          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
-	}
-	if (muonsCleared && (product.m_validMuons.size() > 1))
-	{
-		std::sort(product.m_validMuons.begin(), product.m_validMuons.end(),
-		          [](KMuon const* lepton1, KMuon const* lepton2) -> bool
-		          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
-	}
-	if (tausCleared && (product.m_validTaus.size() > 1))
-	{
-		std::sort(product.m_validTaus.begin(), product.m_validTaus.end(),
-		          [](KTau const* lepton1, KTau const* lepton2) -> bool
-		          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
 	}
 
 	// set boolean veto variables
