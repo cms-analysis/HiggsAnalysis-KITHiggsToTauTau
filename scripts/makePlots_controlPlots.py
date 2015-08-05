@@ -26,6 +26,8 @@ if __name__ == "__main__":
 	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
 	                    help="Samples. [Default: %(default)s]")
+	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
+	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
@@ -84,7 +86,8 @@ if __name__ == "__main__":
 						channel=channel,
 						category=category,
 						higgs_masses=args.higgs_masses,
-						normalise_signal_to_one_pb=False
+						normalise_signal_to_one_pb=False,
+						ztt_from_mc=args.ztt_from_mc
 				)
 
 				# handle possible JSON files

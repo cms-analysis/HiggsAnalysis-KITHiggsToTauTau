@@ -55,7 +55,4 @@ class EstimateZtt(estimatebase.EstimateBase):
 				else:
 					assert yield_inclusive_emb != 0.0
 					plotData.plotdict["root_objects"][ztt_plot_nick].Scale(yield_inclusive_mc / yield_inclusive_emb)
-			
-			else:
-				pass # TODO
 

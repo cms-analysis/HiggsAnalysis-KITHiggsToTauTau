@@ -127,52 +127,54 @@ class Sample(object):
 		Sample._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 	
-	def ztt(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
+	def ztt(self, config, channel, category, nick_suffix, lumi=19712.0, ztt_from_mc=False, **kwargs):
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 		
 		if channel in ["tt", "et", "mt", "em", "mm"]:
-			Sample._add_input(
-					config,
-					"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
-					channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
-					1.0,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["tt", "em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"ztt",
-					nick_suffix=nick_suffix
-			)
-			Sample._add_input(
-					config,
-					"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
-					channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
-					1.0,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["tt", "em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"noplot_ztt_emb_inc",
-					nick_suffix=nick_suffix
-			)
-			Sample._add_input(
-					config,
-					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"_dirIso" + ("_tt" if channel in ["tt", "em", "mm"] else "_ztt") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
-					lumi,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["tt", "em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"noplot_ztt_mc_inc",
-					nick_suffix=nick_suffix
-			)
-			Sample._add_input(
-					config,
-					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
-					channel+"_dirIso" + ("_tt" if channel in ["tt", "em", "mm"] else "_ztt") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
-					lumi,
-					"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["tt", "em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
-					"noplot_ztt_mc",
-					nick_suffix=nick_suffix
-			)
+			if ztt_from_mc:
+				Sample._add_input(
+						config,
+						"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+						channel+"_dirIso" + ("_tt" if channel in ["tt", "em", "mm"] else "_ztt") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						lumi,
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["tt", "em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+						"ztt",
+						nick_suffix=nick_suffix
+				)
+			else:
+				Sample._add_input(
+						config,
+						"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
+						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						1.0,
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["tt", "em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+						"ztt",
+						nick_suffix=nick_suffix
+				)
+				Sample._add_input(
+						config,
+						"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
+						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						1.0,
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["tt", "em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+						"noplot_ztt_emb_inc",
+						nick_suffix=nick_suffix
+				)
+				Sample._add_input(
+						config,
+						"DYJetsToLL_M_50_madgraph_8TeV/*.root",
+						channel+"_dirIso" + ("_tt" if channel in ["tt", "em", "mm"] else "_ztt") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						lumi,
+						"eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["tt", "em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)"),
+						"noplot_ztt_mc_inc",
+						nick_suffix=nick_suffix
+				)
 			
 			if not "EstimateZtt" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateZtt")
-			config.setdefault("ztt_from_mc", []).append(False)
+			config.setdefault("ztt_from_mc", []).append(ztt_from_mc)
 			config.setdefault("ztt_plot_nicks", []).append("ztt"+nick_suffix)
 			config.setdefault("ztt_mc_inc_nicks", []).append("noplot_ztt_mc_inc"+nick_suffix)
 			config.setdefault("ztt_emb_inc_nicks", []).append("noplot_ztt_emb_inc"+nick_suffix)
