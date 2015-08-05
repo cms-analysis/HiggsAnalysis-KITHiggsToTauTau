@@ -82,50 +82,65 @@ public:
 				std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons, settings.GetDiTauPairHltPathsWithoutCommonMatchRequired());
 				validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);
 				
-				// pt cuts in case only HLT path is matched
-				if (validDiTauPair && (commonHltPaths.size() == 1))
+				// pt cuts in case one or more HLT paths are matched
+				if (validDiTauPair)
 				{
-					// lepton 1
-					for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton1LowerPtCutsByIndex.begin();
-						 lowerPtCutByIndex != m_lepton1LowerPtCutsByIndex.end() && validDiTauPair; ++lowerPtCutByIndex)
+					//vector to hold the results for the individual HLTPaths, all results default to true
+					std::vector<bool> hltValidDiTauPair(commonHltPaths.size(), true);
+					for (std::vector<std::string>::size_type hltPathNumber = 0; hltPathNumber != commonHltPaths.size(); ++hltPathNumber)
 					{
-						if ((diTauPair.first->p4.Pt() <= *std::max_element(lowerPtCutByIndex->second.begin(), lowerPtCutByIndex->second.end())) &&
-						    boost::regex_search(commonHltPaths.at(0), boost::regex(settings.GetHltPaths().at(lowerPtCutByIndex->first), boost::regex::icase | boost::regex::extended)))
+						// lepton 1
+						for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton1LowerPtCutsByIndex.begin();
+							 lowerPtCutByIndex != m_lepton1LowerPtCutsByIndex.end() && hltValidDiTauPair.at(hltPathNumber); ++lowerPtCutByIndex)
 						{
-							validDiTauPair = false;
+							if ((diTauPair.first->p4.Pt() <= *std::max_element(lowerPtCutByIndex->second.begin(), lowerPtCutByIndex->second.end())) &&
+							    boost::regex_search(commonHltPaths.at(hltPathNumber), boost::regex(settings.GetHltPaths().at(lowerPtCutByIndex->first), boost::regex::icase | boost::regex::extended)))
+							{
+								hltValidDiTauPair.at(hltPathNumber) = false;
+							}
+						}
+					
+						// lepton 1
+						for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton1LowerPtCutsByHltName.begin();
+							 lowerPtCutByHltName != m_lepton1LowerPtCutsByHltName.end() && hltValidDiTauPair.at(hltPathNumber); ++lowerPtCutByHltName)
+						{
+							if ((diTauPair.first->p4.Pt() <= *std::max_element(lowerPtCutByHltName->second.begin(), lowerPtCutByHltName->second.end())) &&
+							    boost::regex_search(commonHltPaths.at(hltPathNumber), boost::regex(lowerPtCutByHltName->first, boost::regex::icase | boost::regex::extended)))
+							{
+								hltValidDiTauPair.at(hltPathNumber) = false;
+							}
+						}
+					
+						// lepton 2
+						for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton2LowerPtCutsByIndex.begin();
+							 lowerPtCutByIndex != m_lepton2LowerPtCutsByIndex.end() && hltValidDiTauPair.at(hltPathNumber); ++lowerPtCutByIndex)
+						{
+							if ((diTauPair.second->p4.Pt() <= *std::max_element(lowerPtCutByIndex->second.begin(), lowerPtCutByIndex->second.end())) &&
+							    boost::regex_search(commonHltPaths.at(hltPathNumber), boost::regex(settings.GetHltPaths().at(lowerPtCutByIndex->first), boost::regex::icase | boost::regex::extended)))
+							{
+								hltValidDiTauPair.at(hltPathNumber) = false;
+							}
+						}
+			
+						// lepton 2
+						for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton2LowerPtCutsByHltName.begin();
+						 lowerPtCutByHltName != m_lepton2LowerPtCutsByHltName.end() && hltValidDiTauPair.at(hltPathNumber); ++lowerPtCutByHltName)
+						{
+							if ((diTauPair.second->p4.Pt() <= *std::max_element(lowerPtCutByHltName->second.begin(), lowerPtCutByHltName->second.end())) &&
+							    boost::regex_search(commonHltPaths.at(hltPathNumber), boost::regex(lowerPtCutByHltName->first, boost::regex::icase | boost::regex::extended)))
+							{
+								hltValidDiTauPair.at(hltPathNumber) = false;
+							}
 						}
 					}
-					
-					// lepton 1
-					for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton1LowerPtCutsByHltName.begin();
-						 lowerPtCutByHltName != m_lepton1LowerPtCutsByHltName.end() && validDiTauPair; ++lowerPtCutByHltName)
+					//default validity of ditaupair to false and set it to true in case it is a valid pair for at least one HLTPath
+					validDiTauPair = false;
+					for (std::vector<bool>::const_iterator hltPathResult = hltValidDiTauPair.begin(); hltPathResult != hltValidDiTauPair.end(); ++hltPathResult)
 					{
-						if ((diTauPair.first->p4.Pt() <= *std::max_element(lowerPtCutByHltName->second.begin(), lowerPtCutByHltName->second.end())) &&
-						    boost::regex_search(commonHltPaths.at(0), boost::regex(lowerPtCutByHltName->first, boost::regex::icase | boost::regex::extended)))
+						if(*hltPathResult)
 						{
-							validDiTauPair = false;
-						}
-					}
-					
-					// lepton 2
-					for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton2LowerPtCutsByIndex.begin();
-						 lowerPtCutByIndex != m_lepton2LowerPtCutsByIndex.end() && validDiTauPair; ++lowerPtCutByIndex)
-					{
-						if ((diTauPair.second->p4.Pt() <= *std::max_element(lowerPtCutByIndex->second.begin(), lowerPtCutByIndex->second.end())) &&
-						    boost::regex_search(commonHltPaths.at(0), boost::regex(settings.GetHltPaths().at(lowerPtCutByIndex->first), boost::regex::icase | boost::regex::extended)))
-						{
-							validDiTauPair = false;
-						}
-					}
-					
-					// lepton 2
-					for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton2LowerPtCutsByHltName.begin();
-						 lowerPtCutByHltName != m_lepton2LowerPtCutsByHltName.end() && validDiTauPair; ++lowerPtCutByHltName)
-					{
-						if ((diTauPair.second->p4.Pt() <= *std::max_element(lowerPtCutByHltName->second.begin(), lowerPtCutByHltName->second.end())) &&
-						    boost::regex_search(commonHltPaths.at(0), boost::regex(lowerPtCutByHltName->first, boost::regex::icase | boost::regex::extended)))
-						{
-							validDiTauPair = false;
+							validDiTauPair = true;
+							break;
 						}
 					}
 				}
