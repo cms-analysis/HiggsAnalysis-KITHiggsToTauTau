@@ -75,6 +75,11 @@
 				]
 			},
 			"genDiLeptonDecayMode",
+			"decayMode_2",
+			"diLepEta",
+			"diLepPhi",
+			"diLepMetEta",
+			"diLepMetPhi",
 			"nVetoMuons",
 			"nLooseElectrons",
 			"nLooseMuons",
