@@ -228,6 +228,24 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			});
 		}
 	}
+
+	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+	{
+		std::string quantity = "decayMode_" + std::to_string(leptonIndex+1);
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(quantity, [leptonIndex](event_type const& event, product_type const& product)
+		{
+			assert(leptonIndex < product.m_flavourOrderedLeptons.size());
+			KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
+			if (lepton->flavour() == KLeptonFlavour::TAU)
+			{
+				return static_cast<KTau*>(lepton)->decayMode;
+			}
+			else
+			{
+				return DefaultValues::UndefinedInt;
+			}
+		});
+	}
 }
 
 void DecayChannelProducer::Produce(event_type const& event, product_type& product,
