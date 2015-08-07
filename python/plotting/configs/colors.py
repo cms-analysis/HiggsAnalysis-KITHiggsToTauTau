@@ -43,21 +43,21 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["totalbkg"] = "#000000"
 		
 		else: # if color_scheme.lower() == "cern":
-			self.colors_dict["zll"] = "#4496C8"
+			self.colors_dict["zll"] = "#000000 #4496C8"
 			self.colors_dict["zmm"] = self.colors_dict["zll"]
 			self.colors_dict["zee"] = self.colors_dict["zll"]
 			self.colors_dict["zl"]  = self.colors_dict["zll"]
 			self.colors_dict["zj"]  = self.colors_dict["zll"]
-			self.colors_dict["ztt"] = "#FFCC66"
-			self.colors_dict["tt"] = "#9999CC"
+			self.colors_dict["ztt"] = "#000000 #FFCC66"
+			self.colors_dict["tt"] = "#000000 #9999CC"
 			self.colors_dict["ttj"] = self.colors_dict["tt"]
 			self.colors_dict["ttbar"] = self.colors_dict["tt"]
-			self.colors_dict["wj"]  = "#DE5A6A"
+			self.colors_dict["wj"]  = "#000000 #DE5A6A"
 			self.colors_dict["wjets"]  = self.colors_dict["wj"]
 			self.colors_dict["vv"]  = self.colors_dict["wj"]
 			self.colors_dict["dibosons"]  = self.colors_dict["wj"]
 			self.colors_dict["ewk"]  = self.colors_dict["wj"]
-			self.colors_dict["qcd"] = "#FFCCFF"
+			self.colors_dict["qcd"] = "#000000 #FFCCFF"
 			self.colors_dict["fakes"] = self.colors_dict["qcd"]
 			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
 			self.colors_dict["htt"] = "#000000"
