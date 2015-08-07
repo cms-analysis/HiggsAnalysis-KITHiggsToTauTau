@@ -12,7 +12,6 @@ import os
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 
 
 if __name__ == "__main__":
@@ -24,7 +23,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
+	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
@@ -49,6 +48,8 @@ if __name__ == "__main__":
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
+	parser.add_argument("--run2", default=False, action="store_true",
+			    help="Use Run2 samples. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
@@ -70,6 +71,11 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	if not args.run2:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
+	else:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+
 	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
 	sample_settings = samples.Sample()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
