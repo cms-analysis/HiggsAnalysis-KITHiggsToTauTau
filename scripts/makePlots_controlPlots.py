@@ -67,6 +67,8 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/control_plots/",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--www", nargs="?", default=None, const="",
+	                    help="Publish plots. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -133,7 +135,17 @@ if __name__ == "__main__":
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)	
 
-				config["output_dir"] = os.path.expandvars(args.output_dir)
+				config["output_dir"] = os.path.expandvars(os.path.join(
+						args.output_dir,
+						channel if len(args.channels) > 1 else "",
+						category if len(args.categories) > 1 else ""
+				))
+				if not args.www is None:
+					config["www"] = os.path.expandvars(os.path.join(
+							args.www,
+							channel if len(args.channels) > 1 else "",
+							category if len(args.categories) > 1 else ""
+					))
 				plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
