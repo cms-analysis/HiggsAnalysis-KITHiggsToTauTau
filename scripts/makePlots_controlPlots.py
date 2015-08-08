@@ -75,7 +75,9 @@ if __name__ == "__main__":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
-
+	
+	if args.samples == parser.get_default("samples"):
+		args.samples = [sample for sample in args.samples if hasattr(samples.Sample, sample)]
 	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
 	sample_settings = samples.Sample()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
