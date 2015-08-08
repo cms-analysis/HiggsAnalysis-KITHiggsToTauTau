@@ -22,6 +22,7 @@ class HiggsPlotter(harry.HarryPlotter):
 		if not harry_args is None:
 			log.debug("higgsplot.py " + harry_args)
 		
+		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/input_modules")
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/analysis_modules")
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/plot_modules")
 		
