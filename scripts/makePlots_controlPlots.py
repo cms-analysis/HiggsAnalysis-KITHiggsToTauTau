@@ -115,6 +115,7 @@ if __name__ == "__main__":
 
 				if not json_exists:
 					config["x_expressions"] = quantity
+				config["x_bins"] = [channel+"_"+quantity]
 				config["x_label"] = channel+"_"+quantity
 				
 				if args.weight != parser.get_default("weight"):
