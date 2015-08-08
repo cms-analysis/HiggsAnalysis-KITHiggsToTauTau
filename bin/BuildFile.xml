@@ -23,6 +23,9 @@
 	<!-- dependencies of TauSpinner -->
 </bin>
 
+
+<!-- Compilation deactivated for swtich to python interface of CombineHarvester -->
+<!--
 <bin name="SMLegacyDatacards" file="SMLegacyDatacards.cc">
 	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
 	<Flags LDFLAGS="-rdynamic" />
@@ -47,3 +50,4 @@
 	<use name="HiggsAnalysis/KITHiggsToTauTau"/>
 	<flags EDM_PLUGIN="1"/>
 </bin>
+-->
