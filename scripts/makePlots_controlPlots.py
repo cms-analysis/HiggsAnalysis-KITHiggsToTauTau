@@ -99,24 +99,12 @@ if __name__ == "__main__":
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc
 				)
-
-				# handle possible JSON files
-				json_exists = True
-				json_config_file = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/{channel}_{quantity}.json".format(channel=channel, quantity=quantity))
-
-				if not os.path.exists(json_config_file):
-					json_exists = False
-					json_config_file =  os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/{channel}_default.json".format(channel=channel))
-
-				json_config = jsonTools.JsonDict(json_config_file).doIncludes().doComments()
-				config = copy.deepcopy(json_config) + config
-
-				config["directories"] = [args.input_dir]
-
-				if not json_exists:
-					config["x_expressions"] = quantity
+				
+				config["x_expressions"] = quantity
 				config["x_bins"] = [channel+"_"+quantity]
 				config["x_label"] = channel+"_"+quantity
+				
+				config["directories"] = [args.input_dir]
 				
 				if args.weight != parser.get_default("weight"):
 					if "weights" in config:
