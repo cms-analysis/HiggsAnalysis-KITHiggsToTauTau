@@ -9,6 +9,8 @@ import argparse
 import copy
 import os
 
+import combineharvester as ch
+
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
@@ -49,8 +51,6 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/datacards/",
 	                    help="Output directory. [Default: %(default)s]")
-	parser.add_argument("--www", nargs="?", default=None, const="",
-	                    help="Publish plots. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -59,11 +59,15 @@ if __name__ == "__main__":
 		args.samples = [sample for sample in args.samples if hasattr(samples.Sample, sample)]
 	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
 	sample_settings = samples.Sample()
-	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
+	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "ztt"]
 
 	args.categories = [None if category == "None" else category for category in args.categories]
-
+	
+	args.output_dir = os.path.expandvars(args.output_dir)
+	
 	plot_configs = []
+	root_filename_template = "${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
+	datacard_filename_template = "${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt"
 	for channel in args.channels:
 		for category in args.categories:
 			
@@ -89,19 +93,16 @@ if __name__ == "__main__":
 				else:
 					config["weights"] = args.weight
 			
-			config["output_dir"] = os.path.expandvars(os.path.join(
-					args.output_dir,
-					channel if len(args.channels) > 1 else "",
-					category if len(args.categories) > 1 else ""
-			))
-			if not args.www is None:
-				config["www"] = os.path.expandvars(os.path.join(
-						args.www,
-						channel if len(args.channels) > 1 else "",
-						category if len(args.categories) > 1 else ""
-				))
+			config["labels"] = [sample.replace("data", "data_obs") for sample in args.samples]
 			
+			config["output_dir"] = args.output_dir
+			config["filename"] = os.path.splitext(root_filename_template.format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					ERA="13TeV"
+			).replace("$", ""))[0]
 			config["plot_modules"] = ["ExportRoot"]
+			#config["file_mode"] = ["UPDATE"] # TODO delete files at first run
 			
 			if "legend_markers" in config:
 				config.pop("legend_markers")
@@ -113,4 +114,46 @@ if __name__ == "__main__":
 		pprint.pprint(plot_configs)
 			
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	
+	args.categories = ["None" if category is None else category for category in args.categories]
+	
+	# http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
+	cb = ch.CombineHarvester()
+	
+	cb.AddObservations(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)))
+	cb.AddProcesses(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=bkg_samples, signal=False)
+	cb.AddProcesses(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=["ztt"], signal=True)
+	
+	for channel in args.channels:
+		root_filename = os.path.join(args.output_dir, root_filename_template.format(
+				ANALYSIS="ztt",
+				CHANNEL=channel,
+				ERA="13TeV"
+		).replace("$", ""))
+		cb.cp().ExtractShapes(root_filename, "$PROCESS", "$PROCESS_$SYSTEMATIC")
+		
+		for index, category in enumerate(args.categories):
+			datacard_filename = os.path.join(args.output_dir, datacard_filename_template.format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					BINID=index,
+					ERA="13TeV"
+			).replace("$", ""))
+			root_filename = os.path.join(args.output_dir, "common", root_filename_template.format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					ERA="13TeV"
+			).replace("$", ""))
+			
+			if not os.path.exists(os.path.dirname(root_filename)):
+				os.makedirs(os.path.dirname(root_filename))
+			cb.cp().channel([channel]).WriteDatacard(datacard_filename, root_filename)
+	
+	#cb.PrintAll()
+	
+	"""
+	writer = ch.CardWriter(datacard_filename_template.replace("{", "").replace("}", ""),
+	                       os.path.join("common", root_filename_template.replace("{", "").replace("}", "")))
+	writer.WriteCards(args.output_dir, cb)
+	"""
 
