@@ -54,7 +54,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["ttbar"] = self.colors_dict["tt"]
 			self.colors_dict["wj"]  = "#000000 #DE5A6A"
 			self.colors_dict["wjets"]  = self.colors_dict["wj"]
-			self.colors_dict["vv"]  = self.colors_dict["wj"]
+			self.colors_dict["vv"]  = "#000000 #6F2D35"
 			self.colors_dict["dibosons"]  = self.colors_dict["wj"]
 			self.colors_dict["ewk"]  = self.colors_dict["wj"]
 			self.colors_dict["qcd"] = "#000000 #FFCCFF"
