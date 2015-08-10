@@ -37,7 +37,6 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"#producer:TauCorrectionsProducer",
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -49,7 +48,6 @@
 					"producer:EventWeightProducer"
 				],
 				"Run2012" : [
-					"#producer:TauCorrectionsProducer",
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",

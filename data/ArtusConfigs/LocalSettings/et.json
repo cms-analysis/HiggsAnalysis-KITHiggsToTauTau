@@ -111,7 +111,6 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"#producer:TauCorrectionsProducer",
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
@@ -155,7 +154,7 @@
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
-					"#producer:TauCorrectionsProducer",
+					"producer:TauCorrectionsProducer",
 					"producer:GenDiLeptonDecayModeProducer",
 					"filter:GenDiLeptonDecayModeFilter",
 					"filter:LooseElectronsCountFilter",
@@ -201,7 +200,7 @@
 					"producer:EventWeightProducer"
 				],
 				"(?<!PFembedded).Run2012" : [
-					"#producer:TauCorrectionsProducer",
+					"producer:TauCorrectionsProducer",
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HttTriggerSettingsProducer",
@@ -237,7 +236,7 @@
 					"producer:EventWeightProducer"
 				],
 				"PFembedded" : [
-					"#producer:TauCorrectionsProducer",
+					"producer:TauCorrectionsProducer",
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",

@@ -116,7 +116,6 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"producer:TauCorrectionsProducer",
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
