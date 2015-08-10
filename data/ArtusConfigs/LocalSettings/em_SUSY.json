@@ -91,7 +91,6 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"#producer:TauCorrectionsProducer",
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
@@ -124,7 +123,6 @@
 					"producer:EventWeightProducer"
 				],
 				"Run2012" : [
-					"#producer:TauCorrectionsProducer",
 					"filter:LooseElectronsCountFilter",
 					"filter:LooseMuonsCountFilter",
 					"producer:HltProducer",
