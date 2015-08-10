@@ -39,7 +39,6 @@
 			],
 			"HToTauTau" : [
 				"#filter:RunLumiEventFilter",
-				"producer:TauCorrectionsProducer",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
 				"producer:HttValidLooseMuonsProducer",
@@ -56,7 +55,6 @@
 			],
 			"DY.?JetsToLL" : [
 				"#filter:RunLumiEventFilter",
-				"producer:TauCorrectionsProducer",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
 				"producer:HttValidLooseMuonsProducer",
