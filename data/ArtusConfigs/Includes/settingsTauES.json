@@ -1,7 +1,7 @@
 {
 	"TauEnergyCorrection" : {
 		"nick" : {
-			"HToTauTau|DY.?JetsToLL" : "Summer2013"
+			"HToTauTau|DY.?JetsToLL|(?<!PFembedded).Run2012|PFembedded" : "Summer2013"
 		}
 	}
 }
