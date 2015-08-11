@@ -75,11 +75,9 @@ if __name__ == "__main__":
 	args.categories = [None if category == "None" else category for category in args.categories]
 			
 	sample_ztt = [getattr(samples.Sample, "ztt")]
-	sample_data = [getattr(samples.Sample, "data")]
-	sample_bkg = [getattr(samples.Sample, sample) for sample in args.samples if sample not in ("ztt","data") ]
+	sample_rest = [getattr(samples.Sample, sample) for sample in args.samples if sample != "ztt" ]
 	
 	es_shifts=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06]
-	#es_shifts=[0.92]
 	
 	plot_configs = []
 	for channel in args.channels:
@@ -92,80 +90,26 @@ if __name__ == "__main__":
 						channel=channel,
 						category=category,
 						nick_suffix="_" + str(shift),
-						higgs_masses=args.higgs_masses,
-						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc
 				)
 
 				config_ztt["x_expressions"] = [quantity + "*" + str(shift)]
 				config_ztt["stacks"] = ["bkg"]
 				
-				config_bkg = sample_settings.get_config(
-						samples=sample_bkg,
+				# config for rest
+				config_rest = sample_settings.get_config(
+						samples=sample_rest,
 						channel=channel,
-						category=category,
-						higgs_masses=args.higgs_masses,
-						normalise_signal_to_one_pb=False
+						category=category
 				)
 
-				config_bkg["x_expressions"] = [quantity]
-				
-				config_data = sample_settings.get_config(
-						samples=sample_data,
-						channel=channel,
-						category=category,
-						higgs_masses=args.higgs_masses,
-						normalise_signal_to_one_pb=False
-				)
-
-				config_data["x_expressions"] = [quantity]
+				config_rest["x_expressions"] = [quantity] * len([nick for nick in config_rest["nicks"] if not "noplot" in nick])
+				config_rest["stacks"] = ["bkg" if nick != "data" else "data" for nick in config_rest["nicks"] if not "noplot" in nick]
 
 				# merge configs
-				merged_config = copy.deepcopy(config_ztt)
+				merged_config = samples.Sample.merge_configs(config_ztt, config_rest)
 
-				for key in [
-						"nicks",
-						"directories",
-						"files",
-						"folders",
-						"x_expressions",
-						"scale_factors",
-						"weights",
-						"stacks",
-						"markers",
-						"legend_markers",
-						"colors",
-						"labels",
-				]:
-					if key in merged_config or key in config_bkg:
-						merged_config.setdefault(key, []).extend(config_bkg.get(key, []))
-
-					for key, value in config_bkg.iteritems():
-						if not key in merged_config:
-							merged_config[key] = value
-
-				for key in [
-						"nicks",
-						"directories",
-						"files",
-						"folders",
-						"x_expressions",
-						"scale_factors",
-						"weights",
-						"stacks",
-						"markers",
-						"legend_markers",
-						"colors",
-						"labels",
-				]:
-					if key in merged_config or key in config_data:
-						merged_config.setdefault(key, []).extend(config_data.get(key, []))
-
-					for key, value in config_data.iteritems():
-						if not key in merged_config:
-							merged_config[key] = value			
-				
-				
+				merged_config["legend_markers"] = ["F" if label != "data" else "ELP" for label in merged_config["labels"]]
 				merged_config["directories"] = [args.input_dir]
 				merged_config["output_dir"] = os.path.expandvars(args.output_dir)
 				merged_config["filename"] = "m_2_shift" + str(shift)
