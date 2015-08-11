@@ -30,7 +30,7 @@ class Sample(object):
 		if not category is None:
 			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
 		
-		#config.setdefault("analysis_modules", []).append("@CorrectNegativeBinContents")
+		config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
 		config.setdefault("analysis_modules", []).append("PrintInfos")
 		
 		config["nicks_blacklist"] = ["noplot"]
@@ -215,6 +215,27 @@ class Sample(object):
 		
 		Sample._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
+
+	def vv(self, config, channel, category, nick_suffix, lumi=40.03, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+		
+		if channel in ["mt", "et", "em"]:
+			Sample._add_input(
+					config,
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
+					lumi,
+					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"vv",
+					nick_suffix=nick_suffix
+			)
+		else:
+			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
+		
+		Sample._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
+		return config
 	
 	def wj(self, config, channel, category, nick_suffix, lumi=40.03, **kwargs):
 		scale_factor = lumi
@@ -236,7 +257,7 @@ class Sample(object):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_z/ntuple",
 					1.0,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"1.0" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_wj_data_control"
 			)
 			Sample._add_input(
@@ -268,6 +289,15 @@ class Sample(object):
 			)
 			Sample._add_input(
 					config,
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					channel+"_z/ntuple",
+					lumi,
+					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"noplot_vv_wj_control",
+					nick_suffix=nick_suffix
+			)
+			Sample._add_input(
+					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
@@ -289,7 +319,7 @@ class Sample(object):
 				config.setdefault("analysis_modules", []).append("EstimateWjets")
 			config.setdefault("wjets_shape_nicks", []).append("wj"+nick_suffix)
 			config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_data_control"+nick_suffix)
-			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_wj_control noplot_zll_wj_control noplot_ttj_wj_control".split()]))
+			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_wj_control noplot_zll_wj_control noplot_ttj_wj_control noplot_vv_wj_control".split()]))
 			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_mc_signal"+nick_suffix)
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_mc_control"+nick_suffix)
 
@@ -334,7 +364,7 @@ class Sample(object):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_z/ntuple",
 					1.0,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_wj_ss_data_control",
@@ -375,6 +405,17 @@ class Sample(object):
 			)
 			Sample._add_input(
 					config,
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					channel+"_z/ntuple",
+					lumi,
+					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
+						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
+					"noplot_vv_ss_wj_control",
+					nick_suffix=nick_suffix
+			)
+			Sample._add_input(
+					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
@@ -400,7 +441,7 @@ class Sample(object):
 				config.setdefault("analysis_modules", []).append("EstimateWjets")
 			config.setdefault("wjets_shape_nicks", []).append("noplot_wj_ss"+nick_suffix)
 			config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_ss_data_control"+nick_suffix)
-			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control".split()]))
+			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
 			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_ss_mc_signal"+nick_suffix)
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
 
@@ -410,7 +451,7 @@ class Sample(object):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_z/ntuple",
 					1.0,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+					"((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"qcd",
@@ -449,20 +490,32 @@ class Sample(object):
 					"noplot_ttj_qcd_control",
 					nick_suffix=nick_suffix
 			)
+			Sample._add_input(
+					config,
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					channel+"_z/ntuple",
+					lumi,
+					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
+						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
+					"noplot_vv_qcd_control",
+					nick_suffix=nick_suffix
+			)
 			
 			if not "EstimateQcd" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateQcd")
 			config.setdefault("qcd_data_control_nicks", []).append("qcd"+nick_suffix)
-			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_wj_ss".split()]))
+			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
 			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06)
+			config.setdefault("qcd_subtract_shape", []).append(True)
 
 		elif channel == "em":
 			Sample._add_input(
 					config,
-					"MuEG_Run2012?_22Jan2013_8TeV/*.root",
-					"em_dirIso/ntuple",
+					"MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
+					channel+"/ntuple",
 					1.0,
-					"eventWeight*((q_1*q_2)>0.0)",
+					"((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_1 < 0.15)*(iso_2 < 0.15)",
 					"qcd",
 					nick_suffix=nick_suffix
 			)
@@ -509,7 +562,7 @@ cutSequenceDict = {
 		"(extraelec_veto < 0.5)*(extramuon_veto < 0.5)",
 		"(iso_1 < 0.15)",
 		"(iso_2 < 0.15)",
-		"1."]
+		"1.0"]
 }
 
 def cut_string(channel, cut_step):
