@@ -30,8 +30,9 @@ class Sample(object):
 		if not category is None:
 			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
 		
-		config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
 		config.setdefault("analysis_modules", []).append("PrintInfos")
+		config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
+		config.setdefault("nicks_correct_negative_bins", []).append("qcd"+nick_suffix)
 		
 		config["nicks_blacklist"] = ["noplot"]
 		#config["file_mode"] = "UPDATE"
