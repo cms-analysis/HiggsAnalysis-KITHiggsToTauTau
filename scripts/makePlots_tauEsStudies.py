@@ -26,7 +26,7 @@ if __name__ == "__main__":
 	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
 	                    help="Samples. [Default: %(default)s]")
-	parser.add_argument("--ztt-from-mc", default=True, action="store_false",
+	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")  
 	parser.add_argument("--channels", nargs="*",
 	                    default=["mt"],
@@ -77,56 +77,82 @@ if __name__ == "__main__":
 	sample_ztt = [getattr(samples.Sample, "ztt")]
 	sample_rest = [getattr(samples.Sample, sample) for sample in args.samples if sample != "ztt" ]
 	
-	es_shifts=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06]
+#	es_shifts=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06]
+	es_shifts=[1.01]
 	
 	plot_configs = []
 	for channel in args.channels:
-		for shift in es_shifts:
-			for quantity in args.quantities:
-				
+		for quantity in args.quantities:
+
+			merged_config={}
+
+			for index, shift in enumerate(es_shifts):
 				# first config for the ztt nick
 				config_ztt = sample_settings.get_config(
 						samples=sample_ztt,
 						channel=channel,
 						category=category,
-						nick_suffix="_" + str(shift),
+						nick_suffix="_" + str(shift).replace(".", "_"),
 						ztt_from_mc=args.ztt_from_mc
 				)
 
-				config_ztt["x_expressions"] = [quantity + "*" + str(shift)]
-				config_ztt["stacks"] = ["bkg"]
-				
-				# config for rest
-				config_rest = sample_settings.get_config(
-						samples=sample_rest,
-						channel=channel,
-						category=category
-				)
+				config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
+				config_ztt["labels"] = ["text/ztt_" + str(shift).replace(".", "_")]
+				config_ztt["stacks"] = [stack.replace("_" + str(shift).replace(".", "_"), "") for stack in config_ztt["stacks"]]
+				#config_ztt["weights"] =
 
-				config_rest["x_expressions"] = [quantity] * len([nick for nick in config_rest["nicks"] if not "noplot" in nick])
-				config_rest["stacks"] = ["bkg" if nick != "data" else "data" for nick in config_rest["nicks"] if not "noplot" in nick]
+			#	print config_ztt["nicks_blacklist"]
+			#	if (index != 0):
+			#		config_ztt.setdefault("nicks_blacklist", []).append("ztt_" + str(shift).replace(".", "_"))
 
 				# merge configs
-				merged_config = samples.Sample.merge_configs(config_ztt, config_rest)
+				merged_config = samples.Sample.merge_configs(merged_config, config_ztt, additional_keys=["ztt_emb_inc_nicks","ztt_from_mc","ztt_mc_inc_nicks","ztt_plot_nicks","nicks_blacklist",""])
 
-				merged_config["legend_markers"] = ["F" if label != "data" else "ELP" for label in merged_config["labels"]]
-				merged_config["directories"] = [args.input_dir]
-				merged_config["output_dir"] = os.path.expandvars(args.output_dir)
-				merged_config["filename"] = "m_2_shift" + str(shift)
-				
-				if args.ratio:
-					bkg_samples_used = ["ztt_" + str(shift)]
-					bkg_samples_used = bkg_samples_used + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
-					merged_config.setdefault("analysis_modules", []).append("Ratio")
-					merged_config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
-					merged_config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
-					merged_config.setdefault("colors", []).extend(["#000000"] * 2)
-					merged_config.setdefault("markers", []).extend(["E2", "E"])
-					merged_config.setdefault("legend_markers", []).extend(["ELP"]*2)
-					merged_config.setdefault("labels", []).extend([""] * 2)	
-				
-				# append merged config to plot configs
-				plot_configs.append(merged_config)
+			# config for rest
+			config_rest = sample_settings.get_config(
+					samples=sample_rest,
+					channel=channel,
+					category=category
+			)
+
+			#config_rest["x_expressions"] = [quantity] * len([nick for nick in config_rest["nicks"] if not "noplot" in nick])
+			config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
+			#config_rest["stacks"] = ["bkg" if nick != "data" else "data" for nick in config_rest["nicks"] if not "noplot" in nick]
+
+			# merge configs
+			merged_config = samples.Sample.merge_configs(merged_config, config_rest)
+
+			#merged_config["legend_markers"] = ["F" if label != "data" else "ELP" for label in merged_config["labels"]]
+			merged_config["directories"] = [args.input_dir]
+			merged_config["nicks_blacklist"].append("noplot")
+			merged_config["output_dir"] = os.path.expandvars(args.output_dir)
+			merged_config["filename"] = "m_2_shift" + str(shift)
+
+			bkg_samples_used = ["ztt_" + str(shift).replace(".", "_")]
+			bkg_samples_used = bkg_samples_used + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
+
+			merged_config.setdefault("histogram_nicks", []).extend([" ".join(bkg_samples_used)])
+			merged_config.setdefault("sum_result_nicks", []).append("noplot_sum")
+			merged_config.setdefault("chi2test_nicks", []).append("noplot_sum data")
+
+			#analysis_modules
+			merged_config.setdefault("analysis_modules", []).append("AddHistograms")
+			merged_config.setdefault("analysis_modules", []).append("PrintInfos")
+			merged_config.setdefault("analysis_modules", []).append("Chi2Test")
+
+			if args.ratio:
+				bkg_samples_used = ["ztt_" + str(shift).replace(".", "_")]
+				bkg_samples_used = bkg_samples_used + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
+				merged_config.setdefault("analysis_modules", []).append("Ratio")
+				merged_config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
+				merged_config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
+				merged_config.setdefault("colors", []).extend(["#000000"] * 2)
+				merged_config.setdefault("markers", []).extend(["E2", "E"])
+				merged_config.setdefault("legend_markers", []).extend(["ELP"]*2)
+				merged_config.setdefault("labels", []).extend([""] * 2)
+
+			# append merged config to plot configs
+			plot_configs.append(merged_config)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
