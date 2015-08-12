@@ -36,7 +36,7 @@ class Sample(object):
 		return config.doIncludes().doComments()
 		
 	@staticmethod
-	def merge_configs(config1, config2):
+	def merge_configs(config1, config2, additional_keys = []):
 		merged_config = copy.deepcopy(config1)
 		
 		for key in [
@@ -59,7 +59,8 @@ class Sample(object):
 				"markers",
 				"colors",
 				"labels",
-		]:
+				"legend_markers"
+		] + additional_keys:
 			if key in merged_config or key in config2:
 				merged_config.setdefault(key, []).extend(config2.get(key, []))
 		
