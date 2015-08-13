@@ -151,5 +151,6 @@ if __name__ == "__main__":
 	writer = ch.CardWriter(os.path.join(args.output_dir, datacard_filename_template.replace("{", "").replace("}", "")),
 	                       os.path.join(args.output_dir, "common", root_filename_template.replace("{", "").replace("}", "")))
 	writer.SetVerbosity(1)
+	# TODO: writer.WriteCards seems to ignore args.output_dir, therefore it is added to ch.CardWriter
 	writer.WriteCards(args.output_dir, cb)
 
