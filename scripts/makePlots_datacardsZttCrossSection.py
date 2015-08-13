@@ -79,7 +79,7 @@ if __name__ == "__main__":
 			)
 			
 			config["x_expressions"] = args.quantity
-			config["x_bins"] = [channel+"_"+args.quantity]
+			#config["x_bins"] = [channel+"_"+args.quantity]
 			config["x_label"] = channel+"_"+args.quantity
 			
 			config["directories"] = [args.input_dir]
@@ -115,14 +115,15 @@ if __name__ == "__main__":
 			
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	
-	args.categories = ["None" if category is None else category for category in args.categories]
+	args.categories = ["inclusive" if category is None else category for category in args.categories]
 	
 	# http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
 	cb = ch.CombineHarvester()
+	cb.SetVerbosity(1)
 	
 	cb.AddObservations(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)))
 	cb.AddProcesses(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=bkg_samples, signal=False)
-	cb.AddProcesses(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=["ztt"], signal=True)
+	cb.AddProcesses(mass=["90"], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=["ztt"], signal=True)
 	
 	for channel in args.channels:
 		root_filename = os.path.join(args.output_dir, root_filename_template.format(
@@ -130,7 +131,7 @@ if __name__ == "__main__":
 				CHANNEL=channel,
 				ERA="13TeV"
 		).replace("$", ""))
-		cb.cp().ExtractShapes(root_filename, "$PROCESS", "$PROCESS_$SYSTEMATIC")
+		cb.cp().channel([channel]).ExtractShapes(root_filename, "$PROCESS", "$PROCESS_$SYSTEMATIC")
 		
 		for index, category in enumerate(args.categories):
 			datacard_filename = os.path.join(args.output_dir, datacard_filename_template.format(
@@ -144,16 +145,11 @@ if __name__ == "__main__":
 					CHANNEL=channel,
 					ERA="13TeV"
 			).replace("$", ""))
-			
-			if not os.path.exists(os.path.dirname(root_filename)):
-				os.makedirs(os.path.dirname(root_filename))
-			cb.cp().channel([channel]).WriteDatacard(datacard_filename, root_filename)
 	
-	#cb.PrintAll()
+	cb.PrintAll()
 	
-	"""
-	writer = ch.CardWriter(datacard_filename_template.replace("{", "").replace("}", ""),
-	                       os.path.join("common", root_filename_template.replace("{", "").replace("}", "")))
+	writer = ch.CardWriter(os.path.join(args.output_dir, datacard_filename_template.replace("{", "").replace("}", "")),
+	                       os.path.join(args.output_dir, "common", root_filename_template.replace("{", "").replace("}", "")))
+	writer.SetVerbosity(1)
 	writer.WriteCards(args.output_dir, cb)
-	"""
 
