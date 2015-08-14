@@ -10,10 +10,10 @@ import copy
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 
 
-class Sample(samples.SamplesBase):
+class Samples(samples.SamplesBase):
 
 	def __init__(self):
-		super(Sample, self).__init__()
+		super(Samples, self).__init__()
 	
 	def data(self, config, channel, category, nick_suffix, **kwargs):
 		scale_factor = 1.0
@@ -21,7 +21,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
 		
 		if channel == "tt":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 					"tt_dirIso_tauEs/ntuple",
@@ -31,7 +31,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel in ["et", "mt"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -41,7 +41,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"MuEG_Run2012?_22Jan2013_8TeV/*.root",
 					"em_dirIso/ntuple",
@@ -51,7 +51,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "mm":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DoubleMu*_Run2012?_22Jan2013_8TeV/*.root",
 					"mm_dirIso/ntuple",
@@ -63,7 +63,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 	
 	def ztt(self, config, channel, category, nick_suffix, lumi=19712.0, ztt_from_mc=False, **kwargs):
@@ -73,7 +73,7 @@ class Sample(samples.SamplesBase):
 		
 		if channel in ["tt", "et", "mt", "em", "mm"]:
 			if ztt_from_mc:
-				Sample._add_input(
+				Samples._add_input(
 						config,
 						"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 						channel+"_dirIso" + ("_tt" if channel in ["tt", "em", "mm"] else "_ztt") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -83,7 +83,7 @@ class Sample(samples.SamplesBase):
 						nick_suffix=nick_suffix
 				)
 			else:
-				Sample._add_input(
+				Samples._add_input(
 						config,
 						"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -92,7 +92,7 @@ class Sample(samples.SamplesBase):
 						"ztt",
 						nick_suffix=nick_suffix
 				)
-				Sample._add_input(
+				Samples._add_input(
 						config,
 						"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -101,7 +101,7 @@ class Sample(samples.SamplesBase):
 						"noplot_ztt_emb_inc",
 						nick_suffix=nick_suffix
 				)
-				Sample._add_input(
+				Samples._add_input(
 						config,
 						"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 						channel+"_dirIso" + ("_tt" if channel in ["tt", "em", "mm"] else "_ztt") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -121,7 +121,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
 		
 		return config
 	
@@ -131,7 +131,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZL", 1.0)
 		
 		if channel in ["tt", "et", "mt", "em", "mm"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					(channel+"_dirIso_ee" + ("_tauEsNom" if channel == "tt" else "") + "/ntuple "+channel+"_dirIso_mm" + ("_tauEsNom" if channel == "tt" else "") + "/ntuple") if channel in ["tt", "em", "mm"] else channel+"_dirIso_zl_tauEsNom/ntuple",
@@ -143,7 +143,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
 		return config
 	
 	def zj(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
@@ -152,7 +152,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZJ", 1.0)
 		
 		if channel in ["et", "mt"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_zj_tauEsNom/ntuple",
@@ -161,7 +161,7 @@ class Sample(samples.SamplesBase):
 					"zj"
 			)
 			
-			Sample._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
+			Samples._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
 		elif channel in ["tt", "em", "mm"]:
 			pass
 		else:
@@ -175,7 +175,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		
 		if channel in ["et", "mt"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -185,7 +185,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TTJetsTo*_madgraph_tauola_8TeV/*.root",
 					"em_dirIso/ntuple",
@@ -194,7 +194,7 @@ class Sample(samples.SamplesBase):
 					"ttj",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"T*_powheg_tauola_8TeV/*.root",
 					"em_dirIso/ntuple",
@@ -204,7 +204,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel in ["tt", "mm"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TTJetsTo*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso" + ("_tauEs" if channel == "tt" else "") + "/ntuple",
@@ -216,7 +216,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 	
 	def vv(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
@@ -225,7 +225,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 		
 		if channel in ["tt", "et", "mt", "em"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -235,7 +235,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "mm":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??_pythia_tauola_8TeV/*.root",
 					channel+"_dirIso/ntuple",
@@ -247,7 +247,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 	
 	def wj(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
@@ -256,7 +256,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 		
 		if channel == "tt":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					"tt_dirIso_tauEs/ntuple",
@@ -266,7 +266,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel in ["et", "mt"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -275,7 +275,7 @@ class Sample(samples.SamplesBase):
 					"wj",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -283,7 +283,7 @@ class Sample(samples.SamplesBase):
 					"eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt>70.0)",
 					"noplot_wj_data_control"
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
@@ -292,7 +292,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ztt_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
@@ -301,7 +301,7 @@ class Sample(samples.SamplesBase):
 					"noplot_zll_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -310,7 +310,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ttj_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -319,7 +319,7 @@ class Sample(samples.SamplesBase):
 					"noplot_vv_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -328,7 +328,7 @@ class Sample(samples.SamplesBase):
 					"noplot_wj_mc_signal",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -347,7 +347,7 @@ class Sample(samples.SamplesBase):
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_mc_control"+nick_suffix)
 			
 		elif channel in ["em", "mm"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					channel+"_dirIso/ntuple",
@@ -360,7 +360,7 @@ class Sample(samples.SamplesBase):
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
 		
 		if not kwargs.get("no_plot", False):
-			Sample._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
+			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
 	
 	def qcd(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
@@ -369,7 +369,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("QCD", 1.0)
 		
 		if channel == "tt":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 					"tt_dirIso_tauEs/ntuple",
@@ -378,7 +378,7 @@ class Sample(samples.SamplesBase):
 					"qcd",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					"tt_dirIso_tt_tauEsNom/ntuple",
@@ -387,7 +387,7 @@ class Sample(samples.SamplesBase):
 					"qcd",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					"tt_dirIso_ee_tauEsNom/ntuple tt_dirIso_mm_tauEsNom/ntuple",
@@ -396,7 +396,7 @@ class Sample(samples.SamplesBase):
 					"qcd",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
 					"tt_dirIso_tauEs/ntuple",
@@ -405,7 +405,7 @@ class Sample(samples.SamplesBase):
 					"qcd",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					"tt_dirIso_tauEs/ntuple",
@@ -414,7 +414,7 @@ class Sample(samples.SamplesBase):
 					"qcd",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					"tt_dirIso_tauEs/ntuple",
@@ -425,7 +425,7 @@ class Sample(samples.SamplesBase):
 			)
 
 		elif channel in ["et", "mt"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -434,7 +434,7 @@ class Sample(samples.SamplesBase):
 					"noplot_wj_ss",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -443,7 +443,7 @@ class Sample(samples.SamplesBase):
 					"noplot_wj_ss_data_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
@@ -452,7 +452,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ztt_ss_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
@@ -461,7 +461,7 @@ class Sample(samples.SamplesBase):
 					"noplot_zll_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -470,7 +470,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ttj_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -479,7 +479,7 @@ class Sample(samples.SamplesBase):
 					"noplot_vv_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -488,7 +488,7 @@ class Sample(samples.SamplesBase):
 					"noplot_wj_ss_mc_signal",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLN_madgraph_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -507,7 +507,7 @@ class Sample(samples.SamplesBase):
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
 			
 			# QCD
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -516,7 +516,7 @@ class Sample(samples.SamplesBase):
 					"qcd",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
@@ -525,7 +525,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ztt_mc_qcd_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_zl_tauEsNom/ntuple "+channel+"_dirIso_zj_tauEsNom/ntuple",
@@ -534,7 +534,7 @@ class Sample(samples.SamplesBase):
 					"noplot_zll_qcd_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TTJets*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -543,7 +543,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ttj_qcd_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
@@ -560,7 +560,7 @@ class Sample(samples.SamplesBase):
 			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06)
 			
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"MuEG_Run2012?_22Jan2013_8TeV/*.root",
 					"em_dirIso/ntuple",
@@ -570,7 +570,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "mm":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DoubleMu*_Run2012?_22Jan2013_8TeV/*.root",
 					"mm_dirIso/ntuple",
@@ -583,7 +583,7 @@ class Sample(samples.SamplesBase):
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 		
 		if not kwargs.get("no_plot", False):
-			Sample._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
+			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 	
 	def qcdwj(self, config, channel, category, nick_suffix, lumi=19712.0, **kwargs):
@@ -594,7 +594,7 @@ class Sample(samples.SamplesBase):
 		config.setdefault("histogram_nicks", []).append(" ".join([sample+nick_suffix+"_noplot" for sample in ["qcd", "wj"]]))
 		config.setdefault("sum_result_nicks", []).append("qcdwj"+nick_suffix)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "qcdwj", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "qcdwj", nick_suffix)
 		return config
 	
 	def htt(self, config, channel, category, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
@@ -608,7 +608,7 @@ class Sample(samples.SamplesBase):
 			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
 			
-			Sample._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
 	def ggh(self, config, channel, category, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
@@ -618,7 +618,7 @@ class Sample(samples.SamplesBase):
 		
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm"]:
-				Sample._add_input(
+				Samples._add_input(
 						config,
 						"SM_GluGluToHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -631,7 +631,7 @@ class Sample(samples.SamplesBase):
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Sample._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
 	def qqh(self, config, channel, category, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
@@ -641,7 +641,7 @@ class Sample(samples.SamplesBase):
 		
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm"]:
-				Sample._add_input(
+				Samples._add_input(
 						config,
 						"SM_VBFHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -654,7 +654,7 @@ class Sample(samples.SamplesBase):
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Sample._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
 	def vh(self, config, channel, category, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, **kwargs):
@@ -664,7 +664,7 @@ class Sample(samples.SamplesBase):
 		
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm"]:
-				Sample._add_input(
+				Samples._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -673,7 +673,7 @@ class Sample(samples.SamplesBase):
 						"WH%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
-				Sample._add_input(
+				Samples._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
@@ -686,6 +686,6 @@ class Sample(samples.SamplesBase):
 				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Sample._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 

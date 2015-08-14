@@ -54,7 +54,7 @@ if __name__ == "__main__":
 	args.output_dir = os.path.expandvars(args.output_dir)
 	
 	# initialisations for plotting
-	sample_settings = samples.Sample()
+	sample_settings = samples.Samples()
 	plot_configs = []
 	
 	# initialise datacards
@@ -88,7 +88,7 @@ if __name__ == "__main__":
 			
 			# prepare plotting configs for retrieving the input histograms
 			config = sample_settings.get_config(
-					samples=[getattr(samples.Sample, sample) for sample in list_of_samples],
+					samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 					channel=channel,
 					category=None # TODO: category
 			)

@@ -52,8 +52,8 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 	args.higgs_masses = parseArgs(args.higgs_masses)
 	
-	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
-	sample_settings = samples.Sample()
+	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
+	sample_settings = samples.Samples()
 	
 	args.categories = [None if category == "None" else category for category in args.categories]
 	

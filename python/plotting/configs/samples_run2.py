@@ -14,13 +14,13 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 cutStep = 5
 
 
-class Sample(samples.SamplesBase):
+class Samples(samples.SamplesBase):
 
 	def __init__(self):
-		super(Sample, self).__init__()
+		super(Samples, self).__init__()
 	
 	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
-		config = super(Sample, self).get_config(
+		config = super(Samples, self).get_config(
 				samples=samples,
 				channel=channel,
 				category=category,
@@ -42,7 +42,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
 		
 		if channel == "mt":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"_z/ntuple",
@@ -52,7 +52,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "et":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"_z/ntuple",
@@ -62,7 +62,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"/ntuple",
@@ -74,7 +74,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 	
 	def ztt(self, config, channel, category, nick_suffix, lumi=40.03, **kwargs):
@@ -83,7 +83,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 		
 		if channel in ["mt", "et"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
@@ -93,7 +93,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_tt/ntuple",
@@ -105,7 +105,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
 		
 		return config
 	
@@ -115,7 +115,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZL", 1.0)
 		
 		if channel in ["mt", "et"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_zll/ntuple " + channel + "_zl/ntuple " + channel + "_zj/ntuple",
@@ -125,7 +125,7 @@ class Sample(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ee/ntuple " + channel + "_mm/ntuple",
@@ -137,7 +137,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (ZLL) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
 		return config
 	
 
@@ -147,7 +147,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		
 		if channel in ["mt", "et"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -158,7 +158,7 @@ class Sample(samples.SamplesBase):
 			)
 
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"/ntuple",
@@ -170,7 +170,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 
 	def vv(self, config, channel, category, nick_suffix, lumi=40.03, **kwargs):
@@ -179,7 +179,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 		
 		if channel in ["mt", "et", "em"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
@@ -191,7 +191,7 @@ class Sample(samples.SamplesBase):
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		
-		Sample._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 	
 	def wj(self, config, channel, category, nick_suffix, lumi=40.03, **kwargs):
@@ -200,7 +200,7 @@ class Sample(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 		
 		if channel in ["mt", "et"]:
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -209,7 +209,7 @@ class Sample(samples.SamplesBase):
 					"wj",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_z/ntuple",
@@ -217,7 +217,7 @@ class Sample(samples.SamplesBase):
 					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_wj_data_control"
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
@@ -226,7 +226,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ztt_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
@@ -235,7 +235,7 @@ class Sample(samples.SamplesBase):
 					"noplot_zll_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -244,7 +244,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ttj_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -253,7 +253,7 @@ class Sample(samples.SamplesBase):
 					"noplot_vv_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -262,7 +262,7 @@ class Sample(samples.SamplesBase):
 					"noplot_wj_mc_signal",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -281,7 +281,7 @@ class Sample(samples.SamplesBase):
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_mc_control"+nick_suffix)
 
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"/ntuple",
@@ -294,7 +294,7 @@ class Sample(samples.SamplesBase):
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
 		
 		if not kwargs.get("no_plot", False):
-			Sample._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
+			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
 
 	def qcd(self, config, channel, category, nick_suffix, lumi=40.03, **kwargs):
@@ -305,7 +305,7 @@ class Sample(samples.SamplesBase):
 		if channel in ["et", "mt"]:
 
 			# WJets for QCD estimate
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -316,7 +316,7 @@ class Sample(samples.SamplesBase):
 					"noplot_wj_ss",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_z/ntuple",
@@ -327,7 +327,7 @@ class Sample(samples.SamplesBase):
 					"noplot_wj_ss_data_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
@@ -338,7 +338,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ztt_ss_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
@@ -349,7 +349,7 @@ class Sample(samples.SamplesBase):
 					"noplot_zll_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -360,7 +360,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ttj_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -371,7 +371,7 @@ class Sample(samples.SamplesBase):
 					"noplot_vv_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -382,7 +382,7 @@ class Sample(samples.SamplesBase):
 					"noplot_wj_ss_mc_signal",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -403,7 +403,7 @@ class Sample(samples.SamplesBase):
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
 
 			# QCD
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_z/ntuple",
@@ -414,7 +414,7 @@ class Sample(samples.SamplesBase):
 					"qcd",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
@@ -425,7 +425,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ztt_mc_qcd_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
@@ -436,7 +436,7 @@ class Sample(samples.SamplesBase):
 					"noplot_zll_qcd_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -447,7 +447,7 @@ class Sample(samples.SamplesBase):
 					"noplot_ttj_qcd_control",
 					nick_suffix=nick_suffix
 			)
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
@@ -467,7 +467,7 @@ class Sample(samples.SamplesBase):
 			config.setdefault("qcd_subtract_shape", []).append(True)
 
 		elif channel == "em":
-			Sample._add_input(
+			Samples._add_input(
 					config,
 					"MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"/ntuple",
@@ -480,7 +480,7 @@ class Sample(samples.SamplesBase):
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 		
 		if not kwargs.get("no_plot", False):
-			Sample._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
+			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 
 
