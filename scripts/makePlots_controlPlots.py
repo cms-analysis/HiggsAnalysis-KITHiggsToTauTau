@@ -106,10 +106,14 @@ if __name__ == "__main__":
 				config["x_label"] = channel+"_"+quantity
 				
 				config["directories"] = [args.input_dir]
+				
+				if not "PrintInfos" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("PrintInfos")
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					config.setdefault("analysis_modules", []).append("Ratio")
+					if not "Ratio" in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
 					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
 					config.setdefault("colors", []).extend(["#000000"] * 2)

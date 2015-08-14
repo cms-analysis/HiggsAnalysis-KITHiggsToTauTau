@@ -21,20 +21,6 @@ class Samples(samples.SamplesBase):
 		
 		self.period = "run2"
 	
-	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
-		config = super(Samples, self).get_config(
-				samples=samples,
-				channel=channel,
-				category=category,
-				nick_suffix=nick_suffix,
-				postfit_scales=postfit_scales,
-				**kwargs
-		)
-		
-		config.setdefault("analysis_modules", []).append("PrintInfos")
-		
-		return config
-	
 	def data(self, config, channel, weight, nick_suffix, **kwargs):
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
