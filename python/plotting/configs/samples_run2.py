@@ -32,9 +32,6 @@ class Samples(samples.SamplesBase):
 		)
 		
 		config.setdefault("analysis_modules", []).append("PrintInfos")
-		if channel in ["mt", "et"]:
-			config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
-			config.setdefault("nicks_correct_negative_bins", []).append("qcd"+nick_suffix)
 		
 		return config
 	
@@ -403,7 +400,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
 			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_ss_mc_signal"+nick_suffix)
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
-
+			
 			# QCD
 			Samples._add_input(
 					config,
@@ -467,6 +464,11 @@ class Samples(samples.SamplesBase):
 			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
 			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06)
 			config.setdefault("qcd_subtract_shape", []).append(True)
+
+			if channel in ["mt", "et"]:
+				if not "CorrectNegativeBinContents" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
+				config.setdefault("nicks_correct_negative_bins", []).append("qcd"+nick_suffix)
 
 		elif channel == "em":
 			Samples._add_input(
