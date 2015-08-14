@@ -46,8 +46,8 @@ class Datacards(object):
 			non_sig_kwargs.pop("mass")
 		
 		self.cb.AddObservations(channel=[channel], mass=["*"], bin=bin, *args, **non_sig_kwargs)
-		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False)
-		self.cb.AddProcesses(channel=[channel], mass=["90"], procs=sig_processes, bin=bin, signal=True)
+		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
+		self.cb.AddProcesses(channel=[channel], mass=["90"], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 	
 	@abc.abstractmethod
 	def extract_shapes(self, *args, **kwargs):

@@ -13,18 +13,18 @@ class ZttXsecDatacards(datacards.Datacards):
 		
 		# ======================================================================
 		# MT channel
-		self.add_processes(channel="mt", categories=["inclusive"], bkg_processes=["ttj", "vv", "wj", "qcd"], sig_processes=["ztt"], analysis=["ztt"], era=["13TeV"])
+		self.add_processes(channel="mt", categories=["inclusive"], bkg_processes=["TTJ", "VV", "WJ", "QCD"], sig_processes=["ZTT"], analysis=["ztt"], era=["13TeV"])
 		
 		# lumi
-		self.cb.cp().process(["ztt", "ttj", "vv", "wj", "qcd"]).AddSyst(self.cb, *self.lumi_syst_args)
+		self.cb.cp().process(["ztt", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.lumi_syst_args)
 		
 		
 		# ======================================================================
 		# ET channel
-		self.add_processes(channel="et", categories=["inclusive"], bkg_processes=["ttj", "vv", "wj", "qcd"], sig_processes=["ztt"], analysis=["ztt"], era=["13TeV"])
+		self.add_processes(channel="et", categories=["inclusive"], bkg_processes=["TTJ", "VV", "WJ", "QCD"], sig_processes=["ZTT"], analysis=["ztt"], era=["13TeV"])
 		
 		# lumi
-		self.cb.cp().process(["ztt", "ttj", "vv", "wj", "qcd"]).AddSyst(self.cb, *self.lumi_syst_args)
+		self.cb.cp().process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.lumi_syst_args)
 		
 		
 		# ======================================================================
@@ -35,3 +35,7 @@ class ZttXsecDatacards(datacards.Datacards):
 		# ======================================================================
 		# TT channel
 		# TODO
+		
+		
+		if log.isEnabledFor(logging.DEBUG):
+			self.cb.PrintAll()

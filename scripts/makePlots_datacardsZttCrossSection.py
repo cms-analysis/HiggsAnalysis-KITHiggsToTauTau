@@ -11,8 +11,6 @@ import os
 
 import combineharvester as ch
 
-import Artus.Utility.jsonTools as jsonTools
-
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
@@ -25,18 +23,14 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"], 
-	                    help="Samples. [Default: %(default)s]")
-	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
-	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
-	parser.add_argument("--channels", nargs="*",
-	                    default=["mt", "et"],
+	parser.add_argument("-c", "--channel", action="append",
+	                    default=["all"],
 	                    choices=["tt", "mt", "et", "em", "mm", "ee"],
-	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", default=[None],
-	                    help="Categories. [Default: %(default)s]")
+	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
+	parser.add_argument("--categories", action="append", nargs="+",
+	                    default=[["all"]] * len(parser.get_default("channel")),
+	                    choices=["all", "inclusive"],
+	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
@@ -53,35 +47,53 @@ if __name__ == "__main__":
 	                    default="$CMSSW_BASE/src/plots/datacards/",
 	                    help="Output directory. [Default: %(default)s]")
 	
+	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	if args.samples == parser.get_default("samples"):
-		args.samples = [sample for sample in args.samples if hasattr(samples.Sample, sample)]
-	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
-	sample_settings = samples.Sample()
-	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "ztt"]
-
-	args.categories = [None if category == "None" else category for category in args.categories]
-	
 	args.output_dir = os.path.expandvars(args.output_dir)
 	
+	# initialisations for plotting
+	sample_settings = samples.Sample()
 	plot_configs = []
+	
+	# initialise datacards
 	root_filename_template = "${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
 	datacard_filename_template = "${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt"
-	for channel in args.channels:
-		for category in args.categories:
-			
-			config = sample_settings.get_config(
-					samples=list_of_samples,
+	datacards = zttxsecdatacards.ZttXsecDatacards()
+	
+	# prepare channel settings based on args and datacards
+	if (len(args.channel) == 1) and (args.channel[0] == "all"):
+		args.channel = datacards.cb.channel_set()
+	else:
+		args.channel = list(set(args.channel).intersection(set(datacards.cb.channel_set())))
+	
+	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
+	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
+		
+		# prepare category settings based on args and datacards
+		if (len(categories) == 1) and (categories[0] == "all"):
+			categories = datacards.cb.bin_set()
+		else:
+			categories = list(set(categories).intersection(set(datacards.cb.bin_set())))
+		args.categories[index] = categories
+		
+		for category in categories:
+			list_of_samples = ["data"] + [datacards.configs.process2sample(process) for process in datacards.cb.cp().channel([channel]).process_set()]
+			log.debug("Create inputs for samples = (\"{samples}\"), (channel, category) = ({channel}, {category}).".format(
+					samples="\", \"".join(list_of_samples),
 					channel=channel,
-					category=category,
-					ztt_from_mc=args.ztt_from_mc
+					category=category
+			))
+			
+			# prepare plotting configs for retrieving the input histograms
+			config = sample_settings.get_config(
+					samples=[getattr(samples.Sample, sample) for sample in list_of_samples],
+					channel=channel,
+					category=None # TODO: category
 			)
 			
 			config["x_expressions"] = args.quantity
-			#config["x_bins"] = [channel+"_"+args.quantity]
-			config["x_label"] = channel+"_"+args.quantity
 			
 			config["directories"] = [args.input_dir]
 			
@@ -94,7 +106,7 @@ if __name__ == "__main__":
 				else:
 					config["weights"] = args.weight
 			
-			config["labels"] = [sample.replace("data", "data_obs") for sample in args.samples]
+			config["labels"] = [datacards.configs.sample2process(sample) for sample in list_of_samples]
 			
 			config["output_dir"] = args.output_dir
 			config["filename"] = os.path.splitext(root_filename_template.format(
@@ -113,14 +125,12 @@ if __name__ == "__main__":
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-			
+	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	
 	args.categories = ["inclusive" if category is None else category for category in args.categories]
 	
-	datacards = zttxsecdatacards.ZttXsecDatacards()
-	
-	for channel in args.channels:
+	for channel in args.channel:
 		root_filename = os.path.join(args.output_dir, root_filename_template.format(
 				ANALYSIS="ztt",
 				CHANNEL=channel,
@@ -141,11 +151,11 @@ if __name__ == "__main__":
 					ERA="13TeV"
 			).replace("$", ""))
 	
-	cb.PrintAll()
+	datacards.cb.PrintAll()
 	
 	writer = ch.CardWriter(os.path.join(args.output_dir, datacard_filename_template.replace("{", "").replace("}", "")),
 	                       os.path.join(args.output_dir, "common", root_filename_template.replace("{", "").replace("}", "")))
 	writer.SetVerbosity(1)
 	# TODO: writer.WriteCards seems to ignore args.output_dir, therefore it is added to ch.CardWriter
-	writer.WriteCards(args.output_dir, cb)
+	writer.WriteCards(args.output_dir, datacards.cb)
 

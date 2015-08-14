@@ -10,7 +10,12 @@ class DatacardConfigs(object):
 		super(DatacardConfigs, self).__init__()
 		
 		self._mapping_process2sample = {
-			"process" : "sample",
+			"data_obs" : "data",
+			"ZTT" : "ztt",
+			"TTJ" : "ttj",
+			"VV" : "vv",
+			"WJ" : "wj",
+			"QCD" : "qcd",
 		}
 		
 		self._mapping_category2binid = {
@@ -22,7 +27,7 @@ class DatacardConfigs(object):
 	def process2sample(self, process):
 		return self._mapping_process2sample.get(process, process)
 	
-	def sample2process(sample):
+	def sample2process(self, sample):
 		return dict([reversed(item) for item in self._mapping_process2sample.iteritems()]).get(sample, sample)
 	
 	def category2binid(self, category, channel="default"):
