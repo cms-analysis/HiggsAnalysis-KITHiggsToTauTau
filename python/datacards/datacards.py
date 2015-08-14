@@ -4,8 +4,8 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import abc
 import copy
+import os
 
 # http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
 import combineharvester as ch
@@ -49,10 +49,26 @@ class Datacards(object):
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], mass=["90"], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 	
-	@abc.abstractmethod
-	def extract_shapes(self, *args, **kwargs):
-		pass
+	def extract_shapes(self, root_filename_template, histogram_name_template, syst_histogram_name_template):
+		for analysis in self.cb.analysis_set():
+			for era in self.cb.cp().analysis([analysis]).era_set():
+				for channel in self.cb.cp().analysis([analysis]).era([era]).channel_set():
+					root_filename = root_filename_template.format(
+							ANALYSIS=analysis,
+							CHANNEL=channel,
+							ERA=era
+					)
+					self.cb.cp().analysis([analysis]).era([era]).channel([channel]).ExtractShapes(root_filename, histogram_name_template, syst_histogram_name_template)
+		
+		if log.isEnabledFor(logging.DEBUG):
+			self.cb.PrintAll()
 	
-	@abc.abstractmethod
-	def write_datacards(self, *args, **kwargs):
-		pass
+	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
+		writer = ch.CardWriter(os.path.join(output_directory, datacard_filename_template),
+		                       os.path.join(output_directory, root_filename_template))
+		if log.isEnabledFor(logging.DEBUG):
+			writer.PrintAll()
+		
+		# TODO: writer.WriteCards seems to ignore output_directory, therefore it is added to ch.CardWriter
+		writer.WriteCards(output_directory, self.cb)
+

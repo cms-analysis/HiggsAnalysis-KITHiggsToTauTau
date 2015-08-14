@@ -126,36 +126,16 @@ if __name__ == "__main__":
 		import pprint
 		pprint.pprint(plot_configs)
 	
+	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	
-	args.categories = ["inclusive" if category is None else category for category in args.categories]
+	# update CombineHarvester with the yields and shapes
+	datacards.extract_shapes(os.path.join(args.output_dir, root_filename_template.replace("$", "")), "$PROCESS", "$PROCESS_$SYSTEMATIC")
 	
-	for channel in args.channel:
-		root_filename = os.path.join(args.output_dir, root_filename_template.format(
-				ANALYSIS="ztt",
-				CHANNEL=channel,
-				ERA="13TeV"
-		).replace("$", ""))
-		datacards.cb.cp().channel([channel]).ExtractShapes(root_filename, "$PROCESS", "$PROCESS_$SYSTEMATIC")
-		
-		for index, category in enumerate(args.categories):
-			datacard_filename = os.path.join(args.output_dir, datacard_filename_template.format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					BINID=index,
-					ERA="13TeV"
-			).replace("$", ""))
-			root_filename = os.path.join(args.output_dir, "common", root_filename_template.format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					ERA="13TeV"
-			).replace("$", ""))
-	
-	datacards.cb.PrintAll()
-	
-	writer = ch.CardWriter(os.path.join(args.output_dir, datacard_filename_template.replace("{", "").replace("}", "")),
-	                       os.path.join(args.output_dir, "common", root_filename_template.replace("{", "").replace("}", "")))
-	writer.SetVerbosity(1)
-	# TODO: writer.WriteCards seems to ignore args.output_dir, therefore it is added to ch.CardWriter
-	writer.WriteCards(args.output_dir, datacards.cb)
+	# write datacards
+	datacards.write_datacards(
+			datacard_filename_template.replace("{", "").replace("}", ""),
+			os.path.join("common", root_filename_template.replace("{", "").replace("}", "")),
+			args.output_dir
+	)
 
