@@ -31,8 +31,9 @@ class Sample(object):
 			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
 		
 		config.setdefault("analysis_modules", []).append("PrintInfos")
-		config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
-		config.setdefault("nicks_correct_negative_bins", []).append("qcd"+nick_suffix)
+		if channel in ["mt", "et"]:
+			config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
+			config.setdefault("nicks_correct_negative_bins", []).append("qcd"+nick_suffix)
 		
 		config["nicks_blacklist"] = ["noplot"]
 		#config["file_mode"] = "UPDATE"
@@ -91,7 +92,7 @@ class Sample(object):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"_z/ntuple",
 					1.0,
-					"1.0" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -101,7 +102,7 @@ class Sample(object):
 					"SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"_z/ntuple",
 					1.0,
-					"1.0" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -111,7 +112,7 @@ class Sample(object):
 					"MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"/ntuple",
 					1.0,
-					"1.0" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -132,7 +133,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
@@ -142,7 +143,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_tt/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
@@ -164,7 +165,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_zll/ntuple " + channel + "_zl/ntuple " + channel + "_zj/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"zll",
 					nick_suffix=nick_suffix
 			)
@@ -174,7 +175,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ee/ntuple " + channel + "_mm/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"zll",
 					nick_suffix=nick_suffix
 			)
@@ -193,10 +194,10 @@ class Sample(object):
 		if channel in ["mt", "et"]:
 			Sample._add_input(
 					config,
-					"TTJets_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -204,10 +205,10 @@ class Sample(object):
 		elif channel == "em":
 			Sample._add_input(
 					config,
-					"TTJets_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -228,7 +229,7 @@ class Sample(object):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"vv",
 					nick_suffix=nick_suffix
 			)
@@ -249,7 +250,7 @@ class Sample(object):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"wj",
 					nick_suffix=nick_suffix
 			)
@@ -258,7 +259,7 @@ class Sample(object):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_z/ntuple",
 					1.0,
-					"1.0" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_wj_data_control"
 			)
 			Sample._add_input(
@@ -266,7 +267,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_ztt_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -275,16 +276,16 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_zll_wj_control",
 					nick_suffix=nick_suffix
 			)
 			Sample._add_input(
 					config,
-					"TTJets_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_ttj_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -293,7 +294,7 @@ class Sample(object):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_vv_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -302,7 +303,7 @@ class Sample(object):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"noplot_wj_mc_signal",
 					nick_suffix=nick_suffix
 			)
@@ -311,7 +312,7 @@ class Sample(object):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_wj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -330,7 +331,7 @@ class Sample(object):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight" + cut_string(channel, cutStep),
+					"eventWeight" + cut_string(channel, cutStep),
 					"wj",
 					nick_suffix=nick_suffix
 			)
@@ -354,7 +355,7 @@ class Sample(object):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_wj_ss",
@@ -376,7 +377,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_ztt_ss_mc_wj_control",
@@ -387,7 +388,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_zll_ss_wj_control",
@@ -395,10 +396,10 @@ class Sample(object):
 			)
 			Sample._add_input(
 					config,
-					"TTJets_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_ttj_ss_wj_control",
@@ -409,7 +410,7 @@ class Sample(object):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_vv_ss_wj_control",
@@ -420,7 +421,7 @@ class Sample(object):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_wj_ss_mc_signal",
@@ -431,7 +432,7 @@ class Sample(object):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_wj_ss_mc_control",
@@ -463,7 +464,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_ztt_mc_qcd_control",
@@ -474,7 +475,7 @@ class Sample(object):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_zll_qcd_control",
@@ -482,10 +483,10 @@ class Sample(object):
 			)
 			Sample._add_input(
 					config,
-					"TTJets_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_ttj_qcd_control",
@@ -496,7 +497,7 @@ class Sample(object):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
 					channel+"_z/ntuple",
 					lumi,
-					"crossSectionPerEventWeight*numberGeneratedEventsWeight*generatorWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_vv_qcd_control",
