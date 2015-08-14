@@ -24,6 +24,15 @@ class Datacards(object):
 			self.cb.SetVerbosity(1)
 		
 		self.configs = datacardconfigs.DatacardConfigs()
+		
+		self.lumi_syst_args = [
+			"lumi_$ERA",
+			"lnN",
+			ch.SystMap("era")
+				( ["7TeV"], 1.026)
+				( ["8TeV"], 1.026)
+				(["13TeV"], 1.026)
+		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
 		bin = [(self.configs.category2binid(category), category) for category in categories]
