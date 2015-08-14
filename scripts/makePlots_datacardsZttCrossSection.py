@@ -15,6 +15,7 @@ import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
 
 
 if __name__ == "__main__":
@@ -117,13 +118,7 @@ if __name__ == "__main__":
 	
 	args.categories = ["inclusive" if category is None else category for category in args.categories]
 	
-	# http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
-	cb = ch.CombineHarvester()
-	cb.SetVerbosity(1)
-	
-	cb.AddObservations(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)))
-	cb.AddProcesses(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=bkg_samples, signal=False)
-	cb.AddProcesses(mass=["90"], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=["ztt"], signal=True)
+	datacards = zttxsecdatacards.ZttXsecDatacards()
 	
 	for channel in args.channels:
 		root_filename = os.path.join(args.output_dir, root_filename_template.format(
@@ -131,7 +126,7 @@ if __name__ == "__main__":
 				CHANNEL=channel,
 				ERA="13TeV"
 		).replace("$", ""))
-		cb.cp().channel([channel]).ExtractShapes(root_filename, "$PROCESS", "$PROCESS_$SYSTEMATIC")
+		datacards.cb.cp().channel([channel]).ExtractShapes(root_filename, "$PROCESS", "$PROCESS_$SYSTEMATIC")
 		
 		for index, category in enumerate(args.categories):
 			datacard_filename = os.path.join(args.output_dir, datacard_filename_template.format(
