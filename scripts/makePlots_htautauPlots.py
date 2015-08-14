@@ -14,7 +14,7 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gErrorIgnoreLevel = ROOT.kError
 from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
 
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 

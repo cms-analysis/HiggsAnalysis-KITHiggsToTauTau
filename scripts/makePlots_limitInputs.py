@@ -17,7 +17,7 @@ from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
 import Artus.Utility.jsonTools as jsonTools
 import Artus.Utility.tools as tools
 
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.quantities as quantities
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics as systematics
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot

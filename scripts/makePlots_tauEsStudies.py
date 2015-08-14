@@ -12,7 +12,7 @@ import os
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 
 
 if __name__ == "__main__":

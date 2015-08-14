@@ -74,7 +74,7 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 	
 	if not args.run2:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 	
