@@ -9,6 +9,8 @@ import copy
 
 import Artus.Utility.jsonTools as jsonTools
 
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expressions
+
 
 class SamplesBase(object):
 
@@ -17,17 +19,27 @@ class SamplesBase(object):
 		
 		self.config = jsonTools.JsonDict({})
 		self.postfit_scales = None
+		self.expressions = expressions.ExpressionsDict()
+		
+		self.period = "run"
+		
 	
 	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
 		self.postfit_scales = postfit_scales
 		
 		config = copy.deepcopy(self.config)
 		
-		for sample in samples:
-			config = sample(self, config, channel, category, nick_suffix, **kwargs)
-		
+		weights = []
 		if not category is None:
-			config["weights"] = [weight+("*(isCat%s>0)" % category) for weight in config.setdefault("weights", [])]
+			weights.append("({category})".format(category=self.expressions.replace_expressions("category_"+self.period+"_"+category)))
+		if "weight" in kwargs:
+			weights.append("({weight})".format(weight=kwargs.pop("weight")))
+		weight = "(1.0)"
+		if len(weights) > 0:
+			weight = "(" + ("*".join(weights)) + ")"
+		
+		for sample in samples:
+			config = sample(self, config, channel, weight, nick_suffix, **kwargs)
 		
 		config["nicks_blacklist"] = ["noplot"]
 		#config["file_mode"] = "UPDATE"

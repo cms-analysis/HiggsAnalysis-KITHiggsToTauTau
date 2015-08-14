@@ -97,7 +97,8 @@ if __name__ == "__main__":
 						category=category,
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
-						ztt_from_mc=args.ztt_from_mc
+						ztt_from_mc=args.ztt_from_mc,
+						weight=args.weight
 				)
 				
 				config["x_expressions"] = quantity
@@ -105,15 +106,6 @@ if __name__ == "__main__":
 				config["x_label"] = channel+"_"+quantity
 				
 				config["directories"] = [args.input_dir]
-				
-				if args.weight != parser.get_default("weight"):
-					if "weights" in config:
-						newWeights = []
-						for weight in config["weights"]:
-							newWeights.append(weight + '*' + args.weight)
-						config["weights"] = newWeights
-					else:
-						config["weights"] = args.weight
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
