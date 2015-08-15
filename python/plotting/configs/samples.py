@@ -31,7 +31,7 @@ class SamplesBase(object):
 		
 		weights = []
 		if not category is None:
-			weights.append("({category})".format(category=self.expressions.replace_expressions("category_"+self.period+"_"+category)))
+			weights.append("({category})".format(category=self.expressions.replace_expressions(category)))
 		if "weight" in kwargs:
 			weights.append("({weight})".format(weight=kwargs.pop("weight")))
 		weight = "(1.0)"
