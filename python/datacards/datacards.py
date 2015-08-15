@@ -25,13 +25,63 @@ class Datacards(object):
 		
 		self.configs = datacardconfigs.DatacardConfigs()
 		
+		# common systematics
 		self.lumi_syst_args = [
 			"lumi_$ERA",
 			"lnN",
 			ch.SystMap("era")
-				( ["7TeV"], 1.026)
-				( ["8TeV"], 1.026)
-				(["13TeV"], 1.026)
+				(["7TeV", "8TeV"], 1.026)
+				(       ["13TeV"], 1.026) # copied from 8TeV
+		]
+		self.electron_efficieny_syst_args = [
+			"CMS_eff_e",
+			"lnN",
+			ch.SystMap("era")
+				(["7TeV", "8TeV"], 1.02)
+				(       ["13TeV"], 1.02) # copied from 8TeV
+		]
+		self.muon_efficieny_syst_args = [
+			"CMS_eff_m",
+			"lnN",
+			ch.SystMap("era")
+				(["7TeV", "8TeV"], 1.02)
+				(       ["13TeV"], 1.02) # copied from 8TeV
+		]
+		self.tau_efficieny_syst_args = [
+			"CMS_eff_t_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("era", "channel")
+				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
+				(       ["13TeV"], ["mt", "et"], 1.08) # copied from 8TeV
+		]
+		self.ztt_cross_section_syst_args = [
+			"CMS_$ANALYSIS_zttNorm_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["7TeV", "8TeV"], ["ZTT", "ZLL", "ZL", "ZJ"], 1.03)
+				(       ["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ"], 1.03) # copied from 8TeV
+		]
+		self.ttj_cross_section_syst_args = [
+			"CMS_$ANALYSIS_ttjNorm_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				( ["7TeV"], ["TTJ"], 1.08)
+				( ["8TeV"], ["TTJ"], 1.1)
+				(["13TeV"], ["TTJ"], 1.1) # copied from 8TeV
+		]
+		self.vv_cross_section_syst_args = [
+			"CMS_$ANALYSIS_vvNorm_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["7TeV", "8TeV"], ["VV"], 1.15)
+				(       ["13TeV"], ["VV"], 1.15) # copied from 8TeV
+		]
+		self.wj_cross_section_syst_args = [
+			"CMS_$ANALYSIS_wjNorm_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["7TeV", "8TeV"], ["WJ"], 1.2)
+				(       ["13TeV"], ["WJ"], 1.2) # copied from 8TeV
 		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
