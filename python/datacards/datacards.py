@@ -85,7 +85,7 @@ class Datacards(object):
 		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
-		bin = [(self.configs.category2binid(category), category) for category in categories]
+		bin = [(self.configs.category2binid(category, channel), category) for category in categories]
 		
 		for key in ["channel", "procs", "bin", "signal"]:
 			if key in kwargs:
@@ -116,8 +116,6 @@ class Datacards(object):
 	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
 		writer = ch.CardWriter(os.path.join(output_directory, datacard_filename_template),
 		                       os.path.join(output_directory, root_filename_template))
-		if log.isEnabledFor(logging.DEBUG):
-			writer.PrintAll()
 		
 		# TODO: writer.WriteCards seems to ignore output_directory, therefore it is added to ch.CardWriter
 		writer.WriteCards(output_directory, self.cb)

@@ -19,8 +19,11 @@ class DatacardConfigs(object):
 		}
 		
 		self._mapping_category2binid = {
-			"channel" : {
-				"category" : "binid",
+			"mt" : {
+				"inclusive" : 0,
+			},
+			"et" : {
+				"inclusive" : 0,
 			},
 		}
 	
