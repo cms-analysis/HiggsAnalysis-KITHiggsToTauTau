@@ -58,7 +58,8 @@ if __name__ == "__main__":
 	plot_configs = []
 	
 	# initialise datacards
-	root_filename_template = "${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
+	input_root_filename_template = "${ANALYSIS}_${CHANNEL}_${BIN}.input_${ERA}.root"
+	output_root_filename_template = "${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
 	histogram_name_template = "${BIN}/${PROCESS}"
 	syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_template = "${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt"
@@ -112,9 +113,10 @@ if __name__ == "__main__":
 			) for sample in list_of_samples]
 			
 			config["output_dir"] = args.output_dir
-			config["filename"] = os.path.splitext(root_filename_template.replace("$", "").format(
+			config["filename"] = os.path.splitext(input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
+					BIN=category,
 					ERA="13TeV"
 			))[0]
 			config["plot_modules"] = ["ExportRoot"]
@@ -141,7 +143,7 @@ if __name__ == "__main__":
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
-			os.path.join(args.output_dir, root_filename_template.replace("$", "")),
+			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
 			histogram_name_template.replace("{", "").replace("}", ""),
 			syst_histogram_name_template.replace("{", "").replace("}", "")
 	)
@@ -149,7 +151,7 @@ if __name__ == "__main__":
 	# write datacards
 	datacards.write_datacards(
 			datacard_filename_template.replace("{", "").replace("}", ""),
-			os.path.join("common", root_filename_template.replace("{", "").replace("}", "")),
+			os.path.join("common", output_root_filename_template.replace("{", "").replace("}", "")),
 			args.output_dir
 	)
 

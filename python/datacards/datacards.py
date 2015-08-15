@@ -103,12 +103,14 @@ class Datacards(object):
 		for analysis in self.cb.analysis_set():
 			for era in self.cb.cp().analysis([analysis]).era_set():
 				for channel in self.cb.cp().analysis([analysis]).era([era]).channel_set():
-					root_filename = root_filename_template.format(
-							ANALYSIS=analysis,
-							CHANNEL=channel,
-							ERA=era
-					)
-					self.cb.cp().analysis([analysis]).era([era]).channel([channel]).ExtractShapes(root_filename, histogram_name_template, syst_histogram_name_template)
+					for category in self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin_set():
+						root_filename = root_filename_template.format(
+								ANALYSIS=analysis,
+								CHANNEL=channel,
+								BIN=category,
+								ERA=era
+						)
+						self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).ExtractShapes(root_filename, histogram_name_template, syst_histogram_name_template)
 		
 		if log.isEnabledFor(logging.DEBUG):
 			self.cb.PrintAll()
