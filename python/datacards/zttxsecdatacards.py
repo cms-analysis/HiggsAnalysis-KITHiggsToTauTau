@@ -13,7 +13,14 @@ class ZttXsecDatacards(datacards.Datacards):
 		
 		# ======================================================================
 		# MT channel
-		self.add_processes(channel="mt", categories=["inclusive"], bkg_processes=["TTJ", "VV", "WJ", "QCD"], sig_processes=["ZTT"], analysis=["ztt"], era=["13TeV"])
+		self.add_processes(
+				channel="mt",
+				categories=["inclusive", "0jet", "1jet", "2jet"],
+				bkg_processes=["TTJ", "VV", "WJ", "QCD"],
+				sig_processes=["ZTT"],
+				analysis=["ztt"],
+				era=["13TeV"]
+		)
 		
 		# efficiencies
 		self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
@@ -21,7 +28,14 @@ class ZttXsecDatacards(datacards.Datacards):
 		
 		# ======================================================================
 		# ET channel
-		self.add_processes(channel="et", categories=["inclusive"], bkg_processes=["TTJ", "VV", "WJ", "QCD"], sig_processes=["ZTT"], analysis=["ztt"], era=["13TeV"])
+		self.add_processes(
+				channel="et",
+				categories=["inclusive", "0jet", "1jet", "2jet"],
+				bkg_processes=["TTJ", "VV", "WJ", "QCD"],
+				sig_processes=["ZTT"],
+				analysis=["ztt"],
+				era=["13TeV"]
+		)
 		
 		# efficiencies
 		self.cb.cp().channel(["et"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)

@@ -59,6 +59,8 @@ if __name__ == "__main__":
 	
 	# initialise datacards
 	root_filename_template = "${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
+	histogram_name_template = "${BIN}/${PROCESS}"
+	syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_template = "${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt"
 	datacards = zttxsecdatacards.ZttXsecDatacards()
 	
@@ -90,32 +92,27 @@ if __name__ == "__main__":
 			config = sample_settings.get_config(
 					samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 					channel=channel,
-					category=None # TODO: category
+					category="catZtt13TeV_"+channel+"_"+category,
+					weight=args.weight
 			)
 			
 			config["x_expressions"] = args.quantity
 			
 			config["directories"] = [args.input_dir]
 			
-			if args.weight != parser.get_default("weight"):
-				if "weights" in config:
-					newWeights = []
-					for weight in config["weights"]:
-						newWeights.append(weight + '*' + args.weight)
-					config["weights"] = newWeights
-				else:
-					config["weights"] = args.weight
-			
-			config["labels"] = [datacards.configs.sample2process(sample) for sample in list_of_samples]
+			config["labels"] = [histogram_name_template.replace("$", "").format(
+					PROCESS=datacards.configs.sample2process(sample),
+					BIN=category
+			) for sample in list_of_samples]
 			
 			config["output_dir"] = args.output_dir
-			config["filename"] = os.path.splitext(root_filename_template.format(
+			config["filename"] = os.path.splitext(root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
 					ERA="13TeV"
-			).replace("$", ""))[0]
+			))[0]
 			config["plot_modules"] = ["ExportRoot"]
-			#config["file_mode"] = ["UPDATE"] # TODO delete files at first run
+			config["file_mode"] = "UPDATE"
 			
 			if "legend_markers" in config:
 				config.pop("legend_markers")
@@ -126,11 +123,22 @@ if __name__ == "__main__":
 		import pprint
 		pprint.pprint(plot_configs)
 	
+	# delete existing output files
+	output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots]]))
+	for output_file in output_files:
+		if os.path.exists(output_file):
+			os.remove(output_file)
+			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	
 	# update CombineHarvester with the yields and shapes
-	datacards.extract_shapes(os.path.join(args.output_dir, root_filename_template.replace("$", "")), "$PROCESS", "$PROCESS_$SYSTEMATIC")
+	datacards.extract_shapes(
+			os.path.join(args.output_dir, root_filename_template.replace("$", "")),
+			histogram_name_template.replace("{", "").replace("}", ""),
+			syst_histogram_name_template.replace("{", "").replace("}", "")
+	)
 	
 	# write datacards
 	datacards.write_datacards(

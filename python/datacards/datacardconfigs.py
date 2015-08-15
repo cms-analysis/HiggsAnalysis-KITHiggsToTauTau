@@ -21,9 +21,15 @@ class DatacardConfigs(object):
 		self._mapping_category2binid = {
 			"mt" : {
 				"inclusive" : 0,
+				"0jet" : 1,
+				"1jet" : 2,
+				"2jet" : 3,
 			},
 			"et" : {
 				"inclusive" : 0,
+				"0jet" : 1,
+				"1jet" : 2,
+				"2jet" : 3,
 			},
 		}
 	
