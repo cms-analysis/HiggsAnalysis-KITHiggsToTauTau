@@ -29,7 +29,7 @@ if __name__ == "__main__":
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
-	                    choices=["all", "inclusive"],
+	                    choices=["all", "inclusive", "0jet", "1jet", "2jet"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity",
 	                    help="Quantity. [Default: %(default)s]")
@@ -65,11 +65,15 @@ if __name__ == "__main__":
 	datacards = zttxsecdatacards.ZttXsecDatacards()
 	
 	# prepare channel settings based on args and datacards
+	if args.channel != parser.get_default("channel"):
+		args.channel = args.channel[1:]
 	if (len(args.channel) == 1) and (args.channel[0] == "all"):
 		args.channel = datacards.cb.channel_set()
 	else:
 		args.channel = list(set(args.channel).intersection(set(datacards.cb.channel_set())))
 	
+	if args.categories != parser.get_default("categories"):
+		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
@@ -87,6 +91,8 @@ if __name__ == "__main__":
 					channel=channel,
 					category=category
 			))
+			
+			# TODO: restrict datacards.cb to configured channels and categories
 			
 			# prepare plotting configs for retrieving the input histograms
 			config = sample_settings.get_config(
@@ -119,9 +125,9 @@ if __name__ == "__main__":
 			
 			plot_configs.append(config)
 
-	if log.isEnabledFor(logging.DEBUG):
-		import pprint
-		pprint.pprint(plot_configs)
+	#if log.isEnabledFor(logging.DEBUG):
+	#	import pprint
+	#	pprint.pprint(plot_configs)
 	
 	# delete existing output files
 	output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots]]))

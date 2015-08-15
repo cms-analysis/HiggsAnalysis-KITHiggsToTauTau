@@ -116,6 +116,8 @@ class Datacards(object):
 	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
 		writer = ch.CardWriter(os.path.join(output_directory, datacard_filename_template),
 		                       os.path.join(output_directory, root_filename_template))
+		if True: # log.isEnabledFor(logging.DEBUG):
+			writer.SetVerbosity(1)
 		
 		# TODO: writer.WriteCards seems to ignore output_directory, therefore it is added to ch.CardWriter
 		writer.WriteCards(output_directory, self.cb)
