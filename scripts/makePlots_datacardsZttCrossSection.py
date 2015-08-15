@@ -31,7 +31,7 @@ if __name__ == "__main__":
 	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    choices=["all", "inclusive", "0jet", "1jet", "2jet"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantity",
+	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
@@ -46,12 +46,16 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/datacards/",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--clear-output-dir", action="store_true", default=False,
+	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
 	args.output_dir = os.path.expandvars(args.output_dir)
+	if args.clear_output_dir and os.path.exists(args.output_dir):
+		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
