@@ -50,9 +50,9 @@ class Datacards(object):
 		self.tau_efficieny_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
 			"lnN",
-			ch.SystMap("era", "channel")
-				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
-				(       ["13TeV"], ["mt", "et"], 1.08) # copied from 8TeV
+			ch.SystMap("era")
+				(["7TeV", "8TeV"], 1.08)
+				(       ["13TeV"], 1.08) # copied from 8TeV
 		]
 		self.ztt_cross_section_syst_args = [
 			"CMS_$ANALYSIS_zttNorm_$ERA",

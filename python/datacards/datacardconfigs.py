@@ -31,6 +31,12 @@ class DatacardConfigs(object):
 				"1jet" : 2,
 				"2jet" : 3,
 			},
+			"em" : {
+				"inclusive" : 0,
+				"0jet" : 1,
+				"1jet" : 2,
+				"2jet" : 3,
+			},
 		}
 	
 	def process2sample(self, process):

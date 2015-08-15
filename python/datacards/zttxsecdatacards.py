@@ -43,7 +43,18 @@ class ZttXsecDatacards(datacards.Datacards):
 		
 		# ======================================================================
 		# EM channel
-		# TODO
+		self.add_processes(
+				channel="em",
+				categories=["inclusive", "0jet", "1jet", "2jet"],
+				bkg_processes=["TTJ", "VV", "WJ"],
+				sig_processes=["ZTT"],
+				analysis=["ztt"],
+				era=["13TeV"]
+		)
+		
+		# efficiencies
+		self.cb.cp().channel(["em"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+		self.cb.cp().channel(["em"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 		
 		# ======================================================================
 		# TT channel
