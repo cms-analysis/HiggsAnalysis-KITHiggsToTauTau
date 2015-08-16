@@ -161,10 +161,11 @@ if __name__ == "__main__":
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
 	
-	# write datacards
-	datacards.write_datacards(
+	# write datacards and call text2workspace
+	datacards_masses = datacards.write_datacards(
 			datacard_filename_template.replace("{", "").replace("}", ""),
 			os.path.join("common", output_root_filename_template.replace("{", "").replace("}", "")),
 			args.output_dir
 	)
+	# datacard_workspaces = datacards.text2workspace(datacards_masses) # TODO: check text2workspace commands
 
