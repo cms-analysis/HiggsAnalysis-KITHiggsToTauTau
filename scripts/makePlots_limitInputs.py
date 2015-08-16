@@ -18,7 +18,6 @@ import Artus.Utility.jsonTools as jsonTools
 import Artus.Utility.tools as tools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.quantities as quantities
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics as systematics
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
@@ -163,11 +162,6 @@ if __name__ == "__main__":
 							                                          label_renamings.get(label, label))
 					
 					config = uncertainty(config, name).get_config(shift)
-					
-					if quantity == "m_ll":
-						config = quantities.VisibleMass(config).get_config(channel, category)
-					if quantity == "svitMass":
-						config = quantities.VisibleMass(config).get_config(channel, category)
 					
 					if "PrintInfos" in config.get("analysis_modules", []):
 						config.get("analysis_modules", []).remove("PrintInfos")
