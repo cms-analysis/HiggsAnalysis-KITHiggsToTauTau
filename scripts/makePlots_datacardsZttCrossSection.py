@@ -65,10 +65,16 @@ if __name__ == "__main__":
 	
 	# initialise datacards
 	input_root_filename_template = "${ANALYSIS}_${CHANNEL}_${BIN}.input_${ERA}.root"
-	output_root_filename_template = "${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
 	histogram_name_template = "${BIN}/${PROCESS}"
 	syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	datacard_filename_template = "${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt"
+	datacard_filename_templates = [
+		"datacards/individual/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+		"datacards/${BIN}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		"datacards/combined/${ANALYSIS}_${ERA}.txt",
+	]
+	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
+	
 	datacards = zttxsecdatacards.ZttXsecDatacards()
 	
 	# prepare channel settings based on args and datacards
@@ -162,10 +168,12 @@ if __name__ == "__main__":
 		)
 	
 	# write datacards and call text2workspace
-	datacards_masses = datacards.write_datacards(
-			datacard_filename_template.replace("{", "").replace("}", ""),
-			os.path.join("common", output_root_filename_template.replace("{", "").replace("}", "")),
-			args.output_dir
-	)
+	datacards_masses = []
+	for datacard_filename_template in datacard_filename_templates:
+		datacards_masses.append(datacards.write_datacards(
+				datacard_filename_template.replace("{", "").replace("}", ""),
+				output_root_filename_template.replace("{", "").replace("}", ""),
+				args.output_dir
+		))
 	# datacard_workspaces = datacards.text2workspace(datacards_masses) # TODO: check text2workspace commands
 
