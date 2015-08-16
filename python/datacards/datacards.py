@@ -134,5 +134,19 @@ class Datacards(object):
 			writer.SetVerbosity(1)
 		
 		# TODO: writer.WriteCards seems to ignore output_directory, therefore it is added to ch.CardWriter
-		writer.WriteCards(output_directory, self.cb)
+		return writer.WriteCards(output_directory, self.cb)
+	
+	def text2workspace(self, datacards_masses, *args):
+		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
+				MASS=[mass for mass in masses if mass != "*"][0], # TODO: maybe there are more masses?
+				ARGS=" ".join(args),
+				DATACARD=datacard,
+				OUTPUT=os.path.splitext(datacard)[0]+".root"
+		) for datacard, masses in datacards_masses.iteritems()]
+		
+		for command in commands:
+			log.debug(command)
+			logger.subprocessCall(command, shell=True)
+		
+		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_masses.keys()}
 
