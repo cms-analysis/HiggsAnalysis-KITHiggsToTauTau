@@ -115,6 +115,18 @@ class Datacards(object):
 		if log.isEnabledFor(logging.DEBUG):
 			self.cb.PrintAll()
 	
+	def add_bin_by_bin_uncertainties(self, processes, add_threshold=0.1, merge_threshold=0.5, fix_norm=True):
+		bin_by_bin_factory = ch.BinByBinFactory()
+		if log.isEnabledFor(logging.DEBUG):
+			bin_by_bin_factory.SetVerbosity(1)
+		
+		bin_by_bin_factory.SetAddThreshold(add_threshold)
+		bin_by_bin_factory.SetMergeThreshold(merge_threshold)
+		bin_by_bin_factory.SetFixNorm(fix_norm)
+		
+		bin_by_bin_factory.AddBinByBin(self.cb.cp().process(processes), self.cb)
+		ch.SetStandardBinNames(self.cb)
+	
 	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
 		writer = ch.CardWriter(os.path.join(output_directory, datacard_filename_template),
 		                       os.path.join(output_directory, root_filename_template))
