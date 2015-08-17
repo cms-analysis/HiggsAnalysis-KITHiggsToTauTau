@@ -85,6 +85,9 @@ if __name__ == "__main__":
 	else:
 		args.channel = list(set(args.channel).intersection(set(datacards.cb.channel_set())))
 	
+	# restrict CombineHarvester to configured channels:
+	datacards.cb.channel(args.channel)
+	
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
@@ -97,6 +100,9 @@ if __name__ == "__main__":
 			categories = list(set(categories).intersection(set(datacards.cb.bin_set())))
 		args.categories[index] = categories
 		
+		# restrict CombineHarvester to configured categories:
+		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
+		
 		for category in categories:
 			list_of_samples = ["data"] + [datacards.configs.process2sample(process) for process in datacards.cb.cp().channel([channel]).process_set()]
 			log.debug("Create inputs for samples = (\"{samples}\"), (channel, category) = ({channel}, {category}).".format(
@@ -104,8 +110,6 @@ if __name__ == "__main__":
 					channel=channel,
 					category=category
 			))
-			
-			# TODO: restrict datacards.cb to configured channels and categories
 			
 			# prepare plotting configs for retrieving the input histograms
 			config = sample_settings.get_config(
