@@ -168,12 +168,12 @@ if __name__ == "__main__":
 		)
 	
 	# write datacards and call text2workspace
-	datacards_masses = []
+	written_datacards = {}
 	for datacard_filename_template in datacard_filename_templates:
-		datacards_masses.append(datacards.write_datacards(
+		written_datacards.update(datacards.write_datacards(
 				datacard_filename_template.replace("{", "").replace("}", ""),
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
-	# datacard_workspaces = datacards.text2workspace(datacards_masses) # TODO: check text2workspace commands
+	datacard_workspaces = datacards.text2workspace(written_datacards) # TODO: check text2workspace commands
 

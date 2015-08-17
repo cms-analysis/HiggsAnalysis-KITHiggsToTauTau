@@ -137,11 +137,11 @@ class Datacards(object):
 	
 	def text2workspace(self, datacards_masses, *args):
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
-				MASS=[mass for mass in masses if mass != "*"][0], # TODO: maybe there are more masses?
+				MASS=[mass for mass in ch.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+".root"
-		) for datacard, masses in datacards_masses.iteritems()]
+		) for datacard, ch in datacards_masses.iteritems()]
 		
 		for command in commands:
 			log.debug(command)
