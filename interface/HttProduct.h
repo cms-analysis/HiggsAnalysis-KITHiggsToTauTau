@@ -9,6 +9,7 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiTauPair.h"
 
 
 class HttProduct : public KappaProduct
@@ -30,6 +31,10 @@ public:
 	/// added by HttValidVetoMuonsProducer
 	std::vector<KMuon*> m_validVetoMuons;
 	std::vector<KMuon*> m_invalidVetoMuons;
+	
+	/// added by DiTauPairCandidatesProducers
+	std::vector<DiTauPair> m_validDiTauPairCandidates;
+	std::vector<DiTauPair> m_invalidDiTauPairCandidates;
 
 	// filled by DecayChannelProducer
 	bool m_extraElecVeto = false;

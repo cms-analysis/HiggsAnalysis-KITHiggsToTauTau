@@ -1,0 +1,142 @@
+{
+	"ztt" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"InvalidateGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateNonGenTauMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateGenTauMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"zttlep" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"zll" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"InvalidateGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateNonGenTauMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"InvalidateGenTauMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"zl" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvertGenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	},
+	"zj" : {
+		"GenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : "tt"
+			}
+		},
+		"InvertGenDiLeptonDecayMode" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"InvalidateNonGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : false
+			}
+		},
+		"InvalidateGenParticleMatchingRecoTaus" : {
+			"nick" : {
+				"DY.?JetsToLL" : true
+			}
+		},
+		"BosonPdgId" : {
+			"nick" : {
+				"DY.?JetsToLL" : 23
+			}
+		}
+	}
+}

@@ -17,8 +17,7 @@ from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
 import Artus.Utility.jsonTools as jsonTools
 import Artus.Utility.tools as tools
 
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.quantities as quantities
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics as systematics
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
@@ -106,31 +105,31 @@ if __name__ == "__main__":
 	systematic_shifts += [(systematics.TauEsSystematic, "CMS_scale_t_%s_8TeV", shift) for shift in args["tau_es_shifts"] if shift != 0.0]
 	systematic_shifts += [(systematics.SvfitMassSystematic, "CMS_htt_ZLScale_%s_8TeV", shift) for shift in args["svfit_mass_shifts"] if shift != 0.0]
 	
-	sample_settings = samples.Sample()
+	sample_settings = samples.Samples()
 	for uncertainty, name, shift in systematic_shifts:
 		list_of_samples = []
 		if uncertainty.add_ztt():
-			list_of_samples.append(samples.Sample.ztt)
+			list_of_samples.append(samples.Samples.ztt)
 		if uncertainty.add_zl():
-			list_of_samples.append(samples.Sample.zl)
+			list_of_samples.append(samples.Samples.zl)
 		if uncertainty.add_zj():
-			list_of_samples.append(samples.Sample.zj)
+			list_of_samples.append(samples.Samples.zj)
 		if uncertainty.add_ttj():
-			list_of_samples.append(samples.Sample.ttj)
+			list_of_samples.append(samples.Samples.ttj)
 		if uncertainty.add_vv():
-			list_of_samples.append(samples.Sample.vv)
+			list_of_samples.append(samples.Samples.vv)
 		if uncertainty.add_wj():
-			list_of_samples.append(samples.Sample.wj)
+			list_of_samples.append(samples.Samples.wj)
 		if uncertainty.add_qcd():
-			list_of_samples.append(samples.Sample.qcd)
+			list_of_samples.append(samples.Samples.qcd)
 		if uncertainty.add_ggh():
-			list_of_samples.append(samples.Sample.ggh)
+			list_of_samples.append(samples.Samples.ggh)
 		if uncertainty.add_qqh():
-			list_of_samples.append(samples.Sample.qqh)
+			list_of_samples.append(samples.Samples.qqh)
 		if uncertainty.add_vh():
-			list_of_samples.append(samples.Sample.vh)
+			list_of_samples.append(samples.Samples.vh)
 		if uncertainty.add_data():
-			list_of_samples.append(samples.Sample.data)
+			list_of_samples.append(samples.Samples.data)
 			
 		for channel in args["channels"]:
 			if "%s" in name:
@@ -149,35 +148,26 @@ if __name__ == "__main__":
 				)
 			
 				for quantity in args["quantities"]:
-					json_exists = True
-					json_configs = [os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/%s_%s.json" % (channel, quantity))]
-					if not os.path.exists(json_configs[0]):
-						json_exists = False
-						#json_configs[0] = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % (channel))
-					json_defaults = config
-					if json_exists:
-						json_defaults += jsonTools.JsonDict([os.path.expandvars(json_file) for json_file in json_configs]).doIncludes().doComments()
+					
+					config["x_expressions"] = quantity
+					config["x_bins"] = [channel+"_"+quantity]
+					config["x_label"] = channel+"_"+quantity
 				
 					if not category is None:
-						json_defaults["output_dir"] = os.path.join(json_defaults.setdefault("output_dir", "plots"), category)
+						config["output_dir"] = os.path.join(config.setdefault("output_dir", "plots"), category)
 			
-					for index, label in enumerate(json_defaults.setdefault("labels", [])):
-						json_defaults["labels"][index] = os.path.join("%s_%s" % (channel_renamings.get(channel, channel),
+					for index, label in enumerate(config.setdefault("labels", [])):
+						config["labels"][index] = os.path.join("%s_%s" % (channel_renamings.get(channel, channel),
 							                                                     category_renamings.get(category, category)),
 							                                          label_renamings.get(label, label))
 					
-					json_defaults = uncertainty(json_defaults, name).get_config(shift)
+					config = uncertainty(config, name).get_config(shift)
 					
-					if quantity == "m_ll":
-						json_defaults = quantities.VisibleMass(json_defaults).get_config(channel, category)
-					if quantity == "svitMass":
-						json_defaults = quantities.VisibleMass(json_defaults).get_config(channel, category)
+					if "PrintInfos" in config.get("analysis_modules", []):
+						config.get("analysis_modules", []).remove("PrintInfos")
 					
-					if "PrintInfos" in json_defaults.get("analysis_modules", []):
-						json_defaults.get("analysis_modules", []).remove("PrintInfos")
-					
-					harry_configs.append(json_defaults)
-					harry_args.append("-d %s %s --formats png pdf %s" % (args["input_dir"], ("" if json_exists else ("-x %s" % quantity)), args["args"]))
+					harry_configs.append(config)
+					harry_args.append("-d %s --formats png pdf %s" % (args["input_dir"], args["args"]))
 			
 	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=harry_configs, list_of_args_strings=harry_args, n_processes=args["n_processes"], n_plots=args["n_plots"])
 	

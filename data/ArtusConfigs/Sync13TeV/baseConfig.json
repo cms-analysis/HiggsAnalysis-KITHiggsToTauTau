@@ -5,6 +5,18 @@
 	],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
+	"#RunWhitelist" : [
+	],
+	"#LumiWhitelist" : [
+	],
+	"#EventWhitelist" : [
+	],
+	"#RunBlacklist" : [
+	],
+	"#LumiBlacklist" : [
+	],
+	"#EventBlacklist" : [
+	],
 	"InputIsData" : "false",
 	"InputFiles" : [
 		"/pnfs/desy.de/cms/tier2/store/user/rfriese/skimming/2015-04-24/VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM_0.root"

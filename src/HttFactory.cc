@@ -24,6 +24,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidGenTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTriggerSettingsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonVetoProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ValidDiTauPairCandidatesProducers.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -35,6 +36,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ZBosonVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/HttObjectsCutFilters.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ValidDiTauPairCandidatesFilter.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -115,6 +117,18 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new DiVetoElectronVetoProducer();
 	else if(id == DiVetoMuonVetoProducer().GetProducerId())
 		return new DiVetoMuonVetoProducer();
+	else if(id == ValidTTPairCandidatesProducer().GetProducerId())
+		return new ValidTTPairCandidatesProducer();
+	else if(id == ValidMTPairCandidatesProducer().GetProducerId())
+		return new ValidMTPairCandidatesProducer();
+	else if(id == ValidETPairCandidatesProducer().GetProducerId())
+		return new ValidETPairCandidatesProducer();
+	else if(id == ValidEMPairCandidatesProducer().GetProducerId())
+		return new ValidEMPairCandidatesProducer();
+	else if(id == ValidMMPairCandidatesProducer().GetProducerId())
+		return new ValidMMPairCandidatesProducer();
+	else if(id == ValidEEPairCandidatesProducer().GetProducerId())
+		return new ValidEEPairCandidatesProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
@@ -147,6 +161,8 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new MetLowerPtCutsFilter();
 	else if(id == MetUpperPtCutsFilter().GetFilterId())
 		return new MetUpperPtCutsFilter();
+	else if(id == ValidDiTauPairCandidatesFilter().GetFilterId())
+		return new ValidDiTauPairCandidatesFilter();
 	else
 		return KappaFactory::createFilter( id );
 }

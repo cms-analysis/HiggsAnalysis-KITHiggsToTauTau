@@ -21,12 +21,13 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.1"
 		],
+		"DiTauPairMinDeltaRCut" : 0.5,
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"TauTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
+					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
 				]
 			}
 		},
@@ -57,25 +58,26 @@
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"filter:HltFilter",
+					"producer:MetSelector",
 					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
 					"producer:RecoTauGenParticleMatchingProducer",
 					"producer:RecoTauGenTauMatchingProducer",
 					"#producer:RecoTauGenTauJetMatchingProducer",
+					"filter:MinTausCountFilter",
 					"producer:ValidElectronsProducer",
 					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
-					"filter:MinTausCountFilter",
-					"filter:DecayChannelFilter",
-					"producer:MetSelector",
-					"producer:MvaMetTTSelector",
-					"producer:ValidLeptonsProducer",
+					"#filter:DecayChannelFilter",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"#producer:RecoJetGenParticleMatchingProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"#filter:DiLeptonChargeFilter",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -90,7 +92,7 @@
 			"KappaLambdaNtupleConsumer",
 			"#SvfitCacheConsumer",
 			"cutflow_histogram",
-			"#CutFlowTreeConsumer",
+			"CutFlowTreeConsumer",
 			"#KappaElectronsConsumer",
 			"#KappaMuonsConsumer",
 			"#KappaTausConsumer",

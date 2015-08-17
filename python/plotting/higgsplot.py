@@ -8,6 +8,8 @@ log = logging.getLogger(__name__)
 import Artus.HarryPlotter.harry as harry
 import Artus.HarryPlotter.core as harrycore
 
+import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsparser as higgsparser
+
 
 class HiggsPlotter(harry.HarryPlotter):
 
@@ -18,10 +20,12 @@ class HiggsPlotter(harry.HarryPlotter):
 		                                   n_plots=n_plots)
 	
 	def plot(self, harry_args):
-		harry_core = harrycore.HarryCore(args_from_script=harry_args)
+		parser = higgsparser.HiggsParser()
+		harry_core = harrycore.HarryCore(args_from_script=harry_args, parser=parser)
 		if not harry_args is None:
 			log.debug("higgsplot.py " + harry_args)
 		
+		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/input_modules")
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/analysis_modules")
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/plot_modules")
 		

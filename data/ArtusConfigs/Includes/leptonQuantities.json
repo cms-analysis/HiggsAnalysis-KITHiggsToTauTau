@@ -42,6 +42,8 @@
 		"diTauMass",
 		"diTauSystemReconstructed",
 		"pZetaVis",
-		"pZetaMissVis"
+		"pZetaMissVis",
+		"decayMode_1",
+		"decayMode_2"
 	]
 }

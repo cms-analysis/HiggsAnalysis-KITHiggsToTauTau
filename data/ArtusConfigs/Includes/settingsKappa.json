@@ -2,18 +2,21 @@
 	"GenParticles" : {
 		"nick" : {
 			"(?<!PFembedded).Run2012" : "",
+			"(?<!PFembedded).Run2015" : "",
 			"default" : "genParticles"
 		}
 	},
 	"GenTaus" : {
 		"nick" : {
 			"(?<!PFembedded).Run2012" : "",
+			"(?<!PFembedded).Run2015" : "",
 			"default" : "genTaus"
 		}
 	},
 	"GenTauJets" : {
 		"nick" : {
 			"(?<!PFembedded).Run2012" : "",
+			"(?<!PFembedded).Run2015" : "",
 			"8TeV" : "",
 			"default" : "tauGenJets"
 		}
@@ -21,6 +24,7 @@
 	"GenMet" : {
 		"nick" : {
 			"(?<!PFembedded).Run2012" : "",
+			"(?<!PFembedded).Run2015" : "",
 			"default" : "genmetTrue"
 		}
 	},
@@ -33,7 +37,7 @@
 		"nick" : {
 			"8TeV" : "AK5PFTaggedJets",
 			"13TeV.*_AODSIM" : "AK5PFTaggedJets",
-			"13TeV.*_MINIAODSIM": "ak5PFJets"
+			"13TeV.*_MINIAOD": "ak5PFJets"
 		}
 	},
 	"PileupDensity" : {
@@ -45,22 +49,42 @@
 	"Met" :  "met",
 	"MvaMetTT" : {
 		"nick" : {
+<<<<<<< HEAD
 			"default" : "metMVATT"
+=======
+			"default" : "metMVATT",
+			"13TeV" : ""
+>>>>>>> new2
 		}
 	},
 	"MvaMetMT" : {
 		"nick" : {
+<<<<<<< HEAD
 			"default" : "metMVAMT"
+=======
+			"default" : "metMVAMT",
+			"13TeV" : ""
+>>>>>>> new2
 		}
 	},
 	"MvaMetET" : {
 		"nick" : {
+<<<<<<< HEAD
 			"default" : "metMVAET"
+=======
+			"default" : "metMVAET",
+			"13TeV" : ""
+>>>>>>> new2
 		}
 	},
 	"MvaMetEM" : {
 		"nick" : {
+<<<<<<< HEAD
 			"default" : "metMVAEM"
+=======
+			"default" : "metMVAEM",
+			"13TeV" : ""
+>>>>>>> new2
 		}
 	},
 	"#PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",

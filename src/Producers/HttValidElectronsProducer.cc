@@ -277,11 +277,11 @@ bool HttValidElectronsProducer::IsMVANonTrigPhys14(KElectron* electron, event_ty
 	// pT always greater than 10 GeV
 	validElectron = validElectron &&
 		( 
-			(std::abs(electron->p4.Eta()) < 0.8 && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.965 : 0.933))
+			(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.965 : 0.933))
 			||
-			(std::abs(electron->p4.Eta()) > 0.8 && std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID? 0.917 : 0.825))
+			(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID? 0.917 : 0.825))
 			||
-			(std::abs(electron->p4.Eta()) > DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.683 : 0.337))
+			(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId(chooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.683 : 0.337))
 		);
 
 	return validElectron;

@@ -53,8 +53,8 @@ public:
 	IMPL_SETTING(float, ElectronDeltaBetaCorrectionFactor);
 	IMPL_SETTING_DEFAULT(float, ElectronIsoPtSumOverPtLowerThresholdEB, -1.0);
 	IMPL_SETTING_DEFAULT(float, ElectronIsoPtSumOverPtLowerThresholdEE, -1.0);
-	IMPL_SETTING(float, ElectronIsoPtSumOverPtUpperThresholdEB);
-	IMPL_SETTING(float, ElectronIsoPtSumOverPtUpperThresholdEE);
+	IMPL_SETTING_DEFAULT(float, ElectronIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
+	IMPL_SETTING_DEFAULT(float, ElectronIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
 	
 	IMPL_SETTING_DEFAULT(float, MuonChargedIsoVetoConeSize, 0.0);
 	IMPL_SETTING_DEFAULT(float, MuonNeutralIsoVetoConeSize, 0.0);
@@ -70,8 +70,8 @@ public:
 	IMPL_SETTING(float, MuonDeltaBetaCorrectionFactor);
 	IMPL_SETTING_DEFAULT(float, MuonIsoPtSumOverPtLowerThresholdEB, -1.0);
 	IMPL_SETTING_DEFAULT(float, MuonIsoPtSumOverPtLowerThresholdEE, -1.0);
-	IMPL_SETTING(float, MuonIsoPtSumOverPtUpperThresholdEB);
-	IMPL_SETTING(float, MuonIsoPtSumOverPtUpperThresholdEE);
+	IMPL_SETTING_DEFAULT(float, MuonIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
+	IMPL_SETTING_DEFAULT(float, MuonIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
 	
 	IMPL_SETTING_DEFAULT(float, ElectronTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, ElectronTrackDzCut, -1.0);
@@ -88,14 +88,14 @@ public:
 	IMPL_SETTING(std::string, LooseElectronIso);
 	IMPL_SETTING_DEFAULT(float, LooseElectronIsoPtSumOverPtLowerThresholdEB, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseElectronIsoPtSumOverPtLowerThresholdEE, -1.0);
-	IMPL_SETTING(float, LooseElectronIsoPtSumOverPtUpperThresholdEB);
-	IMPL_SETTING(float, LooseElectronIsoPtSumOverPtUpperThresholdEE);
+	IMPL_SETTING_DEFAULT(float, LooseElectronIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
+	IMPL_SETTING_DEFAULT(float, LooseElectronIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
 	IMPL_SETTING(std::string, LooseMuonIsoType);
 	IMPL_SETTING(std::string, LooseMuonIso);
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtLowerThresholdEB, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtLowerThresholdEE, -1.0);
-	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtUpperThresholdEB);
-	IMPL_SETTING(float, LooseMuonIsoPtSumOverPtUpperThresholdEE);
+	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
+	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
 	
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDzCut, -1.0);
@@ -116,14 +116,14 @@ public:
 	IMPL_SETTING(std::string, VetoElectronIso);
 	IMPL_SETTING_DEFAULT(float, VetoElectronIsoPtSumOverPtLowerThresholdEB, -1.0);
 	IMPL_SETTING_DEFAULT(float, VetoElectronIsoPtSumOverPtLowerThresholdEE, -1.0);
-	IMPL_SETTING(float, VetoElectronIsoPtSumOverPtUpperThresholdEB);
-	IMPL_SETTING(float, VetoElectronIsoPtSumOverPtUpperThresholdEE);
+	IMPL_SETTING_DEFAULT(float, VetoElectronIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
+	IMPL_SETTING_DEFAULT(float, VetoElectronIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
 	IMPL_SETTING(std::string, VetoMuonIsoType);
 	IMPL_SETTING(std::string, VetoMuonIso);
 	IMPL_SETTING_DEFAULT(float, VetoMuonIsoPtSumOverPtLowerThresholdEB, -1.0);
 	IMPL_SETTING_DEFAULT(float, VetoMuonIsoPtSumOverPtLowerThresholdEE, -1.0);
-	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtUpperThresholdEB);
-	IMPL_SETTING(float, VetoMuonIsoPtSumOverPtUpperThresholdEE);
+	IMPL_SETTING_DEFAULT(float, VetoMuonIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
+	IMPL_SETTING_DEFAULT(float, VetoMuonIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
 	
 	IMPL_SETTING_STRINGLIST_DEFAULT(VetoElectronLowerPtCuts, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(VetoMuonLowerPtCuts, {});
@@ -168,6 +168,11 @@ public:
 	IMPL_SETTING(int, MaxNLooseMuons);
 	
 	IMPL_SETTING(float, LowerCutHardLepPt);
+	
+	IMPL_SETTING_DEFAULT(float, DiTauPairMinDeltaRCut, -1.0);
+	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton1LowerPtCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton2LowerPtCuts, {});
+	IMPL_SETTING_SORTED_STRINGLIST_DEFAULT(DiTauPairHltPathsWithoutCommonMatchRequired, {});
 	
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
