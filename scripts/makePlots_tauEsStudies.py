@@ -12,7 +12,7 @@ import os
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 
 
 if __name__ == "__main__":
@@ -68,14 +68,14 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
-	sample_settings = samples.Sample()
+	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
+	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
 
 	args.categories = [None if category == "None" else category for category in args.categories]
 			
-	sample_ztt = [getattr(samples.Sample, "ztt")]
-	sample_rest = [getattr(samples.Sample, sample) for sample in args.samples if sample != "ztt" ]
+	sample_ztt = [getattr(samples.Samples, "ztt")]
+	sample_rest = [getattr(samples.Samples, sample) for sample in args.samples if sample != "ztt" ]
 	
 #	es_shifts=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06]
 	es_shifts=[1.0]
@@ -130,7 +130,7 @@ if __name__ == "__main__":
 				config_rest["weights"] = ["eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)*(decayMode_2==" + str(decayMode) + ")"] * len(config_rest["nicks"])
 
 				# merge configs
-				merged_config = samples.Sample.merge_configs(merged_config, config_rest)
+				merged_config = samples.Samples.merge_configs(config_ztt, config_rest)
 
 				#merged_config["legend_markers"] = ["F" if label != "data" else "ELP" for label in merged_config["labels"]]
 				merged_config["directories"] = [args.input_dir]

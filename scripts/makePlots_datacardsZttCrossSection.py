@@ -11,10 +11,9 @@ import os
 
 import combineharvester as ch
 
-import Artus.Utility.jsonTools as jsonTools
-
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
 
 
 if __name__ == "__main__":
@@ -24,20 +23,18 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"], 
-	                    help="Samples. [Default: %(default)s]")
-	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
-	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
-	parser.add_argument("--channels", nargs="*",
-	                    default=["mt", "et"],
+	parser.add_argument("-c", "--channel", action="append",
+	                    default=["all"],
 	                    choices=["tt", "mt", "et", "em", "mm", "ee"],
-	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", default=[None],
-	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantity",
+	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
+	parser.add_argument("--categories", action="append", nargs="+",
+	                    default=[["all"]] * len(parser.get_default("channel")),
+	                    choices=["all", "inclusive", "zerojet", "onejet", "twojet"],
+	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
+	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
+	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
+	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
@@ -51,109 +48,136 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/datacards/",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--clear-output-dir", action="store_true", default=False,
+	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
+	
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	if args.samples == parser.get_default("samples"):
-		args.samples = [sample for sample in args.samples if hasattr(samples.Sample, sample)]
-	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
-	sample_settings = samples.Sample()
-	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "ztt"]
-
-	args.categories = [None if category == "None" else category for category in args.categories]
-	
 	args.output_dir = os.path.expandvars(args.output_dir)
+	if args.clear_output_dir and os.path.exists(args.output_dir):
+		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
+	# initialisations for plotting
+	sample_settings = samples.Samples()
 	plot_configs = []
-	root_filename_template = "${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
-	datacard_filename_template = "${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt"
-	for channel in args.channels:
-		for category in args.categories:
-			
-			config = sample_settings.get_config(
-					samples=list_of_samples,
+	
+	# initialise datacards
+	input_root_filename_template = "${ANALYSIS}_${CHANNEL}_${BIN}.input_${ERA}.root"
+	histogram_name_template = "${BIN}/${PROCESS}"
+	syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
+	datacard_filename_templates = [
+		"datacards/individual/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+		"datacards/${BIN}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		"datacards/combined/${ANALYSIS}_${ERA}.txt",
+	]
+	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
+	
+	datacards = zttxsecdatacards.ZttXsecDatacards()
+	
+	# prepare channel settings based on args and datacards
+	if args.channel != parser.get_default("channel"):
+		args.channel = args.channel[1:]
+	if (len(args.channel) == 1) and (args.channel[0] == "all"):
+		args.channel = datacards.cb.channel_set()
+	else:
+		args.channel = list(set(args.channel).intersection(set(datacards.cb.channel_set())))
+	
+	# restrict CombineHarvester to configured channels:
+	datacards.cb.channel(args.channel)
+	
+	if args.categories != parser.get_default("categories"):
+		args.categories = args.categories[1:]
+	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
+	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
+		
+		# prepare category settings based on args and datacards
+		if (len(categories) == 1) and (categories[0] == "all"):
+			categories = datacards.cb.bin_set()
+		else:
+			categories = list(set(categories).intersection(set(datacards.cb.bin_set())))
+		args.categories[index] = categories
+		
+		# restrict CombineHarvester to configured categories:
+		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
+		
+		for category in categories:
+			list_of_samples = ["data"] + [datacards.configs.process2sample(process) for process in datacards.cb.cp().channel([channel]).process_set()]
+			log.debug("Create inputs for samples = (\"{samples}\"), (channel, category) = ({channel}, {category}).".format(
+					samples="\", \"".join(list_of_samples),
 					channel=channel,
-					category=category,
-					ztt_from_mc=args.ztt_from_mc
+					category=category
+			))
+			
+			# prepare plotting configs for retrieving the input histograms
+			config = sample_settings.get_config(
+					samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
+					channel=channel,
+					category="catZtt13TeV_"+channel+"_"+category,
+					weight=args.weight
 			)
 			
 			config["x_expressions"] = args.quantity
-			config["x_bins"] = [channel+"_"+args.quantity]
-			config["x_label"] = channel+"_"+args.quantity
 			
 			config["directories"] = [args.input_dir]
 			
-			if args.weight != parser.get_default("weight"):
-				if "weights" in config:
-					newWeights = []
-					for weight in config["weights"]:
-						newWeights.append(weight + '*' + args.weight)
-					config["weights"] = newWeights
-				else:
-					config["weights"] = args.weight
-			
-			config["labels"] = [sample.replace("data", "data_obs") for sample in args.samples]
+			config["labels"] = [histogram_name_template.replace("$", "").format(
+					PROCESS=datacards.configs.sample2process(sample),
+					BIN=category
+			) for sample in list_of_samples]
 			
 			config["output_dir"] = args.output_dir
-			config["filename"] = os.path.splitext(root_filename_template.format(
+			config["filename"] = os.path.splitext(input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
+					BIN=category,
 					ERA="13TeV"
-			).replace("$", ""))[0]
+			))[0]
 			config["plot_modules"] = ["ExportRoot"]
-			#config["file_mode"] = ["UPDATE"] # TODO delete files at first run
+			config["file_mode"] = "UPDATE"
 			
 			if "legend_markers" in config:
 				config.pop("legend_markers")
 			
 			plot_configs.append(config)
 
-	if log.isEnabledFor(logging.DEBUG):
-		import pprint
-		pprint.pprint(plot_configs)
-			
+	#if log.isEnabledFor(logging.DEBUG):
+	#	import pprint
+	#	pprint.pprint(plot_configs)
+	
+	# delete existing output files
+	output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots]]))
+	for output_file in output_files:
+		if os.path.exists(output_file):
+			os.remove(output_file)
+			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	
+	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	
-	args.categories = ["None" if category is None else category for category in args.categories]
+	# update CombineHarvester with the yields and shapes
+	datacards.extract_shapes(
+			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
+			histogram_name_template.replace("{", "").replace("}", ""),
+			syst_histogram_name_template.replace("{", "").replace("}", "")
+	)
 	
-	# http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
-	cb = ch.CombineHarvester()
+	# add bin-by-bin uncertainties
+	if args.add_bbb_uncs:
+		datacards.add_bin_by_bin_uncertainties(
+				processes=datacards.cb.cp().backgrounds().process_set(),
+				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
+		)
 	
-	cb.AddObservations(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)))
-	cb.AddProcesses(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=bkg_samples, signal=False)
-	cb.AddProcesses(mass=['*'], analysis=['ztt'], era=['13TeV'], channel=args.channels, bin=list(enumerate(args.categories)), procs=["ztt"], signal=True)
-	
-	for channel in args.channels:
-		root_filename = os.path.join(args.output_dir, root_filename_template.format(
-				ANALYSIS="ztt",
-				CHANNEL=channel,
-				ERA="13TeV"
-		).replace("$", ""))
-		cb.cp().ExtractShapes(root_filename, "$PROCESS", "$PROCESS_$SYSTEMATIC")
-		
-		for index, category in enumerate(args.categories):
-			datacard_filename = os.path.join(args.output_dir, datacard_filename_template.format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					BINID=index,
-					ERA="13TeV"
-			).replace("$", ""))
-			root_filename = os.path.join(args.output_dir, "common", root_filename_template.format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					ERA="13TeV"
-			).replace("$", ""))
-			
-			if not os.path.exists(os.path.dirname(root_filename)):
-				os.makedirs(os.path.dirname(root_filename))
-			cb.cp().channel([channel]).WriteDatacard(datacard_filename, root_filename)
-	
-	#cb.PrintAll()
-	
-	"""
-	writer = ch.CardWriter(datacard_filename_template.replace("{", "").replace("}", ""),
-	                       os.path.join("common", root_filename_template.replace("{", "").replace("}", "")))
-	writer.WriteCards(args.output_dir, cb)
-	"""
+	# write datacards and call text2workspace
+	written_datacards = {}
+	for datacard_filename_template in datacard_filename_templates:
+		written_datacards.update(datacards.write_datacards(
+				datacard_filename_template.replace("{", "").replace("}", ""),
+				output_root_filename_template.replace("{", "").replace("}", ""),
+				args.output_dir
+		))
+	datacard_workspaces = datacards.text2workspace(written_datacards) # TODO: check text2workspace commands
 

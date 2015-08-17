@@ -17,8 +17,7 @@ from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
 import Artus.Utility.jsonTools as jsonTools
 import Artus.Utility.tools as tools
 
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.quantities as quantities
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics as systematics
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
@@ -106,31 +105,31 @@ if __name__ == "__main__":
 	systematic_shifts += [(systematics.TauEsSystematic, "CMS_scale_t_%s_8TeV", shift) for shift in args["tau_es_shifts"] if shift != 0.0]
 	systematic_shifts += [(systematics.SvfitMassSystematic, "CMS_htt_ZLScale_%s_8TeV", shift) for shift in args["svfit_mass_shifts"] if shift != 0.0]
 	
-	sample_settings = samples.Sample()
+	sample_settings = samples.Samples()
 	for uncertainty, name, shift in systematic_shifts:
 		list_of_samples = []
 		if uncertainty.add_ztt():
-			list_of_samples.append(samples.Sample.ztt)
+			list_of_samples.append(samples.Samples.ztt)
 		if uncertainty.add_zl():
-			list_of_samples.append(samples.Sample.zl)
+			list_of_samples.append(samples.Samples.zl)
 		if uncertainty.add_zj():
-			list_of_samples.append(samples.Sample.zj)
+			list_of_samples.append(samples.Samples.zj)
 		if uncertainty.add_ttj():
-			list_of_samples.append(samples.Sample.ttj)
+			list_of_samples.append(samples.Samples.ttj)
 		if uncertainty.add_vv():
-			list_of_samples.append(samples.Sample.vv)
+			list_of_samples.append(samples.Samples.vv)
 		if uncertainty.add_wj():
-			list_of_samples.append(samples.Sample.wj)
+			list_of_samples.append(samples.Samples.wj)
 		if uncertainty.add_qcd():
-			list_of_samples.append(samples.Sample.qcd)
+			list_of_samples.append(samples.Samples.qcd)
 		if uncertainty.add_ggh():
-			list_of_samples.append(samples.Sample.ggh)
+			list_of_samples.append(samples.Samples.ggh)
 		if uncertainty.add_qqh():
-			list_of_samples.append(samples.Sample.qqh)
+			list_of_samples.append(samples.Samples.qqh)
 		if uncertainty.add_vh():
-			list_of_samples.append(samples.Sample.vh)
+			list_of_samples.append(samples.Samples.vh)
 		if uncertainty.add_data():
-			list_of_samples.append(samples.Sample.data)
+			list_of_samples.append(samples.Samples.data)
 			
 		for channel in args["channels"]:
 			if "%s" in name:
@@ -163,11 +162,6 @@ if __name__ == "__main__":
 							                                          label_renamings.get(label, label))
 					
 					config = uncertainty(config, name).get_config(shift)
-					
-					if quantity == "m_ll":
-						config = quantities.VisibleMass(config).get_config(channel, category)
-					if quantity == "svitMass":
-						config = quantities.VisibleMass(config).get_config(channel, category)
 					
 					if "PrintInfos" in config.get("analysis_modules", []):
 						config.get("analysis_modules", []).remove("PrintInfos")

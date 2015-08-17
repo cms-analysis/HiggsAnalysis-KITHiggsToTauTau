@@ -74,14 +74,14 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 	
 	if not args.run2:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 	
 	if args.samples == parser.get_default("samples"):
-		args.samples = [sample for sample in args.samples if hasattr(samples.Sample, sample)]
-	list_of_samples = [getattr(samples.Sample, sample) for sample in args.samples]
-	sample_settings = samples.Sample()
+		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
+	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
+	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
 
 	args.categories = [None if category == "None" else category for category in args.categories]
@@ -97,7 +97,8 @@ if __name__ == "__main__":
 						category=category,
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
-						ztt_from_mc=args.ztt_from_mc
+						ztt_from_mc=args.ztt_from_mc,
+						weight=args.weight
 				)
 				
 				config["x_expressions"] = quantity
@@ -106,18 +107,13 @@ if __name__ == "__main__":
 				
 				config["directories"] = [args.input_dir]
 				
-				if args.weight != parser.get_default("weight"):
-					if "weights" in config:
-						newWeights = []
-						for weight in config["weights"]:
-							newWeights.append(weight + '*' + args.weight)
-						config["weights"] = newWeights
-					else:
-						config["weights"] = args.weight
+				if not "PrintInfos" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("PrintInfos")
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					config.setdefault("analysis_modules", []).append("Ratio")
+					if not "Ratio" in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
 					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
 					config.setdefault("colors", []).extend(["#000000"] * 2)
