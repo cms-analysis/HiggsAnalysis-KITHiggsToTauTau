@@ -130,7 +130,7 @@ class Datacards(object):
 	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
 		writer = ch.CardWriter(os.path.join("$TAG", datacard_filename_template),
 		                       os.path.join("$TAG", root_filename_template))
-		if True: # log.isEnabledFor(logging.DEBUG):
+		if log.isEnabledFor(logging.DEBUG):
 			writer.SetVerbosity(1)
 		
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
