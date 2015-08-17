@@ -29,7 +29,7 @@ if __name__ == "__main__":
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
-	                    choices=["all", "inclusive", "0jet", "1jet", "2jet"],
+	                    choices=["all", "inclusive", "zerojet", "onejet", "twojet"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")

@@ -32,3 +32,16 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catZtt13TeV_2jet"] = self.expressions_dict["cat_2jet"]
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.expressions_dict["catZtt13TeV_"+channel+"_2jet"] = self.expressions_dict["catZtt13TeV_2jet"]
+		
+		replacements = {
+			"0jet" : "zerojet",
+			"1jet" : "onejet",
+			"2jet" : "twojet",
+		}
+		for short_expression, long_expression in self.expressions_dict.items():
+			if any([replacement in short_expression for replacement in replacements.keys()]):
+				new_short_expression = short_expression
+				for replacement in replacements.iteritems():
+					new_short_expression = new_short_expression.replace(*replacement)
+				self.expressions_dict[new_short_expression] = long_expression
+
