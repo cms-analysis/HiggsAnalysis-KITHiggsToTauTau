@@ -128,13 +128,12 @@ class Datacards(object):
 		ch.SetStandardBinNames(self.cb)
 	
 	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
-		writer = ch.CardWriter(os.path.join(output_directory, datacard_filename_template),
-		                       os.path.join(output_directory, root_filename_template))
+		writer = ch.CardWriter(os.path.join("$TAG", datacard_filename_template),
+		                       os.path.join("$TAG", root_filename_template))
 		if True: # log.isEnabledFor(logging.DEBUG):
 			writer.SetVerbosity(1)
 		
-		# TODO: writer.WriteCards seems to ignore output_directory, therefore it is added to ch.CardWriter
-		return writer.WriteCards(output_directory, self.cb)
+		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 	
 	def text2workspace(self, datacards_masses, *args):
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
