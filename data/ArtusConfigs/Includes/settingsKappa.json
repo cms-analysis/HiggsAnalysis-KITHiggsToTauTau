@@ -49,42 +49,22 @@
 	"Met" :  "met",
 	"MvaMetTT" : {
 		"nick" : {
-<<<<<<< HEAD
 			"default" : "metMVATT"
-=======
-			"default" : "metMVATT",
-			"13TeV" : ""
->>>>>>> new2
 		}
 	},
 	"MvaMetMT" : {
 		"nick" : {
-<<<<<<< HEAD
 			"default" : "metMVAMT"
-=======
-			"default" : "metMVAMT",
-			"13TeV" : ""
->>>>>>> new2
 		}
 	},
 	"MvaMetET" : {
 		"nick" : {
-<<<<<<< HEAD
 			"default" : "metMVAET"
-=======
-			"default" : "metMVAET",
-			"13TeV" : ""
->>>>>>> new2
 		}
 	},
 	"MvaMetEM" : {
 		"nick" : {
-<<<<<<< HEAD
 			"default" : "metMVAEM"
-=======
-			"default" : "metMVAEM",
-			"13TeV" : ""
->>>>>>> new2
 		}
 	},
 	"#PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
