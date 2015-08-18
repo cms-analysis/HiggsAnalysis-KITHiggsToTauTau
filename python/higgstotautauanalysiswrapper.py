@@ -28,7 +28,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		
 		if not self.projectPath is None:
 			symlinkDir = os.path.join(symlinkBaseDir, "recent")
-			if os.path.exists(symlinkDir):
+			if os.path.islink(symlinkDir):
 				os.remove(symlinkDir)
 			os.symlink(self.projectPath, symlinkDir)
 		
