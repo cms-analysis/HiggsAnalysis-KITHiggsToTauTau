@@ -150,11 +150,8 @@ protected:
 class MetSelector: public MetSelectorBase<KMET>
 {
 public:
-	MetSelector() : MetSelectorBase<KMET>(&HttTypes::event_type::m_met, nullptr) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MetSelector";
-	}
+	MetSelector();
+	virtual std::string GetProducerId() const override;
 };
 
 
@@ -165,11 +162,8 @@ public:
 class MvaMetTTSelector: public MetSelectorBase<KMET>
 {
 public:
-	MvaMetTTSelector() : MetSelectorBase(&HttTypes::event_type::m_mvaMetTT, &HttTypes::event_type::m_mvaMetsTT) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MvaMetTTSelector";
-	}
+	MvaMetTTSelector();
+	virtual std::string GetProducerId() const override;
 };
 
 
@@ -180,11 +174,8 @@ public:
 class MvaMetMTSelector: public MetSelectorBase<KMET>
 {
 public:
-	MvaMetMTSelector() : MetSelectorBase(&HttTypes::event_type::m_mvaMetMT, &HttTypes::event_type::m_mvaMetsMT) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MvaMetMTSelector";
-	}
+	MvaMetMTSelector();
+	virtual std::string GetProducerId() const override;
 };
 
 
@@ -195,11 +186,8 @@ public:
 class MvaMetETSelector: public MetSelectorBase<KMET>
 {
 public:
-	MvaMetETSelector() : MetSelectorBase(&HttTypes::event_type::m_mvaMetET, &HttTypes::event_type::m_mvaMetsET) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MvaMetETSelector";
-	}
+	MvaMetETSelector();
+	virtual std::string GetProducerId() const override;
 };
 
 
@@ -210,10 +198,7 @@ public:
 class MvaMetEMSelector: public MetSelectorBase<KMET>
 {
 public:
-	MvaMetEMSelector() : MetSelectorBase(&HttTypes::event_type::m_mvaMetEM, &HttTypes::event_type::m_mvaMetsEM) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MvaMetEMSelector";
-	}
+	MvaMetEMSelector();
+	virtual std::string GetProducerId() const override;
 };
 
