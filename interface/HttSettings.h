@@ -15,11 +15,17 @@
 class HttSettings: public KappaSettings {
 public:
 
-	/// names of MET collection in kappa tuple
+	/// names of (old) MVA MET collection in kappa tuple
 	IMPL_SETTING_DEFAULT(std::string, MvaMetTT, "");
 	IMPL_SETTING_DEFAULT(std::string, MvaMetMT, "");
 	IMPL_SETTING_DEFAULT(std::string, MvaMetET, "");
 	IMPL_SETTING_DEFAULT(std::string, MvaMetEM, "");
+	
+	/// names of (new) MVA MET collection in kappa tuple
+	IMPL_SETTING_DEFAULT(std::string, MvaMetsTT, "");
+	IMPL_SETTING_DEFAULT(std::string, MvaMetsMT, "");
+	IMPL_SETTING_DEFAULT(std::string, MvaMetsET, "");
+	IMPL_SETTING_DEFAULT(std::string, MvaMetsEM, "");
 	
 	/// htt decay channel and event category
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");

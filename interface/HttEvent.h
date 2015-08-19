@@ -17,11 +17,17 @@ public:
 	HttEvent() : KappaEvent() {};
 	//~HttEvent() : ~KappaEvent() {};
 
-	/// pointer to MET collections
-	KMETs* m_mvaMetTT = 0;
-	KMETs* m_mvaMetMT = 0;
-	KMETs* m_mvaMetET = 0;
-	KMETs* m_mvaMetEM = 0;
+	/// pointer to (old) MVA MET collections
+	KMET* m_mvaMetTT = 0;
+	KMET* m_mvaMetMT = 0;
+	KMET* m_mvaMetET = 0;
+	KMET* m_mvaMetEM = 0;
+
+	/// pointer to (new) MVA MET collections
+	KMETs* m_mvaMetsTT = 0;
+	KMETs* m_mvaMetsMT = 0;
+	KMETs* m_mvaMetsET = 0;
+	KMETs* m_mvaMetsEM = 0;
 	
 };
 

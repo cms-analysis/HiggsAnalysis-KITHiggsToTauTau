@@ -71,6 +71,30 @@
 			"13TeV" : ""
 		}
 	},
+	"MvaMetsTT" : {
+		"nick" : {
+			"default" : "",
+			"8TeV" : ""
+		}
+	},
+	"MvaMetsMT" : {
+		"nick" : {
+			"default" : "",
+			"8TeV" : ""
+		}
+	},
+	"MvaMetsET" : {
+		"nick" : {
+			"default" : "",
+			"8TeV" : ""
+		}
+	},
+	"MvaMetsEM" : {
+		"nick" : {
+			"default" : "",
+			"8TeV" : ""
+		}
+	},
 	"#PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
 	"##PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
 	"#PFChargedHadronsNoPileUp" : "pfAllChargedParticles",
