@@ -43,44 +43,34 @@ class TauEsStudies(analysisbase.AnalysisBase):
 
 	def prepare_args(self, parser, plotData):
 		super(TauEsStudies, self).prepare_args(parser, plotData)
+		self.prepare_list_args(plotData, ["data_nicks", "ztt_nicks","es_shifts","res_hist_nick"])
 
-		self.prepare_list_args(plotData, ["data_nicks", "ztt_nicks","res_hist_nick"])
-		
-		for index, (data_nicks, ztt_nicks, res_hist_nick) in enumerate(zip(
-				*[plotData.plotdict[k] for k in ["data_nicks", "ztt_nicks","res_hist_nick"]]
+		for index, (data_nicks, ztt_nicks, es_shifts, res_hist_nick) in enumerate(zip(
+				*[plotData.plotdict[k] for k in ["data_nicks", "ztt_nicks","es_shifts","res_hist_nick"]]
 		)):
 			plotData.plotdict["data_nicks"][index] = data_nicks.split()
 			plotData.plotdict["ztt_nicks"][index] = ztt_nicks.split()
-			
+			plotData.plotdict["es_shifts"][index] = es_shifts.split()
+
 			if not plotData.plotdict["res_hist_nick"][index] in plotData.plotdict["nicks"]:
 				plotData.plotdict["nicks"].insert(
 					plotData.plotdict["nicks"].index(plotData.plotdict["ztt_nicks"][index][0]),
 					plotData.plotdict["res_hist_nick"][index]
 				)
-		
+
 	def run(self, plotData=None):
 		super(TauEsStudies, self).run(plotData)
 
-		root_histogram = roottools.RootTools.create_root_histogram(
-				x_bins=array.array("d", [0]),
-				profile_histogram=False,
-				name="chi2shifts"
-		)
+		es_shifts=[]
+		chi2res=[]
 
-		es_shifts=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06,1.07,1.08]
-		root_histogram.SetBins(len(es_shifts),es_shifts[0],es_shifts[len(es_shifts)-1]+(es_shifts[len(es_shifts)-1]-es_shifts[0])/len(es_shifts))
-
-		plotData.plotdict["ztt_nicks"]
-		
-		chi2res = []
-		
-		for index, (data_nick, ztt_nick) in enumerate(zip(
-				*[plotData.plotdict[k] for k in ["data_nicks", "ztt_nicks"]]
+		for index, (data_nick, ztt_nick, es_shift) in enumerate(zip(
+				*[plotData.plotdict[k] for k in ["data_nicks", "ztt_nicks","es_shifts"]]
 		)):
 			print "chi2test between ", data_nick, " and ", ztt_nick
+			es_shifts.append(float(es_shift[0]))
 			chi2res.extend([plotData.plotdict["root_objects"][ztt_nick[0]].Chi2Test(plotData.plotdict["root_objects"][data_nick[0]], "CHI2")])
-#			print(len(chi2res))
-#			print(chi2res[index])
+
 			if index == 0:
 				chi2min = chi2res[0]
 				min_shift = es_shifts[0]
@@ -90,11 +80,27 @@ class TauEsStudies(analysisbase.AnalysisBase):
 
 		for x_value, y_value in zip(es_shifts, chi2res):
 			print "Shift: ", x_value, " Chi2Val: ", y_value
-			global_bin = root_histogram.FindBin(x_value)
-			root_histogram.SetBinContent(global_bin, y_value)
-			
-		print "min found at :", min_shift
 
-		root_histogram = root_histogram.DrawNormalized()
-		plotData.plotdict.setdefault("root_objects", {})["chi2_result"] = root_histogram
+		print "Minimum found at: ", min_shift
+
+		for res_hist_nick in zip(
+				*[plotData.plotdict["res_hist_nick"]]
+		):
+
+			#Graph
+			Chi2Graph = ROOT.TGraphErrors(
+					len(es_shifts),
+					array.array("d", es_shifts), array.array("d", chi2res)
+			)
+			plotData.plotdict.setdefault("root_objects", {})[res_hist_nick[0]] = Chi2Graph
+
+			plotData.plotdict["root_objects"][res_hist_nick[0]].SetName(res_hist_nick[0])
+			plotData.plotdict["root_objects"][res_hist_nick[0]].SetTitle("")
+
+			#Fit function
+			fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
+			Chi2Graph.Fit("f1","R")
+
+			#get minimum
+			print "Minimum of fitfunction at: ", fit2chi.GetMinimumX(min(es_shifts),max(es_shifts))
 

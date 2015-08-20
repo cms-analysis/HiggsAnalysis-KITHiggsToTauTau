@@ -27,30 +27,18 @@ if __name__ == "__main__":
 	                    choices=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
-	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")  
+	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
+	parser.add_argument("--es-shifts", nargs="*",
+						default=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
+	                    help="Energy scale shifts."),
 	parser.add_argument("--channels", nargs="*",
 	                    default=["mt"],
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
-	                    default=["inclusive",
-	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
-	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2",
-	                             "pt_ll", "eta_ll", "phi_ll", "m_ll", "mt_ll",
-	                             "pt_llmet", "eta_llmet", "phi_llmet", "m_llmet", "mt_llmet",
-	                             "mt_lep1met",
-	                             "pt_sv", "eta_sv", "phi_sv", "m_sv",
-	                             "met", "metphi", "metcov00", "metcov01", "metcov10", "metcov11",
-	                             "mvamet", "mvametphi", "mvacov00", "mvacov01", "mvacov10", "mvacov11",
-	                             "jpt_1", "jeta_1", "jphi_1",
-	                             "jpt_2", "jeta_2", "jphi_2",
-	                             "njets", "mjj", "jdeta",
-	                             "trigweight_1", "trigweight_2", "puweight",
-	                             "npv", "npu", "rho"],
+	                    default=["m_2"],
 	                    help="Quantities. [Default: %(default)s]")
-	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
-	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")	
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -64,29 +52,27 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/tauEsStudies_plots/",
 	                    help="Output directory. [Default: %(default)s]")
-	
+
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
+
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
 
 	args.categories = [None if category == "None" else category for category in args.categories]
-			
+
 	sample_ztt = [getattr(samples.Samples, "ztt")]
 	sample_rest = [getattr(samples.Samples, sample) for sample in args.samples if sample != "ztt" ]
-	
-#	es_shifts=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06]
-	es_shifts=[1.0]
 
+	es_shifts=[shift for shift in args.es_shifts]
 
 	#0 = OneProng0PiZero
 	#1 = OneProng1PiZero
+	#2 = OneProng2PiZero
 	#10 = ThreeProng0PiZero
-#	decayModes=[0,1,10]
-	decayModes=[10]
-	
+	decayModes=["decayMode_2==10","decayMode_2>=1*decayMode_2<=3"]
+
 	plot_configs = []
 	for channel in args.channels:
 		for decayMode in decayModes:
@@ -104,20 +90,20 @@ if __name__ == "__main__":
 							ztt_from_mc=args.ztt_from_mc
 					)
 
+					#merged_config.setdefault("es_shifts", []).append(str(shift))
+
 					config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
 					config_ztt["labels"] = [str(decayMode) +"/ztt_" + str(shift).replace(".", "_")]
 					config_ztt["stacks"] = [stack.replace("_" + str(shift).replace(".", "_"), "") for stack in config_ztt["stacks"]]
 
-					config_ztt.setdefault("chi2test_nicks", []).append("noplot_sum" + " " + "ztt_" + str(shift).replace(".", "_"))
-
-					config_ztt["weights"] = ["eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)*(decayMode_2==" + str(decayMode) + ")"] * len(config_ztt["nicks"])
+					config_ztt["weights"] = ["eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)*(" + decayMode + ")"] * len(config_ztt["nicks"])
 
 					#print config_ztt["nicks_blacklist"]
 					#if (index != 0):
 					#	merged_config.setdefault("nicks_blacklist", []).append("^ztt_" + str(shift).replace(".", "_") + "$")
 
 					# merge configs
-					merged_config = samples.Sample.merge_configs(merged_config, config_ztt, additional_keys=["ztt_emb_inc_nicks","ztt_from_mc","ztt_mc_inc_nicks","ztt_plot_nicks"])
+					merged_config = samples.Samples.merge_configs(merged_config, config_ztt, additional_keys=["ztt_emb_inc_nicks","ztt_from_mc","ztt_mc_inc_nicks","ztt_plot_nicks","ztt_nicks"])
 
 				# config for rest
 				config_rest = sample_settings.get_config(
@@ -127,34 +113,46 @@ if __name__ == "__main__":
 				)
 
 				config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
-				config_rest["weights"] = ["eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)*(decayMode_2==" + str(decayMode) + ")"] * len(config_rest["nicks"])
+				config_rest["weights"] = ["eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)*(" + decayMode + ")"]  * len(config_rest["nicks"])
 
 				# merge configs
-				merged_config = samples.Samples.merge_configs(config_ztt, config_rest)
+				merged_config = samples.Samples.merge_configs(merged_config, config_rest)
 
-				#merged_config["legend_markers"] = ["F" if label != "data" else "ELP" for label in merged_config["labels"]]
 				merged_config["directories"] = [args.input_dir]
 				merged_config["nicks_blacklist"].append("noplot")
 				merged_config["output_dir"] = os.path.expandvars(args.output_dir)
-				merged_config["filename"] = "m_2_shift" + str(shift)
 
+				merged_config["filename"] = "tauesstudies_" + decayMode.replace("*","_")
+
+				#data minus background
 				bkg_samples_used = ["data"]
 				bkg_samples_used = bkg_samples_used + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
 
 				merged_config.setdefault("histogram_nicks", []).extend([" ".join(bkg_samples_used)])
 				merged_config.setdefault("sum_scale_factors", []).extend([" ".join(["1" if sample=="data" else "-1" for sample in bkg_samples_used])])
-				merged_config.setdefault("sum_result_nicks", []).append("noplot_sum")
+				merged_config.setdefault("sum_result_nicks", []).append("noplot_datanobkg")
 
 				#analysis_modules
 				merged_config.setdefault("analysis_modules", []).append("AddHistograms")
 				merged_config.setdefault("analysis_modules", []).append("PrintInfos")
-				merged_config.setdefault("analysis_modules", []).append("Chi2Test")
 				#merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
-				if (index == 0):
-					merged_config["file_mode"] = "RECREATE"
-				else:
-					merged_config["file_mode"] = "UPDATE"
+				#plot modules
+				#merged_config.setdefault("plot_modules", []).append("ExportRoot")
+				merged_config.setdefault("plot_modules", []).append("PlotRootHtt")
+
+				#chi2test
+				merged_config["res_hist_nick"]  = ["chi2_result"]
+				#merged_config["nicks_whitelist"] = ["chi2_result"]
+				merged_config["es_shifts"] = [str(shift) for shift in es_shifts]
+				merged_config["ztt_nicks"] = ["ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
+				merged_config["data_nicks"] = ["noplot_datanobkg"] * len(es_shifts)
+
+				#special
+			#	if (index == 0):
+			#		merged_config["file_mode"] = "RECREATE"
+			#	else:
+			#		merged_config["file_mode"] = "UPDATE"
 
 				if args.ratio:
 					bkg_samples_used = ["ztt_" + str(shift).replace(".", "_")]
@@ -170,9 +168,21 @@ if __name__ == "__main__":
 				# append merged config to plot configs
 				plot_configs.append(merged_config)
 
+				#write a plot config that makes graph
+				config_chi2 = {}
+
+				config_chi2["files"] = "plots/tauEsStudies_plots/tauesstudies_" + decayMode.replace("*","_") + ".root"
+				config_chi2["markers"] = ["ALP"]
+				config_chi2["x_expressions"]  = ["data"]
+				config_chi2["filename"] = "chi2result_" + decayMode.replace("*","_")
+				config_chi2["x_label"] = "ES_shift"
+				config_chi2["y_label"] = "Chi2"
+
+				#plot_configs.append(config_chi2)
+
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-			
+
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
