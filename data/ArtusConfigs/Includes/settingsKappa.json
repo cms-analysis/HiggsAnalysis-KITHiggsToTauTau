@@ -73,25 +73,25 @@
 	},
 	"MvaMetsTT" : {
 		"nick" : {
-			"default" : "",
+			"default" : "metMVATT",
 			"8TeV" : ""
 		}
 	},
 	"MvaMetsMT" : {
 		"nick" : {
-			"default" : "",
+			"default" : "metMVAMT",
 			"8TeV" : ""
 		}
 	},
 	"MvaMetsET" : {
 		"nick" : {
-			"default" : "",
+			"default" : "metMVAET",
 			"8TeV" : ""
 		}
 	},
 	"MvaMetsEM" : {
 		"nick" : {
-			"default" : "",
+			"default" : "metMVAEM",
 			"8TeV" : ""
 		}
 	},

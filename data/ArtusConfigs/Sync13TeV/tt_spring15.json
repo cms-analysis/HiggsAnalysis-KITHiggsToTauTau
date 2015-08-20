@@ -71,7 +71,7 @@
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
 					"producer:MetSelector",
-					"#producer:MvaMetTTSelector",
+					"producer:MvaMetTTSelector",
 					"#filter:DecayChannelFilter",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
