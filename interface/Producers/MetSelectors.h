@@ -97,11 +97,11 @@ public:
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override
 	{
-		assert((event.*m_metMember) || (event.*m_metsMember));
+		assert((m_metMember != nullptr) || (m_metsMember != nullptr));
 		
-		if ((event.*m_metsMember))
+		if (m_metsMember)
 		{
-			assert(product.m_ptOrderedLeptons.size() > 0);
+			assert(((event.*m_metsMember) != nullptr) && (product.m_ptOrderedLeptons.size() > 0));
 			
 			// create hashes from lepton selection. Any number of leptons is possible 
 			std::vector<KLepton*> leptons = product.m_ptOrderedLeptons;
@@ -126,12 +126,13 @@ public:
 				} 
 			}
 			
-			assert(product.m_met);
+			assert(product.m_met != nullptr);
 			// If this assertion fails, one might have to consider running the MetSelector before this producer
 			// in order to have the (PF) MET as a fallback solution
 		}
 		else
 		{
+			assert((event.*m_metMember) != nullptr);
 			product.m_met = (event.*m_metMember);
 		}
 	}
