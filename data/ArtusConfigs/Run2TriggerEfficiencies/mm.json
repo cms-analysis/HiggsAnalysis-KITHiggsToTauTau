@@ -1,0 +1,123 @@
+{
+	"mm" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json"
+		],
+		"Channel" : "MM",
+		"GenDiLeptonDecayMode" : "mm",
+		"MinNMuons" : 1,
+		"HltPaths" : [
+			"HLT_IsoMu24_eta2p1",
+			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
+		],
+		"TagLeptonHltPaths" : [
+			"HLT_IsoMu24_eta2p1_v"
+		],
+		"ProbeLeptonHltPaths" : [
+			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v"
+		],
+		"MuonLowerPtCuts" : [
+			"18.0"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
+		"DiTauPairMinDeltaRCut" : 0.5,
+		"DiTauPairLepton1LowerPtCuts" : [
+			"HLT_IsoMu24_eta2p1_v:25.0"
+		],
+		"DiTauPairLepton2LowerPtCuts" : [
+			"HLT_IsoMu24_eta2p1_v:25.0"
+		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
+			"HLT_IsoMu24_eta2p1_v",
+			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v"
+		],
+		"EventWeight" : "eventWeight",
+		"MuonTriggerFilterNames" : {
+			"nick" : {
+				"default" : [
+					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09",
+					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu17LooseIsoPFTau20",
+					"HLT_IsoMu24_eta2p1_v:hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09"
+				]
+			}
+		},
+		"InvalidateNonMatchingMuons" : false,
+		"RecoTauMatchingGenParticlePdgIds" : [
+			11,
+			13
+		],
+		"DirectIso" : true,
+		"Quantities" : [
+			"nMuons",
+			"pt_1",
+			"pt_2",
+			"eta_1",
+			"eta_2",
+			"phi_1",
+			"phi_2",
+			"m_vis",
+			"triggerTagLeptonAvailable",
+			"triggerProbeLeptonAvailable"
+		],
+		"OSChargeLeptons" : true,
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ValidMMPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
+					"producer:MetSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EventWeightProducer"
+				],
+				"DY.?JetsToLL" : [
+					"producer:GenDiLeptonDecayModeProducer",
+					"filter:GenDiLeptonDecayModeFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ValidMMPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
+					"producer:MetSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EventWeightProducer"
+				],
+				"Run2015" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ValidMMPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
+					"producer:MetSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EventWeightProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"cutflow_histogram",
+			"CutFlowTreeConsumer",
+			"KappaMuonsConsumer"
+		]
+	}
+}
