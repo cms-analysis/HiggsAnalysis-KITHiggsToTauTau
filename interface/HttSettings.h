@@ -214,4 +214,11 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaInputQuantities, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
+	
+	// settings for TriggerTagAndProbeProducers
+	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonHltPaths, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonHltPaths, {});
+	
+	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonTriggerFilterNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonTriggerFilterNames, {});
 };

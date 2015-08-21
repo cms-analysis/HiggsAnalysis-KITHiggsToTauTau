@@ -159,4 +159,7 @@ public:
 	std::vector<KGenTau*> m_validGenTausToMuons;
 	std::vector<KGenTau*> m_validGenTausToTaus;
 
+	// filled by TriggerTagAndProbeProducers
+	bool m_triggerTagLeptonAvailable = false;
+	bool m_triggerProbeLeptonAvailable = false;
 };
