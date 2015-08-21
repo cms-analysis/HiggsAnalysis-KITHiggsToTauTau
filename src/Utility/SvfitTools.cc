@@ -228,10 +228,10 @@ TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 	return metCovarianceMatrix;
 }
 
-SvfitResults::SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty) :
+SvfitResults::SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET) :
 	SvfitResults()
 {
-	Set(momentum, momentumUncertainty);
+	Set(momentum, momentumUncertainty, fittedMET);
 }
 
 SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) :
@@ -254,7 +254,7 @@ SvfitResults::~SvfitResults()
 	*/
 }
 
-void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty)
+void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET)
 {
 	if (! this->momentum)
 	{
@@ -264,27 +264,35 @@ void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty)
 	{
 		this->momentumUncertainty = new RMFLV();
 	}
+	if (! this->fittedMET)
+	{
+		this->fittedMET = new RMDataV();
+	}
 	
 	*(this->momentum) = momentum;
 	*(this->momentumUncertainty) = momentumUncertainty;
+	*(this->fittedMET) = fittedMET;
 }
 
 void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
 	Set(GetMomentum(svfitStandaloneAlgorithm),
-	    GetMomentumUncertainty(svfitStandaloneAlgorithm));
+	    GetMomentumUncertainty(svfitStandaloneAlgorithm),
+	    GetFittedMET(svfitStandaloneAlgorithm));
 }
 
 void SvfitResults::CreateBranches(TTree* tree)
 {
-	tree->Branch("svfitMomentum", "RMFLV", &momentum);
-	tree->Branch("svfitMomentumUncertainty", "RMFLV", &momentumUncertainty);
+	tree->Branch("svfitMomentum", &momentum);
+	tree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
+	tree->Branch("svfitMet", &fittedMET);
 }
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
 {
 	tree->SetBranchAddress("svfitMomentum", &momentum);
 	tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
+	tree->SetBranchAddress("svfitMet", &fittedMET);
 	ActivateBranches(tree, true);
 }
 
@@ -292,6 +300,7 @@ void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 {
 	tree->SetBranchStatus("svfitMomentum", activate);
 	tree->SetBranchStatus("svfitMomentumUncertainty", activate);
+	tree->SetBranchStatus("svfitMet", activate);
 }
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
@@ -323,6 +332,12 @@ RMFLV SvfitResults::GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfit
 	momentumUncertainty.SetPhi(svfitStandaloneAlgorithm.phiUncert());
 	momentumUncertainty.SetM(svfitStandaloneAlgorithm.massUncert());
 	return momentumUncertainty;
+}
+
+RMDataV SvfitResults::GetFittedMET(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+{
+	RMDataV fittedMET(svfitStandaloneAlgorithm.fittedMET());
+	return fittedMET;
 }
 
 SvfitTools::SvfitTools(std::vector<std::string> const& fileNames, std::string const& treeName)
