@@ -122,6 +122,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("eta_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitEta"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitPhi"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitMass"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("met_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitMet"]);
 	
 	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("dilepton_veto", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nDiLeptonVetoPairsOS"]);
 	
@@ -169,10 +170,6 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("isFake", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return DefaultValues::UndefinedInt;
-	});	
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("met_sv", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return DefaultValues::UndefinedFloat;
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("visjeteta", [](KappaEvent const& event, KappaProduct const& product)
 	{
