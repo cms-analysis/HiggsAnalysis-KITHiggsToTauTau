@@ -45,7 +45,8 @@
 			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
 		],
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v"
+			"HLT_Ele32_eta2p1_WP75_Gsf_v",
+			"HLT_Ele32_eta2p1_WPTight_Gsf_v"
 		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
