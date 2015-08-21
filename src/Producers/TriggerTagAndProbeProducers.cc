@@ -10,8 +10,8 @@ LeptonTriggerTagAndProbeProducer::LeptonTriggerTagAndProbeProducer() :
 			&HttTypes::product_type::m_detailedTriggerMatchedLeptons,
 			&HttTypes::setting_type::GetTagLeptonHltPaths,
 			&HttTypes::setting_type::GetProbeLeptonHltPaths,
-			&HttTypes::setting_type::GetTagLeptonTriggerFilterNames,
-			&HttTypes::setting_type::GetProbeLeptonTriggerFilterNames,
+			//&HttTypes::setting_type::GetTagLeptonTriggerFilterNames,
+			//&HttTypes::setting_type::GetProbeLeptonTriggerFilterNames,
 			&HttTypes::product_type::m_triggerTagLeptonAvailable,
 			&HttTypes::product_type::m_triggerProbeLeptonAvailable
 	)

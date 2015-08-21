@@ -31,8 +31,8 @@ public:
 			std::map<TObject*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > product_type::*detailedTriggerMatchedObjects,
 			std::vector<std::string>& (setting_type::*GetTagObjectHltPaths)(void) const,
 			std::vector<std::string>& (setting_type::*GetProbeObjectHltPaths)(void) const,
-			std::vector<std::string>& (setting_type::*GetTagObjectTriggerFilterNames)(void) const,
-			std::vector<std::string>& (setting_type::*GetProbeObjectTriggerFilterNames)(void) const,
+			//std::vector<std::string>& (setting_type::*GetTagObjectTriggerFilterNames)(void) const,
+			//std::vector<std::string>& (setting_type::*GetProbeObjectTriggerFilterNames)(void) const,
 			bool product_type::*triggerTagObjectAvailable,
 			bool product_type::*triggerProbeObjectAvailable
 	) :
@@ -41,8 +41,8 @@ public:
 		m_detailedTriggerMatchedObjects(detailedTriggerMatchedObjects),
 		GetTagObjectHltPaths(GetTagObjectHltPaths),
 		GetProbeObjectHltPaths(GetProbeObjectHltPaths),
-		GetTagObjectTriggerFilterNames(GetTagObjectTriggerFilterNames),
-		GetProbeObjectTriggerFilterNames(GetProbeObjectTriggerFilterNames),
+		//GetTagObjectTriggerFilterNames(GetTagObjectTriggerFilterNames),
+		//GetProbeObjectTriggerFilterNames(GetProbeObjectTriggerFilterNames),
 		m_triggerTagObjectAvailable(triggerTagObjectAvailable),
 		m_triggerProbeObjectAvailable(triggerProbeObjectAvailable)
 	{
@@ -112,8 +112,8 @@ private:
 	std::map<TObject*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >*> product_type::*m_detailedTriggerMatchedObjects; // TODO: for jets this would be a slighly different type
 	std::vector<std::string>& (setting_type::*GetTagObjectHltPaths)(void) const;
 	std::vector<std::string>& (setting_type::*GetProbeObjectHltPaths)(void) const;
-	std::vector<std::string>& (setting_type::*GetTagObjectTriggerFilterNames)(void) const;
-	std::vector<std::string>& (setting_type::*GetProbeObjectTriggerFilterNames)(void) const;
+	//std::vector<std::string>& (setting_type::*GetTagObjectTriggerFilterNames)(void) const;
+	//std::vector<std::string>& (setting_type::*GetProbeObjectTriggerFilterNames)(void) const;
 	bool product_type::*m_triggerTagObjectAvailable;
 	bool product_type::*m_triggerProbeObjectAvailable;
 
