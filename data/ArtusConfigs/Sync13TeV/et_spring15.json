@@ -75,7 +75,9 @@
 			"nLooseMuons",
 			"nElectrons",
 			"nMuons",
-			"nTaus"
+			"nTaus",
+			"nSelectedHltPaths",
+			"selectedHltPaths"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
@@ -130,7 +132,8 @@
 			"#KappaMuonsConsumer",
 			"#KappaTausConsumer",
 			"#KappaJetsConsumer",
-			"#KappaTaggedJetsConsumer"
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer"
 		]
 	}
 }

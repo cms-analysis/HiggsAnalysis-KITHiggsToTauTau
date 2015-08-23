@@ -128,7 +128,8 @@
 			"#KappaMuonsConsumer",
 			"#KappaTausConsumer",
 			"#KappaJetsConsumer",
-			"#KappaTaggedJetsConsumer"
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer"
 		]
 	}
 }
