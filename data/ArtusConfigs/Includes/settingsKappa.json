@@ -74,28 +74,28 @@
 	"MvaMetsTT" : {
 		"nick" : {
 			"default" : "",
-			"SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_pythia8" : "metMVATT",
+			"13TeV_MINIAOD_" : "metMVATT",
 			"8TeV" : ""
 		}
 	},
 	"MvaMetsMT" : {
 		"nick" : {
 			"default" : "",
-			"SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_pythia8" : "metMVAMT",
+			"13TeV_MINIAOD_" : "metMVAMT",
 			"8TeV" : ""
 		}
 	},
 	"MvaMetsET" : {
 		"nick" : {
 			"default" : "",
-			"SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_pythia8" : "metMVAET",
+			"13TeV_MINIAOD_" : "metMVAET",
 			"8TeV" : ""
 		}
 	},
 	"MvaMetsEM" : {
 		"nick" : {
 			"default" : "",
-			"SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_pythia8" : "metMVAEM",
+			"13TeV_MINIAOD_" : "metMVAEM",
 			"8TeV" : ""
 		}
 	},
