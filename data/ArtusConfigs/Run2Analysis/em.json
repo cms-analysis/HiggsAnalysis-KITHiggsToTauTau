@@ -7,7 +7,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsAntiTtbarMva.json"
 		],
 		"Channel" : "EM",
 		"MinNElectrons" : 1,
@@ -66,7 +67,8 @@
 			{
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/emAntiTTbarMvaQuantities.json"
 				]
 			},
 			"genDiLeptonDecayMode",
@@ -109,6 +111,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
+					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -140,6 +143,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
+					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -168,6 +172,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
+					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer"
 				]
 			}
