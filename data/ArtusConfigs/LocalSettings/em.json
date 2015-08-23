@@ -6,7 +6,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauES.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauES.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsAntiTtbarMva.json"
 		],
 		"Channel" : "EM",
 		"NLooseElectrons" : 1,
@@ -110,21 +111,6 @@
 			},
 			"genDiLeptonDecayMode",
 			"genNPartons"
-		],
-		"AntiTtbarTmvaInputQuantities" : [
-			"emAntiTTbarMva_pzetavis:=pzetavis",
-			"emAntiTTbarMva_pzetavis:=pzetamiss",
-			"emAntiTTbarMva_pzetavis:=dphi",
-			"emAntiTTbarMva_pzetavis:=mvamet",
-			"emAntiTTbarMva_pzetavis:=mtll",
-			"emAntiTTbarMva_pzetavis:=csv",
-			"emAntiTTbarMva_pzetavis:=d01"
-		],
-		"AntiTtbarTmvaMethods" : [
-			"BDTG method"
-		],
-		"AntiTtbarTmvaWeights" : [
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/mva_weights/EmuMVA/data/HttEmu_v3.weights.xml"
 		],
 		"Processors" : {
 			"nick" : {

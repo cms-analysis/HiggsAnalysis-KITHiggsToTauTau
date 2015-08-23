@@ -1,0 +1,17 @@
+{
+	"AntiTtbarTmvaInputQuantities" : [
+		"emAntiTTbarMva_pzetavis:=pzetavis",
+		"emAntiTTbarMva_pzetavis:=pzetamiss",
+		"emAntiTTbarMva_pzetavis:=dphi",
+		"emAntiTTbarMva_pzetavis:=mvamet",
+		"emAntiTTbarMva_pzetavis:=mtll",
+		"emAntiTTbarMva_pzetavis:=csv",
+		"emAntiTTbarMva_pzetavis:=d01"
+	],
+	"AntiTtbarTmvaMethods" : [
+		"BDTG method"
+	],
+	"AntiTtbarTmvaWeights" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/mva_weights/EmuMVA/data/HttEmu_v3.weights.xml"
+	]
+}
