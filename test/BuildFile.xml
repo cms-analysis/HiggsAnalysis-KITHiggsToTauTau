@@ -1,26 +1,34 @@
-<bin name="HiggsAnalysis-KITHiggsToTauTau_tests" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
-	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test HiggsAnalysis-KITHiggsToTauTau_tests.sh" />
+<Flags CXXFLAGS="-g" />
+<Flags LDFLAGS="-rdynamic" />
+<Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
+<Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
+<use name="Artus/Core"/>
+<use name="Artus/Provider"/>
+<use name="Artus/Configuration"/>
+<use name="Artus/Consumer"/>
+<use name="HiggsAnalysis/KITHiggsToTauTau"/>
+<use name="root"/>
+<use name="rootmath"/>
+<use name="roottmva"/>
+<use name="boost"/>
+<use name="boost_regex"/>
+<!-- dependencies of TauSpinner -->
+<use name="SimGeneral/HepPDTRecord"/>
+<use name="heppdt"/>
+<use name="clhep"/>
+<use name="hepmc"/>
+<use name="tauspinner"/>
+<flags EDM_PLUGIN="1"/>
+<!-- dependencies of TauSpinner -->
 
-	<Flags CXXFLAGS="-g" />
-	<Flags LDFLAGS="-rdynamic" />
-	<Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
-	<Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
-	<use name="Artus/Core"/>
-	<use name="Artus/Provider"/>
-	<use name="Artus/Configuration"/>
-	<use name="Artus/Consumer"/>
-	<use name="HiggsAnalysis/KITHiggsToTauTau"/>
-	<use name="root"/>
-	<use name="rootmath"/>
-	<use name="roottmva"/>
-	<use name="boost"/>
-	<use name="boost_regex"/>
-	<!-- dependencies of TauSpinner -->
-	<use name="SimGeneral/HepPDTRecord"/>
-	<use name="heppdt"/>
-	<use name="clhep"/>
-	<use name="hepmc"/>
-	<use name="tauspinner"/>
-	<flags EDM_PLUGIN="1"/>
-	<!-- dependencies of TauSpinner -->
+<bin name="HiggsAnalysis-KITHiggsToTauTau_SM_Htautau" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test HiggsAnalysis-KITHiggsToTauTau_SM_Htautau.sh" />
+</bin>
+
+<bin name="HiggsAnalysis-KITHiggsToTauTau_Sync13TeV" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test HiggsAnalysis-KITHiggsToTauTau_Sync13TeV.sh" />
+</bin>
+
+<bin name="HiggsAnalysis-KITHiggsToTauTau_Run2Analysis" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test HiggsAnalysis-KITHiggsToTauTau_Run2Analysis.sh" />
 </bin>
