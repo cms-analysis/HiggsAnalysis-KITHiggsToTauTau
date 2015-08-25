@@ -6,7 +6,7 @@
 	"LooseElectronReco" : "mvanontrig",
 
 	"LooseElectronID" : "user",
-	"LooseElectronIDType" : "mvanontrigphys14loose",
+	"LooseElectronIDType" : "mvanontrigspring15loose",
 
 	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",
