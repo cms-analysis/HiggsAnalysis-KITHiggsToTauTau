@@ -7,7 +7,7 @@ from HiggsAnalysis.CombinedLimit.PhysicsModel import PhysicsModel
 ###   - yields a scaling factor for each pair of bin and process (by default, constant for background and linear in "r" for signal)
 ###   - possibly modifies the systematical uncertainties (does nothing by default)
 
-class ZttFakeAndXsec(PhysicsModel):
+class ZttEffAndXsec(PhysicsModel):
 	def __init__(self):
 		self.verbose = False
 	def setPhysicsOptions(self, physOptions):
@@ -20,7 +20,7 @@ class ZttFakeAndXsec(PhysicsModel):
 		self.modelBuilder.doVar("r[1,0,5]")
 		self.modelBuilder.doVar("eff[1,0,2]")
 		self.modelBuilder.factory_('expr::pass("@0 * @1", r, eff)')
-		self.modelBuilder.factory_('expr::fake("@0 * (1 - @1)", r, eff)')
+		self.modelBuilder.factory_('expr::fail("@0 * (1 - @1)", r, eff)')
 		if self.options.mass != 0:
 			if self.modelBuilder.out.var("MH"):
 			  self.modelBuilder.out.var("MH").removeRange()
@@ -29,15 +29,17 @@ class ZttFakeAndXsec(PhysicsModel):
 			  self.modelBuilder.doVar("MH[%g]" % self.options.mass); 
 		self.modelBuilder.doSet("POI","r,eff")
 	def getYieldScale(self,bin,process):
-		string = "%s/%s" % (bin,process)
-		if string == "pass/ztt":
-			return "pass"
-		elif string == "fail/ztt":
-			return "fake"
+		if self.DC.isSignal[process]:
+			if "pass" in bin:
+				return "pass"
+			elif "fail" in bin:
+				return "fail"
+			else:
+				return 1
 		else:
 			return 1
 
-class ZttFake(PhysicsModel):
+class ZttEff(PhysicsModel):
 	def __init__(self):
 		self.verbose = False
 	def setPhysicsOptions(self, physOptions):
@@ -48,7 +50,7 @@ class ZttFake(PhysicsModel):
 		"""Create POI and other parameters, and define the POI set."""
 		# --- Higgs Mass as other parameter ----
 		self.modelBuilder.doVar("eff[1,0,2]")
-		self.modelBuilder.factory_('expr::fake("(1 - @0)", eff)')
+		self.modelBuilder.factory_('expr::fail("(1 - @0)", eff)')
 		if self.options.mass != 0:
 			if self.modelBuilder.out.var("MH"):
 			  self.modelBuilder.out.var("MH").removeRange()
@@ -57,15 +59,17 @@ class ZttFake(PhysicsModel):
 			  self.modelBuilder.doVar("MH[%g]" % self.options.mass); 
 		self.modelBuilder.doSet("POI","eff")
 	def getYieldScale(self,bin,process):
-		string = "%s/%s" % (bin,process)
-		if string == "pass/ztt":
-			return "eff"
-		elif string == "fail/ztt":
-			return "fake"
+		if self.DC.isSignal[process]:
+			if "pass" in bin:
+				return "eff"
+			elif "fail" in bin:
+				return "fail"
+			else:
+				return 1
 		else:
 			return 1
 
 
 defaultModel = PhysicsModel()
-zttFake = ZttFake()
-zttFakeAndXsec = ZttFakeAndXsec()
+zttEff = ZttEff()
+zttEffAndXsec = ZttEffAndXsec()
