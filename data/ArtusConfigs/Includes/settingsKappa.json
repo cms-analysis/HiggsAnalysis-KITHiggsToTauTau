@@ -75,6 +75,7 @@
 		"nick" : {
 			"default" : "",
 			"13TeV_MINIAOD_" : "metMVATT",
+			"Run2015" : "metMVATT",
 			"8TeV" : ""
 		}
 	},
@@ -82,6 +83,7 @@
 		"nick" : {
 			"default" : "",
 			"13TeV_MINIAOD_" : "metMVAMT",
+			"Run2015" : "metMVAMT",
 			"8TeV" : ""
 		}
 	},
@@ -89,6 +91,7 @@
 		"nick" : {
 			"default" : "",
 			"13TeV_MINIAOD_" : "metMVAET",
+			"Run2015" : "metMVAET",
 			"8TeV" : ""
 		}
 	},
@@ -96,6 +99,7 @@
 		"nick" : {
 			"default" : "",
 			"13TeV_MINIAOD_" : "metMVAEM",
+			"Run2015" : "metMVAEM",
 			"8TeV" : ""
 		}
 	},

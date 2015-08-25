@@ -89,7 +89,7 @@
 		"Quantities" : [
 			{
 				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
@@ -128,7 +128,7 @@
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
-					"#producer:MvaMetETSelector",
+					"producer:MvaMetETSelector",
 					"producer:DiVetoElectronVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
@@ -161,7 +161,7 @@
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
-					"#producer:MvaMetETSelector",
+					"producer:MvaMetETSelector",
 					"producer:RecoTauGenParticleMatchingProducer",
 					"producer:RecoTauGenTauMatchingProducer",
 					"filter:MinTausCountFilter",
@@ -196,7 +196,7 @@
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
-					"#producer:MvaMetETSelector",
+					"producer:MvaMetETSelector",
 					"producer:DiVetoElectronVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
