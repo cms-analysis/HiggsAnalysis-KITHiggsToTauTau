@@ -19,6 +19,7 @@
 			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
+		"TauUseOldDMs" : true,
 		"MuonLowerPtCuts" : [
 			"18.0"
 		],

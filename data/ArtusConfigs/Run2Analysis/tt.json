@@ -15,6 +15,7 @@
 			"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
+		"TauUseOldDMs" : true,
 		"TauLowerPtCuts" : [
 			"45.0"
 		],
