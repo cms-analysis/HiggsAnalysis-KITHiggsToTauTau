@@ -17,7 +17,7 @@ def checkout_packages(max_n_trials=2):
 		"svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries",
 		
 		# needed by the JetEnergyCorrectionProducer
-		"git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone",
+		"git clone https://github.com/veelken/SVfit_standalone.git -b svFit_2015Apr03 TauAnalysis/SVfitStandalone",
 		
 		# needed for plotting and statistical inference
 		"git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git -b CombineHarvester-v15.5 HiggsAnalysis/HiggsToTauTau",

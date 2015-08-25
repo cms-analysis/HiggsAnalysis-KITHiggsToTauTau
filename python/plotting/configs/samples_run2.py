@@ -56,6 +56,16 @@ class Samples(samples.SamplesBase):
 					"data",
 					nick_suffix=nick_suffix
 			)
+		elif channel == "tt":
+			Samples._add_input(
+					config,
+					"Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
+					channel+"/ntuple",
+					1.0,
+					weight+"*eventWeight" + cut_string(channel, cutStep),
+					"data",
+					nick_suffix=nick_suffix
+			)
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 		
@@ -77,7 +87,7 @@ class Samples(samples.SamplesBase):
 					"ztt",
 					nick_suffix=nick_suffix
 			)
-		elif channel == "em":
+		elif channel in ["em", "tt"]:
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
@@ -109,7 +119,7 @@ class Samples(samples.SamplesBase):
 					"zll",
 					nick_suffix=nick_suffix
 			)
-		elif channel == "em":
+		elif channel in ["em", "tt"]:
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
@@ -142,7 +152,7 @@ class Samples(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 
-		elif channel == "em":
+		elif channel in ["em", "tt"]:
 			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
@@ -163,7 +173,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 		
-		if channel in ["mt", "et", "em"]:
+		if channel in ["mt", "et", "em", "tt"]:
 			Samples._add_input(
 					config,
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
@@ -265,7 +275,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_mc_signal"+nick_suffix)
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_mc_control"+nick_suffix)
 
-		elif channel == "em":
+		elif channel in ["em", "tt"]:
 			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
@@ -466,11 +476,122 @@ class Samples(samples.SamplesBase):
 					"qcd",
 					nick_suffix=nick_suffix
 			)
+		elif channel == "tt":
+			Samples._add_input(
+					config,
+					"Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
+					channel+"/ntuple",
+					1.0,
+					"((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_1 < 0.15)*(iso_2 < 0.15)",
+					"qcd",
+					nick_suffix=nick_suffix
+			)
 		else:
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
+		return config
+	
+	def htt(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, **kwargs):
+		config = self.ggh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb, lumi, no_plot=True, **kwargs)
+		config = self.qqh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb, lumi, no_plot=True, **kwargs)
+		config = self.vh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb, lumi, no_plot=True, **kwargs)
+		
+		for mass in higgs_masses:
+			if not "AddHistograms" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("AddHistograms")
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "wmh", "wph", "zh"]]))
+			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
+			
+			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+		return config
+	
+	def ggh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("ggh", 1.0)
+		
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em", "mm"]:
+				Samples._add_input(
+						config,
+						"GluGluHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8/*.root".format(mass=str(mass)),
+						channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
+						lumi,
+						weight+"*eventWeight" + cut_string(channel, cutStep),
+						"ggh%s" % str(mass),
+						nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+			
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+		return config
+	
+	def qqh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("qqH", 1.0)
+		
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em", "mm"]:
+				Samples._add_input(
+						config,
+						"VBFHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8/*.root".format(mass=str(mass)),
+						channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
+						lumi,
+						weight+"*eventWeight" + cut_string(channel, cutStep),
+						"qqh%s" % str(mass),
+						nick_suffix=nick_suffix
+			)
+			else:
+				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+			
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+		return config
+	
+	def vh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, **kwargs):
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("VH", 1.0)
+		
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em", "mm"]:
+				Samples._add_input(
+						config,
+						"WminusHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8/*.root".format(mass=str(mass)),
+						channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
+						lumi,
+						weight+"*eventWeight" + cut_string(channel, cutStep),
+						"wmh%s" % str(mass),
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						"WplusHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8/*.root".format(mass=str(mass)),
+						channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
+						lumi,
+						weight+"*eventWeight" + cut_string(channel, cutStep),
+						"wph%s" % str(mass),
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						"ZHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8/*.root".format(mass=str(mass)),
+						channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
+						lumi,
+						weight+"*eventWeight" + cut_string(channel, cutStep),
+						"zh%s" % str(mass),
+						nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+			
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 
 
@@ -490,7 +611,12 @@ cutSequenceDict = {
 		"(extraelec_veto < 0.5)*(extramuon_veto < 0.5)",
 		"(iso_1 < 0.15)",
 		"(iso_2 < 0.15)",
-		"1.0"]
+		"1.0"],
+	"tt" : ["((q_1*q_2)<0.0)",
+		"(extraelec_veto < 0.5)*(extramuon_veto < 0.5)",
+		"(iso_1 < 0.15)",
+		"(iso_2 < 0.15)",
+		"1.0"],
 }
 
 def cut_string(channel, cut_step):

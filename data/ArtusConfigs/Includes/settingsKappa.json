@@ -71,6 +71,38 @@
 			"13TeV" : ""
 		}
 	},
+	"MvaMetsTT" : {
+		"nick" : {
+			"default" : "",
+			"13TeV_MINIAOD_" : "metMVATT",
+			"Run2015" : "metMVATT",
+			"8TeV" : ""
+		}
+	},
+	"MvaMetsMT" : {
+		"nick" : {
+			"default" : "",
+			"13TeV_MINIAOD_" : "metMVAMT",
+			"Run2015" : "metMVAMT",
+			"8TeV" : ""
+		}
+	},
+	"MvaMetsET" : {
+		"nick" : {
+			"default" : "",
+			"13TeV_MINIAOD_" : "metMVAET",
+			"Run2015" : "metMVAET",
+			"8TeV" : ""
+		}
+	},
+	"MvaMetsEM" : {
+		"nick" : {
+			"default" : "",
+			"13TeV_MINIAOD_" : "metMVAEM",
+			"Run2015" : "metMVAEM",
+			"8TeV" : ""
+		}
+	},
 	"#PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
 	"##PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
 	"#PFChargedHadronsNoPileUp" : "pfAllChargedParticles",

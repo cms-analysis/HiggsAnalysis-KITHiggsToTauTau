@@ -1,0 +1,1 @@
+XROOTD_sample_ST-tW-antitop_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powheg-pythia8TuneCUETP8M1_2015-08-21.txt

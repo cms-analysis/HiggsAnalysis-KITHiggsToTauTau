@@ -134,13 +134,14 @@ class SvfitResults {
 public:
 	RMFLV* momentum = 0;
 	RMFLV* momentumUncertainty = 0;
+	RMDataV* fittedMET = 0;
 	
 	SvfitResults() {};
-	SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty);
+	SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET);
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	~SvfitResults();
 	
-	void Set(RMFLV const& momentum, RMFLV const& momentumUncertainty);
+	void Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET);
 	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
 	void CreateBranches(TTree* tree);
@@ -154,6 +155,7 @@ public:
 private:
 	RMFLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMFLV GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	RMDataV GetFittedMET(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 };
 
 

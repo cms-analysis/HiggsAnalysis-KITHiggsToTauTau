@@ -74,7 +74,7 @@ void AntiTtbarDiscriminatorTmvaReader::Produce(spec_event_type const& event,
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert(event.m_tjets);
 	assert(event.m_jetMetadata);
-	assert(event.m_mvaMetEM);
+	assert(product.m_met);
 	
 	// has to be called at the end of the subclass function
 	TmvaClassificationReaderBase<HttTypes>::Produce(event, product, settings);

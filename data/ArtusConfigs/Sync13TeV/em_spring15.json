@@ -104,7 +104,7 @@
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
 					"producer:MetSelector",
-					"#producer:MvaMetEMSelector",
+					"producer:MvaMetEMSelector",
 					"#filter:DecayChannelFilter",
 					"#filter:DiLeptonChargeFilter",
 					"#producer:SvfitProducer",
@@ -128,7 +128,8 @@
 			"#KappaMuonsConsumer",
 			"#KappaTausConsumer",
 			"#KappaJetsConsumer",
-			"#KappaTaggedJetsConsumer"
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer"
 		]
 	}
 }

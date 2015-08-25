@@ -6,7 +6,7 @@
 	"VetoElectronReco" : "none",
 
 	"VetoElectronID" : "user",
-	"VetoElectronIDType" : "phys14cutbasedveto",
+	"VetoElectronIDType" : "spring15cutbasedveto",
 
 	"VetoElectronIsoType" : "user",
 	"VetoElectronIso" : "none",

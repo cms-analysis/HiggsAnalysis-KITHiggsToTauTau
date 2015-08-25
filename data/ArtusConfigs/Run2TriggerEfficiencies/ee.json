@@ -1,0 +1,160 @@
+{
+	"ee" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json"
+		],
+		"Channel" : "EE",
+		"GenDiLeptonDecayMode" : "ee",
+		"MinNElectrons" : 1,
+		"HltPaths" : {
+			"nick": {
+				"default" : [
+					"HLT_Ele32_eta2p1_WP75_Gsf",
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
+				],
+				"Run2015" : [
+					"HLT_Ele32_eta2p1_WPTight_Gsf",
+					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
+				]
+			}
+		},
+		"TagLeptonHltPaths" : {
+			"nick": {
+				"default" : [
+					"HLT_Ele32_eta2p1_WP75_Gsf_v"
+				],
+				"Run2015" : [
+					"HLT_Ele32_eta2p1_WPTight_Gsf_v"
+				]
+			}
+		},
+		"ProbeLeptonHltPaths" : {
+			"nick": {
+				"default" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
+				],
+				"Run2015" : [
+					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
+				]
+			}
+		},
+		"ElectronLowerPtCuts" : [
+			"23.0"
+		],
+		"ElectronUpperAbsEtaCuts" : [
+			"2.1"
+		],
+		"DiTauPairMinDeltaRCut" : 0.5,
+		"DiTauPairLepton1LowerPtCuts" : [
+			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
+			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
+		],
+		"DiTauPairLepton2LowerPtCuts" : [
+			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
+			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
+		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : {
+			"nick": {
+				"default" : [
+					"HLT_Ele32_eta2p1_WP75_Gsf_v",
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v"
+				],
+				"Run2015" : [
+					"HLT_Ele32_eta2p1_WPTight_Gsf_v",
+					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v"
+				]
+			}
+		},
+		"EventWeight" : "eventWeight",
+		"ElectronTriggerFilterNames" : {
+			"nick" : {
+				"default" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter",
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
+					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
+				],
+				"Run2015" : [
+					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltSingleEle22WPLooseGsfTrackIsoFilter",
+					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
+					"HLT_Ele32_eta2p1_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
+				]
+			}
+		},
+		"InvalidateNonMatchingElectrons" : false,
+		"RecoTauMatchingGenParticlePdgIds" : [
+			11,
+			13
+		],
+		"DirectIso" : true,
+		"Quantities" : [
+			"nElectrons",
+			"pt_1",
+			"pt_2",
+			"eta_1",
+			"eta_2",
+			"phi_1",
+			"phi_2",
+			"m_vis",
+			"triggerTagLeptonAvailable",
+			"triggerProbeLeptonAvailable"
+		],
+		"OSChargeLeptons" : true,
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:ValidElectronsProducer",
+					"filter:ValidElectronsFilter",
+					"producer:ElectronTriggerMatchingProducer",
+					"filter:MinElectronsCountFilter",
+					"producer:ValidEEPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
+					"producer:MetSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EventWeightProducer"
+				],
+				"DY.?JetsToLL" : [
+					"producer:GenDiLeptonDecayModeProducer",
+					"filter:GenDiLeptonDecayModeFilter",
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:ValidElectronsProducer",
+					"filter:ValidElectronsFilter",
+					"producer:ElectronTriggerMatchingProducer",
+					"filter:MinElectronsCountFilter",
+					"producer:ValidEEPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
+					"producer:MetSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EventWeightProducer"
+				],
+				"Run2015" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:ValidElectronsProducer",
+					"filter:ValidElectronsFilter",
+					"producer:ElectronTriggerMatchingProducer",
+					"filter:MinElectronsCountFilter",
+					"producer:ValidEEPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
+					"producer:MetSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EventWeightProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"cutflow_histogram",
+			"CutFlowTreeConsumer",
+			"KappaElectronsConsumer"
+		]
+	}
+}

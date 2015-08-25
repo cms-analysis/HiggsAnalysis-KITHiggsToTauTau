@@ -23,9 +23,10 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	MetSelectorBase(TMet* event_type::*met) :
+	MetSelectorBase(TMet* event_type::*met, std::vector<TMet>* event_type::*mets) :
 		ProducerBase<HttTypes>(),
-		m_metMember(met)
+		m_metMember(met),
+		m_metsMember(mets)
 	{
 	}
 
@@ -92,81 +93,80 @@ public:
 			return (static_cast<HttProduct const&>(product)).m_met->significance.At(1, 1);
 		});
 	}
+
+	virtual void Produce(event_type const& event, product_type & product, 
+	                     setting_type const& settings) const override
+	{
+		if ((m_metsMember != nullptr) && ((event.*m_metsMember) != nullptr))
+		{
+			assert(product.m_ptOrderedLeptons.size() > 0);
+			
+			// create hashes from lepton selection. Any number of leptons is possible 
+			std::vector<KLepton*> leptons = product.m_ptOrderedLeptons;
+			std::vector<int> hashes;
+			do
+			{
+				int hash = 0;
+				for (std::vector<KLepton*>::iterator lepton = leptons.begin(); lepton != leptons.end(); ++lepton)
+				{
+					hash = hash ^ (*lepton)->getHash();
+				}
+				hashes.push_back(hash);
+			}
+			while (std::prev_permutation(leptons.begin(), leptons.end()));
+			
+			for (typename std::vector<TMet>::iterator met = (event.*m_metsMember)->begin(); met != (event.*m_metsMember)->end(); ++met)
+			{
+				if (std::find(hashes.begin(), hashes.end(), met->leptonSelectionHash)!= hashes.end())
+				{
+					product.m_met = &(*met);
+					break;
+				} 
+			}
+			
+			assert(product.m_met != nullptr);
+			// If this assertion fails, one might have to consider running the MetSelector before this producer
+			// in order to have the (PF) MET as a fallback solution
+		}
+		else if ((m_metMember != nullptr) && ((event.*m_metMember) != nullptr))
+		{
+			product.m_met = (event.*m_metMember);
+		}
+		else
+		{
+			assert(((m_metsMember != nullptr) && ((event.*m_metsMember) != nullptr)) ||
+			       ((m_metMember != nullptr) && ((event.*m_metMember) != nullptr)));
+		}
+	}
 	
 
 protected:
 	TMet* event_type::*m_metMember;
+	std::vector<TMet>* event_type::*m_metsMember;
 };
 
 
 
 /**
-   \brief Producer for MET (from event.m_met)
+   \brief Producer for (PF) MET
 */
 class MetSelector: public MetSelectorBase<KMET>
 {
 public:
-	MetSelector() : MetSelectorBase<KMET>(&HttTypes::event_type::m_met) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MetSelector";
-	}
-
-	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const override
-	{
-		assert((event.*m_metMember));
-		product.m_met = (event.*m_metMember);
-	}
+	MetSelector();
+	virtual std::string GetProducerId() const override;
 };
 
-template<class TMet>
-class MvaMetSelectorBase : public MetSelectorBase<KMETs>
-{
-public:
-	MvaMetSelectorBase(TMet* event_type::*met) : MetSelectorBase<KMETs>(met) {};
 
-	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const override
-	{
-		//make sure product.m_met is already filled in case no MVA MET can be identified
-		assert(product.m_met);
-
-		// create hashes from lepton selection. Any number of leptons is possible 
-		std::vector<KLepton*> leptons = product.m_ptOrderedLeptons;
-		std::vector<int> hashes;
-		do{
-			int hash = 0;
-			for(size_t i = 0; i < leptons.size(); ++i)
-				hash = hash ^ leptons[i]->getHash();
-			hashes.push_back(hash);
-		}while(std::prev_permutation(leptons.begin(), leptons.end()));
-
-		
-		for(size_t i = 0; i < (event.*m_metMember)->size(); ++i)
-		{
-			if(std::find(hashes.begin(), hashes.end(), (event.*m_metMember)->at(i).leptonSelectionHash)!= hashes.end())
-			{
-				product.m_met = &(event.*m_metMember)->at(i);
-				return;
-			} 
-		}
-		LOG_N_TIMES(20, WARNING) << "Could not find MVA MET corresponding to lepton selection! Falling back to PFMet" << std::endl;
-	}
-
-};
 
 /**
    \brief Producer for MVAMET (TT channel)
 */
-class MvaMetTTSelector: public MvaMetSelectorBase<KMETs>
+class MvaMetTTSelector: public MetSelectorBase<KMET>
 {
 public:
-	MvaMetTTSelector() : MvaMetSelectorBase(&HttTypes::event_type::m_mvaMetTT) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MvaMetTTSelector";
-	}
+	MvaMetTTSelector();
+	virtual std::string GetProducerId() const override;
 };
 
 
@@ -174,14 +174,11 @@ public:
 /**
    \brief Producer for MVAMET (MT channel)
 */
-class MvaMetMTSelector: public MvaMetSelectorBase<KMETs>
+class MvaMetMTSelector: public MetSelectorBase<KMET>
 {
 public:
-	MvaMetMTSelector() : MvaMetSelectorBase(&HttTypes::event_type::m_mvaMetMT) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MvaMetMTSelector";
-	}
+	MvaMetMTSelector();
+	virtual std::string GetProducerId() const override;
 };
 
 
@@ -189,14 +186,11 @@ public:
 /**
    \brief Producer for MVAMET (ET channel)
 */
-class MvaMetETSelector: public MvaMetSelectorBase<KMETs>
+class MvaMetETSelector: public MetSelectorBase<KMET>
 {
 public:
-	MvaMetETSelector() : MvaMetSelectorBase(&HttTypes::event_type::m_mvaMetET) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MvaMetETSelector";
-	}
+	MvaMetETSelector();
+	virtual std::string GetProducerId() const override;
 };
 
 
@@ -204,13 +198,10 @@ public:
 /**
    \brief Producer for MVAMET (EM channel)
 */
-class MvaMetEMSelector: public MvaMetSelectorBase<KMETs>
+class MvaMetEMSelector: public MetSelectorBase<KMET>
 {
 public:
-	MvaMetEMSelector() : MvaMetSelectorBase(&HttTypes::event_type::m_mvaMetEM) {};
-	
-	virtual std::string GetProducerId() const override {
-		return "MvaMetEMSelector";
-	}
+	MvaMetEMSelector();
+	virtual std::string GetProducerId() const override;
 };
 

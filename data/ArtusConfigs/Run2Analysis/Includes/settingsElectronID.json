@@ -6,7 +6,7 @@
 	"ElectronReco" : "mvanontrig",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "mvanontrigphys14tight",
+	"ElectronIDType" : "mvanontrigspring15tight",
 	
 	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",

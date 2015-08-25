@@ -27,6 +27,7 @@
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
+		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
 			"23.0"
 		],
@@ -41,10 +42,12 @@
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0"
+			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
+			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
 		],
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v"
+			"HLT_Ele32_eta2p1_WP75_Gsf_v",
+			"HLT_Ele32_eta2p1_WPTight_Gsf_v"
 		],
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
@@ -87,7 +90,7 @@
 		"Quantities" : [
 			{
 				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
@@ -126,6 +129,7 @@
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetETSelector",
 					"producer:DiVetoElectronVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
@@ -135,7 +139,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenDiLeptonDecayModeProducer",
 					"producer:GenTauDecayProducer",
 					"producer:EventWeightProducer"
 				],
@@ -159,6 +162,7 @@
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetETSelector",
 					"producer:RecoTauGenParticleMatchingProducer",
 					"producer:RecoTauGenTauMatchingProducer",
 					"filter:MinTausCountFilter",
@@ -171,7 +175,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenDiLeptonDecayModeProducer",
 					"producer:GenTauDecayProducer",
 					"producer:EventWeightProducer"
 				],
@@ -194,6 +197,7 @@
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetETSelector",
 					"producer:DiVetoElectronVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",

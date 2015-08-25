@@ -19,6 +19,7 @@
 			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
+		"TauUseOldDMs" : true,
 		"MuonLowerPtCuts" : [
 			"18.0"
 		],
@@ -70,7 +71,7 @@
 		"Quantities" : [
 			{
 				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
@@ -109,6 +110,7 @@
 					"producer:ValidMTPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetMTSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
@@ -118,7 +120,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenDiLeptonDecayModeProducer",
 					"producer:GenTauDecayProducer",
 					"producer:EventWeightProducer"
 				],
@@ -142,6 +143,7 @@
 					"producer:ValidMTPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetMTSelector",
 					"producer:RecoTauGenParticleMatchingProducer",
 					"producer:RecoTauGenTauMatchingProducer",
 					"filter:MinTausCountFilter",
@@ -154,7 +156,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenDiLeptonDecayModeProducer",
 					"producer:GenTauDecayProducer",
 					"producer:EventWeightProducer"
 				],
@@ -177,6 +178,7 @@
 					"producer:ValidMTPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetMTSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
