@@ -29,8 +29,10 @@ if __name__ == "__main__":
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("--es-shifts", nargs="*",
-						default=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
+						default=[0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
 	                    help="Energy scale shifts."),
+	parser.add_argument("--fit-to-data", default="chi2",
+						help="Choose a fit (chi2 or logllh)")
 	parser.add_argument("--channels", nargs="*",
 	                    default=["mt"],
 	                    help="Channels. [Default: %(default)s]")
@@ -72,6 +74,7 @@ if __name__ == "__main__":
 	#2 = OneProng2PiZero
 	#10 = ThreeProng0PiZero
 	decayModes=["decayMode_2==10","decayMode_2>=1*decayMode_2<=3"]
+	#decayModes=["decayMode_2>=1*decayMode_2<=3"]
 
 	plot_configs = []
 	for channel in args.channels:
@@ -139,23 +142,48 @@ if __name__ == "__main__":
 
 				#plot modules
 				merged_config.setdefault("plot_modules", []).append("ExportRoot")
-				#merged_config.setdefault("plot_modules", []).append("PlotRootHtt")
 
-				#chi2test
-				merged_config["res_hist_nick"]  = ["chi2_result"]
-				merged_config["nicks_whitelist"] = ["chi2_result"]
-				merged_config["es_shifts"] = [str(shift) for shift in es_shifts]
-				merged_config["ztt_nicks"] = ["ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
-				merged_config["data_nicks"] = ["noplot_datanobkg"] * len(es_shifts)
+#				#special
+#				if (index == 0):
+#					merged_config["file_mode"] = "RECREATE"
+#				else:
+#					merged_config["file_mode"] = "UPDATE"
 
-				#roofit
-			#	merged_config["roofit_flag"] = "false"
+				# config to plot the fit
+				if args.fit_to_data == "chi2":
+					merged_config["res_hist_nick"]  = ["chi2_result"]
+					merged_config["nicks_whitelist"] = ["chi2_result"]
+					merged_config["es_shifts"] = [str(shift) for shift in es_shifts]
+					merged_config["ztt_nicks"] = ["ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
+					merged_config["data_nicks"] = ["noplot_datanobkg"] * len(es_shifts)
 
-				#special
-			#	if (index == 0):
-			#		merged_config["file_mode"] = "RECREATE"
-			#	else:
-			#		merged_config["file_mode"] = "UPDATE"
+					config_plotfit = {}
+
+					config_plotfit["files"] = "plots/tauEsStudies_plots/tauesstudies_" + decayMode.replace("*","_") + ".root"
+					config_plotfit["markers"] = ["ALP"]
+					config_plotfit["x_expressions"]  = ["data"]
+					config_plotfit["filename"] = "chi2result_" + decayMode.replace("*","_")
+					config_plotfit["x_label"] = "ES_shift"
+					config_plotfit["y_label"] = "Chi2"
+				elif args.fit_to_data == "logllh":
+					merged_config["roofit_flag"] = "true"
+					merged_config["res_hist_nick"]  = ["roofit_result"]
+					merged_config["nicks_whitelist"] = ["roofit_result"]
+					merged_config["es_shifts"] = [str(shift) for shift in es_shifts]
+					merged_config["ztt_nicks"] = ["ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
+					merged_config["data_nicks"] = ["noplot_datanobkg"] * len(es_shifts)
+
+					config_plotfit = {}
+
+					config_plotfit["files"] = "plots/tauEsStudies_plots/tauesstudies_" + decayMode.replace("*","_") + ".root"
+					config_plotfit["markers"] = ["ALP"]
+					config_plotfit["x_expressions"]  = ["data"]
+					config_plotfit["filename"] = "roofit_" + decayMode.replace("*","_")
+					#config_plotfit["filename"] = "roofit_1Prong0PiZero"
+					config_plotfit["x_label"] = "ES_shift"
+					config_plotfit["y_label"] = "-log(L)"
+				else:
+					print "fit not found"
 
 				if args.ratio:
 					bkg_samples_used = ["ztt_" + str(shift).replace(".", "_")]
@@ -171,17 +199,8 @@ if __name__ == "__main__":
 				# append merged config to plot configs
 				plot_configs.append(merged_config)
 
-				#write a plot config that makes graph
-				config_chi2 = {}
-
-				config_chi2["files"] = "plots/tauEsStudies_plots/tauesstudies_" + decayMode.replace("*","_") + ".root"
-				config_chi2["markers"] = ["ALP"]
-				config_chi2["x_expressions"]  = ["data"]
-				config_chi2["filename"] = "chi2result_" + decayMode.replace("*","_")
-				config_chi2["x_label"] = "ES_shift"
-				config_chi2["y_label"] = "Chi2"
-
-				plot_configs.append(config_chi2)
+				# append config for the fit plot
+				plot_configs.append(config_plotfit)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint

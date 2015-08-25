@@ -69,10 +69,73 @@ class TauEsStudies(analysisbase.AnalysisBase):
 		if plotData.plotdict["roofit_flag"]:
 			print "Start Roofit Likelihood Scan ..."
 
+			es_shifts=[]
+
+			# negative log likelihood list
+			nll_list = []
+
 			# always set this to stop ROOT doing odd things
 			ROOT.PyConfig.IgnoreCommandLineOptions = True
 			ROOT.gROOT.SetBatch(ROOT.kTRUE)
 
+			# Have to define the "x-axis" variable
+			mass = ROOT.RooRealVar('mass', 'mass', 0, 2)
+
+			for index, (data_nick, ztt_nick, es_shift) in enumerate(zip(
+					*[plotData.plotdict[k] for k in ["data_nicks", "ztt_nicks","es_shifts"]]
+			)):
+				es_shifts.append(float(es_shift[0]))
+
+				# Convert the data minus bkg TH1 into a RooDataHist
+				data_nobkg_th1 = plotData.plotdict["root_objects"][data_nick[0]]
+				data_nobkg_rdh = ROOT.RooDataHist(data_nobkg_th1.GetName(), data_nobkg_th1.GetName(), ROOT.RooArgList(mass), ROOT.RooFit.Import(data_nobkg_th1, False))
+
+				# Convert the ztt TH1 into RooDataHist
+				ztt_th1 = plotData.plotdict["root_objects"][ztt_nick[0]]
+				ztt_rdh = ROOT.RooDataHist(ztt_th1.GetName(), ztt_th1.GetName(), ROOT.RooArgList(mass), ROOT.RooFit.Import(ztt_th1, False))
+
+				# Create PDF
+				ztt_pdf = ROOT.RooHistPdf(ztt_th1.GetName()+'_pdf', ztt_th1.GetName(), ROOT.RooArgSet(mass), ztt_rdh)
+				ztt_norm = ROOT.RooRealVar(ztt_th1.GetName()+'_norm', ztt_th1.GetName(), ztt_th1.Integral(), ztt_th1.Integral()/2., ztt_th1.Integral()*2.)
+
+				# Create RooArgLists for the resulting PDF
+				ztt_pdf_list = ROOT.RooArgList()
+				ztt_norm_list = ROOT.RooArgList()
+				ztt_pdf_list.add(ztt_pdf)
+				ztt_norm_list.add(ztt_norm)
+
+				# Create resulting ztt PDF
+				res_pdf = ROOT.RooAddPdf('pdf', 'pdf', ztt_pdf_list, ztt_norm_list)
+
+				# Do the fit
+				res = res_pdf.fitTo(data_nobkg_rdh, ROOT.RooFit.Extended(), ROOT.RooFit.Save(), ROOT.RooFit.Minimizer('Minuit2', 'migrad'))
+				nll_list.append(res.minNll())
+
+			for nll in nll_list:
+				print nll
+
+			for res_hist_nick in zip(
+					*[plotData.plotdict["res_hist_nick"]]
+			):
+				#Graph
+				RooFitGraph = ROOT.TGraphErrors(
+						len(es_shifts),
+						array.array("d", es_shifts), array.array("d", nll_list)
+				)
+				plotData.plotdict.setdefault("root_objects", {})[res_hist_nick[0]] = RooFitGraph
+
+				plotData.plotdict["root_objects"][res_hist_nick[0]].SetName(res_hist_nick[0])
+				plotData.plotdict["root_objects"][res_hist_nick[0]].SetTitle("")
+
+				#Fit function
+				fitf = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
+				#fitf.SetParLimits(0,0,1000000)
+				#fitf.SetParLimits(1,0,1000000)
+				fitf.SetParLimits(2,min(es_shifts),max(es_shifts))
+				RooFitGraph.Fit("f1","R")
+
+				#get minimum
+				print "Minimum of fitfunction at: ", fitf.GetMinimumX(min(es_shifts),max(es_shifts))
 
 		else:
 			print "Start Chi2 fit ..."
