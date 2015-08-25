@@ -9,6 +9,7 @@ import copy
 import hashlib
 import math
 
+import sys
 import ROOT
 
 import Artus.HarryPlotter.analysisbase as analysisbase
@@ -40,6 +41,10 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				"--res-hist-nick", nargs="+",
 				help="Nick name of resulting histogram"
 		)
+		self.tauesstudies_options.add_argument(
+				"--roofit-flag", default=False, action="store_true",
+	                    help="Use roofit likelihood scan instead of chi2 test"
+	    )
 
 	def prepare_args(self, parser, plotData):
 		super(TauEsStudies, self).prepare_args(parser, plotData)
@@ -61,46 +66,60 @@ class TauEsStudies(analysisbase.AnalysisBase):
 	def run(self, plotData=None):
 		super(TauEsStudies, self).run(plotData)
 
-		es_shifts=[]
-		chi2res=[]
+		if plotData.plotdict["roofit_flag"]:
+			print "Start Roofit Likelihood Scan ..."
 
-		for index, (data_nick, ztt_nick, es_shift) in enumerate(zip(
-				*[plotData.plotdict[k] for k in ["data_nicks", "ztt_nicks","es_shifts"]]
-		)):
-			print "chi2test between ", data_nick, " and ", ztt_nick
-			es_shifts.append(float(es_shift[0]))
-			chi2res.extend([plotData.plotdict["root_objects"][ztt_nick[0]].Chi2Test(plotData.plotdict["root_objects"][data_nick[0]], "CHI2")])
+			# always set this to stop ROOT doing odd things
+			ROOT.PyConfig.IgnoreCommandLineOptions = True
+			ROOT.gROOT.SetBatch(ROOT.kTRUE)
 
-			if index == 0:
-				chi2min = chi2res[0]
-				min_shift = es_shifts[0]
-			if chi2min > chi2res[index]:
-				chi2min = chi2res[index]
-				min_shift = es_shifts[index]
 
-		for x_value, y_value in zip(es_shifts, chi2res):
-			print "Shift: ", x_value, " Chi2Val: ", y_value
+		else:
+			print "Start Chi2 fit ..."
 
-		print "Minimum found at: ", min_shift
+			es_shifts=[]
+			chi2res=[]
 
-		for res_hist_nick in zip(
-				*[plotData.plotdict["res_hist_nick"]]
-		):
+			for index, (data_nick, ztt_nick, es_shift) in enumerate(zip(
+					*[plotData.plotdict[k] for k in ["data_nicks", "ztt_nicks","es_shifts"]]
+			)):
+				#print "chi2test between ", data_nick, " and ", ztt_nick
+				es_shifts.append(float(es_shift[0]))
+				chi2res.extend([plotData.plotdict["root_objects"][ztt_nick[0]].Chi2Test(plotData.plotdict["root_objects"][data_nick[0]], "CHI2")])
 
-			#Graph
-			Chi2Graph = ROOT.TGraphErrors(
-					len(es_shifts),
-					array.array("d", es_shifts), array.array("d", chi2res)
-			)
-			plotData.plotdict.setdefault("root_objects", {})[res_hist_nick[0]] = Chi2Graph
+				if index == 0:
+					chi2min = chi2res[0]
+					min_shift = es_shifts[0]
+				if chi2min > chi2res[index]:
+					chi2min = chi2res[index]
+					min_shift = es_shifts[index]
 
-			plotData.plotdict["root_objects"][res_hist_nick[0]].SetName(res_hist_nick[0])
-			plotData.plotdict["root_objects"][res_hist_nick[0]].SetTitle("")
+			for x_value, y_value in zip(es_shifts, chi2res):
+				print "Shift: ", x_value, " Chi2Val: ", y_value
 
-			#Fit function
-			fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
-			Chi2Graph.Fit("f1","R")
+			print "Minimum found at: ", min_shift
 
-			#get minimum
-			print "Minimum of fitfunction at: ", fit2chi.GetMinimumX(min(es_shifts),max(es_shifts))
+			for res_hist_nick in zip(
+					*[plotData.plotdict["res_hist_nick"]]
+			):
+
+				#Graph
+				Chi2Graph = ROOT.TGraphErrors(
+						len(es_shifts),
+						array.array("d", es_shifts), array.array("d", chi2res)
+				)
+				plotData.plotdict.setdefault("root_objects", {})[res_hist_nick[0]] = Chi2Graph
+
+				plotData.plotdict["root_objects"][res_hist_nick[0]].SetName(res_hist_nick[0])
+				plotData.plotdict["root_objects"][res_hist_nick[0]].SetTitle("")
+
+				#Fit function
+				fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
+				fit2chi.SetParLimits(0,0,1000000)
+				fit2chi.SetParLimits(1,0,1000000)
+				fit2chi.SetParLimits(2,min(es_shifts),max(es_shifts))
+				Chi2Graph.Fit("f1","R")
+
+				#get minimum
+				print "Minimum of fitfunction at: ", fit2chi.GetMinimumX(min(es_shifts),max(es_shifts))
 
