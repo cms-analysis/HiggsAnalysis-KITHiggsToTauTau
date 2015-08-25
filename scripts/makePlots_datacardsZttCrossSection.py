@@ -65,8 +65,10 @@ if __name__ == "__main__":
 	
 	# initialise datacards
 	input_root_filename_template = "${ANALYSIS}_${CHANNEL}_${BIN}.input_${ERA}.root"
-	histogram_name_template = "${BIN}/${PROCESS}"
-	syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
+	bkg_histogram_name_template = "${BIN}/${PROCESS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}"
+	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
 		"datacards/individual/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
@@ -104,7 +106,7 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			list_of_samples = ["data"] + [datacards.configs.process2sample(process) for process in datacards.cb.cp().channel([channel]).process_set()]
+			list_of_samples = ["data"] + [datacards.configs.process2sample(process) for process in datacards.cb.cp().channel([channel]).bin([category]).process_set()]
 			log.debug("Create inputs for samples = (\"{samples}\"), (channel, category) = ({channel}, {category}).".format(
 					samples="\", \"".join(list_of_samples),
 					channel=channel,
@@ -123,7 +125,7 @@ if __name__ == "__main__":
 			
 			config["directories"] = [args.input_dir]
 			
-			config["labels"] = [histogram_name_template.replace("$", "").format(
+			config["labels"] = [bkg_histogram_name_template.replace("$", "").format(
 					PROCESS=datacards.configs.sample2process(sample),
 					BIN=category
 			) for sample in list_of_samples]
@@ -160,8 +162,10 @@ if __name__ == "__main__":
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
 			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
-			histogram_name_template.replace("{", "").replace("}", ""),
-			syst_histogram_name_template.replace("{", "").replace("}", "")
+			bkg_histogram_name_template.replace("{", "").replace("}", ""),
+			sig_histogram_name_template.replace("{", "").replace("}", ""),
+			bkg_syst_histogram_name_template.replace("{", "").replace("}", ""),
+			sig_syst_histogram_name_template.replace("{", "").replace("}", "")
 	)
 	
 	# add bin-by-bin uncertainties

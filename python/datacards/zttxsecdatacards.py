@@ -19,7 +19,8 @@ class ZttXsecDatacards(datacards.Datacards):
 				bkg_processes=["TTJ", "VV", "WJ", "QCD"],
 				sig_processes=["ZTT"],
 				analysis=["ztt"],
-				era=["13TeV"]
+				era=["13TeV"],
+				mass=["90"]
 		)
 		
 		# efficiencies
@@ -34,7 +35,8 @@ class ZttXsecDatacards(datacards.Datacards):
 				bkg_processes=["TTJ", "VV", "WJ", "QCD"],
 				sig_processes=["ZTT"],
 				analysis=["ztt"],
-				era=["13TeV"]
+				era=["13TeV"],
+				mass=["90"]
 		)
 		
 		# efficiencies
@@ -49,7 +51,8 @@ class ZttXsecDatacards(datacards.Datacards):
 				bkg_processes=["TTJ", "VV", "WJ"],
 				sig_processes=["ZTT"],
 				analysis=["ztt"],
-				era=["13TeV"]
+				era=["13TeV"],
+				mass=["90"]
 		)
 		
 		# efficiencies
