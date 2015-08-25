@@ -135,18 +135,21 @@ if __name__ == "__main__":
 				#analysis_modules
 				merged_config.setdefault("analysis_modules", []).append("AddHistograms")
 				merged_config.setdefault("analysis_modules", []).append("PrintInfos")
-				#merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
+				merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
 				#plot modules
-				#merged_config.setdefault("plot_modules", []).append("ExportRoot")
-				merged_config.setdefault("plot_modules", []).append("PlotRootHtt")
+				merged_config.setdefault("plot_modules", []).append("ExportRoot")
+				#merged_config.setdefault("plot_modules", []).append("PlotRootHtt")
 
 				#chi2test
 				merged_config["res_hist_nick"]  = ["chi2_result"]
-				#merged_config["nicks_whitelist"] = ["chi2_result"]
+				merged_config["nicks_whitelist"] = ["chi2_result"]
 				merged_config["es_shifts"] = [str(shift) for shift in es_shifts]
 				merged_config["ztt_nicks"] = ["ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
 				merged_config["data_nicks"] = ["noplot_datanobkg"] * len(es_shifts)
+
+				#roofit
+			#	merged_config["roofit_flag"] = "false"
 
 				#special
 			#	if (index == 0):
@@ -178,7 +181,7 @@ if __name__ == "__main__":
 				config_chi2["x_label"] = "ES_shift"
 				config_chi2["y_label"] = "Chi2"
 
-				#plot_configs.append(config_chi2)
+				plot_configs.append(config_chi2)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
