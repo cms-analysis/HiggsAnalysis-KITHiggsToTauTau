@@ -52,6 +52,12 @@ public:
 		PHYS14CUTBASEDVETO = 7,
 		MVANONTRIGPHYS14LOOSE = 8,
 		MVANONTRIGPHYS14TIGHT = 9,
+		SPRING15CUTBASEDLOOSE = 10,
+		SPRING15CUTBASEDMEDIUM = 11,
+		SPRING15CUTBASEDTIGHT = 12,
+		SPRING15CUTBASEDVETO = 13,
+		MVANONTRIGSPRING15LOOSE = 14,
+		MVANONTRIGSPRING15TIGHT = 15,
 	};
 	enum class WorkingPoint : int
 	{
@@ -72,6 +78,12 @@ public:
 		else if (electronIDType == "phys14cutbasedveto") return ElectronIDType::PHYS14CUTBASEDVETO;
 		else if (electronIDType == "mvanontrigphys14loose") return ElectronIDType::MVANONTRIGPHYS14LOOSE;
 		else if (electronIDType == "mvanontrigphys14tight") return ElectronIDType::MVANONTRIGPHYS14TIGHT;
+		else if (electronIDType == "spring15cutbasedloose") return ElectronIDType::SPRING15CUTBASEDLOOSE;
+		else if (electronIDType == "spring15cutbasedmedium") return ElectronIDType::SPRING15CUTBASEDMEDIUM;
+		else if (electronIDType == "spring15cutbasedtight") return ElectronIDType::SPRING15CUTBASEDTIGHT;
+		else if (electronIDType == "spring15cutbasedveto") return ElectronIDType::SPRING15CUTBASEDVETO;
+		else if (electronIDType == "mvanontrigspring15loose") return ElectronIDType::MVANONTRIGSPRING15LOOSE;
+		else if (electronIDType == "mvanontrigspring15tight") return ElectronIDType::MVANONTRIGSPRING15TIGHT;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else
 			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;
@@ -144,9 +156,11 @@ private:
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const;
+	bool IsCutBasedSpring15(KElectron* electron, event_type const& event, WorkingPoint wp) const;
 	bool IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const;
-	std::string chooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const;
-	std::string chooseMvaNonTrigId(const KElectronMetadata *meta) const;	
+	bool IsMVANonTrigSpring15(KElectron* electron, event_type const& event, bool tightID) const;
+	std::string ChooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const;
+	std::string ChooseMvaNonTrigId(const KElectronMetadata *meta) const;
 };
 
 
