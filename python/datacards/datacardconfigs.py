@@ -4,6 +4,8 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
+import re
+
 
 class DatacardConfigs(object):
 	def __init__(self):
@@ -16,6 +18,9 @@ class DatacardConfigs(object):
 			"VV" : "vv",
 			"WJ" : "wj",
 			"QCD" : "qcd",
+			"ggH" : "ggh",
+			"qqH" : "qqh",
+			"VH" : "vh",
 		}
 		
 		self._mapping_category2binid = {
@@ -40,10 +45,12 @@ class DatacardConfigs(object):
 		}
 	
 	def process2sample(self, process):
-		return self._mapping_process2sample.get(process, process)
+		tmp_process = re.match("(?P<process>[^0-9]*).*", process).groupdict().get("process", "")
+		return process.replace(tmp_process, self._mapping_process2sample.get(tmp_process, tmp_process))
 	
 	def sample2process(self, sample):
-		return dict([reversed(item) for item in self._mapping_process2sample.iteritems()]).get(sample, sample)
+		tmp_sample = re.match("(?P<sample>[^0-9]*).*", sample).groupdict().get("sample", "")
+		return sample.replace(tmp_sample, dict([reversed(item) for item in self._mapping_process2sample.iteritems()]).get(tmp_sample, tmp_sample))
 	
 	def category2binid(self, category, channel="default"):
 		return self._mapping_category2binid.get(channel, {}).get(category, 0)

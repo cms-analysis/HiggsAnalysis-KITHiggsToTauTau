@@ -97,9 +97,11 @@ class Datacards(object):
 		
 		self.cb.AddObservations(channel=[channel], mass=["*"], bin=bin, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
-		self.cb.AddProcesses(channel=[channel], mass=["90"], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
+		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 	
-	def extract_shapes(self, root_filename_template, histogram_name_template, syst_histogram_name_template):
+	def extract_shapes(self, root_filename_template,
+	                   bkg_histogram_name_template, sig_histogram_name_template,
+	                   bkg_syst_histogram_name_template, sig_syst_histogram_name_template):
 		for analysis in self.cb.analysis_set():
 			for era in self.cb.cp().analysis([analysis]).era_set():
 				for channel in self.cb.cp().analysis([analysis]).era([era]).channel_set():
@@ -110,7 +112,8 @@ class Datacards(object):
 								BIN=category,
 								ERA=era
 						)
-						self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).ExtractShapes(root_filename, histogram_name_template, syst_histogram_name_template)
+						self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).backgrounds().ExtractShapes(root_filename, bkg_histogram_name_template, bkg_syst_histogram_name_template)
+						self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).signals().ExtractShapes(root_filename, sig_histogram_name_template, sig_syst_histogram_name_template)
 		
 		if log.isEnabledFor(logging.DEBUG):
 			self.cb.PrintAll()
