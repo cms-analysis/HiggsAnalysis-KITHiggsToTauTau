@@ -501,7 +501,7 @@ class Samples(samples.SamplesBase):
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "wmh", "wph", "zh"]]))
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
 			
 			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
@@ -527,7 +527,7 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "ggh"+str(mass), nick_suffix)
 		return config
 	
 	def qqh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, **kwargs):
@@ -550,7 +550,7 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "qqh"+str(mass), nick_suffix)
 		return config
 	
 	def vh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, **kwargs):
@@ -567,7 +567,7 @@ class Samples(samples.SamplesBase):
 						lumi,
 						weight+"*eventWeight" + cut_string(channel, cutStep),
 						"wmh%s" % str(mass),
-						nick_suffix=nick_suffix
+						nick_suffix=nick_suffix+"_noplot"
 				)
 				Samples._add_input(
 						config,
@@ -576,7 +576,7 @@ class Samples(samples.SamplesBase):
 						lumi,
 						weight+"*eventWeight" + cut_string(channel, cutStep),
 						"wph%s" % str(mass),
-						nick_suffix=nick_suffix
+						nick_suffix=nick_suffix+"_noplot"
 				)
 				Samples._add_input(
 						config,
@@ -585,13 +585,19 @@ class Samples(samples.SamplesBase):
 						lumi,
 						weight+"*eventWeight" + cut_string(channel, cutStep),
 						"zh%s" % str(mass),
-						nick_suffix=nick_suffix
+						nick_suffix=nick_suffix+"_noplot"
 				)
+				
+				if not "AddHistograms" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("AddHistograms")
+				config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["wmh", "wph", "zh"]]))
+				config.setdefault("sum_result_nicks", []).append("vh"+str(mass)+nick_suffix)
+			
 			else:
 				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "vh"+str(mass), nick_suffix)
 		return config
 
 
