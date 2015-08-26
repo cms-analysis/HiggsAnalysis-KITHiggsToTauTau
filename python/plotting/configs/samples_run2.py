@@ -80,7 +80,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -90,7 +90,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["em", "tt"]:
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_tt/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -112,7 +112,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_zll/ntuple " + channel + "_zl/ntuple " + channel + "_zj/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -122,7 +122,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["em", "tt"]:
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_ee/ntuple " + channel + "_mm/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -144,7 +144,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -155,7 +155,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["em", "tt"]:
 			Samples._add_input(
 					config,
-					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -176,7 +176,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "em", "tt"]:
 			Samples._add_input(
 					config,
-					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+("_z" if channel in ["et", "mt"] else "") + "/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -197,7 +197,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -214,7 +214,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
@@ -223,7 +223,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
@@ -232,7 +232,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
@@ -241,7 +241,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
@@ -250,7 +250,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -259,7 +259,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
@@ -278,7 +278,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["em", "tt"]:
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep),
@@ -302,7 +302,7 @@ class Samples(samples.SamplesBase):
 			# WJets for QCD estimate
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
@@ -324,7 +324,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
@@ -335,7 +335,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
@@ -346,7 +346,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
@@ -357,7 +357,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
@@ -368,7 +368,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
@@ -379,7 +379,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
@@ -411,7 +411,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_ztt/ntuple " + channel + "_zttlep/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
@@ -422,7 +422,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_zl/ntuple " + channel + "_zj/ntuple " + channel + "_zll/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
@@ -433,7 +433,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
@@ -444,7 +444,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAODSIM/*.root",
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_z/ntuple",
 					lumi,
 					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
