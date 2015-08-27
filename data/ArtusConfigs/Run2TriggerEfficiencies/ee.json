@@ -96,7 +96,15 @@
 			"phi_2",
 			"m_vis",
 			"triggerTagLeptonAvailable",
-			"triggerProbeLeptonAvailable"
+			"triggerTagLeptonPt",
+			"triggerTagLeptonEta",
+			"triggerTagLeptonPhi",
+			"triggerTagLeptonMass",
+			"triggerProbeLeptonAvailable",
+			"triggerProbeLeptonPt",
+			"triggerProbeLeptonEta",
+			"triggerProbeLeptonPhi",
+			"triggerProbeLeptonMass"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {

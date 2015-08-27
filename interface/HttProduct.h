@@ -162,4 +162,6 @@ public:
 	// filled by TriggerTagAndProbeProducers
 	bool m_triggerTagLeptonAvailable = false;
 	bool m_triggerProbeLeptonAvailable = false;
+	KLepton* m_triggerTagLepton = 0;
+	KLepton* m_triggerProbeLepton = 0;
 };

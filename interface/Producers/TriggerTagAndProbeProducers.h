@@ -34,7 +34,9 @@ public:
 			//std::vector<std::string>& (setting_type::*GetTagObjectTriggerFilterNames)(void) const,
 			//std::vector<std::string>& (setting_type::*GetProbeObjectTriggerFilterNames)(void) const,
 			bool product_type::*triggerTagObjectAvailable,
-			bool product_type::*triggerProbeObjectAvailable
+			bool product_type::*triggerProbeObjectAvailable,
+			TObject* product_type::*triggerTagObject,
+			TObject* product_type::*triggerProbeObject
 	) :
 		ProducerBase<HttTypes>(),
 		m_validObjectsMember(validObjectsMember),
@@ -44,7 +46,9 @@ public:
 		//GetTagObjectTriggerFilterNames(GetTagObjectTriggerFilterNames),
 		//GetProbeObjectTriggerFilterNames(GetProbeObjectTriggerFilterNames),
 		m_triggerTagObjectAvailable(triggerTagObjectAvailable),
-		m_triggerProbeObjectAvailable(triggerProbeObjectAvailable)
+		m_triggerProbeObjectAvailable(triggerProbeObjectAvailable),
+		m_triggerTagObject(triggerTagObject),
+		m_triggerProbeObject(triggerProbeObject)
 	{
 	}
 
@@ -60,6 +64,8 @@ public:
 		
 		(product.*m_triggerTagObjectAvailable) = false;
 		(product.*m_triggerProbeObjectAvailable) = false;
+		(product.*m_triggerTagObject) = nullptr;
+		(product.*m_triggerProbeObject) = nullptr;
 		
 		// TODO: swapping the loops over TObject and std::string can speed up this producer significantly
 		for (typename std::vector<TObject*>::iterator validObject = (product.*m_validObjectsMember).begin();
@@ -82,6 +88,7 @@ public:
 					if (boost::regex_search(*hltPath, boost::regex(*tagObjectHltPath, boost::regex::icase | boost::regex::extended)))
 					{
 						(product.*m_triggerTagObjectAvailable) = true;
+						(product.*m_triggerTagObject) = (*validObject);
 					}
 				}
 			}
@@ -99,6 +106,7 @@ public:
 						if (boost::regex_search(*hltPath, boost::regex(*probeObjectHltPath, boost::regex::icase | boost::regex::extended)))
 						{
 							(product.*m_triggerProbeObjectAvailable) = true;
+							(product.*m_triggerProbeObject) = (*validObject);
 						}
 					}
 				}
@@ -116,6 +124,8 @@ private:
 	//std::vector<std::string>& (setting_type::*GetProbeObjectTriggerFilterNames)(void) const;
 	bool product_type::*m_triggerTagObjectAvailable;
 	bool product_type::*m_triggerProbeObjectAvailable;
+	TObject* product_type::*m_triggerTagObject;
+	TObject* product_type::*m_triggerProbeObject;
 
 };
 
