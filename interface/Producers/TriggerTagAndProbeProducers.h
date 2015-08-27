@@ -71,6 +71,8 @@ public:
 		for (typename std::vector<TObject*>::iterator validObject = (product.*m_validObjectsMember).begin();
 		     validObject != (product.*m_validObjectsMember).end(); ++validObject)
 		{
+			bool objectIsUsedAsTag = false;
+			
 			std::vector<std::string> hltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 					(product.*m_detailedTriggerMatchedObjects),
 					(*validObject),
@@ -89,12 +91,18 @@ public:
 					{
 						(product.*m_triggerTagObjectAvailable) = true;
 						(product.*m_triggerTagObject) = (*validObject);
+						objectIsUsedAsTag = true;
 					}
 				}
 			}
 			
-			if (! (product.*m_triggerTagObjectAvailable))
+			if (! objectIsUsedAsTag)
 			{
+				if (! (product.*m_triggerProbeObjectAvailable))
+				{
+					(product.*m_triggerProbeObject) = (*validObject);
+				}
+				
 				for (std::vector<std::string>::iterator hltPath = hltPaths.begin();
 				    (hltPath != hltPaths.end()) && (! (product.*m_triggerProbeObjectAvailable));
 				    ++hltPath)
@@ -106,7 +114,6 @@ public:
 						if (boost::regex_search(*hltPath, boost::regex(*probeObjectHltPath, boost::regex::icase | boost::regex::extended)))
 						{
 							(product.*m_triggerProbeObjectAvailable) = true;
-							(product.*m_triggerProbeObject) = (*validObject);
 						}
 					}
 				}

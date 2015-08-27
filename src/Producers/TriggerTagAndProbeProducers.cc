@@ -36,19 +36,19 @@ void LeptonTriggerTagAndProbeProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("triggerTagLeptonPt", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_triggerTagLeptonAvailable ? product.m_triggerTagLepton->p4.Pt() : DefaultValues::UndefinedFloat);
+		return (product.m_triggerTagLepton ? product.m_triggerTagLepton->p4.Pt() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("triggerTagLeptonEta", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_triggerTagLeptonAvailable ? product.m_triggerTagLepton->p4.Eta() : DefaultValues::UndefinedFloat);
+		return (product.m_triggerTagLepton ? product.m_triggerTagLepton->p4.Eta() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("triggerTagLeptonPhi", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_triggerTagLeptonAvailable ? product.m_triggerTagLepton->p4.Phi() : DefaultValues::UndefinedFloat);
+		return (product.m_triggerTagLepton ? product.m_triggerTagLepton->p4.Phi() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("triggerTagLeptonMass", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_triggerTagLeptonAvailable ? product.m_triggerTagLepton->p4.mass() : DefaultValues::UndefinedFloat);
+		return (product.m_triggerTagLepton ? product.m_triggerTagLepton->p4.mass() : DefaultValues::UndefinedFloat);
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("triggerProbeLeptonAvailable", [](event_type const& event, product_type const& product)
@@ -57,18 +57,18 @@ void LeptonTriggerTagAndProbeProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("triggerProbeLeptonPt", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_triggerProbeLeptonAvailable ? product.m_triggerProbeLepton->p4.Pt() : DefaultValues::UndefinedFloat);
+		return (product.m_triggerProbeLepton ? product.m_triggerProbeLepton->p4.Pt() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("triggerProbeLeptonEta", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_triggerProbeLeptonAvailable ? product.m_triggerProbeLepton->p4.Eta() : DefaultValues::UndefinedFloat);
+		return (product.m_triggerProbeLepton ? product.m_triggerProbeLepton->p4.Eta() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("triggerProbeLeptonPhi", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_triggerProbeLeptonAvailable ? product.m_triggerProbeLepton->p4.Phi() : DefaultValues::UndefinedFloat);
+		return (product.m_triggerProbeLepton ? product.m_triggerProbeLepton->p4.Phi() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("triggerProbeLeptonMass", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_triggerProbeLeptonAvailable ? product.m_triggerProbeLepton->p4.mass() : DefaultValues::UndefinedFloat);
+		return (product.m_triggerProbeLepton ? product.m_triggerProbeLepton->p4.mass() : DefaultValues::UndefinedFloat);
 	});
 }
