@@ -7,39 +7,40 @@
 		"GenDiLeptonDecayMode" : "mm",
 		"MinNMuons" : 1,
 		"HltPaths" : [
-			"HLT_IsoMu24_eta2p1",
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
+			"HLT_Mu17_TrkIsoVVL",
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL"
 		],
 		"TagLeptonHltPaths" : [
-			"HLT_IsoMu24_eta2p1_v"
+			"HLT_Mu17_TrkIsoVVL_v"
 		],
 		"ProbeLeptonHltPaths" : [
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v"
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"
 		],
 		"MuonLowerPtCuts" : [
-			"18.0"
+			"10.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"2.1"
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_IsoMu24_eta2p1_v:25.0"
+			"HLT_Mu17_TrkIsoVVL_v:10.0",
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v:10.0"
 		],
 		"DiTauPairLepton2LowerPtCuts" : [
-			"HLT_IsoMu24_eta2p1_v:25.0"
+			"HLT_Mu17_TrkIsoVVL_v:10.0",
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v:10.0"
 		],
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_IsoMu24_eta2p1_v",
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v"
+			"HLT_Mu17_TrkIsoVVL_v",
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"
 		],
 		"EventWeight" : "eventWeight",
 		"MuonTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09",
-					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu17LooseIsoPFTau20",
-					"HLT_IsoMu24_eta2p1_v:hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09"
+					"HLT_Mu17_TrkIsoVVL_v:hltL3fL1sMu12L1f0L2f12L3Filtered17TkIsoFiltered0p4",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v:hltDiMuonGlb17Trk8RelTrkIsoFiltered0p4"
 				]
 			}
 		},
@@ -125,7 +126,8 @@
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
 			"CutFlowTreeConsumer",
-			"KappaMuonsConsumer"
+			"KappaMuonsConsumer",
+			"#PrintHltConsumer"
 		]
 	}
 }

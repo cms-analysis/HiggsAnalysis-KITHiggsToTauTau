@@ -6,80 +6,41 @@
 		"Channel" : "EE",
 		"GenDiLeptonDecayMode" : "ee",
 		"MinNElectrons" : 1,
-		"HltPaths" : {
-			"nick": {
-				"default" : [
-					"HLT_Ele32_eta2p1_WP75_Gsf",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
-				],
-				"Run2015" : [
-					"HLT_Ele32_eta2p1_WPTight_Gsf",
-					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
-				]
-			}
-		},
-		"TagLeptonHltPaths" : {
-			"nick": {
-				"default" : [
-					"HLT_Ele32_eta2p1_WP75_Gsf_v"
-				],
-				"Run2015" : [
-					"HLT_Ele32_eta2p1_WPTight_Gsf_v"
-				]
-			}
-		},
-		"ProbeLeptonHltPaths" : {
-			"nick": {
-				"default" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
-				],
-				"Run2015" : [
-					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL",
+			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL"
+		],
+		"TagLeptonHltPaths" : [
+			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v"
+		],
+		"ProbeLeptonHltPaths" : [
+			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"
+		],
 		"ElectronLowerPtCuts" : [
-			"23.0"
+			"10.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
-			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
+			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v:10.0",
+			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v:10.0"
 		],
 		"DiTauPairLepton2LowerPtCuts" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
-			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
+			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v:10.0",
+			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v:10.0"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : {
-			"nick": {
-				"default" : [
-					"HLT_Ele32_eta2p1_WP75_Gsf_v",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v"
-				],
-				"Run2015" : [
-					"HLT_Ele32_eta2p1_WPTight_Gsf_v",
-					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v"
-				]
-			}
-		},
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
+			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v",
+			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"
+		],
 		"EventWeight" : "eventWeight",
-		"ElectronTriggerFilterNames" : {
-			"nick" : {
-				"default" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
-					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
-				],
-				"Run2015" : [
-					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltSingleEle22WPLooseGsfTrackIsoFilter",
-					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
-					"HLT_Ele32_eta2p1_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
-				]
-			}
-		},
+		"ElectronTriggerFilterNames" : [
+			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v:hltEle23CaloIdLTrackIdLIsoVLTrackIsoFilter",
+			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v:hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter",
+			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v:hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"
+		],
 		"InvalidateNonMatchingElectrons" : false,
 		"RecoTauMatchingGenParticlePdgIds" : [
 			11,
@@ -162,7 +123,8 @@
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
 			"CutFlowTreeConsumer",
-			"KappaElectronsConsumer"
+			"KappaElectronsConsumer",
+			"#PrintHltConsumer"
 		]
 	}
 }
