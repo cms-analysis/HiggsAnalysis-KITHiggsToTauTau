@@ -6,7 +6,7 @@
 
 LeptonTriggerTagAndProbeProducer::LeptonTriggerTagAndProbeProducer() :
 	TriggerTagAndProbeProducerBase<KLepton>(
-			&HttTypes::product_type::m_ptOrderedLeptons,
+			&HttTypes::product_type::m_validLeptons,
 			&HttTypes::product_type::m_detailedTriggerMatchedLeptons,
 			&HttTypes::setting_type::GetTagLeptonHltPaths,
 			&HttTypes::setting_type::GetProbeLeptonHltPaths,
