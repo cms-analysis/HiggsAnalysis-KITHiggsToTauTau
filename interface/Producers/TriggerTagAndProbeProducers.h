@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <algorithm>
+
 #include <boost/regex.hpp>
 
 #include "Kappa/DataFormats/interface/Kappa.h"
@@ -67,58 +69,81 @@ public:
 		(product.*m_triggerTagObject) = nullptr;
 		(product.*m_triggerProbeObject) = nullptr;
 		
-		// TODO: swapping the loops over TObject and std::string can speed up this producer significantly
-		for (typename std::vector<TObject*>::iterator validObject = (product.*m_validObjectsMember).begin();
-		     validObject != (product.*m_validObjectsMember).end(); ++validObject)
+		// loop over all permutations of valid objects
+		std::vector<TObject*> validObjects = (product.*m_validObjectsMember);
+		do
 		{
-			bool objectIsUsedAsTag = false;
+			bool triggerTagObjectAvailable = false;
+			bool triggerProbeObjectAvailable = false;
+			TObject* triggerTagObject = nullptr;
+			TObject* triggerProbeObject = nullptr;
 			
-			std::vector<std::string> hltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
-					(product.*m_detailedTriggerMatchedObjects),
-					(*validObject),
-					new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
-			));
-			
-			for (std::vector<std::string>::iterator hltPath = hltPaths.begin();
-			     (hltPath != hltPaths.end()) && (! (product.*m_triggerTagObjectAvailable));
-			     ++hltPath)
+			// TODO: swapping the loops over TObject and std::string can speed up this producer significantly
+			for (typename std::vector<TObject*>::iterator validObject = validObjects.begin(); validObject != validObjects.end(); ++validObject)
 			{
-				for (std::vector<std::string>::iterator tagObjectHltPath = (settings.*GetTagObjectHltPaths)().begin();
-				     (tagObjectHltPath != (settings.*GetTagObjectHltPaths)().end()) && (! (product.*m_triggerTagObjectAvailable));
-				     ++tagObjectHltPath)
+				bool objectIsUsedAsTag = false;
+				
+				std::vector<std::string> hltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
+						(product.*m_detailedTriggerMatchedObjects),
+						(*validObject),
+						new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
+				));
+				
+				// search for tag matched first
+				for (std::vector<std::string>::iterator hltPath = hltPaths.begin();
+					 (hltPath != hltPaths.end()) && (! triggerTagObjectAvailable);
+					 ++hltPath)
 				{
-					if (boost::regex_search(*hltPath, boost::regex(*tagObjectHltPath, boost::regex::icase | boost::regex::extended)))
+					for (std::vector<std::string>::iterator tagObjectHltPath = (settings.*GetTagObjectHltPaths)().begin();
+						 (tagObjectHltPath != (settings.*GetTagObjectHltPaths)().end()) && (! triggerTagObjectAvailable);
+						 ++tagObjectHltPath)
 					{
-						(product.*m_triggerTagObjectAvailable) = true;
-						(product.*m_triggerTagObject) = (*validObject);
-						objectIsUsedAsTag = true;
+						if (boost::regex_search(*hltPath, boost::regex(*tagObjectHltPath, boost::regex::icase | boost::regex::extended)))
+						{
+							triggerTagObjectAvailable = true;
+							triggerTagObject = *validObject;
+							objectIsUsedAsTag = true;
+						}
 					}
 				}
-			}
-			
-			if (! objectIsUsedAsTag)
-			{
-				if (! (product.*m_triggerProbeObjectAvailable))
-				{
-					(product.*m_triggerProbeObject) = (*validObject);
-				}
 				
-				for (std::vector<std::string>::iterator hltPath = hltPaths.begin();
-				    (hltPath != hltPaths.end()) && (! (product.*m_triggerProbeObjectAvailable));
-				    ++hltPath)
+				// search for probe matched is object has no tag match
+				if (! objectIsUsedAsTag)
 				{
-					for (std::vector<std::string>::iterator probeObjectHltPath = (settings.*GetProbeObjectHltPaths)().begin();
-					     (probeObjectHltPath != (settings.*GetProbeObjectHltPaths)().end()) && (! (product.*m_triggerProbeObjectAvailable));
-					     ++probeObjectHltPath)
+					triggerProbeObject = *validObject;
+				
+					for (std::vector<std::string>::iterator hltPath = hltPaths.begin();
+						(hltPath != hltPaths.end()) && (! triggerProbeObjectAvailable);
+						++hltPath)
 					{
-						if (boost::regex_search(*hltPath, boost::regex(*probeObjectHltPath, boost::regex::icase | boost::regex::extended)))
+						for (std::vector<std::string>::iterator probeObjectHltPath = (settings.*GetProbeObjectHltPaths)().begin();
+							 (probeObjectHltPath != (settings.*GetProbeObjectHltPaths)().end()) && (! triggerProbeObjectAvailable);
+							 ++probeObjectHltPath)
 						{
-							(product.*m_triggerProbeObjectAvailable) = true;
+							if (boost::regex_search(*hltPath, boost::regex(*probeObjectHltPath, boost::regex::icase | boost::regex::extended)))
+							{
+								triggerProbeObjectAvailable = true;
+							}
 						}
 					}
 				}
 			}
+			
+			if (triggerTagObjectAvailable || (! (product.*m_triggerTagObjectAvailable)))
+			{
+				(product.*m_triggerTagObjectAvailable) = triggerTagObjectAvailable;
+				(product.*m_triggerProbeObjectAvailable) = triggerProbeObjectAvailable;
+				(product.*m_triggerTagObject) = triggerTagObject;
+				(product.*m_triggerProbeObject) = triggerProbeObject;
+			}
+			
+			// quit searching if tag and probe are found in same permutation
+			if ((product.*m_triggerTagObjectAvailable) && (product.*m_triggerProbeObjectAvailable))
+			{
+				break;
+			}
 		}
+		while (std::next_permutation(validObjects.begin(), validObjects.end()));
 	}
 
 
