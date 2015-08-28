@@ -2,8 +2,11 @@
 #pragma once
 
 #include <algorithm>
+#include <utility>
 
 #include <boost/regex.hpp>
+
+#include <Math/VectorUtil.h>
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 
@@ -19,7 +22,7 @@
 */
 
 
-template<class TObject>
+template<class TTag, class TProbe>
 class TriggerTagAndProbeProducerBase: public ProducerBase<HttTypes>
 {
 public:
@@ -29,28 +32,28 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 	
 	TriggerTagAndProbeProducerBase(
-			std::vector<TObject*> product_type::*validObjectsMember,
-			std::map<TObject*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > product_type::*detailedTriggerMatchedObjects,
+			std::vector<TTag*> product_type::*tagObjectsMember,
+			std::vector<TProbe*> product_type::*probeObjectsMember,
+			std::map<TTag*, std::map<std::string, std::map<std::string, std::vector<KLV*> > > > product_type::*detailedTriggerMatchedTagObjectsMember,
+			std::map<TProbe*, std::map<std::string, std::map<std::string, std::vector<KLV*> > > > product_type::*detailedTriggerMatchedProbeObjectsMember,
 			std::vector<std::string>& (setting_type::*GetTagObjectHltPaths)(void) const,
 			std::vector<std::string>& (setting_type::*GetProbeObjectHltPaths)(void) const,
 			//std::vector<std::string>& (setting_type::*GetTagObjectTriggerFilterNames)(void) const,
 			//std::vector<std::string>& (setting_type::*GetProbeObjectTriggerFilterNames)(void) const,
-			bool product_type::*triggerTagObjectAvailable,
-			bool product_type::*triggerProbeObjectAvailable,
-			TObject* product_type::*triggerTagObject,
-			TObject* product_type::*triggerProbeObject
+			std::vector<std::pair<TTag*, TProbe*> > product_type::*triggerTagProbeObjectPairsMember,
+			std::vector<std::pair<bool, bool> > product_type::*triggerTagProbeObjectMatchedPairsMember
 	) :
 		ProducerBase<HttTypes>(),
-		m_validObjectsMember(validObjectsMember),
-		m_detailedTriggerMatchedObjects(detailedTriggerMatchedObjects),
+		m_tagObjectsMember(tagObjectsMember),
+		m_probeObjectsMember(probeObjectsMember),
+		m_detailedTriggerMatchedTagObjectsMember(detailedTriggerMatchedTagObjectsMember),
+		m_detailedTriggerMatchedProbeObjectsMember(detailedTriggerMatchedProbeObjectsMember),
 		GetTagObjectHltPaths(GetTagObjectHltPaths),
 		GetProbeObjectHltPaths(GetProbeObjectHltPaths),
 		//GetTagObjectTriggerFilterNames(GetTagObjectTriggerFilterNames),
 		//GetProbeObjectTriggerFilterNames(GetProbeObjectTriggerFilterNames),
-		m_triggerTagObjectAvailable(triggerTagObjectAvailable),
-		m_triggerProbeObjectAvailable(triggerProbeObjectAvailable),
-		m_triggerTagObject(triggerTagObject),
-		m_triggerProbeObject(triggerProbeObject)
+		m_triggerTagProbeObjectPairsMember(triggerTagProbeObjectPairsMember),
+		m_triggerTagProbeObjectMatchedPairsMember(triggerTagProbeObjectMatchedPairsMember)
 	{
 	}
 
@@ -62,111 +65,93 @@ public:
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override
 	{
-		assert((product.*m_validObjectsMember).size() >= 2);
+		assert((product.*m_tagObjectsMember).size() >= 1);
+		assert((product.*m_probeObjectsMember).size() >= 1);
+		assert(((product.*m_tagObjectsMember) != (product.*m_probeObjectsMember)) || ((product.*m_tagObjectsMember).size() >= 2));
 		
-		(product.*m_triggerTagObjectAvailable) = false;
-		(product.*m_triggerProbeObjectAvailable) = false;
-		(product.*m_triggerTagObject) = nullptr;
-		(product.*m_triggerProbeObject) = nullptr;
-		
-		// loop over all permutations of valid objects
-		std::vector<TObject*> validObjects = (product.*m_validObjectsMember);
-		do
+		for (typename std::vector<TTag*>::iterator tagObject = (product.*m_tagObjectsMember).begin();
+		     tagObject != (product.*m_tagObjectsMember).end(); ++tagObject)
 		{
-			bool triggerTagObjectAvailable = false;
-			bool triggerProbeObjectAvailable = false;
-			TObject* triggerTagObject = nullptr;
-			TObject* triggerProbeObject = nullptr;
+			std::vector<std::string> tagFiredHltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(SafeMap::GetWithDefault(
+					(product.*m_detailedTriggerMatchedTagObjectsMember),
+					(*tagObject),
+					std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
+			));
 			
-			// TODO: swapping the loops over TObject and std::string can speed up this producer significantly
-			for (typename std::vector<TObject*>::iterator validObject = validObjects.begin(); validObject != validObjects.end(); ++validObject)
+			bool matchedTagObject = false;
+			for (std::vector<std::string>::iterator tagFiredHltPath = tagFiredHltPaths.begin();
+				 tagFiredHltPath != tagFiredHltPaths.end(); ++tagFiredHltPath)
 			{
-				bool objectIsUsedAsTag = false;
-				
-				std::vector<std::string> hltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
-						(product.*m_detailedTriggerMatchedObjects),
-						(*validObject),
-						new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
+				for (std::vector<std::string>::iterator tagObjectHltPath = (settings.*GetTagObjectHltPaths)().begin();
+					 tagObjectHltPath != (settings.*GetTagObjectHltPaths)().end(); ++tagObjectHltPath)
+				{
+					if (boost::regex_search(*tagFiredHltPath, boost::regex(*tagObjectHltPath, boost::regex::icase | boost::regex::extended)))
+					{
+						matchedTagObject = true;
+						break;
+					}
+				}
+			}
+			
+			for (typename std::vector<TProbe*>::iterator probeObject = (product.*m_probeObjectsMember).begin();
+			     probeObject != (product.*m_probeObjectsMember).end(); ++probeObject)
+			{
+				std::vector<std::string> probeFiredHltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(SafeMap::GetWithDefault(
+						(product.*m_detailedTriggerMatchedProbeObjectsMember),
+						(*probeObject),
+						std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
 				));
-				
-				// search for tag matched first
-				for (std::vector<std::string>::iterator hltPath = hltPaths.begin();
-					 (hltPath != hltPaths.end()) && (! triggerTagObjectAvailable);
-					 ++hltPath)
+			
+				bool matchedProbeObject = false;
+				for (std::vector<std::string>::iterator probeFiredHltPath = probeFiredHltPaths.begin();
+					 probeFiredHltPath != probeFiredHltPaths.end(); ++probeFiredHltPath)
 				{
-					for (std::vector<std::string>::iterator tagObjectHltPath = (settings.*GetTagObjectHltPaths)().begin();
-						 (tagObjectHltPath != (settings.*GetTagObjectHltPaths)().end()) && (! triggerTagObjectAvailable);
-						 ++tagObjectHltPath)
+					for (std::vector<std::string>::iterator probeObjectHltPath = (settings.*GetProbeObjectHltPaths)().begin();
+						 probeObjectHltPath != (settings.*GetProbeObjectHltPaths)().end(); ++probeObjectHltPath)
 					{
-						if (boost::regex_search(*hltPath, boost::regex(*tagObjectHltPath, boost::regex::icase | boost::regex::extended)))
+						if (boost::regex_search(*probeFiredHltPath, boost::regex(*probeObjectHltPath, boost::regex::icase | boost::regex::extended)))
 						{
-							triggerTagObjectAvailable = true;
-							triggerTagObject = *validObject;
-							objectIsUsedAsTag = true;
+							matchedProbeObject = true;
+							break;
 						}
 					}
 				}
 				
-				// search for probe matched is object has no tag match
-				if (! objectIsUsedAsTag)
-				{
-					triggerProbeObject = *validObject;
-				
-					for (std::vector<std::string>::iterator hltPath = hltPaths.begin();
-						(hltPath != hltPaths.end()) && (! triggerProbeObjectAvailable);
-						++hltPath)
-					{
-						for (std::vector<std::string>::iterator probeObjectHltPath = (settings.*GetProbeObjectHltPaths)().begin();
-							 (probeObjectHltPath != (settings.*GetProbeObjectHltPaths)().end()) && (! triggerProbeObjectAvailable);
-							 ++probeObjectHltPath)
-						{
-							if (boost::regex_search(*hltPath, boost::regex(*probeObjectHltPath, boost::regex::icase | boost::regex::extended)))
-							{
-								triggerProbeObjectAvailable = true;
-							}
-						}
-					}
-				}
-			}
-			
-			if (triggerTagObjectAvailable || (! (product.*m_triggerTagObjectAvailable)))
-			{
-				(product.*m_triggerTagObjectAvailable) = triggerTagObjectAvailable;
-				(product.*m_triggerProbeObjectAvailable) = triggerProbeObjectAvailable;
-				(product.*m_triggerTagObject) = triggerTagObject;
-				(product.*m_triggerProbeObject) = triggerProbeObject;
-			}
-			
-			// quit searching if tag and probe are found in same permutation
-			if ((product.*m_triggerTagObjectAvailable) && (product.*m_triggerProbeObjectAvailable))
-			{
-				break;
+				(product.*m_triggerTagProbeObjectPairsMember).push_back(std::pair<TTag*, TProbe*>(*tagObject, *probeObject));
+				(product.*m_triggerTagProbeObjectMatchedPairsMember).push_back(std::pair<bool, bool>(matchedTagObject, matchedProbeObject));
 			}
 		}
-		while (std::next_permutation(validObjects.begin(), validObjects.end()));
 	}
 
 
 private:
-	std::vector<TObject*> product_type::*m_validObjectsMember;
-	std::map<TObject*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >*> product_type::*m_detailedTriggerMatchedObjects; // TODO: for jets this would be a slighly different type
+	std::vector<TTag*> product_type::*m_tagObjectsMember;
+	std::vector<TProbe*> product_type::*m_probeObjectsMember;
+	std::map<TTag*, std::map<std::string, std::map<std::string, std::vector<KLV*> > > > product_type::*m_detailedTriggerMatchedTagObjectsMember;
+	std::map<TProbe*, std::map<std::string, std::map<std::string, std::vector<KLV*> > > > product_type::*m_detailedTriggerMatchedProbeObjectsMember;
 	std::vector<std::string>& (setting_type::*GetTagObjectHltPaths)(void) const;
 	std::vector<std::string>& (setting_type::*GetProbeObjectHltPaths)(void) const;
 	//std::vector<std::string>& (setting_type::*GetTagObjectTriggerFilterNames)(void) const;
 	//std::vector<std::string>& (setting_type::*GetProbeObjectTriggerFilterNames)(void) const;
-	bool product_type::*m_triggerTagObjectAvailable;
-	bool product_type::*m_triggerProbeObjectAvailable;
-	TObject* product_type::*m_triggerTagObject;
-	TObject* product_type::*m_triggerProbeObject;
+	std::vector<std::pair<TTag*, TProbe*> > product_type::*m_triggerTagProbeObjectPairsMember;
+	std::vector<std::pair<bool, bool> > product_type::*m_triggerTagProbeObjectMatchedPairsMember;
 
 };
 
 
 
-class LeptonTriggerTagAndProbeProducer: public TriggerTagAndProbeProducerBase<KLepton>
+class EETriggerTagAndProbeProducer: public TriggerTagAndProbeProducerBase<KElectron, KElectron>
 {
 public:
-	LeptonTriggerTagAndProbeProducer();
+	EETriggerTagAndProbeProducer();
 	virtual std::string GetProducerId() const override;
-	virtual void Init(setting_type const& settings) override;
 };
+
+
+class MMTriggerTagAndProbeProducer: public TriggerTagAndProbeProducerBase<KMuon, KMuon>
+{
+public:
+	MMTriggerTagAndProbeProducer();
+	virtual std::string GetProducerId() const override;
+};
+

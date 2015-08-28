@@ -49,24 +49,7 @@
 		],
 		"DirectIso" : true,
 		"Quantities" : [
-			"nElectrons",
-			"#pt_1",
-			"#pt_2",
-			"#eta_1",
-			"#eta_2",
-			"#phi_1",
-			"#phi_2",
-			"#m_vis",
-			"triggerTagLeptonAvailable",
-			"triggerTagLeptonPt",
-			"triggerTagLeptonEta",
-			"triggerTagLeptonPhi",
-			"triggerTagLeptonMass",
-			"triggerProbeLeptonAvailable",
-			"triggerProbeLeptonPt",
-			"triggerProbeLeptonEta",
-			"triggerProbeLeptonPhi",
-			"triggerProbeLeptonMass"
+			"nElectrons"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
@@ -85,7 +68,7 @@
 					"#producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
-					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EETriggerTagAndProbeProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -104,7 +87,7 @@
 					"#producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
-					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EETriggerTagAndProbeProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -121,12 +104,13 @@
 					"#producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
-					"producer:LeptonTriggerTagAndProbeProducer",
+					"producer:EETriggerTagAndProbeProducer",
 					"producer:EventWeightProducer"
 				]
 			}
 		},
 		"Consumers" : [
+			"EETriggerTagAndProbeConsumer",
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
 			"CutFlowTreeConsumer",

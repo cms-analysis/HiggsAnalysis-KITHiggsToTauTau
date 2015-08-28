@@ -42,6 +42,7 @@
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TriggerTagAndProbeConsumers.h"
 
 
 ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
@@ -130,8 +131,10 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new ValidMMPairCandidatesProducer();
 	else if(id == ValidEEPairCandidatesProducer().GetProducerId())
 		return new ValidEEPairCandidatesProducer();
-	else if(id == LeptonTriggerTagAndProbeProducer().GetProducerId())
-		return new LeptonTriggerTagAndProbeProducer();
+	else if(id == MMTriggerTagAndProbeProducer().GetProducerId())
+		return new MMTriggerTagAndProbeProducer();
+	else if(id == EETriggerTagAndProbeProducer().GetProducerId())
+		return new EETriggerTagAndProbeProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
@@ -176,6 +179,10 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new HttLambdaNtupleConsumer();
 	else if(id == SvfitCacheConsumer().GetConsumerId())
 		return new SvfitCacheConsumer();
+	else if(id == MMTriggerTagAndProbeConsumer().GetConsumerId())
+		return new MMTriggerTagAndProbeConsumer();
+	else if(id == EETriggerTagAndProbeConsumer().GetConsumerId())
+		return new EETriggerTagAndProbeConsumer();
 	else
 		return KappaFactory::createConsumer( id );
 }

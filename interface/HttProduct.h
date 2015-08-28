@@ -160,8 +160,9 @@ public:
 	std::vector<KGenTau*> m_validGenTausToTaus;
 
 	// filled by TriggerTagAndProbeProducers
-	bool m_triggerTagLeptonAvailable = false;
-	bool m_triggerProbeLeptonAvailable = false;
-	KLepton* m_triggerTagLepton = 0;
-	KLepton* m_triggerProbeLepton = 0;
+	std::vector<std::pair<KElectron*, KElectron*> > m_triggerTagProbeElectronPairs;
+	std::vector<std::pair<KMuon*, KMuon*> > m_triggerTagProbeMuonPairs;
+	
+	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronMatchedPairs;
+	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonMatchedPairs;
 };
