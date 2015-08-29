@@ -113,8 +113,8 @@
 			"EETriggerTagAndProbeConsumer",
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
-			"CutFlowTreeConsumer",
-			"KappaElectronsConsumer",
+			"#CutFlowTreeConsumer",
+			"#KappaElectronsConsumer",
 			"#PrintHltConsumer"
 		]
 	}

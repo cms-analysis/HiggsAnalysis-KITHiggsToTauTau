@@ -116,8 +116,8 @@
 			"MMTriggerTagAndProbeConsumer",
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
-			"CutFlowTreeConsumer",
-			"KappaMuonsConsumer",
+			"#CutFlowTreeConsumer",
+			"#KappaMuonsConsumer",
 			"#PrintHltConsumer"
 		]
 	}
