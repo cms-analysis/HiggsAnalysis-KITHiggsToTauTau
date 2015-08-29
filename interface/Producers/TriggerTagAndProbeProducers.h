@@ -17,9 +17,6 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
-/**
-   \brief Producers for candidates of di-tau pairs
-*/
 
 
 template<class TTag, class TProbe>
@@ -96,29 +93,32 @@ public:
 			for (typename std::vector<TProbe*>::iterator probeObject = (product.*m_probeObjectsMember).begin();
 			     probeObject != (product.*m_probeObjectsMember).end(); ++probeObject)
 			{
-				std::vector<std::string> probeFiredHltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(SafeMap::GetWithDefault(
-						(product.*m_detailedTriggerMatchedProbeObjectsMember),
-						(*probeObject),
-						std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
-				));
-			
-				bool matchedProbeObject = false;
-				for (std::vector<std::string>::iterator probeFiredHltPath = probeFiredHltPaths.begin();
-					 probeFiredHltPath != probeFiredHltPaths.end(); ++probeFiredHltPath)
+				if (ROOT::Math::VectorUtil::DeltaR((*tagObject)->p4, (*probeObject)->p4) > settings.GetDiTauPairMinDeltaRCut())
 				{
-					for (std::vector<std::string>::iterator probeObjectHltPath = (settings.*GetProbeObjectHltPaths)().begin();
-						 probeObjectHltPath != (settings.*GetProbeObjectHltPaths)().end(); ++probeObjectHltPath)
+					std::vector<std::string> probeFiredHltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(SafeMap::GetWithDefault(
+							(product.*m_detailedTriggerMatchedProbeObjectsMember),
+							(*probeObject),
+							std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
+					));
+			
+					bool matchedProbeObject = false;
+					for (std::vector<std::string>::iterator probeFiredHltPath = probeFiredHltPaths.begin();
+						 probeFiredHltPath != probeFiredHltPaths.end(); ++probeFiredHltPath)
 					{
-						if (boost::regex_search(*probeFiredHltPath, boost::regex(*probeObjectHltPath, boost::regex::icase | boost::regex::extended)))
+						for (std::vector<std::string>::iterator probeObjectHltPath = (settings.*GetProbeObjectHltPaths)().begin();
+							 probeObjectHltPath != (settings.*GetProbeObjectHltPaths)().end(); ++probeObjectHltPath)
 						{
-							matchedProbeObject = true;
-							break;
+							if (boost::regex_search(*probeFiredHltPath, boost::regex(*probeObjectHltPath, boost::regex::icase | boost::regex::extended)))
+							{
+								matchedProbeObject = true;
+								break;
+							}
 						}
 					}
-				}
 				
-				(product.*m_triggerTagProbeObjectPairsMember).push_back(std::pair<TTag*, TProbe*>(*tagObject, *probeObject));
-				(product.*m_triggerTagProbeObjectMatchedPairsMember).push_back(std::pair<bool, bool>(matchedTagObject, matchedProbeObject));
+					(product.*m_triggerTagProbeObjectPairsMember).push_back(std::pair<TTag*, TProbe*>(*tagObject, *probeObject));
+					(product.*m_triggerTagProbeObjectMatchedPairsMember).push_back(std::pair<bool, bool>(matchedTagObject, matchedProbeObject));
+				}
 			}
 		}
 	}
