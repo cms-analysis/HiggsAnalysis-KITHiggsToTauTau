@@ -8,14 +8,18 @@
 		"MinNMuons" : 2,
 		"MaxNMuons" : 2,
 		"HltPaths" : [
-			"HLT_Mu17_TrkIsoVVL",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL"
+			"HLT_IsoMu24_eta2p1",
+			"HLT_IsoMu20_eta2p1",
+			"HLT_DoubleIsoMu17_eta2p1",
+			"HLT_IsoMu17_eta2p1"
 		],
 		"TagLeptonHltPaths" : [
-			"HLT_Mu17_TrkIsoVVL_v"
+			"HLT_IsoMu24_eta2p1_v",
+			"HLT_IsoMu20_eta2p1_v"
 		],
-		"ProbeLeptonHltPaths" : [
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"
+		"all_ProbeLeptonHltPaths" : [
+			"HLT_DoubleIsoMu17_eta2p1_v",
+			"HLT_IsoMu17_eta2p1_v"
 		],
 		"MuonLowerPtCuts" : [
 			"10.0"
@@ -24,24 +28,25 @@
 			"2.1"
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
-		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Mu17_TrkIsoVVL_v:10.0",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v:10.0"
-		],
-		"DiTauPairLepton2LowerPtCuts" : [
-			"HLT_Mu17_TrkIsoVVL_v:10.0",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v:10.0"
-		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Mu17_TrkIsoVVL_v",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"
-		],
 		"EventWeight" : "eventWeight",
 		"MuonTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_Mu17_TrkIsoVVL_v:hltL3fL1sMu12L1f0L2f12L3Filtered17TkIsoFiltered0p4",
-					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v:hltDiMuonGlb17Trk8RelTrkIsoFiltered0p4"
+					"HLT_IsoMu24_eta2p1_v:hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09",
+					
+					"HLT_IsoMu20_eta2p1_v:hltL3crIsoL1sMu16Eta2p1L1f0L2f10QL3f20QL3trkIsoFiltered0p09",
+					
+					"HLT_DoubleIsoMu17_eta2p1_v:hltL1fL1sDoubleMu125L1Filtered16er",
+					"HLT_DoubleIsoMu17_eta2p1_v:hltL2fL1sDoubleMu125L1f16erL2Filtered10Q",
+					"HLT_DoubleIsoMu17_eta2p1_v:hltL3fL1sDoubleMu125L1f16erL2f10QL3Filtered17Q",
+					"HLT_DoubleIsoMu17_eta2p1_v:hltL3DzL1sDoubleMu125L1f16erL2f10QL3f17QL3DzFiltered0p2",
+					"HLT_DoubleIsoMu17_eta2p1_v:hltL3crIsoL1sDoubleMu125L1f16erL2f10QL3f17QL3Dz0p2L3crIsoRhoFiltered0p15IterTrk02",
+					
+					"HLT_IsoMu17_eta2p1_v:hltL1sSingleMu16er",
+					"HLT_IsoMu17_eta2p1_v:hltL1fL1sSingleMu16erL1Filtered0",
+					"HLT_IsoMu17_eta2p1_v:hltL2fL1sSingleMu16erL1f0L2Filtered10Q",
+					"HLT_IsoMu17_eta2p1_v:hltL3fL1sSingleMu16erL1f0L2f10QL3Filtered17Q",
+					"HLT_IsoMu17_eta2p1_v:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09"
 				]
 			}
 		},

@@ -8,14 +8,18 @@
 		"MinNElectrons" : 2,
 		"MaxNElectrons" : 2,
 		"HltPaths" : [
-			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL",
-			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL"
+			"HLT_Ele27_eta2p1_WP75_Gsf",
+			"HLT_Ele32_eta2p1_WP75_Gsf",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf",
+			"HLT_Ele22_eta2p1_WP75_Gsf"
 		],
 		"TagLeptonHltPaths" : [
-			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v"
+			"HLT_Ele27_eta2p1_WP75_Gsf_v",
+			"HLT_Ele32_eta2p1_WP75_Gsf_v"
 		],
-		"ProbeLeptonHltPaths" : [
-			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"
+		"all_ProbeLeptonHltPaths" : [
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v"
 		],
 		"ElectronLowerPtCuts" : [
 			"10.0"
@@ -24,23 +28,33 @@
 			"2.1"
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
-		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v:10.0",
-			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v:10.0"
-		],
-		"DiTauPairLepton2LowerPtCuts" : [
-			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v:10.0",
-			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v:10.0"
-		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v",
-			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"
-		],
 		"EventWeight" : "eventWeight",
 		"ElectronTriggerFilterNames" : [
-			"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v:hltEle23CaloIdLTrackIdLIsoVLTrackIsoFilter",
-			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v:hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter",
-			"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v:hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"
+			"HLT_Ele27_eta2p1_WP75_Gsf_v:hltEle27WP75GsfTrackIsoFilter",
+			
+			"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter",
+			
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22leg2EtFilter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75leg2ClusterShapeFilter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75leg2HcEFilter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75leg2EcalIsoFilter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75leg2HcalIsoFilter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75Gsfleg2OneOESuperMinusOneOPFilter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75Gsfleg2Chi2Filter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75Gsfleg2DetaFilter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75Gsfleg2DphiFilter",
+			"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v:hltEle24Ele22WP75Gsfleg2TrackIsoFilter",
+			
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEG22EtFilter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75ClusterShapeFilter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75HcEFilter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75EcalIsoFilter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75HcalIsoFilter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfOneOESuperMinusOneOPFilter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfChi2Filter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfDetaFilter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfDphiFilter",
+			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfTrackIsoFilter"
 		],
 		"InvalidateNonMatchingElectrons" : false,
 		"RecoTauMatchingGenParticlePdgIds" : [
