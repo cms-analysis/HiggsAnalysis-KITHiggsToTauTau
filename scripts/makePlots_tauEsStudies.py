@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
-	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
+	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt" and sample != "qcd"]
 
 	args.categories = [None if category == "None" else category for category in args.categories]
 
@@ -127,35 +127,29 @@ if __name__ == "__main__":
 
 				merged_config["filename"] = "tauesstudies_" + decayMode.replace("*","_")
 
-				#data minus background
-				bkg_samples_used = ["data"]
-				bkg_samples_used = bkg_samples_used + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
-
-				merged_config.setdefault("histogram_nicks", []).extend([" ".join(bkg_samples_used)])
-				merged_config.setdefault("sum_scale_factors", []).extend([" ".join(["1" if sample=="data" else "-1" for sample in bkg_samples_used])])
-				merged_config.setdefault("sum_result_nicks", []).append("noplot_datanobkg")
-
 				#analysis_modules
-				merged_config.setdefault("analysis_modules", []).append("AddHistograms")
 				merged_config.setdefault("analysis_modules", []).append("PrintInfos")
-				merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
 				#plot modules
 				merged_config.setdefault("plot_modules", []).append("ExportRoot")
 
-#				#special
-#				if (index == 0):
-#					merged_config["file_mode"] = "RECREATE"
-#				else:
-#					merged_config["file_mode"] = "UPDATE"
-
 				# config to plot the fit
 				if args.fit_to_data == "chi2":
-					merged_config["res_hist_nick"]  = ["chi2_result"]
+
+					merged_config.setdefault("analysis_modules", []).append("AddHistograms")
+					merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
+
+					# ztt plus bkg
+					for shift in es_shifts:
+						bkg_samples_used = ["ztt_" + str(shift).replace(".", "_")] + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
+						merged_config.setdefault("histogram_nicks", []).append([" ".join(bkg_samples_used)])
+						merged_config.setdefault("sum_result_nicks", []).append(["noplot_ztt_" + str(shift).replace(".", "_")])
+
+					merged_config["res_hist_nick"]  = "chi2_result"
 					merged_config["nicks_whitelist"] = ["chi2_result"]
 					merged_config["es_shifts"] = [str(shift) for shift in es_shifts]
-					merged_config["ztt_nicks"] = ["ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
-					merged_config["data_nicks"] = ["noplot_datanobkg"] * len(es_shifts)
+					merged_config["ztt_nicks"] = ["noplot_ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
+					merged_config["data_nicks"] = ["data"] * len(es_shifts)
 
 					config_plotfit = {}
 
@@ -166,12 +160,17 @@ if __name__ == "__main__":
 					config_plotfit["x_label"] = "ES_shift"
 					config_plotfit["y_label"] = "Chi2"
 				elif args.fit_to_data == "logllh":
+					merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
+
 					merged_config["roofit_flag"] = "true"
-					merged_config["res_hist_nick"]  = ["roofit_result"]
+					merged_config["res_hist_nick"]  = "roofit_result"
 					merged_config["nicks_whitelist"] = ["roofit_result"]
 					merged_config["es_shifts"] = [str(shift) for shift in es_shifts]
 					merged_config["ztt_nicks"] = ["ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
-					merged_config["data_nicks"] = ["noplot_datanobkg"] * len(es_shifts)
+					merged_config["data_nicks"] = ["data"] * len(es_shifts)
+					for shift in es_shifts:
+						bkg_samples_used = [nick for nick in bkg_samples if nick in merged_config["nicks"]]
+						merged_config.setdefault("bkg_nicks", []).append([" ".join(bkg_samples_used)])
 
 					config_plotfit = {}
 
