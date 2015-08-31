@@ -92,7 +92,8 @@ public:
 			for (typename std::vector<TProbe*>::iterator probeObject = (product.*m_probeObjectsMember).begin();
 			     probeObject != (product.*m_probeObjectsMember).end(); ++probeObject)
 			{
-				if (ROOT::Math::VectorUtil::DeltaR((*tagObject)->p4, (*probeObject)->p4) > settings.GetDiTauPairMinDeltaRCut())
+				if ((static_cast<void*>(*tagObject) != static_cast<void*>(*probeObject)) &&
+				    ROOT::Math::VectorUtil::DeltaR((*tagObject)->p4, (*probeObject)->p4) > settings.GetDiTauPairMinDeltaRCut())
 				{
 					std::vector<std::string> probeFiredHltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(SafeMap::GetWithDefault(
 							(product.*m_detailedTriggerMatchedProbeObjectsMember),
