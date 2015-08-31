@@ -91,6 +91,14 @@ private:
 
 
 
+class MMTriggerTagAndProbeConsumer: public TriggerTagAndProbeConsumerBase<KMuon, KMuon>
+{
+public:
+	MMTriggerTagAndProbeConsumer();
+	virtual std::string GetConsumerId() const override;
+};
+
+
 class EETriggerTagAndProbeConsumer: public TriggerTagAndProbeConsumerBase<KElectron, KElectron>
 {
 public:
@@ -99,10 +107,18 @@ public:
 };
 
 
-class MMTriggerTagAndProbeConsumer: public TriggerTagAndProbeConsumerBase<KMuon, KMuon>
+class MTTriggerTagAndProbeConsumer: public TriggerTagAndProbeConsumerBase<KMuon, KTau>
 {
 public:
-	MMTriggerTagAndProbeConsumer();
+	MTTriggerTagAndProbeConsumer();
+	virtual std::string GetConsumerId() const override;
+};
+
+
+class ETTriggerTagAndProbeConsumer: public TriggerTagAndProbeConsumerBase<KElectron, KTau>
+{
+public:
+	ETTriggerTagAndProbeConsumer();
 	virtual std::string GetConsumerId() const override;
 };
 

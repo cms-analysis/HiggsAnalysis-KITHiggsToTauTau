@@ -2,6 +2,21 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TriggerTagAndProbeConsumers.h"
 
 
+MMTriggerTagAndProbeConsumer::MMTriggerTagAndProbeConsumer() :
+	TriggerTagAndProbeConsumerBase<KMuon, KMuon>(
+			"mmTriggerTP",
+			&HttTypes::product_type::m_triggerTagProbeMuonPairs,
+			&HttTypes::product_type::m_triggerTagProbeMuonMatchedPairs
+	)
+{
+}
+
+std::string MMTriggerTagAndProbeConsumer::GetConsumerId() const
+{
+	return "MMTriggerTagAndProbeConsumer";
+}
+
+
 EETriggerTagAndProbeConsumer::EETriggerTagAndProbeConsumer() :
 	TriggerTagAndProbeConsumerBase<KElectron, KElectron>(
 			"eeTriggerTP",
@@ -17,16 +32,31 @@ std::string EETriggerTagAndProbeConsumer::GetConsumerId() const
 }
 
 
-MMTriggerTagAndProbeConsumer::MMTriggerTagAndProbeConsumer() :
-	TriggerTagAndProbeConsumerBase<KMuon, KMuon>(
-			"mmTriggerTP",
-			&HttTypes::product_type::m_triggerTagProbeMuonPairs,
-			&HttTypes::product_type::m_triggerTagProbeMuonMatchedPairs
+MTTriggerTagAndProbeConsumer::MTTriggerTagAndProbeConsumer() :
+	TriggerTagAndProbeConsumerBase<KMuon, KTau>(
+			"mtTriggerTP",
+			&HttTypes::product_type::m_triggerTagProbeMuonTauPairs,
+			&HttTypes::product_type::m_triggerTagProbeMuonTauMatchedPairs
 	)
 {
 }
 
-std::string MMTriggerTagAndProbeConsumer::GetConsumerId() const
+std::string MTTriggerTagAndProbeConsumer::GetConsumerId() const
 {
-	return "MMTriggerTagAndProbeConsumer";
+	return "MTTriggerTagAndProbeConsumer";
+}
+
+
+ETTriggerTagAndProbeConsumer::ETTriggerTagAndProbeConsumer() :
+	TriggerTagAndProbeConsumerBase<KElectron, KTau>(
+			"etTriggerTP",
+			&HttTypes::product_type::m_triggerTagProbeElectronTauPairs,
+			&HttTypes::product_type::m_triggerTagProbeElectronTauMatchedPairs
+	)
+{
+}
+
+std::string ETTriggerTagAndProbeConsumer::GetConsumerId() const
+{
+	return "ETTriggerTagAndProbeConsumer";
 }

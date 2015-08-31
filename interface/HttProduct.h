@@ -162,7 +162,12 @@ public:
 	// filled by TriggerTagAndProbeProducers
 	std::vector<std::pair<KElectron*, KElectron*> > m_triggerTagProbeElectronPairs;
 	std::vector<std::pair<KMuon*, KMuon*> > m_triggerTagProbeMuonPairs;
+	std::vector<std::pair<KMuon*, KTau*> > m_triggerTagProbeMuonTauPairs;
+	std::vector<std::pair<KElectron*, KTau*> > m_triggerTagProbeElectronTauPairs;
 	
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonMatchedPairs;
+	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonTauMatchedPairs;
+	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
+	
 };

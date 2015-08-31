@@ -131,10 +131,14 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new ValidMMPairCandidatesProducer();
 	else if(id == ValidEEPairCandidatesProducer().GetProducerId())
 		return new ValidEEPairCandidatesProducer();
-	else if(id == MMTriggerTagAndProbeProducer().GetProducerId())
-		return new MMTriggerTagAndProbeProducer();
 	else if(id == EETriggerTagAndProbeProducer().GetProducerId())
 		return new EETriggerTagAndProbeProducer();
+	else if(id == MMTriggerTagAndProbeProducer().GetProducerId())
+		return new MMTriggerTagAndProbeProducer();
+	else if(id == MTTriggerTagAndProbeProducer().GetProducerId())
+		return new MTTriggerTagAndProbeProducer();
+	else if(id == ETTriggerTagAndProbeProducer().GetProducerId())
+		return new ETTriggerTagAndProbeProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
@@ -179,10 +183,14 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new HttLambdaNtupleConsumer();
 	else if(id == SvfitCacheConsumer().GetConsumerId())
 		return new SvfitCacheConsumer();
-	else if(id == MMTriggerTagAndProbeConsumer().GetConsumerId())
-		return new MMTriggerTagAndProbeConsumer();
 	else if(id == EETriggerTagAndProbeConsumer().GetConsumerId())
 		return new EETriggerTagAndProbeConsumer();
+	else if(id == MMTriggerTagAndProbeConsumer().GetConsumerId())
+		return new MMTriggerTagAndProbeConsumer();
+	else if(id == MTTriggerTagAndProbeConsumer().GetConsumerId())
+		return new MTTriggerTagAndProbeConsumer();
+	else if(id == ETTriggerTagAndProbeConsumer().GetConsumerId())
+		return new ETTriggerTagAndProbeConsumer();
 	else
 		return KappaFactory::createConsumer( id );
 }
