@@ -43,6 +43,7 @@ public:
 		m_tree->Branch("tagMatched", &m_currentTagObjectMatched, "tagMatched/O");
 		m_tree->Branch("probe", &m_currentProbeObject);
 		m_tree->Branch("probeMatched", &m_currentProbeObjectMatched, "probeMatched/O");
+		m_tree->Branch("tagProbeSystem", &m_tagProbeSystem);
 	}
 
 	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product,
@@ -57,6 +58,8 @@ public:
 			
 			m_currentTagObjectMatched = (product.*m_triggerTagProbeObjectMatchedPairsMember).at(index).first;
 			m_currentProbeObjectMatched = (product.*m_triggerTagProbeObjectMatchedPairsMember).at(index).second;
+			
+			m_tagProbeSystem = tagProbePair->first->p4 + tagProbePair->second->p4;
 			
 			m_tree->Fill();
 			++index;
@@ -83,6 +86,7 @@ private:
 	bool m_currentTagObjectMatched;
 	TProbe m_currentProbeObject;
 	bool m_currentProbeObjectMatched;
+	RMFLV m_tagProbeSystem;
 };
 
 
