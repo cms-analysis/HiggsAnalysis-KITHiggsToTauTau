@@ -89,12 +89,12 @@
 					"HLT_Ele32_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso"
 				],
 				"Run2015" : [
-					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
+					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltL1sL1IsoEG20erTauJet20er",
 					
-					"HLT_Ele27_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle27WP75GsfLooseIsoPFTau20",
+					"HLT_Ele27_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle27WPLooseGsfLooseIsoPFTau20",
 					
-					"HLT_Ele32_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle32WP75GsfLooseIsoPFTau20",
+					"HLT_Ele32_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle32WPLooseGsfLooseIsoPFTau20",
 					
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltPFTau20Track",
 					"HLT_Ele27_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltPFTau20Track",
