@@ -4,6 +4,9 @@
 			"nick": {
 				"default" : [
 					"HLT_DoubleEle24_22_eta2p1_WP75_Gsf_v"
+				],
+				"Run2015" : [
+					"HLT_DoubleEle24_22_eta2p1_WPLoose_Gsf_v"
 				]
 			}
 		}
@@ -13,6 +16,9 @@
 			"nick": {
 				"default" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf_v"
+				],
+				"Run2015" : [
+					"HLT_Ele22_eta2p1_WPTight_Gsf_v"
 				]
 			}
 		}
