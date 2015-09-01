@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 
 import argparse
 import copy
+import itertools
 import os
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
@@ -60,62 +61,85 @@ if __name__ == "__main__":
 	plot_configs = []
 	for channel, probe_triggers in zip(args.channels, args.probe_triggers):
 		for probe_trigger in probe_triggers:
+			for efficiency_mode in [True, False]:
 		
-			"""
-			config = sample_settings.get_config(
-					samples=list_of_samples,
-					channel=channel,
-					category=category,
-					higgs_masses=args.higgs_masses,
-					normalise_signal_to_one_pb=False,
-					ztt_from_mc=args.ztt_from_mc,
-					weight=args.weight
-			)
-			"""
-			config = {}
-			config["directories"] = [args.input_dir]
-			config["files"] = [
-				"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root",
-				"*_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"
-			]
+				"""
+				config = sample_settings.get_config(
+						samples=list_of_samples,
+						channel=channel,
+						category=category,
+						higgs_masses=args.higgs_masses,
+						normalise_signal_to_one_pb=False,
+						ztt_from_mc=args.ztt_from_mc,
+						weight=args.weight
+				)
+				"""
+				config = {}
+				config["directories"] = [args.input_dir]
+				config["files"] = [
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root",
+					"*_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
+				]
 		
-			config["folders"] = [channel+"_"+probe_trigger+"/"+channel+"TriggerTP"]
+				config["folders"] = [channel+"_"+probe_trigger+"/"+channel+"TriggerTP"]
 		
-			config["x_expressions"] = ["probe.p4.Pt()"]
-			config["y_expressions"] = ["probeMatched"]
-			config["weights"] = ["tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)"]
+				config["x_expressions"] = ["probe.p4.Pt()"]
+				config["x_bins"] = ["40,0,200"]
+				
+				config["weights"] = ["tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)" if channel in ["mm", "ee"] else "tagMatched"]
+				
+				if efficiency_mode:
+					config["files"] = list(itertools.chain(*[[input_file] * 2 for input_file in config["files"]]))
+					config["weights"] = [weight if index % 2 == 0 else (weight + " * probeMatched") for index, weight in enumerate(config["weights"] * 4)]
+					config["nicks"] = [
+						"noplot_mc_all",
+						"noplot_mc_pass",
+						"noplot_data_all",
+						"noplot_data_pass",
+					]
+					
+					if not "Efficiency" in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("Efficiency")
+					config.setdefault("efficiency_numerator_nicks", []).append([nick for nick in config["nicks"] if "pass" in nick])
+					config.setdefault("efficiency_denominator_nicks", []).append([nick for nick in config["nicks"] if "all" in nick])
+					config.setdefault("efficiency_nicks", []).append(["mc", "data"])
+					config.setdefault("efficiency_methods", []).append(["cp"] * 2)
+					
+					config["markers"] = ["P", "P"]
+					config["filename"] = "efficiency_vs_pt_cp"
+				else:
+					config["nicks"] = ["mc", "data"]
+					
+					config["y_expressions"] = ["probeMatched"]
+					config["tree_draw_options"] = ["prof"]
+					
+					config["markers"] = ["E", "E"]
+					config["filename"] = "efficiency_vs_pt_prof"
 		
-			config["x_bins"] = ["40,0,200"]
+				config["labels"] = ["MC", "Data"]
+				config["colors"] = ["#FF0000", "#000000"]
+				config["legend"] = [0.5, 0.2, 0.9, 0.4]
+				config["legend_markers"] = ["ELP"]
 		
-			config["tree_draw_options"] = ["prof"]
-		
-			config["markers"] = ["E"]
-			config["labels"] = ["MC", "Data"]
-			config["legend"] = [0.5, 0.2, 0.9, 0.4]
-			config["legend_markers"] = ["ELP"]
-		
-			config["x_label"] = "probe p_{T} / GeV"
-			config["y_label"] = "efficiency"
-		
-			"""
-			if args.ratio:
-				bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-				if not "Ratio" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("Ratio")
-				config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
-				config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
-				config.setdefault("colors", []).extend(["#000000"] * 2)
-				config.setdefault("markers", []).extend(["E2", "E"])
-				config.setdefault("legend_markers", []).extend(["ELP"]*2)
-				config.setdefault("labels", []).extend([""] * 2)
-			"""
+				config["x_label"] = "probe p_{T} / GeV"
+				config["y_label"] = "efficiency"
+				
+				if args.ratio:
+					if not "Ratio" in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("Ratio")
+					config.setdefault("ratio_numerator_nicks", []).append("data")
+					config.setdefault("ratio_denominator_nicks", []).append("mc")
+					config.setdefault("colors", []).append("#000000")
+					config.setdefault("markers", []).append("E")
+					config.setdefault("labels", []).append("")
+					config["y_subplot_label"] = "Data/MC"
+					config["y_subplot_lims"] = [0.75, 1.25]
 
-			config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-			if not args.www is None:
-				config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))
-			config["filename"] = "efficiency_vs_pt_prof"
+				config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
+				if not args.www is None:
+					config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))
 		
-			plot_configs.append(config)
+				plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
