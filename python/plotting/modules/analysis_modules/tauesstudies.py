@@ -42,6 +42,14 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				help="ES shifts (whitespace separated)"
 		)
 		self.tauesstudies_options.add_argument(
+				"--fit-min", default=0.98,
+				help="Lower bound for fit"
+		)
+		self.tauesstudies_options.add_argument(
+				"--fit-max", default=1.08,
+				help="Upper bound of fit"
+		)
+		self.tauesstudies_options.add_argument(
 				"--res-hist-nick", default="fit_result",
 				help="Nick name of resulting histogram"
 		)
@@ -151,9 +159,9 @@ class TauEsStudies(analysisbase.AnalysisBase):
 			plotData.plotdict["root_objects"][plotData.plotdict["res_hist_nick"]].SetTitle("")
 
 			#Fit function
-			fitf = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
+			fitf = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",plotData.plotdict["fit_min"],plotData.plotdict["fit_max"])
 			fitf.SetParLimits(0,min(nll_list)-(max(nll_list)-min(nll_list)),max(nll_list))
-			fitf.SetParLimits(1,1.0e10,1.0e20)
+			fitf.SetParLimits(1,1.0e12,1.0e20)
 			fitf.SetParLimits(2,min(es_shifts),max(es_shifts))
 			resultfit = RooFitGraph.Fit("f1","R")
 
@@ -190,7 +198,8 @@ class TauEsStudies(analysisbase.AnalysisBase):
 			#Graph
 			Chi2Graph = ROOT.TGraphErrors(
 					len(es_shifts),
-					array.array("d", es_shifts), array.array("d", chi2res)
+					array.array("d", es_shifts), array.array("d", chi2res),
+					array.array("d",[0.001]*len(es_shifts)),array.array("d",[20.0]*len(chi2res))
 			)
 			plotData.plotdict.setdefault("root_objects", {})[plotData.plotdict["res_hist_nick"]] = Chi2Graph
 
@@ -198,7 +207,7 @@ class TauEsStudies(analysisbase.AnalysisBase):
 			plotData.plotdict["root_objects"][plotData.plotdict["res_hist_nick"]].SetTitle("")
 
 			#Fit function
-			fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
+			fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",plotData.plotdict["fit_min"],plotData.plotdict["fit_max"])
 			fit2chi.SetParLimits(0,0,1000000)
 			fit2chi.SetParLimits(1,0,1000000)
 			fit2chi.SetParLimits(2,min(es_shifts),max(es_shifts))
