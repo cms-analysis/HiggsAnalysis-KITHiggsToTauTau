@@ -1,12 +1,20 @@
 {
 	"HLT_DoubleIsoMu17_eta2p1" : {
-		"ProbeLeptonHltPaths" : [
-			"HLT_DoubleIsoMu17_eta2p1_v"
-		]
+		"ProbeLeptonHltPaths" : {
+			"nick": {
+				"default" : [
+					"HLT_DoubleIsoMu17_eta2p1_v"
+				]
+			}
+		}
 	},
 	"HLT_IsoMu17_eta2p1" : {
-		"ProbeLeptonHltPaths" : [
-			"HLT_IsoMu17_eta2p1_v"
-		]
+		"ProbeLeptonHltPaths" : {
+			"nick": {
+				"default" : [
+					"HLT_IsoMu17_eta2p1_v"
+				]
+			}
+		}
 	}
 }

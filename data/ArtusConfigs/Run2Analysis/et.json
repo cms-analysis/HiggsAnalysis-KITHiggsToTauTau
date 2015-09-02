@@ -19,11 +19,11 @@
 				"default" : [
 					"HLT_Ele32_eta2p1_WP75_Gsf",
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
-					],
+				],
 				"Run2015" : [
 					"HLT_Ele32_eta2p1_WPTight_Gsf",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
-					]
+				]
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",

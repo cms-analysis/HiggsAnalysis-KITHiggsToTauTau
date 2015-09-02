@@ -7,20 +7,24 @@
 		"GenDiLeptonDecayMode" : "mm",
 		"MinNMuons" : 2,
 		"MaxNMuons" : 2,
-		"HltPaths" : [
-			"HLT_IsoMu24_eta2p1",
-			"HLT_IsoMu20_eta2p1",
-			"HLT_DoubleIsoMu17_eta2p1",
-			"HLT_IsoMu17_eta2p1"
-		],
-		"TagLeptonHltPaths" : [
-			"HLT_IsoMu24_eta2p1_v",
-			"HLT_IsoMu20_eta2p1_v"
-		],
-		"all_ProbeLeptonHltPaths" : [
-			"HLT_DoubleIsoMu17_eta2p1_v",
-			"HLT_IsoMu17_eta2p1_v"
-		],
+		"HltPaths" : {
+			"nick": {
+				"default" : [
+					"HLT_IsoMu24_eta2p1",
+					"HLT_IsoMu20_eta2p1",
+					"HLT_DoubleIsoMu17_eta2p1",
+					"HLT_IsoMu17_eta2p1"
+				]
+			}
+		},
+		"TagLeptonHltPaths" : {
+			"nick": {
+				"default" : [
+					"HLT_IsoMu24_eta2p1_v",
+					"HLT_IsoMu20_eta2p1_v"
+				]
+			}
+		},
 		"MuonLowerPtCuts" : [
 			"10.0"
 		],

@@ -62,9 +62,8 @@ public:
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override
 	{
-		assert((product.*m_tagObjectsMember).size() >= 1);
-		assert((product.*m_probeObjectsMember).size() >= 1);
-		assert(((product.*m_tagObjectsMember) != (product.*m_probeObjectsMember)) || ((product.*m_tagObjectsMember).size() >= 2));
+		assert((product.*m_tagObjectsMember).size() > 0);
+		assert((product.*m_probeObjectsMember).size() > 0);
 		
 		for (typename std::vector<TTag*>::iterator tagObject = (product.*m_tagObjectsMember).begin();
 		     tagObject != (product.*m_tagObjectsMember).end(); ++tagObject)
@@ -93,7 +92,8 @@ public:
 			for (typename std::vector<TProbe*>::iterator probeObject = (product.*m_probeObjectsMember).begin();
 			     probeObject != (product.*m_probeObjectsMember).end(); ++probeObject)
 			{
-				if (ROOT::Math::VectorUtil::DeltaR((*tagObject)->p4, (*probeObject)->p4) > settings.GetDiTauPairMinDeltaRCut())
+				if ((static_cast<void*>(*tagObject) != static_cast<void*>(*probeObject)) &&
+				    ROOT::Math::VectorUtil::DeltaR((*tagObject)->p4, (*probeObject)->p4) > settings.GetDiTauPairMinDeltaRCut())
 				{
 					std::vector<std::string> probeFiredHltPaths = TriggerMatchingProducerBase<TObject>::GetHltNamesWhereAllFiltersMatched(SafeMap::GetWithDefault(
 							(product.*m_detailedTriggerMatchedProbeObjectsMember),
@@ -140,6 +140,14 @@ private:
 
 
 
+class MMTriggerTagAndProbeProducer: public TriggerTagAndProbeProducerBase<KMuon, KMuon>
+{
+public:
+	MMTriggerTagAndProbeProducer();
+	virtual std::string GetProducerId() const override;
+};
+
+
 class EETriggerTagAndProbeProducer: public TriggerTagAndProbeProducerBase<KElectron, KElectron>
 {
 public:
@@ -148,10 +156,18 @@ public:
 };
 
 
-class MMTriggerTagAndProbeProducer: public TriggerTagAndProbeProducerBase<KMuon, KMuon>
+class MTTriggerTagAndProbeProducer: public TriggerTagAndProbeProducerBase<KMuon, KTau>
 {
 public:
-	MMTriggerTagAndProbeProducer();
+	MTTriggerTagAndProbeProducer();
+	virtual std::string GetProducerId() const override;
+};
+
+
+class ETTriggerTagAndProbeProducer: public TriggerTagAndProbeProducerBase<KElectron, KTau>
+{
+public:
+	ETTriggerTagAndProbeProducer();
 	virtual std::string GetProducerId() const override;
 };
 
