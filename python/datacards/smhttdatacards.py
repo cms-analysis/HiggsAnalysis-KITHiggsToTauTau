@@ -16,7 +16,7 @@ class SMHttDatacards(datacards.Datacards):
 		# MT channel
 		self.add_processes(
 				channel="mt",
-				categories=["inclusive", "zerojet", "onejet", "twojet"],
+				categories=["zerojet", "onejet", "twojet"],
 				bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 				sig_processes=signal_processes,
 				analysis=["htt"],
@@ -32,7 +32,7 @@ class SMHttDatacards(datacards.Datacards):
 		# ET channel
 		self.add_processes(
 				channel="et",
-				categories=["inclusive", "zerojet", "onejet", "twojet"],
+				categories=["zerojet", "onejet", "twojet"],
 				bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 				sig_processes=signal_processes,
 				analysis=["htt"],
@@ -48,8 +48,8 @@ class SMHttDatacards(datacards.Datacards):
 		# EM channel
 		self.add_processes(
 				channel="em",
-				categories=["inclusive", "zerojet", "onejet", "twojet"],
-				bkg_processes=["ZTT", "TTJ", "VV", "WJ"],
+				categories=["zerojet", "onejet", "twojet"],
+				bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 				sig_processes=signal_processes,
 				analysis=["htt"],
 				era=["13TeV"],
@@ -62,7 +62,19 @@ class SMHttDatacards(datacards.Datacards):
 		
 		# ======================================================================
 		# TT channel
-		# TODO
+		self.add_processes(
+				channel="tt",
+				categories=["zerojet", "onejet", "twojet"],
+				bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
+				sig_processes=signal_processes,
+				analysis=["htt"],
+				era=["13TeV"],
+				mass=higgs_masses
+		)
+		
+		# efficiencies
+		self.cb.cp().channel(["tt"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+		self.cb.cp().channel(["tt"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 		
 		# ======================================================================
 		# All channels
