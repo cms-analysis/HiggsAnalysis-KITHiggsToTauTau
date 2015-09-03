@@ -26,21 +26,27 @@ class DatacardConfigs(object):
 		self._mapping_category2binid = {
 			"mt" : {
 				"inclusive" : 0,
-				"0jet" : 1,
-				"1jet" : 2,
-				"2jet" : 3,
+				"zerojet" : 1,
+				"onejet" : 2,
+				"twojet" : 3,
 			},
 			"et" : {
 				"inclusive" : 0,
-				"0jet" : 1,
-				"1jet" : 2,
-				"2jet" : 3,
+				"zerojet" : 1,
+				"onejet" : 2,
+				"twojet" : 3,
 			},
 			"em" : {
 				"inclusive" : 0,
-				"0jet" : 1,
-				"1jet" : 2,
-				"2jet" : 3,
+				"zerojet" : 1,
+				"onejet" : 2,
+				"twojet" : 3,
+			},
+			"tt" : {
+				"inclusive" : 0,
+				"zerojet" : 1,
+				"onejet" : 2,
+				"twojet" : 3,
 			},
 		}
 	
