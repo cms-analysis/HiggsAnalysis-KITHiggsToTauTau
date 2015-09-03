@@ -10,7 +10,14 @@ import os
 # http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
 import combineharvester as ch
 
+import Artus.Utility.tools as tools
+
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
+
+
+def _call_command(command):
+	log.debug(command)
+	logger.subprocessCall(command, shell=True)
 
 
 class Datacards(object):
@@ -138,7 +145,7 @@ class Datacards(object):
 		
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 	
-	def text2workspace(self, datacards_masses, *args):
+	def text2workspace(self, datacards_masses, n_processes=1, *args):
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
 				MASS=[mass for mass in ch.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
@@ -146,9 +153,16 @@ class Datacards(object):
 				OUTPUT=os.path.splitext(datacard)[0]+".root"
 		) for datacard, ch in datacards_masses.iteritems()]
 		
-		for command in commands:
-			log.debug(command)
-			logger.subprocessCall(command, shell=True)
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
 		
 		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_masses.keys()}
+	
+	def combine(self, datacards_workspaces, n_processes=1, *args):
+		commands = ["combine {ARGS} {WORKSPACE} --out {OUTPUT_DIR}".format(
+				ARGS=" ".join(args),
+				WORKSPACE=workspace,
+				OUTPUT_DIR=os.path.dirname(workspace)
+		) for datacards, workspace in datacards_workspaces.iteritems()]
+		
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
 
