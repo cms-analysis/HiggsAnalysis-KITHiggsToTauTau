@@ -185,4 +185,17 @@ class Datacards(object):
 		] for datacard, workspace in datacards_workspaces.iteritems()]
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
+	
+	def postfit_shapes(self, datacards_cbs, n_processes=1, *args):
+		commands = []
+		for fit_type in ["fit_s", "fit_b"]:
+			commands.extend(["PostFitShapes --postfit -d {DATACARD} -o {OUTPUT} -m {MASS} -f {FIT_RESULT} {ARGS}".format(
+					DATACARD=datacard,
+					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
+					MASS=[mass for mass in cb.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
+					ARGS=" ".join(args)
+			) for datacard, cb in datacards_cbs.iteritems()])
+		
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
 

@@ -190,9 +190,10 @@ if __name__ == "__main__":
 		))
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
-	# Max. likelihood fit
-	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit")
+	# Max. likelihood fit and postfit plots
+	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
+	datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + ("--print" if args.n_processes <= 1 else ""))
 	
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic")
+	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
 

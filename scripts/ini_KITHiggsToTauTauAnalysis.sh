@@ -16,6 +16,7 @@ scram setup tauspinner
 # setup CombineHarvester
 export LD_LIBRARY_PATH="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib/:$LD_LIBRARY_PATH"
 export PYTHONPATH="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/python/:$PYTHONPATH"
+export PATH="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/bin/:$PATH"
 
 # overwrite artus settings
 if [[ `hostname` == *naf* ]]; then
