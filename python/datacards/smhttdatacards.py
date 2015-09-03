@@ -19,7 +19,7 @@ class SMHttDatacards(datacards.Datacards):
 				categories=["inclusive", "zerojet", "onejet", "twojet"],
 				bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 				sig_processes=signal_processes,
-				analysis=["ztt"],
+				analysis=["htt"],
 				era=["13TeV"],
 				mass=higgs_masses
 		)
@@ -35,7 +35,7 @@ class SMHttDatacards(datacards.Datacards):
 				categories=["inclusive", "zerojet", "onejet", "twojet"],
 				bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 				sig_processes=signal_processes,
-				analysis=["ztt"],
+				analysis=["htt"],
 				era=["13TeV"],
 				mass=higgs_masses
 		)
@@ -51,7 +51,7 @@ class SMHttDatacards(datacards.Datacards):
 				categories=["inclusive", "zerojet", "onejet", "twojet"],
 				bkg_processes=["ZTT", "TTJ", "VV", "WJ"],
 				sig_processes=signal_processes,
-				analysis=["ztt"],
+				analysis=["htt"],
 				era=["13TeV"],
 				mass=higgs_masses
 		)

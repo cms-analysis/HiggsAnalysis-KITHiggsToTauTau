@@ -18,7 +18,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
 
 if __name__ == "__main__":
 
-	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for ZTT cross section measurement.",
+	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for SM HTT analysis.",
 	                                 parents=[logger.loggingParser])
 
 	parser.add_argument("-i", "--input-dir", required=True,
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 			config = sample_settings.get_config(
 					samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 					channel=channel,
-					category="catZtt13TeV_"+channel+"_"+category,
+					category="catHtt13TeV_"+channel+"_"+category,
 					weight=args.weight,
 					higgs_masses=higgs_masses
 			)
@@ -137,7 +137,7 @@ if __name__ == "__main__":
 			
 			config["output_dir"] = args.output_dir
 			config["filename"] = os.path.splitext(input_root_filename_template.replace("$", "").format(
-					ANALYSIS="ztt",
+					ANALYSIS="htt",
 					CHANNEL=channel,
 					BIN=category,
 					ERA="13TeV"
