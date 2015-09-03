@@ -72,10 +72,10 @@ if __name__ == "__main__":
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
-		"datacards/individual/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		"datacards/${BIN}/${ANALYSIS}_${BINID}_${ERA}.txt",
-		"datacards/combined/${ANALYSIS}_${ERA}.txt",
+		"datacards/individual/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		"datacards/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+		"datacards/${BIN}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
 	
@@ -188,5 +188,6 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
-	datacard_workspaces = datacards.text2workspace(written_datacards) # TODO: check text2workspace commands
+	datacard_workspaces = datacards.text2workspace(written_datacards, n_processes=args.n_processes) # TODO: check text2workspace commands
+	datacards.combine(datacard_workspaces, args.n_processes, "-M MaxLikelihoodFit")
 
