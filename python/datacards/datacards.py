@@ -15,9 +15,26 @@ import Artus.Utility.tools as tools
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
 
 
-def _call_command(command):
+def _call_command(args):
+	command = None
+	cwd = None
+	if isinstance(args, basestring):
+		command = args
+	else:
+		command = args[0]
+		if len(args) > 1:
+			cwd = args[1]
+	
+	old_cwd = None
+	if not cwd is None:
+		old_cwd = os.getcwd()
+		os.chdir(cwd)
+	
 	log.debug(command)
 	logger.subprocessCall(command, shell=True)
+	
+	if not cwd is None:
+		os.chdir(old_cwd)
 
 
 class Datacards(object):
@@ -145,24 +162,27 @@ class Datacards(object):
 		
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 	
-	def text2workspace(self, datacards_masses, n_processes=1, *args):
+	def text2workspace(self, datacards_cbs, n_processes=1, *args):
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
-				MASS=[mass for mass in ch.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+".root"
-		) for datacard, ch in datacards_masses.iteritems()]
+		) for datacard, cb in datacards_cbs.iteritems()]
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 		
-		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_masses.keys()}
+		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_cbs.keys()}
 	
-	def combine(self, datacards_workspaces, n_processes=1, *args):
-		commands = ["combine {ARGS} {WORKSPACE} --out {OUTPUT_DIR}".format(
-				ARGS=" ".join(args),
-				WORKSPACE=workspace,
-				OUTPUT_DIR=os.path.dirname(workspace)
-		) for datacards, workspace in datacards_workspaces.iteritems()]
+	def combine(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
+		commands = [[
+				"combine -m {MASS} {ARGS} {WORKSPACE}".format(
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+						ARGS=" ".join(args),
+						WORKSPACE=workspace
+				),
+				os.path.dirname(workspace)
+		] for datacard, workspace in datacards_workspaces.iteritems()]
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 

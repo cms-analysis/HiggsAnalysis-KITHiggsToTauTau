@@ -181,13 +181,18 @@ if __name__ == "__main__":
 		)
 	
 	# write datacards and call text2workspace
-	written_datacards = {}
+	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
-		written_datacards.update(datacards.write_datacards(
+		datacards_cbs.update(datacards.write_datacards(
 				datacard_filename_template.replace("{", "").replace("}", ""),
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
-	datacard_workspaces = datacards.text2workspace(written_datacards, n_processes=args.n_processes) # TODO: check text2workspace commands
-	datacards.combine(datacard_workspaces, args.n_processes, "-M MaxLikelihoodFit")
+	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
+	
+	# Max. likelihood fit
+	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit")
+	
+	# Asymptotic limits
+	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic")
 
