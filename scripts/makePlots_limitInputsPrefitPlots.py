@@ -9,6 +9,9 @@ import argparse
 import os
 
 import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
 
 from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
 

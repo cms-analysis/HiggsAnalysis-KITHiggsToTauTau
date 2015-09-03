@@ -10,8 +10,9 @@ import argparse
 import os
 
 import ROOT
-ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
 
 
 if __name__ == "__main__":

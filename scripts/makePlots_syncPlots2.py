@@ -10,6 +10,9 @@ import glob
 import os
 
 import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
