@@ -5,3 +5,4 @@ work.*
 *.formatted
 auxiliaries
 data/ArtusOutputs/recent
+data/ArtusOutputs
