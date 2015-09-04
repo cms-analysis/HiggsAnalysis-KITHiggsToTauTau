@@ -199,6 +199,19 @@ if __name__ == "__main__":
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
 	
+	# cV-cF scan
+	cv_cf_datacards_workspaces = datacards.text2workspace(
+			datacards_cbs,
+			args.n_processes,
+			"-P \"HiggsAnalysis.CombinedLimit.HiggsCouplings:cVcF\" --PO \"cVRange=0:3\" --PO \"cFRange=0:2\""
+	)
+	datacards.combine(
+			datacards_cbs,
+			cv_cf_datacards_workspaces,
+			args.n_processes,
+			"-M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
+	)
+	
 	plot_configs = []
 	bkg_plotting_order = ["ZTT", "TTJ", "VV", "WJ", "QCD"]
 	for level in ["prefit", "postfit"]:
