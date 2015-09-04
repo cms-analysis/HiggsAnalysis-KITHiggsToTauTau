@@ -40,13 +40,15 @@ if __name__ == "__main__":
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
-	                    help="Additional analysis Modules. [Default: %(default)s]")	
+	                    help="Additional analysis Modules. [Default: %(default)s]")
+	parser.add_argument("-r", "--ratio", default=False, action="store_true",
+	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
-	parser.add_argument("-f", "--n-plots", type=int,
-	                    help="Number of plots. [Default: all]")
+	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
+	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/datacards/",
 	                    help="Output directory. [Default: %(default)s]")
@@ -155,14 +157,14 @@ if __name__ == "__main__":
 	#	pprint.pprint(plot_configs)
 	
 	# delete existing output files
-	output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots]]))
+	output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
 	for output_file in output_files:
 		if os.path.exists(output_file):
 			os.remove(output_file)
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -208,10 +210,10 @@ if __name__ == "__main__":
 						bkg_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
 						
 						config = {}
-						
 						config["files"] = [postfit_shapes]
 						config["folders"] = [category+"_"+level]
-						config["x_expressions"] = datacards_cbs[datacard].cp().backgrounds().process_set() + ["TotalSig", "data_obs"]
+						config["x_expressions"] = bkg_processes + ["TotalSig", "data_obs", "TotalBkg"]
+						config["nicks"] = bkg_processes + ["TotalSig", "data_obs", "noplot_TotalBkg"]
 						config["stacks"] = ["bkg"]*len(bkg_processes) + ["sig", "data"]
 						
 						config["labels"] = [label.lower() for label in bkg_processes + ["TotalSig", "data_obs"]]
@@ -224,8 +226,20 @@ if __name__ == "__main__":
 						config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 						config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
 						
+						if args.ratio:
+							if not "Ratio" in config.get("analysis_modules", []):
+								config.setdefault("analysis_modules", []).append("Ratio")
+							config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg", "data_obs"])
+							config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg"] * 2)
+							config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
+							config.setdefault("colors", []).extend(["#000000"] * 2)
+							config.setdefault("markers", []).extend(["E2", "E"])
+							config.setdefault("legend_markers", []).extend(["F", "ELP"])
+							config.setdefault("labels", []).extend([""] * 2)
+							config["legend"] = [0.7, 0.5, 0.95, 0.92]
+						
 						plot_configs.append(config)
 	
 	# create result plots HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
