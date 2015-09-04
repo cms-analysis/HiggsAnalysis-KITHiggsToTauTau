@@ -107,6 +107,10 @@ if __name__ == "__main__":
 				
 				config["directories"] = [args.input_dir]
 				
+				for analysis_module in args.analysis_modules:
+					if not analysis_module in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append(analysis_module)
+				
 				if not "PrintInfos" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("PrintInfos")
 
