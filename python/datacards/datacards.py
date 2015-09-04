@@ -188,6 +188,7 @@ class Datacards(object):
 	
 	def postfit_shapes(self, datacards_cbs, n_processes=1, *args):
 		commands = []
+		datacards_postfit_shapes = {}
 		for fit_type in ["fit_s", "fit_b"]:
 			commands.extend(["PostFitShapes --postfit -d {DATACARD} -o {OUTPUT} -m {MASS} -f {FIT_RESULT} {ARGS}".format(
 					DATACARD=datacard,
@@ -196,6 +197,12 @@ class Datacards(object):
 					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
+			
+			datacards_postfit_shapes.setdefault(fit_type, {}).update({
+					datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
+			for datacard, cb in datacards_cbs.iteritems()})
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		
+		return datacards_postfit_shapes
 

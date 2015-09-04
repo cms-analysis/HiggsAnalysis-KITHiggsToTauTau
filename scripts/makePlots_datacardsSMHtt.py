@@ -192,8 +192,40 @@ if __name__ == "__main__":
 	
 	# Max. likelihood fit and postfit plots
 	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
-	datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + ("--print" if args.n_processes <= 1 else ""))
+	datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
+	
+	plot_configs = []
+	bkg_plotting_order = ["ZTT", "TTJ", "VV", "WJ", "QCD"]
+	for level in ["prefit", "postfit"]:
+		for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
+			if (index == 0) or (level == "postfit"):
+				for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
+					for category in datacards_cbs[datacard].cp().bin_set():
+						bkg_processes = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
+						bkg_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+						
+						config = {}
+						
+						config["files"] = [postfit_shapes]
+						config["folders"] = [category+"_"+level]
+						config["x_expressions"] = datacards_cbs[datacard].cp().backgrounds().process_set() + ["TotalSig", "data_obs"]
+						config["stacks"] = ["bkg"]*len(bkg_processes) + ["sig", "data"]
+						
+						config["labels"] = [label.lower() for label in bkg_processes + ["TotalSig", "data_obs"]]
+						config["colors"] = [color.lower() for color in bkg_processes + ["TotalSig", "data_obs"]]
+						config["markers"] = ["HIST"]*len(bkg_processes) + ["LINE", "E"]
+						config["legend_markers"] = ["F"]*len(bkg_processes) + ["L", "ELP"]
+						
+						config["legend"] = [0.7, 0.6, 0.9, 0.88]
+						
+						config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+						config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
+						
+						plot_configs.append(config)
+	
+	# create result plots HarryPlotter
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
