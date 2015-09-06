@@ -15,7 +15,7 @@ import Artus.Utility.tools as tools
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
 
 
-def _call_command(args):
+def _call_command(*args):
 	command = None
 	cwd = None
 	if isinstance(args, basestring):
@@ -161,7 +161,6 @@ class Datacards(object):
 	def replace_observation_by_asimov_dataset(self, signal_mass):
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
-			help(observation)
 			#observation.set_shape(cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape(), True)
 			observation.ShapeAsTH1F = cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape()
 			observation.set_rate(cb.cp().backgrounds().GetRate() + cb.cp().signals().mass([signal_mass]).GetRate())
