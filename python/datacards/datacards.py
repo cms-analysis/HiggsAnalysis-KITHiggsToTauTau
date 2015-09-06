@@ -154,6 +154,20 @@ class Datacards(object):
 		bin_by_bin_factory.AddBinByBin(self.cb.cp().process(processes), self.cb)
 		ch.SetStandardBinNames(self.cb)
 	
+	def scale_expectation(self, scale_factor):
+		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
+		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
+	
+	def replace_observation_by_asimov_dataset(self, signal_mass):
+		def _replace_observation_by_asimov_dataset(observation):
+			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
+			help(observation)
+			#observation.set_shape(cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape(), True)
+			observation.ShapeAsTH1F = cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape()
+			observation.set_rate(cb.cp().backgrounds().GetRate() + cb.cp().signals().mass([signal_mass]).GetRate())
+		
+		self.cb.cp().ForEachObs(_replace_observation_by_asimov_dataset)
+	
 	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
 		writer = ch.CardWriter(os.path.join("$TAG", datacard_filename_template),
 		                       os.path.join("$TAG", root_filename_template))
