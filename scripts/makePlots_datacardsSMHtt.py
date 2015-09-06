@@ -67,21 +67,17 @@ if __name__ == "__main__":
 	sample_settings = samples.Samples()
 	plot_configs = []
 	
+	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses)
+	
 	# initialise datacards
 	input_root_filename_template = "${ANALYSIS}_${CHANNEL}_${BIN}.input_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = [
-		"datacards/individual/${CHANNEL}/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-		"datacards/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		"datacards/${BIN}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
-		"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
-	]
+	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses)
 	
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):

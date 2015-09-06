@@ -49,6 +49,13 @@ class DatacardConfigs(object):
 				"twojet" : 3,
 			},
 		}
+		
+		self.htt_datacard_filename_templates = [
+			"datacards/individual/${CHANNEL}/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+			"datacards/category/${BIN}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
+			"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
+		]
 	
 	def process2sample(self, process):
 		tmp_process = re.match("(?P<process>[^0-9]*).*", process).groupdict().get("process", "")
