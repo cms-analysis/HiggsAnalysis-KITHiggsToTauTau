@@ -229,7 +229,8 @@
 			"cutflow_histogram",
 			"#CutFlowTreeConsumer",
 			"KappaElectronsConsumer",
-			"KappaTausConsumer"
+			"KappaTausConsumer",
+			"KappaTaggedJetsConsumer"
 		]
 	}
 }

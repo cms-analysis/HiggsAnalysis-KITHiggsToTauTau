@@ -194,7 +194,8 @@
 			"cutflow_histogram",
 			"#CutFlowTreeConsumer",
 			"KappaElectronsConsumer",
-			"KappaMuonsConsumer"
+			"KappaMuonsConsumer",
+			"KappaTaggedJetsConsumer"
 		]
 	}
 }

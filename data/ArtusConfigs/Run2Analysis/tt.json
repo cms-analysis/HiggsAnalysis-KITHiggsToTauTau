@@ -152,7 +152,8 @@
 			"#SvfitCacheConsumer",
 			"cutflow_histogram",
 			"#CutFlowTreeConsumer",
-			"KappaTausConsumer"
+			"KappaTausConsumer",
+			"KappaTaggedJetsConsumer"
 		]
 	}
 }
