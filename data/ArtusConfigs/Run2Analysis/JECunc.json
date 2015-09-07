@@ -1,0 +1,11 @@
+{
+	"jecUncNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : 0.0
+	},
+	"jecUncUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : 1.0
+	},
+	"jecUncDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : -1.0
+	}
+}

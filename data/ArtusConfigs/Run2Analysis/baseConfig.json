@@ -4,7 +4,7 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsGeneratorWeight.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json"
+		"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json"
 	],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
@@ -43,7 +43,7 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
-				"producer:TaggedJetCorrectionsProducer"
+				"#producer:TaggedJetCorrectionsProducer"
 			],
 			"DY.?JetsToLL" : [
 				"#filter:RunLumiEventFilter",
@@ -56,13 +56,13 @@
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
 				"producer:GeneratorWeightProducer",
-				"producer:TaggedJetCorrectionsProducer"
+				"#producer:TaggedJetCorrectionsProducer"
 			],
 			"Run2015" : [
 				"#filter:RunLumiEventFilter",
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
-				"producer:TaggedJetCorrectionsProducer"
+				"#producer:TaggedJetCorrectionsProducer"
 			]
 		}
 	},
