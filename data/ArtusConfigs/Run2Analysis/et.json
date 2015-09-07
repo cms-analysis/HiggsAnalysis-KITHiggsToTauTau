@@ -128,6 +128,9 @@
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:RecoElectronGenParticleMatchingProducer",
+					"producer:RecoTauGenTauMatchingProducer",
+					"producer:RecoTauGenTauJetMatchingProducer",
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetETSelector",
 					"producer:DiVetoElectronVetoProducer",
@@ -161,6 +164,9 @@
 					"producer:TauTriggerMatchingProducer",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:RecoElectronGenParticleMatchingProducer",
+					"producer:RecoTauGenTauMatchingProducer",
+					"producer:RecoTauGenTauJetMatchingProducer",
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetETSelector",
 					"producer:RecoTauGenParticleMatchingProducer",
@@ -211,6 +217,11 @@
 				]
 			}
 		},
+		"AddGenMatchedParticles" : true,
+		"AddGenMatchedTaus" : true,
+		"AddGenMatchedTauJets" : true,
+		"BranchGenMatchedElectrons" : true,
+		"BranchGenMatchedTaus" : true,
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"#SvfitCacheConsumer",

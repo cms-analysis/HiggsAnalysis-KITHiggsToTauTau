@@ -101,6 +101,8 @@
 					"producer:ValidTausProducer",
 					"producer:ValidEMPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:RecoElectronGenParticleMatchingProducer",
+					"producer:RecoMuonGenParticleMatchingProducer",
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetEMSelector",
 					"#producer:TaggedJetCorrectionsProducer",
@@ -134,6 +136,8 @@
 					"producer:ValidTausProducer",
 					"producer:ValidEMPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:RecoElectronGenParticleMatchingProducer",
+					"producer:RecoMuonGenParticleMatchingProducer",
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetEMSelector",
 					"#producer:TaggedJetCorrectionsProducer",
@@ -180,6 +184,9 @@
 				]
 			}
 		},
+		"AddGenMatchedParticles" : true,
+		"BranchGenMatchedElectrons" : true,
+		"BranchGenMatchedMuons" : true,
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"#SvfitCacheConsumer",
