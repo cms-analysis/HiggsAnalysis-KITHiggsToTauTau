@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 import argparse
 import copy
 import os
+import hashlib
 
 import Artus.Utility.jsonTools as jsonTools
 
@@ -24,14 +25,14 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
+	                    choices=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("--es-shifts", nargs="*",
 						default=[0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
 	                    help="Energy scale shifts."),
-	parser.add_argument("--fit-to-data", default="chi2",
+	parser.add_argument("--fit-to-data", default="logllh",
 						help="Choose a fit (chi2 or logllh)")
 	parser.add_argument("--channels", nargs="*",
 	                    default=["mt"],
@@ -42,7 +43,7 @@ if __name__ == "__main__":
 	                    default=["m_2"],
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
-	                    help="Additional analysis Modules. [Default: %(default)s]")	
+	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
    	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -69,17 +70,15 @@ if __name__ == "__main__":
 
 	es_shifts=[shift for shift in args.es_shifts]
 
-	#0 = OneProng0PiZero
-	#1 = OneProng1PiZero
-	#2 = OneProng2PiZero
-	#10 = ThreeProng0PiZero
-	decayModes=["decayMode_2==10","decayMode_2>=1*decayMode_2<=3"]
-	#decayModes=["decayMode_2>=1*decayMode_2<=3"]
+	#categories=["OneProngPiZeros", "ThreeProng"]
+	categories=["OneProngPiZeros"]
 
 	plot_configs = []
 	for channel in args.channels:
-		for decayMode in decayModes:
+		for category in categories:
 			for quantity in args.quantities:
+
+				name_hash = hashlib.md5("_".join([str(item) for item in [channel, category, quantity]])).hexdigest()
 
 				merged_config={}
 
@@ -88,22 +87,14 @@ if __name__ == "__main__":
 					config_ztt = sample_settings.get_config(
 							samples=sample_ztt,
 							channel=channel,
-							category=category,
+							category="cat" + category + "_" + channel,
 							nick_suffix="_" + str(shift).replace(".", "_"),
 							ztt_from_mc=args.ztt_from_mc
 					)
 
-					#merged_config.setdefault("es_shifts", []).append(str(shift))
-
 					config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
-					config_ztt["labels"] = [str(decayMode) +"/ztt_" + str(shift).replace(".", "_")]
+					config_ztt["labels"] = ["ztt_" + str(shift).replace(".", "_")]
 					config_ztt["stacks"] = [stack.replace("_" + str(shift).replace(".", "_"), "") for stack in config_ztt["stacks"]]
-
-					config_ztt["weights"] = ["eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)*(" + decayMode + ")"] * len(config_ztt["nicks"])
-
-					#print config_ztt["nicks_blacklist"]
-					#if (index != 0):
-					#	merged_config.setdefault("nicks_blacklist", []).append("^ztt_" + str(shift).replace(".", "_") + "$")
 
 					# merge configs
 					merged_config = samples.Samples.merge_configs(merged_config, config_ztt, additional_keys=["ztt_emb_inc_nicks","ztt_from_mc","ztt_mc_inc_nicks","ztt_plot_nicks","ztt_nicks"])
@@ -112,11 +103,10 @@ if __name__ == "__main__":
 				config_rest = sample_settings.get_config(
 						samples=sample_rest,
 						channel=channel,
-						category=category
+						category="cat" + category + "_" + channel
 				)
 
 				config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
-				config_rest["weights"] = ["eventWeight*((q_1*q_2)<0.0)*(pt_2>30.0)*(lep1MetMt<30.0)*(" + decayMode + ")"]  * len(config_rest["nicks"])
 
 				# merge configs
 				merged_config = samples.Samples.merge_configs(merged_config, config_rest)
@@ -125,13 +115,14 @@ if __name__ == "__main__":
 				merged_config["nicks_blacklist"].append("noplot")
 				merged_config["output_dir"] = os.path.expandvars(args.output_dir)
 
-				merged_config["filename"] = "tauesstudies_" + decayMode.replace("*","_")
+				merged_config["filename"] = category + "_" + name_hash
 
 				#analysis_modules
 				merged_config.setdefault("analysis_modules", []).append("PrintInfos")
 
 				#plot modules
 				merged_config.setdefault("plot_modules", []).append("ExportRoot")
+#				merged_config.setdefault("plot_modules", []).append("PlotRootHtt")
 
 				# config to plot the fit
 				if args.fit_to_data == "chi2":
@@ -153,18 +144,18 @@ if __name__ == "__main__":
 
 					config_plotfit = {}
 
-					config_plotfit["files"] = "plots/tauEsStudies_plots/tauesstudies_" + decayMode.replace("*","_") + ".root"
+					config_plotfit["files"] = "plots/tauEsStudies_plots/" + category + "_" + name_hash + ".root"
 					config_plotfit["markers"] = ["ALP"]
 					config_plotfit["x_expressions"]  = ["data"]
-					config_plotfit["filename"] = "chi2result_" + decayMode.replace("*","_")
+					config_plotfit["filename"] = "chi2_" + category + "_" + name_hash
 					config_plotfit["x_label"] = "ES_shift"
 					config_plotfit["y_label"] = "Chi2"
 				elif args.fit_to_data == "logllh":
 					merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
 					merged_config["roofit_flag"] = "true"
-					merged_config["res_hist_nick"]  = "roofit_result"
-					merged_config["nicks_whitelist"] = ["roofit_result"]
+					merged_config["res_hist_nick"]  = "logllh_result"
+					merged_config["nicks_whitelist"] = ["logllh_result"]
 					merged_config["es_shifts"] = [str(shift) for shift in es_shifts]
 					merged_config["ztt_nicks"] = ["ztt_" + str(shift).replace(".", "_") for shift in es_shifts]
 					merged_config["data_nicks"] = ["data"] * len(es_shifts)
@@ -174,11 +165,10 @@ if __name__ == "__main__":
 
 					config_plotfit = {}
 
-					config_plotfit["files"] = "plots/tauEsStudies_plots/tauesstudies_" + decayMode.replace("*","_") + ".root"
+					config_plotfit["files"] = "plots/tauEsStudies_plots/" + category + "_" + name_hash + ".root"
 					config_plotfit["markers"] = ["ALP"]
 					config_plotfit["x_expressions"]  = ["data"]
-					config_plotfit["filename"] = "roofit_" + decayMode.replace("*","_")
-					#config_plotfit["filename"] = "roofit_1Prong0PiZero"
+					config_plotfit["filename"] = "logllh_" + category + "_" + name_hash
 					config_plotfit["x_label"] = "ES_shift"
 					config_plotfit["y_label"] = "-log(L)"
 				else:
