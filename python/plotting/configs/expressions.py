@@ -40,6 +40,16 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.expressions_dict["catZtt13TeV_"+channel+"_2jet"] = self.expressions_dict["catZtt13TeV_2jet"]
 			self.expressions_dict["catHtt13TeV_"+channel+"_2jet"] = self.expressions_dict["catHtt13TeV_2jet"]
+			
+		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 > 0)*(decayMode_2 < 3)"
+		self.expressions_dict["catOneProngPiZeros"] = self.expressions_dict["cat_OneProngPiZeros"]
+		for channel in [ "mt", "et"]:
+			self.expressions_dict["catOneProngPiZeros_"+channel] = self.expressions_dict["catOneProngPiZeros"]
+		
+		self.expressions_dict["cat_ThreeProng"] = "(decayMode_2 > 9)*(decayMode_2 < 11)"
+		self.expressions_dict["catThreeProng"] =self.expressions_dict["cat_ThreeProng"]
+		for channel in [ "mt", "et"]:
+			self.expressions_dict["catThreeProng_"+channel] = self.expressions_dict["catThreeProng"]		
 		
 		replacements = {
 			"0jet" : "zerojet",
