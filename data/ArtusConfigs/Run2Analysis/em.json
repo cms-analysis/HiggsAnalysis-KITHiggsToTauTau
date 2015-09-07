@@ -6,6 +6,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsAntiTtbarMva.json"
@@ -105,7 +106,7 @@
 					"producer:RecoMuonGenParticleMatchingProducer",
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetEMSelector",
-					"#producer:TaggedJetCorrectionsProducer",
+					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"#producer:SvfitProducer",
@@ -140,7 +141,7 @@
 					"producer:RecoMuonGenParticleMatchingProducer",
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetEMSelector",
-					"#producer:TaggedJetCorrectionsProducer",
+					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"#producer:SvfitProducer",
@@ -171,7 +172,7 @@
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetEMSelector",
-					"#producer:TaggedJetCorrectionsProducer",
+					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"#producer:SvfitProducer",
@@ -193,7 +194,8 @@
 			"cutflow_histogram",
 			"#CutFlowTreeConsumer",
 			"KappaElectronsConsumer",
-			"KappaMuonsConsumer"
+			"KappaMuonsConsumer",
+			"KappaTaggedJetsConsumer"
 		]
 	}
 }
