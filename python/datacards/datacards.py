@@ -107,6 +107,12 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["WJ"], 1.2)
 				(       ["13TeV"], ["WJ"], 1.2) # copied from 8TeV
 		]
+		self.jec_syst_args = [
+			"CMS_scale_j_$ERA",
+			"shape",
+			ch.SystMap("era")
+				(["13TeV"], 1.0)
+		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
 		bin = [(self.configs.category2binid(category, channel), category) for category in categories]
