@@ -14,32 +14,15 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		
 		# category cuts
 		self.expressions_dict["cat_inclusive"] = "1.0"
-		self.expressions_dict["catZtt13TeV_inclusive"] = self.expressions_dict["cat_inclusive"]
-		#self.expressions_dict["catHtt13TeV_inclusive"] = self.expressions_dict["cat_inclusive"]
-		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive"] = self.expressions_dict["catZtt13TeV_inclusive"]
-			#self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = self.expressions_dict["catHtt13TeV_inclusive"]
-		
 		self.expressions_dict["cat_0jet"] = "njetspt20 < 1"
-		self.expressions_dict["catZtt13TeV_0jet"] = self.expressions_dict["cat_0jet"]
-		#self.expressions_dict["catHtt13TeV_0jet"] = self.expressions_dict["cat_0jet"]
-		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catZtt13TeV_"+channel+"_0jet"] = self.expressions_dict["catZtt13TeV_0jet"]
-			#self.expressions_dict["catHtt13TeV_"+channel+"_0jet"] = self.expressions_dict["catHtt13TeV_0jet"]
-		
 		self.expressions_dict["cat_1jet"] = "(njetspt20 > 0)*(njetspt20 < 2)"
-		self.expressions_dict["catZtt13TeV_1jet"] = self.expressions_dict["cat_1jet"]
-		#self.expressions_dict["catHtt13TeV_1jet"] = self.expressions_dict["cat_1jet"]
-		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catZtt13TeV_"+channel+"_1jet"] = self.expressions_dict["catZtt13TeV_1jet"]
-			#self.expressions_dict["catHtt13TeV_"+channel+"_1jet"] = self.expressions_dict["catHtt13TeV_1jet"]
-		
 		self.expressions_dict["cat_2jet"] = "njetspt20 > 1"
-		self.expressions_dict["catZtt13TeV_2jet"] = self.expressions_dict["cat_2jet"]
-		#self.expressions_dict["catHtt13TeV_2jet"] = self.expressions_dict["cat_2jet"]
+		
+		# Z->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catZtt13TeV_"+channel+"_2jet"] = self.expressions_dict["catZtt13TeV_2jet"]
-			#self.expressions_dict["catHtt13TeV_"+channel+"_2jet"] = self.expressions_dict["catHtt13TeV_2jet"]
+			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"] = "(njetspt30<1)"
 		
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
