@@ -411,7 +411,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		}
 		else if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::FIT)
 		{
-			svfitStandaloneAlorith.fit();
+			svfitStandaloneAlgorithm.fit();
 		}
 		else
 		{
