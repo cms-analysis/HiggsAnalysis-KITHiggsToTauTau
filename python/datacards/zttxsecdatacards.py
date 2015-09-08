@@ -4,6 +4,8 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
+import combineharvester as ch
+
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
@@ -77,6 +79,7 @@ class ZttXsecDatacards(datacards.Datacards):
 		
 			# ======================================================================
 			# All channels
+			#self.cb.cp().process(["ZTT"]).AddSyst(self.cb, "ZTT_uniform_2", "lnU", ch.SystMap()(2.0))
 		
 			# lumi
 			self.cb.cp().process(["ZTT", "TTJ", "VV", "WJ"]).AddSyst(self.cb, *self.lumi_syst_args)

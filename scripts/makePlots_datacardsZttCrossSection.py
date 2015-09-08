@@ -87,7 +87,7 @@ if __name__ == "__main__":
 	datacard_filename_templates = [
 		"datacards/individual/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		"datacards/${BIN}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		#"datacards/${BIN}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
@@ -233,68 +233,75 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
-	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
-	
-	# Max. likelihood fit and postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
-	datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	
-	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
-	
-	# cV-cF scan
-	cv_cf_datacards_workspaces = datacards.text2workspace(
-			datacards_cbs,
-			args.n_processes,
-			"-P \"HiggsAnalysis.CombinedLimit.HiggsCouplings:cVcF\" --PO \"cVRange=0:3\" --PO \"cFRange=0:2\""
-	)
-	datacards.combine(
-			datacards_cbs,
-			cv_cf_datacards_workspaces,
-			args.n_processes,
-			"-M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
-	)
 	
 	plot_configs = []
-	bkg_plotting_order = ["ZTT", "TTJ", "VV", "WJ", "QCD"]
-	for level in ["prefit", "postfit"]:
-		for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
-			if (index == 0) or (level == "postfit"):
-				for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
-					for category in datacards_cbs[datacard].cp().bin_set():
-						bkg_processes = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
-						bkg_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+	
+	models = {
+		"ztt_xsec" : {
+		},
+		#"ztt_eff" : {
+		#},
+		#"ztt_eff_and_xsec" : {
+		#}
+	}
+	for model, model_settings in models.iteritems():
+		# TODO: create sub-directory for each model
+		
+		datacards_workspaces = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:{MODEL} {MODEL_PARAMETERS}".format(
+						MODEL=model,
+						MODEL_PARAMETERS=model_settings.get("model_parameters", "")
+				)
+		)
+		
+		# Max. likelihood fit and postfit plots
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
+		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	
+		# Asymptotic limits
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
+	
+		bkg_plotting_order = ["ZTT", "TTJ", "VV", "WJ", "QCD"]
+		for level in ["prefit", "postfit"]:
+			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
+				if (index == 0) or (level == "postfit"):
+					for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
+						for category in datacards_cbs[datacard].cp().bin_set():
+							processes = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set() + datacards_cbs[datacard].cp().bin([category]).signals().process_set()
+							processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
 						
-						config = {}
-						config["files"] = [postfit_shapes]
-						config["folders"] = [category+"_"+level]
-						config["x_expressions"] = bkg_processes + ["TotalSig", "data_obs", "TotalBkg"]
-						config["nicks"] = bkg_processes + ["TotalSig", "data_obs", "noplot_TotalBkg"]
-						config["stacks"] = ["bkg"]*len(bkg_processes) + ["sig", "data"]
+							config = {}
+							config["files"] = [postfit_shapes]
+							config["folders"] = [category+"_"+level]
+							config["x_expressions"] = processes + ["data_obs", "TotalBkg", "TotalSig"]
+							config["nicks"] = processes + ["data_obs", "noplot_TotalBkg", "noplot_TotalSig"]
+							config["stacks"] = ["bkg"]*len(processes) + ["data"]
 						
-						config["labels"] = [label.lower() for label in bkg_processes + ["TotalSig", "data_obs"]]
-						config["colors"] = [color.lower() for color in bkg_processes + ["TotalSig", "data_obs"]]
-						config["markers"] = ["HIST"]*len(bkg_processes) + ["LINE", "E"]
-						config["legend_markers"] = ["F"]*len(bkg_processes) + ["L", "ELP"]
+							config["labels"] = [label.lower() for label in processes + ["data_obs"]]
+							config["colors"] = [color.lower() for color in processes + ["data_obs"]]
+							config["markers"] = ["HIST"]*len(processes) + ["E"]
+							config["legend_markers"] = ["F"]*len(processes) + ["ELP"]
 						
-						config["legend"] = [0.7, 0.6, 0.9, 0.88]
+							config["legend"] = [0.7, 0.6, 0.9, 0.88]
 						
-						config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-						config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
+							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
 						
-						if args.ratio:
-							if not "Ratio" in config.get("analysis_modules", []):
-								config.setdefault("analysis_modules", []).append("Ratio")
-							config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg", "data_obs"])
-							config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg"] * 2)
-							config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
-							config.setdefault("colors", []).extend(["#000000"] * 2)
-							config.setdefault("markers", []).extend(["E2", "E"])
-							config.setdefault("legend_markers", []).extend(["F", "ELP"])
-							config.setdefault("labels", []).extend([""] * 2)
-							config["legend"] = [0.7, 0.5, 0.95, 0.92]
+							if args.ratio:
+								if not "Ratio" in config.get("analysis_modules", []):
+									config.setdefault("analysis_modules", []).append("Ratio")
+								config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
+								config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
+								config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
+								config.setdefault("colors", []).extend(["#000000"] * 2)
+								config.setdefault("markers", []).extend(["E2", "E"])
+								config.setdefault("legend_markers", []).extend(["F", "ELP"])
+								config.setdefault("labels", []).extend([""] * 2)
+								config["legend"] = [0.7, 0.5, 0.95, 0.92]
 						
-						plot_configs.append(config)
+							plot_configs.append(config)
 	
 	# create result plots HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
