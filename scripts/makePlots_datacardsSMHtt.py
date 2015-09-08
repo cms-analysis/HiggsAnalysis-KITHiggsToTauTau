@@ -34,11 +34,9 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action="append",
 	                    default=["all"],
-	                    choices=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
-	                    choices=["all", "inclusive", "zerojet", "onejet", "twojet"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -59,7 +57,7 @@ if __name__ == "__main__":
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="$CMSSW_BASE/src/plots/datacards/",
+	                    default="$CMSSW_BASE/src/plots/htt_datacards/",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")

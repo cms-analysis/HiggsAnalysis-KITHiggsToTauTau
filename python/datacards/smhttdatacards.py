@@ -75,8 +75,7 @@ class SMHttDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["tt"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
-			self.cb.cp().channel(["tt"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 		
 			# ======================================================================
 			# All channels
