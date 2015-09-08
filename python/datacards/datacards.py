@@ -15,7 +15,7 @@ import Artus.Utility.tools as tools
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
 
 
-def _call_command(*args):
+def _call_command(args):
 	command = None
 	cwd = None
 	if isinstance(args, basestring):
