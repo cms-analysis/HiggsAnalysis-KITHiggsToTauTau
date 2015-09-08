@@ -18,7 +18,7 @@ class SMHttDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["zerojet", "onejet", "twojet"],
+					categories=["mt_"+category for category in ["zerojet", "onejet", "twojet"]],
 					bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -34,7 +34,7 @@ class SMHttDatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["zerojet", "onejet", "twojet"],
+					categories=["et_"+category for category in ["zerojet", "onejet", "twojet"]],
 					bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -50,7 +50,7 @@ class SMHttDatacards(datacards.Datacards):
 			# EM channel
 			self.add_processes(
 					channel="em",
-					categories=["zerojet", "onejet", "twojet"],
+					categories=["em_"+category for category in ["zerojet", "onejet", "twojet"]],
 					bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -66,7 +66,7 @@ class SMHttDatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["zerojet", "onejet", "twojet"],
+					categories=["tt_"+category for category in ["zerojet", "onejet", "twojet"]],
 					bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],

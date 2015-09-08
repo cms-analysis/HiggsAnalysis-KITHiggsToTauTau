@@ -64,7 +64,6 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	
-	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
@@ -147,7 +146,7 @@ if __name__ == "__main__":
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
-							category="catHtt13TeV_"+channel+"_"+category,
+							category="catHtt13TeV_"+category,
 							weight=args.weight,
 							higgs_masses=higgs_masses
 					)
