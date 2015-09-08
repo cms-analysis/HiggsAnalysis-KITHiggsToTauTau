@@ -49,7 +49,7 @@ if __name__ == "__main__":
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("--run2", default=False, action="store_true",
-			    help="Use Run2 samples. [Default: %(default)s]")
+	                    help="Use Run2 samples. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
