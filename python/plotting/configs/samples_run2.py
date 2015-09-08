@@ -215,7 +215,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_ztt/ntuple " + channel + "_zttlep/ntuple",
+					channel+"_jecUncNom_ztt/ntuple " + channel + "_jecUncNom_zttlep/ntuple",
 					lumi,
 					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_ztt_mc_wj_control",
