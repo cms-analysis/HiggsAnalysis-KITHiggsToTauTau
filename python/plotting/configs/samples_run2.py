@@ -316,7 +316,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
-					"((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_wj_ss_data_control",
@@ -403,7 +403,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
-					"((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
+					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"qcd",
@@ -472,7 +472,7 @@ class Samples(samples.SamplesBase):
 					"MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"_jecUnc/ntuple",
 					1.0,
-					"((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_1 < 0.15)*(iso_2 < 0.15)",
+					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_1 < 0.15)*(iso_2 < 0.15)",
 					"qcd",
 					nick_suffix=nick_suffix
 			)
@@ -482,7 +482,7 @@ class Samples(samples.SamplesBase):
 					"Tau_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					channel+"_jecUnc/ntuple",
 					1.0,
-					"((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_1 < 0.15)*(iso_2 < 0.15)",
+					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_1 < 0.15)*(iso_2 < 0.15)",
 					"qcd",
 					nick_suffix=nick_suffix
 			)
