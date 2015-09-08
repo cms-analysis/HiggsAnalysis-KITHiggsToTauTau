@@ -133,9 +133,7 @@ class Datacards(object):
 		samples_per_shape_systematic = {}
 		samples_per_shape_systematic["nominal"] = self.cb.process_set()
 		for shape_systematic in self.cb.cp().syst_type(["shape"]).syst_name_set():
-			self.cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).ForEachSyst(
-					lambda syst: samples_per_shape_systematic.setdefault(shape_systematic, []).append(syst.process())
-			)
+			samples_per_shape_systematic[shape_systematic] = self.cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
 		return samples_per_shape_systematic
 	
 	def extract_shapes(self, root_filename_template,
