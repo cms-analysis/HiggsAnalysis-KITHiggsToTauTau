@@ -123,6 +123,15 @@ class Datacards(object):
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 	
+	def get_samples_per_shape_systematic(self):
+		samples_per_shape_systematic = {}
+		samples_per_shape_systematic["nominal"] = self.cb.process_set()
+		for shape_systematic in self.cb.cp().syst_type(["shape"]).syst_name_set():
+			self.cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).ForEachSyst(
+					lambda syst: samples_per_shape_systematic.setdefault(shape_systematic, []).append(syst.process())
+			)
+		return samples_per_shape_systematic
+	
 	def extract_shapes(self, root_filename_template,
 	                   bkg_histogram_name_template, sig_histogram_name_template,
 	                   bkg_syst_histogram_name_template, sig_syst_histogram_name_template):
