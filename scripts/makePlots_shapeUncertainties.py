@@ -26,6 +26,8 @@ if __name__ == "__main__":
 	                    help="Limit input ROOT files.")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("-r", "--ratio", default=False, action="store_true",
+	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int,
@@ -68,6 +70,7 @@ if __name__ == "__main__":
 				config["files"] = [input_file]
 				config["folders"] = [folder]
 				config["x_expressions"] = ([process]+histograms)[::-1]
+				config["nicks"] = ([process]+histograms)[::-1]
 				
 				config["colors"] = ["#FF0000", "#0000FF", "#000000"]
 				config["markers"] = ["LINE E", "LINE E", "E"]
@@ -78,6 +81,22 @@ if __name__ == "__main__":
 				config["legend"] = [0.65, 0.7, 0.9, 0.88]
 				config["title"] = uncertainty+" ("+process+")"
 				config["x_label"] = ""
+				
+				if args.ratio:
+					if not "Ratio" in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("Ratio")
+					config.setdefault("ratio_numerator_nicks", []).extend(histograms[::-1])
+					config.setdefault("ratio_denominator_nicks", []).extend([process] * 2)
+					config.setdefault("ratio_result_nicks", []).extend(["ratio_up", "ratio_down"])
+					
+					config["colors"].extend(config["colors"][:2])
+					config["markers"].extend(config["markers"][:2])
+					config["marker_styles"].extend(config["marker_styles"][:2])
+					config["legend_markers"].extend(config["legend_markers"][:2])
+					config["labels"].extend([""] * 2)
+					
+					config["legend"] = [0.65, 0.6, 0.95, 0.92]
+					config["y_subplot_lims"] = [0.0, 2.0]
 				
 				output_dir = args.output_dir
 				if output_dir is None:
