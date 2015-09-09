@@ -209,7 +209,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
-					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_wj_data_control"
 			)
 			Samples._add_input(
@@ -217,7 +217,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_ztt/ntuple " + channel + "_jecUncNom_zttlep/ntuple",
 					lumi,
-					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_ztt_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -226,7 +226,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple " + channel+"_jecUncNom_zll/ntuple",
 					lumi,
-					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_zll_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -235,7 +235,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_ttj_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -244,7 +244,7 @@ class Samples(samples.SamplesBase):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_vv_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -262,7 +262,7 @@ class Samples(samples.SamplesBase):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
+					"eventWeight" + cut_string(channel, cutStep) + "*(mt_1>80.0)",
 					"noplot_wj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -327,7 +327,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_ztt/ntuple " + channel+"_jecUncNom_zttlep/ntuple",
 					lumi,
-					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_ztt_ss_mc_wj_control",
@@ -338,7 +338,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple " + channel+"_jecUncNom_zll/ntuple",
 					lumi,
-					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_zll_ss_wj_control",
@@ -349,7 +349,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_ttj_ss_wj_control",
@@ -360,7 +360,7 @@ class Samples(samples.SamplesBase):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_vv_ss_wj_control",
@@ -382,7 +382,7 @@ class Samples(samples.SamplesBase):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
+					"eventWeight*((q_1*q_2)>0.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.1)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(mt_1>80.0)" +
 						("*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)" if channel == "mt" else
 						 "*(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"),
 					"noplot_wj_ss_mc_control",
