@@ -12,12 +12,12 @@ import ROOT
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
 
 
-class EstimateQcd(estimatebase.EstimateBase):
+class EstimateQcdRun2(estimatebase.EstimateBase):
 	def __init__(self):
-		super(EstimateQcd, self).__init__()
+		super(EstimateQcdRun2, self).__init__()
 
 	def modify_argument_parser(self, parser, args):
-		super(EstimateQcd, self).modify_argument_parser(parser, args)
+		super(EstimateQcdRun2, self).modify_argument_parser(parser, args)
 		
 		self.estimate_qcd_options = parser.add_argument_group("QCD estimation options")
 		self.estimate_qcd_options.add_argument("--qcd-data-control-nicks", nargs="+", default=["qcd"],
@@ -31,7 +31,7 @@ class EstimateQcd(estimatebase.EstimateBase):
 				help="Subtract the shape of control region histograms from data. [Default: %(default)s]")
 
 	def prepare_args(self, parser, plotData):
-		super(EstimateQcd, self).prepare_args(parser, plotData)
+		super(EstimateQcdRun2, self).prepare_args(parser, plotData)
 		
 		self._plotdict_keys = ["qcd_data_control_nicks", "qcd_data_substract_nicks", "qcd_extrapolation_factors_ss_os", "qcd_subtract_shape"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
@@ -49,7 +49,7 @@ class EstimateQcd(estimatebase.EstimateBase):
 		
 	
 	def run(self, plotData=None):
-		super(EstimateQcd, self).run(plotData)
+		super(EstimateQcdRun2, self).run(plotData)
 		
 		for qcd_data_control_nick, qcd_data_substract_nicks, qcd_extrapolation_factor_ss_os, qcd_subtract_shape in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			yield_data_control = plotData.plotdict["root_objects"][qcd_data_control_nick].Integral()
