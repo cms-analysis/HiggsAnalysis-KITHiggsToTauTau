@@ -70,6 +70,7 @@ class ZttEff(PhysicsModel):
 			return 1
 
 
-defaultModel = PhysicsModel()
-zttEff = ZttEff()
-zttEffAndXsec = ZttEffAndXsec()
+ztt_xsec = PhysicsModel()
+ztt_eff = ZttEff()
+ztt_eff_and_xsec = ZttEffAndXsec()
+

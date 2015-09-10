@@ -11,9 +11,18 @@ import os
 
 import combineharvester as ch
 
+import Artus.Utility.tools as tools
+
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
+
+
+
+def _call_command(command):
+	log.debug(command)
+	logger.subprocessCall(command, shell=True)
 
 
 if __name__ == "__main__":
@@ -25,11 +34,9 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action="append",
 	                    default=["all"],
-	                    choices=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
-	                    choices=["all", "inclusive", "zerojet", "onejet", "twojet"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -50,11 +57,10 @@ if __name__ == "__main__":
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="$CMSSW_BASE/src/plots/datacards/",
+	                    default="$CMSSW_BASE/src/plots/htt_datacards/",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
-	
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -65,19 +71,22 @@ if __name__ == "__main__":
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
+	systematics_factory = systematics.SystematicsFactory()
+	
 	plot_configs = []
+	hadd_commands = []
 	
 	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses)
 	
 	# initialise datacards
-	input_root_filename_template = "${ANALYSIS}_${CHANNEL}_${BIN}.input_${ERA}.root"
+	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
-	
 	
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):
@@ -106,48 +115,79 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			list_of_samples = ["data"] + [datacards.configs.process2sample(process) for process in datacards.cb.cp().channel([channel]).bin([category]).process_set()]
-			log.debug("Create inputs for samples = (\"{samples}\"), (channel, category) = ({channel}, {category}).".format(
-					samples="\", \"".join(list_of_samples),
-					channel=channel,
-					category=category
-			))
+			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
-			higgs_masses = [mass for mass in datacards.cb.cp().channel([channel]).bin([category]).mass_set() if mass != "*"]
-			
-			# prepare plotting configs for retrieving the input histograms
-			config = sample_settings.get_config(
-					samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
-					channel=channel,
-					category="catHtt13TeV_"+channel+"_"+category,
-					weight=args.weight,
-					higgs_masses=higgs_masses
-			)
-			
-			config["x_expressions"] = args.quantity
-			
-			config["directories"] = [args.input_dir]
-			
-			config["labels"] = [bkg_histogram_name_template.replace("$", "").format(
-					PROCESS=datacards.configs.sample2process(sample),
-					BIN=category
-			) for sample in config["labels"]]
-			
-			config["output_dir"] = args.output_dir
-			config["filename"] = os.path.splitext(input_root_filename_template.replace("$", "").format(
+			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
 					CHANNEL=channel,
 					BIN=category,
 					ERA="13TeV"
-			))[0]
-			config["plot_modules"] = ["ExportRoot"]
-			config["file_mode"] = "UPDATE"
+			))
+			tmp_output_files = []
 			
-			if "legend_markers" in config:
-				config.pop("legend_markers")
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+				nominal = (shape_systematic == "nominal")
+				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+				
+				for shift_up in ([True] if nominal else [True, False]):
+					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
+					
+					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+							samples="\", \"".join(list_of_samples),
+							channel=channel,
+							category=category,
+							systematic=systematic
+					))
+				
+					# prepare plotting configs for retrieving the input histograms
+					config = sample_settings.get_config(
+							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
+							channel=channel,
+							category="catHtt13TeV_"+category,
+							weight=args.weight,
+							higgs_masses=higgs_masses
+					)
+					
+					systematics_settings = systematics_factory.get(shape_systematic)(config)
+					# TODO: evaluate shift from datacards_per_channel_category.cb
+					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 			
-			plot_configs.append(config)
-
+					config["x_expressions"] = args.quantity
+			
+					config["directories"] = [args.input_dir]
+					
+					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
+					config["labels"] = [histogram_name_template.replace("$", "").format(
+							PROCESS=datacards.configs.sample2process(sample),
+							BIN=category,
+							SYSTEMATIC=systematic
+					) for sample in config["labels"]]
+					
+					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
+							ANALYSIS="htt",
+							CHANNEL=channel,
+							BIN=category,
+							SYSTEMATIC=systematic,
+							ERA="13TeV"
+					))
+					tmp_output_files.append(tmp_output_file)
+					config["output_dir"] = os.path.dirname(tmp_output_file)
+					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
+				
+					config["plot_modules"] = ["ExportRoot"]
+					config["file_mode"] = "UPDATE"
+			
+					if "legend_markers" in config:
+						config.pop("legend_markers")
+			
+					plot_configs.append(config)
+			
+			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
+					DST=output_file,
+					SRC=" ".join(tmp_output_files)
+			))
+	
 	#if log.isEnabledFor(logging.DEBUG):
 	#	import pprint
 	#	pprint.pprint(plot_configs)
@@ -161,6 +201,7 @@ if __name__ == "__main__":
 	
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(

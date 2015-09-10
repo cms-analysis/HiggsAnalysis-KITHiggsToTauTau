@@ -7,8 +7,10 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsVetoElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
 		"Channel" : "ET",
 		"MinNElectrons" : 1,
@@ -134,7 +136,7 @@
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetETSelector",
 					"producer:DiVetoElectronVetoProducer",
-					"#producer:TaggedJetCorrectionsProducer",
+					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"#producer:SvfitProducer",
@@ -173,7 +175,7 @@
 					"producer:RecoTauGenTauMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:DiVetoElectronVetoProducer",
-					"#producer:TaggedJetCorrectionsProducer",
+					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"#producer:SvfitProducer",
@@ -205,7 +207,7 @@
 					"producer:Run2DecayChannelProducer",
 					"producer:MvaMetETSelector",
 					"producer:DiVetoElectronVetoProducer",
-					"#producer:TaggedJetCorrectionsProducer",
+					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"#producer:SvfitProducer",
@@ -228,7 +230,8 @@
 			"cutflow_histogram",
 			"#CutFlowTreeConsumer",
 			"KappaElectronsConsumer",
-			"KappaTausConsumer"
+			"KappaTausConsumer",
+			"KappaTaggedJetsConsumer"
 		]
 	}
 }

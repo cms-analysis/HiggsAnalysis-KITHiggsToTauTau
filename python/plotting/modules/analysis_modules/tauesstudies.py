@@ -16,14 +16,13 @@ import Artus.HarryPlotter.analysisbase as analysisbase
 import Artus.HarryPlotter.utility.roottools as roottools
 
 class TauEsStudies(analysisbase.AnalysisBase):
-	"""TauEsStudies for comparing histograms"""
 
 	def __init__(self):
 		super(TauEsStudies, self).__init__()
 
 	def modify_argument_parser(self, parser, args):
 		super(TauEsStudies, self).modify_argument_parser(parser, args)
-		
+
 		self.tauesstudies_options = parser.add_argument_group("TauEsStudies options")
 		self.tauesstudies_options.add_argument(
 				"--data-nicks", nargs="+",
@@ -42,13 +41,17 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				help="ES shifts (whitespace separated)"
 		)
 		self.tauesstudies_options.add_argument(
-				"--fit-min", default=0.98,
+				"--fit-min", default=0.96,
 				help="Lower bound for fit"
 		)
 		self.tauesstudies_options.add_argument(
-				"--fit-max", default=1.08,
+				"--fit-max", default=1.06,
 				help="Upper bound of fit"
 		)
+#		self.tauesstudies_options.add_argument(
+#				"--fit-range",
+#				help="Lower and upper bound for fit"
+#		)
 		self.tauesstudies_options.add_argument(
 				"--res-hist-nick", default="fit_result",
 				help="Nick name of resulting histogram"
@@ -109,7 +112,7 @@ class TauEsStudies(analysisbase.AnalysisBase):
 					bkg_rdhs.append(ROOT.RooDataHist(bkg_th1s[-1].GetName(), bkg_th1s[-1].GetName(), ROOT.RooArgList(mass), ROOT.RooFit.Import(bkg_th1s[-1], False)))
 					bkg_pdfs.append(ROOT.RooHistPdf(bkg_th1s[-1].GetName()+'_pdf', bkg_th1s[-1].GetName(), ROOT.RooArgSet(mass), bkg_rdhs[-1]))
 					bkg_norms.append(ROOT.RooRealVar(bkg_th1s[-1].GetName()+'_norm', bkg_th1s[-1].GetName(), bkg_th1s[-1].Integral(), bkg_th1s[-1].Integral()/2., bkg_th1s[-1].Integral()*2.))
-			
+
 				es_shifts.append(float(es_shift[0]))
 
 				# Convert data TH1 into a RooDataHist
@@ -140,6 +143,11 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				# Create resulting ztt PDF
 				res_pdf = ROOT.RooAddPdf('pdf', 'pdf', ztt_pdf_list, ztt_norm_list)
 
+				# create nll
+				#roo_nll = res_pdf.createNLL(data_rdh, ROOT.RooFit.Extended(), ROOT.RooFit.Save(), ROOT.RooFit.Minimizer('Minuit2', 'migrad'))
+				#print "hellowach:", roo_nll.getVal()
+				#nll_list.append(roo_nll.getVal())
+
 				# Do the fit
 				res = res_pdf.fitTo(data_rdh, ROOT.RooFit.Extended(), ROOT.RooFit.Save(), ROOT.RooFit.Minimizer('Minuit2', 'migrad'))
 				nll_list.append(res.minNll())
@@ -151,17 +159,17 @@ class TauEsStudies(analysisbase.AnalysisBase):
 			RooFitGraph = ROOT.TGraphErrors(
 					len(es_shifts),
 					array.array("d", es_shifts), array.array("d", nll_list),
-					array.array("d",[0.001]*len(es_shifts)),array.array("d",[0.4e11]*len(nll_list))
+					array.array("d",[0.001]*len(es_shifts)),array.array("d",[0.5e2]*len(nll_list))
 			)
 			plotData.plotdict.setdefault("root_objects", {})[plotData.plotdict["res_hist_nick"]] = RooFitGraph
 
 			plotData.plotdict["root_objects"][plotData.plotdict["res_hist_nick"]].SetName(plotData.plotdict["res_hist_nick"])
 			plotData.plotdict["root_objects"][plotData.plotdict["res_hist_nick"]].SetTitle("")
 
-			#Fit function
+			##Fit function
 			fitf = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",plotData.plotdict["fit_min"],plotData.plotdict["fit_max"])
 			fitf.SetParLimits(0,min(nll_list)-(max(nll_list)-min(nll_list)),max(nll_list))
-			fitf.SetParLimits(1,1.0e12,1.0e20)
+			#fitf.SetParLimits(1,0,1.0e20)
 			fitf.SetParLimits(2,min(es_shifts),max(es_shifts))
 			resultfit = RooFitGraph.Fit("f1","R")
 

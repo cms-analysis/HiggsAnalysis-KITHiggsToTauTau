@@ -409,6 +409,10 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		{
 			svfitStandaloneAlgorithm.integrateMarkovChain();
 		}
+		else if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::FIT)
+		{
+			svfitStandaloneAlgorithm.fit();
+		}
 		else
 		{
 			LOG(FATAL) << "SVfit integration of type " << svfitEventKey.integrationMethod << " not yet implemented!";

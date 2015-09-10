@@ -15,7 +15,7 @@ import Artus.Utility.tools as tools
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
 
 
-def _call_command(*args):
+def _call_command(args):
 	command = None
 	cwd = None
 	if isinstance(args, basestring):
@@ -107,6 +107,12 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["WJ"], 1.2)
 				(       ["13TeV"], ["WJ"], 1.2) # copied from 8TeV
 		]
+		self.jec_syst_args = [
+			"CMS_scale_j_$ERA",
+			"shape",
+			ch.SystMap("era")
+				(["13TeV"], 1.0)
+		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
 		bin = [(self.configs.category2binid(category, channel), category) for category in categories]
@@ -122,6 +128,13 @@ class Datacards(object):
 		self.cb.AddObservations(channel=[channel], mass=["*"], bin=bin, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
+	
+	def get_samples_per_shape_systematic(self):
+		samples_per_shape_systematic = {}
+		samples_per_shape_systematic["nominal"] = self.cb.process_set()
+		for shape_systematic in self.cb.cp().syst_type(["shape"]).syst_name_set():
+			samples_per_shape_systematic[shape_systematic] = self.cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
+		return samples_per_shape_systematic
 	
 	def extract_shapes(self, root_filename_template,
 	                   bkg_histogram_name_template, sig_histogram_name_template,

@@ -28,11 +28,13 @@ public:
 		NONE = -1,
 		MARKOV_CHAIN = 0,
 		VEGAS = 1,
+		FIT = 2,
 	};
 	static IntegrationMethod ToIntegrationMethod(std::string const& integrationMethod)
 	{
 		if (integrationMethod == "markovchain") return IntegrationMethod::MARKOV_CHAIN;
 		else if (integrationMethod == "vegas") return IntegrationMethod::VEGAS;
+		else if (integrationMethod == "fit") return IntegrationMethod::FIT;
 		else return IntegrationMethod::NONE;
 	}
 	

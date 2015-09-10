@@ -14,32 +14,38 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		
 		# category cuts
 		self.expressions_dict["cat_inclusive"] = "1.0"
-		self.expressions_dict["catZtt13TeV_inclusive"] = self.expressions_dict["cat_inclusive"]
-		self.expressions_dict["catHtt13TeV_inclusive"] = self.expressions_dict["cat_inclusive"]
-		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive"] = self.expressions_dict["catZtt13TeV_inclusive"]
-			self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = self.expressions_dict["catHtt13TeV_inclusive"]
-		
 		self.expressions_dict["cat_0jet"] = "njetspt20 < 1"
-		self.expressions_dict["catZtt13TeV_0jet"] = self.expressions_dict["cat_0jet"]
-		self.expressions_dict["catHtt13TeV_0jet"] = self.expressions_dict["cat_0jet"]
-		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catZtt13TeV_"+channel+"_0jet"] = self.expressions_dict["catZtt13TeV_0jet"]
-			self.expressions_dict["catHtt13TeV_"+channel+"_0jet"] = self.expressions_dict["catHtt13TeV_0jet"]
-		
 		self.expressions_dict["cat_1jet"] = "(njetspt20 > 0)*(njetspt20 < 2)"
-		self.expressions_dict["catZtt13TeV_1jet"] = self.expressions_dict["cat_1jet"]
-		self.expressions_dict["catHtt13TeV_1jet"] = self.expressions_dict["cat_1jet"]
-		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catZtt13TeV_"+channel+"_1jet"] = self.expressions_dict["catZtt13TeV_1jet"]
-			self.expressions_dict["catHtt13TeV_"+channel+"_1jet"] = self.expressions_dict["catHtt13TeV_1jet"]
-		
 		self.expressions_dict["cat_2jet"] = "njetspt20 > 1"
-		self.expressions_dict["catZtt13TeV_2jet"] = self.expressions_dict["cat_2jet"]
-		self.expressions_dict["catHtt13TeV_2jet"] = self.expressions_dict["cat_2jet"]
+		
+		# Z->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catZtt13TeV_"+channel+"_2jet"] = self.expressions_dict["catZtt13TeV_2jet"]
-			self.expressions_dict["catHtt13TeV_"+channel+"_2jet"] = self.expressions_dict["catHtt13TeV_2jet"]
+			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"] = "(njetspt30<1)"
+		
+		# H->tautau categories
+		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
+			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"
+			pt_cut = "45.0" if channel in ["mt", "et", "tt"] else "35.0"
+			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>500.0)*(jdeta>3.5)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"] = ("(! ({vbf}))".format(vbf=self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"]))+"*(njetspt30>0)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_highpt"] = self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"]+("*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_lowpt"] = self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"]+("*({pt_var}<={pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"] = ("(! ({onejet}))".format(onejet=self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"]))
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_highpt"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_lowpt"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}<={pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
+		
+		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 > 0)*(decayMode_2 < 3)"
+		self.expressions_dict["catOneProngPiZeros"] = self.expressions_dict["cat_OneProngPiZeros"]
+		for channel in [ "mt", "et"]:
+			self.expressions_dict["catOneProngPiZeros_"+channel] = self.expressions_dict["catOneProngPiZeros"]
+		
+		self.expressions_dict["cat_ThreeProng"] = "(decayMode_2 > 9)*(decayMode_2 < 11)"
+		self.expressions_dict["catThreeProng"] =self.expressions_dict["cat_ThreeProng"]
+		for channel in [ "mt", "et"]:
+			self.expressions_dict["catThreeProng_"+channel] = self.expressions_dict["catThreeProng"]		
 		
 		replacements = {
 			"0jet" : "zerojet",

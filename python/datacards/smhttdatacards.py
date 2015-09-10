@@ -18,7 +18,7 @@ class SMHttDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["zerojet", "onejet", "twojet"],
+					categories=["mt_"+category for category in ["zerojet_lowpt", "zerojet_highpt", "onejet_lowpt", "onejet_highpt", "twojet_vbf"]],
 					bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -34,7 +34,7 @@ class SMHttDatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["zerojet", "onejet", "twojet"],
+					categories=["et_"+category for category in ["zerojet_lowpt", "zerojet_highpt", "onejet_lowpt", "onejet_highpt", "twojet_vbf"]],
 					bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -50,7 +50,7 @@ class SMHttDatacards(datacards.Datacards):
 			# EM channel
 			self.add_processes(
 					channel="em",
-					categories=["zerojet", "onejet", "twojet"],
+					categories=["em_"+category for category in ["zerojet_lowpt", "zerojet_highpt", "onejet_lowpt", "onejet_highpt", "twojet_vbf"]],
 					bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -66,7 +66,7 @@ class SMHttDatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["zerojet", "onejet", "twojet"],
+					categories=["tt_"+category for category in ["zerojet_inclusive", "onejet_inclusive", "twojet_vbf"]],
 					bkg_processes=["ZTT", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -75,8 +75,7 @@ class SMHttDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["tt"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
-			self.cb.cp().channel(["tt"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 		
 			# ======================================================================
 			# All channels
@@ -84,6 +83,9 @@ class SMHttDatacards(datacards.Datacards):
 			# lumi
 			self.cb.cp().process(["ZTT", "TTJ", "VV", "WJ"]).AddSyst(self.cb, *self.lumi_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
+			
+			# JEC
+			self.cb.cp().AddSyst(self.cb, *self.jec_syst_args)
 		
 			# cross section
 			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
