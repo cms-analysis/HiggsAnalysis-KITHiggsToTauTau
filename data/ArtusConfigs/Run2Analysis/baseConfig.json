@@ -67,8 +67,9 @@
 	},
 	"JsonFiles" : {
 		"nick" : {
+			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],
 			"Run2015" : [
-				"/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-254349_13TeV_PromptReco_Collisions15_JSON_v2.txt"
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-254349_13TeV_PromptReco_Collisions15_JSON_v2.txt"
 			]
 		}
 	}
