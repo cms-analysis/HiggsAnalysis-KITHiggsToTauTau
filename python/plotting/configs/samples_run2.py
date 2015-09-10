@@ -23,20 +23,24 @@ class Samples(samples.SamplesBase):
 		
 		cuts = {}
 		if channel == "mt":
+			cuts["mt"] = "(mt_1<30.0)"
 			cuts["anti_lepton_tau_discriminators"] = "(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)"
 		elif channel == "et":
+			cuts["mt"] = "(mt_1<30.0)"
 			cuts["anti_lepton_tau_discriminators"] = "(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)"
 		elif channel == "em":
+			cuts["mt"] = "(mt_1<30.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
 		elif channel == "tt":
+			cuts["mt"] = "(mt_1<30.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
@@ -56,6 +60,9 @@ class Samples(samples.SamplesBase):
 		self.period = "run2"
 	
 	def data(self, config, channel, weight, nick_suffix, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
@@ -107,6 +114,9 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def ztt(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
@@ -139,6 +149,9 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def zll(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZL", 1.0)
@@ -171,6 +184,9 @@ class Samples(samples.SamplesBase):
 	
 
 	def ttj(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
@@ -203,6 +219,9 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def vv(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
@@ -224,6 +243,9 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def wj(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
@@ -243,7 +265,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
 					"noplot_wj_data_control"
 			)
 			Samples._add_input(
@@ -251,7 +273,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_ztt/ntuple " + channel + "_jecUncNom_zttlep/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
 					"noplot_ztt_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -260,7 +282,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple " + channel+"_jecUncNom_zll/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
 					"noplot_zll_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -269,7 +291,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
 					"noplot_ttj_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -278,7 +300,7 @@ class Samples(samples.SamplesBase):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
 					"noplot_vv_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -296,7 +318,7 @@ class Samples(samples.SamplesBase):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)<0.0)*(mt_1>80.0)",
 					"noplot_wj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -327,6 +349,9 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def qcd(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("QCD", 1.0)
@@ -348,7 +373,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_wj_ss_data_control",
 					nick_suffix=nick_suffix
 			)
@@ -357,7 +382,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_ztt/ntuple " + channel+"_jecUncNom_zttlep/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_ztt_ss_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -366,7 +391,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple " + channel+"_jecUncNom_zll/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_zll_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -375,7 +400,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_ttj_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -384,7 +409,7 @@ class Samples(samples.SamplesBase):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_vv_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -402,7 +427,7 @@ class Samples(samples.SamplesBase):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_wj_ss_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -502,6 +527,9 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def htt(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		config = self.ggh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb,
 		                  lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		config = self.qqh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb,
@@ -519,6 +547,9 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def ggh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ggh", 1.0)
@@ -542,6 +573,9 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def qqh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("qqH", 1.0)
@@ -565,6 +599,9 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def vh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("VH", 1.0)
