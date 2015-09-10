@@ -8,7 +8,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsBTaggedJetID.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsBTaggedJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
 		],
 		"Channel" : "TT",
 		"MinNTaus" : 2,
