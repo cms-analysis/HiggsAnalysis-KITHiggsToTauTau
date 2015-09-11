@@ -52,6 +52,8 @@ if __name__ == "__main__":
 	                    help="Use Run2 samples. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
+	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
@@ -98,7 +100,8 @@ if __name__ == "__main__":
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
-						weight=args.weight
+						weight=args.weight,
+						exclude_cuts=args.exclude_cuts+(["mt"] if quantity == "mt_1" else [])
 				)
 				
 				config["x_expressions"] = quantity
