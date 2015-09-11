@@ -364,7 +364,7 @@ class Samples(samples.SamplesBase):
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
 					"noplot_wj_ss",
 					nick_suffix=nick_suffix
 			)
@@ -373,7 +373,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_wj_ss_data_control",
 					nick_suffix=nick_suffix
 			)
@@ -382,7 +382,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_ztt/ntuple " + channel+"_jecUncNom_zttlep/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_ztt_ss_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -391,7 +391,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple " + channel+"_jecUncNom_zll/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_zll_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -400,7 +400,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_ttj_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -409,7 +409,7 @@ class Samples(samples.SamplesBase):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_vv_ss_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -452,10 +452,19 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
+					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
+					channel+"_jecUnc_z/ntuple",
+					1.0,
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
+					"noplot_data_qcd_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_ztt/ntuple " + channel+"_jecUncNom_zttlep/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
 					"noplot_ztt_mc_qcd_control",
 					nick_suffix=nick_suffix
 			)
@@ -464,7 +473,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple " + channel+"_jecUncNom_zll/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
 					"noplot_zll_qcd_control",
 					nick_suffix=nick_suffix
 			)
@@ -473,7 +482,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
 					"noplot_ttj_qcd_control",
 					nick_suffix=nick_suffix
 			)
@@ -482,17 +491,18 @@ class Samples(samples.SamplesBase):
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + "*((q_1*q_2)>0.0)",
 					"noplot_vv_qcd_control",
 					nick_suffix=nick_suffix
 			)
 			
 			if not "EstimateQcdRun2" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateQcdRun2")
-			config.setdefault("qcd_data_control_nicks", []).append("qcd"+nick_suffix)
+			config.setdefault("qcd_data_shape_nicks", []).append("qcd"+nick_suffix)
+			config.setdefault("qcd_data_control_nicks", []).append("noplot_data_qcd_control"+nick_suffix)
 			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
 			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06)
-			config.setdefault("qcd_subtract_shape", []).append(True)
+			config.setdefault("qcd_subtract_shape", []).append(False) # True currently not supported
 
 			if channel in ["mt", "et"]:
 				if not "CorrectNegativeBinContents" in config.get("analysis_modules", []):
