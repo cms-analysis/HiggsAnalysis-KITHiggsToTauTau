@@ -178,7 +178,7 @@ class Samples(samples.SamplesBase):
 		else:
 			log.error("Sample config (ZLL) currently not implemented for channel \"%s\"!" % channel)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
 	
 
