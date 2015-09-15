@@ -83,7 +83,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process")
 				(["7TeV", "8TeV"], ["ZTT", "ZLL", "ZL", "ZJ"], 1.03)
-				(       ["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ"], 1.03) # copied from 8TeV
+				(       ["13TeV"], ["ZTT", "ZLL"], 1.03)
 		]
 		self.ttj_cross_section_syst_args = [
 			"CMS_$ANALYSIS_ttjNorm_$ERA",

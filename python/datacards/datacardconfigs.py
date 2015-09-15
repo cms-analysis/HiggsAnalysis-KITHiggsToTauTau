@@ -14,6 +14,7 @@ class DatacardConfigs(object):
 		self._mapping_process2sample = {
 			"data_obs" : "data",
 			"ZTT" : "ztt",
+			"ZLL" : "zll",
 			"TTJ" : "ttj",
 			"VV" : "vv",
 			"WJ" : "wj",
