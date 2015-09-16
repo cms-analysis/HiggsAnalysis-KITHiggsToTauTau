@@ -40,6 +40,7 @@ public:
 			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetMuonIsoType,
+			std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const=&setting_type::GetMuonIsoTypeUserMode,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetMuonIso,
 			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetMuonLowerPtCuts,
 			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetMuonUpperAbsEtaCuts,
@@ -99,6 +100,7 @@ protected:
 
 
 private:
+	std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const=&setting_type::GetMuonIsoTypeUserMode;
 	float (setting_type::*GetMuonChargedIsoVetoConeSize)(void) const;
 	float (setting_type::*GetMuonNeutralIsoVetoConeSize)(void) const;
 	float (setting_type::*GetMuonPhotonIsoVetoConeSize)(void) const;
@@ -114,8 +116,7 @@ private:
 	float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const;
 	float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const;
 	float (setting_type::*GetMuonTrackDxyCut)(void) const;
-	float (setting_type::*GetMuonTrackDzCut)(void) const;
-
+	float (setting_type::*GetMuonTrackDzCut)(void) const;	
 };
 
 
@@ -151,6 +152,7 @@ public:
 			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidLooseMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetLooseMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetLooseMuonIsoType,
+			std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const=&setting_type::GetMuonIsoTypeUserMode,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetLooseMuonIso,
 			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetLooseMuonLowerPtCuts,
 			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetLooseMuonUpperAbsEtaCuts,
@@ -201,12 +203,25 @@ public:
 			return product.m_validVetoMuons.size();
 		});
 	}
+
+	enum class MuonIDIsoTypeUserMode : int
+	{
+		NONE  = -1,
+		ONLYALL = 0,
+		ONLYHADRON = 1,
+		ONLYNEUTRAL = 2,
+		ONLYPHOTONS = 3,
+		NONEUTRAL = 4,
+		NOPHOTONS = 5,
+		NOPU = 6,
+	};
 	
 	HttValidVetoMuonsProducer(
 			std::vector<KMuon*> product_type::*validMuons=&product_type::m_validVetoMuons,
 			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidVetoMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetVetoMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetVetoMuonIsoType,
+			std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const=&setting_type::GetMuonIsoTypeUserMode,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetVetoMuonIso,
 			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetVetoMuonLowerPtCuts,
 			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetVetoMuonUpperAbsEtaCuts,

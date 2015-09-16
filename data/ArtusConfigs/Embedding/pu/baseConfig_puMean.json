@@ -1,0 +1,28 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding/mt/mt_settingsKappa.json"
+	],
+	"SkipEvents" : 0,
+	"EventCount" : -1,
+	"InputIsData" : {
+		"nick" : {
+			"default" : "false",
+			"Run2012" : "true"
+		}
+	},
+	"Processors" : {
+		"nick" : {
+			"default" : [
+				"producer:PUWeightProducer",
+				"producer:NicknameProducer"
+			]
+		}
+	},
+	"PileupWeightFile" : {
+		"nick" : {
+			"13 TeV" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding/pileupweights_embedding_skim_nPUMean.root",
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding/pileupweights_embedding_skim_nPUMean.root"
+		}
+	}
+}
+

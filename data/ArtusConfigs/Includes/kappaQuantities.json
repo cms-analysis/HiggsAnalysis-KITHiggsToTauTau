@@ -5,6 +5,12 @@
 		"run",
 		"lumi",
 		"event",
-		"npv"
+		"npv",
+		"nPUMean",
+		"nPU",
+		"nPUonlym1",
+		"nPUonlyp1",
+		"ootPU",
+		"puWeight"
 	]
 }

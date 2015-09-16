@@ -1,1 +1,12 @@
-DCAP_sample_VBFZToLL_VBFNLO_pythia_8TeV_2015-02-17.txt
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7649.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7650.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7651.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7652.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7653.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7654.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7655.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7656.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7657.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7658.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7659.root
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7660.root

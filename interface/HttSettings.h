@@ -102,6 +102,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtLowerThresholdEE, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
+	IMPL_SETTING(std::string, MuonIsoTypeUserMode);
 	
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDzCut, -1.0);

@@ -1,0 +1,65 @@
+{
+	"noHLT_genMatched_" : {
+		"Channel" : "MM",
+		"BranchObjectMatchedPFEtsum" : true,
+		
+		"MinNMuons" : 2,
+		"MaxNMuons" : 2,
+		
+		"MuonID" : "None",
+		"MuonIso" : "None",
+		"MuonIsoType" : "None",
+		"MuonIsoTypeUserMode" : "None",
+		"DirectIso": true, 
+
+		"MuonLowerPtCuts" : [
+			"20.0"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
+		"HltPaths" : [
+			"HLT_Mu17_Mu8_v23"
+		],
+		"InvalidateNonGenParticleMatchingRecoMuons" : true,
+		"DeltaRMatchingRecoMuonGenParticle" : 0.005,
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding/muonembedding/leptonQuantities_muonembed_no_met.json"
+				]
+			}
+		],
+		"Processors" : {
+			"nick" : {
+				"13TeV" : [
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:HltProducer",
+					"#filter:HltFilter",
+					"producer:RecoMuonGenParticleMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"filter:MaxMuonsCountFilter",
+					"#producer:ValidLeptonsProducer",
+					"#filter:ValidLeptonsMinDeltaRFilter",
+					"producer:DecayChannelProducer",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:EventWeightProducer",
+					"producer:GenMuonFSRProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"#SvfitCacheConsumer",
+			"cutflow_histogram",
+			"CutFlowTreeConsumer",
+			"#KappaElectronsConsumer",
+			"KappaMuonsConsumer",
+			"#KappaTausConsumer",
+			"#KappaJetsConsumer",
+			"#KappaTaggedJetsConsumer"
+		]
+	}
+}

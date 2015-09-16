@@ -1,0 +1,73 @@
+{
+	"Mu_iso_onlyall" : {
+		"MinNMuons" : 2,
+		"MaxNMuons" : 2,
+		
+		"Year" : 2012,
+		"MuonID" : "none",
+		"MuonIso" : "none",
+		"MuonIsoType" : "user",
+		"MuonIsoTypeUserMode" : "ONLYALL",
+		
+		"MuonIsoSignalConeSize" : 0.4,
+		"MuonDeltaBetaCorrectionFactor" : 0.5,
+		"MuonIsoPtSumOverPtUpperThresholdEB" : 10.0,
+		"MuonIsoPtSumOverPtUpperThresholdEE" : 10.0,
+		
+		"MuonChargedIsoVetoConeSize" : 0.0001,
+		"MuonNeutralIsoVetoConeSize" : 0.01,
+		"MuonPhotonIsoVetoConeSize" : 0.01,
+		"MuonDeltaBetaIsoVetoConeSize" : 0.01,
+		"MuonChargedIsoPtThreshold" : 0.0,
+		"MuonNeutralIsoPtThreshold" : 0.5,
+		"MuonPhotonIsoPtThreshold" : 0.5,
+		"MuonDeltaBetaIsoPtThreshold" : 0.5,
+		
+		"MuonTrackDxyCut" : 0.045,
+		"MuonTrackDzCut" : 0.2,
+		"DirectIso": true, 
+
+		"MuonLowerPtCuts" : [
+			"20.0"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
+		"InvalidateNonGenParticleMatchingRecoMuons" : true,
+		"DeltaRMatchingRecoMuonGenParticle" : 0.004,
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding/muonembedding/leptonQuantities_muonembed_no_met.json"
+				]
+			}
+		],
+		"Processors" : {
+			"nick" : {
+				"13TeV" : [
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:RecoMuonGenParticleMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"filter:MaxMuonsCountFilter",
+					"#producer:ValidLeptonsProducer",
+					"#filter:ValidLeptonsMinDeltaRFilter",
+					"producer:DecayChannelProducer",
+					"producer:DiLeptonQuantitiesProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"#SvfitCacheConsumer",
+			"cutflow_histogram",
+			"CutFlowTreeConsumer",
+			"#KappaElectronsConsumer",
+			"KappaMuonsConsumer",
+			"#KappaTausConsumer",
+			"#KappaJetsConsumer",
+			"#KappaTaggedJetsConsumer"
+		]
+	}
+}

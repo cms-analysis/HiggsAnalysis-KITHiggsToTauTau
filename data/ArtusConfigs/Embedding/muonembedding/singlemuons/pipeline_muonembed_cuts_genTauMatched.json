@@ -1,0 +1,51 @@
+{
+	"genMatched" : {
+		"Channel" : "MM",
+		"MinNMuons" : 1,
+		"MaxNMuons" : 200,
+		
+		"MuonID" : "None",
+		"MuonIso" : "None",
+		"MuonIsoType" : "None",
+		"MuonIsoTypeUserMode" : "None",
+		"DirectIso": true, 
+
+		"MuonLowerPtCuts" : [
+			"20.0"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
+		"InvalidateNonGenParticleMatchingRecoMuons" : true,
+		"DeltaRMatchingRecoMuonGenParticle" : 0.004,
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding/muonembedding/leptonQuantities_singlemuons.json"
+				]
+			}
+		],
+		"Processors" : {
+			"nick" : {
+				"13TeV" : [
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:RecoMuonGenParticleMatchingProducer",
+					"filter:MinMuonsCountFilter"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"#SvfitCacheConsumer",
+			"cutflow_histogram",
+			"CutFlowTreeConsumer",
+			"#KappaElectronsConsumer",
+			"KappaMuonsConsumer",
+			"#KappaTausConsumer",
+			"#KappaJetsConsumer",
+			"#KappaTaggedJetsConsumer"
+		]
+	}
+}

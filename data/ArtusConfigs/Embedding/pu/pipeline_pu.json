@@ -1,0 +1,21 @@
+{
+	"nPU" : {
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json"
+				]
+			}
+		],
+		"Processors" : {
+			"nick" : {
+				"13TeV" : [
+					"#producer:HltProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer"
+		]
+	}
+}
