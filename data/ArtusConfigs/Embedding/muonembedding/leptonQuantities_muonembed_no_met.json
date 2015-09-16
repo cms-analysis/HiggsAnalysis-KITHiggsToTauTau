@@ -60,9 +60,6 @@
 		"leadingMuon_pfPhotonsNoPileUpEtsum_01",
 		"trailingMuon_pfPhotonsNoPileUpEtsum_01",
 		"leadingMuonFSR",
-		"trailingMuonFSR",
-		"mirrortest05",
-		"mirrortest06",
-		"mirrortest04"
+		"trailingMuonFSR"
 	]
 }
