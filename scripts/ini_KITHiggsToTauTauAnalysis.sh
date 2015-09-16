@@ -22,7 +22,7 @@ export PATH="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/Combin
 if [[ `hostname` == *naf* ]]; then
 	export ARTUS_WORK_BASE="/nfs/dust/cms/user/${USER}/htautau/artus/"
 elif [[ `hostname` == *ekp* ]]; then
-	export ARTUS_WORK_BASE="/storage/6/${USER}/htautau/artus/"
+	export ARTUS_WORK_BASE="/storage/a/${USER}/htautau/artus/"
 elif [[ `hostname` == *cern* ]]; then
 	export ARTUS_WORK_BASE="/afs/cern.ch/work/${USER:0:1}/${USER}/htautau/artus/"
 fi
