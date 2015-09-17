@@ -232,3 +232,13 @@ class Datacards(object):
 		
 		return datacards_postfit_shapes
 
+	def print_pulls(self, datacards_cbs, n_processes=1, *args):
+		commands = [[
+				"python $CMSSW_BASE//src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py {ARGS} {FIT_RESULT}".format(
+						ARGS=" ".join(args),
+						FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root")
+				)
+		] for datacard in datacards_cbs.keys()]
+		
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
+
