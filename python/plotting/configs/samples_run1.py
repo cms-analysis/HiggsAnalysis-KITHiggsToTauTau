@@ -607,7 +607,7 @@ class Samples(samples.SamplesBase):
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "wh", "zh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
 			
 			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
@@ -623,10 +623,10 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SM_GluGluToHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi,
 						weight+"*eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"ggH%s" % str(mass),
+						"ggh%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
 			else:
@@ -646,10 +646,10 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SM_VBFHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi,
 						weight+"*eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"VBF%s" % str(mass),
+						"qqh%s" % str(mass),
 						nick_suffix=nick_suffix
 			)
 			else:
@@ -669,19 +669,19 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi / 2.0,
 						weight+"*eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"WH%s" % str(mass),
+						"wh%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
 				Samples._add_input(
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi / 2.0,
 						weight+"*eventWeight*((q_1*q_2)<0.0)" + ("" if channel in ["em", "mm"] else "*(pt_2>30.0)*(lep1MetMt<30.0)") + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"ZH%s" % str(mass),
+						"zh%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
 			else:
