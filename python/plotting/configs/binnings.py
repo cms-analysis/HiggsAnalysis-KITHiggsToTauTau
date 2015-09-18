@@ -11,7 +11,10 @@ import Artus.HarryPlotter.utility.binnings as binnings
 class BinningsDict(binnings.BinningsDict):
 	def __init__(self, additional_binnings=None):
 		super(BinningsDict, self).__init__(additional_binnings=additional_binnings)
-	
+		
+		self.binnings_dict["diLepMass"] = "20,0,200"
+		self.binnings_dict["svfitMass"] = "25,0,250"
+		
 		self.binnings_dict["tt_decayMode_1"] = "11,0.0,11.0"
 		self.binnings_dict["tt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["tt_eta_1"] = "30,-3.0,3.0"

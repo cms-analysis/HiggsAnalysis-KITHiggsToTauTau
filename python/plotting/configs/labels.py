@@ -29,6 +29,16 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["hww"] = "H #rightarrow WW"
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			
+			self.labels_dict["channel_tt"] = "#tau_{h}#tau_{h}"
+			self.labels_dict["channel_mt"] = "#mu#tau_{h}"
+			self.labels_dict["channel_et"] = "e#tau_{h}"
+			self.labels_dict["channel_em"] = "e#mu"
+			self.labels_dict["channel_mm"] = "#mu#mu"
+			self.labels_dict["channel_ee"] = "ee"
+			
+			self.labels_dict["diLepMass"] = "visible mass m_{ll} / GeV"
+			self.labels_dict["svfitMass"] = "di-#tau mass m_{#tau#tau} / GeV"
+			
 			self.labels_dict["tt_decayMode_1"] = "Leading Tau DM"
 			self.labels_dict["tt_decayMode_2"] = "Trailing Tau DM"
 			self.labels_dict["tt_eta_1"] = "Leading Tau #eta"
