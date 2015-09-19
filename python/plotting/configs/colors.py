@@ -76,29 +76,29 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["data_obs"] = self.colors_dict["data"]
 		
 		if color_scheme.lower() == "kit":
-			self.colors_dict["zll"] = "#00A88F #4CC1A5"
+			self.colors_dict["zll"] = self.colors_dict["kit_gruen_1"]+" "+self.colors_dict["kit_gruen_2"]
 			self.colors_dict["zmm"] = self.colors_dict["zll"]
 			self.colors_dict["zee"] = self.colors_dict["zll"]
 			self.colors_dict["zl"]  = self.colors_dict["zll"]
 			self.colors_dict["zj"]  = self.colors_dict["zll"]
-			self.colors_dict["ztt"] = "#A97E23 #C09D52"
-			self.colors_dict["tt"] = "#4372C1 #7691D2"
+			self.colors_dict["ztt"] = self.colors_dict["kit_braun_1"]+" "+self.colors_dict["kit_braun_2"]
+			self.colors_dict["tt"] = self.colors_dict["kit_blau_1"]+" "+self.colors_dict["kit_blau_2"]
 			self.colors_dict["ttj"] = self.colors_dict["tt"]
 			self.colors_dict["ttbar"] = self.colors_dict["tt"]
-			self.colors_dict["vv"]  = "#FEE701 #FEED4B"
+			self.colors_dict["vv"]  = self.colors_dict["kit_gelb_1"]+" "+self.colors_dict["kit_gelb_2"]
 			self.colors_dict["dibosons"]  = self.colors_dict["vv"]
 			self.colors_dict["ewk"]  = self.colors_dict["vv"]
-			self.colors_dict["qcd"] = "#66C42F #93D561"
+			self.colors_dict["qcd"] = self.colors_dict["kit_maigruen_1"]+" "+self.colors_dict["kit_maigruen_2"]
 			self.colors_dict["fakes"] = self.colors_dict["qcd"]
 			self.colors_dict["wj"]  = self.colors_dict["qcd"]
 			self.colors_dict["wjets"]  = self.colors_dict["qcd"]
 			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
-			self.colors_dict["htt"] = "#BF2229 #CD574A"
-			self.colors_dict["ggh"] = "#BF2229"
-			self.colors_dict["qqh"] = "#F69110"
-			self.colors_dict["vh"]  = "#BC0C8D"
+			self.colors_dict["htt"] = self.colors_dict["kit_rot_1"]+" "+self.colors_dict["kit_rot_2"]
+			self.colors_dict["ggh"] = self.colors_dict["kit_rot_1"]
+			self.colors_dict["qqh"] = self.colors_dict["kit_orange_1"]
+			self.colors_dict["vh"]  = self.colors_dict["kit_lila_1"]
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
-			self.colors_dict["hww"] = "#D97CC4 #E7AEDB"
+			self.colors_dict["hww"] = self.colors_dict["kit_lila_3"]+" "+self.colors_dict["kit_lila_4"]
 			self.colors_dict["hww125"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000"
 			
