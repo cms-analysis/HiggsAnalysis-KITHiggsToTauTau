@@ -12,12 +12,12 @@ import ROOT
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
 
 
-class EstimateQcdRun2(estimatebase.EstimateBase):
+class EstimateQcd(estimatebase.EstimateBase):
 	def __init__(self):
-		super(EstimateQcdRun2, self).__init__()
+		super(EstimateQcd, self).__init__()
 
 	def modify_argument_parser(self, parser, args):
-		super(EstimateQcdRun2, self).modify_argument_parser(parser, args)
+		super(EstimateQcd, self).modify_argument_parser(parser, args)
 		
 		self.estimate_qcd_options = parser.add_argument_group("QCD estimation options")
 		self.estimate_qcd_options.add_argument("--qcd-data-shape-nicks", nargs="+", default=["qcd"],
@@ -33,7 +33,7 @@ class EstimateQcdRun2(estimatebase.EstimateBase):
 				help="Subtract the shape of control region histograms from data. [Default: %(default)s]")
 
 	def prepare_args(self, parser, plotData):
-		super(EstimateQcdRun2, self).prepare_args(parser, plotData)
+		super(EstimateQcd, self).prepare_args(parser, plotData)
 		
 		self._plotdict_keys = ["qcd_data_shape_nicks", "qcd_data_control_nicks", "qcd_data_substract_nicks", "qcd_extrapolation_factors_ss_os", "qcd_subtract_shape"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
@@ -53,7 +53,7 @@ class EstimateQcdRun2(estimatebase.EstimateBase):
 			log.warning("Shape substraction for QCD estimation is currently not supported! The calculations are instead done on the yields.")
 	
 	def run(self, plotData=None):
-		super(EstimateQcdRun2, self).run(plotData)
+		super(EstimateQcd, self).run(plotData)
 		
 		for qcd_data_shape_nick, qcd_data_control_nick, qcd_data_substract_nicks, qcd_extrapolation_factor_ss_os, qcd_subtract_shape in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			yield_data_control = plotData.plotdict["root_objects"][qcd_data_control_nick].Integral()

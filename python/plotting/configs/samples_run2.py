@@ -495,8 +495,8 @@ class Samples(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 			
-			if not "EstimateQcdRun2" in config.get("analysis_modules", []):
-				config.setdefault("analysis_modules", []).append("EstimateQcdRun2")
+			if not "EstimateQcd" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateQcd")
 			config.setdefault("qcd_data_shape_nicks", []).append("qcd"+nick_suffix)
 			config.setdefault("qcd_data_control_nicks", []).append("noplot_data_qcd_control"+nick_suffix)
 			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
