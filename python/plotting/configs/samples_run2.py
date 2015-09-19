@@ -23,14 +23,15 @@ class Samples(samples.SamplesBase):
 		
 		cuts = {}
 		cuts["os"] = "((q_1*q_2)<0.0)"
-		cuts["mt"] = "(mt_1<30.0)"
 		
 		if channel == "mt":
+			cuts["mt"] = "(mt_1<30.0)"
 			cuts["anti_lepton_tau_discriminators"] = "(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)"
 		elif channel == "et":
+			cuts["mt"] = "(mt_1<30.0)"
 			cuts["anti_lepton_tau_discriminators"] = "(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
