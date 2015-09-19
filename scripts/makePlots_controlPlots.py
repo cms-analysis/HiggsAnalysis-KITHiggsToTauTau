@@ -22,7 +22,7 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
+	                    default=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
