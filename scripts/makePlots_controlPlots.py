@@ -114,7 +114,7 @@ if __name__ == "__main__":
 					if not analysis_module in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append(analysis_module)
 				
-				if not "PrintInfos" in config.get("analysis_modules", []):
+				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
 					config.setdefault("analysis_modules", []).append("PrintInfos")
 
 				if args.ratio:
