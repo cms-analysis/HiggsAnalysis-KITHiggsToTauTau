@@ -27,12 +27,12 @@ if __name__ == "__main__":
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
-	parser.add_argument("--channels", nargs="*",
+	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("--quantities", nargs="*",
+	parser.add_argument("-x", "--quantities", nargs="*",
 	                    default=["inclusive",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2",
