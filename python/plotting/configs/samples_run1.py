@@ -576,6 +576,15 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
+					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
+					channel+"_dirIso_z_tauEs/ntuple",
+					1.0,
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
+					"noplot_data_qcd_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_ztt_tauEsNom/ntuple",
 					lumi,
@@ -611,11 +620,13 @@ class Samples(samples.SamplesBase):
 					nick_suffix=nick_suffix
 			)
 			
-			if not "EstimateQcdRun1" in config.get("analysis_modules", []):
-				config.setdefault("analysis_modules", []).append("EstimateQcdRun1")
-			config.setdefault("qcd_data_control_nicks", []).append("qcd"+nick_suffix)
+			if not "EstimateQcdRun2" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateQcdRun2")
+			config.setdefault("qcd_data_shape_nicks", []).append("qcd"+nick_suffix)
+			config.setdefault("qcd_data_control_nicks", []).append("noplot_data_qcd_control"+nick_suffix)
 			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
-			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06)
+			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
+			config.setdefault("qcd_subtract_shape", []).append(False) # True currently not supported
 			
 		elif channel == "em":
 			Samples._add_input(
