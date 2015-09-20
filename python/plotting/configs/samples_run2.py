@@ -59,6 +59,15 @@ class Samples(samples.SamplesBase):
 		
 		self.period = "run2"
 	
+	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
+		config = super(Samples, self).get_config(samples, channel, category, nick_suffix=nick_suffix, postfit_scales=postfit_scales, **kwargs)
+		
+		for analysis_module in ["BinErrorsOfEmptyBins", "CorrectNegativeBinContents"]:
+			if not analysis_module in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append(analysis_module)
+		
+		return config
+	
 	def data(self, config, channel, weight, nick_suffix, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -503,11 +512,6 @@ class Samples(samples.SamplesBase):
 			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
 			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
 			config.setdefault("qcd_subtract_shape", []).append(False) # True currently not supported
-
-			if channel in ["mt", "et"]:
-				if not "CorrectNegativeBinContents" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
-				config.setdefault("nicks_correct_negative_bins", []).append("qcd"+nick_suffix)
 
 		elif channel == "em":
 			Samples._add_input(
