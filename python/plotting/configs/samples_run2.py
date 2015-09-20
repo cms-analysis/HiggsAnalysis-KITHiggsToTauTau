@@ -632,7 +632,7 @@ class Samples(samples.SamplesBase):
 						"WplusHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 						lumi,
-						weight+"*eventWeight" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
 						"wph%s" % str(mass),
 						nick_suffix=nick_suffix+"_noplot"
 				)
