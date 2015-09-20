@@ -62,9 +62,8 @@ class Samples(samples.SamplesBase):
 	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
 		config = super(Samples, self).get_config(samples, channel, category, nick_suffix=nick_suffix, postfit_scales=postfit_scales, **kwargs)
 		
-		for analysis_module in ["BinErrorsOfEmptyBins", "CorrectNegativeBinContents"]:
-			if not analysis_module in config.get("analysis_modules", []):
-				config.setdefault("analysis_modules", []).append(analysis_module)
+		# execute bin correction modules after possible background estimation modules
+		config.setdefault("analysis_modules", []).sort(key=lambda module: module in ["BinErrorsOfEmptyBins", "CorrectNegativeBinContents"])
 		
 		return config
 	
@@ -153,6 +152,7 @@ class Samples(samples.SamplesBase):
 		else:
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		
+		Samples._add_bin_corrections(config, "ztt", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
 		
 		return config
@@ -188,6 +188,7 @@ class Samples(samples.SamplesBase):
 		else:
 			log.error("Sample config (ZLL) currently not implemented for channel \"%s\"!" % channel)
 		
+		Samples._add_bin_corrections(config, "zll", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
 	
@@ -224,6 +225,7 @@ class Samples(samples.SamplesBase):
 		else:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		
+		Samples._add_bin_corrections(config, "ttj", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 
@@ -248,6 +250,7 @@ class Samples(samples.SamplesBase):
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		
+		Samples._add_bin_corrections(config, "vv", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 	
@@ -354,6 +357,7 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
 		
 		if not kwargs.get("no_plot", False):
+			Samples._add_bin_corrections(config, "wj", nick_suffix)
 			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
 
@@ -537,6 +541,7 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 		
 		if not kwargs.get("no_plot", False):
+			Samples._add_bin_corrections(config, "qcd", nick_suffix)
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 	
@@ -557,6 +562,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
 			
+			Samples._add_bin_corrections(config, "htt"+str(mass), nick_suffix)
 			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
@@ -583,6 +589,7 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
+				Samples._add_bin_corrections(config, "ggh"+str(mass), nick_suffix)
 				Samples._add_plot(config, "sig", "LINE", "L", "ggh"+str(mass), nick_suffix)
 		return config
 	
@@ -609,6 +616,7 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
+				Samples._add_bin_corrections(config, "qqh"+str(mass), nick_suffix)
 				Samples._add_plot(config, "sig", "LINE", "L", "qqh"+str(mass), nick_suffix)
 		return config
 	
@@ -659,6 +667,7 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
+				Samples._add_bin_corrections(config, "vh"+str(mass), nick_suffix)
 				Samples._add_plot(config, "sig", "LINE", "L", "vh"+str(mass), nick_suffix)
 		return config
 
