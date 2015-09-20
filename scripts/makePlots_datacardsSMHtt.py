@@ -139,7 +139,7 @@ if __name__ == "__main__":
 							category=category,
 							systematic=systematic
 					))
-				
+					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -152,9 +152,9 @@ if __name__ == "__main__":
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-			
+					
 					config["x_expressions"] = args.quantity
-			
+					
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
@@ -250,7 +250,7 @@ if __name__ == "__main__":
 	)
 	
 	plot_configs = []
-	bkg_plotting_order = ["ZTT", "TTJ", "VV", "WJ", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]
 	for level in ["prefit", "postfit"]:
 		for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
 			if (index == 0) or (level == "postfit"):

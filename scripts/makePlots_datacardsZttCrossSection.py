@@ -263,7 +263,7 @@ if __name__ == "__main__":
 		# Asymptotic limits
 		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
 	
-		bkg_plotting_order = ["ZTT", "TTJ", "VV", "WJ", "QCD"]
+		bkg_plotting_order = ["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]
 		for level in ["prefit", "postfit"]:
 			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
 				if (index == 0) or (level == "postfit"):
