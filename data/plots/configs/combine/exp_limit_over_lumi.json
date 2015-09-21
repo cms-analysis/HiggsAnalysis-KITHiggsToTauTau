@@ -8,7 +8,7 @@
 		"#ff0000"
 	],
 	"files": [
-		"higgsCombine-*.Asymptotic.mH*.root"
+		"higgsCombine*Asymptotic*mH*.root"
 	],
 	"fill_styles": [
 		1001
@@ -37,6 +37,16 @@
 	],
 	"line_widths": [
 		2
+	],
+	"labels": [
+		"#pm 2#sigma Expected",
+		"#pm 1#sigma Expected",
+		"Expected"
+	],
+	"legend_markers": [
+		"F",
+		"F",
+		"L"
 	],
 	"markers": [
 		"E3",
