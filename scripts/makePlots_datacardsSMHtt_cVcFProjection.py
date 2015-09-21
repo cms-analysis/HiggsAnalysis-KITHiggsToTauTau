@@ -95,4 +95,5 @@ if __name__ == "__main__":
 				args.n_processes,
 				"-t -1 --expectSignal 0 -M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
 		)
+		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/cv_cf/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
 

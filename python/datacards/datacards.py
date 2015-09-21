@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import copy
 import os
+import re
 
 # http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
 import combineharvester as ch
@@ -211,6 +212,15 @@ class Datacards(object):
 				),
 				os.path.dirname(workspace)
 		] for datacard, workspace in datacards_workspaces.iteritems()]
+		
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
+	
+	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, n_processes=1, *args):
+		commands = ["annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
+				FILES=os.path.join(os.path.dirname(workspace), root_filename),
+				VALUE=float(re.search(value_regex, workspace).groups()[0]),
+				ARGS=" ".join(args)
+		) for datacard, workspace in datacards_workspaces.iteritems()]
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 	
