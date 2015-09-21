@@ -67,7 +67,25 @@ if __name__ == "__main__":
 	args.output_dir = os.path.expandvars(args.output_dir)
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-	
+
+	# statistical models    
+	models = {
+		"ztt_xsec" : {
+		"datacards" : zttxsecdatacards.ZttXsecDatacards
+		},
+		#"ztt_eff" : {
+		#       "datacards" : zttxsecdatacards.ZttEffDatacards,
+		#       "exclude_cuts" : ['iso_2']
+		#},
+		#"ztt_eff_and_xsec" : {
+		#}
+	}
+	if len(models) != 1:
+		log.error("Only one statistical model per time can be switched on")
+	for model, model_settings in models.iteritems():
+		datacard_settings = model_settings['datacards']
+		excludecut_settings = model_settings['exclude_cuts'] if model_settings.has_key('exclude_cuts') else ['']
+
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
@@ -75,7 +93,7 @@ if __name__ == "__main__":
 	plot_configs = []
 	hadd_commands = []
 	
-	datacards = zttxsecdatacards.ZttXsecDatacards()
+	datacards = datacard_settings()
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -91,8 +109,6 @@ if __name__ == "__main__":
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
-	
-	datacards = zttxsecdatacards.ZttXsecDatacards()
 	
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):
@@ -121,7 +137,7 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			datacards_per_channel_category = zttxsecdatacards.ZttXsecDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			datacards_per_channel_category = datacard_settings(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
@@ -152,6 +168,7 @@ if __name__ == "__main__":
 							channel=channel,
 							category="catZtt13TeV_"+category,
 							weight=args.weight,
+							exclude_cuts=excludecut_settings,
 							higgs_masses=higgs_masses
 					)
 					
@@ -171,7 +188,7 @@ if __name__ == "__main__":
 					) for sample in config["labels"]]
 					
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
-							ANALYSIS="htt",
+							ANALYSIS="ztt",
 							CHANNEL=channel,
 							BIN=category,
 							SYSTEMATIC=systematic,
@@ -236,14 +253,6 @@ if __name__ == "__main__":
 	
 	plot_configs = []
 	
-	models = {
-		"ztt_xsec" : {
-		},
-		#"ztt_eff" : {
-		#},
-		#"ztt_eff_and_xsec" : {
-		#}
-	}
 	for model, model_settings in models.iteritems():
 		# TODO: create sub-directory for each model
 		
@@ -259,9 +268,10 @@ if __name__ == "__main__":
 		# Max. likelihood fit and postfit plots
 		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
 		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+		datacards.print_pulls(datacards_cbs, args.n_processes, "-A")
 	
 		# Asymptotic limits
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
+		#datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
 	
 		bkg_plotting_order = ["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]
 		for level in ["prefit", "postfit"]:
