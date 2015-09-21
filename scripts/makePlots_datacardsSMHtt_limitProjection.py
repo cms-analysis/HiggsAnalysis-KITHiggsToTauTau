@@ -27,6 +27,8 @@ if __name__ == "__main__":
 	                    help="Integrated luminosity / pb used for the datacards. [Default: %(default)s]")
 	parser.add_argument("-l", "--lumis", nargs="+", type=int, default=[1000, 5000, 10000, 15000, 20000, 25000],
 	                    help="Projection values for integrated luminosities / pb.")
+	parser.add_argument("-r", "--ratio", default=False, action="store_true",
+	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -88,6 +90,7 @@ if __name__ == "__main__":
 		# Max. likelihood fit and postfit plots
 		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 0 -M MaxLikelihoodFit -n \"\"")
 		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
 		
 		# Asymptotic limits
 		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 0 -M Asymptotic -n \"\"")
