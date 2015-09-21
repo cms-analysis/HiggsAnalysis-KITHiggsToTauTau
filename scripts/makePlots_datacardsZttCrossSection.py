@@ -108,7 +108,7 @@ if __name__ == "__main__":
 		#"datacards/${BIN}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
-	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
+	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):

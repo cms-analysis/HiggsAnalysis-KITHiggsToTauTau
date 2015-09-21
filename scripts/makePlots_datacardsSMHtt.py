@@ -86,7 +86,7 @@ if __name__ == "__main__":
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
-	output_root_filename_template = "datacards/common/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
+	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):
