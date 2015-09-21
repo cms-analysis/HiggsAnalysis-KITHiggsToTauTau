@@ -84,7 +84,10 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			
 			# JEC
-			self.cb.cp().channel(["em"]).AddSyst(self.cb, *self.jec_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TTJ", "VV", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
+			# exclude VBF category for WJ (because of empty Down histogram
+			self.cb.cp().channel(["em"]).process(["WJ"]).bin(["em_"+category for category in ["zerojet_lowpt", "zerojet_highpt", "onejet_lowpt", "onejet_highpt"]]).AddSyst(self.cb, *self.jec_syst_args)
+			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.jec_syst_args)
 		
 			# ======================================================================
 			# TT channel
