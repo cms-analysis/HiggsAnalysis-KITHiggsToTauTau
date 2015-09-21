@@ -75,7 +75,7 @@ if __name__ == "__main__":
 			
 			lumi_scale_factor = lumi / args.lumi_datacards
 			scaled_datacards.scale_expectation(lumi_scale_factor)
-			scaled_datacards.replace_observation_by_asimov_dataset("125")
+			#scaled_datacards.replace_observation_by_asimov_dataset("125")
 			
 			datacards_cbs.update(scaled_datacards.write_datacards(
 					os.path.basename(datacard),
