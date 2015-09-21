@@ -71,12 +71,14 @@ if __name__ == "__main__":
 	# statistical models    
 	models = {
 		"ztt_xsec" : {
-		"datacards" : zttxsecdatacards.ZttXsecDatacards
-		},
+			"datacards" : zttxsecdatacards.ZttXsecDatacards,
+			"poi" : "r"
+		}
 		#"ztt_eff" : {
 		#       "datacards" : zttxsecdatacards.ZttEffDatacards,
-		#       "exclude_cuts" : ['iso_2']
-		#},
+		#       "exclude_cuts" : ['iso_2'],
+		#       "poi" : "eff"
+		#}
 		#"ztt_eff_and_xsec" : {
 		#}
 	}
@@ -268,8 +270,8 @@ if __name__ == "__main__":
 		# Max. likelihood fit and postfit plots
 		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
 		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-		datacards.print_pulls(datacards_cbs, args.n_processes, "-A")
-	
+		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI=model_settings['poi']))
+
 		# Asymptotic limits
 		#datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
 	
@@ -278,6 +280,23 @@ if __name__ == "__main__":
 			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
 				if (index == 0) or (level == "postfit"):
 					for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
+
+						config = {}
+						config["files"] = [os.path.join(os.path.dirname(datacard), "mlfit.root")]
+						config["input_modules"] = ["InputRootSimple"]
+						config["root_names"] = ["fit_s", "fit_b", "nuisances_prefit"]
+						config["analysis_modules"] = ["ComputePullValues"]
+
+						config["labels"] = ["prefit", "S+B", "B"]
+						config["markers"] = ["L2", "P", "P"]
+						config["fill_styles"] = [3001, 0, 0]
+						config["legend"] = [0.7, 0.8]
+
+						config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+						config["filename"] = "pulls"
+
+						plot_configs.append(config)
+
 						for category in datacards_cbs[datacard].cp().bin_set():
 							processes = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set() + datacards_cbs[datacard].cp().bin([category]).signals().process_set()
 							processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
