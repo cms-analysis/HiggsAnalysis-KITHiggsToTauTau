@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
 	parser.add_argument("-d", "--datacards", nargs="+", required=True,
 	                    help="Datacards.")
-	parser.add_argument("-f", "--fit-results", nargs="+", default=[None],
+	parser.add_argument("--fit-results", nargs="+", default=[None],
 	                    help="ROOT outputs of the RooFit max. likelihood fit. [Default: <datacard directory>/out/mlfit.root]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
