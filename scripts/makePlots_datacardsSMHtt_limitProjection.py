@@ -55,7 +55,6 @@ if __name__ == "__main__":
 				break
 		
 		datacards = smhttdatacards.SMHttDatacards(cb=cb)
-		datacards.replace_observation_by_asimov_dataset("125")
 		
 		output_dir_base = args.output_dir
 		if output_dir_base is None:
@@ -76,6 +75,7 @@ if __name__ == "__main__":
 			
 			lumi_scale_factor = lumi / args.lumi_datacards
 			scaled_datacards.scale_expectation(lumi_scale_factor)
+			scaled_datacards.replace_observation_by_asimov_dataset("125")
 			
 			datacards_cbs.update(scaled_datacards.write_datacards(
 					os.path.basename(datacard),
@@ -86,9 +86,9 @@ if __name__ == "__main__":
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 		
 		# Max. likelihood fit and postfit plots
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 0 -M MaxLikelihoodFit -n \"\"")
 		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 		
 		# Asymptotic limits
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 0 -M Asymptotic -n \"\"")
 

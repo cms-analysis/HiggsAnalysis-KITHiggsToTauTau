@@ -55,7 +55,6 @@ if __name__ == "__main__":
 				break
 		
 		datacards = smhttdatacards.SMHttDatacards(cb=cb)
-		datacards.replace_observation_by_asimov_dataset("125")
 		
 		output_dir_base = args.output_dir
 		if output_dir_base is None:
@@ -76,6 +75,7 @@ if __name__ == "__main__":
 			
 			lumi_scale_factor = lumi / args.lumi_datacards
 			scaled_datacards.scale_expectation(lumi_scale_factor)
+			scaled_datacards.replace_observation_by_asimov_dataset("125")
 			
 			datacards_cbs.update(scaled_datacards.write_datacards(
 					os.path.basename(datacard),
@@ -93,6 +93,6 @@ if __name__ == "__main__":
 				datacards_cbs,
 				datacards_workspaces,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
+				"-t -1 --expectSignal 0 -M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
 		)
 
