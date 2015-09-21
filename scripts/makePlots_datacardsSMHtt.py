@@ -262,14 +262,14 @@ if __name__ == "__main__":
 						config = {}
 						config["files"] = [postfit_shapes]
 						config["folders"] = [category+"_"+level]
-						config["x_expressions"] = bkg_processes + ["TotalSig", "data_obs", "TotalBkg"]
-						config["nicks"] = bkg_processes + ["TotalSig", "data_obs", "noplot_TotalBkg"]
-						config["stacks"] = ["bkg"]*len(bkg_processes) + ["sig", "data"]
+						config["x_expressions"] = ["TotalSig"] + bkg_processes + ["data_obs", "TotalBkg"]
+						config["nicks"] = ["TotalSig"] + bkg_processes + ["data_obs", "noplot_TotalBkg"]
+						config["stacks"] = ["sig_bkg"] + (["sig_bkg"]*len(bkg_processes)) + ["data"]
 						
-						config["labels"] = [label.lower() for label in bkg_processes + ["TotalSig", "data_obs"]]
-						config["colors"] = [color.lower() for color in bkg_processes + ["TotalSig", "data_obs"]]
-						config["markers"] = ["HIST"]*len(bkg_processes) + ["LINE", "E"]
-						config["legend_markers"] = ["F"]*len(bkg_processes) + ["L", "ELP"]
+						config["labels"] = ["TotalSig"] + [label.lower() for label in bkg_processes + ["data_obs"]]
+						config["colors"] = ["totalsig"] + [color.lower() for color in bkg_processes + ["data_obs"]]
+						config["markers"] = ["LINE"] + (["HIST"]*len(bkg_processes)) + ["E"]
+						config["legend_markers"] = ["L"] + (["F"]*len(bkg_processes)) + ["ELP"]
 						
 						config["legend"] = [0.7, 0.6, 0.9, 0.88]
 						
@@ -279,13 +279,13 @@ if __name__ == "__main__":
 						if args.ratio:
 							if not "Ratio" in config.get("analysis_modules", []):
 								config.setdefault("analysis_modules", []).append("Ratio")
-							config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg", "data_obs"])
-							config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg"] * 2)
-							config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
-							config.setdefault("colors", []).extend(["#000000"] * 2)
-							config.setdefault("markers", []).extend(["E2", "E"])
-							config.setdefault("legend_markers", []).extend(["F", "ELP"])
-							config.setdefault("labels", []).extend([""] * 2)
+							config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg", "noplot_TotalBkg TotalSig", "data_obs"])
+							config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg"] * 3)
+							config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio_sig", "ratio"])
+							config.setdefault("colors", []).extend(["totalbkg", "totalsig", "#000000"])
+							config.setdefault("markers", []).extend(["E2", "LINE", "E"])
+							config.setdefault("legend_markers", []).extend(["F", "L", "ELP"])
+							config.setdefault("labels", []).extend([""] * 3)
 							config["legend"] = [0.7, 0.5, 0.95, 0.92]
 						
 						plot_configs.append(config)
