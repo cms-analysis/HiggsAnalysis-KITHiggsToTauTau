@@ -302,3 +302,36 @@ class Datacards(object):
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 
+	def pull_plots(self, datacards_postfit_shapes, plotting_args=None, n_processes=1, *args):
+		if plotting_args is None:
+			plotting_args = {}
+		
+		plot_configs = []
+		for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
+			if (index == 0):
+				for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
+
+					config = {}
+					config["files"] = [os.path.join(os.path.dirname(datacard), "mlfit.root")]
+					config["input_modules"] = ["InputRootSimple"]
+					config["root_names"] = ["fit_s", "fit_b", "nuisances_prefit"]
+					config["analysis_modules"] = ["ComputePullValues"]
+					config["nicks_blacklist"] = ["graph_b"]
+					config["fit_poi"] = plotting_args.get("fit_poi", "r")
+
+					config["left_pad_margin"] = [0.35]
+					config["labels"] = ["prefit", "S+B model"]
+					config["markers"] = ["L2", "P"]
+					config["fill_styles"] = [3001, 0]
+					config["legend"] = [0.75, 0.8]
+					config["legend_markers"] = ["LF", "LP"]
+					config["x_lims"] = [-5.0, 5.0]
+					config["x_label"] = "Pull values"
+
+					config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+					config["filename"] = "pulls"
+
+					plot_configs.append(config)
+
+		# create result plots HarryPlotter
+		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
