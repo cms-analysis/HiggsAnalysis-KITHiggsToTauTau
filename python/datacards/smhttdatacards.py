@@ -93,7 +93,7 @@ class SMHttDatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in ["zerojet_inclusive", "onejet_inclusive", "twojet_vbf"]],
+					categories=["tt_inclusive"], # ["tt_"+category for category in ["zerojet_inclusive", "onejet_inclusive", "twojet_vbf"]],
 					bkg_processes=["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
