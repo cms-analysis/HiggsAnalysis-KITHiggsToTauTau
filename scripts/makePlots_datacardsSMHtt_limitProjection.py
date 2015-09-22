@@ -71,7 +71,7 @@ if __name__ == "__main__":
 		# scale datacards
 		datacards_cbs = {}
 		for lumi in args.lumis:
-			output_dir = os.path.join(output_dir_base, "{:05}".format(lumi))
+			output_dir = os.path.join(output_dir_base, "{:06}".format(lumi))
 			if not os.path.exists(output_dir):
 				os.makedirs(output_dir)
 			

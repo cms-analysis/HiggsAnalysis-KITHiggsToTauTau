@@ -70,7 +70,7 @@ if __name__ == "__main__":
 		# scale datacards
 		datacards_cbs = {}
 		for lumi in args.lumis:
-			output_dir = os.path.join(output_dir_base, "{:05}".format(lumi))
+			output_dir = os.path.join(output_dir_base, "{:06}".format(lumi))
 			if not os.path.exists(output_dir):
 				os.makedirs(output_dir)
 			
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 		
 		config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan_1sigma_over_lumi.json")).doIncludes().doComments()
 		
-		config["directories"] = glob.glob(os.path.join(output_dir_base, "*"))
+		config["directories"] = sorted(glob.glob(os.path.join(output_dir_base, "*")))
 		config["weights"] = [w.replace("lumi", "(lumi/1000.0)") for w in config.get("weights", [])]
 		
 		config["output_dir"] = os.path.join(output_dir_base, "plots")
