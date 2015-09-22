@@ -101,17 +101,27 @@ if __name__ == "__main__":
 		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M Asymptotic -n \"\"")
 		datacards.annotate_trees(datacards_workspaces, "higgsCombine*Asymptotic*mH*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
 		
+		# Significances/p-values
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 --toysFreq -M ProfileLikelihood --significance --pvalue -n \"\"")
+		datacards.annotate_trees(datacards_workspaces, "higgsCombine*ProfileLikelihood*mH125*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+		
 		plot_configs = []
 		
 		json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_obs_limit_over_lumi.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_pvalue_over_lumi.json",
 		]]
 		for config in json_configs:
 			config["directories"] = os.path.join(output_dir_base, "*")
 			config["x_expressions"] = [x.replace("lumi", "(lumi/1000.0)") for x in config.get("x_expressions", [])]
-		
-			config["legend"] = [0.45, 0.88-(len(config["labels"])*0.05), 0.9, 0.88]
+			
+			if not config.get("labels", None) is None:
+				config["legend"] = [0.45, 0.88-(len(config["labels"])*0.05), 0.9, 0.88]
+			
+			if "pvalue" in config.get("filename", ""):
+				config["x_lims"] = [min(args.lumis)/1000.0, max(args.lumis)/1000.0]
+			
 			config["output_dir"] = os.path.join(output_dir_base, "plots")
 		
 			plot_configs.append(config)
