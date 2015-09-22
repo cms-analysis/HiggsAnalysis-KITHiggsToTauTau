@@ -48,8 +48,14 @@ if __name__ == "__main__":
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
-	parser.add_argument("--run2", default=False, action="store_true",
-	                    help="Use Run2 samples. [Default: %(default)s]")
+	parser.add_argument("--run1", default=False, action="store_true",
+	                    help="Use Run1 samples. [Default: %(default)s]")
+	parser.add_argument("--cms", default=False, action="store_true",
+	                    help="CMS Preliminary lable. [Default: %(default)s]")
+	parser.add_argument("--energies", type=float, nargs="+",
+	                    help="Centre-of-mass energies for the given samples (without TeV suffix). [Default: None]")
+	parser.add_argument("--lumis", type=float, nargs="+",
+	                    help="Luminosity for the given data in fb^(-1). [Default: None]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
@@ -75,10 +81,10 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	if not args.run2:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
-	else:
+	if not args.run1:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+	else:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 	
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
@@ -107,6 +113,7 @@ if __name__ == "__main__":
 				config["x_expressions"] = quantity
 				config["x_bins"] = [channel+"_"+quantity]
 				config["x_label"] = channel+"_"+quantity
+				config["title"] = "channel_"+channel
 				
 				config["directories"] = [args.input_dir]
 				
@@ -133,6 +140,12 @@ if __name__ == "__main__":
 						channel if len(args.channels) > 1 else "",
 						category if len(args.categories) > 1 else ""
 				))
+				if args.cms:
+					config["cms"] = True
+					config["extra_text"] = "Preliminary"
+				if (not args.lumis is None) and (not args.energies is None):
+					config["lumis"] = [args.lumis]
+					config["energies"] = [args.energies]
 				if not args.www is None:
 					config["www"] = os.path.expandvars(os.path.join(
 							args.www,
