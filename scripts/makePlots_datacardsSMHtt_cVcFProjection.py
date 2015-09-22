@@ -7,9 +7,12 @@ log = logging.getLogger(__name__)
 
 import argparse
 import copy
+import glob
 import os
 
 import combineharvester as ch
+
+import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
@@ -31,8 +34,8 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
-	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
-	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
+	parser.add_argument("-f", "--n-plots", type=int,
+	                    help="Number of plots. [Default: all]")
 	parser.add_argument("-o", "--output-dir", default=None,
 	                    help="Output directory. [Default: relative to datacards]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
@@ -97,3 +100,20 @@ if __name__ == "__main__":
 		)
 		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/cv_cf/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
 
+		# plotting
+		plot_configs = []
+		
+		config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan_1sigma_over_lumi.json")).doIncludes().doComments()
+		
+		config["directories"] = glob.glob(os.path.join(output_dir_base, "*"))
+		config["weights"] = [w.replace("lumi", "(lumi/1000.0)") for w in config.get("weights", [])]
+		
+		config["output_dir"] = os.path.join(output_dir_base, "plots")
+		
+		plot_configs.append(config)
+		
+		if log.isEnabledFor(logging.DEBUG):
+			import pprint
+			pprint.pprint(plot_configs)
+		
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
