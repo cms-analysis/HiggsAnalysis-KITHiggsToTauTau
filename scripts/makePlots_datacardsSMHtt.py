@@ -233,10 +233,12 @@ if __name__ == "__main__":
 	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
 	datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
+	datacards.pull_plots(datacards_postfit_shapes, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
 	
+	"""
 	# cV-cF scan
 	cv_cf_datacards_workspaces = datacards.text2workspace(
 			datacards_cbs,
@@ -249,4 +251,5 @@ if __name__ == "__main__":
 			args.n_processes,
 			"-M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
 	)
+	"""
 
