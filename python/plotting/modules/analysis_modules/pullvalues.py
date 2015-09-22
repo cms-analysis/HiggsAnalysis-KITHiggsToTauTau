@@ -26,18 +26,20 @@ class ComputePullValues(analysisbase.AnalysisBase):
 		super(ComputePullValues, self).modify_argument_parser(parser, args)
 
 		self.pullvalues_options = parser.add_argument_group("Pull values calculation options")
-		self.pullvalues_options.add_argument("--fit-s-nick", nargs="1",
+		self.pullvalues_options.add_argument("--fit-poi", nargs=1,
+				help="Fit parameter of interest (POI).")
+		self.pullvalues_options.add_argument("--fit-s-nick", nargs=1,
 				default=["fit_s"],
-				help="Nick. [Default: %(default)s]")
-		self.pullvalues_options.add_argument("--fit-b-nick", nargs="1",
+				help="Nick fit results (S+B hypothesis). [Default: %(default)s]")
+		self.pullvalues_options.add_argument("--fit-b-nick", nargs=1,
 				default=["fit_b"],
-				help="Nick. [Default: %(default)s]")
+				help="Nick fit results (B-only hypothesis). [Default: %(default)s]")
 		self.pullvalues_options.add_argument("--nuisances_prefit-nick", nargs="1",
 				default=["nuisances_prefit"],
-				help="Nick. [Default: %(default)s]")
+				help="Nick prefit of uncertainties parameters. [Default: %(default)s]")
 		self.pullvalues_options.add_argument("--result-nicks", nargs="+",
 				default=["gr_prefit", "graph_s", "graph_b"],
-				help="Nick. [Default: %(default)s]")
+				help="Nick results. [Default: %(default)s]")
 		
 	def prepare_args(self, parser, plotData):
 		super(ComputePullValues, self).prepare_args(parser, plotData)
@@ -144,7 +146,7 @@ class ComputePullValues(analysisbase.AnalysisBase):
 							elif (abs(valShift) > 0.3  or abs(sigShift-1) > 0.1):
 								isFlagged[(name,fit_name)] = 1
 
-				row += [ "%+4.2f"  % plotData.plotdict["root_objects"].get(fit_s).correlation(name, "r") ]
+				row += [ "%+4.2f"  % plotData.plotdict["root_objects"].get(fit_s).correlation(name, plotData.plotdict["fit_poi"][0])]
 				table[name] = row
 
 			highlight = "*%s*"

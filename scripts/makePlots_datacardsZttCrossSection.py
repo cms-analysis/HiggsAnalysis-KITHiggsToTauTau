@@ -105,7 +105,7 @@ if __name__ == "__main__":
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
-		"datacards/individual/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		"datacards/individual/${BIN}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 		#"datacards/${BIN}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
@@ -286,7 +286,9 @@ if __name__ == "__main__":
 						config["input_modules"] = ["InputRootSimple"]
 						config["root_names"] = ["fit_s", "fit_b", "nuisances_prefit"]
 						config["analysis_modules"] = ["ComputePullValues"]
+						config["fit_poi"] = [model_settings['poi']]
 
+						config["left_pad_margin"] = [0.4]
 						config["labels"] = ["prefit", "S+B", "B"]
 						config["markers"] = ["L2", "P", "P"]
 						config["fill_styles"] = [3001, 0, 0]
