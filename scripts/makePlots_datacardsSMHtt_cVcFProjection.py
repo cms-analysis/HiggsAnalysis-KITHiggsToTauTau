@@ -30,6 +30,10 @@ if __name__ == "__main__":
 	                    help="Integrated luminosity / pb used for the datacards. [Default: %(default)s]")
 	parser.add_argument("-l", "--lumis", nargs="+", type=int, default=[1000, 5000, 10000, 15000, 20000, 25000],
 	                    help="Projection values for integrated luminosities / pb.")
+	parser.add_argument("--cv-bins", default="30,0.0,3.0",
+	                    help="Binning of the grid for the cV axis.")
+	parser.add_argument("--cf-bins", default="30,0.0,2.0",
+	                    help="Binning of the grid for the cF axis.")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -86,17 +90,27 @@ if __name__ == "__main__":
 					output_dir
 			))
 		
+		cv_bins = [float(b) for b in args.cv_bins.split(",")]
+		cf_bins = [float(b) for b in args.cf_bins.split(",")]
+		assert cv_bins[0] == cf_bins[0]
 		# cV-cF scans
 		datacards_workspaces = scaled_datacards.text2workspace(
 				datacards_cbs,
 				args.n_processes,
-				"-P \"HiggsAnalysis.CombinedLimit.HiggsCouplings:cVcF\" --PO \"cVRange=0:3\" --PO \"cFRange=0:2\""
+				"-P \"HiggsAnalysis.CombinedLimit.HiggsCouplings:cVcF\" --PO \"cVRange={CV_MIN}:{CV_MAX}\" --PO \"cFRange={CF_MIN}:{CF_MAX}\"".format(
+						CV_MIN=cv_bins[1],
+						CV_MAX=cv_bins[2],
+						CF_MIN=cf_bins[1],
+						CF_MAX=cf_bins[2],
+				)
 		)
 		scaled_datacards.combine(
 				datacards_cbs,
 				datacards_workspaces,
 				args.n_processes,
-				"-t -1 --expectSignal 0 -M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
+				"-t -1 --expectSignal 1 -M MultiDimFit --algo grid --points {N_BINS} -n \"\"".format( # --firstPoint 1 --lastPoint 900
+						N_BINS=int(cv_bins[0] * cf_bins[0])
+				)
 		)
 		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/cv_cf/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
 
@@ -107,6 +121,8 @@ if __name__ == "__main__":
 		
 		config["directories"] = sorted(glob.glob(os.path.join(output_dir_base, "*")))
 		config["weights"] = [w.replace("lumi", "(lumi/1000.0)") for w in config.get("weights", [])]
+		config["x_bins"] = args.cv_bins
+		config["y_bins"] = args.cf_bins
 		
 		config["output_dir"] = os.path.join(output_dir_base, "plots")
 		
