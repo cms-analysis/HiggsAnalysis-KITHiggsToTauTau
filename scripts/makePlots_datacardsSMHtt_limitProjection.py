@@ -90,26 +90,31 @@ if __name__ == "__main__":
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 		
 		# Max. likelihood fit and postfit plots
-		#datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 0 -M MaxLikelihoodFit -n \"\"")
-		#datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-		#datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
-		#datacards.annotate_trees(datacards_workspaces, "higgsCombine*MaxLikelihoodFit*mH*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+		"""
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 0 -M MaxLikelihoodFit -n \"\"")
+		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
+		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MaxLikelihoodFit*mH*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+		"""
 		
 		# Asymptotic limits
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 0 -M Asymptotic -n \"\"")
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M Asymptotic -n \"\"")
 		datacards.annotate_trees(datacards_workspaces, "higgsCombine*Asymptotic*mH*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
 		
 		plot_configs = []
 		
-		config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json")).doIncludes().doComments()
+		json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_obs_limit_over_lumi.json",
+		]]
+		for config in json_configs:
+			config["directories"] = os.path.join(output_dir_base, "*")
+			config["x_expressions"] = [x.replace("lumi", "(lumi/1000.0)") for x in config.get("x_expressions", [])]
 		
-		config["directories"] = os.path.join(output_dir_base, "*")
-		config["x_expressions"] = [x.replace("lumi", "(lumi/1000.0)") for x in config.get("x_expressions", [])]
+			config["legend"] = [0.45, 0.88-(len(config["labels"])*0.05), 0.9, 0.88]
+			config["output_dir"] = os.path.join(output_dir_base, "plots")
 		
-		config["legend"] = [0.6, 0.7, 0.9, 0.88]
-		config["output_dir"] = os.path.join(output_dir_base, "plots")
-		
-		plot_configs.append(config)
+			plot_configs.append(config)
 		
 		if log.isEnabledFor(logging.DEBUG):
 			import pprint

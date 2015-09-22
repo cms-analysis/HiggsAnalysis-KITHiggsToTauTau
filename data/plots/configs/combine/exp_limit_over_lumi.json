@@ -14,7 +14,7 @@
 		1001
 	],
 	"folders": [
-		"limit_friend"
+		"limit"
 	],
 	"graph_error_modes": [
 		"abs"
@@ -51,7 +51,7 @@
 	"markers": [
 		"E3",
 		"E3",
-		"EL"
+		"L"
 	],
 	"nicks": [
 		"central",

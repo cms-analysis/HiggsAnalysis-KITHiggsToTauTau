@@ -9,13 +9,13 @@
 		"#000000"
 	],
 	"files": [
-		"higgsCombine-*.Asymptotic.mH*.root"
+		"higgsCombine*Asymptotic*mH*.root"
 	],
 	"fill_styles": [
 		1001
 	],
 	"folders": [
-		"limit_friend"
+		"limit"
 	],
 	"graph_error_modes": [
 		"abs"
@@ -39,11 +39,23 @@
 	"line_widths": [
 		2
 	],
+	"labels": [
+		"#pm 2#sigma Expected",
+		"#pm 1#sigma Expected",
+		"Expected (Background only)",
+		"Expected for SM H(125 GeV)"
+	],
+	"legend_markers": [
+		"F",
+		"F",
+		"L",
+		"LP"
+	],
 	"markers": [
 		"E3",
 		"E3",
-		"EL",
-		"EPL"
+		"L",
+		"LP"
 	],
 	"nicks": [
 		"central",
@@ -78,10 +90,6 @@
 		"lumi"
 	],
 	"x_label": "Integrated Luminosity / fb",
-	"x_lims": [
-		110.0,
-		145.0
-	],
 	"y_expressions": [
 		"limit",
 		"0:limit",
