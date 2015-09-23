@@ -54,7 +54,7 @@ if __name__ == "__main__":
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
 	parser.add_argument("--energies", type=float, nargs="+",
 	                    help="Centre-of-mass energies for the given samples (without TeV suffix). [Default: None]")
-	parser.add_argument("--lumis", type=float, nargs="+",
+	parser.add_argument("--lumi", type=float,
 	                    help="Luminosity for the given data in fb^(-1). [Default: None]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
@@ -107,6 +107,7 @@ if __name__ == "__main__":
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
 						weight=args.weight,
+						lumi = args.lumi * 1000,
 						exclude_cuts=args.exclude_cuts+(["mt"] if quantity == "mt_1" else [])
 				)
 				
@@ -143,8 +144,8 @@ if __name__ == "__main__":
 				if args.cms:
 					config["cms"] = True
 					config["extra_text"] = "Preliminary"
-				if (not args.lumis is None) and (not args.energies is None):
-					config["lumis"] = [args.lumis]
+				if (not args.lumi is None) and (not args.energies is None):
+					config["lumis"] = [args.lumi]
 					config["energies"] = [args.energies]
 				if not args.www is None:
 					config["www"] = os.path.expandvars(os.path.join(
