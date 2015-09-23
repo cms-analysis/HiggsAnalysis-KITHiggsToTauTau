@@ -61,7 +61,7 @@ if __name__ == "__main__":
 	plot_configs = []
 	for channel, probe_triggers in zip(args.channels, args.probe_triggers):
 		for probe_trigger in probe_triggers:
-			for plot_mode in ['pt', 'eta', 'combinedMC','combinedData']:
+			for plot_mode in ['pt', 'eta', 'combinedMC','combinedData','DataMC']:
 		
 				"""
 				config = sample_settings.get_config(
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 					]
 					if plot_mode == 'pt':
 						config["x_expressions"] = ["probe.p4.Pt()"]
-						config["x_bins"] = ["40,0,200"]
+						config["x_bins"] = ["0 10 20 30 40 50 60 70 80 100 120 140 170 200"]#["40,0,200"]
 					if plot_mode == 'eta':
 						config["x_expressions"] = ["probe.p4.Eta()"]
 						config["x_bins"] = ["40,-2,2"]
@@ -116,11 +116,11 @@ if __name__ == "__main__":
 					config["labels"] = ["MC", "Data"]
 					config["colors"] = ["#FF0000", "#000000"]
 					config["y_lims"] = [0.0, 1.2]
-					config["legend"] = [0.2, 0.85, 0.3, 0.95]
+					config["legend"] = [0.2, 0.75, 0.4, 0.95]
 					config["legend_markers"] = ["ELP"]
 		
 					
-					config["y_label"] = "efficiency"
+					config["y_label"] = "Efficiency"
 					if plot_mode == 'pt':
 						config["x_label"] = "probe p_{T} / GeV"
 						config["filename"] = "efficiency_vs_pt"
@@ -132,33 +132,32 @@ if __name__ == "__main__":
 					if args.ratio:
 						if not "Ratio" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("Ratio")
+							config.setdefault("analysis_modules", []).append("PrintInfos")
 						config.setdefault("ratio_numerator_nicks", []).append("data")
 						config.setdefault("ratio_denominator_nicks", []).append("mc")
 						config.setdefault("colors", []).append("#000000")
-						config.setdefault("markers", []).append("E")
+						config.setdefault("markers", []).append("Line")
 						config.setdefault("labels", []).append("")
 						config["y_subplot_label"] = "Data/MC"
 						config["y_subplot_lims"] = [0.75, 1.25]
 
-				if plot_mode in ['combinedMC','combinedData']:
+				if plot_mode in ['combinedMC','combinedData','DataMC']:
 					if not "Divide" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("Divide")
 					config["x_expressions"] = ["probe.p4.Eta()"]
-					config["x_bins"] = ["40,-2,2"]
+					config["x_bins"] = ["8,-2.1,2.1"]
 					config["x_label"] = "probe eta"
 					config["y_expressions"] = ["probe.p4.Pt()"]
-					config["y_bins"] = ["40,0,200"]
+					config["y_bins"] = ["0 10 20 30 40 50 60 70 80 100 200"]
 					config["y_label"] = "probe p_{T} /GeV"
-					config["z_lims"] = [0.0,1.0]
-					config["weights"] = [
-						"tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)", 
-					        "tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30) * probeMatched"
-					]
-					config["legend"] = [0.2, 0.85, 0.3, 0.95]
-					config["log_level"] = "debug"
+					#config["legend"] = [0.2, 0.85, 0.3, 0.95]
 					config["markers"] = "colz"
 
 					if plot_mode == 'combinedMC':
+						config["weights"] = [
+						"tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)", 
+					        "tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30) * probeMatched"
+						]
 						config["files"] = [
 						"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root",
 						"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root",
@@ -168,8 +167,15 @@ if __name__ == "__main__":
 						config["divide_numerator_nicks"] = "noplot_mc_pass"
 						config["divide_result_nicks"] = "mc"
 						config["labels"] = ["MC",""]
+						config["title"] = "MC Efficiency"
+						config["z_lims"] = [0.0,1.0]
+						config["z_label"] = "Efficiency"
 						config["filename"] = "efficiency2d_MC"
 					if plot_mode == 'combinedData':
+						config["weights"] = [
+						"tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)", 
+					        "tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30) * probeMatched"
+						]
 						config["files"] = [
 						"*_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 						"*_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"
@@ -179,7 +185,35 @@ if __name__ == "__main__":
 						config["divide_numerator_nicks"] = "noplot_data_pass"
 						config["divide_result_nicks"] = "data"
 						config["labels"] = ["Data",""]
+						config["title"] = "Data Efficiency"
+						config["z_lims"] = [0.0,1.0]
+						config["z_label"] = "Efficiency"
 						config["filename"] = "efficiency2d_data"
+					if plot_mode == 'DataMC':
+						config["weights"] = [
+						"tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)", 
+					        "tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30) * probeMatched",
+						"tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)", 
+					        "tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30) * probeMatched"
+						]
+						config["files"] = [
+						"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root",
+						"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root",
+						"*_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
+						"*_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"
+						]
+						config["nicks"] = ["noplot_mc_all", "noplot_mc_pass", "noplot_data_all", "noplot_data_pass"]
+						config["divide_denominator_nicks"] = ["noplot_mc_all", "noplot_data_all", "noplot_mc"]
+						config["divide_numerator_nicks"] = ["noplot_mc_pass", "noplot_data_pass", "noplot_data"]
+						config["divide_result_nicks"] = ["noplot_mc", "noplot_data", "datamc"]
+		
+						#config["labels"] = ["Data / MC",""]
+						config["title"] = "Data / MC"
+						config["z_label"] = ""
+						config["colors"] = "kBlue kWhite kRed"
+						config["colormap"] = "True"
+						config["z_lims"] = [0.7, 1.3]
+						config["filename"] = "efficiency2d_databymc"
 
 				config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
 				if not args.www is None:
