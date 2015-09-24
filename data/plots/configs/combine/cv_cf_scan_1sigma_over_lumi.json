@@ -13,6 +13,7 @@
 	"markers": [
 		"COLZ"
 	],
+	"mask_above_delta_min": 2.3,
 	"weights": [
 		"deltaNLL+lumi+1e-5"
 	],
