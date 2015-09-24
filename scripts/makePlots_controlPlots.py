@@ -54,8 +54,8 @@ if __name__ == "__main__":
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
 	parser.add_argument("--energies", type=float, nargs="+",
 	                    help="Centre-of-mass energies for the given samples (without TeV suffix). [Default: None]")
-	parser.add_argument("--lumi", type=float,
-	                    help="Luminosity for the given data in fb^(-1). [Default: None]")
+	parser.add_argument("--lumi", type=float, default=0.04003,
+	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
