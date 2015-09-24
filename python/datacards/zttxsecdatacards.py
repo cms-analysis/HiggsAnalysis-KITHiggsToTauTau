@@ -18,7 +18,7 @@ class ZttXsecDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category for category in ["zerojet_inclusive", "onejet_inclusive", "twojet_inclusive"]],
+					categories=["mt_"+category for category in ["inclusive"]],
 					bkg_processes=["ZLL", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
@@ -34,7 +34,7 @@ class ZttXsecDatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+category for category in ["zerojet_inclusive", "onejet_inclusive", "twojet_inclusive"]],
+					categories=["et_"+category for category in ["inclusive"]],
 					bkg_processes=["ZLL", "TTJ", "VV", "WJ", "QCD"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
@@ -50,7 +50,7 @@ class ZttXsecDatacards(datacards.Datacards):
 			# EM channel
 			self.add_processes(
 					channel="em",
-					categories=["em_"+category for category in ["zerojet_inclusive", "onejet_inclusive", "twojet_inclusive"]],
+					categories=["em_"+category for category in ["inclusive"]],
 					bkg_processes=["TTJ", "VV", "WJ", "QCD"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
@@ -66,7 +66,7 @@ class ZttXsecDatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in ["zerojet_inclusive", "onejet_inclusive", "twojet_inclusive"]],
+					categories=["tt_"+category for category in ["inclusive"]],
 					bkg_processes=["TTJ", "VV", "WJ"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
