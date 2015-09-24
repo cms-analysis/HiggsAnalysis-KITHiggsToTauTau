@@ -108,7 +108,7 @@ if __name__ == "__main__":
 						ztt_from_mc=args.ztt_from_mc,
 						weight=args.weight,
 						lumi = args.lumi * 1000,
-						exclude_cuts=args.exclude_cuts+(["mt"] if quantity == "mt_1" else [])
+						exclude_cuts=args.exclude_cuts+(["mt"] if quantity == "mt_1" else [])+(["pzeta"] if quantity == "pzetamiss" else [])
 				)
 				
 				config["x_expressions"] = quantity

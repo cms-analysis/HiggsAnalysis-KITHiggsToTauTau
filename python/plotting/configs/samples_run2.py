@@ -37,6 +37,7 @@ class Samples(samples.SamplesBase):
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)"
 		elif channel == "em":
+			cuts["pzeta"] = "(pzetamiss > -20.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
