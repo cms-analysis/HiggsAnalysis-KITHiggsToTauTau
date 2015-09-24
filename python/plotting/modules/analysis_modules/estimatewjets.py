@@ -75,9 +75,10 @@ class EstimateWjets(estimatebase.EstimateBase):
 				final_yield = yield_data_control * yield_mc_signal
 				if final_yield != 0.0:
 					final_yield /= yield_mc_control
+				log.debug("Relative statistical uncertainty of the yield for process W+jets (nick \"{nick}\") is {unc}.".format(nick=wjets_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 		
 				integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_shape_nick])()
 				if integral_shape != 0.0:
 					scale_factor = final_yield / integral_shape
-					log.debug("Scale factor for process W+jets+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_shape_nick, scale_factor=scale_factor))
+					log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_shape_nick, scale_factor=scale_factor))
 					plotData.plotdict["root_objects"][wjets_shape_nick].Scale(scale_factor.nominal_value)

@@ -57,6 +57,8 @@ class EstimateQcd(estimatebase.EstimateBase):
 		super(EstimateQcd, self).run(plotData)
 		
 		for qcd_data_shape_nick, qcd_data_control_nick, qcd_data_substract_nicks, qcd_extrapolation_factor_ss_os, qcd_subtract_shape in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+			
+			# TODO: the statistical uncertainties do not correctly treat the W+Jets background, which is estimated by another module beforehand.
 			yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_control_nick])()
 			
 			yield_qcd_control = yield_data_control
@@ -69,6 +71,9 @@ class EstimateQcd(estimatebase.EstimateBase):
 			scale_factor = yield_qcd_control * qcd_extrapolation_factor_ss_os
 			if yield_data_control != 0.0:
 				scale_factor /= yield_data_control
+			
+			final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])() * scale_factor
+			log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 			
 			log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
 			plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)

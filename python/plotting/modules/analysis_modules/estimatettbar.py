@@ -74,6 +74,7 @@ class EstimateTtbar(estimatebase.EstimateBase):
 				final_yield = yield_data_control * yield_mc_signal
 				if final_yield != 0.0:
 					final_yield /= yield_mc_control
+				log.debug("Relative statistical uncertainty of the yield for process ttbar+jets (nick \"{nick}\") is {unc}.".format(nick=ttbar_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 				
 				integral_shape = plotData.plotdict["root_objects"][ttbar_shape_nick].Integral()
 				if integral_shape != 0.0:
