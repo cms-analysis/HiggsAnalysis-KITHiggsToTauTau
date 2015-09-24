@@ -287,6 +287,7 @@ class Samples(samples.SamplesBase):
 
 			if not "EstimateTtbar" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateTtbar")
+			config.setdefault("ttbar_from_mc", []).append(False)
 			config.setdefault("ttbar_shape_nicks", []).append("ttj"+nick_suffix)
 			config.setdefault("ttbar_data_control_nicks", []).append("noplot_ttj_data_control"+nick_suffix)
 			config.setdefault("ttbar_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
@@ -407,6 +408,7 @@ class Samples(samples.SamplesBase):
 
 			if not "EstimateWjets" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateWjets")
+			config.setdefault("wjets_from_mc", []).append(False)
 			config.setdefault("wjets_shape_nicks", []).append("wj"+nick_suffix)
 			config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_data_control"+nick_suffix)
 			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_wj_control noplot_zll_wj_control noplot_ttj_wj_control noplot_vv_wj_control".split()]))
@@ -517,6 +519,7 @@ class Samples(samples.SamplesBase):
 			
 			if not "EstimateWjets" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateWjets")
+			config.setdefault("wjets_from_mc", []).append(False)
 			config.setdefault("wjets_shape_nicks", []).append("noplot_wj_ss"+nick_suffix)
 			config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_ss_data_control"+nick_suffix)
 			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
