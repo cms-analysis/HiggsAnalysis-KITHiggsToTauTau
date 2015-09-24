@@ -129,10 +129,12 @@ if __name__ == "__main__":
 		config.setdefault("combine_result_nicks", []).append("cVcF_lumi")
 		config.setdefault("nicks_whitelist", []).extend(config["combine_result_nicks"])
 		
+		"""
 		if not "ContourFromHistogram" in config.get("analysis_modules", []):
 			config.setdefault("analysis_modules", []).append("ContourFromHistogram")
 		config.setdefault("2d_histogram_nicks", []).append("cVcF_lumi")
 		config.setdefault("contour_thresholds", []).append(" ".join([str(lumi) for lumi in args.lumis]))
+		"""
 		
 		config["markers"] = "COLZ" # "CONT1Z"
 		
