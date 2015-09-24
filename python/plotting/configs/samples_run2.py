@@ -202,7 +202,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		
-		if channel in ["mt", "et", "em", "tt"]:
+		if channel in ["mt", "et", "tt"]:
 			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
@@ -212,6 +212,86 @@ class Samples(samples.SamplesBase):
 					"ttj",
 					nick_suffix=nick_suffix
 			)
+		elif channel == "em":
+			Samples._add_input(
+					config,
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+					channel+"_jecUncNom/ntuple",
+					lumi,
+					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					"ttj",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					"MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
+					channel+"_jecUnc/ntuple",
+					1.0,
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta"]) + "*(pzetamiss < -20.0)",
+					"noplot_ttj_data_control"
+			)
+			Samples._add_input(
+					config,
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+					channel+"_jecUncNom_tt/ntuple",
+					lumi,
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta"]) + "*(pzetamiss < -20.0)",
+					"noplot_ztt_mc_ttj_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+					channel+"_jecUncNom_ee/ntuple " + channel+"_jecUncNom_mm/ntuple",
+					lumi,
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta"]) + "*(pzetamiss < -20.0)",
+					"noplot_zll_ttj_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+					channel+"_jecUncNom/ntuple",
+					lumi,
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta"]) + "*(pzetamiss < -20.0)",
+					"noplot_wj_ttj_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+					channel+"_jecUncNom/ntuple",
+					lumi,
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta"]) + "*(pzetamiss < -20.0)",
+					"noplot_vv_ttj_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+					channel+"_jecUncNom/ntuple",
+					lumi,
+					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					"noplot_ttj_mc_signal",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+					channel+"_jecUncNom/ntuple",
+					lumi,
+					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta"]) + "*(pzetamiss < -20.0)",
+					"noplot_ttj_mc_control",
+					nick_suffix=nick_suffix
+			)
+
+			if not "EstimateTtbar" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateTtbar")
+			config.setdefault("ttbar_shape_nicks", []).append("ttj"+nick_suffix)
+			config.setdefault("ttbar_data_control_nicks", []).append("noplot_ttj_data_control"+nick_suffix)
+			config.setdefault("ttbar_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
+			config.setdefault("ttbar_mc_signal_nicks", []).append("noplot_ttj_mc_signal"+nick_suffix)
+			config.setdefault("ttbar_mc_control_nicks", []).append("noplot_ttj_mc_control"+nick_suffix)
 		else:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		
