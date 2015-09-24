@@ -11,6 +11,7 @@ import ROOT
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
 import HiggsAnalysis.KITHiggsToTauTau.tools as tools
+import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
 
 
 class EstimateWjets(estimatebase.EstimateBase):
@@ -65,7 +66,13 @@ class EstimateWjets(estimatebase.EstimateBase):
 			if not wjets_from_mc:
 				yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_data_control_nick])()
 				for nick in wjets_data_substract_nicks:
-					yield_data_control -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+					yield_bkg_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+					if nick in plotData.metadata:
+						yield_bkg_control = uncertainties.ufloat(
+								plotData.metadata[nick].get("yield", yield_bkg_control.nominal_value),
+								plotData.metadata[nick].get("yield_unc", yield_bkg_control.std_dev)
+						)
+					yield_data_control -= yield_bkg_control
 				yield_data_control = max(0.0, yield_data_control)
 				
 				yield_mc_signal = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_mc_signal_nick])()

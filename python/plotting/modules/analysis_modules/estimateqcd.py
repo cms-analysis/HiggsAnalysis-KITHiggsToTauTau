@@ -11,6 +11,7 @@ import ROOT
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
 import HiggsAnalysis.KITHiggsToTauTau.tools as tools
+import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
 
 
 class EstimateQcd(estimatebase.EstimateBase):
@@ -57,13 +58,17 @@ class EstimateQcd(estimatebase.EstimateBase):
 		super(EstimateQcd, self).run(plotData)
 		
 		for qcd_data_shape_nick, qcd_data_control_nick, qcd_data_substract_nicks, qcd_extrapolation_factor_ss_os, qcd_subtract_shape in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			
-			# TODO: the statistical uncertainties do not correctly treat the W+Jets background, which is estimated by another module beforehand.
 			yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_control_nick])()
 			
 			yield_qcd_control = yield_data_control
 			for nick in qcd_data_substract_nicks:
-				yield_qcd_control -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+				yield_bkg_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+				if nick in plotData.metadata:
+					yield_bkg_control = uncertainties.ufloat(
+							plotData.metadata[nick].get("yield", yield_bkg_control.nominal_value),
+							plotData.metadata[nick].get("yield_unc", yield_bkg_control.std_dev)
+					)
+				yield_qcd_control -= yield_bkg_control
 				#if qcd_subtract_shape:
 				#	plotData.plotdict["root_objects"][qcd_data_control_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
 			yield_qcd_control = max(0.0, yield_qcd_control)
