@@ -76,5 +76,6 @@ class EstimateTtbar(estimatebase.EstimateBase):
 		
 				integral_shape = plotData.plotdict["root_objects"][ttbar_shape_nick].Integral()
 				if integral_shape != 0.0:
+					log.debug("Scale factor for process ttbar+jets (nick \"{nick}\") is {scale_factor}.".format(nick=ttbar_shape_nick, scale_factor=final_yield/integral_shape))
 					plotData.plotdict["root_objects"][ttbar_shape_nick].Scale(final_yield / integral_shape)
 
