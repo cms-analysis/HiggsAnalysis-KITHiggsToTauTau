@@ -10,6 +10,7 @@ log = logging.getLogger(__name__)
 import ROOT
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
+import HiggsAnalysis.KITHiggsToTauTau.tools as tools
 
 
 class EstimateWjets(estimatebase.EstimateBase):
@@ -62,21 +63,21 @@ class EstimateWjets(estimatebase.EstimateBase):
 		
 		for wjets_from_mc, wjets_shape_nick, wjets_data_control_nick, wjets_data_substract_nicks, wjets_mc_signal_nick, wjets_mc_control_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			if not wjets_from_mc:
-				yield_data_control = plotData.plotdict["root_objects"][wjets_data_control_nick].Integral()
+				yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_data_control_nick])()
 				for nick in wjets_data_substract_nicks:
-					yield_data_control -= plotData.plotdict["root_objects"][nick].Integral()
+					yield_data_control -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				yield_data_control = max(0.0, yield_data_control)
 		
-				yield_mc_signal = plotData.plotdict["root_objects"][wjets_mc_signal_nick].Integral()
-				yield_mc_control = plotData.plotdict["root_objects"][wjets_mc_control_nick].Integral()
+				yield_mc_signal = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_mc_signal_nick])()
+				yield_mc_control = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_mc_control_nick])()
 			
 				assert (yield_data_control*yield_mc_signal == 0.0) or (yield_mc_control != 0.0)
 				final_yield = yield_data_control * yield_mc_signal
 				if final_yield != 0.0:
 					final_yield /= yield_mc_control
 		
-				integral_shape = plotData.plotdict["root_objects"][wjets_shape_nick].Integral()
+				integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_shape_nick])()
 				if integral_shape != 0.0:
-					log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_shape_nick, scale_factor=final_yield/integral_shape))
-					plotData.plotdict["root_objects"][wjets_shape_nick].Scale(final_yield / integral_shape)
-
+					scale_factor = final_yield / integral_shape
+					log.debug("Scale factor for process W+jets+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_shape_nick, scale_factor=scale_factor))
+					plotData.plotdict["root_objects"][wjets_shape_nick].Scale(scale_factor.nominal_value)

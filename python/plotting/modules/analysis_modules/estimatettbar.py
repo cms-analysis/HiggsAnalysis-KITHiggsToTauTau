@@ -10,6 +10,7 @@ log = logging.getLogger(__name__)
 import ROOT
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
+import HiggsAnalysis.KITHiggsToTauTau.tools as tools
 
 
 class EstimateTtbar(estimatebase.EstimateBase):
@@ -61,21 +62,22 @@ class EstimateTtbar(estimatebase.EstimateBase):
 		
 		for ttbar_from_mc, ttbar_shape_nick, ttbar_data_control_nick, ttbar_data_substract_nicks, ttbar_mc_signal_nick, ttbar_mc_control_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			if not ttbar_from_mc:
-				yield_data_control = plotData.plotdict["root_objects"][ttbar_data_control_nick].Integral()
+				yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][ttbar_data_control_nick])()
 				for nick in ttbar_data_substract_nicks:
-					yield_data_control -= plotData.plotdict["root_objects"][nick].Integral()
+					yield_data_control -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				yield_data_control = max(0.0, yield_data_control)
-		
-				yield_mc_signal = plotData.plotdict["root_objects"][ttbar_mc_signal_nick].Integral()
-				yield_mc_control = plotData.plotdict["root_objects"][ttbar_mc_control_nick].Integral()
-			
+				
+				yield_mc_signal = tools.PoissonYield(plotData.plotdict["root_objects"][ttbar_mc_signal_nick])()
+				yield_mc_control = tools.PoissonYield(plotData.plotdict["root_objects"][ttbar_mc_control_nick])()
+				
 				assert (yield_data_control*yield_mc_signal == 0.0) or (yield_mc_control != 0.0)
 				final_yield = yield_data_control * yield_mc_signal
 				if final_yield != 0.0:
 					final_yield /= yield_mc_control
-		
+				
 				integral_shape = plotData.plotdict["root_objects"][ttbar_shape_nick].Integral()
 				if integral_shape != 0.0:
-					log.debug("Scale factor for process ttbar+jets (nick \"{nick}\") is {scale_factor}.".format(nick=ttbar_shape_nick, scale_factor=final_yield/integral_shape))
-					plotData.plotdict["root_objects"][ttbar_shape_nick].Scale(final_yield / integral_shape)
+					scale_factor = final_yield / integral_shape
+					log.debug("Scale factor for process ttbar+jets (nick \"{nick}\") is {scale_factor}.".format(nick=ttbar_shape_nick, scale_factor=scale_factor))
+					plotData.plotdict["root_objects"][ttbar_shape_nick].Scale(scale_factor.nominal_value)
 

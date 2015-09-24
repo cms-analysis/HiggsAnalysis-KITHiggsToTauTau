@@ -10,6 +10,7 @@ log = logging.getLogger(__name__)
 import ROOT
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
+import HiggsAnalysis.KITHiggsToTauTau.tools as tools
 
 
 class EstimateQcd(estimatebase.EstimateBase):
@@ -56,11 +57,11 @@ class EstimateQcd(estimatebase.EstimateBase):
 		super(EstimateQcd, self).run(plotData)
 		
 		for qcd_data_shape_nick, qcd_data_control_nick, qcd_data_substract_nicks, qcd_extrapolation_factor_ss_os, qcd_subtract_shape in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			yield_data_control = plotData.plotdict["root_objects"][qcd_data_control_nick].Integral()
+			yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_control_nick])()
 			
 			yield_qcd_control = yield_data_control
 			for nick in qcd_data_substract_nicks:
-				yield_qcd_control -= plotData.plotdict["root_objects"][nick].Integral()
+				yield_qcd_control -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				#if qcd_subtract_shape:
 				#	plotData.plotdict["root_objects"][qcd_data_control_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
 			yield_qcd_control = max(0.0, yield_qcd_control)
@@ -70,5 +71,5 @@ class EstimateQcd(estimatebase.EstimateBase):
 				scale_factor /= yield_data_control
 			
 			log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
-			plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor)
+			plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
 
