@@ -76,6 +76,12 @@ class EstimateTtbar(estimatebase.EstimateBase):
 					final_yield /= yield_mc_control
 				log.debug("Relative statistical uncertainty of the yield for process ttbar+jets (nick \"{nick}\") is {unc}.".format(nick=ttbar_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 				
+				plotData.metadata[ttbar_shape_nick] = {
+					"yield" : final_yield.nominal_value,
+					"yield_unc" : final_yield.std_dev,
+					"yield_unc_rel" : (final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
+				}
+				
 				integral_shape = plotData.plotdict["root_objects"][ttbar_shape_nick].Integral()
 				if integral_shape != 0.0:
 					scale_factor = final_yield / integral_shape

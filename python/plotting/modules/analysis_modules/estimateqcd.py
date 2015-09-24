@@ -75,6 +75,12 @@ class EstimateQcd(estimatebase.EstimateBase):
 			final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])() * scale_factor
 			log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 			
+			plotData.metadata[qcd_data_shape_nick] = {
+				"yield" : final_yield.nominal_value,
+				"yield_unc" : final_yield.std_dev,
+				"yield_unc_rel" : (final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
+			}
+			
 			log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
 			plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
 
