@@ -202,22 +202,11 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		
-		if channel in ["mt", "et"]:
+		if channel in ["mt", "et", "em", "tt"]:
 			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_z/ntuple",
-					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
-					"ttj",
-					nick_suffix=nick_suffix
-			)
-
-		elif channel in ["em", "tt"]:
-			Samples._add_input(
-					config,
-					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom/ntuple",
+					channel+"_jecUncNom"+("_z" if channel in ["mt", "et"] else "")+"/ntuple",
 					lumi,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
 					"ttj",
