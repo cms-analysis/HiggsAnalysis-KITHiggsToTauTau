@@ -12,6 +12,9 @@ import re
 import combineharvester as ch
 
 import Artus.Utility.tools as tools
+import Artus.Utility.jsonTools as jsonTools
+import Artus.HarryPlotter.utility.roottools as roottools
+import Artus.HarryPlotter.utility.tfilecontextmanager as tfilecontextmanager
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
@@ -140,7 +143,8 @@ class Datacards(object):
 	
 	def extract_shapes(self, root_filename_template,
 	                   bkg_histogram_name_template, sig_histogram_name_template,
-	                   bkg_syst_histogram_name_template, sig_syst_histogram_name_template):
+	                   bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
+	                   update_systematics=False):
 		for analysis in self.cb.analysis_set():
 			for era in self.cb.cp().analysis([analysis]).era_set():
 				for channel in self.cb.cp().analysis([analysis]).era([era]).channel_set():
@@ -151,11 +155,76 @@ class Datacards(object):
 								BIN=category,
 								ERA=era
 						)
-						self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).backgrounds().ExtractShapes(root_filename, bkg_histogram_name_template, bkg_syst_histogram_name_template)
-						self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).signals().ExtractShapes(root_filename, sig_histogram_name_template, sig_syst_histogram_name_template)
+						
+						cb_backgrounds = self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).backgrounds()
+						cb_backgrounds.ExtractShapes(
+								root_filename,
+								bkg_histogram_name_template.replace("{", "").replace("}", ""),
+								bkg_syst_histogram_name_template.replace("{", "").replace("}", "")
+						)
+						
+						cb_signals = self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).signals()
+						cb_signals.ExtractShapes(
+								root_filename,
+								sig_histogram_name_template.replace("{", "").replace("}", ""),
+								sig_syst_histogram_name_template.replace("{", "").replace("}", "")
+						)
+						
+						# update/add systematics related to the estimation of backgrounds/signals
+						# these uncertainties are stored in the input root files
+						if update_systematics:
+							with tfilecontextmanager.TFileContextManager(root_filename, "READ") as root_file:
+								root_object_paths = [path for key, path in roottools.RootTools.walk_root_directory(root_file)]
+								
+								processes_histogram_names = []
+								for process in cb_backgrounds.process_set():
+									bkg_histogram_name = bkg_histogram_name_template.replace("$", "").format(
+											ANALYSIS=analysis,
+											CHANNEL=channel,
+											BIN=category,
+											ERA=era,
+											PROCESS=process
+									)
+									yield_unc_rel = Datacards.get_yield_unc_rel(bkg_histogram_name, root_file, root_object_paths)
+									if not yield_unc_rel is None:
+										cb_backgrounds.cp().process([process]).AddSyst(
+												self.cb,
+												"CMS_$ANALYSIS_$PROCESS_estimation_$ERA",
+												"lnN",
+												ch.SystMap("process")([process], 1.0+yield_unc_rel)
+										)
+								
+								for process in cb_signals.process_set():
+									for mass in cb_signals.mass_set():
+										if mass != "*":
+											sig_histogram_name = sig_histogram_name_template.replace("$", "").format(
+													ANALYSIS=analysis,
+													CHANNEL=channel,
+													BIN=category,
+													ERA=era,
+													PROCESS=process,
+													MASS=mass
+											)
+											yield_unc_rel = Datacards.get_yield_unc_rel(sig_histogram_name, root_file, root_object_paths)
+											if not yield_unc_rel is None:
+												cb_backgrounds.cp().process([process]).mass([mass]).AddSyst(
+														self.cb,
+														"CMS_$ANALYSIS_$PROCESS$MASS_estimation_$ERA",
+														"lnN",
+														ch.SystMap("process", "mass")([process], [mass], 1.0+yield_unc_rel)
+												)
 		
 		if log.isEnabledFor(logging.DEBUG):
 			self.cb.PrintAll()
+	
+	@staticmethod
+	def get_yield_unc_rel(histogram_path, root_file, root_object_paths):
+		metadata_path = histogram_path+"_metadata"
+		if metadata_path in root_object_paths:
+			metadata = jsonTools.JsonDict(root_file.Get(metadata_path).GetString().Data())
+			return metadata.get("yield_unc_rel", None)
+		else:
+			return None
 	
 	def add_bin_by_bin_uncertainties(self, processes, add_threshold=0.1, merge_threshold=0.5, fix_norm=True):
 		bin_by_bin_factory = ch.BinByBinFactory()
