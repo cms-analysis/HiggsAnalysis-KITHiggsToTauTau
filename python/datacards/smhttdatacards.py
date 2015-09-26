@@ -120,9 +120,9 @@ class SMHttDatacards(datacards.Datacards):
 		
 			# cross section
 			self.cb.cp().process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
-			self.cb.cp().process(["TTJ"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
+			self.cb.cp().process(["TTJ"]).channel(["mt", "et", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args) # automatically in other channels determined
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
-			self.cb.cp().process(["WJ"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
+			self.cb.cp().process(["WJ"]).channel(["em", "tt"]).AddSyst(self.cb, *self.wj_cross_section_syst_args) # automatically in other channels determined
 		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
