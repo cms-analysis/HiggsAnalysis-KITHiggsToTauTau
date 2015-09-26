@@ -27,10 +27,7 @@ def main():
 	parser.add_argument("-o", "--output", default="svfitCache.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
-	parser.add_argument("--input-trees", nargs="+",
-	                    default=["svfitCache",
-	                             "ee/svfitCache", "em/svfitCache", "et/svfitCache",
-	                             "mm/svfitCache", "mt/svfitCache", "tt/svfitCache"],
+	parser.add_argument("--input-trees", nargs="+", default=["svfitCache"],
 	                    help="Paths of input SVfit cache trees. [Default: %(default)s]")
 	parser.add_argument("--output-tree", default="svfitCache",
 	                    help="Name of output SVfit cache tree. [Default: %(default)s]")
@@ -38,8 +35,12 @@ def main():
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	merged_tree_name = treemerge.treemerge(args.input, args.input_trees,
-	                                       args.output, args.output_tree)
+	merged_tree_name = treemerge.treemerge(
+			args.input, args.input_trees,
+			args.output, args.output_tree,
+			match_input_tree_names=True
+	)
+	
 	log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
 
 

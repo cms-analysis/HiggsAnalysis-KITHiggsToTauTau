@@ -116,9 +116,9 @@ The (committed) status of two different Artus runs can be compared using [artusR
 
 Svfit is run by the `producer:SvfitProducer` and a tree with inputs and results is written out by the consumer `SvfitCacheConsumer`. These results can be collected by [svfitCacheTreeMerge.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/svfitCacheTreeMerge.py):
 
-	for dir in <Artus project directory>/[output|merged]/*; do echo $dir; svfitCacheTreeMerge.py -i $dir/*.root --input-trees `artusPipelines.py $dir/*.root | sed -e 's@\$@/svfitCache@g'` -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${dir}.root" | sed -e 's@<Artus project directory>/[output|merged]/@@g'`; done
+	for dir in <Artus project directory>/[output|merged]/*; do echo $dir; svfitCacheTreeMerge.py -i $dir/*.root -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${dir}.root" | sed -e 's@<Artus project directory>/[output|merged]/@@g'`; done
 
-The cached values are configured in [data/ArtusConfigs/Includes/settingsSvfit.json](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/data/ArtusConfigs/Includes/settingsSvfit.json).
+The cached values are configured in [data/ArtusConfigs/Includes/settingsSvfit.json](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/data/ArtusConfigs/Includes/settingsSvfit.json). It is recommended to store the cached results on dCache rather than in the auxiliaries directory in order to speed up and simplify the GC initialisation.
 
 It is recommended to calculate the Svfit values file by file:
 
