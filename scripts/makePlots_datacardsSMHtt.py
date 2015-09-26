@@ -206,10 +206,9 @@ if __name__ == "__main__":
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
 			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
-			bkg_histogram_name_template.replace("{", "").replace("}", ""),
-			sig_histogram_name_template.replace("{", "").replace("}", ""),
-			bkg_syst_histogram_name_template.replace("{", "").replace("}", ""),
-			sig_syst_histogram_name_template.replace("{", "").replace("}", "")
+			bkg_histogram_name_template, sig_histogram_name_template,
+			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
+			update_systematics=True
 	)
 	
 	# add bin-by-bin uncertainties
