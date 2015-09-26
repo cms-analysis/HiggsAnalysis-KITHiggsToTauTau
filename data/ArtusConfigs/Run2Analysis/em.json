@@ -198,9 +198,9 @@
 			"SvfitCacheConsumer",
 			"cutflow_histogram",
 			"#CutFlowTreeConsumer",
-			"KappaElectronsConsumer",
-			"KappaMuonsConsumer",
-			"KappaTaggedJetsConsumer"
+			"#KappaElectronsConsumer",
+			"#KappaMuonsConsumer",
+			"#KappaTaggedJetsConsumer"
 		]
 	}
 }
