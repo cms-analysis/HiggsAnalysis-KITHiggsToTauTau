@@ -34,10 +34,15 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>500.0)*(jdeta>3.5)"
-			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"] = ("(! ({vbf}))".format(vbf=self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"]))+"*(njetspt30>0)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"] = ("(! ({vbf}))".format(
+					vbf=self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"]
+			))+"*(njetspt30>0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_highpt"] = self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"]+("*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_lowpt"] = self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"]+("*({pt_var}<={pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
-			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"] = ("(! ({onejet}))".format(onejet=self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"]))
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"] = ("(! ({vbf}))*(! ({onejet}))".format(
+					vbf=self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"],
+					onejet=self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"]
+			))
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_highpt"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_lowpt"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}<={pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
 		
