@@ -389,10 +389,13 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	{
 		neededRecalculation = true;
 	}
-	else if (checkInputs)
+	else
 	{
 		svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndicesItem->second);
-		neededRecalculation = (this->svfitInputs != svfitInputs);
+		if (checkInputs)
+		{
+			neededRecalculation = (this->svfitInputs != svfitInputs);
+		}
 	}
 	
 	if (neededRecalculation)
