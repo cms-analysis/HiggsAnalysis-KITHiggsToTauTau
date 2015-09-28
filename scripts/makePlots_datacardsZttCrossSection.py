@@ -10,6 +10,7 @@ import copy
 import os
 
 import combineharvester as ch
+import ROOT
 
 import Artus.Utility.tools as tools
 
@@ -46,7 +47,7 @@ if __name__ == "__main__":
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")	
-	parser.add_argument("-r", "--ratio", default=False, action="store_true",
+	parser.add_argument("-r", "--ratio", default=True, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
@@ -128,6 +129,7 @@ if __name__ == "__main__":
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
+
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
 		# prepare category settings based on args and datacards
@@ -141,6 +143,9 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
+			if (channel != category[:2]):
+				continue
+
 			datacards_per_channel_category = datacard_settings(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
@@ -269,40 +274,70 @@ if __name__ == "__main__":
 		)
 		
 		# Max. likelihood fit and postfit plots
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit --skipBOnlyFit -n \"\"")
 		#datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MultiDimFit --floatOtherPOIs 1 -n \"\"")
 
-		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI=model_settings['poi']))
-		datacards.pull_plots(datacards_postfit_shapes, plotting_args={"fit_poi" : [model_settings['poi']]}, n_processes=args.n_processes)
+		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+		#datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI=model_settings['poi']))
+		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [model_settings['poi']]}, n_processes=args.n_processes)
 
-		# Asymptotic limits
-		#datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
-	
+		config_summary = {}
+		y_point = 0.5
 		bkg_plotting_order = ["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]
 		for level in ["prefit", "postfit"]:
 			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
 				if (index == 0) or (level == "postfit"):
 					for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
+
+						datacardpath = os.path.dirname(datacard)
+						datacardfolder = datacardpath.split("/")[-1:][0]
+						if (level == "postfit" and (datacardfolder == "combined" or datacardfolder in ["em","et","mt"])):
+							channel = "channel_"+datacardfolder if datacardfolder in ["em","et","mt"] else "combination"
+							config_summary.setdefault("files", []).append(os.path.join(datacardpath, "mlfit.root"))
+							config_summary["folders"] = ["tree_fit_sb"]
+							config_summary["tree_draw_options"] = ["TGraphAsymmErrorsX"]
+							config_summary["x_expressions"] = ["mu:muLoErr:muHiErr"]
+							config_summary.setdefault("y_expressions", []).append("0.5" if datacardfolder == "combined" else str(y_point+1))
+							config_summary.setdefault("y_tick_labels", []).append(channel)
+							if (datacardfolder != "combined"):
+								y_point += 1
+
 						for category in datacards_cbs[datacard].cp().bin_set():
+
+							results_file = ROOT.TFile(os.path.join(datacardpath, "mlfit.root"))
+							results_tree = results_file.Get("tree_fit_sb")
+							results_tree.GetEntry(0)
+							bestfit = results_tree.mu
+
 							processes = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set() + datacards_cbs[datacard].cp().bin([category]).signals().process_set()
 							processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
-						
+
 							config = {}
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
 							config["x_expressions"] = processes + ["data_obs", "TotalBkg", "TotalSig"]
 							config["nicks"] = processes + ["data_obs", "noplot_TotalBkg", "noplot_TotalSig"]
 							config["stacks"] = ["bkg"]*len(processes) + ["data"]
-						
-							config["labels"] = [label.lower() for label in processes + ["data_obs"]]
-							config["colors"] = [color.lower() for color in processes + ["data_obs"]]
-							config["markers"] = ["HIST"]*len(processes) + ["E"]
-							config["legend_markers"] = ["F"]*len(processes) + ["ELP"]
-						
+
+							if level == "postfit":
+								config["scale_factors"] = [bestfit] + [1.0]*(len(processes) - 1) + [1.0, 1.0, bestfit]
+
+							config.setdefault("analysis_modules", []).append("SumOfHistograms")
+							config["sum_nicks"] = ["noplot_TotalBkg noplot_TotalSig"]
+							config["sum_scale_factors"] = ["1.0 1.0"]
+							config["sum_result_nicks"] = ["Total"]
+
+							config["labels"] = [label.lower() for label in processes + ["data_obs"] + [""]]
+							config["colors"] = [color.lower() for color in processes + ["data_obs"] + ["#000000"]]
+							config["markers"] = ["HIST"]*len(processes) + ["E"] + ["E2"]
+							config["legend_markers"] = ["F"]*len(processes) + ["ELP"] + ["F"]
+							config["x_label"] = category[:2]+"_"+args.quantity
+							config["title"] = "channel_"+category[:2]
+							config["energies"] = [13.0]
+							config["lumis"] = [0.04]
 							config["legend"] = [0.7, 0.6, 0.9, 0.88]
 						
-							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+							config["output_dir"] = os.path.join(datacardpath, "plots")
 							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
 						
 							if args.ratio:
@@ -316,9 +351,22 @@ if __name__ == "__main__":
 								config.setdefault("legend_markers", []).extend(["F", "ELP"])
 								config.setdefault("labels", []).extend([""] * 2)
 								config["legend"] = [0.7, 0.5, 0.95, 0.92]
+								config["y_subplot_lims"] = [0.7, 1.3]
 						
 							plot_configs.append(config)
-	
+
+	config_summary["output_dir"] = args.output_dir
+	config_summary["filename"] = "bestfit"
+	config_summary["markers"] = ["P"]*len(config_summary["files"])
+	config_summary["x_lims"] = [0.0, 2.0]
+	config_summary["y_lims"] = [0.0, len(config_summary["files"])]
+	config_summary["x_label"] = "Best fit r"
+	config_summary["y_label"] = ""
+	config_summary["y_tick_labels"].remove("combination")
+	config_summary["y_tick_labels"].insert(0, "combination")
+	config_summary["grid"] = True
+	plot_configs.append(config_summary)
+
 	# create result plots HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
