@@ -453,78 +453,80 @@ class Samples(samples.SamplesBase):
 					"noplot_wj_ss",
 					nick_suffix=nick_suffix
 			)
-			Samples._add_input(
-					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"),
-					channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
-					1.0,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
-					"noplot_wj_ss_data_control",
-					nick_suffix=nick_suffix
-			)
-			Samples._add_input(
-					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["ztt", "zttlep"] if channel in ["et", "mt"] else ["tt"])]),
-					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
-					"noplot_ztt_ss_mc_wj_control",
-					nick_suffix=nick_suffix
-			)
-			Samples._add_input(
-					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["zl", "zj", "zll"] if channel in ["et", "mt"] else ["ee", "mm"])]),
-					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
-					"noplot_zll_ss_wj_control",
-					nick_suffix=nick_suffix
-			)
-			Samples._add_input(
-					config,
-					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
-					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
-					"noplot_ttj_ss_wj_control",
-					nick_suffix=nick_suffix
-			)
-			Samples._add_input(
-					config,
-					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
-					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
-					"noplot_vv_ss_wj_control",
-					nick_suffix=nick_suffix
-			)
-			Samples._add_input(
-					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
-					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
-					"noplot_wj_ss_mc_signal",
-					nick_suffix=nick_suffix
-			)
-			Samples._add_input(
-					config,
-					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
-					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
-					"noplot_wj_ss_mc_control",
-					nick_suffix=nick_suffix
-			)
 			
-			if not "EstimateWjets" in config.get("analysis_modules", []):
-				config.setdefault("analysis_modules", []).append("EstimateWjets")
-			config.setdefault("wjets_from_mc", []).append(False)
-			config.setdefault("wjets_shape_nicks", []).append("noplot_wj_ss"+nick_suffix)
-			config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_ss_data_control"+nick_suffix)
-			config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
-			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_ss_mc_signal"+nick_suffix)
-			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
+			if channel in ["mt", "et"]:
+				Samples._add_input(
+						config,
+						"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"),
+						channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
+						1.0,
+						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+						"noplot_wj_ss_data_control",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+						" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["ztt", "zttlep"] if channel in ["et", "mt"] else ["tt"])]),
+						lumi,
+						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+						"noplot_ztt_ss_mc_wj_control",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+						" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["zl", "zj", "zll"] if channel in ["et", "mt"] else ["ee", "mm"])]),
+						lumi,
+						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+						"noplot_zll_ss_wj_control",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+						channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
+						lumi,
+						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+						"noplot_ttj_ss_wj_control",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+						channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
+						lumi,
+						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+						"noplot_vv_ss_wj_control",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+						channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
+						lumi,
+						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
+						"noplot_wj_ss_mc_signal",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
+						channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
+						lumi,
+						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
+						"noplot_wj_ss_mc_control",
+						nick_suffix=nick_suffix
+				)
+			
+				if not "EstimateWjets" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("EstimateWjets")
+				config.setdefault("wjets_from_mc", []).append(False)
+				config.setdefault("wjets_shape_nicks", []).append("noplot_wj_ss"+nick_suffix)
+				config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_ss_data_control"+nick_suffix)
+				config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
+				config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_ss_mc_signal"+nick_suffix)
+				config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
 			
 			# QCD
 			Samples._add_input(
