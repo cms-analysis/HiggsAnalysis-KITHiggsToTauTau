@@ -185,7 +185,7 @@ if __name__ == "__main__":
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 			
-					config["x_expressions"] = args.quantity
+					config["x_expressions"] = [args.quantity]
 			
 					config["directories"] = [args.input_dir]
 					

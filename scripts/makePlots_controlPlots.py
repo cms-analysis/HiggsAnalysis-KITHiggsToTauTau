@@ -114,7 +114,7 @@ if __name__ == "__main__":
 						exclude_cuts=args.exclude_cuts+(["mt"] if quantity == "mt_1" else [])+(["pzeta"] if quantity == "pzetamiss" else [])
 				)
 				
-				config["x_expressions"] = quantity
+				config["x_expressions"] = [quantity]
 				
 				binnings_key = channel+"_"+quantity
 				if binnings_key in binnings_settings.binnings_dict:
