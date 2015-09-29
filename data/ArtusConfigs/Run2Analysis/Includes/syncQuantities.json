@@ -150,6 +150,9 @@
 		"pt_tt",
 		"dilepton_veto",
 		"extraelec_veto",
-		"extramuon_veto"
+		"extramuon_veto",
+		"metProjectionPar",
+		"metProjectionPerp",
+		"metProjectionPhi"
 	]
 }

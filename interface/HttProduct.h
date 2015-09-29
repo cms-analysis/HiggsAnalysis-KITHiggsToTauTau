@@ -10,7 +10,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiTauPair.h"
-
+#include "TVector2.h"
 
 class HttProduct : public KappaProduct
 {
@@ -83,7 +83,7 @@ public:
 	RMFLV m_diLeptonPlusMetSystem;
 
 	// filled by the MetprojectionProducer
-	double m_metProjection;
+	TVector2 m_metProjection;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
