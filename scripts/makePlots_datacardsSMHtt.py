@@ -108,9 +108,9 @@ if __name__ == "__main__":
 		
 		# prepare category settings based on args and datacards
 		if (len(categories) == 1) and (categories[0] == "all"):
-			categories = datacards.cb.bin_set()
+			categories = datacards.cb.cp().channel([channel]).bin_set()
 		else:
-			categories = list(set(categories).intersection(set(datacards.cb.bin_set())))
+			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
 		args.categories[index] = categories
 		
 		# restrict CombineHarvester to configured categories:
