@@ -441,13 +441,13 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("QCD", 1.0)
 		
-		if channel in ["et", "mt"]:
+		if channel in ["et", "mt", "em"]:
 
 			# WJets for QCD estimate
 			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_z/ntuple",
+					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"noplot_wj_ss",
@@ -455,8 +455,8 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
-					channel+"_jecUnc_z/ntuple",
+					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"),
+					channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					1.0,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_wj_ss_data_control",
@@ -465,7 +465,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_ztt/ntuple " + channel+"_jecUncNom_zttlep/ntuple",
+					" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["ztt", "zttlep"] if channel in ["et", "mt"] else ["tt"])]),
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_ztt_ss_mc_wj_control",
@@ -474,7 +474,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple " + channel+"_jecUncNom_zll/ntuple",
+					" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["zl", "zj", "zll"] if channel in ["et", "mt"] else ["ee", "mm"])]),
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_zll_ss_wj_control",
@@ -483,7 +483,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_z/ntuple",
+					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_ttj_ss_wj_control",
@@ -492,7 +492,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_z/ntuple",
+					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_vv_ss_wj_control",
@@ -501,7 +501,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_z/ntuple",
+					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"noplot_wj_ss_mc_signal",
@@ -510,7 +510,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_z/ntuple",
+					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
 					"noplot_wj_ss_mc_control",
@@ -529,8 +529,8 @@ class Samples(samples.SamplesBase):
 			# QCD
 			Samples._add_input(
 					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
-					channel+"_jecUnc_z/ntuple",
+					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"),
+					channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					1.0,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"qcd",
@@ -538,8 +538,8 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root",
-					channel+"_jecUnc_z/ntuple",
+					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"),
+					channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					1.0,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"noplot_data_qcd_control",
@@ -548,7 +548,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_ztt/ntuple " + channel+"_jecUncNom_zttlep/ntuple",
+					" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["ztt", "zttlep"] if channel in ["et", "mt"] else ["tt"])]),
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"noplot_ztt_mc_qcd_control",
@@ -557,7 +557,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple " + channel+"_jecUncNom_zll/ntuple",
+					" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["zl", "zj", "zll"] if channel in ["et", "mt"] else ["ee", "mm"])]),
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"noplot_zll_qcd_control",
@@ -566,7 +566,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"TT_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_z/ntuple",
+					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"noplot_ttj_qcd_control",
@@ -575,7 +575,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"??To*_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
-					channel+"_jecUncNom_z/ntuple",
+					channel+"_jecUncNom"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"noplot_vv_qcd_control",
@@ -589,17 +589,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
 			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
 			config.setdefault("qcd_subtract_shape", []).append(False) # True currently not supported
-
-		elif channel == "em":
-			Samples._add_input(
-					config,
-					"MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
-					channel+"_jecUnc/ntuple",
-					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
-					"qcd",
-					nick_suffix=nick_suffix
-			)
+		
 		elif channel == "tt":
 			Samples._add_input(
 					config,
