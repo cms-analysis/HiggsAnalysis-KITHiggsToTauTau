@@ -12,6 +12,7 @@ import os
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 
 
 if __name__ == "__main__":
@@ -91,9 +92,11 @@ if __name__ == "__main__":
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
-
+	
+	binnings_settings = binnings.BinningsDict()
+	
 	args.categories = [None if category == "None" else category for category in args.categories]
-
+	
 	plot_configs = []
 	for channel in args.channels:
 		for category in args.categories:
@@ -112,7 +115,10 @@ if __name__ == "__main__":
 				)
 				
 				config["x_expressions"] = quantity
-				config["x_bins"] = [channel+"_"+quantity]
+				
+				binnings_key = channel+"_"+quantity
+				if binnings_key in binnings_settings.binnings_dict:
+					config["x_bins"] = [binnings_key]
 				config["x_label"] = channel+"_"+quantity
 				config["title"] = "channel_"+channel
 				
@@ -124,7 +130,7 @@ if __name__ == "__main__":
 				
 				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
 					config.setdefault("analysis_modules", []).append("PrintInfos")
-
+				
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 					if not "Ratio" in config.get("analysis_modules", []):
@@ -135,7 +141,7 @@ if __name__ == "__main__":
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)	
-
+				
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
 						channel if len(args.channels) > 1 else "",
@@ -154,10 +160,10 @@ if __name__ == "__main__":
 							category if len(args.categories) > 1 else ""
 					))
 				plot_configs.append(config)
-
+	
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-			
+	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
