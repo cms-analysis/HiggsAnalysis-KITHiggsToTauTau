@@ -16,6 +16,7 @@ import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
 
@@ -72,6 +73,7 @@ if __name__ == "__main__":
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
+	binnings_settings = binnings.BinningsDict()
 	systematics_factory = systematics.SystematicsFactory()
 	
 	plot_configs = []
@@ -156,7 +158,13 @@ if __name__ == "__main__":
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
-					config["x_expressions"] = args.quantity
+					config["x_expressions"] = [args.quantity]
+					
+					binnings_key = "binningHtt13TeV_"+category+"_svfitMass"
+					if binnings_key in binnings_settings.binnings_dict:
+						config["x_bins"] = [binnings_key]
+					else:
+						config["x_bins"] = ["35,0.0,350.0"]
 					
 					config["directories"] = [args.input_dir]
 					

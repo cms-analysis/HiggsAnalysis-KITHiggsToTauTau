@@ -449,3 +449,22 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt8TeV_"+"tt_1jet_high_highhiggs"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"tt_2jet_vbf"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 
+		# H->tautau binnings
+		for channel in ["tt", "mt", "et", "em"]:
+			self.binnings_dict["binningHtt13TeV_"+channel+"_inclusive_svfitMass"] = self.binnings_dict.get(
+					"binningHtt8TeV_"+channel+"_0jet_low",
+					"0.0 25.0 50.0 75.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 250.0 350.0"
+			)
+			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_inclusive_svfitMass"] = self.binnings_dict.get(
+					"binningHtt8TeV_"+channel+"_0jet_low",
+					"0.0 25.0 50.0 75.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 250.0 350.0"
+			)
+			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_inclusive_svfitMass"] = self.binnings_dict.get(
+					"binningHtt8TeV_"+channel+"_0jet_low",
+					"0.0 25.0 50.0 75.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 250.0 350.0"
+			)
+			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_vbf_svfitMass"] = self.binnings_dict.get(
+					"binningHtt8TeV_"+channel+"_0jet_low",
+					"0.0 25.0 50.0 75.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 250.0 350.0"
+			)
+
