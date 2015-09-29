@@ -12,6 +12,7 @@ import os
 import combineharvester as ch
 
 import Artus.Utility.tools as tools
+import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
@@ -74,6 +75,7 @@ if __name__ == "__main__":
 	systematics_factory = systematics.SystematicsFactory()
 	
 	plot_configs = []
+	output_files = []
 	hadd_commands = []
 	
 	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses)
@@ -124,6 +126,7 @@ if __name__ == "__main__":
 					BIN=category,
 					ERA="13TeV"
 			))
+			output_files.append(output_file)
 			tmp_output_files = []
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
@@ -193,15 +196,21 @@ if __name__ == "__main__":
 	#	pprint.pprint(plot_configs)
 	
 	# delete existing output files
-	output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-	for output_file in output_files:
+	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
+	for output_file in tmp_output_files:
 		if os.path.exists(output_file):
 			os.remove(output_file)
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	output_files = list(set(output_files))
 	
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	
+	debug_plot_configs = []
+	for output_file in output_files:
+		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
+	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
