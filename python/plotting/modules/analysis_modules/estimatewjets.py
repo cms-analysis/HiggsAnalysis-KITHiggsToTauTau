@@ -87,7 +87,7 @@ class EstimateWjets(estimatebase.EstimateBase):
 				plotData.metadata[wjets_shape_nick] = {
 					"yield" : final_yield.nominal_value,
 					"yield_unc" : final_yield.std_dev,
-					"yield_unc_rel" : (final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
+					"yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
 				}
 				
 				integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_shape_nick])()

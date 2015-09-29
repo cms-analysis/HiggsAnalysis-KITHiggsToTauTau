@@ -186,7 +186,7 @@ class Datacards(object):
 											PROCESS=process
 									)
 									yield_unc_rel = Datacards.get_yield_unc_rel(bkg_histogram_name, root_file, root_object_paths)
-									if not yield_unc_rel is None:
+									if (not yield_unc_rel is None) and (yield_unc_rel != 0.0):
 										cb_backgrounds.cp().process([process]).AddSyst(
 												self.cb,
 												"CMS_$ANALYSIS_$PROCESS_estimation_$ERA",
@@ -206,7 +206,7 @@ class Datacards(object):
 													MASS=mass
 											)
 											yield_unc_rel = Datacards.get_yield_unc_rel(sig_histogram_name, root_file, root_object_paths)
-											if not yield_unc_rel is None:
+											if (not yield_unc_rel is None) and (yield_unc_rel != 0.0):
 												cb_backgrounds.cp().process([process]).mass([mass]).AddSyst(
 														self.cb,
 														"CMS_$ANALYSIS_$PROCESS$MASS_estimation_$ERA",
