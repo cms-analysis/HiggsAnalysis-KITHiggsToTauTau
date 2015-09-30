@@ -334,12 +334,17 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 		
 		if channel in ["mt", "et"]:
+			shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts)
+			if (not category is None) and (category != ""):
+				# relaxed isolation
+				shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"]) + "*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
+			
 			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD*/*.root",
 					channel+"_jecUncNom_z/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					shape_weight,
 					"wj",
 					nick_suffix=nick_suffix
 			)
@@ -529,12 +534,20 @@ class Samples(samples.SamplesBase):
 				config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
 			
 			# QCD
+			shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)"
+			if (not category is None) and (category != ""):
+				# relaxed/inverted isolation
+				if channel in ["et", "mt"]:
+					shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_2"]) + "*((q_1*q_2)>0.0)"+"*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
+				else:
+					shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"]) + "*((q_1*q_2)>0.0)"
+			
 			Samples._add_input(
 					config,
 					"SingleMuon_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_MINIAOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"),
 					channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_2"]) + "*((q_1*q_2)>0.0)"+("*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)" if channel in ["et", "mt"] else "*(iso_2>0.15)"),
+					shape_weight,
 					"qcd",
 					nick_suffix=nick_suffix
 			)
