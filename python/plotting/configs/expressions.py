@@ -30,10 +30,10 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"
-			pt_cut = "45.0" if channel in ["mt", "et", "tt"] else "35.0"
+			pt_cut = "35.0" if channel in ["mt", "et", "tt"] else "35.0"
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
-			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>500.0)*(jdeta>3.5)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>350.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"] = ("(! ({vbf}))".format(
 					vbf=self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"]
 			))+"*(njetspt30>0)"
