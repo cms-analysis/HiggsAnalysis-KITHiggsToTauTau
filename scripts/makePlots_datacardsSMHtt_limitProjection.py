@@ -90,12 +90,10 @@ if __name__ == "__main__":
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 		
 		# Max. likelihood fit and postfit plots
-		"""
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 0 -M MaxLikelihoodFit -n \"\"")
-		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
+		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M MaxLikelihoodFit -n \"\"")
+		#datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+		#datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
 		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MaxLikelihoodFit*mH*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
-		"""
 		
 		# Asymptotic limits
 		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M Asymptotic -n \"\"")
@@ -108,7 +106,10 @@ if __name__ == "__main__":
 		plot_configs = []
 		
 		json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_unc_over_lumi.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_obs_limit_over_lumi.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_pvalue_over_lumi.json",
 		]]

@@ -1,0 +1,101 @@
+{
+	"analysis_modules": [
+		"GraphCombination",
+		"StatisticalErrors"
+	],
+	"colors": [
+		"#fcf10f",
+		"#00ff00",
+		"#ff0000"
+	],
+	"files": [
+		"higgsCombine*Asymptotic*mH*.root"
+	],
+	"fill_styles": [
+		1001
+	],
+	"folders": [
+		"limit"
+	],
+	"graph_error_modes": [
+		"abs"
+	],
+	"graph_high_errors_nicks": [
+		"p2s_noplot",
+		"p1s_noplot"
+	],
+	"graph_low_errors_nicks": [
+		"m2s_noplot",
+		"m1s_noplot"
+	],
+	"graph_result_nicks": [
+		"2s",
+		"1s"
+	],
+	"graph_values_nicks": [
+		"central",
+		"central"
+	],
+	"line_widths": [
+		2
+	],
+	"labels": [
+		"#pm 2#sigma Expected",
+		"#pm 1#sigma Expected",
+		"Expected"
+	],
+	"legend_markers": [
+		"F",
+		"F",
+		"L"
+	],
+	"markers": [
+		"E3",
+		"E3",
+		"L"
+	],
+	"nicks": [
+		"central",
+		"m2s_noplot",
+		"m1s_noplot",
+		"p1s_noplot",
+		"p2s_noplot"
+	],
+	"stat_error_nicks" : [
+		"2s",
+		"1s",
+		"central"
+	],
+	"stat_error_relative" : false,
+	"tree_draw_options": [
+		"TGraph",
+		"TGraphErrors",
+		"TGraphErrors",
+		"TGraphErrors",
+		"TGraphErrors"
+	],
+	"weights": [
+		"quantileExpected>0.2 && quantileExpected<0.8",
+		"quantileExpected>0.0 && quantileExpected<0.1",
+		"quantileExpected>0.1 && quantileExpected<0.2",
+		"quantileExpected>0.8 && quantileExpected<0.9",
+		"quantileExpected>0.9"
+	],
+	"x_expressions": [
+		"lumi",
+		"0:lumi",
+		"0:lumi",
+		"0:lumi",
+		"0:lumi"
+	],
+	"x_label": "Integrated Luminosity / fb^{-1}",
+	"y_expressions": [
+		"limit",
+		"0:limit",
+		"0:limit",
+		"0:limit",
+		"0:limit"
+	],
+	"y_label": "Uncertainty on 95% CL Limit on #sigma/#sigma_{SM}",
+	"filename": "exp_limit_unc_over_lumi"
+}
