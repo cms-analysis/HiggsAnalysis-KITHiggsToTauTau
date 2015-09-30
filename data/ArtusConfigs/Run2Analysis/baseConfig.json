@@ -70,7 +70,7 @@
 		"nick" : {
 			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],
 			"Run2015B" : [
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-255031_13TeV_PromptReco_Collisions15_50ns_JSON.txt"
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-255031_13TeV_PromptReco_Collisions15_50ns_JSON_v2.txt"
 			],
 			"Run2015C" : [
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-255031_13TeV_PromptReco_Collisions15_25ns_JSON_v2.txt"
