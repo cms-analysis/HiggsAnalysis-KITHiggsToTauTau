@@ -229,14 +229,15 @@ class Datacards(object):
 	def add_bin_by_bin_uncertainties(self, processes, add_threshold=0.1, merge_threshold=0.5, fix_norm=True):
 		bin_by_bin_factory = ch.BinByBinFactory()
 		if log.isEnabledFor(logging.DEBUG):
-			bin_by_bin_factory.SetVerbosity(1)
+			bin_by_bin_factory.SetVerbosity(100)
 		
 		bin_by_bin_factory.SetAddThreshold(add_threshold)
 		bin_by_bin_factory.SetMergeThreshold(merge_threshold)
 		bin_by_bin_factory.SetFixNorm(fix_norm)
 		
+		bin_by_bin_factory.MergeBinErrors(self.cb.cp().process(processes))
 		bin_by_bin_factory.AddBinByBin(self.cb.cp().process(processes), self.cb)
-		ch.SetStandardBinNames(self.cb)
+		#ch.SetStandardBinNames(self.cb) # TODO: this line seems to mix up the categories
 	
 	def scale_expectation(self, scale_factor):
 		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
