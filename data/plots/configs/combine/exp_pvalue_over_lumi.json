@@ -33,7 +33,7 @@
 	"x_expressions": [
 		"lumi"
 	],
-	"x_label" : "Integrated Luminosity / fb",
+	"x_label" : "Integrated Luminosity / fb^{-1}",
 	"x_lines": [
 		"1e-10 1e10"
 	],

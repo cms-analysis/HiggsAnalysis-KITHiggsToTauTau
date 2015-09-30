@@ -31,5 +31,5 @@
 		"CF"
 	],
 	"y_label" : "#kappa_{F}",
-	"z_label" : "Integrated Luminosity / fb"
+	"z_label" : "Integrated Luminosity / fb^{-1}"
 }
