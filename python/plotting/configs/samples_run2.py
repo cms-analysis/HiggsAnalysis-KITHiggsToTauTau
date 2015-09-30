@@ -68,7 +68,7 @@ class Samples(samples.SamplesBase):
 		
 		return config
 	
-	def data(self, config, channel, weight, nick_suffix, exclude_cuts=None, **kwargs):
+	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -122,7 +122,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 	
-	def ztt(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+	def ztt(self, config, channel, category, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -158,7 +158,7 @@ class Samples(samples.SamplesBase):
 		
 		return config
 	
-	def zll(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+	def zll(self, config, channel, category, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -194,7 +194,7 @@ class Samples(samples.SamplesBase):
 		return config
 	
 
-	def ttj(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+	def ttj(self, config, channel, category, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -300,7 +300,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 
-	def vv(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+	def vv(self, config, channel, category, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -325,7 +325,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 	
-	def wj(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+	def wj(self, config, channel, category, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -433,7 +433,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
 
-	def qcd(self, config, channel, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
+	def qcd(self, config, channel, category, weight, nick_suffix, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -620,16 +620,16 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 	
-	def htt(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
+	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
-		config = self.ggh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb,
-		                  lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.qqh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb,
-		                  lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.vh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb,
-		                 lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
@@ -641,7 +641,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
-	def ggh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
+	def ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -668,7 +668,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_plot(config, "sig", "LINE", "L", "ggh"+str(mass), nick_suffix)
 		return config
 	
-	def qqh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
+	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -695,7 +695,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_plot(config, "sig", "LINE", "L", "qqh"+str(mass), nick_suffix)
 		return config
 	
-	def vh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
+	def vh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=40.03, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
