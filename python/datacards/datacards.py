@@ -371,12 +371,20 @@ class Datacards(object):
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
 	def print_pulls(self, datacards_cbs, n_processes=1, *args):
-		commands = [[
-				"python $CMSSW_BASE//src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py {ARGS} {FIT_RESULT}".format(
-						ARGS=" ".join(args),
-						FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root")
-				)
-		] for datacard in datacards_cbs.keys()]
+		commands = []
+		for pulls_format, file_format in zip(["latex", "text"], ["tex", "txt"]):
+			for all_nuissances in [False, True]:
+				commands.extend([[
+						"execute-command.py \"python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -f {FORMAT} {ALL} {PLOT} {ARGS} {FIT_RESULT}\" --log-file {LOG_FILE}".format(
+								FORMAT=pulls_format,
+								ALL=("-a" if all_nuissances else ""),
+								PLOT="-g "+("" if all_nuissances else "largest_")+"pulls.root",
+								ARGS=" ".join(args),
+								FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root"),
+								LOG_FILE=("" if all_nuissances else "largest_")+"pulls."+file_format
+						),
+						os.path.dirname(datacard)
+				] for datacard in datacards_cbs.keys()])
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 
