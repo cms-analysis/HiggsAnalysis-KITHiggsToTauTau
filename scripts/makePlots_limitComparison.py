@@ -50,6 +50,9 @@ if __name__ == "__main__":
 		tmp_plot_config = copy.deepcopy(json_config)
 		
 		tmp_plot_config["directories"] = [input_dir]
+		for key in ["x_expressions", "z_expressions", "z_expressions"]:
+			if not tmp_plot_config.get(key, None) is None:
+				tmp_plot_config[key] = [expression.replace("lumi", "(lumi/1000.0)") for expression in tmp_plot_config[key]]
 		
 		tmp_plot_config["plot_modules"] = ["ExportRoot"]
 		tmp_plot_config["nicks_instead_labels"] = True
