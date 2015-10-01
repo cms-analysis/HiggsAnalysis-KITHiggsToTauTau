@@ -60,77 +60,106 @@ if __name__ == "__main__":
 		
 		datacards = smhttdatacards.SMHttDatacards(cb=cb)
 		
-		output_dir_base = args.output_dir
-		if output_dir_base is None:
-			output_dir_base = os.path.join(os.path.splitext(datacard)[0], "projection/limit")
-		output_dir_base = os.path.abspath(os.path.expandvars(output_dir_base))
-		
-		if args.clear_output_dir and os.path.exists(output_dir_base):
-			logger.subprocessCall("rm -r " + output_dir_base, shell=True)
-		
-		# scale datacards
-		datacards_cbs = {}
-		for lumi in args.lumis:
-			output_dir = os.path.join(output_dir_base, "{:06}".format(lumi))
-			if not os.path.exists(output_dir):
-				os.makedirs(output_dir)
+		for freeze_syst_uncs in [False, True]:
 			
-			scaled_datacards = smhttdatacards.SMHttDatacards(cb=datacards.cb.deep())
+			output_dir_base = args.output_dir
+			if output_dir_base is None:
+				output_dir_base = os.path.join(os.path.splitext(datacard)[0], "projection/defaultModel", "statUnc" if freeze_syst_uncs else "totUnc")
+			output_dir_base = os.path.abspath(os.path.expandvars(output_dir_base))
 			
-			lumi_scale_factor = lumi / args.lumi_datacards
-			scaled_datacards.scale_expectation(lumi_scale_factor)
-			#scaled_datacards.replace_observation_by_asimov_dataset("125")
+			if args.clear_output_dir and os.path.exists(output_dir_base):
+				logger.subprocessCall("rm -r " + output_dir_base, shell=True)
 			
-			datacards_cbs.update(scaled_datacards.write_datacards(
-					os.path.basename(datacard),
-					os.path.splitext(os.path.basename(datacard))[0]+"_input.root",
-					output_dir
+			# scale datacards
+			datacards_cbs = {}
+			for lumi in args.lumis:
+				output_dir = os.path.join(output_dir_base, "{:06}".format(lumi))
+				if not os.path.exists(output_dir):
+					os.makedirs(output_dir)
+			
+				scaled_datacards = smhttdatacards.SMHttDatacards(cb=datacards.cb.deep())
+				
+				lumi_scale_factor = lumi / args.lumi_datacards
+				scaled_datacards.scale_expectation(lumi_scale_factor)
+				#scaled_datacards.replace_observation_by_asimov_dataset("125")
+				
+				datacards_cbs.update(scaled_datacards.write_datacards(
+						os.path.basename(datacard),
+						os.path.splitext(os.path.basename(datacard))[0]+"_input.root",
+						output_dir
+				))
+				
+				if freeze_syst_uncs:
+					logger.subprocessCall("cp {src} {dst}".format(
+							src=os.path.join(output_dir.replace("projection/defaultModel/statUnc", "projection/defaultModel/totUnc"), "higgsCombine*MultiDimFit*mH*.root"),
+							dst=os.path.join(output_dir, "workspacePlusSnapshot.root")
+					), shell=True)
+			
+			datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
+			if freeze_syst_uncs:
+				datacards_workspaces = {datacard : workspace.replace(os.path.splitext(os.path.basename(datacard))[0]+".root", "workspacePlusSnapshot.root") for datacard, workspace in datacards_workspaces.iteritems()}
+			
+			json_configs = []
+			
+			stable_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
+			
+			# Multi-dimensional fit (in 1D)
+			datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M MultiDimFit --algo singles {freeze} {stable} -n \"\"".format(
+					freeze="--snapshotName MultiDimFit -S 0" if freeze_syst_uncs else "--saveWorkspace",
+					stable=stable_options
 			))
-		
-		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
-		
-		# Max. likelihood fit and postfit plots
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M MaxLikelihoodFit -n \"\"")
-		datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-		#datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
-		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MaxLikelihoodFit*mH*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
-		
-		# Asymptotic limits
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M Asymptotic -n \"\"")
-		datacards.annotate_trees(datacards_workspaces, "higgsCombine*Asymptotic*mH*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
-		
-		# Significances/p-values
-		datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 --toysFreq -M ProfileLikelihood --significance --pvalue -n \"\"")
-		datacards.annotate_trees(datacards_workspaces, "higgsCombine*ProfileLikelihood*mH125*.root", "projection/limit/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
-		
-		plot_configs = []
-		
-		json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in [
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_unc_over_lumi.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_obs_limit_over_lumi.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_pvalue_over_lumi.json",
-		]]
-		for config in json_configs:
-			config["directories"] = os.path.join(output_dir_base, "*")
-			config["x_expressions"] = [x.replace("lumi", "(lumi/1000.0)") for x in config.get("x_expressions", [])]
+			datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
 			
-			if not config.get("labels", None) is None:
-				config["legend"] = [0.45, 0.88-(len(config["labels"])*0.05), 0.9, 0.88]
+			json_configs.extend([
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
+			])
 			
-			if "pvalue" in config.get("filename", ""):
-				config["x_lims"] = [min(args.lumis)/1000.0, max(args.lumis)/1000.0]
+			if not freeze_syst_uncs:
 			
-			config["output_dir"] = os.path.join(output_dir_base, "plots")
+				# Max. likelihood fit and postfit plots
+				datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M MaxLikelihoodFit {stable} -n \"\"".format(stable=stable_options))
+				datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+				#datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
+				datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+				datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+				datacards.annotate_trees(datacards_workspaces, "higgsCombine*MaxLikelihoodFit*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+				
+				# Asymptotic limits
+				datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M Asymptotic -n \"\"")
+				datacards.annotate_trees(datacards_workspaces, "higgsCombine*Asymptotic*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+				json_configs.extend([
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_unc_over_lumi.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_obs_limit_over_lumi.json",
+				])
 		
-			plot_configs.append(config)
+				# Significances/p-values
+				datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 --toysFreq -M ProfileLikelihood --significance --pvalue -n \"\"")
+				datacards.annotate_trees(datacards_workspaces, "higgsCombine*ProfileLikelihood*mH125*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+				json_configs.extend([
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_pvalue_over_lumi.json",
+				])
 		
-		if log.isEnabledFor(logging.DEBUG):
-			import pprint
-			pprint.pprint(plot_configs)
+			plot_configs = []
+			json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in json_configs]
+			for config in json_configs:
+				config["directories"] = os.path.join(output_dir_base, "*")
+				config["x_expressions"] = [x.replace("lumi", "(lumi/1000.0)") for x in config.get("x_expressions", [])]
+			
+				if not config.get("labels", None) is None:
+					config["legend"] = [0.45, 0.88-(len(config["labels"])*0.05), 0.9, 0.88]
+			
+				if "pvalue" in config.get("filename", ""):
+					config["x_lims"] = [min(args.lumis)/1000.0, max(args.lumis)/1000.0]
+			
+				config["output_dir"] = os.path.join(output_dir_base, "plots")
 		
-		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+				plot_configs.append(config)
+		
+			if log.isEnabledFor(logging.DEBUG):
+				import pprint
+				pprint.pprint(plot_configs)
+		
+			higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
