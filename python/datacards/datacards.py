@@ -293,12 +293,28 @@ class Datacards(object):
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 	
-	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, n_processes=1, *args):
-		commands = ["annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
-				FILES=os.path.join(os.path.dirname(workspace), root_filename),
-				VALUE=float(re.search(value_regex, workspace).groups()[0]),
-				ARGS=" ".join(args)
-		) for datacard, workspace in datacards_workspaces.iteritems()]
+	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, *args):
+		print "datacards_workspaces", datacards_workspaces
+		print "root_filename", root_filename
+		print "value_regex", value_regex
+		print "value_replacements", value_replacements
+		print "n_processes", n_processes
+		print "args", args
+		if value_replacements is None:
+			value_replacements = {}
+		
+		commands = []
+		for datacard, workspace in datacards_workspaces.iteritems():
+			search_result = re.search(value_regex, workspace)
+			if not search_result is None:
+				value = search_result.groups()[0]
+				float_value = float(value_replacements.get(value, value))
+				
+				commands.append("annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
+						FILES=os.path.join(os.path.dirname(workspace), root_filename),
+						VALUE=float_value,
+						ARGS=" ".join(args)
+				))
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 	

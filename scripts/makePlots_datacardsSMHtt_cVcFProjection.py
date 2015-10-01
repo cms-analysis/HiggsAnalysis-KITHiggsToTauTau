@@ -112,7 +112,7 @@ if __name__ == "__main__":
 						N_BINS=int(cv_bins[0] * cf_bins[0])
 				)
 		)
-		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/cv_cf/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/cv_cf/(\d*)/.*.root", None, args.n_processes, "-t limit -b lumi")
 
 		# plotting
 		plot_configs = []

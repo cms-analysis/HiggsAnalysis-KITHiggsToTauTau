@@ -108,7 +108,7 @@ if __name__ == "__main__":
 					freeze="--snapshotName MultiDimFit -S 0" if freeze_syst_uncs else "--saveWorkspace",
 					stable=stable_options
 			))
-			datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+			datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", None, args.n_processes, "-t limit -b lumi")
 			
 			json_configs.extend([
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
@@ -123,11 +123,11 @@ if __name__ == "__main__":
 				#datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
 				datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 				datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
-				datacards.annotate_trees(datacards_workspaces, "higgsCombine*MaxLikelihoodFit*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+				datacards.annotate_trees(datacards_workspaces, "higgsCombine*MaxLikelihoodFit*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", None, args.n_processes, "-t limit -b lumi")
 				
 				# Asymptotic limits
 				datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 -M Asymptotic -n \"\"")
-				datacards.annotate_trees(datacards_workspaces, "higgsCombine*Asymptotic*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+				datacards.annotate_trees(datacards_workspaces, "higgsCombine*Asymptotic*mH*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", None, args.n_processes, "-t limit -b lumi")
 				json_configs.extend([
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_unc_over_lumi.json",
@@ -136,7 +136,7 @@ if __name__ == "__main__":
 		
 				# Significances/p-values
 				datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-t -1 --expectSignal 1 --toysFreq -M ProfileLikelihood --significance --pvalue -n \"\"")
-				datacards.annotate_trees(datacards_workspaces, "higgsCombine*ProfileLikelihood*mH125*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
+				datacards.annotate_trees(datacards_workspaces, "higgsCombine*ProfileLikelihood*mH125*.root", "projection/defaultModel/.*Unc/(\d*)/.*.root", None, args.n_processes, "-t limit -b lumi")
 				json_configs.extend([
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_pvalue_over_lumi.json",
 				])
