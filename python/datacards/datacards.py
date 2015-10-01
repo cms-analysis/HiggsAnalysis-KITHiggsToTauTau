@@ -239,6 +239,14 @@ class Datacards(object):
 		bin_by_bin_factory.AddBinByBin(self.cb.cp().process(processes), self.cb)
 		#ch.SetStandardBinNames(self.cb) # TODO: this line seems to mix up the categories
 	
+	def remove_systematics(self):
+		def remove(systematic):
+			systematic.set_type("lnN")
+			systematic.set_value_u(0.0)
+			systematic.set_value_d(0.0)
+		
+		self.cb.ForEachSyst(remove)
+	
 	def scale_expectation(self, scale_factor):
 		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
 		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
