@@ -24,10 +24,12 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Plot comparisons of combine outputs.",
 	                                 parents=[logger.loggingParser])
 	
-	parser.add_argument("-i", "--input-dirs", nargs="+", required=True,
-	                    help="Input directories containing files <mass>/higgsCombine-<exp|obs>.Asymptotic.mH<mass>.root.")
 	parser.add_argument("-j", "--json-config", default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_mass_without_band.json",
 	                    help="JSON config specifying the type of plot. [Default: %(default)s]")
+	parser.add_argument("-i", "--input-dirs", nargs="+", required=True,
+	                    help="Input directories containing files <mass>/higgsCombine-<exp|obs>.Asymptotic.mH<mass>.root.")
+	parser.add_argument("--nicks", nargs="+",
+	                    help="Nicks from single plots to put into the comparison plot. [Ddefault: all]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -69,6 +71,9 @@ if __name__ == "__main__":
 	root_object_paths = []
 	with tfilecontextmanager.TFileContextManager(tmp_input_files[0], "READ") as root_file:
 		root_object_paths = zip(*roottools.RootTools.walk_root_directory(root_file))[-1]
+	plot_indices = range(len(root_object_paths))
+	if not args.nicks is None:
+		root_object_paths, plot_indices = zip(*[(nick, root_object_paths.index(nick)) for nick in args.nicks if nick in root_object_paths])
 	
 	plot_config["files"] = tmp_input_files * len(root_object_paths)
 	plot_config["x_expressions"] = list(itertools.chain(*[[root_object_path] * len(tmp_input_files) for root_object_path in root_object_paths]))
@@ -76,7 +81,7 @@ if __name__ == "__main__":
 	for key in ["markers", "legend_markers", "labels", "line_widths", "fill_styles"]:
 		if key in json_config:
 			if len(json_config[key]) > 1:
-				plot_config[key] = list(itertools.chain(*[[item] * len(tmp_input_files) for item in json_config[key]]))
+				plot_config[key] = list(itertools.chain(*[[item] * len(tmp_input_files) for item in [json_config[key][index] for index in plot_indices]]))
 			else:
 				plot_config[key] = json_config[key]
 	
