@@ -67,7 +67,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	args.output_dir = os.path.expandvars(args.output_dir)
+	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
