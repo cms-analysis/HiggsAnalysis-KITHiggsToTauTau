@@ -261,6 +261,8 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
+	annotation_replacements = {channel : index for index, channel in enumerate(["combined", "tt", "mt", "et", "em"])}
+	
 	# Max. likelihood fit and postfit plots
 	stable_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit {stable} -n \"\"".format(stable=stable_options))
@@ -268,6 +270,22 @@ if __name__ == "__main__":
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+	datacards.annotate_trees(
+			datacards_workspaces,
+			"higgsCombine*MaxLikelihoodFit*mH*.root",
+			[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
+			annotation_replacements,
+			args.n_processes,
+			"-t limit -b channel"
+	)
+	datacards.annotate_trees(
+			datacards_workspaces,
+			"higgsCombine*MaxLikelihoodFit*mH*.root",
+			[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
+			annotation_replacements,
+			args.n_processes,
+			"-t limit -b channel"
+	)
 	
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M Asymptotic -n \"\"")

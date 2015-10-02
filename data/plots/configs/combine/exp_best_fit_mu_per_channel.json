@@ -1,0 +1,60 @@
+{
+	"analysis_modules": [
+		"GraphCombination"
+	],
+	"files": [
+		"higgsCombine*MaxLikelihoodFit*mH*.root"
+	],
+	"folders": [
+		"limit"
+	],
+	"graph_error_modes": [
+		"abs"
+	],
+	"graph_high_errors_nicks": [
+		"p1s_noplot"
+	],
+	"graph_low_errors_nicks": [
+		"m1s_noplot"
+	],
+	"graph_result_nicks": [
+		"1s"
+	],
+	"graph_values_nicks": [
+		"central_noplot"
+	],
+	"line_widths": [
+		2
+	],
+	"markers": [
+		"P"
+	],
+	"nicks": [
+		"central_noplot",
+		"m1s_noplot",
+		"p1s_noplot"
+	],
+	"tree_draw_options": [
+		"TGraph",
+		"TGraphErrors",
+		"TGraphErrors"
+	],
+	"weights": [
+		"quantileExpected>0.2 && quantileExpected<0.8",
+		"quantileExpected>0.1 && quantileExpected<0.2",
+		"quantileExpected>0.8 && quantileExpected<0.9"
+	],
+	"x_expressions": [
+		"limit",
+		"0:limit",
+		"0:limit"
+	],
+	"x_label": "Best fit #sigma/#sigma_{SM}",
+	"y_expressions": [
+		"channel",
+		"0:channel",
+		"0:channel"
+	],
+	"y_label": "",
+	"filename": "exp_best_fit_mu_per_channel"
+}
