@@ -62,7 +62,7 @@ if __name__ == "__main__":
 		
 		for freeze_syst_uncs in [False, True]:
 			
-			output_dir_base = args.output_dir
+			output_dir_base = None if args.output_dir is None else copy.deepcopy(args.output_dir)
 			if output_dir_base is None:
 				output_dir_base = os.path.join(os.path.splitext(datacard)[0], "projection/defaultModel", "statUnc" if freeze_syst_uncs else "totUnc")
 			output_dir_base = os.path.abspath(os.path.expandvars(output_dir_base))
@@ -72,6 +72,7 @@ if __name__ == "__main__":
 			
 			# scale datacards
 			datacards_cbs = {}
+			datacards_poi_ranges = {}
 			for lumi in args.lumis:
 				output_dir = os.path.join(output_dir_base, "{:06}".format(lumi))
 				if not os.path.exists(output_dir):
@@ -83,11 +84,19 @@ if __name__ == "__main__":
 				scaled_datacards.scale_expectation(lumi_scale_factor)
 				#scaled_datacards.replace_observation_by_asimov_dataset("125")
 				
-				datacards_cbs.update(scaled_datacards.write_datacards(
+				tmp_datacards_cbs = scaled_datacards.write_datacards(
 						os.path.basename(datacard),
 						os.path.splitext(os.path.basename(datacard))[0]+"_input.root",
 						output_dir
-				))
+				)
+				datacards_cbs.update(tmp_datacards_cbs)
+				for tmp_datacard, cb in tmp_datacards_cbs.iteritems():
+					if lumi < 10000.0:
+						datacards_poi_ranges[tmp_datacard] = [-20.0, 20.0]
+					elif lumi < 100000.0:
+						datacards_poi_ranges[tmp_datacard] = [-15.0, 15.0]
+					else:
+						datacards_poi_ranges[tmp_datacard] = [-10.0, 10.0]
 				
 				if freeze_syst_uncs:
 					logger.subprocessCall("cp {src} {dst}".format(
@@ -104,7 +113,7 @@ if __name__ == "__main__":
 			stable_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 			
 			# Multi-dimensional fit (in 1D)
-			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-t -1 --expectSignal 1 -M MultiDimFit --algo singles {freeze} {stable} -n \"\"".format(
+			datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-t -1 --expectSignal 1 -M MultiDimFit --algo singles {freeze} {stable} -n \"\"".format(
 					freeze="--snapshotName MultiDimFit -S 0" if freeze_syst_uncs else "--saveWorkspace",
 					stable=stable_options
 			))
@@ -115,10 +124,10 @@ if __name__ == "__main__":
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
 			])
 			
-			if not freeze_syst_uncs:
+			if False and not freeze_syst_uncs:
 			
 				# Max. likelihood fit and postfit plots
-				datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-t -1 --expectSignal 1 -M MaxLikelihoodFit {stable} -n \"\"".format(stable=stable_options))
+				datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-t -1 --expectSignal 1 -M MaxLikelihoodFit {stable} -n \"\"".format(stable=stable_options))
 				datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 				#datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
 				datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
