@@ -294,12 +294,6 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 	
 	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, *args):
-		print "datacards_workspaces", datacards_workspaces
-		print "root_filename", root_filename
-		print "value_regex", value_regex
-		print "value_replacements", value_replacements
-		print "n_processes", n_processes
-		print "args", args
 		if value_replacements is None:
 			value_replacements = {}
 		
