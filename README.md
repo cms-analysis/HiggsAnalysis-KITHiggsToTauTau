@@ -41,6 +41,8 @@ For the [Artus repository](https://github.com/artus-analysis/Artus) a similar un
 The following code fragments are meant as examples. All scripts offer meaningfull help via -h/--help (or sometimes without arguments).
 
 ### Skimming
+Skimming with grid-control:
+
 	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
 	go.py gc_skimming_2014-12-24-full-skim-grid.conf
 
@@ -51,6 +53,12 @@ Outputs are shared in Thomas' personal DESY dCache directory, where everybody ha
 The skimming outputs need to be checked:
 
 	<path/to/grid-control>/scripts/downloadFromSE.py --just-verify [--threads <1-6>] <GC config>
+
+Skimming with crab3:
+	source /cvmfs/cms.cern.ch/crab3/crab.sh
+	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
+	python crabConfig.py submit
+
 
 File lists for Artus need to be created by [createInputFilelists.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/createInputFilelists.py):
 
