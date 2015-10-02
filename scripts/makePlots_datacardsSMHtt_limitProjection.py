@@ -35,7 +35,7 @@ if __name__ == "__main__":
 			"MultiDimFit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
-			}
+			},
 		},
 		"cvcf" : {
 			"P" : "HiggsAnalysis.CombinedLimit.HiggsCouplings:cVcF",
@@ -48,6 +48,12 @@ if __name__ == "__main__":
 				"CF" : "--algo singles -P CF --floatOtherPOIs 1",
 				"CVCF" : "--algo grid --points {CVCF_BINS}",
 			},
+			"MultiDimFit_plots" : {
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_unc_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cf_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cf_unc_over_lumi.json",
+			},
 		},
 		"rvrf" : {
 			"P" : "HiggsAnalysis.CombinedLimit.PhysicsModel:rVrFXSHiggs",
@@ -55,6 +61,12 @@ if __name__ == "__main__":
 				"RV" : "--algo singles -P RV --floatOtherPOIs 1",
 				"RF" : "--algo singles -P RF --floatOtherPOIs 1",
 				"RVRF" : "--algo grid --points {RVRF_BINS}",
+			},
+			"MultiDimFit_plots" : {
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_unc_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rf_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rf_unc_over_lumi.json",
 			},
 		},
 	}
@@ -104,6 +116,7 @@ if __name__ == "__main__":
 	
 	datacards_configs = datacardconfigs.DatacardConfigs()
 	
+	plot_configs = []
 	for datacard in args.datacards:
 		cb = ch.CombineHarvester()
 		
@@ -236,7 +249,6 @@ if __name__ == "__main__":
 						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_pvalue_over_lumi.json",
 					])
 				
-				plot_configs = []
 				json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in json_configs]
 				for config in json_configs:
 					config["directories"] = os.path.join(output_dir_base, "*")
@@ -251,10 +263,10 @@ if __name__ == "__main__":
 					config["output_dir"] = os.path.join(output_dir_base, "plots")
 					
 					plot_configs.append(config)
-				
-				if log.isEnabledFor(logging.DEBUG):
-					import pprint
-					pprint.pprint(plot_configs)
-				
-				higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	
+	if log.isEnabledFor(logging.DEBUG):
+		import pprint
+		pprint.pprint(plot_configs)
+	
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 

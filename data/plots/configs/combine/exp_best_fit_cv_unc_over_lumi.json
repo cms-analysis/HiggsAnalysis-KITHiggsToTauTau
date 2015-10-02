@@ -1,0 +1,82 @@
+{
+	"analysis_modules": [
+		"GraphCombination",
+		"StatisticalErrors"
+	],
+	"colors": [
+		"#00ff00",
+		"#ff0000"
+	],
+	"files": [
+		"higgsCombineCV.MultiDimFit*mH*.root"
+	],
+	"fill_styles": [
+		1001
+	],
+	"folders": [
+		"limit"
+	],
+	"graph_error_modes": [
+		"abs"
+	],
+	"graph_high_errors_nicks": [
+		"p1s_noplot"
+	],
+	"graph_low_errors_nicks": [
+		"m1s_noplot"
+	],
+	"graph_result_nicks": [
+		"1s"
+	],
+	"graph_values_nicks": [
+		"central"
+	],
+	"line_widths": [
+		2
+	],
+	"labels": [
+		"#pm 1#sigma Expected",
+		"Expected"
+	],
+	"legend_markers": [
+		"F",
+		"L"
+	],
+	"markers": [
+		"E3",
+		"L"
+	],
+	"nicks": [
+		"central",
+		"m1s_noplot",
+		"p1s_noplot"
+	],
+	"stat_error_nicks" : [
+		"1s",
+		"central"
+	],
+	"stat_error_relative" : false,
+	"tree_draw_options": [
+		"TGraph",
+		"TGraphErrors",
+		"TGraphErrors"
+	],
+	"weights": [
+		"quantileExpected>0.4",
+		"quantileExpected>0.1 && quantileExpected<0.4 && (Entry$%4==1)",
+		"quantileExpected>0.1 && quantileExpected<0.4 && (Entry$%4==2)"
+	],
+	"x_expressions": [
+		"lumi",
+		"0:lumi",
+		"0:lumi"
+	],
+	"x_label": "Integrated Luminosity / fb^{-1}",
+	"y_expressions": [
+		"CV",
+		"0:CV",
+		"0:CV"
+	],
+	"y_label": "Uncertainty on Best Fit #kappa_{V}",
+	"filename": "exp_best_fit_cv_unc_over_lumi"
+}
