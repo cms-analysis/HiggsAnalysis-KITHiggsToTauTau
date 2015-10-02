@@ -281,14 +281,14 @@ class Datacards(object):
 		
 		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_cbs.keys()}
 	
-	def combine(self, datacards_cbs, datacards_workspaces, datacard_poi_ranges=None, n_processes=1, *args):
-		if datacard_poi_ranges is None:
-			datacard_poi_ranges = {}
+	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, *args):
+		if datacards_poi_ranges is None:
+			datacards_poi_ranges = {}
 		
 		commands = [[
 				"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
-						POI_RANGE="--rMin {RMIN} --rMax {RMAX}".format(RMIN=datacard_poi_ranges[datacard][0], RMAX=datacard_poi_ranges[datacard][1]) if datacard in datacard_poi_ranges else "",
+						POI_RANGE="--rMin {RMIN} --rMax {RMAX}".format(RMIN=datacards_poi_ranges[datacard][0], RMAX=datacards_poi_ranges[datacard][1]) if datacard in datacards_poi_ranges else "",
 						ARGS=" ".join(args),
 						WORKSPACE=workspace
 				),
