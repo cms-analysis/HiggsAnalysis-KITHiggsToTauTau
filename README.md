@@ -55,6 +55,7 @@ The skimming outputs need to be checked:
 	<path/to/grid-control>/scripts/downloadFromSE.py --just-verify [--threads <1-6>] <GC config>
 
 Skimming with crab3:
+
 	source /cvmfs/cms.cern.ch/crab3/crab.sh
 	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
 	python crabConfig.py submit
