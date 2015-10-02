@@ -7,7 +7,9 @@ log = logging.getLogger(__name__)
 
 import argparse
 import copy
+import glob
 import os
+import shutil
 
 import combineharvester as ch
 
@@ -26,7 +28,35 @@ def _str2bool(string):
 if __name__ == "__main__":
 	
 	models = {
-		"default" : {},
+		"default" : {
+			"MultiDimFit" : {
+				"" : "--algo singles",
+			},
+			"MultiDimFit_plots" : {
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
+			}
+		},
+		"cvcf" : {
+			"P" : "HiggsAnalysis.CombinedLimit.HiggsCouplings:cVcF",
+			"PO" : [
+				"cVRange={CV_MIN}:{CV_MAX}",
+				"cFRange={CF_MIN}:{CF_MAX}",
+			],
+			"MultiDimFit" : {
+				"CV" : "--algo singles -P CV --floatOtherPOIs 1",
+				"CF" : "--algo singles -P CF --floatOtherPOIs 1",
+				"CVCF" : "--algo grid --points {CVCF_BINS}",
+			},
+		},
+		"rvrf" : {
+			"P" : "HiggsAnalysis.CombinedLimit.PhysicsModel:rVrFXSHiggs",
+			"MultiDimFit" : {
+				"RV" : "--algo singles -P RV --floatOtherPOIs 1",
+				"RF" : "--algo singles -P RF --floatOtherPOIs 1",
+				"RVRF" : "--algo grid --points {RVRF_BINS}",
+			},
+		},
 	}
 	
 	parser = argparse.ArgumentParser(description="Make Projections of the expected limits based on existing datacards.",
@@ -42,6 +72,12 @@ if __name__ == "__main__":
 	parser.add_argument("-m", "--models", nargs="+", default=["default"],
 	                    choices=models.keys(),
 	                    help="Statistics models. [Default: %(default)s]")
+	parser.add_argument("--cv-bins", default="30,0.0,3.0",
+	                    help="Binning of the grid for the cV axis. [Default: %(default)s]")
+	parser.add_argument("--cf-bins", default="30,0.0,2.0",
+	                    help="Binning of the grid for the cF axis. [Default: %(default)s]")
+	parser.add_argument("--rvrf-bins", type=int, default=900,
+	                    help="Number of points for the RV-RF scan. [Default: %(default)s]")
 	parser.add_argument("--freeze-syst-uncs", nargs="+", type="bool", default=[False, True],
 	                    help="Freeze systematics (needs run without freezing first). [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -59,6 +95,10 @@ if __name__ == "__main__":
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
+	
+	args.cv_bins = [float(b) for b in args.cv_bins.split(",")]
+	args.cf_bins = [float(b) for b in args.cf_bins.split(",")]
+	assert args.cv_bins[0] == args.cf_bins[0]
 	
 	args.freeze_syst_uncs = sorted(list(set(args.freeze_syst_uncs)), key=lambda b: b)
 	
@@ -80,6 +120,7 @@ if __name__ == "__main__":
 		for model in args.models:
 			model_settings = models.get(model, {})
 			
+			datacards_workspaces = {}
 			for freeze_syst_uncs in args.freeze_syst_uncs:
 				
 				output_dir_base = args.output_dir
@@ -105,53 +146,71 @@ if __name__ == "__main__":
 					scaled_datacards.scale_expectation(lumi_scale_factor)
 					#scaled_datacards.replace_observation_by_asimov_dataset("125")
 					
-					tmp_datacards_cbs = scaled_datacards.write_datacards(
+					scaled_datacards_cbs = scaled_datacards.write_datacards(
 							os.path.basename(datacard),
 							os.path.splitext(os.path.basename(datacard))[0]+"_input.root",
 							output_dir
 					)
-					datacards_cbs.update(tmp_datacards_cbs)
-					for tmp_datacard, cb in tmp_datacards_cbs.iteritems():
+					datacards_cbs.update(scaled_datacards_cbs)
+					for scaled_datacard, cb in scaled_datacards_cbs.iteritems():
 						if lumi < 10000.0:
-							datacards_poi_ranges[tmp_datacard] = [-20.0, 20.0]
+							datacards_poi_ranges[scaled_datacard] = [-20.0, 20.0]
 						elif lumi < 100000.0:
-							datacards_poi_ranges[tmp_datacard] = [-15.0, 15.0]
+							datacards_poi_ranges[scaled_datacard] = [-15.0, 15.0]
 						else:
-							datacards_poi_ranges[tmp_datacard] = [-10.0, 10.0]
+							datacards_poi_ranges[scaled_datacard] = [-10.0, 10.0]
 					
-					if freeze_syst_uncs:
-						logger.subprocessCall("cp {src} {dst}".format(
-								src=os.path.join(output_dir.replace(sub_dir_base, sub_dir_base.replace("statUnc", "totUnc")), "higgsCombine*MultiDimFit*mH*.root"),
-								dst=os.path.join(output_dir, "workspacePlusSnapshot.root")
-						), shell=True)
+						if freeze_syst_uncs:
+							for multidimfit_name in model_settings.get("MultiDimFit", {"" : ""}).keys():
+								srcs = os.path.join(
+										output_dir.replace(sub_dir_base, sub_dir_base.replace("statUnc", "totUnc")),
+										"higgsCombine{name}.MultiDimFit*mH*.root".format(name=multidimfit_name)
+								)
+								for src in glob.glob(srcs):
+									dst = src.replace(sub_dir_base.replace("statUnc", "totUnc"), sub_dir_base).replace("higgsCombine", "workspaceSnapshot")
+									shutil.copyfile(src, dst)
+									datacards_workspaces.setdefault(multidimfit_name, {})[scaled_datacard] = dst
 				
 				text2workspace_args = []
 				if "P" in model_settings:
 					text2workspace_args.append("-P {P}".format(P=model_settings["P"]))
-				for po in model_settings.get("PO", []):
-					text2workspace_args.append("-PO {PO}".format(PO=po))
+				for physics_option in model_settings.get("PO", []):
+					tmp_physics_option = copy.deepcopy(physics_option)
+					if "CV_M" in tmp_physics_option:
+						tmp_physics_option = tmp_physics_option.format(CV_MIN=args.cv_bins[1], CV_MAX=args.cv_bins[2])
+					if "CF_M" in tmp_physics_option:
+						tmp_physics_option = tmp_physics_option.format(CF_MIN=args.cf_bins[1], CF_MAX=args.cf_bins[2])
+					
+					text2workspace_args.append("--PO {PO}".format(PO=tmp_physics_option))
 				
-				datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes, *text2workspace_args)
-				if freeze_syst_uncs:
-					datacards_workspaces = {datacard : workspace.replace(os.path.splitext(os.path.basename(datacard))[0]+".root", "workspacePlusSnapshot.root") for datacard, workspace in datacards_workspaces.iteritems()}
+				if not freeze_syst_uncs:
+					datacards_workspaces = datacards.text2workspace(datacards_cbs, args.n_processes, *text2workspace_args)
 				
 				json_configs = []
 				
 				stable_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 				
 				# Multi-dimensional fit (in 1D)
-				datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-t -1 --expectSignal 1 -M MultiDimFit --algo singles {freeze} {stable} -n \"\"".format(
-						freeze="--snapshotName MultiDimFit -S 0" if freeze_syst_uncs else "--saveWorkspace",
-						stable=stable_options
-				))
-				datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
-			
-				json_configs.extend([
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
-				])
+				for multidimfit_name, multidimfit_options in model_settings.get("MultiDimFit", {"" : ""}).iteritems():
+					tmp_datacards_workspaces = datacards_workspaces[multidimfit_name] if freeze_syst_uncs else datacards_workspaces
+					
+					tmp_multidimfit_options = copy.deepcopy(multidimfit_options)
+					if "CVCF_BINS" in tmp_multidimfit_options:
+						tmp_multidimfit_options = tmp_multidimfit_options.format(CVCF_BINS=int(args.cv_bins[0] * args.cf_bins[0]))
+					if "RVRF_BINS" in tmp_multidimfit_options:
+						tmp_multidimfit_options = tmp_multidimfit_options.format(RVRF_BINS=args.rvrf_bins)
+					
+					datacards.combine(datacards_cbs, tmp_datacards_workspaces, datacards_poi_ranges, args.n_processes, "-t -1 --expectSignal 1 -M MultiDimFit {multidimfit_options} {freeze} {stable} -n {name}".format(
+							multidimfit_options=tmp_multidimfit_options,
+							freeze="--snapshotName MultiDimFit -S 0" if freeze_syst_uncs else "--saveWorkspace",
+							stable=stable_options,
+							name="\"\"" if multidimfit_name == "" else multidimfit_name
+					))
+				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
 				
-				if not freeze_syst_uncs:
+				json_configs.extend(model_settings.get("MultiDimFit_plots", []))
+				
+				if (not freeze_syst_uncs) and (model == "default"):
 					
 					# Max. likelihood fit and postfit plots
 					datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-t -1 --expectSignal 1 -M MaxLikelihoodFit {stable} -n \"\"".format(stable=stable_options))
