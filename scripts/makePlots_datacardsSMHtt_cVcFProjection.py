@@ -107,6 +107,7 @@ if __name__ == "__main__":
 		scaled_datacards.combine(
 				datacards_cbs,
 				datacards_workspaces,
+				None,
 				args.n_processes,
 				"-t -1 --expectSignal 1 -M MultiDimFit --algo grid --points {N_BINS} -n \"\"".format( # --firstPoint 1 --lastPoint 900
 						N_BINS=int(cv_bins[0] * cf_bins[0])

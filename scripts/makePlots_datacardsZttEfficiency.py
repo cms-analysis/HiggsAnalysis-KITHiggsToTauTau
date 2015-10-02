@@ -267,8 +267,8 @@ if __name__ == "__main__":
 		datacards_workspaces[datacard] = os.path.splitext(datacard)[0]+".root"
 	
 	# Max. likelihood fit and postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit --skipBOnlyFit -n \"\"")
-	#datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MultiDimFit --floatOtherPOIs 1 -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit --skipBOnlyFit -n \"\"")
+	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --floatOtherPOIs 1 -n \"\"")
 	datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	#datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI=modeldict['poi']))
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [modeldict['poi']]}, n_processes=args.n_processes)
