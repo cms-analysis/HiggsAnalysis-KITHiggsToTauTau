@@ -29,12 +29,12 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["hww"] = "H #rightarrow WW"
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			
-			self.labels_dict["channel_tt"] = "#tau_{h}#tau_{h}"
-			self.labels_dict["channel_mt"] = "#mu#tau_{h}"
-			self.labels_dict["channel_et"] = "e#tau_{h}"
-			self.labels_dict["channel_em"] = "e#mu"
-			self.labels_dict["channel_mm"] = "#mu#mu"
-			self.labels_dict["channel_ee"] = "ee"
+			self.labels_dict["channel_tt"] = "#scale[1.5]{#tau_{h}#tau_{h}}"
+			self.labels_dict["channel_mt"] = "#scale[1.5]{#mu#tau_{h}}"
+			self.labels_dict["channel_et"] = "#scale[1.5]{e#tau_{h}}"
+			self.labels_dict["channel_em"] = "#scale[1.5]{e#mu}"
+			self.labels_dict["channel_mm"] = "#scale[1.5]{#mu#mu}"
+			self.labels_dict["channel_ee"] = "#scale[1.5]{ee}"
 			
 			self.labels_dict["diLepMass"] = "visible mass m_{ll} / GeV"
 			self.labels_dict["svfitMass"] = "di-#tau mass m_{#tau#tau} / GeV"
