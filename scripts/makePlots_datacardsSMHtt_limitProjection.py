@@ -148,13 +148,13 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	args.cv_bins = [float(b) for b in args.cv_bins.split(",")]
-	args.cf_bins = [float(b) for b in args.cf_bins.split(",")]
-	assert args.cv_bins[0] == args.cf_bins[0]
+	cv_bins = [float(b) for b in args.cv_bins.split(",")]
+	cf_bins = [float(b) for b in args.cf_bins.split(",")]
+	assert cv_bins[0] == cf_bins[0]
 	
-	args.rv_bins = [float(b) for b in args.rv_bins.split(",")]
-	args.rf_bins = [float(b) for b in args.rf_bins.split(",")]
-	assert args.rv_bins[0] == args.rf_bins[0]
+	rv_bins = [float(b) for b in args.rv_bins.split(",")]
+	rf_bins = [float(b) for b in args.rf_bins.split(",")]
+	assert rv_bins[0] == rf_bins[0]
 	
 	args.freeze_syst_uncs = sorted(list(set(args.freeze_syst_uncs)), key=lambda b: b)
 	
@@ -218,6 +218,12 @@ if __name__ == "__main__":
 							json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in multidimfit_settings.get("plots_per_lumi", [])]
 							for config in json_configs:
 								config["directories"] = output_dir
+								if "CVCF" in multidimfit_name:
+									config["x_bins"] = args.cv_bins
+									config["y_bins"] = args.cf_bins
+								if "RVRF" in multidimfit_name:
+									config["x_bins"] = args.rv_bins
+									config["y_bins"] = args.rf_bins
 								config["lumis"] = [lumi]
 								config["output_dir"] = os.path.join(output_dir, "plots")
 								plot_configs.append(config)
@@ -237,14 +243,14 @@ if __name__ == "__main__":
 					text2workspace_args.append("-P \"{P}\"".format(P=model_settings["P"]))
 				for physics_option in model_settings.get("PO", []):
 					tmp_physics_option = physics_option.format(
-							CV_MIN=args.cv_bins[1],
-							CV_MAX=args.cv_bins[2],
-							CF_MIN=args.cf_bins[1],
-							CF_MAX=args.cf_bins[2],
-							RV_MIN=args.rv_bins[1],
-							RV_MAX=args.rv_bins[2],
-							RF_MIN=args.rf_bins[1],
-							RF_MAX=args.rf_bins[2]
+							CV_MIN=cv_bins[1],
+							CV_MAX=cv_bins[2],
+							CF_MIN=cf_bins[1],
+							CF_MAX=cf_bins[2],
+							RV_MIN=rv_bins[1],
+							RV_MAX=rv_bins[2],
+							RF_MIN=rf_bins[1],
+							RF_MAX=rf_bins[2]
 					)
 					
 					text2workspace_args.append("--PO \"{PO}\"".format(PO=tmp_physics_option))
@@ -261,16 +267,16 @@ if __name__ == "__main__":
 					tmp_datacards_workspaces = datacards_workspaces[multidimfit_name] if freeze_syst_uncs else datacards_workspaces
 					
 					tmp_multidimfit_options = multidimfit_options.get("options", "").format(
-							CVCF_BINS=int(args.cv_bins[0] * args.cf_bins[0]),
-							CV_MIN=args.cv_bins[1],
-							CV_MAX=args.cv_bins[2],
-							CF_MIN=args.cf_bins[1],
-							CF_MAX=args.cf_bins[2],
-							RVRF_BINS=int(args.rv_bins[0] * args.rf_bins[0]),
-							RV_MIN=args.rv_bins[1],
-							RV_MAX=args.rv_bins[2],
-							RF_MIN=args.rf_bins[1],
-							RF_MAX=args.rf_bins[2]
+							CVCF_BINS=int(cv_bins[0] * cf_bins[0]),
+							CV_MIN=cv_bins[1],
+							CV_MAX=cv_bins[2],
+							CF_MIN=cf_bins[1],
+							CF_MAX=cf_bins[2],
+							RVRF_BINS=int(rv_bins[0] * rf_bins[0]),
+							RV_MIN=rv_bins[1],
+							RV_MAX=rv_bins[2],
+							RF_MIN=rf_bins[1],
+							RF_MAX=rf_bins[2]
 					)
 					
 					datacards.combine(datacards_cbs, tmp_datacards_workspaces, datacards_poi_ranges.get(multidimfit_name, None), args.n_processes, "-t -1 --expectSignal 1 -M MultiDimFit {multidimfit_options} {freeze} {stable} -n {name}".format(
