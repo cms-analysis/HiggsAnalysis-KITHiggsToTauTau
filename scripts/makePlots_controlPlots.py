@@ -31,7 +31,7 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", default=["1.0"],
+	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantities", nargs="*",
 	                    default=["inclusive",
