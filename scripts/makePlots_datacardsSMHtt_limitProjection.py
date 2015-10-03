@@ -66,6 +66,9 @@ if __name__ == "__main__":
 				},
 				"CVCF" : {
 					"options" : "--algo grid --points {CVCF_BINS} --setPhysicsModelParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
+					"plots_per_lumi" : [
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan.json",
+					],
 				},
 			},
 			"MultiDimFit_plots" : {
@@ -92,6 +95,9 @@ if __name__ == "__main__":
 				},
 				"RVRF" : {
 					"options" : "--algo grid --points {RVRF_BINS} --setPhysicsModelParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
+					"plots_per_lumi" : [
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/rv_rf_scan.json",
+					],
 				},
 			},
 			"MultiDimFit_plots" : {
@@ -208,6 +214,13 @@ if __name__ == "__main__":
 							poi_ranges = multidimfit_settings.get("poi_ranges", None)
 							if not poi_ranges is None:
 								datacards_poi_ranges.setdefault(multidimfit_name, {})[scaled_datacard] = poi_ranges(lumi)
+							
+							json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in multidimfit_settings.get("plots_per_lumi", [])]
+							for config in json_configs:
+								config["directories"] = output_dir
+								config["lumis"] = [lumi]
+								config["output_dir"] = os.path.join(output_dir, "plots")
+								plot_configs.append(config)
 							
 							if freeze_syst_uncs:
 								srcs = os.path.join(
