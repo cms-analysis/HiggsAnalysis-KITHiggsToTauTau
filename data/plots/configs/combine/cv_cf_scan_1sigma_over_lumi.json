@@ -5,7 +5,7 @@
 	],
 	"filename" : "cv_cf_scan_1sigma_over_lumi",
 	"files": [
-		"higgsCombine*MultiDimFit*mH*.root"
+		"higgsCombineCVCF*MultiDimFit*mH*.root"
 	],
 	"folders": [
 		"limit"
@@ -15,7 +15,7 @@
 	],
 	"mask_above_delta_min": 2.3,
 	"weights": [
-		"deltaNLL+lumi+1e-5"
+		"deltaNLL+lumi"
 	],
 	"x_bins": [
 		"30,0.0,3.0"
