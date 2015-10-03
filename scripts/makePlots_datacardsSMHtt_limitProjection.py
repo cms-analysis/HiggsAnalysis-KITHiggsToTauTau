@@ -65,7 +65,7 @@ if __name__ == "__main__":
 					"poi_ranges" : poi_ranges_default,
 				},
 				"CVCF" : {
-					"options" : "--algo grid --points {CVCF_BINS}",
+					"options" : "--algo grid --points {CVCF_BINS} --setPhysicsModelParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
 				},
 			},
 			"MultiDimFit_plots" : {
@@ -77,6 +77,10 @@ if __name__ == "__main__":
 		},
 		"rvrf" : {
 			"P" : "HiggsAnalysis.CombinedLimit.PhysicsModel:rVrFXSHiggs",
+			"PO" : [
+				"rVRange={RV_MIN}:{RV_MAX}",
+				"rFRange={RF_MIN}:{RF_MAX}",
+			],
 			"MultiDimFit" : {
 				"RV" : {
 					"options" : "--algo singles -P RV --floatOtherPOIs 1",
@@ -87,7 +91,7 @@ if __name__ == "__main__":
 					"poi_ranges" : poi_ranges_default,
 				},
 				"RVRF" : {
-					"options" : "--algo grid --points {RVRF_BINS}",
+					"options" : "--algo grid --points {RVRF_BINS} --setPhysicsModelParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
 				},
 			},
 			"MultiDimFit_plots" : {
@@ -116,8 +120,10 @@ if __name__ == "__main__":
 	                    help="Binning of the grid for the cV axis. [Default: %(default)s]")
 	parser.add_argument("--cf-bins", default="30,0.0,2.0",
 	                    help="Binning of the grid for the cF axis. [Default: %(default)s]")
-	parser.add_argument("--rvrf-bins", type=int, default=900,
-	                    help="Number of points for the RV-RF scan. [Default: %(default)s]")
+	parser.add_argument("--rv-bins", default="30,-3.0,5.0",
+	                    help="Binning of the grid for the rV axis. [Default: %(default)s]")
+	parser.add_argument("--rf-bins", default="30,-2.0,4.0",
+	                    help="Binning of the grid for the rF axis. [Default: %(default)s]")
 	parser.add_argument("--freeze-syst-uncs", nargs="+", type="bool", default=[False, True],
 	                    help="Freeze systematics (needs run without freezing first). [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -139,6 +145,10 @@ if __name__ == "__main__":
 	args.cv_bins = [float(b) for b in args.cv_bins.split(",")]
 	args.cf_bins = [float(b) for b in args.cf_bins.split(",")]
 	assert args.cv_bins[0] == args.cf_bins[0]
+	
+	args.rv_bins = [float(b) for b in args.rv_bins.split(",")]
+	args.rf_bins = [float(b) for b in args.rf_bins.split(",")]
+	assert args.rv_bins[0] == args.rf_bins[0]
 	
 	args.freeze_syst_uncs = sorted(list(set(args.freeze_syst_uncs)), key=lambda b: b)
 	
@@ -213,11 +223,16 @@ if __name__ == "__main__":
 				if "P" in model_settings:
 					text2workspace_args.append("-P \"{P}\"".format(P=model_settings["P"]))
 				for physics_option in model_settings.get("PO", []):
-					tmp_physics_option = copy.deepcopy(physics_option)
-					if "CV_M" in tmp_physics_option:
-						tmp_physics_option = tmp_physics_option.format(CV_MIN=args.cv_bins[1], CV_MAX=args.cv_bins[2])
-					if "CF_M" in tmp_physics_option:
-						tmp_physics_option = tmp_physics_option.format(CF_MIN=args.cf_bins[1], CF_MAX=args.cf_bins[2])
+					tmp_physics_option = physics_option.format(
+							CV_MIN=args.cv_bins[1],
+							CV_MAX=args.cv_bins[2],
+							CF_MIN=args.cf_bins[1],
+							CF_MAX=args.cf_bins[2],
+							RV_MIN=args.rv_bins[1],
+							RV_MAX=args.rv_bins[2],
+							RF_MIN=args.rf_bins[1],
+							RF_MAX=args.rf_bins[2]
+					)
 					
 					text2workspace_args.append("--PO \"{PO}\"".format(PO=tmp_physics_option))
 				
@@ -230,15 +245,20 @@ if __name__ == "__main__":
 				
 				# Multi-dimensional fits
 				for multidimfit_name, multidimfit_options in model_settings.get("MultiDimFit", {"" : ""}).iteritems():
-					print freeze_syst_uncs
-					print datacards_workspaces.keys()
 					tmp_datacards_workspaces = datacards_workspaces[multidimfit_name] if freeze_syst_uncs else datacards_workspaces
 					
-					tmp_multidimfit_options = copy.deepcopy(multidimfit_options.get("options", ""))
-					if "CVCF_BINS" in tmp_multidimfit_options:
-						tmp_multidimfit_options = tmp_multidimfit_options.format(CVCF_BINS=int(args.cv_bins[0] * args.cf_bins[0]))
-					if "RVRF_BINS" in tmp_multidimfit_options:
-						tmp_multidimfit_options = tmp_multidimfit_options.format(RVRF_BINS=args.rvrf_bins)
+					tmp_multidimfit_options = multidimfit_options.get("options", "").format(
+							CVCF_BINS=int(args.cv_bins[0] * args.cf_bins[0]),
+							CV_MIN=args.cv_bins[1],
+							CV_MAX=args.cv_bins[2],
+							CF_MIN=args.cf_bins[1],
+							CF_MAX=args.cf_bins[2],
+							RVRF_BINS=int(args.rv_bins[0] * args.rf_bins[0]),
+							RV_MIN=args.rv_bins[1],
+							RV_MAX=args.rv_bins[2],
+							RF_MIN=args.rf_bins[1],
+							RF_MAX=args.rf_bins[2]
+					)
 					
 					datacards.combine(datacards_cbs, tmp_datacards_workspaces, datacards_poi_ranges.get(multidimfit_name, None), args.n_processes, "-t -1 --expectSignal 1 -M MultiDimFit {multidimfit_options} {freeze} {stable} -n {name}".format(
 							multidimfit_options=tmp_multidimfit_options,
