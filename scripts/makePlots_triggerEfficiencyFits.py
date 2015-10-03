@@ -61,14 +61,14 @@ if __name__ == "__main__":
 	plot_configs = []
 	for channel, probe_triggers in zip(args.channels, args.probe_triggers):
 		for probe_trigger in probe_triggers:
-			config = {}
-			if not "FunctionPlot" in config.get("analysis_modules", []):
-				config.setdefault("analysis_modules", []).append("FunctionPlot")
 
-			#config["analysis_modules"] = ["FunctionPlot"]			
-			config["directories"] = [args.input_dir]		
-			config["folders"] = [channel+"_"+probe_trigger+"/"+channel+"TriggerTP"]
 			for mode in ['MC', 'data']:
+				config = {}
+				if not "FunctionPlot" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("FunctionPlot")
+				#config["analysis_modules"] = ["FunctionPlot"]			
+				config["directories"] = [args.input_dir]		
+				config["folders"] = [channel+"_"+probe_trigger+"/"+channel+"TriggerTP"]
 				if mode == 'MC':
 					config["files"] = [
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root"
