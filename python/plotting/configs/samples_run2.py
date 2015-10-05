@@ -65,7 +65,7 @@ class Samples(samples.SamplesBase):
 		config = super(Samples, self).get_config(samples, channel, category, nick_suffix=nick_suffix, postfit_scales=postfit_scales, **kwargs)
 		
 		# blinding (of data)
-		config["weights"] = [weight.format(blind=self.expressions.replace_expressions("blind_"+blind_expression) if "blind_"+blind_expression in self.expressions.expressions_dict else "1.0") for weight in config["weights"]]
+		config["weights"] = [weight.format(blind=self.expressions.replace_expressions("blind_"+str(blind_expression)) if "blind_"+str(blind_expression) in self.expressions.expressions_dict else "1.0") for weight in config["weights"]]
 		
 		# execute bin correction modules after possible background estimation modules
 		config.setdefault("analysis_modules", []).sort(key=lambda module: module in ["BinErrorsOfEmptyBins", "CorrectNegativeBinContents"])
