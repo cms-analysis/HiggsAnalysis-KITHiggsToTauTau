@@ -83,7 +83,7 @@ class Samples(samples.SamplesBase):
 		if channel == "mt":
 			Samples._add_input(
 					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_*AOD/*.root",
+					"SingleMuon_Run2015?_PromptRecov1_13TeV_*AOD/*.root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
@@ -93,7 +93,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "et":
 			Samples._add_input(
 					config,
-					"SingleElectron_Run2015B_PromptRecov1_13TeV_*AOD/*.root",
+					"SingleElectron_Run2015?_PromptRecov1_13TeV_*AOD/*.root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
@@ -103,7 +103,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "em":
 			Samples._add_input(
 					config,
-					"MuonEG_Run2015B_PromptRecov1_13TeV_*AOD/*.root",
+					"MuonEG_Run2015?_PromptRecov1_13TeV_*AOD/*.root",
 					channel+"_jecUnc/ntuple",
 					1.0,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
@@ -113,7 +113,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "tt":
 			Samples._add_input(
 					config,
-					"Tau_Run2015B_PromptRecov1_13TeV_*AOD/*.root",
+					"Tau_Run2015?_PromptRecov1_13TeV_*AOD/*.root",
 					channel+"_jecUnc/ntuple",
 					1.0,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
@@ -228,7 +228,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"MuonEG_Run2015B_PromptRecov1_13TeV_*AOD/*.root",
+					"MuonEG_Run2015?_PromptRecov1_13TeV_*AOD/*.root",
 					channel+"_jecUnc/ntuple",
 					1.0,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta"]) + "*(pzetamiss < -20.0)",
@@ -354,7 +354,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2015B_PromptRecov1_13TeV_*AOD/*root",
+					"SingleMuon_Run2015?_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2015?_PromptRecov1_13TeV_*AOD/*root",
 					channel+"_jecUnc_z/ntuple",
 					1.0,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"]) + "*(mt_1>80.0)",
@@ -466,7 +466,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["mt", "et"]:
 				Samples._add_input(
 						config,
-						"SingleMuon_Run2015B_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_*AOD/*.root"),
+						"SingleMuon_Run2015?_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_PromptRecov1_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_PromptRecov1_13TeV_*AOD/*.root"),
 						channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 						1.0,
 						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"]) + "*((q_1*q_2)>0.0)*(mt_1>80.0)",
@@ -548,7 +548,7 @@ class Samples(samples.SamplesBase):
 			
 			Samples._add_input(
 					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_*AOD/*.root"),
+					"SingleMuon_Run2015?_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_PromptRecov1_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_PromptRecov1_13TeV_*AOD/*.root"),
 					channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					1.0,
 					shape_weight,
@@ -557,7 +557,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_*AOD/*.root"),
+					"SingleMuon_Run2015?_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_PromptRecov1_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_PromptRecov1_13TeV_*AOD/*.root"),
 					channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					1.0,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"]) + "*((q_1*q_2)>0.0)",
@@ -566,7 +566,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"SingleMuon_Run2015B_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015B_PromptRecov1_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015B_PromptRecov1_13TeV_*AOD/*.root"),
+					"SingleMuon_Run2015?_PromptRecov1_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_PromptRecov1_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_PromptRecov1_13TeV_*AOD/*.root"),
 					channel+"_jecUnc"+("_z" if channel in ["et", "mt"] else "")+"/ntuple",
 					1.0,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"]) + "*((q_1*q_2)>0.0)",
@@ -622,7 +622,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "tt":
 			Samples._add_input(
 					config,
-					"Tau_Run2015B_PromptRecov1_13TeV_*AOD/*.root",
+					"Tau_Run2015?_PromptRecov1_13TeV_*AOD/*.root",
 					channel+"_jecUnc/ntuple",
 					1.0,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"]) + "*((q_1*q_2)>0.0)",
