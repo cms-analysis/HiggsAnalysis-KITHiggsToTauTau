@@ -2,6 +2,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 #include "Artus/Utility/interface/Utility.h"
+#include "Artus/Utility/interface/CutRange.h"
 
 
 SvfitEventKey::SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
@@ -67,8 +68,9 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 {
 	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event) &&
-	        (systematicShift == rhs.systematicShift) && (systematicShiftSigma == rhs.systematicShiftSigma) &&
-	        (integrationMethod == rhs.integrationMethod));
+	        (integrationMethod == rhs.integrationMethod) &&
+	        (systematicShift == rhs.systematicShift) &&
+	        CutRange::EqualsCut(systematicShiftSigma).IsInRange(rhs.systematicShiftSigma));
 }
 
 bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
