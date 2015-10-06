@@ -67,6 +67,8 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
+	parser.add_argument("--shapes", default=False, action="store_true",
+	                    help="Show shape comparisons. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int,
@@ -84,6 +86,9 @@ if __name__ == "__main__":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
+	
+	if args.shapes:
+		args.ratio = False
 	
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
@@ -123,12 +128,12 @@ if __name__ == "__main__":
 				
 				config["directories"] = [args.input_dir]
 				
-				for analysis_module in args.analysis_modules:
-					if not analysis_module in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append(analysis_module)
-				
-				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
-					config.setdefault("analysis_modules", []).append("PrintInfos")
+				if args.shapes:
+					if not "NormalizeToUnity" in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("NormalizeToUnity")
+					config["markers"] = "LINE"
+					config["legend_markers"] = "L"
+					config["line_widths"] = 3
 				
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
@@ -139,20 +144,30 @@ if __name__ == "__main__":
 					config.setdefault("colors", []).extend(["#000000"] * 2)
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
-					config.setdefault("labels", []).extend([""] * 2)	
+					config.setdefault("labels", []).extend([""] * 2)
+				
+				for analysis_module in args.analysis_modules:
+					if not analysis_module in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append(analysis_module)
+				
+				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
+					config.setdefault("analysis_modules", []).append("PrintInfos")
 				
 				if not "--y-log" in args.args:
 					config["y_lims"] = [0.0]
 				if args.cms:
 					config["cms"] = True
 					config["extra_text"] = "Preliminary"
+				elif args.shapes:
+					config["legend"] = [0.55, 0.65, 0.9, 0.88]
 				else:
 					config["rel_y_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio else 1.4]
 					config["legend"] = [0.23, 0.73, 0.9, 0.93] if args.ratio else [0.23, 0.73, 0.9, 0.89]
 					config["legend_cols"] = 3
-				if not args.lumi is None:
-					config["lumis"] = [args.lumi]
-				config["energies"] = [8] if args.run1 else [13]
+				if not args.shapes:
+					if not args.lumi is None:
+						config["lumis"] = [args.lumi]
+					config["energies"] = [8] if args.run1 else [13]
 				
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
