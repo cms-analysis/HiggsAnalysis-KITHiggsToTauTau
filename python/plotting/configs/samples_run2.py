@@ -134,21 +134,11 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 		
-		if channel in ["mt", "et"]:
+		if channel in ["mt", "et", "tt", "em"]:
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_amcatnloFXFX-pythia8/*.root",
-					channel+"_jecUncNom_ztt/ntuple " + channel+"_jecUncNom_zttlep/ntuple",
-					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
-					"ztt",
-					nick_suffix=nick_suffix
-			)
-		elif channel in ["em", "tt"]:
-			Samples._add_input(
-					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_amcatnloFXFX-pythia8/*.root",
-					channel+"_jecUncNom_tt/ntuple",
+					" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["ztt", "zttlep"] if channel in ["et", "mt"] else ["tt"])]),
 					lumi,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
 					"ztt",
@@ -170,21 +160,11 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZL", 1.0)
 		
-		if channel in ["mt", "et"]:
+		if channel in ["mt", "et", "tt", "em"]:
 			Samples._add_input(
 					config,
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_amcatnloFXFX-pythia8/*.root",
-					channel+"_jecUncNom_zll/ntuple " + channel+"_jecUncNom_zl/ntuple " + channel+"_jecUncNom_zj/ntuple",
-					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
-					"zll",
-					nick_suffix=nick_suffix
-			)
-		elif channel in ["em", "tt"]:
-			Samples._add_input(
-					config,
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_amcatnloFXFX-pythia8/*.root",
-					channel+"_jecUncNom_ee/ntuple " + channel+"_jecUncNom_mm/ntuple",
+					" ".join([channel+"_jecUncNom_"+dy+"/ntuple" for dy in (["zl", "zj", "zll"] if channel in ["et", "mt"] else ["ee", "mm"])]),
 					lumi,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
 					"zll",
