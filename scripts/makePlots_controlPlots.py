@@ -129,8 +129,11 @@ if __name__ == "__main__":
 				config["directories"] = [args.input_dir]
 				
 				if args.shapes:
+					if "stacks" in config:
+						config.pop("stacks")
 					if not "NormalizeToUnity" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("NormalizeToUnity")
+					config["y_label"] = "arb. u."
 					config["markers"] = "LINE"
 					config["legend_markers"] = "L"
 					config["line_widths"] = 3
