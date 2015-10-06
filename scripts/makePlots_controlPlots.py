@@ -141,6 +141,8 @@ if __name__ == "__main__":
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)	
 				
+				if not "--y-log" in args.args:
+					config["y_lims"] = [0.0]
 				if args.cms:
 					config["cms"] = True
 					config["extra_text"] = "Preliminary"
