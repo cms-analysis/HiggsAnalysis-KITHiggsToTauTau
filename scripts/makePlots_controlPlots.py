@@ -53,8 +53,6 @@ if __name__ == "__main__":
 	                    help="Use Run1 samples. [Default: %(default)s]")
 	parser.add_argument("--cms", default=False, action="store_true",
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
-	parser.add_argument("--energies", type=float, nargs="+",
-	                    help="Centre-of-mass energies for the given samples (without TeV suffix). [Default: None]")
 	parser.add_argument("--lumi", type=float, default=0.04003,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
@@ -143,17 +141,22 @@ if __name__ == "__main__":
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)	
 				
+				if args.cms:
+					config["cms"] = True
+					config["extra_text"] = "Preliminary"
+				else:
+					config["rel_y_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio else 1.4]
+					config["legend"] = [0.23, 0.73, 0.9, 0.93] if args.ratio else [0.23, 0.73, 0.9, 0.89]
+					config["legend_cols"] = 3
+				if not args.lumi is None:
+					config["lumis"] = [args.lumi]
+				config["energies"] = [8] if args.run1 else [13]
+				
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
 						channel if len(args.channels) > 1 else "",
 						category if len(args.categories) > 1 else ""
 				))
-				if args.cms:
-					config["cms"] = True
-					config["extra_text"] = "Preliminary"
-				if (not args.lumi is None) and (not args.energies is None):
-					config["lumis"] = [args.lumi]
-					config["energies"] = [args.energies]
 				if not args.www is None:
 					config["www"] = os.path.expandvars(os.path.join(
 							args.www,
