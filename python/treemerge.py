@@ -36,6 +36,7 @@ def treemerge(input_file_names, input_tree_names,
 			tmp_input_tree_names = copy.deepcopy(input_tree_names)
 		
 		for input_tree_name in tmp_input_tree_names:
+			log.debug("Found \"{0}/{1}\" to be merged.".format(input_file_name, input_tree_name))
 			input_tree.Add(os.path.join(input_file_name, input_tree_name))
 	
 	output_file = ROOT.TFile(output_file_name, "RECREATE")
