@@ -91,8 +91,8 @@ public:
 	bool m_validCollinearApproximation = false;
 	
 	double pZetaVis = 0.0;
+	double pZetaMiss = 0.0;
 	double pZetaMissVis = 0.0;
-	double pZetaMissVisNoLep = 0.0;
 	
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;
