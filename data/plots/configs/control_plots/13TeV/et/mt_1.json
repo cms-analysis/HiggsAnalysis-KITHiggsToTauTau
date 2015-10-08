@@ -1,0 +1,8 @@
+{
+	"x_expressions" : [
+		"mt_1"
+	],
+	"exclude_cuts" : [
+		"mt"
+	]
+}

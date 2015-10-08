@@ -1,0 +1,8 @@
+{
+	"x_expressions" : [
+		"pzeta"
+	],
+	"exclude_cuts" : [
+		"pzeta"
+	]
+}
