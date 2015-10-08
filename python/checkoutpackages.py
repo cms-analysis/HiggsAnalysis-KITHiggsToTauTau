@@ -24,6 +24,9 @@ def checkout_packages(max_n_trials=2):
 		"make -C HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools",
 		"git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit",
 		"git clone https://github.com/roger-wolf/HiggsAnalysis-HiggsToTauTau-auxiliaries.git auxiliaries",
+		
+		# needed for error propagation e.g. in the background estimations
+		"git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties",
 	]
 	checkoutpackages.execute_commands(commands, max_n_trials=max_n_trials)
 

@@ -96,6 +96,18 @@ class SamplesBase(object):
 		config.setdefault("weights", []).append(weight)
 		config.setdefault("nicks", []).append(nick+nick_suffix)
 		return config
+	
+	@staticmethod
+	def _add_bin_corrections(config, nick, nick_suffix=""):
+		if not "BinErrorsOfEmptyBins" in config.get("analysis_modules", []):
+			config.setdefault("analysis_modules", []).append("BinErrorsOfEmptyBins")
+		config.setdefault("nicks_empty_bins", []).append(nick+nick_suffix)
+		
+		if not "CorrectNegativeBinContents" in config.get("analysis_modules", []):
+			config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
+		config.setdefault("nicks_correct_negative_bins", []).append(nick+nick_suffix)
+		
+		return config
 		
 	@staticmethod
 	def _add_plot(config, stack, marker, legend_marker, color_label_key, nick_suffix=""):

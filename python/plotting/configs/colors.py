@@ -12,67 +12,6 @@ class ColorsDict(colors.ColorsDict):
 	def __init__(self, color_scheme="default", additional_colors=None):
 		super(ColorsDict, self).__init__(color_scheme=color_scheme, additional_colors=additional_colors)
 		
-		self.colors_dict["data"] = "#000000"
-		self.colors_dict["data_obs"] = self.colors_dict["data"]
-		
-		if color_scheme.lower() == "kit":
-			self.colors_dict["zll"] = "#00A88F #4CC1A5"
-			self.colors_dict["zmm"] = self.colors_dict["zll"]
-			self.colors_dict["zee"] = self.colors_dict["zll"]
-			self.colors_dict["zl"]  = self.colors_dict["zll"]
-			self.colors_dict["zj"]  = self.colors_dict["zll"]
-			self.colors_dict["ztt"] = "#A97E23 #C09D52"
-			self.colors_dict["tt"] = "#4372C1 #7691D2"
-			self.colors_dict["ttj"] = self.colors_dict["tt"]
-			self.colors_dict["ttbar"] = self.colors_dict["tt"]
-			self.colors_dict["vv"]  = "#FEE701 #FEED4B"
-			self.colors_dict["dibosons"]  = self.colors_dict["vv"]
-			self.colors_dict["ewk"]  = self.colors_dict["vv"]
-			self.colors_dict["qcd"] = "#66C42F #93D561"
-			self.colors_dict["fakes"] = self.colors_dict["qcd"]
-			self.colors_dict["wj"]  = self.colors_dict["qcd"]
-			self.colors_dict["wjets"]  = self.colors_dict["qcd"]
-			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
-			self.colors_dict["htt"] = "#BF2229 #CD574A"
-			self.colors_dict["ggh"] = "#BF2229"
-			self.colors_dict["qqh"] = "#F69110"
-			self.colors_dict["vh"]  = "#BC0C8D"
-			self.colors_dict["totalsig"] = self.colors_dict["htt"]
-			self.colors_dict["hww"] = "#D97CC4 #E7AEDB"
-			self.colors_dict["hww125"] = self.colors_dict["hww"]
-			self.colors_dict["totalbkg"] = "#000000"
-		
-		else: # if color_scheme.lower() == "cern":
-			self.colors_dict["zll"] = "#000000 #4496C8"
-			self.colors_dict["zmm"] = self.colors_dict["zll"]
-			self.colors_dict["zee"] = self.colors_dict["zll"]
-			self.colors_dict["zl"]  = self.colors_dict["zll"]
-			self.colors_dict["zj"]  = self.colors_dict["zll"]
-			self.colors_dict["ztt"] = "#000000 #FFCC66"
-			self.colors_dict["tt"] = "#000000 #9999CC"
-			self.colors_dict["ttj"] = self.colors_dict["tt"]
-			self.colors_dict["ttbar"] = self.colors_dict["tt"]
-			self.colors_dict["wj"]  = "#000000 #DE5A6A"
-			self.colors_dict["wjets"]  = self.colors_dict["wj"]
-			self.colors_dict["vv"]  = "#000000 #6F2D35"
-			self.colors_dict["dibosons"]  = self.colors_dict["wj"]
-			self.colors_dict["ewk"]  = self.colors_dict["wj"]
-			self.colors_dict["qcd"] = "#000000 #FFCCFF"
-			self.colors_dict["fakes"] = self.colors_dict["qcd"]
-			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
-			self.colors_dict["htt"] = "#000000"
-			self.colors_dict["ggh"] = self.colors_dict["htt"]
-			self.colors_dict["qqh"] = self.colors_dict["htt"]
-			self.colors_dict["vh"]  = self.colors_dict["htt"]
-			self.colors_dict["totalsig"] = self.colors_dict["htt"]
-			self.colors_dict["totalbkg"] = "#000000"
-
-		for higgs_mass in xrange(90, 161, 5):
-			self.colors_dict["htt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["htt"]
-			self.colors_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["ggh"]
-			self.colors_dict["qqh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["qqh"]
-			self.colors_dict["vh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["vh"]
-		
 		self.colors_dict["kit_gruen_1"] = "#00A88F"
 		self.colors_dict["kit_gruen_2"] = "#4CC1A5"
 		self.colors_dict["kit_gruen_3"] = "#7FD2B8"
@@ -132,4 +71,69 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["kit_grau_3"] = "#918F90"
 		self.colors_dict["kit_grau_4"] = "#BDBCBC"
 		self.colors_dict["kit_grau_5"] = "#DEDDDE"
+		
+		self.colors_dict["data"] = "#000000"
+		self.colors_dict["data_obs"] = self.colors_dict["data"]
+		
+		if color_scheme.lower() == "kit":
+			self.colors_dict["zll"] = self.colors_dict["kit_gruen_1"]+" "+self.colors_dict["kit_gruen_2"]
+			self.colors_dict["zmm"] = self.colors_dict["zll"]
+			self.colors_dict["zee"] = self.colors_dict["zll"]
+			self.colors_dict["zl"]  = self.colors_dict["zll"]
+			self.colors_dict["zj"]  = self.colors_dict["zll"]
+			self.colors_dict["ztt"] = self.colors_dict["kit_braun_1"]+" "+self.colors_dict["kit_braun_2"]
+			self.colors_dict["tt"] = self.colors_dict["kit_blau_1"]+" "+self.colors_dict["kit_blau_2"]
+			self.colors_dict["ttj"] = self.colors_dict["tt"]
+			self.colors_dict["ttbar"] = self.colors_dict["tt"]
+			self.colors_dict["vv"]  = self.colors_dict["kit_gelb_1"]+" "+self.colors_dict["kit_gelb_2"]
+			self.colors_dict["dibosons"]  = self.colors_dict["vv"]
+			self.colors_dict["ewk"]  = self.colors_dict["vv"]
+			self.colors_dict["qcd"] = self.colors_dict["kit_maigruen_1"]+" "+self.colors_dict["kit_maigruen_2"]
+			self.colors_dict["fakes"] = self.colors_dict["qcd"]
+			self.colors_dict["wj"]  = self.colors_dict["kit_cyanblau_2"]+" "+self.colors_dict["kit_cyanblau_3"]
+			self.colors_dict["wjets"]  = self.colors_dict["wj"]
+			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
+			self.colors_dict["htt"] = self.colors_dict["kit_rot_1"]+" "+self.colors_dict["kit_rot_2"]
+			self.colors_dict["ggh"] = self.colors_dict["kit_rot_1"]
+			self.colors_dict["qqh"] = self.colors_dict["kit_orange_1"]
+			self.colors_dict["vh"]  = self.colors_dict["kit_lila_1"]
+			self.colors_dict["totalsig"] = self.colors_dict["htt"]
+			self.colors_dict["hww"] = self.colors_dict["kit_lila_3"]+" "+self.colors_dict["kit_lila_4"]
+			self.colors_dict["hww125"] = self.colors_dict["hww"]
+			self.colors_dict["totalbkg"] = "#000000"
+			
+			self.colors_dict["channel_tt"] = self.colors_dict["kit_blau_1"]
+			self.colors_dict["channel_mt"] = self.colors_dict["kit_rot_1"]
+			self.colors_dict["channel_mm"] = self.colors_dict["kit_gruen_1"]
+		
+		else: # if color_scheme.lower() == "cern":
+			self.colors_dict["zll"] = "#000000 #4496C8"
+			self.colors_dict["zmm"] = self.colors_dict["zll"]
+			self.colors_dict["zee"] = self.colors_dict["zll"]
+			self.colors_dict["zl"]  = self.colors_dict["zll"]
+			self.colors_dict["zj"]  = self.colors_dict["zll"]
+			self.colors_dict["ztt"] = "#000000 #FFCC66"
+			self.colors_dict["tt"] = "#000000 #9999CC"
+			self.colors_dict["ttj"] = self.colors_dict["tt"]
+			self.colors_dict["ttbar"] = self.colors_dict["tt"]
+			self.colors_dict["wj"]  = "#000000 #DE5A6A"
+			self.colors_dict["wjets"]  = self.colors_dict["wj"]
+			self.colors_dict["vv"]  = "#000000 #6F2D35"
+			self.colors_dict["dibosons"]  = self.colors_dict["wj"]
+			self.colors_dict["ewk"]  = self.colors_dict["wj"]
+			self.colors_dict["qcd"] = "#000000 #FFCCFF"
+			self.colors_dict["fakes"] = self.colors_dict["qcd"]
+			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
+			self.colors_dict["htt"] = "#FF0000"
+			self.colors_dict["ggh"] = self.colors_dict["htt"]
+			self.colors_dict["qqh"] = self.colors_dict["htt"]
+			self.colors_dict["vh"]  = self.colors_dict["htt"]
+			self.colors_dict["totalsig"] = self.colors_dict["htt"]
+			self.colors_dict["totalbkg"] = "#000000"
+
+		for higgs_mass in xrange(90, 161, 5):
+			self.colors_dict["htt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["htt"]
+			self.colors_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["ggh"]
+			self.colors_dict["qqh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["qqh"]
+			self.colors_dict["vh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["vh"]
 

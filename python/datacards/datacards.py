@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import copy
 import os
+import re
 
 # http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
 import combineharvester as ch
@@ -13,6 +14,7 @@ import combineharvester as ch
 import Artus.Utility.tools as tools
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
+import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 
 def _call_command(args):
@@ -172,6 +174,7 @@ class Datacards(object):
 		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
 	
 	def replace_observation_by_asimov_dataset(self, signal_mass):
+		log.warning("Asimov data sets need to be created with combine -t -1 --expectSignal 0 [--toysFrequentist], since CH (python) does not yet support modifying of shapes!")
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
 			#observation.set_shape(cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape(), True)
@@ -212,6 +215,15 @@ class Datacards(object):
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 	
+	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, n_processes=1, *args):
+		commands = ["annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
+				FILES=os.path.join(os.path.dirname(workspace), root_filename),
+				VALUE=float(re.search(value_regex, workspace).groups()[0]),
+				ARGS=" ".join(args)
+		) for datacard, workspace in datacards_workspaces.iteritems()]
+		
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
+	
 	def postfit_shapes(self, datacards_cbs, n_processes=1, *args):
 		commands = []
 		datacards_postfit_shapes = {}
@@ -231,4 +243,95 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 		
 		return datacards_postfit_shapes
+	
+	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, *args):
+		if plotting_args is None:
+			plotting_args = {}
+		
+		plot_configs = []
+		bkg_plotting_order = ["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]
+		for level in ["prefit", "postfit"]:
+			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
+				if (index == 0) or (level == "postfit"):
+					for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
+						for category in datacards_cbs[datacard].cp().bin_set():
+							bkg_processes = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
+							bkg_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+							
+							config = {}
+							config["files"] = [postfit_shapes]
+							config["folders"] = [category+"_"+level]
+							config["x_expressions"] = ["TotalSig"] + bkg_processes + ["data_obs", "TotalBkg"]
+							config["nicks"] = ["TotalSig"] + bkg_processes + ["data_obs", "noplot_TotalBkg"]
+							config["stacks"] = ["sig_bkg"] + (["sig_bkg"]*len(bkg_processes)) + ["data"]
+							
+							config["labels"] = ["totalsig"] + [label.lower() for label in bkg_processes + ["data_obs"]]
+							config["colors"] = ["totalsig"] + [color.lower() for color in bkg_processes + ["data_obs"]]
+							config["markers"] = ["LINE"] + (["HIST"]*len(bkg_processes)) + ["E"]
+							config["legend_markers"] = ["L"] + (["F"]*len(bkg_processes)) + ["ELP"]
+							
+							config["legend"] = [0.7, 0.6, 0.9, 0.88]
+							
+							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
+							
+							if plotting_args.get("ratio", False):
+								if not "Ratio" in config.get("analysis_modules", []):
+									config.setdefault("analysis_modules", []).append("Ratio")
+								config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg", "noplot_TotalBkg TotalSig", "data_obs"])
+								config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg"] * 3)
+								config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio_sig", "ratio"])
+								config.setdefault("colors", []).extend(["totalbkg", "totalsig", "#000000"])
+								config.setdefault("markers", []).extend(["E2", "LINE", "E"])
+								config.setdefault("legend_markers", []).extend(["F", "L", "ELP"])
+								config.setdefault("labels", []).extend([""] * 3)
+								config["legend"] = [0.7, 0.5, 0.95, 0.92]
+							
+							plot_configs.append(config)
+		
+		# create result plots HarryPlotter
+		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
+	def print_pulls(self, datacards_cbs, n_processes=1, *args):
+		commands = [[
+				"python $CMSSW_BASE//src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py {ARGS} {FIT_RESULT}".format(
+						ARGS=" ".join(args),
+						FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root")
+				)
+		] for datacard in datacards_cbs.keys()]
+		
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
+
+	def pull_plots(self, datacards_postfit_shapes, plotting_args=None, n_processes=1, *args):
+		if plotting_args is None:
+			plotting_args = {}
+		
+		plot_configs = []
+		for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
+			if (index == 0):
+				for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
+
+					config = {}
+					config["files"] = [os.path.join(os.path.dirname(datacard), "mlfit.root")]
+					config["input_modules"] = ["InputRootSimple"]
+					config["root_names"] = ["fit_s", "fit_b", "nuisances_prefit"]
+					config["analysis_modules"] = ["ComputePullValues"]
+					config["nicks_blacklist"] = ["graph_b"]
+					config["fit_poi"] = plotting_args.get("fit_poi", "r")
+
+					config["left_pad_margin"] = [0.35]
+					config["labels"] = ["prefit", "S+B model"]
+					config["markers"] = ["L2", "P"]
+					config["fill_styles"] = [3001, 0]
+					config["legend"] = [0.75, 0.8]
+					config["legend_markers"] = ["LF", "LP"]
+					config["x_lims"] = [-5.0, 5.0]
+					config["x_label"] = "Pull values"
+
+					config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+					config["filename"] = "pulls"
+
+					plot_configs.append(config)
+
+		# create result plots HarryPlotter
+		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)

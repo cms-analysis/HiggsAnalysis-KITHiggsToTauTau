@@ -123,11 +123,19 @@
 			"ZZTo4Q_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFXmadspinpythia8" : 6.956,
 			
 			"SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_pythia8" : 5.27,
-			"GluGluHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 43.92,
-			"VBFHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 3.748,
-			"WminusHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.69,
-			"WplusHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.69,
-			"ZHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.8696
+			
+			"GluGluHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 2.775744,
+			"GluGluHToTauTauM130_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : -0.0632,
+			"VBFHToTauTauM120_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : -0.0632,
+			"VBFHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.2368736,
+			"VBFHToTauTauM130_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : -0.0632,
+			"WminusHToTauTauM120_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : -0.0316,
+			"WminusHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.043608,
+			"WminusHToTauTauM130_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : -0.0316,
+			"WplusHToTauTauM120_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : -0.0316,
+			"WplusHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.043608,
+			"WplusHToTauTauM130_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : -0.0316,
+			"ZHToTauTauM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.05495872
 		}
 	}
 }

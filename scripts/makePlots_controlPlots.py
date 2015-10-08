@@ -22,17 +22,17 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
+	                    default=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
-	parser.add_argument("--channels", nargs="*",
+	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("--quantities", nargs="*",
+	parser.add_argument("-x", "--quantities", nargs="*",
 	                    default=["inclusive",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2",
@@ -48,8 +48,14 @@ if __name__ == "__main__":
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
-	parser.add_argument("--run2", default=False, action="store_true",
-	                    help="Use Run2 samples. [Default: %(default)s]")
+	parser.add_argument("--run1", default=False, action="store_true",
+	                    help="Use Run1 samples. [Default: %(default)s]")
+	parser.add_argument("--cms", default=False, action="store_true",
+	                    help="CMS Preliminary lable. [Default: %(default)s]")
+	parser.add_argument("--energies", type=float, nargs="+",
+	                    help="Centre-of-mass energies for the given samples (without TeV suffix). [Default: None]")
+	parser.add_argument("--lumi", type=float, default=0.04003,
+	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
@@ -75,10 +81,10 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	if not args.run2:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
-	else:
+	if not args.run1:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+	else:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 	
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
@@ -101,12 +107,14 @@ if __name__ == "__main__":
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
 						weight=args.weight,
-						exclude_cuts=args.exclude_cuts+(["mt"] if quantity == "mt_1" else [])
+						lumi = args.lumi * 1000,
+						exclude_cuts=args.exclude_cuts+(["mt"] if quantity == "mt_1" else [])+(["pzeta"] if quantity == "pzetamiss" else [])
 				)
 				
 				config["x_expressions"] = quantity
 				config["x_bins"] = [channel+"_"+quantity]
 				config["x_label"] = channel+"_"+quantity
+				config["title"] = "channel_"+channel
 				
 				config["directories"] = [args.input_dir]
 				
@@ -114,7 +122,7 @@ if __name__ == "__main__":
 					if not analysis_module in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append(analysis_module)
 				
-				if not "PrintInfos" in config.get("analysis_modules", []):
+				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
 					config.setdefault("analysis_modules", []).append("PrintInfos")
 
 				if args.ratio:
@@ -133,6 +141,12 @@ if __name__ == "__main__":
 						channel if len(args.channels) > 1 else "",
 						category if len(args.categories) > 1 else ""
 				))
+				if args.cms:
+					config["cms"] = True
+					config["extra_text"] = "Preliminary"
+				if (not args.lumi is None) and (not args.energies is None):
+					config["lumis"] = [args.lumi]
+					config["energies"] = [args.energies]
 				if not args.www is None:
 					config["www"] = os.path.expandvars(os.path.join(
 							args.www,

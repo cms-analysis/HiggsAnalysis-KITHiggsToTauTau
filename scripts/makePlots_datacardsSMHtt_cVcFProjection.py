@@ -7,9 +7,12 @@ log = logging.getLogger(__name__)
 
 import argparse
 import copy
+import glob
 import os
 
 import combineharvester as ch
+
+import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
@@ -27,12 +30,16 @@ if __name__ == "__main__":
 	                    help="Integrated luminosity / pb used for the datacards. [Default: %(default)s]")
 	parser.add_argument("-l", "--lumis", nargs="+", type=int, default=[1000, 5000, 10000, 15000, 20000, 25000],
 	                    help="Projection values for integrated luminosities / pb.")
+	parser.add_argument("--cv-bins", default="30,0.0,3.0",
+	                    help="Binning of the grid for the cV axis.")
+	parser.add_argument("--cf-bins", default="30,0.0,2.0",
+	                    help="Binning of the grid for the cF axis.")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
-	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
-	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
+	parser.add_argument("-f", "--n-plots", type=int,
+	                    help="Number of plots. [Default: all]")
 	parser.add_argument("-o", "--output-dir", default=None,
 	                    help="Output directory. [Default: relative to datacards]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
@@ -55,7 +62,6 @@ if __name__ == "__main__":
 				break
 		
 		datacards = smhttdatacards.SMHttDatacards(cb=cb)
-		datacards.replace_observation_by_asimov_dataset("125")
 		
 		output_dir_base = args.output_dir
 		if output_dir_base is None:
@@ -68,7 +74,7 @@ if __name__ == "__main__":
 		# scale datacards
 		datacards_cbs = {}
 		for lumi in args.lumis:
-			output_dir = os.path.join(output_dir_base, "{:05}".format(lumi))
+			output_dir = os.path.join(output_dir_base, "{:06}".format(lumi))
 			if not os.path.exists(output_dir):
 				os.makedirs(output_dir)
 			
@@ -76,6 +82,7 @@ if __name__ == "__main__":
 			
 			lumi_scale_factor = lumi / args.lumi_datacards
 			scaled_datacards.scale_expectation(lumi_scale_factor)
+			#scaled_datacards.replace_observation_by_asimov_dataset("125")
 			
 			datacards_cbs.update(scaled_datacards.write_datacards(
 					os.path.basename(datacard),
@@ -83,16 +90,60 @@ if __name__ == "__main__":
 					output_dir
 			))
 		
+		cv_bins = [float(b) for b in args.cv_bins.split(",")]
+		cf_bins = [float(b) for b in args.cf_bins.split(",")]
+		assert cv_bins[0] == cf_bins[0]
 		# cV-cF scans
 		datacards_workspaces = scaled_datacards.text2workspace(
 				datacards_cbs,
 				args.n_processes,
-				"-P \"HiggsAnalysis.CombinedLimit.HiggsCouplings:cVcF\" --PO \"cVRange=0:3\" --PO \"cFRange=0:2\""
+				"-P \"HiggsAnalysis.CombinedLimit.HiggsCouplings:cVcF\" --PO \"cVRange={CV_MIN}:{CV_MAX}\" --PO \"cFRange={CF_MIN}:{CF_MAX}\"".format(
+						CV_MIN=cv_bins[1],
+						CV_MAX=cv_bins[2],
+						CF_MIN=cf_bins[1],
+						CF_MAX=cf_bins[2],
+				)
 		)
 		scaled_datacards.combine(
 				datacards_cbs,
 				datacards_workspaces,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
+				"-t -1 --expectSignal 1 -M MultiDimFit --algo grid --points {N_BINS} -n \"\"".format( # --firstPoint 1 --lastPoint 900
+						N_BINS=int(cv_bins[0] * cf_bins[0])
+				)
 		)
+		datacards.annotate_trees(datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", "projection/cv_cf/(\d*)/.*.root", args.n_processes, "-t limit -b lumi")
 
+		# plotting
+		plot_configs = []
+		
+		config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan_1sigma_over_lumi.json")).doIncludes().doComments()
+		
+		config["directories"] = sorted(glob.glob(os.path.join(output_dir_base, "*")))
+		config["weights"] = [w.replace("lumi", "(lumi/1000.0)") for w in config.get("weights", [])]
+		config["x_bins"] = args.cv_bins
+		config["y_bins"] = args.cf_bins
+		
+		if not "CombineHistograms" in config.get("analysis_modules", []):
+			config.setdefault("analysis_modules", []).append("CombineHistograms")
+		config.setdefault("combine_result_nicks", []).append("cVcF_lumi")
+		config.setdefault("nicks_whitelist", []).extend(config["combine_result_nicks"])
+		
+		"""
+		if not "ContourFromHistogram" in config.get("analysis_modules", []):
+			config.setdefault("analysis_modules", []).append("ContourFromHistogram")
+		config.setdefault("2d_histogram_nicks", []).append("cVcF_lumi")
+		config.setdefault("contour_thresholds", []).append(" ".join([str(lumi) for lumi in args.lumis]))
+		"""
+		
+		config["markers"] = "COLZ" # "CONT1Z"
+		
+		config["output_dir"] = os.path.join(output_dir_base, "plots")
+		
+		plot_configs.append(config)
+		
+		if log.isEnabledFor(logging.DEBUG):
+			import pprint
+			pprint.pprint(plot_configs)
+		
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)

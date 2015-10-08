@@ -11,10 +11,10 @@
 		"#FF0000"
 	],
 	"files" : [
-		"higgsCombinePVAL-exp.ProfileLikelihood.mH*.root"
+		"higgsCombine*ProfileLikelihood*mH125*.root"
 	],
 	"folders": [
-		"limit_friend"
+		"limit"
 	],
 	"line_styles": [
 		2,
@@ -25,10 +25,7 @@
 		1
 	],
 	"markers": [
-		"EL"
-	],
-	"nicks": [
-		"exp"
+		"LP"
 	],
 	"tree_draw_options": [
 		"TGraph"
@@ -37,21 +34,13 @@
 		"lumi"
 	],
 	"x_label" : "Integrated Luminosity / fb",
-	"x_lims": [
-		4.0,
-		21.0
-	],
 	"x_lines": [
-		"-10.0 10000.0"
+		"1e-10 1e10"
 	],
 	"y_expressions": [
 		"limit"
 	],
 	"y_label" : "Local p-value",
-	"y_lims": [
-		1e-10,
-		1.0
-	],
 	"y_lines": [
 		"@ for x in range(5): print \"\"{s} {s}\",\".format(s=ROOT.Math.normal_cdf_c(x+1.0))",
 		"0.158655253931 0.158655253931",

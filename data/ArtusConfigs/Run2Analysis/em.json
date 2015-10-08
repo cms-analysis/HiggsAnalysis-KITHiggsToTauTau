@@ -118,7 +118,7 @@
 					"producer:GenTauDecayProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer",
-					"producer:MetprojectionProducer"
+					"#producer:MetprojectionProducer"
 				],
 				"DY.?JetsToLL" : [
 					"producer:GenDiLeptonDecayModeProducer",
@@ -154,7 +154,7 @@
 					"producer:GenTauDecayProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer",
-					"producer:MetprojectionProducer"
+					"#producer:MetprojectionProducer"
 				],
 				"Run2015" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -185,7 +185,7 @@
 					"#producer:EventCategoryProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer",
-					"producer:MetprojectionProducer"
+					"#producer:MetprojectionProducer"
 				]
 			}
 		},
