@@ -49,6 +49,8 @@ if __name__ == "__main__":
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
+	parser.add_argument("-j", "--json-dir", default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/control_plots/",
+	                    help="Base directory for optional JSON configs. [Default: %(default)s]")
 	parser.add_argument("--run1", default=False, action="store_true",
 	                    help="Use Run1 samples. [Default: %(default)s]")
 	parser.add_argument("--cms", default=False, action="store_true",
@@ -105,6 +107,15 @@ if __name__ == "__main__":
 		for category in args.categories:
 			for quantity in args.quantities:
 			
+				json_config = {}
+				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity+".json") for channel_dir in [channel, "default"]]
+				for json_filename in json_filenames:
+					json_filename = os.path.expandvars(json_filename)
+					if os.path.exists(json_filename):
+						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
+						break
+				quantity = json_config.pop("x_expressions", [quantity])[0]
+				
 				config = sample_settings.get_config(
 						samples=list_of_samples,
 						channel=channel,
@@ -112,18 +123,19 @@ if __name__ == "__main__":
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
-						weight=args.weight,
+						weight="({0})*({1})".format(json_config.pop("weights", ["1.0"])[0], args.weight),
 						lumi = args.lumi * 1000,
-						exclude_cuts=args.exclude_cuts+(["mt"] if quantity == "mt_1" else [])+(["pzeta"] if quantity == "pzetamiss" else []),
+						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", (["mt"] if quantity == "mt_1" else [])+(["pzeta"] if quantity == "pzetamiss" else [])),
 						blind_expression=channel+"_"+quantity
 				)
 				
-				config["x_expressions"] = [quantity]
+				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
 				
 				binnings_key = channel+"_"+quantity
 				if binnings_key in binnings_settings.binnings_dict:
-					config["x_bins"] = [binnings_key]
-				config["x_label"] = channel+"_"+quantity
+					config["x_bins"] = json_config.pop("x_bins", [binnings_key])
+				config["x_label"] = json_config.pop("x_label", channel+"_"+quantity)
+				
 				config["title"] = "channel_"+channel
 				
 				config["directories"] = [args.input_dir]
@@ -183,6 +195,8 @@ if __name__ == "__main__":
 							channel if len(args.channels) > 1 else "",
 							category if len(args.categories) > 1 else ""
 					))
+				
+				config.update(json_config)
 				plot_configs.append(config)
 	
 	if log.isEnabledFor(logging.DEBUG):
