@@ -22,7 +22,7 @@ class Samples(samples.SamplesBase):
 		cuts = {}
 		cuts["blind"] = "{blind}"
 		cuts["os"] = "((q_1*q_2)<0.0)"
-		cuts["nobtag"] = "(nbtag<1)"
+		cuts["nobtag"] = "((nbtag<1)||(njetspt30<1))"
 		
 		if channel == "mt":
 			cuts["mt"] = "(mt_1<30.0)"
