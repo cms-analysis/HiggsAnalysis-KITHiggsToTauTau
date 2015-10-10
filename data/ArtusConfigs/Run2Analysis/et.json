@@ -270,7 +270,8 @@
 			"#CutFlowTreeConsumer",
 			"#KappaElectronsConsumer",
 			"#KappaTausConsumer",
-			"#KappaTaggedJetsConsumer"
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer"
 		]
 	}
 }

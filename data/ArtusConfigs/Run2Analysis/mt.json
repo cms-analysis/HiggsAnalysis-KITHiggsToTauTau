@@ -251,7 +251,8 @@
 			"#CutFlowTreeConsumer",
 			"#KappaMuonsConsumer",
 			"#KappaTausConsumer",
-			"#KappaTaggedJetsConsumer"
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer"
 		]
 	}
 }

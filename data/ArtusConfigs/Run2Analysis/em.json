@@ -198,7 +198,8 @@
 			"#CutFlowTreeConsumer",
 			"#KappaElectronsConsumer",
 			"#KappaMuonsConsumer",
-			"#KappaTaggedJetsConsumer"
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer"
 		]
 	}
 }
