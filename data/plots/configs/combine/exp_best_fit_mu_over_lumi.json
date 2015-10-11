@@ -7,7 +7,7 @@
 		"#ff0000"
 	],
 	"files": [
-		"higgsCombine*MultiDimFit*mH*.root"
+		"higgsCombine.MultiDimFit*mH*.root"
 	],
 	"fill_styles": [
 		1001

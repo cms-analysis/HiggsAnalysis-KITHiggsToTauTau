@@ -1,17 +1,15 @@
 {
 	"analysis_modules": [
 		"GraphCombination",
-		"StatisticalErrors"
+		"SplitGraphComponents"
 	],
 	"colors": [
 		"#00ff00",
-		"#ff0000"
+		"#ff0000",
+		"#00ff00"
 	],
 	"files": [
 		"higgsCombine.MultiDimFit*mH*.root"
-	],
-	"fill_styles": [
-		1001
 	],
 	"folders": [
 		"limit"
@@ -35,15 +33,14 @@
 		2
 	],
 	"labels": [
-		"#pm 1#sigma Expected",
-		"Expected"
+		"#plus1#sigma Expected",
+		"Expected",
+		"#minus1#sigma Expected"
 	],
 	"legend_markers": [
-		"F",
 		"L"
 	],
 	"markers": [
-		"E3",
 		"L"
 	],
 	"nicks": [
@@ -51,11 +48,22 @@
 		"m1s_noplot",
 		"p1s_noplot"
 	],
-	"stat_error_nicks" : [
-		"1s",
-		"central"
+	"nicks_blacklist": [
+		"noplot",
+		"^1s$"
 	],
-	"stat_error_relative" : false,
+	"nicks_whitelist": [
+		"1s_yehigh",
+		"central",
+		"1s_yelow"
+	],
+	"split_graph_components": [
+		"yehigh",
+		"yelow"
+	],
+	"split_graph_nicks": [
+		"1s"
+	],
 	"tree_draw_options": [
 		"TGraph",
 		"TGraphErrors",
@@ -77,6 +85,6 @@
 		"0:r",
 		"0:r"
 	],
-	"y_label": "Uncertainty on Best Fit #sigma/#sigma_{SM}",
-	"filename": "exp_best_fit_mu_unc_over_lumi"
+	"y_label": "Best Fit #sigma/#sigma_{SM}",
+	"filename": "exp_best_fit_mu_split_over_lumi"
 }
