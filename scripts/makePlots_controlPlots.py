@@ -125,7 +125,7 @@ if __name__ == "__main__":
 						ztt_from_mc=args.ztt_from_mc,
 						weight="({0})*({1})".format(json_config.pop("weights", ["1.0"])[0], args.weight),
 						lumi = args.lumi * 1000,
-						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", (["mt"] if quantity == "mt_1" else [])+(["pzeta"] if quantity == "pzetamiss" else [])),
+						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", []),
 						blind_expression=channel+"_"+quantity
 				)
 				

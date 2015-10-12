@@ -1,6 +1,6 @@
 {
 	"x_expressions" : [
-		"pzeta"
+		"pZetaMissVis"
 	],
 	"exclude_cuts" : [
 		"pzeta"
