@@ -32,7 +32,11 @@ class SMHttDatacards(datacards.Datacards):
 			
 			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
-		
+			
+			# Tau ES
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+			
 			# ======================================================================
 			# ET channel
 			self.add_processes(
@@ -51,7 +55,11 @@ class SMHttDatacards(datacards.Datacards):
 			
 			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
-		
+			
+			# Tau ES
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+			
 			# ======================================================================
 			# EM channel
 			self.add_processes(
@@ -70,7 +78,7 @@ class SMHttDatacards(datacards.Datacards):
 			
 			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
-		
+			
 			# ======================================================================
 			# TT channel
 			self.add_processes(
@@ -86,7 +94,11 @@ class SMHttDatacards(datacards.Datacards):
 			# efficiencies
 			self.cb.cp().channel(["tt"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
-		
+			
+			# Tau ES
+			self.cb.cp().channel(["tt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+			
 			# ======================================================================
 			# All channels
 		

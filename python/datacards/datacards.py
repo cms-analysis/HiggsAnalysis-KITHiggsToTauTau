@@ -118,6 +118,14 @@ class Datacards(object):
 			ch.SystMap("era")
 				(["13TeV"], 1.0)
 		]
+		self.tau_es_syst_args = [
+			"CMS_scale_t_$BIN_$ERA",
+			"shape",
+			ch.SystMap("era", "bin")
+				(["13TeV", "mt"], 1.0)
+				(["13TeV", "et"], 1.0)
+				(["13TeV", "tt"], 1.0)
+		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
 		bin = [(self.configs.category2binid(category, channel), category) for category in categories]
