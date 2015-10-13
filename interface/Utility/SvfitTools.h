@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include <TChain.h>
+#include <TMemFile.h>
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
@@ -174,6 +175,7 @@ public:
 	                        bool& neededRecalculation, bool checkInputs=false);
 
 private:
+	TMemFile* svfitCacheFile = 0;
 	TChain* svfitCacheInputTree = 0;
 	std::unordered_map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
 	
