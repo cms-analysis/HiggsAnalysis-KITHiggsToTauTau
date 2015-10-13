@@ -6,19 +6,23 @@
 
 
 SvfitEventKey::SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
+                             svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
                              IntegrationMethod const& integrationMethod)
 {
-	Set(run, lumi, event, systematicShift, systematicShiftSigma, integrationMethod);
+	Set(run, lumi, event, decayType1, decayType2, systematicShift, systematicShiftSigma, integrationMethod);
 }
 
 void SvfitEventKey::Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
+                        svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
                         IntegrationMethod const& integrationMethod)
 {
 	this->run = run;
 	this->lumi = lumi;
 	this->event = event;
+	this->decayType1 = Utility::ToUnderlyingValue(decayType1);
+	this->decayType2 = Utility::ToUnderlyingValue(decayType2);
 	this->systematicShift = Utility::ToUnderlyingValue<HttEnumTypes::SystematicShift>(systematicShift);
 	this->systematicShiftSigma = systematicShiftSigma;
 	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
@@ -39,6 +43,8 @@ void SvfitEventKey::CreateBranches(TTree* tree)
 	tree->Branch("run", &run, "run/l");
 	tree->Branch("lumi", &lumi, "lumi/l");
 	tree->Branch("event", &event, "event/l");
+	tree->Branch("decayType1", &decayType1);
+	tree->Branch("decayType2", &decayType2);
 	tree->Branch("systematicShift", &systematicShift);
 	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("integrationMethod", &integrationMethod);
@@ -49,6 +55,8 @@ void SvfitEventKey::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("run", &run);
 	tree->SetBranchAddress("lumi", &lumi);
 	tree->SetBranchAddress("event", &event);
+	tree->SetBranchAddress("decayType1", &decayType1);
+	tree->SetBranchAddress("decayType2", &decayType2);
 	tree->SetBranchAddress("systematicShift", &systematicShift);
 	tree->SetBranchAddress("systematicShiftSigma", &systematicShiftSigma);
 	tree->SetBranchAddress("integrationMethod", &integrationMethod);
@@ -60,6 +68,8 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("run", activate);
 	tree->SetBranchStatus("lumi", activate);
 	tree->SetBranchStatus("event", activate);
+	tree->SetBranchStatus("decayType1", activate);
+	tree->SetBranchStatus("decayType2", activate);
 	tree->SetBranchStatus("systematicShift", activate);
 	tree->SetBranchStatus("systematicShiftSigma", activate);
 	tree->SetBranchStatus("integrationMethod", activate);
@@ -68,6 +78,8 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 {
 	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event) &&
+	        (decayType1 == rhs.decayType1) &&
+	        (decayType2 == rhs.decayType2) &&
 	        (integrationMethod == rhs.integrationMethod) &&
 	        (systematicShift == rhs.systematicShift) &&
 	        CutRange::EqualsCut(systematicShiftSigma).IsInRange(rhs.systematicShiftSigma));
@@ -84,6 +96,8 @@ std::string std::to_string(SvfitEventKey const& svfitEventKey)
 			"run=" + std::to_string(svfitEventKey.run) + ", " +
 			"lumi=" + std::to_string(svfitEventKey.lumi) + ", " +
 			"event=" + std::to_string(svfitEventKey.event) + ", " +
+			"decayType1=" + std::to_string(svfitEventKey.decayType1) + ", " +
+			"decayType2=" + std::to_string(svfitEventKey.decayType2) + ", " +
 			"systematicShift=" + std::to_string(svfitEventKey.systematicShift) + ", " +
 			"systematicShiftSigma=" + std::to_string(svfitEventKey.systematicShiftSigma) + ", " +
 			"integrationMethod=" + std::to_string(svfitEventKey.integrationMethod) + ")";
@@ -94,12 +108,11 @@ std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey)
 	return os << std::to_string(svfitEventKey);
 }
 
-SvfitInputs::SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-                         RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
+SvfitInputs::SvfitInputs(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
                          RMDataV const& metMomentum, RMSM2x2 const& metCovariance)
 	: SvfitInputs()
 {
-	Set(decayType1, decayType2, leptonMomentum1, leptonMomentum2, metMomentum, metCovariance);
+	Set(leptonMomentum1, leptonMomentum2, metMomentum, metCovariance);
 }
 
 SvfitInputs::~SvfitInputs()
@@ -124,13 +137,9 @@ SvfitInputs::~SvfitInputs()
 	*/
 }
 
-void SvfitInputs::Set(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-                      RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
+void SvfitInputs::Set(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
                       RMDataV const& metMomentum, RMSM2x2 const& metCovariance)
 {
-	this->decayType1 = Utility::ToUnderlyingValue(decayType1);
-	this->decayType2 = Utility::ToUnderlyingValue(decayType2);
-	
 	if (! this->leptonMomentum1)
 	{
 		this->leptonMomentum1 = new RMFLV();
@@ -156,8 +165,6 @@ void SvfitInputs::Set(svFitStandalone::kDecayType const& decayType1, svFitStanda
 
 void SvfitInputs::CreateBranches(TTree* tree)
 {
-	tree->Branch("decayType1", &decayType1);
-	tree->Branch("decayType2", &decayType2);
 	tree->Branch("leptonMomentum1", "RMFLV", &leptonMomentum1);
 	tree->Branch("leptonMomentum2", "RMFLV", &leptonMomentum2);
 	tree->Branch("metMomentum", "ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag>", &metMomentum);
@@ -166,8 +173,6 @@ void SvfitInputs::CreateBranches(TTree* tree)
 
 void SvfitInputs::SetBranchAddresses(TTree* tree)
 {
-	tree->SetBranchAddress("decayType1", &decayType1);
-	tree->SetBranchAddress("decayType2", &decayType2);
 	tree->SetBranchAddress("leptonMomentum1", &leptonMomentum1);
 	tree->SetBranchAddress("leptonMomentum2", &leptonMomentum2);
 	tree->SetBranchAddress("metMomentum", &metMomentum);
@@ -177,8 +182,6 @@ void SvfitInputs::SetBranchAddresses(TTree* tree)
 
 void SvfitInputs::ActivateBranches(TTree* tree, bool activate)
 {
-	tree->SetBranchStatus("decayType1", activate);
-	tree->SetBranchStatus("decayType2", activate);
 	tree->SetBranchStatus("leptonMomentum1", activate);
 	tree->SetBranchStatus("leptonMomentum2", activate);
 	tree->SetBranchStatus("metMomentum", activate);
@@ -187,9 +190,7 @@ void SvfitInputs::ActivateBranches(TTree* tree, bool activate)
 
 bool SvfitInputs::operator==(SvfitInputs const& rhs) const
 {
-	return ((decayType1 == rhs.decayType1) &&
-	        (decayType2 == rhs.decayType2) &&
-	        Utility::ApproxEqual(*leptonMomentum1, *(rhs.leptonMomentum1)) &&
+	return (Utility::ApproxEqual(*leptonMomentum1, *(rhs.leptonMomentum1)) &&
 	        Utility::ApproxEqual(*leptonMomentum2, *(rhs.leptonMomentum2)) &&
 	        Utility::ApproxEqual(*metMomentum, *(rhs.metMomentum)) &&
 	        Utility::ApproxEqual(*metCovariance, *(rhs.metCovariance)));
@@ -200,9 +201,9 @@ bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
 	return (! (*this == rhs));
 }
 
-SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(int verbosity, bool addLogM) const
+SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM) const
 {
-	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(GetMeasuredTauLeptons(),
+	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(GetMeasuredTauLeptons(svfitEventKey),
 	                                                                             metMomentum->x(),
 	                                                                             metMomentum->y(),
 	                                                                             GetMetCovarianceMatrix(),
@@ -211,11 +212,11 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(int verbosity,
 	return svfitStandaloneAlgorithm;
 }
 
-std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons() const
+std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const
 {
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMomentum1->M()),
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMomentum2->M())
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMomentum1->M()),
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMomentum2->M())
 	};
 	return measuredTauLeptons;
 }
@@ -407,7 +408,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	if (neededRecalculation)
 	{
 		// construct algorithm
-		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm();
+		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm(svfitEventKey);
 	
 		// execute integration
 		if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::VEGAS)
