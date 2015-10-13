@@ -14,7 +14,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		
 		# blinding (of data)
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["blind_"+channel+"_svfitMass"] = "((svfitMass<100.0)+(svfitMass>200.0))"
+			pass # self.expressions_dict["blind_"+channel+"_svfitMass"] = "((svfitMass<100.0)+(svfitMass>200.0))"
 		
 		# category cuts
 		self.expressions_dict["cat_inclusive"] = "1.0"
