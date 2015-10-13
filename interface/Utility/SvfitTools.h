@@ -3,7 +3,7 @@
 
 #include "Artus/Utility/interface/ArtusLogging.h"
 
-#include <unordered_map>
+#include <map>
 
 #include <TChain.h>
 #include <TMemFile.h>
@@ -66,30 +66,12 @@ public:
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);
 	
+	bool operator<(SvfitEventKey const& rhs) const;
 	bool operator==(SvfitEventKey const& rhs) const;
 	bool operator!=(SvfitEventKey const& rhs) const;
 };
 
-/** Hashing function for SvfitEventKey. This is needed when SvfitEventKey is used
- *  as key type of a std::unordered_map.
- */
 namespace std {
-	template<>
-	struct hash<SvfitEventKey>
-	{
-		std::size_t operator()(SvfitEventKey const& svfitEventKey) const
-		{
-			return ((std::hash<uint64_t>()(svfitEventKey.run)) ^
-			        (std::hash<uint64_t>()(svfitEventKey.lumi)) ^
-			        (std::hash<uint64_t>()(svfitEventKey.event)) ^
-			        (std::hash<int>()(svfitEventKey.decayType1)) ^
-			        (std::hash<int>()(svfitEventKey.decayType2)) ^
-			        (std::hash<int>()(svfitEventKey.systematicShift)) ^
-			        (std::hash<float>()(svfitEventKey.systematicShiftSigma)) ^
-			        (std::hash<int>()(svfitEventKey.integrationMethod)));
-		}
-	};
-	
 	string to_string(SvfitEventKey const& svfitEventKey);
 }
 
@@ -178,7 +160,7 @@ public:
 private:
 	TMemFile* svfitCacheFile = 0;
 	TChain* svfitCacheInputTree = 0;
-	std::unordered_map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
+	std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
 	
 	SvfitInputs svfitInputs;
 	SvfitResults svfitResults;

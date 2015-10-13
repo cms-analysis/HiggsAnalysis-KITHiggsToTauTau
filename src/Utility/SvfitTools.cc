@@ -75,6 +75,42 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("integrationMethod", activate);
 }
 
+bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
+{
+	if (run < rhs.run)
+	{
+		return true;
+	}
+	else if (lumi < rhs.lumi)
+	{
+		return true;
+	}
+	else if (event < rhs.event)
+	{
+		return true;
+	}
+	else if (decayType1 < rhs.decayType1)
+	{
+		return true;
+	}
+	else if (decayType2 < rhs.decayType2)
+	{
+		return true;
+	}
+	else if (integrationMethod < rhs.integrationMethod)
+	{
+		return true;
+	}
+	else if (systematicShift < rhs.systematicShift)
+	{
+		return true;
+	}
+	else
+	{
+		return (systematicShiftSigma < rhs.systematicShiftSigma);
+	}
+}
+
 bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 {
 	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event) &&
