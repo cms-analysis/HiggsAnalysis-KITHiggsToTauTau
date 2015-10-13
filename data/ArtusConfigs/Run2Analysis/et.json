@@ -271,7 +271,8 @@
 			"#KappaElectronsConsumer",
 			"#KappaTausConsumer",
 			"#KappaTaggedJetsConsumer",
-			"#RunTimeConsumer"
+			"#RunTimeConsumer",
+			"#PrintEventsConsumer"
 		]
 	}
 }

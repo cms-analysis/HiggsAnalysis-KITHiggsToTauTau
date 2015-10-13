@@ -193,7 +193,8 @@
 			"#CutFlowTreeConsumer",
 			"#KappaTausConsumer",
 			"#KappaTaggedJetsConsumer",
-			"#RunTimeConsumer"
+			"#RunTimeConsumer",
+			"#PrintEventsConsumer"
 		]
 	}
 }
