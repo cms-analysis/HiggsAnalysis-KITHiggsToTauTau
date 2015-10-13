@@ -77,37 +77,54 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 
 bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
 {
-	if (run < rhs.run)
+	if (run == rhs.run)
 	{
-		return true;
+		if (lumi == rhs.lumi)
+		{
+			if (event == rhs.event)
+			{
+				if (decayType1 == rhs.decayType1)
+				{
+					if (decayType2 == rhs.decayType2)
+					{
+						if (integrationMethod == rhs.integrationMethod)
+						{
+							if (systematicShift == rhs.systematicShift)
+							{
+								return (systematicShiftSigma < rhs.systematicShiftSigma);
+							}
+							else
+							{
+								return (systematicShift < rhs.systematicShift);
+							}
+						}
+						else
+						{
+							return (integrationMethod < rhs.integrationMethod);
+						}
+					}
+					else
+					{
+						return (decayType2 < rhs.decayType2);
+					}
+				}
+				else
+				{
+					return (decayType1 < rhs.decayType1);
+				}
+			}
+			else
+			{
+				return (event < rhs.event);
+			}
+		}
+		else
+		{
+			return (lumi < rhs.lumi);
+		}
 	}
-	else if (lumi < rhs.lumi)
-	{
-		return true;
-	}
-	else if (event < rhs.event)
-	{
-		return true;
-	}
-	else if (decayType1 < rhs.decayType1)
-	{
-		return true;
-	}
-	else if (decayType2 < rhs.decayType2)
-	{
-		return true;
-	}
-	else if (integrationMethod < rhs.integrationMethod)
-	{
-		return true;
-	}
-	else if (systematicShift < rhs.systematicShift)
-	{
-		return true;
-	}
-	else
-	{
-		return (systematicShiftSigma < rhs.systematicShiftSigma);
+	else {
+		return (run < rhs.run);
 	}
 }
 
