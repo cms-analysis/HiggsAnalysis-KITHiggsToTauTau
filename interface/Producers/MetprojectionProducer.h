@@ -5,6 +5,11 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
+/**
+   \brief GlobalProducer for MET studies
+   reads in generator MET as well as as SvFit Quantities to allow resolution studies
+   
+*/
 class MetprojectionProducer: public ProducerBase<HttTypes> {
 public:
 	

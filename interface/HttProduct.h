@@ -83,7 +83,9 @@ public:
 	RMFLV m_diLeptonPlusMetSystem;
 
 	// filled by the MetprojectionProducer
-	TVector2 m_metProjection;
+	TVector2 m_recoNeutrinoOnRecoMetProjection;
+	TVector2 m_recoNeutrinoOnGenMetProjection;
+	TVector2 m_recoMetOnGenMetProjection;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
