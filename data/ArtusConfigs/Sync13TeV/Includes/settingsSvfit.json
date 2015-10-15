@@ -2,7 +2,8 @@
 	"SvfitIntegrationMethod" : "MarkovChain",
 	"SvfitCacheFile" : {
 		"nick" : {
-			"SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD" : "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/analysis/svfit/svfit_SUSYsync13TeV/svfitCache_SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_pythia8.root"
+			"SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD" : "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/analysis/svfit/svfit_SUSYsync13TeV/svfitCache_SUSYGluGluToHToTauTauM160_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_pythia8.root",
+			"SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8" : "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/analysis/svfit/svfit_SUSYsync13TeV/svfitCache_SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8.root"
 		}
 	}
 }
