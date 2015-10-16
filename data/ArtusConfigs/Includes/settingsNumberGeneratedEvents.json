@@ -158,6 +158,28 @@
 			"HWplusJHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 299397,
 			"HWminusJHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 294176,
 			"HZJHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 294320,
+
+			"DYJetsToLLM10to50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 30021559,
+			"DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 28747969,
+			"ST-tW-antitop_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 988500,
+			"ST-tW-top_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 995600,
+			"ST-s_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 984400,
+			"ST-t_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 29954054,
+			"SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8" : 499610,
+			"TTJets_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 40220036,
+			"TTJets_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8" : 11344206,
+			"TT_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 18994000,
+			"TT_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 96787406,
+			"WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 24184766,
+			"WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8" : 72207128,
+			"WWTo2L2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg" : 1965200,
+			"WWTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg" : 1995200,
+			"WWToLNuQQ_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg" : 1951600,
+			"WZTo1L1Nu2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 24714550,
+			"WZTo2L2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 31477411,
+			"ZZTo2L2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 18742616,
+			"ZZTo2Q2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 36797411,
+			"ZZTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 35917388,
 			
 			"default": -1
 		}

@@ -141,7 +141,30 @@
 			"GluGluZHHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 9.4428,
 			"HWplusJHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.14835,
 			"HWminusJHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.14835,
-			"HZJHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.186964
+			"HZJHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 0.186964,
+
+			"DYJetsToLLM10to50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 18610,
+			"DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 6025,
+			"ST-tW-antitop_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 35.6,
+			"ST-tW-top_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 35.6,
+			"ST-s_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 103.02,
+			"ST-t_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 80.95,
+			"TTJets_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 831.76,
+			"TTJets_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8" : 831.76,
+			"TT_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 831.76,
+			"TT_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 831.76,
+			"WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 61526.7,
+			"WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8" : 61526.7,
+			"WWTo2L2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg" : 10.481,
+			"WWTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg" : 45.20,
+			"WWToLNuQQ_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg" : 43.53,
+			"WZTo1L1Nu2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 10.96,
+			"WZTo2L2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 10.96,
+			"ZZTo2L2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 10.96,
+			"ZZTo2Q2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 10.96,
+			"ZZTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 1.256,
+			
+			"SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8" : 5.27
 		}
 	}
 }
