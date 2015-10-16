@@ -53,6 +53,10 @@ public:
 		{
 			return static_cast<int>(product.m_validDiTauPairCandidates.size());
 		});
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nAllDiTauPairCandidates", [](event_type const& event, product_type const& product)
+		{
+			return static_cast<int>(product.m_validDiTauPairCandidates.size()+product.m_invalidDiTauPairCandidates.size());
+		});
 	}
 	
 	virtual void Produce(event_type const& event, product_type & product, 

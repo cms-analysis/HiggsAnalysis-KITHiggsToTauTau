@@ -86,7 +86,9 @@
 			"genDiLeptonDecayMode",
 			"nVetoMuons",
 			"nLooseElectrons",
-			"nLooseMuons"
+			"nLooseMuons",
+			"nDiTauPairCandidates",
+			"nAllDiTauPairCandidates"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
