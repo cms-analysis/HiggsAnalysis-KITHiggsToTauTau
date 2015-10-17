@@ -12,6 +12,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 	def __init__(self, additional_expressions=None):
 		super(ExpressionsDict, self).__init__(additional_expressions=additional_expressions)
 		
+		self.expressions_dict["inclusive"] = "0.5"
+		
 		# blinding (of data)
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pass # self.expressions_dict["blind_"+channel+"_svfitMass"] = "((svfitMass<100.0)+(svfitMass>200.0))"
