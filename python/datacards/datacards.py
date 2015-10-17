@@ -122,9 +122,9 @@ class Datacards(object):
 			"CMS_scale_t_$BIN_$ERA",
 			"shape",
 			ch.SystMap("era", "bin")
-				(["13TeV", "mt"], 1.0)
-				(["13TeV", "et"], 1.0)
-				(["13TeV", "tt"], 1.0)
+				(["13TeV"], ["mt"], 1.0)
+				(["13TeV"], ["et"], 1.0)
+				(["13TeV"], ["tt"], 1.0)
 		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
