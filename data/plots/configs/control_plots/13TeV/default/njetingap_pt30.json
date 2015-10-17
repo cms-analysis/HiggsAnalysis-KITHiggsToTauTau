@@ -1,0 +1,8 @@
+{
+	"x_expressions" : [
+		"njetingap"
+	],
+	"weights" : [
+		"(njetspt30>1)*(njetspt30>=njetingap)"
+	]
+}
