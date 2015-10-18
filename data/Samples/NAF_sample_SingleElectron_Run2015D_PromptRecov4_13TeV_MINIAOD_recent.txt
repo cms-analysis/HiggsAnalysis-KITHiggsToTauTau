@@ -1,0 +1,1 @@
+NAF_sample_SingleElectron_Run2015D_PromptRecov4_13TeV_MINIAOD_2015-10-14.txt
