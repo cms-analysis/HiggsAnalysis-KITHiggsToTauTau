@@ -470,16 +470,20 @@ class Datacards(object):
 							config = {}
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
-							config["x_expressions"] = ["TotalSig"] + bkg_processes + ["data_obs", "TotalBkg"]
-							config["nicks"] = ["TotalSig"] + bkg_processes + ["data_obs", "noplot_TotalBkg"]
-							config["stacks"] = ["sig_bkg"] + (["sig_bkg"]*len(bkg_processes)) + ["data"]
+							config["x_expressions"] = ["TotalSig"] + bkg_processes + ["TotalBkg", "data_obs"]
+							config["nicks"] = ["TotalSig"] + bkg_processes + ["TotalBkg", "data_obs"]
+							config["stacks"] = ["sig_bkg"] + (["sig_bkg"]*len(bkg_processes)) + ["bkg_unc", "data"]
 							
-							config["labels"] = ["totalsig"] + [label.lower() for label in bkg_processes + ["data_obs"]]
-							config["colors"] = ["totalsig"] + [color.lower() for color in bkg_processes + ["data_obs"]]
-							config["markers"] = ["LINE"] + (["HIST"]*len(bkg_processes)) + ["E"]
-							config["legend_markers"] = ["L"] + (["F"]*len(bkg_processes)) + ["ELP"]
+							config["labels"] = [label.lower() for label in ["TotalSig"] + bkg_processes + ["TotalBkg", "data_obs"]]
+							config["colors"] = [color.lower() for color in ["TotalSig"] + bkg_processes + ["TotalBkg", "data_obs"]]
+							config["markers"] = ["LINE"] + (["HIST"]*len(bkg_processes)) + ["E2", "E"]
+							config["legend_markers"] = ["L"] + (["F"]*len(bkg_processes)) + ["F", "ELP"]
 							
-							config["legend"] = [0.7, 0.6, 0.9, 0.88]
+							config["rel_y_lims"] = [0.0, 1.4]
+							config["legend"] = [0.23, 0.73, 0.9, 0.89]
+							config["legend_cols"] = 3
+							
+							config["title"] = "channel_"+(category.split("_")[0])
 							
 							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category

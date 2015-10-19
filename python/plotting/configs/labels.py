@@ -13,6 +13,7 @@ class LabelsDict(labels.LabelsDict):
 		super(LabelsDict, self).__init__(latex_version=latex_version, additional_labels=additional_labels)
 		
 		if latex_version == "root":
+			self.labels_dict["totalbkg"] = "Bkg. Unc."
 			self.labels_dict["data"] = "Data"
 			self.labels_dict["zll"] = "Z #rightarrow ll"
 			self.labels_dict["zmm"] = "Z #rightarrow #mu#mu"
