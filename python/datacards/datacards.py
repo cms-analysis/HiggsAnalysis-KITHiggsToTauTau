@@ -140,6 +140,72 @@ class Datacards(object):
 				(["13TeV"], ["et"], 1.0)
 				(["13TeV"], ["tt"], 1.0)
 		]
+		
+		# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV#s_13_0_TeV
+		self.htt_qcd_scale_syst_args = [
+			"QCD_scale_$PROCESS",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["13TeV"], ["ggH"], 1.079)
+				(["13TeV"], ["qqH"], 1.007)
+				(["13TeV"], ["WH"], 1.015)
+				(["13TeV"], ["ZH"], 1.038)
+		]
+		self.htt_pdf_scale_syst_args = [
+			"PDF_scale_$PROCESS",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["13TeV"], ["ggH"], 1.071)
+				(["13TeV"], ["qqH"], 1.032)
+				(["13TeV"], ["WH"], 1.022)
+				(["13TeV"], ["ZH"], 1.022)
+		]
+		
+		# CMS AN-13-262 (v8, table 3)
+		self.htt_ueps_syst_args = [
+			"UEPS",
+			"lnN",
+			ch.SystMap("era", "process", "bin")
+				(["13TeV"], ["ggH"], ["mt_0jet_high"], 1.060) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["mt_0jet_low"], 1.073) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["mt_1jet_high"], 0.996) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["mt_1jet_low"], 1.007) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["mt_2jet_vbf"], 9.988) # copied from 8TeV
+				
+				(["13TeV"], ["ggH"], ["et_0jet_high"], 1.060) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["et_0jet_low"], 1.073) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["et_1jet_high"], 0.996) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["et_1jet_low"], 1.007) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["et_2jet_vbf"], 9.988) # copied from 8TeV
+				
+				(["13TeV"], ["ggH"], ["em_0jet_high"], 1.063) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["em_0jet_low"], 1.089) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["em_1jet_high"], 1.004) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["em_1jet_low"], 1.000) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["em_2jet_vbf"], 9.988) # copied from 8TeV
+				
+				(["13TeV"], ["ggH"], ["tt_inclusive"], 1.025) # copied from 8TeV
+				
+				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_0jet_high"], 1.028) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_0jet_low"], 1.018) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_1jet_high"], 0.954) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_1jet_low"], 0.946) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_2jet_vbf"], 0.893) # copied from 8TeV
+				
+				(["13TeV"], ["qqH", "WH", "ZH"], ["et_0jet_high"], 1.028) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["et_0jet_low"], 1.018) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["et_1jet_high"], 0.954) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["et_1jet_low"], 0.946) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["et_2jet_vbf"], 0.893) # copied from 8TeV
+				
+				(["13TeV"], ["qqH", "WH", "ZH"], ["em_0jet_high"], 1.042) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["em_0jet_low"], 1.035) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["em_1jet_high"], 0.978) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["em_1jet_low"], 0.984) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH"], ["em_2jet_vbf"], 0.893) # copied from 8TeV
+				
+				(["13TeV"], ["qqH", "WH", "ZH"], ["tt_inclusive"], 1.025) # copied from 8TeV
+		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
 		bin = [(self.configs.category2binid(category, channel), category) for category in categories]

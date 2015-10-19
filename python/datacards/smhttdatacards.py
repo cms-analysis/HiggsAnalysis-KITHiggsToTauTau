@@ -115,6 +115,11 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["WJ"]).channel(["em", "tt"]).AddSyst(self.cb, *self.wj_cross_section_syst_args) # automatically in other channels determined
 		
+			# signal
+			self.cb.cp().signals().AddSyst(self.cb, *self.htt_qcd_scale_syst_args)
+			self.cb.cp().signals().AddSyst(self.cb, *self.htt_pdf_scale_syst_args)
+			self.cb.cp().signals().AddSyst(self.cb, *self.htt_ueps_syst_args)
+		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
 
