@@ -115,9 +115,9 @@ if __name__ == "__main__":
 	
 	parser.add_argument("-d", "--datacards", nargs="+", required=True,
 	                    help="Datacards.")
-	parser.add_argument("-L", "--lumi-datacards", type=float, default=40.03,
+	parser.add_argument("-L", "--lumi-datacards", type=float, default=0.07152,
 	                    help="Integrated luminosity / pb used for the datacards. [Default: %(default)s]")
-	parser.add_argument("-l", "--lumis", nargs="+", type=int, default=[1000, 5000, 10000, 15000, 20000, 25000],
+	parser.add_argument("-l", "--lumis", nargs="+", type=int, default=range(1000, 10000, 1000)+range(10000, 100000, 10000)+range(100000, 300001, 100000),
 	                    help="Projection values for integrated luminosities / pb.")
 	parser.add_argument("-m", "--models", nargs="+", default=["default"],
 	                    choices=models.keys(),
