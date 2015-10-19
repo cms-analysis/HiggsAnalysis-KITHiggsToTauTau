@@ -83,6 +83,16 @@ class Datacards(object):
 				(["7TeV", "8TeV"], 1.08)
 				(       ["13TeV"], 1.08) # copied from 8TeV
 		]
+		self.btag_efficieny_syst_args = [
+			"CMS_eff_b_$ERA",
+			"lnN",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["mt"], 0.96) # copied from 8TeV
+				(["13TeV"], ["et"], 0.96) # copied from 8TeV
+				(["13TeV"], ["em"], 0.93) # copied from 8TeV
+				(["13TeV"], ["tt"], 0.93) # copied from 8TeV
+		]
+		
 		self.ztt_cross_section_syst_args = [
 			"CMS_$ANALYSIS_zttNorm_$ERA",
 			"lnN",
@@ -112,6 +122,7 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["WJ"], ["mt", "et"], 1.2)
 				(       ["13TeV"], ["WJ"], ["mt", "et"], 1.2) # copied from 8TeV
 		]
+		
 		self.qcd_syst_args = [
 			"CMS_$ANALYSIS_qcdSyst_$CHANNEL_$ERA",
 			"lnN",
@@ -126,6 +137,7 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["ZLL"], ["mt", "et"], 1.30)
 				(       ["13TeV"], ["ZLL"], ["mt", "et"], 1.30) # copied from 8TeV
 		]
+		
 		self.jec_syst_args = [
 			"CMS_scale_j_$ERA",
 			"shape",

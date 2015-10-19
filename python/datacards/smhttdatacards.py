@@ -106,8 +106,9 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["ZTT", "ZLL", "TTJ", "VV", "WJ"]).AddSyst(self.cb, *self.lumi_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
 			
-			# JEC
+			# jets
 			self.cb.cp().AddSyst(self.cb, *self.jec_syst_args)
+			self.cb.cp().AddSyst(self.cb, *self.btag_efficieny_syst_args)
 		
 			# cross section
 			self.cb.cp().process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
