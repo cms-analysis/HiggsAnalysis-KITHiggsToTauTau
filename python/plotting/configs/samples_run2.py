@@ -695,9 +695,28 @@ class Samples(samples.SamplesBase):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
+		config = self.wh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.zh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		
+		for mass in higgs_masses:
+			if not "AddHistograms" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("AddHistograms")
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["wh", "zh"]]))
+			config.setdefault("sum_result_nicks", []).append("vh"+str(mass)+nick_suffix)
+			
+			Samples._add_bin_corrections(config, "vh"+str(mass), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "L", "vh"+str(mass), nick_suffix)
+		return config
+	
+	def wh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
-			scale_factor *= self.postfit_scales.get("VH", 1.0)
+			scale_factor *= self.postfit_scales.get("WH", 1.0)
 		
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm"]:
@@ -719,6 +738,30 @@ class Samples(samples.SamplesBase):
 						"wph%s" % str(mass),
 						nick_suffix=nick_suffix+"_noplot"
 				)
+				
+				if not "AddHistograms" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("AddHistograms")
+				config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["wmh", "wph"]]))
+				config.setdefault("sum_result_nicks", []).append("wh"+str(mass)+nick_suffix)
+			
+			else:
+				log.error("Sample config (WH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+			
+			if not kwargs.get("no_plot", False):
+				Samples._add_bin_corrections(config, "wh"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "wh"+str(mass), nick_suffix)
+		return config
+	
+	def zh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("ZH", 1.0)
+		
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
 						"ZHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_powhegpythia8/*.root".format(mass=str(mass)),
@@ -726,19 +769,14 @@ class Samples(samples.SamplesBase):
 						lumi,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
 						"zh%s" % str(mass),
-						nick_suffix=nick_suffix+"_noplot"
+						nick_suffix=nick_suffix
 				)
-				
-				if not "AddHistograms" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("AddHistograms")
-				config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["wmh", "wph", "zh"]]))
-				config.setdefault("sum_result_nicks", []).append("vh"+str(mass)+nick_suffix)
 			
 			else:
-				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+				log.error("Sample config (ZH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(config, "vh"+str(mass), nick_suffix)
-				Samples._add_plot(config, "sig", "LINE", "L", "vh"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(config, "zh"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "zh"+str(mass), nick_suffix)
 		return config
 
