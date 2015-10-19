@@ -124,11 +124,24 @@ class Datacards(object):
 		]
 		
 		self.qcd_syst_args = [
-			"CMS_$ANALYSIS_qcdSyst_$CHANNEL_$ERA",
+			"CMS_$ANALYSIS_qcdSyst_$BIN_$ERA",
 			"lnN",
-			ch.SystMap("era", "process", "channel")
-				(["7TeV", "8TeV"], ["QCD"], ["mt", "et"], 1.06)
-				(       ["13TeV"], ["QCD"], ["mt", "et"], 1.06) # copied from 8TeV
+			ch.SystMap("era", "process", "bin")
+				(["13TeV"], ["QCD"], ["mt_inclusive", "et_inclusive"], 1.06) # copied from 8TeV
+				
+				(["13TeV"], ["QCD"], ["mt_0jet_high"], 1.1) # copied from 8TeV
+				(["13TeV"], ["QCD"], ["mt_0jet_low"], 1.1) # copied from 8TeV
+				(["13TeV"], ["QCD"], ["mt_1jet_high"], 1.1) # copied from 8TeV
+				(["13TeV"], ["QCD"], ["mt_1jet_low"], 1.1) # copied from 8TeV
+				(["13TeV"], ["QCD"], ["mt_2jet_vbf"], 1.3) # copied from 8TeV
+				
+				(["13TeV"], ["QCD"], ["et_0jet_high"], 1.06) # copied from 8TeV
+				(["13TeV"], ["QCD"], ["et_0jet_low"], 1.06) # copied from 8TeV
+				(["13TeV"], ["QCD"], ["et_1jet_high"], 1.1) # copied from 8TeV
+				(["13TeV"], ["QCD"], ["et_1jet_low"], 1.1) # copied from 8TeV
+				(["13TeV"], ["QCD"], ["et_2jet_vbf"], 1.3) # copied from 8TeV
+				
+				(["13TeV"], ["QCD"], ["tt_inclusive"], 1.35) # copied from 8TeV
 		]
 		self.zllFakeTau_syst_args = [
 			"CMS_$ANALYSIS_zllFakeTau_$CHANNEL_$ERA",
