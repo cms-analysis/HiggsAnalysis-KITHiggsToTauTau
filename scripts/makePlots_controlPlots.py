@@ -182,7 +182,7 @@ if __name__ == "__main__":
 					config["legend_cols"] = 3
 				if not args.shapes:
 					if not args.lumi is None:
-						config["lumis"] = [args.lumi]
+						config["lumis"] = [float("%.2f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
 				
 				config["output_dir"] = os.path.expandvars(os.path.join(
