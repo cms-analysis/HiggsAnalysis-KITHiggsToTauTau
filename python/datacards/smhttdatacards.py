@@ -12,7 +12,7 @@ class SMHttDatacards(datacards.Datacards):
 		super(SMHttDatacards, self).__init__(cb)
 		
 		if cb is None:
-			signal_processes = ["ggH", "qqH", "VH"]
+			signal_processes = ["ggH", "qqH", "WH", "ZH"]
 		
 			# ======================================================================
 			# MT channel
