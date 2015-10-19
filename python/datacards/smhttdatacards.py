@@ -117,7 +117,7 @@ class SMHttDatacards(datacards.Datacards):
 			
 			# jets
 			self.cb.cp().AddSyst(self.cb, *self.jec_syst_args)
-			self.cb.cp().AddSyst(self.cb, *self.btag_efficieny_syst_args)
+			self.cb.cp().process(["TTJ"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
 
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
