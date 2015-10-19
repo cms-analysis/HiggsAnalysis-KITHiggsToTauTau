@@ -60,7 +60,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.026)
-				(       ["13TeV"], 1.026) # copied from 8TeV
+				(       ["13TeV"], 1.10)
 		]
 		self.electron_efficieny_syst_args = [
 			"CMS_eff_e",
@@ -106,11 +106,25 @@ class Datacards(object):
 				(       ["13TeV"], ["VV"], 1.15) # copied from 8TeV
 		]
 		self.wj_cross_section_syst_args = [
-			"CMS_$ANALYSIS_wjNorm_$ERA",
+			"CMS_$ANALYSIS_wjNorm_$CHANNEL_$ERA",
 			"lnN",
-			ch.SystMap("era", "process")
-				(["7TeV", "8TeV"], ["WJ"], 1.2)
-				(       ["13TeV"], ["WJ"], 1.2) # copied from 8TeV
+			ch.SystMap("era", "process", "channel")
+				(["7TeV", "8TeV"], ["WJ"], ["mt", "et"], 1.2)
+				(       ["13TeV"], ["WJ"], ["mt", "et"], 1.2) # copied from 8TeV
+		]
+		self.qcd_syst_args = [
+			"CMS_$ANALYSIS_qcdSyst_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("era", "process", "channel")
+				(["7TeV", "8TeV"], ["QCD"], ["mt", "et"], 1.06)
+				(       ["13TeV"], ["QCD"], ["mt", "et"], 1.06) # copied from 8TeV
+		]
+		self.zllFakeTau_syst_args = [
+			"CMS_$ANALYSIS_zllFakeTau_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("era", "process", "channel")
+				(["7TeV", "8TeV"], ["ZLL"], ["mt", "et"], 1.30)
+				(       ["13TeV"], ["ZLL"], ["mt", "et"], 1.30) # copied from 8TeV
 		]
 		self.jec_syst_args = [
 			"CMS_scale_j_$ERA",
@@ -119,9 +133,9 @@ class Datacards(object):
 				(["13TeV"], 1.0)
 		]
 		self.tau_es_syst_args = [
-			"CMS_scale_t_$BIN_$ERA",
+			"CMS_scale_t_$CHANNEL_$ERA",
 			"shape",
-			ch.SystMap("era", "bin")
+			ch.SystMap("era", "channel")
 				(["13TeV"], ["mt"], 1.0)
 				(["13TeV"], ["et"], 1.0)
 				(["13TeV"], ["tt"], 1.0)
@@ -438,7 +452,7 @@ class Datacards(object):
 					config["nicks_blacklist"] = ["graph_b"]
 					config["fit_poi"] = plotting_args.get("fit_poi", "r")
 
-					config["left_pad_margin"] = [0.35]
+					config["left_pad_margin"] = [0.40]
 					config["labels"] = ["prefit", "S+B model"]
 					config["markers"] = ["L2", "P"]
 					config["fill_styles"] = [3001, 0]
