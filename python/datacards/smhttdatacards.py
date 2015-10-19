@@ -30,12 +30,15 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			
 			# Tau ES
 			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+
+			# fake-rate
+			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
 			# ======================================================================
 			# ET channel
@@ -53,12 +56,15 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			
 			# Tau ES
 			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+
+			# fake-rate
+			self.cb.cp().channel(["et"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
 			# ======================================================================
 			# EM channel
@@ -92,12 +98,15 @@ class SMHttDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["tt"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["tt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			
 			# Tau ES
 			self.cb.cp().channel(["tt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 			self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+
+			# fake-rate
+			self.cb.cp().channel(["tt"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
 			# ======================================================================
 			# All channels
@@ -109,6 +118,9 @@ class SMHttDatacards(datacards.Datacards):
 			# jets
 			self.cb.cp().AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().AddSyst(self.cb, *self.btag_efficieny_syst_args)
+
+			# QCD systematic
+			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
 		
 			# cross section
 			self.cb.cp().process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
