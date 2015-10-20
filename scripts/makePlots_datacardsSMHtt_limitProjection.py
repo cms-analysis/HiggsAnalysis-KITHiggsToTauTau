@@ -27,24 +27,25 @@ def _str2bool(string):
 
 def poi_ranges_default(lumi):
 	if lumi < 10000.0:
-		return [-20.0, 20.0]
+		return [-5.0, 100.0]
 	elif lumi < 100000.0:
-		return [-15.0, 15.0]
+		return [-5.0, 50.0]
 	else:
-		return [-10.0, 10.0]
+		return [-5.0, 25.0]
 
 
 if __name__ == "__main__":
 	
 	models = {
 		"default" : {
-			"MultiDimFit" : {
+			"fit" : {
 				"" : {
-					"options" : "--algo singles",
+					"method" : "MaxLikelihoodFit",
+					"options" : "",
 					"poi_ranges" : poi_ranges_default,
 				},
 			},
-			"MultiDimFit_plots" : {
+			"fit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
 			},
@@ -55,23 +56,26 @@ if __name__ == "__main__":
 				"cVRange={CV_MIN}:{CV_MAX}",
 				"cFRange={CF_MIN}:{CF_MAX}",
 			],
-			"MultiDimFit" : {
+			"fit" : {
 				"CV" : {
+					"method" : "MultiDimFit",
 					"options" : "--algo singles -P CV --floatOtherPOIs 1",
 					"poi_ranges" : poi_ranges_default,
 				},
 				"CF" : {
+					"method" : "MultiDimFit",
 					"options" : "--algo singles -P CF --floatOtherPOIs 1",
 					"poi_ranges" : poi_ranges_default,
 				},
-				"CVCF" : {
-					"options" : "--algo grid --points {CVCF_BINS} --setPhysicsModelParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
-					"plots_per_lumi" : [
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan.json",
-					],
-				},
+				#"CVCF" : {
+				#	"method" : "MultiDimFit",
+				#	"options" : "--algo grid --points {CVCF_BINS} --setPhysicsModelParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
+				#	"plots_per_lumi" : [
+				#		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan.json",
+				#	],
+				#},
 			},
-			"MultiDimFit_plots" : {
+			"fit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_unc_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cf_over_lumi.json",
@@ -84,23 +88,26 @@ if __name__ == "__main__":
 				"rVRange={RV_MIN}:{RV_MAX}",
 				"rFRange={RF_MIN}:{RF_MAX}",
 			],
-			"MultiDimFit" : {
+			"fit" : {
 				"RV" : {
+					"method" : "MultiDimFit",
 					"options" : "--algo singles -P RV --floatOtherPOIs 1",
 					"poi_ranges" : poi_ranges_default,
 				},
 				"RF" : {
+					"method" : "MultiDimFit",
 					"options" : "--algo singles -P RF --floatOtherPOIs 1",
 					"poi_ranges" : poi_ranges_default,
 				},
-				"RVRF" : {
-					"options" : "--algo grid --points {RVRF_BINS} --setPhysicsModelParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
-					"plots_per_lumi" : [
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/rv_rf_scan.json",
-					],
-				},
+				#"RVRF" : {
+				#	"method" : "MultiDimFit",
+				#	"options" : "--algo grid --points {RVRF_BINS} --setPhysicsModelParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
+				#	"plots_per_lumi" : [
+				#		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/rv_rf_scan.json",
+				#	],
+				#},
 			},
-			"MultiDimFit_plots" : {
+			"fit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_unc_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rf_over_lumi.json",
@@ -117,8 +124,8 @@ if __name__ == "__main__":
 	                    help="Datacards.")
 	parser.add_argument("-L", "--lumi-datacards", type=float, default=0.07152,
 	                    help="Integrated luminosity / pb used for the datacards. [Default: %(default)s]")
-	parser.add_argument("-l", "--lumis", nargs="+", type=int, default=range(1000, 10000, 1000)+range(10000, 100000, 10000)+range(100000, 300001, 100000),
-	                    help="Projection values for integrated luminosities / pb.")
+	parser.add_argument("-l", "--lumis", nargs="+", type=int, default=range(1000, 10000, 1000)+range(10000, 100000, 10000)+[100000],#+range(100000, 300001, 100000),
+	                    help="Projection values for integrated luminosities / pb. [Default: %(default)s]")
 	parser.add_argument("-m", "--models", nargs="+", default=["default"],
 	                    choices=models.keys(),
 	                    help="Statistics models. [Default: %(default)s]")
@@ -210,18 +217,18 @@ if __name__ == "__main__":
 					)
 					datacards_cbs.update(scaled_datacards_cbs)
 					for scaled_datacard, cb in scaled_datacards_cbs.iteritems():
-						for multidimfit_name, multidimfit_settings in model_settings.get("MultiDimFit", {"" : {}}).iteritems():
-							poi_ranges = multidimfit_settings.get("poi_ranges", None)
+						for fit_name, fit_settings in model_settings.get("fit", {"" : {}}).iteritems():
+							poi_ranges = fit_settings.get("poi_ranges", None)
 							if not poi_ranges is None:
-								datacards_poi_ranges.setdefault(multidimfit_name, {})[scaled_datacard] = poi_ranges(lumi)
+								datacards_poi_ranges.setdefault(fit_name, {})[scaled_datacard] = poi_ranges(lumi)
 							
-							json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in multidimfit_settings.get("plots_per_lumi", [])]
+							json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in fit_settings.get("plots_per_lumi", [])]
 							for config in json_configs:
 								config["directories"] = output_dir
-								if "CVCF" in multidimfit_name:
+								if "CVCF" in fit_name:
 									config["x_bins"] = args.cv_bins
 									config["y_bins"] = args.cf_bins
-								if "RVRF" in multidimfit_name:
+								if "RVRF" in fit_name:
 									config["x_bins"] = args.rv_bins
 									config["y_bins"] = args.rf_bins
 								config["lumis"] = [lumi]
@@ -231,12 +238,12 @@ if __name__ == "__main__":
 							if freeze_syst_uncs:
 								srcs = os.path.join(
 										output_dir.replace(sub_dir_base, sub_dir_base.replace("statUnc", "totUnc")),
-										"higgsCombine{name}.MultiDimFit*mH*.root".format(name=multidimfit_name)
+										"higgsCombine{name}.{method}*mH*.root".format(name=fit_name, method=fit_settings.get("method", "MaxLikelihoodFit"))
 								)
 								for src in glob.glob(srcs):
 									dst = src.replace(sub_dir_base.replace("statUnc", "totUnc"), sub_dir_base).replace("higgsCombine", "workspaceSnapshot")
 									shutil.copyfile(src, dst)
-									datacards_workspaces.setdefault(multidimfit_name, {})[scaled_datacard] = dst
+									datacards_workspaces.setdefault(fit_name, {})[scaled_datacard] = dst
 				
 				text2workspace_args = []
 				if "P" in model_settings:
@@ -263,10 +270,10 @@ if __name__ == "__main__":
 				stable_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 				
 				# Multi-dimensional fits
-				for multidimfit_name, multidimfit_options in model_settings.get("MultiDimFit", {"" : ""}).iteritems():
-					tmp_datacards_workspaces = datacards_workspaces[multidimfit_name] if freeze_syst_uncs else datacards_workspaces
+				for fit_name, fit_options in model_settings.get("fit", {}).iteritems():
+					tmp_datacards_workspaces = datacards_workspaces[fit_name] if freeze_syst_uncs else datacards_workspaces
 					
-					tmp_multidimfit_options = multidimfit_options.get("options", "").format(
+					tmp_fit_options = fit_options.get("options", "").format(
 							CVCF_BINS=int(cv_bins[0] * cf_bins[0]),
 							CV_MIN=cv_bins[1],
 							CV_MAX=cv_bins[2],
@@ -279,15 +286,16 @@ if __name__ == "__main__":
 							RF_MAX=rf_bins[2]
 					)
 					
-					datacards.combine(datacards_cbs, tmp_datacards_workspaces, datacards_poi_ranges.get(multidimfit_name, None), args.n_processes, "-t -1 --expectSignal 1 -M MultiDimFit {multidimfit_options} {freeze} {stable} -n {name}".format(
-							multidimfit_options=tmp_multidimfit_options,
-							freeze="--snapshotName MultiDimFit -S 0" if freeze_syst_uncs else "--saveWorkspace",
+					datacards.combine(datacards_cbs, tmp_datacards_workspaces, datacards_poi_ranges.get(fit_name, None), args.n_processes, "-t -1 --expectSignal 1 -M {method} {fit_options} {freeze} {stable} -n {name}".format(
+							method=fit_options.get("method", "MaxLikelihoodFit"),
+							fit_options=tmp_fit_options,
+							freeze="",#"--snapshotName MultiDimFit -S 0" if freeze_syst_uncs else "--saveWorkspace",
 							stable=stable_options,
-							name="\"\"" if multidimfit_name == "" else multidimfit_name
+							name="\"\"" if fit_name == "" else fit_name
 					))
-				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*MultiDimFit*mH*.root", os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
+				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MaxLikelihoodFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
 				
-				json_configs.extend(model_settings.get("MultiDimFit_plots", []))
+				json_configs.extend(model_settings.get("fit_plots", []))
 				
 				if (not freeze_syst_uncs) and (model == "default"):
 					
