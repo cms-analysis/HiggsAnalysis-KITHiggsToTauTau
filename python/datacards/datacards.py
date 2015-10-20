@@ -79,9 +79,11 @@ class Datacards(object):
 		self.tau_efficieny_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
 			"lnN",
-			ch.SystMap("era")
-				(["7TeV", "8TeV"], 1.08)
-				(       ["13TeV"], 1.08) # copied from 8TeV
+			ch.SystMap("era", "channel")
+				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
+				(["7TeV", "8TeV"], ["tt"],       1.19)
+				(       ["13TeV"], ["mt", "et"], 1.08) # copied from 8TeV
+				(       ["13TeV"], ["tt"],       1.19) # copied from 8TeV
 		]
 		self.btag_efficieny_syst_args = [
 			"CMS_eff_b_$ERA",
@@ -91,6 +93,13 @@ class Datacards(object):
 				(["13TeV"], ["et"], 0.96) # copied from 8TeV
 				(["13TeV"], ["em"], 0.93) # copied from 8TeV
 				(["13TeV"], ["tt"], 0.93) # copied from 8TeV
+		]
+		self.met_scale_syst_args = [
+			"CMS_$ANALYSIS_scale_met_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["13TeV"], ["ggH", "qqH", "WH", "ZH"], 0.98) # copied from 8TeV
+				(["13TeV"], ["ZTT", "ZLL", "TTJ", "VV", "WJ"], 1.03) # copied from 8TeV
 		]
 		
 		self.ztt_cross_section_syst_args = [
@@ -195,19 +204,19 @@ class Datacards(object):
 				(["13TeV"], ["ggH"], ["mt_0jet_low"], 1.073) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["mt_1jet_high"], 0.996) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["mt_1jet_low"], 1.007) # copied from 8TeV
-				(["13TeV"], ["ggH"], ["mt_2jet_vbf"], 9.988) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["mt_2jet_vbf"], 0.988) # copied from 8TeV
 				
 				(["13TeV"], ["ggH"], ["et_0jet_high"], 1.060) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["et_0jet_low"], 1.073) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["et_1jet_high"], 0.996) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["et_1jet_low"], 1.007) # copied from 8TeV
-				(["13TeV"], ["ggH"], ["et_2jet_vbf"], 9.988) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["et_2jet_vbf"], 0.988) # copied from 8TeV
 				
 				(["13TeV"], ["ggH"], ["em_0jet_high"], 1.063) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["em_0jet_low"], 1.089) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["em_1jet_high"], 1.004) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["em_1jet_low"], 1.000) # copied from 8TeV
-				(["13TeV"], ["ggH"], ["em_2jet_vbf"], 9.988) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["em_2jet_vbf"], 0.988) # copied from 8TeV
 				
 				(["13TeV"], ["ggH"], ["tt_inclusive"], 1.025) # copied from 8TeV
 				
