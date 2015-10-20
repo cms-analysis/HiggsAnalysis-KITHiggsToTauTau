@@ -81,7 +81,7 @@
 		"0:lumi",
 		"0:lumi"
 	],
-	"x_label": "Integrated Luminosity / fb",
+	"x_label": "Integrated Luminosity / fb^{-1}",
 	"y_expressions": [
 		"limit",
 		"0:limit",

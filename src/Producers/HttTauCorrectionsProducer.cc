@@ -54,13 +54,13 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	}
 	
 	float tauEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionShift();
-	if (tauEnergyCorrectionShift != 0.0)
+	if (tauEnergyCorrectionShift != 1.0)
 	{
 		tau->p4 = tau->p4 * tauEnergyCorrectionShift;
 		
 		// settings for (cached) Svfit calculation
 		(static_cast<HttProduct&>(product)).m_systematicShift = HttEnumTypes::SystematicShift::TAU_ES;
-		(static_cast<HttProduct&>(product)).m_systematicShiftSigma = std::abs(tauEnergyCorrectionShift);
+		(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauEnergyCorrectionShift;
 	}
 	
 	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = normalisationFactor;

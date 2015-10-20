@@ -11,6 +11,7 @@ import ROOT
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
 import HiggsAnalysis.KITHiggsToTauTau.tools as tools
+import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
 
 
 class EstimateTtbar(estimatebase.EstimateBase):
@@ -64,7 +65,13 @@ class EstimateTtbar(estimatebase.EstimateBase):
 			if not ttbar_from_mc:
 				yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][ttbar_data_control_nick])()
 				for nick in ttbar_data_substract_nicks:
-					yield_data_control -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+					yield_bkg_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+					if nick in plotData.metadata:
+						yield_bkg_control = uncertainties.ufloat(
+								plotData.metadata[nick].get("yield", yield_bkg_control.nominal_value),
+								plotData.metadata[nick].get("yield_unc", yield_bkg_control.std_dev)
+						)
+					yield_data_control -= yield_bkg_control
 				yield_data_control = max(0.0, yield_data_control)
 				
 				yield_mc_signal = tools.PoissonYield(plotData.plotdict["root_objects"][ttbar_mc_signal_nick])()
@@ -75,6 +82,12 @@ class EstimateTtbar(estimatebase.EstimateBase):
 				if final_yield != 0.0:
 					final_yield /= yield_mc_control
 				log.debug("Relative statistical uncertainty of the yield for process ttbar+jets (nick \"{nick}\") is {unc}.".format(nick=ttbar_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
+				
+				plotData.metadata[ttbar_shape_nick] = {
+					"yield" : final_yield.nominal_value,
+					"yield_unc" : final_yield.std_dev,
+					"yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
+				}
 				
 				integral_shape = plotData.plotdict["root_objects"][ttbar_shape_nick].Integral()
 				if integral_shape != 0.0:

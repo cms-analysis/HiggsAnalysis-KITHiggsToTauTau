@@ -11,6 +11,7 @@ import ROOT
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.modules.analysis_modules.estimatebase as estimatebase
 import HiggsAnalysis.KITHiggsToTauTau.tools as tools
+import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
 
 
 class EstimateQcd(estimatebase.EstimateBase):
@@ -23,6 +24,8 @@ class EstimateQcd(estimatebase.EstimateBase):
 		self.estimate_qcd_options = parser.add_argument_group("QCD estimation options")
 		self.estimate_qcd_options.add_argument("--qcd-data-shape-nicks", nargs="+", default=["qcd"],
 				help="Nicks for histogram to plot. [Default: %(default)s]")
+		self.estimate_qcd_options.add_argument("--qcd-data-yield-nicks", nargs="+", default=["noplot_data_qcd_yield"],
+				help="Nicks for histogram containing the yield in data with the final selection that is then scaled. [Default: %(default)s]")
 		self.estimate_qcd_options.add_argument("--qcd-data-control-nicks", nargs="+", default=["noplot_data_qcd_control"],
 				help="Nicks for histogram to plot. [Default: %(default)s]")
 		self.estimate_qcd_options.add_argument("--qcd-data-substract-nicks", nargs="+",
@@ -36,7 +39,7 @@ class EstimateQcd(estimatebase.EstimateBase):
 	def prepare_args(self, parser, plotData):
 		super(EstimateQcd, self).prepare_args(parser, plotData)
 		
-		self._plotdict_keys = ["qcd_data_shape_nicks", "qcd_data_control_nicks", "qcd_data_substract_nicks", "qcd_extrapolation_factors_ss_os", "qcd_subtract_shape"]
+		self._plotdict_keys = ["qcd_data_shape_nicks", "qcd_data_yield_nicks", "qcd_data_control_nicks", "qcd_data_substract_nicks", "qcd_extrapolation_factors_ss_os", "qcd_subtract_shape"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		
 		plotData.plotdict["qcd_data_substract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_data_substract_nicks"]]
@@ -56,14 +59,18 @@ class EstimateQcd(estimatebase.EstimateBase):
 	def run(self, plotData=None):
 		super(EstimateQcd, self).run(plotData)
 		
-		for qcd_data_shape_nick, qcd_data_control_nick, qcd_data_substract_nicks, qcd_extrapolation_factor_ss_os, qcd_subtract_shape in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			
-			# TODO: the statistical uncertainties do not correctly treat the W+Jets background, which is estimated by another module beforehand.
+		for qcd_data_shape_nick, qcd_data_yield_nick, qcd_data_control_nick, qcd_data_substract_nicks, qcd_extrapolation_factor_ss_os, qcd_subtract_shape in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_control_nick])()
 			
 			yield_qcd_control = yield_data_control
 			for nick in qcd_data_substract_nicks:
-				yield_qcd_control -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+				yield_bkg_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+				if nick in plotData.metadata:
+					yield_bkg_control = uncertainties.ufloat(
+							plotData.metadata[nick].get("yield", yield_bkg_control.nominal_value),
+							plotData.metadata[nick].get("yield_unc", yield_bkg_control.std_dev)
+					)
+				yield_qcd_control -= yield_bkg_control
 				#if qcd_subtract_shape:
 				#	plotData.plotdict["root_objects"][qcd_data_control_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
 			yield_qcd_control = max(0.0, yield_qcd_control)
@@ -72,9 +79,18 @@ class EstimateQcd(estimatebase.EstimateBase):
 			if yield_data_control != 0.0:
 				scale_factor /= yield_data_control
 			
-			final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])() * scale_factor
+			final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_yield_nick])() * scale_factor
 			log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 			
-			log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
-			plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
+			plotData.metadata[qcd_data_shape_nick] = {
+				"yield" : final_yield.nominal_value,
+				"yield_unc" : final_yield.std_dev,
+				"yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
+			}
+			
+			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])()
+			if integral_shape != 0.0:
+				scale_factor = final_yield / integral_shape
+				log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
+				plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
 

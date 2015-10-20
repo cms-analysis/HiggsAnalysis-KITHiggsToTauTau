@@ -39,7 +39,7 @@ class SamplesBase(object):
 			weight = "(" + ("*".join(weights)) + ")"
 		
 		for sample in samples:
-			config = sample(self, config, channel, weight, nick_suffix, **kwargs)
+			config = sample(self, config, channel, category, weight, nick_suffix, **kwargs)
 		
 		config["nicks_blacklist"] = ["noplot"]
 		#config["file_mode"] = "UPDATE"

@@ -1,0 +1,11 @@
+{
+	"x_expressions" : [
+		"nbtag"
+	],
+	"weights" : [
+		"njetspt30>=nbtag"
+	],
+	"exclude_cuts" : [
+		"nobtag"
+	]
+}

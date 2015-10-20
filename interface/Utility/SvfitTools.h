@@ -3,9 +3,10 @@
 
 #include "Artus/Utility/interface/ArtusLogging.h"
 
-#include <unordered_map>
+#include <map>
 
 #include <TChain.h>
+#include <TMemFile.h>
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
@@ -41,16 +42,20 @@ public:
 	uint64_t run;
 	uint64_t lumi;
 	uint64_t event;
+	int decayType1;
+	int decayType2;
 	int systematicShift;
 	float systematicShiftSigma;
 	int integrationMethod;
 	
 	SvfitEventKey() {};
 	SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
+	              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
 	              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
 	              IntegrationMethod const& integrationMethod);
 	
 	void Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
+	         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
 	         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
 	         IntegrationMethod const& integrationMethod);
 	
@@ -61,28 +66,12 @@ public:
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);
 	
+	bool operator<(SvfitEventKey const& rhs) const;
 	bool operator==(SvfitEventKey const& rhs) const;
 	bool operator!=(SvfitEventKey const& rhs) const;
 };
 
-/** Hashing function for SvfitEventKey. This is needed when SvfitEventKey is used
- *  as key type of a std::unordered_map.
- */
 namespace std {
-	template<>
-	struct hash<SvfitEventKey>
-	{
-		std::size_t operator()(SvfitEventKey const& svfitEventKey) const
-		{
-			return ((std::hash<uint64_t>()(svfitEventKey.run)) ^
-			        (std::hash<uint64_t>()(svfitEventKey.lumi)) ^
-			        (std::hash<uint64_t>()(svfitEventKey.event)) ^
-			        (std::hash<int>()(svfitEventKey.systematicShift)) ^
-			        (std::hash<float>()(svfitEventKey.systematicShiftSigma)) ^
-			        (std::hash<int>()(svfitEventKey.integrationMethod)));
-		}
-	};
-	
 	string to_string(SvfitEventKey const& svfitEventKey);
 }
 
@@ -94,9 +83,6 @@ std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey);
 class SvfitInputs {
 
 public:
-	int decayType1;
-	int decayType2;
-	
 	RMFLV* leptonMomentum1 = 0;
 	RMFLV* leptonMomentum2 = 0;
 	
@@ -104,13 +90,11 @@ public:
 	RMSM2x2* metCovariance = 0;
 	
 	SvfitInputs() {};
-	SvfitInputs(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	            RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
+	SvfitInputs(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
 	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
 	~SvfitInputs();
 	
-	void Set(svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	         RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
+	void Set(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
 	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
 	
 	void CreateBranches(TTree* tree);
@@ -120,11 +104,11 @@ public:
 	bool operator==(SvfitInputs const& rhs) const;
 	bool operator!=(SvfitInputs const& rhs) const;
 	
-	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(int verbosity=0, bool addLogM=false) const;
+	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity=0, bool addLogM=false) const;
 
 	
 private:
-	std::vector<svFitStandalone::MeasuredTauLepton> GetMeasuredTauLeptons() const;
+	std::vector<svFitStandalone::MeasuredTauLepton> GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const;
 	TMatrixD GetMetCovarianceMatrix() const;
 };
 
@@ -174,8 +158,9 @@ public:
 	                        bool& neededRecalculation, bool checkInputs=false);
 
 private:
+	TMemFile* svfitCacheFile = 0;
 	TChain* svfitCacheInputTree = 0;
-	std::unordered_map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
+	std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
 	
 	SvfitInputs svfitInputs;
 	SvfitResults svfitResults;

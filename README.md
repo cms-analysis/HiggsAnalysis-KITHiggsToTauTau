@@ -41,6 +41,8 @@ For the [Artus repository](https://github.com/artus-analysis/Artus) a similar un
 The following code fragments are meant as examples. All scripts offer meaningfull help via -h/--help (or sometimes without arguments).
 
 ### Skimming
+Skimming with grid-control:
+
 	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
 	go.py gc_skimming_2014-12-24-full-skim-grid.conf
 
@@ -51,6 +53,13 @@ Outputs are shared in Thomas' personal DESY dCache directory, where everybody ha
 The skimming outputs need to be checked:
 
 	<path/to/grid-control>/scripts/downloadFromSE.py --just-verify [--threads <1-6>] <GC config>
+
+Skimming with crab3:
+
+	source /cvmfs/cms.cern.ch/crab3/crab.sh
+	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
+	python crabConfig.py submit
+
 
 File lists for Artus need to be created by [createInputFilelists.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/createInputFilelists.py):
 
@@ -116,9 +125,9 @@ The (committed) status of two different Artus runs can be compared using [artusR
 
 Svfit is run by the `producer:SvfitProducer` and a tree with inputs and results is written out by the consumer `SvfitCacheConsumer`. These results can be collected by [svfitCacheTreeMerge.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/svfitCacheTreeMerge.py):
 
-	for dir in <Artus project directory>/[output|merged]/*; do echo $dir; svfitCacheTreeMerge.py -i $dir/*.root --input-trees `artusPipelines.py $dir/*.root | sed -e 's@\$@/svfitCache@g'` -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${dir}.root" | sed -e 's@<Artus project directory>/[output|merged]/@@g'`; done
+	for dir in <Artus project directory>/[output|merged]/*; do echo $dir; svfitCacheTreeMerge.py -i $dir/*.root -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${dir}.root" | sed -e 's@<Artus project directory>/[output|merged]/@@g'`; done
 
-The cached values are configured in [data/ArtusConfigs/Includes/settingsSvfit.json](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/data/ArtusConfigs/Includes/settingsSvfit.json).
+The cached values are configured in [data/ArtusConfigs/Includes/settingsSvfit.json](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/data/ArtusConfigs/Includes/settingsSvfit.json). It is recommended to store the cached results on dCache rather than in the auxiliaries directory in order to speed up and simplify the GC initialisation.
 
 It is recommended to calculate the Svfit values file by file:
 

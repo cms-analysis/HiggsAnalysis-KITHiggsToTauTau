@@ -1,0 +1,35 @@
+{
+	"analysis_modules": [
+		"MaskHistograms",
+		"ConstBinContentsMin"
+	],
+	"filename" : "rv_rf_scan_1sigma_over_lumi",
+	"files": [
+		"higgsCombineRVRF*MultiDimFit*mH*.root"
+	],
+	"folders": [
+		"limit"
+	],
+	"markers": [
+		"COLZ"
+	],
+	"mask_above_delta_min": 2.3,
+	"weights": [
+		"deltaNLL+lumi"
+	],
+	"x_bins": [
+		"30,0.0,3.0"
+	],
+	"x_expressions": [
+		"RV"
+	],
+	"x_label" : "#mu_{qqH, WH, ZH}",
+	"y_bins": [
+		"30,0.0,2.0"
+	],
+	"y_expressions": [
+		"RF"
+	],
+	"y_label" : "#mu_{ggH, t#bar{t}H}",
+	"z_label" : "Integrated Luminosity / fb^{-1}"
+}

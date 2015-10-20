@@ -1,0 +1,47 @@
+{
+	"2d_histogram_nicks" : [
+		"contour"
+	],
+	"analysis_modules" : [
+		"ContourFromHistogram"
+	],
+	"contour_modes" : [
+		"histogram"
+	],
+	"contour_thresholds" : [
+		"2.3 5.99"
+	],
+	"filename" : "cv_cf_scan",
+	"files": [
+		"higgsCombineCVCF*MultiDimFit*mH*.root"
+	],
+	"folders": [
+		"limit"
+	],
+	"markers": [
+		"COLZ",
+		"CONT3"
+	],
+	"nicks": [
+		"2d",
+		"contour"
+	],
+	"weights": [
+		"deltaNLL"
+	],
+	"x_bins": [
+		"30,0.0,3.0"
+	],
+	"x_expressions": [
+		"CV"
+	],
+	"x_label" : "#kappa_{V}",
+	"y_bins": [
+		"30,0.0,2.0"
+	],
+	"y_expressions": [
+		"CF"
+	],
+	"y_label" : "#kappa_{F}",
+	"z_label" : "#minus2 #Delta ln L"
+}

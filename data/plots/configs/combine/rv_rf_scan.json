@@ -1,0 +1,47 @@
+{
+	"2d_histogram_nicks" : [
+		"contour"
+	],
+	"analysis_modules" : [
+		"ContourFromHistogram"
+	],
+	"contour_modes" : [
+		"histogram"
+	],
+	"contour_thresholds" : [
+		"2.3 5.99"
+	],
+	"filename" : "rv_rf_scan",
+	"files": [
+		"higgsCombineRVRF*MultiDimFit*mH*.root"
+	],
+	"folders": [
+		"limit"
+	],
+	"markers": [
+		"COLZ",
+		"CONT3"
+	],
+	"nicks": [
+		"2d",
+		"contour"
+	],
+	"weights": [
+		"deltaNLL"
+	],
+	"x_bins": [
+		"30,-3.0,5.0"
+	],
+	"x_expressions": [
+		"RV"
+	],
+	"x_label" : "#mu_{qqH, WH, ZH}",
+	"y_bins": [
+		"30,-2.0,4.0"
+	],
+	"y_expressions": [
+		"RF"
+	],
+	"y_label" : "#mu_{ggH, t#bar{t}H}",
+	"z_label" : "#minus2 #Delta ln L"
+}

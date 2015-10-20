@@ -27,8 +27,14 @@ class ZttXsecDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+
+			# Tau ES
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+
+			# fake-rate
+			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 		
 			# ======================================================================
 			# ET channel
@@ -43,8 +49,14 @@ class ZttXsecDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+
+			# Tau ES
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+
+			# fake-rate
+			self.cb.cp().channel(["et"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 		
 			# ======================================================================
 			# EM channel
@@ -63,35 +75,19 @@ class ZttXsecDatacards(datacards.Datacards):
 			self.cb.cp().channel(["em"]).process(["ZTT", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 		
 			# ======================================================================
-			# TT channel
-			self.add_processes(
-					channel="tt",
-					categories=["tt_"+category for category in ["inclusive"]],
-					bkg_processes=["TTJ", "VV", "WJ"],
-					sig_processes=["ZTT"],
-					analysis=["ztt"],
-					era=["13TeV"],
-					mass=["90"]
-			)
-		
-			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
-		
-			# ======================================================================
 			# All channels
 			#self.cb.cp().process(["ZTT"]).AddSyst(self.cb, "ZTT_uniform_2", "lnU", ch.SystMap()(2.0))
 		
 			# lumi
-			self.cb.cp().process(["ZTT", "ZLL", "TTJ", "VV", "WJ"]).AddSyst(self.cb, *self.lumi_syst_args)
-			
-			# JEC
-			self.cb.cp().AddSyst(self.cb, *self.jec_syst_args)
+			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.lumi_syst_args)
 		
 			# cross section
-			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			self.cb.cp().process(["TTJ"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["WJ"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
+
+			# QCD systematic
+			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
 		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
@@ -115,8 +111,8 @@ class ZttEffDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 		
 			# ======================================================================
 			# ET channel
@@ -131,19 +127,15 @@ class ZttEffDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 		
 			# ======================================================================
 			# All channels
 			# lumi
-			self.cb.cp().process(["ZTT", "ZLL", "TTJ", "VV", "WJ"]).AddSyst(self.cb, *self.lumi_syst_args)
-			
-			# JEC
-			self.cb.cp().AddSyst(self.cb, *self.jec_syst_args)
+			self.cb.cp().process(["ZLL", "TTJ", "VV", "WJ"]).AddSyst(self.cb, *self.lumi_syst_args)
 		
 			# cross section
-			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			self.cb.cp().process(["TTJ"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["WJ"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)

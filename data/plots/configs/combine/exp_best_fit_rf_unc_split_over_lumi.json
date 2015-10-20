@@ -1,0 +1,96 @@
+{
+	"analysis_modules": [
+		"GraphCombination",
+		"StatisticalErrors",
+		"SplitGraphComponents"
+	],
+	"colors": [
+		"#00ff00",
+		"#ff0000",
+		"#00ff00"
+	],
+	"files": [
+		"higgsCombineRF.MultiDimFit*mH*.root"
+	],
+	"folders": [
+		"limit"
+	],
+	"graph_error_modes": [
+		"abs"
+	],
+	"graph_high_errors_nicks": [
+		"p1s_noplot"
+	],
+	"graph_low_errors_nicks": [
+		"m1s_noplot"
+	],
+	"graph_result_nicks": [
+		"1s"
+	],
+	"graph_values_nicks": [
+		"central"
+	],
+	"line_widths": [
+		2
+	],
+	"labels": [
+		"#plus1#sigma Expected",
+		"Expected",
+		"#minus1#sigma Expected"
+	],
+	"legend_markers": [
+		"L"
+	],
+	"markers": [
+		"L"
+	],
+	"nicks": [
+		"central",
+		"m1s_noplot",
+		"p1s_noplot"
+	],
+	"nicks_blacklist": [
+		"noplot",
+		"^1s$"
+	],
+	"nicks_whitelist": [
+		"1s_yehigh",
+		"central",
+		"1s_yelow"
+	],
+	"split_graph_components": [
+		"yehigh",
+		"yelow"
+	],
+	"split_graph_nicks": [
+		"1s"
+	],
+	"stat_error_nicks" : [
+		"1s",
+		"central"
+	],
+	"stat_error_relative" : false,
+	"tree_draw_options": [
+		"TGraph",
+		"TGraphErrors",
+		"TGraphErrors"
+	],
+	"weights": [
+		"quantileExpected>0.4",
+		"quantileExpected>0.1 && quantileExpected<0.4 && (Entry$%4==1)",
+		"quantileExpected>0.1 && quantileExpected<0.4 && (Entry$%4==2)"
+	],
+	"x_expressions": [
+		"lumi",
+		"0:lumi",
+		"0:lumi"
+	],
+	"x_label": "Integrated Luminosity / fb^{-1}",
+	"y_expressions": [
+		"RF",
+		"0:RF",
+		"0:RF"
+	],
+	"y_label": "Uncertainty on Best Fit #mu_{ggH, t#bar{t}H}",
+	"filename": "exp_best_fit_rf_unc_split_over_lumi"
+}

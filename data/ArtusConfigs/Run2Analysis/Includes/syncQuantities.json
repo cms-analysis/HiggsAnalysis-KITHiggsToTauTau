@@ -150,6 +150,15 @@
 		"pt_tt",
 		"dilepton_veto",
 		"extraelec_veto",
-		"extramuon_veto"
+		"extramuon_veto",
+		"recoNeutrinoOnRecoMetProjectionPar",
+		"recoNeutrinoOnRecoMetProjectionPerp",
+		"recoNeutrinoOnRecoMetProjectionPhi",
+		"recoNeutrinoOnGenMetProjectionPar",
+		"recoNeutrinoOnGenMetProjectionPerp",
+		"recoNeutrinoOnGenMetProjectionPhi",
+		"recoMetOnGenMetProjectionPar",
+		"recoMetOnGenMetProjectionPerp",
+		"recoMetOnGenMetProjectionPhi"
 	]
 }

@@ -10,7 +10,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsAntiTtbarMva.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json"
 		],
 		"Channel" : "EM",
 		"MinNElectrons" : 1,
@@ -69,19 +69,20 @@
 			{
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/svfitQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/emAntiTTbarMvaQuantities.json"
 				]
 			},
 			"genDiLeptonDecayMode",
-			"diLepEta",
-			"diLepPhi",
-			"diLepMetEta",
-			"diLepMetPhi",
 			"nLooseElectrons",
 			"nLooseMuons",
-			"nElectrons",
-			"nMuons"
+			"nDiTauPairCandidates",
+			"nAllDiTauPairCandidates"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
@@ -110,7 +111,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -118,7 +119,7 @@
 					"producer:GenTauDecayProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer",
-					"#producer:MetprojectionProducer"
+					"producer:MetprojectionProducer"
 				],
 				"DY.?JetsToLL" : [
 					"producer:GenDiLeptonDecayModeProducer",
@@ -146,7 +147,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -154,7 +155,7 @@
 					"producer:GenTauDecayProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer",
-					"#producer:MetprojectionProducer"
+					"producer:MetprojectionProducer"
 				],
 				"Run2015" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -178,14 +179,14 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"producer:EventWeightProducer",
-					"#producer:MetprojectionProducer"
+					"producer:MetprojectionProducer"
 				]
 			}
 		},
@@ -194,12 +195,14 @@
 		"BranchGenMatchedMuons" : true,
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
-			"#SvfitCacheConsumer",
+			"SvfitCacheConsumer",
 			"cutflow_histogram",
 			"#CutFlowTreeConsumer",
-			"KappaElectronsConsumer",
-			"KappaMuonsConsumer",
-			"KappaTaggedJetsConsumer"
+			"#KappaElectronsConsumer",
+			"#KappaMuonsConsumer",
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer",
+			"#PrintEventsConsumer"
 		]
 	}
 }

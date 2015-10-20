@@ -49,7 +49,7 @@ class Samples(samples.SamplesBase):
 		
 		self.period = "run1"
 	
-	def data(self, config, channel, weight, nick_suffix, exclude_cuts=None, **kwargs):
+	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -103,7 +103,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 	
-	def ztt(self, config, channel, weight, nick_suffix, lumi=19712.0, ztt_from_mc=False, exclude_cuts=None, **kwargs):
+	def ztt(self, config, channel, category, weight, nick_suffix, lumi=19712.0, ztt_from_mc=False, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -165,7 +165,7 @@ class Samples(samples.SamplesBase):
 		
 		return config
 	
-	def zl(self, config, channel, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def zl(self, config, channel, category, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -189,7 +189,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
 		return config
 	
-	def zj(self, config, channel, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def zj(self, config, channel, category, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -215,7 +215,7 @@ class Samples(samples.SamplesBase):
 		
 		return config
 	
-	def ttj(self, config, channel, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def ttj(self, config, channel, category, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -268,7 +268,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 	
-	def vv(self, config, channel, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def vv(self, config, channel, category, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -302,7 +302,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 	
-	def wj(self, config, channel, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def wj(self, config, channel, category, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -418,7 +418,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
 	
-	def qcd(self, config, channel, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def qcd(self, config, channel, category, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -579,6 +579,15 @@ class Samples(samples.SamplesBase):
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 					channel+"_dirIso_z_tauEs/ntuple",
 					1.0,
+					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
+					"noplot_data_qcd_yield",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
+					channel+"_dirIso_z_tauEs/ntuple",
+					1.0,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"]) + "*((q_1*q_2)>0.0)",
 					"noplot_data_qcd_control",
 					nick_suffix=nick_suffix
@@ -623,6 +632,7 @@ class Samples(samples.SamplesBase):
 			if not "EstimateQcd" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateQcd")
 			config.setdefault("qcd_data_shape_nicks", []).append("qcd"+nick_suffix)
+			config.setdefault("qcd_data_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
 			config.setdefault("qcd_data_control_nicks", []).append("noplot_data_qcd_control"+nick_suffix)
 			config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
 			config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
@@ -655,12 +665,12 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 	
-	def qcdwj(self, config, channel, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def qcdwj(self, config, channel, category, weight, nick_suffix, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
-		config = self.qcd(config, channel, weight, nick_suffix+"_noplot", lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.wj(config, channel, weight, nick_suffix+"_noplot", lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.qcd(config, channel, category, weight, nick_suffix+"_noplot", lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.wj(config, channel, category, weight, nick_suffix+"_noplot", lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		if not "AddHistograms" in config.get("analysis_modules", []):
 			config.setdefault("analysis_modules", []).append("AddHistograms")
 		config.setdefault("histogram_nicks", []).append(" ".join([sample+nick_suffix+"_noplot" for sample in ["qcd", "wj"]]))
@@ -669,16 +679,16 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "qcdwj", nick_suffix)
 		return config
 	
-	def htt(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
-		config = self.ggh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb,
-		                  lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.qqh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb,
-		                  lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.vh(config, channel, weight, nick_suffix+"_noplot", higgs_masses, normalise_signal_to_one_pb,
-		                 lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                  normalise_signal_to_one_pb, lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                  normalise_signal_to_one_pb, lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                 normalise_signal_to_one_pb, lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
@@ -689,7 +699,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
-	def ggh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -715,7 +725,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
-	def qqh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -741,7 +751,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config
 	
-	def vh(self, config, channel, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
+	def vh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		

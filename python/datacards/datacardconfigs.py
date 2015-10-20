@@ -22,39 +22,49 @@ class DatacardConfigs(object):
 			"ggH" : "ggh",
 			"qqH" : "qqh",
 			"VH" : "vh",
+			"WH" : "wh",
+			"ZH" : "zh",
 		}
 		
 		self._mapping_category2binid = {
 			"mt" : {
-				"inclusive" : 0,
-				"zerojet" : 1,
-				"onejet" : 2,
-				"twojet" : 3,
+				"mt_inclusive" : 0,
+				"mt_0jet_high" : 1,
+				"mt_0jet_low" : 2,
+				"mt_1jet_high" : 3,
+				"mt_1jet_low" : 4,
+				"mt_2jet_vbf" : 5,
 			},
 			"et" : {
-				"inclusive" : 0,
-				"zerojet" : 1,
-				"onejet" : 2,
-				"twojet" : 3,
+				"et_inclusive" : 0,
+				"et_0jet_high" : 1,
+				"et_0jet_low" : 2,
+				"et_1jet_high" : 3,
+				"et_1jet_low" : 4,
+				"et_2jet_vbf" : 5,
 			},
 			"em" : {
-				"inclusive" : 0,
-				"zerojet" : 1,
-				"onejet" : 2,
-				"twojet" : 3,
+				"em_inclusive" : 0,
+				"em_0jet_high" : 1,
+				"em_0jet_low" : 2,
+				"em_1jet_high" : 3,
+				"em_1jet_low" : 4,
+				"em_2jet_vbf" : 5,
 			},
 			"tt" : {
-				"inclusive" : 0,
-				"zerojet" : 1,
-				"onejet" : 2,
-				"twojet" : 3,
+				"tt_inclusive" : 0,
+				"tt_0jet_high" : 1,
+				"tt_0jet_low" : 2,
+				"tt_1jet_high" : 3,
+				"tt_1jet_low" : 4,
+				"tt_2jet_vbf" : 5,
 			},
 		}
 		
 		self.htt_datacard_filename_templates = [
 			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-			#"datacards/category/${BIN}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
+			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
 			"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
 		]
 	

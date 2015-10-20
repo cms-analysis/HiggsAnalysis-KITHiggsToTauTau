@@ -6,6 +6,7 @@
 #include "Artus/Core/interface/ProducerBase.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/KappaAnalysis/interface/KappaTypes.h"
+#include "Artus/Utility/interface/SafeMap.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
@@ -109,7 +110,11 @@ public:
 				int hash = 0;
 				for (std::vector<KLepton*>::iterator lepton = leptons.begin(); lepton != leptons.end(); ++lepton)
 				{
-					hash = hash ^ (*lepton)->getHash();
+					hash = hash ^ SafeMap::GetWithDefault(
+							product.m_originalLeptons,
+							static_cast<const KLepton*>(*lepton),
+							static_cast<const KLepton*>(*lepton)
+					)->getHash();
 				}
 				hashes.push_back(hash);
 			}

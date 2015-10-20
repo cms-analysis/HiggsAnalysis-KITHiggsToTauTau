@@ -78,7 +78,7 @@
 					"#producer:RecoJetGenParticleMatchingProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"#filter:DiLeptonChargeFilter",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -91,7 +91,7 @@
 		},
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
-			"#SvfitCacheConsumer",
+			"SvfitCacheConsumer",
 			"cutflow_histogram",
 			"CutFlowTreeConsumer",
 			"#KappaElectronsConsumer",

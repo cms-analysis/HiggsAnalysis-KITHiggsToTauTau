@@ -12,9 +12,11 @@ import os
 import combineharvester as ch
 
 import Artus.Utility.tools as tools
+import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
 
@@ -65,15 +67,17 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	args.output_dir = os.path.expandvars(args.output_dir)
+	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
+	binnings_settings = binnings.BinningsDict()
 	systematics_factory = systematics.SystematicsFactory()
 	
 	plot_configs = []
+	output_files = []
 	hadd_commands = []
 	
 	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses)
@@ -106,9 +110,9 @@ if __name__ == "__main__":
 		
 		# prepare category settings based on args and datacards
 		if (len(categories) == 1) and (categories[0] == "all"):
-			categories = datacards.cb.bin_set()
+			categories = datacards.cb.cp().channel([channel]).bin_set()
 		else:
-			categories = list(set(categories).intersection(set(datacards.cb.bin_set())))
+			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
 		args.categories[index] = categories
 		
 		# restrict CombineHarvester to configured categories:
@@ -124,6 +128,7 @@ if __name__ == "__main__":
 					BIN=category,
 					ERA="13TeV"
 			))
+			output_files.append(output_file)
 			tmp_output_files = []
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
@@ -153,7 +158,13 @@ if __name__ == "__main__":
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
-					config["x_expressions"] = args.quantity
+					config["x_expressions"] = [args.quantity]
+					
+					binnings_key = "binningHtt13TeV_"+category+"_svfitMass"
+					if binnings_key in binnings_settings.binnings_dict:
+						config["x_bins"] = [binnings_key]
+					else:
+						config["x_bins"] = ["35,0.0,350.0"]
 					
 					config["directories"] = [args.input_dir]
 					
@@ -193,23 +204,28 @@ if __name__ == "__main__":
 	#	pprint.pprint(plot_configs)
 	
 	# delete existing output files
-	output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-	for output_file in output_files:
+	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
+	for output_file in tmp_output_files:
 		if os.path.exists(output_file):
 			os.remove(output_file)
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	output_files = list(set(output_files))
 	
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
+	debug_plot_configs = []
+	for output_file in output_files:
+		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
+	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
 			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
-			bkg_histogram_name_template.replace("{", "").replace("}", ""),
-			sig_histogram_name_template.replace("{", "").replace("}", ""),
-			bkg_syst_histogram_name_template.replace("{", "").replace("}", ""),
-			sig_syst_histogram_name_template.replace("{", "").replace("}", "")
+			bkg_histogram_name_template, sig_histogram_name_template,
+			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
+			update_systematics=True
 	)
 	
 	# add bin-by-bin uncertainties
@@ -227,16 +243,52 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
+	
+	datacards_poi_ranges = {}
+	for datacard, cb in datacards_cbs.iteritems():
+		channels = cb.channel_set()
+		categories = cb.bin_set()
+		if len(channels) == 1:
+			if len(categories) == 1:
+				datacards_poi_ranges[datacard] = [-100.0, 100.0]
+			else:
+				datacards_poi_ranges[datacard] = [-50.0, 50.0]
+		else:
+			if len(categories) == 1:
+				datacards_poi_ranges[datacard] = [-50.0, 50.0]
+			else:
+				datacards_poi_ranges[datacard] = [-25.0, 25.0]
+	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
+	annotation_replacements = {channel : index for index, channel in enumerate(["combined", "tt", "mt", "et", "em"])}
+	
 	# Max. likelihood fit and postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M MaxLikelihoodFit -n \"\"")
-	datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	stable_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
+	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit {stable} -n \"\"".format(stable=stable_options))
+	datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
-	datacards.pull_plots(datacards_postfit_shapes, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+	datacards.annotate_trees(
+			datacards_workspaces,
+			"higgsCombine*MaxLikelihoodFit*mH*.root",
+			[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
+			annotation_replacements,
+			args.n_processes,
+			"-t limit -b channel"
+	)
+	datacards.annotate_trees(
+			datacards_workspaces,
+			"higgsCombine*MaxLikelihoodFit*mH*.root",
+			[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
+			annotation_replacements,
+			args.n_processes,
+			"-t limit -b channel"
+	)
 	
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, args.n_processes, "-M Asymptotic -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M Asymptotic -n \"\"")
 	
 	"""
 	# cV-cF scan
@@ -248,6 +300,7 @@ if __name__ == "__main__":
 	datacards.combine(
 			datacards_cbs,
 			cv_cf_datacards_workspaces,
+			None,
 			args.n_processes,
 			"-M MultiDimFit --algo grid --points 900 -n \"\"" # --firstPoint 1 --lastPoint 900
 	)
