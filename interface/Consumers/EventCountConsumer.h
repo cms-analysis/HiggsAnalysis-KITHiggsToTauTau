@@ -14,8 +14,7 @@ public:
 	typedef typename KappaTypes::product_type product_type;
 	typedef typename KappaTypes::setting_type setting_type;
 	
-	EventCountConsumer();
-	
+	virtual void Init ( setting_type const& settings );
 	virtual std::string GetConsumerId() const override;
 	virtual void ProcessEvent(event_type const& event, product_type const& product, setting_type const& settings, FilterResult & result) override;
 	

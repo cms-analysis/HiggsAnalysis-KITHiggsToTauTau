@@ -2,11 +2,15 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EventCountConsumer.h"
 #include "Artus/Utility/interface/RootFileHelper.h"
 
-EventCountConsumer::EventCountConsumer() : ConsumerBase<KappaTypes>()
+void EventCountConsumer::Init(setting_type const& settings)
 {
 	currentLumi = 0;
 	m_totalEvents = new TH1I("totalEvents", "totalEvents", 2, -1, 1);
+	m_totalEvents->SetBinContent(1, 0);
+	m_totalEvents->SetBinContent(2, 0);
 	m_filteredEvents = new TH1I("filteredEvents", "filteredEvents", 2, -1, 1);
+	m_filteredEvents->SetBinContent(1, 0);
+	m_filteredEvents->SetBinContent(2, 0);
 }
 
 std::string EventCountConsumer::GetConsumerId() const
