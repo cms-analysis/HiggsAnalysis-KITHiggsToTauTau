@@ -174,6 +174,7 @@ if __name__ == "__main__":
 				if args.cms:
 					config["cms"] = True
 					config["extra_text"] = "Preliminary"
+					config["legend"] = [0.7, 0.5, 0.95, 0.93] if args.ratio else [0.7, 0.5, 0.9, 0.85]
 				elif args.shapes:
 					config["legend"] = [0.55, 0.65, 0.9, 0.88]
 				else:
@@ -182,7 +183,7 @@ if __name__ == "__main__":
 					config["legend_cols"] = 3
 				if not args.shapes:
 					if not args.lumi is None:
-						config["lumis"] = [float("%.2f" % args.lumi)]
+						config["lumis"] = [float("%.3f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
 				
 				config["output_dir"] = os.path.expandvars(os.path.join(
