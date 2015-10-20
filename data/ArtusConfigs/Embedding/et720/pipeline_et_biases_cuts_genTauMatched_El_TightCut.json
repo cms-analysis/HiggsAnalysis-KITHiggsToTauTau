@@ -9,7 +9,7 @@
 	
 		"ElectronReco" : "user",
 		"ElectronID" : "user",
-		"ElectronIDType" : "cutBasedEleIdPHYS14Tight",
+		"ElectronIDType" : "none",
 		"ElectronIsoType" : "none",
 		"ElectronIso" : "none",
 		

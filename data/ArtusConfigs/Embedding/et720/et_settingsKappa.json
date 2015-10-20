@@ -42,8 +42,6 @@
 	"#PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
 	"BeamSpot" : "offlineBeamSpot",
 	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
-	"EventMetadata" : "eventInfo",
-	"LumiMetadata" : "lumiInfo",
 	"FilterMetadata" : "",
 	"FilterSummary" : "",
 	"#JetMetadata" : "jetMetadata",

@@ -50,18 +50,18 @@
 		"puWeight",
 		"eventWeight",
 		"tau0_hpsPFTauDiscriminationByRawChargedIsolationDBSumPtCorr",
-		"tau1__hpsPFTauDiscriminationByRawChargedIsolationDBSumPtCorr",
+		"tau1_hpsPFTauDiscriminationByRawChargedIsolationDBSumPtCorr",
 		"tau0_hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr",
-		"tau1__hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr",
+		"tau1_hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr",
 		"tau0_hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits",
-		"tau1__hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits",
+		"tau1_hpsPFTauDiscriminationByRawCombinedIsolationDBSumPtCorr3Hits",
 		"tau0_hpsPFTauDiscriminationByRawGammaIsolationDBSumPtCorr",
-		"tau1__hpsPFTauDiscriminationByRawGammaIsolationDBSumPtCorr",
+		"tau1_hpsPFTauDiscriminationByRawGammaIsolationDBSumPtCorr",
 		"tau0_hpsPFTauMVA3IsolationChargedIsoPtSum",
-		"tau1__hpsPFTauMVA3IsolationChargedIsoPtSum",
+		"tau1_hpsPFTauMVA3IsolationChargedIsoPtSum",
 		"tau0_hpsPFTauMVA3IsolationNeutralIsoPtSum",
-		"tau1__hpsPFTauMVA3IsolationNeutralIsoPtSum",
+		"tau1_hpsPFTauMVA3IsolationNeutralIsoPtSum",
 		"tau0_hpsPFTauMVA3IsolationPUcorrPtSum",
-		"tau1__hpsPFTauMVA3IsolationPUcorrPtSum"
+		"tau1_hpsPFTauMVA3IsolationPUcorrPtSum"
 	]
 }

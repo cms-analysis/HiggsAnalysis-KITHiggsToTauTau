@@ -41,7 +41,7 @@
 					"filter:MinMuonsCountFilter",
 					"filter:MaxMuonsCountFilter",
 					"producer:DecayChannelProducer",
-					"producer:DiLeptonQuantitiesProducer",
+					"#producer:DiLeptonQuantitiesProducer",
 					"producer:EventWeightProducer",
 					"producer:GenMuonFSRProducer"
 				]

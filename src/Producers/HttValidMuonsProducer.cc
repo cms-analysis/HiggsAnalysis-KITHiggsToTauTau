@@ -62,8 +62,8 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 
 	if (validMuon && muonIsoType == MuonIsoType::USER) {
-		if (1==0)
-			event.m_pfChargedHadronsNoPileUp &&
+		if (
+		    event.m_pfChargedHadronsNoPileUp &&
 		    event.m_pfNeutralHadronsNoPileUp &&
 		    event.m_pfPhotonsNoPileUp &&
 		    event.m_pfChargedHadronsPileUp)

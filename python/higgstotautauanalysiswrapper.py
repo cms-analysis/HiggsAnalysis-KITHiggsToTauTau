@@ -31,7 +31,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			if os.path.islink(symlinkDir):
 				os.remove(symlinkDir)
 			os.symlink(self.projectPath, symlinkDir)
-		
+
 		exitCode = super(HiggsToTauTauAnalysisWrapper, self).run()
 		
 		if not self.projectPath is None:

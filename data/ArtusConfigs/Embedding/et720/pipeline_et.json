@@ -9,7 +9,7 @@
 		"Year" : 2012,
 		"ElectronReco" : "user",
 		"ElectronID" : "user",
-		"ElectronIDType" : "cutBasedEleIdPHYS14Tight",
+		"ElectronIDType" : "none",
 		"ElectronIsoType" : "user",
 		"ElectronIso" : "none",
 		
