@@ -10,7 +10,7 @@
 		"#00ff00"
 	],
 	"files": [
-		"higgsCombine.MultiDimFit*mH*.root"
+		"higgsCombine.MaxLikelihoodFit*mH*.root"
 	],
 	"folders": [
 		"limit"
@@ -76,9 +76,9 @@
 		"TGraphErrors"
 	],
 	"weights": [
-		"quantileExpected>0.4",
-		"quantileExpected>0.1 && quantileExpected<0.4 && (Entry$%4==1)",
-		"quantileExpected>0.1 && quantileExpected<0.4 && (Entry$%4==2)"
+		"quantileExpected>0.2 && quantileExpected<0.8",
+		"quantileExpected>0.1 && quantileExpected<0.2",
+		"quantileExpected>0.8 && quantileExpected<0.9"
 	],
 	"x_expressions": [
 		"lumi",
@@ -87,9 +87,9 @@
 	],
 	"x_label": "Integrated Luminosity / fb^{-1}",
 	"y_expressions": [
-		"r",
-		"0:r",
-		"0:r"
+		"limit",
+		"0:limit",
+		"0:limit"
 	],
 	"y_label": "Uncertainty on Best Fit #sigma/#sigma_{SM}",
 	"filename": "exp_best_fit_mu_unc_split_over_lumi"
