@@ -7,7 +7,7 @@
 		"#ff0000"
 	],
 	"files": [
-		"higgsCombine.MaxLikelihoodFit*mH*.root"
+		"higgsCombine.MultiDimFit*mH*.root"
 	],
 	"fill_styles": [
 		1001
@@ -56,9 +56,9 @@
 		"TGraphErrors"
 	],
 	"weights": [
-		"quantileExpected>0.2 && quantileExpected<0.8",
-		"quantileExpected>0.1 && quantileExpected<0.2",
-		"quantileExpected>0.8 && quantileExpected<0.9"
+		"quantileExpected>0.4",
+		"quantileExpected>0.1 && quantileExpected<0.4 && (Entry$%4==1)",
+		"quantileExpected>0.1 && quantileExpected<0.4 && (Entry$%4==2)"
 	],
 	"x_expressions": [
 		"lumi",
@@ -67,9 +67,9 @@
 	],
 	"x_label": "Integrated Luminosity / fb^{-1}",
 	"y_expressions": [
-		"limit",
-		"0:limit",
-		"0:limit"
+		"r",
+		"0:r",
+		"0:r"
 	],
 	"y_label": "Best Fit #sigma/#sigma_{SM}",
 	"filename": "exp_best_fit_mu_over_lumi"

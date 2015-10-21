@@ -51,9 +51,9 @@
 	],
 	"x_label": "Best fit #sigma/#sigma_{SM}",
 	"y_expressions": [
-		"limit",
-		"0:limit",
-		"0:limit"
+		"channel",
+		"0:channel",
+		"0:channel"
 	],
 	"y_label": "",
 	"filename": "exp_best_fit_mu_per_channel"
