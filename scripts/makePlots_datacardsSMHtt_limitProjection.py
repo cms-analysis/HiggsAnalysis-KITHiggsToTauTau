@@ -172,10 +172,9 @@ if __name__ == "__main__":
 		cb = ch.CombineHarvester()
 		
 		for template in datacards_configs.htt_datacard_filename_templates:
-			template = template.replace("${BIN}", "[\\w\\.]+")
 			template_tag = template.split("$")[0]
 			if template_tag in datacard:
-				matched_template = os.path.join(datacard[:datacard.index(template_tag)], template).replace("{", "").replace("}", "")
+				matched_template = os.path.join(datacard[:datacard.index(template_tag)], template).replace("${BIN}", "[\\w\\.]+").replace("{", "").replace("}", "")
 				cb.QuickParseDatacard(datacard, matched_template)
 				break
 		
