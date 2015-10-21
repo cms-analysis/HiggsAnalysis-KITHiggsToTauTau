@@ -80,6 +80,7 @@ if __name__ == "__main__":
 	
 	plot_config["files"] = tmp_input_files * len(root_object_paths)
 	plot_config["x_expressions"] = list(itertools.chain(*[[root_object_path] * len(tmp_input_files) for root_object_path in root_object_paths]))
+	plot_config["nicks"] = ["_".join(str(part) for part in nick_parts) for nick_parts in itertools.product(root_object_paths, range(len(tmp_input_files)))]
 	
 	for key in ["markers", "legend_markers", "labels", "line_widths", "fill_styles"]:
 		if key in json_config:
