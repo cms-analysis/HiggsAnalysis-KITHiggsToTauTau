@@ -40,8 +40,8 @@ if __name__ == "__main__":
 		"default" : {
 			"fit" : {
 				"" : {
-					"method" : "MaxLikelihoodFit",
-					"options" : "",
+					"method" : "MultiDimFit",#"MaxLikelihoodFit",
+					"options" : "--algo singles",
 					"poi_ranges" : poi_ranges_default,
 				},
 			},
@@ -288,7 +288,7 @@ if __name__ == "__main__":
 					datacards.combine(datacards_cbs, tmp_datacards_workspaces, datacards_poi_ranges.get(fit_name, None), args.n_processes, "-t -1 --expectSignal 1 -M {method} {fit_options} {freeze} {stable} -n {name}".format(
 							method=fit_options.get("method", "MaxLikelihoodFit"),
 							fit_options=tmp_fit_options,
-							freeze="",#"--snapshotName MultiDimFit -S 0" if freeze_syst_uncs else "--saveWorkspace",
+							freeze="--snapshotName {method} -S 0".format(method=fit_options.get("method", "MaxLikelihoodFit")) if freeze_syst_uncs else "--saveWorkspace",
 							stable=stable_options,
 							name="\"\"" if fit_name == "" else fit_name
 					))
