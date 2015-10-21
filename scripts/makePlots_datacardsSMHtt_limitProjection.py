@@ -26,12 +26,64 @@ def _str2bool(string):
 
 
 def poi_ranges_default(lumi):
-	if lumi < 10000.0:
-		return [-5.0, 100.0]
-	elif lumi < 100000.0:
-		return [-5.0, 50.0]
+	if lumi < 5000.0:
+		return [-24.0, 26.0]
+	elif lumi < 20000.0:
+		return [-9.0, 11.0]
+	elif lumi < 50000.0:
+		return [-4.0, 6.0]
 	else:
-		return [-5.0, 25.0]
+		return [-1.0, 3.0]
+
+def poi_ranges_default_bbb(lumi):
+	if lumi < 5000.0:
+		return [-24.0, 26.0]
+	elif lumi < 20000.0:
+		return [-14.0, 16.0]
+	elif lumi < 50000.0:
+		return [-9.0, 11.0]
+	else:
+		return [-4.0, 6.0]
+
+def poi_ranges_fermion(lumi):
+	if lumi < 5000.0:
+		return [-19.0, 21.0]
+	elif lumi < 20000.0:
+		return [-14.0, 16.0]
+	elif lumi < 50000.0:
+		return [-9.0, 11.0]
+	else:
+		return [-4.0, 6.0]
+
+def poi_ranges_fermion_bbb(lumi):
+	if lumi < 5000.0:
+		return [-49.0, 51.0]
+	elif lumi < 20000.0:
+		return [-24.0, 26.0]
+	elif lumi < 50000.0:
+		return [-14.0, 16.0]
+	else:
+		return [-9.0, 11.0]
+
+def poi_ranges_vector(lumi):
+	if lumi < 5000.0:
+		return [-24.0, 26.0]
+	elif lumi < 20000.0:
+		return [-9.0, 11.0]
+	elif lumi < 50000.0:
+		return [-4.0, 6.0]
+	else:
+		return [-1.0, 3.0]
+
+def poi_ranges_vector_bbb(lumi):
+	if lumi < 5000.0:
+		return [-49.0, 51.0]
+	elif lumi < 20000.0:
+		return [-24.0, 26.0]
+	elif lumi < 50000.0:
+		return [-14.0, 16.0]
+	else:
+		return [-9.0, 11.0]
 
 
 if __name__ == "__main__":
@@ -43,6 +95,7 @@ if __name__ == "__main__":
 					"method" : "MultiDimFit",#"MaxLikelihoodFit",
 					"options" : "--algo singles",
 					"poi_ranges" : poi_ranges_default,
+					"poi_ranges_bbb" : poi_ranges_default_bbb,
 				},
 			},
 			"fit_plots" : {
@@ -60,12 +113,14 @@ if __name__ == "__main__":
 				"CV" : {
 					"method" : "MultiDimFit",
 					"options" : "--algo singles -P CV --floatOtherPOIs 1",
-					"poi_ranges" : poi_ranges_default,
+					"poi_ranges" : poi_ranges_vector,
+					"poi_ranges_bbb" : poi_ranges_vector_bbb,
 				},
 				"CF" : {
 					"method" : "MultiDimFit",
 					"options" : "--algo singles -P CF --floatOtherPOIs 1",
-					"poi_ranges" : poi_ranges_default,
+					"poi_ranges" : poi_ranges_fermion,
+					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
 				#"CVCF" : {
 				#	"method" : "MultiDimFit",
@@ -92,12 +147,14 @@ if __name__ == "__main__":
 				"RV" : {
 					"method" : "MultiDimFit",
 					"options" : "--algo singles -P RV --floatOtherPOIs 1",
-					"poi_ranges" : poi_ranges_default,
+					"poi_ranges" : poi_ranges_vector,
+					"poi_ranges_bbb" : poi_ranges_vector_bbb,
 				},
 				"RF" : {
 					"method" : "MultiDimFit",
 					"options" : "--algo singles -P RF --floatOtherPOIs 1",
-					"poi_ranges" : poi_ranges_default,
+					"poi_ranges" : poi_ranges_fermion,
+					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
 				#"RVRF" : {
 				#	"method" : "MultiDimFit",
@@ -129,6 +186,8 @@ if __name__ == "__main__":
 	parser.add_argument("-m", "--models", nargs="+", default=["default"],
 	                    choices=models.keys(),
 	                    help="Statistics models. [Default: %(default)s]")
+	parser.add_argument("--with-bbb-uncs", action="store_true", default=False,
+	                    help="Indicate whether the datacard(s) contain bin-by-bin uncertainties, which is important for the POI ranges. [Default: %(default)s]")
 	parser.add_argument("--cv-bins", default="30,0.0,3.0",
 	                    help="Binning of the grid for the cV axis. [Default: %(default)s]")
 	parser.add_argument("--cf-bins", default="30,0.0,2.0",
@@ -217,7 +276,7 @@ if __name__ == "__main__":
 					datacards_cbs.update(scaled_datacards_cbs)
 					for scaled_datacard, cb in scaled_datacards_cbs.iteritems():
 						for fit_name, fit_settings in model_settings.get("fit", {"" : {}}).iteritems():
-							poi_ranges = fit_settings.get("poi_ranges", None)
+							poi_ranges = fit_settings.get("poi_ranges"+("_bbb" if args.with_bbb_uncs else ""), None)
 							if not poi_ranges is None:
 								datacards_poi_ranges.setdefault(fit_name, {})[scaled_datacard] = poi_ranges(lumi)
 							
