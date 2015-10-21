@@ -27,7 +27,7 @@ class SMHttDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			
 			self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
@@ -39,6 +39,9 @@ class SMHttDatacards(datacards.Datacards):
 
 			# fake-rate
 			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
+			
+			# lumi
+			self.cb.cp().process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 			
 			# ======================================================================
 			# ET channel
@@ -53,7 +56,7 @@ class SMHttDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			
 			self.cb.cp().channel(["et"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
@@ -65,6 +68,9 @@ class SMHttDatacards(datacards.Datacards):
 
 			# fake-rate
 			self.cb.cp().channel(["et"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
+			
+			# lumi
+			self.cb.cp().process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 			
 			# ======================================================================
 			# EM channel
@@ -79,11 +85,14 @@ class SMHttDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			
+			# lumi
+			self.cb.cp().process(["ZTT", "ZLL", "VV", "WJ"]).AddSyst(self.cb, *self.lumi_syst_args)
 			
 			# ======================================================================
 			# TT channel
@@ -108,11 +117,13 @@ class SMHttDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["tt"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
-			# ======================================================================
-			# All channels
-		
 			# lumi
 			self.cb.cp().process(["ZTT", "ZLL", "TTJ", "VV", "WJ"]).AddSyst(self.cb, *self.lumi_syst_args)
+			
+			# ======================================================================
+			# All channels
+			
+			# lumi
 			self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
 			
 			# jets
@@ -125,13 +136,16 @@ class SMHttDatacards(datacards.Datacards):
 
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).channel(["tt"]).AddSyst(self.cb, *self.qcd_syst_args) # automatically in other channels
-		
+			#self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
+			
 			# cross section
 			self.cb.cp().process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			self.cb.cp().process(["TTJ"]).channel(["mt", "et", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args) # automatically in other channels determined
+			#self.cb.cp().process(["TTJ"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["WJ"]).channel(["em", "tt"]).AddSyst(self.cb, *self.wj_cross_section_syst_args) # automatically in other channels determined
-		
+			#self.cb.cp().process(["WJ"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
+			
 			# signal
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_qcd_scale_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_pdf_scale_syst_args)
