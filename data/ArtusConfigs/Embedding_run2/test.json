@@ -1,0 +1,43 @@
+{
+	"test" : {
+		"Channel" : "test",
+		"DirectIso" : true,
+                "MinNMuons" : 2,
+                "MaxNMuons" : 2,
+		"MuonIsoTypeUserMode" : "none",
+                "MuonLowerPtCuts" : [
+                        "20.0"
+                ],
+                "MuonUpperAbsEtaCuts" : [
+                        "2.1"
+                ],
+                "Quantities" : [
+                        {
+                                "include" : [
+				         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
+                                        "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/leptonQuantities_min.json"
+                                ]
+                        }
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					  "producer:ValidMuonsProducer",
+					  "filter:ValidMuonsFilter",
+					  "filter:MinMuonsCountFilter",
+					  "#producer:HttValidLooseMuonsProducer",
+                                          "producer:DecayChannelProducer",
+                                          "#producer:DiLeptonQuantitiesProducer",
+                                          "#producer:EventWeightProducer",
+                                          "producer:GenMuonFSRProducer"
+
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+                        "KappaMuonsConsumer",
+			"#KappaTaggedJetsConsumer"
+		]
+	}
+}
