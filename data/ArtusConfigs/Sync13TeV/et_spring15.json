@@ -14,13 +14,20 @@
 		"MinNElectrons" : 1,
 		"MinNTaus" : 1,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf",
-			"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
-		],
+		"HltPaths" : { 
+			"nick": {
+				"default" : [
+					"HLT_Ele32_eta2p1_WP75_Gsf",
+					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
+				],
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf"
+				]
+			}
+		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"ElectronLowerPtCuts" : [
-			"23.0"
+			"24.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
@@ -35,9 +42,16 @@
 		"DiTauPairLepton1LowerPtCuts" : [
 			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v"
-		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+			"nick": {
+				"default" : [
+					"HLT_Ele32_eta2p1_WP75_Gsf_v"
+				],
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf_v"
+				]
+			}
+		},
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
@@ -46,6 +60,9 @@
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter",
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
+				],
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfTrackIsoFilter"
 				]
 			}
 		},

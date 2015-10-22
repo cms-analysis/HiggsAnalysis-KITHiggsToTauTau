@@ -14,13 +14,20 @@
 		"MinNMuons" : 1,
 		"MinNTaus" : 1,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : [
-			"HLT_IsoMu24_eta2p1",
-			"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
-		],
+		"HltPaths" : { 
+			"nick": {
+				"default" : [
+					"HLT_IsoMu24_eta2p1",
+					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
+				],
+				"MiniAODv2" : [
+					"HLT_IsoMu17_eta2p1"
+				]
+			}
+		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"MuonLowerPtCuts" : [
-			"18.0"
+			"19.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"2.1"
@@ -35,9 +42,16 @@
 		"DiTauPairLepton1LowerPtCuts" : [
 			"HLT_IsoMu24_eta2p1_v:25.0"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_IsoMu24_eta2p1_v"
-		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+			"nick": {
+				"default" : [
+					"HLT_IsoMu24_eta2p1_v"
+				],
+				"MiniAODv2" : [
+					"HLT_IsoMu17_eta2p1_v"
+				]
+			}
+		},
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"MuonTriggerFilterNames" : {
@@ -46,6 +60,9 @@
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09",
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu17LooseIsoPFTau20",
 					"HLT_IsoMu24_eta2p1_v:hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09"
+				],
+				"MiniAODv2" : [
+					"HLT_IsoMu17_eta2p1_v:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09"
 				]
 			}
 		},

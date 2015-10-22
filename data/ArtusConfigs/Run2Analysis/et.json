@@ -23,6 +23,9 @@
 					"HLT_Ele32_eta2p1_WP75_Gsf",
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
 				],
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf"
+				],
 				"Run2015" : [
 					"HLT_Ele32_eta2p1_WPTight_Gsf",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
@@ -32,7 +35,7 @@
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
-			"23.0"
+			"24.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
@@ -48,10 +51,19 @@
 			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
 			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v",
-			"HLT_Ele32_eta2p1_WPTight_Gsf_v"
-		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+			"nick": {
+				"default" : [
+					"HLT_Ele32_eta2p1_WP75_Gsf_v"
+				],
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf_v"
+				],
+				"Run2015" : [
+					"HLT_Ele32_eta2p1_WPTight_Gsf_v"
+				]
+			}
+		},
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
@@ -60,6 +72,9 @@
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter",
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
+				],
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfTrackIsoFilter"
 				],
 				"Run2015B" : [
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltSingleEle22WPLooseGsfTrackIsoFilter",

@@ -23,6 +23,9 @@
 					"HLT_IsoMu24_eta2p1",
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
 				],
+				"MiniAODv2" : [
+					"HLT_IsoMu17_eta2p1"
+				],
 				"Run2015D" : [
 					"HLT_IsoMu22",
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
@@ -32,7 +35,7 @@
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"MuonLowerPtCuts" : [
-			"18.0"
+			"19.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"2.1"
@@ -48,10 +51,19 @@
 			"HLT_IsoMu24_eta2p1_v:25.0",
 			"HLT_IsoMu22_v:25.0"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_IsoMu24_eta2p1_v",
-			"HLT_IsoMu22_v"
-		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+			"nick": {
+				"default" : [
+					"HLT_IsoMu24_eta2p1"
+				],
+				"MiniAODv2" : [
+					"HLT_IsoMu17_eta2p1"
+				],
+				"Run2015D" : [
+					"HLT_IsoMu22"
+				]
+			}
+		},
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"MuonTriggerFilterNames" : {
@@ -60,6 +72,9 @@
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09",
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu17LooseIsoPFTau20",
 					"HLT_IsoMu24_eta2p1_v:hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09"
+				],
+				"MiniAODv2" : [
+					"HLT_IsoMu17_eta2p1_v:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09"
 				],
 				"Run2015D" : [
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09",
