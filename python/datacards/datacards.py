@@ -406,16 +406,30 @@ class Datacards(object):
 	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, *args):
 		if datacards_poi_ranges is None:
 			datacards_poi_ranges = {}
+		tmp_args = " ".join(args)
 		
-		commands = [[
-				"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE}".format(
-						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
-						POI_RANGE="--rMin {RMIN} --rMax {RMAX}".format(RMIN=datacards_poi_ranges[datacard][0], RMAX=datacards_poi_ranges[datacard][1]) if datacard in datacards_poi_ranges else "",
-						ARGS=" ".join(args),
-						WORKSPACE=workspace
-				),
-				os.path.dirname(workspace)
-		] for datacard, workspace in datacards_workspaces.iteritems()]
+		chunks = [[None, None]]
+		if "{CHUNK}" in tmp_args and "--points" in tmp_args:
+			splited_args = tmp_args.split()
+			n_points = int(splited_args[splited_args.index("--points") + 1])
+			n_points_per_chunk = 100
+			chunks = [[chunk*n_points_per_chunk, (chunk+1)*n_points_per_chunk-1] for chunk in xrange(n_points/n_points_per_chunk)]
+		
+		commands = []
+		for index, (chunk_min, chunk_max) in enumerate(chunks):
+			commands.extend([[
+					"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE} {CHUNK_POINTS}".format(
+							MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+							POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
+							ARGS=tmp_args.format(CHUNK=str(index)),
+							WORKSPACE=workspace,
+							CHUNK_POINTS = "" if (chunk_min is None) or (chunk_max is None) else "--firstPoint {CHUNK_MIN} --lastPoint {CHUNK_MAX}".format(
+									CHUNK_MIN=chunk_min,
+									CHUNK_MAX=chunk_max
+							)
+					).format(RMIN=datacards_poi_ranges.get(datacard, ["", ""])[0], RMAX=datacards_poi_ranges.get(datacard, ["", ""])[1]),
+					os.path.dirname(workspace)
+			] for datacard, workspace in datacards_workspaces.iteritems()])
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 	

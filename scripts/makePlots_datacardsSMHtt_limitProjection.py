@@ -124,13 +124,13 @@ if __name__ == "__main__":
 					"poi_ranges" : poi_ranges_fermion,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
-				#"CVCF" : {
-				#	"method" : "MultiDimFit",
-				#	"options" : "--algo grid --points {CVCF_BINS} --setPhysicsModelParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
-				#	"plots_per_lumi" : [
-				#		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan.json",
-				#	],
-				#},
+				"CVCF" : {
+					"method" : "MultiDimFit",
+					"options" : "--algo grid --points {CVCF_BINS} --setPhysicsModelParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
+					"plots_per_lumi" : [
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan.json",
+					],
+				},
 			},
 			"fit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_over_lumi.json",
@@ -162,13 +162,13 @@ if __name__ == "__main__":
 					"poi_ranges" : poi_ranges_fermion,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
-				#"RVRF" : {
-				#	"method" : "MultiDimFit",
-				#	"options" : "--algo grid --points {RVRF_BINS} --setPhysicsModelParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
-				#	"plots_per_lumi" : [
-				#		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/rv_rf_scan.json",
-				#	],
-				#},
+				"RVRF" : {
+					"method" : "MultiDimFit",
+					"options" : "--algo grid --points {RVRF_BINS} --setPhysicsModelParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
+					"plots_per_lumi" : [
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/rv_rf_scan.json",
+					],
+				},
 			},
 			"fit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_over_lumi.json",
@@ -286,6 +286,9 @@ if __name__ == "__main__":
 					datacards_cbs.update(scaled_datacards_cbs)
 					for scaled_datacard, cb in scaled_datacards_cbs.iteritems():
 						for fit_name, fit_settings in model_settings.get("fit", {"" : {}}).iteritems():
+							if freeze_syst_uncs and (("CVCF" in fit_name) or ("RVRF" in fit_name)):
+								continue
+							
 							poi_ranges = fit_settings.get("poi_ranges"+("_bbb" if args.with_bbb_uncs else ""), None)
 							if not poi_ranges is None:
 								datacards_poi_ranges.setdefault(fit_name, {})[scaled_datacard] = poi_ranges(lumi)
@@ -339,6 +342,9 @@ if __name__ == "__main__":
 				
 				# fits
 				for fit_name, fit_options in model_settings.get("fit", {}).iteritems():
+					if freeze_syst_uncs and (("CVCF" in fit_name) or ("RVRF" in fit_name)):
+						continue
+					
 					tmp_datacards_workspaces = datacards_workspaces[fit_name] if freeze_syst_uncs else datacards_workspaces
 					
 					tmp_fit_options = fit_options.get("options", "").format(
@@ -361,7 +367,7 @@ if __name__ == "__main__":
 							fit_options=tmp_fit_options,
 							freeze="--snapshotName {method} -S 0".format(method=fit_options.get("method", "MaxLikelihoodFit")) if freeze_syst_uncs else "--saveWorkspace",
 							stable=stable_options,
-							name="\"\"" if fit_name == "" else fit_name
+							name="\"\"" if fit_name == "" else (fit_name + ("{CHUNK}" if "--points" in tmp_fit_options else ""))
 					))
 					
 					if fit_options.get("method", "MaxLikelihoodFit") == "MaxLikelihoodFit":
