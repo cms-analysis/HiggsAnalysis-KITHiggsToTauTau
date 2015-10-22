@@ -57,13 +57,13 @@ def poi_ranges_fermion(lumi):
 
 def poi_ranges_fermion_bbb(lumi):
 	if lumi < 5000.0:
-		return [-49.0, 51.0]
+		return [-19.0, 21.0]
 	elif lumi < 20000.0:
-		return [-24.0, 26.0]
-	elif lumi < 50000.0:
 		return [-14.0, 16.0]
-	else:
+	elif lumi < 50000.0:
 		return [-9.0, 11.0]
+	else:
+		return [-4.0, 6.0]
 
 def poi_ranges_vector(lumi):
 	if lumi < 5000.0:
@@ -77,13 +77,13 @@ def poi_ranges_vector(lumi):
 
 def poi_ranges_vector_bbb(lumi):
 	if lumi < 5000.0:
-		return [-49.0, 51.0]
-	elif lumi < 20000.0:
 		return [-24.0, 26.0]
-	elif lumi < 50000.0:
-		return [-14.0, 16.0]
-	else:
+	elif lumi < 20000.0:
 		return [-9.0, 11.0]
+	elif lumi < 50000.0:
+		return [-4.0, 6.0]
+	else:
+		return [-1.0, 3.0]
 
 
 if __name__ == "__main__":
@@ -100,7 +100,9 @@ if __name__ == "__main__":
 			},
 			"fit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_split_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_mu_unc_split_over_lumi.json",
 			},
 		},
 		"cvcf" : {
@@ -112,13 +114,13 @@ if __name__ == "__main__":
 			"fit" : {
 				"CV" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P CV --floatOtherPOIs 1",
+					"options" : "--algo singles -P CV --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_vector,
 					"poi_ranges_bbb" : poi_ranges_vector_bbb,
 				},
 				"CF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P CF --floatOtherPOIs 1",
+					"options" : "--algo singles -P CF --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_fermion,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
@@ -132,9 +134,13 @@ if __name__ == "__main__":
 			},
 			"fit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_split_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_unc_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cv_unc_split_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cf_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cf_split_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cf_unc_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_cf_unc_split_over_lumi.json",
 			},
 		},
 		"rvrf" : {
@@ -146,13 +152,13 @@ if __name__ == "__main__":
 			"fit" : {
 				"RV" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P RV --floatOtherPOIs 1",
+					"options" : "--algo singles -P RV --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_vector,
 					"poi_ranges_bbb" : poi_ranges_vector_bbb,
 				},
 				"RF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P RF --floatOtherPOIs 1",
+					"options" : "--algo singles -P RF --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_fermion,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
@@ -166,9 +172,13 @@ if __name__ == "__main__":
 			},
 			"fit_plots" : {
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_split_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_unc_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rv_unc_split_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rf_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rf_split_over_lumi.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rf_unc_over_lumi.json",
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_best_fit_rf_unc_split_over_lumi.json",
 			},
 		},
 	}
@@ -341,7 +351,9 @@ if __name__ == "__main__":
 							RV_MIN=rv_bins[1],
 							RV_MAX=rv_bins[2],
 							RF_MIN=rf_bins[1],
-							RF_MAX=rf_bins[2]
+							RF_MAX=rf_bins[2],
+							RMIN="{RMIN}",
+							RMAX="{RMAX}"
 					)
 					
 					datacards.combine(datacards_cbs, tmp_datacards_workspaces, datacards_poi_ranges.get(fit_name, None), args.n_processes, "-t -1 --expectSignal 1 -M {method} {fit_options} {freeze} {stable} -n {name}".format(
