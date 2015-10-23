@@ -1,7 +1,12 @@
 {
 	"analysis_modules": [
 		"MaskHistograms",
-		"ConstBinContentsMin"
+		"ConstBinContentsMin",
+		"CombineHistograms",
+		"AddLine"
+	],
+	"combine_result_nicks": [
+		"combined"
 	],
 	"filename" : "rv_rf_scan_1sigma_over_lumi",
 	"files": [
@@ -10,12 +15,23 @@
 	"folders": [
 		"limit"
 	],
+	"line_nicks": [
+		"sm"
+	],
 	"markers": [
-		"COLZ"
+		"CONT1Z",
+		"P"
+	],
+	"marker_styles": [
+		34
 	],
 	"mask_above_delta_min": 2.3,
+	"nicks_whitelist": [
+		"combined",
+		"sm"
+	],
 	"weights": [
-		"deltaNLL+lumi"
+		"(deltaNLL+lumi/1000)*(quantileExpected>=0.0)"
 	],
 	"x_bins": [
 		"30,0.0,3.0"
@@ -24,6 +40,9 @@
 		"RV"
 	],
 	"x_label" : "#mu_{qqH, WH, ZH}",
+	"x_lines" : [
+		"1.0"
+	],
 	"y_bins": [
 		"30,0.0,2.0"
 	],
@@ -31,5 +50,8 @@
 		"RF"
 	],
 	"y_label" : "#mu_{ggH, t#bar{t}H}",
+	"y_lines" : [
+		"1.0"
+	],
 	"z_label" : "Integrated Luminosity / fb^{-1}"
 }
