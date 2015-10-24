@@ -412,8 +412,8 @@ class Datacards(object):
 		if "{CHUNK}" in tmp_args and "--points" in tmp_args:
 			splited_args = tmp_args.split()
 			n_points = int(splited_args[splited_args.index("--points") + 1])
-			n_points_per_chunk = 100
-			chunks = [[chunk*n_points_per_chunk, (chunk+1)*n_points_per_chunk-1] for chunk in xrange(n_points/n_points_per_chunk)]
+			n_points_per_chunk = 199
+			chunks = [[chunk*n_points_per_chunk, (chunk+1)*n_points_per_chunk-1] for chunk in xrange(n_points/n_points_per_chunk+1)]
 		
 		commands = []
 		for index, (chunk_min, chunk_max) in enumerate(chunks):
