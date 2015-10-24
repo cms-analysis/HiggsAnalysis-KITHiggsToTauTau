@@ -30,6 +30,8 @@ if __name__ == "__main__":
 	                    help="Input directories containing files <mass>/higgsCombine-<exp|obs>.Asymptotic.mH<mass>.root.")
 	parser.add_argument("--nicks", nargs="+",
 	                    help="Nicks from single plots to put into the comparison plot. [Ddefault: all]")
+	parser.add_argument("--analysis-modules", default=[], nargs="+",
+	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -92,6 +94,10 @@ if __name__ == "__main__":
 	for key in ["x_label", "y_label", "legend"]:
 		if key in json_config:
 			plot_config[key] = json_config[key]
+	
+	for analysis_module in args.analysis_modules:
+		if not analysis_module in plot_config.get("analysis_modules", []):
+			plot_config.setdefault("analysis_modules", []).append(analysis_module)
 	
 	plot_config["output_dir"] = os.path.expandvars(args.output_dir)
 	plot_config["filename"] = json_config["filename"]
