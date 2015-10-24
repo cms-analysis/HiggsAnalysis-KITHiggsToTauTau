@@ -77,6 +77,6 @@
 		"0:RF",
 		"0:RF"
 	],
-	"y_label": "Uncertainty on Best Fit #mu_{ggH, t#bar{t}H}",
+	"y_label": "Uncertainty on Best Fit #mu_{ggH}",
 	"filename": "exp_best_fit_rf_unc_over_lumi"
 }

@@ -42,6 +42,6 @@
 	"y_expressions": [
 		"RF"
 	],
-	"y_label" : "#mu_{ggH, t#bar{t}H}",
+	"y_label" : "#mu_{ggH}",
 	"z_label" : "#minus2 #Delta ln L"
 }

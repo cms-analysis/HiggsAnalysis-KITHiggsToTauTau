@@ -49,7 +49,7 @@
 	"y_expressions": [
 		"RF"
 	],
-	"y_label" : "#mu_{ggH, t#bar{t}H}",
+	"y_label" : "#mu_{ggH}",
 	"y_lines" : [
 		"1.0"
 	],
