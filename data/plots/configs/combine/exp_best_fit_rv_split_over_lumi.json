@@ -96,6 +96,6 @@
 		"0:RV",
 		"0:RV"
 	],
-	"y_label": "Best Fit #mu_{qqH, WH, ZH}",
+	"y_label": "Best Fit #mu_{qqH, VH}",
 	"filename": "exp_best_fit_rv_split_over_lumi"
 }

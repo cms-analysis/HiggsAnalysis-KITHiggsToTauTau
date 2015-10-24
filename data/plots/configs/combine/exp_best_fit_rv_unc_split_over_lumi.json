@@ -102,6 +102,6 @@
 		"0:RV",
 		"0:RV"
 	],
-	"y_label": "Uncertainty on Best Fit #mu_{qqH, WH, ZH}",
+	"y_label": "Uncertainty on Best Fit #mu_{qqH, VH}",
 	"filename": "exp_best_fit_rv_unc_split_over_lumi"
 }

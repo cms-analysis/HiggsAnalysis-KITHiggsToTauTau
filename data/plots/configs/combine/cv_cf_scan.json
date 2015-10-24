@@ -42,6 +42,6 @@
 	"y_expressions": [
 		"CF"
 	],
-	"y_label" : "#kappa_{F}",
+	"y_label" : "#kappa_{f}",
 	"z_label" : "#minus2 #Delta ln L"
 }

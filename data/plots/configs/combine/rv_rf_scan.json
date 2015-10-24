@@ -35,7 +35,7 @@
 	"x_expressions": [
 		"RV"
 	],
-	"x_label" : "#mu_{qqH, WH, ZH}",
+	"x_label" : "#mu_{qqH, VH}",
 	"y_bins": [
 		"30,-2.0,4.0"
 	],
