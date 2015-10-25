@@ -15,6 +15,8 @@ class DatacardConfigs(object):
 			"data_obs" : "data",
 			"ZTT" : "ztt",
 			"ZLL" : "zll",
+			"ZL" : "zl",
+			"ZJ" : "zj",
 			"TTJ" : "ttj",
 			"VV" : "vv",
 			"WJ" : "wj",
