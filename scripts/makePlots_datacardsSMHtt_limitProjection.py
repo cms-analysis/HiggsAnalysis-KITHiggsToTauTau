@@ -27,7 +27,17 @@ def _str2bool(string):
 
 def poi_ranges_default(lumi):
 	if lumi < 5000.0:
-		return [-24.0, 26.0]
+		return [-19.0, 21.0]
+	elif lumi < 20000.0:
+		return [-15.0, 16.0]
+	elif lumi < 50000.0:
+		return [-9.0, 11.0]
+	else:
+		return [-4.0, 6.0]
+
+def poi_ranges_default_bbb(lumi):
+	if lumi < 5000.0:
+		return [-14.0, 16.0]
 	elif lumi < 20000.0:
 		return [-9.0, 11.0]
 	elif lumi < 50000.0:
@@ -35,21 +45,21 @@ def poi_ranges_default(lumi):
 	else:
 		return [-1.0, 3.0]
 
-def poi_ranges_default_bbb(lumi):
+def poi_ranges_fermion(lumi):
 	if lumi < 5000.0:
-		return [-24.0, 26.0]
-	elif lumi < 20000.0:
 		return [-14.0, 16.0]
-	elif lumi < 50000.0:
+	elif lumi < 20000.0:
 		return [-9.0, 11.0]
+	elif lumi < 50000.0:
+		return [-4.0, 6.0]
 	else:
 		return [-4.0, 6.0]
 
-def poi_ranges_fermion(lumi):
+def poi_ranges_rf(lumi):
 	if lumi < 5000.0:
 		return [-19.0, 21.0]
 	elif lumi < 20000.0:
-		return [-14.0, 16.0]
+		return [-15.0, 16.0]
 	elif lumi < 50000.0:
 		return [-9.0, 11.0]
 	else:
@@ -159,7 +169,7 @@ if __name__ == "__main__":
 				"RF" : {
 					"method" : "MultiDimFit",
 					"options" : "--algo singles -P RF --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
-					"poi_ranges" : poi_ranges_fermion,
+					"poi_ranges" : poi_ranges_rf,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
 				"RVRF" : {

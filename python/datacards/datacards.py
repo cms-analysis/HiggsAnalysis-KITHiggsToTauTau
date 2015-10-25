@@ -423,7 +423,7 @@ class Datacards(object):
 					"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE} {CHUNK_POINTS}".format(
 							MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
 							POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
-							ARGS=tmp_args.format(CHUNK=str(index)),
+							ARGS=tmp_args.format(CHUNK=str(index), RMIN="{RMIN}", RMAX="{RMAX}"),
 							WORKSPACE=workspace,
 							CHUNK_POINTS = "" if (chunk_min is None) or (chunk_max is None) else "--firstPoint {CHUNK_MIN} --lastPoint {CHUNK_MAX}".format(
 									CHUNK_MIN=chunk_min,
