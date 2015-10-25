@@ -49,7 +49,7 @@
 		"0:limit",
 		"0:limit"
 	],
-	"x_label": "Best fit #sigma/#sigma_{SM}",
+	"x_label": "Best Fit #mu",
 	"y_expressions": [
 		"channel",
 		"0:channel",

@@ -102,6 +102,6 @@
 		"0:r",
 		"0:r"
 	],
-	"y_label": "Uncertainty on Best Fit #sigma/#sigma_{SM}",
+	"y_label": "Uncertainty on Best Fit #mu",
 	"filename": "exp_best_fit_mu_unc_split_over_lumi"
 }

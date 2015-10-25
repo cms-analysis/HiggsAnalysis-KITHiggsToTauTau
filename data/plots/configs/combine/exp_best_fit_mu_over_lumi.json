@@ -71,6 +71,6 @@
 		"0:r",
 		"0:r"
 	],
-	"y_label": "Best Fit #sigma/#sigma_{SM}",
+	"y_label": "Best Fit #mu",
 	"filename": "exp_best_fit_mu_over_lumi"
 }
