@@ -621,20 +621,29 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 		
 		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                  normalise_signal_to_one_pb, lumi=lumi*kwargs.get("scale_signal", 1.0), exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                  normalise_signal_to_one_pb, lumi=lumi*kwargs.get("scale_signal", 1.0), exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.wh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                 normalise_signal_to_one_pb, lumi=lumi*kwargs.get("scale_signal", 1.0), exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.zh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                 normalise_signal_to_one_pb, lumi=lumi*kwargs.get("scale_signal", 1.0), exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "wh", "zh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
 			
 			Samples._add_bin_corrections(config, "htt"+str(mass), nick_suffix)
-			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+			Samples._add_plot(
+					config,
+					"bkg" if kwargs.get("stack_signal", False) else "sig",
+					"LINE",
+					"L",
+					"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+					nick_suffix
+			)
 		return config
 	
 	def ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):

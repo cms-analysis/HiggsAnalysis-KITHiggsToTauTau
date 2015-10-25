@@ -26,6 +26,10 @@ if __name__ == "__main__":
 	                    default=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
 	                    help="Samples. [Default: %(default)s]")
+	parser.add_argument("--stack-signal", default=False, action="store_true",
+	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
+	parser.add_argument("--scale-signal", type=float, default=1.0,
+	                    help="Scale signal (htt). [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
@@ -127,7 +131,9 @@ if __name__ == "__main__":
 						weight="({0})*({1})".format(json_config.pop("weights", ["1.0"])[0], args.weight),
 						lumi = args.lumi * 1000,
 						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", []),
-						blind_expression=channel+"_"+quantity
+						blind_expression=channel+"_"+quantity,
+						stack_signal=args.stack_signal,
+						scale_signal=args.scale_signal
 				)
 				
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
