@@ -504,6 +504,7 @@ class Datacards(object):
 							config["markers"] = ["LINE"] + (["HIST"]*len(bkg_processes)) + ["E2", "E"]
 							config["legend_markers"] = ["L"] + (["F"]*len(bkg_processes)) + ["F", "ELP"]
 							
+							config["y_lims"] = [0.0]
 							config["rel_y_lims"] = [0.0, 1.4]
 							config["legend"] = [0.23, 0.73, 0.9, 0.89]
 							config["legend_cols"] = 3
@@ -572,7 +573,7 @@ class Datacards(object):
 					config["nicks_blacklist"] = ["graph_b"]
 					config["fit_poi"] = plotting_args.get("fit_poi", "r")
 
-					config["left_pad_margin"] = [0.40]
+					config["left_pad_margin"] = 0.40
 					config["labels"] = ["prefit", "S+B model"]
 					config["markers"] = ["L2", "P"]
 					config["fill_styles"] = [3001, 0]
