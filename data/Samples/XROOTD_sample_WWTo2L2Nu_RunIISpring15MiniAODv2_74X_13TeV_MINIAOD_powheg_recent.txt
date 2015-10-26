@@ -1,1 +1,1 @@
-XROOTD_sample_WWTo2L2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg_2015-10-14.txt
+XROOTD_sample_WWTo2L2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg_2015-10-23.txt
