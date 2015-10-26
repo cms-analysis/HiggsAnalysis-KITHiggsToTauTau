@@ -38,6 +38,7 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
+		"TriggerObjectLowerPtCut" : 23.0,
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairLepton1LowerPtCuts" : [
 			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0"
