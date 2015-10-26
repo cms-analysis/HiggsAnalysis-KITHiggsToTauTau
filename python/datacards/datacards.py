@@ -505,7 +505,7 @@ class Datacards(object):
 							config["legend_markers"] = ["L"] + (["F"]*len(bkg_processes)) + ["F", "ELP"]
 							
 							config["y_lims"] = [0.0]
-							config["rel_y_lims"] = [0.0, 1.4]
+							config["y_rel_lims"] = [0.0, 1.4]
 							config["legend"] = [0.23, 0.73, 0.9, 0.89]
 							config["legend_cols"] = 3
 							
