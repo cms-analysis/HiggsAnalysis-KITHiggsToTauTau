@@ -26,9 +26,12 @@
 				"MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf"
 				],
-				"Run2015" : [
+				"Run2015(A|B|C)" : [
 					"HLT_Ele32_eta2p1_WPTight_Gsf",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
+				],
+				"Run2015D" : [
+					"HLT_Ele23_WPLoose_Gsf"
 				]
 			}
 		},
@@ -49,7 +52,8 @@
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairLepton1LowerPtCuts" : [
 			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
-			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
+			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0",
+			"HLT_Ele23_WPLoose_Gsf_v:33.0"
 		],
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
@@ -59,8 +63,11 @@
 				"MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf_v"
 				],
-				"Run2015" : [
+				"Run2015(A|B|C)" : [
 					"HLT_Ele32_eta2p1_WPTight_Gsf_v"
+				],
+				"Run2015D" : [
+					"HLT_Ele23_WPLoose_Gsf_v"
 				]
 			}
 		},
@@ -81,10 +88,13 @@
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
 				],
-				"Run2015(C|D)" : [
+				"Run2015C" : [
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltEle22WPLooseL1IsoEG20erTau20erGsfTrackIsoFilter",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
+				],
+				"Run2015D" : [
+					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
 				]
 			}
 		},
@@ -94,9 +104,12 @@
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso",
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20"
 				],
-				"Run2015" : [
+				"Run2015(A|B|C)" : [
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20"
+				],
+				"Run2015D" : [
+					"HLT_Ele23_WPLoose_Gsf_v:"
 				]
 			}
 		},
