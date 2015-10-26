@@ -1,13 +1,14 @@
 {
 	"Mu_Full" : {
 		"BranchObjectMatchedPFEtsum" : true,
+		"EventWeight" : "eventWeight",
 		
 		"MinNMuons" : 2,
 		"MaxNMuons" : 2,
 		
 		"Year" : 2012,
 		"MuonID" : "tight",
-		"MuonIso" : "none",		
+		"MuonIso" : "none",
 		"MuonIsoType" : "user",
 		"MuonIsoTypeUserMode" : "None",
 

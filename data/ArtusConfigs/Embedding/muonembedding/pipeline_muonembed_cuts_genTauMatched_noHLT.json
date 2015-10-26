@@ -2,6 +2,7 @@
 	"noHLT_genMatched_" : {
 		"Channel" : "MM",
 		"BranchObjectMatchedPFEtsum" : true,
+		"EventWeight" : "eventWeight",
 		
 		"MinNMuons" : 2,
 		"MaxNMuons" : 2,

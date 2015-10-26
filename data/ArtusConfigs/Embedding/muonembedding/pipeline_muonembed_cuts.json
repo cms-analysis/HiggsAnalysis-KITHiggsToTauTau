@@ -1,6 +1,8 @@
 {
 	"cuts" : {
 		"BranchObjectMatchedPFEtsum" : true,
+		"EventWeight" : "eventWeight",
+
 		
 		"MinNMuons" : 2,
 		"MaxNMuons" : 2,
@@ -9,7 +11,7 @@
 		"MuonIso" : "None",
 		"MuonIsoType" : "None",
 		"MuonIsoTypeUserMode" : "None",
-		"DirectIso": true, 
+		"DirectIso": true,
 
 		"MuonLowerPtCuts" : [
 			"20.0"
