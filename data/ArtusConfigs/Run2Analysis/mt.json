@@ -45,10 +45,10 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
+		"TriggerObjectLowerPtCut" : 18.0,
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_IsoMu24_eta2p1_v:25.0",
-			"HLT_IsoMu18_v:25.0"
+			"HLT_IsoMu24_eta2p1_v:25.0"
 		],
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
