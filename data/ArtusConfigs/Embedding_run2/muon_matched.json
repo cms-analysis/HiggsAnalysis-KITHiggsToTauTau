@@ -1,0 +1,23 @@
+{
+	"gen_matched" : {
+		"Channel" : "MM",
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/muon_base.json"
+		],
+		"MuonID" : "none",
+		"MuonIsoType" : "none",
+		"MuonIsoTypeUserMode" : "none",
+
+		"Processors" : {
+			"nick" : {
+				"13TeV" : [
+					{
+						"include":"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/muon_common_processors.json"
+					},
+					"filter:HltFilter",
+					"producer:DiLeptonQuantitiesProducer"
+				]
+			}
+		}
+	}
+}

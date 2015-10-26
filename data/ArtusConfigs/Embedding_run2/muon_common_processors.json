@@ -1,0 +1,17 @@
+{
+	"property" : [
+		"producer:ValidMuonsProducer",
+		"filter:ValidMuonsFilter",
+		"filter:MinMuonsCountFilter",
+		"filter:MaxMuonsCountFilter",
+		"producer:ValidLeptonsProducer",
+		"filter:ValidLeptonsMinDeltaRFilter",
+		"producer:DecayChannelProducer",
+		"producer:EventWeightProducer",
+		"producer:GenMuonFSRProducer",
+		"producer:HltProducer",
+		"producer:RecoMuonGenParticleMatchingProducer"
+		]
+}
+
+

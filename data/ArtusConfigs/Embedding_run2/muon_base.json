@@ -1,0 +1,41 @@
+{
+		"BranchObjectMatchedPFEtsum" : true,
+		"EventWeight" : "eventWeight",
+
+		"MinNMuons" : 2,
+		"MaxNMuons" : 2,
+
+		"MuonIso" : "none",
+		"DirectIso": true,
+
+		"MuonLowerPtCuts" : [
+			"20.0"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
+		"HltPaths" : [
+			"HLT_Mu17_Mu8_v23"
+		],
+		"InvalidateNonGenParticleMatchingRecoMuons" : true,
+		"DeltaRMatchingRecoMuonGenParticle" : 0.005,
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/leptonQuantities_original.json"
+				]
+			}
+		],
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"#SvfitCacheConsumer",
+			"cutflow_histogram",
+			"CutFlowTreeConsumer",
+			"#KappaElectronsConsumer",
+			"KappaMuonsConsumer",
+			"#KappaTausConsumer",
+			"#KappaJetsConsumer",
+			"#KappaTaggedJetsConsumer"
+		]
+}
