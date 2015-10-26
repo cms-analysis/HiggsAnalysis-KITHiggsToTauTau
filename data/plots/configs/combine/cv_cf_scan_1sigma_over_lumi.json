@@ -39,7 +39,7 @@
 	"x_expressions": [
 		"CV"
 	],
-	"x_label" : "#kappa_{V}",
+	"x_label" : "Boson Coupling #kappa_{V}",
 	"x_lines" : [
 		"1.0"
 	],
@@ -49,7 +49,7 @@
 	"y_expressions": [
 		"CF"
 	],
-	"y_label" : "#kappa_{f}",
+	"y_label" : "Fermion Coupling #kappa_{f}",
 	"y_lines" : [
 		"1.0"
 	],

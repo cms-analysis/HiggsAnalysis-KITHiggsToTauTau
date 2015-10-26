@@ -35,13 +35,13 @@
 	"x_expressions": [
 		"CV"
 	],
-	"x_label" : "#kappa_{V}",
+	"x_label" : "Boson Coupling #kappa_{V}",
 	"y_bins": [
 		"30,0.0,2.0"
 	],
 	"y_expressions": [
 		"CF"
 	],
-	"y_label" : "#kappa_{f}",
+	"y_label" : "Fermion Coupling #kappa_{f}",
 	"z_label" : "#minus2 #Delta ln L"
 }
