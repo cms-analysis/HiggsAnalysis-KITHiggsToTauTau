@@ -53,13 +53,13 @@
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
 				"default" : [
-					"HLT_IsoMu24_eta2p1"
+					"HLT_IsoMu24_eta2p1_v"
 				],
 				"MiniAODv2" : [
-					"HLT_IsoMu17_eta2p1"
+					"HLT_IsoMu17_eta2p1_v"
 				],
 				"Run2015D" : [
-					"HLT_IsoMu18"
+					"HLT_IsoMu18_v"
 				]
 			}
 		},
