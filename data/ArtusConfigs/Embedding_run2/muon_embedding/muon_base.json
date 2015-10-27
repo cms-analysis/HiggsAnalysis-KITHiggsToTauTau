@@ -1,5 +1,4 @@
 {
-		"BranchObjectMatchedPFEtsum" : true,
 		"EventWeight" : "eventWeight",
 
 		"MinNMuons" : 2,
@@ -15,7 +14,7 @@
 			"2.1"
 		],
 		"HltPaths" : [
-			"HLT_Mu17_Mu8_v23"
+			"HLT_Mu17_Mu8*"
 		],
 		"InvalidateNonGenParticleMatchingRecoMuons" : true,
 		"DeltaRMatchingRecoMuonGenParticle" : 0.005,
@@ -23,7 +22,7 @@
 			{
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/leptonQuantities_original.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/leptonQuantities_min.json"
 				]
 			}
 		],
@@ -31,7 +30,7 @@
 			"KappaLambdaNtupleConsumer",
 			"#SvfitCacheConsumer",
 			"cutflow_histogram",
-			"CutFlowTreeConsumer",
+			"#CutFlowTreeConsumer",
 			"#KappaElectronsConsumer",
 			"KappaMuonsConsumer",
 			"#KappaTausConsumer",
