@@ -47,6 +47,10 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	{
 		return product.m_nDiElectronVetoPairsSS + product.m_nDiMuonVetoPairsSS;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("dilepton_veto", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_nDiElectronVetoPairsOS + product.m_nDiMuonVetoPairsOS) >= 1) ? 1 : 0;
+	});
 	
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_vis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMass"]);
@@ -125,8 +129,6 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitPhi"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitMass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("met_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitMet"]);
-	
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("dilepton_veto", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nDiLeptonVetoPairsOS"]);
 	
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("isZEE", [](KappaEvent const& event, KappaProduct const& product)
 	{
