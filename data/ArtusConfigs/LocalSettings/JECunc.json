@@ -1,0 +1,26 @@
+{
+	"jecUncNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2012" : 0.0,
+				"default" : 0.0
+			}
+		}
+	},
+	"jecUncUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2012" : 0.0,
+				"default" : 1.0
+			}
+		}
+	},
+	"jecUncDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2012" : 0.0,
+				"default" : -1.0
+			}
+		}
+	}
+}
