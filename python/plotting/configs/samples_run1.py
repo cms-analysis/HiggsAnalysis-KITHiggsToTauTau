@@ -19,6 +19,7 @@ class Samples(samples.SamplesBase):
 		
 		cuts = {}
 		cuts["os"] = "((q_1*q_2)<0.0)"
+		cuts["nobtag"] = "((nBJets30<1)||(nJets30<1))"
 		
 		if channel == "mt":
 			cuts["mt"] = "(mt_1<30.0)"
@@ -27,7 +28,7 @@ class Samples(samples.SamplesBase):
 			cuts["mt"] = "(mt_1<30.0)"
 			cuts["pt2"] = "(pt_2>30.0)"
 		elif channel == "em":
-			pass
+			cuts["pzeta"] = "(pZetaMissVis > -20.0)"
 		elif channel == "tt":
 			pass
 		elif channel == "mm":
