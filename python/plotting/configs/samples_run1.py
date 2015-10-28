@@ -713,7 +713,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SM_GluGluToHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
-						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + ("_jecUncNom_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
+						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ggh%s" % str(mass),
@@ -768,7 +768,7 @@ class Samples(samples.SamplesBase):
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi / 2.0,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"wh%s" % str(mass),
+						"vh%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
 				Samples._add_input(
@@ -777,7 +777,7 @@ class Samples(samples.SamplesBase):
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi / 2.0,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
-						"zh%s" % str(mass),
+						"vh%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
 			else:
