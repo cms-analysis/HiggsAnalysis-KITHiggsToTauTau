@@ -755,7 +755,7 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "ggh"+str(mass), nick_suffix)
 		return config
 	
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
@@ -781,7 +781,7 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "qqh"+str(mass), nick_suffix)
 		return config
 	
 	def vh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=19712.0, exclude_cuts=None, **kwargs):
@@ -816,6 +816,6 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (VH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "vh"+str(mass), nick_suffix)
 		return config
 
