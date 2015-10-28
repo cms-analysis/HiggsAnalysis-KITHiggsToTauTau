@@ -66,6 +66,12 @@
 			]
 		}
 	},
+	"PileupWeightFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-258750_13TeV_PromptReco.root",
+			"Run2015" : "not needed"
+		}
+	},
 	"JsonFiles" : {
 		"nick" : {
 			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],
