@@ -837,7 +837,7 @@ class Samples(samples.SamplesBase):
 						config,
 						"SM_GluGluToHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
-						lumi,
+						lumi * 0.0632, # the BR(H->tautau should normally go into the CrossSection setting of Artus, where it is missing up to now
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"ggh%s" % str(mass),
 						nick_suffix=nick_suffix
@@ -863,7 +863,7 @@ class Samples(samples.SamplesBase):
 						config,
 						"SM_VBFHToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
-						lumi,
+						lumi * 0.0632, # the BR(H->tautau should normally go into the CrossSection setting of Artus, where it is missing up to now
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"qqh%s" % str(mass),
 						nick_suffix=nick_suffix
@@ -889,7 +889,7 @@ class Samples(samples.SamplesBase):
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
-						lumi / 2.0,
+						lumi * 0.0632 / 2.0, # the BR(H->tautau should normally go into the CrossSection setting of Artus, where it is missing up to now
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"vh%s" % str(mass),
 						nick_suffix=nick_suffix
@@ -898,7 +898,7 @@ class Samples(samples.SamplesBase):
 						config,
 						"SM_WH_ZH_TTH_HToTauTau_M_{mass}_powheg_pythia_8TeV/*.root".format(mass=str(mass)),
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
-						lumi / 2.0,
+						lumi * 0.0632 / 2.0, # the BR(H->tautau should normally go into the CrossSection setting of Artus, where it is missing up to now
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts) + ("/crossSectionPerEventWeight" if normalise_signal_to_one_pb else ""),
 						"vh%s" % str(mass),
 						nick_suffix=nick_suffix
