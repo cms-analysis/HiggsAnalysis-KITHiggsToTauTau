@@ -86,6 +86,7 @@ public:
 	TVector2 m_recoNeutrinoOnRecoMetProjection;
 	TVector2 m_recoNeutrinoOnGenMetProjection;
 	TVector2 m_recoMetOnGenMetProjection;
+	TVector2 m_metPull;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
