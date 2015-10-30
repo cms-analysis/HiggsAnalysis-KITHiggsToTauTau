@@ -7,7 +7,7 @@
 #include "Artus/Utility/interface/SafeMap.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-
+#include "Artus/KappaAnalysis/interface/Consumers/KappaLambdaNtupleConsumer.h"
 
 template<class TTag, class TProbe>
 class TriggerTagAndProbeConsumerBase: public ConsumerBase<HttTypes>
@@ -44,6 +44,31 @@ public:
 		m_tree->Branch("probe", &m_currentProbeObject);
 		m_tree->Branch("probeMatched", &m_currentProbeObjectMatched, "probeMatched/O");
 		m_tree->Branch("tagProbeSystem", &m_tagProbeSystem);
+		
+
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("tagPts", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> tagPts;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		     tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+					tagPts.push_back(tagProbePair->first->p4.Pt());
+			}
+			return tagPts;
+		});
+
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("probePts", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> probePts;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		     tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+					probePts.push_back(tagProbePair->second->p4.Pt());
+			}
+			return probePts;
+		});
+
+
 	}
 
 	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product,
