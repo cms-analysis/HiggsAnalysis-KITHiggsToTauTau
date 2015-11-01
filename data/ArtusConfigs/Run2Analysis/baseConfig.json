@@ -39,7 +39,7 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
-				"#producer:PUWeightProducer",
+				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
@@ -50,7 +50,7 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
-				"#producer:PUWeightProducer",
+				"producer:PUWeightProducer",
 				"#producer:TauCorrectionsProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
@@ -68,7 +68,7 @@
 	},
 	"PileupWeightFile" : {
 		"nick" : {
-			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-258750_13TeV_PromptReco.root",
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-258750_13TeV_PromptReco_69mbMinBiasXS.root",
 			"Run2015" : "not needed"
 		}
 	},
