@@ -1,6 +1,9 @@
 {
 	"property" : [
-		"tagPts"
-		"probePts"
+		"tagPt",
+		"probePt",
+		"probeEta",
+		"tagProbeDeltaR",
+		"tagProbeMass"
 	]
 }
