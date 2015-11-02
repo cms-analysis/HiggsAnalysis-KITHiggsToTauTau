@@ -114,6 +114,11 @@
 		],
 		"DirectIso" : true,
 		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2TriggerEfficiencies/Includes/TagProbeQuantities.json"
+				]
+			},
 			"nElectrons",
 			"nTaus"
 		],
