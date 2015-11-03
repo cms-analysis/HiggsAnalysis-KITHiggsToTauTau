@@ -27,6 +27,7 @@ class single_base:
 		self.legend_marker = legend_marker
 		self.scale_factor = scale_factor
 		self.weight = weight
+
 class single_plot:
 	def __init__(self, name):
 		self.name = name
@@ -67,20 +68,24 @@ if __name__ == "__main__":
 	import argparse
 
 	parser = argparse.ArgumentParser(description="Make Htautau plots with central sample estimation.")
+
+	parser.add_argument("-plt", "--plotname", default="test", help="Name of the plot. [Default: %(default)s]")
+	parser.add_argument("-plt-fld", "--plotfolder", default="plots", help="Name of the folder, where the plot is saved. [Default: %(default)s]")
+
 	parser.add_argument("-a", "--args", default="",help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-var","--variable", default="nPU", help="Variable, which should be plotted. [Default: %(default)s]")
 	parser.add_argument("-eff", "--efficiency", action="store_true", default=False, help="Decision, whether efficiencies or absolute values should be plotted. [Default: %(default)s]")
 
-	parser.add_argument("-pipes", "--pipelines", default="Mu_NoIso;Mu_Full;genMatched", help="Pipelines chosen for plotting. Number of pipelines should correspond to the number of files. Separated by a semicolon. [Default: %(default)s]")
-	parser.add_argument("-files", "--files", default="3**/nfs/dust/cms/user/aakhmets/CMSSW_7_4_12_patch4/src/tast_skim_embedded_merged.root", help="Files chosen for plotting. Number of files should correspond to the number of pipelines. Different files are separated by semicolon. If a file should appear multiple times, then use the appropriate count factor in front of the path. E.g.: 2^filepath. [Default: %(default)s]")
-	parser.add_argument("-lnames", "--legend-names", default="Mu_NoIso;Mu_Full;genMatched", help="Uniquely chosen names for the plotted categories, which consist of a file and a pipeline chosen. These could be in some cases the same, so they need to be distinguished by the names in the legend. Numer of names should correspond to the number of files. Separated by a semicolon. [Default: %(default)s]")
+	parser.add_argument("-pipes", "--pipelines", default="Mu_Full;genMatched;muon_full;gen_matched", help="Pipelines chosen for plotting. Number of pipelines should correspond to the number of files. Separated by a semicolon. [Default: %(default)s]")
+	parser.add_argument("-files", "--files", default="2**/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_FullReco.root;2**/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/MC_ZMUMU/MC_ZMUMU_merged.root", help="Files chosen for plotting. Number of files should correspond to the number of pipelines. Different files are separated by semicolon. If a file should appear multiple times, then use the appropriate count factor in front of the path. E.g.: 2**filepath. [Default: %(default)s]")
+	parser.add_argument("-lnames", "--legend-names", default="Mu_Full;genMatched;muon_full;gen_matched", help="Uniquely chosen names for the plotted categories, which consist of a file and a pipeline chosen. These could be in some cases the same, so they need to be distinguished by the names in the legend. Numer of names should correspond to the number of files. Separated by a semicolon. [Default: %(default)s]")
 
-	parser.add_argument("-eff-num", "--efficiency-numerators", default="Mu_NoIso;Mu_Full", help="Numerators for efficiency plotting. Separated by a semicolon. The names used here must correspond to the ones used in 'legend_names'. [Default: %(default)s]")
-	parser.add_argument("-eff-den", "--efficiency-denominators", default="genMatched;genMatched", help="Denominators for efficiency plotting. Separated by a semicolon. The names used here must correspond to the ones used in 'legend_names' [Default: %(default)s]")
-	parser.add_argument("-eff-nick", "--efficiency-nicknames", default="efficiency1;efficiency2", help="Efficiency names for efficiency plotting. Separated by a semicolon. [Default: %(default)s]")
+	parser.add_argument("-eff-num", "--efficiency-numerators", default="Mu_Full;muon_full", help="Numerators for efficiency plotting. Separated by a semicolon. The names used here must correspond to the ones used in 'legend_names'. [Default: %(default)s]")
+	parser.add_argument("-eff-den", "--efficiency-denominators", default="genMatched;gen_matched", help="Denominators for efficiency plotting. Separated by a semicolon. The names used here must correspond to the ones used in 'legend_names' [Default: %(default)s]")
+	parser.add_argument("-eff-nick", "--efficiency-nicknames", default="CMSSW_7_0_7;CMSSW_7_4_12p4", help="Efficiency names for efficiency plotting. Separated by a semicolon. [Default: %(default)s]")
 	args = parser.parse_args()
 
-	args.args += " --plot-modules PlotRootHtt --legend {POSITION} --www 'test' --y-label {YLABEL} --formats 'png' 'pdf' {EFF}".format(EFF="--analysis-modules 'Efficiency'" if args.efficiency else "", POSITION="0.25 0.15 0.55 0.45" if args.efficiency else "", YLABEL="Efficiency" if args.efficiency else "Events")
+	args.args += " --plot-modules PlotRootHtt --legend {POSITION} --www {PLOTFOLDER} -o {PLOTFOLDER} --y-label {YLABEL} --formats 'png' 'pdf' {MODULE} ".format(MODULE="--analysis-modules 'Efficiency'" if args.efficiency else "--y-log", POSITION="0.25 0.15 0.55 0.45", YLABEL="Efficiency" if args.efficiency else "Events", PLOTFOLDER=args.plotfolder)
 
 	color_list = ["kGray+3","kRed+2","kOrange+7", "kBlue+2", "kGreen+3", "kViolet-1"]
 	nick_list = args.legend_names.split(";")
@@ -109,7 +114,7 @@ if __name__ == "__main__":
 		print "Choose same number of efficiency inputs!"
 		sys.exit()
 
-	plot = single_plot("test")
+	plot = single_plot(args.plotname)
 
 
 	for i in range(len(file_list)):
