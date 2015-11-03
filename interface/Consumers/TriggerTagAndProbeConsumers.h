@@ -92,9 +92,19 @@ public:
 			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
 		     tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
 			{
-					tagProbeMass.push_back(tagProbePair->first->p4.M() + tagProbePair->second->p4.M());
+					tagProbeMass.push_back((tagProbePair->first->p4 + tagProbePair->second->p4).M());
 			}
 			return tagProbeMass;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("probeMatched", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> probeMatched;
+			for (typename std::vector<std::pair<bool, bool> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).begin();
+		     tagProbePair != (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).end(); ++tagProbePair)
+			{
+					probeMatched.push_back(tagProbePair->second);
+			}
+			return probeMatched;
 		});
 	}
 

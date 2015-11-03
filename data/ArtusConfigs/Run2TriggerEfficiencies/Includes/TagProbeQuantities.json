@@ -4,6 +4,7 @@
 		"probePt",
 		"probeEta",
 		"tagProbeDeltaR",
-		"tagProbeMass"
+		"tagProbeMass",
+		"probeMatched"
 	]
 }
