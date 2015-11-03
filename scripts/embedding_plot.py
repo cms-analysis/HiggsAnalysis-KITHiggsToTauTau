@@ -46,7 +46,7 @@ class single_plot:
 
 		self.out_json["filename"] = self.name
 		self.out_json["legend"] = self.legend
-		self.out_json["title"] = self.title
+		self.out_json["texts"] = self.title
 		self.out_json["formats"] = self.formats
 		self.out_json["www"] = self.wwwfolder
 		for akt_plotobject in self.plotobjects:
@@ -106,7 +106,9 @@ if __name__ == "__main__":
 	parser.add_argument("-plt", "--plot-name", default="test", help="Name of the plot. [Default: %(default)s]")
 	parser.add_argument("-plt-fld", "--plot-folder", default="plots", help="Name of the folder, where the plot is saved. [Default: %(default)s]")
 	parser.add_argument("-plt-type", "--plot-type", default="efficiency", help="[Default: %(default)s]")
-	parser.add_argument("-plt-t", "--plot-title", default="", help="[Default: %(default)s]")
+	parser.add_argument("-plt-ttl", "--plot-title", default="", help="[Default: %(default)s]")
+
+	parser.add_argument("-fld-tr", "--folder-tree", default="/ntuple", help="[Default: %(default)s]")
 
 	parser.add_argument("-var","--variable", default="nPU", help="Variable, which should be plotted. [Default: %(default)s]")
 	parser.add_argument("-nfile", "--num-files", default="/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_FullReco.root;/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/MC_ZMUMU/MC_ZMUMU_merged.root", help="[Default: %(default)s]")
@@ -123,11 +125,11 @@ if __name__ == "__main__":
 	color_list = ["kGray+3","kRed+2","kOrange+7", "kBlue+2", "kGreen+3", "kViolet-1"]
 
 	num_nick_list = args.num_nicks.split(";")
-	num_folder_list = (args.num_folders+"/ntuple").replace(";","/ntuple;").split(";")
+	num_folder_list = (args.num_folders+args.folder_tree).replace(";",args.folder_tree+";").split(";")
 	num_file_list = args.num_files.split(";")
 
 	den_nick_list = args.den_nicks.split(";")
-	den_folder_list = (args.den_folders+"/ntuple").replace(";","/ntuple;").split(";")
+	den_folder_list = (args.den_folders+args.folder_tree).replace(";",args.folder_tree+";").split(";")
 	den_file_list = args.den_files.split(";")
 
 	eff_nick_list = args.eff_nicks.split(";")
