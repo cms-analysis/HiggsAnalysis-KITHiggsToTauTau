@@ -1,6 +1,5 @@
 {
 		"EventWeight" : "eventWeight",
-
 		"MinNMuons" : 2,
 		"MaxNMuons" : 2,
 
@@ -38,3 +37,4 @@
 			"#KappaTaggedJetsConsumer"
 		]
 }
+

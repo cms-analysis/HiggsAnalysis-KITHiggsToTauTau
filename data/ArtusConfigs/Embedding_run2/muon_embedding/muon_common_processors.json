@@ -7,13 +7,12 @@
 		"producer:RecoMuonGenParticleMatchingProducer",
 		"filter:MinMuonsCountFilter",
 		"filter:MaxMuonsCountFilter",
-		"#producer:EventWeightProducer",
-		"#producer:ValidLeptonsProducer",
+		"producer:EventWeightProducer",
+		"producer:ValidLeptonsProducer",
 		"#filter:ValidLeptonsMinDeltaRFilter",
 		"producer:DecayChannelProducer",
 		"#producer:DiLeptonQuantitiesProducer",
 		"producer:GenMuonFSRProducer"
 		]
 }
-
 
