@@ -1,4 +1,12 @@
 {
+        "BranchObjectMatchedPFEtsum" : true,
+	"BranchObjectMatchedPF" : true,
+	"PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
+        "PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
+        "PFAllChargedParticlesNoPileUp" : "pfAllChargedParticles",
+        "#PFAllChargedParticlesPileUp" : "pfPileUpAllChargedParticles",
+        "PFNeutralHadronsNoPileUp" : "pfNoPileUpNeutralHadrons",
+        "PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json",
@@ -34,7 +42,7 @@
 				"#producer:NumberGeneratedEventsWeightProducer",
 				"#producer:NicknameProducer",
 				"#producer:PUWeightProducer",
-				"#producer:GenParticleProducer",
+				"producer:GenParticleProducer",
 				"#producer:GenPartonCounterProducer",
 				"#producer:GeneratorWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer",
