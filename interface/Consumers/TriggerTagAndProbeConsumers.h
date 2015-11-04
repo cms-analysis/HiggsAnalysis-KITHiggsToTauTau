@@ -50,9 +50,9 @@ public:
 		{
 			std::vector<float> tagPt;
 			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
-		     tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
 			{
-					tagPt.push_back(tagProbePair->first->p4.Pt());
+				tagPt.push_back(tagProbePair->first->p4.Pt());
 			}
 			return tagPt;
 		});
@@ -60,9 +60,9 @@ public:
 		{
 			std::vector<float> probePt;
 			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
-		     tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
 			{
-					probePt.push_back(tagProbePair->second->p4.Pt());
+				probePt.push_back(tagProbePair->second->p4.Pt());
 			}
 			return probePt;
 		});
@@ -70,9 +70,9 @@ public:
 		{
 			std::vector<float> probeEta;
 			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
-		     tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
 			{
-					probeEta.push_back(tagProbePair->second->p4.Eta());
+				probeEta.push_back(tagProbePair->second->p4.Eta());
 			}
 			return probeEta;
 		});
@@ -80,9 +80,9 @@ public:
 		{
 			std::vector<float> tagProbeDeltaR;
 			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
-		     tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
 			{
-					tagProbeDeltaR.push_back(ROOT::Math::VectorUtil::DeltaR(tagProbePair->first->p4, tagProbePair->second->p4));
+				tagProbeDeltaR.push_back(ROOT::Math::VectorUtil::DeltaR(tagProbePair->first->p4, tagProbePair->second->p4));
 			}
 			return tagProbeDeltaR;
 		});
@@ -90,9 +90,9 @@ public:
 		{
 			std::vector<float> tagProbeMass;
 			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
-		     tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
 			{
-					tagProbeMass.push_back((tagProbePair->first->p4 + tagProbePair->second->p4).M());
+				tagProbeMass.push_back((tagProbePair->first->p4 + tagProbePair->second->p4).M());
 			}
 			return tagProbeMass;
 		});
@@ -100,11 +100,41 @@ public:
 		{
 			std::vector<int> probeMatched;
 			for (typename std::vector<std::pair<bool, bool> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).begin();
-		     tagProbePair != (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).end(); ++tagProbePair)
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).end(); ++tagProbePair)
 			{
-					probeMatched.push_back(tagProbePair->second);
+				probeMatched.push_back(tagProbePair->second);
 			}
 			return probeMatched;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("tagCharge", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> tagCharge;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				tagCharge.push_back(tagProbePair->first->charge());
+			}
+			return tagCharge;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("probeCharge", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> probeCharge;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				probeCharge.push_back(tagProbePair->second->charge());
+			}
+			return probeCharge;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("isOS", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> isOS;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				isOS.push_back(int((tagProbePair->first->charge()*tagProbePair->second->charge())<0));
+			}
+			return isOS;
 		});
 	}
 

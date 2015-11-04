@@ -5,6 +5,9 @@
 		"probeEta",
 		"tagProbeDeltaR",
 		"tagProbeMass",
-		"probeMatched"
+		"probeMatched",
+		"tagCharge",
+		"probeCharge",
+		"isOS"
 	]
 }
