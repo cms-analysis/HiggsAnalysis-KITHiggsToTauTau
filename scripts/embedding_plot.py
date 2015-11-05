@@ -6,21 +6,21 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 ## This class is built to create .json files for the Harryplotter module
 
+class single_plotobject:
+	def __init__(self, plot_type = "efficiency", num_file = None, den_file = None, num_folder = None, den_folder = None, num_nick = None, den_nick = None, eff_nick = None, x_expression = "nPU", marker = "PE", color = "kBlack", legend_marker="L", scale_factor=1, weight="1"):
 
-class single_pipeline:
-	def __init__(self, file, folder, nick):
-		self.file = file
-		self.folder = folder
-		self.nick = nick
+		# possible values: "efficiency" and "absolute"
+		self.plot_type = plot_type
 
-class single_efficiency:
-	def __init__(self, effnum, effden, effnick):
-		self.effnum = effnum
-		self.effden = effden
-		self.effnick = effnick
+		# num_* used for both plot_types, den_* and eff_nick only for "efficiency"
+		self.num_file = num_file
+		self.den_file = den_file
+		self.num_folder = num_folder
+		self.den_folder = den_folder
+		self.num_nick = num_nick
+		self.den_nick = den_nick
+		self.eff_nick = eff_nick
 
-class single_base:
-	def __init__(self, x_expression, marker="PE", color="kBlack", legend_marker="L", scale_factor=1, weight="1"):
 		self.x_expression = x_expression
 		self.marker = marker
 		self.color = color
@@ -29,38 +29,71 @@ class single_base:
 		self.weight = weight
 
 class single_plot:
-	def __init__(self, name):
+	def __init__(self, name, title, legend=[0.25,0.15,0.55,0.45], normalized=False, wwwfolder="plots", formats=["png","pdf"]):
 		self.name = name
-		self.pipelines = []
-		self.efficiencies = []
-		self.bases = []
-		self.quantities = None
+		self.title = title
+		self.legend = legend
+		self.formats = formats
+		self.normalized = normalized
+		self.wwwfolder = wwwfolder
+		self.plotobjects = []
 		self.out_json = jsonTools.JsonDict({})
-	def add_pipeline(self,pipeline):
-		self.pipelines.append(pipeline)
-	def add_efficiency(self,efficiency):
-		self.efficiencies.append(efficiency)
-	def add_base(self, base):
-		self.bases.append(base)
+	def add_plotobject(self, plotobject):
+		self.plotobjects.append(plotobject)
 	def fill_single_json(self):
-		self.out_json["filename"] = self.name
-		for akt_pipeline in self.pipelines:
-			self.out_json.setdefault("files", []).append(akt_pipeline.file)
-			self.out_json.setdefault("folders", []).append(akt_pipeline.folder)
-			self.out_json.setdefault("nicks", []).append(akt_pipeline.nick)
-		for akt_base in self.bases:
-			self.out_json.setdefault("x_expressions", []).append(akt_base.x_expression)
-			self.out_json.setdefault("markers", []).append(akt_base.marker)
-			self.out_json.setdefault("colors", []).append(akt_base.color)
-			self.out_json.setdefault("legend_markers", []).append(akt_base.legend_marker)
-			self.out_json.setdefault("scale_factors", []).append(akt_base.scale_factor)
-			self.out_json.setdefault("weights", []).append(akt_base.weight)
-		if not len(self.efficiencies) == 0:
-			for akt_eff in self.efficiencies:
-				self.out_json.setdefault("efficiency_numerator_nicks",[]).append(akt_eff.effnum)
-				self.out_json.setdefault("efficiency_denominator_nicks",[]).append(akt_eff.effden)
-				self.out_json.setdefault("efficiency_nicks",[]).append(akt_eff.effnick)
 
+		self.out_json.setdefault("plot_modules", []).append("PlotRootHtt")
+
+		self.out_json["filename"] = self.name
+		self.out_json["legend"] = self.legend
+		self.out_json["texts"] = self.title
+		self.out_json["formats"] = self.formats
+		self.out_json["www"] = self.wwwfolder
+		for akt_plotobject in self.plotobjects:
+
+			self.out_json.setdefault("x_expressions", []).append(akt_plotobject.x_expression)
+			self.out_json.setdefault("markers", []).append(akt_plotobject.marker)
+			self.out_json.setdefault("colors", []).append(akt_plotobject.color)
+			self.out_json.setdefault("legend_markers", []).append(akt_plotobject.legend_marker)
+			self.out_json.setdefault("scale_factors", []).append(akt_plotobject.scale_factor)
+			self.out_json.setdefault("weights", []).append(akt_plotobject.weight)
+
+			if akt_plotobject.plot_type == "efficiency":
+
+				self.out_json.setdefault("files", []).append(akt_plotobject.num_file)
+				self.out_json.setdefault("folders", []).append(akt_plotobject.num_folder)
+				self.out_json.setdefault("nicks", []).append(akt_plotobject.num_nick)
+
+				self.out_json.setdefault("files", []).append(akt_plotobject.den_file)
+				self.out_json.setdefault("folders", []).append(akt_plotobject.den_folder)
+				self.out_json.setdefault("nicks", []).append(akt_plotobject.den_nick)
+
+				try: self.out_json.get("analysis_modules").count("Efficiency")
+				except: self.out_json.setdefault("analysis_modules", []).append("Efficiency")
+				self.out_json.setdefault("efficiency_numerator_nicks", []).append(akt_plotobject.num_nick)
+				self.out_json.setdefault("efficiency_denominator_nicks", []).append(akt_plotobject.den_nick)
+				self.out_json.setdefault("efficiency_nicks", []).append(akt_plotobject.eff_nick)
+				self.out_json.setdefault("nicks_whitelist", []).append(akt_plotobject.eff_nick)
+
+				self.out_json["y_label"] = "efficiency"
+				self.out_json["x_bins"] = "1 5 9 13 17 21 25 29 33 38 43 50 61"
+
+			elif akt_plotobject.plot_type == "absolute":
+
+				self.out_json.setdefault("files", []).append(akt_plotobject.num_file)
+				self.out_json.setdefault("folders", []).append(akt_plotobject.num_folder)
+				self.out_json.setdefault("nicks", []).append(akt_plotobject.num_nick)
+
+				if self.normalized:
+					try: self.out_json.get("analysis_modules").count("NormalizeToUnity")
+					except: self.out_json.setdefault("analysis_modules", []).append("NormalizeToUnity")
+					self.out_json["y_label"] = "normalized distribution"
+				else:
+					self.out_json["y_label"] = "number of events"
+
+			else:
+				print "No proper plot type of the object defined. Choose 'efficiency' or 'absolute'."
+				sys.exit()
 
 if __name__ == "__main__":
 
@@ -69,69 +102,44 @@ if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="Make Htautau plots with central sample estimation.")
 
-	parser.add_argument("-plt", "--plotname", default="test", help="Name of the plot. [Default: %(default)s]")
-	parser.add_argument("-plt-fld", "--plotfolder", default="plots", help="Name of the folder, where the plot is saved. [Default: %(default)s]")
-
 	parser.add_argument("-a", "--args", default="",help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("-plt", "--plot-name", default="test", help="Name of the plot. [Default: %(default)s]")
+	parser.add_argument("-plt-fld", "--plot-folder", default="plots", help="Name of the folder, where the plot is saved. [Default: %(default)s]")
+	parser.add_argument("-plt-type", "--plot-type", default="efficiency", help="[Default: %(default)s]")
+	parser.add_argument("-plt-ttl", "--plot-title", default="", help="[Default: %(default)s]")
+
+	parser.add_argument("-fld-tr", "--folder-tree", default="/ntuple", help="[Default: %(default)s]")
+
 	parser.add_argument("-var","--variable", default="nPU", help="Variable, which should be plotted. [Default: %(default)s]")
-	parser.add_argument("-eff", "--efficiency", action="store_true", default=False, help="Decision, whether efficiencies or absolute values should be plotted. [Default: %(default)s]")
+	parser.add_argument("-nfile", "--num-files", default="/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_FullReco.root;/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/MC_ZMUMU/MC_ZMUMU_merged.root", help="[Default: %(default)s]")
+	parser.add_argument("-nfold", "--num-folders", default="Mu_Full;muon_full", help="[Default: %(default)s]")
+	parser.add_argument("-nnick", "--num-nicks", default="Mu_Full;muon_full", help="[Default: %(default)s]")
 
-	parser.add_argument("-pipes", "--pipelines", default="Mu_Full;genMatched;muon_full;gen_matched", help="Pipelines chosen for plotting. Number of pipelines should correspond to the number of files. Separated by a semicolon. [Default: %(default)s]")
-	parser.add_argument("-files", "--files", default="2**/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_FullReco.root;2**/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/MC_ZMUMU/MC_ZMUMU_merged.root", help="Files chosen for plotting. Number of files should correspond to the number of pipelines. Different files are separated by semicolon. If a file should appear multiple times, then use the appropriate count factor in front of the path. E.g.: 2**filepath. [Default: %(default)s]")
-	parser.add_argument("-lnames", "--legend-names", default="Mu_Full;genMatched;muon_full;gen_matched", help="Uniquely chosen names for the plotted categories, which consist of a file and a pipeline chosen. These could be in some cases the same, so they need to be distinguished by the names in the legend. Numer of names should correspond to the number of files. Separated by a semicolon. [Default: %(default)s]")
+	parser.add_argument("-dfile", "--den-files", default="/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_FullReco.root;/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/MC_ZMUMU/MC_ZMUMU_merged.root", help="[Default: %(default)s]")
+	parser.add_argument("-dfold", "--den-folders", default="genMatched;gen_matched", help="[Default: %(default)s]")
+	parser.add_argument("-dnick", "--den-nicks", default="genMatched;gen_matched", help="[Default: %(default)s]")
 
-	parser.add_argument("-eff-num", "--efficiency-numerators", default="Mu_Full;muon_full", help="Numerators for efficiency plotting. Separated by a semicolon. The names used here must correspond to the ones used in 'legend_names'. [Default: %(default)s]")
-	parser.add_argument("-eff-den", "--efficiency-denominators", default="genMatched;gen_matched", help="Denominators for efficiency plotting. Separated by a semicolon. The names used here must correspond to the ones used in 'legend_names' [Default: %(default)s]")
-	parser.add_argument("-eff-nick", "--efficiency-nicknames", default="CMSSW_7_0_7;CMSSW_7_4_12p4", help="Efficiency names for efficiency plotting. Separated by a semicolon. [Default: %(default)s]")
+	parser.add_argument("-enick", "--eff-nicks", default="CMSSW_7_0_7;CMSSW_7_4_12p4", help="Efficiency names for efficiency plotting. Separated by a semicolon. [Default: %(default)s]")
 	args = parser.parse_args()
 
-	args.args += " --plot-modules PlotRootHtt --legend {POSITION} --www {PLOTFOLDER} -o {PLOTFOLDER} --y-label {YLABEL} --formats 'png' 'pdf' {MODULE} ".format(MODULE="--analysis-modules 'Efficiency'" if args.efficiency else "--y-log", POSITION="0.25 0.15 0.55 0.45", YLABEL="Efficiency" if args.efficiency else "Events", PLOTFOLDER=args.plotfolder)
-
 	color_list = ["kGray+3","kRed+2","kOrange+7", "kBlue+2", "kGreen+3", "kViolet-1"]
-	nick_list = args.legend_names.split(";")
-	folder_list = (args.pipelines+"/ntuple").replace(";","/ntuple;").split(";")
-	file_list = []
-	different_files = args.files.split(";")
-	for f in different_files:
-		if f.find("**") > -1:
-			same_files = f.split("**")
-			try:
-				same = int(same_files[0])
-				for i in range(same):
-					file_list.append(same_files[1])
-			except:
-				print "No count factor"
-		else: file_list.append(f)
-	if not len(file_list) == len(folder_list):
-		print "Choose same number of files and pipelines!"
-		sys.exit()
 
-	eff_num_list = args.efficiency_numerators.split(";")
-	eff_den_list = args.efficiency_denominators.split(";")
-	eff_nick_list = args.efficiency_nicknames.split(";")
+	num_nick_list = args.num_nicks.split(";")
+	num_folder_list = (args.num_folders+args.folder_tree).replace(";",args.folder_tree+";").split(";")
+	num_file_list = args.num_files.split(";")
 
-	if not (len(eff_den_list) == len(eff_den_list) and len(eff_nick_list) == len(eff_den_list)):
-		print "Choose same number of efficiency inputs!"
-		sys.exit()
+	den_nick_list = args.den_nicks.split(";")
+	den_folder_list = (args.den_folders+args.folder_tree).replace(";",args.folder_tree+";").split(";")
+	den_file_list = args.den_files.split(";")
 
-	plot = single_plot(args.plotname)
+	eff_nick_list = args.eff_nicks.split(";")
 
+	plot = single_plot(name=args.plot_name, title=args.plot_title, wwwfolder=args.plot_folder)
 
-	for i in range(len(file_list)):
-		one_pipeline = single_pipeline(file=file_list[i], folder=folder_list[i], nick=nick_list[i])
-		plot.add_pipeline(one_pipeline)
+	for i in range(len(num_nick_list)):
+		one_plotobject = single_plotobject(plot_type = args.plot_type, x_expression = args.variable, color = color_list[i], num_file = num_file_list[i], num_folder = num_folder_list[i], num_nick = num_nick_list[i], den_file = den_file_list[i], den_folder = den_folder_list[i], den_nick = den_nick_list[i], eff_nick=eff_nick_list[i])
+		plot.add_plotobject(one_plotobject)
 
-	if args.efficiency:
-		for i in range(len(eff_num_list)):
-			one_efficiency = single_efficiency(effnum=eff_num_list[i], effden=eff_den_list[i],effnick=eff_nick_list[i])
-			plot.add_efficiency(one_efficiency)
-			one_base = single_base(x_expression=args.variable, color=color_list[i])
-			plot.add_base(one_base)
-			plot.out_json.setdefault("nicks_whitelist", eff_nick_list)
-	else:
-		for i in range(len(file_list)):
-			one_base = single_base(x_expression=args.variable, color=color_list[i])
-			plot.add_base(one_base)
 
 	plot.fill_single_json()
 
