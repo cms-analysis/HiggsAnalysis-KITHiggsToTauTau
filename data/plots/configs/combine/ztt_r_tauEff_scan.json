@@ -1,0 +1,62 @@
+{
+    "2d_histogram_nicks": [
+        "contour"
+    ], 
+    "analysis_modules": [
+        "ContourFromHistogram"
+    ], 
+    "contour_modes": [
+        "histogram"
+    ], 
+    "contour_thresholds": [
+        "2.3 5.99"
+    ], 
+    "directories": [
+        "{OUTDIR}/datacards/combined"
+    ], 
+    "filename": "r_tauEff_scan", 
+    "files": [
+        "higgsCombine.MultiDimFit.mH90.root"
+    ], 
+    "folders": [
+        "limit"
+    ], 
+    "markers": [
+        "COLZ", 
+        "CONT3"
+    ], 
+    "nicks": [
+        "2d", 
+        "contour"
+    ], 
+    "weights": [
+        "deltaNLL*(quantileExpected>=0.0)*(quantileExpected<1.0)"
+    ], 
+    "x_bins": [
+        "{GRID_BINS},0,5"
+    ], 
+    "x_expressions": [
+        "r"
+    ], 
+    "x_label": "#sigma modifier", 
+    "x_lims": [
+        0.5, 
+        1.5
+    ], 
+    "y_bins": [
+        "{GRID_BINS},0.6,2.6"
+    ], 
+    "y_expressions": [
+        "eff"
+    ], 
+    "y_label": "#varepsilon modifier", 
+    "y_lims": [
+        0.6, 
+        1.5
+    ], 
+    "z_label": "#minus2 #Delta ln L", 
+    "z_lims": [
+        0, 
+        200
+    ]
+}
