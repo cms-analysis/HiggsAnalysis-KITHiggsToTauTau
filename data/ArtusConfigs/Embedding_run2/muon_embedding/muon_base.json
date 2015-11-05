@@ -17,14 +17,6 @@
 		],
 		"InvalidateNonGenParticleMatchingRecoMuons" : true,
 		"DeltaRMatchingRecoMuonGenParticle" : 0.005,
-		"Quantities" : [
-			{
-				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/leptonQuantities_min.json"
-				]
-			}
-		],
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"#SvfitCacheConsumer",
