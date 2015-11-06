@@ -153,7 +153,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"HToTauTau" : [
@@ -190,7 +189,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -231,7 +229,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -263,7 +260,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				]
 			}
