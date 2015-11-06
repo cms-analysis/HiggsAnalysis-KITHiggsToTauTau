@@ -61,7 +61,7 @@ Mu_NoIso_benjamin_RH = pltcl.single_plotline(
 
 Mu_NoIso_run2_MC = pltcl.single_plotline(
 	name="Mu_NoIso_run2_MC",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/MC_ZMUMU/MC_ZMUMU_merged.root",
+	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod_fix/MC_ZMUMU/MC_ZMUMU_merged.root",
 	num_folder = "no_iso",
 	den_folder = "gen_matched",
 	num_tree = "ntuple",
@@ -70,7 +70,7 @@ Mu_NoIso_run2_MC = pltcl.single_plotline(
 
 Mu_NoIso_run2_RH = pltcl.single_plotline(
 	name="Mu_NoIso_run2_RH",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/RH_MIRROR/RH_MIRROR_merged.root",
+	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod_fix/RH_MIRROR/RH_MIRROR_merged.root",
 	num_folder = "no_iso",
 	den_folder = "gen_matched",
 	num_tree = "ntuple",

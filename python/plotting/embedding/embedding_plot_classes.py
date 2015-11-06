@@ -40,30 +40,33 @@ class single_plotline:
 		self.weight = weight
 
 		# internally used nicknames
-		self.nick = num_file.replace("/","_") + "_" + num_folder + "_" + num_tree
+		self.nick = num_file.replace("/","_").replace(".root","") + "_" + num_folder + "_" + num_tree
 		self.num_nick = "num_" + self.nick
 		self.den_nick = "den_" + self.nick
 		self.eff_nick = "eff_" + self.nick
 
+_no_default = () ## dummy Sentinel object
+
 class single_plot:
 	def __init__(self,
-		name = "test",
-		title = None,
-		x_bins = None,
-		x_expression = "nPU",
-		x_label = None,
-		legend=[0.25,0.15,0.55,0.45],
-		formats=["png","pdf"], 
-		wwwfolder="plots",
-		y_label = "Events",
-		normalized = False, 
-		stacked = False,
-		plot_type = "efficiency"):
+		     name = "test",
+		     title = None,
+		     x_bins = None,
+		     x_expression = "nPU",
+		     x_label = _no_default,
+		     legend =[0.25,0.15,0.55,0.45],
+		     formats =["png","pdf"], 
+		     wwwfolder ="plots",
+		     y_label = "Events",
+		     normalized = False, 
+		     stacked = False,
+		     plot_type = "efficiency",
+		     plotlines = []):
 
 		self.name = name
 		self.title = title
 		self.x_bins = x_bins
-		self.x_label = x_expression if x_label == None else x_expression
+		self.x_label = x_expression if x_label == _no_default else x_label
 		self.x_expression = x_expression
 		self.legend = legend
 		self.formats = formats
@@ -74,17 +77,56 @@ class single_plot:
 		self.stacked = stacked
 		self.plot_type = plot_type
 
-		self.plotlines = []
+		self.plotlines = plotlines
 		self.out_json = jsonTools.JsonDict({})
+	def clone(self,
+		     name = _no_default,
+		     title = _no_default,
+		     x_bins = _no_default,
+		     x_expression = _no_default,
+		     x_label = _no_default,
+		     legend = _no_default,
+		     formats = _no_default, 
+		     wwwfolder = _no_default,
+		     y_label = _no_default,
+		     normalized = _no_default, 
+		     stacked = _no_default,
+		     plot_type = _no_default,
+		     plotlines = _no_default):
+	  
+		cloned_plot = single_plot(
+		     name = self.name if name == _no_default else name,
+		     title = self.title if title == _no_default else title,
+		     x_bins = self.x_bins if x_bins == _no_default else x_bins,
+		     x_expression = self.x_expression if x_expression == _no_default else x_expression,
+		     x_label = self.x_label if x_label == _no_default else x_label,
+		     legend = self.legend if legend == _no_default else legend,
+		     formats =  self.formats if formats == _no_default else formats,
+		     wwwfolder = self.wwwfolder if wwwfolder == _no_default else wwwfolder,
+		     y_label = self.y_label if  y_label== _no_default else y_label,
+		     normalized =  self.normalized if normalized == _no_default else normalized,
+		     stacked = self.stacked if stacked == _no_default else stacked,
+		     plot_type = self.plot_type if plot_type == _no_default else plot_type,
+		     plotlines = self.plotlines if plotlines == _no_default else plotlines
+		     )
+		
+		return cloned_plot
 
 	def add_plotline(self, plotline):
 		self.plotlines.append(plotline)
+	def return_json_from_x_expressions(self, x_expressions=[]):
+	    ret_json_list = []
+	    for akt_x_expression in x_expressions:
+	      akt_plot = self.clone(x_expression=akt_x_expression)
+	      akt_plot.fill_single_json()
+	      ret_json_list.append(akt_plot.out_json)
+	    return ret_json_list
 
 	def fill_single_json(self):
 
 		self.out_json.setdefault("plot_modules", []).append("PlotRootHtt")
 
-		self.out_json["filename"] = self.name
+		self.out_json["filename"] = self.name + "_" + self.x_expression
 		self.out_json["title"] = self.title
 		self.out_json["x_bins"] = self.x_bins
 		self.out_json.setdefault("x_expressions", []).append(self.x_expression)
