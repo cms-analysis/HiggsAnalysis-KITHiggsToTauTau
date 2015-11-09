@@ -61,6 +61,11 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 	bool validMuon = ValidMuonsProducer<HttTypes>::AdditionalCriteria(muon, event, product, settings);
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 
+	double chargedIsolationPtSum = DefaultValues::UndefinedDouble;
+	double neutralIsolationPtSum = DefaultValues::UndefinedDouble;
+	double photonIsolationPtSum = DefaultValues::UndefinedDouble;
+	double deltaBetaIsolationPtSum = DefaultValues::UndefinedDouble;
+
 	if (validMuon && muonIsoType == MuonIsoType::USER) {
 		if (event.m_pfChargedHadronsNoPileUp &&
 		    event.m_pfNeutralHadronsNoPileUp &&
@@ -84,61 +89,25 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 			);
 		}
 		else {
-			//Apply different Iso modes
-			if ((settings.*GetMuonIsoTypeUserMode)() == "ONLYALL")
-			{
-				isolationPtSum = muon->pfIsoOnlyAll();
-				//std::cout << "0 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "OnlyAllIso: " << isolationPtSum << std::endl;
-			}
-			else if ((settings.*GetMuonIsoTypeUserMode)() == "ONLYHADRON")
-			{
-				isolationPtSum = muon->pfIsoOnlyHadron();
-				//std::cout << "1 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "OnlyHadronIso: " << isolationPtSum << std::endl;
-			}
-			else if ((settings.*GetMuonIsoTypeUserMode)() == "ONLYNEUTRAL")
-			{
-				isolationPtSum = muon->pfIsoOnlyNeutral();
-				//std::cout << "2 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "OnlyNeutralIso: " << isolationPtSum << std::endl;
-			}
-			else if ((settings.*GetMuonIsoTypeUserMode)() == "ONLYPHOTONS")
-			{
-				isolationPtSum = muon->pfIsoOnlyPhoton();
-				//std::cout << "3 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "OnlyPhotonIso: " << isolationPtSum << std::endl;
-			}
-			else if ((settings.*GetMuonIsoTypeUserMode)() == "ONLYPU")
-			{
-				isolationPtSum = muon->pfIsoOnlyPu();
-				//std::cout << "0 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "OnlyAllIso: " << isolationPtSum << std::endl;
-			}
-			else if ((settings.*GetMuonIsoTypeUserMode)() == "NONEUTRAL")
-			{
-				isolationPtSum = muon->pfIsoNoNeutral((settings.*GetMuonDeltaBetaCorrectionFactor)());
-				//std::cout << "4 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "NoNeutralIso: " << isolationPtSum << std::endl;
-			}
-			else if ((settings.*GetMuonIsoTypeUserMode)() == "NOPHOTONS")
-			{
-				isolationPtSum = muon->pfIsoNoPhoton((settings.*GetMuonDeltaBetaCorrectionFactor)());
-				//std::cout << "5 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "NoPhotonIso: " << isolationPtSum << std::endl;
-			}
-			else if ((settings.*GetMuonIsoTypeUserMode)() == "NOPU")
-			{
-				isolationPtSum = muon->pfIsoNoPU();
-				//std::cout << "6 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "NoPUIso: " << isolationPtSum << std::endl;
-			}
-			else
-			{
-				isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
-				//std::cout << "-1 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
-				//std::cout << "NormalIso: " << isolationPtSum << std::endl;
-			}
+			// standard isolationPtSum
+			isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
+			//std::cout << "-1 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
+			//std::cout << "NormalIso: " << isolationPtSum << std::endl;
+		}
+
+		if (muonIsoTypeUserMode == MuonIsoTypeUserMode::FROMCMSSW)
+		{
+			chargedIsolationPtSum = muon->pfIsoOnlyHadron();
+			neutralIsolationPtSum = muon->pfIsoOnlyNeutral();
+			photonIsolationPtSum = muon->pfIsoOnlyPhoton();
+			deltaBetaIsolationPtSum = muon->pfIsoOnlyPu();
+		}
+		else if (muonIsoTypeUserMode == MuonIsoTypeUserMode::CALCULATED)
+		{
+			chargedIsolationPtSum = muon->pfIsoOnlyHadron();
+			neutralIsolationPtSum = muon->pfIsoOnlyNeutral();
+			photonIsolationPtSum = muon->pfIsoOnlyPhoton();
+			deltaBetaIsolationPtSum = muon->pfIsoOnlyPu();
 		}
 		
 		double isolationPtSumOverPt = isolationPtSum / muon->p4.Pt();
@@ -147,6 +116,11 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 		product.m_leptonIsolationOverPt[muon] = isolationPtSumOverPt;
 		product.m_muonIsolation[muon] = isolationPtSum;
 		product.m_muonIsolationOverPt[muon] = isolationPtSumOverPt;
+
+		product.m_muonChargedIsolation[muon] = chargedIsolationPtSum;
+		product.m_muonNeutralIsolation[muon] = neutralIsolationPtSum;
+		product.m_muonPhotonIsolation[muon] = photonIsolationPtSum;
+		product.m_muonDeltaBetaIsolation[muon] = deltaBetaIsolationPtSum;
 		
 		if (std::abs(muon->p4.Eta()) < DefaultValues::EtaBorderEB)
 		{

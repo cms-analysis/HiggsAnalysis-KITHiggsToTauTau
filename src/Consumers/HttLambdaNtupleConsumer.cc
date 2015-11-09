@@ -21,7 +21,25 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
  	{
  		return event.m_eventInfo->nEvent;
  	});
+	// Embedding quantities
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonChargedIso", [this](event_type const& event, product_type const& product) {
+		return product.m_validMuons.size() >= 1 ? SafeMap::GetWithDefault(product.m_muonChargedIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonNeutralIso", [this](event_type const& event, product_type const& product) {
+		return product.m_validMuons.size() >= 1 ? SafeMap::GetWithDefault(product.m_muonNeutralIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonPhotonIso", [this](event_type const& event, product_type const& product) {
+		return product.m_validMuons.size() >= 1 ? SafeMap::GetWithDefault(product.m_muonPhotonIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonDeltaBetaIso", [this](event_type const& event, product_type const& product) {
+		return product.m_validMuons.size() >= 1 ? SafeMap::GetWithDefault(product.m_muonDeltaBetaIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
+	});
+	//Embedding quantities end
+ 
+ 
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("puweight", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("puWeight"), 1.0);

@@ -34,6 +34,20 @@ public:
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
+
+	enum class MuonIsoTypeUserMode : int
+	{
+		NONE  = -1,
+		FROMCMSSW = 0,
+		CALCULATED = 1
+	};
+
+	static MuonIsoTypeUserMode ToMuonIsoTypeUserMode(std::string const& muonIsoTypeUserMode)
+	{
+		if (muonIsoTypeUserMode == "fromcmssw") return MuonIsoTypeUserMode::FROMCMSSW;
+		else if (muonIsoTypeUserMode == "calculated") return MuonIsoTypeUserMode::CALCULATED;
+		else return MuonIsoTypeUserMode::NONE;
+	}
 	
 	HttValidMuonsProducer(
 			std::vector<KMuon*> product_type::*validMuons=&product_type::m_validMuons,
@@ -65,6 +79,8 @@ public:
 	virtual void Init(setting_type const& settings) {
 
 		ValidMuonsProducer<HttTypes>::Init(settings);
+		
+		muonIsoTypeUserMode = ToMuonIsoTypeUserMode(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetMuonIsoTypeUserMode)())));
 
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonIso", [this](event_type const& event, product_type const& product) {
@@ -95,6 +111,8 @@ public:
 protected:
 
 	// Htautau specific additional definitions
+	MuonIsoTypeUserMode muonIsoTypeUserMode;
+
 	virtual bool AdditionalCriteria(KMuon* muon, event_type const& event,
 	                                product_type& product, setting_type const& settings) const  override;
 
@@ -197,24 +215,11 @@ public:
 	virtual void Init(setting_type const& settings) override {
 	
 		HttValidMuonsProducer::Init(settings);
-	
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nVetoMuons", [this](event_type const& event, product_type const& product) {
 			return product.m_validVetoMuons.size();
 		});
 	}
-
-	enum class MuonIDIsoTypeUserMode : int
-	{
-		NONE  = -1,
-		ONLYALL = 0,
-		ONLYHADRON = 1,
-		ONLYNEUTRAL = 2,
-		ONLYPHOTONS = 3,
-		NONEUTRAL = 4,
-		NOPHOTONS = 5,
-		NOPU = 6,
-	};
 	
 	HttValidVetoMuonsProducer(
 			std::vector<KMuon*> product_type::*validMuons=&product_type::m_validVetoMuons,

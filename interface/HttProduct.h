@@ -75,6 +75,13 @@ public:
 	std::map<KElectron*, double> m_electronIsolationOverPt;
 	std::map<KMuon*, double> m_muonIsolation;
 	std::map<KMuon*, double> m_muonIsolationOverPt;
+
+	// individual isolation components needed for embedding studies 
+	std::map<KMuon*, double> m_muonChargedIsolation;
+	std::map<KMuon*, double> m_muonNeutralIsolation;
+	std::map<KMuon*, double> m_muonPhotonIsolation;
+	std::map<KMuon*, double> m_muonDeltaBetaIsolation;
+
 	std::map<KTau*, double> m_tauIsolation;
 	std::map<KTau*, double> m_tauIsolationOverPt;
 	
