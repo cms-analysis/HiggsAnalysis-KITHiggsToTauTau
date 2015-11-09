@@ -136,6 +136,26 @@ public:
 			}
 			return isOS;
 		});
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("tagIsoOverPt", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> tagIsoOverPt;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				tagIsoOverPt.push_back(tagProbePair->first->pfIso() / tagProbePair->first->p4.Pt());
+			}
+			return tagIsoOverPt;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("tagIso", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> tagIso;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				tagIso.push_back(tagProbePair->first->pfIso() / tagProbePair->first->p4.Pt());
+			}
+			return tagIso;
+		});
 	}
 
 	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product,
