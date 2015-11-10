@@ -658,7 +658,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						"GluGluHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_powhegpythia8/*.root".format(mass=str(mass)),
+						"GluGluHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
@@ -685,7 +685,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						"VBFHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_powhegpythia8/*.root".format(mass=str(mass)),
+						"VBFHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
@@ -731,7 +731,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						"WminusHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_powhegpythia8/*.root".format(mass=str(mass)),
+						"WminusHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
@@ -740,7 +740,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"WplusHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_powhegpythia8/*.root".format(mass=str(mass)),
+						"WplusHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
@@ -773,7 +773,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						"ZHToTauTauM{mass}_RunIISpring15DR74_Asympt25ns_13TeV_*AOD_powhegpythia8/*.root".format(mass=str(mass)),
+						"ZHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
