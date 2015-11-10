@@ -8,6 +8,9 @@
 		"probeMatched",
 		"tagCharge",
 		"probeCharge",
-		"isOS"
+		"isOS",
+		"tagIsoOverPt",
+		"tagIso",
+		"puWeight"
 	]
 }

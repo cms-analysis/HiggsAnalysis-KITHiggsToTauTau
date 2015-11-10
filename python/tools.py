@@ -8,6 +8,7 @@ import array
 import math
 
 import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
+from Artus.Utility.tools import find_common_patterns
 
 
 class PoissonYield(object):
@@ -20,4 +21,12 @@ class PoissonYield(object):
 	
 	def __call__(self):
 		return self.poisson_yield
-
+	
+def find_common_httpipename(s1, s2):
+	string = ""
+	for pattern in find_common_patterns(s1, s2)[0]:
+		if pattern[0] > 0:
+			string += pattern[1] if pattern[1][-2:] != "_z" else pattern[1][:-2]  
+		else:
+			string += "Nom" if pattern[1] in ["Up","Down","Nom"] else ""
+	return string
