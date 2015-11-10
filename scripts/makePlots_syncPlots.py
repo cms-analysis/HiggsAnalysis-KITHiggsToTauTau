@@ -21,7 +21,7 @@ if __name__ == "__main__":
 	
 	parser.add_argument("--channel", help="Channel", required=True)
 	parser.add_argument("--quantities", nargs="*",
-	                    default=["inclusive", "eventsoverlap",
+	                    default=["integral", "eventsoverlap",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2",
 	                             "mvis", "pt_sv", "eta_sv", "phi_sv", "m_sv",
