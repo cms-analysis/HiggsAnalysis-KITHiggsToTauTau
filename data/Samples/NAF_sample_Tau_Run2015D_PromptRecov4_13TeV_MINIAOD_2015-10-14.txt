@@ -34,17 +34,11 @@
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_4.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_40.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_41.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_42.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_43.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_44.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_45.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_46.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_47.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_48.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_49.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_5.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_50.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_51.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_52.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_53.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_54.root
@@ -71,7 +65,6 @@
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_73.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_74.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_75.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_76.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_77.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_8.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-10-14/Tau/crab_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD/151015_093048/0000/kappa_Tau_Run2015D_PromptRecov4_13TeV_MINIAOD_9.root
