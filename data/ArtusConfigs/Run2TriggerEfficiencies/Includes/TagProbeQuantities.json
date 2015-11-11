@@ -5,12 +5,14 @@
 		"probeEta",
 		"tagProbeDeltaR",
 		"tagProbeMass",
+		"tagMatched",
 		"probeMatched",
 		"tagCharge",
 		"probeCharge",
 		"isOS",
 		"tagIsoOverPt",
 		"tagIso",
-		"puWeight"
+		"puWeight",
+		"npv"
 	]
 }

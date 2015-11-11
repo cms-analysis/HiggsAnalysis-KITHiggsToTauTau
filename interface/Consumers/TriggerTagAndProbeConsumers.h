@@ -106,6 +106,16 @@ public:
 			}
 			return probeMatched;
 		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("tagMatched", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> tagMatched;
+			for (typename std::vector<std::pair<bool, bool> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).end(); ++tagProbePair)
+			{
+				tagMatched.push_back(tagProbePair->first);
+			}
+			return tagMatched;
+		});
 		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("tagCharge", [this](event_type const& event, product_type const& product)
 		{
 			std::vector<int> tagCharge;
