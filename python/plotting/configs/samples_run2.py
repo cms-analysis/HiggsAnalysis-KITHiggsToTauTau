@@ -151,6 +151,60 @@ class Samples(samples.SamplesBase):
 		
 		return config
 	
+	def zl(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("ZL", 1.0)
+		
+		if channel in ["mt", "et", "tt"]:
+			Samples._add_input(
+					config,
+					"DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_amcatnlo*-pythia8/*.root",
+					" ".join([channel+"_jecUncNom_tauEsNom_"+dy+"/ntuple" for dy in (["zl", "zll"] if channel in ["et", "mt"] else ["ee", "mm"])]),
+					lumi,
+					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
+					"zl",
+					nick_suffix=nick_suffix
+			)
+		elif channel in ["em"]:
+			pass
+		else:
+			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
+		
+		Samples._add_bin_corrections(config, "zl", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
+		return config
+	
+	def zj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("ZJ", 1.0)
+		
+		if channel in ["mt", "et", "tt"]:
+			Samples._add_input(
+					config,
+					"DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_amcatnlo*-pythia8/*.root",
+					" ".join([channel+"_jecUncNom_tauEsNom_"+dy+"/ntuple" for dy in (["zj"] if channel in ["et", "mt"] else ["ee", "mm"])]),
+					lumi,
+					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
+					"zj",
+					nick_suffix=nick_suffix
+			)
+		elif channel in ["em"]:
+			pass
+		else:
+			log.error("Sample config (ZJ) currently not implemented for channel \"%s\"!" % channel)
+		
+		Samples._add_bin_corrections(config, "zj", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
+		return config
+	
 	def zll(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -175,7 +229,6 @@ class Samples(samples.SamplesBase):
 		Samples._add_bin_corrections(config, "zll", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
-	
 
 	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
