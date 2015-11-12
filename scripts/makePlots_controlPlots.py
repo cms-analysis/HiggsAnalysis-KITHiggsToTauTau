@@ -99,6 +99,9 @@ if __name__ == "__main__":
 	
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
+		if not args.run1:
+			args.samples.remove("zl")
+			args.samples.remove("zj")
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
