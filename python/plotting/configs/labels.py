@@ -481,6 +481,7 @@ class LabelsDict(labels.LabelsDict):
 		self.labels_dict["ttj"] = self.labels_dict["tt"]
 		self.labels_dict["ttbar"] = self.labels_dict["tt"]
 		self.labels_dict["wjets"]  = self.labels_dict["wj"]
+		self.labels_dict["w"]  = self.labels_dict["wj"]
 		self.labels_dict["dibosons"]  = self.labels_dict["vv"]
 		self.labels_dict["ewk"] = self.labels_dict["vv"]
 		self.labels_dict["fakes"] = self.labels_dict["qcd"]
