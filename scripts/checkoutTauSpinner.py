@@ -65,8 +65,8 @@ def checkoutPackages(args):
 	"tar -xzvf lhapdf-5.8.6.tgz",
 	"wget http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/pythia8/pythia8-176-src.tgz",
 	"tar -xzvf pythia8-176-src.tgz",
-	"wget http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++/tauola++-1.1.4-src.tgz",
-	"tar -xzvf tauola++-1.1.4-src.tgz",
+	"wget http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++/tauola++-1.1.5-src.tgz",
+	"tar -xzvf tauola++-1.1.5-src.tgz"
 	"wget http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/pythia8/pythia8-176-src.tgz",
 	"tar -xzvf pythia8-176-src.tgz",
 	"touch ../make.inc",
