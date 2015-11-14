@@ -222,4 +222,8 @@ public:
 	
 	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonTriggerFilterNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonTriggerFilterNames, {});
+
+	// settings for the EmbeddingConsumer
+	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
+	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);
 };
