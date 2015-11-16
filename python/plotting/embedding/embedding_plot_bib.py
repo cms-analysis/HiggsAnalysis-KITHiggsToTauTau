@@ -42,39 +42,85 @@ nPU_Mu_NoIso_comparison.fill_single_json()
 
 
 #pfAllChargedParticlesNoPileupDeltaR_genMatched_comparison = pltcl.single_plot(
-genMatched_comparison = pltcl.single_plot(
+"""genMatched_comparison = pltcl.single_plot(
 	name = "genMatched_comparison",
 	title = "Comparison Benjamin vs. Run2",
 	x_expression = "pfAllChargedParticlesNoPileupDeltaR", 
 	x_bins = "40,0,0.4",
-        x_label = "#Delta R",
+	x_label = "#Delta R",
 	wwwfolder="DeltaR_Plots",
 	y_label = "#Sigma p_{T} / #DeltaR ",
+	weight = "pfAllChargedParticlesNoPileupPt",
 	plot_type = "absolute",
-        normalized = True,
-        legend =[0.25,0.55,0.55,0.9],
-        plotlines = [genMatched_benjamin_MC, genMatched_benjamin_RH, genMatched_run2_MC, genMatched_run2_RH]
+	normalized = True,
+	legend =[0.25,0.55,0.55,0.9],
+	plotlines = [genMatched_benjamin_MC, genMatched_benjamin_RH, genMatched_run2_MC, genMatched_run2_RH]
 )
-configs.extend(genMatched_comparison.return_json_from_x_expressions([
-#  "pfAllChargedParticlesNoPileupDeltaR",
-  "pfChargedHadronsPileUpDeltaR",
-  "pfChargedHadronsNoPileUpDeltaR",
-  "pfNeutralHadronsNoPileUpDeltaR",
-  "pfPhotonsNoPileUpDeltaR"
-  ])) 
+configs.extend(genMatched_comparison.return_json_with_changed_x_and_weight(
+	x_expressions=[
+		"pfChargedHadronsPileUpDeltaR",
+		"pfChargedHadronsNoPileUpDeltaR",
+		"pfNeutralHadronsNoPileUpDeltaR",
+		"pfPhotonsNoPileUpDeltaR"],
+	weights=[
+		"pfChargedHadronsPileUpPt",
+		"pfChargedHadronsNoPileUpPt",
+		"pfNeutralHadronsNoPileUpEt",
+		"pfPhotonsNoPileUpEt"]
+))"""
 
 
-genMatched_comparison_fine = genMatched_comparison.clone(
+
+genMatched_comparison_run2 = pltcl.single_plot(
+	name = "genMatched_comparison",
+	title = "Run2",
+	x_expression = "pfAllChargedParticlesNoPileupDeltaR", 
+	x_bins = "40,0,0.4",
+	x_label = "#Delta R",
+	wwwfolder="DeltaR_Plots_run2",
+	y_label = "#Sigma p_{T} / #DeltaR ",
+	weight = "pfAllChargedParticlesNoPileupPt",
+	plot_type = "absolute",
+	normalized = True,
+	legend =[0.25,0.55,0.55,0.9],
+	subplot_denominator = 0,
+	subplot_numerators = [1,2],
+	plotlines = [genMatched_run2_MC, genMatched_run2_RH, genMatched_benjamin_RH]
+)
+configs.extend(genMatched_comparison_run2.return_json_with_changed_x_and_weight(
+	x_expressions=[
+		"pfChargedHadronsPileUpDeltaR",
+		#"pfChargedHadronsNoPileUpDeltaR",
+		#"pfNeutralHadronsNoPileUpDeltaR",
+		#"pfPhotonsNoPileUpDeltaR"
+		],
+	weights=[
+		"pfChargedHadronsPileUpPt",
+		#"pfChargedHadronsNoPileUpPt",
+		#"pfNeutralHadronsNoPileUpEt",
+		#"pfPhotonsNoPileUpEt"
+		]
+))
+
+
+
+
+"""genMatched_comparison_fine = genMatched_comparison.clone(
     name = "genMatched_comparison_fine",
     x_bins = "50,0,0.1"
 )
-configs.extend(genMatched_comparison_fine.return_json_from_x_expressions([
-#  "pfAllChargedParticlesNoPileupDeltaR",
-  "pfChargedHadronsPileUpDeltaR",
-  "pfChargedHadronsNoPileUpDeltaR",
-  "pfNeutralHadronsNoPileUpDeltaR",
-  "pfPhotonsNoPileUpDeltaR"
-  ])) 
+configs.extend(genMatched_comparison_fine.return_json_with_changed_x_and_weight(
+	x_expressions=[
+		"pfChargedHadronsPileUpDeltaR",
+		"pfChargedHadronsNoPileUpDeltaR",
+		"pfNeutralHadronsNoPileUpDeltaR",
+		"pfPhotonsNoPileUpDeltaR"],
+	weights=[
+		"pfChargedHadronsPileUpPt",
+		"pfChargedHadronsNoPileUpPt",
+		"pfNeutralHadronsNoPileUpEt",
+		"pfPhotonsNoPileUpEt"]
+))"""
 
 
 
