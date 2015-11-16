@@ -42,7 +42,7 @@ nPU_Mu_NoIso_comparison.fill_single_json()
 
 
 #pfAllChargedParticlesNoPileupDeltaR_genMatched_comparison = pltcl.single_plot(
-"""genMatched_comparison = pltcl.single_plot(
+genMatched_comparison = pltcl.single_plot(
 	name = "genMatched_comparison",
 	title = "Comparison Benjamin vs. Run2",
 	x_expression = "pfAllChargedParticlesNoPileupDeltaR", 
@@ -67,7 +67,7 @@ configs.extend(genMatched_comparison.return_json_with_changed_x_and_weight(
 		"pfChargedHadronsNoPileUpPt",
 		"pfNeutralHadronsNoPileUpEt",
 		"pfPhotonsNoPileUpEt"]
-))"""
+))
 
 
 
@@ -84,28 +84,28 @@ genMatched_comparison_run2 = pltcl.single_plot(
 	normalized = True,
 	legend =[0.25,0.55,0.55,0.9],
 	subplot_denominator = 0,
-	subplot_numerators = [1,2],
-	plotlines = [genMatched_run2_MC, genMatched_run2_RH, genMatched_benjamin_RH]
+	subplot_numerators = [1],
+	plotlines = [genMatched_run2_MC, genMatched_run2_RH]
 )
 configs.extend(genMatched_comparison_run2.return_json_with_changed_x_and_weight(
 	x_expressions=[
 		"pfChargedHadronsPileUpDeltaR",
-		#"pfChargedHadronsNoPileUpDeltaR",
-		#"pfNeutralHadronsNoPileUpDeltaR",
-		#"pfPhotonsNoPileUpDeltaR"
+		"pfChargedHadronsNoPileUpDeltaR",
+		"pfNeutralHadronsNoPileUpDeltaR",
+		"pfPhotonsNoPileUpDeltaR"
 		],
 	weights=[
 		"pfChargedHadronsPileUpPt",
-		#"pfChargedHadronsNoPileUpPt",
-		#"pfNeutralHadronsNoPileUpEt",
-		#"pfPhotonsNoPileUpEt"
+		"pfChargedHadronsNoPileUpPt",
+		"pfNeutralHadronsNoPileUpEt",
+		"pfPhotonsNoPileUpEt"
 		]
 ))
 
 
 
 
-"""genMatched_comparison_fine = genMatched_comparison.clone(
+genMatched_comparison_fine = genMatched_comparison.clone(
     name = "genMatched_comparison_fine",
     x_bins = "50,0,0.1"
 )
@@ -120,7 +120,7 @@ configs.extend(genMatched_comparison_fine.return_json_with_changed_x_and_weight(
 		"pfChargedHadronsNoPileUpPt",
 		"pfNeutralHadronsNoPileUpEt",
 		"pfPhotonsNoPileUpEt"]
-))"""
+))
 
 
 
