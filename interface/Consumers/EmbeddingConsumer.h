@@ -22,13 +22,15 @@ public:
 	virtual void Finish(setting_type const& settings) override;
 
 private:
+	unsigned int nDeltaRBins = 0;
+	float DeltaRMax = 0.0;
 	std::vector<TH1F*> histograms;
+
 	KMuon* leadingMuon = nullptr;
 	KMuon* trailingMuon = nullptr;
 	KMuon* positiveMuon = nullptr;
 	KMuon* negativeMuon = nullptr;
 
-protected:
 	TH1F* leadingMuon_absChargedIso = nullptr;
 	TH1F* trailingMuon_absChargedIso = nullptr;
 	TH1F* positiveMuon_absChargedIso = nullptr;
