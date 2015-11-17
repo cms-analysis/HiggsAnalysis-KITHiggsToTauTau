@@ -5,8 +5,6 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plot_classes as pltcl
 from HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plotline_bib import *
 
-import copy
-
 configs = []
 
 
@@ -110,7 +108,7 @@ genMatched_comparison_run2 = pltcl.single_plot(
 	x_label = "#Delta R",
 	wwwfolder="DeltaR_Plots_run2",
 	y_label = "#Sigma p_{T} / #DeltaR ",
-	y_subplot_label = "Embedding/MC"
+	y_subplot_label = "Embedding/MC",
 	weight = "pfAllChargedParticlesNoPileupPt",
 	plot_type = "absolute",
 	normalized = True,
