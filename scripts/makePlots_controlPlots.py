@@ -38,7 +38,7 @@ if __name__ == "__main__":
 	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantities", nargs="*",
-	                    default=["inclusive",
+	                    default=["integral",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2", "mt_2",
 	                             "pt_ll", "eta_ll", "phi_ll", "m_ll", "mt_ll",
@@ -99,6 +99,9 @@ if __name__ == "__main__":
 	
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
+		if not args.run1:
+			args.samples.remove("zl")
+			args.samples.remove("zj")
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]

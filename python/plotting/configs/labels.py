@@ -54,7 +54,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_eta_ll"] = "#eta^{ll}"
 			self.labels_dict["tt_eta_llmet"] = "#eta^{ll,MEt}"
 			self.labels_dict["tt_eta_sv"] = "SVfit #eta(#tau#tau)"
-			self.labels_dict["tt_inclusive"] = "Inclusive"
+			self.labels_dict["tt_integral"] = "Integral"
 			self.labels_dict["tt_iso_1"] = "Leading Tau Isolation"
 			self.labels_dict["tt_iso_2"] = "Trailing Tau Isolation"
 			self.labels_dict["tt_jdeta"] = "#Delta#eta_{jj}"
@@ -126,7 +126,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_eta_ll"] = "#eta^{ll}"
 			self.labels_dict["mt_eta_llmet"] = "#eta^{ll,MEt}"
 			self.labels_dict["mt_eta_sv"] = "SVfit #eta(#tau#tau)"
-			self.labels_dict["mt_inclusive"] = "Inclusive"
+			self.labels_dict["mt_integral"] = "Integral"
 			self.labels_dict["mt_iso_1"] = "Muon Isolation"
 			self.labels_dict["mt_iso_2"] = "Tau Isolation"
 			self.labels_dict["mt_jdeta"] = "#Delta#eta_{jj}"
@@ -198,7 +198,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["et_eta_ll"] = "#eta^{ll}"
 			self.labels_dict["et_eta_llmet"] = "#eta^{ll,MEt}"
 			self.labels_dict["et_eta_sv"] = "SVfit #eta(#tau#tau)"
-			self.labels_dict["et_inclusive"] = "Inclusive"
+			self.labels_dict["et_integral"] = "Integral"
 			self.labels_dict["et_iso_1"] = "Electron Isolation"
 			self.labels_dict["et_iso_2"] = "Tau Isolation"
 			self.labels_dict["et_jdeta"] = "#Delta#eta_{jj}"
@@ -269,7 +269,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["em_eta_ll"] = "#eta^{ll}"
 			self.labels_dict["em_eta_llmet"] = "#eta^{ll,MEt}"
 			self.labels_dict["em_eta_sv"] = "SVfit #eta(#tau#tau)"
-			self.labels_dict["em_inclusive"] = "Inclusive"
+			self.labels_dict["em_integral"] = "Integral"
 			self.labels_dict["em_iso_1"] = "Electron Isolation"
 			self.labels_dict["em_iso_2"] = "Muon Isolation"
 			self.labels_dict["em_jdeta"] = "#Delta#eta_{jj}"
@@ -340,7 +340,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mm_eta_ll"] = "#eta^{ll}"
 			self.labels_dict["mm_eta_llmet"] = "#eta^{ll,MEt}"
 			self.labels_dict["mm_eta_sv"] = "SVfit #eta(#tau#tau)"
-			self.labels_dict["mm_inclusive"] = "Inclusive"
+			self.labels_dict["mm_integral"] = "Integral"
 			self.labels_dict["mm_iso_1"] = "Leading Muon Isolation"
 			self.labels_dict["mm_iso_2"] = "Trailing Muon Isolation"
 			self.labels_dict["mm_jdeta"] = "#Delta#eta_{jj}"
@@ -408,7 +408,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ee_eta_ll"] = "#eta^{ll}"
 			self.labels_dict["ee_eta_llmet"] = "#eta^{ll,MEt}"
 			self.labels_dict["ee_eta_sv"] = "SVfit #eta(#tau#tau)"
-			self.labels_dict["ee_inclusive"] = "Inclusive"
+			self.labels_dict["ee_integral"] = "Integral"
 			self.labels_dict["ee_iso_1"] = "Electron Isolation"
 			self.labels_dict["ee_iso_2"] = "Muon Isolation"
 			self.labels_dict["ee_jdeta"] = "#Delta#eta_{jj}"
@@ -481,6 +481,7 @@ class LabelsDict(labels.LabelsDict):
 		self.labels_dict["ttj"] = self.labels_dict["tt"]
 		self.labels_dict["ttbar"] = self.labels_dict["tt"]
 		self.labels_dict["wjets"]  = self.labels_dict["wj"]
+		self.labels_dict["w"]  = self.labels_dict["wj"]
 		self.labels_dict["dibosons"]  = self.labels_dict["vv"]
 		self.labels_dict["ewk"] = self.labels_dict["vv"]
 		self.labels_dict["fakes"] = self.labels_dict["qcd"]

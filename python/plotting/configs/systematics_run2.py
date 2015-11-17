@@ -47,10 +47,12 @@ class JecUncSystematic(SystematicShiftBase):
 	def get_config(self, shift=0.0):
 		plot_config = super(JecUncSystematic, self).get_config(shift=shift)
 		
-		if shift > 0.0:
-			plot_config["folders"] = [folder.replace("jecUncNom", "jecUncUp") for folder in plot_config.get("folders", [])]
-		elif shift < 0.0:
-			plot_config["folders"] = [folder.replace("jecUncNom", "jecUncDown") for folder in plot_config.get("folders", [])]
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("jecUncNom", "jecUncUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("jecUncNom", "jecUncDown")
 		
 		return plot_config
 
@@ -60,10 +62,12 @@ class TauEsSystematic(SystematicShiftBase):
 	def get_config(self, shift=0.0):
 		plot_config = super(TauEsSystematic, self).get_config(shift=shift)
 		
-		if shift > 0.0:
-			plot_config["folders"] = [folder.replace("tauEsNom", "tauEsUp") for folder in plot_config.get("folders", [])]
-		elif shift < 0.0:
-			plot_config["folders"] = [folder.replace("tauEsNom", "tauEsDown") for folder in plot_config.get("folders", [])]
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("tauEsNom", "tauEsUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("tauEsNom", "tauEsDown")
 		
 		return plot_config
 

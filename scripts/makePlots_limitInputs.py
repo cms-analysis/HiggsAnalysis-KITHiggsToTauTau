@@ -42,7 +42,7 @@ if __name__ == "__main__":
 	                    default=["0JetMedium", "0JetHigh", "1JetMedium", "1JetHigh", "1JetHighBoost", "2JetVbfLoose", "2JetVbfTight"],
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("--quantities", nargs="*",
-	                    default=["inclusive", "m_ll", "svfitMass"],
+	                    default=["integral", "m_ll", "svfitMass"],
 	                    help="Quantities. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["110_145:5"],
 	                    help="Higgs masses. [Default: %(default)s]")
