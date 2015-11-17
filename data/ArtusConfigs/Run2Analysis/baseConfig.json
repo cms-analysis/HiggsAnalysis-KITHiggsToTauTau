@@ -82,7 +82,7 @@
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-255031_13TeV_PromptReco_Collisions15_50ns_JSON_v2.txt"
 			],
 			"Run2015D" : [
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt"
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON.txt"
 			]
 		}
 	}
