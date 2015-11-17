@@ -3,7 +3,6 @@
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plot_classes as pltcl
-#import HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plotline_bib as lbib
 from HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plotline_bib import *
 
 import copy
