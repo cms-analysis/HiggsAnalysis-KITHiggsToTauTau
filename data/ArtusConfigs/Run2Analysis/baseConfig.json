@@ -39,7 +39,7 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
-				"#producer:PUWeightProducer",
+				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
@@ -50,7 +50,7 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
-				"#producer:PUWeightProducer",
+				"producer:PUWeightProducer",
 				"#producer:TauCorrectionsProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
@@ -66,6 +66,12 @@
 			]
 		}
 	},
+	"PileupWeightFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-258750_13TeV_PromptReco_69mbMinBiasXS.root",
+			"Run2015" : "not needed"
+		}
+	},
 	"JsonFiles" : {
 		"nick" : {
 			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],
@@ -74,6 +80,9 @@
 			],
 			"Run2015C" : [
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-255031_13TeV_PromptReco_Collisions15_50ns_JSON_v2.txt"
+			],
+			"Run2015D" : [
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt"
 			]
 		}
 	}

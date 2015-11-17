@@ -39,7 +39,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			pt_cut = "35.0" if channel in ["mt", "et", "tt"] else "35.0"
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
-			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>350.0)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>200.0)*(jdeta>2.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"] = ("(! ({vbf}))".format(
 					vbf=self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"]
 			))+"*(njetspt30>0)"

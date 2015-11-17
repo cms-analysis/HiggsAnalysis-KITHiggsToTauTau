@@ -23,16 +23,22 @@
 					"HLT_Ele32_eta2p1_WP75_Gsf",
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
 				],
-				"Run2015" : [
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf"
+				],
+				"Run2015(A|B|C)" : [
 					"HLT_Ele32_eta2p1_WPTight_Gsf",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
+				],
+				"Run2015D" : [
+					"HLT_Ele23_WPLoose_Gsf"
 				]
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
-			"23.0"
+			"24.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
@@ -43,15 +49,28 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
+		"TriggerObjectLowerPtCut" : 23.0,
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairLepton1LowerPtCuts" : [
 			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
 			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v",
-			"HLT_Ele32_eta2p1_WPTight_Gsf_v"
-		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+			"nick": {
+				"default" : [
+					"HLT_Ele32_eta2p1_WP75_Gsf_v"
+				],
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf_v"
+				],
+				"Run2015(A|B|C)" : [
+					"HLT_Ele32_eta2p1_WPTight_Gsf_v"
+				],
+				"Run2015D" : [
+					"HLT_Ele23_WPLoose_Gsf_v"
+				]
+			}
+		},
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
@@ -61,10 +80,21 @@
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
 				],
-				"Run2015" : [
+				"MiniAODv2" : [
+					"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfTrackIsoFilter"
+				],
+				"Run2015B" : [
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltSingleEle22WPLooseGsfTrackIsoFilter",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
+				],
+				"Run2015C" : [
+					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltEle22WPLooseL1IsoEG20erTau20erGsfTrackIsoFilter",
+					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
+					"HLT_Ele32_eta2p1_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
+				],
+				"Run2015D" : [
+					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
 				]
 			}
 		},
@@ -74,7 +104,7 @@
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso",
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20"
 				],
-				"Run2015" : [
+				"Run2015(A|B|C)" : [
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20"
 				]

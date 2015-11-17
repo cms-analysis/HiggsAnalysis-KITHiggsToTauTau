@@ -79,9 +79,11 @@ class Datacards(object):
 		self.tau_efficieny_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
 			"lnN",
-			ch.SystMap("era")
-				(["7TeV", "8TeV"], 1.08)
-				(       ["13TeV"], 1.08) # copied from 8TeV
+			ch.SystMap("era", "channel")
+				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
+				(["7TeV", "8TeV"], ["tt"],       1.19)
+				(       ["13TeV"], ["mt", "et"], 1.08) # copied from 8TeV
+				(       ["13TeV"], ["tt"],       1.19) # copied from 8TeV
 		]
 		self.btag_efficieny_syst_args = [
 			"CMS_eff_b_$ERA",
@@ -91,6 +93,13 @@ class Datacards(object):
 				(["13TeV"], ["et"], 0.96) # copied from 8TeV
 				(["13TeV"], ["em"], 0.93) # copied from 8TeV
 				(["13TeV"], ["tt"], 0.93) # copied from 8TeV
+		]
+		self.met_scale_syst_args = [
+			"CMS_$ANALYSIS_scale_met_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["13TeV"], ["ggH", "qqH", "WH", "ZH", "VH"], 0.98) # copied from 8TeV
+				(["13TeV"], ["ZTT", "ZLL", "TTJ", "VV", "WJ"], 1.03) # copied from 8TeV
 		]
 		
 		self.ztt_cross_section_syst_args = [
@@ -173,6 +182,7 @@ class Datacards(object):
 			ch.SystMap("era", "process")
 				(["13TeV"], ["ggH"], 1.079)
 				(["13TeV"], ["qqH"], 1.007)
+				(["13TeV"], ["VH"], 1.015)
 				(["13TeV"], ["WH"], 1.015)
 				(["13TeV"], ["ZH"], 1.038)
 		]
@@ -182,6 +192,7 @@ class Datacards(object):
 			ch.SystMap("era", "process")
 				(["13TeV"], ["ggH"], 1.071)
 				(["13TeV"], ["qqH"], 1.032)
+				(["13TeV"], ["VH"], 1.022)
 				(["13TeV"], ["WH"], 1.022)
 				(["13TeV"], ["ZH"], 1.022)
 		]
@@ -195,41 +206,41 @@ class Datacards(object):
 				(["13TeV"], ["ggH"], ["mt_0jet_low"], 1.073) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["mt_1jet_high"], 0.996) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["mt_1jet_low"], 1.007) # copied from 8TeV
-				(["13TeV"], ["ggH"], ["mt_2jet_vbf"], 9.988) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["mt_2jet_vbf"], 0.988) # copied from 8TeV
 				
 				(["13TeV"], ["ggH"], ["et_0jet_high"], 1.060) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["et_0jet_low"], 1.073) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["et_1jet_high"], 0.996) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["et_1jet_low"], 1.007) # copied from 8TeV
-				(["13TeV"], ["ggH"], ["et_2jet_vbf"], 9.988) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["et_2jet_vbf"], 0.988) # copied from 8TeV
 				
 				(["13TeV"], ["ggH"], ["em_0jet_high"], 1.063) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["em_0jet_low"], 1.089) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["em_1jet_high"], 1.004) # copied from 8TeV
 				(["13TeV"], ["ggH"], ["em_1jet_low"], 1.000) # copied from 8TeV
-				(["13TeV"], ["ggH"], ["em_2jet_vbf"], 9.988) # copied from 8TeV
+				(["13TeV"], ["ggH"], ["em_2jet_vbf"], 0.988) # copied from 8TeV
 				
 				(["13TeV"], ["ggH"], ["tt_inclusive"], 1.025) # copied from 8TeV
 				
-				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_0jet_high"], 1.028) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_0jet_low"], 1.018) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_1jet_high"], 0.954) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_1jet_low"], 0.946) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["mt_2jet_vbf"], 0.893) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_0jet_high"], 1.028) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_0jet_low"], 1.018) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_1jet_high"], 0.954) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_1jet_low"], 0.946) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_2jet_vbf"], 0.893) # copied from 8TeV
 				
-				(["13TeV"], ["qqH", "WH", "ZH"], ["et_0jet_high"], 1.028) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["et_0jet_low"], 1.018) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["et_1jet_high"], 0.954) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["et_1jet_low"], 0.946) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["et_2jet_vbf"], 0.893) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_0jet_high"], 1.028) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_0jet_low"], 1.018) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_1jet_high"], 0.954) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_1jet_low"], 0.946) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_2jet_vbf"], 0.893) # copied from 8TeV
 				
-				(["13TeV"], ["qqH", "WH", "ZH"], ["em_0jet_high"], 1.042) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["em_0jet_low"], 1.035) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["em_1jet_high"], 0.978) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["em_1jet_low"], 0.984) # copied from 8TeV
-				(["13TeV"], ["qqH", "WH", "ZH"], ["em_2jet_vbf"], 0.893) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_0jet_high"], 1.042) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_0jet_low"], 1.035) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_1jet_high"], 0.978) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_1jet_low"], 0.984) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_2jet_vbf"], 0.893) # copied from 8TeV
 				
-				(["13TeV"], ["qqH", "WH", "ZH"], ["tt_inclusive"], 1.025) # copied from 8TeV
+				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["tt_inclusive"], 1.025) # copied from 8TeV
 		]
 	
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
@@ -397,16 +408,30 @@ class Datacards(object):
 	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, *args):
 		if datacards_poi_ranges is None:
 			datacards_poi_ranges = {}
+		tmp_args = " ".join(args)
 		
-		commands = [[
-				"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE}".format(
-						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
-						POI_RANGE="--rMin {RMIN} --rMax {RMAX}".format(RMIN=datacards_poi_ranges[datacard][0], RMAX=datacards_poi_ranges[datacard][1]) if datacard in datacards_poi_ranges else "",
-						ARGS=" ".join(args),
-						WORKSPACE=workspace
-				),
-				os.path.dirname(workspace)
-		] for datacard, workspace in datacards_workspaces.iteritems()]
+		chunks = [[None, None]]
+		if "{CHUNK}" in tmp_args and "--points" in tmp_args:
+			splited_args = tmp_args.split()
+			n_points = int(splited_args[splited_args.index("--points") + 1])
+			n_points_per_chunk = 199
+			chunks = [[chunk*n_points_per_chunk, (chunk+1)*n_points_per_chunk-1] for chunk in xrange(n_points/n_points_per_chunk+1)]
+		
+		commands = []
+		for index, (chunk_min, chunk_max) in enumerate(chunks):
+			commands.extend([[
+					"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE} {CHUNK_POINTS}".format(
+							MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+							POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
+							ARGS=tmp_args.format(CHUNK=str(index), RMIN="{RMIN}", RMAX="{RMAX}"),
+							WORKSPACE=workspace,
+							CHUNK_POINTS = "" if (chunk_min is None) or (chunk_max is None) else "--firstPoint {CHUNK_MIN} --lastPoint {CHUNK_MAX}".format(
+									CHUNK_MIN=chunk_min,
+									CHUNK_MAX=chunk_max
+							)
+					).format(RMIN=datacards_poi_ranges.get(datacard, ["", ""])[0], RMAX=datacards_poi_ranges.get(datacard, ["", ""])[1]),
+					os.path.dirname(workspace)
+			] for datacard, workspace in datacards_workspaces.iteritems()])
 		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 	
@@ -479,7 +504,8 @@ class Datacards(object):
 							config["markers"] = ["LINE"] + (["HIST"]*len(bkg_processes)) + ["E2", "E"]
 							config["legend_markers"] = ["L"] + (["F"]*len(bkg_processes)) + ["F", "ELP"]
 							
-							config["rel_y_lims"] = [0.0, 1.4]
+							config["y_lims"] = [0.0]
+							config["y_rel_lims"] = [0.0, 1.4]
 							config["legend"] = [0.23, 0.73, 0.9, 0.89]
 							config["legend_cols"] = 3
 							
@@ -547,7 +573,7 @@ class Datacards(object):
 					config["nicks_blacklist"] = ["graph_b"]
 					config["fit_poi"] = plotting_args.get("fit_poi", "r")
 
-					config["left_pad_margin"] = [0.40]
+					config["left_pad_margin"] = 0.40
 					config["labels"] = ["prefit", "S+B model"]
 					config["markers"] = ["L2", "P"]
 					config["fill_styles"] = [3001, 0]

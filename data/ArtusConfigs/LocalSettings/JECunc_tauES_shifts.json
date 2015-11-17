@@ -1,0 +1,57 @@
+{
+	"jecUncNom_tauEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2012" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0
+	},
+	"jecUncNom_tauEsUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2012" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 1.03
+			}
+		}
+	},
+	"jecUncNom_tauEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2012" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 0.97
+			}
+		}
+	},
+	"jecUncUp_tauEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2012" : 0.0,
+				"default" : 1.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0
+	},
+	"jecUncDown_tauEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2012" : 0.0,
+				"default" : -1.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0
+	}
+}

@@ -7,7 +7,7 @@
 #include "Artus/Utility/interface/SafeMap.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-
+#include "Artus/KappaAnalysis/interface/Consumers/KappaLambdaNtupleConsumer.h"
 
 template<class TTag, class TProbe>
 class TriggerTagAndProbeConsumerBase: public ConsumerBase<HttTypes>
@@ -44,6 +44,98 @@ public:
 		m_tree->Branch("probe", &m_currentProbeObject);
 		m_tree->Branch("probeMatched", &m_currentProbeObjectMatched, "probeMatched/O");
 		m_tree->Branch("tagProbeSystem", &m_tagProbeSystem);
+		
+
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("tagPt", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> tagPt;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				tagPt.push_back(tagProbePair->first->p4.Pt());
+			}
+			return tagPt;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("probePt", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> probePt;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				probePt.push_back(tagProbePair->second->p4.Pt());
+			}
+			return probePt;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("probeEta", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> probeEta;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				probeEta.push_back(tagProbePair->second->p4.Eta());
+			}
+			return probeEta;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("tagProbeDeltaR", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> tagProbeDeltaR;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				tagProbeDeltaR.push_back(ROOT::Math::VectorUtil::DeltaR(tagProbePair->first->p4, tagProbePair->second->p4));
+			}
+			return tagProbeDeltaR;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("tagProbeMass", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<float> tagProbeMass;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				tagProbeMass.push_back((tagProbePair->first->p4 + tagProbePair->second->p4).M());
+			}
+			return tagProbeMass;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("probeMatched", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> probeMatched;
+			for (typename std::vector<std::pair<bool, bool> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectMatchedPairsMember)).end(); ++tagProbePair)
+			{
+				probeMatched.push_back(tagProbePair->second);
+			}
+			return probeMatched;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("tagCharge", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> tagCharge;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				tagCharge.push_back(tagProbePair->first->charge());
+			}
+			return tagCharge;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("probeCharge", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> probeCharge;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				probeCharge.push_back(tagProbePair->second->charge());
+			}
+			return probeCharge;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddVIntQuantity("isOS", [this](event_type const& event, product_type const& product)
+		{
+			std::vector<int> isOS;
+			for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*(this->m_triggerTagProbeObjectPairsMember)).begin();
+		       tagProbePair != (product.*(this->m_triggerTagProbeObjectPairsMember)).end(); ++tagProbePair)
+			{
+				isOS.push_back(int((tagProbePair->first->charge()*tagProbePair->second->charge())<0));
+			}
+			return isOS;
+		});
 	}
 
 	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product,

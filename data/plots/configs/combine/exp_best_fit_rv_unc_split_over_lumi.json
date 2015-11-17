@@ -6,11 +6,15 @@
 	],
 	"colors": [
 		"#00ff00",
+		"#008800",
 		"#ff0000",
-		"#00ff00"
+		"#008800"
 	],
 	"files": [
 		"higgsCombineRV.MultiDimFit*mH*.root"
+	],
+	"fill_styles": [
+		1001
 	],
 	"folders": [
 		"limit"
@@ -34,14 +38,21 @@
 		2
 	],
 	"labels": [
-		"#plus1#sigma Expected",
-		"Expected",
-		"#minus1#sigma Expected"
+		"#pm 1#sigma Expected",
+		"",
+		"",
+		""
 	],
 	"legend_markers": [
+		"F",
+		"L",
+		"L",
 		"L"
 	],
 	"markers": [
+		"E3",
+		"L",
+		"L",
 		"L"
 	],
 	"nicks": [
@@ -50,10 +61,10 @@
 		"p1s_noplot"
 	],
 	"nicks_blacklist": [
-		"noplot",
-		"^1s$"
+		"noplot"
 	],
 	"nicks_whitelist": [
+		"1s$",
 		"1s_yehigh",
 		"central",
 		"1s_yelow"
@@ -91,6 +102,6 @@
 		"0:RV",
 		"0:RV"
 	],
-	"y_label": "Uncertainty on Best Fit #mu_{qqH, WH, ZH}",
+	"y_label": "Uncertainty on Best Fit #mu_{qqH, VH}",
 	"filename": "exp_best_fit_rv_unc_split_over_lumi"
 }

@@ -10,7 +10,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
 class ZttXsecDatacards(datacards.Datacards):
-	def __init__(self, cb=None):
+	def __init__(self, cb=None, model='default'):
 		super(ZttXsecDatacards, self).__init__(cb)
 		
 		if cb is None:
@@ -28,7 +28,8 @@ class ZttXsecDatacards(datacards.Datacards):
 		
 			# efficiencies
 			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			if "taueff" not in model:
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
@@ -50,7 +51,8 @@ class ZttXsecDatacards(datacards.Datacards):
 		
 			# efficiencies
 			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "TTJ", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			if "taueff" not in model:
+				self.cb.cp().channel(["et"]).process(["ZTT", "TTJ", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)

@@ -26,6 +26,10 @@ if __name__ == "__main__":
 	                    default=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
 	                    help="Samples. [Default: %(default)s]")
+	parser.add_argument("--stack-signal", default=False, action="store_true",
+	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
+	parser.add_argument("--scale-signal", type=float, default=1.0,
+	                    help="Scale signal (htt). [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
@@ -56,7 +60,7 @@ if __name__ == "__main__":
 	                    help="Use Run1 samples. [Default: %(default)s]")
 	parser.add_argument("--cms", default=False, action="store_true",
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=0.07152,
+	parser.add_argument("--lumi", type=float, default=1.28,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
@@ -127,7 +131,9 @@ if __name__ == "__main__":
 						weight="({0})*({1})".format(json_config.pop("weights", ["1.0"])[0], args.weight),
 						lumi = args.lumi * 1000,
 						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", []),
-						blind_expression=channel+"_"+quantity
+						blind_expression=channel+"_"+quantity,
+						stack_signal=args.stack_signal,
+						scale_signal=args.scale_signal
 				)
 				
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
@@ -174,15 +180,16 @@ if __name__ == "__main__":
 				if args.cms:
 					config["cms"] = True
 					config["extra_text"] = "Preliminary"
+					config["legend"] = [0.7, 0.5, 0.95, 0.93] if args.ratio else [0.7, 0.5, 0.9, 0.85]
 				elif args.shapes:
 					config["legend"] = [0.55, 0.65, 0.9, 0.88]
 				else:
-					config["rel_y_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio else 1.4]
+					config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio else 1.4]
 					config["legend"] = [0.23, 0.73, 0.9, 0.93] if args.ratio else [0.23, 0.73, 0.9, 0.89]
 					config["legend_cols"] = 3
 				if not args.shapes:
 					if not args.lumi is None:
-						config["lumis"] = [float("%.2f" % args.lumi)]
+						config["lumis"] = [float("%.3f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
 				
 				config["output_dir"] = os.path.expandvars(os.path.join(

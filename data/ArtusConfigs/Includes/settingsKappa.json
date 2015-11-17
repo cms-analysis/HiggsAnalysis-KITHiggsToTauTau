@@ -46,7 +46,13 @@
 			"13TeV" : "pileupDensity"
 		}
 	},
-	"Met" :  "met",
+	"Met" : {
+		"nick" : {
+			"default" : "met",
+			"MiniAODv2" : "patPFMetT1",
+			"Run2015" : "patPFMetT1"
+		}
+	},
 	"MvaMetTT" : {
 		"nick" : {
 			"default" : "metMVATT",

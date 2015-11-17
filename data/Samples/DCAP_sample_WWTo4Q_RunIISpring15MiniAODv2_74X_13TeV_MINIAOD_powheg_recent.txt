@@ -1,1 +1,1 @@
-DCAP_sample_WWTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg_2015-10-14.txt
+DCAP_sample_WWTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg_2015-10-23.txt

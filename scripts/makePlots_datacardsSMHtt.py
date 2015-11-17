@@ -288,7 +288,7 @@ if __name__ == "__main__":
 	)
 	
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M Asymptotic -n \"\"")
+	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M Asymptotic -n \"\"")
 	
 	"""
 	# cV-cF scan
