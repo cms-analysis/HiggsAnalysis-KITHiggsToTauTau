@@ -60,7 +60,7 @@ if __name__ == "__main__":
 	                    help="Use Run1 samples. [Default: %(default)s]")
 	parser.add_argument("--cms", default=False, action="store_true",
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=1.28,
+	parser.add_argument("--lumi", type=float, default=2.11,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
