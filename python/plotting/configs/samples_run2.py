@@ -43,8 +43,9 @@ class Samples(samples.SamplesBase):
 			cuts["iso_2"] = "(iso_2 < 0.15)"
 		elif channel == "tt":
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
-			cuts["iso_1"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_1 < 1.5)"
-			cuts["iso_2"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)"
+			cuts["anti_lepton_tau_discriminators"] = "(againstElectronVLooseMVA5_1 > 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"
+			cuts["iso_1"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_1 < 1.0)"
+			cuts["iso_2"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.0)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
