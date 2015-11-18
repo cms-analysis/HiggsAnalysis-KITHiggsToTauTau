@@ -11,7 +11,7 @@ import glob
 import os
 import shutil
 
-import combineharvester as ch
+import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.jsonTools as jsonTools
 

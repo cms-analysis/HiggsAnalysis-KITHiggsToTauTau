@@ -1,9 +1,7 @@
 <Flags CXXFLAGS="-g" />
-<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
 <Flags LDFLAGS="-rdynamic" />
 <Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
 <Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
-<Flags LDFLAGS="-Lsrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib -lCHCombineTools" />
 
 <use name="root" />
 <use name="tauspinner" />
@@ -17,6 +15,7 @@
 <use name="Artus/KappaAnalysis" />
 <use name="Artus/Utility" />
 <use name="TauAnalysis/SVfitStandalone" />
+<use name="CombineHarvester/CombineTools" />
 
 <flags ADD_SUBDIR="1"/>
 

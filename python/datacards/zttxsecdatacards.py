@@ -4,7 +4,7 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import combineharvester as ch
+import CombineHarvester.CombineTools.ch as ch
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 

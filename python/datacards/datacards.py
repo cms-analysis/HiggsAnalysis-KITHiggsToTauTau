@@ -9,7 +9,7 @@ import os
 import re
 
 # http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
-import combineharvester as ch
+import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
