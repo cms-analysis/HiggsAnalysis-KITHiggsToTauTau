@@ -181,6 +181,12 @@
 			"ZZTo2Q2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 36797411,
 			"ZZTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 35917388,
 			
+			"GluGluHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 1498200,
+            "VBFHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" :1478412 ,
+            "WminusHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 443200,
+            "WplusHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 440704,
+            "ZHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 585353,
+			
 			"default": -1
 		}
 	}
