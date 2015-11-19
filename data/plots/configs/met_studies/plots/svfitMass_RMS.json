@@ -1,0 +1,56 @@
+{
+    "analysis_modules": [
+        "ProjectRMS", 
+        "Ratio"
+    ], 
+    "colors": [
+        "black", 
+        "steelblue", 
+        "black", 
+        "steelblue"
+    ], 
+    "energies": [
+        13.0
+    ], 
+    "filename": "svfitMass_RMS", 
+    "files": [
+        "/afs/desy.de/user/r/rfriese/dust/htautau/artus/2015-11-18_13-29_withGenBosonMass/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root"
+    ], 
+    "folders": [
+        "mt_ztt/ntuple", 
+        "mtpfmet_ztt/ntuple"
+    ], 
+    "labels": [
+        "MVAMET", 
+        "PFMET"
+    ], 
+    "plot_modules": [
+        "PlotMpl"
+    ], 
+    "ratio_denominator_nicks": [
+        "nick1"
+    ], 
+    "ratio_numerator_nicks": [
+        "nick0", 
+        "nick1"
+    ], 
+    "title": "$Z \\to \\tau \\tau \\to \\mu \\tau_{had}$", 
+    "x_bins": [
+        "8,0,160"
+    ], 
+    "x_expressions": [
+        "genBosonPt"
+    ], 
+    "x_label": "$p_T^{Z_{gen}} / \\, GeV$", 
+    "y_bins": [
+        "100,-100,100"
+    ], 
+    "y_expressions": [
+        "svfitMass-genBosonM"
+    ], 
+    "y_label": "$m_{\\tau \\tau}^{SVFit} \\, resolution \\, / \\, GeV$", 
+    "y_subplot_lims": [
+        0.9, 
+        1.05
+    ]
+}

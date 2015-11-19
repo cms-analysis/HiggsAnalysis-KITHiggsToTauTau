@@ -1,0 +1,63 @@
+{
+    "analysis_modules": [
+        "CutEfficiency"
+    ], 
+    "colors": [
+        "black", 
+        "steelblue"
+    ], 
+    "cut_efficiency_bkg_nicks": [
+        "wjetsMVA", 
+        "wjetsPF"
+    ], 
+    "cut_efficiency_modes": [
+        "sigPur"
+    ], 
+    "cut_efficiency_nicks": [
+        "rocMVA", 
+        "rocPF"
+    ], 
+    "cut_efficiency_sig_nicks": [
+        "zttMVA", 
+        "zttPF"
+    ], 
+    "filename": "mtcut_sigPur", 
+    "files": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-18_17-33_MTStudies_mvamet/merged/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root", 
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-18_17-33_MTStudies_mvamet/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root", 
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-18_14-25_MTStudies/merged/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root", 
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-18_14-25_MTStudies/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root"
+    ], 
+    "folders": [
+        "mt_jecUncNom_tauEsNom/ntuple", 
+        "mt_jecUncNom_tauEsNom_ztt/ntuple", 
+        "mt_jecUncNom_tauEsNom/ntuple", 
+        "mt_jecUncNom_tauEsNom_ztt/ntuple"
+    ], 
+    "labels": [
+        "MVA MET", 
+        "PF MET"
+    ], 
+    "legend": "upper right", 
+    "nicks": [
+        "wjetsMVA", 
+        "zttMVA", 
+        "wjetsPF", 
+        "zttPF"
+    ], 
+    "nicks_whitelist": [
+        "rocMVA", 
+        "rocPF"
+    ], 
+    "select_lower_values": [
+        true
+    ], 
+    "x_bins": [
+        "150,0,150"
+    ], 
+    "x_expressions": [
+        "mt_1"
+    ], 
+    "x_label": "$m_T \\left( \\mu, MET \\right)$", 
+    "y_label": "$Z \\to \\tau \\tau \\, purity$"
+}

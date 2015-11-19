@@ -1,0 +1,53 @@
+{
+    "analysis_modules": [
+        "ProjectRMS", 
+        "Ratio"
+    ], 
+    "colors": [
+        "black", 
+        "steelblue", 
+        "black", 
+        "steelblue"
+    ], 
+    "filename": "recoNeutrinoOnGenMetProjectionPerp_RMS", 
+    "files": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-17_09-51_genBosonPosAngle/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root"
+    ], 
+    "folders": [
+        "mt_ztt/ntuple", 
+        "mtpfmet_ztt/ntuple"
+    ], 
+    "labels": [
+        "MVA MET", 
+        "PF MET"
+    ], 
+    "ratio_denominator_nicks": [
+        "nick0"
+    ], 
+    "ratio_numerator_nicks": [
+        "nick0", 
+        "nick1"
+    ], 
+    "x_bins": [
+        "10,0,200"
+    ], 
+    "x_expressions": [
+        "diLepPt"
+    ], 
+    "x_label": "$p_T^{vis}$", 
+    "y_bins": [
+        "90,-40,40"
+    ], 
+    "y_expressions": [
+        "recoNeutrinoOnGenMetProjectionPerp"
+    ], 
+    "y_label": "RMS", 
+    "y_lims": [
+        0.0, 
+        20.0
+    ], 
+    "y_subplot_lims": [
+        0.5, 
+        1.5
+    ]
+}

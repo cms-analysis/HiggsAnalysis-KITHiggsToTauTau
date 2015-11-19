@@ -1,0 +1,22 @@
+{
+    "filename": "cov11", 
+    "files": [
+        "/afs/desy.de/user/r/rfriese/dust/htautau/artus/2015-11-18_13-29_withGenBosonMass/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root"
+    ], 
+    "folders": [
+        "mt_ztt/ntuple", 
+        "mtpfmet_ztt/ntuple"
+    ], 
+    "labels": [
+        "MVA MET", 
+        "PF MET"
+    ], 
+    "x_bins": [
+        "50,0,800"
+    ], 
+    "x_expressions": [
+        "mvacov11", 
+        "metcov11"
+    ], 
+    "x_label": "cov(1,1) / GeV"
+}

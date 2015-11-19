@@ -1,0 +1,19 @@
+{
+    "files": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-17_09-51_genBosonPosAngle/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root"
+    ], 
+    "folders": [
+        "mt_ztt/ntuple", 
+        "mtpfmet_ztt/ntuple"
+    ], 
+    "labels": [
+        "MVA MET", 
+        "PF MET"
+    ], 
+    "x_bins": [
+        "90,-50,250"
+    ], 
+    "x_expressions": [
+        "recoNeutrinoOnGenMetProjectionPar"
+    ]
+}

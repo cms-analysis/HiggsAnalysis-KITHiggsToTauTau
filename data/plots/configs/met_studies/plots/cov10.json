@@ -1,0 +1,21 @@
+{
+    "filename": "cov10", 
+    "files": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-10-20_11-21_metSvFitStudeis/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root"
+    ], 
+    "folders": [
+        "mt/ntuple"
+    ], 
+    "labels": [
+        "MVA MET", 
+        "PF MET"
+    ], 
+    "x_bins": [
+        "50,-100,100"
+    ], 
+    "x_expressions": [
+        "mvacov10", 
+        "metcov10"
+    ], 
+    "x_label": "cov(1,0)"
+}
