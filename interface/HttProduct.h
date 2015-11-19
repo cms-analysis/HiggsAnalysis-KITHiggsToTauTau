@@ -87,6 +87,7 @@ public:
 	TVector2 m_recoNeutrinoOnGenMetProjection;
 	TVector2 m_recoMetOnGenMetProjection;
 	TVector2 m_metPull;
+	TVector2 m_metPfPull;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
@@ -110,6 +111,7 @@ public:
 	int m_nCentralJets30 = 0;
 	
 	KMET* m_met = 0;
+	KMET* m_pfmet = 0;
 	
 	// filled by the TauTauRestFrameProducer
 	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;

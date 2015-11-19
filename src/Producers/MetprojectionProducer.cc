@@ -48,6 +48,21 @@ void MetprojectionProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPullY", [](event_type const& event, product_type const& product) {
 		return product.m_metPull.Y();
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPfPullX", [](event_type const& event, product_type const& product) {
+		return product.m_metPfPull.X();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPfPullY", [](event_type const& event, product_type const& product) {
+		return product.m_metPfPull.Y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genBosonM", [](event_type const& event, product_type const& product) {
+		return product.m_genBoson[0].node->p4.M();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genBosonPt", [](event_type const& event, product_type const& product) {
+		return product.m_genBoson[0].node->p4.Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genBosonEta", [](event_type const& event, product_type const& product) {
+		return product.m_genBoson[0].node->p4.Eta();
+	});
 }
 
 void MetprojectionProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
@@ -60,6 +75,7 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 	TVector2 svFitMomentum(product.m_svfitResults.momentum->X(), product.m_svfitResults.momentum->Y());
 	TVector2 diLeptonMomentum(product.m_diLeptonSystem.x(), product.m_diLeptonSystem.Y());
 	TVector2 met(product.m_met->p4.Vect().X(), product.m_met->p4.Vect().Y());
+	TVector2 pfmet(product.m_pfmet->p4.Vect().X(), product.m_pfmet->p4.Vect().Y());
 
 	TVector2 neutrinoMomentum = svFitMomentum - diLeptonMomentum;
 
@@ -75,11 +91,15 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 	TVector2 rotatedMet = met.Rotate( - genBoson.Phi());
 	TVector2 rotatedGenMet = genMet.Rotate( -genBoson.Phi());
 	ROOT::Math::SMatrix<double,2> rotationMatrix;
-	rotationMatrix(0,0) = rotationMatrix(1,1) = std::cos(- genBoson.Phi());
-	rotationMatrix(0,1) =   std::sin(- genBoson.Phi());
-	rotationMatrix(1,0) = - std::sin(- genBoson.Phi());
+	rotationMatrix(0,0) = rotationMatrix(1,1) = std::cos( genBoson.Phi());
+	rotationMatrix(0,1) =   std::sin( genBoson.Phi());
+	rotationMatrix(1,0) = - std::sin( genBoson.Phi());
 
 	ROOT::Math::SMatrix<double,2> rotatedMatrix = rotationMatrix * product.m_met->significance;
 	product.m_metPull.Set( (rotatedGenMet.X() - rotatedMet.X()) / sqrt(rotatedMatrix(0,0)), 
 	                       (rotatedGenMet.Y() - rotatedMet.Y()) / sqrt(rotatedMatrix(1,1)) );
+
+	ROOT::Math::SMatrix<double,2> rotatedPfMatrix = rotationMatrix * product.m_pfmet->significance;
+	product.m_metPfPull.Set( (rotatedGenMet.X() - rotatedMet.X()) / sqrt(rotatedPfMatrix(0,0)), 
+	                         (rotatedGenMet.Y() - rotatedMet.Y()) / sqrt(rotatedPfMatrix(1,1)) );
 }
