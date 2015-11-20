@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import Artus.Utility.jsonTools as jsonTools
+import ROOT as r
 
 ## This class is built to create .json files for the Harryplotter module
 
@@ -42,6 +43,10 @@ class single_plotline:
 		self.num_nick = "num" + self.nick
 		self.den_nick = "den" + self.nick
 		self.eff_nick = "eff" + self.nick
+	def calculate_muon_scalefactor(self):
+		f = r.TFile(self.num_file, "READ")
+		muons = f.Get(self.num_folder).Get("muons").GetEntries()
+		return 1./muons
 
 _no_default = () ## dummy Sentinel object
 
@@ -57,7 +62,8 @@ class single_plot:
 		     wwwfolder ="plots",
 		     y_label = "Events",
 		     weight = "1",
-		     normalized = False,
+		     normalized_to_unity = False,
+		     normalized_to_muons = False,
 		     stacked = False,
 		     plot_type = "efficiency",
 		     subplot_denominator = None,
@@ -76,7 +82,8 @@ class single_plot:
 		self.y_label = y_label
 		self.weight = weight
 
-		self.normalized = normalized
+		self.normalized_to_unity = normalized_to_unity
+		self.normalized_to_muons = normalized_to_muons
 		self.stacked = stacked
 		self.plot_type = plot_type
 		self.subplot_denominator = subplot_denominator
@@ -96,7 +103,8 @@ class single_plot:
 		     wwwfolder = _no_default,
 		     y_label = _no_default,
 		     weight = _no_default,
-		     normalized = _no_default,
+		     normalized_to_unity = _no_default,
+		     normalized_to_muons = _no_default,
 		     stacked = _no_default,
 		     plot_type = _no_default,
 		     subplot_denominator = _no_default,
@@ -115,7 +123,8 @@ class single_plot:
 		     wwwfolder = self.wwwfolder if wwwfolder == _no_default else wwwfolder,
 		     y_label = self.y_label if  y_label== _no_default else y_label,
 		     weight = self.weight if weight == _no_default else weight,
-		     normalized =  self.normalized if normalized == _no_default else normalized,
+		     normalized_to_unity =  self.normalized_to_unity if normalized_to_unity == _no_default else normalized_to_unity,
+		     normalized_to_muons =  self.normalized_to_muons if normalized_to_muons == _no_default else normalized_to_muons,
 		     stacked = self.stacked if stacked == _no_default else stacked,
 		     plot_type = self.plot_type if plot_type == _no_default else plot_type,
 		     subplot_denominator = self.subplot_denominator if subplot_denominator == _no_default else subplot_denominator,
@@ -203,7 +212,6 @@ class single_plot:
 			self.out_json.setdefault("markers", []).append(akt_plotline.marker)
 			self.out_json.setdefault("colors", []).append(akt_plotline.color)
 			self.out_json.setdefault("legend_markers", []).append(akt_plotline.legend_marker)
-			self.out_json.setdefault("scale_factors", []).append(akt_plotline.scale_factor)
 
 			if self.stacked: self.out_json.setdefault("stacks",[]).append(akt_plotline.stack)
 
@@ -212,6 +220,7 @@ class single_plot:
 					print "Denominator is not properly set for line {LINE}. Need file, folder and tree".format(LINE=akt_plotline.name)
 					sys.exit()
 
+				self.out_json.setdefault("scale_factors", []).append(akt_plotline.scale_factor)
 				self.out_json.setdefault("files", []).append(akt_plotline.num_file)
 				self.out_json.setdefault("folders", []).append(akt_plotline.num_folder+"/"+akt_plotline.num_tree)
 				self.out_json.setdefault("nicks", []).append(akt_plotline.num_nick)
@@ -228,12 +237,13 @@ class single_plot:
 				self.out_json.setdefault("efficiency_nicks", []).append(akt_plotline.eff_nick)
 
 			elif self.plot_type == "absolute":
-
+				if self.normalized_to_muons == True: self.out_json.setdefault("scale_factors", []).append(akt_plotline.calculate_muon_scalefactor())
+				else: self.out_json.setdefault("scale_factors", []).append(akt_plotline.scale_factor)
 				self.out_json.setdefault("files", []).append(akt_plotline.num_file)
 				self.out_json.setdefault("folders", []).append(akt_plotline.num_folder+"/"+akt_plotline.num_tree)
 				self.out_json.setdefault("nicks", []).append(akt_plotline.num_nick)
 
-				if self.normalized:
+				if self.normalized_to_unity:
 					self.safe_append_modules(modulename="NormalizeToUnity", moduletype="analysis")
 
 			else:
