@@ -21,6 +21,8 @@ public:
 	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings) override;
 	virtual void Finish(setting_type const& settings) override;
 
+	virtual void FillHistogram(TH1F* hist, KPFCandidates* pf_collection, KMuon* muon); 
+
 private:
 	unsigned int nDeltaRBins = 0;
 	float DeltaRMax = 0.0;
@@ -31,8 +33,23 @@ private:
 	KMuon* positiveMuon = nullptr;
 	KMuon* negativeMuon = nullptr;
 
-	TH1F* leadingMuon_absChargedIso = nullptr;
-	TH1F* trailingMuon_absChargedIso = nullptr;
-	TH1F* positiveMuon_absChargedIso = nullptr;
-	TH1F* negativeMuon_ansChargedIso = nullptr;
+	TH1F* leadingMuon_ChargedNoPUPtFlow = nullptr;
+	TH1F* trailingMuon_ChargedNoPUPtFlow = nullptr;
+	TH1F* positiveMuon_ChargedNoPUPtFlow = nullptr;
+	TH1F* negativeMuon_ChargedNoPUPtFlow = nullptr;
+
+	TH1F* leadingMuon_ChargedPUPtFlow = nullptr;
+	TH1F* trailingMuon_ChargedPUPtFlow = nullptr;
+	TH1F* positiveMuon_ChargedPUPtFlow = nullptr;
+	TH1F* negativeMuon_ChargedPUPtFlow = nullptr;
+
+	TH1F* leadingMuon_NeutralNoPUPtFlow = nullptr;
+	TH1F* trailingMuon_NeutralNoPUPtFlow = nullptr;
+	TH1F* positiveMuon_NeutralNoPUPtFlow = nullptr;
+	TH1F* negativeMuon_NeutralNoPUPtFlow = nullptr;
+
+	TH1F* leadingMuon_PhotonsNoPUPtFlow = nullptr;
+	TH1F* trailingMuon_PhotonsNoPUPtFlow = nullptr;
+	TH1F* positiveMuon_PhotonsNoPUPtFlow = nullptr;
+	TH1F* negativeMuon_PhotonsNoPUPtFlow = nullptr;
 };
