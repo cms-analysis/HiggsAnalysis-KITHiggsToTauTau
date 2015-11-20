@@ -141,7 +141,7 @@ class single_plot:
 				akt_plot.fill_single_json()
 				ret_json_list.append(akt_plot.out_json)
 		else:
-			print "Choose for x_expressions and weights lists the same length!"
+			print "Choose for x_expressions and weights lists the same length or only x_expressions!"
 			sys.exit()
 		return ret_json_list
 	#function to avoid errors, when no module of a certain type is appended yet. Appends a module only once.
@@ -215,10 +215,12 @@ class single_plot:
 				self.out_json.setdefault("files", []).append(akt_plotline.num_file)
 				self.out_json.setdefault("folders", []).append(akt_plotline.num_folder+"/"+akt_plotline.num_tree)
 				self.out_json.setdefault("nicks", []).append(akt_plotline.num_nick)
+				self.out_json.setdefault("nicks_blacklist",[]).append(akt_plotline.num_nick)
 
 				self.out_json.setdefault("files", []).append(akt_plotline.den_file)
 				self.out_json.setdefault("folders", []).append(akt_plotline.den_folder+"/"+akt_plotline.den_tree)
 				self.out_json.setdefault("nicks", []).append(akt_plotline.den_nick)
+				self.out_json.setdefault("nicks_blacklist",[]).append(akt_plotline.den_nick)
 
 				self.safe_append_modules(modulename="Efficiency", moduletype="analysis")
 				self.out_json.setdefault("efficiency_numerator_nicks", []).append(akt_plotline.num_nick)
