@@ -70,7 +70,8 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 		if (event.m_pfChargedHadronsNoPileUp &&
 		    event.m_pfNeutralHadronsNoPileUp &&
 		    event.m_pfPhotonsNoPileUp &&
-		    event.m_pfChargedHadronsPileUp)
+		    event.m_pfChargedHadronsPileUp &&
+		    muonIsoTypeUserMode == MuonIsoTypeUserMode::CALCULATED)
 		{
 			isolationPtSum = ParticleIsolation::IsolationPtSum(
 					muon->p4, event,
