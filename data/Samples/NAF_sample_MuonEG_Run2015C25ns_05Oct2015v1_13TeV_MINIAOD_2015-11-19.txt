@@ -1,0 +1,3 @@
+/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-19/MuonEG/crab_MuonEG_Run2015C25ns_05Oct2015v1_13TeV_MINIAOD/151119_133837/0000/kappa_MuonEG_Run2015C25ns_05Oct2015v1_13TeV_MINIAOD_1.root
+/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-19/MuonEG/crab_MuonEG_Run2015C25ns_05Oct2015v1_13TeV_MINIAOD/151119_133837/0000/kappa_MuonEG_Run2015C25ns_05Oct2015v1_13TeV_MINIAOD_2.root
+/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-19/MuonEG/crab_MuonEG_Run2015C25ns_05Oct2015v1_13TeV_MINIAOD/151119_133837/0000/kappa_MuonEG_Run2015C25ns_05Oct2015v1_13TeV_MINIAOD_3.root
