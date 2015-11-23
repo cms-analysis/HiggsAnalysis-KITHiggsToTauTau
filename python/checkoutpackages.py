@@ -22,7 +22,7 @@ def checkout_packages(max_n_trials=2):
 		# needed for plotting and statistical inference
 		"git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau",
 		"git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester",
-		"git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit",
+		"git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit",
 		"git clone https://github.com/roger-wolf/HiggsAnalysis-HiggsToTauTau-auxiliaries.git auxiliaries",
 		
 		# needed for error propagation e.g. in the background estimations
