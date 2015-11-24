@@ -122,8 +122,6 @@
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_68.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_69.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_7.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_70.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_71.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_72.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_73.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_74.root
@@ -144,7 +142,6 @@
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_88.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_89.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_9.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_90.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_91.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_92.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_93.root
@@ -152,5 +149,4 @@
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_95.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_96.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_97.root
-/pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_98.root
 /pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_99.root

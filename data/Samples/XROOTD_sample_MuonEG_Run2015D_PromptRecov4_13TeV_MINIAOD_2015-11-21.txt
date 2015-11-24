@@ -122,8 +122,6 @@ root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_68.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_69.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_7.root
-root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_70.root
-root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_71.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_72.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_73.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_74.root
@@ -144,7 +142,6 @@ root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_88.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_89.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_9.root
-root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_90.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_91.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_92.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_93.root
@@ -152,5 +149,4 @@ root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_95.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_96.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_97.root
-root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_98.root
 root://cms-xrd-global.cern.ch//store/user/fcolombo/higgs-kit/skimming/2015-11-21/MuonEG/crab_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD/151121_192959/0000/kappa_MuonEG_Run2015D_PromptRecov4_13TeV_MINIAOD_99.root
