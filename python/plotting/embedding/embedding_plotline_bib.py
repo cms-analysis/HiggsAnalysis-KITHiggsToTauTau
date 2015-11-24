@@ -4,113 +4,102 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plot_classes 
 
 ### Lines for comparison of efficiencies in different pipelines
 
-# Mu_Full lines
-Mu_Full_benjamin_MC = pltcl.single_plotline(
-	name="Mu_Full_benjamin_MC",
+# Mu Benjamin MC 
+Mu_benjamin_MC = pltcl.single_plotline(
+	name="Mu_benjamin_MC",
 	num_file = "/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_FullReco.root",
 	num_folder = "Mu_Full",
 	den_folder = "genMatched",
 	num_tree = "ntuple",
-	label = "CMSSW_7_0_7 full MC",
+	label = "CMSSW_7_0_7 Z#rightarrow#mu#mu MC",
 	color = "kGray")
+Mu_Full_benjamin_MC = Mu_benjamin_MC.clone(num_folder = "Mu_Full")
+Mu_NoIso_benjamin_MC = Mu_benjamin_MC.clone(num_folder = "Mu_NoIso")
+genMatched_benjamin_MC = Mu_benjamin_MC.clone(
+    num_file = "/nfs/dust/cms/user/swayand/embedd_save/eventProfile_muonembed/ar_muonembed_eventprofile_K2Skim_FullReco.root",
+    num_folder = "genMatched",
+    den_folder = None,
+    num_tree = "muons")
 
-Mu_Full_benjamin_RH = pltcl.single_plotline(
-	name="Mu_Full_benjamin_RH",
+# Mu Benjamin RH
+Mu_benjamin_RH = pltcl.single_plotline(
+	name="Mu_benjamin_RH",
 	num_file = "/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_Embed_RH.root",
 	num_folder = "Mu_Full",
 	den_folder = "genMatched",
 	num_tree = "ntuple",
-	label = "CMSSW_7_0_7 RH",
+	label = "CMSSW_7_0_7 Z#rightarrow#mu#mu RH",
 	color = "kOrange+7")
+Mu_Full_benjamin_RH = Mu_benjamin_RH.clone(num_folder = "Mu_Full")
+Mu_NoIso_benjamin_RH = Mu_benjamin_RH.clone(num_folder = "Mu_NoIso")
+genMatched_benjamin_RH = Mu_benjamin_RH.clone(
+    num_file = "/nfs/dust/cms/user/swayand/embedd_save/eventProfile_muonembed/ar_muonembed_eventprofile_K2Skim_Embed_RH.root",
+    num_folder = "genMatched",
+    den_folder = None,
+    num_tree = "muons")
 
-Mu_Full_run2_MC = pltcl.single_plotline(
-	name="Mu_Full_run2_MC",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/MC_ZMUMU/MC_ZMUMU_merged.root",
+
+# Mu Benjamin PF
+Mu_benjamin_PF = pltcl.single_plotline(
+	name="Mu_benjamin_PF",
+	num_file = "/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_Embed_PF.root",
+	num_folder = "Mu_Full",
+	den_folder = "genMatched",
+	num_tree = "ntuple",
+	label = "CMSSW_7_0_7 Z#rightarrow#mu#mu PF",
+	color = "kSpring+5")
+Mu_Full_benjamin_PF = Mu_benjamin_PF.clone(num_folder = "Mu_Full")
+Mu_NoIso_benjamin_PF = Mu_benjamin_PF.clone(num_folder = "Mu_NoIso")
+genMatched_benjamin_PF = Mu_benjamin_PF.clone(
+    num_file = "/nfs/dust/cms/user/swayand/embedd_save/eventProfile_muonembed/ar_muonembed_eventprofile_K2Skim_Embed_PF.root",
+    num_folder = "genMatched",
+    den_folder = None,
+    num_tree = "muons")
+
+
+
+# Mu Run2 MC 
+Mu_run2_MC = pltcl.single_plotline(
+	name="Mu_run2_MC",
+	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod_v3/MC_ZMUMU/MC_ZMUMU_merged.root",
 	num_folder = "muon_full",
 	den_folder = "gen_matched",
 	num_tree = "ntuple",
-	label = "CMSSW_7_4_12p4 full MC",
+	label = "CMSSW_7_4_12p4 Z#rightarrow#mu#mu MC",
 	color = "kBlack")
+Mu_Full_run2_MC = Mu_run2_MC.clone(num_folder = "muon_full")
+Mu_NoIso_run2_MC = Mu_run2_MC.clone(num_folder = "no_iso")
+genMatched_run2_MC = Mu_run2_MC.clone(num_folder = "gen_matched",den_folder = None, num_tree = "muons")
 
-Mu_Full_run2_RH = pltcl.single_plotline(
-	name="Mu_Full_run2_RH",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/RH_MIRROR/RH_MIRROR_merged.root",
+
+# Run 2 RH
+Mu_run2_RH = pltcl.single_plotline(
+	name="Mu_run2_RH",
+	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod_v3/RH_MIRROR/RH_MIRROR_merged.root",
 	num_folder = "muon_full",
 	den_folder = "gen_matched",
 	num_tree = "ntuple",
-	label = "CMSSW_7_4_12p4 RH",
-	color = "kRed+2")
+	label = "CMSSW_7_4_12p4 Z#rightarrow#mu#mu RH",
+	color = "kRed+3")
+Mu_Full_run2_RH = Mu_run2_RH.clone(num_folder = "muon_full")
+Mu_NoIso_run2_RH = Mu_run2_RH.clone(num_folder = "no_iso")
+genMatched_run2_RH = Mu_run2_RH.clone( num_folder = "gen_matched", den_folder = None, num_tree = "muons")
 
-# Mu_NoIso lines
-Mu_NoIso_benjamin_MC = pltcl.single_plotline(
-	name="Mu_NoIso_benjamin_MC",
-	num_file = "/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_FullReco.root",
-	num_folder = "Mu_NoIso",
-	den_folder = "genMatched",
-	num_tree = "ntuple",
-	label = "CMSSW_7_0_7 full MC",
-	color = "kGray")
 
-Mu_NoIso_benjamin_RH = pltcl.single_plotline(
-	name="Mu_NoIso_benjamin_RH",
-	num_file = "/nfs/dust/cms/user/swayand/embedd_save/muonembed/ar_muonembed_K2Skim_Embed_RH.root",
-	num_folder = "Mu_NoIso",
-	den_folder = "genMatched",
-	num_tree = "ntuple",
-	label = "CMSSW_7_0_7 RH",
-	color = "kOrange+7")
-
-Mu_NoIso_run2_MC = pltcl.single_plotline(
-	name="Mu_NoIso_run2_MC",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod_fix/MC_ZMUMU/MC_ZMUMU_merged.root",
-	num_folder = "no_iso",
+# Run 2 PF
+Mu_run2_PF = pltcl.single_plotline(
+	name="Mu_run2_PF",
+	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod_v3/PF_MIRROR/PF_MIRROR_merged.root",
+	num_folder = "muon_Full",
 	den_folder = "gen_matched",
 	num_tree = "ntuple",
-	label = "CMSSW_7_4_12p4 full MC",
-	color = "kBlack")
+	label = "CMSSW_7_4_12p4 Z#rightarrow#mu#mu PF",
+	color = "kBlue")
+Mu_Full_run2_PF = Mu_run2_PF.clone(num_folder = "muon_full")
+Mu_NoIso_run2_PF = Mu_run2_PF.clone(num_folder = "no_iso")
+genMatched_run2_PF = Mu_run2_PF.clone( num_folder = "gen_matched", den_folder = None, num_tree = "muons")
 
-Mu_NoIso_run2_RH = pltcl.single_plotline(
-	name="Mu_NoIso_run2_RH",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod_fix/RH_MIRROR/RH_MIRROR_merged.root",
-	num_folder = "no_iso",
-	den_folder = "gen_matched",
-	num_tree = "ntuple",
-	label = "CMSSW_7_4_12p4 RH",
-	color = "kRed+2")
 
-### Lines for Pt-Flow comparisons in genMatched pipeline
-
-genMatched_benjamin_MC = pltcl.single_plotline(
-	name="genMatched_benjamin_MC",
-	num_file = "/nfs/dust/cms/user/swayand/embedd_save/eventProfile_muonembed/ar_muonembed_eventprofile_K2Skim_FullReco.root",
-	num_folder = "genMatched",
-	num_tree = "muons",
-	label = "CMSSW_7_0_7 full Z#rightarrow#mu#mu MC",
-	color = "kGray")
-
-genMatched_benjamin_RH = pltcl.single_plotline(
-	name="genMatched_benjamin_RH",
-	num_file = "/nfs/dust/cms/user/swayand/embedd_save/eventProfile_muonembed/ar_muonembed_eventprofile_K2Skim_Embed_RH.root",
-	num_folder = "genMatched",
-	num_tree = "muons",
-	label = "CMSSW_7_0_7 RH",
-	color = "kOrange+7")
-
-genMatched_run2_MC = pltcl.single_plotline(
-	name="genMatched_run2_MC",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/MC_ZMUMU/MC_ZMUMU_merged.root",
-	num_folder = "gen_matched",
-	num_tree = "muons",
-	label = "CMSSW_7_4_12p4 full Z#rightarrow#mu#mu MC",
-	color = "kBlack")
-
-genMatched_run2_RH = pltcl.single_plotline(
-	name="genMatched_run2_RH",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/artus_prod/RH_MIRROR/RH_MIRROR_merged.root",
-	num_folder = "gen_matched",
-	num_tree = "muons",
-	label = "CMSSW_7_4_12p4 RH",
-	color = "kRed+2")
 
 
 

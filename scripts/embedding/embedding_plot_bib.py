@@ -16,7 +16,7 @@ Mu_Full_comparison = pltcl.single_plot(
 	wwwfolder="Comparison",
 	y_label = "Efficiency #scale[0.5]{#frac{#mu(genMatched & ID & Iso)}{#mu(genMatched))}}",
 	plot_type = "efficiency",
-	plotlines = [Mu_Full_benjamin_MC, Mu_Full_benjamin_RH, Mu_Full_run2_MC, Mu_Full_run2_RH]
+	plotlines = [Mu_Full_benjamin_MC, Mu_Full_benjamin_RH, Mu_Full_benjamin_PF, Mu_Full_run2_MC, Mu_Full_run2_RH, Mu_Full_run2_PF]
 )
 configs.extend(Mu_Full_comparison.return_json_with_changed_x_and_weight(
 	x_expressions=[
@@ -26,8 +26,7 @@ configs.extend(Mu_Full_comparison.return_json_with_changed_x_and_weight(
 		"leadingLepEta",
 		"leadingLepPhi",
 		"trailingLepPt",
-		"trailingLepEta",
-		"trailingLepPhi"
+		"trailingLepEta"
 		]
 ))
 
@@ -35,7 +34,7 @@ configs.extend(Mu_Full_comparison.return_json_with_changed_x_and_weight(
 Mu_NoIso_comparison = Mu_Full_comparison.clone(
 	name = "Mu_NoIso_comparison",
 	y_label = "Efficiency #scale[0.5]{#frac{#mu(genMatched & ID)}{#mu(genMatched))}}",
-	plotlines = [Mu_NoIso_benjamin_MC, Mu_NoIso_benjamin_RH, Mu_NoIso_run2_MC, Mu_NoIso_run2_RH]
+	plotlines = [Mu_NoIso_benjamin_MC, Mu_NoIso_benjamin_RH, Mu_NoIso_benjamin_PF , Mu_NoIso_run2_MC, Mu_NoIso_run2_RH, Mu_NoIso_run2_PF]
 )
 configs.extend(Mu_NoIso_comparison.return_json_with_changed_x_and_weight(
 	x_expressions=[
@@ -65,7 +64,7 @@ genMatched_comparison = pltcl.single_plot(
 	plot_type = "absolute",
 	normalized = True,
 	legend =[0.25,0.55,0.55,0.9],
-	plotlines = [genMatched_benjamin_MC, genMatched_benjamin_RH, genMatched_run2_MC, genMatched_run2_RH]
+	plotlines = [genMatched_benjamin_MC, genMatched_benjamin_RH, genMatched_benjamin_PF, genMatched_run2_MC, genMatched_run2_RH, , genMatched_run2_PF]
 )
 configs.extend(genMatched_comparison.return_json_with_changed_x_and_weight(
 	x_expressions=[
@@ -115,7 +114,7 @@ genMatched_comparison_run2 = pltcl.single_plot(
 	legend =[0.25,0.55,0.55,0.9],
 	subplot_denominator = 0,
 	subplot_numerators = [1],
-	plotlines = [genMatched_run2_MC, genMatched_run2_RH]
+	plotlines = [genMatched_run2_MC, genMatched_run2_RH, genMatched_run2_PF]
 )
 configs.extend(genMatched_comparison_run2.return_json_with_changed_x_and_weight(
 	x_expressions=[
