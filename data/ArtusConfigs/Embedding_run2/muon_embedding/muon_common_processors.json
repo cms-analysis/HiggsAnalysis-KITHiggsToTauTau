@@ -3,15 +3,10 @@
 		"#producer:HltProducer",
 		"#filter:HltFilter",
 		"producer:ValidMuonsProducer",
-		"filter:ValidMuonsFilter",
 		"producer:RecoMuonGenParticleMatchingProducer",
-		"filter:MinMuonsCountFilter",
-		"filter:MaxMuonsCountFilter",
+		"filter:MuonsCountFilter",
 		"producer:EventWeightProducer",
-		"producer:ValidLeptonsProducer",
-		"#filter:ValidLeptonsMinDeltaRFilter",
 		"producer:DecayChannelProducer",
-		"#producer:DiLeptonQuantitiesProducer",
 		"producer:GenMuonFSRProducer"
 		]
 }

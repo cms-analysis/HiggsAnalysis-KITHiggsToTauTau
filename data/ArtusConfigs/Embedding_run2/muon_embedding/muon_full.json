@@ -7,7 +7,7 @@
 		"Year" : 2012,
 		"MuonID" : "tight",
 		"MuonIsoType" : "user",
-		"MuonIsoTypeUserMode" : "none",
+		"MuonIsoTypeUserMode" : "FROMCMSSW",
 		"Quantities" : [
 			{
 				"include" : [

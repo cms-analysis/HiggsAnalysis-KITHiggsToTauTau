@@ -1,7 +1,6 @@
 {
 		"EventWeight" : "eventWeight",
-		"MinNMuons" : 2,
-		"MaxNMuons" : 2,
+		"NMuons" : 2,
 
 		"MuonIso" : "none",
 		"DirectIso": true,
@@ -19,14 +18,9 @@
 		"DeltaRMatchingRecoMuonGenParticle" : 0.005,
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
-			"#SvfitCacheConsumer",
-			"cutflow_histogram",
-			"#CutFlowTreeConsumer",
-			"#KappaElectronsConsumer",
 			"KappaMuonsConsumer",
-			"#KappaTausConsumer",
-			"#KappaJetsConsumer",
-			"#KappaTaggedJetsConsumer"
+			"EmbeddingConsumer",
+			"cutflow_histogram"
 		]
 }
 
