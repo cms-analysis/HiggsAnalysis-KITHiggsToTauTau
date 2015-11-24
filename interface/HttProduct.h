@@ -85,6 +85,11 @@ public:
 	std::map<KMuon*, double> m_muonPhotonIsolation;
 	std::map<KMuon*, double> m_muonDeltaBetaIsolation;
 
+	std::map<KMuon*, double> m_muonChargedIsolationOverPt;
+	std::map<KMuon*, double> m_muonNeutralIsolationOverPt;
+	std::map<KMuon*, double> m_muonPhotonIsolationOverPt;
+	std::map<KMuon*, double> m_muonDeltaBetaIsolationOverPt;
+
 	// filled by the DiLeptonQuantitiesProducer
 	RMFLV m_diLeptonSystem;
 	RMFLV m_diLeptonPlusMetSystem;

@@ -4,60 +4,70 @@
 void EmbeddingConsumer::Init(setting_type const& settings)
 {
 	ConsumerBase<HttTypes>::Init(settings);
-	//TODO
 	//Histograms initialization for different muons and Pt Flow per DeltaR.
 	//Format of the histograms: PtFlow per DeltaR on y-axis and DeltaR on x-axis.
 	nDeltaRBins = settings.GetDeltaRBinning();
 	DeltaRMax = settings.GetDeltaRMaximum();
 
-	// PtFlow for charged hadrons (not from PU)
-	leadingMuon_ChargedNoPUPtFlow = new TH1F("leadingMuon_ChargedNoPUPtFlow", "leadingMuon_ChargedNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(leadingMuon_ChargedNoPUPtFlow);
-	trailingMuon_ChargedNoPUPtFlow = new TH1F("trailingMuon_ChargedNoPUPtFlow", "trailingMuon_ChargedNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(trailingMuon_ChargedNoPUPtFlow);
-	positiveMuon_ChargedNoPUPtFlow = new TH1F("positiveMuon_ChargedNoPUPtFlow", "positiveMuon_ChargedNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(positiveMuon_ChargedNoPUPtFlow);
-	negativeMuon_ChargedNoPUPtFlow = new TH1F("negativeMuon_ChargedNoPUPtFlow", "negativeMuon_ChargedNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(negativeMuon_ChargedNoPUPtFlow);
+	for(unsigned int i = 0;i<muonTypeVector.size();i++)
+	{
+		// PtFlow for charged hadrons (not from PU)
+		TString histname = muonTypeVector[i] + TString("Muon_ChargedNoPUPtFlow");
+		Muon_ChargedNoPUPtFlow[(const char*) muonTypeVector[i]] = new TH1F((const char*) histname, (const char*) histname, nDeltaRBins, 0., DeltaRMax);
+		histograms.push_back(Muon_ChargedNoPUPtFlow[(const char*) muonTypeVector[i]]);
 
-	// PtFlow for charged hadrons (from PU)
-	leadingMuon_ChargedPUPtFlow = new TH1F("leadingMuon_ChargedPUPtFlow", "leadingMuon_ChargedPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(leadingMuon_ChargedPUPtFlow);
-	trailingMuon_ChargedPUPtFlow = new TH1F("trailingMuon_ChargedPUPtFlow", "trailingMuon_ChargedPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(trailingMuon_ChargedPUPtFlow);
-	positiveMuon_ChargedPUPtFlow = new TH1F("positiveMuon_ChargedPUPtFlow", "positiveMuon_ChargedPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(positiveMuon_ChargedPUPtFlow);
-	negativeMuon_ChargedPUPtFlow = new TH1F("negativeMuon_ChargedPUPtFlow", "negativeMuon_ChargedPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(negativeMuon_ChargedPUPtFlow);
+		// PtFlow for charged hadrons (from PU)
+		histname = muonTypeVector[i] + TString("Muon_ChargedPUPtFlow");
+		Muon_ChargedPUPtFlow[(const char*) muonTypeVector[i]] = new TH1F((const char*) histname, (const char*) histname, nDeltaRBins, 0., DeltaRMax);
+		histograms.push_back(Muon_ChargedPUPtFlow[(const char*) muonTypeVector[i]]);
 
-	// PtFlow for neutral hadrons (not from PU)
-	leadingMuon_NeutralNoPUPtFlow = new TH1F("leadingMuon_NeutralNoPUPtFlow", "leadingMuon_NeutralNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(leadingMuon_NeutralNoPUPtFlow);
-	trailingMuon_NeutralNoPUPtFlow = new TH1F("trailingMuon_NeutralNoPUPtFlow", "trailingMuon_NeutralNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(trailingMuon_NeutralNoPUPtFlow);
-	positiveMuon_NeutralNoPUPtFlow = new TH1F("positiveMuon_NeutralNoPUPtFlow", "positiveMuon_NeutralNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(positiveMuon_NeutralNoPUPtFlow);
-	negativeMuon_NeutralNoPUPtFlow = new TH1F("negativeMuon_NeutralNoPUPtFlow", "negativeMuon_NeutralNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(negativeMuon_NeutralNoPUPtFlow);
+		// PtFlow for neutral hadrons (not from PU)
+		histname = muonTypeVector[i] + TString("Muon_NeutralNoPUPtFlow");
+		Muon_NeutralNoPUPtFlow[(const char*) muonTypeVector[i]] = new TH1F((const char*) histname, (const char*) histname, nDeltaRBins, 0., DeltaRMax);
+		histograms.push_back(Muon_NeutralNoPUPtFlow[(const char*) muonTypeVector[i]]);
 
-	// PtFlow for photons (not from PU)
-	leadingMuon_PhotonsNoPUPtFlow = new TH1F("leadingMuon_PhotonsNoPUPtFlow", "leadingMuon_PhotonsNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(leadingMuon_PhotonsNoPUPtFlow);
-	trailingMuon_PhotonsNoPUPtFlow = new TH1F("trailingMuon_PhotonsNoPUPtFlow", "trailingMuon_PhotonsNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(trailingMuon_PhotonsNoPUPtFlow);
-	positiveMuon_PhotonsNoPUPtFlow = new TH1F("positiveMuon_PhotonsNoPUPtFlow", "positiveMuon_PhotonsNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(positiveMuon_PhotonsNoPUPtFlow);
-	negativeMuon_PhotonsNoPUPtFlow = new TH1F("negativeMuon_PhotonsNoPUPtFlow", "negativeMuon_PhotonsNoPUPtFlow", nDeltaRBins, 0., DeltaRMax);
-	histograms.push_back(negativeMuon_PhotonsNoPUPtFlow);
+		// PtFlow for photons (not from PU)
+		histname = muonTypeVector[i] + TString("Muon_PhotonsNoPUPtFlow");
+		Muon_PhotonsNoPUPtFlow[(const char*) muonTypeVector[i]] = new TH1F((const char*) histname, (const char*) histname, nDeltaRBins, 0., DeltaRMax);
+		histograms.push_back(Muon_PhotonsNoPUPtFlow[(const char*) muonTypeVector[i]]);
+	}
 
+	//2D histograms to analyze the correlation between Photon, Neutral and ChargedPU isolations.
+	//Format of the histograms: Number of events on z-axis, Iso_ph or Iso_nh on y-axis, Iso_ch on x-axis.
+	nIsoPtSumBins = settings.GetIsoPtSumBinning();
+	IsoPtSumMax = settings.GetIsoPtSumMaximum();
+	IsoPtSumOverPtMax = settings.GetIsoPtSumOverPtMaximum();
+
+	for(unsigned int i = 0;i<muonTypeVector.size();i++)
+	{
+		// absolute IsoPtSum for photons
+		TString histname = muonTypeVector[i]+ TString("Muon_absIsoPhotonsOverChargedPU");
+		Muon_absIsoPhotonsOverChargedPU[(const char*) muonTypeVector[i]] = new TH2F((const char*) histname, (const char*) histname, nIsoPtSumBins, 0., IsoPtSumMax, nIsoPtSumBins, 0., IsoPtSumMax);
+		histograms2D.push_back(Muon_absIsoPhotonsOverChargedPU[(const char*) muonTypeVector[i]]);
+
+		// absolute IsoPtSum for neutral hadrons
+		histname = muonTypeVector[i]+ TString("Muon_absIsoNeutralOverChargedPU");
+		Muon_absIsoNeutralOverChargedPU[(const char*) muonTypeVector[i]] = new TH2F((const char*) histname, (const char*) histname, nIsoPtSumBins, 0., IsoPtSumMax, nIsoPtSumBins, 0., IsoPtSumMax);
+		histograms2D.push_back(Muon_absIsoNeutralOverChargedPU[(const char*) muonTypeVector[i]]);
+
+		// relative IsoPtSum for photons
+		histname = muonTypeVector[i]+ TString("Muon_relIsoPhotonsOverChargedPU");
+		Muon_relIsoPhotonsOverChargedPU[(const char*) muonTypeVector[i]] = new TH2F((const char*) histname, (const char*) histname, nIsoPtSumBins, 0., IsoPtSumOverPtMax, nIsoPtSumBins, 0., IsoPtSumOverPtMax);
+		histograms2D.push_back(Muon_relIsoPhotonsOverChargedPU[(const char*) muonTypeVector[i]]);
+
+		// relative IsoPtSum for neutral hadrons
+		histname = muonTypeVector[i]+ TString("Muon_relIsoNeutralOverChargedPU");
+		Muon_relIsoNeutralOverChargedPU[(const char*) muonTypeVector[i]] = new TH2F((const char*) histname, (const char*) histname, nIsoPtSumBins, 0., IsoPtSumOverPtMax, nIsoPtSumBins, 0., IsoPtSumOverPtMax);
+		histograms2D.push_back(Muon_relIsoNeutralOverChargedPU[(const char*) muonTypeVector[i]]);
+	}
 }
 
 
 void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings)
 {
 	// Here is assumed, that validMuons are Pt ordered
-	leadingMuon = product.m_validMuons[0];
-	trailingMuon = product.m_validMuons[1];
+	Muon["leading"] = product.m_validMuons[0];
+	Muon["trailing"] = product.m_validMuons[1];
 
 	// Looking for positively and negatively charged Muons with highest Pt. Again, Pt ordering is assumed
 	bool foundPositiveMuon = false;
@@ -66,12 +76,12 @@ void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_ty
 	{
 		if(((*validMuon)->charge() == +1) && !foundPositiveMuon)
 		{
-			positiveMuon = (*validMuon);
+			Muon["positive"] = (*validMuon);
 			foundPositiveMuon = true;
 		}
 		else if(((*validMuon)->charge() == -1) && !foundNegativeMuon)
 		{
-			negativeMuon = (*validMuon);
+			Muon["negative"] = (*validMuon);
 			foundNegativeMuon = true;
 		}
 		else if(foundPositiveMuon && foundNegativeMuon) break;
@@ -79,29 +89,23 @@ void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_ty
 
 	// Filling histograms for all muons defined above
 
-	// For charged hadrons (not from PU)
-	EmbeddingConsumer::FillHistogram(leadingMuon_ChargedNoPUPtFlow, event.m_pfChargedHadronsNoPileUp, leadingMuon);
-	EmbeddingConsumer::FillHistogram(trailingMuon_ChargedNoPUPtFlow, event.m_pfChargedHadronsNoPileUp, trailingMuon);
-	EmbeddingConsumer::FillHistogram(positiveMuon_ChargedNoPUPtFlow, event.m_pfChargedHadronsNoPileUp, positiveMuon);
-	EmbeddingConsumer::FillHistogram(negativeMuon_ChargedNoPUPtFlow, event.m_pfChargedHadronsNoPileUp, negativeMuon);
+	for(unsigned int i = 0;i<muonTypeVector.size();i++)
+	{
+		std::string muontype = (const char*) muonTypeVector[i];
+		KMuon* muon = Muon[muontype];
 
-	// For charged hadrons (from PU)
-	EmbeddingConsumer::FillHistogram(leadingMuon_ChargedPUPtFlow, event.m_pfChargedHadronsPileUp, leadingMuon);
-	EmbeddingConsumer::FillHistogram(trailingMuon_ChargedPUPtFlow, event.m_pfChargedHadronsPileUp, trailingMuon);
-	EmbeddingConsumer::FillHistogram(positiveMuon_ChargedPUPtFlow, event.m_pfChargedHadronsPileUp, positiveMuon);
-	EmbeddingConsumer::FillHistogram(negativeMuon_ChargedPUPtFlow, event.m_pfChargedHadronsPileUp, negativeMuon);
+		// Filling PtFlow histograms
+		EmbeddingConsumer::FillPtFlowHistogram(Muon_ChargedNoPUPtFlow[muontype], event.m_pfChargedHadronsNoPileUp, muon);
+		EmbeddingConsumer::FillPtFlowHistogram(Muon_ChargedPUPtFlow[muontype], event.m_pfChargedHadronsPileUp, muon);
+		EmbeddingConsumer::FillPtFlowHistogram(Muon_NeutralNoPUPtFlow[muontype], event.m_pfNeutralHadronsNoPileUp, muon);
+		EmbeddingConsumer::FillPtFlowHistogram(Muon_PhotonsNoPUPtFlow[muontype], event.m_pfPhotonsNoPileUp, muon);
 
-	// For neutral hadrons (not from PU)
-	EmbeddingConsumer::FillHistogram(leadingMuon_NeutralNoPUPtFlow, event.m_pfNeutralHadronsNoPileUp, leadingMuon);
-	EmbeddingConsumer::FillHistogram(trailingMuon_NeutralNoPUPtFlow, event.m_pfNeutralHadronsNoPileUp, trailingMuon);
-	EmbeddingConsumer::FillHistogram(positiveMuon_NeutralNoPUPtFlow, event.m_pfNeutralHadronsNoPileUp, positiveMuon);
-	EmbeddingConsumer::FillHistogram(negativeMuon_NeutralNoPUPtFlow, event.m_pfNeutralHadronsNoPileUp, negativeMuon);
-
-	// For photons (not from PU)
-	EmbeddingConsumer::FillHistogram(leadingMuon_PhotonsNoPUPtFlow, event.m_pfPhotonsNoPileUp, leadingMuon);
-	EmbeddingConsumer::FillHistogram(trailingMuon_PhotonsNoPUPtFlow, event.m_pfPhotonsNoPileUp, trailingMuon);
-	EmbeddingConsumer::FillHistogram(positiveMuon_PhotonsNoPUPtFlow, event.m_pfPhotonsNoPileUp, positiveMuon);
-	EmbeddingConsumer::FillHistogram(negativeMuon_PhotonsNoPUPtFlow, event.m_pfPhotonsNoPileUp, negativeMuon);
+		// Filling 2D IsoPtSum histograms
+		Muon_absIsoPhotonsOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolation.at(muon), product.m_muonPhotonIsolation.at(muon));
+		Muon_absIsoNeutralOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolation.at(muon), product.m_muonNeutralIsolation.at(muon));
+		Muon_relIsoPhotonsOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolationOverPt.at(muon), product.m_muonPhotonIsolationOverPt.at(muon));
+		Muon_relIsoNeutralOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolationOverPt.at(muon), product.m_muonNeutralIsolationOverPt.at(muon));
+	}
 
 }
 
@@ -112,6 +116,12 @@ void EmbeddingConsumer::Finish(setting_type const& settings)
 		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
 		histograms[i]->Write(histograms[i]->GetName());
 	}
+
+	for(unsigned int i=0;i<histograms2D.size();i++)
+	{
+		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
+		histograms2D[i]->Write(histograms2D[i]->GetName());
+	}
 }
 
 std::string EmbeddingConsumer::GetConsumerId() const
@@ -119,7 +129,7 @@ std::string EmbeddingConsumer::GetConsumerId() const
 	return "EmbeddingConsumer";
 }
 
-void EmbeddingConsumer::FillHistogram(TH1F* hist, KPFCandidates* pf_collection, KMuon* muon)
+void EmbeddingConsumer::FillPtFlowHistogram(TH1F* hist, KPFCandidates* pf_collection, KMuon* muon)
 {
 	if (pf_collection != nullptr)
 	{

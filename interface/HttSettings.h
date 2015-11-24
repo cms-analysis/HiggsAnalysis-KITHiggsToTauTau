@@ -226,4 +226,7 @@ public:
 	// settings for the EmbeddingConsumer
 	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
 	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);
+	IMPL_SETTING_DEFAULT(int, IsoPtSumBinning, 20);
+	IMPL_SETTING_DEFAULT(float, IsoPtSumMaximum, 20);
+	IMPL_SETTING_DEFAULT(float, IsoPtSumOverPtMaximum, 0.2);
 };
