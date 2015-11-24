@@ -3,7 +3,10 @@
 import Artus.Utility.jsonTools as jsonTools
 import ROOT as r
 
+
 ## This class is built to create .json files for the Harryplotter module
+_no_default = () ## dummy Sentinel object
+
 
 class single_plotline:
 	def __init__(self,
@@ -22,7 +25,6 @@ class single_plotline:
 		scale_factor=1):
 
 		self.name = name
-
 		# num_* used for both line_types, den_* and eff_nick only for "efficiency"
 		self.num_file = num_file
 		self.den_file = num_file if den_file == None else den_file
@@ -48,7 +50,38 @@ class single_plotline:
 		muons = f.Get(self.num_folder).Get("muons").GetEntries()
 		return 1./muons
 
-_no_default = () ## dummy Sentinel object
+	def clone(self,
+		name = _no_default,
+		num_file = _no_default,
+		den_file = _no_default,
+		num_folder = _no_default,
+		den_folder = _no_default,
+		num_tree = _no_default,
+		den_tree = _no_default,
+		stack = _no_default,
+		label = _no_default,
+		marker = _no_default,
+		color = _no_default,
+		legend_marker = _no_default,
+		scale_factor= _no_default):
+
+		cloned_plotline = single_plotline(
+			name = self.name  if name  == _no_default else name,
+			num_file = self.num_file  if num_file  == _no_default else num_file,
+			den_file = self.den_file  if den_file  == _no_default else den_file,
+			num_folder = self.num_folder  if num_folder  == _no_default else num_folder,
+			den_folder = self.den_folder  if den_folder  == _no_default else den_folder,
+			num_tree = self.num_tree  if num_tree  == _no_default else num_tree,
+			den_tree = self.den_tree  if den_tree  == _no_default else den_tree,
+			stack = self.stack  if stack  == _no_default else stack,
+			label = self.label  if label  == _no_default else label,
+			marker = self.marker  if marker  == _no_default else marker,
+			color = self.color  if color  == _no_default else color,
+			legend_marker= self.legend_marker if legend_marker == _no_default else legend_marker,
+			scale_factor= self.scale_factor if scale_factor == _no_default else scale_factor)
+		return cloned_plotline
+
+
 
 class single_plot:
 	def __init__(self,
