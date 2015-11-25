@@ -1,11 +1,1 @@
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1214.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1215.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1216.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1217.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1218.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1219.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1220.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1221.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1222.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1223.root
-dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_1224.root
+DCAP_sample_SM_WH_ZH_TTH_HToTauTau_M_110_powheg_pythia_8TeV_2015-02-06.txt

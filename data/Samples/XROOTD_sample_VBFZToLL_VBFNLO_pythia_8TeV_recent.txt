@@ -1,12 +1,1 @@
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7649.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7650.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7651.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7652.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7653.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7654.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7655.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7656.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7657.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7658.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7659.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-17_full_skim/VBFZToLL_VBFNLO_pythia_8TeV/kappa_VBFZToLL_VBFNLO_pythia_8TeV_7660.root
+XROOTD_sample_VBFZToLL_VBFNLO_pythia_8TeV_2015-02-17.txt
