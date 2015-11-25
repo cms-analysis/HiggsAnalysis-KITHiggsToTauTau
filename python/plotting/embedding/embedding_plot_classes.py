@@ -102,6 +102,7 @@ class single_plot:
 		     subplot_denominator = None,
 		     subplot_numerators = [],
 		     y_subplot_label = "ratio",
+		     y_subplot_lims =[0.5,2],
 		     plotlines = []):
 
 		self.name = name
@@ -122,6 +123,7 @@ class single_plot:
 		self.subplot_denominator = subplot_denominator
 		self.subplot_numerators = subplot_numerators
 		self.y_subplot_label = y_subplot_label
+		self.y_subplot_lims = y_subplot_lims
 
 		self.plotlines = plotlines
 		self.out_json = jsonTools.JsonDict({})
@@ -143,6 +145,7 @@ class single_plot:
 		     subplot_denominator = _no_default,
 		     subplot_numerators = _no_default,
 		     y_subplot_label = _no_default,
+		     y_subplot_lims = _no_default,
 		     plotlines = _no_default):
 	  
 		cloned_plot = single_plot(
@@ -163,6 +166,7 @@ class single_plot:
 		     subplot_denominator = self.subplot_denominator if subplot_denominator == _no_default else subplot_denominator,
 		     subplot_numerators = self.subplot_numerators if subplot_numerators == _no_default else subplot_numerators,
 		     y_subplot_label = self.y_subplot_label if y_subplot_label == _no_default else y_subplot_label,
+		     y_subplot_lims = self.y_subplot_lims if y_subplot_lims == _no_default else y_subplot_lims,
 		     plotlines = self.plotlines if plotlines == _no_default else plotlines
 		     )
 		
@@ -210,6 +214,8 @@ class single_plot:
 			else:
 				print "No proper plot type defined. Choose 'efficiency' or 'absolute'."
 				sys.exit()
+
+			self.out_json["y_subplot_lims"] = self.y_subplot_lims
 
 			self.out_json.setdefault("divide_numerator_nicks",[]).append(sub_num_nick)
 			self.out_json.setdefault("divide_result_nicks",[]).append("div_"+sub_num_nick)

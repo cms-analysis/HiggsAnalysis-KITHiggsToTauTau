@@ -20,13 +20,7 @@ Mu_Full_comparison = pltcl.single_plot(
 )
 configs.extend(Mu_Full_comparison.return_json_with_changed_x_and_weight(
 	x_expressions=[
-		"nPU",
-		"nPUMean",
-		"leadingLepPt",
-		"leadingLepEta",
-		"leadingLepPhi",
-		"trailingLepPt",
-		"trailingLepEta"
+		"nPU"
 		]
 ))
 
@@ -38,14 +32,51 @@ Mu_NoIso_comparison = Mu_Full_comparison.clone(
 )
 configs.extend(Mu_NoIso_comparison.return_json_with_changed_x_and_weight(
 	x_expressions=[
-		"nPU",
-		"nPUMean",
-		"leadingLepPt",
-		"leadingLepEta",
-		"leadingLepPhi",
-		"trailingLepPt",
-		"trailingLepEta",
-		"trailingLepPhi"
+		"nPU"
+		]
+))
+
+Mu_iso_onlyhadrons_comparison = Mu_Full_comparison.clone(
+	name = "Mu_iso_onlyhadrons_comparison",
+	y_label = "Efficiency #scale[0.5]{#frac{#mu(genMatched & ID & Iso(ch nPU)))}{#mu(genMatched))}}",
+	plotlines = [Mu_iso_onlyhadrons_benjamin_MC, Mu_iso_onlyhadrons_benjamin_RH, Mu_iso_onlyhadrons_benjamin_PF , Mu_iso_onlyhadrons_run2_MC, Mu_iso_onlyhadrons_run2_RH, Mu_iso_onlyhadrons_run2_PF]
+)
+configs.extend(Mu_iso_onlyhadrons_comparison.return_json_with_changed_x_and_weight(
+	x_expressions=[
+		"nPU"
+		]
+))
+
+Mu_iso_onlyneutral_comparison = Mu_Full_comparison.clone(
+	name = "Mu_iso_onlyneutral_comparison",
+	y_label = "Efficiency #scale[0.5]{#frac{#mu(genMatched & ID & Iso(nh))}{#mu(genMatched))}}",
+	plotlines = [Mu_iso_onlyneutral_benjamin_MC, Mu_iso_onlyneutral_benjamin_RH, Mu_iso_onlyneutral_benjamin_PF , Mu_iso_onlyneutral_run2_MC, Mu_iso_onlyneutral_run2_RH, Mu_iso_onlyneutral_run2_PF]
+)
+configs.extend(Mu_iso_onlyneutral_comparison.return_json_with_changed_x_and_weight(
+	x_expressions=[
+		"nPU"
+		]
+))
+
+Mu_iso_onlyphotons_comparison = Mu_Full_comparison.clone(
+	name = "Mu_iso_onlyphotons_comparison",
+	y_label = "Efficiency #scale[0.5]{#frac{#mu(genMatched & ID & Iso(ph))}{#mu(genMatched))}}",
+	plotlines = [Mu_iso_onlyphotons_benjamin_MC, Mu_iso_onlyphotons_benjamin_RH, Mu_iso_onlyphotons_benjamin_PF , Mu_iso_onlyphotons_run2_MC, Mu_iso_onlyphotons_run2_RH, Mu_iso_onlyphotons_run2_PF]
+)
+configs.extend(Mu_iso_onlyphotons_comparison.return_json_with_changed_x_and_weight(
+	x_expressions=[
+		"nPU"
+		]
+))
+
+Mu_iso_onlypu_comparison = Mu_Full_comparison.clone(
+	name = "Mu_iso_onlypu_comparison",
+	y_label = "Efficiency #scale[0.5]{#frac{#mu(genMatched & ID & Iso(ch PU))}{#mu(genMatched))}}",
+	plotlines = [Mu_iso_onlypu_benjamin_MC, Mu_iso_onlypu_benjamin_RH, Mu_iso_onlypu_benjamin_PF , Mu_iso_onlypu_run2_MC, Mu_iso_onlypu_run2_RH, Mu_iso_onlypu_run2_PF]
+)
+configs.extend(Mu_iso_onlypu_comparison.return_json_with_changed_x_and_weight(
+	x_expressions=[
+		"nPU"
 		]
 ))
 
@@ -62,21 +93,23 @@ genMatched_comparison = pltcl.single_plot(
 	y_label = "#Sigma p_{T} / #DeltaR ",
 	weight = "pfAllChargedParticlesNoPileupPt",
 	plot_type = "absolute",
-	normalized = True,
+	normalized_to_unity = True,
 	legend =[0.25,0.55,0.55,0.9],
-	plotlines = [genMatched_benjamin_MC, genMatched_benjamin_RH, genMatched_benjamin_PF, genMatched_run2_MC, genMatched_run2_RH, , genMatched_run2_PF]
+	plotlines = [genMatched_benjamin_MC, genMatched_benjamin_RH, genMatched_benjamin_PF, genMatched_run2_MC, genMatched_run2_RH, genMatched_run2_PF]
 )
 configs.extend(genMatched_comparison.return_json_with_changed_x_and_weight(
 	x_expressions=[
 		"pfChargedHadronsPileUpDeltaR",
 		"pfChargedHadronsNoPileUpDeltaR",
 		"pfNeutralHadronsNoPileUpDeltaR",
-		"pfPhotonsNoPileUpDeltaR"],
+		"pfPhotonsNoPileUpDeltaR
+		],
 	weights=[
 		"pfChargedHadronsPileUpPt",
 		"pfChargedHadronsNoPileUpPt",
 		"pfNeutralHadronsNoPileUpEt",
-		"pfPhotonsNoPileUpEt"]
+		"pfPhotonsNoPileUpEt"
+		]
 ))
 
 
@@ -110,10 +143,10 @@ genMatched_comparison_run2 = pltcl.single_plot(
 	y_subplot_label = "Embedding/MC",
 	weight = "pfAllChargedParticlesNoPileupPt",
 	plot_type = "absolute",
-	normalized = True,
+	normalized_to_unity = True,
 	legend =[0.25,0.55,0.55,0.9],
 	subplot_denominator = 0,
-	subplot_numerators = [1],
+	subplot_numerators = [1,2],
 	plotlines = [genMatched_run2_MC, genMatched_run2_RH, genMatched_run2_PF]
 )
 configs.extend(genMatched_comparison_run2.return_json_with_changed_x_and_weight(

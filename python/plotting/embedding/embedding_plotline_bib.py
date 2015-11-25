@@ -12,9 +12,14 @@ Mu_benjamin_MC = pltcl.single_plotline(
 	den_folder = "genMatched",
 	num_tree = "ntuple",
 	label = "CMSSW_7_0_7 Z#rightarrow#mu#mu MC",
-	color = "kGray")
+	color = "kGray+1")
 Mu_Full_benjamin_MC = Mu_benjamin_MC.clone(num_folder = "Mu_Full")
 Mu_NoIso_benjamin_MC = Mu_benjamin_MC.clone(num_folder = "Mu_NoIso")
+Mu_iso_onlyhadrons_benjamin_MC = Mu_benjamin_MC.clone(num_folder = "Mu_iso_onlyhadrons")
+Mu_iso_onlyneutral_benjamin_MC = Mu_benjamin_MC.clone(num_folder = "Mu_iso_onlyneutral")
+Mu_iso_onlyphotons_benjamin_MC = Mu_benjamin_MC.clone(num_folder = "Mu_iso_onlyphotons")
+Mu_iso_onlypu_benjamin_MC = Mu_benjamin_MC.clone(num_folder = "Mu_iso_onlypu")
+
 genMatched_benjamin_MC = Mu_benjamin_MC.clone(
     num_file = "/nfs/dust/cms/user/swayand/embedd_save/eventProfile_muonembed/ar_muonembed_eventprofile_K2Skim_FullReco.root",
     num_folder = "genMatched",
@@ -32,6 +37,11 @@ Mu_benjamin_RH = pltcl.single_plotline(
 	color = "kOrange+7")
 Mu_Full_benjamin_RH = Mu_benjamin_RH.clone(num_folder = "Mu_Full")
 Mu_NoIso_benjamin_RH = Mu_benjamin_RH.clone(num_folder = "Mu_NoIso")
+Mu_iso_onlyhadrons_benjamin_RH = Mu_benjamin_RH.clone(num_folder = "Mu_iso_onlyhadrons")
+Mu_iso_onlyneutral_benjamin_RH = Mu_benjamin_RH.clone(num_folder = "Mu_iso_onlyneutral")
+Mu_iso_onlyphotons_benjamin_RH = Mu_benjamin_RH.clone(num_folder = "Mu_iso_onlyphotons")
+Mu_iso_onlypu_benjamin_RH = Mu_benjamin_RH.clone(num_folder = "Mu_iso_onlypu")
+
 genMatched_benjamin_RH = Mu_benjamin_RH.clone(
     num_file = "/nfs/dust/cms/user/swayand/embedd_save/eventProfile_muonembed/ar_muonembed_eventprofile_K2Skim_Embed_RH.root",
     num_folder = "genMatched",
@@ -47,9 +57,14 @@ Mu_benjamin_PF = pltcl.single_plotline(
 	den_folder = "genMatched",
 	num_tree = "ntuple",
 	label = "CMSSW_7_0_7 Z#rightarrow#mu#mu PF",
-	color = "kSpring+5")
+	color = "kCyan+3")
 Mu_Full_benjamin_PF = Mu_benjamin_PF.clone(num_folder = "Mu_Full")
 Mu_NoIso_benjamin_PF = Mu_benjamin_PF.clone(num_folder = "Mu_NoIso")
+Mu_iso_onlyhadrons_benjamin_PF = Mu_benjamin_PF.clone(num_folder = "Mu_iso_onlyhadrons")
+Mu_iso_onlyneutral_benjamin_PF = Mu_benjamin_PF.clone(num_folder = "Mu_iso_onlyneutral")
+Mu_iso_onlyphotons_benjamin_PF = Mu_benjamin_PF.clone(num_folder = "Mu_iso_onlyphotons")
+Mu_iso_onlypu_benjamin_PF = Mu_benjamin_PF.clone(num_folder = "Mu_iso_onlypu")
+
 genMatched_benjamin_PF = Mu_benjamin_PF.clone(
     num_file = "/nfs/dust/cms/user/swayand/embedd_save/eventProfile_muonembed/ar_muonembed_eventprofile_K2Skim_Embed_PF.root",
     num_folder = "genMatched",
@@ -69,6 +84,11 @@ Mu_run2_MC = pltcl.single_plotline(
 	color = "kBlack")
 Mu_Full_run2_MC = Mu_run2_MC.clone(num_folder = "muon_full")
 Mu_NoIso_run2_MC = Mu_run2_MC.clone(num_folder = "no_iso")
+Mu_iso_onlyhadrons_run2_MC = Mu_run2_MC.clone(num_folder = "iso_onlyhadrons")
+Mu_iso_onlyneutral_run2_MC = Mu_run2_MC.clone(num_folder = "iso_onlyneutral")
+Mu_iso_onlyphotons_run2_MC = Mu_run2_MC.clone(num_folder = "iso_onlyphotons")
+Mu_iso_onlypu_run2_MC = Mu_run2_MC.clone(num_folder = "iso_onlypu")
+
 genMatched_run2_MC = Mu_run2_MC.clone(num_folder = "gen_matched",den_folder = None, num_tree = "muons")
 
 
@@ -80,9 +100,14 @@ Mu_run2_RH = pltcl.single_plotline(
 	den_folder = "gen_matched",
 	num_tree = "ntuple",
 	label = "CMSSW_7_4_12p4 Z#rightarrow#mu#mu RH",
-	color = "kRed+3")
+	color = "kRed+2")
 Mu_Full_run2_RH = Mu_run2_RH.clone(num_folder = "muon_full")
 Mu_NoIso_run2_RH = Mu_run2_RH.clone(num_folder = "no_iso")
+Mu_iso_onlyhadrons_run2_RH = Mu_run2_RH.clone(num_folder = "iso_onlyhadrons")
+Mu_iso_onlyneutral_run2_RH = Mu_run2_RH.clone(num_folder = "iso_onlyneutral")
+Mu_iso_onlyphotons_run2_RH = Mu_run2_RH.clone(num_folder = "iso_onlyphotons")
+Mu_iso_onlypu_run2_RH = Mu_run2_RH.clone(num_folder = "iso_onlypu")
+
 genMatched_run2_RH = Mu_run2_RH.clone( num_folder = "gen_matched", den_folder = None, num_tree = "muons")
 
 
@@ -97,6 +122,11 @@ Mu_run2_PF = pltcl.single_plotline(
 	color = "kBlue")
 Mu_Full_run2_PF = Mu_run2_PF.clone(num_folder = "muon_full")
 Mu_NoIso_run2_PF = Mu_run2_PF.clone(num_folder = "no_iso")
+Mu_iso_onlyhadrons_run2_PF = Mu_run2_PF.clone(num_folder = "iso_onlyhadrons")
+Mu_iso_onlyneutral_run2_PF = Mu_run2_PF.clone(num_folder = "iso_onlyneutral")
+Mu_iso_onlyphotons_run2_PF = Mu_run2_PF.clone(num_folder = "iso_onlyphotons")
+Mu_iso_onlypu_run2_PF = Mu_run2_PF.clone(num_folder = "iso_onlypu")
+
 genMatched_run2_PF = Mu_run2_PF.clone( num_folder = "gen_matched", den_folder = None, num_tree = "muons")
 
 
