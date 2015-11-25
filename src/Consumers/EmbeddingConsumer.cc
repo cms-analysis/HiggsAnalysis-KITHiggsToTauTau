@@ -79,13 +79,9 @@ void EmbeddingConsumer::Init(setting_type const& settings)
 void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings)
 {
 	// Here is assumed, that validMuons are Pt ordered
-	std::cout<<"aaaa"<<std::endl;
 	Muon["leading"] = product.m_validMuons[0];
-
-	std::cout<<"bbbb"<<std::endl;
 	Muon["trailing"] = product.m_validMuons[1];
 
-	std::cout<<"cccc"<<std::endl;
 
 	// Looking for positively and negatively charged Muons with highest Pt. Again, Pt ordering is assumed
 	bool foundPositiveMuon = false;
