@@ -59,6 +59,19 @@ void EmbeddingConsumer::Init(setting_type const& settings)
 		histname = muonTypeVector[i]+ TString("Muon_relIsoNeutralOverChargedPU");
 		Muon_relIsoNeutralOverChargedPU[(const char*) muonTypeVector[i]] = new TH2F((const char*) histname, (const char*) histname, nIsoPtSumBins, 0., IsoPtSumOverPtMax, nIsoPtSumBins, 0., IsoPtSumOverPtMax);
 		histograms2D.push_back(Muon_relIsoNeutralOverChargedPU[(const char*) muonTypeVector[i]]);
+
+		// absolute IsoPtSum for neutral hadrons + photons
+		histname = muonTypeVector[i]+ TString("Muon_absIsoNeutandPhoOverChargedPU");
+		Muon_absIsoNeutandPhoOverChargedPU[(const char*) muonTypeVector[i]] = new TH2F((const char*) histname, (const char*) histname, nIsoPtSumBins, 0., IsoPtSumMax, nIsoPtSumBins, 0., IsoPtSumMax);
+		histograms2D.push_back(Muon_absIsoNeutandPhoOverChargedPU[(const char*) muonTypeVector[i]]);
+
+
+		// relative IsoPtSum for neutral hadrons+ phosnon
+		histname = muonTypeVector[i]+ TString("Muon_relIsoNeutandPhoOverChargedPU");
+		Muon_relIsoNeutandPhoOverChargedPU[(const char*) muonTypeVector[i]] = new TH2F((const char*) histname, (const char*) histname, nIsoPtSumBins, 0., IsoPtSumOverPtMax, nIsoPtSumBins, 0., IsoPtSumOverPtMax);
+		histograms2D.push_back(Muon_relIsoNeutandPhoOverChargedPU[(const char*) muonTypeVector[i]]);
+
+
 	}
 }
 
@@ -68,6 +81,7 @@ void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_ty
 	// Here is assumed, that validMuons are Pt ordered
 	Muon["leading"] = product.m_validMuons[0];
 	Muon["trailing"] = product.m_validMuons[1];
+
 
 	// Looking for positively and negatively charged Muons with highest Pt. Again, Pt ordering is assumed
 	bool foundPositiveMuon = false;
@@ -101,10 +115,18 @@ void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_ty
 		EmbeddingConsumer::FillPtFlowHistogram(Muon_PhotonsNoPUPtFlow[muontype], event.m_pfPhotonsNoPileUp, muon);
 
 		// Filling 2D IsoPtSum histograms
-		Muon_absIsoPhotonsOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolation.at(muon), product.m_muonPhotonIsolation.at(muon));
-		Muon_absIsoNeutralOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolation.at(muon), product.m_muonNeutralIsolation.at(muon));
-		Muon_relIsoPhotonsOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolationOverPt.at(muon), product.m_muonPhotonIsolationOverPt.at(muon));
-		Muon_relIsoNeutralOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolationOverPt.at(muon), product.m_muonNeutralIsolationOverPt.at(muon));
+		if (product.m_muonPhotonIsolation.at(muon)>0) Muon_absIsoPhotonsOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolation.at(muon), product.m_muonPhotonIsolation.at(muon));
+		if (product.m_muonNeutralIsolation.at(muon)>0) Muon_absIsoNeutralOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolation.at(muon), product.m_muonNeutralIsolation.at(muon));
+		if (product.m_muonPhotonIsolationOverPt.at(muon)>0) Muon_relIsoPhotonsOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolationOverPt.at(muon), product.m_muonPhotonIsolationOverPt.at(muon));
+		if (product.m_muonNeutralIsolationOverPt.at(muon)>0) Muon_relIsoNeutralOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolationOverPt.at(muon), product.m_muonNeutralIsolationOverPt.at(muon));
+
+		double sum_neut_and_phot = product.m_muonNeutralIsolation.at(muon) + product.m_muonPhotonIsolation.at(muon);
+		if (sum_neut_and_phot>0) Muon_absIsoNeutandPhoOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolationOverPt.at(muon), sum_neut_and_phot);
+
+		double sum_neut_and_phot_rel = product.m_muonNeutralIsolationOverPt.at(muon) + product.m_muonPhotonIsolationOverPt.at(muon);
+		if (sum_neut_and_phot_rel>0) Muon_relIsoNeutandPhoOverChargedPU[muontype]->Fill(product.m_muonDeltaBetaIsolationOverPt.at(muon), sum_neut_and_phot_rel);
+
+
 	}
 
 }
