@@ -160,12 +160,15 @@
 			"HZJHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8" : 294320,
 
 			"DYJetsToLLM10to50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 30021559,
+			"DYJetsToLLM5to50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8" : 9404398,
 			"DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 28747969,
+			"DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8" : 9042031,
 			"ST-tW-antitop_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 988500,
 			"ST-tW-top_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 995600,
 			"ST-s_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 984400,
 			"ST-t_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 29954054,
-			"SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8" : 499610,
+			"ST-t-top_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 3299800,
+			"ST-t-antitop_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 1680200,
 			"TTJets_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 40220036,
 			"TTJets_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8" : 11344206,
 			"TT_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 18994000,
@@ -176,10 +179,22 @@
 			"WWTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg" : 1995200,
 			"WWToLNuQQ_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg" : 1951600,
 			"WZTo1L1Nu2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 24714550,
+			"WZTo3LNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 1980800,
+			"WZTo1L3Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8": 1696910,
 			"WZTo2L2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 31477411,
-			"ZZTo2L2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 18742616,
+			"ZZTo2L2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 8719200,
+			"ZZTo2L2Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 18790122,
 			"ZZTo2Q2Nu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 36797411,
 			"ZZTo4Q_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 35917388,
+			"ZZTo4L_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8" : 10561099,
+			
+			"SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8" : 499610,
+			
+			"GluGluHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 1498200,
+			"VBFHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" :1478412 ,
+			"WminusHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 443200,
+			"WplusHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 440704,
+			"ZHToTauTauM125_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8" : 585353,
 			
 			"default": -1
 		}

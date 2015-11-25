@@ -1,0 +1,30 @@
+{
+    "energies": [
+        13.0
+    ], 
+    "filename": "metPfPullX", 
+    "files": [
+        "/afs/desy.de/user/r/rfriese/dust/htautau/artus/2015-11-18_13-29_withGenBosonMass/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root"
+    ], 
+    "folders": [
+        "mt_ztt/ntuple", 
+        "mtpfmet_ztt/ntuple"
+    ], 
+    "labels": [
+        "MVAMET", 
+        "PFMET"
+    ], 
+    "plot_modules": [
+        "PlotMpl"
+    ], 
+    "title": "$Z \\to \\tau \\tau$", 
+    "x_bins": [
+        "100,-10,10"
+    ], 
+    "x_expressions": [
+        "metPullX", 
+        "metPfPullX"
+    ], 
+    "x_label": "$\\Delta \\left( MET_{\\parallel}, genMET_{\\parallel} \\right) / \\sigma_{\\parallel}$", 
+    "y_log": true
+}

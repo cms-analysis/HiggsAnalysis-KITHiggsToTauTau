@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CombineTools/interface/CombineHarvester.h"
+#include "CombineHarvester/CombineTools/interface/CombineHarvester.h"
 
 class HttSystematics {
 

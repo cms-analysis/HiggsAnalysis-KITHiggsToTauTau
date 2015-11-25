@@ -9,7 +9,7 @@ import argparse
 import copy
 import os
 
-import combineharvester as ch
+import CombineHarvester.CombineTools.ch as ch
 import ROOT
 
 import Artus.Utility.tools as tools
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--grid-bins", default="100",
 	                    help="Binning of the grid for the logL scan. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=1.28,
+	parser.add_argument("--lumi", type=float, default=2.11,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")

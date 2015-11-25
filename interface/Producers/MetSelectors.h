@@ -136,6 +136,7 @@ public:
 		else if ((m_metMember != nullptr) && ((event.*m_metMember) != nullptr))
 		{
 			product.m_met = (event.*m_metMember);
+			product.m_pfmet = (event.*m_metMember);
 		}
 		else
 		{

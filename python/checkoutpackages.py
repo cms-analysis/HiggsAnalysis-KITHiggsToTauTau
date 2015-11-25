@@ -20,9 +20,9 @@ def checkout_packages(max_n_trials=2):
 		"git clone https://github.com/veelken/SVfit_standalone.git -b svFit_2015Apr03 TauAnalysis/SVfitStandalone",
 		
 		# needed for plotting and statistical inference
-		"git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git -b CombineHarvester-v15.8 HiggsAnalysis/HiggsToTauTau",
-		"make -C HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools",
-		"git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit",
+		"git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau",
+		"git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester",
+		"git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit",
 		"git clone https://github.com/roger-wolf/HiggsAnalysis-HiggsToTauTau-auxiliaries.git auxiliaries",
 		
 		# needed for error propagation e.g. in the background estimations

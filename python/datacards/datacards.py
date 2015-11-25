@@ -9,7 +9,7 @@ import os
 import re
 
 # http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
-import combineharvester as ch
+import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
@@ -99,7 +99,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process")
 				(["13TeV"], ["ggH", "qqH", "WH", "ZH", "VH"], 0.98) # copied from 8TeV
-				(["13TeV"], ["ZTT", "ZLL", "TTJ", "VV", "WJ"], 1.03) # copied from 8TeV
+				(["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W"], 1.03) # copied from 8TeV
 		]
 		
 		self.ztt_cross_section_syst_args = [
@@ -107,7 +107,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process")
 				(["7TeV", "8TeV"], ["ZTT", "ZLL", "ZL", "ZJ"], 1.03)
-				(       ["13TeV"], ["ZTT", "ZLL"], 1.03)
+				(       ["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ"], 1.03)
 		]
 		self.ttj_cross_section_syst_args = [
 			"CMS_$ANALYSIS_ttjNorm_$ERA",
@@ -115,7 +115,7 @@ class Datacards(object):
 			ch.SystMap("era", "process")
 				( ["7TeV"], ["TTJ"], 1.08)
 				( ["8TeV"], ["TTJ"], 1.1)
-				(["13TeV"], ["TTJ"], 1.1) # copied from 8TeV
+				(["13TeV"], ["TTJ", "TT"], 1.1) # copied from 8TeV
 		]
 		self.vv_cross_section_syst_args = [
 			"CMS_$ANALYSIS_vvNorm_$ERA",
@@ -129,7 +129,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process", "channel")
 				(["7TeV", "8TeV"], ["WJ"], ["mt", "et"], 1.2)
-				(       ["13TeV"], ["WJ"], ["mt", "et"], 1.2) # copied from 8TeV
+				(       ["13TeV"], ["WJ", "W"], ["mt", "et"], 1.2) # copied from 8TeV
 		]
 		
 		self.qcd_syst_args = [
@@ -157,7 +157,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process", "channel")
 				(["7TeV", "8TeV"], ["ZLL"], ["mt", "et"], 1.30)
-				(       ["13TeV"], ["ZLL"], ["mt", "et"], 1.30) # copied from 8TeV
+				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "et"], 1.30) # copied from 8TeV
 		]
 		
 		self.jec_syst_args = [
@@ -483,7 +483,7 @@ class Datacards(object):
 			plotting_args = {}
 		
 		plot_configs = []
-		bkg_plotting_order = ["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]
+		bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W", "QCD"]
 		for level in ["prefit", "postfit"]:
 			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
 				if (index == 0) or (level == "postfit"):
