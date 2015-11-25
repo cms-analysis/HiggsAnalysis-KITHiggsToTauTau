@@ -47,4 +47,9 @@ private:
 
 	std::map<std::string,TH2F*> Muon_relIsoPhotonsOverChargedPU;
 	std::map<std::string, TH2F*> Muon_relIsoNeutralOverChargedPU;
+
+	std::map<std::string, TH2F*> Muon_absIsoNeutandPhoOverChargedPU; 
+	std::map<std::string, TH2F*> Muon_relIsoNeutandPhoOverChargedPU;
+
+
 };
