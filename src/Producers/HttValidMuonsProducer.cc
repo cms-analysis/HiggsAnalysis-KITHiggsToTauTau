@@ -66,6 +66,59 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 	double photonIsolationPtSum = DefaultValues::UndefinedDouble;
 	double deltaBetaIsolationPtSum = DefaultValues::UndefinedDouble;
 
+	if (muonIsoTypeUserMode == MuonIsoTypeUserMode::FROMCMSSW)
+	{
+		chargedIsolationPtSum = muon->pfIsoOnlyHadron();
+		neutralIsolationPtSum = muon->pfIsoOnlyNeutral();
+		photonIsolationPtSum = muon->pfIsoOnlyPhoton();
+		deltaBetaIsolationPtSum = muon->pfIsoOnlyPu();
+	}
+	else if (muonIsoTypeUserMode == MuonIsoTypeUserMode::CALCULATED)
+	{
+		chargedIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
+				muon->p4,
+				event.m_pfChargedHadronsNoPileUp,
+				(settings.*GetMuonIsoSignalConeSize)(),
+				(settings.*GetMuonChargedIsoVetoConeSize)(),
+				(settings.*GetMuonChargedIsoVetoConeSize)(),
+				(settings.*GetMuonChargedIsoPtThreshold)()
+		);
+		neutralIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
+				muon->p4,
+				event.m_pfNeutralHadronsNoPileUp,
+				(settings.*GetMuonIsoSignalConeSize)(),
+				(settings.*GetMuonNeutralIsoVetoConeSize)(),
+				(settings.*GetMuonNeutralIsoVetoConeSize)(),
+				(settings.*GetMuonNeutralIsoPtThreshold)()
+		);
+		photonIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
+				muon->p4,
+				event.m_pfPhotonsNoPileUp,
+				(settings.*GetMuonIsoSignalConeSize)(),
+				(settings.*GetMuonPhotonIsoVetoConeSize)(),
+				(settings.*GetMuonPhotonIsoVetoConeSize)(),
+				(settings.*GetMuonPhotonIsoPtThreshold)()
+		);
+		deltaBetaIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
+				muon->p4,
+				event.m_pfChargedHadronsPileUp,
+				(settings.*GetMuonIsoSignalConeSize)(),
+				(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
+				(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
+				(settings.*GetMuonDeltaBetaIsoPtThreshold)()
+		);
+	}
+
+	product.m_muonChargedIsolation[muon] = chargedIsolationPtSum;
+	product.m_muonNeutralIsolation[muon] = neutralIsolationPtSum;
+	product.m_muonPhotonIsolation[muon] = photonIsolationPtSum;
+	product.m_muonDeltaBetaIsolation[muon] = deltaBetaIsolationPtSum;
+
+	product.m_muonChargedIsolationOverPt[muon] = chargedIsolationPtSum / muon->p4.Pt();
+	product.m_muonNeutralIsolationOverPt[muon] = neutralIsolationPtSum / muon->p4.Pt();
+	product.m_muonPhotonIsolationOverPt[muon] = photonIsolationPtSum / muon->p4.Pt();
+	product.m_muonDeltaBetaIsolationOverPt[muon] = deltaBetaIsolationPtSum / muon->p4.Pt();
+
 	if (validMuon && muonIsoType == MuonIsoType::USER) {
 		if (event.m_pfChargedHadronsNoPileUp &&
 		    event.m_pfNeutralHadronsNoPileUp &&
@@ -96,65 +149,12 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 			//std::cout << "NormalIso: " << isolationPtSum << std::endl;
 		}
 
-		if (muonIsoTypeUserMode == MuonIsoTypeUserMode::FROMCMSSW)
-		{
-			chargedIsolationPtSum = muon->pfIsoOnlyHadron();
-			neutralIsolationPtSum = muon->pfIsoOnlyNeutral();
-			photonIsolationPtSum = muon->pfIsoOnlyPhoton();
-			deltaBetaIsolationPtSum = muon->pfIsoOnlyPu();
-		}
-		else if (muonIsoTypeUserMode == MuonIsoTypeUserMode::CALCULATED)
-		{
-			chargedIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
-					muon->p4,
-					event.m_pfChargedHadronsNoPileUp,
-					(settings.*GetMuonIsoSignalConeSize)(),
-					(settings.*GetMuonChargedIsoVetoConeSize)(),
-					(settings.*GetMuonChargedIsoVetoConeSize)(),
-					(settings.*GetMuonChargedIsoPtThreshold)()
-			);
-			neutralIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
-					muon->p4,
-					event.m_pfNeutralHadronsNoPileUp,
-					(settings.*GetMuonIsoSignalConeSize)(),
-					(settings.*GetMuonNeutralIsoVetoConeSize)(),
-					(settings.*GetMuonNeutralIsoVetoConeSize)(),
-					(settings.*GetMuonNeutralIsoPtThreshold)()
-			);
-			photonIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
-					muon->p4,
-					event.m_pfPhotonsNoPileUp,
-					(settings.*GetMuonIsoSignalConeSize)(),
-					(settings.*GetMuonPhotonIsoVetoConeSize)(),
-					(settings.*GetMuonPhotonIsoVetoConeSize)(),
-					(settings.*GetMuonPhotonIsoPtThreshold)()
-			);
-			deltaBetaIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
-					muon->p4,
-					event.m_pfChargedHadronsPileUp,
-					(settings.*GetMuonIsoSignalConeSize)(),
-					(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
-					(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
-					(settings.*GetMuonDeltaBetaIsoPtThreshold)()
-			);
-		}
-		
 		double isolationPtSumOverPt = isolationPtSum / muon->p4.Pt();
 		
 		product.m_leptonIsolation[muon] = isolationPtSum;
 		product.m_leptonIsolationOverPt[muon] = isolationPtSumOverPt;
 		product.m_muonIsolation[muon] = isolationPtSum;
 		product.m_muonIsolationOverPt[muon] = isolationPtSumOverPt;
-
-		product.m_muonChargedIsolation[muon] = chargedIsolationPtSum;
-		product.m_muonNeutralIsolation[muon] = neutralIsolationPtSum;
-		product.m_muonPhotonIsolation[muon] = photonIsolationPtSum;
-		product.m_muonDeltaBetaIsolation[muon] = deltaBetaIsolationPtSum;
-
-		product.m_muonChargedIsolationOverPt[muon] = chargedIsolationPtSum / muon->p4.Pt();
-		product.m_muonNeutralIsolationOverPt[muon] = neutralIsolationPtSum / muon->p4.Pt();
-		product.m_muonPhotonIsolationOverPt[muon] = photonIsolationPtSum / muon->p4.Pt();
-		product.m_muonDeltaBetaIsolationOverPt[muon] = deltaBetaIsolationPtSum / muon->p4.Pt();
 
 		if (std::abs(muon->p4.Eta()) < DefaultValues::EtaBorderEB)
 		{

@@ -1,35 +1,27 @@
 {
-        "BranchObjectMatchedPFEtsum" : true,
-	"BranchObjectMatchedPF" : true,
 	"PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
-        "PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
-        "PFAllChargedParticlesNoPileUp" : "pfAllChargedParticles",
-        "#PFAllChargedParticlesPileUp" : "pfPileUpAllChargedParticles",
-        "PFNeutralHadronsNoPileUp" : "pfNoPileUpNeutralHadrons",
-        "PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
+	"PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
+	"PFAllChargedParticlesNoPileUp" : "pfAllChargedParticles",
+	"#PFAllChargedParticlesPileUp" : "pfPileUpAllChargedParticles",
+	"PFNeutralHadronsNoPileUp" : "pfNoPileUpNeutralHadrons",
+	"PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsGeneratorWeight.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
-                "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
-                "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
-                "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
-                "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
-                "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
-                "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
-                "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json"
-	],                
-	"MuonIsoTypeUserMode" : "none",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json"
+	],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
-	"InputIsData" : {
-		"nick" : {
-			"default" : "false",
-			"Run2015" : "true"
-		}
-	},
+	"InputIsData" : false,
 	"InputFiles" : [
 		"/pnfs/desy.de/cms/tier2/store/user/rfriese/skimming/2015-04-24/VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM_0.root"
 	],
@@ -40,10 +32,8 @@
 				"#filter:RunLumiEventFilter",
 				"#producer:CrossSectionWeightProducer",
 				"#producer:NumberGeneratedEventsWeightProducer",
-				"#producer:NicknameProducer",
 				"#producer:PUWeightProducer",
 				"producer:GenParticleProducer",
-				"#producer:GenPartonCounterProducer",
 				"#producer:GeneratorWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer"
