@@ -2,7 +2,7 @@
 	"PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",
 	"PFChargedHadronsNoPileUp" : "pfNoPileUpChargedHadrons",
 	"PFAllChargedParticlesNoPileUp" : "pfAllChargedParticles",
-	"#PFAllChargedParticlesPileUp" : "pfPileUpAllChargedParticles",
+	"PFAllChargedParticlesPileUp" : "pfPileUpAllChargedParticles",
 	"PFNeutralHadronsNoPileUp" : "pfNoPileUpNeutralHadrons",
 	"PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
 	"include" : [

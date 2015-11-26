@@ -18,7 +18,7 @@
 		],
 		"Processors" : {
 			"nick" : {
-				"13TeV" : [
+				"default" : [
 					{
 						"include":"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/muon_embedding/muon_common_processors.json"
 					}
