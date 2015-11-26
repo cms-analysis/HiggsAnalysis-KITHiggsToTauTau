@@ -1,6 +1,5 @@
 <Flags CXXFLAGS="-g" />
 <Flags LDFLAGS="-rdynamic" />
-<Flags LDFLAGS="-Lsrc/KappaTools/lib -lKToolbox -lKRootTools" />
 <Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
 <use name="Artus/Core"/>
 <use name="Artus/Provider"/>
