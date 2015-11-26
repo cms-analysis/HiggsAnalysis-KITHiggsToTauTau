@@ -288,7 +288,7 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 	}
 	else if (nElectrons == 0)
 	{
-		if (nMuons >= 2)
+		if (nMuons == 2)
 		{
 			lepton1 = product.m_validMuons[0];
 			lepton2 = product.m_validMuons[1];
@@ -325,6 +325,7 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 
 	if (product.m_decayChannel != HttEnumTypes::DecayChannel::NONE)
 	{
+		
 		// fill leptons ordered by pt (high pt first)
 		if (lepton1->p4.Pt() >= lepton2->p4.Pt())
 		{

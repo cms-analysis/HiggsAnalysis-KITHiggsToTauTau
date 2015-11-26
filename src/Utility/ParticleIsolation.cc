@@ -2,8 +2,7 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/ParticleIsolation.h"
-//#include "HiggsAnalysis/KITHiggsToTauTau/interface/Calculations/ParticleIsolation.h"
-//#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+
 
 double ParticleIsolation::IsolationPtSumForParticleClass(RMFLV const& particle, KPFCandidates* pfCandidates,
                                                          float const& isoSignalConeSize,
@@ -98,6 +97,6 @@ double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttEvent const& 
 	                        std::max(0.0, neutralIsolationPtSum +
 	                                      photonIsolationPtSum -
 	                                      (deltaBetaCorrectionFactor * deltaBetaIsolationPtSum));
-	                                      
+	
 	return isolationPtSum;
 }

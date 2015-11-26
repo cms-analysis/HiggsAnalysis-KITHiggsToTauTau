@@ -102,7 +102,6 @@ public:
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtLowerThresholdEE, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
-	IMPL_SETTING_DEFAULT(std::string, MuonIsoTypeUserMode, "fromcmssw");
 	
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDzCut, -1.0);
@@ -222,11 +221,4 @@ public:
 	
 	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonTriggerFilterNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonTriggerFilterNames, {});
-
-	// settings for the EmbeddingConsumer
-	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
-	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);
-	IMPL_SETTING_DEFAULT(int, IsoPtSumBinning, 200);
-	IMPL_SETTING_DEFAULT(float, IsoPtSumMaximum, 50);
-	IMPL_SETTING_DEFAULT(float, IsoPtSumOverPtMaximum, 0.4);
 };

@@ -34,27 +34,12 @@ public:
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
-
-	enum class MuonIsoTypeUserMode : int
-	{
-		NONE  = -1,
-		FROMCMSSW = 0,
-		CALCULATED = 1
-	};
-
-	static MuonIsoTypeUserMode ToMuonIsoTypeUserMode(std::string const& muonIsoTypeUserMode)
-	{
-		if (muonIsoTypeUserMode == "fromcmssw") return MuonIsoTypeUserMode::FROMCMSSW;
-		else if (muonIsoTypeUserMode == "calculated") return MuonIsoTypeUserMode::CALCULATED;
-		else return MuonIsoTypeUserMode::NONE;
-	}
 	
 	HttValidMuonsProducer(
 			std::vector<KMuon*> product_type::*validMuons=&product_type::m_validMuons,
 			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetMuonIsoType,
-			std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const=&setting_type::GetMuonIsoTypeUserMode,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetMuonIso,
 			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetMuonLowerPtCuts,
 			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetMuonUpperAbsEtaCuts,
@@ -79,8 +64,6 @@ public:
 	virtual void Init(setting_type const& settings) {
 
 		ValidMuonsProducer<HttTypes>::Init(settings);
-		
-		muonIsoTypeUserMode = ToMuonIsoTypeUserMode(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetMuonIsoTypeUserMode)())));
 
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingMuonIso", [this](event_type const& event, product_type const& product) {
@@ -111,14 +94,11 @@ public:
 protected:
 
 	// Htautau specific additional definitions
-	MuonIsoTypeUserMode muonIsoTypeUserMode;
-
 	virtual bool AdditionalCriteria(KMuon* muon, event_type const& event,
 	                                product_type& product, setting_type const& settings) const  override;
 
 
 private:
-	std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const=&setting_type::GetMuonIsoTypeUserMode;
 	float (setting_type::*GetMuonChargedIsoVetoConeSize)(void) const;
 	float (setting_type::*GetMuonNeutralIsoVetoConeSize)(void) const;
 	float (setting_type::*GetMuonPhotonIsoVetoConeSize)(void) const;
@@ -134,7 +114,8 @@ private:
 	float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const;
 	float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const;
 	float (setting_type::*GetMuonTrackDxyCut)(void) const;
-	float (setting_type::*GetMuonTrackDzCut)(void) const;	
+	float (setting_type::*GetMuonTrackDzCut)(void) const;
+
 };
 
 
@@ -170,7 +151,6 @@ public:
 			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidLooseMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetLooseMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetLooseMuonIsoType,
-			std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const=&setting_type::GetMuonIsoTypeUserMode,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetLooseMuonIso,
 			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetLooseMuonLowerPtCuts,
 			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetLooseMuonUpperAbsEtaCuts,
@@ -215,6 +195,7 @@ public:
 	virtual void Init(setting_type const& settings) override {
 	
 		HttValidMuonsProducer::Init(settings);
+	
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nVetoMuons", [this](event_type const& event, product_type const& product) {
 			return product.m_validVetoMuons.size();
@@ -226,7 +207,6 @@ public:
 			std::vector<KMuon*> product_type::*invalidMuons=&product_type::m_invalidVetoMuons,
 			std::string (setting_type::*GetMuonID)(void) const=&setting_type::GetVetoMuonID,
 			std::string (setting_type::*GetMuonIsoType)(void) const=&setting_type::GetVetoMuonIsoType,
-			std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const=&setting_type::GetMuonIsoTypeUserMode,
 			std::string (setting_type::*GetMuonIso)(void) const=&setting_type::GetVetoMuonIso,
 			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetVetoMuonLowerPtCuts,
 			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetVetoMuonUpperAbsEtaCuts,

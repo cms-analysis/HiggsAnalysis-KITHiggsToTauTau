@@ -1,10 +1,1 @@
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1193.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1194.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1195.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1196.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1197.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1198.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1199.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1200.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1201.root
-root://cms-xrd-global.cern.ch//store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_1202.root
+XROOTD_sample_SM_WH_ZH_TTH_HToTauTau_M_100_powheg_pythia_8TeV_2015-02-06.txt

@@ -1,10 +1,1 @@
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1183.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1184.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1185.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1186.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1187.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1188.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1189.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1190.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1191.root
-/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/2015-02-06_full_skim/SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV/kappa_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_1192.root
+NAF_sample_SM_WH_ZH_TTH_HToTauTau_M_95_powheg_pythia_8TeV_2015-02-06.txt
