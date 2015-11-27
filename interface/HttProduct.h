@@ -158,6 +158,9 @@ public:
 	
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
+    
+    //MVATestMethods
+    std::vector<double> m_MVATestMethodsDiscriminators;
 
 	// filled by HttValidGenTausProducer. Naming scheme like for the reco particles
 	std::vector<KGenTau*> m_ptOrderedGenTaus;

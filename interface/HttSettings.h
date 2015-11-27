@@ -211,10 +211,15 @@ public:
 	IMPL_SETTING(bool, PhiTransform);
 
 	// TMVA reader settings
-	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaInputQuantities, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
-	
+    IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaInputQuantities, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
+    
+    //MVATestMethodsProducer settings
+    IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsWeights, {});
+    
 	// settings for TriggerTagAndProbeProducers
 	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonHltPaths, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonHltPaths, {});
