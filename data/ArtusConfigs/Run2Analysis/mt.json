@@ -32,7 +32,7 @@
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
-		"TauUseOldDMs" : true,
+		"TauUseOldDMs" : false,
 		"MuonLowerPtCuts" : [
 			"19.0"
 		],

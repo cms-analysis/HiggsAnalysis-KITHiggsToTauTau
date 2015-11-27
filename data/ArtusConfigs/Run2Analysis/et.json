@@ -36,7 +36,7 @@
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
-		"TauUseOldDMs" : true,
+		"TauUseOldDMs" : false,
 		"ElectronLowerPtCuts" : [
 			"24.0"
 		],
