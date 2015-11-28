@@ -23,8 +23,6 @@ class PlotRootHtt(plotroot.PlotRoot):
 	
 	def modify_argument_parser(self, parser, args):
 		super(PlotRootHtt, self).modify_argument_parser(parser, args)
-		
-		parser.set_defaults(y_label="Number of Entries")
 	
 	def prepare_args(self, parser, plotData):
 		if self.predefined_colors is None:
