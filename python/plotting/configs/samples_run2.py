@@ -700,7 +700,34 @@ class Samples(samples.SamplesBase):
 			)
 		return config
 	
-	def ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
+	def bbh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("bbh", 1.0)
+		
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em"]:
+				Samples._add_input(
+						config,
+						"SUSYGluGluToBBHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
+						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						lumi,
+						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
+						"bbH%s" % str(mass),
+						nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (bbH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+			
+			if not kwargs.get("no_plot", False):
+				Samples._add_bin_corrections(config, "bbh"+str(mass), nick_suffix)
+				Samples._add_plot(config, "sig", "LINE", "L", "bbh"+str(mass), nick_suffix)
+		return config
+
+	def ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, mssm=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -712,7 +739,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						"GluGluHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
+						"GluGluHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)) if not mssm else "SUSYGluGluToHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
