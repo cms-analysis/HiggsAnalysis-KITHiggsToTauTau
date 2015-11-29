@@ -9,6 +9,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
 
 
 void DecayChannelProducer::Init(setting_type const& settings)
@@ -243,6 +244,38 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			else
 			{
 				return DefaultValues::UndefinedInt;
+			}
+		});
+	}
+
+	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+	{
+		std::string quantity = "gen_match_" + std::to_string(leptonIndex+1);
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(quantity, [leptonIndex](event_type const& event, product_type const& product)
+		{
+			assert(leptonIndex < product.m_flavourOrderedLeptons.size());
+			KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
+			const KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_genParticleMatchedLeptons, lepton, new const KGenParticle());
+			
+			if (lepton->flavour() == KLeptonFlavour::TAU)
+			{
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedTaus, static_cast<KTau*>(lepton), new KGenTau());
+				
+				float deltaRTauGenTau = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genTau->visible.p4);
+				float deltaRTauGenParticle = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genParticle->p4);
+				
+				if (deltaRTauGenParticle < deltaRTauGenTau)
+				{
+					return GeneratorInfo::GetGenMatchingCode(genParticle);
+				}
+				else
+				{
+					return GeneratorInfo::GetGenMatchingCode(genTau);
+				}
+			}
+			else
+			{
+				return GeneratorInfo::GetGenMatchingCode(genParticle);
 			}
 		});
 	}
