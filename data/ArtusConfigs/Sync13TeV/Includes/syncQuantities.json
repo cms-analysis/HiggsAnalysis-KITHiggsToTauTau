@@ -150,6 +150,8 @@
 		"pt_tt",
 		"dilepton_veto",
 		"extraelec_veto",
-		"extramuon_veto"
+		"extramuon_veto",
+		"gen_match_1",
+		"gen_match_2"
 	]
 }
