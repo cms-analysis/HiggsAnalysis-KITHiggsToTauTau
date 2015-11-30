@@ -122,7 +122,8 @@
 		"puCorrPtSum_1",
 		"againstElectronLooseMVA5_1", "againstElectronMediumMVA5_1", "againstElectronTightMVA5_1",
 		"againstElectronVLooseMVA5_1", "againstElectronVTightMVA5_1", "againstMuonLoose3_1", "againstMuonTight3_1",
-		"byCombinedIsolationDeltaBetaCorrRaw3Hits_1", "byIsolationMVA3newDMwoLTraw_1", "byIsolationMVA3oldDMwoLTraw_1",
+		"byCombinedIsolationDeltaBetaCorrRaw3Hits_1", "byMediumCombinedIsolationDeltaBetaCorr3Hits_1",
+		"byTightCombinedIsolationDeltaBetaCorr3Hits_1", "byIsolationMVA3newDMwoLTraw_1", "byIsolationMVA3oldDMwoLTraw_1",
 		"byIsolationMVA3newDMwLTraw_1", "byIsolationMVA3oldDMwLTraw_1", "decayModeFinding_1",
 		"decayModeFindingNewDMs_1",
 		"trigweight_2",
@@ -131,7 +132,8 @@
 		"puCorrPtSum_2",
 		"againstElectronLooseMVA5_2", "againstElectronMediumMVA5_2", "againstElectronTightMVA5_2",
 		"againstElectronVLooseMVA5_2", "againstElectronVTightMVA5_2", "againstMuonLoose3_2", "againstMuonTight3_2",
-		"byCombinedIsolationDeltaBetaCorrRaw3Hits_2", "byIsolationMVA3newDMwoLTraw_2", "byIsolationMVA3oldDMwoLTraw_2",
+		"byCombinedIsolationDeltaBetaCorrRaw3Hits_2", "byMediumCombinedIsolationDeltaBetaCorr3Hits_2",
+		"byTightCombinedIsolationDeltaBetaCorr3Hits_2", "byIsolationMVA3newDMwoLTraw_2", "byIsolationMVA3oldDMwoLTraw_2",
 		"byIsolationMVA3newDMwLTraw_2", "byIsolationMVA3oldDMwLTraw_2", "decayModeFinding_2",
 		"decayModeFindingNewDMs_2",
 		"isZtt", "isZmt", "isZet", "isZee", "isZmm", "isZem",
@@ -150,6 +152,8 @@
 		"pt_tt",
 		"dilepton_veto",
 		"extraelec_veto",
-		"extramuon_veto"
+		"extramuon_veto",
+		"gen_match_1",
+		"gen_match_2"
 	]
 }

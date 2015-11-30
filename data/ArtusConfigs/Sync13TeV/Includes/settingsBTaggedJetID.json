@@ -8,7 +8,7 @@
 			"Spring15" : "PfCombinedInclusiveSecondaryVertexV2BJetTags"
 		}
 	},
-	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.814,
+	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.89,
 	"BTaggedJetAbsEtaCut" : 2.4,
 	"ApplyBTagSF" : false,
 	"BTagSFMethod" : "PromotionDemotion",
