@@ -102,7 +102,6 @@ public:
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtLowerThresholdEE, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtUpperThresholdEB, std::numeric_limits<float>::max());
 	IMPL_SETTING_DEFAULT(float, LooseMuonIsoPtSumOverPtUpperThresholdEE, std::numeric_limits<float>::max());
-	IMPL_SETTING_DEFAULT(std::string, MuonIsoTypeUserMode, "fromcmssw");
 	
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDxyCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseElectronTrackDzCut, -1.0);
@@ -212,21 +211,19 @@ public:
 	IMPL_SETTING(bool, PhiTransform);
 
 	// TMVA reader settings
-	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaInputQuantities, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
-	
+    IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaInputQuantities, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
+    
+    //MVATestMethodsProducer settings
+    IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsWeights, {});
+    
 	// settings for TriggerTagAndProbeProducers
 	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonHltPaths, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonHltPaths, {});
 	
 	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonTriggerFilterNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonTriggerFilterNames, {});
-
-	// settings for the EmbeddingConsumer
-	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
-	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);
-	IMPL_SETTING_DEFAULT(int, IsoPtSumBinning, 200);
-	IMPL_SETTING_DEFAULT(float, IsoPtSumMaximum, 50);
-	IMPL_SETTING_DEFAULT(float, IsoPtSumOverPtMaximum, 0.4);
 };

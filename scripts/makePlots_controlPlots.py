@@ -68,6 +68,8 @@ if __name__ == "__main__":
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
+	parser.add_argument("--mssm", default=False, action="store_true",
+	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")	
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -127,7 +129,7 @@ if __name__ == "__main__":
 				config = sample_settings.get_config(
 						samples=list_of_samples,
 						channel=channel,
-						category=category,
+						category=category if not args.mssm else "catHttMSSM13TeV_{channel}_{category}".format(channel=channel, category=category),
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
@@ -136,7 +138,8 @@ if __name__ == "__main__":
 						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", []),
 						blind_expression=channel+"_"+quantity,
 						stack_signal=args.stack_signal,
-						scale_signal=args.scale_signal
+						scale_signal=args.scale_signal,
+						mssm=args.mssm
 				)
 				
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])

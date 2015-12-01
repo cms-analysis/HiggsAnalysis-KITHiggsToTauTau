@@ -1,0 +1,18 @@
+{
+    "MVATestMethodsInputQuantities" : [
+        "lep1Pt:=pt_1",
+        "lep2Pt:=pt_2",
+        "pZetaVis",
+        "pZetaMiss",
+        "nBJets20:=nbtag",
+        "nJets30:=njets",
+        "pfMetSumEt",
+        "pfMetPt"
+    ],
+    "MVATestMethodsMethods" : [
+        "BDT"
+    ],
+    "MVATestMethodsWeights" : [
+        "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/mva_weights/EmuMVA/data/training_BDT.weights.xml"
+    ]
+}
