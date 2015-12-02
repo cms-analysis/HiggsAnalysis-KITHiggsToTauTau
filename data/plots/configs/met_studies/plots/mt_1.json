@@ -5,21 +5,25 @@
         "green", 
         "green", 
         "blue", 
-        "blue"
+        "blue", "red", "red"
     ], 
     "files": [
-        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-26_21-55_metStudiesAlexei/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8.root", 
-        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-26_21-55_metStudiesAlexei/merged/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8.root", 
-        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-26_21-55_metStudiesAlexei/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8.root", 
-        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-11-26_21-55_metStudiesAlexei/merged/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8.root", 
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-01_14-26_new_gen_match/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8.root", 
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-01_14-31_new_gen_match/merged/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8.root", 
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-01_14-26_new_gen_match/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8.root", 
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-01_14-31_new_gen_match/merged/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/WJetsToLNu_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8.root", 
+        "/nfs/dust/cms/user/rasp/Run/Spring15/DYJetsToLL_M-50_MG.root", 
+        "/nfs/dust/cms/user/rasp/Run/Spring15/WJetsToLNu_MG.root",
         "/nfs/dust/cms/user/rasp/Run/Spring15/DYJetsToLL_M-50_MG.root", 
         "/nfs/dust/cms/user/rasp/Run/Spring15/WJetsToLNu_MG.root"
     ], 
     "folders": [
-        "mtmvamet_jecUncNom_tauEsNom_ztt/ntuple", 
         "mtmvamet_jecUncNom_tauEsNom/ntuple", 
-        "mtpfmet_jecUncNom_tauEsNom_ztt/ntuple", 
+        "mtmvamet_jecUncNom_tauEsNom/ntuple", 
         "mtpfmet_jecUncNom_tauEsNom/ntuple", 
+        "mtpfmet_jecUncNom_tauEsNom/ntuple", 
+        "TauCheck", 
+        "TauCheck", 
         "TauCheck", 
         "TauCheck"
     ], 
@@ -29,12 +33,12 @@
         "$DY \\to \\tau \\tau$ PF", 
         "W+Jets PF", 
         "$DY \\to \\tau \\tau$ PF Alexei", 
-        "W+Jets PF Alexei"
+        "W+Jets PF Alexei",
+        "$DY \\to \\tau \\tau$ Puppi Alexei", 
+        "W+Jets Puppi Alexei"
     ], 
     "line_styles": [
         "-", 
-        "-", 
-        "--", 
         "--"
     ], 
     "markers": [
@@ -43,15 +47,17 @@
         "+", 
         "+", 
         "*", 
-        "*"
+        "*", "o", "o"
     ], 
     "weights": [
-        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
-        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
-        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
-        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
-        "(os>0.5)&&!extramuon_veto&&!extraelec_veto&&!dilepton_veto&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&againstMuonTight3_2>0.5", 
-        "(os>0.5)&&!extramuon_veto&&!extraelec_veto&&!dilepton_veto&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&againstMuonTight3_2>0.5"
+        "(gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(os>0.5)&&isZTT",
+        "(os>0.5)",
+        "(os>0.5)&&isZTT",
+        "(os>0.5)"
     ], 
     "x_bins": [
         "40,0,200"
@@ -60,6 +66,13 @@
         false
     ], 
     "x_expressions": [
-        "mt_1"
+        "mt_1",
+        "mt_1",
+        "mt_1",
+        "mt_1",
+        "mt_1",
+        "mt_1",
+        "mt_puppi_1",
+        "mt_puppi_1"
     ]
 }
