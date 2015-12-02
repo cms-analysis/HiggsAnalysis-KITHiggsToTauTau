@@ -1,0 +1,13 @@
+{
+	"property" : [
+		"#producer:HltProducer",
+		"#filter:HltFilter",
+		"producer:ValidMuonsProducer",
+		"producer:RecoMuonGenParticleMatchingProducer",
+		"filter:MuonsCountFilter",
+		"producer:EventWeightProducer",
+		"producer:DecayChannelProducer",
+		"producer:GenMuonFSRProducer"
+		]
+}
+

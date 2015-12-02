@@ -1,0 +1,26 @@
+{
+		"EventWeight" : "eventWeight",
+		"NMuons" : 2,
+
+		"MuonIso" : "none",
+		"DirectIso": true,
+
+		"MuonLowerPtCuts" : [
+			"20.0"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
+		"HltPaths" : [
+			"HLT_Mu17_Mu8*"
+		],
+		"InvalidateNonGenParticleMatchingRecoMuons" : true,
+		"DeltaRMatchingRecoMuonGenParticle" : 0.005,
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"KappaMuonsConsumer",
+			"EmbeddingConsumer",
+			"cutflow_histogram"
+		]
+}
+
