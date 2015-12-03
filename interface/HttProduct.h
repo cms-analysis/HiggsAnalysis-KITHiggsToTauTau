@@ -78,7 +78,7 @@ public:
 	std::map<KTau*, double> m_tauIsolation;
 	std::map<KTau*, double> m_tauIsolationOverPt;
 
-	// individual isolation components needed for embedding studies (also filled HttValidMuonsProducer)
+	// individual isolation components needed for embedding studies (also filled by HttValidMuonsProducer)
 	std::map<KMuon*, double> m_muonChargedIsolation;
 	std::map<KMuon*, double> m_muonNeutralIsolation;
 	std::map<KMuon*, double> m_muonPhotonIsolation;

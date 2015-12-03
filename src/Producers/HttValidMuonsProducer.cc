@@ -9,6 +9,7 @@ HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KMuon*> product_type::*
                                              std::vector<KMuon*> product_type::*invalidMuons,
                                              std::string (setting_type::*GetMuonID)(void) const,
                                              std::string (setting_type::*GetMuonIsoType)(void) const,
+                                             std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const,
                                              std::string (setting_type::*GetMuonIso)(void) const,
                                              std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const,
                                              std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const,
@@ -27,10 +28,12 @@ HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KMuon*> product_type::*
                                              float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEB)(void) const,
                                              float (setting_type::*GetMuonIsoPtSumOverPtUpperThresholdEE)(void) const,
                                              float (setting_type::*GetMuonTrackDxyCut)(void) const,
-                                             float (setting_type::*GetMuonTrackDzCut)(void) const) :
+                                             float (setting_type::*GetMuonTrackDzCut)(void) const)
+                                              :
 	ValidMuonsProducer(validMuons, invalidMuons,
 	                   GetMuonID, GetMuonIsoType, GetMuonIso,
 	                   GetLowerPtCuts, GetUpperAbsEtaCuts),
+    GetMuonIsoTypeUserMode(GetMuonIsoTypeUserMode),
 	GetMuonChargedIsoVetoConeSize(GetMuonChargedIsoVetoConeSize),
 	GetMuonNeutralIsoVetoConeSize(GetMuonNeutralIsoVetoConeSize),
 	GetMuonPhotonIsoVetoConeSize(GetMuonPhotonIsoVetoConeSize),
@@ -58,11 +61,70 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 	bool validMuon = ValidMuonsProducer<HttTypes>::AdditionalCriteria(muon, event, product, settings);
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 
+	double chargedIsolationPtSum = DefaultValues::UndefinedDouble;
+	double neutralIsolationPtSum = DefaultValues::UndefinedDouble;
+	double photonIsolationPtSum = DefaultValues::UndefinedDouble;
+	double deltaBetaIsolationPtSum = DefaultValues::UndefinedDouble;
+
+	if (muonIsoTypeUserMode == MuonIsoTypeUserMode::FROMCMSSW)
+	{
+		chargedIsolationPtSum = muon->pfIsoOnlyHadron();
+		neutralIsolationPtSum = muon->pfIsoOnlyNeutral();
+		photonIsolationPtSum = muon->pfIsoOnlyPhoton();
+		deltaBetaIsolationPtSum = muon->pfIsoOnlyPu();
+	}
+	else if (muonIsoTypeUserMode == MuonIsoTypeUserMode::CALCULATED)
+	{
+		chargedIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
+				muon->p4,
+				event.m_pfChargedHadronsNoPileUp,
+				(settings.*GetMuonIsoSignalConeSize)(),
+				(settings.*GetMuonChargedIsoVetoConeSize)(),
+				(settings.*GetMuonChargedIsoVetoConeSize)(),
+				(settings.*GetMuonChargedIsoPtThreshold)()
+		);
+		neutralIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
+				muon->p4,
+				event.m_pfNeutralHadronsNoPileUp,
+				(settings.*GetMuonIsoSignalConeSize)(),
+				(settings.*GetMuonNeutralIsoVetoConeSize)(),
+				(settings.*GetMuonNeutralIsoVetoConeSize)(),
+				(settings.*GetMuonNeutralIsoPtThreshold)()
+		);
+		photonIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
+				muon->p4,
+				event.m_pfPhotonsNoPileUp,
+				(settings.*GetMuonIsoSignalConeSize)(),
+				(settings.*GetMuonPhotonIsoVetoConeSize)(),
+				(settings.*GetMuonPhotonIsoVetoConeSize)(),
+				(settings.*GetMuonPhotonIsoPtThreshold)()
+		);
+		deltaBetaIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
+				muon->p4,
+				event.m_pfChargedHadronsPileUp,
+				(settings.*GetMuonIsoSignalConeSize)(),
+				(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
+				(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
+				(settings.*GetMuonDeltaBetaIsoPtThreshold)()
+		);
+	}
+
+	product.m_muonChargedIsolation[muon] = chargedIsolationPtSum;
+	product.m_muonNeutralIsolation[muon] = neutralIsolationPtSum;
+	product.m_muonPhotonIsolation[muon] = photonIsolationPtSum;
+	product.m_muonDeltaBetaIsolation[muon] = deltaBetaIsolationPtSum;
+
+	product.m_muonChargedIsolationOverPt[muon] = chargedIsolationPtSum / muon->p4.Pt();
+	product.m_muonNeutralIsolationOverPt[muon] = neutralIsolationPtSum / muon->p4.Pt();
+	product.m_muonPhotonIsolationOverPt[muon] = photonIsolationPtSum / muon->p4.Pt();
+	product.m_muonDeltaBetaIsolationOverPt[muon] = deltaBetaIsolationPtSum / muon->p4.Pt();
+
 	if (validMuon && muonIsoType == MuonIsoType::USER) {
 		if (event.m_pfChargedHadronsNoPileUp &&
 		    event.m_pfNeutralHadronsNoPileUp &&
 		    event.m_pfPhotonsNoPileUp &&
-		    event.m_pfChargedHadronsPileUp)
+		    event.m_pfChargedHadronsPileUp &&
+		    muonIsoTypeUserMode == MuonIsoTypeUserMode::CALCULATED)
 		{
 			isolationPtSum = ParticleIsolation::IsolationPtSum(
 					muon->p4, event,
@@ -81,16 +143,19 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 			);
 		}
 		else {
+			// standard isolationPtSum
 			isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
+			//std::cout << "-1 " << (settings.*GetMuonIsoTypeUserMode)() << std::endl;
+			//std::cout << "NormalIso: " << isolationPtSum << std::endl;
 		}
-		
+
 		double isolationPtSumOverPt = isolationPtSum / muon->p4.Pt();
 		
 		product.m_leptonIsolation[muon] = isolationPtSum;
 		product.m_leptonIsolationOverPt[muon] = isolationPtSumOverPt;
 		product.m_muonIsolation[muon] = isolationPtSum;
 		product.m_muonIsolationOverPt[muon] = isolationPtSumOverPt;
-		
+
 		if (std::abs(muon->p4.Eta()) < DefaultValues::EtaBorderEB)
 		{
 			if ((isolationPtSumOverPt > (settings.*GetMuonIsoPtSumOverPtLowerThresholdEB)()) &&
@@ -131,6 +196,7 @@ HttValidLooseMuonsProducer::HttValidLooseMuonsProducer(
 		std::vector<KMuon*> product_type::*invalidMuons,
 		std::string (setting_type::*GetMuonID)(void) const,
 		std::string (setting_type::*GetMuonIsoType)(void) const,
+		std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const,
 		std::string (setting_type::*GetMuonIso)(void) const,
 		std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const,
 		std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const,
@@ -155,6 +221,7 @@ HttValidLooseMuonsProducer::HttValidLooseMuonsProducer(
 	                      invalidMuons,
 	                      GetMuonID,
 	                      GetMuonIsoType,
+	                      GetMuonIsoTypeUserMode,
 	                      GetMuonIso,
 	                      GetLowerPtCuts,
 	                      GetUpperAbsEtaCuts,
@@ -183,6 +250,7 @@ HttValidVetoMuonsProducer::HttValidVetoMuonsProducer(
 		std::vector<KMuon*> product_type::*invalidMuons,
 		std::string (setting_type::*GetMuonID)(void) const,
 		std::string (setting_type::*GetMuonIsoType)(void) const,
+		std::string (setting_type::*GetMuonIsoTypeUserMode)(void) const,
 		std::string (setting_type::*GetMuonIso)(void) const,
 		std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const,
 		std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const,
@@ -207,6 +275,7 @@ HttValidVetoMuonsProducer::HttValidVetoMuonsProducer(
 	                      invalidMuons,
 	                      GetMuonID,
 	                      GetMuonIsoType,
+	                      GetMuonIsoTypeUserMode,
 	                      GetMuonIso,
 	                      GetLowerPtCuts,
 	                      GetUpperAbsEtaCuts,
