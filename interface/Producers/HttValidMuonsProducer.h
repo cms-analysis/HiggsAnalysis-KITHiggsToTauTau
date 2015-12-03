@@ -18,6 +18,7 @@
    - MuonNeutralIsoPtThreshold (default given)
    - MuonPhotonIsoPtThreshold (default given)
    - MuonDeltaBetaIsoPtThreshold (default given)
+   - MuonIsoTypeUserMode (default: "fromcmssw")
    - MuonIsoSignalConeSize
    - MuonDeltaBetaCorrectionFactor
    - MuonIsoPtSumOverPtLowerThresholdEB
