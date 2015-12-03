@@ -32,12 +32,12 @@ public:
 	                             float const& photonIsoPtThreshold = 0.0,
 	                             float const& deltaBetaIsoPtThreshold = 0.0);
 
-private:
-	ParticleIsolation() {  };
-
 	static double IsolationPtSumForParticleClass(RMFLV const& particle, KPFCandidates* pfCandidates,
 	                                             float const& isoSignalConeSize = 0.4,
 	                                             float const& isoVetoConeSizeEB = -1.0,
 	                                             float const& isoVetoConeSizeEE = -1.0,
 	                                             float const& isoPtThreshold = 0.0);
+
+private:
+	ParticleIsolation() {  };
 };
