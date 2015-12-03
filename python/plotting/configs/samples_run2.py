@@ -773,7 +773,7 @@ class Samples(samples.SamplesBase):
 						"GluGluHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)) if not mssm else "SUSYGluGluToHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
-						weight+"*eventWeight*0.0632*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
+						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
 						"ggh%s" % str(mass),
 						nick_suffix=nick_suffix
 				)
@@ -800,7 +800,7 @@ class Samples(samples.SamplesBase):
 						"VBFHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
-						weight+"*eventWeight*0.0632*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
+						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
 						"qqh%s" % str(mass),
 						nick_suffix=nick_suffix
 			)
