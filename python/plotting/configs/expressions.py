@@ -24,7 +24,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["cat_1jet"] = "(njetspt20 > 0)*(njetspt20 < 2)"
 		self.expressions_dict["cat_2jet"] = "njetspt20 > 1"
 		
-		# Z->tautau categories
+		# Z->tautau categories  
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive"] = "1.0"
 			self.expressions_dict["catZtt13TeV_"+channel+"_idpass"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)"
@@ -32,7 +32,6 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_0jet_inclusive"] = "(njetspt30<1)"
-		
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"
@@ -69,7 +68,12 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_nobtag_low"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_nobtag"]+"*({pt_var}<={pt_cut_1})*({pt_var}>{pt_cut_2})".format(pt_var=pt_var, pt_cut_1=pt_cut_nobtag_medium, pt_cut_2=pt_cut_nobtag_low)
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_high"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut_btag_high)
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_low"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}<={pt_cut_1})*({pt_var}>{pt_cut_2})".format(pt_var=pt_var, pt_cut_1=pt_cut_btag_high, pt_cut_2=pt_cut_btag_low)
-
+			
+		# MVA Htt categories
+		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
+			self.expressions_dict["catMVA13TeV_"+channel+"_inclusive"] = "(1.0)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_combined_cut"] = "(MVATestMethod_0>0.0)"
+			
 		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 > 0)*(decayMode_2 < 3)"
 		self.expressions_dict["catOneProngPiZeros"] = self.expressions_dict["cat_OneProngPiZeros"]
 		for channel in [ "mt", "et"]:
@@ -78,7 +82,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["cat_ThreeProng"] = "(decayMode_2 > 9)*(decayMode_2 < 11)"
 		self.expressions_dict["catThreeProng"] =self.expressions_dict["cat_ThreeProng"]
 		for channel in [ "mt", "et"]:
-			self.expressions_dict["catThreeProng_"+channel] = self.expressions_dict["catThreeProng"]		
+			self.expressions_dict["catThreeProng_"+channel] = self.expressions_dict["catThreeProng"]
 		
 		replacements = {
 			"0jet" : "zerojet",
@@ -91,4 +95,3 @@ class ExpressionsDict(expressions.ExpressionsDict):
 				for replacement in replacements.iteritems():
 					new_short_expression = new_short_expression.replace(*replacement)
 				self.expressions_dict[new_short_expression] = long_expression
-
