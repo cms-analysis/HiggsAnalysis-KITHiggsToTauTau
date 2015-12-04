@@ -48,8 +48,8 @@ if __name__ == "__main__":
 			"fit" : {
 				"" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {GRID_BINS} --setPhysicsModelParameterRanges \"r=0.6,1.5:eff=0.85,1.15\" --expectSignal=1 --toys -1", #--expectSignal=1 --toys -1
-					"poi" : "r",
+					"options" : "--algo grid --points {GRID_BINS} --expectSignal=1 --toys -1",
+					"poi" : "r", #--setPhysicsModelParameterRanges \"r=0.6,1.5:eff=0.85,1.15\"
 				}
 			},
 			"fit_plots" : {
@@ -322,7 +322,7 @@ if __name__ == "__main__":
 
 	# prefit-postfit plots
 	plot_configs = []
-	bkg_plotting_order = ["ZTT", "ZLL", "TTJ", "VV", "WJ", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
 	for level in ["prefit", "postfit"]:
 		if not datacards_postfit_shapes:
 			continue
@@ -339,32 +339,48 @@ if __name__ == "__main__":
 				processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
 
 				config = {}
+				config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
+				config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
+				config.setdefault("sum_scale_factors", []).append("1.0 1.0")
+				config.setdefault("sum_result_nicks", []).append("Total")
+				
+				processes_to_plot = list(processes)
+				if category[:2] in ["et", "mt", "tt"]:
+					processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+					processes_to_plot = [p for p in processes if not "noplot" in p]
+					processes_to_plot.insert(3, "EWK")
+					config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
+					config["sum_scale_factors"].append("1.0 1.0 1.0")
+					config["sum_result_nicks"].append("EWK")
+					#processes = [p.replace("ZL","ZL_noplot").replace("ZJ","ZJ_noplot") for p in processes]
+					#processes_to_plot = [p for p in processes if not "noplot" in p]
+					#processes_to_plot.insert(1, "ZLL")
+					#config["sum_nicks"].append("ZL_noplot ZJ_noplot")
+					#config["sum_scale_factors"].append("1.0 1.0")
+					#config["sum_result_nicks"].append("ZLL")
+				
 				config["files"] = [postfit_shapes]
 				config["folders"] = [category+"_"+level]
-				config["x_expressions"] = processes + ["data_obs", "TotalBkg", "TotalSig"]
 				config["nicks"] = processes + ["data_obs", "noplot_TotalBkg", "noplot_TotalSig"]
-				config["stacks"] = ["bkg"]*len(processes) + ["data"]
+				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["data_obs", "TotalBkg", "TotalSig"]
+				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
 
 				if level == "postfit":
 					config["scale_factors"] = [bestfit] + [1.0]*(len(processes) - 1) + [1.0, 1.0, bestfit]
 
-				config.setdefault("analysis_modules", []).append("SumOfHistograms")
-				config["sum_nicks"] = ["noplot_TotalBkg noplot_TotalSig"]
-				config["sum_scale_factors"] = ["1.0 1.0"]
-				config["sum_result_nicks"] = ["Total"]
-
-				config["labels"] = [label.lower() for label in processes + ["data_obs"] + [""]]
-				config["colors"] = [color.lower() for color in processes + ["data_obs"] + ["#000000"]]
-				config["markers"] = ["HIST"]*len(processes) + ["E"] + ["E2"]
-				config["legend_markers"] = ["F"]*len(processes) + ["ELP"] + ["F"]
+				config["labels"] = [label.lower() for label in processes_to_plot + ["data_obs"] + ["totalbkg"]]
+				config["colors"] = [color.lower() for color in processes_to_plot + ["data_obs"] + ["#000000"]]
+				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E"] + ["E2"]
+				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["ELP"] + ["F"]
 				config["x_label"] = category[:2]+"_"+args.quantity
+				config["y_label"] = "Events / 10 GeV"
 				config["title"] = "channel_"+category[:2]
 				config["energies"] = [13.0]
-				config["lumis"] = [float("%.3f" % args.lumi)]
+				config["lumis"] = [float("%.1f" % args.lumi)]
 				config["cms"] = [True]
 				config["extra_text"] = "Preliminary"
 				config["legend"] = [0.7, 0.6, 0.9, 0.88]
-						
+				
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category
 				
@@ -374,12 +390,15 @@ if __name__ == "__main__":
 					config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
 					config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
 					config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
+					config["ratio_denominator_no_errors"] = True
 					config.setdefault("colors", []).extend(["#000000"] * 2)
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["F", "ELP"])
 					config.setdefault("labels", []).extend([""] * 2)
-					config["legend"] = [0.7, 0.5, 0.95, 0.92]
+					config["legend"] = [0.65, 0.45, 0.95, 0.92]
 					config["y_subplot_lims"] = [0.0, 2.0]
+					config["y_subplot_label"] = "Obs./Exp."
+					config["subplot_grid"] = True
 					
 				plot_configs.append(config)
 

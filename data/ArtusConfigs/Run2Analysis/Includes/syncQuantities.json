@@ -136,8 +136,6 @@
 		"byTightCombinedIsolationDeltaBetaCorr3Hits_2", "byIsolationMVA3newDMwoLTraw_2", "byIsolationMVA3oldDMwoLTraw_2",
 		"byIsolationMVA3newDMwLTraw_2", "byIsolationMVA3oldDMwLTraw_2", "decayModeFinding_2",
 		"decayModeFindingNewDMs_2",
-		"isZtt", "isZmt", "isZet", "isZee", "isZmm", "isZem",
-		"isZMM", "isZEE", "isZLL",
 		"isFake",
 		"NUP",
 		"id_m_loose_1",

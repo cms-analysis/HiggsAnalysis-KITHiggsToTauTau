@@ -77,7 +77,18 @@ public:
 	std::map<KMuon*, double> m_muonIsolationOverPt;
 	std::map<KTau*, double> m_tauIsolation;
 	std::map<KTau*, double> m_tauIsolationOverPt;
-	
+
+	// individual isolation components needed for embedding studies (also filled by HttValidMuonsProducer)
+	std::map<KMuon*, double> m_muonChargedIsolation;
+	std::map<KMuon*, double> m_muonNeutralIsolation;
+	std::map<KMuon*, double> m_muonPhotonIsolation;
+	std::map<KMuon*, double> m_muonDeltaBetaIsolation;
+
+	std::map<KMuon*, double> m_muonChargedIsolationOverPt;
+	std::map<KMuon*, double> m_muonNeutralIsolationOverPt;
+	std::map<KMuon*, double> m_muonPhotonIsolationOverPt;
+	std::map<KMuon*, double> m_muonDeltaBetaIsolationOverPt;
+
 	// filled by the DiLeptonQuantitiesProducer
 	RMFLV m_diLeptonSystem;
 	RMFLV m_diLeptonPlusMetSystem;

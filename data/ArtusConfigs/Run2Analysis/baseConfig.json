@@ -79,6 +79,11 @@
 			"Run2015" : "not needed"
 		}
 	},
+	"BTagScaleFactorFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2.csv"
+		}
+	},
 	"JsonFiles" : {
 		"nick" : {
 			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],
