@@ -72,7 +72,7 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 		chargedIsolationPtSum = muon->sumChargedHadronPt;
 		neutralIsolationPtSum = muon->sumNeutralHadronEt;
 		photonIsolationPtSum = muon->sumPhotonEt;
-		deltaBetaIsolationPtSum = muon->pfIso(0.0);
+		deltaBetaIsolationPtSum = muon->sumPUPt;
 
 		isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
 	}
