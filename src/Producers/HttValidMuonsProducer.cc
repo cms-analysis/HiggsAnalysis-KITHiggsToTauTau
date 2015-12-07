@@ -69,10 +69,10 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 
 	if (muonIsoTypeUserMode == MuonIsoTypeUserMode::FROMCMSSW)
 	{
-		chargedIsolationPtSum = muon->pfIsoOnlyHadron();
-		neutralIsolationPtSum = muon->pfIsoOnlyNeutral();
-		photonIsolationPtSum = muon->pfIsoOnlyPhoton();
-		deltaBetaIsolationPtSum = muon->pfIsoOnlyPu();
+		chargedIsolationPtSum = muon->sumChargedHadronPt;
+		neutralIsolationPtSum = muon->sumNeutralHadronEt;
+		photonIsolationPtSum = muon->sumPhotonEt;
+		deltaBetaIsolationPtSum = muon->pfIso(0.0);
 
 		isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
 	}
