@@ -46,6 +46,10 @@ if __name__ == "__main__":
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--lumi", type=float, default=2.155,
+	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
+	parser.add_argument("--for-dcsync", action="store_true", default=False,
+	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
@@ -81,6 +85,8 @@ if __name__ == "__main__":
 	hadd_commands = []
 	
 	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses)
+	if args.for_dcsync:
+		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -91,6 +97,8 @@ if __name__ == "__main__":
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
+	if args.for_dcsync:
+		output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
 	
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):
@@ -120,6 +128,16 @@ if __name__ == "__main__":
 		
 		for category in categories:
 			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			
+			exclude_cuts = []
+			if args.for_dcsync:
+				if category[3:] == 'inclusive':
+					exclude_cuts=["mt", "not2prong", "pzeta"]
+				elif category[3:] == 'inclusivemtnotwoprong':
+					exclude_cuts=["pzeta"]
+				
+				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
@@ -151,6 +169,8 @@ if __name__ == "__main__":
 							channel=channel,
 							category="catHtt13TeV_"+category,
 							weight=args.weight,
+							lumi = args.lumi * 1000,
+							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses
 					)
 					

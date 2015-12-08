@@ -143,3 +143,62 @@ class SMHttDatacards(datacards.Datacards):
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
 
+
+# simplified version just for the purpose of datacard synchronization (no systematics)
+class SMHttDatacardsForSync(datacards.Datacards):
+	def __init__(self, higgs_masses=["125"], cb=None):
+		super(SMHttDatacardsForSync, self).__init__(cb)
+		
+		if cb is None:
+			signal_processes = ["ggH", "qqH"]
+		
+			# ======================================================================
+			# MT channel
+			self.add_processes(
+					channel="mt",
+					categories=["mt_"+category for category in ["inclusive", "inclusivemtnotwoprong"]],
+					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
+					sig_processes=signal_processes,
+					analysis=["htt"],
+					era=["13TeV"],
+					mass=higgs_masses
+			)
+			
+			# ======================================================================
+			# ET channel
+			self.add_processes(
+					channel="et",
+					categories=["et_"+category for category in ["inclusive", "inclusivemtnotwoprong"]],
+					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
+					sig_processes=signal_processes,
+					analysis=["htt"],
+					era=["13TeV"],
+					mass=higgs_masses
+			)
+			
+			# ======================================================================
+			# EM channel
+			self.add_processes(
+					channel="em",
+					categories=["em_"+category for category in ["inclusive"]],
+					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
+					sig_processes=signal_processes,
+					analysis=["htt"],
+					era=["13TeV"],
+					mass=higgs_masses
+			)
+			
+			# ======================================================================
+			# TT channel
+			self.add_processes(
+					channel="tt",
+					categories=["tt_"+category for category in ["inclusive"]],
+					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
+					sig_processes=signal_processes,
+					analysis=["htt"],
+					era=["13TeV"],
+					mass=higgs_masses
+			)
+			
+			if log.isEnabledFor(logging.DEBUG):
+				self.cb.PrintAll()
