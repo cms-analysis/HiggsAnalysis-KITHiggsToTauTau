@@ -62,7 +62,7 @@ if __name__ == "__main__":
 	                    help="Use Run1 samples. [Default: %(default)s]")
 	parser.add_argument("--cms", default=False, action="store_true",
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=2.11,
+	parser.add_argument("--lumi", type=float, default=2.155,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
@@ -197,7 +197,7 @@ if __name__ == "__main__":
 					config["legend_cols"] = 3
 				if not args.shapes:
 					if not args.lumi is None:
-						config["lumis"] = [float("%.3f" % args.lumi)]
+						config["lumis"] = [float("%.1f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
 				
 				config["output_dir"] = os.path.expandvars(os.path.join(
