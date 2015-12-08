@@ -29,7 +29,9 @@ if __name__ == "__main__":
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
 	parser.add_argument("--scale-signal", type=float, default=1.0,
-	                    help="Scale signal (htt). [Default: %(default)s]")
+	                    help="Scale signal (htt). Allowed values are 1, 10, 25 and 100. [Default: %(default)s]")
+	parser.add_argument("--sbratio", default=False, action="store_true",
+	                    help="Add s/sqrt(b) subplot [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
