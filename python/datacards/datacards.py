@@ -60,21 +60,21 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.026)
-				(       ["13TeV"], 1.10)
+				(       ["13TeV"], 1.06)
 		]
 		self.electron_efficieny_syst_args = [
 			"CMS_eff_e",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
-				(       ["13TeV"], 1.02) # copied from 8TeV
+				(       ["13TeV"], 1.05) # copied from 8TeV
 		]
 		self.muon_efficieny_syst_args = [
 			"CMS_eff_m",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
-				(       ["13TeV"], 1.02) # copied from 8TeV
+				(       ["13TeV"], 1.05) # copied from 8TeV
 		]
 		self.tau_efficieny_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
@@ -157,7 +157,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process", "channel")
 				(["7TeV", "8TeV"], ["ZLL"], ["mt", "et"], 1.30)
-				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "et"], 1.30) # copied from 8TeV
+				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "et"], 1.50) # copied from 8TeV
 		]
 		
 		self.jec_syst_args = [
