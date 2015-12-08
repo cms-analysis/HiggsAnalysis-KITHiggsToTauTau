@@ -14,6 +14,8 @@ def checkout_packages(max_n_trials=2):
 	commands = [
 		"cd $CMSSW_BASE/src",
 		
+		"git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki",
+		
 		"svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries",
 		
 		# needed by the JetEnergyCorrectionProducer
