@@ -13,7 +13,7 @@ class LabelsDict(labels.LabelsDict):
 		super(LabelsDict, self).__init__(latex_version=latex_version, additional_labels=additional_labels)
 		
 		if latex_version == "root":
-			self.labels_dict["totalbkg"] = "Bkg. Unc."
+			self.labels_dict["totalbkg"] = "Exp. unc."
 			self.labels_dict["data"] = "Data"
 			self.labels_dict["zll"] = "Z #rightarrow ll"
 			self.labels_dict["zmm"] = "Z #rightarrow #mu#mu"
@@ -22,6 +22,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt"] = "t#bar{t} + jets"
 			self.labels_dict["wj"] = "W + jets"
 			self.labels_dict["vv"] = "Di-boson"
+			self.labels_dict["ewk"] = "Electroweak"
 			self.labels_dict["qcd"] = "QCD"
 			self.labels_dict["htt"] = "H #rightarrow #tau#tau"
 			self.labels_dict["ggh"] = "ggH"
@@ -44,7 +45,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_mm_large"] = "#scale[1.5]{#mu#mu}"
 			self.labels_dict["channel_ee_large"] = "#scale[1.5]{ee}"
 			
-			self.labels_dict["diLepMass"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["diLepMass"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["svfitMass"] = "Di-#tau Mass m_{#tau#tau} / GeV"
 			
 			self.labels_dict["tt_decayMode_1"] = "Leading Tau DM"
@@ -66,7 +67,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_jpt_2"] = "Trailing Jet p_{T} / GeV"
 			self.labels_dict["tt_m_1"] = "Leading Tau Mass / GeV"
 			self.labels_dict["tt_m_2"] = "Trailing Tau Mass / GeV"
-			self.labels_dict["tt_m_ll"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["tt_m_ll"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["tt_m_llmet"] = "m_{ll,MEt} / GeV"
 			self.labels_dict["tt_m_sv"] = "Di-#tau Mass m_{#tau#tau} / GeV"
 			self.labels_dict["tt_met"] = "PFlow #slash{E}_{T}"
@@ -90,7 +91,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_mvametcov10"] = "Cov_{1,0}(#slash{E}_{T})"
 			self.labels_dict["tt_mvametcov11"] = "Cov_{1,1}(#slash{E}_{T})"
 			self.labels_dict["tt_mvametphi"] = "#phi(#slash{E}_{T})"
-			self.labels_dict["tt_m_vis"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["tt_m_vis"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["tt_nJets30"] = "Number of Jets"
 			self.labels_dict["tt_njetspt30"] = "Number of Jets"
 			self.labels_dict["tt_njets"] = "Number of Jets"
@@ -138,7 +139,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_jpt_2"] = "Trailing Jet p_{T} / GeV"
 			self.labels_dict["mt_m_1"] = "Muon Mass / GeV"
 			self.labels_dict["mt_m_2"] = "Tau Mass / GeV"
-			self.labels_dict["mt_m_ll"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["mt_m_ll"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["mt_m_llmet"] = "m_{ll,MEt} / GeV"
 			self.labels_dict["mt_m_sv"] = "Di-#tau Mass m_{#tau#tau} / GeV"
 			self.labels_dict["mt_met"] = "PFlow #slash{E}_{T}"
@@ -162,7 +163,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_mvametcov10"] = "Cov_{1,0}(#slash{E}_{T})"
 			self.labels_dict["mt_mvametcov11"] = "Cov_{1,1}(#slash{E}_{T})"
 			self.labels_dict["mt_mvametphi"] = "#phi(#slash{E}_{T})"
-			self.labels_dict["mt_m_vis"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["mt_m_vis"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["mt_nJets30"] = "Number of Jets"
 			self.labels_dict["mt_njetspt30"] = "Number of Jets"
 			self.labels_dict["mt_njets"] = "Number of Jets"
@@ -210,7 +211,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["et_jpt_2"] = "Trailing Jet p_{T} / GeV"
 			self.labels_dict["et_m_1"] = "Electron Mass / GeV"
 			self.labels_dict["et_m_2"] = "Tau Mass / GeV"
-			self.labels_dict["et_m_ll"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["et_m_ll"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["et_m_llmet"] = "m_{ll,MEt} / GeV"
 			self.labels_dict["et_m_sv"] = "Di-#tau Mass m_{#tau#tau} / GeV"
 			self.labels_dict["et_met"] = "PFlow #slash{E}_{T}"
@@ -234,7 +235,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["et_mvametcov10"] = "Cov_{1,0}(#slash{E}_{T})"
 			self.labels_dict["et_mvametcov11"] = "Cov_{1,1}(#slash{E}_{T})"
 			self.labels_dict["et_mvametphi"] = "#phi(#slash{E}_{T})"
-			self.labels_dict["et_m_vis"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["et_m_vis"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["et_nJets30"] = "Number of Jets"
 			self.labels_dict["et_njetspt30"] = "Number of Jets"
 			self.labels_dict["et_njets"] = "Number of Jets"
@@ -281,7 +282,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["em_jpt_2"] = "Trailing Jet p_{T} / GeV"
 			self.labels_dict["em_m_1"] = "Electron Mass / GeV"
 			self.labels_dict["em_m_2"] = "Muon Mass / GeV"
-			self.labels_dict["em_m_ll"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["em_m_ll"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["em_m_llmet"] = "m_{ll,MEt} / GeV"
 			self.labels_dict["em_m_sv"] = "Di-#tau Mass m_{#tau#tau} / GeV"
 			self.labels_dict["em_met"] = "PFlow #slash{E}_{T}"
@@ -305,7 +306,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["em_mvametcov10"] = "Cov_{1,0}(#slash{E}_{T})"
 			self.labels_dict["em_mvametcov11"] = "Cov_{1,1}(#slash{E}_{T})"
 			self.labels_dict["em_mvametphi"] = "#phi(#slash{E}_{T})"
-			self.labels_dict["em_m_vis"] = "Di-lepton Mass m_{ll} / GeV"
+			self.labels_dict["em_m_vis"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["em_nJets30"] = "Number of Jets"
 			self.labels_dict["em_njetspt30"] = "Number of Jets"
 			self.labels_dict["em_njets"] = "Number of Jets"
@@ -475,7 +476,7 @@ class LabelsDict(labels.LabelsDict):
 			# put labels for MPL plots here
 			pass
 		
-		self.labels_dict["data_obs"] = self.labels_dict["data"]
+		self.labels_dict["data_obs"] = "Observed"
 		self.labels_dict["zl"] = self.labels_dict["zll"]
 		self.labels_dict["zj"] = self.labels_dict["zll"]
 		self.labels_dict["ttj"] = self.labels_dict["tt"]
@@ -483,7 +484,6 @@ class LabelsDict(labels.LabelsDict):
 		self.labels_dict["wjets"]  = self.labels_dict["wj"]
 		self.labels_dict["w"]  = self.labels_dict["wj"]
 		self.labels_dict["dibosons"]  = self.labels_dict["vv"]
-		self.labels_dict["ewk"] = self.labels_dict["vv"]
 		self.labels_dict["fakes"] = self.labels_dict["qcd"]
 		self.labels_dict["qcdwj"] = self.labels_dict["qcd"]
 		self.labels_dict["totalsig"] = self.labels_dict["htt"]
