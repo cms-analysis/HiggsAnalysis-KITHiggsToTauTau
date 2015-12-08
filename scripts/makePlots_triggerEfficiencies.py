@@ -61,7 +61,7 @@ if __name__ == "__main__":
 	plot_configs = []
 	for channel, probe_triggers in zip(args.channels, args.probe_triggers):
 		for probe_trigger in probe_triggers:
-			for plot_mode in ['pt', 'eta']:#, 'combinedMC','combinedData','DataMC']:
+			for plot_mode in ['pt', 'eta', 'combinedMC','combinedData','DataMC']:
 		
 				"""
 				config = sample_settings.get_config(
@@ -78,38 +78,30 @@ if __name__ == "__main__":
 				config["directories"] = [args.input_dir]
 				
 		
-				config["folders"] = [channel+"_"+probe_trigger+"/"+"ntuple"]
+				config["folders"] = [channel+"_"+probe_trigger+"/"+channel+"TriggerTP"]
 		
-				offline_selections = "(probeCharge != tagCharge)*(tagIsoOverPt<0.1)*(tagPt>20)*(probePt>15)*(puWeight)*"
-				eta_range = "(std::abs(probeEta)<2.1)*"
-				
-				#config["weights"] = ["tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)" if channel in ["mm", "ee"] else "tagMatched"]
-				config["weights"] = offline_selections+eta_range+"tagMatched * (std::abs(tagProbeMass - 91.0) < 5)"				
 
+				
+				config["weights"] = ["tagMatched * (std::abs(tagProbeSystem.mass() - 90.0) < 30)" if channel in ["mm", "ee"] else "tagMatched"]
+				
 				if plot_mode in ['pt','eta']:
 					config["files"] = [
 					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root",
-					"DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root",
-					"SingleMuon_Run2015D_PromptRecov4_13TeV_MINIAOD/*.root",
-					"SingleMuon_Run2015D_PromptRecov4_13TeV_MINIAOD/*.root",
-					"SingleMuon_Run2015D_05Oct2015v1_13TeV_MINIAOD/*.root",
-					"SingleMuon_Run2015D_05Oct2015v1_13TeV_MINIAOD/*.root"
+					"*_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root",
 					]
 					if plot_mode == 'pt':
-						config["x_expressions"] = ["probePt"]
+						config["x_expressions"] = ["probe.p4.Pt()"]
 						config["x_bins"] = ["0 10 20 30 40 50 60 70 80 100 120 140 170 200"]#["40,0,200"]
 					if plot_mode == 'eta':
-						config["x_expressions"] = ["probeEta"]
+						config["x_expressions"] = ["probe.p4.Eta()"]
 						config["x_bins"] = ["40,-2,2"]
-					#config["files"] = list(itertools.chain(*[[input_file] * 2 for input_file in config["files"]]))
-					config["weights"] = [weight if index % 2 == 0 else (weight + " * probeMatched") for index, weight in enumerate(config["weights"] * 6)]
+					config["files"] = list(itertools.chain(*[[input_file] * 2 for input_file in config["files"]]))
+					config["weights"] = [weight if index % 2 == 0 else (weight + " * probeMatched") for index, weight in enumerate(config["weights"] * 4)]
 					config["nicks"] = [
 						"noplot_mc_all",
 						"noplot_mc_pass",
 						"noplot_data_all",
 						"noplot_data_pass",
-						"noplot_data_all",
-						"noplot_data_pass"
 					]
 					
 					if not "Efficiency" in config.get("analysis_modules", []):
@@ -149,7 +141,6 @@ if __name__ == "__main__":
 						config["y_subplot_label"] = "Data/MC"
 						config["y_subplot_lims"] = [0.75, 1.25]
 
-				'''
 				if plot_mode in ['combinedMC','combinedData','DataMC']:
 					if not "Divide" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("Divide")
@@ -223,7 +214,6 @@ if __name__ == "__main__":
 						config["colormap"] = "True"
 						config["z_lims"] = [0.7, 1.3]
 						config["filename"] = "efficiency2d_databymc"
-				'''
 
 				config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
 				if not args.www is None:

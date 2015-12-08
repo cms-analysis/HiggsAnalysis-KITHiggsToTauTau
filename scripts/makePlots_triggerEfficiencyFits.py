@@ -45,7 +45,7 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/trigger_efficiencyfits/",
 	                    help="Output directory. [Default: %(default)s]")
-	parser.add_argument("--www", nargs="?", default=None, const="trigger_efficiencyfits",
+	parser.add_argument("--www", nargs="?", default=None, const="trigger_efficiencies",
 	                    help="Publish plots. [Default: %(default)s]")
 	
 	args = parser.parse_args()
@@ -58,8 +58,6 @@ if __name__ == "__main__":
 	sample_settings = samples.Samples()
 	"""
 
-	offline_selections = "(probe.charge() != tag.charge())*"		
-
 	plot_configs = []
 	for channel, probe_triggers in zip(args.channels, args.probe_triggers):
 		for probe_trigger in probe_triggers:
@@ -68,50 +66,23 @@ if __name__ == "__main__":
 				if not "FunctionPlot" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("FunctionPlot")
 				#config["analysis_modules"] = ["FunctionPlot"]			
-				config["directories"] = [args.input_dir]		#watch out below this when changing to ntuples
+				config["directories"] = [args.input_dir]		
 				config["folders"] = [channel+"_"+probe_trigger+"/"+channel+"TriggerTP"]
 				if mode == 'MC':
 					config["files"] = ["DYJetsToLLM50_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_amcatnloFXFX-pythia8/*.root"]
 				if mode == 'data':
-					config["files"] = ["SingleMuon_*/*.root"]
+					config["files"] = ["*_Run2015B_PromptRecov1_13TeV_MINIAOD/*.root"]
 				for eta_range in ['barrel', 'endcap']:
-					if eta_range == 'barrel':
-						weights_tmp = offline_selections+"(std::abs(probe.p4.Eta())<1.479)*"
-					if eta_range == 'endcap':
-						weights_tmp = offline_selections+"(std::abs(probe.p4.Eta())>1.479)*"
 					for pt_bins in ['pt_10_15', 'pt_15_20', 'pt_20_30', 'pt_30_40', 'pt_40_60']:
 						for probe_type in ['passing', 'failing']:
 							config["x_expressions"] = ["tagProbeSystem.fCoordinates.fM"]
-							config["x_bins"] = ["40,70,110"]
+							config["x_bins"] = ["40,50,130"]
 							config["function_fit"] = ["nick0"]
 							config["functions"] = ["(x>[0])*[1]*exp(-0.5*((x-[0])/[2])**2)+(x<[0])*[1]*exp(-0.5*((x-[0])/[3])**2)+[4]*exp([5]*x)"]
 							config["function_parameters"] = ["91,1,3,3,308,-0.04"]
 							if pt_bins == 'pt_10_15':
 								if probe_type == 'passing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>10)*(probe.p4.Pt()<15)*(probeMatched)"]
-									config["plot_modules"] = ["ExportRoot"]
-									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
-											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
-									config["filename"] = mode+"_"+eta_range+"_"+pt_bins+"_"+"passing"+"_probes"
-									config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-									if not args.www is None:
-										config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))
-									tmp = config.copy()	
-									plot_configs.append(tmp)
-								if probe_type == 'failing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>10)*(probe.p4.Pt()<15)*(1-probeMatched)"]
-									config["plot_modules"] = ["ExportRoot"]						
-									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
-											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
-									config["filename"] = mode+"_"+eta_range+"_"+pt_bins+"_"+"failing"+"_probes"
-									config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-									if not args.www is None:
-										config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))	
-									tmp = config.copy()
-									plot_configs.append(tmp)
-							if pt_bins == 'pt_15_20':
-								if probe_type == 'passing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>15)*(probe.p4.Pt()<20)*(probeMatched)"]
+									config["weights"] = ["(probe.p4.Pt()>30)*(probe.p4.Pt()<40)*(probeMatched)"]
 									config["plot_modules"] = ["ExportRoot"]					
 									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
 											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
@@ -122,76 +93,7 @@ if __name__ == "__main__":
 									tmp = config.copy()	
 									plot_configs.append(tmp)
 								if probe_type == 'failing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>15)*(probe.p4.Pt()<20)*(1-probeMatched)"]
-									config["plot_modules"] = ["ExportRoot"]						
-									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
-											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
-									config["filename"] = mode+"_"+eta_range+"_"+pt_bins+"_"+"failing"+"_probes"
-									config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-									if not args.www is None:
-										config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))	
-									tmp = config.copy()
-									plot_configs.append(tmp)
-							if pt_bins == 'pt_20_30':
-								if probe_type == 'passing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>20)*(probe.p4.Pt()<30)*(probeMatched)"]
-									config["plot_modules"] = ["ExportRoot"]					
-									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
-											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
-									config["filename"] = mode+"_"+eta_range+"_"+pt_bins+"_"+"passing"+"_probes"
-									config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-									if not args.www is None:
-										config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))
-									tmp = config.copy()	
-									plot_configs.append(tmp)
-								if probe_type == 'failing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>20)*(probe.p4.Pt()<30)*(1-probeMatched)"]
-									config["plot_modules"] = ["ExportRoot"]						
-									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
-											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
-									config["filename"] = mode+"_"+eta_range+"_"+pt_bins+"_"+"failing"+"_probes"
-									config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-									if not args.www is None:
-										config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))	
-									tmp = config.copy()
-									plot_configs.append(tmp)
-							if pt_bins == 'pt_30_40':
-								if probe_type == 'passing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>30)*(probe.p4.Pt()<40)*(probeMatched)"]
-									config["plot_modules"] = ["ExportRoot"]					
-									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
-											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
-									config["filename"] = mode+"_"+eta_range+"_"+pt_bins+"_"+"passing"+"_probes"
-									config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-									if not args.www is None:
-										config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))
-									tmp = config.copy()	
-									plot_configs.append(tmp)
-								if probe_type == 'failing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>30)*(probe.p4.Pt()<40)*(1-probeMatched)"]
-									config["plot_modules"] = ["ExportRoot"]						
-									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
-											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
-									config["filename"] = mode+"_"+eta_range+"_"+pt_bins+"_"+"failing"+"_probes"
-									config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-									if not args.www is None:
-										config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))	
-									tmp = config.copy()
-									plot_configs.append(tmp)
-							if pt_bins == 'pt_40_60':
-								if probe_type == 'passing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>40)*(probe.p4.Pt()<60)*(probeMatched)"]
-									config["plot_modules"] = ["ExportRoot"]					
-									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
-											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]
-									config["filename"] = mode+"_"+eta_range+"_"+pt_bins+"_"+"passing"+"_probes"
-									config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, probe_trigger))
-									if not args.www is None:
-										config["www"] = os.path.expandvars(os.path.join(args.www, channel, probe_trigger))
-									tmp = config.copy()	
-									plot_configs.append(tmp)
-								if probe_type == 'failing':
-									config["weights"] = [weights_tmp+"(probe.p4.Pt()>40)*(probe.p4.Pt()<60)*(1-probeMatched)"]
+									config["weights"] = ["(probe.p4.Pt()>30)*(probe.p4.Pt()<40)*(1-probeMatched)"]
 									config["plot_modules"] = ["ExportRoot"]						
 									config["labels"] = [mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Histogram",
 											    mode+"/"+eta_range+"/"+pt_bins+"/"+probe_type+"_probes"+"/"+"Function"]

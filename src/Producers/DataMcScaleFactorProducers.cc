@@ -119,8 +119,8 @@ double DataMcScaleFactorProducerBase::GetEfficienciesFromHistograms(std::vector<
 		                            ((*histogram)->GetXaxis()->GetBinUpEdge(xBin) - (*histogram)->GetXaxis()->GetBinLowEdge(xBin));
 		float linearInterpolation = (binContent * interpolationFactor) + (binContentUp * (1.0 - interpolationFactor));
 		
-		//efficiency *= linearInterpolation;
-		efficiency *= (*histogram)->GetBinContent((*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta()));
+		efficiency *= linearInterpolation;
+		//efficiency *= (*histogram)->GetBinContent((*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta()));
 	}
 	return efficiency;
 }
