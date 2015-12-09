@@ -14,6 +14,41 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 
+import sys
+
+def add_s_over_sqrtb_subplot(config, args, bkg_samples):
+
+	if not "AddHistograms" in config["analysis_modules"]:
+		config["analysis_modules"].append("AddHistograms")
+		config["histogram_nicks"] = []
+		config["sum_result_nicks"] = []
+
+	config["histogram_nicks"].append(" ".join(bkg_samples))
+	config["sum_result_nicks"].append("backgrounds_noplot")
+	if not "SquareRootBinContent" in config["analysis_modules"]:
+		config["analysis_modules"].append("SquareRootBinContent")
+	config["square_root_nicks"] = ["backgrounds_noplot"]
+
+	config["analysis_modules"].append("ScaleHistograms")
+	config["scale_nicks"] = ["htt125"]
+	config["scales"] = [ 1/args.scale_signal ]
+	config["scale_result_nicks"] = ["htt125Scaled"]
+
+	if not "Ratio" in config["analysis_modules"]:
+		config["analysis_modules"].append("Ratio")
+	config["markers"].append("LINE")
+	config["legend_markers"].append("L")
+	config["labels"].append("sbratio")
+
+	config["ratio_denominator_nicks"] = ["backgrounds_noplot"]
+	config["ratio_numerator_nicks"] = ["htt125Scaled"]
+	config["ratio_result_nicks"] = ["ratio_soversqrtb"]
+	config["colors"].append("kit_blau_1")
+
+	config["y_subplot_label"] = "s / #sqrt{b}"
+	config["subplot_lines"] = [0.1, 0.5, 1.0 ]
+	config["y_subplot_lims"] = [0, 1.5]
+
 
 if __name__ == "__main__":
 
@@ -204,6 +239,11 @@ if __name__ == "__main__":
 						config["lumis"] = [float("%.1f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
 				
+				# add s/sqrt(b) subplot
+				if(args.sbratio):
+					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					add_s_over_sqrtb_subplot(config, args, bkg_samples_used)
+
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
 						channel if len(args.channels) > 1 else "",
