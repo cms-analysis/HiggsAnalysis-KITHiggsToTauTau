@@ -106,6 +106,10 @@ if __name__ == "__main__":
 		if not args.run1:
 			args.samples.remove("zl")
 			args.samples.remove("zj")
+	if ("zj" in args.samples or "zl" in args.samples) and not args.run1:
+		log.error("plot will fail: zl or zj samples given as input. Remove to continue")
+		sys.exit()
+
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
