@@ -153,7 +153,7 @@ if __name__ == "__main__":
 	if ("zj" in args.samples or "zl" in args.samples) and not args.run1:
 		log.error("plot will fail: zl or zj samples given as input. Remove to continue")
 		sys.exit()
-
+	www_output_dirs = []
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
@@ -261,12 +261,9 @@ if __name__ == "__main__":
 						channel if len(args.channels) > 1 else "",
 						category if len(args.categories) > 1 else ""
 				))
-				if not args.www is None:
-					config["www"] = os.path.expandvars(os.path.join(
-							args.www,
-							channel if len(args.channels) > 1 else "",
-							category if len(args.categories) > 1 else ""
-					))
+				if not (config["output_dir"] in www_output_dirs):
+					www_output_dirs.append(config["output_dir"])
+
 				
 				config.update(json_config)
 				plot_configs.append(config)
@@ -277,3 +274,12 @@ if __name__ == "__main__":
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
+	if not args.www is None:
+		for output_dir in www_output_dirs:
+			from Artus.HarryPlotter.plotdata import PlotData
+			subpath =os.path.normpath(output_dir).split("/")[-1]
+			PlotData.webplotting(
+			             www = subpath if not(subpath == "control_plots") else "",
+			             output_dir = output_dir,
+			             export_json = False
+			             )
