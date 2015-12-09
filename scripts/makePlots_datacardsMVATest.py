@@ -34,10 +34,10 @@ if __name__ == "__main__":
 
     parser.add_argument("-i", "--input-dir", required=True,
                         help="Input directory.")
-    parser.add_argument("-c", "--channel", action="append",
-                        default=["all"],
+    parser.add_argument("-c", "--channel", action="append", nargs="+",
+                        default=[["all"]],
                         help="Channel. This agument can be set multiple times. [Default: %(default)s]")
-    parser.add_argument("--categories", action="append", nargs="+",
+    parser.add_argument("--categories", nargs="+", action="append",
                         default=[["all"]] * len(parser.get_default("channel")),
                         help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
     parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
@@ -70,7 +70,6 @@ if __name__ == "__main__":
     args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
     if args.clear_output_dir and os.path.exists(args.output_dir):
         logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-    
     # initialisations for plotting
     sample_settings = samples.Samples()
     binnings_settings = binnings.BinningsDict()
@@ -92,32 +91,42 @@ if __name__ == "__main__":
     datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
     output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
     
-    # prepare channel settings based on args and datacards
-    if args.channel != parser.get_default("channel"):
+    # prepare channel and categories settings based on args and datacards
+    
+    if len(args.channel) > 1:
         args.channel = args.channel[1:]
-    if (len(args.channel) == 1) and (args.channel[0] == "all"):
-        args.channel = datacards.cb.channel_set()
-    else:
-        args.channel = list(set(args.channel).intersection(set(datacards.cb.channel_set())))
-    
-    # restrict CombineHarvester to configured channels:
-    datacards.cb.channel(args.channel)
-    
-    if args.categories != parser.get_default("categories"):
+    args.channel = [datacards.cb.channel_set() if chan == ['all'] else chan for chan in args.channel]
+    if len(args.categories) > 1:
         args.categories = args.categories[1:]
-    args.categories = (args.categories * len(args.channel))[:len(args.channel)]
-    for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
+    if len(args.categories) != len(args.channel):
+        log.critical("Categories must be specified as often as --channels is specified")
         
+    log.info(args.channel)
+    log.info(args.categories)
+    channel_category_dict = {}
+    for i,channel in enumerate(args.channel):
+        for chan in channel:
+            if chan in channel_category_dict:
+                channel_category_dict[chan].extend(args.categories[i])
+            else:
+                channel_category_dict[chan]=args.categories[i][:]
+    
+    channel_category_list = [(chan, ['all']) if 'all' in cat else (chan, [chan+'_'+c for c in cat]) for chan, cat in channel_category_dict.iteritems()]
+    log.info(channel_category_list)
+    # restrict CombineHarvester to configured channels:
+    datacards.cb.channel([x[0] for x in channel_category_list])
+    
+    for index, (channel, categories) in enumerate(channel_category_list):
         # prepare category settings based on args and datacards
         if (len(categories) == 1) and (categories[0] == "all"):
             categories = datacards.cb.cp().channel([channel]).bin_set()
         else:
             categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-        args.categories[index] = categories
         
         # restrict CombineHarvester to configured categories:
         datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-        
+        log.info(channel)
+        log.info(categories)
         for category in categories:
             datacards_per_channel_category = mvadatacards.MVADatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
             higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
@@ -198,7 +207,6 @@ if __name__ == "__main__":
                     DST=output_file,
                     SRC=" ".join(tmp_output_files)
             ))
-    
     #if log.isEnabledFor(logging.DEBUG):
     #   import pprint
     #   pprint.pprint(plot_configs)

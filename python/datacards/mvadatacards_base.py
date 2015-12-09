@@ -136,21 +136,21 @@ class Datacards(object):
             "CMS_$ANALYSIS_qcdSyst_$BIN_$ERA",
             "lnN",
             ch.SystMap("era", "process", "bin")
-                #(["13TeV"], ["QCD"], ["mt_inclusive", "et_inclusive"], 1.06) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["mt_inclusive", "et_inclusive"], 1.06) # copied from 8TeV
                 
-                #(["13TeV"], ["QCD"], ["mt_0jet_high"], 1.1) # copied from 8TeV
-                #(["13TeV"], ["QCD"], ["mt_0jet_low"], 1.1) # copied from 8TeV
-                #(["13TeV"], ["QCD"], ["mt_1jet_high"], 1.1) # copied from 8TeV
-                #(["13TeV"], ["QCD"], ["mt_1jet_low"], 1.1) # copied from 8TeV
-                #(["13TeV"], ["QCD"], ["mt_2jet_vbf"], 1.3) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["mt_0jet_high"], 1.1) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["mt_0jet_low"], 1.1) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["mt_1jet_high"], 1.1) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["mt_1jet_low"], 1.1) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["mt_2jet_vbf"], 1.3) # copied from 8TeV
                 
-                #(["13TeV"], ["QCD"], ["et_0jet_high"], 1.06) # copied from 8TeV
-                #(["13TeV"], ["QCD"], ["et_0jet_low"], 1.06) # copied from 8TeV
-                #(["13TeV"], ["QCD"], ["et_1jet_high"], 1.1) # copied from 8TeV
-                #(["13TeV"], ["QCD"], ["et_1jet_low"], 1.1) # copied from 8TeV
-                #(["13TeV"], ["QCD"], ["et_2jet_vbf"], 1.3) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["et_0jet_high"], 1.06) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["et_0jet_low"], 1.06) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["et_1jet_high"], 1.1) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["et_1jet_low"], 1.1) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["et_2jet_vbf"], 1.3) # copied from 8TeV
                 
-                #(["13TeV"], ["QCD"], ["tt_inclusive"], 1.35) # copied from 8TeV
+                (["13TeV"], ["QCD"], ["tt_inclusive"], 1.35) # copied from 8TeV
         ]
         self.zllFakeTau_syst_args = [
             "CMS_$ANALYSIS_zllFakeTau_$CHANNEL_$ERA",
@@ -202,45 +202,45 @@ class Datacards(object):
             "UEPS",
             "lnN",
             ch.SystMap("era", "process", "bin")
-                #(["13TeV"], ["ggH"], ["mt_0jet_high"], 1.060) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["mt_0jet_low"], 1.073) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["mt_1jet_high"], 0.996) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["mt_1jet_low"], 1.007) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["mt_2jet_vbf"], 0.988) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["mt_0jet_high"], 1.060) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["mt_0jet_low"], 1.073) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["mt_1jet_high"], 0.996) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["mt_1jet_low"], 1.007) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["mt_2jet_vbf"], 0.988) # copied from 8TeV
                 
-                #(["13TeV"], ["ggH"], ["et_0jet_high"], 1.060) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["et_0jet_low"], 1.073) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["et_1jet_high"], 0.996) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["et_1jet_low"], 1.007) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["et_2jet_vbf"], 0.988) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["et_0jet_high"], 1.060) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["et_0jet_low"], 1.073) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["et_1jet_high"], 0.996) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["et_1jet_low"], 1.007) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["et_2jet_vbf"], 0.988) # copied from 8TeV
                 
-                #(["13TeV"], ["ggH"], ["em_0jet_high"], 1.063) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["em_0jet_low"], 1.089) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["em_1jet_high"], 1.004) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["em_1jet_low"], 1.000) # copied from 8TeV
-                #(["13TeV"], ["ggH"], ["em_2jet_vbf"], 0.988) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["em_0jet_high"], 1.063) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["em_0jet_low"], 1.089) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["em_1jet_high"], 1.004) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["em_1jet_low"], 1.000) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["em_2jet_vbf"], 0.988) # copied from 8TeV
                 
-                #(["13TeV"], ["ggH"], ["tt_inclusive"], 1.025) # copied from 8TeV
+                (["13TeV"], ["ggH"], ["tt_inclusive"], 1.025) # copied from 8TeV
                 
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_0jet_high"], 1.028) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_0jet_low"], 1.018) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_1jet_high"], 0.954) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_1jet_low"], 0.946) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_2jet_vbf"], 0.893) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_0jet_high"], 1.028) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_0jet_low"], 1.018) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_1jet_high"], 0.954) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_1jet_low"], 0.946) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["mt_2jet_vbf"], 0.893) # copied from 8TeV
                 
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_0jet_high"], 1.028) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_0jet_low"], 1.018) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_1jet_high"], 0.954) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_1jet_low"], 0.946) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_2jet_vbf"], 0.893) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_0jet_high"], 1.028) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_0jet_low"], 1.018) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_1jet_high"], 0.954) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_1jet_low"], 0.946) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["et_2jet_vbf"], 0.893) # copied from 8TeV
                 
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_0jet_high"], 1.042) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_0jet_low"], 1.035) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_1jet_high"], 0.978) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_1jet_low"], 0.984) # copied from 8TeV
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_2jet_vbf"], 0.893) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_0jet_high"], 1.042) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_0jet_low"], 1.035) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_1jet_high"], 0.978) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_1jet_low"], 0.984) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["em_2jet_vbf"], 0.893) # copied from 8TeV
                 
-                #(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["tt_inclusive"], 1.025) # copied from 8TeV
+                (["13TeV"], ["qqH", "WH", "ZH", "VH"], ["tt_inclusive"], 1.025) # copied from 8TeV
         ]
     
     def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
