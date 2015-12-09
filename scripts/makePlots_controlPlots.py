@@ -16,7 +16,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 
 import sys
 
-def add_s_over_sqrtb_subplot(config, args, bkg_samples):
+def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot):
 
 	if not "AddHistograms" in config["analysis_modules"]:
 		config["analysis_modules"].append("AddHistograms")
@@ -36,19 +36,26 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples):
 
 	if not "Ratio" in config["analysis_modules"]:
 		config["analysis_modules"].append("Ratio")
-	config["markers"].append("LINE")
-	config["legend_markers"].append("L")
-	config["labels"].append("sbratio")
 
 	config["ratio_denominator_nicks"] = ["backgrounds_noplot"]
 	config["ratio_numerator_nicks"] = ["htt125Scaled"]
 	config["ratio_result_nicks"] = ["ratio_soversqrtb"]
-	config["colors"].append("kit_blau_1")
+	if( show_subplot ):
+		config["colors"].append("kit_blau_1")
+		config["y_subplot_label"] = "s / #sqrt{b}"
+		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
+		config["y_subplot_lims"] = [0, 1.5]
+		config["markers"].append("LINE")
+		config["legend_markers"].append("L")
+		config["labels"].append("sbratio")
+	else:
+		config["nicks_blacklist"].append("ratio")
 
-	config["y_subplot_label"] = "s / #sqrt{b}"
-	config["subplot_lines"] = [0.1, 0.5, 1.0 ]
-	config["y_subplot_lims"] = [0, 1.5]
-
+def blind_signal(config, blinding_threshold):
+	config["analysis_modules"].append("MaskHistograms")
+	config["mask_above_reference_nick"] = "ratio_soversqrtb"
+	config["mask_above_reference_value"] = blinding_threshold
+	config["mask_histogram_nicks"] = "data"
 
 if __name__ == "__main__":
 
@@ -67,6 +74,8 @@ if __name__ == "__main__":
 	                    help="Scale signal (htt). Allowed values are 1, 10, 25 and 100. [Default: %(default)s]")
 	parser.add_argument("--sbratio", default=False, action="store_true",
 	                    help="Add s/sqrt(b) subplot [Default: %(default)s]")
+	parser.add_argument("--blinding-threshold", default=0, type=float,
+	                    help="Threshold above of s/sqrt(b) above which data is being blinded [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
@@ -240,9 +249,12 @@ if __name__ == "__main__":
 					config["energies"] = [8] if args.run1 else [13]
 				
 				# add s/sqrt(b) subplot
-				if(args.sbratio):
+				if(args.sbratio or args.blinding_threshold > 0):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					add_s_over_sqrtb_subplot(config, args, bkg_samples_used)
+					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio)
+
+				if(args.blinding_threshold > 0):
+					blind_signal(config, args.blinding_threshold)
 
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
