@@ -23,7 +23,6 @@ cd $CMSSW_BASE/src
 make -C Kappa/DataFormats/test/
 
 git clone https://github.com/KappaAnalysis/KappaTools.git 
-make -C KappaTools
 
 git clone https://github.com/artus-analysis/Artus.git
 
