@@ -35,6 +35,8 @@ class EstimateQcd(estimatebase.EstimateBase):
 				help="Extrapolation factors of OS/SS yields. [Default: %(default)s]")
 		self.estimate_qcd_options.add_argument("--qcd-subtract-shape", action="store_true", default=False,
 				help="Subtract the shape of control region histograms from data. [Default: %(default)s]")
+		self.estimate_qcd_options.add_argument("--qcd-scale-factor", default=1.0, type=float,
+				help="Scale QCD by this factor. [Default: %(default)s]")
 
 	def prepare_args(self, parser, plotData):
 		super(EstimateQcd, self).prepare_args(parser, plotData)
@@ -63,7 +65,7 @@ class EstimateQcd(estimatebase.EstimateBase):
 			
 			if qcd_subtract_shape:
 				for nick in qcd_data_substract_nicks:
-					plotData.plotdict["root_objects"][qcd_data_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
+					plotData.plotdict["root_objects"][qcd_data_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0/plotData.plotdict["qcd_scale_factor"])
 				plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(qcd_extrapolation_factor_ss_os)
 			else:
 				yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_control_nick])()
