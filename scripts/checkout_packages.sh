@@ -25,6 +25,7 @@ make -C Kappa/DataFormats/test/
 git clone https://github.com/KappaAnalysis/KappaTools.git 
 
 git clone https://github.com/artus-analysis/Artus.git
+git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau
