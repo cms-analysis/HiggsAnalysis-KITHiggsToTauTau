@@ -14,6 +14,48 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 
+import sys
+
+def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot):
+
+	if not "AddHistograms" in config["analysis_modules"]:
+		config["analysis_modules"].append("AddHistograms")
+		config["histogram_nicks"] = []
+		config["sum_result_nicks"] = []
+
+	config["histogram_nicks"].append(" ".join(bkg_samples))
+	config["sum_result_nicks"].append("backgrounds_noplot")
+	if not "SquareRootBinContent" in config["analysis_modules"]:
+		config["analysis_modules"].append("SquareRootBinContent")
+	config["square_root_nicks"] = ["backgrounds_noplot"]
+
+	config["analysis_modules"].append("ScaleHistograms")
+	config["scale_nicks"] = ["htt125"]
+	config["scales"] = [ 1/args.scale_signal ]
+	config["scale_result_nicks"] = ["htt125Scaled"]
+
+	if not "Ratio" in config["analysis_modules"]:
+		config["analysis_modules"].append("Ratio")
+
+	config["ratio_denominator_nicks"] = ["backgrounds_noplot"]
+	config["ratio_numerator_nicks"] = ["htt125Scaled"]
+	config["ratio_result_nicks"] = ["ratio_soversqrtb"]
+	if( show_subplot ):
+		config["colors"].append("kit_blau_1")
+		config["y_subplot_label"] = "s / #sqrt{b}"
+		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
+		config["y_subplot_lims"] = [0, 1.5]
+		config["markers"].append("LINE")
+		config["legend_markers"].append("L")
+		config["labels"].append("sbratio")
+	else:
+		config["nicks_blacklist"].append("ratio")
+
+def blind_signal(config, blinding_threshold):
+	config["analysis_modules"].append("MaskHistograms")
+	config["mask_above_reference_nick"] = "ratio_soversqrtb"
+	config["mask_above_reference_value"] = blinding_threshold
+	config["mask_histogram_nicks"] = "data"
 
 if __name__ == "__main__":
 
@@ -29,7 +71,11 @@ if __name__ == "__main__":
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
 	parser.add_argument("--scale-signal", type=float, default=1.0,
-	                    help="Scale signal (htt). [Default: %(default)s]")
+	                    help="Scale signal (htt). Allowed values are 1, 10, 25 and 100. [Default: %(default)s]")
+	parser.add_argument("--sbratio", default=False, action="store_true",
+	                    help="Add s/sqrt(b) subplot [Default: %(default)s]")
+	parser.add_argument("--blinding-threshold", default=0, type=float,
+	                    help="Threshold above of s/sqrt(b) above which data is being blinded [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
@@ -60,7 +106,7 @@ if __name__ == "__main__":
 	                    help="Use Run1 samples. [Default: %(default)s]")
 	parser.add_argument("--cms", default=False, action="store_true",
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=2.11,
+	parser.add_argument("--lumi", type=float, default=2.155,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
@@ -104,6 +150,10 @@ if __name__ == "__main__":
 		if not args.run1:
 			args.samples.remove("zl")
 			args.samples.remove("zj")
+	if ("zj" in args.samples or "zl" in args.samples) and not args.run1:
+		log.error("plot will fail: zl or zj samples given as input. Remove to continue")
+		sys.exit()
+	www_output_dirs = []
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
@@ -195,20 +245,25 @@ if __name__ == "__main__":
 					config["legend_cols"] = 3
 				if not args.shapes:
 					if not args.lumi is None:
-						config["lumis"] = [float("%.3f" % args.lumi)]
+						config["lumis"] = [float("%.1f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
 				
+				# add s/sqrt(b) subplot
+				if(args.sbratio or args.blinding_threshold > 0):
+					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio)
+
+				if(args.blinding_threshold > 0):
+					blind_signal(config, args.blinding_threshold)
+
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
 						channel if len(args.channels) > 1 else "",
 						category if len(args.categories) > 1 else ""
 				))
-				if not args.www is None:
-					config["www"] = os.path.expandvars(os.path.join(
-							args.www,
-							channel if len(args.channels) > 1 else "",
-							category if len(args.categories) > 1 else ""
-					))
+				if not (config["output_dir"] in www_output_dirs):
+					www_output_dirs.append(config["output_dir"])
+
 				
 				config.update(json_config)
 				plot_configs.append(config)
@@ -219,3 +274,12 @@ if __name__ == "__main__":
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
+	if not args.www is None:
+		for output_dir in www_output_dirs:
+			from Artus.HarryPlotter.plotdata import PlotData
+			subpath =os.path.normpath(output_dir).split("/")[-1]
+			PlotData.webplotting(
+			             www = subpath if not(subpath == "control_plots") else "",
+			             output_dir = output_dir,
+			             export_json = False
+			             )
