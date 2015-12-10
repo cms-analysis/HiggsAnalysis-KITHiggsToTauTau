@@ -31,6 +31,8 @@ class Samples(samples.SamplesBase):
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+		elif channel == "mm":
+			pass
 		elif channel == "et":
 			cuts["mt"] = "(mt_1<40.0)"
 			cuts["not2prong"] = "((decayMode_2<5)||(decayMode_2>6))"
@@ -64,6 +66,8 @@ class Samples(samples.SamplesBase):
 			return "(gen_match_2 == 5)*"
 		elif channel == "em":
 			return "(gen_match_1 > 2 && gen_match_2 > 3)*"
+		elif channel == "mm":
+			return "(gen_match_1 > 3 && gen_match_2 > 3)*"
 		elif channel == "tt":
 			return "(gen_match_1 == 5 && gen_match_2 == 5)*"
 		else:
@@ -94,6 +98,8 @@ class Samples(samples.SamplesBase):
 			return "(gen_match_2 < 5 || gen_match_2 == 6)*"
 		elif channel == "em":
 			return "(gen_match_1 < 3 || gen_match_2 < 4)*"
+		elif channel == "mm":
+			return "(gen_match_1 < 4 || gen_match_2 < 4)*"
 		else:
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -152,6 +158,16 @@ class Samples(samples.SamplesBase):
 					"data",
 					nick_suffix=nick_suffix
 			)
+		elif channel == "mm":
+			Samples._add_input(
+					config,
+					"SingleMuon_Run2015?_*_13TeV_*AOD/*.root",
+					channel+"_jecUncNom/ntuple",
+					1.0,
+					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					"data",
+					nick_suffix=nick_suffix
+			)
 		elif channel == "tt":
 			Samples._add_input(
 					config,
@@ -176,7 +192,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 		
-		if channel in ["mt", "et", "tt", "em"]:
+		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
 					config,
 					"DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
@@ -256,7 +272,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZL", 1.0)
 		
-		if channel in ["mt", "et", "tt", "em"]:
+		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
 					config,
 					"DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
@@ -286,6 +302,16 @@ class Samples(samples.SamplesBase):
 					config,
 					"TT_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
+					lumi,
+					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
+					"ttj",
+					nick_suffix=nick_suffix
+			)
+		elif channel == "mm":
+			Samples._add_input(
+					config,
+					"TT_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*.root",
+					channel+"_jecUncNom/ntuple",
 					lumi,
 					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
 					"ttj",
@@ -387,7 +413,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 		
-		if channel in ["mt", "et", "em", "tt"]:
+		if channel in ["mt", "et", "em", "tt", "mm"]:
 			Samples._add_input(
 					config,
 					"ST-t*-*_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*root WWTo*_RunIISpring15*_*_13TeV_*AOD_*/*.root WZTo*_RunIISpring15*_*_13TeV_*AOD_*/*.root ZZTo*_RunIISpring15*_*_13TeV_*AOD_*/*.root",
@@ -499,7 +525,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_mc_signal"+nick_suffix)
 			config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_mc_control"+nick_suffix)
 
-		elif channel in ["em", "tt"]:
+		elif channel in ["em", "tt", "mm"]:
 			Samples._add_input(
 					config,
 					"WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
@@ -525,7 +551,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("QCD", 1.0)
 		
-		if channel in ["et", "mt", "em", "tt"]:
+		if channel in ["et", "mt", "em", "tt", "mm"]:
 
 			# WJets for QCD estimate
 			Samples._add_input(
