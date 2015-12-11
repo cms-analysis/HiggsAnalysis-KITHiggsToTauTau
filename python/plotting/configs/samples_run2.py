@@ -270,7 +270,7 @@ class Samples(samples.SamplesBase):
 		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
-			scale_factor *= self.postfit_scales.get("ZL", 1.0)
+			scale_factor *= self.postfit_scales.get("ZLL", 1.0)
 		
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
