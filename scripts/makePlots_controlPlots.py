@@ -278,8 +278,14 @@ if __name__ == "__main__":
 		for output_dir in www_output_dirs:
 			from Artus.HarryPlotter.plotdata import PlotData
 			subpath =os.path.normpath(output_dir).split("/")[-1]
+			output_filenames = []
+			for config in plot_configs:
+				if(subpath in config["output_dir"]):
+					output_filenames.append(os.path.join(output_dir, config["x_expressions"][0]+ ".png"))
+			
 			PlotData.webplotting(
-			             www = subpath if not(subpath == "control_plots") else "",
+			             www = args.www if(subpath == "control_plots") else os.path.join(args.www, subpath),
 			             output_dir = output_dir,
-			             export_json = False
+			             export_json = False,
+			             output_filenames = output_filenames
 			             )
