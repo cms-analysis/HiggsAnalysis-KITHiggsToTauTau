@@ -18,10 +18,17 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	
 	// settings for synch ntuples
 	LambdaNtupleConsumer<KappaTypes>::AddUInt64Quantity("evt", [](KappaEvent const& event, KappaProduct const& product)
- 	{
- 		return event.m_eventInfo->nEvent;
- 	});
-
+	{
+		return event.m_eventInfo->nEvent;
+	});
+	
+	bool bInpData = settings.GetInputIsData();
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("npu", [bInpData](KappaEvent const& event, KappaProduct const& product)
+	{
+		if (bInpData)
+			return DefaultValues::UndefinedFloat;
+		return static_cast<KGenEventInfo*>(event.m_eventInfo)->nPUMean;
+	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("puweight", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("puWeight"), 1.0);
