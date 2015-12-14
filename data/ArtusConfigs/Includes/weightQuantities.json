@@ -1,10 +1,10 @@
 {
 	"property" : [
 		"hltWeight",
-		"triggerWeight1",
-		"triggerWeight2",
-		"identificationWeight1",
-		"identificationWeight2",
+		"triggerWeight_1",
+		"triggerWeight_2",
+		"identificationWeight_1",
+		"identificationWeight_2",
 		"puWeight",
 		"tauEnergyScaleWeight",
 		"generatorWeight",

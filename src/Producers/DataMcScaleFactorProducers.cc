@@ -93,7 +93,7 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 		{
 			weight = efficienciesData[efficiencyIndex] / efficienciesMc[efficiencyIndex];
 		}
-		product.m_weights[std::string(m_weightName + std::to_string(efficiencyIndex+1))] = weight;
+		product.m_weights[std::string(m_weightName + "_" + std::to_string(efficiencyIndex+1))] = weight;
 	}
 	
 }
