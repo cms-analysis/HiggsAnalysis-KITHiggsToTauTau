@@ -17,7 +17,7 @@ int GeneratorInfo::GetGenMatchingCode(const KGenParticle* genParticle)
 	{
 		return static_cast<int>(GenMatchingCode::isEleFromTau);
 	}
-	else if (pdgId == 13 && genParticle->p4.Pt() > 8. && genParticle->isDirectPromptTauDecayProductFinalState())
+	else if (pdgId == 13 && genParticle->p4.Pt() > 8. && genParticle->isDirectPromptTauDecayProduct())
 	{
 		return static_cast<int>(GenMatchingCode::isMuonFromTau);
 	}
