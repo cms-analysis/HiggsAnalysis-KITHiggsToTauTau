@@ -4,24 +4,28 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json"
 		],
 		"Channel" : "MM",
-		"GenDiLeptonDecayMode" : "mm",
 		"MinNMuons" : 2,
 		"MaxNMuons" : 2,
 		"HltPaths" : {
 			"nick": {
 				"default" : [
-					"HLT_IsoMu24_eta2p1",
 					"HLT_IsoMu20_eta2p1",
-					"HLT_DoubleIsoMu17_eta2p1",
 					"HLT_IsoMu17_eta2p1"
+				],
+				"Run2015" : [
+					"HLT_IsoMu20",
+
+					"HLT_IsoMu18"
 				]
 			}
 		},
 		"TagLeptonHltPaths" : {
 			"nick": {
 				"default" : [
-					"HLT_IsoMu24_eta2p1_v",
 					"HLT_IsoMu20_eta2p1_v"
+				],
+				"Run2015" : [
+					"HLT_IsoMu20_v"
 				]
 			}
 		},
@@ -31,44 +35,36 @@
 		"MuonUpperAbsEtaCuts" : [
 			"2.1"
 		],
+		"TriggerObjectLowerPtCut" : 18.0,
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"EventWeight" : "eventWeight",
 		"MuonTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_IsoMu24_eta2p1_v:hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09",
-					
 					"HLT_IsoMu20_eta2p1_v:hltL3crIsoL1sMu16Eta2p1L1f0L2f10QL3f20QL3trkIsoFiltered0p09",
 					
-					"HLT_DoubleIsoMu17_eta2p1_v:hltL1fL1sDoubleMu125L1Filtered16er",
-					"HLT_DoubleIsoMu17_eta2p1_v:hltL2fL1sDoubleMu125L1f16erL2Filtered10Q",
-					"HLT_DoubleIsoMu17_eta2p1_v:hltL3fL1sDoubleMu125L1f16erL2f10QL3Filtered17Q",
-					"HLT_DoubleIsoMu17_eta2p1_v:hltL3DzL1sDoubleMu125L1f16erL2f10QL3f17QL3DzFiltered0p2",
-					"HLT_DoubleIsoMu17_eta2p1_v:hltL3crIsoL1sDoubleMu125L1f16erL2f10QL3f17QL3Dz0p2L3crIsoRhoFiltered0p15IterTrk02",
-					
-					"HLT_IsoMu17_eta2p1_v:hltL1sSingleMu16er",
-					"HLT_IsoMu17_eta2p1_v:hltL1fL1sSingleMu16erL1Filtered0",
-					"HLT_IsoMu17_eta2p1_v:hltL2fL1sSingleMu16erL1f0L2Filtered10Q",
-					"HLT_IsoMu17_eta2p1_v:hltL3fL1sSingleMu16erL1f0L2f10QL3Filtered17Q",
 					"HLT_IsoMu17_eta2p1_v:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09"
+				],
+				"Run2015" : [	
+					"HLT_IsoMu20_v:hltL3crIsoL1sMu16L1f0L2f10QL3f20QL3trkIsoFiltered0p09",
+					
+					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
 				]
 			}
 		},
 		"InvalidateNonMatchingMuons" : false,
-		"RecoTauMatchingGenParticlePdgIds" : [
-			11,
-			13
-		],
 		"DirectIso" : true,
 		"Quantities" : [
 			{
 				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2TriggerEfficiencies/Includes/TagProbeQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2TriggerEfficiencies/Includes/TagProbeQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
-			"nMuons"
+			"nMuons",
+			"gen_match_1",
+			"gen_match_2"
 		],
-		"OSChargeLeptons" : true,
 		"Processors" : {
 			"nick" : {
 				"default" : [
@@ -79,29 +75,11 @@
 					"producer:MuonTriggerMatchingProducer",
 					"filter:MinMuonsCountFilter",
 					"filter:MaxMuonsCountFilter",
-					"producer:ValidLeptonsProducer",
-					"#producer:ValidMMPairCandidatesProducer",
-					"#filter:ValidDiTauPairCandidatesFilter",
-					"#producer:Run2DecayChannelProducer",
-					"#producer:MetSelector",
-					"#producer:DiLeptonQuantitiesProducer",
-					"producer:MMTriggerTagAndProbeProducer",
-					"producer:EventWeightProducer"
-				],
-				"DY.?JetsToLL" : [
-					"producer:GenDiLeptonDecayModeProducer",
-					"filter:GenDiLeptonDecayModeFilter",
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"filter:MaxMuonsCountFilter",
-					"producer:ValidLeptonsProducer",
-					"#producer:ValidMMPairCandidatesProducer",
-					"#filter:ValidDiTauPairCandidatesFilter",
-					"#producer:Run2DecayChannelProducer",
+					"producer:RecoMuonGenParticleMatchingProducer",
+					"producer:MatchedLeptonsProducer",
+					"producer:ValidMMPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
 					"producer:MMTriggerTagAndProbeProducer",
@@ -115,10 +93,9 @@
 					"producer:MuonTriggerMatchingProducer",
 					"filter:MinMuonsCountFilter",
 					"filter:MaxMuonsCountFilter",
-					"producer:ValidLeptonsProducer",
-					"#producer:ValidMMPairCandidatesProducer",
-					"#filter:ValidDiTauPairCandidatesFilter",
-					"#producer:Run2DecayChannelProducer",
+					"producer:ValidMMPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
 					"producer:MMTriggerTagAndProbeProducer",

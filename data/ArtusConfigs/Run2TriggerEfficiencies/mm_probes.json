@@ -1,18 +1,12 @@
 {
-	"HLT_DoubleIsoMu17_eta2p1" : {
-		"ProbeLeptonHltPaths" : {
-			"nick": {
-				"default" : [
-					"HLT_DoubleIsoMu17_eta2p1_v"
-				]
-			}
-		}
-	},
-	"HLT_IsoMu17_eta2p1" : {
+	"HLT_IsoMu18" : {
 		"ProbeLeptonHltPaths" : {
 			"nick": {
 				"default" : [
 					"HLT_IsoMu17_eta2p1_v"
+				],
+				"Run2015" : [
+					"HLT_IsoMu18_v"
 				]
 			}
 		}
