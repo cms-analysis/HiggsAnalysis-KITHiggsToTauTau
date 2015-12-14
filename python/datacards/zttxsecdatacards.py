@@ -81,7 +81,7 @@ class ZttXsecDatacards(datacards.Datacards):
 			#self.cb.cp().process(["ZTT"]).AddSyst(self.cb, "ZTT_uniform_2", "lnU", ch.SystMap()(2.0))
 		
 			# lumi
-			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.lumi_syst_args)
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "W", "VV", "QCD"]).AddSyst(self.cb, *self.lumi_syst_args)
 		
 			# cross section
 			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
