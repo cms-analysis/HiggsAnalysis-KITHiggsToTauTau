@@ -1,0 +1,10 @@
+{
+    "property" : [
+    "TrainingSelectionValue",
+    "pVecSum",
+    "pScalSum",
+    "min_ll_jet_eta",
+    "lep1_centrality",
+    "lep2_centrality"
+    ]
+}
