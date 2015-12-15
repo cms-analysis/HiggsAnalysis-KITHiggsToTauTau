@@ -71,8 +71,8 @@ if __name__ == "__main__":
 				config["files"] = [
 				"DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/*.root",
 				"DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8/*.root",
-				"SingleMuon_*/*.root",
-				"SingleMuon_*/*.root"]
+				"SingleElectron_*/*.root",
+				"SingleElectron_*/*.root"]
 			config["nicks"] = [
 				"noplot_mc_all",
 				"noplot_mc_pass",

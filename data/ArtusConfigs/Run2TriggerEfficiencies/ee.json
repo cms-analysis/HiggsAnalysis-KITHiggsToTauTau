@@ -35,7 +35,16 @@
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
 		],
-		"TriggerObjectLowerPtCut" : 23.0,
+		"TriggerObjectLowerPtCut" : {
+			"nick": {
+				"default" : [
+					23.0
+				],
+				"Run2015" : [
+					0.0
+				]
+			}
+		},
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"EventWeight" : "eventWeight",
 		"ElectronTriggerFilterNames" : {
@@ -61,9 +70,7 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
-			"nElectrons",
-			"gen_match_1",
-			"gen_match_2"
+			"nElectrons"
 		],
 		"Processors" : {
 			"nick" : {
@@ -77,9 +84,6 @@
 					"filter:MaxElectronsCountFilter",
 					"producer:RecoElectronGenParticleMatchingProducer",
 					"producer:MatchedLeptonsProducer",
-					"producer:ValidEEPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
 					"producer:EETriggerTagAndProbeProducer",
@@ -93,9 +97,6 @@
 					"producer:ElectronTriggerMatchingProducer",
 					"filter:MinElectronsCountFilter",
 					"filter:MaxElectronsCountFilter",
-					"producer:ValidEEPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
 					"producer:EETriggerTagAndProbeProducer",

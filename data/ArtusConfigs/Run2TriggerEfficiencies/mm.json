@@ -35,7 +35,16 @@
 		"MuonUpperAbsEtaCuts" : [
 			"2.1"
 		],
-		"TriggerObjectLowerPtCut" : 18.0,
+		"TriggerObjectLowerPtCut" : {
+			"nick": {
+				"default" : [
+					18.0
+				],
+				"Run2015" : [
+					0.0
+				]
+			}
+		},
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"EventWeight" : "eventWeight",
 		"MuonTriggerFilterNames" : {
@@ -61,9 +70,7 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
-			"nMuons",
-			"gen_match_1",
-			"gen_match_2"
+			"nMuons"
 		],
 		"Processors" : {
 			"nick" : {
@@ -77,9 +84,6 @@
 					"filter:MaxMuonsCountFilter",
 					"producer:RecoMuonGenParticleMatchingProducer",
 					"producer:MatchedLeptonsProducer",
-					"producer:ValidMMPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
 					"producer:MMTriggerTagAndProbeProducer",
@@ -93,9 +97,6 @@
 					"producer:MuonTriggerMatchingProducer",
 					"filter:MinMuonsCountFilter",
 					"filter:MaxMuonsCountFilter",
-					"producer:ValidMMPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:Run2DecayChannelProducer",
 					"#producer:MetSelector",
 					"#producer:DiLeptonQuantitiesProducer",
 					"producer:MMTriggerTagAndProbeProducer",
