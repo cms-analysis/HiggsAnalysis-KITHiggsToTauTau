@@ -189,7 +189,7 @@
 					"producer:ValidElectronsProducer",
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
+					"#filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
 					"#filter:MinTausCountFilter",
 					"producer:ValidMMPairCandidatesProducer",
