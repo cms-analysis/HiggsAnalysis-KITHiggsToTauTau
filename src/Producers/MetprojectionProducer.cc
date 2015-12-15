@@ -54,6 +54,18 @@ void MetprojectionProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPfPullY", [](event_type const& event, product_type const& product) {
 		return product.m_metPfPull.Y();
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetSumEt", [](event_type const& event, product_type const& product) 
+	{
+		return event.m_genMet->sumEt;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetPt", [] (event_type const& event, product_type const& product)
+	{
+		return event.m_genMet->p4.Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetPhi", [](event_type const& event, product_type const& product)
+	{
+		return event.m_genMet->p4.Phi();
+	});
 }
 
 void MetprojectionProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
