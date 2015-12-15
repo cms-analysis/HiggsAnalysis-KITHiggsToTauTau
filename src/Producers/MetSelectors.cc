@@ -7,11 +7,22 @@ MetSelector::MetSelector() :
 {
 }
 
+
 std::string MetSelector::GetProducerId() const
 {
 	return "MetSelector";
 }
 
+
+MetSelectorPuppi::MetSelectorPuppi() :
+	MetSelectorBase<KMET>(&HttTypes::event_type::m_puppiMet, nullptr)
+{
+}
+
+std::string MetSelectorPuppi::GetProducerId() const
+{
+	return "MetSelectorPuppi";
+}
 
 MvaMetTTSelector::MvaMetTTSelector() :
 	MetSelectorBase(&HttTypes::event_type::m_mvaMetTT, &HttTypes::event_type::m_mvaMetsTT)

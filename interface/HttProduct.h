@@ -122,6 +122,7 @@ public:
 	int m_nCentralJets30 = 0;
 	
 	KMET* m_met = 0;
+	KMET* m_puppiMet = 0;
 	KMET* m_pfmet = 0;
 	
 	// filled by the TauTauRestFrameProducer

@@ -77,6 +77,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new HttValidTaggedJetsProducer();
 	else if(id == MetSelector().GetProducerId())
 		return new MetSelector();
+	else if(id == MetSelectorPuppi().GetProducerId())
+		return new MetSelectorPuppi();
 	else if(id == MvaMetTTSelector().GetProducerId())
 		return new MvaMetTTSelector();
 	else if(id == MvaMetMTSelector().GetProducerId())

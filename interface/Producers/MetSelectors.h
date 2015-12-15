@@ -164,6 +164,15 @@ public:
 };
 
 
+/**
+   \brief Producer for Puppi MET
+*/
+class MetSelectorPuppi: public MetSelectorBase<KMET>
+{
+public:
+	MetSelectorPuppi();
+	virtual std::string GetProducerId() const override;
+};
 
 /**
    \brief Producer for MVAMET (TT channel)
