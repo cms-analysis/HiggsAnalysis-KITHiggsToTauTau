@@ -29,7 +29,7 @@ TVector2 HHKinFitProducer::GetMetComponents(RMFLV const& metFourMomentum)
 
 TMatrixD HHKinFitProducer::GetMetCovarianceMatrix(ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > const& metSignificance)
 {
-    TMatrixD metCovMatrix(2, 2);
+    TMatrixD metCovMatrix(4, 4);
     metCovMatrix[0][0] = metSignificance.At(0, 0);
     metCovMatrix[1][0] = metSignificance.At(1, 0);
     metCovMatrix[0][1] = metSignificance.At(0, 1);
@@ -57,12 +57,22 @@ void HHKinFitProducer::Produce(event_type const& event, product_type& product,
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
-	HHKinFit2::HHKinFitMasterSingleHiggs hhKinFit(
-			HHKinFitProducer::GetTauLorentzVector(product.m_flavourOrderedLeptons[0]->p4),
-			HHKinFitProducer::GetTauLorentzVector(product.m_flavourOrderedLeptons[1]->p4),
-			HHKinFitProducer::GetMetComponents(product.m_met->p4),
-			HHKinFitProducer::GetMetCovarianceMatrix(product.m_met->significance)
-	);
+	TLorentzVector visibleTau1 = HHKinFitProducer::GetTauLorentzVector(product.m_flavourOrderedLeptons[0]->p4);
+	TLorentzVector visibleTau2 = HHKinFitProducer::GetTauLorentzVector(product.m_flavourOrderedLeptons[1]->p4);
+	TVector2 met = HHKinFitProducer::GetMetComponents(product.m_met->p4);
+	TMatrixD metCov = HHKinFitProducer::GetMetCovarianceMatrix(product.m_met->significance);
+	//metCov[1][1] = metCov[0][0];
+	
+	/*TLorentzVector visibleTau1(-15.902388,37.502301,43.366285,59.503192);
+	TLorentzVector visibleTau2(16.824116,-21.066462,7.050932,27.867069);
+	TVector2 met(8.283318,11.756746);
+	TMatrixD metCov(4,4);
+	metCov[0][0]= 359.15655;
+	metCov[0][1]= 0;
+	metCov[1][0]= metCov[0][1];
+	metCov[1][1]= 359.15655;*/
+	
+	HHKinFit2::HHKinFitMasterSingleHiggs hhKinFit(visibleTau1, visibleTau1, met, metCov);
 	
 	hhKinFit.addHypo(90);
 	
