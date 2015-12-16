@@ -60,7 +60,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.026)
-				(       ["13TeV"], 1.06)
+				(       ["13TeV"], 1.046)
 		]
 		self.electron_efficieny_syst_args = [
 			"CMS_eff_e",
@@ -493,42 +493,58 @@ class Datacards(object):
 							bkg_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
 							
 							config = {}
+				
+							processes_to_plot = list(bkg_processes)
+							if category.split("_")[0] in ["em", "et", "mt", "tt"]:
+								config.setdefault("analysis_modules", []).append(["SumOfHistograms"])
+								bkg_processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in bkg_processes]
+								processes_to_plot = [p for p in bkg_processes if not "noplot" in p]
+								processes_to_plot.insert(3, "EWK")
+								config.setdefault("sum_nicks", []).append("ZJ_noplot VV_noplot W_noplot")
+								config.setdefault("sum_scale_factors", []).append("1.0 1.0 1.0")
+								config.setdefault("sum_result_nicks", []).append("EWK")
+					
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
-							config["x_expressions"] = ["TotalSig"] + bkg_processes + ["TotalBkg", "data_obs"]
-							config["nicks"] = ["TotalSig"] + bkg_processes + ["TotalBkg", "data_obs"]
-							config["stacks"] = ["sig_bkg"] + (["sig_bkg"]*len(bkg_processes)) + ["bkg_unc", "data"]
+							config["x_expressions"] = [p.strip("_noplot") for p in bkg_processes] + ["TotalSig"] + ["data_obs", "TotalBkg"]
+							config["nicks"] = bkg_processes + ["TotalSig"] + ["data_obs", "TotalBkg"]
+							config["stacks"] = (["bkg"]*len(processes_to_plot)) + ["sig"] + ["data", "bkg_unc"]
 							
-							config["labels"] = [label.lower() for label in ["TotalSig"] + bkg_processes + ["TotalBkg", "data_obs"]]
-							config["colors"] = [color.lower() for color in ["TotalSig"] + bkg_processes + ["TotalBkg", "data_obs"]]
-							config["markers"] = ["LINE"] + (["HIST"]*len(bkg_processes)) + ["E2", "E"]
-							config["legend_markers"] = ["L"] + (["F"]*len(bkg_processes)) + ["F", "ELP"]
-							
+							config["labels"] = [label.lower() for label in processes_to_plot + ["TotalSig"] + ["data_obs", "TotalBkg"]]
+							config["colors"] = [color.lower() for color in processes_to_plot + ["TotalSig"] + ["data_obs", "TotalBkg"]]
+							config["markers"] = (["HIST"]*len(processes_to_plot)) + ["LINE"] + ["E", "E2"]
+							config["legend_markers"] = (["F"]*len(processes_to_plot)) + ["L"] + ["ELP", "F"]
+
+							config["x_label"] = category.split("_")[0]+"_"+plotting_args.get("x_expressions", None)
+							config["title"] = "channel_"+category.split("_")[0]
+							config["energies"] = [13.0]
+							config["lumis"] = [float("%.1f" % plotting_args.get("lumi", 1.0))]
+							config["cms"] = [True]
+							config["extra_text"] = "Preliminary"
+							config["legend"] = [0.7, 0.6, 0.9, 0.88]
 							config["y_lims"] = [0.0]
-							config["y_rel_lims"] = [0.0, 1.4]
-							config["legend"] = [0.23, 0.73, 0.9, 0.89]
-							config["legend_cols"] = 3
-							
-							config["title"] = "channel_"+(category.split("_")[0])
 							
 							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
 							
-							if not "NormalizeByBinWidth" in config.get("analysis_modules", []):
-								config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
-							config["y_label"] = "Entries / bin"
+							#if not "NormalizeByBinWidth" in config.get("analysis_modules", []):
+								#config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
 							
 							if plotting_args.get("ratio", False):
 								if not "Ratio" in config.get("analysis_modules", []):
 									config.setdefault("analysis_modules", []).append("Ratio")
-								config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg", "noplot_TotalBkg TotalSig", "data_obs"])
-								config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg"] * 3)
-								config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio_sig", "ratio"])
-								config.setdefault("colors", []).extend(["totalbkg", "totalsig", "#000000"])
-								config.setdefault("markers", []).extend(["E2", "LINE", "E"])
-								config.setdefault("legend_markers", []).extend(["F", "L", "ELP"])
-								config.setdefault("labels", []).extend([""] * 3)
-								config["legend"] = [0.7, 0.5, 0.95, 0.92]
+								config.setdefault("ratio_numerator_nicks", []).extend(["TotalBkg TotalSig", "data_obs"])
+								config.setdefault("ratio_denominator_nicks", []).extend(["TotalBkg"] * 2)
+								config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
+								config["ratio_denominator_no_errors"] = True
+								config.setdefault("colors", []).extend(["totalbkg", "#000000"])
+								config.setdefault("markers", []).extend(["E2", "E"])
+								config.setdefault("legend_markers", []).extend(["F", "ELP"])
+								config.setdefault("labels", []).extend([""] * 2)
+								config["legend"] = [0.65, 0.45, 0.95, 0.92]
+								config["subplot_grid"] = "True"
+								config["y_subplot_lims"] = [0.0, 2.0]
+								config["y_subplot_label"] = "Obs./Exp."
 							
 							plot_configs.append(config)
 		
