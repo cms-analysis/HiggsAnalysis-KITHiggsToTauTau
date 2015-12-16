@@ -48,6 +48,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TriggerTagAndProbeConsumers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EventCountConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EmbeddingConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/BTagEffConsumer.h"
 
 
 ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
@@ -206,6 +207,8 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new EventCountConsumer();
 	else if(id == EmbeddingConsumer().GetConsumerId())
 		return new EmbeddingConsumer();
+	else if(id == BTagEffConsumer().GetConsumerId())
+		return new BTagEffConsumer();
 	else
 		return KappaFactory::createConsumer( id );
 }
