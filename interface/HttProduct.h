@@ -192,5 +192,15 @@ public:
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonTauMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
+    
+    // filled by MVAInputQuantitiesProducer    
+    int tsValue = 0.0;
+    double pVecSum = -999;
+    double pScalSum = -999;
+    double min_ll_jet_eta = -999;
+    double lep1_centrality = -999;
+    double lep2_centrality = -999;
+    
+
 	
 };

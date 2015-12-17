@@ -29,6 +29,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerTagAndProbeProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVATestMethodsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HHKinFitProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVAInputQuantitiesProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -152,7 +153,9 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
     else if(id == MVATestMethodsProducer().GetProducerId())
         return new MVATestMethodsProducer();
 	else if(id == HHKinFitProducer().GetProducerId())
-		return new HHKinFitProducer();
+        return new HHKinFitProducer();
+    else if(id == MVAInputQuantitiesProducer().GetProducerId())
+        return new MVAInputQuantitiesProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
