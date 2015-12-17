@@ -33,6 +33,7 @@ public:
 private:
 	TTree* m_svfitCacheTree = 0;
 	bool m_svfitCacheTreeInitialised = false;
+	int fileindex = 0;
 
 };
 

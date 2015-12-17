@@ -103,13 +103,23 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	product.m_svfitInputs.Set(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
 	                          product.m_met->p4.Vect(), product.m_met->significance);
 	
-	// calculate results
-	product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_svfitEventKey,
-	                                                              product.m_svfitInputs,
-	                                                              product.m_svfitCalculated,
-	                                                              settings.GetSvfitCheckInputs());
+
+	if (settings.GetGenerateSvFitInput())
+	{
+		// set dummy result
+		product.m_svfitResults = SvfitResults();
+		product.m_svfitCalculated = true;
+	}
+	else
+	{
+		// calculate results
+		product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_svfitEventKey,
+		                                                              product.m_svfitInputs,
+	                                                                  product.m_svfitCalculated,
+	                                                                  settings.GetSvfitCheckInputs());
+		// apply systematic shifts
+		product.m_svfitResults.momentum->SetM(product.m_svfitResults.momentum->M() * settings.GetSvfitMassShift());
+	}
 	
-	// apply systematic shifts
-	product.m_svfitResults.momentum->SetM(product.m_svfitResults.momentum->M() * settings.GetSvfitMassShift());
 }
 
