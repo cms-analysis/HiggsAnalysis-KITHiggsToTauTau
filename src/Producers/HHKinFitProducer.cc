@@ -72,7 +72,7 @@ void HHKinFitProducer::Produce(event_type const& event, product_type& product,
 	metCov[1][0]= metCov[0][1];
 	metCov[1][1]= 359.15655;*/
 	
-	HHKinFit2::HHKinFitMasterSingleHiggs hhKinFit(visibleTau1, visibleTau1, met, metCov);
+	HHKinFit2::HHKinFitMasterSingleHiggs hhKinFit(visibleTau1, visibleTau2, met, metCov);
 	
 	hhKinFit.addHypo(90);
 	
