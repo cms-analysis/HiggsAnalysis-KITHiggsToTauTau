@@ -90,19 +90,27 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 	product.m_recoMetOnGenMetProjection = met.Rotate( -genMet.Phi());
 
 	// "pulls", recommended as crosscheck for covariance matrix, suggested by Christian Veelken
-	TVector2 genBoson(product.m_genBoson[0].node->p4.X(), product.m_genBoson[0].node->p4.Y());
-	TVector2 rotatedMet = met.Rotate( - genBoson.Phi());
-	TVector2 rotatedGenMet = genMet.Rotate( -genBoson.Phi());
-	ROOT::Math::SMatrix<double,2> rotationMatrix;
-	rotationMatrix(0,0) = rotationMatrix(1,1) = std::cos( genBoson.Phi());
-	rotationMatrix(0,1) =   std::sin( genBoson.Phi());
-	rotationMatrix(1,0) = - std::sin( genBoson.Phi());
+	if(product.m_genBoson.size() > 0)
+	{
+		TVector2 genBoson(product.m_genBoson[0].node->p4.X(), product.m_genBoson[0].node->p4.Y());
+		TVector2 rotatedMet = met.Rotate( - genBoson.Phi());
+		TVector2 rotatedGenMet = genMet.Rotate( -genBoson.Phi());
+		ROOT::Math::SMatrix<double,2> rotationMatrix;
+		rotationMatrix(0,0) = rotationMatrix(1,1) = std::cos( genBoson.Phi());
+		rotationMatrix(0,1) =   std::sin( genBoson.Phi());
+		rotationMatrix(1,0) = - std::sin( genBoson.Phi());
 
-	ROOT::Math::SMatrix<double,2> rotatedMatrix = rotationMatrix * product.m_met->significance;
-	product.m_metPull.Set( (rotatedGenMet.X() - rotatedMet.X()) / sqrt(rotatedMatrix(0,0)), 
-	                       (rotatedGenMet.Y() - rotatedMet.Y()) / sqrt(rotatedMatrix(1,1)) );
+		ROOT::Math::SMatrix<double,2> rotatedMatrix = rotationMatrix * product.m_met->significance;
+		product.m_metPull.Set( (rotatedGenMet.X() - rotatedMet.X()) / sqrt(rotatedMatrix(0,0)), 
+	                       	   (rotatedGenMet.Y() - rotatedMet.Y()) / sqrt(rotatedMatrix(1,1)) );
 
-	ROOT::Math::SMatrix<double,2> rotatedPfMatrix = rotationMatrix * product.m_pfmet->significance;
-	product.m_metPfPull.Set( (rotatedGenMet.X() - rotatedMet.X()) / sqrt(rotatedPfMatrix(0,0)), 
-	                         (rotatedGenMet.Y() - rotatedMet.Y()) / sqrt(rotatedPfMatrix(1,1)) );
+		ROOT::Math::SMatrix<double,2> rotatedPfMatrix = rotationMatrix * product.m_pfmet->significance;
+		product.m_metPfPull.Set( (rotatedGenMet.X() - rotatedMet.X()) / sqrt(rotatedPfMatrix(0,0)), 
+	                         	 (rotatedGenMet.Y() - rotatedMet.Y()) / sqrt(rotatedPfMatrix(1,1)) );
+	}
+	else
+	{
+		product.m_metPull.Set(0.0,0.0);
+		product.m_metPfPull.Set(0.0,0.0);
+	}
 }
