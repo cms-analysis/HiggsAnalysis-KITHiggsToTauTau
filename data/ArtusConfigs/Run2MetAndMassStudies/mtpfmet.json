@@ -97,6 +97,7 @@
 			{
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MetAndMassStudies/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/kappaQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/leptonQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/jetQuantities.json",
@@ -146,6 +147,7 @@
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"HToTauTau" : [
@@ -182,6 +184,7 @@
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -218,6 +221,7 @@
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -248,6 +252,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				]
 			}
