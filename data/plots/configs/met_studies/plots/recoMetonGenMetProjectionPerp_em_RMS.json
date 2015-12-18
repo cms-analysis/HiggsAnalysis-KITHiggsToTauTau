@@ -1,0 +1,124 @@
+{
+    "analysis_modules": [
+        "ProjectRMS", 
+        "Ratio"
+    ], 
+    "colors": [
+        "black", 
+        "black", 
+        "black", 
+        "orange", 
+        "orange", 
+        "orange", 
+        "purple", 
+        "purple", 
+        "purple"
+    ], 
+    "directories": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-15_14-45_metStudiesEOY/merged/"
+    ], 
+    "energies": [
+        13.0
+    ], 
+    "filename": "recoMetonGenMetProjectionPerp_em_RMS", 
+    "files": [
+        "SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root", 
+        "SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root", 
+        "SUSYGluGluToHToTauTauM160_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root", 
+        "SUSYGluGluToHToTauTauM300_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root", 
+        "SUSYGluGluToHToTauTauM300_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root", 
+        "SUSYGluGluToHToTauTauM300_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root", 
+        "SUSYGluGluToHToTauTauM500_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root", 
+        "SUSYGluGluToHToTauTauM500_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root", 
+        "SUSYGluGluToHToTauTauM500_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_pythia8/*.root"
+    ], 
+    "folders": [
+        "emmvamet_jecUncNom_tauEsNom/ntuple", 
+        "empfmet_jecUncNom_tauEsNom/ntuple", 
+        "empuppimet_jecUncNom_tauEsNom/ntuple"
+    ], 
+    "labels": [
+        "MVA MET M160", 
+        "PF MET M160", 
+        "Puppi MET M160", 
+        "MVA MET M300", 
+        "PF MET M300", 
+        "Puppi MET M300", 
+        "MVA MET M500", 
+        "PF MET M500", 
+        "Puppi MET M500"
+    ], 
+    "legend": "lower left", 
+    "legend_cols": 3, 
+    "line_styles": [
+        "-", 
+        "--", 
+        ":"
+    ], 
+    "markers": [
+        ".", 
+        "+", 
+        "x"
+    ], 
+    "nicks": [
+        "mva160", 
+        "pf160", 
+        "puppi160", 
+        "mva300", 
+        "pf300", 
+        "puppi300", 
+        "mva500", 
+        "pf500", 
+        "puppi500"
+    ], 
+    "ratio_denominator_nicks": [
+        "pf160", 
+        "pf160", 
+        "pf160", 
+        "pf300", 
+        "pf300", 
+        "pf300", 
+        "pf500", 
+        "pf500", 
+        "pf500"
+    ], 
+    "ratio_numerator_nicks": [
+        "mva160", 
+        "pf160", 
+        "puppi160", 
+        "mva300", 
+        "pf300", 
+        "puppi300", 
+        "mva500", 
+        "pf500", 
+        "puppi500"
+    ], 
+    "title": "$H \\to \\tau \\tau \\to e \\mu$", 
+    "weights": [
+        "((q_1*q_2)<0.0)"
+    ], 
+    "x_bins": [
+        "10,0,200"
+    ], 
+    "x_errors": false, 
+    "x_expressions": [
+        "1genBosonPt"
+    ], 
+    "x_label": "$p_T^{H_{gen}} / GeV$", 
+    "y_bins": [
+        "100,-100,100"
+    ], 
+    "y_errors": false, 
+    "y_expressions": [
+        "recoMetOnGenMetProjectionPerp"
+    ], 
+    "y_label": "$MET_{\\perp} / GeV$", 
+    "y_lims": [
+        0, 
+        30
+    ], 
+    "y_subplot_lims": [
+        0.5, 
+        1.5
+    ]
+}

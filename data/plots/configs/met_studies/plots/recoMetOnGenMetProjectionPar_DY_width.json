@@ -1,0 +1,18 @@
+{
+    "filename": "recoMetOnGenMetProjectionPar_DY_width_plot", 
+    "y_bins": [
+        "100,-100,100"
+    ], 
+    "y_expressions": [
+        "recoMetOnGenMetProjectionPar-genMetPt"
+    ],
+    "title" : "$DY \\to \\mu \\tau_{had}$ resolution",
+    "x_bins" : [ "5,0,150" ],
+    "x_expressions" : ["genMetPt"],
+    "y_label": "$\\sigma (MET_{\\parallel} - genMET) / GeV$",
+    "x_label" : "$genMET / GeV$",
+    
+    "projection_to_plot": [
+        "2"
+    ]
+}

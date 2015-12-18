@@ -1,0 +1,33 @@
+{
+    "analysis_modules": [
+        "ProjectRMS", 
+        "Ratio"
+    ], 
+    "filename": "recoMetOnGenMetProjectionPerp_DY_RMS_plot", 
+    "title": "$DY \\to \\tau \\tau \\to \\mu \\tau_{had}$", 
+    "x_bins": [
+        "10,0,100"
+    ], 
+    "ratio_denominator_nicks": [ "pf"
+    ], 
+    "ratio_numerator_nicks": [
+       "mva", "pf", "puppi"
+    ], 
+	"legend_cols": 1,
+	"legend" : "upper left",
+    "x_expressions": [
+        "genMetPt"
+    ], 
+    "x_label": "$genMET / GeV$", 
+    "y_bins": [
+        "100,-50,50"
+    ], 
+    "y_expressions": [
+        "recoMetOnGenMetProjectionPerp"
+    ], 
+    "y_label": "$\\sigma (MET_{\\perp}) / GeV$", 
+    "y_subplot_lims": [
+        0.5, 
+        1.5
+    ]
+}

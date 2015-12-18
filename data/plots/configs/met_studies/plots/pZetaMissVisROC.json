@@ -1,0 +1,117 @@
+{
+    "analysis_modules": [
+        "CutEfficiency"
+    ], 
+    "colors": [
+        "green", 
+        "green", 
+        "green", 
+        "blue", 
+        "blue", 
+        "blue"
+    ], 
+    "cut_efficiency_bkg_nicks": [
+        "mvatt", 
+        "pftt", 
+        "puppitt", 
+        "mvawjets", 
+        "pfwjets", 
+        "puppiwjets"
+    ], 
+    "cut_efficiency_nicks": [
+        "rocMvatt", 
+        "rocPftt", 
+        "rocPuppitt", 
+        "rocMvaWjets", 
+        "rocPfWjets", 
+        "rocPuppiWjets"
+    ], 
+    "cut_efficiency_sig_nicks": [
+        "mvaDY", 
+        "pfDY", 
+        "puppiDY", 
+        "mvaDY", 
+        "pfDY", 
+        "puppiDY"
+    ], 
+    "directories": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-14_21-06_AlexeiMetStudyWPuppi/merged/"
+    ], 
+    "filename": "pZetaMissVisROC", 
+    "files": [
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "TT_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*.root", 
+        "TT_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*.root", 
+        "TT_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root"
+    ], 
+    "folders": [
+        "emmvamet_jecUncNom_tauEsNom/ntuple", 
+        "empfmet_jecUncNom_tauEsNom/ntuple", 
+        "empuppimet_jecUncNom_tauEsNom/ntuple"
+    ], 
+    "labels": [
+        "ttbar MVA", 
+        "ttbar PF", 
+        "ttbar Puppi", 
+        "W+Jets MVA", 
+        "W+Jets PF", 
+        "W+Jets Puppi"
+    ], 
+    "legend": "lower left", 
+    "line_styles": [
+        "-", 
+        "--", 
+        ":"
+    ], 
+    "markers": [
+        ".", 
+        "+", 
+        "x"
+    ], 
+    "nicks": [
+        "mvaDY", 
+        "pfDY", 
+        "puppiDY", 
+        "mvatt", 
+        "pftt", 
+        "puppitt", 
+        "mvawjets", 
+        "pfwjets", 
+        "puppiwjets"
+    ], 
+    "nicks_whitelist": [
+        "roc"
+    ], 
+    "select_lower_values": [
+        false
+    ], 
+    "title": "pZeta cut ROC", 
+    "weights": [
+        "(((1.0)*(1.0)))*eventWeight*(gen_match_1 > 2 && gen_match_2 > 3)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(gen_match_1 > 2 && gen_match_2 > 3)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(gen_match_1 > 2 && gen_match_2 > 3)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)"
+    ], 
+    "x_bins": [
+        "200"
+    ], 
+    "x_expressions": [
+        "pZetaMissVis"
+    ], 
+    "x_label": "$DY \\to \\tau \\tau$ Efficiency", 
+    "x_lims": [
+        0.6, 
+        1.0
+    ], 
+    "y_label": "Background rejection"
+}

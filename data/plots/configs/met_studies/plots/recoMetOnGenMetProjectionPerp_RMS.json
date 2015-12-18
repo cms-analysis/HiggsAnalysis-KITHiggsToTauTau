@@ -3,43 +3,33 @@
         "ProjectRMS", 
         "Ratio"
     ], 
-    "colors": [
-        "black", 
-        "steelblue", 
-        "black", 
-        "steelblue"
-    ], 
-    "dict": true, 
-    "energies": [
-        13.0
-    ], 
-    "filename": "recoMetOnGenMetProjectionPerp_RMS", 
-    "files": [
-        "/afs/desy.de/user/r/rfriese/dust/htautau/artus/2015-11-18_13-29_withGenBosonMass/merged/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8/DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_amcatnlo-pythia8.root"
-    ], 
-    "folders": [
-        "mt_ztt/ntuple", 
-        "mtpfmet_ztt/ntuple"
-    ], 
-    "labels": [
-        "MVA MET", 
-        "PF MET"
-    ], 
+    "filename": "recoMetOnGenMetProjectionPerp_RMS_plot", 
     "ratio_denominator_nicks": [
-        "nick1"
+        "pf160",
+        "pf160",
+        "pf160",
+        "pf300",
+        "pf300",
+        "pf300",
+        "pf500",
+        "pf500",
+        "pf500"
     ], 
     "ratio_numerator_nicks": [
-        "nick0", 
-        "nick1"
+       "mva160", "pf160",  "puppi160",
+       "mva300", "pf300",  "puppi300",
+       "mva500", "pf500",  "puppi500"
     ], 
-    "title": "$Z \\to \\tau \\tau \\to \\mu \\tau_{had}$", 
+	"legend_cols": 3,
+	"legend" : "lower left",
+    "title": "$H \\to \\tau \\tau \\to \\mu \\tau_{had}$", 
     "x_bins": [
         "10,0,200"
     ], 
     "x_expressions": [
-        "diLepPt"
+        "1genBosonPt"
     ], 
-    "x_label": "$p_T^{Z_{gen}} / GeV$", 
+    "x_label": "$p_T^{H_{gen}} / GeV$", 
     "y_bins": [
         "100,-100,100"
     ], 
@@ -47,8 +37,9 @@
         "recoMetOnGenMetProjectionPerp"
     ], 
     "y_label": "$MET_{\\perp} / GeV$", 
+    "y_lims" : [0, 30],
     "y_subplot_lims": [
         0.5, 
-        1.1
+        1.5
     ]
 }

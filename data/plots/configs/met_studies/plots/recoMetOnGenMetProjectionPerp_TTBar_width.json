@@ -1,0 +1,21 @@
+{
+    "y_bins": [
+        "100,-100,100"
+    ], 
+    "y_expressions": [
+        "recoMetOnGenMetProjectionPerp"
+    ],
+    "filename": "recoMetOnGenMetProjectionPerp_TTBar_width_plot", 
+    "x_expressions": [
+        "genMetPt"
+    ],
+    "x_bins" : [ "16,0,160" ],
+
+    "y_label": "$\\sigma (MET_{\\perp}) / GeV$",
+    "x_label" : "$genMET / GeV$",
+
+
+    "projection_to_plot": [
+        "2"
+    ]
+}

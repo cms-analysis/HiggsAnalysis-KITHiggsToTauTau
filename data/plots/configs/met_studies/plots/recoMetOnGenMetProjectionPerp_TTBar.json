@@ -1,0 +1,8 @@
+{
+    "filename": "recoMetOnGenMetProjectionPerp_TTBar_plot", 
+    "x_expressions": [
+        "recoMetOnGenMetProjectionPerp"
+    ],
+    "x_bins" : "100,-100,100",
+    "x_label": "$MET_{\\perp} / GeV$"
+}

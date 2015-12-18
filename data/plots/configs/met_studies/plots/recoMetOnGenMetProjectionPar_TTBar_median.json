@@ -1,0 +1,19 @@
+{
+    "filename": "recoMetOnGenMetProjectionPar_TTBar_median_plot", 
+    "y_bins": [
+        "100,-100,100"
+    ], 
+    "y_expressions": [
+        "recoMetOnGenMetProjectionPar-genMetPt"
+    ],
+    "title" : "$t\\bar{t} \\to \\mu \\tau_{had} mean$",
+    "x_bins" : [ "16,0,160" ],
+    "x_expressions" : ["genMetPt"],
+    "y_label": "Mean ($MET_{\\parallel} - genMET) / GeV$",
+    "x_label" : "$genMET / GeV$",
+    "projection_to_plot": [
+        "1"
+    ],
+    "y_lims" : [-10, 10]
+    
+}

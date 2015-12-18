@@ -1,0 +1,89 @@
+{
+    "analysis_modules": [
+        "CutEfficiency"
+    ], 
+    "colors": [
+        "black", 
+        "green", 
+        "blue"
+    ], 
+    "cut_efficiency_bkg_nicks": [
+        "wjetsMVA", 
+        "wjetspf", 
+        "wjetspuppi"
+    ], 
+    "cut_efficiency_nicks": [
+        "rocMVA", 
+        "rocPF", 
+        "rocPuppi"
+    ], 
+    "cut_efficiency_sig_nicks": [
+        "zttMVA", 
+        "zttpf", 
+        "zttpuppi"
+    ], 
+    "directories": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-14_21-06_AlexeiMetStudyWPuppi/merged/"
+    ], 
+    "filename": "mt1roc", 
+    "files": [
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root"
+    ], 
+    "folders": [
+        "mtmvamet_jecUncNom_tauEsNom/ntuple", 
+        "mtpfmet_jecUncNom_tauEsNom/ntuple", 
+        "mtpuppimet_jecUncNom_tauEsNom/ntuple"
+    ], 
+    "labels": [
+        "MVA MET", 
+        "PF MET", 
+        "PUPPI MET"
+    ], 
+    "legend": "center", 
+    "line_styles": [
+        "-", 
+        "--", 
+        ":"
+    ], 
+    "markers": [
+        ".", 
+        "+", 
+        "x"
+    ], 
+    "nicks": [
+        "zttMVA", 
+        "zttpf", 
+        "zttpuppi", 
+        "wjetsMVA", 
+        "wjetspf", 
+        "wjetspuppi"
+    ], 
+    "nicks_whitelist": [
+        "roc"
+    ], 
+    "select_lower_values": true, 
+    "weights": [
+        "(gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)", 
+        "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)"
+    ], 
+    "x_bins": [
+        "40,0,200"
+    ], 
+    "x_errors": [
+        false
+    ], 
+    "x_expressions": [
+        "mt_1"
+    ], 
+    "x_label": "$W+Jets \\, rejection$", 
+    "y_label": "$Z \\to \\tau \\tau \\, efficiency$"
+}

@@ -1,0 +1,75 @@
+{
+    "analysis_modules": [
+        "NormalizeToUnity"
+    ], 
+    "colors": [
+        "black", 
+        "black", 
+        "black", 
+        "green", 
+        "green", 
+        "green", 
+        "blue", 
+        "blue", 
+        "blue"
+    ], 
+    "directories": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-14_21-06_AlexeiMetStudyWPuppi/merged/"
+    ], 
+    "files": [
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "DYJetsToLL*_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "TT_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*.root", 
+        "TT_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*.root", 
+        "TT_RunIISpring15*_*_13TeV_*AOD_powheg-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root", 
+        "WJetsToLNu_RunIISpring15*_*_13TeV_*AOD_madgraph-pythia8/*.root"
+    ], 
+    "folders": [
+        "emmvamet_jecUncNom_tauEsNom/ntuple", 
+        "empfmet_jecUncNom_tauEsNom/ntuple", 
+        "empuppimet_jecUncNom_tauEsNom/ntuple"
+    ], 
+    "labels": [
+        "$DY \\to \\tau \\tau$ MVA", 
+        "$DY \\to \\tau \\tau$ PF", 
+        "$DY \\to \\tau \\tau$ Puppi", 
+        "ttbar MVA", 
+        "ttbar PF", 
+        "ttbar Puppi", 
+        "W+Jets MVA", 
+        "W+Jets PF", 
+        "W+Jets Puppi"
+    ], 
+    "line_styles": [
+        "-", 
+        "--", 
+        ":"
+    ], 
+    "markers": [
+        ".", 
+        "+", 
+        "x"
+    ], 
+    "weights": [
+        "(((1.0)*(1.0)))*eventWeight*(gen_match_1 > 2 && gen_match_2 > 3)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(gen_match_1 > 2 && gen_match_2 > 3)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(gen_match_1 > 2 && gen_match_2 > 3)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)", 
+        "(((1.0)*(1.0)))*eventWeight*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)"
+    ], 
+    "x_bins": [
+        "50"
+    ], 
+    "x_errors": false, 
+    "x_expressions": [
+        "pZetaMissVis"
+    ], 
+    "y_errors": false
+}

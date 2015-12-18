@@ -1,0 +1,10 @@
+{
+    "filename": "recoMetOnGenMetProjectionPar_TTBar_plot", 
+    "x_bins": [
+        "100,-100,100"
+    ], 
+    "x_expressions": [
+        "recoMetOnGenMetProjectionPar-genMetPt"
+    ], 
+    "x_label": "$MET_{\\parallel} - genMET / GeV$"
+}

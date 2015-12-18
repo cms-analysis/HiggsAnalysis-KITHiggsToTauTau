@@ -1,0 +1,38 @@
+{
+    "colors": [
+        "black", 
+        "green", "blue"
+    ], 
+	"x_errors" : "False", "y_errors" : "False",
+    "directories": [
+        "/nfs/dust/cms/user/rfriese/htautau/artus/2015-12-15_14-45_metStudiesEOY/merged/"
+    ], 
+    "energies": [
+        13.0
+    ], 
+    "files": [
+        "TT_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_powheg-pythia8/*.root"
+    ], 
+    "folders": [
+        "mtmvamet_jecUncNom_tauEsNom/ntuple", 
+        "mtpfmet_jecUncNom_tauEsNom/ntuple",
+        "mtpuppimet_jecUncNom_tauEsNom/ntuple" 
+    ], 
+    "labels": [
+        "MVA MET", 
+        "PF MET",
+        "Puppi MET"
+    ], 
+    "line_styles": [
+        "-", 
+        "--", ":"
+    ], 
+    "markers": [
+        ".", 
+        "+", "x"
+    ], 
+    "title": "$ttbar -> \\mu \\tau_{had}$", 
+    "weights": [
+        "(((1.0)*(1.0)))*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)"
+    ]
+}
