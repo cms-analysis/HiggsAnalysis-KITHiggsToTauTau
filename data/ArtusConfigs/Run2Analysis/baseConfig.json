@@ -21,7 +21,9 @@
 		"nick" : {
 			"default" : 0,
 			"DY.?JetsToLL" : 23,
-			"VBFHToTauTau" : 25
+			"VBFHToTauTau" : 25,
+			"W.?JetsToLN" : 24,
+			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : 36
 		}
 	},
 	"BosonStatus" : {
