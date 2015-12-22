@@ -97,17 +97,22 @@ def tmva_Wrapper(args_from_script=None):
     args.signal_tree_weights = (args.signal_tree_weights * len(args.signal_trees))[:len(args.signal_trees)]
     
     for signal_tree_parameter, signal_tree_weight in zip(args.signal_trees, args.signal_tree_weights):
+        log.debug("Evaluate signal parameter: " + signal_tree_parameter)
         pattern = "*.root"
         signal_files_list = []
         #find all root files in signal_folders
         if fnmatch(signal_tree_parameter, pattern):
             signal_files_list.append(signal_tree_parameter)
-        elif os.path.isdir(signal_tree_parameter):
-            for path, subdirs, files in os.walk(signal_tree_parameter):
+            log.debug("Add 1 RootFile: " + signal_tree_parameter)
+        elif os.path.isdir(signal_tree_parameter) or os.path.islink(signal_tree_parameter):
+            for path, subdirs, files in os.walk(signal_tree_parameter, followlinks=True):
+                log.debug('check path: ' +path)
+                log.debug('check subdirs:' +str(subdirs))
+                log.debug('check files:' +str(files)) 
                 for name in files:
                     if fnmatch(name, pattern):
                         signal_files_list.append(os.path.join(path, name))
-
+                        log.debug("Add 1 RootFile: " + signal_tree_parameter)
         for root_file in signal_files_list:
             a = ROOT.TFile(root_file)
             for ntuple_folder in args.folders:
@@ -140,7 +145,7 @@ def tmva_Wrapper(args_from_script=None):
             file_name = sbackground_tree_parameter.strip('.root')
             background_files_list.append(background_tree_parameter)
         elif os.path.isdir(background_tree_parameter):
-                for path, subdirs, files in os.walk(background_tree_parameter):
+                for path, subdirs, files in os.walk(background_tree_parameter, followlinks=True):
                     for name in files:
                         if fnmatch(name, pattern):
                             background_files_list.append(os.path.join(path, name))
