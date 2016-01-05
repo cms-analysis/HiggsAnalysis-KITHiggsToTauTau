@@ -1,0 +1,9 @@
+{
+	"TauID_documentation" : [
+	],
+
+	"TauDiscriminatorIsolationName" : "byCombinedIsolationDeltaBetaCorrRaw3Hits",
+
+	"TauElectronLowerDeltaRCut" : -1.0,
+	"TauMuonLowerDeltaRCut" : -1.0
+}

@@ -1,0 +1,101 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsGeneratorWeight.json",
+		"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json"
+	],
+	"SkipEvents" : 0,
+	"EventCount" : -1,
+	"InputIsData" : {
+		"nick" : {
+			"default" : "false",
+			"Run2015" : "true"
+		}
+	},
+	"InputFiles" : [
+		"/pnfs/desy.de/cms/tier2/store/user/rfriese/skimming/2015-04-24/VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM_0.root"
+	],
+	"BosonPdgId" : {
+		"nick" : {
+			"default" : 0,
+			"DY.?JetsToLL" : 23,
+			"VBFHToTauTau" : 25,
+			"W.?JetsToLN" : 24,
+			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : 36
+		}
+	},
+	"BosonStatus" : {
+		"nick" : {
+			"13TeV" : 62
+		}
+	},
+	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,
+	"DeltaRMatchingRecoMuonGenParticle" : 0.2,
+	"DeltaRMatchingRecoTauGenParticle" : 0.2,
+	"DeltaRMatchingRecoTauGenTau" : 0.2,
+	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
+	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
+	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
+	"#EventWhitelist" : [
+	],
+	"OutputPath" : "output.root",
+	"Processors" : {
+		"nick" : {
+			"default" : [
+				"#filter:RunLumiEventFilter",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer",
+				"producer:PUWeightProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GeneratorWeightProducer",
+				"#producer:TaggedJetCorrectionsProducer"
+			],
+			"DY.?JetsToLL" : [
+				"#filter:RunLumiEventFilter",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer",
+				"producer:PUWeightProducer",
+				"#producer:TauCorrectionsProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GeneratorWeightProducer",
+				"#producer:TaggedJetCorrectionsProducer"
+			],
+			"Run2015" : [
+				"#filter:RunLumiEventFilter",
+				"filter:JsonFilter",
+				"producer:NicknameProducer",
+				"#producer:TaggedJetCorrectionsProducer"
+			]
+		}
+	},
+	"PileupWeightFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeV_PromptReco_69mbMinBiasXS.root",
+			"Run2015" : "not needed"
+		}
+	},
+	"BTagScaleFactorFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2.csv"
+		}
+	},
+	"JsonFiles" : {
+		"nick" : {
+			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],
+			"Run2015B" : [
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-255031_13TeV_PromptReco_Collisions15_50ns_JSON_v2.txt"
+			],
+			"Run2015(C|D)" : [
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON.txt"
+			]
+		}
+	}
+}
+
