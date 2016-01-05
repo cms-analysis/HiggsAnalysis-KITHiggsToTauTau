@@ -40,10 +40,10 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
 //     rndm = evt_number ^ lumi;
     product.tsValue = rndm%100;
     
-    //pVecSum production
+    //pVecSum production vectorial sum of missing E_t DiLepton und DiJet 
     product.pVecSum = (product.m_met->p4 + product.m_diLeptonSystem + product.m_diJetSystem).M();
     
-    //pScalSum production
+    //pScalSum production scalar sum of missing E_t DiLepton und DiJet 
     product.pScalSum = (product.m_met->p4).M() + product.m_diLeptonSystem.M() + product.m_diJetSystem.M();
     
     //min_ll_jet_eta production

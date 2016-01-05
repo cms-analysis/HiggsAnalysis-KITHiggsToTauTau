@@ -13,6 +13,6 @@
         "BDT"
     ],
     "MVATestMethodsWeights" : [
-        "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/auxiliaries/mva_weights/EmuMVA/data/training_BDT.weights.xml"
+        "/nfs/dust/cms/user/mschmitt/weights/training_BDT.weights.xml"
     ]
 }
