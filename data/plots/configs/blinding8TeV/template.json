@@ -1,0 +1,126 @@
+{
+    "analysis_modules": [
+        "BlindingPolicy", 
+        "ScaleHistograms"
+    ], 
+    "line_styles" : [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "", "-", "-"
+    ],
+    "blinding_background_nicks": [
+        "ZTT ZLL TT VV W QCD"
+    ], 
+    "blinding_method": [
+        "soversqrtb", 
+        "ams"
+    ], 
+    "blinding_regularization_parameters": [
+        1.0, 
+        1.0
+    ], 
+    "blinding_result_nicks": [
+        "ratio_b_oversqrtb", 
+        "ratio_ams"
+    ], 
+    "blinding_signal_nicks": [
+        "higgs"
+    ], 
+    "colors": [
+        "black", 
+        "#FFCC66", 
+        "#4496C8", 
+        "#9999CC", 
+        "#6F2D35", 
+        "#DE5A6A", 
+        "#FFCCFF", 
+        "#0000FF", 
+        "darkorange", 
+        "green"
+    ], 
+    "energies": [
+        8.0
+    ], 
+    "files": [
+        "/afs/desy.de/user/r/rfriese/analysis/auxiliaries/datacards/sm/htt_mt/htt_mt.inputs-sm-8TeV.root"
+    ], 
+    "lumis": [
+        19.4
+    ], 
+    "markers": [
+        ".", 
+        "bar", 
+        "bar", 
+        "bar", 
+        "bar", 
+        "bar", 
+        "bar", 
+        ".", 
+        "x", 
+        "."
+    ], 
+    "nicks": [
+        "data", 
+        "ZTT", 
+        "ZLL", 
+        "TT", 
+        "VV", 
+        "W", 
+        "QCD", 
+        "higgs", 
+        "higgs"
+    ], 
+    "scale_nicks": [
+        "higgs", "ratio_ams"
+    ], 
+    "stacks": [
+        "data", 
+        "bkg", 
+        "bkg", 
+        "bkg", 
+        "bkg", 
+        "bkg", 
+        "bkg", 
+        "signal"
+    ], 
+    "step":
+    [
+         "False", 
+         "False", 
+         "False", 
+         "False", 
+         "False", 
+         "False", 
+         "False", 
+         "False", 
+         "True",
+         "True"
+    ],
+    "subplot_lines": [
+        0.5, 
+        1.0
+    ], 
+    "x_expressions": [
+        "data_obs", 
+        "ZTT", 
+        "ZLL", 
+        "TT", 
+        "VV", 
+        "W", 
+        "QCD", 
+        "ggH125", 
+        "qqH125"
+    ], 
+    "x_label": "GeV", 
+    "y_subplot_label": "", 
+    "subplot_legend" : "upper right",
+    "y_subplot_lims": [
+        0.0, 
+        2.0
+    ]
+}

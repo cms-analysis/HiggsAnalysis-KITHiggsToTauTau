@@ -1,0 +1,21 @@
+{
+    "filename": "muTau_vbf_tight_plot", 
+    "folders": [
+        "muTau_vbf_tight"
+    ], 
+    "labels": [
+        "observed", 
+        "$Z->\\tau\\tau$", 
+        "$Z->ll$", 
+        "$t\\bar{t}$", 
+        "$diboson$", 
+        "$W$", 
+        "$QCD$", 
+        "$Higgs\\, (125\\, \\mathrm {GeV})$", 
+        "$s /\\sqrt{b}$", 
+        "$AMS$"
+    ], 
+    "scales": [
+        1.0, 1
+    ]
+}

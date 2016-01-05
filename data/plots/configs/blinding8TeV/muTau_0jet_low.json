@@ -1,0 +1,21 @@
+{
+    "filename": "muTau_0jet_low_plot", 
+    "folders": [
+        "muTau_0jet_low"
+    ], 
+    "labels": [
+        "observed", 
+        "$Z->\\tau\\tau$", 
+        "$Z->ll$", 
+        "$t\\bar{t}$", 
+        "$diboson$", 
+        "$W$", 
+        "$QCD$", 
+        "$100 \\times Higgs\\, (125\\, \\mathrm {GeV})$", 
+        "$s /\\sqrt{b}$", 
+        "$AMS$"
+    ], 
+    "scales": [
+        100.0, 1
+    ]
+}

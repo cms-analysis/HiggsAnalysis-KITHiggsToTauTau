@@ -1,0 +1,21 @@
+{
+    "filename": "muTau_0jet_high_plot", 
+    "folders": [
+        "muTau_0jet_high"
+    ], 
+    "labels": [
+        "observed", 
+        "$Z->\\tau\\tau$", 
+        "$Z->ll$", 
+        "$t\\bar{t}$", 
+        "$diboson$", 
+        "$W$", 
+        "$QCD$", 
+        "$10 \\times Higgs\\, (125\\, \\mathrm {GeV})$", 
+        "$s /\\sqrt{b}$", 
+        "$AMS$"
+    ], 
+    "scales": [
+        10.0, 1
+    ]
+}
