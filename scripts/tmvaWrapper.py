@@ -4,17 +4,17 @@
 import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
-import logging
-import Artus.Utility.logger as logger
-log = logging.getLogger(__name__)
 
 import argparse
 import os
+import sys
+import time
 from fnmatch import fnmatch
 
 import Artus.Utility.jsonTools as jsonTools
 
 import ROOT
+from ROOT import TCut, TString
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 def tmva_Wrapper(args_from_script=None):
@@ -65,12 +65,20 @@ def tmva_Wrapper(args_from_script=None):
                         help="folder names within ROOT-files e.g.: em_jecUnc_Nom em_jecUnc_Nom_tt.")
     parser.add_argument("-N", "--Ntuple-name", nargs="+", required=True, default=['ntuple'],
                         help="Name of the ntuples you want to read e.g.: ntuple   [Default: %(default)s")
+    parser.add_argument("-S", "--Split", default=False, 
+                        help="If set enables splitting into training and test tree, use value between 0 and 99 to split tree using variable TrainingSelectionValue")
 
     args = parser.parse_args(args_from_script.split() if args_from_script != None else None)
     logger.initLogger(args)
     
     # load the library
     ROOT.TMVA.Tools.Instance()
+    cutTest = TCut("")
+    cutTrain = TCut("")
+    #check if split_cut is required
+    if args.Split:
+        cutTest = TCut("TrainingSelectionValue>=%i"%int(args.Split))
+        cutTrain = TCut("TrainingSelectionValue<%i"%int(args.Split))
     
     # create output file
     if not os.path.exists(os.path.dirname(args.output_file)):
@@ -124,9 +132,13 @@ def tmva_Wrapper(args_from_script=None):
                             root_ntuple = os.path.join(root_ntuple, possible_ntuple.GetName())
                             signal_tree = ROOT.TChain()
                             signal_tree.Add(root_ntuple)
-                            tmva_factory.AddSignalTree(signal_tree, signal_tree_weight)
-                            log.debug("TMVA.Factory.AddSignalTree(TChain.Add(\"" + root_ntuple + "\"), " + str(signal_tree_weight) + ")")
-                            print("TMVA.Factory.AddSignalTree(TChain.Add(\"" + root_ntuple + "\"), " + str(signal_tree_weight) + ")")
+                            if args.Split:
+                                tmva_factory.AddTree(signal_tree, "Signal", signal_tree_weight, cutTrain, "train")
+                                tmva_factory.AddTree(signal_tree, "Signal", signal_tree_weight, cutTest, "test")
+                                log.debug("TMVA.Factory.AddTree(%s, 'Signal', %s, %s/%s, 'train/test')"%(root_ntuple, signal_tree_weight, cutTrain, cutTest))
+                            else:
+                                tmva_factory.AddSignalTree(signal_tree, signal_tree_weight)
+                                log.debug("TMVA.Factory.AddSignalTree(TChain.Add(\"" + root_ntuple + "\"), " + str(signal_tree_weight) + ")")
                             
     if args.signal_event_weight:
         log.debug("TMVA.Factory.SetSignalWeightExpression(\"" + args.signal_event_weight + "\")")
@@ -142,7 +154,7 @@ def tmva_Wrapper(args_from_script=None):
         background_files_list = []
         #find all root files in background_folders
         if fnmatch(background_tree_parameter, pattern):
-            file_name = sbackground_tree_parameter.strip('.root')
+            file_name = background_tree_parameter.strip('.root')
             background_files_list.append(background_tree_parameter)
         elif os.path.isdir(background_tree_parameter):
                 for path, subdirs, files in os.walk(background_tree_parameter, followlinks=True):
@@ -161,9 +173,13 @@ def tmva_Wrapper(args_from_script=None):
                             root_ntuple = os.path.join(root_ntuple, possible_ntuple.GetName())
                             background_tree = ROOT.TChain()
                             background_tree.Add(root_ntuple)
-                            tmva_factory.AddBackgroundTree(background_tree, background_tree_weight)
-                            log.debug("TMVA.Factory.AddSignalTree(TChain.Add(\"" + root_ntuple + "\"), " + str(background_tree_weight) + ")")
-                            print("TMVA.Factory.AddSignalTree(TChain.Add(\"" + root_ntuple + "\"), " + str(background_tree_weight) + ")")
+                            if args.Split:
+                                tmva_factory.AddTree(background_tree, "Background", background_tree_weight, cutTrain, "train")
+                                tmva_factory.AddTree(background_tree, "Background", background_tree_weight, cutTest, "test")
+                                log.debug("TMVA.Factory.AddTree(%s, 'Background', %s, %s/%s, 'train/test')"%(root_ntuple, background_tree_weight, cutTrain, cutTest))
+                            else:
+                                tmva_factory.AddBackgroundTree(background_tree, background_tree_weight)
+                                log.debug("TMVA.Factory.AddBackgroundTree(TChain.Add(\"" + root_ntuple + "\"), " + str(background_tree_weight) + ")")
                                                 
     if args.background_event_weight:
         log.debug("TMVA.Factory.SetBackgroundWeightExpression(\"" + args.background_event_weight + "\")")
@@ -175,9 +191,15 @@ def tmva_Wrapper(args_from_script=None):
                                             args.preparation_trees_options)
     
     # book methods
-    for method in args.methods:
-        log.debug("TMVA.Factory.BookMethod(" + ", ".join(["\"" + m + "\"" for m in method.split(";")]) + ")")
-        tmva_factory.BookMethod(*(method.split(";")))
+    #for method in args.methods:
+        #tmva_factory.BookMethod(*(map(TString, method.split(';'))))
+        #time.sleep(3)
+    print ROOT.TMVA.Types.Instance().GetMethodType( "BDT" )
+    try:
+        tmva_factory.BookMethod(ROOT.TMVA.Types.Instance().GetMethodType( "BDT" ), TString("TestBDT"), TString("nCuts=1200:NTrees=150:MinNodeSize=0.25"))
+    except:
+        tmva_factory.BookMethod(TString("BDT"), TString("TestBDT"), TString("nCuts=1200:NTrees=150:MinNodeSize=0.25"))
+        #log.debug("TMVA.Factory.BookMethod(" + ", ".join(["\"" + m + "\"" for m in method.split(";")]) + ")")
     
     # perform full training
     log.debug("TMVA.Factory.TrainAllMethods()")
@@ -194,3 +216,5 @@ def tmva_Wrapper(args_from_script=None):
     log.info("Training output is written to \"" + args.output_file + "\".")
     
 tmva_Wrapper()
+#/nfs/dust/cms/user/mschmitt/analysis/CMSSW_7_1_5/src/HiggsAnalysis/KITHiggsToTauTau/scripts/tmvaWrapper.py -s Sig/ -b Bkg/ -f mt_jecUncNom_tauEsNom -N ntuple -m "BDT;SplitTest;nCuts=1200:NTrees=150:MinNodeSize=0.25" -v pt_1 pZetaVis pZetaMiss iso_1  nbtag njets pVecSum min_ll_jet_eta lep1_centrality lep2_centrality delta_lep_centrality -o all_plus/split_test.root -S 35
+

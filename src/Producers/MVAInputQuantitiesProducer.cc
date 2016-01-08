@@ -26,6 +26,9 @@ void MVAInputQuantitiesProducer::Init(setting_type const& settings)
     LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2_centrality", [](event_type const& event, product_type const& product) {
         return product.lep2_centrality;
     });
+    LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("delta_lep_centrality", [](event_type const& event, product_type const& product) {
+        return product.lep1_centrality-product.lep2_centrality;
+    });
     
 }
 
@@ -45,6 +48,14 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
     
     //pScalSum production scalar sum of missing E_t DiLepton und DiJet 
     product.pScalSum = (product.m_met->p4).M() + product.m_diLeptonSystem.M() + product.m_diJetSystem.M();
+    if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 20.0) >= 1)
+    {
+        product.min_ll_jet_eta = product.m_diLeptonSystem.Eta() + product.m_validJets[0]->p4.Eta();
+    }
+    else
+    {
+        product.min_ll_jet_eta = product.m_diLeptonSystem.Eta();
+    }
     
     //min_ll_jet_eta production
     if(product.m_diJetSystemAvailable)

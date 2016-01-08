@@ -1,13 +1,15 @@
 {
     "MVATestMethodsInputQuantities" : [
         "lep1Pt:=pt_1",
-        "lep2Pt:=pt_2",
         "pZetaVis",
         "pZetaMiss",
         "nBJets20:=nbtag",
         "nJets30:=njets",
-        "pfMetSumEt",
-        "pfMetPt"
+        "pVecSum",
+        "min_ll_jet_eta",
+        "lep1_centrality",
+        "lep2_centrality",
+        "delta_lep_centrality"
     ],
     "MVATestMethodsMethods" : [
         "BDT"
