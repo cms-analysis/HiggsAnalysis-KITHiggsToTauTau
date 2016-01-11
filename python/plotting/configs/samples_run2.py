@@ -28,7 +28,8 @@ class Samples(samples.SamplesBase):
 			cuts["mt"] = "(mt_1<40.0)"
 			cuts["not2prong"] = "((decayMode_2<5)||(decayMode_2>6))"
 			cuts["anti_lepton_tau_discriminators"] = "(againstElectronVLooseMVA5_2 > 0.5)*(againstMuonTight3_2 > 0.5)"
-			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)"
+			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
+			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
 		elif channel == "mm":
@@ -37,7 +38,8 @@ class Samples(samples.SamplesBase):
 			cuts["mt"] = "(mt_1<40.0)"
 			cuts["not2prong"] = "((decayMode_2<5)||(decayMode_2>6))"
 			cuts["anti_lepton_tau_discriminators"] = "(againstElectronTightMVA5_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"
-			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)"
+			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
+			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
 		elif channel == "em":
