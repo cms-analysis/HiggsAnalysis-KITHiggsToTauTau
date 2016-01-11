@@ -145,3 +145,46 @@ class ZttEffDatacards(datacards.Datacards):
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
 
+
+class ZttLepTauFakeRateDatacards(datacards.Datacards):
+	def __init__(self, cb=None):
+		super(ZttLepTauFakeRateDatacards, self).__init__(cb)
+		
+		if cb is None:
+			# ======================================================================
+			# ET channel
+			self.add_processes(
+					channel="et",
+					categories=["et_"+category for category in ["dilep"]],
+					bkg_processes=["ZTT", "ZJ", "TT", "VV", "W", "QCD"],
+					sig_processes=["ZL"],
+					analysis=["ztt"],
+					era=["13TeV"],
+					mass=["90"]
+			)
+		
+			# efficiencies
+			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+
+			# Tau ES
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+
+			# fake-rate
+			#self.cb.cp().channel(["et"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
+		
+			# ======================================================================
+			# All channels
+			# lumi
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "W", "VV", "QCD"]).AddSyst(self.cb, *self.lumi_syst_args)
+		
+			# cross section
+			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
+			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
+			self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
+
+			# QCD systematic
+			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
+		
+			if log.isEnabledFor(logging.DEBUG):
+				self.cb.PrintAll()
