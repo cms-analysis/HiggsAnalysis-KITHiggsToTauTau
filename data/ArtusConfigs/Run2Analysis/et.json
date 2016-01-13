@@ -72,6 +72,18 @@
 			}
 		},
 		"EventWeight" : "eventWeight",
+		"TriggerEfficiencyData" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_SingleEle_eff.root"
+		],
+		"TriggerEfficiencyMc" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Spring15_Electron_SingleEle_eff.root"
+		],
+		"IdentificationEfficiencyData" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p10_eff.root"
+		],
+		"IdentificationEfficiencyMc" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Spring15_Electron_IdIso0p10_eff.root"
+		],
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
 			"nick" : {
@@ -169,6 +181,8 @@
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"HToTauTau" : [
@@ -206,6 +220,8 @@
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -243,6 +259,8 @@
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [

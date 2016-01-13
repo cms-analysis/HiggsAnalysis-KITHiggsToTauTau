@@ -60,6 +60,14 @@
 			"HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v:18.0"
 		],
 		"EventWeight" : "eventWeight",
+		"IdentificationEfficiencyData" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p15_eff.root",
+			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p15_eff.root"
+		],
+		"IdentificationEfficiencyMc" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Spring15_Electron_IdIso0p15_eff.root",
+			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Spring15_Muon_IdIso0p15_eff.root"
+		],
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
 			"nick" : {
@@ -142,6 +150,8 @@
 					"producer:GenTauDecayProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"#producer:MVATestMethodsProducer",
+					"#producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
