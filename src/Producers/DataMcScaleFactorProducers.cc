@@ -108,19 +108,19 @@ double DataMcScaleFactorProducerBase::GetEfficienciesFromHistograms(std::vector<
 	     histogram != histograms.end(); ++histogram)
 	{
 		int globalBin = (*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta());
-		int xBin, yBin, zBin;
-		(*histogram)->GetBinXYZ(globalBin, xBin, yBin, zBin);
-		int globalBinUp = (*histogram)->GetBin((xBin <= (*histogram)->GetNbinsX() ? xBin+1 : xBin), yBin, zBin);
+// 		int xBin, yBin, zBin;
+// 		(*histogram)->GetBinXYZ(globalBin, xBin, yBin, zBin);
+// 		int globalBinUp = (*histogram)->GetBin((xBin <= (*histogram)->GetNbinsX() ? xBin+1 : xBin), yBin, zBin);
 		
-		float binContent = (*histogram)->GetBinContent(globalBin);
-		float binContentUp = (*histogram)->GetBinContent(globalBinUp);
+// 		float binContent = (*histogram)->GetBinContent(globalBin);
+// 		float binContentUp = (*histogram)->GetBinContent(globalBinUp);
 		
-		float interpolationFactor = (lepton->p4.Pt() - (*histogram)->GetXaxis()->GetBinLowEdge(xBin)) /
-		                            ((*histogram)->GetXaxis()->GetBinUpEdge(xBin) - (*histogram)->GetXaxis()->GetBinLowEdge(xBin));
-		float linearInterpolation = (binContent * interpolationFactor) + (binContentUp * (1.0 - interpolationFactor));
+// 		float interpolationFactor = (lepton->p4.Pt() - (*histogram)->GetXaxis()->GetBinLowEdge(xBin)) /
+// 		                            ((*histogram)->GetXaxis()->GetBinUpEdge(xBin) - (*histogram)->GetXaxis()->GetBinLowEdge(xBin));
+// 		float linearInterpolation = (binContent * interpolationFactor) + (binContentUp * (1.0 - interpolationFactor));
 		
-		efficiency *= linearInterpolation;
-		//efficiency *= (*histogram)->GetBinContent((*histogram)->FindBin(lepton->p4.Pt(), lepton->p4.Eta()));
+// 		efficiency *= linearInterpolation;
+		efficiency *= (*histogram)->GetBinContent(globalBin);
 	}
 	return efficiency;
 }
