@@ -27,12 +27,10 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# Z->tautau categories  
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive"] = "1.0"
-			self.expressions_dict["catZtt13TeV_"+channel+"_dilep"] = "(dilepton_veto > 0.5)"
-			self.expressions_dict["catZtt13TeV_"+channel+"_idpass"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 < 1.5)"
-			self.expressions_dict["catZtt13TeV_"+channel+"_idfail"] = "(byCombinedIsolationDeltaBetaCorrRaw3Hits_2 > 1.5)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_0jet_inclusive"] = "(njetspt30<1)"
+			
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"

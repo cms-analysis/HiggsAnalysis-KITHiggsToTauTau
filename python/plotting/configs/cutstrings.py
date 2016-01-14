@@ -76,8 +76,28 @@ class CutStringsDict:
 		return cuts
 	
 	@staticmethod
-	def tauidpass(channel, cut_type):
+	def antimuloosepass(channel, cut_type):
 		if channel == "mt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["discriminator"] = "(againstMuonLoose3_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antimuloosefail(channel, cut_type):
+		if channel == "mt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["discriminator"] = "(againstMuonLoose3_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def tauidpass(channel, cut_type):
+		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["discriminator"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
 		else:
@@ -87,7 +107,7 @@ class CutStringsDict:
 	
 	@staticmethod
 	def tauidfail(channel, cut_type):
-		if channel == "mt":
+		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["discriminator"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 < 0.5)"
 		else:
@@ -104,6 +124,10 @@ class CutStringsDict:
 			cuts = CutStringsDict.antieloosepass(channel, cut_type)
 		elif cut_type=="antieloosefail":
 			cuts = CutStringsDict.antieloosefail(channel, cut_type)
+		elif cut_type=="antimuloosepass":
+			cuts = CutStringsDict.antimuloosepass(channel, cut_type)
+		elif cut_type=="antimuloosefail":
+			cuts = CutStringsDict.antimuloosefail(channel, cut_type)
 		elif cut_type=="tauidpass":
 			cuts = CutStringsDict.tauidpass(channel, cut_type)
 		elif cut_type=="tauidfail":
