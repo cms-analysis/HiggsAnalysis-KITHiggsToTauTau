@@ -87,7 +87,7 @@ configs.extend(ptFlow_run2.return_json_with_changed_x_and_weight(
 #Pt
 zmumu_all_pt = pltcl.single_plot(
         name = "zmumu_all_pt",
-        title = "Z#rightarrow#mu#mu MC (Run II)",
+        title = "Z#rightarrow#mu#mu MC (Run II): all Muons",
         x_expression = "ptMuons",
         x_label = "p^{#mu}_{T}",
         y_label = "Number of Muons",
@@ -104,6 +104,7 @@ configs.extend(zmumu_all_pt.return_json_with_changed_x_and_weight(
 ))
 
 zmumu_MC_matched_pt = zmumu_all_pt.clone(name = "zmumu_MC_matched_pt",
+                                       title = "Z#rightarrow#mu#mu MC (Run II): MC matched Muons",
                                       plotlines = [zmumu_genfilter_MC_matched,
                                                    zmumu_baseline_MC_matched,
                                                    zmumu_id_MC_matched,
@@ -113,6 +114,7 @@ configs.extend(zmumu_MC_matched_pt.return_json_with_changed_x_and_weight(
 ))
 
 zmumu_not_MC_matched_pt = zmumu_all_pt.clone(name = "zmumu_not_MC_matched_pt",
+                                       title = "Z#rightarrow#mu#mu MC (Run II): not MC matched Muons",
                                           plotlines = [zmumu_genfilter_not_MC_matched,
                                                        zmumu_baseline_not_MC_matched,
                                                        zmumu_id_not_MC_matched,
