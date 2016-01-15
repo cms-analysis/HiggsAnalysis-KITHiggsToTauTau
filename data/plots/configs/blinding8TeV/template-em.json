@@ -9,12 +9,10 @@
         "",
         "",
         "",
-        "",
-        "",
         "", "-", "-"
     ],
     "blinding_background_nicks": [
-        "ZTT ZLL TT VV W QCD"
+        "Ztt TT EWK Fakes"
     ], 
     "blinding_method": [
         "soversqrtb", 
@@ -22,7 +20,7 @@
     ], 
     "blinding_parameters": [
         0, 
-        0.096
+        0.041
     ], 
     "blinding_result_nicks": [
         "ratio_b_oversqrtb", 
@@ -34,11 +32,9 @@
     "colors": [
         "black", 
         "#FFCC66", 
-        "#4496C8", 
         "#9999CC", 
-        "#6F2D35", 
         "#DE5A6A", 
-        "#FFCCFF", 
+        "pink",
         "#0000FF", 
         "darkorange", 
         "green"
@@ -47,7 +43,7 @@
         8.0
     ], 
     "files": [
-        "/afs/desy.de/user/r/rfriese/analysis/auxiliaries/datacards/sm/htt_mt/htt_mt.inputs-sm-8TeV.root"
+        "/afs/desy.de/user/r/rfriese/analysis/auxiliaries/datacards/sm/htt_em/htt_em.inputs-sm-8TeV.root"
     ], 
     "lumis": [
         19.4
@@ -58,20 +54,16 @@
         "bar", 
         "bar", 
         "bar", 
-        "bar", 
-        "bar", 
         ".", 
         "x", 
         "."
     ], 
     "nicks": [
         "data", 
-        "ZTT", 
-        "ZLL", 
+        "Ztt", 
         "TT", 
-        "VV", 
-        "W", 
-        "QCD", 
+        "EWK", 
+        "Fakes",
         "higgs", 
         "higgs"
     ], 
@@ -84,15 +76,10 @@
         "bkg", 
         "bkg", 
         "bkg", 
-        "bkg", 
-        "bkg", 
         "signal"
     ], 
     "step":
     [
-         "False", 
-         "False", 
-         "False", 
          "False", 
          "False", 
          "False", 
@@ -107,12 +94,10 @@
     ], 
     "x_expressions": [
         "data_obs", 
-        "ZTT", 
-        "ZLL", 
-        "TT", 
-        "VV", 
-        "W", 
-        "QCD", 
+        "Ztt", 
+        "ttbar", 
+        "EWK", 
+        "Fakes",
         "ggH125", 
         "qqH125"
     ], 
@@ -122,5 +107,18 @@
     "y_subplot_lims": [
         0.0, 
         2.0
+    ],
+    "labels": [
+        "observed", 
+        "$Z->\\tau\\tau$", 
+        "$t\\bar{t}$", 
+        "$Electroweak$", 
+        "QCD",
+        "$(10 \\times) Higgs\\, (125\\, \\mathrm {GeV})$", 
+        "$s /\\sqrt{b}$", 
+        "$s /\\sqrt{b + (\\epsilon b)^2}$"
+    ], 
+    "scales": [
+        10.0, 1
     ]
 }
