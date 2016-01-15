@@ -7,7 +7,7 @@ from HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plotline_bib im
 
 configs = []
 
-# npu efficiency plots
+'''# npu efficiency plots
 muon_full_run2 = pltcl.single_plot(
 	name = "muon_full_run2",
 	title = "Run II",
@@ -78,6 +78,82 @@ configs.extend(ptFlow_run2.return_json_with_changed_x_and_weight(
 #		"trailingMuon_ChargedPUPtFlow",
 #		"trailingMuon_PhotonsNoPUPtFlow"
 		]
+))
+
+
+'''
+### Plots for Zmumu selection of CMSSW skim
+
+#Pt
+zmumu_all_pt = pltcl.single_plot(
+        name = "zmumu_all_pt",
+        title = "Run II",
+        x_expression = "ptMuons",
+        x_label = "p^{#mu}_{T}",
+        y_label = "Number of Muons",
+        y_subplot_label = "selection/genfilter",
+        plot_type = "absolute",
+        legend =[0.25,0.55,0.55,0.9],
+        subplot_denominator = 0,
+        subplot_numerators = [1,2,3],
+        plotlines = [zmumu_genfilter_all,zmumu_baseline_all,zmumu_id_all,zmumu_id_and_trigger_all]
+)
+configs.extend(zmumu_all_pt.return_json_with_changed_x_and_weight(
+        x_expressions=["ptMuons"]
+))
+
+zmumu_MC_matched_pt = zmumu_all_pt.clone(name = "zmumu_MC_matched_pt",
+                                      plotlines = [zmumu_genfilter_MC_matched,
+                                                   zmumu_baseline_MC_matched,
+                                                   zmumu_id_MC_matched,
+                                                   zmumu_id_and_trigger_MC_matched])
+configs.extend(zmumu_MC_matched_pt.return_json_with_changed_x_and_weight(
+        x_expressions=["ptMuons"]
+))
+
+zmumu_not_MC_matched_pt = zmumu_all_pt.clone(name = "zmumu_not_MC_matched_pt",
+                                          plotlines = [zmumu_genfilter_not_MC_matched,
+                                                       zmumu_baseline_not_MC_matched,
+                                                       zmumu_id_not_MC_matched,
+                                                       zmumu_id_and_trigger_not_MC_matched])
+configs.extend(zmumu_not_MC_matched_pt.return_json_with_changed_x_and_weight(
+        x_expressions=["ptMuons"]
+))
+
+#Eta
+zmumu_all_eta = pltcl.single_plot(
+        name = "zmumu_all_eta",
+        title = "Run II",
+        x_expression = "etaMuons",
+        x_label = "#eta^{#mu}",
+        y_label = "Number of Muons",
+        y_subplot_label = "selection/genfilter",
+        plot_type = "absolute",
+        legend =[0.25,0.55,0.55,0.9],
+        subplot_denominator = 0,
+        subplot_numerators = [1,2,3],
+        plotlines = [zmumu_genfilter_all,zmumu_baseline_all,zmumu_id_all,zmumu_id_and_trigger_all]
+)
+configs.extend(zmumu_all_eta.return_json_with_changed_x_and_weight(
+        x_expressions=["etaMuons"]
+))
+
+zmumu_MC_matched_eta = zmumu_all_eta.clone(name = "zmumu_MC_matched_eta",
+                                       plotlines = [zmumu_genfilter_MC_matched,
+                                                    zmumu_baseline_MC_matched,
+                                                    zmumu_id_MC_matched,
+                                                    zmumu_id_and_trigger_MC_matched])
+configs.extend(zmumu_MC_matched_eta.return_json_with_changed_x_and_weight(
+        x_expressions=["etaMuons"]
+))
+
+zmumu_not_MC_matched_eta = zmumu_all_eta.clone(name = "zmumu_not_MC_matched_eta",
+                                           plotlines = [zmumu_genfilter_not_MC_matched,
+                                                        zmumu_baseline_not_MC_matched,
+                                                        zmumu_id_not_MC_matched,
+                                                        zmumu_id_and_trigger_not_MC_matched])
+configs.extend(zmumu_not_MC_matched_eta.return_json_with_changed_x_and_weight(
+        x_expressions=["etaMuons"]
 ))
 
 higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=configs, list_of_args_strings=[""])
