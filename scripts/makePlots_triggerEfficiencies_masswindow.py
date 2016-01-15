@@ -53,7 +53,7 @@ if __name__ == "__main__":
 	
 	offline_selections = "tagMatched*puWeight*(tagIsoOverPt<0.1)*(tagCharge != probeCharge)*(std::abs(tagProbeMass - 91)<5)"
 	# sensible eta_regions differ for electrons and muons.for muons stick to michal's, electrons only in abs(eta)><1.48
-	eta_weights_mm = ["*(std::abs(probeEta)<0.8)","*(std::abs(probeEta)>0.8)*(std::abs(probeEta)<1.2)","*(std::abs(probeEta)>1.2)"]
+	eta_weights_mm = ["*(std::abs(probeEta)<0.9)","*(std::abs(probeEta)>0.9)*(std::abs(probeEta)<1.2)","*(std::abs(probeEta)>1.2)"]
 	eta_weights_ee = ["*(std::abs(probeEta)<1.48)","*(std::abs(probeEta)>1.48)"]
 
 	plot_configs = []
@@ -91,8 +91,9 @@ if __name__ == "__main__":
 				config.setdefault("efficiency_methods", []).append(["cp"] * 2)
 				config["x_expressions"] = ["probePt"]
 				#config["x_bins"] = ["40,0,100"]
-				#DESYbinning config["x_bins"] = ["0 10 13 16 19 22 25 28 31 34 37 40 45 50 60 70 100"]
-				config["x_bins"] = ["0 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 27 29 31 33 35 40 45 50 55 60 65 70 80 90 100"]
+				#config["x_bins"] = ["0 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 27 29 31 33 35 40 45 50 55 60 65 70 80 90 100"]
+				#DESYbinning
+				config["x_bins"] = ["0 10 13 16 19 22 25 28 31 34 37 40 45 50 60 70 100"]
 				if channel == "ee":
 					config["weights"] = [offline_selections+eta_weights_ee[eta_range],
 					offline_selections+eta_weights_ee[eta_range]+"*(probeMatched)",
