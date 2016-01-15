@@ -191,6 +191,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	
 	std::vector<std::string> tauDiscriminators;
 	tauDiscriminators.push_back("byCombinedIsolationDeltaBetaCorrRaw3Hits");
+	tauDiscriminators.push_back("byLooseCombinedIsolationDeltaBetaCorr3Hits");
 	tauDiscriminators.push_back("byMediumCombinedIsolationDeltaBetaCorr3Hits");
 	tauDiscriminators.push_back("byTightCombinedIsolationDeltaBetaCorr3Hits");
 	tauDiscriminators.push_back("trigweight");
