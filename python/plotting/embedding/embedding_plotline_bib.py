@@ -55,7 +55,7 @@ zmumu_genfilter_all = pltcl.single_plotline(
         num_folder = "genfilter/all",
         den_folder = "genfilter/all",
         num_tree = "",
-        label = "Z#rightarrow#mu#mu MC (genfilter)",
+        label = "gen. filter",
         color = "kGray")
 
 zmumu_genfilter_MC_matched = zmumu_genfilter_all.clone(num_folder = "genfilter/MC_matched",
@@ -65,33 +65,33 @@ zmumu_genfilter_not_MC_matched = zmumu_genfilter_all.clone(num_folder = "genfilt
 
 zmumu_baseline_all = zmumu_genfilter_all.clone(num_folder = "baseline/all",
                                                color = "kRed",
-                                               label = "Z#rightarrow#mu#mu MC (baseline)")
+                                               label = "baseline sel.")
 zmumu_baseline_MC_matched = zmumu_genfilter_MC_matched.clone(num_folder = "baseline/MC_matched",
                                                              color = "kRed",
-                                                             label = "Z#rightarrow#mu#mu MC (baseline)")
+                                                             label = "baseline sel.")
 zmumu_baseline_not_MC_matched = zmumu_genfilter_not_MC_matched.clone(num_folder = "baseline/not_MC_matched",
                                                                      color = "kRed",
-                                                                     label = "Z#rightarrow#mu#mu MC (baseline)")
+                                                                     label = "baseline sel.")
 
 zmumu_id_all = zmumu_genfilter_all.clone(num_folder = "id/all",
                                          color = "kBlue",
-                                         label = "Z#rightarrow#mu#mu MC (id)")
+                                         label = "ID")
 zmumu_id_MC_matched = zmumu_genfilter_MC_matched.clone(num_folder = "id/MC_matched",
                                                        color = "kBlue",
-                                                       label = "Z#rightarrow#mu#mu MC (id)")
+                                                       label = "ID")
 zmumu_id_not_MC_matched = zmumu_genfilter_not_MC_matched.clone(num_folder = "id/not_MC_matched",
                                                                color = "kBlue",
-                                                               label = "Z#rightarrow#mu#mu MC (id)")
+                                                               label = "ID")
 
 zmumu_id_and_trigger_all = zmumu_genfilter_all.clone(num_folder = "id_and_trigger/all",
                                                      color = "kGreen",
-                                                     label = "Z#rightarrow#mu#mu MC (trigger_and_id)")
+                                                     label = "ID & Trigger")
 zmumu_id_and_trigger_MC_matched = zmumu_genfilter_MC_matched.clone(num_folder = "id_and_trigger/MC_matched",
                                                                    color = "kGreen",
-                                                                   label = "Z#rightarrow#mu#mu MC (trigger_and_id)")
+                                                                   label = "ID & Trigger")
 zmumu_id_and_trigger_not_MC_matched = zmumu_genfilter_not_MC_matched.clone(num_folder = "id_and_trigger/not_MC_matched",
                                                                            color = "kGreen",
-                                                                           label = "Z#rightarrow#mu#mu MC (trigger_and_id)")
+                                                                           label = "ID & Trigger")
 
 
 

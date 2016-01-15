@@ -231,7 +231,7 @@ class single_plot:
 		self.out_json["x_label"] = self.x_label
 		self.out_json["legend"] = self.legend
 		self.out_json["formats"] = self.formats
-		self.out_json["www"] = self.wwwfolder
+		if self.wwwfolder != "": self.out_json["www"] = self.wwwfolder
 		self.out_json["y_label"] = self.y_label
 		self.out_json.setdefault("weights",[]).append(self.weight)
 
