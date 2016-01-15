@@ -56,7 +56,7 @@ zmumu_genfilter_all = pltcl.single_plotline(
         den_folder = "genfilter/all",
         num_tree = "",
         label = "Z#rightarrow#mu#mu MC (genfilter)",
-        color = "kGrey")
+        color = "kGray")
 
 zmumu_genfilter_MC_matched = zmumu_genfilter_all.clone(num_folder = "genfilter/MC_matched",
                                                        den_folder = "genfilter/MC_matched")
