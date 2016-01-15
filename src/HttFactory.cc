@@ -3,6 +3,7 @@
 
 // producers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ElectronEtaSelector.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttElectronCorrectionsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTauCorrectionsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidElectronsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMuonsProducer.h"
@@ -56,6 +57,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 {
 	if(id == ElectronEtaSelector().GetProducerId())
 		return new ElectronEtaSelector();
+	else if(id == HttElectronCorrectionsProducer().GetProducerId())
+		return new HttElectronCorrectionsProducer();
 	else if(id == HttTauCorrectionsProducer().GetProducerId())
 		return new HttTauCorrectionsProducer();
 	else if(id == HttValidElectronsProducer().GetProducerId())
