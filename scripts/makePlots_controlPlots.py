@@ -17,43 +17,43 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import sys
 
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot):
-
-	if not "AddHistograms" in config["analysis_modules"]:
-		config["analysis_modules"].append("AddHistograms")
-		config["histogram_nicks"] = []
-		config["sum_result_nicks"] = []
-
-	config["histogram_nicks"].append(" ".join(bkg_samples))
-	config["sum_result_nicks"].append("backgrounds_noplot")
-	if not "SquareRootBinContent" in config["analysis_modules"]:
-		config["analysis_modules"].append("SquareRootBinContent")
-	config["square_root_nicks"] = ["backgrounds_noplot"]
-
 	config["analysis_modules"].append("ScaleHistograms")
 	config["scale_nicks"] = ["htt125"]
 	config["scales"] = [ 1/args.scale_signal ]
 	config["scale_result_nicks"] = ["htt125Scaled"]
 
-	if not "Ratio" in config["analysis_modules"]:
-		config["analysis_modules"].append("Ratio")
+	config["analysis_modules"].append("BlindingPolicy")
+	config["blinding_background_nicks"] = []
+	config["blinding_signal_nicks"] = []
+	config["blinding_result_nicks"] = []
+	config["blinding_parameters"] = []
+	config["blinding_method"] = []
+	for method in args.blinding_methods:
+		config["blinding_method"].append(method)
+		config["blinding_result_nicks"].append("ratio_" + method)
+		config["blinding_background_nicks"].append(" ".join(bkg_samples))
+		config["blinding_signal_nicks"].append("htt125Scaled")
+		config["blinding_parameters"].append(args.blinding_parameter)
 
-	config["ratio_denominator_nicks"] = ["backgrounds_noplot"]
-	config["ratio_numerator_nicks"] = ["htt125Scaled"]
-	config["ratio_result_nicks"] = ["ratio_soversqrtb"]
 	if( show_subplot ):
-		config["colors"].append("kit_blau_1")
-		config["y_subplot_label"] = "s / #sqrt{b}"
+		config["y_subplot_label"] = ""
 		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
 		config["y_subplot_lims"] = [0, 1.5]
-		config["markers"].append("LINE")
-		config["legend_markers"].append("L")
-		config["labels"].append("sbratio")
+		for method in args.blinding_methods:
+			config["markers"].append("LINE")
+			config["legend_markers"].append("L")
+			if(method == "soversqrtb"):
+				config["colors"].append("kit_blau_1")
+				config["labels"].append("sbratio")
+			elif(method == "ams"):
+				config["colors"].append("kit_gruen_1")
+				config["labels"].append("ams")
 	else:
 		config["nicks_blacklist"].append("ratio")
 
 def blind_signal(config, blinding_threshold):
 	config["analysis_modules"].append("MaskHistograms")
-	config["mask_above_reference_nick"] = "ratio_soversqrtb"
+	config["mask_above_reference_nick"] = config["blinding_result_nicks"][0]
 	config["mask_above_reference_value"] = blinding_threshold
 	config["mask_histogram_nicks"] = "data"
 
@@ -78,6 +78,10 @@ if __name__ == "__main__":
 	                    help="Threshold above of s/sqrt(b) above which data is being blinded [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
+	parser.add_argument("--blinding-methods", default=["soversqrtb"], nargs="*",
+	                    help="Blinding Method. Chose soversqrtb or ams. [Default: %(default)s]")
+	parser.add_argument("--blinding-parameter", default=0.0, type=float,
+	                    help="b_reg. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
