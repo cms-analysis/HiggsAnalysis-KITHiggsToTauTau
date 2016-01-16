@@ -226,6 +226,7 @@ class single_plot:
 
 		self.out_json["filename"] = self.name + "_" + self.x_expression
 		self.out_json["title"] = self.title
+		self.out_json["y_scientific"] = True
 		self.out_json["x_bins"] = self.x_bins
 		self.out_json.setdefault("x_expressions", []).append(self.x_expression)
 		self.out_json["x_label"] = self.x_label
