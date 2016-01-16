@@ -6,83 +6,151 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse
+import copy
 import os
-import sys
-import time
-from fnmatch import fnmatch
 
 import Artus.Utility.jsonTools as jsonTools
-
+import sys
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import ROOT
+import glob
 from ROOT import TCut, TString
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
-def tmva_Wrapper(args_from_script=None):
-    """
-    Perform TMVA classification training.
-    
-    http://root.cern.ch/svn/root/trunk/tmva/test/TMVAClassification.C
-    http://root.cern.ch/root/htmldoc/TMVA__Factory.html
-    http://root.cern.ch/root/htmldoc/TMVA_Index.html
-    """
+if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Perform TMVA classification training.",
-                                    fromfile_prefix_chars="@", conflict_handler="resolve",
-                                    parents=[logger.loggingParser])
+    parser = argparse.ArgumentParser(description="Make Data-MC control plots.",
+                                     parents=[logger.loggingParser])
 
-    parser.add_argument("-o", "--output-file",required=True, default="tmvaClassification/output.root",
+    parser.add_argument("-i", "--input-dir", required=True,
+                        help="Input directory.")
+    parser.add_argument("-s", "--signal_samples", nargs="+",
+                        default=["ggh", "qqh", "vh"],
+                        choices=["ggh", "qqh", "vh"], 
+                        help="Signal-Samples. [Default: %(default)s]")
+    parser.add_argument("-b", "--bkg_samples", nargs="+",
+                        default=["ztt", "zll", "ttj", "vv", "wj"],
+                        choices=["ztt", "zll", "ttj", "vv", "wj"], 
+                        help="Bkg-Samples. [Default: %(default)s]")
+    parser.add_argument("-c", "--channels", nargs="*",
+                        default=["tt", "mt", "et", "em", "mm", "ee"],
+                        help="Channels. [Default: %(default)s]")
+    parser.add_argument("-x", "--quantities", nargs="*",
+                        default=["pVecSum", "pt_1", "mt_1", "pt_2", "mt_2", "met", 
+                                "mvamet", "pZetaMissVis", "pZetaMiss", 
+                                "pZetaVis","njets", "nbtag", 
+                                "min_ll_jet_eta","lep1_centrality", 
+                                "lep2_centrality", 
+                                "delta_lep_centrality", "m_vis"],
+                        help="Quantities to train on. [Default: %(default)s]")
+    parser.add_argument("--lumi", type=float, default=2.155,
+                        help="""Luminosity for the given data in fb^(-1). 
+                                [Default: %(default)s]""")
+    parser.add_argument("-w", "--weight", default="1.0",
+                        help="""Additional weight (cut) expression.
+                        [Default: %(default)s]""")
+    parser.add_argument("-e", "--exclude-cuts", nargs="+", default=["pZetaMiss", "pZetaVis", "iso_1", "iso_2", "mt_1", "mt_2"],
+                        help="""Exclude (default) selection cuts. 
+                        [Default: %(default)s]""")
+    parser.add_argument("--higgs-masses", nargs="+", default=["125"],
+                        help="Higgs masses. [Default: %(default)s]")
+    parser.add_argument("-S", "--Split", default='60', 
+                        help="""If set enables splitting into training and test
+                        tree, use value between 0 and 99 to split tree using
+                        variable TrainingSelectionValue""")
+    parser.add_argument("-o", "--output-file",required=True,
+                        default="tmvaClassification/output.root",
                         help="Output file. [Default: %(default)s]")
-    parser.add_argument("-n", "--name", default="training",
-                        help="Training name. [Default: %(default)s]")
     parser.add_argument("--factory-options", default="",
                         help="Options for TMVA.Factory constructor. [Default: %(default)s]")
-    parser.add_argument("-v", "--variables", nargs="+", required=True, default=None,
-                        help="Training variables. Multiple arguments for TMVA.Factory.AddVariable are split by semicolon.")
-    parser.add_argument("--spectator-variables", nargs="+", default=[],
-                        help="Spectator variables. Multiple arguments for TMVA.Factory.AddSpectator are split by semicolon. [Default: %(default)s]")
-    
-    parser.add_argument("-s", "--signal-trees", nargs="+", required=True, default=None,
-                        help="Signal trees/Directories containing signal tree[s].")
-    parser.add_argument("--signal-tree-weights", nargs="+", type=float, default=[1.0],
-                        help="Weights for signal trees. Need same number of arguments as for --signal-trees or one.")
-    parser.add_argument("--signal-event-weight", help="Signal event weight expression.")
-    parser.add_argument("--signal-cuts", default="", help="Signal cut expression. [Default: %(default)s]")
-    
-    parser.add_argument("-b", "--background-trees", nargs="+", required=True, default=None,
-                        help="Background trees/Directories containing Background tree[s].")
-    parser.add_argument("--background-tree-weights", nargs="+", type=float, default=[1.0],
-                        help="Weights for background trees. Need same number of arguments as for --background-trees or one.")
-    parser.add_argument("--background-event-weight", help="Background event weight expression.")
-    parser.add_argument("--background-cuts", default="", help="Background cut expression. [Default: %(default)s]")
-    
+    parser.add_argument("-n", "--name", default="training",
+                        help="Training name. [Default: %(default)s]")
+    parser.add_argument("-m", "--methods", nargs="+", required=True, default=['BDT;nCuts=1200:NTrees=150:MinNodeSize=0.25'],
+                        help="MVA methods. Multiple arguments for TMVA.Factory.BookMethod are split by semicolon. Format: name;options.")
     parser.add_argument("--preparation-trees-options", default="",
                         help="Options for preparation of inputs trees as passed to TMVA.Factory.PrepareTrainingAndTestTree. [Default: %(default)s]")
-    
-    parser.add_argument("-m", "--methods", nargs="+", required=True, default=None,
-                        help="MVA methods. Multiple arguments for TMVA.Factory.BookMethod are split by semicolon. Format: name;options.")
-    
-    parser.add_argument("-f", "--folders", nargs="+", required=True, default=[],
-                        help="folder names within ROOT-files e.g.: em_jecUnc_Nom em_jecUnc_Nom_tt.")
-    parser.add_argument("-N", "--Ntuple-name", nargs="+", required=True, default=['ntuple'],
-                        help="Name of the ntuples you want to read e.g.: ntuple   [Default: %(default)s")
-    parser.add_argument("-S", "--Split", default=False, 
-                        help="If set enables splitting into training and test tree, use value between 0 and 99 to split tree using variable TrainingSelectionValue")
-
-    args = parser.parse_args(args_from_script.split() if args_from_script != None else None)
+    args = parser.parse_args()
     logger.initLogger(args)
     
-    # load the library
+    if args.signal_samples == parser.get_default("signal_samples"):
+        args.signal_samples = [sample for sample in args.signal_samples 
+                        if hasattr(samples.Samples, sample)]
+    if args.bkg_samples == parser.get_default("bkg_samples"):
+        args.bkg_samples = [sample for sample in args.bkg_samples 
+                        if hasattr(samples.Samples, sample)]
+    if "qcd" in (args.bkg_samples+args.signal_samples):
+        log.error("qcd not possible for training")
+        sys.exit()
+    list_of_samples = [getattr(samples.Samples, sample) for sample in 
+                        (args.bkg_samples+args.signal_samples)]
+    sample_settings = samples.Samples()
+    #getting config
+    plot_configs = []
+    for channel in args.channels:
+        category = None
+        quantity = "pt_1"
+        config = sample_settings.get_config(
+                samples=list_of_samples,
+                channel=channel,
+                category=category,
+                higgs_masses=args.higgs_masses,
+                normalise_signal_to_one_pb=False,
+                ztt_from_mc=False,
+                weight="",
+                lumi = args.lumi * 1000,
+                exclude_cuts=args.exclude_cuts,
+                blind_expression=channel+"_"+quantity,
+                stack_signal=False,
+                scale_signal=1.0,
+                mssm=False
+                )
+        plot_configs.append(config)
+    #extract important information from config
+    scale_input = []
+    file_names = []
+    cuts = []
+    s_b_extension = []
+    nicks = []
+    folder = []
+    for config in plot_configs:
+        for i,nick in enumerate(config["nicks"]):
+            if nick in args.bkg_samples:
+                for f in config["files"][i].split(' '):
+                    nicks.append(nick)
+                    scale_input.append(config["scale_factors"][i])
+                    file_names.append(f)
+                    cuts.append(config["weights"][i][17:])
+                    folder.append(config["folders"][i])
+                    s_b_extension.append("Background")
+            elif ("ggh" in nick and "ggh" in args.signal_samples) or ("qqh"
+                in nick and "qqh" in args.signal_samples):
+                for f in config["files"][i].split(' '):
+                    nicks.append(nick)
+                    scale_input.append(config["scale_factors"][i])
+                    file_names.append(f)
+                    cuts.append(config["weights"][i][17:])
+                    folder.append(config["folders"][i])
+                    s_b_extension.append("Signal")
+            elif "vh" in args.signal_samples and ("wmh" in nick or
+                                                  "wph" in nick or
+                                                  "zh" in nick):
+                for f in config["files"][i].split(' '):
+                    nicks.append(nick)
+                    scale_input.append(config["scale_factors"][i])
+                    file_names.append(f)
+                    cuts.append(config["weights"][i][17:])
+                    folder.append(config["folders"][i])
+                    s_b_extension.append("Signal")
+                    
+    #TMVA Stuff
     ROOT.TMVA.Tools.Instance()
-    cutTest = ""
-    cutTrain = ""
-    #check if split_cut is required
     if args.Split:
-        cutTest = "TrainingSelectionValue>=%i"%int(args.Split)
-        cutTrain = "TrainingSelectionValue<%i"%int(args.Split)
-    
+        cutTest = "(TrainingSelectionValue>=%i)*"%int(args.Split)
+        cutTrain = "(TrainingSelectionValue<%i)*"%int(args.Split)
+        
     # create output file
     dir_path, filename = os.path.split(args.output_file)
-    storage_name_extension = filename+"_storage"
+    storage_name_extension = filename.replace(".root", "") + "_storage"
     if dir_path is None:
         pass
     elif not os.path.exists(dir_path):
@@ -90,151 +158,71 @@ def tmva_Wrapper(args_from_script=None):
     output_file = ROOT.TFile(args.output_file, "RECREATE")
     
     # create factory
-    log.debug("TMVA.Factory(\"" + args.name + "\", TFile(\"" + args.output_file + "\", \"RECREATE\"), \"" + args.factory_options + "\")")
-    tmva_factory = ROOT.TMVA.Factory(args.name, output_file, args.factory_options)
-    
+    log.debug("TMVA.Factory(\"" + args.name + "\", TFile(\"" + args.output_file +
+              "\", \"RECREATE\"), \"" + args.factory_options + "\")")
+    tmva_factory = ROOT.TMVA.Factory(args.name, output_file,
+                                     args.factory_options)
     # add training variables
-    for variable in args.variables:
-        log.debug("TMVA.Factory.AddVariable(" + ", ".join(["\"" + v + "\"" for v in variable.split(";")]) + ")")
+    for variable in args.quantities:
+        log.debug("TMVA.Factory.AddVariable(" +
+                    ", ".join(["\"" + v + "\""
+                               for v in variable.split(";")]) + ")")
         tmva_factory.AddVariable(*(variable.split(";")))
-    
-    # add spectator variables
-    for spectator_variable in args.spectator_variables:
-        log.debug("TMVA.Factory.AddSpectator(" + ", ".join(["\"" + v + "\"" for v in spectator_variable.split(";")]) + ")")
-        tmva_factory.AddSpectator(*(spectator_variable.split(";")))
-    
-    # add signal
-    if len(args.signal_tree_weights) != 1 and len(args.signal_tree_weights) != len(args.signal_trees):
-        log.warning("Number of signal tree weights need to be 1 or " + len(args.signal_trees) + "!")
-    args.signal_tree_weights = (args.signal_tree_weights * len(args.signal_trees))[:len(args.signal_trees)]
-    
-    for signal_tree_parameter, signal_tree_weight in zip(args.signal_trees, args.signal_tree_weights):
-        log.debug("Evaluate signal parameter: " + signal_tree_parameter)
-        pattern = "*.root"
-        signal_files_list = []
-        #find all root files in signal_folders
-        if fnmatch(signal_tree_parameter, pattern):
-            signal_files_list.append(signal_tree_parameter)
-            log.debug("Add 1 RootFile: " + signal_tree_parameter)
-        elif os.path.isdir(signal_tree_parameter) or os.path.islink(signal_tree_parameter):
-            for path, subdirs, files in os.walk(signal_tree_parameter, followlinks=True):
-                log.debug('check path: ' +path)
-                log.debug('check subdirs:' +str(subdirs))
-                log.debug('check files:' +str(files)) 
-                for name in files:
-                    if fnmatch(name, pattern):
-                        signal_files_list.append(os.path.join(path, name))
-                        log.debug("Add 1 RootFile: " + signal_tree_parameter)
-        storage = 0
-        for root_file in signal_files_list:
-            a = ROOT.TFile(root_file)
-            for ntuple_folder in args.folders:
-                last_dir = a.GetDirectory(ntuple_folder)
-                if not last_dir == None:
-                    for possible_ntuple in last_dir.GetListOfKeys():
-                        if possible_ntuple.GetName() in args.Ntuple_name:
-                            root_ntuple = os.path.join(root_file, ntuple_folder)
-                            root_ntuple = os.path.join(root_ntuple, possible_ntuple.GetName())
-                            signal_tree = ROOT.TChain()
-                            signal_tree.Add(root_ntuple)
-                            if args.Split:
-                                store_file = ROOT.TFile("signal_%s_%i.root"%(storage_name_extension, storage), "RECREATE")
-                                storage_tree_train = signal_tree.CopyTree(cutTrain, "training")
-                                storage_tree_train.SetName("Training")
-                                storage_tree_test = signal_tree.CopyTree(cutTest, "testing")
-                                storage_tree_test.SetName("Testing")
-                                store_file.Write()
-                                store_file.Close()
-                                help_Tree1 = ROOT.TChain()
-                                help_Tree1.Add("signal_%s_%i.root/Training"%(storage_name_extension, storage))
-                                help_Tree2 = ROOT.TChain()
-                                help_Tree2.Add("signal_%s_%i.root/Testing"%(storage_name_extension, storage))
-                                tmva_factory.AddTree(help_Tree1, "Signal", signal_tree_weight, TCut(""), "train")
-                                tmva_factory.AddTree(help_Tree2, "Signal", signal_tree_weight, TCut(""), "test")
-                                log.debug("TMVA.Factory.AddTree(%s, 'Signal', %s, %s/%s, 'train/test')"%(root_ntuple, signal_tree_weight, cutTrain, cutTest))
-                                storage += 1
-                            else:
-                                tmva_factory.AddSignalTree(signal_tree, signal_tree_weight)
-                                log.debug("TMVA.Factory.AddSignalTree(TChain.Add(\"" + root_ntuple + "\"), " + str(signal_tree_weight) + ")")
-            a.Close()
-    if args.signal_event_weight:
-        log.debug("TMVA.Factory.SetSignalWeightExpression(\"" + args.signal_event_weight + "\")")
-        tmva_factory.SetSignalWeightExpression(args.signal_event_weight)
-    
-    # add background
-    if len(args.background_tree_weights) != 1 and len(args.background_tree_weights) != len(args.background_trees):
-        log.warning("Number of background tree weights need to be 1 or " + len(args.background_trees) + "!")
-    args.background_tree_weights = (args.background_tree_weights * len(args.background_trees))[:len(args.background_trees)]
-    
-    for background_tree_parameter, background_tree_weight in zip(args.background_trees, args.background_tree_weights):
-        pattern = "*.root"
-        background_files_list = []
-        #find all root files in background_folders
-        if fnmatch(background_tree_parameter, pattern):
-            file_name = background_tree_parameter.strip('.root')
-            background_files_list.append(background_tree_parameter)
-        elif os.path.isdir(background_tree_parameter):
-                for path, subdirs, files in os.walk(background_tree_parameter, followlinks=True):
-                    for name in files:
-                        if fnmatch(name, pattern):
-                            background_files_list.append(os.path.join(path, name))
-                            
-        storage = 0
-        for root_file in background_files_list:
-            a = ROOT.TFile(root_file)
-            for ntuple_folder in args.folders:
-                last_dir = a.GetDirectory(ntuple_folder)
-                if not last_dir == None:
-                    for possible_ntuple in last_dir.GetListOfKeys():
-                        if possible_ntuple.GetName() in args.Ntuple_name:
-                            root_ntuple = os.path.join(root_file, ntuple_folder)
-                            root_ntuple = os.path.join(root_ntuple, possible_ntuple.GetName())
-                            background_tree = ROOT.TChain()
-                            background_tree.Add(root_ntuple)
-                            if args.Split:
-                                store_file = ROOT.TFile("bkg_%s_%i.root"%(storage_name_extension, storage), "RECREATE")
-                                storage_tree_train = background_tree.CopyTree(cutTrain, "training")
-                                storage_tree_train.SetName("Training")
-                                storage_tree_test = background_tree.CopyTree(cutTest, "testing")
-                                storage_tree_test.SetName("Testing")
-                                store_file.Write()
-                                store_file.Close() 
-                                help_Tree1 = ROOT.TChain()
-                                help_Tree1.Add("bkg_%s_%i.root/Training"%(storage_name_extension, storage))
-                                help_Tree2 = ROOT.TChain()
-                                help_Tree2.Add("bkg_%s_%i.root/Testing"%(storage_name_extension, storage))
-                                tmva_factory.AddTree(help_Tree1, "Background", background_tree_weight, TCut(""), "train")
-                                tmva_factory.AddTree(help_Tree2, "Background", background_tree_weight, TCut(""), "test")
-                                log.debug("TMVA.Factory.AddTree(%s, 'Background', %s, %s/%s, 'train/test')"%(root_ntuple, background_tree_weight, cutTrain, cutTest))
-                                storage += 1
-                            else:
-                                tmva_factory.AddBackgroundTree(background_tree, background_tree_weight)
-                                log.debug("TMVA.Factory.AddBackgroundTree(TChain.Add(\"" + root_ntuple + "\"), " + str(background_tree_weight) + ")")
-            a.Close()
-    if args.background_event_weight:
-        log.debug("TMVA.Factory.SetBackgroundWeightExpression(\"" + args.background_event_weight + "\")")
-        tmva_factory.SetBackgroundWeightExpression(args.background_event_weight)
-    
-    # prepare trees
-    log.debug("TMVA.Factory.PrepareTrainingAndTestTree(\"" + args.signal_cuts + "\", \"" + args.background_cuts + "\", \"" + args.preparation_trees_options + "\")")
+    #add trees
+    open_trees = []
+    tree_list = []
+    for i, nick in enumerate(nicks):
+        root_file_name = glob.glob(args.input_dir+file_names[i])[0]
+        if (root_file_name) in open_trees:
+            c_tree = tree_list[open_trees.index(
+                root_file_name)]
+        else:
+            open_trees.append(root_file_name)
+            tree_list.append(ROOT.TChain())
+            root_file_name = root_file_name + '/' + folder[i]
+            tree_list[-1].Add(root_file_name)
+            c_tree = tree_list[-1]
+        store_file = ROOT.TFile("%s_%s.root"%(storage_name_extension, nick), "RECREATE")
+        storage_tree_train = c_tree.CopyTree(cutTrain+cuts[i], "training")
+        storage_tree_train.SetName("Training")
+        storage_tree_test = c_tree.CopyTree(cutTest+cuts[i], "testing")
+        storage_tree_test.SetName("Testing")
+        store_file.Write()
+        store_file.Close()
+        training_tree = ROOT.TChain()
+        training_tree.Add("%s_%s.root/Training"%(storage_name_extension, nick))
+        testing_tree = ROOT.TChain()
+        testing_tree.Add("%s_%s.root/Testing"%(storage_name_extension, nick))
+        
+        tmva_factory.AddTree(testing_tree, s_b_extension[i],
+                             scale_input[i],
+                             TCut(""), "test")
+        tmva_factory.AddTree(training_tree, s_b_extension[i],
+                             scale_input[i],
+                             TCut(""), "train")
+        log.debug("tmva_factory.AddTree(%s,%s,%s,TCut(''), train/test)" %(
+            nick, s_b_extension[i], cuts[i]))
+    tmva_factory.SetBackgroundWeightExpression('eventWeight')
+    tmva_factory.SetSignalWeightExpression('eventWeight')
+    #prepare trees
     if args.Split:
-        tmva_factory.PrepareTrainingAndTestTree(ROOT.TCut(args.signal_cuts), ROOT.TCut(args.background_cuts),"NormMode=None:!V")
+        tmva_factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
+                                                ROOT.TCut(''),
+                                                "NormMode=None:!V")
     else:
-        tmva_factory.PrepareTrainingAndTestTree(ROOT.TCut(args.signal_cuts), ROOT.TCut(args.background_cuts),
+        tmva_factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
+                                            ROOT.TCut(''),
                                             args.preparation_trees_options)
+    log.debug("TMVA.Factory.PrepareTrainingAndTestTree(\"" +
+              "\", \"" + args.preparation_trees_options + "\")")
     
-    # book methods
+     # book methods
     for method in args.methods:
         method, options = method.split(';')
         name = method + '_' + filename
         tmva_factory.BookMethod(method, name, options)
-        log.debug("TMVA.Factory.BookMethod(" + ", ".join(["\"" + m + "\"" for m in (method, name, options)]) + ")")
-        time.sleep(3)
-    #try:
-        #tmva_factory.BookMethod(ROOT.TMVA.Types.kBDT, TString("TestBDT"), TString("nCuts=1200:NTrees=150:MinNodeSize=0.25"))
-    #except:
-        #tmva_factory.BookMethod(ROOT.TMVA.Types.kBDT, TString("TestBDT"), TString("nCuts=1200:NTrees=150:MinNodeSize=0.25"))
-    
+        log.debug("TMVA.Factory.BookMethod(" + ", ".join(
+            ["\"" + m + "\"" for m in (method, name, options)]) + ")")
     # perform full training
     log.debug("TMVA.Factory.TrainAllMethods()")
     tmva_factory.TrainAllMethods()
@@ -248,7 +236,3 @@ def tmva_Wrapper(args_from_script=None):
     # finish
     output_file.Close()
     log.info("Training output is written to \"" + args.output_file + "\".")
-    
-tmva_Wrapper()
-#/nfs/dust/cms/user/mschmitt/analysis/CMSSW_7_1_5/src/HiggsAnalysis/KITHiggsToTauTau/scripts/tmvaWrapper.py -s Sig/ -b Bkg/ -f mt_jecUncNom_tauEsNom -N ntuple -m "BDT;SplitTest;nCuts=1200:NTrees=150:MinNodeSize=0.25" -v pt_1 pZetaVis pZetaMiss iso_1  nbtag njets pVecSum min_ll_jet_eta lep1_centrality lep2_centrality delta_lep_centrality -o all_plus/split_test.root -S 35
-

@@ -1,5 +1,6 @@
 {
     "MVATestMethodsInputQuantities" : [
+        "pVecSum",
         "lep1Pt:=pt_1",
         "lep1MetMt:=mt_1",
         "lep2Pt:=pt_2",
@@ -21,6 +22,6 @@
         "BDT"
     ],
     "MVATestMethodsWeights" : [
-        "/nfs/dust/cms/user/mschmitt/weights/test.root"
+        "/nfs/dust/cms/user/mschmitt/weights/training_BDT_all_all.root.weights.xml"
     ]
 }
