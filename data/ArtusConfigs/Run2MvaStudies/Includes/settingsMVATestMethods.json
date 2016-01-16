@@ -1,32 +1,26 @@
 {
     "MVATestMethodsInputQuantities" : [
         "lep1Pt:=pt_1",
-        "pZetaVis",
+        "lep1MetMt:=mt_1",
+        "lep2Pt:=pt_2",
+        "lep2MetMt:=mt_2",
+        "pfMetPt:=met",
+        "mvaMetPt:=mvamet",
+        "pZetaMissVis",
         "pZetaMiss",
-        "lep1IsoOverPt:=iso_1",
+        "pZetaVis",
+        "nJets30:=njets", 
         "nBJets20:=nbtag",
-        "nJets30:=njets",
-        "pVecSum",
         "min_ll_jet_eta",
+        "lep1_centrality", 
+        "lep2_centrality", 
         "delta_lep_centrality",
-        "diLepMass:=m_vis",
-        "pfMetSumEt",
-        "lep1_centrality"
+        "diLepMass:=m_vis"
     ],
     "MVATestMethodsMethods" : [
-        "BDT",
-        "BDT",
-        "BDT",
-        "BDT",
-        "BDT",
         "BDT"
     ],
     "MVATestMethodsWeights" : [
-        "/nfs/dust/cms/user/mschmitt/weights/training_BDT_all_all.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/training_BDT_glu_all.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/training_BDT_vbf_all.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/training_BDT_all_HTo.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/training_BDT_all_DYSTT.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/training_BDT_all_WZ.root.weights.xml"
+        "/nfs/dust/cms/user/mschmitt/weights/test.root"
     ]
 }
