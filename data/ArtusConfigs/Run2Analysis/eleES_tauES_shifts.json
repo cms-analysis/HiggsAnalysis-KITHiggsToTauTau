@@ -1,0 +1,42 @@
+{
+	"eleEsNom_tauEsNom" : {
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"TauEnergyCorrectionShift" : 1.0
+	},
+	"eleEsNom_tauEsUp" : {
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 1.03
+			}
+		}
+	},
+	"eleEsNom_tauEsDown" : {
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 0.97
+			}
+		}
+	},
+	"eleEsUp_tauEsNom" : {
+		"ElectronEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 1.02
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0
+	},
+	"eleEsDown_tauEsNom" : {
+		"ElectronEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 0.98
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0
+	}
+}

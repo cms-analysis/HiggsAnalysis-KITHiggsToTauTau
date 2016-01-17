@@ -1,0 +1,21 @@
+{
+	"eleEsNom" : {
+		"ElectronEnergyCorrectionShift" : 1.0
+	},
+	"eleEsUp" : {
+		"ElectronEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 1.02
+			}
+		}
+	},
+	"eleEsDown" : {
+		"ElectronEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 0.98
+			}
+		}
+	}
+}
