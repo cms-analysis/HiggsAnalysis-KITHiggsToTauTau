@@ -83,8 +83,8 @@ class EleEsSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("eleUncNom", "eleUncUp")
+					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("eleUncNom", "eleUncDown")
+					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsDown")
 		
 		return plot_config
