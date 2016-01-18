@@ -17,6 +17,9 @@ class SystematicsFactory(dict):
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
+		
+		for channel in ["em", "et"]:
+			self["CMS_scale_e_"+channel+"_13TeV"] = EleEsSystematic
 
 
 class SystematicShiftBase(object):
@@ -71,3 +74,17 @@ class TauEsSystematic(SystematicShiftBase):
 		
 		return plot_config
 
+
+class EleEsSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(EleEsSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("eleUncNom", "eleUncUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("eleUncNom", "eleUncDown")
+		
+		return plot_config

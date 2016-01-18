@@ -157,7 +157,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process", "channel")
 				(["7TeV", "8TeV"], ["ZLL"], ["mt", "et"], 1.30)
-				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "et"], 1.50) # copied from 8TeV
+				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "et"], 1.30) # copied from 8TeV
 		]
 		
 		self.jec_syst_args = [
@@ -173,6 +173,13 @@ class Datacards(object):
 				(["13TeV"], ["mt"], 1.0)
 				(["13TeV"], ["et"], 1.0)
 				(["13TeV"], ["tt"], 1.0)
+		]
+		self.ele_es_syst_args = [
+			"CMS_scale_e_$CHANNEL_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["em"], 1.0)
+				(["13TeV"], ["et"], 1.0)
 		]
 		
 		# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV#s_13_0_TeV
