@@ -2,6 +2,9 @@
 #pragma once
 
 #include "Kappa/DataFormats/interface/Kappa.h"
+#include "TVector2.h"
+#include "TVector.h"
+#include "TMatrixTSym.h"
 
 /**
    \brief Place to collect functions calculating generic physical quantities
@@ -22,6 +25,7 @@ public:
 	static double PZetaMissVis(RMFLV const& lepton1, RMFLV const& lepton2,
 	                           RMFLV const& met, float alpha=0.85);
 
+	static double MetChiSquare(TVector2 const& v, ROOT::Math::SMatrix<double, 2> matrix);
 private:
 	Quantities() {  };
 };

@@ -99,6 +99,7 @@ public:
 	TVector2 m_recoMetOnGenMetProjection;
 	TVector2 m_metPull;
 	TVector2 m_metPfPull;
+	double chiSquare;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;

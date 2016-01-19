@@ -1,8 +1,9 @@
 {
 	"property" : [
 		"recoMetOnGenMetProjectionPar", "recoMetOnGenMetProjectionPerp", "recoMetOnGenMetProjectionPhi",
-		"metPullX", "metPullY", "metPfPullX", "metPfPullY", 
-		"1genBosonPt", "1genBosonPhi", "1genBosonMass", "1genBosonEta",
-		"genMetPt", "genMetPhi", "genMetSumEt"
+		"metPullX", "metPullY", 
+		"1genBosonPt", "1genBosonPhi", "1genBosonMass", "1genBosonEta", "1genBosonPdgId",
+		"genMetPt", "genMetPhi", "genMetSumEt", "chiSquare",  "probChiSquare"
+
 	]
 }

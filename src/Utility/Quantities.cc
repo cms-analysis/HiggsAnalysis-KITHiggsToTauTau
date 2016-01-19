@@ -1,6 +1,8 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
+#include <TMath.h>
+
 // transverse mass in the H2Taus definition
 // https://github.com/CERN-PH-CMG/cmg-cmssw/blob/CMGTools-from-CMSSW_7_2_3/CMGTools/H2TauTau/python/proto/physicsobjects/DiObject.py#L119
 double Quantities::CalculateMtH2Tau(RMFLV const& vector1, RMFLV const& vector2)
@@ -38,4 +40,22 @@ double Quantities::PZetaMissVis(RMFLV const& lepton1, RMFLV const& lepton2,
 	RMDataV metV = met.Vect();
 	metV.SetZ(0.0);
 	return (metV.Dot(Quantities::Zeta(lepton1, lepton2)) - (alpha * Quantities::PZetaVis(lepton1, lepton2)));
+}
+
+double Quantities::MetChiSquare(TVector2 const& v, ROOT::Math::SMatrix<double, 2> matrix)
+{
+	TVector tmp(2);
+	tmp(0) = v.X();
+	tmp(1) = v.Y();
+	TVector tmp2 = tmp;
+
+	ROOT::Math::SMatrix<double, 2> invertedMatrix = matrix;
+	invertedMatrix.Invert();
+	TMatrixTSym<double> tmpM(2);
+	tmpM(0, 0) = invertedMatrix(0,0);
+	tmpM(1, 0) = invertedMatrix(1,0);
+	tmpM(0, 1) = invertedMatrix(0,1);
+	tmpM(1, 1) = invertedMatrix(1,1);
+	tmp2 *= tmpM;
+	return( tmp2 * tmp);
 }
