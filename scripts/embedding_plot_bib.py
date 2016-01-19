@@ -94,7 +94,7 @@ zmumu_all_pt = pltcl.single_plot(
         y_subplot_label = "#frac{selection}{gen. filter}",
         wwwfolder = "",
         plot_type = "absolute",
-        legend =[0.6,0.5,0.9,0.9],
+        legend =[0.6,0.4,0.9,0.8],
         subplot_denominator = 0,
         subplot_numerators = [1,2,3],
         y_subplot_lims = [0.8,1.1],
@@ -160,7 +160,7 @@ zmumu_not_MC_matched_eta = zmumu_all_eta.clone(name = "zmumu_not_MC_matched_eta"
                                                         zmumu_baseline_not_MC_matched,
                                                         zmumu_id_not_MC_matched,
                                                         zmumu_id_and_trigger_not_MC_matched],
-                                           legend = [0.4,0.45,0.7,0.85])
+                                           legend = [0.2,0.45,0.5,0.85])
 configs.extend(zmumu_not_MC_matched_eta.return_json_with_changed_x_and_weight(
         x_expressions=["etaMuons"]
 ))
