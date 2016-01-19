@@ -50,7 +50,7 @@ class PlotRootHtt(plotroot.PlotRoot):
 		
 		if len(plotData.plotdict["subplot_nicks"]) > 0:
 			canvas.cd()
-			plot_pad = ROOT.TPad("plot_pad", "", 0.0, self.plot_subplot_slider_y, 1.0, 0.95)
+			plot_pad = ROOT.TPad("plot_pad", "", 0.0, self.plot_subplot_slider_y, 1.0, 1.0)
 			subplot_pad = ROOT.TPad("subplot_pad", "", 0.0, 0.0, 1.0, self.plot_subplot_slider_y)
 			plot_pad.SetNumber(1)
 			subplot_pad.SetNumber(2)
