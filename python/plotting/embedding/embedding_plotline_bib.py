@@ -51,12 +51,12 @@ run2_RH_PtFlow = run2_RH_def.clone(num_tree = "")
 
 zmumu_genfilter_all = pltcl.single_plotline(
         name="zmumu",
-        num_file = "/nfs/dust/cms/user/aakhmets/DATA_EMBEDDING/hist_merged.root",
+        num_file = "/nfs/dust/cms/user/aakhmets/DATA_EMBEDDING/hist2_merged.root",
         num_folder = "genfilter/all",
         den_folder = "genfilter/all",
         num_tree = "",
         label = "gen. filter",
-        color = "kGray")
+        color = "kBlack")
 
 zmumu_genfilter_MC_matched = zmumu_genfilter_all.clone(num_folder = "genfilter/MC_matched",
                                                        den_folder = "genfilter/MC_matched")

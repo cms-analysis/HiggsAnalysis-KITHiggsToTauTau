@@ -5,8 +5,6 @@ import ROOT as r
 
 
 ## This class is built to create .json files for the Harryplotter module
-_no_default = () ## dummy Sentinel object
-
 
 class single_plotline:
 	def __init__(self,
@@ -19,7 +17,7 @@ class single_plotline:
 		den_tree = None,
 		stack = None,
 		label = None,
-		marker = "PE",
+		marker = "HISTO",
 		color = "kBlack",
 		legend_marker="L",
 		scale_factor=1):
@@ -51,34 +49,34 @@ class single_plotline:
 		return 1./nevents
 
 	def clone(self,
-		name = _no_default,
-		num_file = _no_default,
-		den_file = _no_default,
-		num_folder = _no_default,
-		den_folder = _no_default,
-		num_tree = _no_default,
-		den_tree = _no_default,
-		stack = _no_default,
-		label = _no_default,
-		marker = _no_default,
-		color = _no_default,
-		legend_marker = _no_default,
-		scale_factor= _no_default):
+		name = None,
+		num_file = None,
+		den_file = None,
+		num_folder = None,
+		den_folder = None,
+		num_tree = None,
+		den_tree = None,
+		stack = None,
+		label = None,
+		marker = None,
+		color = None,
+		legend_marker = None,
+		scale_factor= None):
 
 		cloned_plotline = single_plotline(
-			name = self.name  if name  == _no_default else name,
-			num_file = self.num_file  if num_file  == _no_default else num_file,
-			den_file = self.den_file  if den_file  == _no_default else den_file,
-			num_folder = self.num_folder  if num_folder  == _no_default else num_folder,
-			den_folder = self.den_folder  if den_folder  == _no_default else den_folder,
-			num_tree = self.num_tree  if num_tree  == _no_default else num_tree,
-			den_tree = self.den_tree  if den_tree  == _no_default else den_tree,
-			stack = self.stack  if stack  == _no_default else stack,
-			label = self.label  if label  == _no_default else label,
-			marker = self.marker  if marker  == _no_default else marker,
-			color = self.color  if color  == _no_default else color,
-			legend_marker= self.legend_marker if legend_marker == _no_default else legend_marker,
-			scale_factor= self.scale_factor if scale_factor == _no_default else scale_factor)
+			name = self.name  if name is None else name,
+			num_file = self.num_file if num_file is None else num_file,
+			den_file = self.den_file if den_file is None else den_file,
+			num_folder = self.num_folder if num_folder  is None else num_folder,
+			den_folder = self.den_folder if den_folder  is None else den_folder,
+			num_tree = self.num_tree if num_tree  is None else num_tree,
+			den_tree = self.den_tree if den_tree  is None else den_tree,
+			stack = self.stack if stack  is None else stack,
+			label = self.label if label  is None else label,
+			marker = self.marker if marker  is None else marker,
+			color = self.color if color  is None else color,
+			legend_marker= self.legend_marker if legend_marker is None else legend_marker,
+			scale_factor= self.scale_factor if scale_factor is None else scale_factor)
 		return cloned_plotline
 
 
@@ -89,11 +87,12 @@ class single_plot:
 		     title = None,
 		     x_bins = None,
 		     x_expression = "nPU",
-		     x_label = _no_default,
+		     x_label = None,
 		     legend =[0.25,0.15,0.55,0.45],
 		     formats =["png","pdf"],
 		     wwwfolder ="plots",
 		     y_label = "Events",
+		     y_log = False,
 		     weight = "1",
 		     normalized_to_nevents = False,
 		     stacked = False,
@@ -107,12 +106,13 @@ class single_plot:
 		self.name = name
 		self.title = title
 		self.x_bins = x_bins
-		self.x_label = x_expression if x_label == _no_default else x_label
+		self.x_label = x_expression if x_label is None else x_label
 		self.x_expression = x_expression
 		self.legend = legend
 		self.formats = formats
 		self.wwwfolder = wwwfolder
 		self.y_label = y_label
+		self.y_log = y_log
 		self.weight = weight
 		self.normalized_to_nevents = normalized_to_nevents
 		self.stacked = stacked
@@ -125,44 +125,46 @@ class single_plot:
 		self.plotlines = plotlines
 		self.out_json = jsonTools.JsonDict({})
 	def clone(self,
-		     name = _no_default,
-		     title = _no_default,
-		     x_bins = _no_default,
-		     x_expression = _no_default,
-		     x_label = _no_default,
-		     legend = _no_default,
-		     formats = _no_default,
-		     wwwfolder = _no_default,
-		     y_label = _no_default,
-		     weight = _no_default,
-		     normalized_to_nevents = _no_default,
-		     stacked = _no_default,
-		     plot_type = _no_default,
-		     subplot_denominator = _no_default,
-		     subplot_numerators = _no_default,
-		     y_subplot_label = _no_default,
-		     y_subplot_lims = _no_default,
-		     plotlines = _no_default):
+		     name = None,
+		     title = None,
+		     x_bins = None,
+		     x_expression = None,
+		     x_label = None,
+		     legend = None,
+		     formats = None,
+		     wwwfolder = None,
+		     y_label = None,
+		     y_log = None,
+		     weight = None,
+		     normalized_to_nevents = None,
+		     stacked = None,
+		     plot_type = None,
+		     subplot_denominator = None,
+		     subplot_numerators = None,
+		     y_subplot_label = None,
+		     y_subplot_lims = None,
+		     plotlines = None):
 	  
 		cloned_plot = single_plot(
-		     name = self.name if name == _no_default else name,
-		     title = self.title if title == _no_default else title,
-		     x_bins = self.x_bins if x_bins == _no_default else x_bins,
-		     x_expression = self.x_expression if x_expression == _no_default else x_expression,
-		     x_label = self.x_label if x_label == _no_default else x_label,
-		     legend = self.legend if legend == _no_default else legend,
-		     formats =  self.formats if formats == _no_default else formats,
-		     wwwfolder = self.wwwfolder if wwwfolder == _no_default else wwwfolder,
-		     y_label = self.y_label if  y_label== _no_default else y_label,
-		     weight = self.weight if weight == _no_default else weight,
-		     normalized_to_nevents =  self.normalized_to_nevents if normalized_to_nevents == _no_default else normalized_to_nevents,
-		     stacked = self.stacked if stacked == _no_default else stacked,
-		     plot_type = self.plot_type if plot_type == _no_default else plot_type,
-		     subplot_denominator = self.subplot_denominator if subplot_denominator == _no_default else subplot_denominator,
-		     subplot_numerators = self.subplot_numerators if subplot_numerators == _no_default else subplot_numerators,
-		     y_subplot_label = self.y_subplot_label if y_subplot_label == _no_default else y_subplot_label,
-		     y_subplot_lims = self.y_subplot_lims if y_subplot_lims == _no_default else y_subplot_lims,
-		     plotlines = self.plotlines if plotlines == _no_default else plotlines
+		     name = self.name if name is None else name,
+		     title = self.title if title is None else title,
+		     x_bins = self.x_bins if x_bins is None else x_bins,
+		     x_expression = self.x_expression if x_expression is None else x_expression,
+		     x_label = self.x_label if x_label is None else x_label,
+		     legend = self.legend if legend is None else legend,
+		     formats = self.formats if formats is None else formats,
+		     wwwfolder = self.wwwfolder if wwwfolder is None else wwwfolder,
+		     y_label = self.y_label if y_label is None else y_label,
+		     y_log = self.y_log if y_log is None else y_log,
+		     weight = self.weight if weight is None else weight,
+		     normalized_to_nevents = self.normalized_to_nevents if normalized_to_nevents is None else normalized_to_nevents,
+		     stacked = self.stacked if stacked is None else stacked,
+		     plot_type = self.plot_type if plot_type is None else plot_type,
+		     subplot_denominator = self.subplot_denominator if subplot_denominator is None else subplot_denominator,
+		     subplot_numerators = self.subplot_numerators if subplot_numerators is None else subplot_numerators,
+		     y_subplot_label = self.y_subplot_label if y_subplot_label is None else y_subplot_label,
+		     y_subplot_lims = self.y_subplot_lims if y_subplot_lims is None else y_subplot_lims,
+		     plotlines = self.plotlines if plotlines is None else plotlines
 		     )
 		
 		return cloned_plot
@@ -223,7 +225,9 @@ class single_plot:
 
 	def fill_single_json(self):
 		self.out_json.setdefault("plot_modules", []).append("PlotRootHtt")
-
+		
+		self.out_json["fill_styles"] = 0
+		
 		self.out_json["filename"] = self.name + "_" + self.x_expression
 		self.out_json["title"] = self.title
 		self.out_json["y_scientific"] = True
@@ -234,6 +238,7 @@ class single_plot:
 		self.out_json["formats"] = self.formats
 		if self.wwwfolder != "": self.out_json["www"] = self.wwwfolder
 		self.out_json["y_label"] = self.y_label
+		self.out_json["y_log"] = self.y_log
 		self.out_json.setdefault("weights",[]).append(self.weight)
 
 		# making the plot out of available files both for efficiency and absolute plot type 

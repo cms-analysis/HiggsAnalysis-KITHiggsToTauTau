@@ -90,13 +90,14 @@ zmumu_all_pt = pltcl.single_plot(
         title = "Z#rightarrow#mu#mu MC (Run II): all Muons",
         x_expression = "ptMuons",
         x_label = "p^{#mu}_{T}",
-        y_label = "Number of Muons",
+        y_label = "Muons / bin width [GeV^{-1}]",
         y_subplot_label = "#frac{selection}{gen. filter}",
         wwwfolder = "",
         plot_type = "absolute",
         legend =[0.6,0.5,0.9,0.9],
         subplot_denominator = 0,
         subplot_numerators = [1,2,3],
+        y_subplot_lims = [0.8,1.1],
         plotlines = [zmumu_genfilter_all,zmumu_baseline_all,zmumu_id_all,zmumu_id_and_trigger_all]
 )
 configs.extend(zmumu_all_pt.return_json_with_changed_x_and_weight(
@@ -129,13 +130,14 @@ zmumu_all_eta = pltcl.single_plot(
         title = "Z#rightarrow#mu#mu MC (Run II): all Muons",
         x_expression = "etaMuons",
         x_label = "#eta^{#mu}",
-        y_label = "Number of Muons",
+        y_label = "Muons",
         y_subplot_label = "#frac{selection}{gen. filter}",
         wwwfolder = "",
         plot_type = "absolute",
         legend =[0.4,0.15,0.7,0.55],
         subplot_denominator = 0,
         subplot_numerators = [1,2,3],
+        y_subplot_lims = [0.8,1.1],
         plotlines = [zmumu_genfilter_all,zmumu_baseline_all,zmumu_id_all,zmumu_id_and_trigger_all]
 )
 configs.extend(zmumu_all_eta.return_json_with_changed_x_and_weight(
@@ -171,13 +173,11 @@ zmumu_all_n = pltcl.single_plot(
         x_expression = "nMuons",
         x_label = "N^{#mu}",
         y_label = "Events",
-        y_subplot_label = "#frac{selection}{gen. filter}",
+        y_log = True,
         wwwfolder = "",
         plot_type = "absolute",
-        legend =[0.4,0.15,0.7,0.55],
-        subplot_denominator = 0,
-        subplot_numerators = [1,2,3],
-        plotlines = [zmumu_genfilter_all,zmumu_baseline_all,zmumu_id_all,zmumu_id_and_trigger_all]
+        legend =[0.65,0.75,0.95,0.9],
+        plotlines = [zmumu_genfilter_all,zmumu_id_and_trigger_all]
 )
 configs.extend(zmumu_all_n.return_json_with_changed_x_and_weight(
         x_expressions=["nMuons"]
@@ -187,8 +187,6 @@ configs.extend(zmumu_all_n.return_json_with_changed_x_and_weight(
 zmumu_MC_matched_n = zmumu_all_n.clone(name = "zmumu_MC_matched_n",
                                        title = "Z#rightarrow#mu#mu MC (Run II): MC matched Muons",
                                        plotlines = [zmumu_genfilter_MC_matched,
-                                                    zmumu_baseline_MC_matched,
-                                                    zmumu_id_MC_matched,
                                                     zmumu_id_and_trigger_MC_matched])
 configs.extend(zmumu_MC_matched_n.return_json_with_changed_x_and_weight(
         x_expressions=["nMuons"]
@@ -197,8 +195,6 @@ configs.extend(zmumu_MC_matched_n.return_json_with_changed_x_and_weight(
 zmumu_not_MC_matched_n = zmumu_all_n.clone(name = "zmumu_not_MC_matched_n",
                                        title = "Z#rightarrow#mu#mu MC (Run II): not MC matched Muons",
                                            plotlines = [zmumu_genfilter_not_MC_matched,
-                                                        zmumu_baseline_not_MC_matched,
-                                                        zmumu_id_not_MC_matched,
                                                         zmumu_id_and_trigger_not_MC_matched])
 configs.extend(zmumu_not_MC_matched_n.return_json_with_changed_x_and_weight(
         x_expressions=["nMuons"]
