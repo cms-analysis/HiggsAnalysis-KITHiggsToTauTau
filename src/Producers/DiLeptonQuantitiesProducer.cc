@@ -4,7 +4,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
-#include <TRandom.h>
 
 void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 {
