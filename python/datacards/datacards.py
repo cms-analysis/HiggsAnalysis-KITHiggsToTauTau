@@ -160,6 +160,13 @@ class Datacards(object):
 				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "et"], 1.30) # copied from 8TeV
 		]
 		
+		self.zee_norm_syst_args = [
+			"CMS_$ANALYSIS_zeeNorm_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["ZLL", "ZL"], 1.03)
+		]
+		
 		self.jec_syst_args = [
 			"CMS_scale_j_$ERA",
 			"shape",
