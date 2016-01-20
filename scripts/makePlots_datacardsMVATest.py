@@ -48,7 +48,7 @@ if __name__ == "__main__":
                         help="Add bin-by-bin uncertainties. [Default: %(default)s]")
     parser.add_argument("-w", "--weight", default="1.0",
                         help="Additional weight (cut) expression. [Default: %(default)s]")
-    parser.add_argument("--analysis-modules", default=[], nargs="+",
+    parser.add_argument("--analysis-modules", default=["EstimateQcd"], nargs="+",
                         help="Additional analysis Modules. [Default: %(default)s]")
     parser.add_argument("-r", "--ratio", default=False, action="store_true",
                         help="Add ratio subplot. [Default: %(default)s]")
@@ -63,7 +63,11 @@ if __name__ == "__main__":
                         help="Output directory. [Default: %(default)s]")
     parser.add_argument("--clear-output-dir", action="store_true", default=False,
                         help="Delete/clear output directory before running this script. [Default: %(default)s]")
-    
+    parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
+                        help="""Exclude (default) selection cuts. 
+                        [Default: %(default)s]""")
+    parser.add_argument("--lumi", type=float, default=2.155,
+                            help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
     args = parser.parse_args()
     logger.initLogger(args)
     
@@ -101,8 +105,6 @@ if __name__ == "__main__":
     if len(args.categories) != len(args.channel):
         log.critical("Categories must be specified as often as --channels is specified")
         
-    log.info(args.channel)
-    log.info(args.categories)
     channel_category_dict = {}
     for i,channel in enumerate(args.channel):
         for chan in channel:
@@ -125,8 +127,6 @@ if __name__ == "__main__":
         
         # restrict CombineHarvester to configured categories:
         datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-        log.info(channel)
-        log.info(categories)
         for category in categories:
             datacards_per_channel_category = mvadatacards.MVADatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
             higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
@@ -143,7 +143,6 @@ if __name__ == "__main__":
             for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
                 nominal = (shape_systematic == "nominal")
                 list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
-                
                 for shift_up in ([True] if nominal else [True, False]):
                     systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
                     
@@ -160,9 +159,10 @@ if __name__ == "__main__":
                             channel=channel,
                             category="catMVA13TeV_"+category,
                             weight=args.weight,
-                            higgs_masses=higgs_masses
-                    )
-                    
+                            higgs_masses=higgs_masses,
+                            exclude_cuts=args.exclude_cuts,
+                            lumi = args.lumi * 1000
+                            )
                     systematics_settings = systematics_factory.get(shape_systematic)(config)
                     # TODO: evaluate shift from datacards_per_channel_category.cb
                     config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
