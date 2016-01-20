@@ -4,6 +4,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
+#include <TRandom.h>
 
 void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 {
@@ -24,6 +25,19 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMt", [](event_type const& event, product_type const& product) {
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepGenMass", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonGenSystem.mass();
+	});
+	
+	float smearing = settings.GetMassSmearing();
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMassSmearUp", [smearing](event_type const& event, product_type const& product) {
+		double recoGenMassDiff = (product.m_diLeptonSystem.mass() - product.m_diLeptonGenSystem.mass());
+		return product.m_diLeptonGenSystem.mass() + (recoGenMassDiff * (1.0 + smearing));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMassSmearDown", [smearing](event_type const& event, product_type const& product) {
+		float recoGenMassDiff = (product.m_diLeptonSystem.mass() - product.m_diLeptonGenSystem.mass());
+		return product.m_diLeptonGenSystem.mass() + (recoGenMassDiff * (1.0 - smearing));
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetPt", [](event_type const& event, product_type const& product) {
@@ -61,6 +75,33 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	
 	product.m_diLeptonSystem = (product.m_flavourOrderedLeptons[0]->p4 + product.m_flavourOrderedLeptons[1]->p4);
 	product.m_diLeptonPlusMetSystem = (product.m_diLeptonSystem + product.m_met->p4);
+	
+	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+	{
+		KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
+		const KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_genParticleMatchedLeptons, lepton, new const KGenParticle());
+		
+		if (lepton->flavour() == KLeptonFlavour::TAU)
+		{
+			KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedTaus, static_cast<KTau*>(lepton), new KGenTau());
+			
+			float deltaRTauGenTau = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genTau->visible.p4);
+			float deltaRTauGenParticle = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genParticle->p4);
+			
+			if (deltaRTauGenParticle < deltaRTauGenTau)
+			{
+				product.m_diLeptonGenSystem += genParticle->p4;
+			}
+			else
+			{
+				product.m_diLeptonGenSystem += genTau->p4;
+			}
+		}
+		else
+		{
+			product.m_diLeptonGenSystem += genParticle->p4;
+		}
+	}
 	
 	// collinear approximation
 	// reconstruct tau momenta assuming that the neutrinos fly collinear to the taus

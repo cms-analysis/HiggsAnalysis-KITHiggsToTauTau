@@ -92,6 +92,7 @@ public:
 	// filled by the DiLeptonQuantitiesProducer
 	RMFLV m_diLeptonSystem;
 	RMFLV m_diLeptonPlusMetSystem;
+	RMFLV m_diLeptonGenSystem;
 
 	// filled by the MetprojectionProducer
 	TVector2 m_recoNeutrinoOnRecoMetProjection;

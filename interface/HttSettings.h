@@ -241,4 +241,7 @@ public:
 	IMPL_SETTING_DEFAULT(int, IsoPtSumBinning, 200);
 	IMPL_SETTING_DEFAULT(float, IsoPtSumMaximum, 50);
 	IMPL_SETTING_DEFAULT(float, IsoPtSumOverPtMaximum, 0.4);
+	
+	// setting for mass smearing applied in DiLeptonQuantitiesProducer
+	IMPL_SETTING_DEFAULT(float, MassSmearing, 0.20);
 };
