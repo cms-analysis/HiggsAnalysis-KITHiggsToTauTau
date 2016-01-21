@@ -107,17 +107,17 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TriggerWeightProducer();
 	else if(id == IdentificationWeightProducer().GetProducerId())
 		return new IdentificationWeightProducer();
-	if(id == TauSpinnerProducer().GetProducerId())
+	else if(id == TauSpinnerProducer().GetProducerId())
 		return new TauSpinnerProducer();
-	if(id == DiLeptonQuantitiesProducer().GetProducerId())
+	else if(id == DiLeptonQuantitiesProducer().GetProducerId())
 		return new DiLeptonQuantitiesProducer();
-	if(id == DiJetQuantitiesProducer().GetProducerId())
+	else if(id == DiJetQuantitiesProducer().GetProducerId())
 		return new DiJetQuantitiesProducer();
-	if(id == SvfitProducer().GetProducerId())
+	else if(id == SvfitProducer().GetProducerId())
 		return new SvfitProducer();
-	if(id == MetprojectionProducer().GetProducerId())
+	else if(id == MetprojectionProducer().GetProducerId())
 		return new MetprojectionProducer();
-	if(id == TauTauRestFrameSelector().GetProducerId())
+	else if(id == TauTauRestFrameSelector().GetProducerId())
 		return new TauTauRestFrameSelector();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
