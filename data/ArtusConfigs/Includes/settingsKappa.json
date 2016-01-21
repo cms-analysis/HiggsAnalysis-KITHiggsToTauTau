@@ -37,7 +37,8 @@
 		"nick" : {
 			"8TeV" : "AK5PFTaggedJets",
 			"13TeV.*_AODSIM" : "AK5PFTaggedJets",
-			"13TeV.*_MINIAOD": "ak5PFJets"
+			"13TeV.*_MINIAOD": "ak5PFJets",
+			"13TeV.*Fall15.*_MINIAOD": "ak4PF"
 		}
 	},
 	"PileupDensity" : {
@@ -49,8 +50,15 @@
 	"Met" : {
 		"nick" : {
 			"default" : "met",
-			"MiniAODv2" : "patPFMetT1",
+			"RunIISpring15MiniAODv2" : "patPFMetT1",
 			"Run2015" : "patPFMetT1"
+
+		}
+	},
+	"PuppiMet" : {
+		"nick" : {
+			"default" : "",
+			"RunIIFall15MiniAODv2" : "metPuppi"
 		}
 	},
 	"MvaMetTT" : {
