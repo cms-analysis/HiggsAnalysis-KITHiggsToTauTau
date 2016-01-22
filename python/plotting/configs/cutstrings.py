@@ -54,10 +54,35 @@ class CutStringsDict:
 		return cuts
 	
 	@staticmethod
+	def antievloosepass(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronVLooseMVA5_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antievloosefail(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronVLooseMVA5_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
 	def antieloosepass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			#cuts["zpeak"] = "(m_vis > 60.0)*(m_vis < 120.0)"
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA5_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -68,8 +93,81 @@ class CutStringsDict:
 	def antieloosefail(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			#cuts["zpeak"] = "(m_vis > 60.0)*(m_vis < 120.0)"
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA5_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antiemediumpass(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronMediumMVA5_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antiemediumfail(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronMediumMVA5_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antietightpass(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronTightMVA5_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antietightfail(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronTightMVA5_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antievtightpass(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronVTightMVA5_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antievtightfail(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronVTightMVA5_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -79,6 +177,7 @@ class CutStringsDict:
 	def antimuloosepass(channel, cut_type):
 		if channel == "mt":
 			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pzeta"] = "(pZetaMissVis > -20.0)"
 			cuts["discriminator"] = "(againstMuonLoose3_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -89,7 +188,30 @@ class CutStringsDict:
 	def antimuloosefail(channel, cut_type):
 		if channel == "mt":
 			cuts = CutStringsDict.baseline(channel, cut_type)
+			#cuts["pzeta"] = "(pZetaMissVis > -20.0)"
 			cuts["discriminator"] = "(againstMuonLoose3_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antimutightpass(channel, cut_type):
+		if channel == "mt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			#cuts["pzeta"] = "(pZetaMissVis > -20.0)"
+			cuts["discriminator"] = "(againstMuonTight3_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def antimutightfail(channel, cut_type):
+		if channel == "mt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			#cuts["pzeta"] = "(pZetaMissVis > -20.0)"
+			cuts["discriminator"] = "(againstMuonTight3_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -120,14 +242,36 @@ class CutStringsDict:
 		cuts = {}
 		if cut_type=="baseline":
 			cuts = CutStringsDict.baseline(channel, cut_type)
+		elif cut_type=="antievloosepass":
+			cuts = CutStringsDict.antievloosepass(channel, cut_type)
+		elif cut_type=="antievloosefail":
+			cuts = CutStringsDict.antievloosefail(channel, cut_type)
 		elif cut_type=="antieloosepass":
 			cuts = CutStringsDict.antieloosepass(channel, cut_type)
 		elif cut_type=="antieloosefail":
 			cuts = CutStringsDict.antieloosefail(channel, cut_type)
+		elif cut_type=="antiemediumpass":
+			cuts = CutStringsDict.antiemediumpass(channel, cut_type)
+		elif cut_type=="antiemediumfail":
+			cuts = CutStringsDict.antiemediumfail(channel, cut_type)
+		elif cut_type=="antietightpass":
+			cuts = CutStringsDict.antietightpass(channel, cut_type)
+		elif cut_type=="antietightfail":
+			cuts = CutStringsDict.antietightfail(channel, cut_type)
+		elif cut_type=="antievtightpass":
+			cuts = CutStringsDict.antievtightpass(channel, cut_type)
+		elif cut_type=="antievtightfail":
+			cuts = CutStringsDict.antievtightfail(channel, cut_type)
+		
 		elif cut_type=="antimuloosepass":
 			cuts = CutStringsDict.antimuloosepass(channel, cut_type)
 		elif cut_type=="antimuloosefail":
 			cuts = CutStringsDict.antimuloosefail(channel, cut_type)
+		elif cut_type=="antimutightpass":
+			cuts = CutStringsDict.antimutightpass(channel, cut_type)
+		elif cut_type=="antimutightfail":
+			cuts = CutStringsDict.antimutightfail(channel, cut_type)
+		
 		elif cut_type=="tauidpass":
 			cuts = CutStringsDict.tauidpass(channel, cut_type)
 		elif cut_type=="tauidfail":

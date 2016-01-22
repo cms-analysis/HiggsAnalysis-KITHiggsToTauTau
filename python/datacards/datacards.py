@@ -188,6 +188,12 @@ class Datacards(object):
 				(["13TeV"], ["em"], 1.0)
 				(["13TeV"], ["et"], 1.0)
 		]
+		self.massres_syst_args = [
+			"CMS_scale_massRes_$CHANNEL_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["et"], 1.0)
+		]
 		
 		# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV#s_13_0_TeV
 		self.htt_qcd_scale_syst_args = [

@@ -20,6 +20,9 @@ class SystematicsFactory(dict):
 		
 		for channel in ["em", "et"]:
 			self["CMS_scale_e_"+channel+"_13TeV"] = EleEsSystematic
+		
+		for channel in ["et"]:
+			self["CMS_scale_massRes_"+channel+"_13TeV"] = MassResSystematic
 
 
 class SystematicShiftBase(object):
@@ -86,5 +89,20 @@ class EleEsSystematic(SystematicShiftBase):
 					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsUp")
 				elif shift < 0.0:
 					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsDown")
+		
+		return plot_config
+
+
+class MassResSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(MassResSystematic, self).get_config(shift=shift)
+		
+		for index, expression in enumerate(plot_config.get("x_expressions", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearUp")
+				elif shift < 0.0:
+					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearDown")
 		
 		return plot_config
