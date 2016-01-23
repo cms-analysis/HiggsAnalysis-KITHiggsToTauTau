@@ -41,6 +41,12 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(IdentificationEfficiencyMc, {});
 	IMPL_SETTING_DEFAULT(std::string, IdentificationEfficiencyHistogram, "identificationEfficiency");
 	
+	std::vector<std::string> EleTauFakeRateHistograms = {"antiEVLoose", "antiELoose", "antiEMedium", "antiETight", "antiEVTight"};
+	IMPL_SETTING_STRINGLIST_DEFAULT(EleTauFakeRateWeightFile, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(EleTauFakeRateHistograms, EleTauFakeRateHistograms);
+	IMPL_SETTING_STRINGLIST_DEFAULT(MuonTauFakeRateWeightFile, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(MuonTauFakeRateHistograms, {});
+	
 	IMPL_SETTING(std::string, ElectronIDType);
 	
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);

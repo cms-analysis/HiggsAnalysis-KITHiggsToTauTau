@@ -87,3 +87,63 @@ public:
 	
 };
 
+
+/** Abstract producer for extracting pre-computed lep->tau scale factors from ROOT files
+ */
+class LepTauScaleFactorWeightProducer: public ProducerBase<HttTypes> {
+public:
+
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
+	
+	LepTauScaleFactorWeightProducer(std::vector<std::string>& (setting_type::*GetWeightFiles)(void) const,
+	                                std::vector<std::string>& (setting_type::*GetWeightHistograms)(void) const);
+	
+	virtual void Init(setting_type const& settings) override;
+
+	virtual void Produce(event_type const& event, product_type& product,
+	                     setting_type const& settings) const override;
+
+private:
+	std::vector<std::string>& (setting_type::*GetWeightFiles)(void) const;
+	std::vector<std::string>& (setting_type::*GetWeightHistograms)(void) const;
+	
+	std::map<size_t, std::vector<TH1F*> > weightsByIndex;
+};
+
+/** Producer for electron->tau fake rate weights
+ *
+ *  Required config tags:
+ *  - EleTauFakeRateWeightFile (ROOT file containing the scale-factor weight histograms)
+ *  - EleTauFakeRateHistograms (default provided)
+ */
+class EleTauFakeRateWeightProducer: public LepTauScaleFactorWeightProducer {
+public:
+
+	typedef typename HttTypes::setting_type setting_type;
+
+	virtual std::string GetProducerId() const override {
+		return "EleTauFakeRateWeightProducer";
+	}
+	
+	EleTauFakeRateWeightProducer();
+};
+
+/** Producer for muon->tau fake rate weights
+ *
+ *  Required config tags:
+ *  - MuonTauFakeRateWeightFile (ROOT file containing the scale-factor weight histograms)
+ *  - MuonTauFakeRateHistograms (default provided)
+ */
+class MuonTauFakeRateWeightProducer: public LepTauScaleFactorWeightProducer {
+public:
+
+	typedef typename HttTypes::setting_type setting_type;
+
+	virtual std::string GetProducerId() const override {
+		return "MuonTauFakeRateWeightProducer";
+	}
+	
+	MuonTauFakeRateWeightProducer();
+};

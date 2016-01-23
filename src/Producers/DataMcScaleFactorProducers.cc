@@ -215,3 +215,74 @@ IdentificationWeightProducer::IdentificationWeightProducer() :
 {
 }
 
+// ==========================================================================================
+
+LepTauScaleFactorWeightProducer::LepTauScaleFactorWeightProducer(
+		std::vector<std::string>& (setting_type::*GetWeightFiles)(void) const,
+		std::vector<std::string>& (setting_type::*GetWeightHistograms)(void) const
+) :
+	GetWeightFiles(GetWeightFiles),
+	GetWeightHistograms(GetWeightHistograms)
+{
+}
+
+
+void LepTauScaleFactorWeightProducer::Init(setting_type const& settings)
+{
+	ProducerBase<HttTypes>::Init(settings);
+	
+	// read the histograms from the weight file
+	std::map<std::string, std::vector<std::string> > weightFilesByName;
+	std::map<size_t, std::vector<std::string> > weightFilesByIndex = Utility::ParseMapTypes<size_t, std::string>(
+			Utility::ParseVectorToMap((settings.*GetWeightFiles)()),
+			weightFilesByName
+	);
+	
+	for (std::map<size_t, std::vector<std::string> >::const_iterator weightFileByIndex = weightFilesByIndex.begin();
+	     weightFileByIndex != weightFilesByIndex.end(); ++weightFileByIndex)
+	{
+		assert(weightFileByIndex->second.size() == 1);
+		
+		std::string weightFileName = weightFileByIndex->second.at(0);
+		std::vector<TH1F*> weightHistos = RootFileHelper::SafeGetVector<TH1F>(weightFileName, (settings.*GetWeightHistograms)());
+		
+		weightsByIndex.insert(std::make_pair(weightFileByIndex->first, weightHistos));
+	}
+}
+
+void LepTauScaleFactorWeightProducer::Produce(event_type const& event, product_type& product,
+                                      setting_type const& settings) const
+{
+	for (std::map<size_t, std::vector<TH1F*> >::const_iterator weightByIndex = weightsByIndex.begin();
+	     weightByIndex != weightsByIndex.end(); ++weightByIndex)
+	{
+		size_t leptonIndex = weightByIndex->first;
+		
+		if (leptonIndex < product.m_flavourOrderedLeptons.size())
+		{
+			for (std::vector<TH1F*>::const_iterator weightHisto = weightByIndex->second.begin();
+			     weightHisto != weightByIndex->second.end(); ++weightHisto)
+			{
+				int bin = (*weightHisto)->FindBin(std::abs(product.m_flavourOrderedLeptons[leptonIndex]->p4.Eta()));
+				double weight = (*weightHisto)->GetBinContent(bin);
+				
+				std::string weightName = std::string((*weightHisto)->GetTitle()) + "SFWeight_" + std::to_string(leptonIndex+1);
+				
+				product.m_optionalWeights[weightName] = weight;
+			}
+		}
+	}
+}
+
+
+EleTauFakeRateWeightProducer::EleTauFakeRateWeightProducer() :
+	LepTauScaleFactorWeightProducer(&setting_type::GetEleTauFakeRateWeightFile,
+	                                &setting_type::GetEleTauFakeRateHistograms)
+{
+}
+
+MuonTauFakeRateWeightProducer::MuonTauFakeRateWeightProducer() :
+	LepTauScaleFactorWeightProducer(&setting_type::GetMuonTauFakeRateWeightFile,
+	                                &setting_type::GetMuonTauFakeRateHistograms)
+{
+}

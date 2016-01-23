@@ -18,6 +18,11 @@
 		"tauSpinnerWeight075",
 		"tauSpinnerWeight100",
 		"tauSpinnerWeightSample",
-		"tauSpinnerWeightInvSample"
+		"tauSpinnerWeightInvSample",
+		"antiEVLooseSFWeight_2",
+		"antiELooseSFWeight_2",
+		"antiEMediumSFWeight_2",
+		"antiETightSFWeight_2",
+		"antiEVTightSFWeight_2"
 	]
 }

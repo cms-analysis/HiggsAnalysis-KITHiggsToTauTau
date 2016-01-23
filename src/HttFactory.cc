@@ -107,6 +107,10 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TriggerWeightProducer();
 	else if(id == IdentificationWeightProducer().GetProducerId())
 		return new IdentificationWeightProducer();
+	else if(id == EleTauFakeRateWeightProducer().GetProducerId())
+		return new EleTauFakeRateWeightProducer();
+	else if(id == MuonTauFakeRateWeightProducer().GetProducerId())
+		return new MuonTauFakeRateWeightProducer();
 	else if(id == TauSpinnerProducer().GetProducerId())
 		return new TauSpinnerProducer();
 	else if(id == DiLeptonQuantitiesProducer().GetProducerId())
