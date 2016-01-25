@@ -46,9 +46,9 @@ void BTagEffConsumer::ProcessFilteredEvent(event_type const& event, product_type
 	{
 	  if ( iterator->first->p4 == tjet->p4 )
 	    {
-	      int jetflavor = std::abs(iterator->second->pdgId());
+	      int jetflavor = std::abs(iterator->second->pdgId);
 	      LOG(DEBUG) << "Jet " << iterator->first->p4 << "  => " << iterator->second->p4;
-	      LOG(DEBUG) << "particle ID " << std::abs(iterator->second->pdgId());
+	      LOG(DEBUG) << "particle ID " << std::abs(iterator->second->pdgId);
 	      
 	      if(jetflavor==5){
 		h2_BTaggingEff_Denom_b->Fill(tjet->p4.pt(), std::fabs(tjet->p4.eta()));

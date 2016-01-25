@@ -3,7 +3,7 @@
 
 int GeneratorInfo::GetGenMatchingCode(const KGenParticle* genParticle)
 {
-	int pdgId = std::abs(genParticle->pdgId());
+	int pdgId = std::abs(genParticle->pdgId);
 	
 	if (pdgId == 11 && genParticle->p4.Pt() > 8. && genParticle->isPrompt())
 	{

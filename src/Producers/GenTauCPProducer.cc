@@ -90,7 +90,7 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("OneProngChargedPart1PdgId", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genOneProngCharged1 != 0) && (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0))? product.m_genOneProngCharged1->pdgId() : DefaultValues::UndefinedDouble;
+		return ((product.m_genOneProngCharged1 != 0) && (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0))? product.m_genOneProngCharged1->pdgId : DefaultValues::UndefinedDouble;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("OneProngChargedPart1Pt", [](event_type const& event, product_type const& product)
 	{
@@ -118,7 +118,7 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("OneProngChargedPart2PdgId", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genOneProngCharged2 != 0) && (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0))? product.m_genOneProngCharged2->pdgId() : DefaultValues::UndefinedDouble;
+		return ((product.m_genOneProngCharged2 != 0) && (product.m_genBoson.size() > 0) && (product.m_genBoson[0].Daughters.size() > 1) && (product.m_genBoson[0].Daughters[1].finalStateOneProngs.size() > 0) && (product.m_genBoson[0].Daughters[0].finalStateOneProngs.size() > 0))? product.m_genOneProngCharged2->pdgId : DefaultValues::UndefinedDouble;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("OneProngChargedPart2Pt", [](event_type const& event, product_type const& product)
 	{
@@ -173,7 +173,7 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
 	//Selection of the right channel for phi, phi* and psi*CP
-	if (abs(selectedTau1->node->pdgId()) == 15 && abs(selectedTau2->node->pdgId()) == 15 && selectedTau1OneProngs.size() != 0 && selectedTau2OneProngs.size() != 0)
+	if (abs(selectedTau1->node->pdgId) == 15 && abs(selectedTau2->node->pdgId) == 15 && selectedTau1OneProngs.size() != 0 && selectedTau2OneProngs.size() != 0)
 	{
 		//Initialization of charged particles
 		KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->node;
@@ -213,7 +213,7 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		product.m_genPiMinusDirZ = piDir.at(2);
 
 		//CPTransformation for semileptonic case
-		if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId() == DefaultValues::pdgIdElectron || chargedPart1->pdgId() == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId() == 211)) || ((chargedPart2->pdgId() == -DefaultValues::pdgIdElectron || chargedPart2->pdgId() == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId() == -211))))
+		if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId == DefaultValues::pdgIdElectron || chargedPart1->pdgId == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId == 211)) || ((chargedPart2->pdgId == -DefaultValues::pdgIdElectron || chargedPart2->pdgId == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId == -211))))
 		{	
 			product.m_genPhiStarCP = cpq.PhiTransform(genPhiStarCP);
 			product.m_genPhiCP = cpq.PhiTransform(genPhiCP);

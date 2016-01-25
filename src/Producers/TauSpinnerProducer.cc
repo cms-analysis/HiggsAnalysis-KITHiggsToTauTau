@@ -95,8 +95,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	MotherDaughterBundle selectedTau1 = higgs[0].Daughters[0];
 	MotherDaughterBundle selectedTau2 = higgs[0].Daughters[1];
 
-	if ((abs(selectedTau1.node->pdgId()) != DefaultValues::pdgIdTau)
-		|| (abs(selectedTau2.node->pdgId()) != DefaultValues::pdgIdTau)) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
+	if ((abs(selectedTau1.node->pdgId) != DefaultValues::pdgIdTau)
+		|| (abs(selectedTau2.node->pdgId) != DefaultValues::pdgIdTau)) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{
 		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find two taus as daughters of Boson" << std::endl;
 		// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
@@ -169,7 +169,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(KGenParticle*& in) const
 {
-	return TauSpinner::SimpleParticle(in->p4.px(), in->p4.py(), in->p4.pz(), in->p4.e(), in->pdgId());
+	return TauSpinner::SimpleParticle(in->p4.px(), in->p4.py(), in->p4.pz(), in->p4.e(), in->pdgId);
 }
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
@@ -179,7 +179,7 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(Moth
 	for (unsigned int i = 0; i < mother.Daughters.size(); ++i)
 	{
 		// this if-condition has to define what particles go into TauSpinner
-		int pdgId = abs(mother.Daughters[i].node->pdgId());
+		int pdgId = abs(mother.Daughters[i].node->pdgId);
 		if (pdgId == DefaultValues::pdgIdGamma ||
 			pdgId == DefaultValues::pdgIdPiZero ||
 			pdgId == DefaultValues::pdgIdPiPlus ||
