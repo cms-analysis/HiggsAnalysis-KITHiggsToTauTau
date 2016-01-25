@@ -37,8 +37,8 @@
 		"nick" : {
 			"8TeV" : "AK5PFTaggedJets",
 			"13TeV.*_AODSIM" : "AK5PFTaggedJets",
-			"13TeV.*_MINIAOD": "ak5PFJets",
-			"13TeV.*Fall15.*_MINIAOD": "ak4PF"
+			"Spring15.*_13TeV.*_MINIAOD": "ak5PFJets",
+			"Fall15.*_13TeV.*_MINIAOD": "ak4PF"
 		}
 	},
 	"PileupDensity" : {
