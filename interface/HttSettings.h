@@ -36,10 +36,12 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(TriggerEfficiencyData, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(TriggerEfficiencyMc, {});
 	IMPL_SETTING_DEFAULT(std::string, TriggerEfficiencyHistogram, "triggerEfficiency");
+	IMPL_SETTING_DEFAULT(std::string, TriggerEfficiencyMode, "multiply_weights");
 	
 	IMPL_SETTING_STRINGLIST_DEFAULT(IdentificationEfficiencyData, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(IdentificationEfficiencyMc, {});
 	IMPL_SETTING_DEFAULT(std::string, IdentificationEfficiencyHistogram, "identificationEfficiency");
+	IMPL_SETTING_DEFAULT(std::string, IdentificationEfficiencyMode, "multiply_weights");
 	
 	std::vector<std::string> EleTauFakeRateHistograms = {"antiEVLoose", "antiELoose", "antiEMedium", "antiETight", "antiEVTight"};
 	IMPL_SETTING_STRINGLIST_DEFAULT(EleTauFakeRateWeightFile, {});

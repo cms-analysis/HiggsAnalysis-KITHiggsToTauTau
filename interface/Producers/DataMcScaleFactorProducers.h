@@ -2,6 +2,7 @@
 #pragma once
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 
 
 /** Abstract producer for scale factors effData/effMC
@@ -16,6 +17,7 @@ public:
 	DataMcScaleFactorProducerBase(std::vector<std::string>& (setting_type::*GetEfficiencyData)(void) const,
 	                              std::vector<std::string>& (setting_type::*GetEfficiencyMc)(void) const,
 	                              std::string (setting_type::*GetEfficiencyHistogram)(void) const,
+	                              std::string (setting_type::*GetEfficiencyMode)(void) const,
 	                              std::string const& weightName);
 	
 	virtual void Init(setting_type const& settings) override;
@@ -28,6 +30,7 @@ private:
 	std::vector<std::string>& (setting_type::*GetEfficiencyData)(void) const;
 	std::vector<std::string>& (setting_type::*GetEfficiencyMc)(void) const;
 	std::string (setting_type::*GetEfficiencyHistogram)(void) const;
+	std::string (setting_type::*GetEfficiencyMode)(void) const;
 	std::string m_weightName;
 	
 	std::map<std::string, std::vector<TH2F*> > efficienciesDataByHltName;
@@ -35,12 +38,16 @@ private:
 	std::map<std::string, std::vector<TH2F*> > efficienciesMcByHltName;
 	std::map<size_t, std::vector<TH2F*> > efficienciesMcByIndex;
 	
-	double GetEfficienciesFromHistograms(std::vector<TH2F*> const& histograms, KLepton* lepton) const;
+	HttEnumTypes::DataMcScaleFactorProducerMode m_scaleFactorMode = HttEnumTypes::DataMcScaleFactorProducerMode::NONE;
 	
-	std::vector<double> GetEfficiencies(std::map<std::string, std::vector<TH2F*> > const& efficienciesByHltName,
-		                                std::map<size_t, std::vector<TH2F*> > const& efficienciesByIndex,
-		                                event_type const& event, product_type const& product,
-	                                    setting_type const& settings) const;
+	std::vector<double> GetEfficienciesFromHistograms(std::vector<TH2F*> const& histograms, KLepton* lepton) const;
+	
+	std::vector<std::vector<double> > GetEfficiencies(
+			std::map<std::string, std::vector<TH2F*> > const& efficienciesByHltName,
+			std::map<size_t, std::vector<TH2F*> > const& efficienciesByIndex,
+			event_type const& event, product_type const& product,
+			setting_type const& settings
+	) const;
 
 };
 
