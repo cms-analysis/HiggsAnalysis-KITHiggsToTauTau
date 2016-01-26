@@ -1,4 +1,10 @@
 
+#include <vector>
+#include <numeric>
+#include <functional>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/trim.hpp>
 #include <boost/regex.hpp>
 
 #include "Artus/Utility/interface/RootFileHelper.h"
@@ -12,11 +18,13 @@ DataMcScaleFactorProducerBase::DataMcScaleFactorProducerBase(
 		std::vector<std::string>& (setting_type::*GetEfficiencyData)(void) const,
 		std::vector<std::string>& (setting_type::*GetEfficiencyMc)(void) const,
 		std::string (setting_type::*GetEfficiencyHistogram)(void) const,
+		std::string (setting_type::*GetEfficiencyMode)(void) const,
 		std::string const& weightName
 ) :
 	GetEfficiencyData(GetEfficiencyData),
 	GetEfficiencyMc(GetEfficiencyMc),
 	GetEfficiencyHistogram(GetEfficiencyHistogram),
+	GetEfficiencyMode(GetEfficiencyMode),
 	m_weightName(weightName)
 {
 }
@@ -53,6 +61,8 @@ void DataMcScaleFactorProducerBase::Init(setting_type const& settings)
 			efficiencyFilesMcByIndex, (settings.*GetEfficiencyHistogram)()
 	);
 	
+	m_scaleFactorMode =  HttEnumTypes::ToDataMcScaleFactorProducerMode(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetEfficiencyMode)())));
+	
 	// consistency checks for settings
 	assert(efficienciesDataByHltName.size() == efficienciesMcByHltName.size());
 	assert(efficienciesDataByIndex.size() == efficienciesMcByIndex.size());
@@ -78,35 +88,59 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 {
 	// read bin contents from ROOT histograms
 	// Data
-	std::vector<double> efficienciesData = GetEfficiencies(efficienciesDataByHltName,
-	                                                       efficienciesDataByIndex,
-	                                                       event, product, settings);
+	std::vector<std::vector<double> > efficienciesData = GetEfficiencies(
+			efficienciesDataByHltName,
+			efficienciesDataByIndex,
+			event, product, settings
+	);
 	
 	// MC
-	std::vector<double> efficienciesMc = GetEfficiencies(efficienciesMcByHltName,
-	                                                     efficienciesMcByIndex,
-	                                                     event, product, settings);
+	std::vector<std::vector<double> > efficienciesMc = GetEfficiencies(
+			efficienciesMcByHltName,
+			efficienciesMcByIndex,
+			event, product, settings
+	);
 	
 	// calculate the weight
-	for (size_t efficiencyIndex = 0; efficiencyIndex < efficienciesData.size();
-	     ++efficiencyIndex)
+	if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_WEIGHTS)
 	{
-		double weight = 1.0;
-		if (efficienciesMc[efficiencyIndex] != 0.0)
+		for (size_t efficiencyIndex = 0; efficiencyIndex < efficienciesData.size();
+			 ++efficiencyIndex)
 		{
-			weight = efficienciesData[efficiencyIndex] / efficienciesMc[efficiencyIndex];
+			double efficiencyData = std::accumulate(
+					efficienciesData[efficiencyIndex].begin(), efficienciesData[efficiencyIndex].end(),
+					1.0, std::multiplies<double>()
+			);
+			double efficiencyMc = std::accumulate(
+					efficienciesMc[efficiencyIndex].begin(), efficienciesMc[efficiencyIndex].end(),
+					1.0, std::multiplies<double>()
+			);
+			double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
+			product.m_weights[std::string(m_weightName + "_" + std::to_string(efficiencyIndex+1))] = weight;
 		}
-		product.m_weights[std::string(m_weightName + "_" + std::to_string(efficiencyIndex+1))] = weight;
 	}
-	
+	else if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CORRELATE_TRIGGERS)
+	{
+		assert((efficienciesData.size() == 2) &&
+		       (efficienciesMc[0].size() == 2) &&
+		       (efficienciesMc[1].size() == 2) &&
+		       (efficienciesMc.size() == 2) &&
+		       (efficienciesMc[0].size() == 2) &&
+		       (efficienciesMc[1].size() == 2));
+		
+		double efficiencyData = efficienciesData[0][0]*efficienciesData[1][1] + efficienciesData[0][1]*efficienciesData[1][0] - efficienciesData[0][1]*efficienciesData[1][1];
+		double efficiencyMc = efficienciesMc[0][0]*efficienciesMc[1][1] + efficienciesMc[0][1]*efficienciesMc[1][0] - efficienciesMc[0][1]*efficienciesMc[1][1];
+		product.m_weights[std::string(m_weightName + "_1")] = efficiencyData / efficiencyMc;
+	}
 }
 
 
 // return linear interpolation between bin contents of neighboring bins
-double DataMcScaleFactorProducerBase::GetEfficienciesFromHistograms(std::vector<TH2F*> const& histograms,
-                                                                    KLepton* lepton) const
+std::vector<double> DataMcScaleFactorProducerBase::GetEfficienciesFromHistograms(
+		std::vector<TH2F*> const& histograms,
+		KLepton* lepton) const
 {
-	double efficiency = 1.0;
+	std::vector<double> efficiencies;
 	for (std::vector<TH2F*>::const_iterator histogram = histograms.begin();
 	     histogram != histograms.end(); ++histogram)
 	{
@@ -122,19 +156,20 @@ double DataMcScaleFactorProducerBase::GetEfficienciesFromHistograms(std::vector<
 // 		                            ((*histogram)->GetXaxis()->GetBinUpEdge(xBin) - (*histogram)->GetXaxis()->GetBinLowEdge(xBin));
 // 		float linearInterpolation = (binContent * interpolationFactor) + (binContentUp * (1.0 - interpolationFactor));
 		
-// 		efficiency *= linearInterpolation;
-		efficiency *= (*histogram)->GetBinContent(globalBin);
+// 		efficiencies.push_back((linearInterpolation);
+		efficiencies.push_back((*histogram)->GetBinContent(globalBin));
+		
 	}
-	return efficiency;
+	return efficiencies;
 }
 
 
-std::vector<double> DataMcScaleFactorProducerBase::GetEfficiencies(
+std::vector<std::vector<double> > DataMcScaleFactorProducerBase::GetEfficiencies(
 		std::map<std::string, std::vector<TH2F*> > const& efficienciesByHltName,
 		std::map<size_t, std::vector<TH2F*> > const& efficienciesByIndex,
 		event_type const& event, product_type const& product, setting_type const& settings) const
 {
-	std::vector<double> efficiencies(efficienciesByHltName.size() + efficienciesByIndex.size(), 1.0);
+	std::vector<std::vector<double> > efficiencies(efficienciesByHltName.size() + efficienciesByIndex.size(), std::vector<double>());
 	size_t index = 0;
 	
 	for (std::map<std::string, std::vector<TH2F*> >::const_iterator efficiencyByHltName = efficienciesByHltName.begin();
@@ -202,6 +237,7 @@ TriggerWeightProducer::TriggerWeightProducer() :
 	DataMcScaleFactorProducerBase(&setting_type::GetTriggerEfficiencyData,
 	                              &setting_type::GetTriggerEfficiencyMc,
 	                              &setting_type::GetTriggerEfficiencyHistogram,
+	                              &setting_type::GetTriggerEfficiencyMode,
 	                              "triggerWeight")
 {
 }
@@ -211,6 +247,7 @@ IdentificationWeightProducer::IdentificationWeightProducer() :
 	DataMcScaleFactorProducerBase(&setting_type::GetIdentificationEfficiencyData,
 	                              &setting_type::GetIdentificationEfficiencyMc,
 	                              &setting_type::GetIdentificationEfficiencyHistogram,
+	                              &setting_type::GetIdentificationEfficiencyMode,
 	                              "identificationWeight")
 {
 }

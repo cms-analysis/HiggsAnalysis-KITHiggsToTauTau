@@ -115,6 +115,19 @@ public:
 		else return TauTauRestFrameReco::NONE;
 	}
 	
+	enum class DataMcScaleFactorProducerMode : int
+	{
+		NONE  = -1,
+		MULTIPLY_WEIGHTS = 0,
+		CORRELATE_TRIGGERS = 1,
+	};
+	static DataMcScaleFactorProducerMode ToDataMcScaleFactorProducerMode(std::string const& dataMcScaleFactorProducerMode)
+	{
+		if (dataMcScaleFactorProducerMode == "multiply_weights") return DataMcScaleFactorProducerMode::MULTIPLY_WEIGHTS;
+		else if (dataMcScaleFactorProducerMode == "correlate_triggers") return DataMcScaleFactorProducerMode::CORRELATE_TRIGGERS;
+		else return DataMcScaleFactorProducerMode::NONE;
+	}
+	
 	enum class SystematicShift : int
 	{
 		NONE = -1,

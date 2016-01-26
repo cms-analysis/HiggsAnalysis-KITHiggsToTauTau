@@ -78,12 +78,14 @@
 		"TriggerEfficiencyMc" : [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Spring15_Electron_SingleEle_eff.root"
 		],
+		"TriggerEfficiencyMode" : "multiply_weights",
 		"IdentificationEfficiencyData" : [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p10_eff.root"
 		],
 		"IdentificationEfficiencyMc" : [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Spring15_Electron_IdIso0p10_eff.root"
 		],
+		"IdentificationEfficiencyMode" : "multiply_weights",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
 			"nick" : {
