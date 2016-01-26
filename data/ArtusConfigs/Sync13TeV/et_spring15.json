@@ -51,8 +51,11 @@
 				"default" : [
 					"HLT_Ele32_eta2p1_WP75_Gsf_v"
 				],
-				"MiniAODv2" : [
+				"Spring15MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf_v"
+				],
+				"Fall15MiniAODv2" : [
+					"HLT_Ele23_WPLoose_Gsf_v"
 				]
 			}
 		},
@@ -65,7 +68,7 @@
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
 				],
-				"MiniAODv2" : [
+				"SpringMiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfTrackIsoFilter"
 				],
 				"Fall15MiniAODv2" : [
@@ -120,7 +123,7 @@
 					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
+					"#producer:TauTriggerMatchingProducer",
 					"producer:RecoTauGenParticleMatchingProducer",
 					"producer:RecoTauGenTauMatchingProducer",
 					"producer:MatchedLeptonsProducer",
