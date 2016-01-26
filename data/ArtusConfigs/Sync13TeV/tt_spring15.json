@@ -11,9 +11,16 @@
 		],
 		"Channel" : "TT",
 		"MinNTaus" : 2,
-		"HltPaths" : [
-			"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
-		],
+		"HltPaths" : {
+			"nick": {
+				"default" : [
+					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
+				],
+				"Fall15MiniAODv2" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
+				]
+			}
+		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauLowerPtCuts" : [
 			"45.0"
@@ -28,6 +35,9 @@
 			"nick" : {
 				"default" : [
 					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
+				],
+				"Fall15MiniAODv2" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
 				]
 			}
 		},
