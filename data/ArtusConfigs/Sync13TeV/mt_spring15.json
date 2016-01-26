@@ -54,6 +54,20 @@
 			}
 		},
 		"EventWeight" : "eventWeight",
+		"TriggerEfficiencyData" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_SingleMu_eff.root"
+		],
+		"TriggerEfficiencyMc" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Spring15_Muon_SingleMu_eff.root"
+		],
+		"TriggerEfficiencyMode" : "multiply_weights",
+		"IdentificationEfficiencyData" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p10_eff.root"
+		],
+		"IdentificationEfficiencyMc" : [
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Spring15_Muon_IdIso0p10_eff.root"
+		],
+		"IdentificationEfficiencyMode" : "multiply_weights",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"MuonTriggerFilterNames" : {
 			"nick" : {
@@ -137,6 +151,8 @@
 					"producer:EventCategoryProducer",
 					"producer:GenDiLeptonDecayModeProducer",
 					"producer:GenTauDecayProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
 					"#producer:EventWeightProducer"
 				]
 			}
