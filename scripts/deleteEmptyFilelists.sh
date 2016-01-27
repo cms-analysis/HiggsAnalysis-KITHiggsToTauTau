@@ -1,11 +1,11 @@
 function checkDelete() {
 	if ! [ -f $2  ]
 	then
-		echo "deleted: $2 from list $(basename $1)"
 		filename=$(basename $1)
-		echo "NAF_${filename:4}"
-		echo "XROOTD_${filename:4}"
-		echo "DCAP_${filename:4}"
+		dirname=$(dirname $1)
+		rm "$dirname/NAF_${filename:4}" -i
+		rm "$dirname/XROOTD_${filename:4}" -i
+		rm "$dirname/DCAP_${filename:4}" -i
 	fi
 }
 
