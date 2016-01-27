@@ -60,21 +60,21 @@ class Datacards(object):
             "lnN",
             ch.SystMap("era")
                 (["7TeV", "8TeV"], 1.026)
-                (       ["13TeV"], 1.10)
+                (       ["13TeV"], 1.046)
         ]
         self.electron_efficieny_syst_args = [
             "CMS_eff_e",
             "lnN",
             ch.SystMap("era")
                 (["7TeV", "8TeV"], 1.02)
-                (       ["13TeV"], 1.02) # copied from 8TeV
+                (       ["13TeV"], 1.05) # copied from 8TeV
         ]
         self.muon_efficieny_syst_args = [
             "CMS_eff_m",
             "lnN",
             ch.SystMap("era")
                 (["7TeV", "8TeV"], 1.02)
-                (       ["13TeV"], 1.02) # copied from 8TeV
+                (       ["13TeV"], 1.05) # copied from 8TeV
         ]
         self.tau_efficieny_syst_args = [
             "CMS_eff_t_$CHANNEL_$ERA",
@@ -173,6 +173,13 @@ class Datacards(object):
                 (["13TeV"], ["mt"], 1.0)
                 (["13TeV"], ["et"], 1.0)
                 (["13TeV"], ["tt"], 1.0)
+        ]
+        self.ele_es_syst_args = [
+            "CMS_scale_e_$CHANNEL_$ERA",
+            "shape",
+            ch.SystMap("era", "channel")
+                (["13TeV"], ["em"], 1.0)
+                (["13TeV"], ["et"], 1.0)
         ]
         
         # https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV#s_13_0_TeV
@@ -281,9 +288,6 @@ class Datacards(object):
                         )
                         
                         cb_backgrounds = self.cb.cp().analysis([analysis]).era([era]).channel([channel]).bin([category]).backgrounds()
-                        print root_filename
-                        print bkg_histogram_name_template
-                        print bkg_syst_histogram_name_template
                         cb_backgrounds.ExtractShapes(
                                 root_filename,
                                 bkg_histogram_name_template.replace("{", "").replace("}", ""),

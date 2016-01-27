@@ -159,9 +159,9 @@ if __name__ == "__main__":
                             channel=channel,
                             category="catMVA13TeV_"+category,
                             weight=args.weight,
-                            higgs_masses=higgs_masses,
+                            lumi = args.lumi * 1000,
                             exclude_cuts=args.exclude_cuts,
-                            lumi = args.lumi * 1000
+                            higgs_masses=higgs_masses
                             )
                     systematics_settings = systematics_factory.get(shape_systematic)(config)
                     # TODO: evaluate shift from datacards_per_channel_category.cb
