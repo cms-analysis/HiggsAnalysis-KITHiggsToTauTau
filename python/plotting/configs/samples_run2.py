@@ -702,15 +702,13 @@ class Samples(samples.SamplesBase):
 		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
 		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.wh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.zh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
 		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "wh", "zh"]]))
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
 			
 			Samples._add_bin_corrections(
@@ -846,10 +844,12 @@ class Samples(samples.SamplesBase):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
+		no_plot_kwargs = copy.deepcopy(kwargs)
+		no_plot_kwargs["no_plot"] = True
 		config = self.wh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, **no_plot_kwargs)
 		config = self.zh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, **no_plot_kwargs)
 		
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
@@ -857,19 +857,20 @@ class Samples(samples.SamplesBase):
 			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wh", "zh"]]))
 			config.setdefault("sum_result_nicks", []).append("vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
 			
-			Samples._add_bin_corrections(
-					config,
-					"vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-					nick_suffix
-			)
-			Samples._add_plot(
-					config,
-					"sig",
-					"LINE",
-					"L",
-					"vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-					nick_suffix
-			)
+			if not kwargs.get("no_plot", False):
+				Samples._add_bin_corrections(
+						config,
+						"vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+				Samples._add_plot(
+						config,
+						"sig",
+						"LINE",
+						"L",
+						"vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
 		return config
 	
 	def wh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
