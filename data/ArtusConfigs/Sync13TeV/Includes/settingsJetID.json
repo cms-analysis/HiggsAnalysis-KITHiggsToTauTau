@@ -12,7 +12,7 @@
 	"JetLowerPtCuts" : {
 		"nick" : {
 			"default" : ["30.0"],
-			"Spring15" : ["20.0"]
+			"(Spring|Fall)15" : ["20.0"]
 		}
 	},
 	"JetUpperAbsEtaCuts" : [

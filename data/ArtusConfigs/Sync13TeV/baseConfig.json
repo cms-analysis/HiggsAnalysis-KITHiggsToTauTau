@@ -31,7 +31,7 @@
 	},
 	"BosonStatus" : {
 		"nick" : {
-			"Spring15" : 62
+			"(Spring|Fall)15" : 62
 		}
 	},
 	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,
