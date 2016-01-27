@@ -65,7 +65,7 @@ if __name__ == "__main__":
                         help="Options for TMVA.Factory constructor. [Default: %(default)s]")
     parser.add_argument("-n", "--name", default="training",
                         help="Training name. [Default: %(default)s]")
-    parser.add_argument("-m", "--methods", nargs="+", required=True, default=['BDT;nCuts=1200:NTrees=150:MinNodeSize=0.25'],
+    parser.add_argument("-m", "--methods", nargs="+", required=True, default=['BDT;nCuts=1200:NTrees=150:MinNodeSize=0.25;BoosType=Grad;Shrinkage=0.2'],
                         help="MVA methods. Multiple arguments for TMVA.Factory.BookMethod are split by semicolon. Format: name;options. [Default: %(default)s]")
     parser.add_argument("--preparation-trees-options", default="",
                         help="Options for preparation of inputs trees as passed to TMVA.Factory.PrepareTrainingAndTestTree. [Default: %(default)s]")
@@ -78,9 +78,9 @@ if __name__ == "__main__":
     if args.bkg_samples == parser.get_default("bkg_samples"):
         args.bkg_samples = [sample for sample in args.bkg_samples 
                         if hasattr(samples.Samples, sample)]
-    #if "qcd" in (args.bkg_samples+args.signal_samples):
-        #log.error("qcd not possible for training")
-        #sys.exit()
+    if "qcd" in (args.bkg_samples+args.signal_samples):
+        log.error("qcd not possible for training")
+        sys.exit()
     list_of_samples = [getattr(samples.Samples, sample) for sample in 
                         (args.bkg_samples+args.signal_samples)]
     sample_settings = samples.Samples()
