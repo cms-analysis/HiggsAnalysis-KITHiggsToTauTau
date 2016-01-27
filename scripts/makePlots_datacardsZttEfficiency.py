@@ -19,7 +19,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
-
+import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
 
 
 def _call_command(command):
@@ -42,7 +42,7 @@ if __name__ == "__main__":
 		},
 		"etaufakerate" : {
 			"P" : "HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_eff",
-			"exclude_cuts" : ["anti_e_tau_discriminators"],
+			"exclude_cuts" : ["dilepton_veto", "extra_lepton_veto", "anti_e_tau_discriminators"],
 			"fit" : {
 				"poi" : "r",
 			},
@@ -72,11 +72,11 @@ if __name__ == "__main__":
 	                    help="Statistics models. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", action="append",
 	                    default=["all"],
-	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
+	                    help="Channel. This argument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantity", default="0",
+	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=2.155,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
@@ -88,8 +88,6 @@ if __name__ == "__main__":
 	                    help="Additional analysis Modules. [Default: %(default)s]")	
 	parser.add_argument("-r", "--ratio", default=True, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
-	parser.add_argument("-a", "--args", default="",
-	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
@@ -108,6 +106,14 @@ if __name__ == "__main__":
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 
+	#weight_string = "(fabs(eta_2) < 1.460)"
+	#weight_string = "(fabs(eta_2) < 1.460)*(decayMode_2 == 1)"
+	weight_string = "(fabs(eta_2) > 1.558)"
+	#weight_string = "(fabs(eta_2) > 1.558)*(decayMode_2 == 1)"
+	#weight_string = "((m_vis > 60.0)&&(m_vis < 120.0))*(fabs(eta_2) < 1.460)*(decayMode_2 == 0)"
+	#weight_string = "((m_vis > 60.0)&&(m_vis < 120.0))*((eta_2 > -2.3 && eta_2 < -1.558) || (eta_2 > 1.558 && eta_2 < 2.3))"
+	#weight_string = "((m_vis > 60.0)&&(m_vis < 120.0))*((eta_2 > -2.3 && eta_2 < -1.558) || (eta_2 > 1.558 && eta_2 < 2.3))*(decayMode_2 == 1)"
+	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
@@ -201,18 +207,28 @@ if __name__ == "__main__":
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
 							category=None,
-							weight=args.weight,
+							weight = weight_string,
 							lumi = args.lumi * 1000,
 							exclude_cuts=excludecut_settings,
 							cut_type=category[3:]
 					)
 					
+					# do not apply shape subtraction in QCD estimate, to avoid poorly described templates
+					config["qcd_subtract_shape"] = [False]
+					config["x_bins"] = ["60,0,300"]
+					if args.model in ["etaufakerate", "mutaufakerate"]:
+						if "pass" in category:
+							config["custom_rebin"] = [60,70,80,90,100,110,120]
+							#config["custom_rebin"] = [60,65,70,75,80,85,90,95,100,105,110,115,120]
+						elif "fail" in category:
+							config["custom_rebin"] = [60,120]
+					
+					config["x_expressions"] = [args.quantity]
+					config["directories"] = [args.input_dir]
+					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-			
-					config["x_expressions"] = [args.quantity]
-					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
@@ -257,7 +273,7 @@ if __name__ == "__main__":
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
 	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	# update CombineHarvester with the yields and shapes
@@ -271,7 +287,7 @@ if __name__ == "__main__":
 	# add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
-				processes=datacards.cb.cp().backgrounds().process_set(),
+				processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
 	
@@ -290,29 +306,36 @@ if __name__ == "__main__":
 
 	for datacard, cb in datacards_cbs.iteritems():
 		for channel in cb.cp().analysis(["ztt"]).era(["13TeV"]).channel_set():
-			yieldpass = 0
-			yieldfail = 0
+			nPassPre = 0
+			nFailPre = 0
 			sig_process = cb.cp().bin([category]).signals().process_set()
 			
 			for category in cb.cp().analysis(["ztt"]).era(["13TeV"]).channel([channel]).bin_set():
 				if "pass" in category:
-					yieldpass = cb.cp().bin([category]).process(sig_process).GetRate()
+					nPassPre = uncertainties.ufloat(cb.cp().bin([category]).process(sig_process).GetRate(),
+									cb.cp().bin([category]).process(sig_process).GetUncertainty())
+					#nPassPre = cb.cp().bin([category]).process(sig_process).GetRate()
 				elif "fail" in category:
-					yieldfail = cb.cp().bin([category]).process(sig_process).GetRate()
-			efficiency[channel] = yieldpass / (yieldpass + yieldfail)
+					nFailPre = uncertainties.ufloat(cb.cp().bin([category]).process(sig_process).GetRate(),
+									cb.cp().bin([category]).process(sig_process).GetUncertainty())
+					#nFailPre = cb.cp().bin([category]).process(sig_process).GetRate()
+			efficiency[channel] = nPassPre / (nPassPre + nFailPre)
 
-			command = ["text2workspace.py -m {MASS} -P HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_eff --PO \"eff={EFF}\" {DATACARD} -o {OUTPUT}".format(
+			command = ["text2workspace.py -m {MASS} -P {MODEL} --PO \"eff={EFF}\" {DATACARD} -o {OUTPUT}".format(
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0],
-				EFF=efficiency[channel],
+				MODEL=model_settings["P"],
+				EFF=efficiency[channel].nominal_value,
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+".root")]
-
+			
+			print "command -->", command
 			tools.parallelize(_call_command, command, n_processes=args.n_processes)
 
 		datacards_workspaces[datacard] = os.path.splitext(datacard)[0]+".root"
 	
 	# Max. likelihood fit and postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit --skipBOnlyFit -n \"\"")
+	#--expectSignal=1 --toys -1 for Asimov dataset
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit --robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\" -n \"\"")
 	datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']]}, n_processes=args.n_processes)
 
@@ -341,16 +364,36 @@ if __name__ == "__main__":
 			continue
 		for datacard in datacards_cbs.keys():
 			postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
-			
+			nPass = 0
+			nFail = 0
 			for category in datacards_cbs[datacard].cp().bin_set():
+				print "category = ", category
+				
 				results_file = ROOT.TFile(os.path.join(os.path.dirname(datacard), "mlfit.root"))
 				results_tree = results_file.Get("tree_fit_sb")
 				results_tree.GetEntry(0)
 				bestfit = results_tree.mu
-
-				processes = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set() + datacards_cbs[datacard].cp().bin([category]).signals().process_set()
+				
+				bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
+				sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
+				if "pass" in category:
+					nPass = uncertainties.ufloat(datacards_cbs[datacard].cp().bin([category]).process(sig_process).GetRate(),datacards_cbs[datacard].cp().bin([category]).process(sig_process).GetUncertainty())
+					signal_scale = bestfit
+					if level == "postfit":
+						nPass = nPass * signal_scale
+					print "\tNpass ({}) = {:6.0f}".format(level, nPass)
+				elif "fail" in category:
+					nFail = uncertainties.ufloat(datacards_cbs[datacard].cp().bin([category]).process(sig_process).GetRate(),datacards_cbs[datacard].cp().bin([category]).process(sig_process).GetUncertainty())
+					#signal_scale = bestfit
+					effnom = efficiency[category[:2]].nominal_value
+					signal_scale = (1.0 - bestfit*effnom)/(1.0 - effnom)
+					if level == "postfit":
+						nFail = nFail * signal_scale
+					print "\tNfail ({}) = {:6.0f}".format(level, nFail)
+				
+				processes = bkg_process + sig_process
 				processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
-	
+
 				config = {}
 				config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
 				config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
@@ -373,21 +416,22 @@ if __name__ == "__main__":
 				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
 
 				if level == "postfit":
-					config["scale_factors"] = [bestfit] + [1.0]*(len(processes) - 1) + [1.0, 1.0, bestfit]
+					config["scale_factors"] = [signal_scale] + [1.0]*(len(processes) - 1) + [1.0, 1.0, signal_scale]
 
 				config["labels"] = [label.lower() for label in processes_to_plot + ["data_obs"] + ["totalbkg"]]
 				config["colors"] = [color.lower() for color in processes_to_plot + ["data_obs"] + ["#000000"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E"] + ["E2"]
 				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["ELP"] + ["F"]
 				config["x_label"] = category[:2]+"_"+args.quantity
-				config["y_label"] = "Events / 10 GeV"
+				config["y_label"] = "Events"
+				config["x_lims"] = [60, 120]
+				
 				config["title"] = "channel_"+category[:2]
 				config["energies"] = [13.0]
 				config["lumis"] = [float("%.1f" % args.lumi)]
 				config["cms"] = [True]
 				config["extra_text"] = "Preliminary"
-				config["legend"] = [0.7, 0.6, 0.9, 0.88]
-				
+				config["legend"] = [0.7, 0.5, 0.9, 0.78]
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category
 				
@@ -402,12 +446,13 @@ if __name__ == "__main__":
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["F", "ELP"])
 					config.setdefault("labels", []).extend([""] * 2)
-					config["legend"] = [0.65, 0.45, 0.95, 0.92]
-					config["y_subplot_lims"] = [0.0, 2.0]
+					config["legend"] = [0.7, 0.4, 0.92, 0.82]
+					config["y_subplot_lims"] = [0.5, 1.5]
 					config["y_subplot_label"] = "Obs./Exp."
 					config["subplot_grid"] = True
 					
 				plot_configs.append(config)
+			print "\tefficiency ({}) = Npass/(Npass+Nfail) = {:6.5f}".format(level, nPass/(nPass+nFail))
 	
 	# create plots using HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])

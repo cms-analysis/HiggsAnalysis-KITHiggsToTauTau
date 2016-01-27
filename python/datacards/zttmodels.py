@@ -51,7 +51,7 @@ class ZttEff(PhysicsModel):
 	def doParametersOfInterest(self):
 		"""Create POI and other parameters, and define the POI set."""
 		# POI is the efficiency scale factor (r = eff'/eff)
-		self.modelBuilder.doVar("r[1,0,2]")
+		self.modelBuilder.doVar("r[1,0,5]")
 		self.modelBuilder.factory_('expr::failExpr("(1 - @0 * @1)/(1 - @1)", r, %s)' % (self.efficiency))
 
 		if self.options.mass != 0:
