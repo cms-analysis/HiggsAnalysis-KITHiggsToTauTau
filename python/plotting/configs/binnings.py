@@ -17,6 +17,8 @@ class BinningsDict(binnings.BinningsDict):
 		
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.binnings_dict[channel+"_integral"] = "1,0.0,1.0"
+			for i in range(16):
+                                self.binnings_dict[channel+"_MVATestMethod_%i"%i] = "-1.0 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
 		
 		self.binnings_dict["tt_decayMode_1"] = "11,0.0,11.0"
 		self.binnings_dict["tt_decayMode_2"] = "11,0.0,11.0"

@@ -30,7 +30,7 @@ if __name__ == "__main__":
                         help="Signal-Samples. [Default: %(default)s]")
     parser.add_argument("-b", "--bkg_samples", nargs="+",
                         default=["ztt", "zll", "ttj", "vv", "wj"],
-                        choices=["ztt", "zll", "ttj", "vv", "wj"], 
+                        choices=["ztt", "zll", "ttj", "vv", "wj", "qcd"], 
                         help="Bkg-Samples. [Default: %(default)s]")
     parser.add_argument("-c", "--channels", nargs="*",
                         default=["tt", "mt", "et", "em", "mm", "ee"],
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     parser.add_argument("-S", "--Split", default='60', 
                         help="""If set enables splitting into training and test
                         tree, use value between 0 and 99 to split tree using
-                        variable TrainingSelectionValue""")
+                        variable TrainingSelectionValue. [Default: %(default)s]""")
     parser.add_argument("-o", "--output-file",required=True,
                         default="tmvaClassification/output.root",
                         help="Output file. [Default: %(default)s]")
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     parser.add_argument("-n", "--name", default="training",
                         help="Training name. [Default: %(default)s]")
     parser.add_argument("-m", "--methods", nargs="+", required=True, default=['BDT;nCuts=1200:NTrees=150:MinNodeSize=0.25'],
-                        help="MVA methods. Multiple arguments for TMVA.Factory.BookMethod are split by semicolon. Format: name;options.")
+                        help="MVA methods. Multiple arguments for TMVA.Factory.BookMethod are split by semicolon. Format: name;options. [Default: %(default)s]")
     parser.add_argument("--preparation-trees-options", default="",
                         help="Options for preparation of inputs trees as passed to TMVA.Factory.PrepareTrainingAndTestTree. [Default: %(default)s]")
     args = parser.parse_args()
@@ -78,9 +78,9 @@ if __name__ == "__main__":
     if args.bkg_samples == parser.get_default("bkg_samples"):
         args.bkg_samples = [sample for sample in args.bkg_samples 
                         if hasattr(samples.Samples, sample)]
-    if "qcd" in (args.bkg_samples+args.signal_samples):
-        log.error("qcd not possible for training")
-        sys.exit()
+    #if "qcd" in (args.bkg_samples+args.signal_samples):
+        #log.error("qcd not possible for training")
+        #sys.exit()
     list_of_samples = [getattr(samples.Samples, sample) for sample in 
                         (args.bkg_samples+args.signal_samples)]
     sample_settings = samples.Samples()
@@ -204,6 +204,8 @@ if __name__ == "__main__":
             nick, s_b_extension[i], cuts[i]))
     tmva_factory.SetBackgroundWeightExpression('eventWeight')
     tmva_factory.SetSignalWeightExpression('eventWeight')
+    for tree in tree_list:
+        tree.~TTree()
     #prepare trees
     if args.Split:
         tmva_factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
@@ -236,3 +238,4 @@ if __name__ == "__main__":
     # finish
     output_file.Close()
     log.info("Training output is written to \"" + args.output_file + "\".")
+    
