@@ -50,6 +50,13 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		for old_name, new_name in pipeline_renamings.iteritems():
 			self._config["Pipelines"][new_name] = self._config["Pipelines"].pop(old_name)
 
+	def readInExternals(self):
+		if(int(self._config["NumberGeneratedEvents"]) < 0):
+			from Kappa.Skimming.registerDatasetHelper import get_n_generated_events_from_nick
+			n_events_from_db = get_n_generated_events_from_nick(self._config["Nickname"])
+			if(n_events_from_db > 0):
+				self._config["NumberGeneratedEvents"] = n_events_from_db
+
 	def run(self):
 		symlinkBaseDir = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusOutputs")
 		if not os.path.exists(symlinkBaseDir):
