@@ -3,6 +3,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
 
 
 void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
@@ -78,28 +79,9 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
-		const KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_genParticleMatchedLeptons, lepton, new const KGenParticle());
+		const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
 		
-		if (lepton->flavour() == KLeptonFlavour::TAU)
-		{
-			KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedTaus, static_cast<KTau*>(lepton), new KGenTau());
-			
-			float deltaRTauGenTau = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genTau->visible.p4);
-			float deltaRTauGenParticle = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genParticle->p4);
-			
-			if (deltaRTauGenParticle < deltaRTauGenTau)
-			{
-				product.m_diLeptonGenSystem += genParticle->p4;
-			}
-			else
-			{
-				product.m_diLeptonGenSystem += genTau->p4;
-			}
-		}
-		else
-		{
-			product.m_diLeptonGenSystem += genParticle->p4;
-		}
+		product.m_diLeptonGenSystem += genParticle->p4;
 	}
 	
 	// collinear approximation
