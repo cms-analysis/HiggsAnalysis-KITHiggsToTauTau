@@ -314,11 +314,9 @@ if __name__ == "__main__":
 				if "pass" in category:
 					nPassPre = uncertainties.ufloat(cb.cp().bin([category]).process(sig_process).GetRate(),
 									cb.cp().bin([category]).process(sig_process).GetUncertainty())
-					#nPassPre = cb.cp().bin([category]).process(sig_process).GetRate()
 				elif "fail" in category:
 					nFailPre = uncertainties.ufloat(cb.cp().bin([category]).process(sig_process).GetRate(),
 									cb.cp().bin([category]).process(sig_process).GetUncertainty())
-					#nFailPre = cb.cp().bin([category]).process(sig_process).GetRate()
 			efficiency[channel] = nPassPre / (nPassPre + nFailPre)
 
 			command = ["text2workspace.py -m {MASS} -P {MODEL} --PO \"eff={EFF}\" {DATACARD} -o {OUTPUT}".format(
@@ -384,7 +382,6 @@ if __name__ == "__main__":
 					print "\tNpass ({}) = {:6.0f}".format(level, nPass)
 				elif "fail" in category:
 					nFail = uncertainties.ufloat(datacards_cbs[datacard].cp().bin([category]).process(sig_process).GetRate(),datacards_cbs[datacard].cp().bin([category]).process(sig_process).GetUncertainty())
-					#signal_scale = bestfit
 					effnom = efficiency[category[:2]].nominal_value
 					signal_scale = (1.0 - bestfit*effnom)/(1.0 - effnom)
 					if level == "postfit":
@@ -411,29 +408,31 @@ if __name__ == "__main__":
 				
 				config["files"] = [postfit_shapes]
 				config["folders"] = [category+"_"+level]
-				config["nicks"] = processes + ["data_obs", "noplot_TotalBkg", "noplot_TotalSig"]
-				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["data_obs", "TotalBkg", "TotalSig"]
+				config["nicks"] = processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]
+				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
 				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
 
 				if level == "postfit":
-					config["scale_factors"] = [signal_scale] + [1.0]*(len(processes) - 1) + [1.0, 1.0, signal_scale]
+					config["scale_factors"] = [signal_scale] + [1.0]*(len(processes) - 1) + [1.0, signal_scale, 1.0]
 
-				config["labels"] = [label.lower() for label in processes_to_plot + ["data_obs"] + ["totalbkg"]]
-				config["colors"] = [color.lower() for color in processes_to_plot + ["data_obs"] + ["#000000"]]
-				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E"] + ["E2"]
-				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["ELP"] + ["F"]
+				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
+				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
+				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
+				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
 				config["x_label"] = category[:2]+"_"+args.quantity
-				config["y_label"] = "Events"
+				config["y_label"] = "Events / bin"
 				config["x_lims"] = [60, 120]
 				
-				config["title"] = "channel_"+category[:2]
+				#config["title"] = "channel_"+category[:2]
 				config["energies"] = [13.0]
 				config["lumis"] = [float("%.1f" % args.lumi)]
-				config["cms"] = [True]
+				config["cms"] = True
 				config["extra_text"] = "Preliminary"
 				config["legend"] = [0.7, 0.5, 0.9, 0.78]
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category
+				config["formats"] = ["png", "pdf"]
+				config["y_scientific"] = [True]
 				
 				if args.ratio:
 					if not "Ratio" in config.get("analysis_modules", []):
@@ -442,7 +441,7 @@ if __name__ == "__main__":
 					config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
 					config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
 					config["ratio_denominator_no_errors"] = True
-					config.setdefault("colors", []).extend(["#000000"] * 2)
+					config.setdefault("colors", []).extend(["#000000 transgrey", "#000000"])
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["F", "ELP"])
 					config.setdefault("labels", []).extend([""] * 2)
@@ -450,7 +449,10 @@ if __name__ == "__main__":
 					config["y_subplot_lims"] = [0.5, 1.5]
 					config["y_subplot_label"] = "Obs./Exp."
 					config["subplot_grid"] = True
-					
+				
+				if "fail" in category:
+					config.pop("legend")
+				
 				plot_configs.append(config)
 			print "\tefficiency ({}) = Npass/(Npass+Nfail) = {:6.5f}".format(level, nPass/(nPass+nFail))
 	
