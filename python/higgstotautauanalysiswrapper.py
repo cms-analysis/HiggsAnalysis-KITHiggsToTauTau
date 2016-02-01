@@ -63,6 +63,12 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			if(xsec > 0):
 				self._config["CrossSection"] = xsec
 
+		if not ("GeneratorWeight" in self._config) or (self._config["GeneratorWeight"] < 0):
+			from Kappa.Skimming.registerDatasetHelper import get_generator_weight
+			generator_weight = get_generator_weight(self._config["Nickname"])
+			if(generator_weight > 0 and generator_weight <= 1.0):
+				self._config["generatorWeight"] = generator_weight
+
 	def run(self):
 		symlinkBaseDir = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusOutputs")
 		if not os.path.exists(symlinkBaseDir):
