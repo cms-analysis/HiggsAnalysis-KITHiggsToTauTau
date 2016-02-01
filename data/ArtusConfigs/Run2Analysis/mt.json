@@ -23,10 +23,10 @@
 					"HLT_IsoMu24_eta2p1",
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
 				],
-				"MiniAODv2" : [
+				"Spring15MiniAODv2" : [
 					"HLT_IsoMu17_eta2p1"
 				],
-				"Run2015D" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18"
 				]
 			}
@@ -55,10 +55,10 @@
 				"default" : [
 					"HLT_IsoMu24_eta2p1_v"
 				],
-				"MiniAODv2" : [
+				"SpringMiniAODv2" : [
 					"HLT_IsoMu17_eta2p1_v"
 				],
-				"Run2015D" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v"
 				]
 			}
@@ -86,10 +86,10 @@
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu17LooseIsoPFTau20",
 					"HLT_IsoMu24_eta2p1_v:hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09"
 				],
-				"MiniAODv2" : [
+				"Spring15MiniAODv2" : [
 					"HLT_IsoMu17_eta2p1_v:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09"
 				],
-				"Run2015D" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
 				]
 			}

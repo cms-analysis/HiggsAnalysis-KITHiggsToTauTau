@@ -23,14 +23,14 @@
 					"HLT_Ele32_eta2p1_WP75_Gsf",
 					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
 				],
-				"MiniAODv2" : [
+				"Spring15MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf"
 				],
 				"Run2015(A|B|C)" : [
 					"HLT_Ele32_eta2p1_WPTight_Gsf",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
 				],
-				"Run2015D" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf"
 				]
 			}
@@ -60,13 +60,13 @@
 				"default" : [
 					"HLT_Ele32_eta2p1_WP75_Gsf_v"
 				],
-				"MiniAODv2" : [
+				"Spring15MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf_v"
 				],
 				"Run2015(A|B|C)" : [
 					"HLT_Ele32_eta2p1_WPTight_Gsf_v"
 				],
-				"Run2015D" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v"
 				]
 			}
@@ -107,7 +107,7 @@
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
 				],
-				"Run2015D" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
 				]
 			}
@@ -164,7 +164,7 @@
 					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
+					"#producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
@@ -203,7 +203,7 @@
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
+					"#producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
@@ -242,7 +242,7 @@
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
+					"#producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
@@ -279,7 +279,7 @@
 					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
+					"#producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
