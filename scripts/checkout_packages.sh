@@ -35,7 +35,10 @@ git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.gi
 svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 
 # Svfit and HHKinFit
-git clone https://github.com/veelken/SVfit_standalone.git -b svFit_2015Apr03 TauAnalysis/SVfitStandalone
+git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone
+cd TauAnalysis/SVfitStandalone
+git checkout dd7cf43e3f930040959f7d700cef976307d7cec3 -b current
+cd $CMSSW_BASE/src
 git clone https://github.com/thomas-mueller/HHKinFit2.git
 
 # needed for plotting and statistical inference
