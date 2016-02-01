@@ -41,18 +41,7 @@ For the [Artus repository](https://github.com/artus-analysis/Artus) a similar un
 The following code fragments are meant as examples. All scripts offer meaningfull help via -h/--help (or sometimes without arguments).
 
 ### Skimming
-Skimming with grid-control:
-
-	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
-	go.py gc_skimming_2014-12-24-full-skim-grid.conf
-
-Outputs are shared in Thomas' personal DESY dCache directory, where everybody has write access:
-
-	se path = srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN=/pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/<date>_<campaign>`
-
-The skimming outputs need to be checked:
-
-	<path/to/grid-control>/scripts/downloadFromSE.py --just-verify [--threads <1-6>] <GC config>
+If you want to skim a new Dataset, use [registerDataset.py](https://github.com/KappaAnalysis/Kappa/blob/CMSSW_7_6_X/Skimming/scripts/registerDataset.py) from the Kappa repository. It autmatically fills meta information of each sample, including the number of generated events for each dataset.
 
 Skimming with crab3:
 
@@ -60,14 +49,26 @@ Skimming with crab3:
 	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
 	python crabConfig.py submit
 
+Outputs are written in your personal DESY dCache directory:
+
+	se path = srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN=/pnfs/desy.de/cms/tier2/store/user/%USERNAME%/higgs-kit/skimming/<date>_<campaign>`
+
+
+In case not all skims of a MC sample have been skimmed succesfully, you can manually check how many have been processed with [getNumberOfGeneratedEvents.py](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/getNumberOfGeneratedEvents.py).
+
+#	for dir in /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/<date>_<campaign>/*TeV; do getNumberOfGeneratedEvents.py $dir/*.root; done
 
 File lists for Artus need to be created by [createInputFilelists.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/createInputFilelists.py):
 
 	createInputFilelists.py -s /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/<date>_<campaign> -d <date> [-r]
 
-After adding new samples to a skim, the [database of numbers of generated events](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json) for Artus might have to be updated with the output of [getNumberOfGeneratedEvents.py](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/getNumberOfGeneratedEvents.py):
 
-	for dir in /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/<date>_<campaign>/*TeV; do getNumberOfGeneratedEvents.py $dir/*.root; done
+When using NLO samples, the proper normalization has to be applied. This can be done with [getGeneratorWeight.py](https://github.com/artus-analysis/Artus/blob/Kappa_2_1/KappaAnalysis/scripts/getGeneratorWeight.py). Do e.g.
+
+	for folder in /pnfs/desy.de/cms/tier2/store/user/$USER/higgs-kit/skimming/<date>/*; do ./getGeneratorWeight.py $folder/*/*/*/*.root; done
+
+to update all entries in the Kappa database. Remember to commit your changes afterwards.
+
 
 JEC parameters can be downloaded using [getJecParameters.py](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/getJecParameters.py):
 
@@ -87,14 +88,17 @@ Pile-up weights are determined using [puWeightCalc.py](https://github.com/artus-
 - Print tau discriminators in Kappa skim: [`availableKappaTauDiscriminators.py <Kappa file(s)>`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/availableKappaTauDiscriminators.python)
 - Print user info in Kappa skim: [`availableKappaUserInfo.py <Kappa file(s)>`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/availableKappaUserInfo.py)
 - Find Kappa skim containing certain events: [`findKappaFiles.py -h`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/findKappaFiles.py)
+- Remove empty fileslists: [deleteEmptyFilelists.sh](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/Kappa_2_1/scripts/deleteEmptyFilelists.sh)
 
 ### Running Artus
 
 The C++ executable ([HiggsToTauTauAnalysis](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/bin/HiggsToTauTauAnalysis.cc)) is called by a python wrapper ([HiggsToTauTauAnalysis.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/HiggsToTauTauAnalysis.py)) for convenience reasons.
 
-The (8TeV) SM analysis can be run with:
+The 8TeV SM analysis can be run with by stepping back to the "8TeVFinal" Tag in Artus, Kappa and KITHiggs repositories.
 
-	HiggsToTauTauAnalysis.py @HiggsAnalysis/KITHiggsToTauTau/data/ArtusWrapperConfigs/SM_Htautau.cfg -i HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_sample_*_8TeV_recent.txt [-b --project-name <project name>]
+The new SM analysis can be run with by stepping back to the "8TeVFinal" Tag in Artus, Kappa and KITHiggs repositories.
+
+	HiggsToTauTauAnalysis.py @HiggsAnalysis/KITHiggsToTauTau/data/ArtusWrapperConfigs/Run2Analysis.cfg -i HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_collection_SM_Analysis_CompletePlus_HToTauTau_13TeV_recent.txt [-b --project-name <project name>]
 
 Beware that the above example runs on a (very!) large number of input files and has a complicated structure, which is driven by the complexity of the analysis. A more didactic example, which runs locally on a Kappa skim and applies only a very basic selection on electrons and muons, can be executed with:
 
@@ -102,7 +106,7 @@ Beware that the above example runs on a (very!) large number of input files and 
 
 Especially for beginners, it is advisable to look carefully into the content of the above exemplary configs and json files, in order to get familiar with the way in which the Producers, Consumers and Filters are organized and called in Artus and how settings such as cut thresholds are defined.
 
-For beeing able to use the --batch mode, go.py from grid-control needs to be in the $PATH. Default configurations, log files and outputs are written to `$ARTUS_WORK_BASE/<date>_<project name>`
+For beeing able to use the --batch mode, go.py from grid-control (release 1499) needs to be in the $PATH. Default configurations, log files and outputs are written to `$ARTUS_WORK_BASE/<date>_<project name>`
 
 To speed up the post-processing of the outputs, they can be merged (per nick name) by [artusMergeOutputs.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/artusMergeOutputs.py):
 
