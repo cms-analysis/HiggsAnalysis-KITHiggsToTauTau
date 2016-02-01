@@ -46,6 +46,12 @@ void SvfitProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitMet", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.momentum ? product.m_svfitResults.fittedMET->Rho() : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTransverseMass", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentum ? static_cast<float>(*(product.m_svfitResults.transverseMass)) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTransverseMassUnc", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.momentum ? static_cast<float>(*(product.m_svfitResults.transverseMassUnc)) : DefaultValues::UndefinedFloat);
+	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitUncAvailable", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.momentumUncertainty ? true : false);

@@ -284,10 +284,10 @@ TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 	return metCovarianceMatrix;
 }
 
-SvfitResults::SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET) :
+SvfitResults::SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass) :
 	SvfitResults()
 {
-	Set(momentum, momentumUncertainty, fittedMET);
+	Set(momentum, momentumUncertainty, fittedMET, transverseMass);
 }
 
 SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) :
@@ -310,7 +310,7 @@ SvfitResults::~SvfitResults()
 	*/
 }
 
-void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET)
+void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass)
 {
 	if (! this->momentum)
 	{
@@ -328,13 +328,16 @@ void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, 
 	*(this->momentum) = momentum;
 	*(this->momentumUncertainty) = momentumUncertainty;
 	*(this->fittedMET) = fittedMET;
+	*(this->transverseMass) = transverseMass.first;
+	*(this->transverseMassUnc) = transverseMass.second;
 }
 
 void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
 	Set(GetMomentum(svfitStandaloneAlgorithm),
 	    GetMomentumUncertainty(svfitStandaloneAlgorithm),
-	    GetFittedMET(svfitStandaloneAlgorithm));
+	    GetFittedMET(svfitStandaloneAlgorithm),
+	    GetFittedTransverseMass(svfitStandaloneAlgorithm));
 }
 
 void SvfitResults::CreateBranches(TTree* tree)
@@ -394,6 +397,11 @@ RMDataV SvfitResults::GetFittedMET(SVfitStandaloneAlgorithm const& svfitStandalo
 {
 	RMDataV fittedMET(svfitStandaloneAlgorithm.fittedMET());
 	return fittedMET;
+}
+
+std::pair<double, double> SvfitResults::GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+{
+	return (std::make_pair<double, double>(svfitStandaloneAlgorithm.transverseMass(), svfitStandaloneAlgorithm.transverseMassUncert()));
 }
 
 SvfitTools::SvfitTools(std::vector<std::string> const& fileNames, std::string const& treeName)

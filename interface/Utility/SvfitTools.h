@@ -121,13 +121,15 @@ public:
 	RMFLV* momentum = 0;
 	RMFLV* momentumUncertainty = 0;
 	RMDataV* fittedMET = 0;
+	double*  transverseMass = 0;
+	double*  transverseMassUnc = 0;
 	
 	SvfitResults() {};
-	SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET);
+	SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	~SvfitResults();
 	
-	void Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET);
+	void Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
 	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	
 	void CreateBranches(TTree* tree);
@@ -142,6 +144,7 @@ private:
 	RMFLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMFLV GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMDataV GetFittedMET(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	std::pair<double, double> GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 };
 
 
