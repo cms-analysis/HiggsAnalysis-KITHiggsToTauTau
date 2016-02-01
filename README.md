@@ -56,7 +56,6 @@ Outputs are written in your personal DESY dCache directory:
 
 In case not all skims of a MC sample have been skimmed succesfully, you can manually check how many have been processed with [getNumberOfGeneratedEvents.py](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/getNumberOfGeneratedEvents.py).
 
-#	for dir in /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/<date>_<campaign>/*TeV; do getNumberOfGeneratedEvents.py $dir/*.root; done
 
 File lists for Artus need to be created by [createInputFilelists.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/createInputFilelists.py):
 
