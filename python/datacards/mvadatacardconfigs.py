@@ -31,19 +31,25 @@ class DatacardConfigs(object):
         self._mapping_category2binid = {
             "mt" : {
                 "mt_inclusive" : 0,
-                "mt_combined_cut" : 1
+                "mt_2jet_vbf" : 1,
+                "mt_ztt_tight" : 2,
+                "mt_ztt_loose" : 3
+                
             },
             "et" : {
                 "et_inclusive" : 0,
-                "et_combined_cut" : 1
+                "et_2jet_vbf" : 1,
+                "et_loose" : 2
             },
             "em" : {
                 "em_inclusive" : 0,
-                "em_combined_cut" : 1
+                "em_2jet_vbf" : 1,
+                "em_tight" : 2
             },
             "tt" : {
                 "tt_inclusive" : 0,
-                "tt_combined_cut" : 1
+                "tt_2jet_vbf" : 1,
+                "tt_loose" : 2
             },
         }
         

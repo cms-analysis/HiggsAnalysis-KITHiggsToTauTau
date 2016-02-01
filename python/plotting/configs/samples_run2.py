@@ -699,24 +699,26 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 		
 		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                  normalise_signal_to_one_pb, lumi=lumi*kwargs.get("scale_signal", 1.0), exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                  normalise_signal_to_one_pb, lumi=lumi*kwargs.get("scale_signal", 1.0), exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.wh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi*kwargs.get("scale_signal", 1.0), exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.zh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi*kwargs.get("scale_signal", 1.0), exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "wh", "zh"]]))
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
 			
-			Samples._add_bin_corrections(config, "htt"+str(mass), nick_suffix)
+			Samples._add_bin_corrections(
+					config,
+					"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+					nick_suffix
+			)
 			Samples._add_plot(
 					config,
-					"bkg" if kwargs.get("stack_signal", False) else "sig",
+					"bkg" if kwargs.get("stack_signal", False) else "htt",
 					"LINE",
 					"L",
 					"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -738,17 +740,28 @@ class Samples(samples.SamplesBase):
 						config,
 						"SUSYGluGluToBBHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
-						lumi,
+						lumi*kwargs.get("scale_signal", 1.0),
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
-						"bbH%s" % str(mass),
+						"bbH"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
 			else:
 				log.error("Sample config (bbH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(config, "bbh"+str(mass), nick_suffix)
-				Samples._add_plot(config, "sig", "LINE", "L", "bbh"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(
+						config,
+						"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+				Samples._add_plot(
+						config,
+						"bbh",
+						"LINE",
+						"L",
+						"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
 		return config
 
 	def ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
@@ -765,17 +778,28 @@ class Samples(samples.SamplesBase):
 						config,
 						"GluGluHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)) if not mssm else "SUSYGluGluToHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
-						lumi,
+						lumi*kwargs.get("scale_signal", 1.0),
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
-						"ggh%s" % str(mass),
+						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
 			else:
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(config, "ggh"+str(mass), nick_suffix)
-				Samples._add_plot(config, "sig", "LINE", "L", "ggh"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(
+						config,
+						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+				Samples._add_plot(
+						config,
+						"ggh",
+						"LINE",
+						"L",
+						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
 		return config
 	
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -792,36 +816,61 @@ class Samples(samples.SamplesBase):
 						config,
 						"VBFHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
-						lumi,
+						lumi*kwargs.get("scale_signal", 1.0),
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
-						"qqh%s" % str(mass),
+						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 			)
 			else:
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(config, "qqh"+str(mass), nick_suffix)
-				Samples._add_plot(config, "sig", "LINE", "L", "qqh"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(
+						config,
+						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+				Samples._add_plot(
+						config,
+						"qqh",
+						"LINE",
+						"L",
+						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
 		return config
 	
 	def vh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
+		no_plot_kwargs = copy.deepcopy(kwargs)
+		no_plot_kwargs["no_plot"] = True
 		config = self.wh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, **no_plot_kwargs)
 		config = self.zh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, **no_plot_kwargs)
 		
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["wh", "zh"]]))
-			config.setdefault("sum_result_nicks", []).append("vh"+str(mass)+nick_suffix)
+			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wh", "zh"]]))
+			config.setdefault("sum_result_nicks", []).append("vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
 			
-			Samples._add_bin_corrections(config, "vh"+str(mass), nick_suffix)
-			Samples._add_plot(config, "sig", "LINE", "L", "vh"+str(mass), nick_suffix)
+			if not kwargs.get("no_plot", False):
+				Samples._add_bin_corrections(
+						config,
+						"vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+				Samples._add_plot(
+						config,
+						"vh",
+						"LINE",
+						"L",
+						"vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
 		return config
 	
 	def wh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -838,32 +887,43 @@ class Samples(samples.SamplesBase):
 						config,
 						"WminusHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
-						lumi,
+						lumi*kwargs.get("scale_signal", 1.0),
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
-						"wmh%s" % str(mass),
+						"wmh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix+"_noplot"
 				)
 				Samples._add_input(
 						config,
 						"WplusHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
-						lumi,
+						lumi*kwargs.get("scale_signal", 1.0),
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
-						"wph%s" % str(mass),
+						"wph"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix+"_noplot"
 				)
 				
 				if not "AddHistograms" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("AddHistograms")
-				config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["wmh", "wph"]]))
-				config.setdefault("sum_result_nicks", []).append("wh"+str(mass)+nick_suffix)
+				config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wmh", "wph"]]))
+				config.setdefault("sum_result_nicks", []).append("wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
 			
 			else:
 				log.error("Sample config (WH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(config, "wh"+str(mass), nick_suffix)
-				Samples._add_plot(config, "sig", "LINE", "L", "wh"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(
+						config,
+						"wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+				Samples._add_plot(
+						config,
+						"wh",
+						"LINE",
+						"L",
+						"wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
 		return config
 	
 	def zh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -880,9 +940,9 @@ class Samples(samples.SamplesBase):
 						config,
 						"ZHToTauTauM{mass}_RunIISpring15*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
-						lumi,
+						lumi*kwargs.get("scale_signal", 1.0),
 						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
-						"zh%s" % str(mass),
+						"zh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
 			
@@ -890,7 +950,18 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (ZH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 			
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(config, "zh"+str(mass), nick_suffix)
-				Samples._add_plot(config, "sig", "LINE", "L", "zh"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(
+						config,
+						"zh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+				Samples._add_plot(
+						config,
+						"zh",
+						"LINE",
+						"L",
+						"zh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
 		return config
 

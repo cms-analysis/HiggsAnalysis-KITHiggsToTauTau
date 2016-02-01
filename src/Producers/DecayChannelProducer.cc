@@ -258,28 +258,9 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		{
 			assert(leptonIndex < product.m_flavourOrderedLeptons.size());
 			KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
-			const KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_genParticleMatchedLeptons, lepton, new const KGenParticle());
+			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
 			
-			if (lepton->flavour() == KLeptonFlavour::TAU)
-			{
-				KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedTaus, static_cast<KTau*>(lepton), new KGenTau());
-				
-				float deltaRTauGenTau = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genTau->visible.p4);
-				float deltaRTauGenParticle = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genParticle->p4);
-				
-				if (deltaRTauGenParticle < deltaRTauGenTau)
-				{
-					return GeneratorInfo::GetGenMatchingCode(genParticle);
-				}
-				else
-				{
-					return GeneratorInfo::GetGenMatchingCode(genTau);
-				}
-			}
-			else
-			{
-				return GeneratorInfo::GetGenMatchingCode(genParticle);
-			}
+			return  GeneratorInfo::GetGenMatchingCode(genParticle);
 		});
 	}
 }

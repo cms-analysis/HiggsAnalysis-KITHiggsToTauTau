@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Kappa/DataFormats/interface/Kappa.h"
+#include "Artus/Utility/interface/SafeMap.h"
 
 /**
    \brief Place to collect functions of general use
@@ -23,6 +24,9 @@ public:
 	};
 	
 	static int GetGenMatchingCode(const KGenParticle* genParticle);
+	static const KGenParticle* GetGenMatchedParticle(KLepton* lepton,
+							 const std::map<KLepton*, const KGenParticle*> leptonGenParticleMap,
+							 const std::map<KTau*, KGenTau*> tauGenTauMap);
 
 private:
 	GeneratorInfo() {  };

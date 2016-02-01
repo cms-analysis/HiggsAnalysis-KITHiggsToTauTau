@@ -18,7 +18,8 @@ class MVADatacards(datacards.Datacards):
             # MT channel
             self.add_processes(
                     channel="mt",
-                    categories=["mt_"+category for category in ["combined_cut", "inclusive"]],
+                    #categories=["mt_"+category for category in ["2jet_vbf", "ztt_loose", "ztt_tight", "inclusive"]],
+                    categories=["mt_"+category for category in ["inclusive"]],
                     bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
                     sig_processes=signal_processes,
                     analysis=["MVATest"],
@@ -44,7 +45,7 @@ class MVADatacards(datacards.Datacards):
             # ET channel
             self.add_processes(
                     channel="et",
-                    categories=["et_"+category for category in ["combined_cut", "inclusive"]],
+                    categories=["et_"+category for category in ["2jet_vbf", "ztt_loose", "ztt_tight", "inclusive"]],
                     bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
                     sig_processes=signal_processes,
                     analysis=["MVATest"],
@@ -70,8 +71,8 @@ class MVADatacards(datacards.Datacards):
             # EM channel
             self.add_processes(
                     channel="em",
-                    categories=["em_"+category for category in ["combined_cut", "inclusive"]],
-                    bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
+                    categories=["em_"+category for category in ["2jet_vbf", "ztt_loose", "ztt_tight", "inclusive"]],
+                    bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
                     sig_processes=signal_processes,
                     analysis=["MVATest"],
                     era=["13TeV"],
@@ -89,7 +90,7 @@ class MVADatacards(datacards.Datacards):
             # TT channel
             self.add_processes(
                     channel="tt",
-                    categories=["tt_"+category for category in ["combined_cut", "inclusive"]],
+                    categories=["tt_"+category for category in ["2jet_vbf", "ztt_loose", "ztt_tight", "inclusive"]],
                     bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
                     sig_processes=signal_processes,
                     analysis=["MVATest"],

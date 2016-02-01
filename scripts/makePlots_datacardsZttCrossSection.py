@@ -74,7 +74,7 @@ if __name__ == "__main__":
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
+	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--grid-bins", default="100",
 	                    help="Binning of the grid for the logL scan. [Default: %(default)s]")
@@ -318,7 +318,7 @@ if __name__ == "__main__":
 		config["directories"] = [directory.format(OUTDIR=args.output_dir) for directory in config.get("directories", [])]
 
 	# create plots using HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# prefit-postfit plots
 	plot_configs = []
@@ -361,25 +361,25 @@ if __name__ == "__main__":
 				
 				config["files"] = [postfit_shapes]
 				config["folders"] = [category+"_"+level]
-				config["nicks"] = processes + ["data_obs", "noplot_TotalBkg", "noplot_TotalSig"]
-				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["data_obs", "TotalBkg", "TotalSig"]
+				config["nicks"] = processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]
+				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
 				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
 
 				if level == "postfit":
-					config["scale_factors"] = [bestfit] + [1.0]*(len(processes) - 1) + [1.0, 1.0, bestfit]
+					config["scale_factors"] = [bestfit] + [1.0]*(len(processes) - 1) + [1.0, bestfit, 1.0]
 
-				config["labels"] = [label.lower() for label in processes_to_plot + ["data_obs"] + ["totalbkg"]]
-				config["colors"] = [color.lower() for color in processes_to_plot + ["data_obs"] + ["#000000"]]
-				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E"] + ["E2"]
-				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["ELP"] + ["F"]
+				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
+				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
+				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
+				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
 				config["x_label"] = category[:2]+"_"+args.quantity
-				config["y_label"] = "Events / 10 GeV"
+				config["y_label"] = "Events / bin"
 				config["title"] = "channel_"+category[:2]
 				config["energies"] = [13.0]
 				config["lumis"] = [float("%.1f" % args.lumi)]
 				config["cms"] = [True]
 				config["extra_text"] = "Preliminary"
-				config["legend"] = [0.7, 0.6, 0.9, 0.88]
+				config["legend"] = [0.7, 0.5, 0.9, 0.78]
 				
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category
@@ -391,12 +391,12 @@ if __name__ == "__main__":
 					config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
 					config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
 					config["ratio_denominator_no_errors"] = True
-					config.setdefault("colors", []).extend(["#000000"] * 2)
+					config.setdefault("colors", []).extend(["#000000 transgrey", "#000000"])
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["F", "ELP"])
 					config.setdefault("labels", []).extend([""] * 2)
-					config["legend"] = [0.65, 0.45, 0.95, 0.92]
-					config["y_subplot_lims"] = [0.0, 2.0]
+					config["legend"] = [0.7, 0.4, 0.92, 0.82]
+					config["y_subplot_lims"] = [0.5, 1.5]
 					config["y_subplot_label"] = "Obs./Exp."
 					config["subplot_grid"] = True
 					

@@ -71,8 +71,9 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# MVA Htt categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.expressions_dict["catMVA13TeV_"+channel+"_inclusive"] = "(1.0)"
-			self.expressions_dict["catMVA13TeV_"+channel+"_combined_cut"] = "(MVATestMethod_0>0.0)"
-			
+			self.expressions_dict["catMVA13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>200.0)*(jdeta>2.0)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_tight"] = "(MVATestMethod_7 > 0.5 || MVATestMethod_10 > 0.5)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_loose"] = "(MVATestMethod_7 > 0.2 || MVATestMethod_10 > 0.2)"
 		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 > 0)*(decayMode_2 < 3)"
 		self.expressions_dict["catOneProngPiZeros"] = self.expressions_dict["cat_OneProngPiZeros"]
 		for channel in [ "mt", "et"]:
