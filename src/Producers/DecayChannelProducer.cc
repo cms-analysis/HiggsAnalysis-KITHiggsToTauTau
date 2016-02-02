@@ -200,6 +200,11 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	tauDiscriminators.push_back("againstElectronTightMVA5");
 	tauDiscriminators.push_back("againstElectronVLooseMVA5");
 	tauDiscriminators.push_back("againstElectronVTightMVA5");
+	tauDiscriminators.push_back("againstElectronLooseMVA6");
+	tauDiscriminators.push_back("againstElectronMediumMVA6");
+	tauDiscriminators.push_back("againstElectronTightMVA6");
+	tauDiscriminators.push_back("againstElectronVLooseMVA6");
+	tauDiscriminators.push_back("againstElectronVTightMVA6");
 	tauDiscriminators.push_back("againstMuonLoose3");
 	tauDiscriminators.push_back("againstMuonTight3");
 	tauDiscriminators.push_back("byIsolationMVA3newDMwLTraw");

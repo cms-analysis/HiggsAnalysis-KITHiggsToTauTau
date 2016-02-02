@@ -27,7 +27,7 @@ class CutStringsDict:
 		elif channel == "mt":
 			cuts["mt"] = "(mt_1<40.0)"
 			cuts["not2prong"] = "((decayMode_2<5)||(decayMode_2>6))"
-			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA5_2 > 0.5)"
+			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
@@ -36,7 +36,7 @@ class CutStringsDict:
 		elif channel == "et":
 			cuts["mt"] = "(mt_1<40.0)"
 			cuts["not2prong"] = "((decayMode_2<5)||(decayMode_2>6))"
-			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA5_2 > 0.5)"
+			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
@@ -44,7 +44,7 @@ class CutStringsDict:
 			cuts["iso_2"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
 		elif channel == "tt":
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
-			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA5_1 > 0.5)*(againstElectronVLooseMVA5_2 > 0.5)"
+			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"
 			cuts["iso_1"] = "(byTightCombinedIsolationDeltaBetaCorr3Hits_1 > 0.5)"
 			cuts["iso_2"] = "(byTightCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
@@ -59,7 +59,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronVLooseMVA5_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -71,7 +71,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronVLooseMVA5_2 < 0.5)"
+			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -83,7 +83,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronLooseMVA5_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronLooseMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -95,7 +95,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronLooseMVA5_2 < 0.5)"
+			cuts["discriminator"] = "(againstElectronLooseMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -107,7 +107,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronMediumMVA5_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronMediumMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -119,7 +119,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronMediumMVA5_2 < 0.5)"
+			cuts["discriminator"] = "(againstElectronMediumMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -131,7 +131,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronTightMVA5_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronTightMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -143,7 +143,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronTightMVA5_2 < 0.5)"
+			cuts["discriminator"] = "(againstElectronTightMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -155,7 +155,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronVTightMVA5_2 > 0.5)"
+			cuts["discriminator"] = "(againstElectronVTightMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -167,7 +167,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 25.0)"
 			cuts["iso_2"] = "(byLooseCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
-			cuts["discriminator"] = "(againstElectronVTightMVA5_2 < 0.5)"
+			cuts["discriminator"] = "(againstElectronVTightMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
