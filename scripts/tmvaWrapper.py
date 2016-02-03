@@ -19,7 +19,7 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Make Data-MC control plots.",
+    parser = argparse.ArgumentParser(description="Train BDTs using TMVA interface.",
                                      parents=[logger.loggingParser])
 
     parser.add_argument("-i", "--input-dir", required=True,
@@ -63,12 +63,12 @@ if __name__ == "__main__":
                         help="Output file. [Default: %(default)s]")
     parser.add_argument("--factory-options", default="",
                         help="Options for TMVA.Factory constructor. [Default: %(default)s]")
-    parser.add_argument("-n", "--name", default="training",
-                        help="Training name. [Default: %(default)s]")
     parser.add_argument("-m", "--methods", nargs="+", required=True, default=['BDT;nCuts=1200:NTrees=150:MinNodeSize=0.25;BoosType=Grad;Shrinkage=0.2'],
                         help="MVA methods. Multiple arguments for TMVA.Factory.BookMethod are split by semicolon. Format: name;options. [Default: %(default)s]")
     parser.add_argument("--preparation-trees-options", default="",
                         help="Options for preparation of inputs trees as passed to TMVA.Factory.PrepareTrainingAndTestTree. [Default: %(default)s]")
+    parser.add_argument("-n", "--n-fold", type=int, default=0,
+                        help="number of splits for n-fold training. 0 is regular splitting according to --Split, 1 is one split,which results in 2 parts...[Default: %(default)s]")
     args = parser.parse_args()
     logger.initLogger(args)
     
@@ -142,33 +142,28 @@ if __name__ == "__main__":
                     folder.append(config["folders"][i])
                     s_b_extension.append("Signal")
                     
+    splits_list = []
+    stored_files_list = []
     #TMVA Stuff
     ROOT.TMVA.Tools.Instance()
-    if args.Split:
-        cutTest = "(TrainingSelectionValue>=%i)*"%int(args.Split)
-        cutTrain = "(TrainingSelectionValue<%i)*"%int(args.Split)
+    if args.Split and args.n_fold == 0:
+        splits_list.append("(TrainingSelectionValue>=%i)*"%int(args.Split))
+        splits_list.append("(TrainingSelectionValue<%i)*"%int(args.Split))
+    elif args.n_fold:
+        part_size = 100/(args.n_fold+1)
+        for i in range(args.n_fold+1):
+            splits_list.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)*"%(i*part_size,(i+1)*part_size))
         
     # create output file
     dir_path, filename = os.path.split(args.output_file)
-    storage_name_extension = filename.replace(".root", "") + "_storage"
+    filename = filename.replace(".root", "")
+    storage_name_extension = filename + "_storage"
     if dir_path is None:
         pass
     elif not os.path.exists(dir_path):
         os.makedirs(dir_path)
-    output_file = ROOT.TFile(args.output_file, "RECREATE")
     
-    # create factory
-    log.debug("TMVA.Factory(\"" + args.name + "\", TFile(\"" + args.output_file +
-              "\", \"RECREATE\"), \"" + args.factory_options + "\")")
-    tmva_factory = ROOT.TMVA.Factory(args.name, output_file,
-                                     args.factory_options)
-    # add training variables
-    for variable in args.quantities:
-        log.debug("TMVA.Factory.AddVariable(" +
-                    ", ".join(["\"" + v + "\""
-                               for v in variable.split(";")]) + ")")
-        tmva_factory.AddVariable(*(variable.split(";")))
-    #add trees
+    #produce trees
     open_trees = []
     tree_list = []
     for i, nick in enumerate(nicks):
@@ -182,60 +177,71 @@ if __name__ == "__main__":
             root_file_name = root_file_name + '/' + folder[i]
             tree_list[-1].Add(root_file_name)
             c_tree = tree_list[-1]
-        store_file = ROOT.TFile("%s_%s.root"%(storage_name_extension, nick), "RECREATE")
-        storage_tree_train = c_tree.CopyTree(cutTrain+cuts[i], "training")
-        storage_tree_train.SetName("Training")
-        storage_tree_test = c_tree.CopyTree(cutTest+cuts[i], "testing")
-        storage_tree_test.SetName("Testing")
-        store_file.Write()
-        store_file.Close()
-        training_tree = ROOT.TChain()
-        training_tree.Add("%s_%s.root/Training"%(storage_name_extension, nick))
-        testing_tree = ROOT.TChain()
-        testing_tree.Add("%s_%s.root/Testing"%(storage_name_extension, nick))
+        stored_files_list.append("%s_%s_"%(storage_name_extension, nick))
+        log.debug("Prepare Sample %s "%stored_files_list[-1])
+        for j,split in enumerate(splits_list):
+            store_file = ROOT.TFile("%s_%s_%s.root"%(storage_name_extension, nick, "split%i"%j), "RECREATE")
+            storage_tree= c_tree.CopyTree(split+cuts[i], "tree%i"%j)
+            storage_tree.SetName("SplitTree")
+            store_file.Write()
+            store_file.Close()
         
-        tmva_factory.AddTree(testing_tree, s_b_extension[i],
-                             scale_input[i],
-                             TCut(""), "test")
-        tmva_factory.AddTree(training_tree, s_b_extension[i],
-                             scale_input[i],
-                             TCut(""), "train")
-        log.debug("tmva_factory.AddTree(%s,%s,%s,TCut(''), train/test)" %(
-            nick, s_b_extension[i], cuts[i]))
-    tmva_factory.SetBackgroundWeightExpression('eventWeight')
-    tmva_factory.SetSignalWeightExpression('eventWeight')
-    for tree in tree_list:
-        tree.~TTree()
-    #prepare trees
-    if args.Split:
-        tmva_factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
+    for ifac in range(args.n_fold+1):
+        output = ROOT.TFile(os.path.join(dir_path, filename+"T%i.root"%i), "RECREATE")
+        # create factory
+        log.debug("TMVA.Factory(\"T%i"%ifac + "\", TFile(\"" + args.output_file +
+                "\", \"RECREATE\"), \"" + args.factory_options + "\")")
+        factory=ROOT.TMVA.Factory("T%i"%ifac, output,
+                                    args.factory_options)
+        # add training variables
+        for variable in args.quantities:
+            log.debug("TMVA.Factory.AddVariable(" +
+                        ", ".join(["\"" + v + "\""
+                                for v in variable.split(";")]) + ")")
+            factory.AddVariable(*(variable.split(";")))
+        #add trees to factories
+        for j,stored_file in enumerate(stored_files_list):
+            for i in range(args.n_fold+1):
+                tree = ROOT.TChain()
+                tree.Add(stored_file+"split%i.root/SplitTree"%(i))
+                if i == ifac:
+                    factory.AddTree(tree, s_b_extension[j],
+                                                    scale_input[j],
+                                                    TCut(""), "test")
+                    log.debug("Add to Factory_%i sample %s as TestSample"%(ifac, stored_file+"split%i.root/SplitTree"%(i)))
+                else:
+                    
+                    factory.AddTree(tree, s_b_extension[j],
+                                                    scale_input[j],
+                                                    TCut(""), "train")
+                    log.debug("Add to Factory_%i sample %s as TrainingsSample"%(ifac, stored_file+"split%i.root/SplitTree"%(i)))
+            log.debug("factory.AddTree(%s,%s,%s,TCut(''), train/test)" %(
+                nick, s_b_extension[j], cuts[j]))
+        
+        factory.SetBackgroundWeightExpression('eventWeight')
+        factory.SetSignalWeightExpression('eventWeight')
+        factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
                                                 ROOT.TCut(''),
                                                 "NormMode=None:!V")
-    else:
-        tmva_factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
-                                            ROOT.TCut(''),
-                                            args.preparation_trees_options)
-    log.debug("TMVA.Factory.PrepareTrainingAndTestTree(\"" +
-              "\", \"" + args.preparation_trees_options + "\")")
-    
-     # book methods
-    for method in args.methods:
-        method, options = method.split(';')
-        name = method + '_' + filename
-        tmva_factory.BookMethod(method, name, options)
-        log.debug("TMVA.Factory.BookMethod(" + ", ".join(
-            ["\"" + m + "\"" for m in (method, name, options)]) + ")")
-    # perform full training
-    log.debug("TMVA.Factory.TrainAllMethods()")
-    tmva_factory.TrainAllMethods()
-    
-    log.debug("TMVA.Factory.TestAllMethods()")
-    tmva_factory.TestAllMethods()
-    
-    log.debug("TMVA.Factory.EvaluateAllMethods()")
-    tmva_factory.EvaluateAllMethods()
-    
-    # finish
-    output_file.Close()
-    log.info("Training output is written to \"" + args.output_file + "\".")
-    
+        # book methods
+        for method in args.methods:
+            method, options = method.split(';')
+            name = method + '_' + filename
+            factory.BookMethod(method, name, options)
+            log.debug("TMVA.Factory.BookMethod(" + ", ".join(
+                ["\"" + m + "\"" for m in (method, name, options)]) + ")")
+        
+        # perform full training
+        log.debug("TMVA.Factory.TrainAllMethods()")
+        factory.TrainAllMethods()
+        
+        log.debug("TMVA.Factory.TestAllMethods()")
+        factory.TestAllMethods()
+        
+        log.debug("TMVA.Factory.EvaluateAllMethods()")
+        factory.EvaluateAllMethods()
+        
+        # finish
+        output.Close()
+        del factory
+        log.info("Training output is written to \"" + os.path.join(dir_path, filename+"T%i.root"%ifac) + "\".")

@@ -9,7 +9,7 @@ void MVAInputQuantitiesProducer::Init(setting_type const& settings)
 {   
     ProducerBase<HttTypes>::Init(settings);
     LambdaNtupleConsumer<HttTypes>::AddIntQuantity("TrainingSelectionValue", [](event_type const& event, product_type const& product) {
-        return product.tsValue;
+        return (event.m_eventInfo->nEvent)%100;
     });
     LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pVecSum", [](event_type const& event, product_type const& product) {
         return product.pVecSum;
@@ -35,13 +35,13 @@ void MVAInputQuantitiesProducer::Init(setting_type const& settings)
 void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& product,
                                       setting_type const& settings) const
 {   //tsValue production
-    int evt_number = event.m_eventInfo->nEvent, lumi = event.m_eventInfo->nLumi, rndm = 0;
-    unsigned char *evt_char = reinterpret_cast<unsigned char *>(&evt_number);
-    unsigned char *lumi_char = reinterpret_cast<unsigned char *>(&lumi);
-    unsigned char *random_selector = reinterpret_cast<unsigned char *>(&rndm);
-    *random_selector = *evt_char ^ *lumi_char;
-//     rndm = evt_number ^ lumi;
-    product.tsValue = rndm%100;
+//     int evt_number = event.m_eventInfo->nEvent, lumi = event.m_eventInfo->nLumi, rndm = 0;
+//     unsigned char *evt_char = reinterpret_cast<unsigned char *>(&evt_number);
+//     unsigned char *lumi_char = reinterpret_cast<unsigned char *>(&lumi);
+//     unsigned char *random_selector = reinterpret_cast<unsigned char *>(&rndm);
+//     *random_selector = *evt_char ^ *lumi_char;
+// //     rndm = evt_number ^ lumi;
+//     product.tsValue = rndm%100;
     
     //pVecSum production vectorial sum of missing E_t DiLepton und DiJet 
     product.pVecSum = (product.m_met->p4 + product.m_diLeptonSystem + product.m_diJetSystem).M();
