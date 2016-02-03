@@ -63,7 +63,7 @@ if __name__ == "__main__":
                         help="Output file. [Default: %(default)s]")
     parser.add_argument("--factory-options", default="",
                         help="Options for TMVA.Factory constructor. [Default: %(default)s]")
-    parser.add_argument("-m", "--methods", nargs="+", required=True, default=['BDT;nCuts=1200:NTrees=150:MinNodeSize=0.25;BoosType=Grad;Shrinkage=0.2'],
+    parser.add_argument("-m", "--methods", nargs="+", default=['BDT;nCuts=1200:NTrees=150:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2'],
                         help="MVA methods. Multiple arguments for TMVA.Factory.BookMethod are split by semicolon. Format: name;options. [Default: %(default)s]")
     parser.add_argument("--preparation-trees-options", default="",
                         help="Options for preparation of inputs trees as passed to TMVA.Factory.PrepareTrainingAndTestTree. [Default: %(default)s]")
@@ -187,6 +187,7 @@ if __name__ == "__main__":
             store_file.Close()
         
     for ifac in range(args.n_fold+1):
+        iteration = args.n_fold+1
         output = ROOT.TFile(os.path.join(dir_path, filename+"T%i.root"%i), "RECREATE")
         # create factory
         log.debug("TMVA.Factory(\"T%i"%ifac + "\", TFile(\"" + args.output_file +
@@ -200,8 +201,11 @@ if __name__ == "__main__":
                                 for v in variable.split(";")]) + ")")
             factory.AddVariable(*(variable.split(";")))
         #add trees to factories
+        skip = False
+        if args.n_fold == 0:
+            iteration += 1;
         for j,stored_file in enumerate(stored_files_list):
-            for i in range(args.n_fold+1):
+            for i in range(iteration):
                 tree = ROOT.TChain()
                 tree.Add(stored_file+"split%i.root/SplitTree"%(i))
                 if i == ifac:
