@@ -1,0 +1,9 @@
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_1.root
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_2.root
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_3.root
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_4.root
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_5.root
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_6.root
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_7.root
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_8.root
+root://cms-xrd-global.cern.ch//store/user/rfriese/higgs-kit/skimming/2016-02-05/MuonEG/crab_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD/160204_130725/0000/kappa_MuonEG_Run2015C25ns_16Dec2015v1_13TeV_MINIAOD_9.root
