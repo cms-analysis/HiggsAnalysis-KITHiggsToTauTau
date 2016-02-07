@@ -10,6 +10,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiTauPair.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiGenTauPair.h"
 #include "TVector2.h"
 
 class HttProduct : public KappaProduct
@@ -35,6 +36,10 @@ public:
 	/// added by DiTauPairCandidatesProducers
 	std::vector<DiTauPair> m_validDiTauPairCandidates;
 	std::vector<DiTauPair> m_invalidDiTauPairCandidates;
+
+	/// added by GenDiTauPairCandidatesProducers and GenDiTauPairAcceptanceProducer
+	std::vector<DiGenTauPair> m_genDiTauPairCandidates;
+	std::vector<DiGenTauPair> m_genDiTauPairInAcceptance;
 
 	// filled by DecayChannelProducer
 	bool m_extraElecVeto = false;
