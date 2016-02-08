@@ -19,9 +19,9 @@ void GenDiTauPairAcceptanceProducer::Init(setting_type const& settings)
 	{
 		return static_cast<int>(product.m_genDiTauPairInAcceptance.size());
 	});
-// 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genInvMass", [](event_type const& event, product_type const& product) {
-// 		return (product.m_genDiTauPairCandidates[0].first->p4 + product.m_genDiTauPairCandidates[0].second->p4).mass();
-// 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genDiTauPairMass", [](event_type const& event, product_type const& product) {
+		return (product.m_genDiTauPairCandidates[0].first->p4 + product.m_genDiTauPairCandidates[0].second->p4).mass();
+	});
 }
 
 void GenDiTauPairAcceptanceProducer::Produce(event_type const& event, product_type& product,
