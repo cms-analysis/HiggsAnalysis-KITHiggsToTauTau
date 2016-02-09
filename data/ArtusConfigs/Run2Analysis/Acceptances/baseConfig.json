@@ -1,0 +1,52 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsCrossSection.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsNumberGeneratedEvents.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsGeneratorWeight.json"
+	],
+	"SkipEvents" : 0,
+	"EventCount" : -1,
+	"InputIsData" : {
+		"nick" : {
+			"default" : "false",
+			"Run2015" : "true"
+		}
+	},
+	"InputFiles" : [
+		"/pnfs/desy.de/cms/tier2/store/user/rfriese/skimming/2015-04-24/VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM_0.root"
+	],
+	"BosonPdgId" : 23,
+	"BosonStatus" : 62,
+	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,
+	"DeltaRMatchingRecoMuonGenParticle" : 0.2,
+	"DeltaRMatchingRecoTauGenParticle" : 0.2,
+	"DeltaRMatchingRecoTauGenTau" : 0.2,
+	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
+	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
+	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
+	"GenDiLeptonDecayMode" : "tt",
+	"GenParticleTypes" : ["genElectron", "genMuon"],
+	"GenElectronStatus" : 1,
+	"GenMuonStatus" : 1,
+	"#EventWhitelist" : [
+	],
+	"OutputPath" : "output.root",
+	"Processors" : [
+		"#filter:RunLumiEventFilter",
+		"producer:CrossSectionWeightProducer",
+		"producer:NumberGeneratedEventsWeightProducer",
+		"producer:NicknameProducer",
+		"producer:PUWeightProducer",
+		"producer:GeneratorWeightProducer",
+		"producer:GenDiLeptonDecayModeProducer",
+		"filter:GenDiLeptonDecayModeFilter",
+		"producer:GenParticleProducer"
+	],
+	"PileupWeightFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeV_PromptReco_69mbMinBiasXS.root",
+			"Run2015" : "not needed"
+		}
+	}
+}
