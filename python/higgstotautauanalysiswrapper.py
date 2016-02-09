@@ -67,7 +67,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			from Kappa.Skimming.registerDatasetHelper import get_generator_weight
 			generator_weight = get_generator_weight(self._config["Nickname"])
 			if(generator_weight > 0 and generator_weight <= 1.0):
-				self._config["generatorWeight"] = generator_weight
+				self._config["GeneratorWeight"] = generator_weight
 
 	def run(self):
 		symlinkBaseDir = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusOutputs")
