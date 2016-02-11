@@ -18,6 +18,7 @@
 	],
 	"BosonPdgId" : 23,
 	"BosonStatus" : 62,
+	"GenDiLeptonDecayModeFilterLoose" : true,
 	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,
 	"DeltaRMatchingRecoMuonGenParticle" : 0.2,
 	"DeltaRMatchingRecoTauGenParticle" : 0.2,
@@ -36,9 +37,9 @@
 		"#filter:RunLumiEventFilter",
 		"producer:CrossSectionWeightProducer",
 		"producer:NumberGeneratedEventsWeightProducer",
-		"producer:NicknameProducer",
 		"producer:PUWeightProducer",
 		"producer:GeneratorWeightProducer",
+		"producer:NicknameProducer",
 		"producer:GenDiLeptonDecayModeProducer",
 		"filter:GenDiLeptonDecayModeFilter",
 		"producer:GenParticleProducer"

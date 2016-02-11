@@ -1,12 +1,12 @@
 {
-	"em_acceptance" : {
-		"Channel" : "EM",
+	"mt_base" : {
+		"Channel" : "MT",
 		"EventWeight" : "eventWeight",
 		"DirectIso" : true,
-		"Lepton1AcceptancePtCut" : 13.0,
-		"Lepton1AcceptanceEtaCut" : 2.5,
-		"Lepton2AcceptancePtCut" : 10.0,
-		"Lepton2AcceptanceEtaCut" : 2.4,
+		"Lepton1AcceptancePtCut" : 19.0,
+		"Lepton1AcceptanceEtaCut" : 2.1,
+		"Lepton2AcceptancePtCut" : 20.0,
+		"Lepton2AcceptanceEtaCut" : 2.3,
 		"Quantities" : [
 			{
 				"include" : [
@@ -26,19 +26,16 @@
 			"genDiLeptonDecayMode",
 			"genDiLeptonBosonMass",
 			"nGenDiTauPairCandidates",
-			"nGenDiTauPairsInAcceptance",
 			"genDiTauPairMass"
 		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
 					"producer:GenTauJetProducer",
-					"filter:GenElectronsFilter",
 					"filter:GenMuonsFilter",
-					"producer:GenEMPairCandidatesProducer",
+					"filter:GenTauJetsFilter",
+					"producer:GenMTPairCandidatesProducer",
 					"filter:GenDiTauPairCandidatesFilter",
-					"producer:GenDiTauPairAcceptanceProducer",
-					"filter:GenDiTauPairAcceptanceFilter",
 					"producer:EventWeightProducer"
 				]
 			}

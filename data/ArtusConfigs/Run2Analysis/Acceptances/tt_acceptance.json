@@ -8,6 +8,11 @@
 		"Lepton2AcceptancePtCut" : 45.0,
 		"Lepton2AcceptanceEtaCut" : 2.1,
 		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+				]
+			},
 			"run",
 			"lumi",
 			"event",
@@ -32,7 +37,8 @@
 					"producer:GenTTPairCandidatesProducer",
 					"filter:GenDiTauPairCandidatesFilter",
 					"producer:GenDiTauPairAcceptanceProducer",
-					"filter:GenDiTauPairAcceptanceFilter"
+					"filter:GenDiTauPairAcceptanceFilter",
+					"producer:EventWeightProducer"
 				]
 			}
 		},

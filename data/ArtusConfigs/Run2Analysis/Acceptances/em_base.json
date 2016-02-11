@@ -1,5 +1,5 @@
 {
-	"em_acceptance" : {
+	"em_base" : {
 		"Channel" : "EM",
 		"EventWeight" : "eventWeight",
 		"DirectIso" : true,
@@ -26,7 +26,6 @@
 			"genDiLeptonDecayMode",
 			"genDiLeptonBosonMass",
 			"nGenDiTauPairCandidates",
-			"nGenDiTauPairsInAcceptance",
 			"genDiTauPairMass"
 		],
 		"Processors" : {
@@ -37,8 +36,6 @@
 					"filter:GenMuonsFilter",
 					"producer:GenEMPairCandidatesProducer",
 					"filter:GenDiTauPairCandidatesFilter",
-					"producer:GenDiTauPairAcceptanceProducer",
-					"filter:GenDiTauPairAcceptanceFilter",
 					"producer:EventWeightProducer"
 				]
 			}
