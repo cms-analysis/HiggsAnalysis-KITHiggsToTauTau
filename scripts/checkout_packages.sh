@@ -5,8 +5,8 @@ export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
 
 # set up CMSSW release area
-cmsrel CMSSW_7_1_5; cd CMSSW_7_1_5/src # slc6 # Combine requires this version
-cmsenv
+scramv1 project CMSSW CMSSW_7_1_5; cd CMSSW_7_1_5/src # slc6 # Combine requires this version
+eval `scramv1 runtime -sh`
 
 # JEC
 git cms-addpkg CondFormats/JetMETObjects
