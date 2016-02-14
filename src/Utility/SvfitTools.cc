@@ -353,6 +353,8 @@ void SvfitResults::CreateBranches(TTree* tree)
 	tree->Branch("svfitMomentum", &momentum);
 	tree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
 	tree->Branch("svfitMet", &fittedMET);
+	tree->Branch("svfitTransverseMass", &transverseMass);
+	tree->Branch("svfitTransverseMassUnc", &transverseMassUnc);
 }
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
@@ -360,6 +362,8 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("svfitMomentum", &momentum);
 	tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
 	tree->SetBranchAddress("svfitMet", &fittedMET);
+	tree->SetBranchAddress("svfitTransverseMass", &transverseMass);
+	tree->SetBranchAddress("svfitTransverseMassUnc", &transverseMassUnc);
 	ActivateBranches(tree, true);
 }
 
@@ -368,6 +372,8 @@ void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("svfitMomentum", activate);
 	tree->SetBranchStatus("svfitMomentumUncertainty", activate);
 	tree->SetBranchStatus("svfitMet", activate);
+	tree->SetBranchStatus("svfitTransverseMass", activate);
+	tree->SetBranchStatus("svfitTransverseMassUnc", activate);
 }
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
