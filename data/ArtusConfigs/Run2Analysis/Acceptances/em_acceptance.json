@@ -1,0 +1,51 @@
+{
+	"em_acceptance" : {
+		"Channel" : "EM",
+		"EventWeight" : "eventWeight",
+		"DirectIso" : true,
+		"Lepton1AcceptancePtCut" : 13.0,
+		"Lepton1AcceptanceEtaCut" : 2.5,
+		"Lepton2AcceptancePtCut" : 10.0,
+		"Lepton2AcceptanceEtaCut" : 2.4,
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+				]
+			},
+			"run",
+			"lumi",
+			"event",
+			"genTauJetVisPt",
+			"genTauJetEta",
+			"genTauJetDM",
+			"genElectronPt",
+			"genElectronEta",
+			"genMuonPt",
+			"genMuonEta",
+			"genDiLeptonDecayMode",
+			"genDiLeptonBosonMass",
+			"nGenDiTauPairCandidates",
+			"nGenDiTauPairsInAcceptance",
+			"genDiTauPairMass"
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:GenTauJetProducer",
+					"filter:GenElectronsFilter",
+					"filter:GenMuonsFilter",
+					"producer:GenEMPairCandidatesProducer",
+					"filter:GenDiTauPairCandidatesFilter",
+					"producer:GenDiTauPairAcceptanceProducer",
+					"filter:GenDiTauPairAcceptanceFilter",
+					"producer:EventWeightProducer"
+				]
+			}
+		},
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"cutflow_histogram"
+		]
+	}
+}

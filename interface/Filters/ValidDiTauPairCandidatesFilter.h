@@ -6,7 +6,7 @@
 
 
 
-/** Filter checking for the existance of at least one valid electron.
+/** Filter checking for the existance of at least one valid di-tau pair.
  */
 class ValidDiTauPairCandidatesFilter: public CutRangeFilterBase<KappaTypes> {
 public:

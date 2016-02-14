@@ -27,6 +27,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTriggerSettingsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonVetoProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ValidDiTauPairCandidatesProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenDiTauPairCandidatesProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenDiTauPairAcceptanceProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerTagAndProbeProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVATestMethodsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HHKinFitProducer.h"
@@ -43,6 +45,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ZBosonVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/HttObjectsCutFilters.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ValidDiTauPairCandidatesFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/GenDiTauPairFilters.h"
 
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
@@ -149,6 +152,20 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new ValidMMPairCandidatesProducer();
 	else if(id == ValidEEPairCandidatesProducer().GetProducerId())
 		return new ValidEEPairCandidatesProducer();
+	else if(id == GenTTPairCandidatesProducer().GetProducerId())
+		return new GenTTPairCandidatesProducer();
+	else if(id == GenMTPairCandidatesProducer().GetProducerId())
+		return new GenMTPairCandidatesProducer();
+	else if(id == GenETPairCandidatesProducer().GetProducerId())
+		return new GenETPairCandidatesProducer();
+	else if(id == GenEMPairCandidatesProducer().GetProducerId())
+		return new GenEMPairCandidatesProducer();
+	else if(id == GenMMPairCandidatesProducer().GetProducerId())
+		return new GenMMPairCandidatesProducer();
+	else if(id == GenEEPairCandidatesProducer().GetProducerId())
+		return new GenEEPairCandidatesProducer();
+	else if(id == GenDiTauPairAcceptanceProducer().GetProducerId())
+		return new GenDiTauPairAcceptanceProducer();
 	else if(id == EETriggerTagAndProbeProducer().GetProducerId())
 		return new EETriggerTagAndProbeProducer();
 	else if(id == MMTriggerTagAndProbeProducer().GetProducerId())
@@ -197,6 +214,10 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new MetUpperPtCutsFilter();
 	else if(id == ValidDiTauPairCandidatesFilter().GetFilterId())
 		return new ValidDiTauPairCandidatesFilter();
+	else if(id == GenDiTauPairCandidatesFilter().GetFilterId())
+		return new GenDiTauPairCandidatesFilter();
+	else if(id == GenDiTauPairAcceptanceFilter().GetFilterId())
+		return new GenDiTauPairAcceptanceFilter();
 	else
 		return KappaFactory::createFilter( id );
 }
