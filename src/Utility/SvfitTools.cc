@@ -324,6 +324,14 @@ void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, 
 	{
 		this->fittedMET = new RMDataV();
 	}
+	if(! this->transverseMass)
+	{
+		this->transverseMass = new double;
+	}
+	if(! this->transverseMassUnc)
+	{
+		this->transverseMassUnc = new double;
+	}
 	
 	*(this->momentum) = momentum;
 	*(this->momentumUncertainty) = momentumUncertainty;
@@ -401,7 +409,7 @@ RMDataV SvfitResults::GetFittedMET(SVfitStandaloneAlgorithm const& svfitStandalo
 
 std::pair<double, double> SvfitResults::GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
 {
-	return (std::make_pair<double, double>(svfitStandaloneAlgorithm.transverseMass(), svfitStandaloneAlgorithm.transverseMassUncert()));
+	return std::make_pair(svfitStandaloneAlgorithm.transverseMass(), svfitStandaloneAlgorithm.transverseMassUncert());
 }
 
 SvfitTools::SvfitTools(std::vector<std::string> const& fileNames, std::string const& treeName)
