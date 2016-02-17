@@ -192,6 +192,7 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton1LowerPtCuts, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton2LowerPtCuts, {});
 	IMPL_SETTING_SORTED_STRINGLIST_DEFAULT(DiTauPairHltPathsWithoutCommonMatchRequired, {});
+	IMPL_SETTING_DEFAULT(bool, DiTauPairIsTauIsoMVA, false);
 	
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");

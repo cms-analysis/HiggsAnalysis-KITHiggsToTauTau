@@ -21,11 +21,12 @@ public:
 class DiTauPairIsoPtComparator
 {
 public:
-	DiTauPairIsoPtComparator(const std::map<KLepton*, double>* leptonIsolationOverPt);
+	DiTauPairIsoPtComparator(const std::map<KLepton*, double>* leptonIsolationOverPt, bool isTauIsoMVA);
 	
 	bool operator() (DiTauPair const& diTauPair1, DiTauPair const& diTauPair2) const;
 
 private:
 	const std::map<KLepton*, double>* m_leptonIsolationOverPt;
+	bool m_isTauIsoMVA;
 };
 

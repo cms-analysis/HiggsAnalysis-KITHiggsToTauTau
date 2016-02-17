@@ -165,9 +165,9 @@ public:
 		
 		// sort pairs
 		std::sort(product.m_validDiTauPairCandidates.begin(), product.m_validDiTauPairCandidates.end(),
-		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt)));
+		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt), settings.GetDiTauPairIsTauIsoMVA()));
 		std::sort(product.m_invalidDiTauPairCandidates.begin(), product.m_invalidDiTauPairCandidates.end(),
-		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt)));
+		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt), settings.GetDiTauPairIsTauIsoMVA()));
 	}
 	
 
