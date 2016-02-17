@@ -11,36 +11,24 @@
 		],
 		"Channel" : "TT",
 		"MinNTaus" : 2,
-		"HltPaths" : {
-			"nick": {
-				"default" : [
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
-				],
-				"Fall15MiniAODv2" : [
-					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
+		],
 		"TauID" : "TauIDRecommendation13TeV",
+		"TauUseOldDMs" : true,
 		"TauLowerPtCuts" : [
-			"45.0"
+			"40.0"
 		],
 		"TauUpperAbsEtaCuts" : [
 			"2.1"
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
+		"DiTauPairIsTauIsoMVA": true,
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
-		"TauTriggerFilterNames" : {
-			"nick" : {
-				"default" : [
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
-				],
-				"Fall15MiniAODv2" : [
-					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
-				]
-			}
-		},
+		"TauTriggerFilterNames" : [
+			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
+		],
 		"SvfitIntegrationMethod" : "MarkovChain",
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : false,
@@ -82,13 +70,11 @@
 					"producer:Run2DecayChannelProducer",
 					"producer:MetSelector",
 					"producer:MvaMetTTSelector",
-					"#filter:DecayChannelFilter",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"#producer:RecoJetGenParticleMatchingProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"#filter:DiLeptonChargeFilter",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -102,14 +88,7 @@
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"SvfitCacheConsumer",
-			"cutflow_histogram",
-			"CutFlowTreeConsumer",
-			"#KappaElectronsConsumer",
-			"#KappaMuonsConsumer",
-			"#KappaTausConsumer",
-			"#KappaJetsConsumer",
-			"#KappaTaggedJetsConsumer",
-			"#RunTimeConsumer"
+			"cutflow_histogram"
 		]
 	}
 }

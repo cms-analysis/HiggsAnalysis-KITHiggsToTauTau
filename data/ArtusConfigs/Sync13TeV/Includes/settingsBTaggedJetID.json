@@ -8,7 +8,13 @@
 			"(Spring|Fall)15" : "PfCombinedInclusiveSecondaryVertexV2BJetTags"
 		}
 	},
-	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.89,
+	"BTaggedJetCombinedSecondaryVertexMediumWP" : {
+		"nick" : {
+			"default" : 0.814,
+			"Spring15" : 0.89,
+			"Fall15" : 0.8
+		}
+	},
 	"BTaggedJetAbsEtaCut" : 2.4,
 	"ApplyBTagSF" : false,
 	"BTagSFMethod" : "PromotionDemotion",

@@ -14,21 +14,11 @@
 		"MinNElectrons" : 1,
 		"MinNTaus" : 1,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : { 
-			"nick": {
-				"default" : [
-					"HLT_Ele32_eta2p1_WP75_Gsf",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
-				],
-				"Spring15MiniAODv2" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf"
-				],
-				"Fall15MiniAODv2" : [
-					"HLT_Ele23_WPLoose_Gsf"
-				]
-			}
-		},
+		"HltPaths" : [
+			"HLT_Ele23_WPLoose_Gsf"
+		],
 		"TauID" : "TauIDRecommendation13TeV",
+		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
 			"24.0"
 		],
@@ -41,24 +31,11 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
-		"TriggerObjectLowerPtCut" : 23.0,
 		"DiTauPairMinDeltaRCut" : 0.5,
-		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0"
+		"DiTauPairIsTauIsoMVA": true,
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
+			"HLT_Ele23_WPLoose_Gsf_v"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
-			"nick": {
-				"default" : [
-					"HLT_Ele32_eta2p1_WP75_Gsf_v"
-				],
-				"Spring15MiniAODv2" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_v"
-				],
-				"Fall15MiniAODv2" : [
-					"HLT_Ele23_WPLoose_Gsf_v"
-				]
-			}
-		},
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_SingleEle_eff.root"
@@ -75,29 +52,9 @@
 		],
 		"IdentificationEfficiencyMode" : "multiply_weights",
 		"TauTauRestFrameReco" : "collinear_approximation",
-		"ElectronTriggerFilterNames" : {
-			"nick" : {
-				"default" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
-					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
-				],
-				"SpringMiniAODv2" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfTrackIsoFilter"
-				],
-				"Fall15MiniAODv2" : [
-					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
-				]
-			}
-		},
-		"TauTriggerFilterNames" : {
-			"nick" : {
-				"default" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20"
-				]
-			}
-		},
+		"ElectronTriggerFilterNames" : [
+			"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
+		],
 		"SvfitIntegrationMethod" : "MarkovChain",
 		"InvalidateNonMatchingElectrons" : true,
 		"InvalidateNonMatchingMuons" : false,
@@ -147,13 +104,11 @@
 					"producer:Run2DecayChannelProducer",
 					"producer:MetSelector",
 					"producer:MvaMetETSelector",
-					"#filter:DecayChannelFilter",
 					"producer:DiVetoElectronVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"#filter:DiLeptonChargeFilter",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -169,14 +124,7 @@
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"SvfitCacheConsumer",
-			"cutflow_histogram",
-			"CutFlowTreeConsumer",
-			"#KappaElectronsConsumer",
-			"#KappaMuonsConsumer",
-			"#KappaTausConsumer",
-			"#KappaJetsConsumer",
-			"#KappaTaggedJetsConsumer",
-			"#RunTimeConsumer"
+			"cutflow_histogram"
 		]
 	}
 }
