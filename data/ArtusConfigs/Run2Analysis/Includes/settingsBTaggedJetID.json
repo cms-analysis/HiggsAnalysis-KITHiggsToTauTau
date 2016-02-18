@@ -4,7 +4,7 @@
 	],
 
 	"BTaggedJetCombinedSecondaryVertexName" : "PfCombinedInclusiveSecondaryVertexV2BJetTags",
-	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.89,
+	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.8,
 	"BTaggedJetAbsEtaCut" : 2.4,
 	"ApplyBTagSF" : false,
 	"BTagSFMethod" : "PromotionDemotion",

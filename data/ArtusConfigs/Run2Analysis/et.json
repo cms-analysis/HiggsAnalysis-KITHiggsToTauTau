@@ -19,10 +19,6 @@
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : { 
 			"nick": {
-				"default" : [
-					"HLT_Ele32_eta2p1_WP75_Gsf",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20"
-				],
 				"Spring15MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf"
 				],
@@ -36,7 +32,7 @@
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
-		"TauUseOldDMs" : false,
+		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
 			"24.0"
 		],
@@ -49,17 +45,20 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
-		"TriggerObjectLowerPtCut" : 23.0,
+		"TriggerObjectLowerPtCut" : { 
+			"nick": {
+				"default": -1.0,
+				"Spring15MiniAODv2" : 23.0,
+				"Fall15MiniAODv2" : -1.0
+			}
+		},
 		"DiTauPairMinDeltaRCut" : 0.5,
+		"DiTauPairIsTauIsoMVA": true,
 		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Ele32_eta2p1_WP75_Gsf_v:33.0",
 			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
 		],
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
-				"default" : [
-					"HLT_Ele32_eta2p1_WP75_Gsf_v"
-				],
 				"Spring15MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf_v"
 				],
@@ -89,12 +88,7 @@
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
 			"nick" : {
-				"default" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20",
-					"HLT_Ele32_eta2p1_WP75_Gsf_v:hltEle32WP75GsfTrackIsoFilter"
-				],
-				"MiniAODv2" : [
+				"Spring15MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfTrackIsoFilter"
 				],
 				"Run2015B" : [
@@ -115,10 +109,6 @@
 		"TauTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso",
-					"HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20"
-				],
-				"Run2015(A|B|C)" : [
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltPFTau20TrackLooseIso",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20"
 				]
@@ -164,7 +154,7 @@
 					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"#producer:TauTriggerMatchingProducer",
+					"producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
@@ -203,7 +193,7 @@
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"#producer:TauTriggerMatchingProducer",
+					"producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
@@ -242,7 +232,7 @@
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"#producer:TauTriggerMatchingProducer",
+					"producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
@@ -279,7 +269,7 @@
 					"producer:ValidMuonsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
-					"#producer:TauTriggerMatchingProducer",
+					"producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
 					"producer:ValidETPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
