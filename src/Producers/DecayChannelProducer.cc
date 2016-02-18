@@ -207,10 +207,11 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	tauDiscriminators.push_back("againstElectronVTightMVA6");
 	tauDiscriminators.push_back("againstMuonLoose3");
 	tauDiscriminators.push_back("againstMuonTight3");
-	tauDiscriminators.push_back("byIsolationMVA3newDMwLTraw");
-	tauDiscriminators.push_back("byIsolationMVA3newDMwoLTraw");
-	tauDiscriminators.push_back("byIsolationMVA3oldDMwLTraw");
-	tauDiscriminators.push_back("byIsolationMVA3oldDMwoLTraw");
+	tauDiscriminators.push_back("byIsolationMVArun2v1DBoldDMwLTraw");
+	tauDiscriminators.push_back("byLooseIsolationMVArun2v1DBoldDMwLT");
+	tauDiscriminators.push_back("byMediumIsolationMVArun2v1DBoldDMwLT");
+	tauDiscriminators.push_back("byTightIsolationMVArun2v1DBoldDMwLT");
+	tauDiscriminators.push_back("byVTightIsolationMVArun2v1DBoldDMwLT");	
 	tauDiscriminators.push_back("chargedIsoPtSum");
 	tauDiscriminators.push_back("decayModeFinding");
 	tauDiscriminators.push_back("decayModeFindingNewDMs");
