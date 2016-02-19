@@ -80,7 +80,7 @@ if __name__ == "__main__":
 			eta_bins = array.array("d", yBinslist)
 			
 			for datatype in ["Data", "MC"]:
-				typelabel = "Run2015" if datatype == "Data" else "Spring15"
+				typelabel = "Run2015" if datatype == "Data" else "MC"
 				effHistoName = "identificationEfficiency" if ("IdIso" in file_name) else "triggerEfficiency"
 				outFileName = effHistoName+'_'+typelabel+'_'+file_name
 				
