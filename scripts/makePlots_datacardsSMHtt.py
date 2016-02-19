@@ -46,7 +46,7 @@ if __name__ == "__main__":
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=2.155,
+	parser.add_argument("--lumi", type=float, default=2.245,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
 	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
@@ -132,8 +132,8 @@ if __name__ == "__main__":
 			exclude_cuts = []
 			if args.for_dcsync:
 				if category[3:] == 'inclusive':
-					exclude_cuts=["mt", "not2prong", "pzeta"]
-				elif category[3:] == 'inclusivemtnotwoprong':
+					exclude_cuts=["mt", "pzeta"]
+				elif category[3:] == 'inclusivemt40':
 					exclude_cuts=["pzeta"]
 				
 				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
