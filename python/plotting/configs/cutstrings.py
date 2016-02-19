@@ -26,28 +26,26 @@ class CutStringsDict:
 			cuts["iso_2"] = "(iso_2 < 0.15)"
 		elif channel == "mt":
 			cuts["mt"] = "(mt_1<40.0)"
-			cuts["not2prong"] = "((decayMode_2<5)||(decayMode_2>6))"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
-			cuts["iso_2"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "et":
 			cuts["mt"] = "(mt_1<40.0)"
-			cuts["not2prong"] = "((decayMode_2<5)||(decayMode_2>6))"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
-			cuts["iso_2"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "tt":
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"
-			cuts["iso_1"] = "(byTightCombinedIsolationDeltaBetaCorr3Hits_1 > 0.5)"
-			cuts["iso_2"] = "(byTightCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["iso_1"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)"
+			cuts["iso_2"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
