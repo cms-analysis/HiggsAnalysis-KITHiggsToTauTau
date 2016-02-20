@@ -1,0 +1,13 @@
+{
+	"property" : [
+		"nickname",
+		"#input",
+		"#run",
+		"#lumi",
+		"#event",
+		"#npv",
+		"PtTauMinus",
+		"PtTauPlus",
+		"accEfficiency"
+	]
+}

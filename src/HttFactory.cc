@@ -33,6 +33,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVATestMethodsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HHKinFitProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVAInputQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/AcceptanceEfficiencyProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -54,7 +55,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EventCountConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EmbeddingConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/BTagEffConsumer.h"
-
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/AcceptanceEfficiencyConsumer.h"
 
 ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 {
@@ -180,6 +181,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
         return new HHKinFitProducer();
     else if(id == MVAInputQuantitiesProducer().GetProducerId())
         return new MVAInputQuantitiesProducer();
+    else if(id == AcceptanceEfficiencyProducer().GetProducerId())
+        return new AcceptanceEfficiencyProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
@@ -242,6 +245,8 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new EmbeddingConsumer();
 	else if(id == BTagEffConsumer().GetConsumerId())
 		return new BTagEffConsumer();
+	else if (id == AcceptanceEfficiencyConsumer().GetConsumerId())
+		return new AcceptanceEfficiencyConsumer();
 	else
 		return KappaFactory::createConsumer( id );
 }

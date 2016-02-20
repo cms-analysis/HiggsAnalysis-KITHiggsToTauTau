@@ -208,6 +208,8 @@ public:
     double lep1_centrality = -999;
     double lep2_centrality = -999;
     
-
-	
+    // filled by AcceptanceEfficiencyProducer
+    int m_accEffDC = 0; 
+    KGenParticle* m_accEffTauMinus = nullptr;
+    KGenParticle* m_accEffTauPlus = nullptr;
 };
