@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 import argparse
 import copy
 import os
+import time
 
 import CombineHarvester.CombineTools.ch as ch
 
@@ -180,7 +181,7 @@ if __name__ == "__main__":
 					
 					config["x_expressions"] = [args.quantity]
 					
-					binnings_key = "binningHtt13TeV_"+category+"_svfitMass"
+					binnings_key = "binningHtt13TeV_"+category+"_"+args.quantity
 					if binnings_key in binnings_settings.binnings_dict:
 						config["x_bins"] = [binnings_key]
 					else:

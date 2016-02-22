@@ -71,10 +71,16 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# MVA Htt categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.expressions_dict["catMVA13TeV_"+channel+"_inclusive"] = "(1.0)"
-			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_tight"] = "(MVATestMethod_7 > 0.0 && MVATestMethod_10 > 0.0)"
-			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_loose1"] = "(MVATestMethod_7 < 0.0 && MVATestMethod_10 > 0.0)"
-			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_loose2"] = "(MVATestMethod_7 > 0.0 && MVATestMethod_10 < 0.0)"
-			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_bkg"] = "(MVATestMethod_7 < 0.0 && MVATestMethod_10 < 0.0)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_tight"] = "(ggh_vs_ztt > -0.25 && ggh_vs_zll > -0.5)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_loose1"] = "(ggh_vs_ztt > -0.25 && ggh_vs_zll < -0.5)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_loose2"] = "(ggh_vs_ztt < -0.25 && ggh_vs_zll > -0.5)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_bkg"] = "(ggh_vs_ztt < -0.25 && ggh_vs_zll < -0.5)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_alt1"] = "(ggh_vs_ztt > 0.0 || ggh_vs_zll > 0.0)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_alt2"] = "(ggh_vs_ztt < 0.0 && ggh_vs_zll < 0.0)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_bkg"] = "(all_vs_ztt < -0.5)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_mid"] = "(all_vs_ztt >= -0.5 && all_vs_ztt < 0.5)"
+			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_sig"] = "(all_vs_ztt >= 0.5)"
+			
 		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 > 0)*(decayMode_2 < 3)"
 		self.expressions_dict["catOneProngPiZeros"] = self.expressions_dict["cat_OneProngPiZeros"]
 		for channel in [ "mt", "et"]:
