@@ -25,23 +25,24 @@
         "BDT",
         "BDT",
         "BDT",
-        "BDT",
-        "BDT",
-        "BDT",
-        "BDT",
         "BDT"
     ],
+    "MVATestMethodsNames" : [
+        "all_vs_all",
+        "all_vs_ztt",
+        "all_vs_zll",
+        "ggh_vs_ztt",
+        "ggh_vs_zll",
+        "vbf_vs_ztt",
+        "vbf_vs_zll"
+    ],
     "MVATestMethodsWeights" : [
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_all_all.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_all_qcd.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_all_wj.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_all_zll.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_all_ztt.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_glu_qcd.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_glu_zll.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_glu_ztt.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_vbf_qcd.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_vbf_zll.root.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/final_try/training_BDT_vbf_ztt.root.weights.xml"
+        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_all_all.weights.xml",
+        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_all_ztt.weights.xml",
+        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_all_zll.weights.xml",
+        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_glu_ztt.weights.xml",
+        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_glu_zll.weights.xml",
+        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_vbf_ztt.weights.xml",
+        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_vbf_zll.weights.xml"
     ]
 }

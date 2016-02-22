@@ -17,9 +17,10 @@ MVATestMethodsProducer::MVATestMethodsProducer() :
 void MVATestMethodsProducer::Init(spec_setting_type const& settings)
 {
     
-    for (size_t mvaMethodIndex = 0; mvaMethodIndex < (settings.GetMVATestMethodsMethods)().size(); ++mvaMethodIndex)
+    for (uint mvaMethodIndex = 0; mvaMethodIndex < (settings.GetMVATestMethodsNames)().size(); ++mvaMethodIndex)
         {
-            std::string bdt_out_name = "MVATestMethod_" + boost::lexical_cast<std::string>(mvaMethodIndex);
+//             std::string bdt_out_name = "MVATestMethod_" + boost::lexical_cast<std::string>(mvaMethodIndex);
+            std::string bdt_out_name = settings.GetMVATestMethodsNames()[mvaMethodIndex];
             LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(bdt_out_name, [bdt_out_name, mvaMethodIndex](spec_event_type const& event, spec_product_type const& product)
             {    
                 return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[mvaMethodIndex] : DefaultValues::UndefinedFloat);

@@ -49,7 +49,7 @@ if __name__ == "__main__":
     parser.add_argument("-w", "--weight", default="1.0",
                         help="""Additional weight (cut) expression.
                         [Default: %(default)s]""")
-    parser.add_argument("-e", "--exclude-cuts", nargs="+", default=["pZetaMiss", "pZetaVis", "iso_1", "iso_2", "mt_1", "mt_2"],
+    parser.add_argument("-e", "--exclude-cuts", nargs="+", default=["pZetaMiss", "pZetaVis", "iso_1", "iso_2", "mt_1", "mt_2", "mt"],
                         help="""Exclude (default) selection cuts. 
                         [Default: %(default)s]""")
     parser.add_argument("--higgs-masses", nargs="+", default=["125"],

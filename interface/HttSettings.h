@@ -234,6 +234,7 @@ public:
     //MVATestMethodsProducer settings
     IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
     IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
+    IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsNames, {});
     IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsWeights, {});
     
 	// settings for TriggerTagAndProbeProducers
