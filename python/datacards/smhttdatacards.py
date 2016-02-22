@@ -119,7 +119,7 @@ class SMHttDatacards(datacards.Datacards):
 			# jets
 			self.cb.cp().process(["ZTT", "ZL", "ZJ", "TT", "VV", "W"]).AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.jec_syst_args)
-			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
+			#self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
 			
 			# MET
 			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)
@@ -139,7 +139,7 @@ class SMHttDatacards(datacards.Datacards):
 			# signal
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_qcd_scale_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_pdf_scale_syst_args)
-			self.cb.cp().signals().AddSyst(self.cb, *self.htt_ueps_syst_args)
+			#self.cb.cp().signals().AddSyst(self.cb, *self.htt_ueps_syst_args)
 		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()

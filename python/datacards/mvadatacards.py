@@ -18,7 +18,8 @@ class MVADatacards(datacards.Datacards):
             # MT channel
             self.add_processes(
                     channel="mt",
-                    categories=["mt_"+category for category in [ "ztt_tight", "ztt_loose1", "ztt_loose2", "ztt_bkg"]],
+                    #categories=["mt_"+category for category in [ "tight", "loose1", "loose2", "bkg"]],
+                    categories=["mt_"+category for category in ["ztt_bkg", "ztt_mid", "ztt_sig"]],
                     #categories=["mt_"+category for category in ["inclusive"]],
                     bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
                     sig_processes=signal_processes,
@@ -45,7 +46,7 @@ class MVADatacards(datacards.Datacards):
             # ET channel
             self.add_processes(
                     channel="et",
-                    categories=["et_"+category for category in [ "ztt_tight", "ztt_loose1", "ztt_loose2", "ztt_bkg"]],
+                    categories=["et_"+category for category in [ "tight", "loose1", "loose2", "bkg"]],
                     bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
                     sig_processes=signal_processes,
                     analysis=["MVATest"],
@@ -71,7 +72,7 @@ class MVADatacards(datacards.Datacards):
             # EM channel
             self.add_processes(
                     channel="em",
-                    categories=["em_"+category for category in [ "ztt_tight", "ztt_loose1", "ztt_loose2", "ztt_bkg"]],
+                    categories=["em_"+category for category in [ "tight", "loose1", "loose2", "bkg"]],
                     bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
                     sig_processes=signal_processes,
                     analysis=["MVATest"],
@@ -90,7 +91,7 @@ class MVADatacards(datacards.Datacards):
             # TT channel
             self.add_processes(
                     channel="tt",
-                    categories=["tt_"+category for category in [ "ztt_tight", "ztt_loose1", "ztt_loose2", "ztt_bkg"]],
+                    categories=["tt_"+category for category in [ "tight", "loose1", "loose2", "bkg"]],
                     bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
                     sig_processes=signal_processes,
                     analysis=["MVATest"],
@@ -119,7 +120,7 @@ class MVADatacards(datacards.Datacards):
             # jets
             self.cb.cp().process(["ZTT", "ZL", "ZJ", "TT", "VV", "W"]).AddSyst(self.cb, *self.jec_syst_args)
             self.cb.cp().signals().AddSyst(self.cb, *self.jec_syst_args)
-            self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
+            #self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
             
             # MET
             self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)

@@ -31,10 +31,13 @@ class DatacardConfigs(object):
         self._mapping_category2binid = {
             "mt" : {
                 "mt_inclusive" : 0,
-                "mt_ztt_tight" : 1,
-                "mt_ztt_loose1" : 2,
-                "mt_ztt_loose2" : 3,
-                "mt_ztt_bkg" : 4
+                "mt_tight" : 1,
+                "mt_loose1" : 2,
+                "mt_loose2" : 3,
+                "mt_bkg" : 4,
+                "mt_ztt_bkg" : 5,
+                "mt_ztt_mid" : 6,
+                "mt_ztt_sig" : 7
                 
             },
             "et" : {
@@ -42,21 +45,30 @@ class DatacardConfigs(object):
                 "et_ztt_tight" : 1,
                 "et_ztt_loose1" : 2,
                 "et_ztt_loose2" : 3,
-                "et_ztt_bkg" : 4
+                "et_ztt_bkg" : 4,
+                "et_ztt_bkg" : 5,
+                "et_ztt_mid" : 6,
+                "et_ztt_sig" : 7
             },
             "em" : {
                 "em_inclusive" : 0,
                 "em_ztt_tight" : 1,
                 "em_ztt_loose1" : 2,
                 "em_ztt_loose2" : 3,
-                "em_ztt_bkg" : 4
+                "em_ztt_bkg" : 4,
+                "em_ztt_bkg" : 5,
+                "em_ztt_mid" : 6,
+                "em_ztt_sig" : 7
             },
             "tt" : {
                 "tt_inclusive" : 0,
                 "tt_ztt_tight" : 1,
                 "tt_ztt_loose1" : 2,
                 "tt_ztt_loose2" : 3,
-                "tt_ztt_bkg" : 4
+                "tt_ztt_bkg" : 4,
+                "tt_ztt_bkg" : 5,
+                "tt_ztt_mid" : 6,
+                "tt_ztt_sig" : 7
             },
         }
         
