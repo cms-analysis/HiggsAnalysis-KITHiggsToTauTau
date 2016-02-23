@@ -44,7 +44,27 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_em_large"] = "#scale[1.5]{e#mu}"
 			self.labels_dict["channel_mm_large"] = "#scale[1.5]{#mu#mu}"
 			self.labels_dict["channel_ee_large"] = "#scale[1.5]{ee}"
-			
+			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
+				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
+				self.labels_dict["channel_"+channel+"_0jet_low"] = self.labels_dict["channel_"+channel]+": 0-Jet-low"
+				self.labels_dict["channel_"+channel+"_0jet_high"] = self.labels_dict["channel_"+channel]+": 0-Jet-high"
+				
+				self.labels_dict["channel_"+channel+"_1jet_inclusive"] = self.labels_dict["channel_"+channel]+": 1-Jet-inclusive"
+				self.labels_dict["channel_"+channel+"_1jet_low"] = self.labels_dict["channel_"+channel]+": 1-Jet-low"
+				self.labels_dict["channel_"+channel+"_1jet_high"] = self.labels_dict["channel_"+channel]+": 1-Jet-high"
+				
+				self.labels_dict["channel_"+channel+"_2jet_vbf"] = self.labels_dict["channel_"+channel]+": 2-Jet-VBF"
+				self.labels_dict["channel_"+channel+"_2jet_inclusive"] = self.labels_dict["channel_"+channel]+": 2-Jet-inclusive"
+				
+				self.labels_dict["channel_"+channel+"_inclusive"] = self.labels_dict["channel_"+channel]+": inclusive"
+				self.labels_dict["channel_"+channel+"_ztt_bkg"] = self.labels_dict["channel_"+channel]+": BDT-bkg"
+				self.labels_dict["channel_"+channel+"_ztt_mid"] = self.labels_dict["channel_"+channel]+": BDT-middle"
+				self.labels_dict["channel_"+channel+"_ztt_sig"] = self.labels_dict["channel_"+channel]+": BDT-signal"
+				self.labels_dict[channel+"_lep1_centrality"] = "Centrality(l_{1})"
+				self.labels_dict[channel+"_lep2_centrality"] = "Centrality(l_{2})"
+				self.labels_dict[channel+"_delta_lep_centrality"] = "#DeltaCentrality"
+				self.labels_dict[channel+"_min_ll_jet_eta"] = "min(#eta_{ll}+#eta_{j1}, #eta_{ll}+#eta_{j2})"
+				self.labels_dict[channel+"_pVecSum"] = "#cbar#vec{#slash{E}_{T}}+#vec{p_{T}(ll)}+#vec{p_{T}(jj)}#cbar"
 			self.labels_dict["diLepMass"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["svfitMass"] = "Di-#tau Mass m_{#tau#tau} / GeV"
 			
@@ -150,6 +170,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_metphi"] = "PFlow #slash{E}_{T} #phi"
 			self.labels_dict["mt_mjj"] = "Di-jet Mass m_{jj} / GeV"
 			self.labels_dict["mt_mt_1"] = "Transverse Mass m_{T} (#mu, #slash{E}_{T}) / GeV"
+			self.labels_dict["mt_mt_2"] = "Transverse Mass m_{T} (#tau, #slash{E}_{T}) / GeV"
 			self.labels_dict["mt_mt_lep1met"] = "Transverse Mass m_{T} (#mu, #slash{E}_{T}) / GeV"
 			self.labels_dict["mt_mt_ll"] = "m_{T}^{ll} / GeV"
 			self.labels_dict["mt_mt_llmet"] = "m_{T}^{ll,MEt} / GeV"
@@ -190,6 +211,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_pZetaMissVis"] = "#left(p^{miss}_{#zeta} #minus 0.85 p^{vis}_{#zeta}#right) / GeV"
 			self.labels_dict["mt_pzetamiss"] = "p^{miss}_{#zeta} / GeV"
 			self.labels_dict["mt_pzetavis"] = "p^{vis}_{#zeta} / GeV"
+			self.labels_dict["mt_pZetaMiss"] = "p^{miss}_{#zeta} / GeV"
+			self.labels_dict["mt_pZetaVis"] = "p^{vis}_{#zeta} / GeV"
 			self.labels_dict["mt_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["mt_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["mt_metProjectionPhi"] = "#nu_{#phi}"
@@ -472,6 +495,23 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ee_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["ee_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["ee_metProjectionPhi"] = "#nu_{#phi}"
+			for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
+				self.labels_dict[ch+"all_vs_all"] = "BDT_{all}^{all}"
+				self.labels_dict[ch+"all_vs_zll"] = "BDT_{Z#rightarrow ll}^{all}"
+				self.labels_dict[ch+"all_vs_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{all}"
+				self.labels_dict[ch+"ggh_vs_zll"] = "BDT_{Z#rightarrow ll}^{ggh}"
+				self.labels_dict[ch+"ggh_vs_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{ggH}"
+				self.labels_dict[ch+"glu_vs_zll"] = "BDT_{Z#rightarrow ll}^{ggh}"
+				self.labels_dict[ch+"glu_vs_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{ggH}"
+				self.labels_dict[ch+"vbf_vs_zll"] = "BDT_{Z#rightarrow ll}^{vbf}"
+				self.labels_dict[ch+"vbf_vs_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{vbf}"
+			self.labels_dict["BDT_all_all"] = "BDT_{all}^{all}"
+			self.labels_dict["BDT_all_zll"] = "BDT_{Z#rightarrow ll}^{all}"
+			self.labels_dict["BDT_all_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{all}"
+			self.labels_dict["BDT_ggh_zll"] = "BDT_{Z#rightarrow ll}^{ggh}"
+			self.labels_dict["BDT_ggh_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{ggH}"
+			self.labels_dict["BDT_vbf_zll"] = "BDT_{Z#rightarrow ll}^{vbf}"
+			self.labels_dict["BDT_vbf_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{vbf}"
 		else:
 			# put labels for MPL plots here
 			pass
@@ -494,7 +534,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["qqh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["qqh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 			self.labels_dict["vh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["vh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 			
-			for scale in [10, 25, 100]:
+			for scale in [10, 25, 100, 250]:
 				self.labels_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["htt"]+" (#times {scale:d})".format(scale=scale)
 				self.labels_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["ggh"]+" (#times {scale:d})".format(scale=scale)
 				self.labels_dict["qqh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["qqh"]+" (#times {scale:d})".format(scale=scale)
