@@ -211,7 +211,11 @@ if __name__ == "__main__":
 			
 					if "legend_markers" in config:
 						config.pop("legend_markers")
-			
+					
+					if args.for_dcsync:
+						config["ttbar_from_mc"] = True
+						config["wjets_from_mc"] = True
+					
 					plot_configs.append(config)
 			
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
