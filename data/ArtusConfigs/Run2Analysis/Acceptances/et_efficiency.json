@@ -15,10 +15,10 @@
 		"MinNTaus" : 1,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : [
-			"HLT_Ele22_eta2p1_WP75_Gsf"
+			"HLT_Ele23_WPLoose_Gsf"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
-		"TauUseOldDMs" : false,
+		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
 			"24.0"
 		],
@@ -35,28 +35,28 @@
 		"Lepton1AcceptanceEtaCut" : 2.1,
 		"Lepton2AcceptancePtCut" : 20.0,
 		"Lepton2AcceptanceEtaCut" : 2.3,
-		"TriggerObjectLowerPtCut" : 23.0,
 		"DiTauPairMinDeltaRCut" : 0.5,
+		"DiTauPairIsTauIsoMVA": true,
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Ele22_eta2p1_WP75_Gsf_v"
+			"HLT_Ele23_WPLoose_Gsf_v"
 		],
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_SingleEle_eff.root"
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root"
 		],
 		"TriggerEfficiencyMc" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Spring15_Electron_SingleEle_eff.root"
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"
 		],
 		"TriggerEfficiencyMode" : "multiply_weights",
 		"IdentificationEfficiencyData" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p10_eff.root"
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"
 		],
 		"IdentificationEfficiencyMc" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Spring15_Electron_IdIso0p10_eff.root"
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"
 		],
 		"IdentificationEfficiencyMode" : "multiply_weights",
 		"ElectronTriggerFilterNames" : [
-			"HLT_Ele22_eta2p1_WP75_Gsf_v:hltSingleEle22WP75GsfTrackIsoFilter"
+			"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
 		],
 		"InvalidateNonMatchingElectrons" : true,
 		"InvalidateNonMatchingMuons" : false,

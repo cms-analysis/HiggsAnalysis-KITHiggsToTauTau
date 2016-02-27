@@ -12,24 +12,25 @@
 		"Channel" : "TT",
 		"MinNTaus" : 2,
 		"HltPaths" : [
-			"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
+			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
-		"TauUseOldDMs" : false,
+		"TauUseOldDMs" : true,
 		"TauLowerPtCuts" : [
-			"45.0"
+			"40.0"
 		],
 		"TauUpperAbsEtaCuts" : [
 			"2.1"
 		],
-		"Lepton1AcceptancePtCut" : 45.0,
+		"Lepton1AcceptancePtCut" : 40.0,
 		"Lepton1AcceptanceEtaCut" : 2.1,
-		"Lepton2AcceptancePtCut" : 45.0,
+		"Lepton2AcceptancePtCut" : 40.0,
 		"Lepton2AcceptanceEtaCut" : 2.1,
 		"DiTauPairMinDeltaRCut" : 0.5,
+		"DiTauPairIsTauIsoMVA": true,
 		"EventWeight" : "eventWeight",
 		"TauTriggerFilterNames" : [
-			"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
+			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
 		],
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : false,
