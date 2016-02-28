@@ -1,0 +1,97 @@
+{
+	"tt_efficiencynoacceptcut" : {
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json"
+		],
+		"Channel" : "TT",
+		"MinNTaus" : 2,
+		"HltPaths" : [
+			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
+		],
+		"TauID" : "TauIDRecommendation13TeV",
+		"TauUseOldDMs" : true,
+		"TauLowerPtCuts" : [
+			"40.0"
+		],
+		"TauUpperAbsEtaCuts" : [
+			"2.1"
+		],
+		"Lepton1AcceptancePtCut" : 40.0,
+		"Lepton1AcceptanceEtaCut" : 2.1,
+		"Lepton2AcceptancePtCut" : 40.0,
+		"Lepton2AcceptanceEtaCut" : 2.1,
+		"DiTauPairMinDeltaRCut" : 0.5,
+		"DiTauPairIsTauIsoMVA": true,
+		"EventWeight" : "eventWeight",
+		"TauTriggerFilterNames" : [
+			"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
+		],
+		"InvalidateNonMatchingElectrons" : false,
+		"InvalidateNonMatchingMuons" : false,
+		"InvalidateNonMatchingTaus" : true,
+		"InvalidateNonMatchingJets" : false,
+		"DirectIso" : true,
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+				]
+			},
+			"genTauJetVisPt",
+			"genTauJetEta",
+			"genTauJetDM",
+			"genElectronPt",
+			"genElectronEta",
+			"genMuonPt",
+			"genMuonEta",
+			"genDiLeptonDecayMode",
+			"genDiLeptonBosonMass",
+			"nGenDiTauPairCandidates",
+			"nGenDiTauPairsInAcceptance",
+			"genDiTauPairMass",
+			"decayMode_1",
+			"decayMode_2"
+		],
+		"Processors" : [
+			"producer:GenTauJetProducer",
+			"filter:GenTauJetsFilter",
+			"producer:GenTTPairCandidatesProducer",
+			"filter:GenDiTauPairCandidatesFilter",
+			"producer:GenDiTauPairAcceptanceProducer",
+			"producer:HttValidLooseElectronsProducer",
+			"producer:HttValidLooseMuonsProducer",
+			"producer:HltProducer",
+			"filter:HltFilter",
+			"producer:MetSelector",
+			"producer:ValidTausProducer",
+			"filter:ValidTausFilter",
+			"producer:TauTriggerMatchingProducer",
+			"filter:MinTausCountFilter",
+			"producer:RecoTauGenParticleMatchingProducer",
+			"producer:RecoTauGenTauMatchingProducer",
+			"producer:MatchedLeptonsProducer",
+			"producer:ValidElectronsProducer",
+			"producer:ValidMuonsProducer",
+			"producer:ValidTTPairCandidatesProducer",
+			"filter:ValidDiTauPairCandidatesFilter",
+			"producer:Run2DecayChannelProducer",
+			"producer:MvaMetTTSelector",
+			"producer:ValidTaggedJetsProducer",
+			"producer:ValidBTaggedJetsProducer",
+			"producer:DiLeptonQuantitiesProducer",
+			"producer:DiJetQuantitiesProducer",
+			"producer:EventWeightProducer"
+		],
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"cutflow_histogram"
+		]
+	}
+}
