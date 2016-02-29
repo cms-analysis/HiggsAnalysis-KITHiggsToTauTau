@@ -10,6 +10,7 @@
 		"generatorWeight",
 		"crossSectionPerEventWeight",
 		"numberGeneratedEventsWeight",
+		"stitchWeight",
 		"embeddingWeight",
 		"eventWeight",
 		"tauSpinnerWeight000",

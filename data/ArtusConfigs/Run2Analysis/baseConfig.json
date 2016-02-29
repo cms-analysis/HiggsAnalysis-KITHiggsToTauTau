@@ -54,17 +54,18 @@
 				"producer:GeneratorWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
-			"DY.?JetsToLL" : [
+			"DYJetsToLL" : [
 				"#filter:RunLumiEventFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
 				"producer:PUWeightProducer",
-				"#producer:TauCorrectionsProducer",
+				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
 				"producer:GeneratorWeightProducer",
+				"producer:SampleStitchingWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
 			"Run2015" : [
