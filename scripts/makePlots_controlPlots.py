@@ -240,12 +240,12 @@ if __name__ == "__main__":
 				if args.cms:
 					config["cms"] = True
 					config["extra_text"] = "Preliminary"
-					config["legend"] = [0.7, 0.5, 0.95, 0.93] if args.ratio else [0.7, 0.5, 0.9, 0.85]
+					config["legend"] = [0.7, 0.4, 0.95, 0.83] if args.ratio else [0.7, 0.5, 0.9, 0.85]
 				elif args.shapes:
 					config["legend"] = [0.55, 0.65, 0.9, 0.88]
 				else:
 					config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio else 1.4]
-					config["legend"] = [0.23, 0.73, 0.9, 0.93] if args.ratio else [0.23, 0.73, 0.9, 0.89]
+					config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
 					config["legend_cols"] = 3
 				if not args.shapes:
 					if not args.lumi is None:
