@@ -78,7 +78,7 @@ if __name__ == "__main__":
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=2.155,
+	parser.add_argument("--lumi", type=float, default=2.245,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
@@ -109,10 +109,6 @@ if __name__ == "__main__":
 	#weight_string = "(fabs(eta_2) < 1.460)"
 	#weight_string = "(fabs(eta_2) < 1.460)*(decayMode_2 == 1)"
 	weight_string = "(fabs(eta_2) > 1.558)"
-	#weight_string = "(fabs(eta_2) > 1.558)*(decayMode_2 == 1)"
-	#weight_string = "((m_vis > 60.0)&&(m_vis < 120.0))*(fabs(eta_2) < 1.460)*(decayMode_2 == 0)"
-	#weight_string = "((m_vis > 60.0)&&(m_vis < 120.0))*((eta_2 > -2.3 && eta_2 < -1.558) || (eta_2 > 1.558 && eta_2 < 2.3))"
-	#weight_string = "((m_vis > 60.0)&&(m_vis < 120.0))*((eta_2 > -2.3 && eta_2 < -1.558) || (eta_2 > 1.558 && eta_2 < 2.3))*(decayMode_2 == 1)"
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -419,7 +415,7 @@ if __name__ == "__main__":
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
 				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
-				config["x_label"] = category[:2]+"_"+args.quantity
+				config["x_label"] = "m_{vis} (GeV)" #category[:2]+"_"+args.quantity
 				config["y_label"] = "Events / bin"
 				config["x_lims"] = [60, 120]
 				
