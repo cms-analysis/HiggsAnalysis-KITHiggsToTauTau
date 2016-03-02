@@ -94,6 +94,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MvaMetETSelector();
 	else if(id == MvaMetEMSelector().GetProducerId())
 		return new MvaMetEMSelector();
+	else if(id == MvaMetSelector().GetProducerId())
+		return new MvaMetSelector();
 	else if(id == TTHTauPairProducer().GetProducerId())
 		return new TTHTauPairProducer();
 	else if(id == DecayChannelProducer().GetProducerId())

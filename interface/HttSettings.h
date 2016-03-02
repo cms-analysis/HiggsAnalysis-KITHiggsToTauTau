@@ -26,6 +26,7 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, MvaMetsMT, "");
 	IMPL_SETTING_DEFAULT(std::string, MvaMetsET, "");
 	IMPL_SETTING_DEFAULT(std::string, MvaMetsEM, "");
+	IMPL_SETTING_DEFAULT(std::string, MvaMets, "");
 	
 	/// htt decay channel and event category
 	IMPL_SETTING_DEFAULT(std::string, Channel, "");

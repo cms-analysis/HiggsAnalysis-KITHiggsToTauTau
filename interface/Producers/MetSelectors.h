@@ -222,3 +222,12 @@ public:
 	virtual std::string GetProducerId() const override;
 };
 
+/**
+   \brief Producer for MVAMET (EM channel)
+*/
+class MvaMetSelector: public MetSelectorBase<KMET>
+{
+public:
+	MvaMetSelector();
+	virtual std::string GetProducerId() const override;
+};

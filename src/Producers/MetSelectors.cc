@@ -75,3 +75,12 @@ std::string MvaMetEMSelector::GetProducerId() const
 	return "MvaMetEMSelector";
 }
 
+MvaMetSelector::MvaMetSelector() :
+	MetSelectorBase(&HttTypes::event_type::m_mvaMet, &HttTypes::event_type::m_mvaMets)
+{
+}
+
+std::string MvaMetSelector::GetProducerId() const
+{
+	return "MvaMetSelector";
+}
