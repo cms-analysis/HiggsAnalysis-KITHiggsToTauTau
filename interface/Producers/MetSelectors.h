@@ -104,12 +104,13 @@ public:
 			
 			// create hashes from lepton selection. Any number of leptons is possible 
 			std::vector<KLepton*> leptons = product.m_ptOrderedLeptons;
-			std::vector<int> hashes;
+			std::vector<unsigned int> hashes;
 			do
 			{
-				int hash = 0;
+				unsigned int hash = 0;
 				for (std::vector<KLepton*>::iterator lepton = leptons.begin(); lepton != leptons.end(); ++lepton)
 				{
+					hash = bitShift(hash, 3);
 					hash = hash ^ SafeMap::GetWithDefault(
 							product.m_originalLeptons,
 							static_cast<const KLepton*>(*lepton),
