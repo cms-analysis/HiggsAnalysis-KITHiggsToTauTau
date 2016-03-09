@@ -200,11 +200,14 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
-			# Tau ES
-			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			# Probe Tau ES
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.probetau_es_syst_args)
 			
-			# Electron ES
-			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.ele_es_syst_args)
+			# Probe Electron ES
+			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.probeele_es_syst_args)
+			
+			# Tag Electron ES
+			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.tagele_es_syst_args)
 			
 			# Visible mass resolution
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.massres_syst_args)

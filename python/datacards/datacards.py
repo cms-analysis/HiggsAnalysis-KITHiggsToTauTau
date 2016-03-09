@@ -188,6 +188,26 @@ class Datacards(object):
 				(["13TeV"], ["em"], 1.0)
 				(["13TeV"], ["et"], 1.0)
 		]
+		
+		self.probetau_es_syst_args = [
+			"CMS_scale_probetau_$CHANNEL_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["et"], 1.0)
+		]
+		self.probeele_es_syst_args = [
+			"CMS_scale_probeele_$CHANNEL_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["et"], 1.0)
+		]
+		self.tagele_es_syst_args = [
+			"CMS_scale_tagele_$CHANNEL_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["et"], 1.0)
+		]
+		
 		self.massres_syst_args = [
 			"CMS_scale_massRes_$CHANNEL_$ERA",
 			"shape",
