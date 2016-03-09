@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Artus/KappaAnalysis/interface/Producers/TmvaClassificationReaderBase.h"
+#include "Artus/KappaAnalysis/interface/Producers/TmvaClassificationMultiReaderBase.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 

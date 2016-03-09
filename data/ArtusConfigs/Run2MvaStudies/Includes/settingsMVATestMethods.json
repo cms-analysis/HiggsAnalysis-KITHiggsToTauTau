@@ -1,31 +1,16 @@
 {
     "MVATestMethodsInputQuantities" : [
-        "pVecSum",
-        "lep1Pt:=pt_1",
-        "lep1MetMt:=mt_1",
-        "lep2Pt:=pt_2",
-        "lep2MetMt:=mt_2",
-        "pfMetPt:=met",
-        "mvaMetPt:=mvamet",
-        "pZetaMissVis",
-        "pZetaMiss",
-        "pZetaVis",
-        "nJets30:=njets", 
-        "nBJets20:=nbtag",
-        "min_ll_jet_eta",
-        "lep1_centrality", 
-        "lep2_centrality", 
-        "delta_lep_centrality",
-        "diLepMass:=m_vis"
+        "0;pVecSum,lep1Pt:=pt_1,lep1MetMt:=mt_1,lep2Pt:=pt_2,lep2MetMt:=mt_2,pfMetPt:=met,mvaMetPt:=mvamet,pZetaMissVis,pZetaMiss,pZetaVis,nJets30:=njets,nBJets20:=nbtag,min_ll_jet_eta,lep1_centrality,lep2_centrality,delta_lep_centrality,diLepMass:=m_vis",
+        "1;pVecSum,lep1Pt:=pt_1,lep1MetMt:=mt_1,lep2Pt:=pt_2,lep2MetMt:=mt_2,pfMetPt:=met,mvaMetPt:=mvamet,pZetaMissVis,pZetaMiss,pZetaVis,nJets30:=njets,nBJets20:=nbtag,min_ll_jet_eta,lep1_centrality,lep2_centrality,delta_lep_centrality,diLepMass:=m_vis"
     ],
     "MVATestMethodsMethods" : [
-        "BDT",
-        "BDT",
-        "BDT",
-        "BDT",
-        "BDT",
-        "BDT",
-        "BDT"
+        "0;BDT",
+        "0;BDT",
+        "0;BDT",
+        "1;BDT",
+        "1;BDT",
+        "1;BDT",
+        "1;BDT"
     ],
     "MVATestMethodsNames" : [
         "all_vs_all",
