@@ -119,7 +119,7 @@ public:
 				}
 				hashes.push_back(hash);
 			}
-			while (std::prev_permutation(leptons.begin(), leptons.end()));
+			while (std::prev_permutation(leptons.begin(), leptons.end(), [](KLepton const* lepton1, KLepton const* lepton2) -> bool { return lepton1->p4.Pt() < lepton2->p4.Pt(); }));
 			
 			for (typename std::vector<TMet>::iterator met = (event.*m_metsMember)->begin(); met != (event.*m_metsMember)->end(); ++met)
 			{
