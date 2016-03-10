@@ -55,7 +55,7 @@ class CutStringsDict:
 	def antievloosepass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 		else:
@@ -67,7 +67,7 @@ class CutStringsDict:
 	def antievloosefail(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 < 0.5)"
 		else:
@@ -79,7 +79,7 @@ class CutStringsDict:
 	def antieloosepass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA6_2 > 0.5)"
 		else:
@@ -91,7 +91,7 @@ class CutStringsDict:
 	def antieloosefail(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA6_2 < 0.5)"
 		else:
@@ -103,7 +103,7 @@ class CutStringsDict:
 	def antiemediumpass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronMediumMVA6_2 > 0.5)"
 		else:
@@ -115,7 +115,7 @@ class CutStringsDict:
 	def antiemediumfail(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronMediumMVA6_2 < 0.5)"
 		else:
@@ -127,7 +127,7 @@ class CutStringsDict:
 	def antietightpass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronTightMVA6_2 > 0.5)"
 		else:
@@ -139,7 +139,7 @@ class CutStringsDict:
 	def antietightfail(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronTightMVA6_2 < 0.5)"
 		else:

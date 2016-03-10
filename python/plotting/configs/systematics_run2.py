@@ -22,6 +22,15 @@ class SystematicsFactory(dict):
 			self["CMS_scale_e_"+channel+"_13TeV"] = EleEsSystematic
 		
 		for channel in ["et"]:
+			self["CMS_scale_probetau_"+channel+"_13TeV"] = ProbeTauEsSystematic
+		
+		for channel in ["et"]:
+			self["CMS_scale_probeele_"+channel+"_13TeV"] = ProbeEleEsSystematic
+		
+		for channel in ["et"]:
+			self["CMS_scale_tagele_"+channel+"_13TeV"] = TagEleEsSystematic
+		
+		for channel in ["et"]:
 			self["CMS_scale_massRes_"+channel+"_13TeV"] = MassResSystematic
 
 
@@ -89,6 +98,51 @@ class EleEsSystematic(SystematicShiftBase):
 					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsUp")
 				elif shift < 0.0:
 					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsDown")
+		
+		return plot_config
+
+
+class TagEleEsSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(TagEleEsSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("tagEleEsNom", "tagEleEsUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("tagEleEsNom", "tagEleEsDown")
+		
+		return plot_config
+
+
+class ProbeTauEsSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(ProbeTauEsSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("probeTauEsNom", "probeTauEsUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("probeTauEsNom", "probeTauEsDown")
+		
+		return plot_config
+
+
+class ProbeEleEsSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(ProbeEleEsSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("probeEleEsNom", "probeEleEsUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("probeEleEsNom", "probeEleEsDown")
 		
 		return plot_config
 

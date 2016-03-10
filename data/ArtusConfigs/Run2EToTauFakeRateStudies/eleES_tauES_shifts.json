@@ -1,42 +1,60 @@
 {
-	"eleEsNom_tauEsNom" : {
+	"tagEleEsNom_probeTauEsNom_probeEleEsNom" : {
 		"ElectronEnergyCorrectionShift" : 1.0,
 		"TauEnergyCorrectionShift" : 1.0
 	},
-	"eleEsNom_tauEsUp" : {
-		"ElectronEnergyCorrectionShift" : 1.0,
-		"TauEnergyCorrectionShift" : {
-			"nick" : {
-				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 1.03
-			}
-		}
-	},
-	"eleEsNom_tauEsDown" : {
+	"tagEleEsNom_probeTauEsUp_probeEleEsNom" : {
 		"ElectronEnergyCorrectionShift" : 1.0,
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 0.97
+				"DY.?JetsToLL" : 1.03
 			}
 		}
 	},
-	"eleEsUp_tauEsNom" : {
+	"tagEleEsNom_probeTauEsDown_probeEleEsNom" : {
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 0.97
+			}
+		}
+	},
+	"tagEleEsUp_probeTauEsNom_probeEleEsNom" : {
 		"ElectronEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 1.02
+				"DY.?JetsToLL" : 1.02
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0
 	},
-	"eleEsDown_tauEsNom" : {
+	"tagEleEsDown_probeTauEsNom_probeEleEsNom" : {
 		"ElectronEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 0.98
+				"DY.?JetsToLL" : 0.98
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0
+	},
+	"tagEleEsNom_probeTauEsNom_probeEleEsUp" : {
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 1.05
+			}
+		}
+	},
+	"tagEleEsNom_probeTauEsNom_probeEleEsDown" : {
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 0.95
+			}
+		}
 	}
 }
