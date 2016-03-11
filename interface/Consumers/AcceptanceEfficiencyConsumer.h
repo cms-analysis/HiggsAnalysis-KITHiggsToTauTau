@@ -25,7 +25,7 @@ public:
 private:
 
 	const unsigned int nAttempts = 1000;
-	TH2F* acc_eff_hist;
-	TH2F* number_of_passed_hist;
-	TH2F* number_of_entries_hist;
+	TH2D* acc_eff_hist;
+	TH2D* number_of_passed_hist;
+	TH2D* number_of_entries_hist;
 };

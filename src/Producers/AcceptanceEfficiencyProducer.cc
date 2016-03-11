@@ -8,20 +8,26 @@ void AcceptanceEfficiencyProducer::Init(setting_type const& settings)
 void AcceptanceEfficiencyProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
 	//std::cout << "acceptance weight = " << event.m_genEventInfo->weight << " particles: ";
+	//std::cout << "----------- Generated ZtoTauTau event ------------" << std::endl;
+	//bool additionalparticles = ( event.m_genParticles->size() > 7);
 	for (KGenParticles::iterator part = event.m_genParticles->begin(); part != event.m_genParticles->end(); ++part)
 	{
 		if (part->pdgId == 15) product.m_accEffTauMinus = &(*part);
 		else if (part->pdgId == -15) product.m_accEffTauPlus = &(*part);
-		//std::cout << part->pdgId << " ";
+		//if (additionalparticles)
+		//{
+			//std::cout << "PdgId: " << part->pdgId << " status: " << part->status() << " (P,E) = (" << std::setprecision(3);
+			//std::cout << part->p4.Px() << "," << part->p4.Py() << "," << part->p4.Pz() << "," << part->p4.E() <<  ")";
+		//}
 	}
-	std::cout << "| ";
+	//if (additionalparticles) std::cout << std::endl;
 	product.m_accEffDC = DetermineDecayChannel(event, product.m_accEffTauMinus, product.m_accEffTauPlus);
-	std::cout << "Pt Tau Minus: " << product.m_accEffTauMinus->p4.Pt() << std::endl;
+	//std::cout << "Pt Tau Minus: " << product.m_accEffTauMinus->p4.Pt() << std::endl;
 }
 
 unsigned int AcceptanceEfficiencyProducer::DetermineDecayChannel(event_type const& event, KGenParticle* tau1, KGenParticle* tau2) const
 {
-	std::cout << "Pt's: "<< tau1->p4.Pt() << " " << tau2->p4.Pt() << " | ";
+	//std::cout << "Pt's: "<< tau1->p4.Pt() << " " << tau2->p4.Pt() << " | ";
 	unsigned int countMuons, countElectrons;
 	countElectrons = 0;
 	countMuons = 0;

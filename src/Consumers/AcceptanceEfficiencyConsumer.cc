@@ -7,9 +7,9 @@ std::string AcceptanceEfficiencyConsumer::GetConsumerId() const
 
 void AcceptanceEfficiencyConsumer::Init(setting_type const& settings)
 {
-	acc_eff_hist = new TH2F("acc_eff_hist", "acc_eff_hist", 50,0.,100.,50,0.,100);
-	number_of_passed_hist = new TH2F("number_of_passed_hist", "number_of_passed_hist", 50,0.,100.,50,0.,100);
-	number_of_entries_hist = new TH2F("number_of_entries_hist", "number_of_entries_hist", 50,0.,100.,50,0.,100);
+	acc_eff_hist = new TH2D("acc_eff_hist", "acc_eff_hist", 50,0.,200.,50,0.,200);
+	number_of_passed_hist = new TH2D("number_of_passed_hist", "number_of_passed_hist", 50,0.,200.,50,0.,200);
+	number_of_entries_hist = new TH2D("number_of_entries_hist", "number_of_entries_hist", 50,0.,200.,50,0.,200);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("PtTauMinus",[](event_type const& event, product_type const& product)
 	{
 		return product.m_accEffTauMinus->p4.Pt();
@@ -20,7 +20,7 @@ void AcceptanceEfficiencyConsumer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("accEfficiency",[](event_type const& event, product_type const& product)
 	{
-		std::cout << event.m_genEventInfo->weight << std::endl;
+		//std::cout << event.m_genEventInfo->weight << std::endl;
 		return event.m_genEventInfo->weight;
 	});
 	LambdaNtupleConsumer<HttTypes>::Init(settings);
@@ -31,16 +31,16 @@ void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event,
 	double PtMinus = product.m_accEffTauMinus->p4.Pt();
 	double PtPlus = product.m_accEffTauPlus->p4.Pt();
 	double weight = event.m_genEventInfo->weight;
-	std::cout << "Attempts passed: " << int(weight*nAttempts) << std::endl;
-	for(int i = 0; i<int(weight*nAttempts); ++i)
+	if ((PtMinus > 80 && PtPlus > 80) || weight > 0.7)
 	{
-		number_of_passed_hist->Fill(PtMinus, PtPlus);
+		//std::cout << "PtMinus = " << PtMinus << " PtPlus = " << PtPlus << " weight = " << weight << std::endl; 
 	}
+	//std::cout << "Attempts passed: " << int(weight*nAttempts) << std::endl;
 	for(unsigned int i = 0; i<nAttempts; ++i)
 	{
+		if (double(i)/double(nAttempts) < weight) number_of_passed_hist->Fill(PtMinus, PtPlus);
 		number_of_entries_hist->Fill(PtMinus, PtPlus);
 	}
-	acc_eff_hist->Divide(number_of_passed_hist,number_of_entries_hist,1.,1.,"B");
 	LambdaNtupleConsumer<HttTypes>::ProcessFilteredEvent(event, product, settings);
 }
 
@@ -48,6 +48,7 @@ void AcceptanceEfficiencyConsumer::Finish(setting_type const& settings)
 {
 	LambdaNtupleConsumer::Finish(settings);
 	RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
+	acc_eff_hist->Divide(number_of_passed_hist,number_of_entries_hist,1.,1.,"B");
 	number_of_passed_hist->Write();
 	number_of_entries_hist->Write();
 	acc_eff_hist->Write();

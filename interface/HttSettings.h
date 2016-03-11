@@ -225,7 +225,8 @@ public:
 
 	IMPL_SETTING(int, BosonPdgId);
 
-	IMPL_SETTING(bool, PhiTransform);
+	// GenTauCPProducer settings
+	IMPL_SETTING_DEFAULT(bool, PhiTransform, false);
 
 	// TMVA reader settings
     IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaInputQuantities, {});
