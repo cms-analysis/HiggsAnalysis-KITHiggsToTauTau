@@ -1,0 +1,1 @@
+dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/skimming/2016-03-10/SUSYGluGluToHToTauTau_M-400_TuneCUETP8M1_13TeV-pythia8/crab_SUSYGluGluToHToTauTauM400_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_pythia8/160311_105951/0000/kappa_SUSYGluGluToHToTauTauM400_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_pythia8_2.root
