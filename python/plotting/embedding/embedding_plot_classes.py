@@ -86,15 +86,25 @@ class single_plot:
 		     name = "test",
 		     title = None,
 		     x_bins = None,
+		     y_bins = None,
+		     x_ticks = None,
+		     x_tick_labels = None,
 		     x_expression = "nPU",
+		     y_expression = None,
+		     y_lims = None,
+		     z_lims = None,
+		     z_label = None,
 		     x_label = None,
-		     legend =[0.25,0.15,0.55,0.45],
+		     legend = None,
 		     formats =["png","pdf"],
 		     wwwfolder ="plots",
 		     y_label = "Events",
 		     y_log = False,
 		     weight = "1",
 		     normalized_to_nevents = False,
+		     normalized_to_unity = False,
+		     normalized_to_hist1 = False,
+		     profiled = False,
 		     stacked = False,
 		     plot_type = "efficiency",
 		     subplot_denominator = None,
@@ -106,8 +116,15 @@ class single_plot:
 		self.name = name
 		self.title = title
 		self.x_bins = x_bins
+		self.y_bins = y_bins
+		self.x_ticks = x_ticks
+		self.x_tick_labels = x_tick_labels
 		self.x_label = x_expression if x_label is None else x_label
 		self.x_expression = x_expression
+		self.y_expression = y_expression
+		self.y_lims = y_lims
+		self.z_lims = z_lims
+		self.z_label = z_label
 		self.legend = legend
 		self.formats = formats
 		self.wwwfolder = wwwfolder
@@ -115,6 +132,9 @@ class single_plot:
 		self.y_log = y_log
 		self.weight = weight
 		self.normalized_to_nevents = normalized_to_nevents
+		self.normalized_to_unity = normalized_to_unity
+		self.normalized_to_hist1 = normalized_to_hist1
+		self.profiled = profiled
 		self.stacked = stacked
 		self.plot_type = plot_type
 		self.subplot_denominator = subplot_denominator
@@ -128,7 +148,14 @@ class single_plot:
 		     name = None,
 		     title = None,
 		     x_bins = None,
+		     y_bins = None,
+		     x_ticks = None,
+		     x_tick_labels = None,
 		     x_expression = None,
+		     y_expression = None,
+		     y_lims = None,
+		     z_lims = None,
+		     z_label = None,
 		     x_label = None,
 		     legend = None,
 		     formats = None,
@@ -137,6 +164,9 @@ class single_plot:
 		     y_log = None,
 		     weight = None,
 		     normalized_to_nevents = None,
+		     normalized_to_unity = None,
+		     normalized_to_hist1 = None,
+		     profiled = None,
 		     stacked = None,
 		     plot_type = None,
 		     subplot_denominator = None,
@@ -149,7 +179,14 @@ class single_plot:
 		     name = self.name if name is None else name,
 		     title = self.title if title is None else title,
 		     x_bins = self.x_bins if x_bins is None else x_bins,
+		     y_bins = self.y_bins if y_bins is None else y_bins,
+		     x_ticks = self.x_ticks if x_ticks is None else x_ticks,
+		     x_tick_labels = self.x_tick_labels if x_tick_labels is None else x_tick_labels,
 		     x_expression = self.x_expression if x_expression is None else x_expression,
+		     y_expression = self.y_expression if y_expression is None else y_expression,
+		     y_lims = self.y_lims if y_lims is None else y_lims,
+		     z_lims = self.z_lims if z_lims is None else z_lims,
+		     z_label = self.z_label if z_label is None else z_label,
 		     x_label = self.x_label if x_label is None else x_label,
 		     legend = self.legend if legend is None else legend,
 		     formats = self.formats if formats is None else formats,
@@ -158,6 +195,9 @@ class single_plot:
 		     y_log = self.y_log if y_log is None else y_log,
 		     weight = self.weight if weight is None else weight,
 		     normalized_to_nevents = self.normalized_to_nevents if normalized_to_nevents is None else normalized_to_nevents,
+		     normalized_to_unity = self.normalized_to_unity if normalized_to_unity is None else normalized_to_unity,
+		     normalized_to_hist1 = self.normalized_to_hist1 if normalized_to_hist1 is None else normalized_to_hist1,
+		     profiled = self.profiled if profiled is None else profiled,
 		     stacked = self.stacked if stacked is None else stacked,
 		     plot_type = self.plot_type if plot_type is None else plot_type,
 		     subplot_denominator = self.subplot_denominator if subplot_denominator is None else subplot_denominator,
@@ -227,14 +267,24 @@ class single_plot:
 		self.out_json.setdefault("plot_modules", []).append("PlotRootHtt")
 		
 		self.out_json["fill_styles"] = 0
+		self.out_json["extra_text"] = "Work in Progress"
+		self.out_json["cms"] = True 
+		if self.profiled: self.out_json["tree_draw_options"] = "prof"
 		
 		self.out_json["filename"] = self.name + "_" + self.x_expression
 		self.out_json["title"] = self.title
 		self.out_json["y_scientific"] = True
 		self.out_json["x_bins"] = self.x_bins
+		if not self.x_ticks is None: self.out_json["x_ticks"] = self.x_ticks
+		if not self.x_tick_labels is None: self.out_json["x_tick_labels"] = self.x_tick_labels
 		self.out_json.setdefault("x_expressions", []).append(self.x_expression)
+		if not self.y_expression is None: self.out_json.setdefault("y_expressions", []).append(self.y_expression)
+		if not self.y_lims is None: self.out_json["y_lims"] = self.y_lims
+		if not self.y_bins is None: self.out_json["y_bins"] = self.y_bins
+		if not self.z_lims is None: self.out_json["z_lims"] = self.z_lims
+		if not self.z_label is None: self.out_json["z_label"] = self.z_label
 		self.out_json["x_label"] = self.x_label
-		self.out_json["legend"] = self.legend
+		if not self.legend is None: self.out_json["legend"] = self.legend
 		self.out_json["formats"] = self.formats
 		if self.wwwfolder != "": self.out_json["www"] = self.wwwfolder
 		self.out_json["y_label"] = self.y_label
@@ -285,6 +335,8 @@ class single_plot:
 				ntree = "/" + akt_plotline.num_tree if not akt_plotline.num_tree == "" else ""
 				self.out_json.setdefault("folders", []).append(akt_plotline.num_folder+ntree)
 				self.out_json.setdefault("nicks", []).append(akt_plotline.num_nick)
+				if self.normalized_to_unity == True: self.safe_append_modules(modulename="NormalizeToUnity", moduletype="analysis")
+				if self.normalized_to_hist1 == True: self.safe_append_modules(modulename="NormalizeToFirstHisto", moduletype="analysis")
 			else:
 				print "No proper plot type defined. Choose 'efficiency' or 'absolute'."
 				sys.exit()
