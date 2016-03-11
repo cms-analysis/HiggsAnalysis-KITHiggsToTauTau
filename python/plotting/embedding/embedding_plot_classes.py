@@ -273,7 +273,6 @@ class single_plot:
 		
 		self.out_json["filename"] = self.name + "_" + self.x_expression
 		self.out_json["title"] = self.title
-		self.out_json["y_scientific"] = True
 		self.out_json["x_bins"] = self.x_bins
 		if not self.x_ticks is None: self.out_json["x_ticks"] = self.x_ticks
 		if not self.x_tick_labels is None: self.out_json["x_tick_labels"] = self.x_tick_labels
