@@ -61,60 +61,9 @@
 			"(16Dec2015v1|Fall15)": "metPuppi"
 		}
 	},
-	"MvaMetTT" : {
+	"MvaMets" : {
 		"nick" : {
-			"default" : "metMVATT",
-			"13TeV" : ""
-		}
-	},
-	"MvaMetMT" : {
-		"nick" : {
-			"default" : "metMVAMT",
-			"13TeV" : ""
-		}
-	},
-	"MvaMetET" : {
-		"nick" : {
-			"default" : "metMVAET",
-			"13TeV" : ""
-		}
-	},
-	"MvaMetEM" : {
-		"nick" : {
-			"default" : "metMVAEM",
-			"13TeV" : ""
-		}
-	},
-	"MvaMetsTT" : {
-		"nick" : {
-			"default" : "",
-			"13TeV_MINIAOD_" : "metMVATT",
-			"Run2015" : "metMVATT",
-			"8TeV" : ""
-		}
-	},
-	"MvaMetsMT" : {
-		"nick" : {
-			"default" : "",
-			"13TeV_MINIAOD_" : "metMVAMT",
-			"Run2015" : "metMVAMT",
-			"8TeV" : ""
-		}
-	},
-	"MvaMetsET" : {
-		"nick" : {
-			"default" : "",
-			"13TeV_MINIAOD_" : "metMVAET",
-			"Run2015" : "metMVAET",
-			"8TeV" : ""
-		}
-	},
-	"MvaMetsEM" : {
-		"nick" : {
-			"default" : "",
-			"13TeV_MINIAOD_" : "metMVAEM",
-			"Run2015" : "metMVAEM",
-			"8TeV" : ""
+			"default" : "MVAMET"
 		}
 	},
 	"#PFChargedHadronsPileUp" : "pfPileUpChargedHadrons",

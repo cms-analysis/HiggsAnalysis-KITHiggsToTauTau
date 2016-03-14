@@ -103,7 +103,7 @@
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
 					"producer:MetSelector",
-					"producer:MvaMetMTSelector",
+					"producer:MvaMetSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",

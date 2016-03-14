@@ -126,7 +126,7 @@
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
 					"producer:MetSelector",
-					"producer:MvaMetEMSelector",
+					"producer:MvaMetSelector",
 					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",

@@ -35,6 +35,8 @@ void HttEventProvider::WireEvent(setting_type const& settings)
 		this->m_event.m_mvaMetsET = this->SecureFileInterfaceGet<KMETs>(settings.GetMvaMetsET());
 	if(! settings.GetMvaMetsEM().empty())
 		this->m_event.m_mvaMetsEM = this->SecureFileInterfaceGet<KMETs>(settings.GetMvaMetsEM());
+	if(! settings.GetMvaMets().empty())
+		this->m_event.m_mvaMets = this->SecureFileInterfaceGet<KMETs>(settings.GetMvaMets());
 	
 }
 

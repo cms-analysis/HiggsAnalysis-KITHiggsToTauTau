@@ -22,12 +22,14 @@ public:
 	KMET* m_mvaMetMT = 0;
 	KMET* m_mvaMetET = 0;
 	KMET* m_mvaMetEM = 0;
+	KMET* m_mvaMet = 0;
 
 	/// pointer to (new) MVA MET collections
 	KMETs* m_mvaMetsTT = 0;
 	KMETs* m_mvaMetsMT = 0;
 	KMETs* m_mvaMetsET = 0;
 	KMETs* m_mvaMetsEM = 0;
+	KMETs* m_mvaMets = 0;
 	
 };
 

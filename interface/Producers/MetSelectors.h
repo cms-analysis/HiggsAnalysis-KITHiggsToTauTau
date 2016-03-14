@@ -104,12 +104,13 @@ public:
 			
 			// create hashes from lepton selection. Any number of leptons is possible 
 			std::vector<KLepton*> leptons = product.m_ptOrderedLeptons;
-			std::vector<int> hashes;
+			std::vector<unsigned int> hashes;
 			do
 			{
-				int hash = 0;
+				unsigned int hash = 0;
 				for (std::vector<KLepton*>::iterator lepton = leptons.begin(); lepton != leptons.end(); ++lepton)
 				{
+					hash = bitShift(hash, 3);
 					hash = hash ^ SafeMap::GetWithDefault(
 							product.m_originalLeptons,
 							static_cast<const KLepton*>(*lepton),
@@ -118,7 +119,7 @@ public:
 				}
 				hashes.push_back(hash);
 			}
-			while (std::prev_permutation(leptons.begin(), leptons.end()));
+			while (std::prev_permutation(leptons.begin(), leptons.end(), [](KLepton const* lepton1, KLepton const* lepton2) -> bool { return lepton1->p4.Pt() < lepton2->p4.Pt(); }));
 			
 			for (typename std::vector<TMet>::iterator met = (event.*m_metsMember)->begin(); met != (event.*m_metsMember)->end(); ++met)
 			{
@@ -222,3 +223,12 @@ public:
 	virtual std::string GetProducerId() const override;
 };
 
+/**
+   \brief Producer for MVAMET (EM channel)
+*/
+class MvaMetSelector: public MetSelectorBase<KMET>
+{
+public:
+	MvaMetSelector();
+	virtual std::string GetProducerId() const override;
+};
