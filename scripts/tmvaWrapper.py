@@ -41,13 +41,7 @@ if __name__ == "__main__":
 								"pZetaVis","njets", "nbtag",
 								"min_ll_jet_eta","lep1_centrality",
 								"lep2_centrality",
-								"delta_lep_centrality", "m_vis"],
-						choices=["pVecSum", "pt_1", "mt_1", "pt_2", "mt_2", "met",
-								"mvamet", "pZetaMissVis", "pZetaMiss",
-								"pZetaVis","njets", "nbtag",
-								"min_ll_jet_eta","lep1_centrality",
-								"lep2_centrality",
-								"delta_lep_centrality", "m_vis"],
+								"delta_lep_centrality", "iso_1"],
 						help="Quantities to train on. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=2.155,
 						help="""Luminosity for the given data in fb^(-1).
@@ -55,12 +49,14 @@ if __name__ == "__main__":
 	parser.add_argument("-w", "--weight", default="1.0",
 						help="""Additional weight (cut) expression.
 						[Default: %(default)s]""")
-	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=["pZetaMiss", "pZetaVis", "iso_1", "iso_2", "mt_1", "mt_2", "mt"],
+	parser.add_argument("-e", "--exclude-cuts", nargs="+",
+						default=["iso_1", "mt"],
+						choices=["pZetaMiss", "pZetaVis", "iso_1", "iso_2", "mt_1", "mt_2", "mt"],
 						help="""Exclude (default) selection cuts.
 						[Default: %(default)s]""")
 	parser.add_argument("--higgs-masses", nargs="+", default=["125"],
 						help="Higgs masses. [Default: %(default)s]")
-	parser.add_argument("-S", "--Split", default='60',
+	parser.add_argument("-S", "--Split", default=None,
 						help="""If set enables splitting into training and test
 						tree, use value between 0 and 99 to split tree using
 						variable TrainingSelectionValue. [Default: %(default)s]""")
@@ -75,15 +71,25 @@ if __name__ == "__main__":
 						help="Options for preparation of inputs trees as passed to TMVA.Factory.PrepareTrainingAndTestTree. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-fold", type=int, default=0,
 						help="number of splits for n-fold training. 0 is regular splitting according to --Split, 1 is one split,which results in 2 parts...[Default: %(default)s]")
+	parser.add_argument("-p", "--pre-selection", default = "(1.0)",
+						help="preselection for event selection [Default: %(default)s)")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
-	if args.signal_samples == parser.get_default("signal_samples"):
-		args.signal_samples = [sample for sample in args.signal_samples
-								if hasattr(samples.Samples, sample)]
-	if args.bkg_samples == parser.get_default("bkg_samples"):
-		args.bkg_samples = [sample for sample in args.bkg_samples
-								if hasattr(samples.Samples, sample)]
+	#if args.signal_samples == parser.get_default("signal_samples"):
+		#args.signal_samples = [sample for sample in args.signal_samples
+								#if hasattr(samples.Samples, sample)]
+	#if args.bkg_samples == parser.get_default("bkg_samples"):
+		#args.bkg_samples = [sample for sample in args.bkg_samples
+								#if hasattr(samples.Samples, sample)]
+	info_log = vars(args)
+	info_log["comment"] = " ".join(sys.argv)
+	#info_log["signal_samples"] = args.signal_samples
+	#info_log["bkg_samples"] = args.bkg_samples
+	#info_log["channel"] = args.channels
+	#info_log["n_fold"] = args.n_fold
+	#info_log["methods"] = args.methods
+
 	if "qcd" in (args.bkg_samples+args.signal_samples):
 		log.error("qcd not possible for training")
 		sys.exit()
@@ -102,7 +108,7 @@ if __name__ == "__main__":
 				higgs_masses=args.higgs_masses,
 				normalise_signal_to_one_pb=False,
 				ztt_from_mc=False,
-				weight="",
+				weight=args.weight,
 				lumi = args.lumi * 1000,
 				exclude_cuts=args.exclude_cuts,
 				blind_expression=channel+"_"+quantity,
@@ -111,7 +117,6 @@ if __name__ == "__main__":
 				mssm=False
 				)
 		plot_configs.append(config)
-
 	#extract important information from config
 	scale_input = []
 	file_names = []
@@ -126,29 +131,50 @@ if __name__ == "__main__":
 					nicks.append(nick)
 					scale_input.append(config["scale_factors"][i])
 					file_names.append(f)
-					cuts.append(config["weights"][i][17:])
+					cuts.append(config["weights"][i])
 					folder.append(config["folders"][i])
 					s_b_extension.append("Background")
-			elif ("ggh" in nick and "ggh" in args.signal_samples) or ("qqh"
-				in nick and "qqh" in args.signal_samples):
+			elif ("ggh" in nick and "ggh" in args.signal_samples + args.bkg_samples):
 				for f in config["files"][i].split(' '):
 					nicks.append(nick)
 					scale_input.append(config["scale_factors"][i])
 					file_names.append(f)
-					cuts.append(config["weights"][i][17:])
+					cuts.append(config["weights"][i])
 					folder.append(config["folders"][i])
-					s_b_extension.append("Signal")
-			elif "vh" in args.signal_samples and ("wmh" in nick or
+					if "ggh" in args.signal_samples:
+						s_b_extension.append("Signal")
+					elif "ggh" in args.bkg_samples:
+						s_b_extension.append("Background")
+			elif ("qqh" in nick and "qqh" in args.signal_samples  + args.bkg_samples):
+				for f in config["files"][i].split(' '):
+					nicks.append(nick)
+					scale_input.append(config["scale_factors"][i])
+					file_names.append(f)
+					cuts.append(config["weights"][i])
+					folder.append(config["folders"][i])
+					if "qqh" in args.signal_samples:
+						s_b_extension.append("Signal")
+					elif "qqh" in args.bkg_samples:
+						s_b_extension.append("Background")
+			elif "vh" in args.signal_samples  + args.bkg_samples and ("wmh" in nick or
 												  "wph" in nick or
 												  "zh" in nick):
 				for f in config["files"][i].split(' '):
 					nicks.append(nick)
 					scale_input.append(config["scale_factors"][i])
 					file_names.append(f)
-					cuts.append(config["weights"][i][17:])
+					cuts.append(config["weights"][i])
 					folder.append(config["folders"][i])
-					s_b_extension.append("Signal")
-
+					if "vh" in args.signal_samples:
+						s_b_extension.append("Signal")
+					elif "vh" in args.bkg_samples:
+						s_b_extension.append("Background")
+	info_log["used_nicks"] = nicks
+	info_log["file_name_list"] = file_names
+	info_log["cuts_list"] = cuts
+	info_log["s_b_extension"] = s_b_extension
+	info_log["folder_list"] = folder
+	info_log["scale_input"] = scale_input
 	splits_list = []
 	stored_files_list = []
 	#TMVA Stuff
@@ -159,16 +185,22 @@ if __name__ == "__main__":
 	elif args.n_fold:
 		part_size = 100/(args.n_fold+1)
 		for i in range(args.n_fold+1):
-			splits_list.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)*"%(i*part_size,(i+1)*part_size))
+			splits_list.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
+
+	info_log["splits"] = splits_list
 
 	# create output file
 	dir_path, filename = os.path.split(args.output_file)
 	filename = filename.replace(".root", "")
-	storage_name_extension = filename + "_storage"
+	storage_name_extension = dir_path + "/storage/" + filename + "_storage"
 	if dir_path is None:
 		pass
 	elif not os.path.exists(dir_path):
 		os.makedirs(dir_path)
+		os.makedirs(dir_path+"/storage")
+		os.makedirs(dir_path+"/weights")
+
+
 
 	#produce trees
 	open_trees = []
@@ -188,17 +220,22 @@ if __name__ == "__main__":
 		log.debug("Prepare Sample %s "%stored_files_list[-1])
 		for j,split in enumerate(splits_list):
 			store_file = ROOT.TFile("%s_%s_%s.root"%(storage_name_extension, nick, "split%i"%j), "RECREATE")
-			storage_tree= c_tree.CopyTree(split+cuts[i], "tree%i"%j)
+			selection_string = "*".join((split,cuts[i],args.pre_selection)).replace("eventWeight*", "")
+			print selection_string
+			storage_tree= c_tree.CopyTree(selection_string, "tree%i"%j)
 			storage_tree.SetName("SplitTree")
 			store_file.Write()
 			store_file.Close()
 
+	#due to backward compatibillity: args.n_fold is per default 0 and Split None, if one wishes to do a non n-fold training with a specified split value:
+	#set Split = desired split value, n_fold = 0 or default -> use n_fold + 1 for iterations range(n+1) = [0,...,n]
 	for ifac in range(args.n_fold+1):
-		iteration = args.n_fold+1
-		output = ROOT.TFile(os.path.join(dir_path, filename+"T%i.root"%i), "RECREATE")
+		iteration = args.n_fold + 1 #this variable is used for iterating over the input samples it must be different from n_fold due to backward compatibility
+		output = ROOT.TFile(os.path.join(dir_path, filename+"T%i.root"%ifac), "RECREATE")
 		# create factory
-		log.debug("TMVA.Factory(\"T%i"%ifac + "\", TFile(\"" + args.output_file +
+		log.debug("TMVA.Factory(\"T%i"%ifac + "\", TFile(\"" + os.path.join(dir_path, filename+"T%i.root"%ifac) +
 				"\", \"RECREATE\"), \"" + args.factory_options + "\")")
+		ROOT.TMVA.gConfig().GetIONames().fWeightFileDir = dir_path+"/weights"
 		factory=ROOT.TMVA.Factory("T%i"%ifac, output,
 									args.factory_options)
 		# add training variables
@@ -209,7 +246,7 @@ if __name__ == "__main__":
 			factory.AddVariable(*(variable.split(";")))
 		#add trees to factories
 		skip = False
-		if args.n_fold == 0:
+		if args.n_fold == 0: #this is for backward compatibiliy: iterate over all splits (2 splits)
 			iteration += 1;
 		for j,stored_file in enumerate(stored_files_list):
 			for i in range(iteration):
@@ -219,13 +256,13 @@ if __name__ == "__main__":
 					factory.AddTree(tree, s_b_extension[j],
 													scale_input[j],
 													TCut(""), "test")
-					log.debug("Add to Factory_%i sample %s as TestSample"%(ifac, stored_file+"split%i.root/SplitTree"%(i)))
+					log.debug("Add to Factory_%i sample %s as TestSample as %s" %(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension))
 				else:
 
 					factory.AddTree(tree, s_b_extension[j],
 													scale_input[j],
 													TCut(""), "train")
-					log.debug("Add to Factory_%i sample %s as TrainingsSample"%(ifac, stored_file+"split%i.root/SplitTree"%(i)))
+					log.debug("Add to Factory_%i sample %s as TrainingsSample as %s"%(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension))
 			log.debug("factory.AddTree(%s,%s,%s,TCut(''), train/test)" %(
 				nick, s_b_extension[j], cuts[j]))
 
@@ -242,7 +279,7 @@ if __name__ == "__main__":
 			log.debug("TMVA.Factory.BookMethod(" + ", ".join(
 				["\"" + m + "\"" for m in (method, name, options)]) + ")")
 
-		# perform full training
+		#perform full training
 		log.debug("TMVA.Factory.TrainAllMethods()")
 		factory.TrainAllMethods()
 
