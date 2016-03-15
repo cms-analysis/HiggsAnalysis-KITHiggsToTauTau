@@ -1,15 +1,11 @@
 {
     "property" : [
-        "MVATestMethod_0",
-        "MVATestMethod_1",
-        "MVATestMethod_2",
-        "MVATestMethod_3",
-        "MVATestMethod_4",
-        "MVATestMethod_5",
-        "MVATestMethod_6",
-        "MVATestMethod_7",
-        "MVATestMethod_8",
-        "MVATestMethod_9",
-        "MVATestMethod_10"
+        "all_vs_all",
+        "all_vs_ztt",
+        "all_vs_zll",
+        "ggh_vs_ztt",
+        "ggh_vs_zll",
+        "vbf_vs_ztt",
+        "vbf_vs_zll"
     ]
 }
