@@ -66,7 +66,7 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
                         help="""Exclude (default) selection cuts. 
                         [Default: %(default)s]""")
-    parser.add_argument("--lumi", type=float, default=2.245,
+    parser.add_argument("--lumi", type=float, default=2.301,
                             help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
     args = parser.parse_args()
     logger.initLogger(args)

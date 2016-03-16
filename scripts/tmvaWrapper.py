@@ -43,7 +43,7 @@ if __name__ == "__main__":
                                 "lep2_centrality", 
                                 "delta_lep_centrality", "m_vis"],
                         help="Quantities to train on. [Default: %(default)s]")
-    parser.add_argument("--lumi", type=float, default=2.245,
+    parser.add_argument("--lumi", type=float, default=2.301,
                         help="""Luminosity for the given data in fb^(-1). 
                                 [Default: %(default)s]""")
     parser.add_argument("-w", "--weight", default="1.0",
