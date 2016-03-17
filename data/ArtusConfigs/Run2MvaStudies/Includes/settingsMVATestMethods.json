@@ -14,12 +14,17 @@
     ],
     "MVATestMethodsNames" : [
         "all_vs_all",
-        "all_vs_ztt",
-        "all_vs_zll",
         "ggh_vs_ztt",
         "ggh_vs_zll",
         "vbf_vs_ztt",
         "vbf_vs_zll"
+    ],
+	"MVATestMethodsNFolds" : [
+        3,
+        1,
+        1,
+        1,
+        1
     ],
     "MVATestMethodsWeights" : [
         "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_all_all.weights.xml",
