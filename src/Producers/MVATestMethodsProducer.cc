@@ -5,7 +5,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 
-	
+
 MVATestMethodsProducer::MVATestMethodsProducer() :
 	TmvaClassificationMultiReaderBase<HttTypes>(&spec_setting_type::GetMVATestMethodsInputQuantities,
 											&spec_setting_type::GetMVATestMethodsMethods,
@@ -16,17 +16,49 @@ MVATestMethodsProducer::MVATestMethodsProducer() :
 
 void MVATestMethodsProducer::Init(spec_setting_type const& settings)
 {
-	
-	for (uint mvaMethodIndex = 0; mvaMethodIndex < (settings.GetMVATestMethodsNames)().size(); ++mvaMethodIndex)
+	uint output_index = 0;
+	for (uint NFoldIndex = 0; NFoldIndex < settings.GetMVATestMethodsNFolds().size(); ++NFoldIndex)
+	{
+		if (settings.GetMVATestMethodsNFolds()[NFoldIndex] <= 1)
 		{
-//			 std::string bdt_out_name = "MVATestMethod_" + boost::lexical_cast<std::string>(mvaMethodIndex);
-			std::string bdt_out_name = settings.GetMVATestMethodsNames()[mvaMethodIndex];
-			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(bdt_out_name, [bdt_out_name, mvaMethodIndex](spec_event_type const& event, spec_product_type const& product)
-			{	
-				return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[mvaMethodIndex] : DefaultValues::UndefinedFloat);
+			std::string bdt_out_name = settings.GetMVATestMethodsNames()[NFoldIndex];
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(bdt_out_name, [bdt_out_name, output_index](spec_event_type const& event, spec_product_type const& product)
+			{
+				return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index] : DefaultValues::UndefinedFloat);
+			});
+			output_index += 1;
+		}
+		else
+		{
+			for (int TrainingIndex = 1; TrainingIndex <= settings.GetMVATestMethodsNFolds()[NFoldIndex]; ++TrainingIndex)
+			{
+				std::string bdt_out_name = "T" + boost::lexical_cast<std::string>(TrainingIndex) + settings.GetMVATestMethodsNames()[NFoldIndex];
+				LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(bdt_out_name, [bdt_out_name, output_index](spec_event_type const& event, spec_product_type const& product)
+				{
+					return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index] : DefaultValues::UndefinedFloat);
+				});
+				output_index += 1;
+			}
+
+			std::string bdt_out_name = settings.GetMVATestMethodsNames()[NFoldIndex];
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(bdt_out_name, [bdt_out_name, output_index, settings, NFoldIndex](spec_event_type const& event, spec_product_type const& product)
+			{
+				int ts_value = (event.m_eventInfo->nEvent)%100, width = 100/settings.GetMVATestMethodsNFolds()[NFoldIndex];
+				for (int finalIndex = 1; finalIndex <= settings.GetMVATestMethodsNFolds()[NFoldIndex]; ++finalIndex)
+				{
+					if( ((finalIndex-1)*width <= ts_value) and (ts_value < finalIndex*width))
+					{
+						return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index-finalIndex] : DefaultValues::UndefinedFloat);
+					}
+					else if (((settings.GetMVATestMethodsNFolds()[NFoldIndex]-1)*width <= ts_value) and (ts_value < 100)){
+						return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index-settings.GetMVATestMethodsNFolds()[NFoldIndex]] : DefaultValues::UndefinedFloat);
+					}
+				}
+				return -2.0;
 			});
 		}
-	
+	}
+
 	// has to be called at the end of the subclass function
 	TmvaClassificationMultiReaderBase<HttTypes>::Init(settings);
 }
@@ -39,7 +71,7 @@ void  MVATestMethodsProducer::Produce(spec_event_type const& event,
 	assert(event.m_tjets);
 	assert(event.m_jetMetadata);
 	assert(product.m_met);
-	
+
 	// has to be called at the end of the subclass function
 	TmvaClassificationMultiReaderBase<HttTypes>::Produce(event, product, settings);
 }
