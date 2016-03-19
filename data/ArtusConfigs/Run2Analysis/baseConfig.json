@@ -54,7 +54,7 @@
 				"producer:GeneratorWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
-			"DYJetsToLL" : [
+			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",

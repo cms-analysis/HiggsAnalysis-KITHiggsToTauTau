@@ -30,13 +30,13 @@ class Samples(samples.SamplesBase):
 	@staticmethod
 	def ztt_genmatch(channel):
 		if channel in ["mt", "et"]:
-			return "(gen_match_2 == 5)*"
+			return "(gen_match_2 == 5)*stitchWeightZTT*"
 		elif channel == "em":
-			return "(gen_match_1 > 2 && gen_match_2 > 3)*"
+			return "(gen_match_1 > 2 && gen_match_2 > 3)*stitchWeightZTT*"
 		elif channel == "mm":
-			return "(gen_match_1 > 3 && gen_match_2 > 3)*"
+			return "(gen_match_1 > 3 && gen_match_2 > 3)*stitchWeightZTT*"
 		elif channel == "tt":
-			return "(gen_match_1 == 5 && gen_match_2 == 5)*"
+			return "(gen_match_1 == 5 && gen_match_2 == 5)*stitchWeightZTT*"
 		else:
 			log.fatal("No ZTT selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -44,7 +44,7 @@ class Samples(samples.SamplesBase):
 	@staticmethod
 	def zl_genmatch(channel):
 		if channel in ["mt", "et", "tt"]:
-			return "(gen_match_2 < 5)*"
+			return "(gen_match_2 < 5)*stitchWeightZLL*"
 		else:
 			log.fatal("No ZL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -52,9 +52,9 @@ class Samples(samples.SamplesBase):
 	@staticmethod
 	def zj_genmatch(channel):
 		if channel in ["mt", "et"]:
-			return "(gen_match_2 == 6)*"
+			return "(gen_match_2 == 6)*stitchWeightZLL*"
 		elif channel == "tt":
-			return "(gen_match_2 == 6 || gen_match_1 == 6)*"
+			return "(gen_match_2 == 6 || gen_match_1 == 6)*stitchWeightZLL*"
 		else:
 			log.fatal("No ZJ selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -62,11 +62,11 @@ class Samples(samples.SamplesBase):
 	@staticmethod
 	def zll_genmatch(channel):
 		if channel in ["mt", "et", "tt"]:
-			return "(gen_match_2 < 5 || gen_match_2 == 6)*"
+			return "(gen_match_2 < 5 || gen_match_2 == 6)*stitchWeightZLL*"
 		elif channel == "em":
-			return "(gen_match_1 < 3 || gen_match_2 < 4)*"
+			return "(gen_match_1 < 3 || gen_match_2 < 4)*stitchWeightZLL*"
 		elif channel == "mm":
-			return "(gen_match_1 < 4 || gen_match_2 < 4)*"
+			return "(gen_match_1 < 4 || gen_match_2 < 4)*stitchWeightZLL"
 		else:
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -162,7 +162,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 					lumi,
 					weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -188,7 +188,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt"]:
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
 					weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -215,7 +215,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt"]:
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
 					weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -242,7 +242,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 					lumi,
 					weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -304,7 +304,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom/ntuple",
 					lumi,
 					"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
@@ -313,7 +313,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom/ntuple",
 					lumi,
 					"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
@@ -430,7 +430,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
@@ -439,7 +439,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
 					"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
@@ -543,7 +543,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+						"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_jecUncNom_tauEsNom/ntuple",
 						lumi,
 						"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
@@ -552,7 +552,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+						"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_jecUncNom_tauEsNom/ntuple",
 						lumi,
 						"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
@@ -643,7 +643,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
@@ -652,7 +652,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_madgraph-pythia8/*.root",
+					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 					lumi,
 					"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
