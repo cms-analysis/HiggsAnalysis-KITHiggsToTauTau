@@ -179,11 +179,13 @@ if __name__ == "__main__":
 													  "correlation: %s vs %s"%(variable,variable), 100,0,0,100,0,0)
 			corr_vars["+-+".join([variable,variable])] = 0
 			corr_vars[variable] = 0
+			corr_vars["var_%s"%variable] = 0
 		print "======================================================================"
 		print "Calculate correlations and make scatter plots for %i variable pairs."%len(root_histograms)
 		print "======================================================================"
 
-		i = 0
+		i = 0.
+		zero_vals = {}
 		for event in root_inst:
 			calced_means = []
 			for varxy in root_histograms.iterkeys():
@@ -192,22 +194,40 @@ if __name__ == "__main__":
 				w = event.__getattr__("eventWeight")
 				root_histograms[varxy].Fill(x, y, w)
 
-				delta1 = (x - corr_vars[varx]) / (i + 1)
-				delta2 = (y - corr_vars[vary]) / (i + 1)
+				if varx not in zero_vals:
+					zero_vals[varx] = x
+				if vary not in zero_vals:
+					zero_vals[vary] = y
 
-				if not varx in calced_means:
-					corr_vars[varx] += delta1
+				if varx not in calced_means:
+					#print "calculate mean for %s" %varx
+					corr_vars[varx] += x -zero_vals[varx]
+					corr_vars["var_%s"%varx] += (x -zero_vals[varx])**2
 					calced_means.append(varx)
-				if not vary in calced_means:
-					corr_vars[vary] += delta2
+				if vary not in calced_means:
+					#print "calculate mean for %s" %vary
+					corr_vars[vary] += y - zero_vals[vary]
+					corr_vars["var_%s"%vary] += (y - zero_vals[vary])**2
 					calced_means.append(vary)
-
-				corr_vars[varxy] += i * delta1 * delta2 - corr_vars[varxy] / (i + 1)
-
+				corr_vars[varxy] += (x -zero_vals[varx]) * (y - zero_vals[vary])
+			#sys.exit()
 			i += 1
 			if i%1000 == 0:
 				print "processed %i events" %i
+			if i%5000 == 0:
+				break
+				print "processed %i events" %i
+		calced_variances = []
 		for varxy in root_histograms.iterkeys():
 			varx, vary = map(str, varxy.split("+-+"))
-			corr_vars[varxy] = i/(i-1)*corr_vars[varxy]
-		jsonTools.JsonDict(corr_vars).save(os.path.join(dir_path,"ztt_test.json"),indent=4)
+			if varx not in calced_variances:
+				corr_vars["var_%s"%varx] = (corr_vars["var_%s"%varx] - (corr_vars[varx]**2.)/i)/(i-1.)
+				calced_variances.append(varx)
+			if vary not in calced_variances:
+				corr_vars["var_%s"%vary] = (corr_vars["var_%s"%vary] - (corr_vars[vary]**2.)/i)/(i-1.)
+				calced_variances.append(vary)
+			try:
+				corr_vars[varxy] = (corr_vars[varxy]-corr_vars[varx]*corr_vars[vary]/i)/i/(corr_vars["var_%s"%varx])**0.5/(corr_vars["var_%s"%vary])**0.5
+			except ZeroDivisionError:
+				corr_vars[varxy] = None
+		jsonTools.JsonDict(corr_vars).save(os.path.join(dir_path,"%s_test.json"%config["channel"]),indent=4)
