@@ -1,0 +1,92 @@
+{
+    "analysis_modules": [
+        "NormalizeToUnity",
+        "AddHistograms",
+        "Ratio"
+    ],
+    "colors": [
+        "kBlue",
+        "kRed",
+        "kBlue",
+        "kRed",
+        "kBlack"
+    ],
+    "folders": [
+        "TestTree",
+        "TestTree",
+        "TrainTree",
+        "TrainTree"
+    ],
+    "labels": [
+        "Test Signal",
+        "Test Bkg",
+        "Train Signal",
+        "Train Bkg",
+        "Ratio"
+    ],
+    "legend": [
+        0.27,
+        0.65,
+        0.86,
+        0.84
+    ],
+    "legend_cols": 2,
+    "legend_markers": [
+        "E0LP",
+        "E0LP",
+        "L",
+        "L",
+        "ELP"
+    ],
+    "markers": [
+        "E0LP",
+        "E0LP",
+        "LINE",
+        "LINE",
+        "ELP"
+    ],
+    "weights": [
+        "(classID==1)",
+        "(classID==0)",
+        "(classID==1)",
+        "(classID==0)"
+    ],
+    "y_label": "Events (normalized to 1)",
+    "nicks": [
+        "test_signal",
+        "test_bkg",
+        "train_signal",
+        "train_bkg"
+    ],
+    "histogram_nicks": [
+        "test_signal test_bkg",
+        "train_signal train_bkg"
+    ],
+    "sum_result_nicks": [
+        "test_noplot",
+        "train_noplot"
+    ],
+    "ratio_denominator_nicks": [
+        "train_noplot"
+    ],
+    "ratio_numerator_nicks": [
+        "test_noplot"
+    ],
+    "ratio_result_nicks": [
+        "ratio_test_train"
+    ],
+    "stacks": [
+        "1",
+        "2",
+        "3",
+        "4"
+    ],
+    "nicks_blacklist": [
+        "noplot"
+    ],
+    "y_subplot_lims": [
+        0.5,
+        1.5
+    ],
+    "y_subplot_label": "N_{Test}/N_{Train}"
+}

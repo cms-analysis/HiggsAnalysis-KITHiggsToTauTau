@@ -159,6 +159,8 @@ if __name__ == "__main__":
 				continue
 			#next line splits file_string into filenames, those could contain * -> use glob.glob to map * to real names, add the list to root_file_name_list
 			map(root_file_name_list.__iadd__, map(glob.glob, map(args.input_dir.__add__, config["files"][i].split(" "))))
+			if (not cuts == "") and (not cuts == config["weights"][i]):
+				log.error("can not decide which weight to use for sample %s nick %s" %(config["request_nick"],nick))
 			cuts = config["weights"][i]
 		for root_file_name in root_file_name_list:
 			log.debug("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
