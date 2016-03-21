@@ -161,7 +161,7 @@
 					"producer:GenTauDecayProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"#producer:MVATestMethodsProducer",
-					"#producer:TriggerWeightProducer",
+					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
 				],
