@@ -151,7 +151,7 @@ class CutStringsDict:
 	def antievtightpass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVTightMVA6_2 > 0.5)"
 		else:
@@ -163,7 +163,7 @@ class CutStringsDict:
 	def antievtightfail(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 25.0)"
+			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVTightMVA6_2 < 0.5)"
 		else:
