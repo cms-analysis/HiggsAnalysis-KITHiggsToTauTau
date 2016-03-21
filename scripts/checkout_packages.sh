@@ -45,14 +45,22 @@ git clone https://github.com/thomas-mueller/HHKinFit2.git
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
-git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit
+#### --change to the recommendation of Combind Twiki 
+##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
+##git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit
+git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+cd HiggsAnalysis/CombinedLimit
+git fetch origin
+git checkout v5.0.3
+cd -
+
 
 # needed for error propagation e.g. in the background estimations
 git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 
-# install TauSpinner
-git clone https://github.com/rfriese/TauSpinnerSetup
-python TauSpinnerSetup/checkoutPackagesForTauSpinner.py --tauolaversion=1.1.5
+# install TauSpinner is not needed anymore (since now it used TauSpinner from /cvmfs )
+## git clone https://github.com/rfriese/TauSpinnerSetup
+## python TauSpinnerSetup/checkoutPackagesForTauSpinner.py --tauolaversion=1.1.5
 
 # Grid-Control
 svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/trunk/grid-control -r 1501
