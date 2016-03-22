@@ -54,7 +54,7 @@
 				"producer:GeneratorWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
-			"DYJetsToLL" : [
+			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
@@ -97,4 +97,6 @@
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt"
 			]
 		}
-	}}
+	}
+}
+
