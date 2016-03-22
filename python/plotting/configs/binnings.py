@@ -14,12 +14,18 @@ class BinningsDict(binnings.BinningsDict):
 		
 		self.binnings_dict["diLepMass"] = "50,0,250"
 		self.binnings_dict["svfitMass"] = "50,0,250"
-		
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.binnings_dict[channel+"_integral"] = "1,0.0,1.0"
 			for i in range(16):
-                                self.binnings_dict[channel+"_MVATestMethod_%i"%i] = "-1.0 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
-		
+				self.binnings_dict[channel+"_MVATestMethod_%i"%i] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
+		for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
+			self.binnings_dict[ch+"all_vs_all"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
+			self.binnings_dict[ch+"all_vs_zll"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
+			self.binnings_dict[ch+"all_vs_ztt"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
+			self.binnings_dict[ch+"ggh_vs_zll"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
+			self.binnings_dict[ch+"ggh_vs_ztt"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
+			self.binnings_dict[ch+"vbf_vs_zll"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
+			self.binnings_dict[ch+"vbf_vs_ztt"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
 		self.binnings_dict["tt_decayMode_1"] = "11,0.0,11.0"
 		self.binnings_dict["tt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["tt_eta_1"] = "10,-2.1,2.1"
@@ -30,12 +36,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_iso_1"] = "25,0.0,2.0"
 		self.binnings_dict["tt_iso_2"] = "25,0.0,2.0"
 		self.binnings_dict["tt_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["tt_jeta_1"] = "50,-4.7,4.7"
-		self.binnings_dict["tt_jeta_2"] = "50,-4.7,4.7"
+		self.binnings_dict["tt_jeta_1"] = "10,-4.7,4.7"
+		self.binnings_dict["tt_jeta_2"] = "10,-4.7,4.7"
 		self.binnings_dict["tt_jphi_1"] = "10,-3.2,3.2"
 		self.binnings_dict["tt_jphi_2"] = "10,-3.2,3.2"
-		self.binnings_dict["tt_jpt_1"] = "50,0.0,200.0"
-		self.binnings_dict["tt_jpt_2"] = "50,0.0,200.0"
+		self.binnings_dict["tt_jpt_1"] = "20,20.0,250.0"
+		self.binnings_dict["tt_jpt_2"] = "20,20.0,250.0"
 		self.binnings_dict["tt_m_1"] = "20,-0.2,0.2"
 		self.binnings_dict["tt_m_2"] = "25,0.0,2.5"
 		self.binnings_dict["tt_m_ll"] = "60,0.0,300"
@@ -101,12 +107,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["mt_iso_2"] = "25,0.0,2.0"
 		self.binnings_dict["mt_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["mt_jeta_1"] = "50,-4.7,4.7"
-		self.binnings_dict["mt_jeta_2"] = "50,-4.7,4.7"
+		self.binnings_dict["mt_jeta_1"] = "20,-4.7,4.7"
+		self.binnings_dict["mt_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["mt_jphi_1"] = "20,-3.2,3.2"
 		self.binnings_dict["mt_jphi_2"] = "20,-3.2,3.2"
-		self.binnings_dict["mt_jpt_1"] = "50,0.0,200.0"
-		self.binnings_dict["mt_jpt_2"] = "50,0.0,200.0"
+		self.binnings_dict["mt_jpt_1"] = "20,20.0,250.0"
+		self.binnings_dict["mt_jpt_2"] = "20,20.0,250.0"
 		self.binnings_dict["mt_m_1"] = "20,-0.2,0.2"
 		self.binnings_dict["mt_m_2"] = "25,0.0,2.5"
 		self.binnings_dict["mt_m_ll"] = "60,0.0,300"
@@ -136,7 +142,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_mvametcov10"] = "25,-500.0,500.0"
 		self.binnings_dict["mt_mvametcov11"] = "25,0.0,1000.0"
 		self.binnings_dict["mt_mvametphi"] = "32,-3.2,3.2"
-		self.binnings_dict["mt_m_vis"] = "60,0.0,300"
+		self.binnings_dict["mt_m_vis"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
 		self.binnings_dict["mt_nJets30"] = "8,-0.5,7.5"
 		self.binnings_dict["mt_njetspt30"] = "8,-0.5,7.5"
 		self.binnings_dict["mt_njets"] = "8,-0.5,7.5"
@@ -175,12 +181,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["et_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["et_iso_2"] = "25,0.0,2.0"
 		self.binnings_dict["et_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["et_jeta_1"] = "50,-4.7,4.7"
-		self.binnings_dict["et_jeta_2"] = "50,-4.7,4.7"
+		self.binnings_dict["et_jeta_1"] = "20,-4.7,4.7"
+		self.binnings_dict["et_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["et_jphi_1"] = "20,-3.2,3.2"
 		self.binnings_dict["et_jphi_2"] = "20,-3.2,3.2"
-		self.binnings_dict["et_jpt_1"] = "50,0.0,200.0"
-		self.binnings_dict["et_jpt_2"] = "50,0.0,200.0"
+		self.binnings_dict["et_jpt_1"] = "20,20.0,250.0"
+		self.binnings_dict["et_jpt_2"] = "20,20.0,250.0"
 		self.binnings_dict["et_m_1"] = "20,-0.2,0.2"
 		self.binnings_dict["et_m_2"] = "25,0.0,2.5"
 		self.binnings_dict["et_m_ll"] = "60,0.0,300"
@@ -248,12 +254,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["em_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["em_iso_2"] = "25,0.0,0.1"
 		self.binnings_dict["em_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["em_jeta_1"] = "50,-4.7,4.7"
-		self.binnings_dict["em_jeta_2"] = "50,-4.7,4.7"
+		self.binnings_dict["em_jeta_1"] = "20,-4.7,4.7"
+		self.binnings_dict["em_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["em_jphi_1"] = "20,-3.2,3.2"
 		self.binnings_dict["em_jphi_2"] = "20,-3.2,3.2"
-		self.binnings_dict["em_jpt_1"] = "50,0.0,200.0"
-		self.binnings_dict["em_jpt_2"] = "50,0.0,200.0"
+		self.binnings_dict["em_jpt_1"] = "20,20.0,250.0"
+		self.binnings_dict["em_jpt_2"] = "25,20.0,250.0"
 		self.binnings_dict["em_m_1"] = "20,-0.2,0.2"
 		self.binnings_dict["em_m_2"] = "25,0.0,2.5"
 		self.binnings_dict["em_m_ll"] = "60,0.0,300"
@@ -318,12 +324,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mm_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["mm_iso_2"] = "25,0.0,0.1"
 		self.binnings_dict["mm_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["mm_jeta_1"] = "50,-4.7,4.7"
-		self.binnings_dict["mm_jeta_2"] = "50,-4.7,4.7"
+		self.binnings_dict["mm_jeta_1"] = "20,-4.7,4.7"
+		self.binnings_dict["mm_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["mm_jphi_1"] = "20,-3.2,3.2"
 		self.binnings_dict["mm_jphi_2"] = "20,-3.2,3.2"
-		self.binnings_dict["mm_jpt_1"] = "50,0.0,200.0"
-		self.binnings_dict["mm_jpt_2"] = "50,0.0,200.0"
+		self.binnings_dict["mm_jpt_1"] = "20,20.0,250.0"
+		self.binnings_dict["mm_jpt_2"] = "20,20.0,250.0"
 		self.binnings_dict["mm_m_1"] = "20,-0.2,0.2"
 		self.binnings_dict["mm_m_2"] = "25,0.0,2.5"
 		self.binnings_dict["mm_m_ll"] = "60,0.0,300"
@@ -382,12 +388,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["ee_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["ee_iso_2"] = "25,0.0,0.1"
 		self.binnings_dict["ee_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["ee_jeta_1"] = "50,-4.7,4.7"
-		self.binnings_dict["ee_jeta_2"] = "50,-4.7,4.7"
+		self.binnings_dict["ee_jeta_1"] = "20,-4.7,4.7"
+		self.binnings_dict["ee_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["ee_jphi_1"] = "20,-3.2,3.2"
 		self.binnings_dict["ee_jphi_2"] = "20,-3.2,3.2"
-		self.binnings_dict["ee_jpt_1"] = "50,0.0,200.0"
-		self.binnings_dict["ee_jpt_2"] = "50,0.0,200.0"
+		self.binnings_dict["ee_jpt_1"] = "20,20.0,250.0"
+		self.binnings_dict["ee_jpt_2"] = "20,20.0,250.0"
 		self.binnings_dict["ee_m_1"] = "20,-0.2,0.2"
 		self.binnings_dict["ee_m_2"] = "25,0.0,2.5"
 		self.binnings_dict["ee_m_ll"] = "60,0.0,300"
@@ -438,13 +444,11 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["ee_svfitMass"] = "30,0.0,300"
 		self.binnings_dict["ee_trigweight_1"] = "20,0.5,1.5"
 		self.binnings_dict["ee_trigweight_2"] = "20,0.5,1.5"
-
 		self.binnings_dict["binningHtt8TeV_"+"ee_1jet_high"] = "0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"ee_1jet_low"] = "0.0 0.2 0.4 0.6 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"ee_2jet_vbf"] = "0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"ee_0jet_high"] = "0.0 0.2 0.4 0.6 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"ee_0jet_low"] = "0.0 0.2 0.4 0.6 0.8 1.0"
-		
 		self.binnings_dict["binningHtt8TeV_"+"em_inclusive"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"em_0jet_low"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"em_0jet_high"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
@@ -452,7 +456,6 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt8TeV_"+"em_1jet_high"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"em_2jet_vbf_loose"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"em_2jet_vbf_tight"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
-
 		self.binnings_dict["binningHtt8TeV_"+"et_0jet_high"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"et_0jet_low"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"et_0jet_medium"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
@@ -463,13 +466,11 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt8TeV_"+"et_2jet_vbf"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"et_2jet_vbf_loose"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"et_2jet_vbf_tight"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
-
 		self.binnings_dict["binningHtt8TeV_"+"mm_0jet_low"] = "0.0 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"mm_1jet_high"] = "0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"mm_1jet_low"] = "0.0 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"mm_2jet_vbf"] = "0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"mm_0jet_high"] = "0.0 1.0"
-
 		self.binnings_dict["binningHtt8TeV_"+"mt_0jet_high"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"mt_0jet_low"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"mt_0jet_medium"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
@@ -480,24 +481,33 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt8TeV_"+"mt_2jet_vbf_loose"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"mt_2jet_vbf"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"mt_2jet_vbf_tight"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
-
 		self.binnings_dict["binningHtt8TeV_"+"tt_1jet_high_mediumhiggs"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"tt_1jet_high_highhiggs"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"tt_2jet_vbf"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
-
 		# H->tautau binnings
 		for channel in ["mt", "et", "em"]:
 			self.binnings_dict["binningHtt13TeV_"+channel+"_inclusive_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
-			
 			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_inclusive_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_low_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_high_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 20)+range(200, 351, 50)])
-			
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_inclusive_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 20)+range(200, 351, 50)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_low_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_high_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 20)+range(200, 351, 50)])
-			
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_vbf_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 20)+range(200, 351, 50)])
-		
+			self.binnings_dict["binningHtt13TeV_"+channel+"_inclusive_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_low_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_high_m_vis"] = " ".join([str(float(f)) for f in range(0,45,15)+range(45, 105, 10)+range(105,151,15)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_low_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_high_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_vbf_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+
+			self.binnings_dict["binningMVA13TeV_"+channel+"_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_bkg_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_mid_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_sig_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 		self.binnings_dict["binningHtt13TeV_tt_inclusive_svfitMass"] = " ".join([str(float(f)) for f in [0, 50]+range(90, 171, 20)+[200, 350]])
 
