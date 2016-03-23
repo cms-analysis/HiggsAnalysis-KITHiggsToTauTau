@@ -27,7 +27,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 	{
 		if (! m_svfitCacheTreeInitialised)
 		{
-			TFile* SvfitFile = new TFile(settings.GetSvfitOutFile().replace(settings.GetSvfitOutFile().find(".root"), 5, std::to_string(fileindex)+std::string(".root")).c_str(), "RECREATE");
+			TFile* SvfitFile = new TFile(settings.GetSvfitOutFile().replace(settings.GetSvfitOutFile().find(".root"), 5, settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root")).c_str(), "RECREATE");
 			RootFileHelper::SafeCd(SvfitFile, settings.GetRootFileFolder());
 			m_svfitCacheTree->Write(m_svfitCacheTree->GetName());
 			SvfitFile->Close();
@@ -80,7 +80,7 @@ void SvfitCacheConsumer::Finish(setting_type const& settings)
 	if (settings.GetGenerateSvFitInput())
 	{
 		//write remaining Cache tree to the last file and write it
-		TFile* SvfitFile = new TFile(settings.GetSvfitOutFile().replace(settings.GetSvfitOutFile().find(".root"),5,std::to_string(fileindex)+std::string(".root")).c_str(),"RECREATE");
+		TFile* SvfitFile = new TFile(settings.GetSvfitOutFile().replace(settings.GetSvfitOutFile().find(".root"),5,settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root")).c_str(),"RECREATE");
 		RootFileHelper::SafeCd(SvfitFile, settings.GetRootFileFolder());
 		m_svfitCacheTree->Write(m_svfitCacheTree->GetName());
 		SvfitFile->Close();
