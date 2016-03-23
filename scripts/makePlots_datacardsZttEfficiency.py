@@ -16,7 +16,6 @@ import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
 import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
@@ -78,7 +77,7 @@ if __name__ == "__main__":
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=2.245,
+	parser.add_argument("--lumi", type=float, default=2.301,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
@@ -111,6 +110,11 @@ if __name__ == "__main__":
 	weight_string = "(fabs(eta_2) > 1.558)"
 	
 	# initialisations for plotting
+	if args.model == "etaufakerate":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_etaufakerate as samples
+	else:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+	
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
 	
@@ -330,7 +334,8 @@ if __name__ == "__main__":
 	# Max. likelihood fit and postfit plots
 	#--expectSignal=1 --toys -1 for Asimov dataset
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit --robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\" -n \"\"")
-	datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	#datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']]}, n_processes=args.n_processes)
 
 	# plotting
@@ -407,10 +412,6 @@ if __name__ == "__main__":
 				config["nicks"] = processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]
 				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
 				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
-
-				if level == "postfit":
-					config["scale_factors"] = [signal_scale] + [1.0]*(len(processes) - 1) + [1.0, signal_scale, 1.0]
-
 				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
@@ -428,7 +429,6 @@ if __name__ == "__main__":
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category
 				config["formats"] = ["png", "pdf"]
-				config["y_scientific"] = [True]
 				
 				if args.ratio:
 					if not "Ratio" in config.get("analysis_modules", []):
