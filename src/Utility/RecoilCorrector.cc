@@ -70,6 +70,7 @@ RecoilCorrector::RecoilCorrector(TString fileName) {
   _epsabs = 5e-4;
   _range = 0.95;
 
+  file->Close();
 }
 
 RecoilCorrector::~RecoilCorrector() {
