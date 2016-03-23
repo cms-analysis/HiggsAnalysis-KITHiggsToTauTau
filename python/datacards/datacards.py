@@ -518,6 +518,31 @@ class Datacards(object):
 		
 		return datacards_postfit_shapes
 	
+	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args):
+		commands = []
+		datacards_postfit_shapes = {}
+		fit_type_list = ["fit_s", "fit_b"]
+		if s_fit_only:
+			fit_type_list.remove("fit_b")
+
+		for fit_type in fit_type_list:
+			commands.extend(["PostFitShapesFromWorkspace --postfit -w {WORKSPACE} -d {DATACARD} -o {OUTPUT} -m {MASS} -f {FIT_RESULT} {ARGS}".format(
+					WORKSPACE=datacards_workspaces[datacard],
+					DATACARD=datacard,
+					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
+					MASS=[mass for mass in cb.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
+					ARGS=" ".join(args)
+			) for datacard, cb in datacards_cbs.iteritems()])
+			
+			datacards_postfit_shapes.setdefault(fit_type, {}).update({
+					datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
+			for datacard, cb in datacards_cbs.iteritems()})
+		
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		
+		return datacards_postfit_shapes
+	
 	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, *args):
 		if plotting_args is None:
 			plotting_args = {}
