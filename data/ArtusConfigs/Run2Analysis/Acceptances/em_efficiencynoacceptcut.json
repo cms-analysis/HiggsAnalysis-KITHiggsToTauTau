@@ -135,7 +135,7 @@
 			"producer:MvaMetCorrector",
 			"producer:DiLeptonQuantitiesProducer",
 			"producer:DiJetQuantitiesProducer",
-			"#producer:TriggerWeightProducer",
+			"producer:TriggerWeightProducer",
 			"producer:IdentificationWeightProducer",
 			"producer:EventWeightProducer"
 		],
