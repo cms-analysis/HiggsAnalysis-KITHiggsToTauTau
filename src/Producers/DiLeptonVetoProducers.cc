@@ -7,7 +7,7 @@
 std::string DiVetoElectronVetoProducer::GetProducerId() const
 {
 	return "DiVetoElectronVetoProducer";
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiElectronVetoPairsOS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_nDiElectronVetoPairsOS;
@@ -47,7 +47,7 @@ DiVetoMuonVetoProducer::DiVetoMuonVetoProducer() :
 void DiVetoMuonVetoProducer::Init(setting_type const& settings)
 {
 	DiLeptonVetoProducerBase<KMuon>::Init(settings);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiMuonVetoPairsOS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_nDiMuonVetoPairsOS;
@@ -55,6 +55,10 @@ void DiVetoMuonVetoProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiMuonVetoPairsSS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_nDiMuonVetoPairsSS;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("dilepton_veto", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_nDiElectronVetoPairsOS + product.m_nDiMuonVetoPairsOS) >= 1) ? 1 : 0;
 	});
 }
 

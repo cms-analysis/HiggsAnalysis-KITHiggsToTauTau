@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
@@ -10,9 +12,10 @@ import re
 import Artus.Utility.jsonTools as jsonTools
 import sys
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as import_binnings
 import ROOT
 import glob
+import array
 import itertools
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
@@ -163,7 +166,7 @@ if __name__ == "__main__":
 	for config in plot_configs:
 		root_histograms = {}
 		corr_vars = {}
-		binnings_dict = binnings.BinningsDict()
+		binnings_dict = import_binnings.BinningsDict()
 		nick_path = os.path.join(dir_path, config["request_nick"])
 		if not os.path.exists(nick_path):
 			os.makedirs(nick_path)
@@ -171,18 +174,18 @@ if __name__ == "__main__":
 		root_inst = root_inf.Get(config["storage_ntuple"])
 		for variables in itertools.combinations(config["parameters_list"], 2):
 			#print variables
-			xbins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[0])
-			ybins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[1])
+			xbins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip()
+			ybins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[1]).strip()
 			xbins = []
 			ybins = []
 			if "," in xbins_list:
 				xbins_list = map(float, xbins_list.split(","))
 				xbins += xbins_list
 				xbins[0] = int(xbins[0])
-			elif len(xbins_list.split(" ")) >= 2 and xbins_list.split(" ")[1] != "":
-				xbins_list = map(float, xbins_list.split(","))
-				xbins.append(len(xbins_list.split(" "))-1)
-				xbins.apped(a_bins_list)
+			elif len(xbins_list.split(" ")) >= 2:
+				a_bins_list = array.array('d',map(float, xbins_list.split(" ")))
+				xbins_list.append(len(xbins_list.split(" "))-1)
+				xbins.append(a_bins_list)
 			else:
 				xbins = [100,0.,0.]
 
@@ -190,10 +193,10 @@ if __name__ == "__main__":
 				ybins_list = map(float, ybins_list.split(","))
 				ybins += ybins_list
 				ybins[0] = int(ybins[0])
-			elif len(ybins_list.split(" ")) >= 2 and ybins_list.split(" ")[1] != "":
-				ybins_list = map(float, ybins_list.split(","))
+			elif len(ybins_list.split(" ")) >= 2:
+				a_bins_list = array.array('d',map(float, ybins_list.split(" ")))
 				ybins.append(len(ybins_list.split(" "))-1)
-				ybins.apped(a_bins_list)
+				ybins.append(a_bins_list)
 			else:
 				ybins = [100,0.,0.]
 

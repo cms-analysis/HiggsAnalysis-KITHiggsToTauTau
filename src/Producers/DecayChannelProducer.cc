@@ -17,12 +17,12 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 
 	m_decayChannel = HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel())));
-	
+
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("decayChannelIndex", [](event_type const& event, product_type const& product) {
 		return Utility::ToUnderlyingValue(product.m_decayChannel);
 	});
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepCharge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->charge();
@@ -53,7 +53,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepIsoOverPt", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->charge();
@@ -84,7 +84,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Mt", [](event_type const& event, product_type const& product)
 	{
-		return Quantities::CalculateMtH2Tau(product.m_flavourOrderedLeptons[0]->p4, product.m_met->p4); 
+		return Quantities::CalculateMtH2Tau(product.m_flavourOrderedLeptons[0]->p4, product.m_met->p4);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Iso", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolation, product.m_flavourOrderedLeptons[0], DefaultValues::UndefinedDouble);
@@ -113,7 +113,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	{
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met->p4);
 	});
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepCharge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->charge();
@@ -144,7 +144,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepIsoOverPt", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->charge();
@@ -175,7 +175,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Mt", [](event_type const& event, product_type const& product)
 	{
-		return Quantities::CalculateMtH2Tau(product.m_flavourOrderedLeptons[1]->p4, product.m_met->p4); 
+		return Quantities::CalculateMtH2Tau(product.m_flavourOrderedLeptons[1]->p4, product.m_met->p4);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Iso", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_leptonIsolation, product.m_flavourOrderedLeptons[1], DefaultValues::UndefinedDouble);
@@ -188,7 +188,15 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	{
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[1]->p4, product.m_met->p4);
 	});
-	
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("extraelec_veto", [](KappaEvent const& event, KappaProduct const& product)
+	{
+		return static_cast<HttProduct const&>(product).m_extraElecVeto;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("extramuon_veto", [](KappaEvent const& event, KappaProduct const& product)
+	{
+		return static_cast<HttProduct const&>(product).m_extraMuonVeto;
+	});
+
 	std::vector<std::string> tauDiscriminators;
 	tauDiscriminators.push_back("byCombinedIsolationDeltaBetaCorrRaw3Hits");
 	tauDiscriminators.push_back("byLooseCombinedIsolationDeltaBetaCorr3Hits");
@@ -211,13 +219,13 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	tauDiscriminators.push_back("byLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byMediumIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byTightIsolationMVArun2v1DBoldDMwLT");
-	tauDiscriminators.push_back("byVTightIsolationMVArun2v1DBoldDMwLT");	
+	tauDiscriminators.push_back("byVTightIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("chargedIsoPtSum");
 	tauDiscriminators.push_back("decayModeFinding");
 	tauDiscriminators.push_back("decayModeFindingNewDMs");
 	tauDiscriminators.push_back("neutralIsoPtSum");
 	tauDiscriminators.push_back("puCorrPtSum");
-	
+
 	for (std::string tauDiscriminator : tauDiscriminators)
 	{
 		for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
@@ -265,7 +273,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			assert(leptonIndex < product.m_flavourOrderedLeptons.size());
 			KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
 			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
-			
+
 			return  GeneratorInfo::GetGenMatchingCode(genParticle);
 		});
 	}
@@ -274,16 +282,16 @@ void DecayChannelProducer::Init(setting_type const& settings)
 void DecayChannelProducer::Produce(event_type const& event, product_type& product,
 	                               setting_type const& settings) const
 {
-	
+
 	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
-	
+
 	KLepton* lepton1 = 0;
 	KLepton* lepton2 = 0;
-	
+
 	size_t nElectrons = product.m_validElectrons.size();
 	size_t nMuons = product.m_validMuons.size();
 	size_t nTaus = product.m_validTaus.size();
-	
+
 	if (nElectrons == 2)
 	{
 		lepton1 = product.m_validElectrons[0];
@@ -330,7 +338,7 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 			product.m_decayChannel = HttEnumTypes::DecayChannel::TT;
 		}
 	}
-	
+
 	// fill tau energy scale weights
 	if (! product.m_tauEnergyScaleWeight.empty())
 	{
@@ -348,7 +356,7 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 
 	if (product.m_decayChannel != HttEnumTypes::DecayChannel::NONE)
 	{
-		
+
 		// fill leptons ordered by pt (high pt first)
 		if (lepton1->p4.Pt() >= lepton2->p4.Pt())
 		{
@@ -360,11 +368,11 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 			product.m_ptOrderedLeptons.push_back(lepton2);
 			product.m_ptOrderedLeptons.push_back(lepton1);
 		}
-		
+
 		// fill leptons ordered by flavour (according to channel definition)
 		product.m_flavourOrderedLeptons.push_back(lepton1);
 		product.m_flavourOrderedLeptons.push_back(lepton2);
-		
+
 		// fill leptons ordered by charge (positive charges first)
 		if (lepton1->charge() >= lepton2->charge())
 		{
@@ -382,17 +390,17 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 void TTHDecayChannelProducer::Produce(event_type const& event, product_type& product,
 	                              setting_type const& settings) const
 {
-	
+
 	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
-	
+
 	KLepton* lepton1 = 0;
 	KLepton* lepton2 = 0;
 	KLepton* lepton3 = 0;
-	
+
 	size_t nElectrons = product.m_validElectrons.size();
 	size_t nMuons = product.m_validMuons.size();
 	size_t nTaus = product.m_validTTHTaus.size();
-	
+
 	if (nElectrons == 1)
 	{
 		if (nTaus == 2) {
@@ -411,7 +419,7 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 			product.m_decayChannel = HttEnumTypes::DecayChannel::TTH_TTM;
 		}
 	}
-	
+
 	// fill tau energy scale weights
 	if (! product.m_tauEnergyScaleWeight.empty())
 	{
@@ -429,7 +437,7 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 		product.m_ptOrderedLeptons.push_back(lepton1);
 		product.m_ptOrderedLeptons.push_back(lepton2);
 		product.m_ptOrderedLeptons.push_back(lepton3);
-		
+
 		std::sort(product.m_ptOrderedLeptons.begin(), product.m_ptOrderedLeptons.end(),
 	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
 	          { return lepton1->p4.Pt() > lepton2->p4.Pt(); });
@@ -445,7 +453,7 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 		product.m_chargeOrderedLeptons.push_back(lepton1);
 		product.m_chargeOrderedLeptons.push_back(lepton2);
 		product.m_chargeOrderedLeptons.push_back(lepton3);
-		
+
 		std::sort(product.m_chargeOrderedLeptons.begin(), product.m_chargeOrderedLeptons.end(),
 	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
 	          { return lepton1->charge() > lepton2->charge(); });
@@ -459,12 +467,12 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	assert(product.m_validDiTauPairCandidates.size() > 0);
 
 	product.m_decayChannel = m_decayChannel;
-	
+
 	// fill the lepton vectors
 	DiTauPair diTauPair = product.m_validDiTauPairCandidates.at(0);
 	KLepton* lepton1 = diTauPair.first;
 	KLepton* lepton2 = diTauPair.second;
-	
+
 	// fill leptons ordered by pt (high pt first)
 	if (lepton1->p4.Pt() >= lepton2->p4.Pt())
 	{
@@ -476,7 +484,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_ptOrderedLeptons.push_back(lepton2);
 		product.m_ptOrderedLeptons.push_back(lepton1);
 	}
-	
+
 	// fill leptons ordered by charge (positive charges first)
 	if (lepton1->charge() >= lepton2->charge())
 	{
@@ -488,7 +496,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_chargeOrderedLeptons.push_back(lepton2);
 		product.m_chargeOrderedLeptons.push_back(lepton1);
 	}
-	
+
 	// fill leptons ordered by flavour (according to channel definition)
 	if (m_decayChannel == HttEnumTypes::DecayChannel::EM)
 	{
@@ -500,7 +508,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		product.m_flavourOrderedLeptons.push_back(lepton1);
 		product.m_flavourOrderedLeptons.push_back(lepton2);
 	}
-	
+
 	// update valid leptons list with the leptons from the chosen pair: necessary for jet overlap removal
 	product.m_validLeptons.clear();
 	bool electronsCleared = false;
@@ -510,7 +518,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
 	{
 		product.m_validLeptons.push_back(*lepton);
-		
+
 		if ((*lepton)->flavour() == KLeptonFlavour::ELECTRON)
 		{
 			if (! electronsCleared)
