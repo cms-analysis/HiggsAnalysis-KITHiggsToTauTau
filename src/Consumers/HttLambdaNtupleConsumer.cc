@@ -62,10 +62,10 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	{
 		return product.m_nDiElectronVetoPairsSS + product.m_nDiMuonVetoPairsSS;
 	});
-// 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("dilepton_veto", [](event_type const& event, product_type const& product)
-// 	{
-// 		return ((product.m_nDiElectronVetoPairsOS + product.m_nDiMuonVetoPairsOS) >= 1) ? 1 : 0;
-// 	});
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("dilepton_veto", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_nDiElectronVetoPairsOS + product.m_nDiMuonVetoPairsOS) >= 1) ? 1 : 0;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPx", [](event_type const& event, product_type const& product)
 	{
 		return product.m_metCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionGenPx"](event, product) : DefaultValues::UndefinedFloat;
@@ -262,14 +262,6 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-// 	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("extraelec_veto", [](KappaEvent const& event, KappaProduct const& product)
-// 	{
-// 		return static_cast<HttProduct const&>(product).m_extraElecVeto;
-// 	});
-// 	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("extramuon_veto", [](KappaEvent const& event, KappaProduct const& product)
-// 	{
-// 		return static_cast<HttProduct const&>(product).m_extraMuonVeto;
-// 	});
 
 	// need to be called at last
 	KappaLambdaNtupleConsumer::Init(settings);
