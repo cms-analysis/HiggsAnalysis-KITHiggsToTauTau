@@ -43,6 +43,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/RecoMuonInElectronConeVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DiLeptonChargeFilter.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/MinimalPlotlevelFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ZBosonVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/HttObjectsCutFilters.h"
@@ -214,6 +215,8 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new DecayChannelFilter();
 	else if(id == DiLeptonChargeFilter().GetFilterId())
 		return new DiLeptonChargeFilter();
+	else if(id == MinimalPlotlevelFilter().GetFilterId())
+		return new MinimalPlotlevelFilter();
 	else if(id == EventCategoryFilter().GetFilterId())
 		return new EventCategoryFilter();
 	else if(id == ZBosonVetoFilter().GetFilterId())

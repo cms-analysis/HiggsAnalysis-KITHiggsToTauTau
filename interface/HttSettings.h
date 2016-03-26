@@ -34,8 +34,12 @@ public:
 
 	IMPL_SETTING(bool, OSChargeLeptons);
 
+
 	IMPL_SETTING(std::string, MetRecoilCorrectorFile);
 	IMPL_SETTING(std::string, MvaMetRecoilCorrectorFile);
+
+	IMPL_SETTING_STRINGLIST_DEFAULT(PlotlevelFilterExpressionQuantities, {});
+	IMPL_SETTING_DEFAULT(std::string, PlotlevelFilterExpression, "");
 
 	IMPL_SETTING_STRINGLIST_DEFAULT(TriggerEfficiencyData, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(TriggerEfficiencyMc, {});
