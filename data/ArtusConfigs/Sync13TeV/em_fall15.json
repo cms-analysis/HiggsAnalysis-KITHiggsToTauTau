@@ -127,6 +127,8 @@
 					"producer:Run2DecayChannelProducer",
 					"producer:MetSelector",
 					"producer:MvaMetSelector",
+					"producer:MetCorrector",
+					"producer:MvaMetCorrector",
 					"#producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",

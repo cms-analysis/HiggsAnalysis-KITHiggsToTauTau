@@ -26,10 +26,12 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 	
 	MetCorrectorBase(TMet* product_type::*metMember,
+			 std::vector<float> product_type::*metCorrections,
 			 std::string (setting_type::*GetRecoilCorrectorFile)(void) const
 	) :
 		ProducerBase<HttTypes>(),
 		m_metMember(metMember),
+		m_metCorrections(metCorrections),
 		GetRecoilCorrectorFile(GetRecoilCorrectorFile)
 	{
 	}
@@ -77,6 +79,13 @@ public:
 			}
 		}
 		
+		// Save uncorrected MET object and ingredients for the correction
+		(product.*m_metCorrections).push_back((product.*m_metMember)->p4.Pt());
+		(product.*m_metCorrections).push_back(genPx);
+		(product.*m_metCorrections).push_back(genPy);
+		(product.*m_metCorrections).push_back(visPx);
+		(product.*m_metCorrections).push_back(visPy);
+		
 		float correctedMetX, correctedMetY;
 		
 		m_recoilCorrector->CorrectByMeanResolution(
@@ -96,10 +105,14 @@ public:
 			correctedMetY,
 			0.,
 			std::sqrt(metResolution * metResolution + correctedMetX * correctedMetX + correctedMetY * correctedMetY));
+		
+		// Save corrected MET object
+		(product.*m_metCorrections).push_back((product.*m_metMember)->p4.Pt());
 	}
 
 protected:
 	TMet* product_type::*m_metMember;
+	std::vector<float> product_type::*m_metCorrections;
 	std::string (setting_type::*GetRecoilCorrectorFile)(void) const;
 	RecoilCorrector* m_recoilCorrector;
 };
@@ -113,6 +126,7 @@ class MetCorrector: public MetCorrectorBase<KMET>
 {
 public:
 	MetCorrector();
+	virtual void Init(setting_type const& settings) override;
 	virtual std::string GetProducerId() const override;
 };
 
@@ -123,5 +137,6 @@ class MvaMetCorrector: public MetCorrectorBase<KMET>
 {
 public:
 	MvaMetCorrector();
+	virtual void Init(setting_type const& settings) override;
 	virtual std::string GetProducerId() const override;
 };

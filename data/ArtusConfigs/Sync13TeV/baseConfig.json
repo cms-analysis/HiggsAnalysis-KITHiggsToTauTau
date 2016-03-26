@@ -64,6 +64,16 @@
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeV_PromptReco_69mbMinBiasXS.root",
 			"Run2015" : "not needed"
 		}
+	},
+	"MetRecoilCorrectorFile" : {
+		"nick" : {
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root"
+		}
+	},
+	"MvaMetRecoilCorrectorFile" : {
+		"nick" : {
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
+		}
 	}
 }
 

@@ -107,6 +107,10 @@ public:
 	TVector2 m_metPfPull;
 	double chiSquare;
 
+	// filled by the MetCorrectors
+	std::vector<float> m_pfmetCorrections;
+	std::vector<float> m_metCorrections;
+
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
 	RMFLV m_diTauSystemCA;
