@@ -43,30 +43,30 @@
         "deltaNLL*(quantileExpected>=0.0)*(quantileExpected<1.0)"
     ], 
     "x_bins": [
-        "{GRID_BINS},0.6,1.5"
+        "{GRID_BINS},0.8,1.2"
     ], 
     "x_expressions": [
         "r"
     ], 
     "x_label": "#sigma modifier", 
     "x_lims": [
-        0.6, 
-        1.5
+        0.8, 
+        1.2
     ], 
     "y_bins": [
-        "{GRID_BINS},0.85,1.15"
+        "{GRID_BINS},0.8,1.2"
     ], 
     "y_expressions": [
         "eff"
     ], 
     "y_label": "#varepsilon modifier", 
     "y_lims": [
-        0.85, 
-        1.15
+        0.8, 
+        1.2
     ], 
     "z_label": "#minus2 #Delta ln L", 
     "z_lims": [
         0, 
-        100
+        20
     ]
 }

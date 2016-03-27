@@ -35,7 +35,7 @@ if __name__ == "__main__":
 			"fit" : {
 				"" : {
 					"method" : "MaxLikelihoodFit",
-					"options" : "--skipBOnlyFit",
+					"options" : "--skipBOnlyFit --expectSignal=1 --toys -1",
 					"poi" : "r",
 				},
 			},
@@ -48,8 +48,8 @@ if __name__ == "__main__":
 			"fit" : {
 				"" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {GRID_BINS} --expectSignal=1 --toys -1",
-					"poi" : "r", #--setPhysicsModelParameterRanges \"r=0.6,1.5:eff=0.85,1.15\"
+					"options" : "--algo grid --points {GRID_BINS} --expectSignal=1 --toys -1 --minimizerStrategy 0 --setPhysicsModelParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"",
+					"poi" : "r",
 				}
 			},
 			"fit_plots" : {
@@ -76,9 +76,9 @@ if __name__ == "__main__":
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
-	parser.add_argument("--grid-bins", default="100",
+	parser.add_argument("--grid-bins", default="50",
 	                    help="Binning of the grid for the logL scan. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=2.155,
+	parser.add_argument("--lumi", type=float, default=2.301,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
@@ -318,7 +318,7 @@ if __name__ == "__main__":
 		config["directories"] = [directory.format(OUTDIR=args.output_dir) for directory in config.get("directories", [])]
 
 	# create plots using HarryPlotter
-	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# prefit-postfit plots
 	plot_configs = []
