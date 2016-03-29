@@ -44,10 +44,10 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
 //     product.tsValue = rndm%100;
     
     //pVecSum production vectorial sum of missing E_t DiLepton und DiJet 
-    product.pVecSum = (product.m_met->p4 + product.m_diLeptonSystem + product.m_diJetSystem).M();
+    product.pVecSum = (product.m_met.p4 + product.m_diLeptonSystem + product.m_diJetSystem).M();
     
     //pScalSum production scalar sum of missing E_t DiLepton und DiJet 
-    product.pScalSum = (product.m_met->p4).M() + product.m_diLeptonSystem.M() + product.m_diJetSystem.M();
+    product.pScalSum = (product.m_met.p4).M() + product.m_diLeptonSystem.M() + product.m_diJetSystem.M();
     if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 20.0) >= 1)
     {
         product.min_ll_jet_eta = product.m_diLeptonSystem.Eta() + product.m_validJets[0]->p4.Eta();

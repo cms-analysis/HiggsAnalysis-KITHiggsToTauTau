@@ -20,19 +20,19 @@ bool ZBosonVetoFilter::DoesEventPass(event_type const& event,
 	if (vetoType == ZBosonVetoType::HF) {
 		
 		validEvent = validEvent && (
-		    product.m_diLeptonSystem.mass() < (65.5 + 3. * product.m_met->p4.Pt()/8) ||
-		    product.m_diLeptonSystem.mass() > (108.0 - 1. * product.m_met->p4.Pt()/4) ||
-		    product.m_diLeptonSystem.mass() < (79.0 - 3. * product.m_met->p4.Pt()/4) ||
-		    product.m_diLeptonSystem.mass() > (99.0 + 1. * product.m_met->p4.Pt()/2)); 
+		    product.m_diLeptonSystem.mass() < (65.5 + 3. * product.m_met.p4.Pt()/8) ||
+		    product.m_diLeptonSystem.mass() > (108.0 - 1. * product.m_met.p4.Pt()/4) ||
+		    product.m_diLeptonSystem.mass() < (79.0 - 3. * product.m_met.p4.Pt()/4) ||
+		    product.m_diLeptonSystem.mass() > (99.0 + 1. * product.m_met.p4.Pt()/2)); 
 	}
 	
 	else if (vetoType == ZBosonVetoType::LF) {
 		
 		validEvent = validEvent && !(
-		    product.m_diLeptonSystem.mass() < (65.5 + 3. * product.m_met->p4.Pt()/8) ||
-		    product.m_diLeptonSystem.mass() > (108.0 - 1. * product.m_met->p4.Pt()/4) ||
-		    product.m_diLeptonSystem.mass() < (79.0 - 3. * product.m_met->p4.Pt()/4) ||
-		    product.m_diLeptonSystem.mass() > (99.0 + 1. * product.m_met->p4.Pt()/2));
+		    product.m_diLeptonSystem.mass() < (65.5 + 3. * product.m_met.p4.Pt()/8) ||
+		    product.m_diLeptonSystem.mass() > (108.0 - 1. * product.m_met.p4.Pt()/4) ||
+		    product.m_diLeptonSystem.mass() < (79.0 - 3. * product.m_met.p4.Pt()/4) ||
+		    product.m_diLeptonSystem.mass() > (99.0 + 1. * product.m_met.p4.Pt()/2));
 		    
 		validEvent = validEvent && (std::abs(product.m_diLeptonSystem.mass() - 91.) < 10);
 	}

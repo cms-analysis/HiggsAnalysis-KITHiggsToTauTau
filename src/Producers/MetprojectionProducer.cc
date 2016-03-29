@@ -76,12 +76,12 @@ void MetprojectionProducer::Init(setting_type const& settings)
 void MetprojectionProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
 	bool svFitPresent = product.m_svfitResults.momentum;
-	assert(product.m_met);
+	assert(product.m_metUncorr);
 	assert(event.m_genMet);
 
 	// comparisons with SVFit, purely on reco level
 	TVector2 diLeptonMomentum(product.m_diLeptonSystem.x(), product.m_diLeptonSystem.Y());
-	TVector2 met(product.m_met->p4.Vect().X(), product.m_met->p4.Vect().Y());
+	TVector2 met(product.m_met.p4.Vect().X(), product.m_met.p4.Vect().Y());
 	TVector2 genMet(event.m_genMet->p4.Vect().X(), event.m_genMet->p4.Vect().Y());
 	if(svFitPresent)
 	{
@@ -104,12 +104,12 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 		rotationMatrix(0,1) =   std::sin( genBoson.Phi());
 		rotationMatrix(1,0) = - std::sin( genBoson.Phi());
 
-		ROOT::Math::SMatrix<double,2> rotatedMatrix = rotationMatrix * product.m_met->significance;
+		ROOT::Math::SMatrix<double,2> rotatedMatrix = rotationMatrix * product.m_met.significance;
 		product.m_metPull.Set( (rotatedGenMet.X() - rotatedMet.X()) / sqrt(rotatedMatrix(0,0)), 
 	                       	   (rotatedGenMet.Y() - rotatedMet.Y()) / sqrt(rotatedMatrix(1,1)) );
 
 		TVector2 dRecoGenMet = met - genMet;
-		product.chiSquare = Quantities::MetChiSquare(dRecoGenMet, product.m_met->significance);
+		product.chiSquare = Quantities::MetChiSquare(dRecoGenMet, product.m_met.significance);
 	}
 	else
 	{

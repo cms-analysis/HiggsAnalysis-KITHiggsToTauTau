@@ -70,7 +70,7 @@ void  MVATestMethodsProducer::Produce(spec_event_type const& event,
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert(event.m_tjets);
 	assert(event.m_jetMetadata);
-	assert(product.m_met);
+	assert(product.m_metUncorr);
 
 	// has to be called at the end of the subclass function
 	TmvaClassificationMultiReaderBase<HttTypes>::Produce(event, product, settings);

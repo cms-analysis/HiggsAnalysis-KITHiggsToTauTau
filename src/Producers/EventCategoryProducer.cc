@@ -76,7 +76,7 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert((product.m_decayChannel != HttEnumTypes::DecayChannel::EM) || (! product.m_antiTtbarDiscriminators.empty()));
-	assert(((product.m_decayChannel != HttEnumTypes::DecayChannel::ET) && (product.m_decayChannel != HttEnumTypes::DecayChannel::MT)) || (product.m_met));
+	assert(((product.m_decayChannel != HttEnumTypes::DecayChannel::ET) && (product.m_decayChannel != HttEnumTypes::DecayChannel::MT)) || (product.m_metUncorr));
 	
 	// https://twiki.cern.ch/twiki/pub/CMSPublic/Hig13004TWikiUpdate/categories_2012.png
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Event_Categories_SM
@@ -85,7 +85,7 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 	if ((product.m_decayChannel == HttEnumTypes::DecayChannel::ET) ||
 		(product.m_decayChannel == HttEnumTypes::DecayChannel::MT))
 	{
-		if ((Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met->p4) < 30.0) &&
+		if ((Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4) < 30.0) &&
 		    (product.m_bTaggedJets.size() == 0))
 		{
 			product.m_eventCategories.push_back(HttEnumTypes::EventCategory::INCLUSIVE);
@@ -169,7 +169,7 @@ void EventCategoryProducer::Produce(event_type const& event, product_type& produ
 		    ((product.m_decayChannel != HttEnumTypes::DecayChannel::EM) || (product.m_antiTtbarDiscriminators[0] > -0.5)))
 		{
 			if ((nJets30 >= 1) &&
-		        ((product.m_decayChannel != HttEnumTypes::DecayChannel::ET) || (product.m_met->p4.Pt() > 30.0)))
+		        ((product.m_decayChannel != HttEnumTypes::DecayChannel::ET) || (product.m_met.p4.Pt() > 30.0)))
 			{
 				if (product.m_flavourOrderedLeptons[leptonPtCutIndex]->p4.Pt() > leptonHighPtCut)
 				{

@@ -38,60 +38,60 @@ public:
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetSumEt", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return event.m_met->sumEt;
+			return (static_cast<HttProduct const&>(product)).m_pfmet.sumEt;
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetPt", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return event.m_met->p4.Pt();
+			return (static_cast<HttProduct const&>(product)).m_pfmet.p4.Pt();
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetPhi", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return event.m_met->p4.Phi();
+			return (static_cast<HttProduct const&>(product)).m_pfmet.p4.Phi();
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetCov00", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return event.m_met->significance.At(0, 0);
+			return (static_cast<HttProduct const&>(product)).m_pfmet.significance.At(0, 0);
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetCov01", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return event.m_met->significance.At(0, 1);
+			return (static_cast<HttProduct const&>(product)).m_pfmet.significance.At(0, 1);
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetCov10", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return event.m_met->significance.At(1, 0);
+			return (static_cast<HttProduct const&>(product)).m_pfmet.significance.At(1, 0);
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetCov11", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return event.m_met->significance.At(1, 1);
+			return (static_cast<HttProduct const&>(product)).m_pfmet.significance.At(1, 1);
 		});
 	
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetSumEt", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met->sumEt;
+			return (static_cast<HttProduct const&>(product)).m_met.sumEt;
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetPt", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met->p4.Pt();
+			return (static_cast<HttProduct const&>(product)).m_met.p4.Pt();
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetPhi", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met->p4.Phi();
+			return (static_cast<HttProduct const&>(product)).m_met.p4.Phi();
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetCov00", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met->significance.At(0, 0);
+			return (static_cast<HttProduct const&>(product)).m_met.significance.At(0, 0);
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetCov01", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met->significance.At(0, 1);
+			return (static_cast<HttProduct const&>(product)).m_met.significance.At(0, 1);
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetCov10", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met->significance.At(1, 0);
+			return (static_cast<HttProduct const&>(product)).m_met.significance.At(1, 0);
 		});
 		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetCov11", [](KappaEvent const& event, KappaProduct const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met->significance.At(1, 1);
+			return (static_cast<HttProduct const&>(product)).m_met.significance.At(1, 1);
 		});
 	}
 
@@ -125,19 +125,26 @@ public:
 			{
 				if (std::find(hashes.begin(), hashes.end(), met->leptonSelectionHash)!= hashes.end())
 				{
-					product.m_met = &(*met);
+					product.m_metUncorr = &(*met);
 					break;
 				} 
 			}
 			
-			assert(product.m_met != nullptr);
+			assert(product.m_metUncorr != nullptr);
 			// If this assertion fails, one might have to consider running the MetSelector before this producer
 			// in order to have the (PF) MET as a fallback solution
+			
+			// Copy the MET object, for possible future corrections
+			product.m_met = *(product.m_metUncorr);
 		}
 		else if ((m_metMember != nullptr) && ((event.*m_metMember) != nullptr))
 		{
-			product.m_met = (event.*m_metMember);
-			product.m_pfmet = (event.*m_metMember);
+			product.m_metUncorr = (event.*m_metMember);
+			product.m_pfmetUncorr = (event.*m_metMember);
+			
+			// Copy the MET object, for possible future corrections
+			product.m_met = *(product.m_metUncorr);
+			product.m_pfmet = *(product.m_pfmetUncorr);
 		}
 		else
 		{

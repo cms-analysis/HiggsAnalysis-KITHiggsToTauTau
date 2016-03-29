@@ -107,10 +107,6 @@ public:
 	TVector2 m_metPfPull;
 	double chiSquare;
 
-	// filled by the MetCorrectors
-	std::vector<float> m_pfmetCorrections;
-	std::vector<float> m_metCorrections;
-
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
 	RMFLV m_diTauSystemCA;
@@ -132,9 +128,15 @@ public:
 	int m_nCentralJets20 = 0;
 	int m_nCentralJets30 = 0;
 	
-	KMET* m_met = 0;
-	KMET* m_puppiMet = 0;
-	KMET* m_pfmet = 0;
+	KMET* m_metUncorr = 0;
+	KMET* m_puppiMetUncorr = 0;
+	KMET* m_pfmetUncorr = 0;
+	
+	// filled by the MetCorrectors
+	std::vector<float> m_metCorrections;
+	std::vector<float> m_pfmetCorrections;
+	KMET m_met;
+	KMET m_pfmet;
 	
 	// filled by the TauTauRestFrameProducer
 	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;

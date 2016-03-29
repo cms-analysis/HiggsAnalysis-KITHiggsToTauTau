@@ -24,7 +24,7 @@ void MetSelectorPuppi::Produce(event_type const& event, product_type & product,
 {
 	// temporary fix while PUPPI doesn't  have a significance matrix
 	MetSelectorBase::Produce(event, product, settings);
-	product.m_met->significance = event.m_met->significance;
+	product.m_metUncorr->significance = event.m_met->significance;
 }
 
 std::string MetSelectorPuppi::GetProducerId() const

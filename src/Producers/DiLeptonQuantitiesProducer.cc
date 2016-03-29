@@ -53,7 +53,7 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 		return product.m_diLeptonPlusMetSystem.mass();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetMt", [](event_type const& event, product_type const& product) {
-		return Quantities::CalculateMt(product.m_diLeptonSystem, product.m_met->p4);
+		return Quantities::CalculateMt(product.m_diLeptonSystem, product.m_met.p4);
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pZetaVis", [](event_type const& event, product_type const& product) {
@@ -70,11 +70,11 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
 	                                     setting_type const& settings) const
 {
-	assert(product.m_met);
+	assert(product.m_metUncorr);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
 	product.m_diLeptonSystem = (product.m_flavourOrderedLeptons[0]->p4 + product.m_flavourOrderedLeptons[1]->p4);
-	product.m_diLeptonPlusMetSystem = (product.m_diLeptonSystem + product.m_met->p4);
+	product.m_diLeptonPlusMetSystem = (product.m_diLeptonSystem + product.m_met.p4);
 	
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
@@ -91,8 +91,8 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	double p1y = product.m_flavourOrderedLeptons[0]->p4.Py();
 	double p2x = product.m_flavourOrderedLeptons[1]->p4.Px();
 	double p2y = product.m_flavourOrderedLeptons[1]->p4.Py();
-	double pmx = product.m_met->p4.Px();
-	double pmy = product.m_met->p4.Py();
+	double pmx = product.m_met.p4.Px();
+	double pmy = product.m_met.p4.Py();
 	double ratioVisToTau1 = (p1y*p2x - p1x*p2y + p2y*pmx - p2x*pmy) / (p1y*p2x - p1x*p2y);
 	double ratioVisToTau2 = (p1y*p2x - p1x*p2y - p1y*pmx + p1x*pmy) / (p1y*p2x - p1x*p2y);
 	
@@ -111,7 +111,7 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	
 	product.pZetaVis = Quantities::PZetaVis(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
 	product.pZetaMiss = Quantities::PZetaMissVis(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
-	                                             product.m_met->p4, 0.0);
+	                                             product.m_met.p4, 0.0);
 	product.pZetaMissVis = Quantities::PZetaMissVis(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
-	                                                product.m_met->p4, 0.85);
+	                                                product.m_met.p4, 0.85);
 }

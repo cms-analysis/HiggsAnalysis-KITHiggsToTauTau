@@ -10,7 +10,7 @@ void MetLowerPtCutsFilter::Init(HttSettings const& settings) {
 	
 	this->m_cuts.push_back(std::pair<double_extractor_lambda, CutRange>(
 		[this](HttEvent const& event, HttProduct const& product) -> double {
-			return (product.m_met->p4.Pt());
+			return (product.m_met.p4.Pt());
 			},
 			CutRange::LowerThresholdCut(settings.GetMetLowerPtCuts())
 		));
@@ -26,7 +26,7 @@ void MetUpperPtCutsFilter::Init(HttSettings const& settings) {
 	
 	this->m_cuts.push_back(std::pair<double_extractor_lambda, CutRange>(
 		[this](HttEvent const& event, HttProduct const& product) -> double {
-			return (product.m_met->p4.Pt());
+			return (product.m_met.p4.Pt());
 			},
 			CutRange::UpperThresholdCut(settings.GetMetUpperPtCuts())
 		));

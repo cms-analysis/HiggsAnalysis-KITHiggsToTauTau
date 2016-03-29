@@ -25,12 +25,14 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	MetCorrectorBase(TMet* product_type::*metMember,
+	MetCorrectorBase(TMet* product_type::*metMemberUncorrected,
+			 TMet product_type::*metMemberCorrected,
 			 std::vector<float> product_type::*metCorrections,
 			 std::string (setting_type::*GetRecoilCorrectorFile)(void) const
 	) :
 		ProducerBase<HttTypes>(),
-		m_metMember(metMember),
+		m_metMemberUncorrected(metMemberUncorrected),
+		m_metMemberCorrected(metMemberCorrected),
 		m_metCorrections(metCorrections),
 		GetRecoilCorrectorFile(GetRecoilCorrectorFile)
 	{
@@ -46,12 +48,12 @@ public:
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override
 	{
-		assert(m_metMember != nullptr);
+		assert(m_metMemberUncorrected != nullptr);
 		
 		// Retrieve the needed informations from the event content
-		float metX = (product.*m_metMember)->p4.Px();
-		float metY = (product.*m_metMember)->p4.Py();
-		float metEnergy = (product.*m_metMember)->p4.energy();
+		float metX = (product.*m_metMemberUncorrected)->p4.Px();
+		float metY = (product.*m_metMemberUncorrected)->p4.Py();
+		float metEnergy = (product.*m_metMemberUncorrected)->p4.energy();
 		float metResolution = std::sqrt(metEnergy * metEnergy - metX * metX - metY * metY);
 		int nJets30 = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
 		
@@ -79,8 +81,7 @@ public:
 			}
 		}
 		
-		// Save uncorrected MET object and ingredients for the correction
-		(product.*m_metCorrections).push_back((product.*m_metMember)->p4.Pt());
+		// Save the ingredients for the correction
 		(product.*m_metCorrections).push_back(genPx);
 		(product.*m_metCorrections).push_back(genPy);
 		(product.*m_metCorrections).push_back(visPx);
@@ -100,18 +101,17 @@ public:
 			correctedMetY);
 		
 		// Apply the correction to the MET object
-		(product.*m_metMember)->p4.SetPxPyPzE(
+		(product.*m_metMemberCorrected) = *(product.*m_metMemberUncorrected);
+		(product.*m_metMemberCorrected).p4.SetPxPyPzE(
 			correctedMetX,
 			correctedMetY,
 			0.,
 			std::sqrt(metResolution * metResolution + correctedMetX * correctedMetX + correctedMetY * correctedMetY));
-		
-		// Save corrected MET object
-		(product.*m_metCorrections).push_back((product.*m_metMember)->p4.Pt());
 	}
 
 protected:
-	TMet* product_type::*m_metMember;
+	TMet* product_type::*m_metMemberUncorrected;
+	TMet product_type::*m_metMemberCorrected;
 	std::vector<float> product_type::*m_metCorrections;
 	std::string (setting_type::*GetRecoilCorrectorFile)(void) const;
 	RecoilCorrector* m_recoilCorrector;

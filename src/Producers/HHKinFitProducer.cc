@@ -51,7 +51,7 @@ void HHKinFitProducer::Init(setting_type const& settings)
 void HHKinFitProducer::Produce(event_type const& event, product_type& product,
                             setting_type const& settings) const
 {
-	assert(product.m_met);
+	assert(product.m_metUncorr);
 	LOG(INFO) << "--------------------------------------------------------------";
 
 	// consider only the first two leptons
@@ -59,8 +59,8 @@ void HHKinFitProducer::Produce(event_type const& event, product_type& product,
 	
 	TLorentzVector visibleTau1 = HHKinFitProducer::GetTauLorentzVector(product.m_flavourOrderedLeptons[0]->p4);
 	TLorentzVector visibleTau2 = HHKinFitProducer::GetTauLorentzVector(product.m_flavourOrderedLeptons[1]->p4);
-	TVector2 met = HHKinFitProducer::GetMetComponents(product.m_met->p4);
-	TMatrixD metCov = HHKinFitProducer::GetMetCovarianceMatrix(product.m_met->significance);
+	TVector2 met = HHKinFitProducer::GetMetComponents(product.m_met.p4);
+	TMatrixD metCov = HHKinFitProducer::GetMetCovarianceMatrix(product.m_met.significance);
 	//metCov[1][1] = metCov[0][0];
 	
 	/*TLorentzVector visibleTau1(-15.902388,37.502301,43.366285,59.503192);
@@ -109,7 +109,7 @@ void HHKinFitProducer::Produce(event_type const& event, product_type& product,
 	
 	// construct inputs
 	product.m_svfitInputs.Set(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
-	                          product.m_met->p4.Vect(), product.m_met->significance);
+	                          product.m_met.p4.Vect(), product.m_met.significance);
 	
 	// calculate results
 	product.m_svfitResults = HHKinFitProducer::svfitTools.GetResults(product.m_svfitEventKey,
