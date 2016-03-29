@@ -145,9 +145,9 @@ public:
 			}
 
 			if(position == 999){
-				LOG(WARNING) << "Variable " << substrings[0] << " not found!";
-				LOG(WARNING) << "Variable used in expression was not found in variable list, you might want to check if variable is already produced when this filter is run.";
-				LOG(WARNING) << "expression " << expression << " was evaluated to " << true;
+				LOG_N_TIMES(5, WARNING) << "Variable " << substrings[0] << " not found!";
+				LOG_N_TIMES(5, WARNING) << "Variable used in expression was not found in variable list, you might want to check if variable is already produced when this filter is run.";
+				LOG_N_TIMES(5, WARNING) << "expression " << expression << " was evaluated to " << true;
 				return true;
 			}
 			double variable = (m_ExpressionQuantities[position])(event, product);
