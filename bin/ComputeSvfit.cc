@@ -16,9 +16,33 @@
 typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
 typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 
+// copied from StackOverflow. Must be perfect.
+void removeCharsFromString( std::string &str, char* charsToRemove ) {
+   for ( unsigned int i = 0; i < strlen(charsToRemove); ++i ) {
+      str.erase( std::remove(str.begin(), str.end(), charsToRemove[i]), str.end() );
+   }
+}
+
 int main(int argc, const char *argv[])
 {
-    if (boost::filesystem::exists("Kappa/lib/libKappa.so"))
+
+    boost::program_options::options_description args{"Svfit input calculator Options"};
+    args.add_options()
+        ("help,h", "tba")
+        ("inputfile,i",  boost::program_options::value<std::string>(), "Path to the input rootfile")
+        ("outputfile,o", boost::program_options::value<std::string>(), "Output filename")
+        ("libkappa,l",   boost::program_options::value<std::string>(), "path to libKappa.so");
+
+    // parse the options
+    boost::program_options::variables_map vm;
+    boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(args).run(), vm);
+    boost::program_options::notify(vm);
+
+    if(boost::filesystem::exists(vm["libkappa"].as<std::string>()))
+    {
+        gSystem->Load(vm["libkappa"].as<std::string>().c_str());
+    }
+    else if (boost::filesystem::exists("Kappa/lib/libKappa.so"))
     {
         gSystem->Load("Kappa/lib/libKappa.so");
     }
@@ -30,18 +54,6 @@ int main(int argc, const char *argv[])
     {
         throw std::runtime_error("libKappa.so could not be found");
     }
-
-    boost::program_options::options_description args{"Svfit input calculator Options"};
-    args.add_options()
-        ("help,h", "tba")
-        ("inputfile,i", boost::program_options::value<std::string>(), "Path to the input rootfile")
-        ("outputfile,o", boost::program_options::value<std::string>(), "Output filename");
-
-    // parse the options
-    boost::program_options::variables_map vm;
-    boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(args).run(), vm);
-    boost::program_options::notify(vm);
-
     ULong64_t run, lumi, event;
     svFitStandalone::kDecayType decayType1, decayType2;
     int systematicShift;
@@ -62,8 +74,10 @@ int main(int argc, const char *argv[])
     RMFLV momentum, momentumUncertainty;
     RMDataV fittedMET;
     double transverseMass, transverseMassUncertainty;
-
-    TFile *infile = TFile::Open((vm["inputfile"].as<std::string>()).c_str(),"READ");
+    std::string inputfilename = vm["inputfile"].as<std::string>();
+    char chars[] = "\"";
+    removeCharsFromString(inputfilename, chars);
+    TFile *infile = TFile::Open(inputfilename.c_str(),"READ");
     const char* directory = infile->GetListOfKeys()->At(0)->GetName();
     TTree *inputtree = (TTree*)infile->Get((std::string(directory)+std::string("/svfitCache")).c_str());
 
@@ -117,9 +131,10 @@ int main(int argc, const char *argv[])
     outputtree->Branch("svfitMet", &fittedMET);
     outputtree->Branch("svfitTransverseMass", &transverseMass);
     outputtree->Branch("svfitTransverseMassUnc", &transverseMassUncertainty);
-
-    for(unsigned int entry = 0; entry < inputtree->GetEntries(); entry++)
+    unsigned int nEntries = inputtree->GetEntries();
+    for(unsigned int entry = 0; entry < nEntries; entry++)
     {
+        std::cout << "Entry: " << entry << " / " << nEntries << std::endl;
         inputtree->GetEntry(entry);
 
         outrun = run;
