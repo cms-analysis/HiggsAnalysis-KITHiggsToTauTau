@@ -136,6 +136,23 @@ It is recommended to calculate the Svfit values file by file:
 
 	HiggsToTauTauAnalysis.py -b --files-per-job 1 --wall-time 48:00:00 ...
 
+An alternative way is to write out the inputs needed by SvFit separately and process them later. This can by done by specifying in the config
+
+	"SvfitOutFile" : "SvfitCache.root",
+	"GenerateSvFitInput" : true,
+	SvFitInputCutOff" : 15000,
+
+To calculate the Svfit values on the naf batch system, call
+
+	batchComputSvfit.py <ArtusWorkdir>
+
+This will write the cache values in a subfolder of the workdir.
+
+The Svfit cache results can be copied e.g. with gfal-tools
+
+	for file in files; do echo "file://PATH_TO_FILE" >> files_to_copy; done
+	gfal-copy --from-file files_to_copy srm://dcache-se-cms.desy.de/pnfs/desy.de/cms/tier2/store/user/$USER/...
+
 ### Post-processing
 
 The postprocessing is done based on [HarryPlotter](https://github.com/artus-analysis/Artus/tree/master/HarryPlotter):
