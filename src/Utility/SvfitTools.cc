@@ -353,8 +353,8 @@ void SvfitResults::CreateBranches(TTree* tree)
 	tree->Branch("svfitMomentum", &momentum);
 	tree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
 	tree->Branch("svfitMet", &fittedMET);
-	tree->Branch("svfitTransverseMass", &transverseMass, "svfitTransverseMass/D");
-	tree->Branch("svfitTransverseMassUnc", &transverseMassUnc, "svfitTransverseMassUnc/D");
+	tree->Branch("svfitTransverseMass", transverseMass, "svfitTransverseMass/D");
+	tree->Branch("svfitTransverseMassUnc", transverseMassUnc, "svfitTransverseMassUnc/D");
 }
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
@@ -362,8 +362,8 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("svfitMomentum", &momentum);
 	tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
 	tree->SetBranchAddress("svfitMet", &fittedMET);
-	tree->SetBranchAddress("svfitTransverseMass", &transverseMass);
-	tree->SetBranchAddress("svfitTransverseMassUnc", &transverseMassUnc);
+	tree->SetBranchAddress("svfitTransverseMass", transverseMass);
+	tree->SetBranchAddress("svfitTransverseMassUnc", transverseMassUnc);
 	ActivateBranches(tree, true);
 }
 
