@@ -1,7 +1,10 @@
 {
 	"property" : [
+		"nickname",
+		"input",
 		"run",
 		"lumi",
+		"event",
 		"evt",
 		"npv",
 		"npu",
@@ -16,6 +19,10 @@
 		"weight",
 		"#embeddedWeight",
 		"m_vis",
+		"diLepMass",
+		"diLepMassSmearUp",
+		"diLepMassSmearDown",
+		"diLepGenMass",
 		"#m_sv",
 		"#pt_sv",
 		"#eta_sv",
@@ -60,6 +67,7 @@
 		"mvametphi",
 		"pzetavis",
 		"pzetamiss",
+		"pZetaMissVis",
 		"metcov00",
 		"metcov01",
 		"metcov10",
@@ -158,6 +166,8 @@
 		"extraelec_veto",
 		"extramuon_veto",
 		"gen_match_1",
-		"gen_match_2"
+		"gen_match_2",
+		"decayMode_1",
+		"decayMode_2"
 	]
 }
