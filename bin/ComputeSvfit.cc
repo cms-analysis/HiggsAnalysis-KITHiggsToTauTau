@@ -129,8 +129,8 @@ int main(int argc, const char *argv[])
     outputtree->Branch("svfitMomentum", &momentum);
     outputtree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
     outputtree->Branch("svfitMet", &fittedMET);
-    outputtree->Branch("svfitTransverseMass", &transverseMass);
-    outputtree->Branch("svfitTransverseMassUnc", &transverseMassUncertainty);
+    outputtree->Branch("svfitTransverseMass", &transverseMass, "svfitTransverseMass/D");
+    outputtree->Branch("svfitTransverseMassUnc", &transverseMassUncertainty, "svfitTransverseMassUnc/D");
     unsigned int nEntries = inputtree->GetEntries();
     for(unsigned int entry = 0; entry < nEntries; entry++)
     {
