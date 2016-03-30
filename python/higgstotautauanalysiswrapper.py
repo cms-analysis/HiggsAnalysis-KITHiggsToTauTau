@@ -10,7 +10,7 @@ import Artus.KappaAnalysis.kappaanalysiswrapper as kappaanalysiswrapper
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.tools as tools
-
+import sys
 
 class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
@@ -56,18 +56,30 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			n_events_from_db = get_n_generated_events_from_nick(self._config["Nickname"])
 			if(n_events_from_db > 0):
 				self._config["NumberGeneratedEvents"] = n_events_from_db
+			elif not isData(self._config["Nickname"]):
+				log.fatal("Number of Generated Events not set! Check your datasets.json for nick " + self._config["Nickname"])
+				sys.exit(1)
 
 		if not ("CrossSection" in self._config) or (self._config["CrossSection"] < 0):
 			from Kappa.Skimming.registerDatasetHelper import get_xsec
+			from Kappa.Skimming.datasetsHelper2015 import isData
 			xsec = get_xsec(self._config["Nickname"])
 			if(xsec > 0):
 				self._config["CrossSection"] = xsec
+			elif not isData(self._config["Nickname"]):
+				print self._config["Nickname"]
+				print isData(self._config["Nickname"])
+				log.fatal("Cross section for " + self._config["Nickname"] + " not set! Check your datasets.json")
+				sys.exit(1)
 
 		if not ("GeneratorWeight" in self._config) or (self._config["GeneratorWeight"] < 0):
 			from Kappa.Skimming.registerDatasetHelper import get_generator_weight
 			generator_weight = get_generator_weight(self._config["Nickname"])
 			if(generator_weight > 0 and generator_weight <= 1.0):
 				self._config["GeneratorWeight"] = generator_weight
+			elif not isData(self._config["Nickname"]):
+				log.warning("No GeneratorWeight assigned to sample with nickname " + self._config["Nickname"] + ". Adjust your config to give it the default value of 1 or, in case of next-to-leading order samples calculate the GeneratorWeight and add it to datasets.json.")
+
 
 	def run(self):
 		symlinkBaseDir = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusOutputs")
