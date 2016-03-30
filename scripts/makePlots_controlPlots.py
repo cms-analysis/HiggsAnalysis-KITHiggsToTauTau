@@ -16,11 +16,11 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 
 import sys
 
-def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot):
+def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass):
 	config["analysis_modules"].append("ScaleHistograms")
-	config["scale_nicks"] = ["htt125"]
+	config["scale_nicks"] = ["htt%i"%higgsmass]
 	config["scales"] = [ 1/args.scale_signal ]
-	config["scale_result_nicks"] = ["htt125Scaled"]
+	config["scale_result_nicks"] = ["htt%iScaled"%higgsmass]
 
 	config["analysis_modules"].append("BlindingPolicy")
 	config["blinding_background_nicks"] = []
@@ -32,7 +32,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot):
 		config["blinding_method"].append(method)
 		config["blinding_result_nicks"].append("ratio_" + method)
 		config["blinding_background_nicks"].append(" ".join(bkg_samples))
-		config["blinding_signal_nicks"].append("htt125Scaled")
+		config["blinding_signal_nicks"].append("htt%iScaled"%higgsmass)
 		config["blinding_parameters"].append(args.blinding_parameter)
 
 	if( show_subplot ):
@@ -251,11 +251,14 @@ if __name__ == "__main__":
 					if not args.lumi is None:
 						config["lumis"] = [float("%.1f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
-				
+
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio)
+					hmass_temp = 125
+					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
+						hmass_temp = int(args.higgs_masses[0])
+					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, hmass_temp)
 
 				if(args.blinding_threshold > 0):
 					blind_signal(config, args.blinding_threshold)
