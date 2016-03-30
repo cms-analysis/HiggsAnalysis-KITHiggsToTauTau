@@ -8,6 +8,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
 
+#include <boost/regex.hpp>
+
+
 /**
    \brief Corrects the MET created by the MET producer
    
@@ -56,6 +59,13 @@ public:
 		float metEnergy = (product.*m_metMemberUncorrected)->p4.energy();
 		float metResolution = std::sqrt(metEnergy * metEnergy - metX * metX - metY * metY);
 		int nJets30 = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
+		
+		// In selected W+Jets events one of the leptons is faked by hadronic jet and this 
+		// jet should be counted as a part of hadronic recoil to the W boson
+		if (boost::regex_search(product.m_nickname, boost::regex("W.?JetsToLNu", boost::regex::icase | boost::regex::extended)))
+		{
+			nJets30 += 1;
+		}
 		
 		float genPx = 0.;  // generator Z(W) px
 		float genPy = 0.;  // generator Z(W) py
