@@ -112,7 +112,7 @@ if __name__ == "__main__":
 				map(root_file_name_list.__iadd__, map(glob.glob, map(root_input_dir.__add__, config["files"][i].split(" "))))
 				if (not cuts == "") and (not cuts == config["weights"][i]):
 					log.error("can not decide which weight to use for sample %s nick %s" %(config["request_nick"],nick))
-					print config
+					log.error(config)
 					sys.exit()
 				cuts = config["weights"][i]
 
@@ -173,7 +173,7 @@ if __name__ == "__main__":
 		root_inf = ROOT.TFile(config["storage_file"], "read")
 		root_inst = root_inf.Get(config["storage_ntuple"])
 		for variables in itertools.combinations(config["parameters_list"], 2):
-			#print variables
+			#log.info( variables)
 			xbins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip()
 			ybins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[1]).strip()
 			xbins = []
@@ -230,9 +230,9 @@ if __name__ == "__main__":
 			corr_vars["var_%s"%variable] = 0
 			root_histograms["+-+".join([variable,variable])].SetDirectory(0)
 			ROOT.SetOwnership (root_histograms["+-+".join([variable,variable])], False)
-		print "======================================================================"
-		print "Calculate correlations and make scatter plots for %i variable pairs."%len(root_histograms)
-		print "======================================================================"
+		log.info( "=================================================================================")
+		log.info( "Calculate correlations in sample %s and make scatter plots for %i variable pairs."%(config["request_nick"],len(root_histograms)))
+		log.info( "=================================================================================")
 
 		i = 0.
 		n = 0
@@ -251,12 +251,12 @@ if __name__ == "__main__":
 					zero_vals[vary] = 0
 
 				if varx not in calced_means:
-					#print "calculate mean for %s" %varx
+					#log.info( "calculate mean for %s" %varx)
 					corr_vars[varx] += w*(x -zero_vals[varx])
 					corr_vars["var_%s"%varx] += w*(x -zero_vals[varx])**2
 					calced_means.append(varx)
 				if vary not in calced_means:
-					#print "calculate mean for %s" %vary
+					#log.info( "calculate mean for %s" %vary)
 					corr_vars[vary] += w*(y - zero_vals[vary])
 					corr_vars["var_%s"%vary] += w*(y - zero_vals[vary])**2
 					calced_means.append(vary)
@@ -264,6 +264,8 @@ if __name__ == "__main__":
 			#sys.exit()
 			i += w
 			n += 1
+			if n%1000 == 0:
+				log.info( "processed: %i events"%n)
 			#if n == 1000:
 				#break
 
