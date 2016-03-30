@@ -1,38 +1,16 @@
 {
     "MVATestMethodsInputQuantities" : [
-        "0;pVecSum,lep1Pt:=pt_1,lep1MetMt:=mt_1,lep2Pt:=pt_2,lep2MetMt:=mt_2,pfMetPt:=met,mvaMetPt:=mvamet,pZetaMissVis,pZetaMiss,pZetaVis,nJets30:=njets,nBJets20:=nbtag,min_ll_jet_eta,lep1_centrality,lep2_centrality,delta_lep_centrality,diLepMass:=m_vis",
-        "1;pVecSum,lep1Pt:=pt_1,lep1MetMt:=mt_1,lep2Pt:=pt_2,lep2MetMt:=mt_2,pfMetPt:=met,mvaMetPt:=mvamet,pZetaMissVis,pZetaMiss,pZetaVis,nJets30:=njets,nBJets20:=nbtag,min_ll_jet_eta,lep1_centrality,lep2_centrality,delta_lep_centrality,diLepMass:=m_vis"
-    ],
+        "0;pVecSum,lep1Pt:=pt_1,lep1MetMt:=mt_1,lep2Pt:=pt_2,lep2MetMt:=mt_2,pfMetPt:=met,mvaMetPt:=mvamet,pZetaMissVis,pZetaMiss,pZetaVis,nJets30:=njets,nBJets20:=nbtag,min_ll_jet_eta,lep1_centrality,lep2_centrality,delta_lep_centrality,lep1IsoOverPt:=iso_1"
+        ],
     "MVATestMethodsMethods" : [
-        "0;BDT",
-        "0;BDT",
-        "0;BDT",
-        "1;BDT",
-        "1;BDT",
-        "1;BDT",
-        "1;BDT"
+
     ],
     "MVATestMethodsNames" : [
-        "all_vs_all",
-        "ggh_vs_ztt",
-        "ggh_vs_zll",
-        "vbf_vs_ztt",
-        "vbf_vs_zll"
+
     ],
 	"MVATestMethodsNFolds" : [
-        3,
-        1,
-        1,
-        1,
-        1
+
     ],
     "MVATestMethodsWeights" : [
-        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_all_all.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_all_ztt.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_all_zll.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_glu_ztt.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_glu_zll.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_vbf_ztt.weights.xml",
-        "/nfs/dust/cms/user/mschmitt/weights/new_try/T0_BDT_vbf_zll.weights.xml"
-    ]
+]
 }

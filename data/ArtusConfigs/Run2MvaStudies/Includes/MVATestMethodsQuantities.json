@@ -1,12 +1,4 @@
 {
     "property" : [
-        "T1all_vs_all",
-        "T2all_vs_all",
-        "T3all_vs_all",
-        "all_vs_all",
-        "ggh_vs_ztt",
-        "ggh_vs_zll",
-        "vbf_vs_ztt",
-        "vbf_vs_zll"
     ]
 }

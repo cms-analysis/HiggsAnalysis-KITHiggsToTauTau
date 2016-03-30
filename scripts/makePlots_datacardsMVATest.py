@@ -64,13 +64,13 @@ if __name__ == "__main__":
     parser.add_argument("--clear-output-dir", action="store_true", default=False,
                         help="Delete/clear output directory before running this script. [Default: %(default)s]")
     parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
-                        help="""Exclude (default) selection cuts. 
+                        help="""Exclude (default) selection cuts.
                         [Default: %(default)s]""")
     parser.add_argument("--lumi", type=float, default=2.301,
                             help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
     args = parser.parse_args()
     logger.initLogger(args)
-    
+
     args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
     if args.clear_output_dir and os.path.exists(args.output_dir):
         logger.subprocessCall("rm -r " + args.output_dir, shell=True)
@@ -78,13 +78,13 @@ if __name__ == "__main__":
     sample_settings = samples.Samples()
     binnings_settings = binnings.BinningsDict()
     systematics_factory = systematics.SystematicsFactory()
-    
+
     plot_configs = []
     output_files = []
     hadd_commands = []
-    
+
     datacards = mvadatacards.MVADatacards(higgs_masses=args.higgs_masses)
-    
+
     # initialise datacards
     tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
     input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -94,9 +94,9 @@ if __name__ == "__main__":
     sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
     datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
     output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-    
+
     # prepare channel and categories settings based on args and datacards
-    
+
     if len(args.channel) > 1:
         args.channel = args.channel[1:]
     args.channel = [datacards.cb.channel_set() if chan == ['all'] else chan for chan in args.channel]
@@ -104,7 +104,7 @@ if __name__ == "__main__":
         args.categories = args.categories[1:]
     if len(args.categories) != len(args.channel):
         log.critical("Categories must be specified as often as --channels is specified")
-        
+
     channel_category_dict = {}
     for i,channel in enumerate(args.channel):
         for chan in channel:
@@ -112,25 +112,25 @@ if __name__ == "__main__":
                 channel_category_dict[chan].extend(args.categories[i])
             else:
                 channel_category_dict[chan]=args.categories[i][:]
-    
+
     channel_category_list = [(chan, ['all']) if 'all' in cat else (chan, [chan+'_'+c for c in cat]) for chan, cat in channel_category_dict.iteritems()]
     log.info(channel_category_list)
     # restrict CombineHarvester to configured channels:
     datacards.cb.channel([x[0] for x in channel_category_list])
-    
+
     for index, (channel, categories) in enumerate(channel_category_list):
         # prepare category settings based on args and datacards
         if (len(categories) == 1) and (categories[0] == "all"):
             categories = datacards.cb.cp().channel([channel]).bin_set()
         else:
             categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-        
+
         # restrict CombineHarvester to configured categories:
         datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
         for category in categories:
             datacards_per_channel_category = mvadatacards.MVADatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
             higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
-            
+
             output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
                     ANALYSIS="MVATest",
                     CHANNEL=channel,
@@ -139,25 +139,25 @@ if __name__ == "__main__":
             ))
             output_files.append(output_file)
             tmp_output_files = []
-            
+
             for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
                 nominal = (shape_systematic == "nominal")
                 list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
                 for shift_up in ([True] if nominal else [True, False]):
                     systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
-                    
+
                     log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
                             samples="\", \"".join(list_of_samples),
                             channel=channel,
                             category=category,
                             systematic=systematic
                     ))
-                    
+
                     # prepare plotting configs for retrieving the input histograms
                     config = sample_settings.get_config(
                             samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
                             channel=channel,
-                            category="catMVA13TeV_"+category,
+                            category="mva_"+category,
                             weight=args.weight,
                             lumi = args.lumi * 1000,
                             exclude_cuts=args.exclude_cuts,
@@ -166,24 +166,24 @@ if __name__ == "__main__":
                     systematics_settings = systematics_factory.get(shape_systematic)(config)
                     # TODO: evaluate shift from datacards_per_channel_category.cb
                     config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-                    
+
                     config["x_expressions"] = [args.quantity]
-                    
+
                     binnings_key = "binningHtt13TeV_"+category+"_svfitMass"
                     if binnings_key in binnings_settings.binnings_dict:
                         config["x_bins"] = [binnings_key]
                     else:
                         config["x_bins"] = ["35,0.0,350.0"]
-                    
+
                     config["directories"] = [args.input_dir]
-                    
+
                     histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
                     config["labels"] = [histogram_name_template.replace("$", "").format(
                             PROCESS=datacards.configs.sample2process(sample),
                             BIN=category,
                             SYSTEMATIC=systematic
                     ) for sample in config["labels"]]
-                    
+
                     tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
                             ANALYSIS="MVATest",
                             CHANNEL=channel,
@@ -194,15 +194,15 @@ if __name__ == "__main__":
                     tmp_output_files.append(tmp_output_file)
                     config["output_dir"] = os.path.dirname(tmp_output_file)
                     config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
-                
+
                     config["plot_modules"] = ["ExportRoot"]
                     config["file_mode"] = "UPDATE"
-            
+
                     if "legend_markers" in config:
                         config.pop("legend_markers")
-            
+
                     plot_configs.append(config)
-            
+
             hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
                     DST=output_file,
                     SRC=" ".join(tmp_output_files)
@@ -210,7 +210,7 @@ if __name__ == "__main__":
     #if log.isEnabledFor(logging.DEBUG):
     #   import pprint
     #   pprint.pprint(plot_configs)
-    
+
     # delete existing output files
     tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
     for output_file in tmp_output_files:
@@ -218,16 +218,16 @@ if __name__ == "__main__":
             os.remove(output_file)
             log.debug("Removed file \""+output_file+"\" before it is recreated again.")
     output_files = list(set(output_files))
-    
+
     # create input histograms with HarryPlotter
     higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
     tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
-    
+
     debug_plot_configs = []
     for output_file in output_files:
         debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
     higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
-    
+
     # update CombineHarvester with the yields and shapes
     datacards.extract_shapes(
             os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
@@ -235,14 +235,14 @@ if __name__ == "__main__":
             bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
             update_systematics=True
     )
-    
+
     # add bin-by-bin uncertainties
     if args.add_bbb_uncs:
         datacards.add_bin_by_bin_uncertainties(
                 processes=datacards.cb.cp().backgrounds().process_set(),
                 add_threshold=0.1, merge_threshold=0.5, fix_norm=True
         )
-    
+
     # write datacards and call text2workspace
     datacards_cbs = {}
     for datacard_filename_template in datacard_filename_templates:
@@ -251,7 +251,7 @@ if __name__ == "__main__":
                 output_root_filename_template.replace("{", "").replace("}", ""),
                 args.output_dir
         ))
-    
+
     datacards_poi_ranges = {}
     for datacard, cb in datacards_cbs.iteritems():
         channels = cb.channel_set()
@@ -266,11 +266,11 @@ if __name__ == "__main__":
                 datacards_poi_ranges[datacard] = [-50.0, 50.0]
             else:
                 datacards_poi_ranges[datacard] = [-25.0, 25.0]
-    
+
     datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
-    
+
     annotation_replacements = {channel : index for index, channel in enumerate(["combined", "tt", "mt", "et", "em"])}
-    
+
     # Max. likelihood fit and postfit plots
     #stable_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
     #datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit {stable} -n \"\"".format(stable=stable_options))
@@ -294,10 +294,10 @@ if __name__ == "__main__":
             #args.n_processes,
             #"-t limit -b channel"
     #)
-    
+
     # Asymptotic limits
     datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-    
+
     """
     # cV-cF scan
     cv_cf_datacards_workspaces = datacards.text2workspace(

@@ -95,6 +95,8 @@ def plot_correlations(parameters, correlation_dict, sample, channel, dir_path, o
 			ax.tick_params(axis='both', which='major', pad=5)
 			plt.tight_layout()
 			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.png"%(outname,i,j)))
+			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.pdf"%(outname,i,j)))
+			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.eps"%(outname,i,j)))
 
 
 
@@ -128,9 +130,11 @@ if __name__ == "__main__":
 				log.debug("sample: %s; channel: %s; dir: %s"%(sample, channel, file_dir))
 				log.debug("parameters: %s" %str(config["parameters_list"]))
 				plot_correlations(copy.copy(config["parameters_list"]), config["correlations"], sample, channel, file_dir, channel)
-	overall_correlations = {}
+	overall_correlations = None
 	for i,config in enumerate(config_list):
-		if i == 0:
+		if config["request_nick"] == "data":
+			continue
+		if overall_correlations is None:
 			overall_correlations = copy.copy(config["correlations"])
 		else:
 			for varxy in overall_correlations.iterkeys():

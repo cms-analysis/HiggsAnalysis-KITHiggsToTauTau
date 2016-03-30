@@ -145,6 +145,10 @@ if __name__ == "__main__":
 		os.makedirs(dir_path)
 		os.makedirs(dir_path+"/storage")
 		os.makedirs(dir_path+"/weights")
+	if not os.path.exists(dir_path+"/storage"):
+		os.makedirs(dir_path+"/storage")
+	if not os.path.exists(dir_path+"/weights"):
+		os.makedirs(dir_path+"/weights")
 
 	#produce trees
 	info_log["steps"] = []
@@ -216,13 +220,13 @@ if __name__ == "__main__":
 					factory.AddTree(tree, s_b_extension[j],
 													1,
 													ROOT.TCut(''), "test")
-					log.debug("Add to Factory_%i sample %s as TestSample as %s" %(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension))
+					log.debug("Add to Factory_%i sample %s as TestSample as %s" %(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension[j]))
 				else:
 
 					factory.AddTree(tree, s_b_extension[j],
 													1,
 													ROOT.TCut(''), "train")
-					log.debug("Add to Factory_%i sample %s as TrainingsSample as %s"%(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension))
+					log.debug("Add to Factory_%i sample %s as TrainingsSample as %s"%(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension[j]))
 			log.debug("factory.AddTree(%s,%s,%s,TCut(''), train/test)" %(
 				nick, s_b_extension[j], cuts[j]))
 
@@ -254,4 +258,4 @@ if __name__ == "__main__":
 		del factory
 		log.info("Training output is written to \"" + os.path.join(dir_path, filename+"T%i.root"%ifac) + "\".")
 		log_log = jsonTools.JsonDict(info_log)
-	log_log.save(dir_path+"/training_log.log", indent=4)
+	log_log.save(dir_path+"/%s_TrainingLog"%filename, indent=4)

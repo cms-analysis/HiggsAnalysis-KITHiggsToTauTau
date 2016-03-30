@@ -67,23 +67,119 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_nobtag_low"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_nobtag"]+"*({pt_var}<={pt_cut_1})*({pt_var}>{pt_cut_2})".format(pt_var=pt_var, pt_cut_1=pt_cut_nobtag_medium, pt_cut_2=pt_cut_nobtag_low)
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_high"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut_btag_high)
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_low"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}<={pt_cut_1})*({pt_var}>{pt_cut_2})".format(pt_var=pt_var, pt_cut_1=pt_cut_btag_high, pt_cut_2=pt_cut_btag_low)
-			
+
 		# MVA Htt categories
+		self.expressions_dict["mvaNall150_3"]='((0 <= TrainingSelectionValue && TrainingSelectionValue < 20)*T1Nall_150_all+(20 <= TrainingSelectionValue && TrainingSelectionValue < 40)*T2Nall_150_all+(40 <= TrainingSelectionValue && TrainingSelectionValue < 60)*T3Nall_150_all+(60 <= TrainingSelectionValue && TrainingSelectionValue < 80)*T4Nall_150_all+(80 <= TrainingSelectionValue && TrainingSelectionValue < 100)*T5Nall_150_all)'
+		self.expressions_dict["mvaNall150_4"]='((0 <= TrainingSelectionValue && TrainingSelectionValue < 20)*T1Nall_150_4_all+(20 <= TrainingSelectionValue && TrainingSelectionValue < 40)*T2Nall_150_4_all+(40 <= TrainingSelectionValue && TrainingSelectionValue < 60)*T3Nall_150_4_all+(60 <= TrainingSelectionValue && TrainingSelectionValue < 80)*T4Nall_150_4_all+(80 <= TrainingSelectionValue && TrainingSelectionValue < 100)*T5Nall_150_4_all)'
+		self.expressions_dict["mvaNall250_3"]='((0 <= TrainingSelectionValue && TrainingSelectionValue < 20)*T1Nall_250_all+(20 <= TrainingSelectionValue && TrainingSelectionValue < 40)*T2Nall_250_all+(40 <= TrainingSelectionValue && TrainingSelectionValue < 60)*T3Nall_250_all+(60 <= TrainingSelectionValue && TrainingSelectionValue < 80)*T4Nall_250_all+(80 <= TrainingSelectionValue && TrainingSelectionValue < 100)*T5Nall_250_all)'
+		self.expressions_dict["mvaNall250_4"]='((0 <= TrainingSelectionValue && TrainingSelectionValue < 20)*T1Nall_250_4_all+(20 <= TrainingSelectionValue && TrainingSelectionValue < 40)*T2Nall_250_4_all+(40 <= TrainingSelectionValue && TrainingSelectionValue < 60)*T3Nall_250_4_all+(60 <= TrainingSelectionValue && TrainingSelectionValue < 80)*T4Nall_250_4_all+(80 <= TrainingSelectionValue && TrainingSelectionValue < 100)*T5Nall_250_4_all)'
+		self.expressions_dict["mvaNall350_3"]='((0 <= TrainingSelectionValue && TrainingSelectionValue < 20)*T1Nall_350_all+(20 <= TrainingSelectionValue && TrainingSelectionValue < 40)*T2Nall_350_all+(40 <= TrainingSelectionValue && TrainingSelectionValue < 60)*T3Nall_350_all+(60 <= TrainingSelectionValue && TrainingSelectionValue < 80)*T4Nall_350_all+(80 <= TrainingSelectionValue && TrainingSelectionValue < 100)*T5Nall_350_all)'
+		self.expressions_dict["mvaNall350_4"]='((0 <= TrainingSelectionValue && TrainingSelectionValue < 20)*T1Nall_350_4_all+(20 <= TrainingSelectionValue && TrainingSelectionValue < 40)*T2Nall_350_4_all+(40 <= TrainingSelectionValue && TrainingSelectionValue < 60)*T3Nall_350_4_all+(60 <= TrainingSelectionValue && TrainingSelectionValue < 80)*T4Nall_350_4_all+(80 <= TrainingSelectionValue && TrainingSelectionValue < 100)*T5Nall_350_4_all)'
+		self.expressions_dict["mvaNall450_3"]='((0 <= TrainingSelectionValue && TrainingSelectionValue < 20)*T1Nall_450_all+(20 <= TrainingSelectionValue && TrainingSelectionValue < 40)*T2Nall_450_all+(40 <= TrainingSelectionValue && TrainingSelectionValue < 60)*T3Nall_450_all+(60 <= TrainingSelectionValue && TrainingSelectionValue < 80)*T4Nall_450_all+(80 <= TrainingSelectionValue && TrainingSelectionValue < 100)*T5Nall_450_all)'
+		self.expressions_dict["mvaNall450_4"]='((0 <= TrainingSelectionValue && TrainingSelectionValue < 20)*T1Nall_450_4_all+(20 <= TrainingSelectionValue && TrainingSelectionValue < 40)*T2Nall_450_4_all+(40 <= TrainingSelectionValue && TrainingSelectionValue < 60)*T3Nall_450_4_all+(60 <= TrainingSelectionValue && TrainingSelectionValue < 80)*T4Nall_450_4_all+(80 <= TrainingSelectionValue && TrainingSelectionValue < 100)*T5Nall_450_4_all)'
+		self.expressions_dict["mvaall150_3"] = '(all_150_all)'
+		self.expressions_dict["mvaall250_3"] = '(all_250_all)'
+		self.expressions_dict["mvaall350_3"] = '(all_350_all)'
+		self.expressions_dict["mvaall450_3"] = '(all_450_all)'
+		self.expressions_dict["mvaall150_4"] = '(all_150_4_all)'
+		self.expressions_dict["mvaall250_4"] = '(all_250_4_all)'
+		self.expressions_dict["mvaall350_4"] = '(all_350_4_all)'
+		self.expressions_dict["mvaall450_4"] = '(all_450_4_all)'
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-			self.expressions_dict["catMVA13TeV_"+channel+"_inclusive"] = "(1.0)"
-			self.expressions_dict["catMVA13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>200.0)*(jdeta>2.0)"
-			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_tight"] = "(MVATestMethod_7 > 0.5 || MVATestMethod_10 > 0.5)"
-			self.expressions_dict["catMVA13TeV_"+channel+"_ztt_loose"] = "(MVATestMethod_7 > 0.2 || MVATestMethod_10 > 0.2)"
+			upper = 0
+			lower = -0.25
+			self.expressions_dict["mva_"+channel+"_Nall_150_up"] = self.expressions_dict["mvaNall150_3"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_Nall_150_down"] = self.expressions_dict["mvaNall150_3"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_Nall_150_mid"] = "("+self.expressions_dict["mvaNall150_3"]+">="+str(lower)+")&&("+self.expressions_dict["mvaNall150_3"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.25
+			self.expressions_dict["mva_"+channel+"_all_150_up"] = self.expressions_dict["mvaall150_3"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_all_150_down"] = self.expressions_dict["mvaall150_3"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_all_150_mid"] = "("+self.expressions_dict["mvaall150_3"]+">="+str(lower)+")&&("+self.expressions_dict["mvaall150_3"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.25
+			self.expressions_dict["mva_"+channel+"_Nall_150_4_up"] = self.expressions_dict["mvaNall150_4"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_Nall_150_4_down"] = self.expressions_dict["mvaNall150_4"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_Nall_150_4_mid"] = "("+self.expressions_dict["mvaNall150_4"]+">="+str(lower)+")&&("+self.expressions_dict["mvaNall150_4"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.25
+			self.expressions_dict["mva_"+channel+"_all_150_4_up"] = self.expressions_dict["mvaall150_4"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_all_150_4_down"] = self.expressions_dict["mvaall150_4"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_all_150_4_mid"] = "("+self.expressions_dict["mvaall150_4"]+">="+str(lower)+")&&("+self.expressions_dict["mvaall150_4"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_Nall_250_up"] = self.expressions_dict["mvaNall250_3"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_Nall_250_down"] = self.expressions_dict["mvaNall250_3"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_Nall_250_mid"] = "("+self.expressions_dict["mvaNall250_3"]+">="+str(lower)+")&&("+self.expressions_dict["mvaNall250_3"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_all_250_up"] = self.expressions_dict["mvaall250_3"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_all_250_down"] = self.expressions_dict["mvaall250_3"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_all_250_mid"] = "("+self.expressions_dict["mvaall250_3"]+">="+str(lower)+")&&("+self.expressions_dict["mvaall250_3"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_Nall_250_4_up"] = self.expressions_dict["mvaNall250_4"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_Nall_250_4_down"] = self.expressions_dict["mvaNall250_4"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_Nall_250_4_mid"] = "("+self.expressions_dict["mvaNall250_4"]+">="+str(lower)+")&&("+self.expressions_dict["mvaNall250_4"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_all_250_4_up"] = self.expressions_dict["mvaall250_4"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_all_250_4_down"] = self.expressions_dict["mvaall250_4"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_all_250_4_mid"] = "("+self.expressions_dict["mvaall250_4"]+">="+str(lower)+")&&("+self.expressions_dict["mvaall250_4"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_Nall_350_up"] = self.expressions_dict["mvaNall350_3"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_Nall_350_down"] = self.expressions_dict["mvaNall350_3"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_Nall_350_mid"] = "("+self.expressions_dict["mvaNall350_3"]+">="+str(lower)+")&&("+self.expressions_dict["mvaNall350_3"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_all_350_up"] = self.expressions_dict["mvaall350_3"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_all_350_down"] = self.expressions_dict["mvaall350_3"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_all_350_mid"] = "("+self.expressions_dict["mvaall350_3"]+">="+str(lower)+")&&("+self.expressions_dict["mvaall350_3"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_Nall_350_4_up"] = self.expressions_dict["mvaNall350_4"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_Nall_350_4_down"] = self.expressions_dict["mvaNall350_4"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_Nall_350_4_mid"] = "("+self.expressions_dict["mvaNall350_4"]+">="+str(lower)+")&&("+self.expressions_dict["mvaNall350_4"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_all_350_4_up"] = self.expressions_dict["mvaall350_4"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_all_350_4_down"] = self.expressions_dict["mvaall350_4"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_all_350_4_mid"] = "("+self.expressions_dict["mvaall350_4"]+">="+str(lower)+")&&("+self.expressions_dict["mvaall350_4"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_Nall_450_up"] = self.expressions_dict["mvaNall450_3"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_Nall_450_down"] = self.expressions_dict["mvaNall450_3"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_Nall_450_mid"] = "("+self.expressions_dict["mvaNall450_3"]+">="+str(lower)+")&&("+self.expressions_dict["mvaNall450_3"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_all_450_up"] = self.expressions_dict["mvaall450_3"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_all_450_down"] = self.expressions_dict["mvaall450_3"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_all_450_mid"] = "("+self.expressions_dict["mvaall450_3"]+">="+str(lower)+")&&("+self.expressions_dict["mvaall450_3"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_Nall_450_4_up"] = self.expressions_dict["mvaNall450_4"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_Nall_450_4_down"] = self.expressions_dict["mvaNall450_4"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_Nall_450_4_mid"] = "("+self.expressions_dict["mvaNall450_4"]+">="+str(lower)+")&&("+self.expressions_dict["mvaNall450_4"]+"<"+str(upper)+")"
+			upper = 0
+			lower = -0.3
+			self.expressions_dict["mva_"+channel+"_all_450_4_up"] = self.expressions_dict["mvaall450_4"]+">="+str(upper)
+			self.expressions_dict["mva_"+channel+"_all_450_4_down"] = self.expressions_dict["mvaall450_4"]+"<"+str(lower)
+			self.expressions_dict["mva_"+channel+"_all_450_4_mid"] = "("+self.expressions_dict["mvaall450_4"]+">="+str(lower)+")&&("+self.expressions_dict["mvaall450_4"]+"<"+str(upper)+")"
+
+
+
+
 		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 > 0)*(decayMode_2 < 3)"
 		self.expressions_dict["catOneProngPiZeros"] = self.expressions_dict["cat_OneProngPiZeros"]
 		for channel in [ "mt", "et"]:
 			self.expressions_dict["catOneProngPiZeros_"+channel] = self.expressions_dict["catOneProngPiZeros"]
-		
+
 		self.expressions_dict["cat_ThreeProng"] = "(decayMode_2 > 9)*(decayMode_2 < 11)"
 		self.expressions_dict["catThreeProng"] =self.expressions_dict["cat_ThreeProng"]
 		for channel in [ "mt", "et"]:
 			self.expressions_dict["catThreeProng_"+channel] = self.expressions_dict["catThreeProng"]
-		
+
 		replacements = {
 			"0jet" : "zerojet",
 			"1jet" : "onejet",
