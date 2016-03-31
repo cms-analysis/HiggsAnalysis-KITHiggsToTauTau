@@ -495,7 +495,10 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	else
 	{
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
+		{
 			neededRecalculation = true;
+			LOG(DEBUG) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" << std::endl;
+		}
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::assert)
 		{
 			LOG(FATAL) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Did your inputs change?" << std::endl;
