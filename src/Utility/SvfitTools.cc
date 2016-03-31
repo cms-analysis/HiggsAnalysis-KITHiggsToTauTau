@@ -450,10 +450,12 @@ SvfitTools::SvfitTools(std::vector<std::string> const& fileNames, std::string co
 
 void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string const& treeName)
 {
-	if ((! svfitCacheInputTree) && svfitCacheInputTreeIndices.empty())
+	if (SvfitTools::svfitCacheInputTreeIndices.empty())
 	{
 		LOG(DEBUG) << "\tLoading SVfit cache trees from files...";
-		svfitCacheInputTree = new TChain(treeName.c_str());
+		// check first if svfitCacheInputTree is already loaded since it's a static member variable
+		if(! SvfitTools::svfitCacheInputTree )
+			svfitCacheInputTree = new TChain(treeName.c_str());
 		for (std::vector<std::string>::const_iterator fileName = fileNames.begin();
 		     fileName != fileNames.end(); ++fileName)
 		{
