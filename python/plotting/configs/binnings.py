@@ -510,4 +510,8 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_mid_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_sig_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 		self.binnings_dict["binningHtt13TeV_tt_inclusive_svfitMass"] = " ".join([str(float(f)) for f in [0, 50]+range(90, 171, 20)+[200, 350]])
-
+		# H->tautau MSSM binnings
+		for channel in ["mt", "et", "em", "tt"]:
+			for category in ["inclusive", "nobtag", "btag", "inclusive_wjets_cr", "btag_wjets_cr", "nobtag_wjets_cr", "inclu    sive_wjets_ss_cr", "btag_wjets_ss_cr", "nobtag_wjets_ss_cr", "inclusive_qcd_cr", "btag_qcd_cr", "nobtag_qcd_cr"]:
+				self.binnings_dict["binningHttMSSM13TeV_"+channel+"_"+category+"_svfitMass"] = " ".join([str(float(f)) for f in range(0,4000,10)])
+				self.binnings_dict["binningHttMSSM13TeV_"+channel+"_"+category+"_m_vis"] = " ".join([str(float(f)) for f in range(0,4000,10)])
