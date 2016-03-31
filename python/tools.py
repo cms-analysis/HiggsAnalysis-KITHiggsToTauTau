@@ -14,7 +14,7 @@ from Artus.Utility.tools import find_common_patterns
 class PoissonYield(object):
 	def __init__(self, root_histogram):
 		error = array.array("d", [0.0])
-		integral = root_histogram.IntegralAndError(1, root_histogram.GetNbinsX(), error)
+		integral = root_histogram.IntegralAndError(0, root_histogram.GetNbinsX()+1, error)
 		error = error[0]
 		#self.poisson_yield = uncertainties.ufloat(integral, error)
 		self.poisson_yield = uncertainties.ufloat(integral, math.sqrt(abs(integral)))
