@@ -34,7 +34,7 @@ private:
 	TTree* m_svfitCacheTree = 0;
 	bool m_svfitCacheTreeInitialised = false;
 	bool m_firstSvfitCacheFile = true;
-	int fileindex = 0;
+	int m_fileIndex = 0;
 
 };
 

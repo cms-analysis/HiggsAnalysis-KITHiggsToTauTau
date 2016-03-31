@@ -31,11 +31,11 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 			std::string cacheFilename;
 			if(settings.GetUseFirstInputFileNameForSvfit())
 			{
-				cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetInputFiles().at(0)))+std::string("-SvfitCacheInput-")+settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root");
+				cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetInputFiles().at(0)))+std::string("-SvfitCacheInput-")+settings.GetRootFileFolder()+std::to_string(m_fileIndex)+std::string(".root");
 			}
 			else
 			{
-				cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetSvfitOutFile()))+settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root");
+				cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetSvfitOutFile()))+settings.GetRootFileFolder()+std::to_string(m_fileIndex)+std::string(".root");
 			}
 			TFile* SvfitFile = new TFile(cacheFilename.c_str(),"RECREATE");
 			RootFileHelper::SafeCd(SvfitFile, settings.GetRootFileFolder());
@@ -46,7 +46,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 			                             settings.GetSvfitCacheTree().c_str());
 			if (! m_firstSvfitCacheFile)
 			{
-			    fileindex++;
+			    m_fileIndex++;
 			}
 			else
 			{
@@ -61,7 +61,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 		{
 			m_svfitCacheTree->Fill();
 		}
-		// at reaching a predefined threshold create the outputfile with index fileindex and save the tree
+		// at reaching a predefined threshold create the outputfile with index m_fileIndex and save the tree
 		// afterwards crear the Cache tree
 		if ( m_svfitCacheTree->GetEntries() == settings.GetSvFitInputCutOff())
 		{
@@ -93,11 +93,11 @@ void SvfitCacheConsumer::Finish(setting_type const& settings)
 		std::string cacheFilename;
 		if(settings.GetUseFirstInputFileNameForSvfit())
 		{
-			cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetInputFiles().at(0)))+std::string("-SvfitCacheInput-")+settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root");
+			cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetInputFiles().at(0)))+std::string("-SvfitCacheInput-")+settings.GetRootFileFolder()+std::to_string(m_fileIndex)+std::string(".root");
 		}
 		else
 		{
-			cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetSvfitOutFile()))+settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root");
+			cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetSvfitOutFile()))+settings.GetRootFileFolder()+std::to_string(m_fileIndex)+std::string(".root");
 		}
 		TFile* SvfitFile = new TFile(cacheFilename.c_str(),"RECREATE");
 		RootFileHelper::SafeCd(SvfitFile, settings.GetRootFileFolder());
