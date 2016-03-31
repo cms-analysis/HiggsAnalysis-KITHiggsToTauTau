@@ -47,17 +47,20 @@ public:
 	int systematicShift;
 	float systematicShiftSigma;
 	int integrationMethod;
+	uint32_t hash;
 	
 	SvfitEventKey() {};
 	SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
 	              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
 	              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-	              IntegrationMethod const& integrationMethod);
+	              IntegrationMethod const& integrationMethod,
+	              uint32_t const &hash);
 	
 	void Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
 	         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
 	         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-	         IntegrationMethod const& integrationMethod);
+	         IntegrationMethod const& integrationMethod,
+	         uint32_t const &hash);
 	
 	HttEnumTypes::SystematicShift GetSystematicShift() const;
 	IntegrationMethod GetIntegrationMethod() const;
@@ -106,7 +109,8 @@ public:
 	
 	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity=0, bool addLogM=false) const;
 
-	
+	uint32_t GetHash();
+
 private:
 	std::vector<svFitStandalone::MeasuredTauLepton> GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const;
 	TMatrixD GetMetCovarianceMatrix() const;

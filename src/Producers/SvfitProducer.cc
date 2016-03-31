@@ -108,15 +108,15 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	{
 		decayType2 = svFitStandalone::kTauToElecDecay;
 	}
+	// construct inputs
+	product.m_svfitInputs.Set(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
+	                          product.m_met.p4.Vect(), product.m_met.significance);
 	
 	// construct event key
 	product.m_svfitEventKey.Set(event.m_eventInfo->nRun, event.m_eventInfo->nLumi, event.m_eventInfo->nEvent,
 	                            decayType1, decayType2,
-	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod);
+	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, product.m_svfitInputs.GetHash());
 	
-	// construct inputs
-	product.m_svfitInputs.Set(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
-	                          product.m_met.p4.Vect(), product.m_met.significance);
 	
 
 	if (settings.GetGenerateSvFitInput())

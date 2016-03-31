@@ -64,8 +64,10 @@ int main(int argc, const char *argv[])
     RMFLV* leptonMomentum2 = new RMFLV();
     RMDataV* metMomentum = new RMDataV();
     RMSM2x2* metCovariance = new RMSM2x2();
+    uint32_t hash;
 
     uint64_t outrun, outlumi, outevent;
+    uint32_t outhash;
     int outdecayType1, outdecayType2;
     int outsystematicShift;
     float outsystematicShiftSigma;
@@ -97,6 +99,7 @@ int main(int argc, const char *argv[])
     inputtree->SetBranchAddress("leptonMomentum2", &leptonMomentum2);
     inputtree->SetBranchAddress("metMomentum", &metMomentum);
     inputtree->SetBranchAddress("metCovariance", &metCovariance);
+    inputtree->SetBranchAddress("hash", &hash);
 
     inputtree->SetBranchStatus("run", true);
     inputtree->SetBranchStatus("lumi", true);
@@ -111,6 +114,7 @@ int main(int argc, const char *argv[])
     inputtree->SetBranchStatus("leptonMomentum2", true);
     inputtree->SetBranchStatus("metMomentum", true);
     inputtree->SetBranchStatus("metCovariance", true);
+    inputtree->SetBranchStatus("hash", true);
 
     outputtree->Branch("run", &outrun, "run/l");
     outputtree->Branch("lumi", &outlumi, "lumi/l");
@@ -121,10 +125,11 @@ int main(int argc, const char *argv[])
     outputtree->Branch("decayType1", &outdecayType1);
     outputtree->Branch("decayType2", &outdecayType2);
 
-    outputtree->Branch("leptonMomentum1", &leptonMomentum1);
-    outputtree->Branch("leptonMomentum2", &leptonMomentum2);
-    outputtree->Branch("metMomentum", &metMomentum);
-    outputtree->Branch("metCovariance", &metCovariance);
+    //outputtree->Branch("leptonMomentum1", &leptonMomentum1);
+    //outputtree->Branch("leptonMomentum2", &leptonMomentum2);
+    //outputtree->Branch("metMomentum", &metMomentum);
+    //outputtree->Branch("metCovariance", &metCovariance);
+    outputtree->Branch("hash", &outhash);
 
     outputtree->Branch("svfitMomentum", &momentum);
     outputtree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
@@ -145,6 +150,7 @@ int main(int argc, const char *argv[])
         outintegrationMethod = integrationMethod;
         outdecayType1 = decayType1;
         outdecayType2 = decayType2;
+        outhash = hash;
 
         // execute integration
         std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {

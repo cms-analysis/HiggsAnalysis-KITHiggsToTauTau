@@ -4,19 +4,22 @@
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/CutRange.h"
 
+#include "Kappa/DataFormats/interface/Hash.h"
 
 SvfitEventKey::SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
                              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-                             IntegrationMethod const& integrationMethod)
+                             IntegrationMethod const& integrationMethod,
+                             uint32_t const& hash)
 {
-	Set(run, lumi, event, decayType1, decayType2, systematicShift, systematicShiftSigma, integrationMethod);
+	Set(run, lumi, event, decayType1, decayType2, systematicShift, systematicShiftSigma, integrationMethod, hash);
 }
 
 void SvfitEventKey::Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
                         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-                        IntegrationMethod const& integrationMethod)
+                        IntegrationMethod const& integrationMethod,
+                        uint32_t const& hash)
 {
 	this->run = run;
 	this->lumi = lumi;
@@ -26,6 +29,7 @@ void SvfitEventKey::Set(uint64_t const& run, uint64_t const& lumi, uint64_t cons
 	this->systematicShift = Utility::ToUnderlyingValue<HttEnumTypes::SystematicShift>(systematicShift);
 	this->systematicShiftSigma = systematicShiftSigma;
 	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
+	this->hash = hash;
 }
 
 HttEnumTypes::SystematicShift SvfitEventKey::GetSystematicShift() const
@@ -48,6 +52,7 @@ void SvfitEventKey::CreateBranches(TTree* tree)
 	tree->Branch("systematicShift", &systematicShift);
 	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("integrationMethod", &integrationMethod);
+	tree->Branch("hash", &hash);
 }
 
 void SvfitEventKey::SetBranchAddresses(TTree* tree)
@@ -60,6 +65,7 @@ void SvfitEventKey::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("systematicShift", &systematicShift);
 	tree->SetBranchAddress("systematicShiftSigma", &systematicShiftSigma);
 	tree->SetBranchAddress("integrationMethod", &integrationMethod);
+	tree->SetBranchAddress("hash", &hash);
 	ActivateBranches(tree, true);
 }
 
@@ -73,6 +79,7 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("systematicShift", activate);
 	tree->SetBranchStatus("systematicShiftSigma", activate);
 	tree->SetBranchStatus("integrationMethod", activate);
+	tree->SetBranchStatus("hash", activate);
 }
 
 bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
@@ -135,7 +142,8 @@ bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 	        (decayType2 == rhs.decayType2) &&
 	        (integrationMethod == rhs.integrationMethod) &&
 	        (systematicShift == rhs.systematicShift) &&
-	        CutRange::EqualsCut(systematicShiftSigma).IsInRange(rhs.systematicShiftSigma));
+	        CutRange::EqualsCut(systematicShiftSigma).IsInRange(rhs.systematicShiftSigma) &&
+	        (hash == rhs.hash));
 }
 
 bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
@@ -153,7 +161,8 @@ std::string std::to_string(SvfitEventKey const& svfitEventKey)
 			"decayType2=" + std::to_string(svfitEventKey.decayType2) + ", " +
 			"systematicShift=" + std::to_string(svfitEventKey.systematicShift) + ", " +
 			"systematicShiftSigma=" + std::to_string(svfitEventKey.systematicShiftSigma) + ", " +
-			"integrationMethod=" + std::to_string(svfitEventKey.integrationMethod) + ")";
+			"integrationMethod=" + std::to_string(svfitEventKey.integrationMethod) + "," +
+			"hash=" + std::to_string(svfitEventKey.hash) + ")";
 }
 
 std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey)
@@ -252,6 +261,13 @@ bool SvfitInputs::operator==(SvfitInputs const& rhs) const
 bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
 {
 	return (! (*this == rhs));
+}
+
+uint32_t SvfitInputs::GetHash()
+{
+	return ( getLVChargeHash(leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMomentum1->M(), 1) ^
+	         getLVChargeHash(leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMomentum2->M(), -1) ^
+	         getLVChargeHash(metMomentum->x(), metCovariance->At(0, 0), metMomentum->y(), metCovariance->At(1, 1), 0) );
 }
 
 SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM) const
