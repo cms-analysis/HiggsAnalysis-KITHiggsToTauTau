@@ -98,7 +98,14 @@ bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
 						{
 							if (systematicShift == rhs.systematicShift)
 							{
-								return (systematicShiftSigma < rhs.systematicShiftSigma);
+								if (hash == rhs.hash)
+								{
+									return (systematicShiftSigma < rhs.systematicShiftSigma);
+								}
+								else
+								{
+									return (hash < rhs.hash);
+								}
 							}
 							else
 							{
@@ -456,7 +463,6 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		//svfitCacheFile->Write();
 		//svfitCacheFile->Close();
 		
-		SvfitEventKey svfitEventKey;
 		svfitEventKey.SetBranchAddresses(svfitCacheInputTree);
 		for (uint64_t svfitCacheInputTreeIndex = 0;
 		     svfitCacheInputTreeIndex < uint64_t(svfitCacheInputTree->GetEntries());
@@ -470,7 +476,7 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
 		LOG(DEBUG) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
 		
-		svfitInputs.SetBranchAddresses(svfitCacheInputTree);
+		//svfitInputs.SetBranchAddresses(svfitCacheInputTree);
 		svfitResults.SetBranchAddresses(svfitCacheInputTree);
 	}
 }
@@ -481,7 +487,6 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
                                     bool checkInputs)
 {
 	neededRecalculation = false;
-	
 	auto svfitCacheInputTreeIndicesItem = svfitCacheInputTreeIndices.find(svfitEventKey);
 	if (svfitCacheInputTreeIndicesItem == svfitCacheInputTreeIndices.end())
 	{
@@ -490,10 +495,6 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	else
 	{
 		svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndicesItem->second);
-		if (checkInputs)
-		{
-			neededRecalculation = (this->svfitInputs != svfitInputs);
-		}
 	}
 	
 	if (neededRecalculation)

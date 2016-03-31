@@ -171,5 +171,6 @@ private:
 	
 	SvfitInputs svfitInputs;
 	SvfitResults svfitResults;
+	SvfitEventKey svfitEventKey;
 };
 
