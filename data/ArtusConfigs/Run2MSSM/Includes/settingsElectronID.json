@@ -1,0 +1,19 @@
+{
+	"ElectronID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"
+	],
+	
+	"ElectronReco" : "mvanontrig",
+	
+	"ElectronID" : "user",
+	"ElectronIDType" : "mvanontrigspring15tight",
+	
+	"ElectronIsoType" : "user",
+	"ElectronIso" : "none",
+	
+	"ElectronIsoSignalConeSize" : 0.3,
+	"ElectronDeltaBetaCorrectionFactor" : 0.5,
+	
+	"ElectronTrackDxyCut" : 0.045,
+	"ElectronTrackDzCut" : 0.2
+}

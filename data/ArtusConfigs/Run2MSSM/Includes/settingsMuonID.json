@@ -1,0 +1,17 @@
+{
+	"MuonID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2015#Muons"
+	],
+	
+	"Year" : 2015,
+	"MuonID" : "medium",
+	
+	"MuonIsoType" : "user",
+	"MuonIso" : "none",
+	
+	"MuonIsoSignalConeSize" : 0.3,
+	"MuonDeltaBetaCorrectionFactor" : 0.5,
+	
+	"MuonTrackDxyCut" : 0.045,
+	"MuonTrackDzCut" : 0.2
+}

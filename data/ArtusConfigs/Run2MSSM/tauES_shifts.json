@@ -1,0 +1,21 @@
+{
+	"tauEsNom" : {
+		"TauEnergyCorrectionShift" : 1.0
+	},
+	"tauEsUp" : {
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 1.03
+			}
+		}
+	},
+	"tauEsDown" : {
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"HToTauTau|DY.?JetsToLL" : 0.97
+			}
+		}
+	}
+}

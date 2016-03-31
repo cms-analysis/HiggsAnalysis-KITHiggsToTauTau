@@ -1,0 +1,26 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsElectronID.json"
+	],
+	
+	"LooseElectronReco" : "mvanontrig",
+
+	"LooseElectronID" : "user",
+	"LooseElectronIDType" : "mvanontrigspring15loose",
+
+	"LooseElectronIsoType" : "user",
+	"LooseElectronIso" : "none",
+
+	"LooseElectronIsoPtSumOverPtUpperThresholdEB" : 0.3,
+	"LooseElectronIsoPtSumOverPtUpperThresholdEE" : 0.3,
+
+	"LooseElectronLowerPtCuts" : [
+		"10.0"
+	],
+	"LooseElectronUpperAbsEtaCuts" : [
+		"2.5"
+	],
+	"LooseElectronTrackDxyCut" : 0.045,
+	"LooseElectronTrackDzCut" : 0.2,
+	"DirectIso" : true
+}
