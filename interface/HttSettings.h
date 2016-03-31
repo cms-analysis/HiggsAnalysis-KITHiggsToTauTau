@@ -205,6 +205,7 @@ public:
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
+	IMPL_SETTING_DEFAULT(bool, UseFirstInputFileNameForSvfit, false);
 	IMPL_SETTING_DEFAULT(bool, SvfitCheckInputs, false);
 	IMPL_SETTING_DEFAULT(std::string, SvfitOutFile, "");
 	IMPL_SETTING_DEFAULT(bool, GenerateSvFitInput, false);

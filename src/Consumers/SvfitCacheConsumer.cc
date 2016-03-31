@@ -1,5 +1,6 @@
 
 #include "Artus/Utility/interface/RootFileHelper.h"
+#include <boost/filesystem/convenience.hpp>
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
@@ -21,13 +22,22 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
                                               setting_type const& settings)
 {
 	// make sure the SvfitOutputFile option is set reasonably
-	assert((! settings.GetGenerateSvFitInput()) || (settings.GetSvfitOutFile().find(".root") != std::string::npos));
+	assert((! settings.GetGenerateSvFitInput()) || (settings.GetSvfitOutFile().find(".root") != std::string::npos) || settings.GetUseFirstInputFileNameForSvfit());
 	ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings);
 	if (settings.GetGenerateSvFitInput())
 	{
 		if (! m_svfitCacheTreeInitialised)
 		{
-			TFile* SvfitFile = new TFile(settings.GetSvfitOutFile().replace(settings.GetSvfitOutFile().find(".root"), 5, settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root")).c_str(), "RECREATE");
+			std::string cacheFilename;
+			if(settings.GetUseFirstInputFileNameForSvfit())
+			{
+				cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetInputFiles().at(0)))+std::string("-SvfitCacheInput-")+settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root");
+			}
+			else
+			{
+				cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetSvfitOutFile()))+settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root");
+			}
+			TFile* SvfitFile = new TFile(cacheFilename.c_str(),"RECREATE");
 			RootFileHelper::SafeCd(SvfitFile, settings.GetRootFileFolder());
 			m_svfitCacheTree->Write(m_svfitCacheTree->GetName());
 			SvfitFile->Close();
@@ -80,7 +90,16 @@ void SvfitCacheConsumer::Finish(setting_type const& settings)
 	if (settings.GetGenerateSvFitInput())
 	{
 		//write remaining Cache tree to the last file and write it
-		TFile* SvfitFile = new TFile(settings.GetSvfitOutFile().replace(settings.GetSvfitOutFile().find(".root"),5,settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root")).c_str(),"RECREATE");
+		std::string cacheFilename;
+		if(settings.GetUseFirstInputFileNameForSvfit())
+		{
+			cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetInputFiles().at(0)))+std::string("-SvfitCacheInput-")+settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root");
+		}
+		else
+		{
+			cacheFilename = boost::filesystem::basename(boost::filesystem::path(settings.GetSvfitOutFile()))+settings.GetRootFileFolder()+std::to_string(fileindex)+std::string(".root");
+		}
+		TFile* SvfitFile = new TFile(cacheFilename.c_str(),"RECREATE");
 		RootFileHelper::SafeCd(SvfitFile, settings.GetRootFileFolder());
 		m_svfitCacheTree->Write(m_svfitCacheTree->GetName());
 		SvfitFile->Close();
