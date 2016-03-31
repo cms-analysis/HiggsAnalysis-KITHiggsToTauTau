@@ -1,6 +1,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/filesystem/convenience.hpp>
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
@@ -25,6 +26,14 @@ void SvfitProducer::Init(setting_type const& settings)
 	{
 		SvfitProducer::svfitTools.Init(std::vector<std::string>(1, settings.GetSvfitCacheFile()),
 		                               settings.GetSvfitCacheTree());
+	}
+	else if ( ! settings.GetSvfitCacheFilePrefix().empty())
+	{
+		std::vector<std::string> cacheFiles;
+		for (auto file : settings.GetInputFiles()) {
+			cacheFiles.push_back(settings.GetSvfitCacheFilePrefix()+boost::filesystem::basename(boost::filesystem::path(file))+std::string(".root"));
+		}
+		SvfitProducer::svfitTools.Init(cacheFiles, settings.GetSvfitCacheTree());
 	}
 	
 	// add possible quantities for the lambda ntuples consumers
