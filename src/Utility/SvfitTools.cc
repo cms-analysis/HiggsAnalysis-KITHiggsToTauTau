@@ -6,6 +6,8 @@
 
 #include "Kappa/DataFormats/interface/Hash.h"
 
+TChain* SvfitTools::svfitCacheInputTree = 0;
+
 SvfitEventKey::SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
                              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
