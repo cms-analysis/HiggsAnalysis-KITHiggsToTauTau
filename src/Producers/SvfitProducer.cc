@@ -35,7 +35,7 @@ void SvfitProducer::Init(setting_type const& settings)
 		}
 		SvfitProducer::svfitTools.Init(cacheFiles, settings.GetSvfitCacheTree());
 	}
-	
+	svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitAvailable", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.momentum ? true : false);
@@ -129,7 +129,7 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 		product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_svfitEventKey,
 		                                                              product.m_svfitInputs,
 	                                                                  product.m_svfitCalculated,
-	                                                                  settings.GetSvfitCheckInputs());
+	                                                                  svfitCacheMissBehaviour);
 		// apply systematic shifts
 		product.m_svfitResults.momentum->SetM(product.m_svfitResults.momentum->M() * settings.GetSvfitMassShift());
 	}

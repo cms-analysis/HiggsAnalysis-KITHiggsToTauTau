@@ -482,17 +482,27 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
                                     SvfitInputs const& svfitInputs,
                                     bool& neededRecalculation,
-                                    bool checkInputs)
+                                    HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour)
 {
 	neededRecalculation = false;
 	auto svfitCacheInputTreeIndicesItem = svfitCacheInputTreeIndices.find(svfitEventKey);
-	if (svfitCacheInputTreeIndicesItem == svfitCacheInputTreeIndices.end())
+	if (svfitCacheInputTreeIndicesItem != svfitCacheInputTreeIndices.end())
 	{
-		neededRecalculation = true;
+		svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndicesItem->second);
 	}
 	else
 	{
-		svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndicesItem->second);
+		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
+			neededRecalculation = true;
+		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::assert)
+		{
+			LOG(FATAL) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Did your inputs change?" << std::endl;
+		}
+		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::undefined)
+		{
+			svfitResults = SvfitResults();
+			return svfitResults;
+		}
 	}
 	
 	if (neededRecalculation)

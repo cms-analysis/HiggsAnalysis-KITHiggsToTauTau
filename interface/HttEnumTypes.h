@@ -134,5 +134,20 @@ public:
 		CENTRAL = 0,
 		TAU_ES = 1,
 	};
+
+	enum class SvfitCacheMissBehaviour : int
+	{
+		assert = 0,
+		undefined  = 1,
+		recalculate = 2
+	};
+
+	static SvfitCacheMissBehaviour ToSvfitCacheMissBehaviour(std::string const& configstring)
+	{
+		if (configstring == "undefined") return SvfitCacheMissBehaviour::undefined;
+		else if (configstring == "recalculate") return SvfitCacheMissBehaviour::recalculate;
+
+		return SvfitCacheMissBehaviour::assert;
+	};
 };
 

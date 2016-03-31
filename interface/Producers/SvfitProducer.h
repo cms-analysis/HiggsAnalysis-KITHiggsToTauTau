@@ -27,6 +27,9 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
+
+	HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour;
+
 	static SvfitTools svfitTools;
 	
 	virtual std::string GetProducerId() const override {
