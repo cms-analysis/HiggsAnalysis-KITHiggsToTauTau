@@ -165,7 +165,6 @@ public:
 	                        bool& neededRecalculation, bool checkInputs=false);
 
 private:
-	TMemFile* svfitCacheFile = 0;
 	TChain* svfitCacheInputTree = 0;
 	std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
 	
