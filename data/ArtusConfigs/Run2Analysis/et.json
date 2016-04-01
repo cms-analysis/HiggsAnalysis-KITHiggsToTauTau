@@ -10,6 +10,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
+ 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json"
 		],
@@ -169,6 +170,7 @@
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
+ 					"producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -210,6 +212,7 @@
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
+ 					"producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -243,6 +246,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"#producer:MVATestMethodsProducer",
+ 					"producer:SvfitProducer",
 					"producer:EventWeightProducer"
 				]
 			}
@@ -255,6 +259,7 @@
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
+ 			"SvfitCacheConsumer",
 			"#CutFlowTreeConsumer",
 			"#KappaElectronsConsumer",
 			"#KappaTausConsumer",
