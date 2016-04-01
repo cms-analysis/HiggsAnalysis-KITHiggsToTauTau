@@ -48,46 +48,36 @@ public:
 		for (std::vector<std::string>::const_iterator quantity = (settings.GetPlotlevelFilterExpressionQuantities)().begin();
 			 quantity != (settings.GetPlotlevelFilterExpressionQuantities)().end(); ++quantity)
 		{
-// 			std::vector<std::string> splitted;
-// 			boost::algorithm::split(splitted, *quantity, boost::algorithm::is_any_of(":="));
-// 			std::transform(splitted.begin(), splitted.end(), splitted.begin(),
-// 					  [](std::string s) { return boost::algorithm::trim_copy(s); });
-// 			std::string *quantity = splitted.front();
-
+			bool variable_found = false;
 			if (LambdaNtupleConsumer<HttTypes>::GetFloatQuantities().count(*quantity) > 0)
 			{
 				m_ExpressionQuantities.push_back(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetFloatQuantities(), *quantity));
 				m_ExpressionNames.push_back(*quantity);
 				LOG(DEBUG) << "\t" << *quantity << " is used as floatQuantity";
+				variable_found = true;
 			}
-			else if(LambdaNtupleConsumer<HttTypes>::GetIntQuantities().count(*quantity) > 0)
+			else{ if(LambdaNtupleConsumer<HttTypes>::GetIntQuantities().count(*quantity) > 0)
 			{
 				m_ExpressionQuantities.push_back(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetIntQuantities(), *quantity));
 				m_ExpressionNames.push_back(*quantity);
 				LOG(DEBUG) << "\t" << *quantity << " is used as intQuantity";
+				variable_found = true;
 			}
-			else if (LambdaNtupleConsumer<HttTypes>::GetBoolQuantities().count(*quantity) > 0)
+			else{ if (LambdaNtupleConsumer<HttTypes>::GetBoolQuantities().count(*quantity) > 0)
 			{
 				m_ExpressionQuantities.push_back(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetBoolQuantities(), *quantity));
 				m_ExpressionNames.push_back(*quantity);
 				LOG(DEBUG) << "\t" << *quantity << " is used as boolQuantity";
+				variable_found = true;
+			}}}
+			if (not variable_found)
+			{
+				LOG(WARNING) << "Could not parse a given variable. If you know what you are doing those subexpressions containing this variable will return true if you follow this instructions!";
+				LOG(WARNING) << "comment out line 73 to 78, this will make this comment disappear!";
+				LOG(FATAL) << "The lines above give a hint how to solve this problem. ExpressionParser only supports float, int and bool quantities and none of them matched your variable: " << *quantity;
 			}
-// 			else
-// 			{
-// 				LOG(FATAL) << "ExpressionParser currently only supports float-type and int-type and bool input variables! " << *quantity;
-// 			}
 		}
-		/*std::vector<std::string> temp_string;
-		std::string temp_str = settings.GetPlotlevelFilterExpression();
-		boost::algorithm::split(temp_string, temp_str, boost::algorithm::is_any_of("*"));
-		std::transform(temp_string.begin(), temp_string.end(), temp_string.begin(),
-					[](std::string s) { return boost::algorithm::trim_copy(s); });
-		for(std::vector<std::string>::const_iterator pb = temp_string.begin(); pb != temp_string.end(); ++pb)
-		{
-			(m_SubExpressions).push_back(*pb);
-		}*/
-		if(m_ExpressionNames.size() < settings.GetPlotlevelFilterExpressionQuantities().size())
-			LOG(WARNING) << "Could not parse a given Variables, subexpressions containing this variable will return true!";
+// 		if(m_ExpressionNames.size() < settings.GetPlotlevelFilterExpressionQuantities().size())
 	}
 
 	template<typename T>
@@ -145,9 +135,10 @@ public:
 			}
 
 			if(position == 999){
-				LOG_N_TIMES(5, WARNING) << "Variable " << substrings[0] << " not found!";
-				LOG_N_TIMES(5, WARNING) << "Variable used in expression was not found in variable list, you might want to check if variable is already produced when this filter is run.";
-				LOG_N_TIMES(5, WARNING) << "expression " << expression << " was evaluated to " << true;
+				LOG(WARNING) << "Variable " << substrings[0] << " not found!";
+				LOG(WARNING) << "Variable used in expression was not found in variable list, you might want to check if variable is already produced when this filter is run.";
+				LOG(WARNING) << "If you are 100% sure that this variable is filled apropriatly and wiht a random number during runtime, you might comment out lines 138 to 141 and run again!";
+				LOG(FATAL) << "expression " << expression << " was evaluated to " << true;
 				return true;
 			}
 			double variable = (m_ExpressionQuantities[position])(event, product);
@@ -171,15 +162,13 @@ public:
 				LOG(DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
 				return back;}
 			else
-				LOG(WARNING) << "\tcould not parse relation sign " << relation;
+				LOG(FATAL) << "\tcould not parse relation sign " << relation;
 			return true;
 		}
 	}
 		virtual bool DoesEventPass(event_type const& event,
 		product_type const& product, setting_type const& settings) const override
 		{
-// 			if(m_ExpressionNames.size() < settings.GetPlotlevelFilterExpressionQuantities().size())
-// 				return true;
 			(m_SubExpressions).clear();
 			std::vector<std::string> temp_string;
 			std::string temp_str = settings.GetPlotlevelFilterExpression();
