@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
@@ -42,10 +44,15 @@ if __name__ == "__main__":
 							help="Number of plots. [Default: all]")
 	args = parser.parse_args()
 	logger.initLogger(args)
+	print args.input_file
 	regex = re.compile(r"T[0-9]{1,}\.root", re.IGNORECASE)
 
 	config_list = []
 	for i,path in enumerate(args.input_file):
+		if not os.path.isfile(path):
+			continue
+		elif ".json" in path:
+			continue
 		json_config = {}
 		base_dict = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "BDT_overtraining.json")
 		json_config = jsonTools.JsonDict(base_dict).doIncludes(
@@ -54,13 +61,14 @@ if __name__ == "__main__":
 		trash, file_name = os.path.split(path)
 		json_config["x_expressions"] = "BDT_"+regex.sub("", file_name)
 		json_config["x_label"] = regex.sub("", file_name)
-		json_config["filename"] = "Overtraining_"+regex.sub("", file_name)
+		json_config["filename"] = "Overtraining_"+ file_name.replace(".root", "")
 		json_config["output_dir"] = os.path.expandvars(args.output_dir)
 		if len(args.label) > 0:
 			json_config["x_label"] = args.label[i%len(args.label)]
 		if len(args.filename) > 0:
 			json_config["filename"] = args.filename[i%len(args.filename)]
 		config_list.append(json_config)
+	log.info("Plot all %i plots"%len(config_list))
 	higgsplot.HiggsPlotter(list_of_config_dicts=config_list,
 							list_of_args_strings=[args.args],
 							n_processes=args.n_processes, n_plots=args.n_plots)
