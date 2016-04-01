@@ -218,35 +218,35 @@ JSON configurations for further plots can be found in [plots/configs/combine](ht
 - Create friend trees with additional branches containing constant values: [`annotate-trees.py -h`](https://github.com/artus-analysis/Artus/blob/master/Utility/scripts/annotate-trees.py)
 
 #### TMVA training
-
-Classifications: [`tmvaClassification.py -h`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/tmvaClassification.py)
-tmvaWrapper (recommended): [`tmvaWrapper.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/tmvaWrapper.py)
-	-i and -o are mandatory and you will be reminded if one is missing
-	-S and -n are not mandatory but one of them must be specified for a  proper training
-	-S is the SplitValue: if this is specified you will do a regular training with a splitting of your sample defined by this variable
-	-n is the number of N-Fold: with this you will do a N-Fold training and splitting is done accordingly
-	--modify  and --modificatioin: those parameters give you access to predefined training routines, those are defined below the argparse part
-	  use those parameters to use already predefined sequences or define your own in the code.
-	You should write all trainings that belong together in one folder!
+- Classifications: [`tmvaClassification.py -h`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/tmvaClassification.py)
+- tmvaWrapper (recommended): [`tmvaWrapper.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/tmvaWrapper.py)
+	- -i and -o are mandatory and you will be reminded if one is missing
+	- -S and -n are not mandatory but one of them must be specified for a  proper training
+	- -S is the SplitValue: if this is specified you will do a regular training with a splitting of your sample defined by this variable
+	- -n is the number of N-Fold: with this you will do a N-Fold training and splitting is done accordingly
+	- --modify  and --modificatioin: those parameters give you access to predefined training routines, those are defined below the argparse part
+	- use those parameters to use already predefined sequences or define your own in the code.
+	- You should write all trainings that belong together in one folder!
 
 #### TMVA post training duties
-Overtraining: [`plot_overtraining.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/plot_overtraining.py)
-ConfigWriter: [`mvaConfigWriter.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/mvaConfigWriter.py)
-	-store all trainings that belong together in the same folder
-	-use the Producer MVATestMethodsProducer to run all of your trainings with Artus, the config for this is contained in the output of ConfigWriter
-Correlations: [`correlation_SampleProducer.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/correlation_SampleProducer.py)
-Correlations: [`correlation_SampleCollector.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/correlation_SampleCollector.py)
-	-use the Producer to calculate correlations for an Artus run, there must be a merged folder within the directory of the run
-	-use the Collector to add Correlations of different channels and plot them
-	-Producer: if run for the first time you have to use -P to produce a set of rootfiles, that are the base for correlation calculations,
-		       as of now the options for BDT bin correlations and multiprocess are there but not implemented
-	-Collector: Per default the collector never adds MC Sample correlations and data correlations but you can add all MC Samples and compare it to data
+- Overtraining: [`plot_overtraining.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/plot_overtraining.py)
+- ConfigWriter: [`mvaConfigWriter.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/mvaConfigWriter.py)
+	- store all trainings that belong together in the same folder
+	- use the Producer MVATestMethodsProducer to run all of your trainings with Artus, the config for this is contained in the output of ConfigWriter
+- Correlations
+	- Producer: [`correlation_SampleProducer.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/correlation_SampleProducer.py)
+	- Collector: [`correlation_SampleCollector.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/correlation_SampleCollector.py)
+	- use the Producer to calculate correlations for an Artus run, there must be a merged folder within the directory of the run
+	- use the Collector to add Correlations of different channels and plot them
+	- Producer: if run for the first time you have to use -P to produce a set of rootfiles, that are the base for correlation calculation, as of now the options for BDT bin correlations and multiprocess are there but not implemented
+	- Collector: Per default the collector never adds MC Sample correlations and data correlations but you can add all MC Samples and compare it to data
 
 #### Plotlevel Filtering
-ArtusRunFilter: [`MinimalPlotlevelFilter.h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/interface/Filters/MinimalPlotlevelFilter.h)
+- ArtusRunFilter: [`MinimalPlotlevelFilter.h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/interface/Filters/MinimalPlotlevelFilter.h)
 	-general instructions for the setup are in the source code
-PostRunFilter: [`reduce_mergedFiles.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/reduce_mergedFiles.py)
+- PostRunFilter: [`reduce_mergedFiles.py -h`](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/reduce_mergedFiles.py)
 	-this filter reduces the merged output from an Artus run to a reduced set, which is enough for plotting etc.
+
 #### JSON tools
 
 Manipulation of all sorts of JSON configurations can be done using the Artus wrapper:
