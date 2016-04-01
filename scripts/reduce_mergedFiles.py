@@ -167,10 +167,10 @@ if __name__ == "__main__":
 		item["out_dir"] = output_dir
 		give_away_list.append({filename:item})
 
-	#aTools.parallelize(reduce_file, give_away_list, n_processes=args.n_processes)
+	aTools.parallelize(reduce_file, give_away_list, n_processes=args.n_processes)
 
-	for aufruf in give_away_list:
-		reduce_file(aufruf)
+	#for aufruf in give_away_list:
+		#reduce_file(aufruf)
 
 
 

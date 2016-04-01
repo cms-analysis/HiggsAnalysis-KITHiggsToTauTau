@@ -173,7 +173,6 @@ if __name__ == "__main__":
 		root_inf = ROOT.TFile(config["storage_file"], "read")
 		root_inst = root_inf.Get(config["storage_ntuple"])
 		for variables in itertools.combinations(config["parameters_list"], 2):
-			#log.info( variables)
 			xbins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip()
 			ybins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[1]).strip()
 			xbins = []
@@ -261,36 +260,15 @@ if __name__ == "__main__":
 					corr_vars["var_%s"%vary] += w*(y - zero_vals[vary])**2
 					calced_means.append(vary)
 				corr_vars[varxy] += w*(x -zero_vals[varx]) * (y - zero_vals[vary])
-			#sys.exit()
+
 			i += w
 			n += 1
 			if n%1000 == 0:
 				log.info( "processed: %i events"%n)
-			#if n == 1000:
-				#break
 
-		#root_inf.Close()
 		hist_file = ROOT.TFile(os.path.join(nick_path, "%s_histograms.root"%config["channel"]),"RECREATE")
 		for varxy in root_histograms.iterkeys():
 			root_histograms[varxy].Write()
-		#calculate variances and correlations -> moved to collector_script
-		#calced_variances = []
-		#for varxy in root_histograms.iterkeys():
-			#varx, vary = map(str, varxy.split("+-+"))
-			#if varx not in calced_variances:
-				#corr_vars["var_%s"%varx] = (corr_vars["var_%s"%varx] - (corr_vars[varx]**2.)/i)/i
-				#calced_variances.append(varx)
-			#if vary not in calced_variances:
-				#corr_vars["var_%s"%vary] = (corr_vars["var_%s"%vary] - (corr_vars[vary]**2.)/i)/i
-				#calced_variances.append(vary)
-			#try:
-				#corr_vars[varxy] = (corr_vars[varxy]-corr_vars[varx]*corr_vars[vary]/i)/i/(corr_vars["var_%s"%varx])**0.5/(corr_vars["var_%s"%vary])**0.5
-			#except ZeroDivisionError:
-				#log.error("ZeroDivisonError: %s" %varxy)
-				#corr_vars[varxy] = None
-			#except ValueError:
-				#log.error("ValueError: %s" %varxy)
-				#corr_vars[varxy] = None
 		corr_vars["weight_sum"] = i
 		corr_vars["n"] = n
 		hist_file.Write()
