@@ -78,7 +78,12 @@
 	},
 	"BTagScaleFactorFile" : {
 		"nick" : {
-			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2.csv"
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv"
+		}
+	},
+	"BTagEfficiencyFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root"
 		}
 	},
 	"MetRecoilCorrectorFile" : {

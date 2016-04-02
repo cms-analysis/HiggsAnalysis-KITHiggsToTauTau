@@ -41,8 +41,6 @@
 	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
-	"#EventWhitelist" : [
-	],
 	"OutputPath" : "output.root",
 	"Processors" : {
 		"nick" : {
@@ -59,10 +57,20 @@
 			]
 		}
 	},
-		"PileupWeightFile" : {
+	"PileupWeightFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeV_PromptReco_69mbMinBiasXS.root",
 			"Run2015" : "not needed"
+		}
+	},
+	"BTagScaleFactorFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv"
+		}
+	},
+	"BTagEfficiencyFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root"
 		}
 	},
 	"MetRecoilCorrectorFile" : {
