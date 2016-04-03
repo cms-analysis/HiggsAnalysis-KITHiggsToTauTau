@@ -53,6 +53,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 	def readInExternals(self):
 		if not "NumberGeneratedEvents" in self._config or (int(self._config["NumberGeneratedEvents"]) < 0):
 			from Kappa.Skimming.registerDatasetHelper import get_n_generated_events_from_nick
+			from Kappa.Skimming.datasetsHelper2015 import isData
 			n_events_from_db = get_n_generated_events_from_nick(self._config["Nickname"])
 			if(n_events_from_db > 0):
 				self._config["NumberGeneratedEvents"] = n_events_from_db
@@ -67,13 +68,12 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			if(xsec > 0):
 				self._config["CrossSection"] = xsec
 			elif not isData(self._config["Nickname"]):
-				print self._config["Nickname"]
-				print isData(self._config["Nickname"])
 				log.fatal("Cross section for " + self._config["Nickname"] + " not set! Check your datasets.json")
 				sys.exit(1)
 
 		if not ("GeneratorWeight" in self._config) or (self._config["GeneratorWeight"] < 0):
 			from Kappa.Skimming.registerDatasetHelper import get_generator_weight
+			from Kappa.Skimming.datasetsHelper2015 import isData
 			generator_weight = get_generator_weight(self._config["Nickname"])
 			if(generator_weight > 0 and generator_weight <= 1.0):
 				self._config["GeneratorWeight"] = generator_weight
