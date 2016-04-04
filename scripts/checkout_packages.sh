@@ -70,9 +70,7 @@ svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/trunk/grid-contr
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
-rm -r HiggsAnalysis/KITHiggsToTauTau/data/ArtusOutputs
 scram b -j 4
 cd HiggsAnalysis/KITHiggsToTauTau
-git checkout -- data/ArtusOutputs
 cd -
 

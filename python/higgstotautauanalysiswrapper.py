@@ -82,20 +82,20 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 
 	def run(self):
-		symlinkBaseDir = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusOutputs")
-		if not os.path.exists(symlinkBaseDir):
-			os.makedirs(symlinkBaseDir)
+		#symlinkBaseDir = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusOutputs")
+		#if not os.path.exists(symlinkBaseDir):
+		#	os.makedirs(symlinkBaseDir)
 		
-		if not self.projectPath is None:
-			symlinkDir = os.path.join(symlinkBaseDir, "recent")
-			if os.path.islink(symlinkDir):
-				os.remove(symlinkDir)
-			os.symlink(self.projectPath, symlinkDir)
+		#if not self.projectPath is None:
+		#	symlinkDir = os.path.join(symlinkBaseDir, "recent")
+		#	if os.path.islink(symlinkDir):
+		#		os.remove(symlinkDir)
+		#	os.symlink(self.projectPath, symlinkDir)
 		
 		exitCode = super(HiggsToTauTauAnalysisWrapper, self).run()
 		
-		if not self.projectPath is None:
-			symlinkDir = os.path.join(symlinkBaseDir, os.path.basename(self.projectPath))
-			os.symlink(self.projectPath, symlinkDir)
+		#if not self.projectPath is None:
+		#	symlinkDir = os.path.join(symlinkBaseDir, os.path.basename(self.projectPath))
+		#	os.symlink(self.projectPath, symlinkDir)
 		
 		return exitCode
