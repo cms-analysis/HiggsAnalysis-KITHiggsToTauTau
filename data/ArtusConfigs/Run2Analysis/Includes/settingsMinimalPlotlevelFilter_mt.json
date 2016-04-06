@@ -1,0 +1,10 @@
+{
+    "PlotlevelFilterExpressionQuantities" : [
+		"againstElectronVLooseMVA6_2",
+		"extraelec_veto",
+		"againstMuonTight3_2",
+		"extramuon_veto",
+		"byTightIsolationMVArun2v1DBoldDMwLT_2"
+    ],
+    "PlotlevelFilterExpression" : "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+}
