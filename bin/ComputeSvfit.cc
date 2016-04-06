@@ -73,9 +73,9 @@ int main(int argc, const char *argv[])
     float outsystematicShiftSigma;
     int outintegrationMethod;
 
-    RMFLV momentum, momentumUncertainty;
-    RMDataV fittedMET;
-    double transverseMass, transverseMassUncertainty;
+    RMFLV momentum;//, momentumUncertainty;
+    //RMDataV fittedMET;
+    double transverseMass;//, transverseMassUncertainty;
     std::string inputfilename = vm["inputfile"].as<std::string>();
     char chars[] = "\"";
     removeCharsFromString(inputfilename, chars);
@@ -132,10 +132,10 @@ int main(int argc, const char *argv[])
     outputtree->Branch("hash", &outhash);
 
     outputtree->Branch("svfitMomentum", &momentum);
-    outputtree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
-    outputtree->Branch("svfitMet", &fittedMET);
+    //outputtree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
+    //outputtree->Branch("svfitMet", &fittedMET);
     outputtree->Branch("svfitTransverseMass", &transverseMass, "svfitTransverseMass/D");
-    outputtree->Branch("svfitTransverseMassUnc", &transverseMassUncertainty, "svfitTransverseMassUnc/D");
+    //outputtree->Branch("svfitTransverseMassUnc", &transverseMassUncertainty, "svfitTransverseMassUnc/D");
     unsigned int nEntries = inputtree->GetEntries();
     for(unsigned int entry = 0; entry < nEntries; entry++)
     {
@@ -179,11 +179,11 @@ int main(int argc, const char *argv[])
         }
 
         // retrieve results
-        fittedMET = svfitStandaloneAlgorithm.fittedMET();
-        momentumUncertainty.SetPt(svfitStandaloneAlgorithm.ptUncert());
-        momentumUncertainty.SetEta(svfitStandaloneAlgorithm.etaUncert());
-        momentumUncertainty.SetPhi(svfitStandaloneAlgorithm.phiUncert());
-        momentumUncertainty.SetM(svfitStandaloneAlgorithm.massUncert());
+        //fittedMET = svfitStandaloneAlgorithm.fittedMET();
+        //momentumUncertainty.SetPt(svfitStandaloneAlgorithm.ptUncert());
+        //momentumUncertainty.SetEta(svfitStandaloneAlgorithm.etaUncert());
+        //momentumUncertainty.SetPhi(svfitStandaloneAlgorithm.phiUncert());
+        //momentumUncertainty.SetM(svfitStandaloneAlgorithm.massUncert());
 
         momentum.SetPt(svfitStandaloneAlgorithm.pt());
         momentum.SetEta(svfitStandaloneAlgorithm.eta());
@@ -191,7 +191,7 @@ int main(int argc, const char *argv[])
         momentum.SetM(svfitStandaloneAlgorithm.mass());
 
         transverseMass = svfitStandaloneAlgorithm.transverseMass();
-        transverseMassUncertainty = svfitStandaloneAlgorithm.transverseMassUncert();
+        //transverseMassUncertainty = svfitStandaloneAlgorithm.transverseMassUncert();
 
         outputtree->Fill();
     }
