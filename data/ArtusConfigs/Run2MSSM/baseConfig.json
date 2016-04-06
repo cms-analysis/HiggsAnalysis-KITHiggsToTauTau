@@ -94,7 +94,7 @@
 	},
 	"BTagEfficiencyFile" : {
 	    "nick" : {
-	        "default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_loosewp.root"
+	        "default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root"
         }
     },
 	"MetRecoilCorrectorFile" : {
