@@ -111,7 +111,8 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
-			}
+			},
+			"nloosebtag"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
