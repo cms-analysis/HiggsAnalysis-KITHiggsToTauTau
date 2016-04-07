@@ -1,0 +1,57 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json"
+	],
+	"SkipEvents" : 0,
+	"EventCount" : -1,
+	"InputIsData" : {
+		"nick" : {
+			"default" : "false",
+			"Run2015" : "true"
+		}
+	},
+	"InputFiles" : [
+		"/pnfs/desy.de/cms/tier2/store/user/rfriese/skimming/2015-04-24/VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM_0.root"
+	],
+	"BosonPdgId" : 23,
+	"BosonStatus" : 62,
+	"GenDiLeptonDecayModeFilterLoose" : true,
+	"GenDiLeptonDecayMode" : "tt",
+	
+	"Processors" : {
+		"nick" : {
+			"default" : [
+				"filter:RunLumiEventFilter",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NicknameProducer",
+				"producer:GenDiLeptonDecayModeProducer",
+				"filter:GenDiLeptonDecayModeFilter",
+				"producer:ValidTausProducer"
+			]
+		}
+	},
+	
+	"ElectronID" : "None",
+	"ElectronIDType" : "None",
+	"ElectronIso" : "None",
+	"ElectronIsoType" : "None",
+	"ElectronReco" : "None",
+	
+	"MuonID" : "None",
+	"MuonIso" : "None",
+	"MuonIsoType" : "None",
+	
+	"TauID" : "TauIDRecommendation13TeV",
+	"TauUseOldDMs" : true,
+	"TauLowerPtCuts" : [
+		"20.0"
+	],
+	"TauUpperAbsEtaCuts" : [
+		"2.3"
+	],
+
+	"DirectIso" : true
+}

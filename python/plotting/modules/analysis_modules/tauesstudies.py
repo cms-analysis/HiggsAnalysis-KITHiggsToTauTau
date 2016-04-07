@@ -211,12 +211,13 @@ class TauEsStudies(analysisbase.AnalysisBase):
 			es_shifts=[]
 			chi2res=[]
 
-			for index, (data_nick, ztt_nick, es_shift) in enumerate(zip(
-					*[plotData.plotdict[k] for k in ["data_nicks","ztt_nicks","es_shifts"]]
+			for index, (res_hist_nick, data_nick, ztt_nick, es_shift) in enumerate(zip(
+					*[plotData.plotdict[k] for k in ["res_hist_nicks", "data_nicks","ztt_nicks","es_shifts"]]
 			)):
+				print index, res_hist_nick, data_nick, ztt_nick, es_shift
 				#print "chi2test between ", data_nick, " and ", ztt_nick
 				es_shifts.append(float(es_shift[0]))
-				chi2res.extend([plotData.plotdict["root_objects"][ztt_nick[0]].Chi2Test(plotData.plotdict["root_objects"][data_nick[0]], "CHI2")])
+				chi2res.extend([plotData.plotdict["root_objects"][ztt_nick[0]].Chi2Test(plotData.plotdict["root_objects"][data_nick], "CHI2")])
 
 				if index == 0:
 					chi2min = chi2res[0]
@@ -236,13 +237,16 @@ class TauEsStudies(analysisbase.AnalysisBase):
 					array.array("d", es_shifts), array.array("d", chi2res),
 					array.array("d",[0.001]*len(es_shifts)),array.array("d",[20.0]*len(chi2res))
 			)
-			plotData.plotdict.setdefault("root_objects", {})[plotData.plotdict["res_hist_nick"]] = Chi2Graph
+			res_hist_nick = plotData.plotdict["res_hist_nicks"][0]
+			print "result in:", res_hist_nick
+			plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = Chi2Graph
+			print plotData.plotdict["root_objects"][res_hist_nick]
 
-			plotData.plotdict["root_objects"][plotData.plotdict["res_hist_nick"]].SetName(plotData.plotdict["res_hist_nick"])
-			plotData.plotdict["root_objects"][plotData.plotdict["res_hist_nick"]].SetTitle("")
+			plotData.plotdict["root_objects"][res_hist_nick].SetName(res_hist_nick)
+			plotData.plotdict["root_objects"][res_hist_nick].SetTitle("")
 
 			#Fit function
-			fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",plotData.plotdict["fit_min"],plotData.plotdict["fit_max"])
+			fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",0,2)
 			fit2chi.SetParLimits(0,0,1000000)
 			fit2chi.SetParLimits(1,0,1000000)
 			fit2chi.SetParLimits(2,min(es_shifts),max(es_shifts))

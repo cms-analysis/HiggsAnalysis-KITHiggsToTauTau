@@ -22,9 +22,9 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
                                               setting_type const& settings)
 {
 	// make sure the SvfitOutputFile option is set reasonably
-	assert((! settings.GetGenerateSvFitInput()) || (settings.GetSvfitOutFile().find(".root") != std::string::npos) || settings.GetUseFirstInputFileNameForSvfit());
+	assert((! settings.GetGenerateSvfitInput()) || (settings.GetSvfitOutFile().find(".root") != std::string::npos) || settings.GetUseFirstInputFileNameForSvfit());
 	ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings);
-	if (settings.GetGenerateSvFitInput())
+	if (settings.GetGenerateSvfitInput())
 	{
 		if (! m_svfitCacheTreeInitialised)
 		{
@@ -63,7 +63,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 		}
 		// at reaching a predefined threshold create the outputfile with index m_fileIndex and save the tree
 		// afterwards crear the Cache tree
-		if ( m_svfitCacheTree->GetEntries() == settings.GetSvFitInputCutOff())
+		if ( m_svfitCacheTree->GetEntries() == settings.GetSvfitInputCutOff())
 		{
 			m_svfitCacheTreeInitialised = false;
 		}
@@ -87,7 +87,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 
 void SvfitCacheConsumer::Finish(setting_type const& settings)
 {
-	if (settings.GetGenerateSvFitInput())
+	if (settings.GetGenerateSvfitInput())
 	{
 		//write remaining Cache tree to the last file and write it
 		std::string cacheFilename;

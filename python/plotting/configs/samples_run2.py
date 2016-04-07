@@ -300,7 +300,8 @@ class Samples(samples.SamplesBase):
 					channel+"_jecUncNom/ntuple",
 					1.0,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
-					"noplot_ttj_data_control"
+					"noplot_ttj_data_control",
+					nick_suffix=nick_suffix
 			)
 			Samples._add_input(
 					config,
@@ -426,7 +427,8 @@ class Samples(samples.SamplesBase):
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					1.0,
 					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
-					"noplot_wj_data_control"
+					"noplot_wj_data_control",
+					nick_suffix=nick_suffix
 			)
 			Samples._add_input(
 					config,
