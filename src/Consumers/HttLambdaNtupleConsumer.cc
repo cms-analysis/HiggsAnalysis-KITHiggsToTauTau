@@ -4,9 +4,8 @@
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/DefaultValues.h"
+#include "Artus/KappaAnalysis/interface/KappaEnumTypes.h"
 #include "Artus/KappaAnalysis/interface/KappaTypes.h"
-
-#include "Artus/KappaAnalysis/interface/Producers/GenTauDecayModeProducer.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
@@ -177,27 +176,27 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("isZtt", [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genTauDecayMode == (int) GenTauDecayModeProducer::GenTauDecayMode::TT);
+		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::TT);
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("isZmt", [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genTauDecayMode == (int) GenTauDecayModeProducer::GenTauDecayMode::MT);
+		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::MT);
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("isZet", [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genTauDecayMode == (int) GenTauDecayModeProducer::GenTauDecayMode::ET);
+		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::ET);
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("isZee", [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genTauDecayMode == (int) GenTauDecayModeProducer::GenTauDecayMode::EE);
+		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::EE);
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("isZmm", [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genTauDecayMode == (int) GenTauDecayModeProducer::GenTauDecayMode::MM);
+		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::MM);
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("isZem", [](KappaEvent const& event, KappaProduct const& product)
 	{
-		return (product.m_genTauDecayMode == (int) GenTauDecayModeProducer::GenTauDecayMode::EM);
+		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::EM);
 	});
 	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("NUP", [](KappaEvent const& event, KappaProduct const& product)
 	{
