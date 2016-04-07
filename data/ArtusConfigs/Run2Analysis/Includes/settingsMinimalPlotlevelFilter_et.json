@@ -4,7 +4,8 @@
 		"extraelec_veto",
 		"againstMuonLoose3_2",
 		"extramuon_veto",
-		"byTightIsolationMVArun2v1DBoldDMwLT_2"
+		"byLooseIsolationMVArun2v1DBoldDMwLT_2",
+		"nDiElectronVetoPairsOS"
     ],
-    "PlotlevelFilterExpression" : "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronTightMVA6_2 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+    "PlotlevelFilterExpression" : "(nDiElectronVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronTightMVA6_2 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 }
