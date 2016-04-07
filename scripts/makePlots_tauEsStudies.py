@@ -13,7 +13,7 @@ import hashlib
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 
 
 if __name__ == "__main__":
@@ -36,7 +36,7 @@ if __name__ == "__main__":
 						choices=["chi2", "logllh"],
 						help="Choose a fit (chi2 or logllh)")
 	parser.add_argument("--pt-ranges",
-						default=["(pt_2 > 20.0)*(pt_2 < 30.0)","(pt_2 > 30.0)*(pt_2 < 45.0)","(pt_2 > 45.0)"],
+						default=["1.0"],
 						help=""	)
 	parser.add_argument("--channels", nargs="*",
 	                    default=["mt"],
@@ -117,7 +117,7 @@ if __name__ == "__main__":
 					config_rest["weights"] = [weight.replace("(pt_2>30.0)","1.0") for weight in config_rest["weights"]]
 
 					# merge configs
-					merged_config = samples.Samples.merge_configs(merged_config, config_rest, additional_keys=["wjets_shape_nicks","wjets_data_control_nicks","wjets_data_substract_nicks","wjets_mc_signal_nicks","wjets_mc_control_nicks","qcd_data_shape_nicks","qcd_data_control_nicks","qcd_data_substract_nicks","qcd_extrapolation_factors_ss_os","qcd_subtract_shape"])
+					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
 
 				merged_config["directories"] = [args.input_dir]
 				merged_config["nicks_blacklist"].append("noplot")
@@ -126,30 +126,37 @@ if __name__ == "__main__":
 
 				# config to plot the fit
 				if args.fit_method == "chi2":
-
 					merged_config.setdefault("analysis_modules", []).append("AddHistograms")
 					merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
-					# ztt plus bkg
+					# for each shift, sum the ztt and bkg histograms
 					for shift in args.es_shifts:
-						bkg_samples_used = ["ztt_" + str(shift).replace(".", "_")] + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
-						merged_config.setdefault("histogram_nicks", []).append([" ".join(bkg_samples_used)])
-						merged_config.setdefault("sum_result_nicks", []).append(["noplot_ztt_" + str(shift).replace(".", "_")])
-
-					merged_config["res_hist_nick"]  = "chi2_result"
-					merged_config["nicks_whitelist"] = ["chi2_result"]
-					merged_config["es_shifts"] = [str(shift) for shift in args.es_shifts]
-					merged_config["ztt_nicks"] = ["noplot_ztt_" + str(shift).replace(".", "_") for shift in args.es_shifts]
-					merged_config["data_nicks"] = ["data"] * len(args.es_shifts)
+						all_samples = ["ztt_" + str(shift).replace(".", "_") + "_0"] + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
+						
+						# needed for AddHistograms module
+						merged_config.setdefault("histogram_nicks", []).append([" ".join(all_samples)])
+						sum_result_nick = "noplot_ztt_" + str(shift).replace(".", "_") + "_0"
+						merged_config.setdefault("sum_result_nicks", []).append([sum_result_nick])
+						
+						# needed for ExportRoot module
+						merged_config.setdefault("labels", []).append([sum_result_nick])
+						merged_config.setdefault("nicks_instead_labels", []).append([True])
+						
+						# needed for TauEsStudies module
+						merged_config.setdefault("ztt_nicks", []).append([sum_result_nick])
+						merged_config.setdefault("data_nicks", []).append(["data_0"])
+						merged_config.setdefault("es_shifts", []).append([str(shift)])
+						merged_config.setdefault("res_hist_nicks", []).append(["chi2_result"])
+						merged_config["fit_method"] = "chi2"
 
 					config_plotfit = {}
-
 					config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + name_hash + ".root"
-					config_plotfit["markers"] = ["ALP"]
-					config_plotfit["x_expressions"]  = ["data"]
+					config_plotfit["markers"] = ["LP"]
+					config_plotfit["x_expressions"]  = ["chi2_result"]
 					config_plotfit["filename"] = "chi2_" + decayMode + "_" + name_hash
-					config_plotfit["x_label"] = "ES_shift"
-					config_plotfit["y_label"] = "Chi2"
+					config_plotfit["x_label"] = "#tau_{ES}"
+					config_plotfit["y_label"] = "#Delta#chi^{2}"
+				
 				elif args.fit_method == "logllh":
 					merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
