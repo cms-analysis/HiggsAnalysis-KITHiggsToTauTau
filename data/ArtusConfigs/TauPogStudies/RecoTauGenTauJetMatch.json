@@ -1,19 +1,28 @@
 {
 	"RecoTauGenTauJetMatch" : {
 		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+				]
+			},
+			"run",
+			"lumi",
+			"event"
 		],
 		"Processors" : {
 			"nick" : {
 				"default" : [
 					"producer:RecoTauGenTauJetMatchingProducer",
 					"filter:ValidTausFilter",
-					"producer:DecayChannelProducer"
+					"producer:EventWeightProducer"
 				]
 			}
 		},
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
-			"KappaTausConsumer"
+			"KappaTausConsumer",
+			"cutflow_histogram"
 		],
 		
 		"DeltaRMatchingRecoTauGenTauJet" : 0.3,
