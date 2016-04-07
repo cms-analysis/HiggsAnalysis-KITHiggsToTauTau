@@ -96,7 +96,7 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 	// "pulls", recommended as crosscheck for covariance matrix, suggested by Christian Veelken
 	if(product.m_genBoson.size() > 0)
 	{
-		TVector2 genBoson(product.m_genBoson[0].node->p4.X(), product.m_genBoson[0].node->p4.Y());
+		TVector2 genBoson(product.m_genBoson[0].m_node->p4.X(), product.m_genBoson[0].m_node->p4.Y());
 		TVector2 rotatedMet = met.Rotate( - genBoson.Phi());
 		TVector2 rotatedGenMet = genMet.Rotate( -genBoson.Phi());
 		ROOT::Math::SMatrix<double,2> rotationMatrix;

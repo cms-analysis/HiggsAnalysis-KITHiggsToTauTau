@@ -91,12 +91,12 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		return;
 	}
 
-	KGenParticle* selectedHiggs1 = higgs[0].node;
-	MotherDaughterBundle selectedTau1 = higgs[0].Daughters[0];
-	MotherDaughterBundle selectedTau2 = higgs[0].Daughters[1];
+	KGenParticle* selectedHiggs1 = higgs[0].m_node;
+	MotherDaughterBundle selectedTau1 = higgs[0].m_daughters[0];
+	MotherDaughterBundle selectedTau2 = higgs[0].m_daughters[1];
 
-	if ((abs(selectedTau1.node->pdgId) != DefaultValues::pdgIdTau)
-		|| (abs(selectedTau2.node->pdgId) != DefaultValues::pdgIdTau)) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
+	if ((abs(selectedTau1.m_node->pdgId) != DefaultValues::pdgIdTau)
+		|| (abs(selectedTau2.m_node->pdgId) != DefaultValues::pdgIdTau)) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	{
 		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find two taus as daughters of Boson" << std::endl;
 		// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
@@ -104,8 +104,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	}
 
 	TauSpinner::SimpleParticle X = GetSimpleParticle(selectedHiggs1);
-	TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.node);
-	TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.node);
+	TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_node);
+	TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_node);
 	std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
 	GetFinalStates(selectedTau1, &tauFinalStates1);
 	std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
@@ -176,10 +176,10 @@ TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(KGenParticle*& 
 std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(MotherDaughterBundle& mother,
 		std::vector<TauSpinner::SimpleParticle>* resultVector) const
 {
-	for (unsigned int i = 0; i < mother.Daughters.size(); ++i)
+	for (unsigned int i = 0; i < mother.m_daughters.size(); ++i)
 	{
 		// this if-condition has to define what particles go into TauSpinner
-		int pdgId = abs(mother.Daughters[i].node->pdgId);
+		int pdgId = abs(mother.m_daughters[i].m_node->pdgId);
 		if (pdgId == DefaultValues::pdgIdGamma ||
 			pdgId == DefaultValues::pdgIdPiZero ||
 			pdgId == DefaultValues::pdgIdPiPlus ||
@@ -192,16 +192,16 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(Moth
 			pdgId == DefaultValues::pdgIdNuMu ||
 			pdgId == DefaultValues::pdgIdNuTau)
 		{
-			resultVector->push_back(GetSimpleParticle(mother.Daughters[i].node));
+			resultVector->push_back(GetSimpleParticle(mother.m_daughters[i].m_node));
 		}
 		else
 		{
-			if (mother.Daughters[i].finalState)
+			if (mother.m_daughters[i].m_finalState)
 			{
 				LOG(FATAL) << "Could not find a proper final state that can be handled by TauSpinner" << std::endl;
 			}
 			LOG_N_TIMES(20, DEBUG) << "Recursion, pdgId " << pdgId << " is not considered being a final states" << std::endl;
-			GetFinalStates(mother.Daughters[i], resultVector);
+			GetFinalStates(mother.m_daughters[i], resultVector);
 		}
 	}
 	return resultVector;
