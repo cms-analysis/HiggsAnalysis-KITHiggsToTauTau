@@ -67,7 +67,7 @@ if __name__ == "__main__":
 	parser.add_argument("--categories", action="append", nargs="+",
                 	    default=[],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
-	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
+	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["all"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("-s", "--samples", nargs="+", default=[],
 	                    help="Samples used. [Default: %(default)s]")
@@ -124,8 +124,8 @@ if __name__ == "__main__":
 		output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
 	
 	# args.categories = (args.categories * len(args.channel))[:len(args.channel)]
-	print args.channel
-	print args.categories
+	if args.higgs_masses[0] == "all":
+		args.higgs_masses = ["80","90","100","110","120","130","140","160","180","200","250","300","350","400","450","500","600","700","800","900","1000","1200","1400","1500","1600","1800","2000","2300","2600","2900","3200"]
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		tmp_output_files = []
 		output_file = os.path.join(args.output_dir, "htt_%s.inputs-mssm-13TeV%s.root"%(channel,args.postfix))
@@ -147,10 +147,8 @@ if __name__ == "__main__":
 			for shape_systematic, list_of_samples in samples_dict[channel]:
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + list_of_samples
-                                print args.samples
-                                print list_of_samples
-                                if args.samples:
-                                    list_of_samples = args.samples
+				if args.samples:
+					list_of_samples = args.samples
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
