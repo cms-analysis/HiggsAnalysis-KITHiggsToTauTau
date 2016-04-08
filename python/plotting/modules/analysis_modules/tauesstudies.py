@@ -94,10 +94,10 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				nll_list = []
 				dnll_list = []
 				es_shifts_float=[]
-
+			
 				# Have to define the "x-axis" variable
-				mass = ROOT.RooRealVar('mass', 'mass', 0, 2)
-
+				mass = ROOT.RooRealVar('mass', 'mass', 0, 2.1)
+				
 				for ztt_nick, es_shift in zip(ztt_nicks, es_shifts):
 					es_shifts_float.append(float(es_shift))
 
@@ -150,7 +150,6 @@ class TauEsStudies(analysisbase.AnalysisBase):
 
 				#find minimum to set min to zero
 				for index, (nll) in enumerate(nll_list):
-					print nll
 					if index == 0:
 						min_nll = nll_list[0]
 						min_shift = es_shifts[0]
@@ -176,10 +175,16 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				plotData.plotdict["root_objects"][res_hist_nick].SetTitle("")
 
 				#Fit function
-				fitf = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts_float),max(es_shifts_float))
-				fitf.FixParameter(0,0)
-				fitf.SetParLimits(2,min(es_shifts_float),max(es_shifts_float))
-				resultfit = RooFitGraph.Fit("f1","R")
+				fitf = ROOT.TF1("f1","[0]+([1]*(exp((x-[2])/[3]) + exp(-1.0*(x-[2])/[4])))",min(es_shifts_float),max(es_shifts_float))
+				fitf.SetParameter(2, 1.0)
+				fitf.SetParameter(3, 0.05)
+				fitf.SetParameter(4, 0.05)
+				fitf.SetParLimits(0, -2000, 2000)
+				fitf.SetParLimits(1, 0, 2000)
+				fitf.SetParLimits(2, 0.5, 1.5)
+				fitf.SetParLimits(3, 0.01, 0.1)
+				fitf.SetParLimits(4, 0.01, 0.1)
+				RooFitGraph.Fit("f1","R")
 				minimum_of_fit = fitf.GetMinimumX(min(es_shifts_float),max(es_shifts_float))
 
 				#calculate sigmas
@@ -194,16 +199,16 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				errors_1sigma.append(sigma1)
 				errors_2sigma.append(sigma2)
 
-			#create plot for pt binning
-			ptBins = [20.0,30.0,45.0,60.0]
-			ptBinsHist = ROOT.TH1F(res_hist_nick,"",3,array.array("d",ptBins))
+			##create plot for pt binning
+			#ptBins = [20.0,30.0,45.0,60.0]
+			#ptBinsHist = ROOT.TH1F(res_hist_nick,"",3,array.array("d",ptBins))
 
-			for index, (best_shift,error_1sigma) in enumerate(zip(best_shifts,errors_1sigma)):
-				ptBinsHist.SetBinContent(index+1,best_shift)
-				ptBinsHist.SetBinError(index+1,error_1sigma)
-				print best_shift, " +- ", error_1sigma
+			#for index, (best_shift,error_1sigma) in enumerate(zip(best_shifts,errors_1sigma)):
+				#ptBinsHist.SetBinContent(index+1,best_shift)
+				#ptBinsHist.SetBinError(index+1,error_1sigma)
+				#print best_shift, " +- ", error_1sigma
 
-			plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = ptBinsHist
+			#plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = ptBinsHist
 
 		elif plotData.plotdict["fit_method"] == "chi2":
 			print "Start Chi2 fit ..."
@@ -214,8 +219,6 @@ class TauEsStudies(analysisbase.AnalysisBase):
 			for index, (res_hist_nick, data_nick, ztt_nick, es_shift) in enumerate(zip(
 					*[plotData.plotdict[k] for k in ["res_hist_nicks", "data_nicks","ztt_nicks","es_shifts"]]
 			)):
-				print index, res_hist_nick, data_nick, ztt_nick, es_shift
-				#print "chi2test between ", data_nick, " and ", ztt_nick
 				es_shifts.append(float(es_shift[0]))
 				chi2res.extend([plotData.plotdict["root_objects"][ztt_nick[0]].Chi2Test(plotData.plotdict["root_objects"][data_nick], "CHI2")])
 
@@ -226,6 +229,9 @@ class TauEsStudies(analysisbase.AnalysisBase):
 					chi2min = chi2res[index]
 					min_shift = es_shifts[index]
 
+			for i in range(len(chi2res)):
+				chi2res[i] = (chi2res[i] - chi2min)
+			
 			for x_value, y_value in zip(es_shifts, chi2res):
 				print "Shift: ", x_value, " Chi2Val: ", y_value
 
@@ -238,18 +244,31 @@ class TauEsStudies(analysisbase.AnalysisBase):
 					array.array("d",[0.001]*len(es_shifts)),array.array("d",[20.0]*len(chi2res))
 			)
 			res_hist_nick = plotData.plotdict["res_hist_nicks"][0]
-			print "result in:", res_hist_nick
 			plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = Chi2Graph
-			print plotData.plotdict["root_objects"][res_hist_nick]
 
 			plotData.plotdict["root_objects"][res_hist_nick].SetName(res_hist_nick)
 			plotData.plotdict["root_objects"][res_hist_nick].SetTitle("")
 
 			#Fit function
-			fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",0,2)
-			fit2chi.SetParLimits(0,0,1000000)
-			fit2chi.SetParLimits(1,0,1000000)
-			fit2chi.SetParLimits(2,min(es_shifts),max(es_shifts))
+			#more complex version
+			fit2chi = ROOT.TF1("f1","[0]+([1]*(exp((x-[2])/[3]) + exp(-1.0*(x-[2])/[4])))",min(es_shifts),max(es_shifts))
+			fit2chi.SetParameter(2, 1.0)
+			fit2chi.SetParameter(3, 0.05)
+			fit2chi.SetParameter(4, 0.05)
+			fit2chi.SetParLimits(0, -2000, 2000)
+			fit2chi.SetParLimits(1, 0, 2000)
+			fit2chi.SetParLimits(2, 0.5, 1.5)
+			fit2chi.SetParLimits(3, 0.01, 0.1)
+			fit2chi.SetParLimits(4, 0.01, 0.1)
+			
+			#simple symmetric parabola
+			#fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
+			#fit2chi.SetParameter(0, 0.0)
+			#fit2chi.SetParameter(1, 50000.0)
+			#fit2chi.SetParameter(2, 1.0)
+			#fit2chi.SetParLimits(0,0,1000000)
+			#fit2chi.SetParLimits(1,0,1000000)
+			#fit2chi.SetParLimits(2,min(es_shifts),max(es_shifts))
 			Chi2Graph.Fit("f1","R")
 
 			#get minimum
