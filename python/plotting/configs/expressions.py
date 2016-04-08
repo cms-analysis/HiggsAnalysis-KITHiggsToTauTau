@@ -170,12 +170,17 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 
 
-		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 > 0)*(decayMode_2 < 3)"
+		self.expressions_dict["cat_OneProng"] = "(decayMode_2 == 0)"
+		self.expressions_dict["catOneProng"] = self.expressions_dict["cat_OneProng"]
+		for channel in [ "mt", "et"]:
+			self.expressions_dict["catOneProng_"+channel] = self.expressions_dict["catOneProng"]
+		
+		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 >= 1)*(decayMode_2 <= 2)"
 		self.expressions_dict["catOneProngPiZeros"] = self.expressions_dict["cat_OneProngPiZeros"]
 		for channel in [ "mt", "et"]:
 			self.expressions_dict["catOneProngPiZeros_"+channel] = self.expressions_dict["catOneProngPiZeros"]
 
-		self.expressions_dict["cat_ThreeProng"] = "(decayMode_2 > 9)*(decayMode_2 < 11)"
+		self.expressions_dict["cat_ThreeProng"] = "(decayMode_2 == 10)"
 		self.expressions_dict["catThreeProng"] =self.expressions_dict["cat_ThreeProng"]
 		for channel in [ "mt", "et"]:
 			self.expressions_dict["catThreeProng_"+channel] = self.expressions_dict["catThreeProng"]

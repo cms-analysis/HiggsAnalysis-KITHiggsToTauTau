@@ -13,7 +13,7 @@ import hashlib
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 
 
 if __name__ == "__main__":
@@ -24,19 +24,29 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"],
+	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
+	                    choices=["ztt", "zll", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("--es-shifts", nargs="*",
-						default=[0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
+		     default=[0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
+			    #default=[0.960,0.961,0.962,0.963,0.964,0.965,0.966,0.967,0.968,0.969,
+	                             #0.970,0.971,0.972,0.973,0.974,0.975,0.976,0.977,0.978,0.979,
+	                             #0.980,0.981,0.982,0.983,0.984,0.985,0.986,0.987,0.988,0.989,
+	                             #0.990,0.991,0.992,0.993,0.994,0.995,0.996,0.997,0.998,0.999,
+	                             #1.000,1.001,1.002,1.003,1.004,1.005,1.006,1.007,1.008,1.009,
+	                             #1.010,1.011,1.012,1.013,1.014,1.015,1.016,1.017,1.018,1.019,
+	                             #1.020,1.021,1.022,1.023,1.024,1.025,1.026,1.027,1.028,1.029,
+	                             #1.030,1.031,1.032,1.033,1.034,1.035,1.036,1.037,1.038,1.039,
+	                             #1.040,1.041,1.042,1.043,1.044,1.045,1.046,1.047,1.048,1.049,
+	                             #1.050,1.051,1.052,1.053,1.054,1.055,1.056,1.057,1.058,1.059,1.060],
 	                    help="Energy scale shifts."),
 	parser.add_argument("--fit-method", default="logllh",
 						choices=["chi2", "logllh"],
 						help="Choose a fit (chi2 or logllh)")
 	parser.add_argument("--pt-ranges",
-						default=["(pt_2 > 20.0)*(pt_2 < 30.0)","(pt_2 > 30.0)*(pt_2 < 45.0)","(pt_2 > 45.0)"],
+						default=["1.0"],
 						help=""	)
 	parser.add_argument("--channels", nargs="*",
 	                    default=["mt"],
@@ -117,7 +127,7 @@ if __name__ == "__main__":
 					config_rest["weights"] = [weight.replace("(pt_2>30.0)","1.0") for weight in config_rest["weights"]]
 
 					# merge configs
-					merged_config = samples.Samples.merge_configs(merged_config, config_rest, additional_keys=["wjets_shape_nicks","wjets_data_control_nicks","wjets_data_substract_nicks","wjets_mc_signal_nicks","wjets_mc_control_nicks","qcd_data_shape_nicks","qcd_data_control_nicks","qcd_data_substract_nicks","qcd_extrapolation_factors_ss_os","qcd_subtract_shape"])
+					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
 
 				merged_config["directories"] = [args.input_dir]
 				merged_config["nicks_blacklist"].append("noplot")
@@ -126,34 +136,42 @@ if __name__ == "__main__":
 
 				# config to plot the fit
 				if args.fit_method == "chi2":
-
 					merged_config.setdefault("analysis_modules", []).append("AddHistograms")
 					merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
-					# ztt plus bkg
+					# for each shift, sum the ztt and bkg histograms
 					for shift in args.es_shifts:
-						bkg_samples_used = ["ztt_" + str(shift).replace(".", "_")] + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
-						merged_config.setdefault("histogram_nicks", []).append([" ".join(bkg_samples_used)])
-						merged_config.setdefault("sum_result_nicks", []).append(["noplot_ztt_" + str(shift).replace(".", "_")])
-
-					merged_config["res_hist_nick"]  = "chi2_result"
-					merged_config["nicks_whitelist"] = ["chi2_result"]
-					merged_config["es_shifts"] = [str(shift) for shift in args.es_shifts]
-					merged_config["ztt_nicks"] = ["noplot_ztt_" + str(shift).replace(".", "_") for shift in args.es_shifts]
-					merged_config["data_nicks"] = ["data"] * len(args.es_shifts)
+						all_samples = ["ztt_" + str(shift).replace(".", "_") + "_0"] + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
+						
+						# needed for AddHistograms module
+						merged_config.setdefault("histogram_nicks", []).append([" ".join(all_samples)])
+						sum_result_nick = "noplot_ztt_" + str(shift).replace(".", "_") + "_0"
+						merged_config.setdefault("sum_result_nicks", []).append([sum_result_nick])
+						
+						# needed for ExportRoot module
+						merged_config.setdefault("labels", []).append([sum_result_nick])
+						merged_config.setdefault("nicks_instead_labels", []).append([True])
+						
+						# needed for TauEsStudies module
+						merged_config.setdefault("ztt_nicks", []).append([sum_result_nick])
+						merged_config.setdefault("data_nicks", []).append(["data_0"])
+						merged_config.setdefault("es_shifts", []).append([str(shift)])
+						merged_config.setdefault("res_hist_nicks", []).append(["chi2_result"])
+						merged_config["fit_method"] = "chi2"
 
 					config_plotfit = {}
-
 					config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + name_hash + ".root"
-					config_plotfit["markers"] = ["ALP"]
-					config_plotfit["x_expressions"]  = ["data"]
+					config_plotfit["markers"] = ["LP"]
+					config_plotfit["x_expressions"]  = ["chi2_result"]
 					config_plotfit["filename"] = "chi2_" + decayMode + "_" + name_hash
-					config_plotfit["x_label"] = "ES_shift"
-					config_plotfit["y_label"] = "Chi2"
+					config_plotfit["x_label"] = "#tau_{ES}"
+					config_plotfit["y_label"] = "#Delta#chi^{2}"
+				
 				elif args.fit_method == "logllh":
 					merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
 					for index, (pt_range) in enumerate(args.pt_ranges):
+						#needed for TauEsStudies module
 						es_shifts_str = [str(shift) for shift in args.es_shifts]
 						merged_config.setdefault("es_shifts", []).append([" ".join(es_shifts_str)])
 						merged_config.setdefault("data_nicks", []).append("data" + "_" + str(index))
@@ -166,14 +184,13 @@ if __name__ == "__main__":
 
 					config_plotfit = {}
 
-					merged_config["nicks_whitelist"] = ["logllh_result_2"]
 					config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + name_hash + ".root"
-					config_plotfit["markers"] = ["E"]
-					config_plotfit["texts"] = [decayMode]
-					config_plotfit["x_expressions"]  = ["logllh_result_2"]
+					config_plotfit["markers"] = ["LP"]
+					#config_plotfit["texts"] = [decayMode]
+					config_plotfit["x_expressions"]  = ["logllh_result_0"]
 					config_plotfit["filename"] = "logllh_" + decayMode + "_" + name_hash
-					config_plotfit["x_label"] = "p_{T}^{#tau}[GeV]"
-					config_plotfit["y_label"] = "#tau-ES-shift"
+					config_plotfit["x_label"] = "#tau_{ES}"
+					config_plotfit["y_label"] = "-2NLL"
 
 				#plot modules
 				merged_config.setdefault("plot_modules", []).append("ExportRoot")

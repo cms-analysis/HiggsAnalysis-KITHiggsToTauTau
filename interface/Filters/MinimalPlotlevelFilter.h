@@ -98,7 +98,7 @@ public:
 		bool back = false;
 		if(OrIn)
 		{
-			LOG(DEBUG) << "Subexpression contains || -> split and calculate subsubexpressions";
+			LOG_N_TIMES(1,DEBUG) << "Subexpression contains || -> split and calculate subsubexpressions";
 			std::vector<std::string> substrings;
 			boost::algorithm::split(substrings, expression, boost::algorithm::is_any_of("||"));
 			std::transform(substrings.begin(), substrings.end(), substrings.begin(),
@@ -107,14 +107,14 @@ public:
 			for (uint it = 0; it < substrings.size(); ++it)
 				{
 					std::string sexp = substrings[it];
-					LOG(DEBUG) << "subexpression is " << sexp << " use || operation";
+					LOG_N_TIMES(1,DEBUG) << "subexpression is " << sexp << " use || operation";
 					back = back || evaluateSubExpression(sexp, event, product, settings);
 				}
 			return back;
 		}
 		else
 		{
-			LOG(DEBUG) << "no further splitting of Substring, calculate expression " << expression;
+			LOG_N_TIMES(1,DEBUG) << "no further splitting of Substring, calculate expression " << expression;
 			std::vector<std::string> substrings;
 			boost::algorithm::split(substrings, expression, boost::algorithm::is_any_of(" "));
 			std::transform(substrings.begin(), substrings.end(), substrings.begin(),
@@ -143,23 +143,23 @@ public:
 			}
 			double variable = (m_ExpressionQuantities[position])(event, product);
 			float static_value = boost::lexical_cast<float>(substrings[2]);
-			LOG(DEBUG) << expression << " variable: " << m_ExpressionNames[position] << " = " << variable;
+			LOG_N_TIMES(1,DEBUG) << expression << " variable: " << m_ExpressionNames[position] << " = " << variable;
 			std::string relation = substrings[1];
 			if(relation == ">"){
 				back = variable > static_value;
-				LOG(DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
+				LOG_N_TIMES(1,DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
 				return back;}
 			else if(relation == "<"){
 				back = variable < static_value;
-				LOG(DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
+				LOG_N_TIMES(1,DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
 				return back;}
 			else if(relation == ">="){
 				back = variable >= static_value;
-				LOG(DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
+				LOG_N_TIMES(1,DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
 				return back;}
 			else if(relation == "<="){
 				back = variable <= static_value;
-				LOG(DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
+				LOG_N_TIMES(1,DEBUG) << "\tExpression " << expression << " was evaluated to " << back;
 				return back;}
 			else
 				LOG(FATAL) << "\tcould not parse relation sign " << relation;
@@ -183,7 +183,7 @@ public:
 			for (uint it = 0; it < (m_SubExpressions).size(); ++it)
 				{
 					std::string sexp = (m_SubExpressions)[it];
-					LOG(DEBUG) << "\tevaluate subexpression " << sexp;
+					LOG_N_TIMES(1,DEBUG) << "\tevaluate subexpression " << sexp;
 					back = back && evaluateSubExpression(sexp, event, product, settings);
 				}
 			return back;
