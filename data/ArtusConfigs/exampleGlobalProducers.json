@@ -27,10 +27,14 @@
 			]
 		}
 	},
-	"BosonPdgId" : {
+	"BosonPdgIds" : {
 		"nick" : {
-			"default" : 0,
-			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : 25
+			"default" : [
+				0
+			],
+			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : [
+				25
+			]
 		}
 	},
 	"genParticles" : ["genTau"]

@@ -22,16 +22,24 @@
 	"InputFiles" : [
 		"/pnfs/desy.de/cms/tier2/store/user/rfriese/skimming/2015-04-24/VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM_0.root"
 	],
-	"BosonPdgId" : {
+	"BosonPdgIds" : {
 		"nick" : {
-			"default" : 0,
-			"DY.?JetsToLL" : 23,
-			"VBFHToTauTau" : 25
+			"default" : [
+				0
+			],
+			"DY.?JetsToLL" : [
+				23
+			],
+			"VBFHToTauTau" : [
+				25
+			]
 		}
 	},
-	"BosonStatus" : {
+	"BosonStatuses" : {
 		"nick" : {
-			"(Spring|Fall)15" : 62
+			"(Spring|Fall)15" : [
+				62
+			]
 		}
 	},
 	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,

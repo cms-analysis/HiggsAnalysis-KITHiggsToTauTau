@@ -15,9 +15,11 @@
 				"DY.?JetsToLL" : true
 			}
 		},
-		"BosonPdgId" : {
+		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : 23
+				"DY.?JetsToLL" : [
+					23
+				]
 			}
 		}
 	},
@@ -37,9 +39,11 @@
 				"DY.?JetsToLL" : false
 			}
 		},
-		"BosonPdgId" : {
+		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : 23
+				"DY.?JetsToLL" : [
+					23
+				]
 			}
 		}
 	},
@@ -64,9 +68,11 @@
 				"DY.?JetsToLL" : false
 			}
 		},
-		"BosonPdgId" : {
+		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : 23
+				"DY.?JetsToLL" : [
+					23
+				]
 			}
 		}
 	},
@@ -91,9 +97,11 @@
 				"DY.?JetsToLL" : true
 			}
 		},
-		"BosonPdgId" : {
+		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : 23
+				"DY.?JetsToLL" : [
+					23
+				]
 			}
 		}
 	}

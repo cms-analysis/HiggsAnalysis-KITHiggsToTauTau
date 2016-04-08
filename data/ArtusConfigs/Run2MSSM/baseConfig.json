@@ -11,18 +11,30 @@
 			"Run2015" : "true"
 		}
 	},
-	"BosonPdgId" : {
+	"BosonPdgIds" : {
 		"nick" : {
-			"default" : 0,
-			"DY.?JetsToLL" : 23,
-			"^(GluGlu|VBF)HToTauTau" : 25,
-			"W.?JetsToLN" : 24,
-			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : 36
+			"default" : [
+				0
+			],
+			"DY.?JetsToLL" : [
+				23
+			],
+			"^(GluGlu|VBF)HToTauTau" : [
+				25
+			],
+			"W.?JetsToLN" : [
+				24
+			],
+			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : [
+				36
+			]
 		}
 	},
-	"BosonStatus" : {
+	"BosonStatuses" : {
 		"nick" : {
-			"13TeV" : 62
+			"13TeV" : [
+				62
+			]
 		}
 	},
 	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,
