@@ -44,14 +44,13 @@ if __name__ == "__main__":
 							help="Number of plots. [Default: all]")
 	args = parser.parse_args()
 	logger.initLogger(args)
-	print args.input_file
 	regex = re.compile(r"T[0-9]{1,}\.root", re.IGNORECASE)
 
 	config_list = []
 	for i,path in enumerate(args.input_file):
 		if not os.path.isfile(path):
 			continue
-		elif ".json" in path:
+		if not ".root" in path:
 			continue
 		json_config = {}
 		base_dict = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "BDT_overtraining.json")
@@ -62,7 +61,7 @@ if __name__ == "__main__":
 		json_config["x_expressions"] = "BDT_"+regex.sub("", file_name)
 		json_config["x_label"] = regex.sub("", file_name)
 		json_config["filename"] = "Overtraining_"+ file_name.replace(".root", "")
-		json_config["output_dir"] = os.path.expandvars(args.output_dir)
+		json_config["output_dir"] = os.path.join(os.path.expandvars(args.output_dir),regex.sub("", file_name))
 		if len(args.label) > 0:
 			json_config["x_label"] = args.label[i%len(args.label)]
 		if len(args.filename) > 0:
