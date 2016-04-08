@@ -133,6 +133,12 @@ if __name__ == "__main__":
 				merged_config["nicks_blacklist"].append("noplot")
 				merged_config["output_dir"] = os.path.expandvars(args.output_dir)
 				merged_config["filename"] = decayMode + "_" + name_hash
+				
+				# set proper binnings of the distributions
+				if decayMode == "OneProngPiZeros":
+					merged_config.setdefault("x_bins", []).append(["20,0.0,1.5"])
+				elif decayMode == "ThreeProng":
+					merged_config.setdefault("x_bins", []).append(["10,0.75,1.5"])
 
 				# config to plot the fit
 				if args.fit_method == "chi2":
