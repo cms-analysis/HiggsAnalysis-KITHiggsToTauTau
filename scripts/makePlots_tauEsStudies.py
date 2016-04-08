@@ -69,6 +69,8 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/tauEsStudies_plots/",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--plot-es-shifts", default=False, action="store_true",
+						help="Plot quantity for every energy scale shift.")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -90,6 +92,28 @@ if __name__ == "__main__":
 				name_hash = hashlib.md5("_".join([str(item) for item in [channel, decayMode, quantity]])).hexdigest()
 
 				merged_config={}
+				
+				ztt_configs = []
+				rest_config = {}
+				
+				# config for rest for each pt range
+				# need to get "rest" first in order for corrections of negative bin contents to have an effect
+				for index, (pt_range) in enumerate(args.pt_ranges):
+					config_rest = sample_settings.get_config(
+							samples=sample_rest,
+							channel=channel,
+							category="cat" + decayMode + "_" + channel,
+							nick_suffix="_" + str(index),
+							weight=pt_range
+					)
+                
+					config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
+					config_rest["labels"] = [(label + "_" + str(index)) for label in config_rest["labels"]]
+					config_rest["weights"] = [weight.replace("(pt_2>30.0)","1.0") for weight in config_rest["weights"]]
+                
+					# merge configs
+					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
+					rest_config = samples.Samples.merge_configs(rest_config, config_rest)
 
 				#one config for each pt range
 				for index, (pt_range) in enumerate(args.pt_ranges):
@@ -108,26 +132,31 @@ if __name__ == "__main__":
 						config_ztt["labels"] = ["ztt_" + str(shift).replace(".", "_") + "_" + str(index)]
 						config_ztt["stacks"] = [stack.replace("_" + str(shift).replace(".", "_"), "") for stack in config_ztt["stacks"]]
 						config_ztt["weights"] = [weight.replace("(pt_2>30.0)","1.0") for weight in config_ztt["weights"]]
+						
+						if args.plot_es_shifts:
+							shift_config = {}
+							shift_config = samples.Samples.merge_configs(shift_config,copy.deepcopy(config_ztt), additional_keys=["ztt_emb_inc_nicks","ztt_from_mc","ztt_mc_inc_nicks","ztt_plot_nicks","ztt_nicks"])
+							
+							ztt_configs.append(shift_config)
 
 						# merge configs
 						merged_config = samples.Samples.merge_configs(merged_config, config_ztt, additional_keys=["ztt_emb_inc_nicks","ztt_from_mc","ztt_mc_inc_nicks","ztt_plot_nicks","ztt_nicks"])
-
-				# config for rest for each pt range
-				for index, (pt_range) in enumerate(args.pt_ranges):
-					config_rest = sample_settings.get_config(
-							samples=sample_rest,
-							channel=channel,
-							category="cat" + decayMode + "_" + channel,
-							nick_suffix="_" + str(index),
-							weight=pt_range
-					)
-
-					config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
-					config_rest["labels"] = [(label + "_" + str(index)) for label in config_rest["labels"]]
-					config_rest["weights"] = [weight.replace("(pt_2>30.0)","1.0") for weight in config_rest["weights"]]
-
-					# merge configs
-					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
+				
+				# plot given quantity for every given energy scale shift
+				if args.plot_es_shifts:
+					for index, shift in enumerate(args.es_shifts):
+						shift_config = {}
+						shift_config = samples.Samples.merge_configs(shift_config,rest_config)
+						shift_config = samples.Samples.merge_configs(shift_config,ztt_configs[index])
+						
+						shift_config["directories"] = [args.input_dir]
+						shift_config["nicks_blacklist"].append("noplot")
+						shift_config["output_dir"] = os.path.expandvars(args.output_dir)
+						shift_config["filename"] = "plot_es-shift_" + str(shift).replace(".","_") + "_" + decayMode + "_" + name_hash
+						shift_config["x_label"] = "m_{#tau_{h}} (GeV)"
+						shift_config["y_label"] = "a.u."
+						
+						plot_configs.append(shift_config)
 
 				merged_config["directories"] = [args.input_dir]
 				merged_config["nicks_blacklist"].append("noplot")
