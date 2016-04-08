@@ -9,6 +9,7 @@
 
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/SafeMap.h"
+#include "Artus/Utility/interface/Utility.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #define NO_BOSON_FOUND -555
@@ -141,11 +142,11 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 		//Decision for a certain weight calculation depending on BosonPdgId
 		double tauSpinnerWeight = 1.0;
-		if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdW)
+		if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdW)))
 		{
 			tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
 		}
-		else if (abs(settings.GetBosonPdgId()) == DefaultValues::pdgIdH)
+		else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)))
 		{
 			tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
 		}
