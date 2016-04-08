@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
 					# for each shift, sum the ztt and bkg histograms
 					for shift in args.es_shifts:
-						all_samples = ["ztt_" + str(shift).replace(".", "_") + "_0"] + [nick for nick in bkg_samples if nick in merged_config["nicks"]]
+						all_samples = ["ztt_" + str(shift).replace(".", "_") + "_0"] + [nick + "_0" for nick in bkg_samples if nick + "_0" in merged_config["nicks"]]
 						
 						# needed for AddHistograms module
 						merged_config.setdefault("histogram_nicks", []).append([" ".join(all_samples)])
