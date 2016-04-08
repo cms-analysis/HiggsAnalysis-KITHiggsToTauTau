@@ -31,7 +31,7 @@ int main(int argc, const char *argv[])
         ("help,h", "tba")
         ("inputfile,i",  boost::program_options::value<std::string>(), "Path to the input rootfile")
         ("outputfile,o", boost::program_options::value<std::string>(), "Output filename")
-        ("libkappa,l",   boost::program_options::value<std::string>(), "path to libKappa.so");
+        ("libkappa,l",   boost::program_options::value<std::string>()->default_value("Kappa/lib/libKappa.so"), "path to libKappa.so");
 
     // parse the options
     boost::program_options::variables_map vm;
