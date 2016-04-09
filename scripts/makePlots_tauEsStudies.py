@@ -27,6 +27,8 @@ if __name__ == "__main__":
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zll", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
+	parser.add_argument("--lumi", type=float, default=2.301,
+	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("--es-shifts", nargs="*",
@@ -104,7 +106,8 @@ if __name__ == "__main__":
 							channel=channel,
 							category="cat" + decayMode + "_" + channel,
 							nick_suffix="_" + str(index),
-							weight=pt_range
+							weight=pt_range,
+							lumi=args.lumi * 1000
 					)
                 
 					config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
@@ -125,7 +128,8 @@ if __name__ == "__main__":
 								category="cat" + decayMode + "_" + channel,
 								nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(index),
 								ztt_from_mc=args.ztt_from_mc,
-								weight=pt_range
+								weight=pt_range,
+								lumi=args.lumi * 1000
 						)
 
 						config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
@@ -146,15 +150,44 @@ if __name__ == "__main__":
 				if args.plot_es_shifts:
 					for index, shift in enumerate(args.es_shifts):
 						shift_config = {}
-						shift_config = samples.Samples.merge_configs(shift_config,rest_config)
 						shift_config = samples.Samples.merge_configs(shift_config,ztt_configs[index])
+						shift_config = samples.Samples.merge_configs(shift_config,rest_config)
+						
+						all_samples = [nick for nick in shift_config["nicks"] if not "noplot" in nick]
+						all_bkgs = [nick for nick in all_samples if not "data" in nick]
+						all_data = [nick for nick in all_samples if "data" in nick]
+						
+						# execute bin correction modules after possible background estimation modules
+						shift_config["analysis_modules"].sort(key=lambda module: module in ["BinErrorsOfEmptyBins", "CorrectNegativeBinContents"])
+						shift_config["nicks_correct_negative_bins"] = all_bkgs
+						shift_config["nicks_empty_bins"] = all_bkgs
+						
+						shift_config["labels"] = [sample for sample in args.samples]
+						
+						# ratio
+						shift_config.setdefault("analysis_modules", []).append("Ratio")
+						shift_config.setdefault("ratio_numerator_nicks", []).extend([" ".join(all_bkgs), " ".join(all_data)])
+						shift_config.setdefault("ratio_denominator_nicks", []).extend([" ".join(all_bkgs)] * 2)
+						shift_config.setdefault("colors", []).extend(["#000000"] * 2)
+						shift_config.setdefault("markers", []).extend(["E2", "E"])
+						shift_config.setdefault("legend_markers", []).extend(["ELP"]*2)
+						shift_config.setdefault("labels", []).extend([""] * 2)
 						
 						shift_config["directories"] = [args.input_dir]
 						shift_config["nicks_blacklist"].append("noplot")
 						shift_config["output_dir"] = os.path.expandvars(args.output_dir)
 						shift_config["filename"] = "plot_es-shift_" + str(shift).replace(".","_") + "_" + decayMode + "_" + name_hash
+						shift_config["legend"] = [0.7, 0.4, 0.95, 0.83]
+						shift_config["cms"] = True
+						shift_config["extra_text"] = "Preliminary"
+						shift_config["energies"] = [13]
+						shift_config["lumis"] = [float("%.1f" % args.lumi)]
+						shift_config["title"] = "channel_"+channel
+						shift_config["x_bins"] = "25,0.0,2.5"
+						shift_config["y_lims"] = [0.0]
+						shift_config["y_subplot_lims"] = [0.5, 1.5]
 						shift_config["x_label"] = "m_{#tau_{h}} (GeV)"
-						shift_config["y_label"] = "a.u."
+						shift_config["y_label"] = "Events / bin"
 						
 						plot_configs.append(shift_config)
 
