@@ -17,6 +17,27 @@ set -x
 set -e
 ulimit -s unlimited
 ulimit -c 0
+
+
+
+echo "<FrameworkJobReport>
+  <ReadBranches>
+  </ReadBranches>
+  <PerformanceReport>
+    <PerformanceSummary Metric="StorageStatistics">
+      <Metric Name="Parameter-untracked-bool-enabled" Value="true"/>
+      <Metric Name="Parameter-untracked-bool-stats" Value="true"/>
+      <Metric Name="Parameter-untracked-string-cacheHint" Value="application-only"/>
+      <Metric Name="Parameter-untracked-string-readHint" Value="auto-detect"/>
+      <Metric Name="ROOT-tfile-read-totalMegabytes" Value="0"/>
+      <Metric Name="ROOT-tfile-write-totalMegabytes" Value="0"/>
+    </PerformanceSummary>
+  </PerformanceReport>
+
+  <GeneratorInfo>
+  </GeneratorInfo>
+</FrameworkJobReport>" >FrameworkJobReport.xml
+
 function error_exit
 {
   if [ $1 -ne 0 ]; then
@@ -45,30 +66,8 @@ EOF
 }
 trap 'error_exit $?' ERR
 
+
 """
-
-
-def createFrameworkJobReport()
-	report = open("FrameworkJobReport.xml")
-	report.write("""
-<FrameworkJobReport>
-  <ReadBranches>
-  </ReadBranches>
-  <PerformanceReport>
-    <PerformanceSummary Metric="StorageStatistics">
-      <Metric Name="Parameter-untracked-bool-enabled" Value="true"/>
-      <Metric Name="Parameter-untracked-bool-stats" Value="true"/>
-      <Metric Name="Parameter-untracked-string-cacheHint" Value="application-only"/>
-      <Metric Name="Parameter-untracked-string-readHint" Value="auto-detect"/>
-      <Metric Name="ROOT-tfile-read-totalMegabytes" Value="0"/>
-      <Metric Name="ROOT-tfile-write-totalMegabytes" Value="0"/>
-    </PerformanceSummary>
-  </PerformanceReport>
-
-  <GeneratorInfo>
-  </GeneratorInfo>
-</FrameworkJobReport>"""
-	report.close()
 
 def submit(config):
 	try:
@@ -88,7 +87,6 @@ def submission(base_path):
 
 	from CRABClient.UserUtilities import config
 	config = config()
-	createFrameworkJobReport()
 	today=datetime.date.today().strftime("%Y-%m-%d")
 	allowed_paths = [f for f in glob(base_path+"/*") if not ("tar.gz" in f)]
 	for path in allowed_paths:
