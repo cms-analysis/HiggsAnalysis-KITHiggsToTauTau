@@ -96,7 +96,7 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				es_shifts_float=[]
 			
 				# Have to define the "x-axis" variable
-				mass = ROOT.RooRealVar('mass', 'mass', 0, 2.1)
+				mass = ROOT.RooRealVar('mass', 'mass', 0, 200)
 				
 				for ztt_nick, es_shift in zip(ztt_nicks, es_shifts):
 					es_shifts_float.append(float(es_shift))
@@ -272,4 +272,6 @@ class TauEsStudies(analysisbase.AnalysisBase):
 			Chi2Graph.Fit("f1","R")
 
 			#get minimum
-			print "Minimum of fitfunction at: ", fit2chi.GetMinimumX(min(es_shifts),max(es_shifts))
+			minimum_of_fit = fit2chi.GetMinimumX(min(es_shifts),max(es_shifts))
+			sigma1 = abs(fit2chi.GetX(1)-minimum_of_fit)
+			print "Minimum of fitfunction at: ", minimum_of_fit, " +/- ", sigma1
