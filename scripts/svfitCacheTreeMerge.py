@@ -73,7 +73,7 @@ def main():
 			in_files = " ".join(glob.glob(input_dir + "/*/*/*/*/*.root"))
 			merge_commands.append("hadd -f %s %s" % (tmp_filename, in_files ))
 			copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
-			config_file.append('"%s" : "%s",' % (nick_name, out_filename))
+			config_file.append('"%s" : "%s",' % (nick_name, "dcap://dcache-cms-dcap.desy.de/pnfs/" + out_filename.split("pnfs")[1]))
 		for index in range(len(merge_commands)):
 			tools.parallelize(_call_command, [merge_commands[index]], 1)
 			tools.parallelize(_call_command, [copy_commands[index]], 1)
