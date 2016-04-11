@@ -103,13 +103,23 @@
 			"Run2012" : "not needed"
 		}
 	},
-	"BosonPdgId" : {
+	"BosonPdgIds" : {
 		"nick" : {
-			"default" : 0,
-			"DY.?JetsToLL" : 23,
-			"W.?JetsToLN" : 24,
-			"SUSY(BB|GluGluTo)HToTauTau" : 36,
-			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : 25
+			"default" : [
+				0
+			],
+			"DY.?JetsToLL" : [
+				23
+			],
+			"W.?JetsToLN" : [
+				24
+			],
+			"SUSY(BB|GluGluTo)HToTauTau" : [
+				36
+			],
+			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : [
+				25
+			]
 		}
 	},
 

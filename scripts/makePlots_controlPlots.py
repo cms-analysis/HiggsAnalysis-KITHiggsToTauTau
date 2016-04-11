@@ -51,6 +51,40 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 	else:
 		config["nicks_blacklist"].append("ratio")
 
+def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, higgsmass):
+	config["analysis_modules"].append("ScaleHistograms")
+	config["scale_nicks"] = ["htt%i"%higgsmass]
+	config["scales"] = [ 1/args.scale_signal ]
+	config["scale_result_nicks"] = ["htt%iScaled"%higgsmass]
+
+	config["analysis_modules"].append("SignalOverBackgroundIntegral")
+	config["sob_integral_background_nicks"] = []
+	config["sob_integral_signal_nicks"] = []
+	config["sob_integral_result_nicks"] = []
+	config["sob_integral_method"] = []
+	for method in args.integration_methods:
+		config["sob_integral_method"].append(method)
+		config["sob_integral_result_nicks"].append("ratio_" + method)
+		config["sob_integral_background_nicks"].append(" ".join(bkg_samples))
+		config["sob_integral_signal_nicks"].append("htt%iScaled"%higgsmass)
+
+	if( show_subplot ):
+		config["y_subplot_label"] = ""
+		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
+		config["y_subplot_lims"] = [0, 1.5]
+		for method in args.integration_methods:
+			config["markers"].append("LINE")
+			config["legend_markers"].append("L")
+			config["labels"].append("int S/#sqrt{B}")
+			if(method == "righttoleft"):
+				config["colors"].append("kit_blau_1")
+			elif(method == "lefttoright"):
+				config["colors"].append("kit_rot_1")
+			elif(method == "combination"):
+				config["colors"].append("kit_gruen_1")
+	else:
+		config["nicks_blacklist"].append("ratio")
+
 def blind_signal(config, blinding_threshold):
 	config["analysis_modules"].append("MaskHistograms")
 	config["mask_above_reference_nick"] = config["blinding_result_nicks"][0]
@@ -66,7 +100,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"], 
+	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -82,6 +116,10 @@ if __name__ == "__main__":
 	                    help="Blinding Method. Chose soversqrtb or ams. [Default: %(default)s]")
 	parser.add_argument("--blinding-parameter", default=0.0, type=float,
 	                    help="b_reg. [Default: %(default)s]")
+	parser.add_argument("--integrated-sob", default=False, action="store_true",
+	                    help="Add integrated s/sqrt(b) subplot [Default: %(default)s]")
+	parser.add_argument("--integration-methods", default=["lefttoright", "righttoleft", "combination"], nargs="*",
+	                    help="Integration Method. Chose lefttoright or righttoleft, !!!combination needs to be specified last!!!. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
@@ -121,7 +159,7 @@ if __name__ == "__main__":
 	parser.add_argument("--mssm", default=False, action="store_true",
 	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
-	                    help="Additional analysis Modules. [Default: %(default)s]")	
+	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -137,18 +175,18 @@ if __name__ == "__main__":
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="",
 	                    help="Publish plots. [Default: %(default)s]")
-	
+
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
+
 	if not args.run1:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
-	
+
 	if args.shapes:
 		args.ratio = False
-	
+
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
 		if not args.run1:
@@ -161,16 +199,16 @@ if __name__ == "__main__":
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
-	
+
 	binnings_settings = binnings.BinningsDict()
-	
+
 	args.categories = [None if category == "None" else category for category in args.categories]
-	
+
 	plot_configs = []
 	for channel in args.channels:
 		for category in args.categories:
 			for quantity in args.quantities:
-			
+
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity+".json") for channel_dir in [channel, "default"]]
 				for json_filename in json_filenames:
@@ -179,7 +217,7 @@ if __name__ == "__main__":
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
 				quantity = json_config.pop("x_expressions", [quantity])[0]
-				
+
 				config = sample_settings.get_config(
 						samples=list_of_samples,
 						channel=channel,
@@ -195,18 +233,18 @@ if __name__ == "__main__":
 						scale_signal=args.scale_signal,
 						mssm=args.mssm
 				)
-				
+
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
-				
+
 				binnings_key = channel+"_"+quantity
 				if binnings_key in binnings_settings.binnings_dict:
 					config["x_bins"] = json_config.pop("x_bins", [binnings_key])
 				config["x_label"] = json_config.pop("x_label", channel+"_"+quantity)
-				
+
 				config["title"] = "channel_"+channel
-				
+
 				config["directories"] = [args.input_dir]
-				
+
 				if args.shapes:
 					if "stacks" in config:
 						config.pop("stacks")
@@ -216,7 +254,7 @@ if __name__ == "__main__":
 					config["markers"] = "LINE"
 					config["legend_markers"] = "L"
 					config["line_widths"] = 3
-				
+
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 					if not "Ratio" in config.get("analysis_modules", []):
@@ -227,14 +265,14 @@ if __name__ == "__main__":
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)
-				
+
 				for analysis_module in args.analysis_modules:
 					if not analysis_module in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append(analysis_module)
-				
+
 				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
 					config.setdefault("analysis_modules", []).append("PrintInfos")
-				
+
 				if not "--y-log" in args.args:
 					config["y_lims"] = [0.0]
 				if args.cms:
@@ -259,6 +297,13 @@ if __name__ == "__main__":
 					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
 						hmass_temp = int(args.higgs_masses[0])
 					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, hmass_temp)
+				#add integrated s/sqrt(b) subplot
+				if(args.integrated_sob):
+					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					hmass_temp = 125
+					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
+						hmass_temp = int(args.higgs_masses[0])
+					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, hmass_temp)
 
 				if(args.blinding_threshold > 0):
 					blind_signal(config, args.blinding_threshold)
@@ -271,14 +316,14 @@ if __name__ == "__main__":
 				if not (config["output_dir"] in www_output_dirs):
 					www_output_dirs.append(config["output_dir"])
 
-				
+
 				config.update(json_config)
 				plot_configs.append(config)
-	
+
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-	
+
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
 	if not args.www is None:
@@ -289,7 +334,7 @@ if __name__ == "__main__":
 			for config in plot_configs:
 				if(subpath in config["output_dir"]):
 					output_filenames.append(os.path.join(output_dir, config["x_expressions"][0]+ ".png"))
-			
+
 			PlotData.webplotting(
 			             www = args.www if(subpath == "control_plots") else os.path.join(args.www, subpath),
 			             output_dir = output_dir,

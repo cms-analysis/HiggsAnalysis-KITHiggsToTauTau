@@ -14,8 +14,12 @@
 	"InputFiles" : [
 		"/pnfs/desy.de/cms/tier2/store/user/rfriese/skimming/2015-04-24/VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM_0.root"
 	],
-	"BosonPdgId" : 23,
-	"BosonStatus" : 62,
+	"BosonPdgIds" : [
+		23
+	],
+	"BosonStatuses" : [
+		62
+	],
 	"GenDiLeptonDecayModeFilterLoose" : true,
 	"GenDiLeptonDecayMode" : "tt",
 	
