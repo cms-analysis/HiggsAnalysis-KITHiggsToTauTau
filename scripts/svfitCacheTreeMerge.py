@@ -42,6 +42,8 @@ def main():
 	                    help="Name of output SVfit cache tree. [Default: %(default)s]")
 	parser.add_argument("--dcache", type=bool, default=False,
 	                    help="Read&Write from and to desy dcache[Default: %(default)s]")
+	parser.add_argument("--no-run", default=False, action="store_true",
+	                    help="Do not run but only print dict  [Default: %(default)s]")
 	
 	merge_commands = []
 	copy_commands = []
@@ -74,9 +76,10 @@ def main():
 			merge_commands.append("hadd -f %s %s" % (tmp_filename, in_files ))
 			copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
 			config_file.append('"%s" : "%s",' % (nick_name, "dcap://dcache-cms-dcap.desy.de/pnfs/" + out_filename.split("pnfs")[1]))
-		for index in range(len(merge_commands)):
-			tools.parallelize(_call_command, [merge_commands[index]], 1)
-			tools.parallelize(_call_command, [copy_commands[index]], 1)
+		if not args.no_run:
+			for index in range(len(merge_commands)):
+				tools.parallelize(_call_command, [merge_commands[index]], 1)
+				tools.parallelize(_call_command, [copy_commands[index]], 1)
 		print "done. Artus SvfitCacheFile settings: "
 		for entry in config_file: 
 			print entry
