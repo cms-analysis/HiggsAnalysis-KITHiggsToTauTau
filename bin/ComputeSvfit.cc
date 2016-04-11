@@ -198,4 +198,5 @@ int main(int argc, const char *argv[])
     infile->Close();
     outputtree->Write();
     outfile->Close();
+    return 0;
 }
