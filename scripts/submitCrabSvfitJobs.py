@@ -1,6 +1,6 @@
 #!/bin/env python
-# crab submission script
-# usage: python crabConfig.py submit
+# crab submission script for standalone Svfit calculation
+# usage: python submitCrabSvfitJobs.py /pnfs/[path to storage element with SvfitCache input files]
 
 from CRABClient.UserUtilities import getUsernameFromSiteDB
 from httplib import HTTPException
@@ -47,6 +47,29 @@ trap 'error_exit $?' ERR
 
 """
 
+
+def createFrameworkJobReport()
+	report = open("FrameworkJobReport.xml")
+	report.write("""
+<FrameworkJobReport>
+  <ReadBranches>
+  </ReadBranches>
+  <PerformanceReport>
+    <PerformanceSummary Metric="StorageStatistics">
+      <Metric Name="Parameter-untracked-bool-enabled" Value="true"/>
+      <Metric Name="Parameter-untracked-bool-stats" Value="true"/>
+      <Metric Name="Parameter-untracked-string-cacheHint" Value="application-only"/>
+      <Metric Name="Parameter-untracked-string-readHint" Value="auto-detect"/>
+      <Metric Name="ROOT-tfile-read-totalMegabytes" Value="0"/>
+      <Metric Name="ROOT-tfile-write-totalMegabytes" Value="0"/>
+    </PerformanceSummary>
+  </PerformanceReport>
+
+  <GeneratorInfo>
+  </GeneratorInfo>
+</FrameworkJobReport>"""
+	report.close()
+
 def submit(config):
 	try:
 		crabCommand('submit', config = config)
@@ -65,13 +88,13 @@ def submission(base_path):
 
 	from CRABClient.UserUtilities import config
 	config = config()
-
+	createFrameworkJobReport()
 	today=datetime.date.today().strftime("%Y-%m-%d")
-	for path in glob(base_path+"/*"):
+	allowed_paths = [f for f in glob(base_path+"/*") if not ("tar.gz" in f)]
+	for path in allowed_paths:
 		dataset_nick = path.split('/')[-1]
 		print "nick: " + dataset_nick
 		print "path: " +path
-		# Crab submissions only allow for up to 10000 jobs per submission. For convienient (and stability reasons) limit the number to 8000 jobs per file
 		files =0
 		jobfile_name = get_filename(today,dataset_nick)
 		jobfile = open(jobfile_name,"w+") 
@@ -79,29 +102,11 @@ def submission(base_path):
 		jobfile.write("declare -A arr\n")
 		jobfile.write(CRAB_PREFIX)
 		cache_files = [f for f in glob(path+"/*.root") if("SvfitCache" in f)]
-		cache_files = [f for f in cache_files if not ("em" in f)]
 		for index,file in enumerate(cache_files):
-			jobfile.write("arr[%s,0]=dcap://dcache-cms-dcap.desy.de/%s\n"%(index+1-8000*files,file))
-			#jobfile.write("arr[%s,1]=%s\n"%(index+1-8000*files,os.path.basename(file)))
-			jobfile.write("arr[%s,1]=%s\n"%(index+1-8000*files,"SvfitCache.root"))
-			if index == 7999*(files+1):
-				jobfile.write("if [ \"x$2\" != \"x\" ]; then\npushd %s\nSCRAM_ARCH=slc6_amd64_gcc493\nsource /cvmfs/cms.cern.ch/cmsset_default.sh\neval `scramv1 runtime -sh`\n"%(os.getcwd()))
-				jobfile.write("ComputeSvfit -i ${arr[$1,0]} -o ${arr[$1,1]}\n")
-				jobfile.write("else\n./ComputeSvfit -i ${arr[$1,0]} -o ${arr[$1,1]}\nfi\n")
-				#jobfile.write("if [ \"x$2\" == \"x\" ]; then\ntar -cf Svfit.tar ${arr[$1,1]}\nelse\ntar -cf Svfit_${1}.tar ${arr[$1,1]}\nfi\n")
-				#jobfile.write("rm ${arr[$1,1]}\n")
-				jobfile.close()
-				files += 1
-				jobfile_i = get_filename( today,dataset_nick,files)
-				jobfile = open(jobfile_i, "w+")
-				jobfile.write("#!/bin/bash\n")
-				jobfile.write("declare -A arr\n")
-				jobfile.write(CRAB_PREFIX)
+			jobfile.write("arr[%s,0]=dcap://dcache-cms-dcap.desy.de/%s\n"%(1,file))
 		jobfile.write("if [ \"x$2\" != \"x\" ]; then\npushd %s\nSCRAM_ARCH=slc6_amd64_gcc493\nsource /cvmfs/cms.cern.ch/cmsset_default.sh\neval `scramv1 runtime -sh`\n"%(os.getcwd()))
-		jobfile.write("ComputeSvfit -i ${arr[$1,0]} -o ${arr[$1,1]}\n")
-		jobfile.write("else\n./ComputeSvfit -i ${arr[$1,0]} -o ${arr[$1,1]}\nfi\n")
-		#jobfile.write("if [ \"x$2\" == \"x\" ]; then\ntar -cf Svfit.tar ${arr[$1,1]}\nelse\ntar -cf Svfit_${1}.tar ${arr[$1,1]}\nfi\n")
-		#jobfile.write("rm ${arr[$1,1]}\n")
+		jobfile.write("ComputeSvfit -i ${arr[$1,0]} -o SvfitCache.root\n")
+		jobfile.write("else\n./ComputeSvfit -i ${arr[$1,0]} -o SvfitCache.root\nfi\n")
 		jobfile.close()
 		
 		config.General.workArea = '/nfs/dust/cms/user/%s/%s/crab_svfit-%s'%(getUsernameFromSiteDB(),today,dataset_nick)
@@ -112,7 +117,7 @@ def submission(base_path):
 		config.Data.outputPrimaryDataset = 'Svfit'
 		config.Data.splitting = 'EventBased'
 		config.Data.unitsPerJob = 1
-		config.Data.totalUnits = index if files == 0 else 8000
+		config.Data.totalUnits = len(cache_files)
 		config.Data.publication = False
 		config.Data.outputDatasetTag = config.General.requestName
 		config.Data.outLFNDirBase = '/store/user/%s/higgs-kit/Svfit/%s/%s/'%(getUsernameFromSiteDB(),today,dataset_nick)
@@ -123,7 +128,7 @@ def submission(base_path):
 		
 		config.JobType.pluginName = 'PrivateMC'
 		config.JobType.psetName = os.environ['CMSSW_BASE']+'/src/CombineHarvester/CombineTools/scripts/do_nothing_cfg.py'
-		config.JobType.inputFiles = ['Kappa/lib/libKappa.so','FrameworkJobReport.xml', os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', jobfile_name]
+		config.JobType.inputFiles = ['Kappa/lib/libKappa.so', os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', jobfile_name]
 		config.JobType.allowUndistributedCMSSW = True
 		config.JobType.scriptExe = jobfile_name
 		config.JobType.outputFiles = ['SvfitCache.root']
@@ -133,17 +138,6 @@ def submission(base_path):
 		p = Process(target=submit, args=(config,))
 		p.start()
 		p.join()
-		sys.exit(0)
-		for index2 in range(files):
-			config.JobType.inputFiles = [os.environ['CMSSW_BASE']+'/src/Kappa/lib/libKappa.so',os.environ['CMSSW_BASE']+'/src/CombineHarvester/CombineTools/scripts/FrameworkJobReport.xml', os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', get_filename(today,dataset_nick,index2+1)]
-			config.JobType.allowUndistributedCMSSW = True
-			config.JobType.scriptExe = get_filename(today,dataset_nick,index2+1)
-			config.General.requestName = "SvFit-%s_"%(index2+1)+today
-			config.Data.totalUnits = 8000 if (index2 != files-1) else index-8000*files+1
-			p = Process(target=submit, args=(config,))
-			p.start()
-			p.join()
-			sys.exit(0)
 
 if __name__ == "__main__":
 	if len(sys.argv) == 1: 
