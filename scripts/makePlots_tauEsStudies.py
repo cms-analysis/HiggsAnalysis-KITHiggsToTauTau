@@ -132,9 +132,11 @@ if __name__ == "__main__":
 								lumi=args.lumi * 1000
 						)
 
-						if decayMode == "OneProngPiZeros" or decayMode == "ThreeProng" or quantity == "m_2":
+						if decayMode == "OneProng" and quantity == "m_2":
+							log.error("Tau mass (m_2) fit not possible in 1prong decay mode")
+						if quantity == "m_2":
 							config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
-						elif decayMode == "OneProng" or quantity == "m_vis":
+						elif quantity == "m_vis":
 							config_ztt["x_expressions"] = [quantity + "*sqrt(" + str(shift) + ")"] * len(config_ztt["nicks"])
 						config_ztt["labels"] = ["ztt_" + str(shift).replace(".", "_") + "_" + str(index)]
 						config_ztt["stacks"] = [stack.replace("_" + str(shift).replace(".", "_"), "") for stack in config_ztt["stacks"]]
