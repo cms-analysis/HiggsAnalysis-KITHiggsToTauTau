@@ -110,7 +110,7 @@ def submission(base_path):
 		config.General.workArea = '/nfs/dust/cms/user/%s/%s/crab_svfit-%s'%(getUsernameFromSiteDB(),today,dataset_nick)
 		config.General.transferOutputs = True
 		config.General.transferLogs = True
-		config.General.requestName = "SvFit-"+today
+		config.General.requestName = "SvFit-"+today+"-"+dataset_nick
 
 		config.Data.outputPrimaryDataset = 'Svfit'
 		config.Data.splitting = 'EventBased'
