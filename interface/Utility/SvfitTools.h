@@ -135,6 +135,7 @@ public:
 	
 	void Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
 	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
+	void fromRecalculation(){ recalculated = true; }
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
@@ -142,7 +143,8 @@ public:
 	
 	bool operator==(SvfitResults const& rhs) const;
 	bool operator!=(SvfitResults const& rhs) const;
-
+	
+	bool recalculated;
 
 private:
 	RMFLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;

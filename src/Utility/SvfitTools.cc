@@ -313,6 +313,7 @@ SvfitResults::SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertain
 	SvfitResults()
 {
 	Set(momentum, momentumUncertainty, fittedMET, transverseMass);
+	recalculated = false;
 }
 
 SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) :
@@ -464,14 +465,15 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		}
 		
 		svfitEventKey.SetBranchAddresses(svfitCacheInputTree);
+		LOG(DEBUG) << "svfitCacheInputTree has " << svfitCacheInputTree->GetEntries() << " Entries" << std::endl;
 		for (uint64_t svfitCacheInputTreeIndex = 0;
 		     svfitCacheInputTreeIndex < uint64_t(svfitCacheInputTree->GetEntries());
 		     ++svfitCacheInputTreeIndex)
 		{
 			svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
 			svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
-			//LOG(INFO) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
-			//LOG(INFO) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
+			LOG_N_TIMES(10,DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
+			LOG_N_TIMES(10, DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
 		}
 		svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
 		LOG(INFO) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
@@ -506,6 +508,8 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::undefined)
 		{
 			svfitResults = SvfitResults();
+			svfitResults.fromRecalculation();
+			neededRecalculation = true;
 			return svfitResults;
 		}
 	}
@@ -535,6 +539,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	
 		// retrieve results
 		svfitResults.Set(svfitStandaloneAlgorithm);
+		svfitResults.fromRecalculation();
 	}
 	
 	return svfitResults;

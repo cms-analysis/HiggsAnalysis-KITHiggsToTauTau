@@ -59,7 +59,8 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 		}
 		if (product.m_svfitCalculated)
 		{
-			m_svfitCacheTree->Fill();
+			if(!settings.GetUpdateSvfitCache() || (settings.GetUpdateSvfitCache() && product.m_svfitResults.recalculated))
+				m_svfitCacheTree->Fill();
 		}
 		// at reaching a predefined threshold create the outputfile with index m_fileIndex and save the tree
 		// afterwards crear the Cache tree
@@ -79,7 +80,8 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 		}
 		if (product.m_svfitCalculated)
 		{
-			m_svfitCacheTree->Fill();
+			if(!settings.GetUpdateSvfitCache() || (settings.GetUpdateSvfitCache() && product.m_svfitResults.recalculated))
+				m_svfitCacheTree->Fill();
 		}
 	}
 }
