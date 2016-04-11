@@ -493,6 +493,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	if (svfitCacheInputTreeIndicesItem != svfitCacheInputTreeIndices.end())
 	{
 		svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndicesItem->second);
+		svfitResults.fromCache();
 	}
 	else
 	{
