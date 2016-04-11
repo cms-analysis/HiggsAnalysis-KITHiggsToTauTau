@@ -65,6 +65,12 @@ def main():
 	else:
 		input_dirs = args.input
 		nick_names = {}
+		ls_command = "gfal-ls %s" %(args.output)
+		retCode = logger.subprocessCall(ls_command.split())
+		if(retCode != 0):
+			mkdir_command = "gfal-mkdir %s" %(args.output)
+			print "Creating " + args.output
+			logger.subprocessCall(mkdir_command.split())
 		for directory in input_dirs:
 			nick_names[nick_from_dir(directory)] = directory
 		for nick_name, input_dir in pi.ProgressIterator(nick_names.iteritems(),
