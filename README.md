@@ -124,34 +124,70 @@ The (committed) status of two different Artus runs can be compared using [artusR
 	cd <repository to compare>
 	artusRepositoryDiff.py <config 1> <config 2>
 
-#### Svfit
+### Svfit
 
-Svfit is run by the `producer:SvfitProducer` and a tree with inputs and results is written out by the consumer `SvfitCacheConsumer`. These results can be collected by [svfitCacheTreeMerge.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/svfitCacheTreeMerge.py):
+There are several possibilites to access the reconstructe di-tau mass in the framework.
+
+##### Calculation of Svfit within the Artus run
+
+The most easy, but computing intensive way is to run Svfit within the `producer:SvfitProducer` and directly use the results in the output.
+
+The behaviour is configured in [data/ArtusConfigs/Includes/settingsSvfit.json](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/Kappa_2_1/data/ArtusConfigs/Includes/settingsSvfit.json). 
+##### Reading in Cache files with pre-calculated Svfit values
+
+By specifying a "SvfitCacheFile", usually sample-dependent, the SvfitProducer first tries to retrieve the result of the Svfit calculation from this cache file. In case of cache misses, there are three options
+
+1) Stop the job and throw an assert, setting "SvfitCacheMissBehaviour" : "assert" 
+2) Calculate the Svfit value within the job as explained in the previous section, "SvfitCacheMissBehaviour" : "recalculate"
+3) Fill the Svfit result with dummy values, "SvfitCacheMissBehaviour" : "undefined"
+
+##### Filling the caches within the Artus run
+
+If the Svfit values are calculated within the job, the `SvfitCacheConsumer` can write them to the job output files.
+
+To achieve this, use
+
+	"GenerateSvfitInput" : false
+	"SvfitCacheMissBehaviour" : "recalculate"
+
+These results can be collected by [svfitCacheTreeMerge.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/svfitCacheTreeMerge.py):
 
 	for dir in <Artus project directory>/[output|merged]/*; do echo $dir; svfitCacheTreeMerge.py -i $dir/*.root -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${dir}.root" | sed -e 's@<Artus project directory>/[output|merged]/@@g'`; done
 
-The cached values are configured in [data/ArtusConfigs/Includes/settingsSvfit.json](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/data/ArtusConfigs/Includes/settingsSvfit.json). It is recommended to store the cached results on dCache rather than in the auxiliaries directory in order to speed up and simplify the GC initialisation.
-
-It is recommended to calculate the Svfit values file by file:
+If you only have to update a few cached values, this approach is fine and does not affect runtime too much. For a complete calculation of a full dataset, use the following settings.
 
 	HiggsToTauTauAnalysis.py -b --files-per-job 1 --wall-time 48:00:00 ...
 
-An alternative way is to write out the inputs needed by SvFit separately and process them later. This can by done by specifying in the config
+It is recommended to store the cached results on dCache.
 
+#### Filling the caches standalone on the grid
+
+This approach has one step more to solve the balancing-problem by splitting the Svfit calculation on any user-defined number of events and use the WLCG for the calculation itself. 
+
+The first step is to run the SvfitProducer and fill only dummy values. The SvfitConsumer writes one output file per pipeline containing at most the number of events specified in "SvfitInputCutOff". This can by done by specifying in the config
+
+	"SvfitCacheMissBehaviour" : "undefined"
 	"SvfitOutFile" : "SvfitCache.root",
 	"GenerateSvFitInput" : true,
-	SvFitInputCutOff" : 15000,
+	"SvFitInputCutOff" : 10000,
 
-To calculate the Svfit values on the naf batch system, call
+Depending on if you want to fill only events from cache misses, set "UpdateSvfitCache" to either true or false.
 
-	batchComputSvfit.py <ArtusWorkdir>
+To minimize the runtime spread and unnecessary overhead, run Artus with as man files per job as reasonable. Also, do the stageout directly to dCache to make it accessible from anywhere.
 
-This will write the cache values in a subfolder of the workdir.
+	HiggsToTauTauAnalysis.py -b --files-per-job 40 --wall-time 12:00:00 --se-path srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN=//pnfs/desy.de/cms/tier2/store/user/$USER/higgs-kit/svfitinputs/
 
-The Svfit cache results can be copied e.g. with gfal-tools
+Once the Artus run is finished, you can submit the jobs to the grid with
 
-	for file in files; do echo "file://PATH_TO_FILE" >> files_to_copy; done
-	gfal-copy --from-file files_to_copy srm://dcache-se-cms.desy.de/pnfs/desy.de/cms/tier2/store/user/$USER/...
+	python HiggsAnalysis/KITHiggsToTauTau/scripts/submitCrabSvfitJobs.py /pnfs/desy.de/cms/tier2/store/user/$USER/higgs-kit/svfitinputs/
+
+This script creates for each Sample an executable that is sent with the jobs. The output path is specified automatically in the parameter config.Data.outLFNDirBase.
+
+Once the jobs are all done, you can merge the outputs for each sample and upload them again to dCache by e.g.
+
+python HiggsAnalysis/KITHiggsToTauTau/scripts/svfitCacheTreeMerge.py --dcache True --input /pnfs/desy.de/cms/tier2/store/user/$USER/higgs-kit/Svfit/2016-04-12/\* -o srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN=//pnfs/desy.de/cms/tier2/store/user/$USER/higgs-kit/MergedCaches/
+
+Make sure not to miss the '\*' in the path or specify a single directory by hand. The macro prints out the new configuration settings you can copy&paste to settingsSvfit.json.
 
 ### Post-processing
 

@@ -117,13 +117,13 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	                            decayType1, decayType2,
 	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, product.m_svfitInputs.GetHash());
 
-	if (settings.GetGenerateSvfitInput())
-	{
-		// set dummy result
-		product.m_svfitResults = SvfitResults();
-		product.m_svfitCalculated = true;
-	}
-	else
+//	if (settings.GetGenerateSvfitInput())
+//	{
+//		// set dummy result
+//		product.m_svfitResults = SvfitResults();
+//		product.m_svfitCalculated = true;
+//	}
+//	else
 	{
 		// calculate results
 		product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_svfitEventKey,

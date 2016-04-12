@@ -313,6 +313,7 @@ SvfitResults::SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertain
 	SvfitResults()
 {
 	Set(momentum, momentumUncertainty, fittedMET, transverseMass);
+	recalculated = false;
 }
 
 SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) :
@@ -376,10 +377,10 @@ void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 void SvfitResults::CreateBranches(TTree* tree)
 {
 	tree->Branch("svfitMomentum", &momentum);
-	tree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
-	tree->Branch("svfitMet", &fittedMET);
+	//tree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
+	//tree->Branch("svfitMet", &fittedMET);
 	tree->Branch("svfitTransverseMass", transverseMass, "svfitTransverseMass/D");
-	tree->Branch("svfitTransverseMassUnc", transverseMassUnc, "svfitTransverseMassUnc/D");
+	//tree->Branch("svfitTransverseMassUnc", transverseMassUnc, "svfitTransverseMassUnc/D");
 }
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
@@ -389,20 +390,20 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 		transverseMass = new double;
 	}
 	tree->SetBranchAddress("svfitMomentum", &momentum);
-	tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
-	tree->SetBranchAddress("svfitMet", &fittedMET);
+	//tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
+	//tree->SetBranchAddress("svfitMet", &fittedMET);
 	tree->SetBranchAddress("svfitTransverseMass", transverseMass);
-	tree->SetBranchAddress("svfitTransverseMassUnc", transverseMassUnc);
+	//tree->SetBranchAddress("svfitTransverseMassUnc", transverseMassUnc);
 	ActivateBranches(tree, true);
 }
 
 void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 {
 	tree->SetBranchStatus("svfitMomentum", activate);
-	tree->SetBranchStatus("svfitMomentumUncertainty", activate);
-	tree->SetBranchStatus("svfitMet", activate);
+	//tree->SetBranchStatus("svfitMomentumUncertainty", activate);
+	//tree->SetBranchStatus("svfitMet", activate);
 	tree->SetBranchStatus("svfitTransverseMass", activate);
-	tree->SetBranchStatus("svfitTransverseMassUnc", activate);
+	//tree->SetBranchStatus("svfitTransverseMassUnc", activate);
 }
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
@@ -468,14 +469,15 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		}
 		
 		svfitEventKey.SetBranchAddresses(svfitCacheInputTree);
+		LOG(DEBUG) << "svfitCacheInputTree has " << svfitCacheInputTree->GetEntries() << " Entries" << std::endl;
 		for (uint64_t svfitCacheInputTreeIndex = 0;
 		     svfitCacheInputTreeIndex < uint64_t(svfitCacheInputTree->GetEntries());
 		     ++svfitCacheInputTreeIndex)
 		{
 			svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
 			svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
-			//LOG(INFO) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
-			//LOG(INFO) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
+			LOG_N_TIMES(10,DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
+			LOG_N_TIMES(10, DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
 		}
 		svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
 		LOG(INFO) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
@@ -495,6 +497,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	if (svfitCacheInputTreeIndicesItem != svfitCacheInputTreeIndices.end())
 	{
 		svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndicesItem->second);
+		svfitResults.fromCache();
 	}
 	else
 	{
@@ -510,6 +513,8 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::undefined)
 		{
 			svfitResults = SvfitResults();
+			svfitResults.fromRecalculation();
+			neededRecalculation = true;
 			return svfitResults;
 		}
 	}
@@ -539,6 +544,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	
 		// retrieve results
 		svfitResults.Set(svfitStandaloneAlgorithm);
+		svfitResults.fromRecalculation();
 	}
 	
 	return svfitResults;
