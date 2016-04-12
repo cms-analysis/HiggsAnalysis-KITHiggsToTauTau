@@ -94,24 +94,27 @@ def submission(base_path):
 		print "nick: " + dataset_nick
 		print "path: " +path
 		files =0
+		cache_files = [f for f in glob(path+"/*.root") if("SvfitCache" in f)]
+		if len(cache_files) == 0:
+			continue
 		jobfile_name = get_filename(today,dataset_nick)
 		jobfile = open(jobfile_name,"w+") 
 		jobfile.write("#!/bin/bash\n")
 		jobfile.write("declare -A arr\n")
 		jobfile.write(CRAB_PREFIX)
-		cache_files = [f for f in glob(path+"/*.root") if("SvfitCache" in f)]
 		for index,file in enumerate(cache_files):
-			jobfile.write("arr[%s,0]=dcap://dcache-cms-dcap.desy.de/%s\n"%(1,file))
+			jobfile.write("arr[%s,0]=dcap://dcache-cms-dcap.desy.de/%s\n"%(index+1,file))
 		jobfile.write("if [ \"x$2\" != \"x\" ]; then\npushd %s\nSCRAM_ARCH=slc6_amd64_gcc493\nsource /cvmfs/cms.cern.ch/cmsset_default.sh\neval `scramv1 runtime -sh`\n"%(os.getcwd()))
 		jobfile.write("ComputeSvfit -i ${arr[$1,0]} -o SvfitCache.root\n")
 		jobfile.write("else\n./ComputeSvfit -i ${arr[$1,0]} -o SvfitCache.root\nfi\n")
 		jobfile.close()
 		
-		config.General.workArea = '/nfs/dust/cms/user/%s/%s/crab_svfit-%s'%(getUsernameFromSiteDB(),today,dataset_nick)
+		config.General.workArea = '/nfs/dust/cms/user/%s/%s/'%(getUsernameFromSiteDB(),today)
 		config.General.transferOutputs = True
 		config.General.transferLogs = True
-		config.General.requestName = "SvFit-"+today+"-"+dataset_nick
-
+		jobname = "SvFit_"+today+"_"+dataset_nick.split("_MINIAOD")[0]
+		config.General.requestName = jobname
+		print jobname
 		config.Data.outputPrimaryDataset = 'Svfit'
 		config.Data.splitting = 'EventBased'
 		config.Data.unitsPerJob = 1
