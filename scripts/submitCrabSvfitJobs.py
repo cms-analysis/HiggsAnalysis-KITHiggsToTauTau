@@ -24,13 +24,13 @@ echo "<FrameworkJobReport>
   <ReadBranches>
   </ReadBranches>
   <PerformanceReport>
-    <PerformanceSummary Metric="StorageStatistics">
-      <Metric Name="Parameter-untracked-bool-enabled" Value="true"/>
-      <Metric Name="Parameter-untracked-bool-stats" Value="true"/>
-      <Metric Name="Parameter-untracked-string-cacheHint" Value="application-only"/>
-      <Metric Name="Parameter-untracked-string-readHint" Value="auto-detect"/>
-      <Metric Name="ROOT-tfile-read-totalMegabytes" Value="0"/>
-      <Metric Name="ROOT-tfile-write-totalMegabytes" Value="0"/>
+    <PerformanceSummary Metric=\\"StorageStatistics\\">
+      <Metric Name=\\"Parameter-untracked-bool-enabled\\" Value=\\"true\\"/>
+      <Metric Name=\\"Parameter-untracked-bool-stats\\" Value=\\"true\\"/>
+      <Metric Name=\\"Parameter-untracked-string-cacheHint\\" Value=\\"application-only\\"/>
+      <Metric Name=\\"Parameter-untracked-string-readHint\\" Value=\\"auto-detect\\"/>
+      <Metric Name=\\"ROOT-tfile-read-totalMegabytes\\" Value=\\"0\\"/>
+      <Metric Name=\\"ROOT-tfile-write-totalMegabytes\\" Value=\\"0\\"/>
     </PerformanceSummary>
   </PerformanceReport>
 
