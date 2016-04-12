@@ -150,7 +150,6 @@ To achieve this, use
 	"GenerateSvfitInput" : false
 	"SvfitCacheMissBehaviour" : "recalculate"
 
-Depending on if you want to fill only events from cache misses, set "UpdateSvfitCache" to either true or false.
 These results can be collected by [svfitCacheTreeMerge.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/svfitCacheTreeMerge.py):
 
 	for dir in <Artus project directory>/[output|merged]/*; do echo $dir; svfitCacheTreeMerge.py -i $dir/*.root -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${dir}.root" | sed -e 's@<Artus project directory>/[output|merged]/@@g'`; done
@@ -171,6 +170,8 @@ The first step is to run the SvfitProducer and fill only dummy values. The Svfit
 	"SvfitOutFile" : "SvfitCache.root",
 	"GenerateSvFitInput" : true,
 	"SvFitInputCutOff" : 10000,
+
+Depending on if you want to fill only events from cache misses, set "UpdateSvfitCache" to either true or false.
 
 To minimize the runtime spread and unnecessary overhead, run Artus with as man files per job as reasonable. Also, do the stageout directly to dCache to make it accessible from anywhere.
 

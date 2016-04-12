@@ -1,8 +1,8 @@
 {
 	"SvfitIntegrationMethod" : "MarkovChain",
-	"GenerateSvfitInput" : true,
+	"GenerateSvfitInput" : false,
 	"UseFirstInputFileNameForSvfit" : true,
-	"SvfitCacheMissBehaviour" : "undefined",
+	"SvfitCacheMissBehaviour" : "recalculate",
 	"SvfitInputCutOff" : 2000,
 	"UpdateSvfitCache" : true,
 	"SvfitCacheFile" : {
