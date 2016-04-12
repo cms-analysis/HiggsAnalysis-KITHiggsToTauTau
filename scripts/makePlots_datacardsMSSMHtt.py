@@ -21,10 +21,23 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 
 samples_dict = {
-        'et' : [['nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']]],
-        'mt' : [['nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']]],
-        'em' : [['nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']]],
-        'tt' : [['nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']]]
+        # 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
+        # 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
+        'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
+        'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
+        'em' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
+        'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])]
+        }
+shapes = {
+        "toppt" : "CMS_htt_ttbarShape_${CHANNEL}_13TeV",
+        "taupt" : "CMS_eff_t_mssmHigh_${CHANNEL}_13TeV",
+        "taues" : "CMS_scale_t_${CHANNEL}_13TeV"
+        }
+shapes_weight_dict = {
+		"toppt" : ("1.0/TopPtReweightWeight","TopPtReweightWeight"),
+		"taupt" : ("(1-200*had_gen_match_pT_1)*(1-200*had_gen_match_pT_2)", "(1+200*had_gen_match_pT_1)*(1+200*had_gen_match_pT_2)"),
+		"taues" : ("1.0", "1.0"),
+		"nominal" : ("1.0", "1.0")
         }
 mapping_process2sample = {
 	"data_obs" : "data",
@@ -48,6 +61,12 @@ def sample2process(sample):
         tmp_sample = re.match("(?P<sample>[^0-9]*).*", sample).groupdict().get("sample", "")
         return sample.replace(tmp_sample, dict([reversed(item) for item in mapping_process2sample.iteritems()]).get(tmp_sample, tmp_sample))
 
+def getcategory(basecategory, sample):
+	regions = {"_os_highmt" : "_wjets_cr", "_ss_highmt" : "_wjets_ss_cr", "_ss_lowmt" : "_qcd_cr"}
+	for cat in regions:
+		if cat in sample:
+			return basecategory+regions[cat]
+	return basecategory
 
 def _call_command(command):
 	log.debug(command)
@@ -83,6 +102,8 @@ if __name__ == "__main__":
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("-b", "--background-method", default="classic",
+	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
@@ -151,7 +172,7 @@ if __name__ == "__main__":
 					list_of_samples = args.samples
 				
 				for shift_up in ([True] if nominal else [True, False]):
-					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
+					systematic = "nominal" if nominal else (shapes[shape_systematic].format(CHANNEL = channel) + ("Up" if shift_up else "Dmwn"))
 					
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 							samples="\", \"".join(list_of_samples),
@@ -159,23 +180,30 @@ if __name__ == "__main__":
 							category=category,
 							systematic=systematic
 					))
-					
+                                        # modify weight for toppt, taupt
+					additional_weight = shapes_weight_dict[shape_systematic][1] if shift_up else shapes_weight_dict[shape_systematic][0]
+
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
 							category="catHttMSSM13TeV_"+category,
-							weight=args.weight,
+							weight=args.weight+[additional_weight],
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=args.higgs_masses,
-							mssm=True
+							mssm=True,
+							estimationMethod=args.background_method
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
-					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
+                                        # modify folder for taues
+                                        if shape_systematic == "taues":
+                                            replacestring = "jecUncNom_tauEsUp" if shift_up else "jecUncNom_tauEsDown"
+                                            config["folders"] = [folder.replace("jecUncNom_tauEsNom", replacestring) for folder in config["folders"]]
+
 					config["x_expressions"] = [args.quantity]
 					
 					binnings_key = "binningHttMSSM13TeV_"+category+"_svfitMass"
@@ -188,8 +216,8 @@ if __name__ == "__main__":
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=sample2process(sample),
-							BIN=category,
+							PROCESS=sample2process(re.sub("_(os|ss)_(low|high)mt","",sample)),
+							BIN = getcategory(category,sample),
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
 					

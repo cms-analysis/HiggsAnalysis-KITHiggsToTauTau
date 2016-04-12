@@ -385,6 +385,10 @@ void SvfitResults::CreateBranches(TTree* tree)
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
 {
+	if(! transverseMass)
+	{
+		transverseMass = new double;
+	}
 	tree->SetBranchAddress("svfitMomentum", &momentum);
 	//tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
 	//tree->SetBranchAddress("svfitMet", &fittedMET);
