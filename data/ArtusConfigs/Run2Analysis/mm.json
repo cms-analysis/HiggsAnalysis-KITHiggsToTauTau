@@ -133,7 +133,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				],
@@ -170,7 +169,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				],
@@ -207,7 +205,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				],
