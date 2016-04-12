@@ -452,14 +452,14 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 {
 	if (SvfitTools::svfitCacheInputTreeIndices.empty())
 	{
-		LOG(DEBUG) << "\tLoading SVfit cache trees from files...";
+		LOG(INFO) << "\tLoading SVfit cache trees from files...";
 		// check first if svfitCacheInputTree is already loaded since it's a static member variable
 		if(! SvfitTools::svfitCacheInputTree )
 			svfitCacheInputTree = new TChain(treeName.c_str());
 		for (std::vector<std::string>::const_iterator fileName = fileNames.begin();
 		     fileName != fileNames.end(); ++fileName)
 		{
-			LOG(DEBUG) << "\t\t" << *fileName << "/" << treeName;
+			LOG(INFO) << "\t\t" << *fileName << "/" << treeName;
 			svfitCacheInputTree->Add(fileName->c_str());
 		}
 		
@@ -470,11 +470,11 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		{
 			svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
 			svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
-			//LOG(DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
-			//LOG(DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
+			//LOG(INFO) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
+			//LOG(INFO) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
 		}
 		svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
-		LOG(DEBUG) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
+		LOG(INFO) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
 		
 		//svfitInputs.SetBranchAddresses(svfitCacheInputTree);
 		svfitResults.SetBranchAddresses(svfitCacheInputTree);
@@ -497,7 +497,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
 		{
 			neededRecalculation = true;
-			LOG(DEBUG) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" << std::endl;
+			LOG(INFO) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" << std::endl;
 		}
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::assert)
 		{

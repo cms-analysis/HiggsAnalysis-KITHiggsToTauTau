@@ -13,18 +13,13 @@ import Artus.Utility.jsonTools as jsonTools
 import Artus.Utility.tools as aTools
 import sys
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
-import ROOT
 import glob
+import time
+import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 def do_training(args):
 
-	#if args["signal_samples"] == parser.get_default("signal_samples"):
-		#args["signal_samples"] = [sample for sample in args["signal_samples"]
-								#if hasattr(samples.Samples, sample)]
-	#if args["bkg_samples"] == parser.get_default("bkg_samples"):
-		#args["bkg_samples"] = [sample for sample in args["bkg_samples"]
-								#if hasattr(samples.Samples, sample)]
 	info_log = copy.deepcopy(args)
 	info_log["comment"] = " ".join(sys.argv)
 	info_log["config_list"] = []
@@ -111,6 +106,7 @@ def do_training(args):
 		s_b_extension.append(config["sig_bkg"])
 		log.info("Prepare sample: %s" %config["request_nick"])
 		cuts = ""
+		#time.sleep(5)
 		for i,nick in enumerate(config["nicks"]):
 			if not bool(sum([x in nick for x in ["wmh", "wph", "zh"]])) and "noplot" in nick:
 				continue
@@ -120,18 +116,23 @@ def do_training(args):
 				log.error("can not decide which weight to use for sample %s nick %s" %(config["request_nick"],nick))
 			cuts = config["weights"][i]
 		for root_file_name in root_file_name_list:
+			#load the requested rootfiles with their containing ntuples
 			log.debug("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
 			info_log["steps"].append("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
-			c_tree_list.append(ROOT.TChain())
+			#time.sleep(5)
+			c_tree_list.Add(ROOT.TChain())
 			root_file_name = root_file_name + '/' + config["folders"][0]
 			c_tree_list[-1].Add(root_file_name)
 		for j,split in enumerate(splits_list):
+			#combine the root ntuples from c_tree_list into one ntuple. this happens for every split sample for the nfold training
 			c_tree_list2 = ROOT.TList()
 			c_tree = ""
 			store_file = ROOT.TFile("%s_%s_%s.root"%(storage_name_extension, config["request_nick"], "split%i"%(j+1)), "RECREATE")
 			selection_string = "*".join((split,cuts,args["pre_selection"])).replace("eventWeight*", "")
 			for index in range(len(c_tree_list)):
+				#import pdb
 				log.debug("Cut Tree %s for Sample %s "%(root_file_name_list[index], stored_files_list[-1]))
+				#pdb.set_trace()
 				c_tree_list2.Add(c_tree_list[index].CopyTree(selection_string, "tree%i"%index))
 			log.debug("Merge Trees for Sample %s "%stored_files_list[-1])
 			if len(c_tree_list2) > 1:
@@ -153,7 +154,7 @@ def do_training(args):
 		# create factory
 		log.debug("TMVA.Factory(\"T%i"%ifac + "\", TFile(\"" + os.path.join(dir_path, filename+"T%i.root"%ifac) +
 				"\", \"RECREATE\"), \"" + args["factory_options"] + "\")")
-		ROOT.TMVA.gConfig().GetIONames().fWeightFileDir = dir_path+"/weights"
+		ROOT.TMVA.gConfig().GetIONames().fWeightFileDir = dir_path
 		factory=ROOT.TMVA.Factory("T%i"%ifac, output,
 									args["factory_options"])
 		# add training variables
@@ -212,7 +213,7 @@ def do_training(args):
 		del factory
 		log.info("Training output is written to \"" + os.path.join(dir_path, filename+"T%i.root"%ifac) + "\".")
 		log_log = jsonTools.JsonDict(info_log)
-	log_log.save(dir_path+"/%s_TrainingLog.json"%filename, indent=4)
+	log_log.save(os.path.join(dir_path,"%s_TrainingLog.json"%filename), indent=4)
 
 
 if __name__ == "__main__":
@@ -222,11 +223,11 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 						help="Input directory.")
-	parser.add_argument("-s", "--signal_samples", nargs="+",
+	parser.add_argument("-s", "--signal-samples", nargs="+",
 						default=["ggh", "qqh", "vh"],
 						choices=["ggh", "qqh", "vh", "ztt", "zll", "ttj", "vv", "wj"],
 						help="Signal-Samples. [Default: %(default)s]")
-	parser.add_argument("-b", "--bkg_samples", nargs="+",
+	parser.add_argument("-b", "--bkg-samples", nargs="+",
 						default=["ztt", "zll", "ttj", "vv", "wj"],
 						choices=["ztt", "zll", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh"],
 						help="Bkg-Samples. [Default: %(default)s]")
@@ -235,8 +236,8 @@ if __name__ == "__main__":
 						help="Channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantities", nargs="*",
 						default=["pVecSum", "pt_1", "mt_1", "pt_2", "mt_2", "met",
-								"mvamet", "pZetaMissVis", "pZetaMiss",
-								"pZetaVis","njets", "nbtag",
+								"mvamet", "pZetaMissVis", "pzetamiss",
+								"pzetavis","njets", "nbtag",
 								"min_ll_jet_eta","lep1_centrality",
 								"lep2_centrality",
 								"delta_lep_centrality", "iso_1"],
@@ -258,12 +259,12 @@ if __name__ == "__main__":
 						help="""If set enables splitting into training and test
 						tree, use value between 0 and 99 to split tree using
 						variable TrainingSelectionValue. [Default: %(default)s]""")
-	parser.add_argument("-o", "--output-file",required=True,
-						default="tmvaClassification/output.root",
+	parser.add_argument("-o", "--output-file",required=False,
+						default=None,
 						help="Output file. [Default: %(default)s]")
 	parser.add_argument("--factory-options", default="",
 						help="Options for TMVA.Factory constructor. [Default: %(default)s]")
-	parser.add_argument("-m", "--methods", nargs="+", default=['BDT;nCuts=1200:NTrees=450:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2'],
+	parser.add_argument("-m", "--methods", nargs="+", default=['BDT;nCuts=1200:NTrees=1250:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2'],
 						help="MVA methods. Multiple arguments for TMVA.Factory.BookMethod are split by semicolon. Format: name;options. [Default: %(default)s]")
 	parser.add_argument("--preparation-trees-options", default="",
 						help="Options for preparation of inputs trees as passed to TMVA.Factory.PrepareTrainingAndTestTree. [Default: %(default)s]")
@@ -277,20 +278,79 @@ if __name__ == "__main__":
 						help="""if modify is used: select modification code by number""")
 	parser.add_argument("-j", "--j", default = 1,
 						help="number of parallel processes for training [Default: %(default)s]")
+	parser.add_argument("--batch-system", default = False, action="store_true",
+						help="specifiy if tmvaWrapper will be used with batch jobs, this will change output_path accordingly [Default: %(default)s]")
+	parser.add_argument("--config-number", type = int, default = 0,
+						help="select wich config to be processeed by this job, only used for batch-jobs [Default: %(default)s]")
+	parser.add_argument("--dry-run", default = False, action="store_true",
+						help="number of parallel processes for training, only used for local jobs [Default: %(default)s]")
+
 
 	cargs = parser.parse_args()
 	logger.initLogger(cargs)
-	config_list = []
 	cargs_values = vars(cargs)
-	#here starts code for scans and something like that
+	#=====If jobs are to run on batch-system, the ouputpath must be adjusted this is done below in if, elif
+	if cargs.output_file == None:
+		cargs.output_file = os.getcwd()
+	if cargs.batch_system:
+		dir_path, filename = os.path.split(cargs.output_file)
+		cargs.output_file = os.path.join(os.getcwd())
+	#=====here starts predefined code for scans and collection of signal background combinations
 	if cargs.modify:
+		config_list = []
 		if 1 in cargs.modification:
-			for i in range(150,1551,100):
+			for i in range(500,2500,100):
+				#=======This is a very basic scan of NTrees
 				copy_cargs = copy.deepcopy(cargs_values)
 				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={0}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2".format(i)]
 				copy_cargs["output_file"] = cargs_values["output_file"].format(i)
 				config_list.append(copy_cargs)
-		log.info("Start training of %i BDTs"%len(config_list))
-		aTools.parallelize(do_training, config_list, n_processes=int(cargs.j))
+
+		if 2 in cargs.modification:
+			for i in range(1000, 1701, 100):
+				for samps in [(['ggh', 'qqh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['ggh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['qqh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['ggh'],['qqh']), (['qqh'],['ggh'])]:
+					#=======This is a very basic collection of possible signal background combinations
+					copy_cargs = copy.deepcopy(cargs_values)
+					copy_cargs["signal_samples"] = samps[0]
+					copy_cargs["bkg_samples"] = samps[1]
+					front = ''
+					back = ''
+					fill = '_{0}_'
+					if len(samps[0]) > 1:
+						front = 'xxh'
+					else:
+						front = samps[0][0]
+					if len(samps[1]) > 1:
+						back = 'all'
+					else:
+						back = samps[1][0]
+					copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], front + fill + back).format(i)
+					copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={0}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2".format(i)]
+					config_list.append(copy_cargs)
+		if 3 in cargs.modification:
+			for i in range(4,9,1):
+				copy_cargs = copy.deepcopy(cargs_values)
+				copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], "all_{0}_all".format(i))
+				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees=1500:MinNodeSize=0.25:BoostType=Grad:Shrinkage=1:MaxDepth={0}".format(i)]
+				config_list.append(copy_cargs)
+		if cargs.batch_system:
+			log.info("Start training of BDT config number %i"%cargs.config_number)
+			if cargs.dry_run:
+				log.info("Dry-Run: aborting training")
+				log.info(config_list[cargs.config_number])
+				sys.exit()
+			do_training(config_list[cargs.config_number])
+		else:
+			log.info("Start training of %i BDTs"%len(config_list))
+			if cargs.dry_run:
+				log.info("Dry-Run: aborting training")
+				sys.exit()
+			aTools.parallelize(do_training, config_list, n_processes=int(cargs.j))
 	else:
-		do_training(cargs_values)
+		config_list = []
+		config_list.append(cargs_values)
+		log.info("Start training of %i BDTs"%len(config_list))
+		if cargs.dry_run:
+			log.info("Dry-Run: aborting training")
+			sys.exit()
+		do_training(config_list[0])

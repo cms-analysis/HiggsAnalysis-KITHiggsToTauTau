@@ -5,9 +5,11 @@
 				"DY.?JetsToLL" : "ee"
 			}
 		},
-		"BosonPdgId" : {
+		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : 23
+				"DY.?JetsToLL" : [
+					23
+				]
 			}
 		}
 	},
@@ -17,9 +19,11 @@
 				"DY.?JetsToLL" : "mm"
 			}
 		},
-		"BosonPdgId" : {
+		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : 23
+				"DY.?JetsToLL" : [
+					23
+				]
 			}
 		}
 	},
@@ -29,9 +33,11 @@
 				"DY.?JetsToLL" : "tt"
 			}
 		},
-		"BosonPdgId" : {
+		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : 23
+				"DY.?JetsToLL" : [
+					23
+				]
 			}
 		}
 	}
