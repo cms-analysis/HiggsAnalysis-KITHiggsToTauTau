@@ -39,7 +39,7 @@ void MVATestMethodsProducer::Init(spec_setting_type const& settings)
 				});
 				output_index += 1;
 			}
-
+			output_index -= 1;
 			std::string bdt_out_name = settings.GetMVATestMethodsNames()[NFoldIndex];
 			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(bdt_out_name, [bdt_out_name, output_index, settings, NFoldIndex](spec_event_type const& event, spec_product_type const& product)
 			{
@@ -48,10 +48,10 @@ void MVATestMethodsProducer::Init(spec_setting_type const& settings)
 				{
 					if( ((finalIndex-1)*width <= ts_value) and (ts_value < finalIndex*width))
 					{
-						return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index-finalIndex] : DefaultValues::UndefinedFloat);
+						return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index-settings.GetMVATestMethodsNFolds()[NFoldIndex]+finalIndex] : DefaultValues::UndefinedFloat);
 					}
 					else if (((settings.GetMVATestMethodsNFolds()[NFoldIndex]-1)*width <= ts_value) and (ts_value < 100)){
-						return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index-settings.GetMVATestMethodsNFolds()[NFoldIndex]] : DefaultValues::UndefinedFloat);
+						return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index-settings.GetMVATestMethodsNFolds()[NFoldIndex]+finalIndex] : DefaultValues::UndefinedFloat);
 					}
 				}
 				return -2.0;

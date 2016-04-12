@@ -30,7 +30,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 	config["blinding_method"] = []
 	for method in args.blinding_methods:
 		config["blinding_method"].append(method)
-		config["blinding_result_nicks"].append("ratio_" + method)
+		config["blinding_result_nicks"].append("blinding_" + method)
 		config["blinding_background_nicks"].append(" ".join(bkg_samples))
 		config["blinding_signal_nicks"].append("htt%iScaled"%higgsmass)
 		config["blinding_parameters"].append(args.blinding_parameter)
@@ -39,6 +39,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 		config["y_subplot_label"] = ""
 		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
 		config["y_subplot_lims"] = [0, 1.5]
+		config["subplot_nicks"]=["blinding"]
 		for method in args.blinding_methods:
 			config["markers"].append("LINE")
 			config["legend_markers"].append("L")
@@ -49,7 +50,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 				config["colors"].append("kit_gruen_1")
 				config["labels"].append("ams")
 	else:
-		config["nicks_blacklist"].append("ratio")
+		config["nicks_blacklist"].append("blinding")
 
 def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, higgsmass):
 	config["analysis_modules"].append("ScaleHistograms")
@@ -62,34 +63,38 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, h
 	config["sob_integral_signal_nicks"] = []
 	config["sob_integral_result_nicks"] = []
 	config["sob_integral_method"] = []
-	for method in args.integration_methods:
+	config["sob_integral_outputs"] = []
+	for i,method in enumerate(args.integration_methods):
 		config["sob_integral_method"].append(method)
-		config["sob_integral_result_nicks"].append("ratio_" + method)
+		config["sob_integral_result_nicks"].append("integration_%i"%i + method)
 		config["sob_integral_background_nicks"].append(" ".join(bkg_samples))
 		config["sob_integral_signal_nicks"].append("htt%iScaled"%higgsmass)
-
-	if( show_subplot ):
-		config["y_subplot_label"] = ""
+		config["sob_integral_outputs"].append(args.integration_output)
+	if(show_subplot):
+		config["y_subplot_label"] = "int.(S)/#sqrt{int.(B)}"
 		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
 		config["y_subplot_lims"] = [0, 1.5]
+		config["subplot_nicks"] = ["integration"]
 		for method in args.integration_methods:
 			config["markers"].append("LINE")
 			config["legend_markers"].append("L")
-			config["labels"].append("int S/#sqrt{B}")
+			config["labels"].append("#int{S}/#sqrt{#int{B}}")
 			if(method == "righttoleft"):
 				config["colors"].append("kit_blau_1")
 			elif(method == "lefttoright"):
 				config["colors"].append("kit_rot_1")
-			elif(method == "combination"):
+			elif(method == "rcombination"):
 				config["colors"].append("kit_gruen_1")
 	else:
-		config["nicks_blacklist"].append("ratio")
+		config["nicks_blacklist"].append("integration")
 
-def blind_signal(config, blinding_threshold):
+def blind_signal(config, blinding_threshold, ratio_true):
 	config["analysis_modules"].append("MaskHistograms")
 	config["mask_above_reference_nick"] = config["blinding_result_nicks"][0]
 	config["mask_above_reference_value"] = blinding_threshold
 	config["mask_histogram_nicks"] = "data"
+	if ratio_true:
+		config["mask_histogram_nicks"] = ["data", "ratio_Data"]
 
 if __name__ == "__main__":
 
@@ -118,8 +123,10 @@ if __name__ == "__main__":
 	                    help="b_reg. [Default: %(default)s]")
 	parser.add_argument("--integrated-sob", default=False, action="store_true",
 	                    help="Add integrated s/sqrt(b) subplot [Default: %(default)s]")
-	parser.add_argument("--integration-methods", default=["lefttoright", "righttoleft", "combination"], nargs="*",
+	parser.add_argument("--integration-methods", default=["righttoleft", "righttoleft"], nargs="*",
 	                    help="Integration Method. Chose lefttoright or righttoleft, !!!combination needs to be specified last!!!. [Default: %(default)s]")
+	parser.add_argument("--integration-output", default=None,
+						help="outputfile to specifiy where to write calculated maxima/minima, None is no output [Default:%(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
@@ -261,6 +268,7 @@ if __name__ == "__main__":
 						config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
 					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
+					config.setdefault("ratio_result_nicks", []).extend(["ratio_MC", "ratio_Data"])
 					config.setdefault("colors", []).extend(["#000000"] * 2)
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
@@ -290,13 +298,6 @@ if __name__ == "__main__":
 						config["lumis"] = [float("%.1f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
 
-				# add s/sqrt(b) subplot
-				if(args.sbratio or args.blinding_threshold > 0):
-					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					hmass_temp = 125
-					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
-						hmass_temp = int(args.higgs_masses[0])
-					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, hmass_temp)
 				#add integrated s/sqrt(b) subplot
 				if(args.integrated_sob):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
@@ -304,9 +305,16 @@ if __name__ == "__main__":
 					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
 						hmass_temp = int(args.higgs_masses[0])
 					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, hmass_temp)
+				# add s/sqrt(b) subplot
+				if(args.sbratio or args.blinding_threshold > 0):
+					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					hmass_temp = 125
+					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
+						hmass_temp = int(args.higgs_masses[0])
+					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, hmass_temp)
 
 				if(args.blinding_threshold > 0):
-					blind_signal(config, args.blinding_threshold)
+					blind_signal(config, args.blinding_threshold, args.ratio)
 
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
