@@ -77,14 +77,19 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/expressions.cfg")
 			with open(expressions_path) as exps:
 				for line in exps:
-					name, expression = map(strip, line.split("\t"))
-					self.expressions_dict[name.format(channel)] = expression
+					name, values = map(strip, line.split(" : "))
+					values = map(float, values.split(" "))
+					values.pop(0)
+					values.pop(-1)
+					self.expressions_dict["mva_%s_%s_up"%(channel,name)] = "(%f <= %s)"%(values[1], name)
+					self.expressions_dict["mva_%s_%s_mid"%(channel,name)] = "(%f <= %s && %s < %f)"%(values[0], name, name, values[1])
+					self.expressions_dict["mva_%s_%s_down"%(channel,name)] = "(%s < %f)"%(name, values[0])
 		#========================================Copy here!========================================
 		self.expressions_dict["cat_OneProng"] = "(decayMode_2 == 0)"
 		self.expressions_dict["catOneProng"] = self.expressions_dict["cat_OneProng"]
 		for channel in [ "mt", "et"]:
 			self.expressions_dict["catOneProng_"+channel] = self.expressions_dict["catOneProng"]
-		
+
 		self.expressions_dict["cat_OneProngPiZeros"] = "(decayMode_2 >= 1)*(decayMode_2 <= 2)"
 		self.expressions_dict["catOneProngPiZeros"] = self.expressions_dict["cat_OneProngPiZeros"]
 		for channel in [ "mt", "et"]:

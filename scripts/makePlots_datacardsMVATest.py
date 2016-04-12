@@ -169,11 +169,11 @@ if __name__ == "__main__":
 
                     config["x_expressions"] = [args.quantity]
 
-                    binnings_key = "binningHtt13TeV_"+category+"_svfitMass"
+                    binnings_key = "binningMVA13TeV_"+channel+"_%s"%args.quantity
                     if binnings_key in binnings_settings.binnings_dict:
                         config["x_bins"] = [binnings_key]
                     else:
-                        config["x_bins"] = ["35,0.0,350.0"]
+                        config["x_bins"] = [" ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])]
 
                     config["directories"] = [args.input_dir]
 

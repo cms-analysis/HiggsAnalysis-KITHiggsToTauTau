@@ -11,7 +11,7 @@ import Artus.HarryPlotter.utility.binnings as binnings
 class BinningsDict(binnings.BinningsDict):
 	def __init__(self, additional_binnings=None):
 		super(BinningsDict, self).__init__(additional_binnings=additional_binnings)
-		
+
 		self.binnings_dict["diLepMass"] = "50,0,250"
 		self.binnings_dict["svfitMass"] = "50,0,250"
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
@@ -495,7 +495,7 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_high_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 20)+range(200, 351, 50)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_vbf_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 20)+range(200, 351, 50)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_inclusive_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
-			
+
 			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_low_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_high_m_vis"] = " ".join([str(float(f)) for f in range(0,45,15)+range(45, 105, 10)+range(105,151,15)])
@@ -505,10 +505,10 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_vbf_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 
-			self.binnings_dict["binningMVA13TeV_"+channel+"_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
-			self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_bkg_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
-			self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_mid_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
-			self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_sig_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 		self.binnings_dict["binningHtt13TeV_tt_inclusive_svfitMass"] = " ".join([str(float(f)) for f in [0, 50]+range(90, 171, 20)+[200, 350]])
 		# H->tautau MSSM binnings
 		for channel in ["mt", "et", "em", "tt"]:

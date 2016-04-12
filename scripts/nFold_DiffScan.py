@@ -26,9 +26,9 @@ if __name__ == "__main__":
 						help="position of legend, use 'matplotlib position' as argument[Default:%(default)s]")
 	parser.add_argument("--lumi", type=float, default=2.301,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
-	#parser.add_argument("-o", "--output-file",
-	#						default="settingsMVATestMethods.json",
-	#						help="Output file. [Default: %(default)s]")
+	parser.add_argument("-o", "--output-file",
+							default="nFoldDiffScan",
+							help="Output file. [Default: %(default)s]")
 	#parser.add_argument("-e", "--exclude-log", nargs="+",
 						#default=[],
 						#help="exclude training log files from collection. [Default: %(default)s]")
@@ -95,4 +95,6 @@ if __name__ == "__main__":
 	ax.legend(loc=args.legend)
 	ax.set_ylabel("$95\\%\\mathrm{\\,of}\\mathrm{\\,events}<\\sqrt{\\sum((\\mathrm{T}(i)-\\mathrm{Fin})/(\\mathrm{N}-1))^2}$")
 	plt.tight_layout()
-	plt.savefig("TestPlot.png")
+	plt.savefig("%s.png"%args.output_file)
+	plt.savefig("%s.pdf"%args.output_file)
+	plt.savefig("%s.eps"%args.output_file)
