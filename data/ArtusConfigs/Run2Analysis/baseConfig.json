@@ -60,6 +60,18 @@
 				"producer:GeneratorWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
+			"W.?JetsToLNu" : [
+				"#filter:RunLumiEventFilter",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer",
+				"producer:PUWeightProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:SampleStitchingWeightProducer",
+				"#producer:TaggedJetCorrectionsProducer"
+			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
 				"producer:CrossSectionWeightProducer",
