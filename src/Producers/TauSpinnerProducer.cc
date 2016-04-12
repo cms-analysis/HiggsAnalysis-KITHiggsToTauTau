@@ -85,92 +85,87 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 {
 	assert(event.m_eventInfo);
 	
-	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
-	if (higgs.size() == 0)
-	{
-		// product.m_tauSpinnerWeight = NO_HIGGS_FOUND; // TODO
-		return;
-	}
-
-	KGenParticle* selectedHiggs1 = higgs[0].m_node;
-	MotherDaughterBundle selectedTau1 = higgs[0].m_daughters[0];
-	MotherDaughterBundle selectedTau2 = higgs[0].m_daughters[1];
-
-	if ((abs(selectedTau1.m_node->pdgId) != DefaultValues::pdgIdTau)
-		|| (abs(selectedTau2.m_node->pdgId) != DefaultValues::pdgIdTau)) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
-	{
-		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find two taus as daughters of Boson" << std::endl;
-		// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
-		return;
-	}
-
-	TauSpinner::SimpleParticle X = GetSimpleParticle(selectedHiggs1);
-	TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_node);
-	TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_node);
-	std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
-	GetFinalStates(selectedTau1, &tauFinalStates1);
-	std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
-	GetFinalStates(selectedTau2, &tauFinalStates2);
-
-	LOG_N_TIMES(20, DEBUG) << "The event contains the following particles: " << std::endl;
-	LOG_N_TIMES(20, DEBUG) << "Higgs " << std::to_string(X) << std::endl;
-	LOG_N_TIMES(20, DEBUG) << std::string("Tau1") << std::to_string(tau1);
-	LOG_N_TIMES(20, DEBUG) << std::string("Tau2") << std::to_string(tau2);
-	LOG_N_TIMES(20, DEBUG) << std::string("Tau1FinalState") << std::to_string(tauFinalStates1);
-	LOG_N_TIMES(20, DEBUG) << std::string("Tau2FinalState") << std::to_string(tauFinalStates2);
-
-
-	if ((tauFinalStates1.size() == 0) || (tauFinalStates2.size() == 0))
-	{
-		LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find enogh genParticles for the TauSpinner Algorithm" << std::endl;
-		// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
-		return;
-	}
+	// A generator level boson and its decay products must exist
+	// The boson is searched for by a GenBosonProducer
+	// and the decay tree is built by the GenTauDecayProducer
+	assert(product.m_genBosonTree.m_daughters.size() > 1);
 	
-	// calculate the weights for different mixing angles
-	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
-	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
-	     ++mixingAngleOverPiHalfIt)
+	assert(! settings.GetBosonPdgIds().empty());
+
+	MotherDaughterBundle selectedTau1 = product.m_genBosonTree.m_daughters[0];
+	MotherDaughterBundle selectedTau2 = product.m_genBosonTree.m_daughters[1];
+
+	//TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
+	// otherwise the weights are set to 1
+	if ((std::abs(selectedTau1.m_node->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_node->pdgId) != DefaultValues::pdgIdTau))
 	{
-		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
-		
-		// set mixing angle
-		// http://arxiv.org/pdf/1406.1647.pdf, section A.1, page 15
-		float twoTimesMixingAngleRad = M_PI * mixingAngleOverPiHalf;
-		TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRad), cos(twoTimesMixingAngleRad),
-		                                 -sin(twoTimesMixingAngleRad), -sin(twoTimesMixingAngleRad));
+		TauSpinner::SimpleParticle X = GetSimpleParticle(product.m_genBosonLV, settings.GetBosonPdgIds()[0]);
+		TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_node->p4, selectedTau1.m_node->pdgId);
+		TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_node->p4, selectedTau2.m_node->pdgId);
+		std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
+		GetFinalStates(selectedTau1, &tauFinalStates1);
+		std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
+		GetFinalStates(selectedTau2, &tauFinalStates2);
 
-		//Decision for a certain weight calculation depending on BosonPdgId
-		double tauSpinnerWeight = 1.0;
-		if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdW)))
-		{
-			tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
-		}
-		else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)))
-		{
-			tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
-		}
-		else {
-			tauSpinnerWeight = 0.0; // NO_BOSON_FOUND;
-		}
+		//LOG_N_TIMES(20, DEBUG) << "The event contains the following particles: " << std::endl;
+		//LOG_N_TIMES(20, DEBUG) << "Higgs " << std::to_string(X) << std::endl;
+		//LOG_N_TIMES(20, DEBUG) << std::string("Tau1") << std::to_string(tau1);
+		//LOG_N_TIMES(20, DEBUG) << std::string("Tau2") << std::to_string(tau2);
+		//LOG_N_TIMES(20, DEBUG) << std::string("Tau1FinalState") << std::to_string(tauFinalStates1);
+		//LOG_N_TIMES(20, DEBUG) << std::string("Tau2FinalState") << std::to_string(tauFinalStates2);
 
-		// check for nan values // TODO: check inputs
-		if (tauSpinnerWeight != tauSpinnerWeight)
+		if ((tauFinalStates1.size() == 0) || (tauFinalStates2.size() == 0))
 		{
-			tauSpinnerWeight = 0.0; // WEIGHT_NAN;
-			++numberOfNanWeights;
-			LOG_N_TIMES(20, DEBUG) << "Found a 'NaN' TauSpinner weight in (run, lumi, event) = ("
-			           << event.m_eventInfo->nRun << ", " << event.m_eventInfo->nLumi << ", "
-			           << event.m_eventInfo->nEvent << ") in the pipeline \"" << pipelineName << "\".";
+			LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find enogh genParticles for the TauSpinner Algorithm" << std::endl;
+			// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
+			return;
 		}
+	
+		// calculate the weights for different mixing angles
+		for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
+			 mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
+			 ++mixingAngleOverPiHalfIt)
+		{
+			float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
 		
-		product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = tauSpinnerWeight;
+			// set mixing angle
+			// http://arxiv.org/pdf/1406.1647.pdf, section A.1, page 15
+			float twoTimesMixingAngleRad = M_PI * mixingAngleOverPiHalf;
+			TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRad), cos(twoTimesMixingAngleRad),
+				                             -sin(twoTimesMixingAngleRad), -sin(twoTimesMixingAngleRad));
+
+			//Decision for a certain weight calculation depending on BosonPdgId
+			double tauSpinnerWeight = 1.0;
+			if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdW)))
+			{
+				tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
+			}
+			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)))
+			{
+				tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
+			}
+			else {
+				tauSpinnerWeight = 0.0; // NO_BOSON_FOUND;
+			}
+
+			// check for nan values // TODO: check inputs
+			if (tauSpinnerWeight != tauSpinnerWeight)
+			{
+				tauSpinnerWeight = 0.0; // WEIGHT_NAN;
+				++numberOfNanWeights;
+				LOG_N_TIMES(20, DEBUG) << "Found a 'NaN' TauSpinner weight in (run, lumi, event) = ("
+					       << event.m_eventInfo->nRun << ", " << event.m_eventInfo->nLumi << ", "
+					       << event.m_eventInfo->nEvent << ") in the pipeline \"" << pipelineName << "\".";
+			}
+		
+			product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = tauSpinnerWeight;
+		}
 	}
 }
 
-TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(KGenParticle*& in) const
+TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const
 {
-	return TauSpinner::SimpleParticle(in->p4.px(), in->p4.py(), in->p4.pz(), in->p4.e(), in->pdgId);
+	return TauSpinner::SimpleParticle(particleLV.Px(), particleLV.Py(), particleLV.Pz(), particleLV.E(), particlePdgId);
 }
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
@@ -193,7 +188,7 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(Moth
 			pdgId == DefaultValues::pdgIdNuMu ||
 			pdgId == DefaultValues::pdgIdNuTau)
 		{
-			resultVector->push_back(GetSimpleParticle(mother.m_daughters[i].m_node));
+			resultVector->push_back(GetSimpleParticle(mother.m_daughters[i].m_node->p4, mother.m_daughters[i].m_node->pdgId));
 		}
 		else
 		{
