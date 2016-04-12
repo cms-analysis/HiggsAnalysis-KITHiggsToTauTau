@@ -132,7 +132,12 @@ if __name__ == "__main__":
 								lumi=args.lumi * 1000
 						)
 
-						config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
+						if decayMode == "OneProng" and quantity == "m_2":
+							log.error("Tau mass (m_2) fit not possible in 1prong decay mode")
+						if quantity == "m_2":
+							config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
+						elif quantity == "m_vis":
+							config_ztt["x_expressions"] = [quantity + "*sqrt(" + str(shift) + ")"] * len(config_ztt["nicks"])
 						config_ztt["labels"] = ["ztt_" + str(shift).replace(".", "_") + "_" + str(index)]
 						config_ztt["stacks"] = [stack.replace("_" + str(shift).replace(".", "_"), "") for stack in config_ztt["stacks"]]
 						config_ztt["weights"] = [weight.replace("(pt_2>30.0)","1.0") for weight in config_ztt["weights"]]
@@ -183,10 +188,17 @@ if __name__ == "__main__":
 						shift_config["energies"] = [13]
 						shift_config["lumis"] = [float("%.1f" % args.lumi)]
 						shift_config["title"] = "channel_"+channel
-						shift_config["x_bins"] = "25,0.0,2.5"
+						shift_config["x_bins"] = "42,0.0,4.2"
+						shift_config["x_label"] = "m_{#tau_{h}} (GeV)"
+						if decayMode == "OneProngPiZeros" and quantity == "m_2":
+							shift_config["x_bins"] = "39,0.3,4.2"
+						elif decayMode == "ThreeProng" and quantity == "m_2":
+							shift_config["x_bins"] = "7,0.8,1.5"
+						elif decayMode == "OneProng" or quantity == "m_vis":
+							shift_config["x_bins"] = "20,0.0,200.0"
+							shift_config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
 						shift_config["y_lims"] = [0.0]
 						shift_config["y_subplot_lims"] = [0.5, 1.5]
-						shift_config["x_label"] = "m_{#tau_{h}} (GeV)"
 						shift_config["y_label"] = "Events / bin"
 						
 						plot_configs.append(shift_config)
@@ -197,10 +209,12 @@ if __name__ == "__main__":
 				merged_config["filename"] = decayMode + "_" + name_hash
 				
 				# set proper binnings of the distributions
-				if decayMode == "OneProngPiZeros":
-					merged_config.setdefault("x_bins", []).append(["20,0.0,1.5"])
-				elif decayMode == "ThreeProng":
-					merged_config.setdefault("x_bins", []).append(["10,0.75,1.5"])
+				if decayMode == "OneProngPiZeros" and quantity == "m_2":
+					merged_config.setdefault("x_bins", []).append(["39,0.3,4.2"])
+				elif decayMode == "ThreeProng" and quantity == "m_2":
+					merged_config.setdefault("x_bins", []).append(["7,0.8,1.5"])
+				elif decayMode == "OneProng" or quantity == "m_vis":
+					merged_config.setdefault("x_bins", []).append(["20,0.0,200.0"])
 
 				# config to plot the fit
 				if args.fit_method == "chi2":
