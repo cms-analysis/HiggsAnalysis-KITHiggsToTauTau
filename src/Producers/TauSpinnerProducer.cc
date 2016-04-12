@@ -85,16 +85,15 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 {
 	assert(event.m_eventInfo);
 	
-	std::vector<MotherDaughterBundle> higgs = product.m_genBoson;
-	if (higgs.size() == 0)
-	{
-		// product.m_tauSpinnerWeight = NO_HIGGS_FOUND; // TODO
-		return;
-	}
+	// A generator level boson and its decay products must exist
+	// The boson is searched for by a GenBosonProducer
+	// and the decay tree is built by the GenTauDecayProducer
+	assert(product.m_genBosonTree.m_daughters.size() > 1);
+	
+	assert(! settings.GetBosonPdgIds().empty());
 
-	KGenParticle* selectedHiggs1 = higgs[0].m_node;
-	MotherDaughterBundle selectedTau1 = higgs[0].m_daughters[0];
-	MotherDaughterBundle selectedTau2 = higgs[0].m_daughters[1];
+	MotherDaughterBundle selectedTau1 = product.m_genBosonTree.m_daughters[0];
+	MotherDaughterBundle selectedTau2 = product.m_genBosonTree.m_daughters[1];
 
 	if ((abs(selectedTau1.m_node->pdgId) != DefaultValues::pdgIdTau)
 		|| (abs(selectedTau2.m_node->pdgId) != DefaultValues::pdgIdTau)) //TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
@@ -104,9 +103,9 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		return;
 	}
 
-	TauSpinner::SimpleParticle X = GetSimpleParticle(selectedHiggs1);
-	TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_node);
-	TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_node);
+	TauSpinner::SimpleParticle X = GetSimpleParticle(product.m_genBosonLV, settings.GetBosonPdgIds()[0]);
+	TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_node->p4, selectedTau1.m_node->pdgId);
+	TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_node->p4, selectedTau2.m_node->pdgId);
 	std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
 	GetFinalStates(selectedTau1, &tauFinalStates1);
 	std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
@@ -168,9 +167,9 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	}
 }
 
-TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(KGenParticle*& in) const
+TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const
 {
-	return TauSpinner::SimpleParticle(in->p4.px(), in->p4.py(), in->p4.pz(), in->p4.e(), in->pdgId);
+	return TauSpinner::SimpleParticle(particleLV.Px(), particleLV.Py(), particleLV.Pz(), particleLV.E(), particlePdgId);
 }
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
@@ -193,7 +192,7 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(Moth
 			pdgId == DefaultValues::pdgIdNuMu ||
 			pdgId == DefaultValues::pdgIdNuTau)
 		{
-			resultVector->push_back(GetSimpleParticle(mother.m_daughters[i].m_node));
+			resultVector->push_back(GetSimpleParticle(mother.m_daughters[i].m_node->p4, mother.m_daughters[i].m_node->pdgId));
 		}
 		else
 		{

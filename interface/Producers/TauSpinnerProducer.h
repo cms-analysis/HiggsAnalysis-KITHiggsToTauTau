@@ -36,7 +36,7 @@ public:
 
 
 private:
-	virtual TauSpinner::SimpleParticle GetSimpleParticle(KGenParticle*& in) const;
+	virtual TauSpinner::SimpleParticle GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const;
 	virtual std::vector<TauSpinner::SimpleParticle>* GetFinalStates(MotherDaughterBundle& mother,
 			std::vector<TauSpinner::SimpleParticle>* resultVector) const;
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
