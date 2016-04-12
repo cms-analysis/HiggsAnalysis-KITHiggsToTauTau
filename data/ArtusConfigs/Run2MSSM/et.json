@@ -191,7 +191,7 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:TopPtReweightingProducer",
+					"#producer:TopPtReweightingProducer",
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
