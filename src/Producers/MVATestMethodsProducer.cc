@@ -22,6 +22,7 @@ void MVATestMethodsProducer::Init(spec_setting_type const& settings)
 		if (settings.GetMVATestMethodsNFolds()[NFoldIndex] <= 1)
 		{
 			std::string bdt_out_name = settings.GetMVATestMethodsNames()[NFoldIndex];
+			LOG(DEBUG) << "fill singlefold training " << bdt_out_name << std::endl;
 			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(bdt_out_name, [bdt_out_name, output_index](spec_event_type const& event, spec_product_type const& product)
 			{
 				return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index] : DefaultValues::UndefinedFloat);
@@ -35,6 +36,7 @@ void MVATestMethodsProducer::Init(spec_setting_type const& settings)
 				std::string bdt_out_name = "T" + boost::lexical_cast<std::string>(TrainingIndex) + settings.GetMVATestMethodsNames()[NFoldIndex];
 				LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(bdt_out_name, [bdt_out_name, output_index](spec_event_type const& event, spec_product_type const& product)
 				{
+					LOG(DEBUG) << "fill NFold training " << bdt_out_name << " with training index " << output_index << std::endl;
 					return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index] : DefaultValues::UndefinedFloat);
 				});
 				output_index += 1;
@@ -48,14 +50,17 @@ void MVATestMethodsProducer::Init(spec_setting_type const& settings)
 				{
 					if( ((finalIndex-1)*width <= ts_value) and (ts_value < finalIndex*width))
 					{
+						LOG(DEBUG) << "fill combined NFold training " << bdt_out_name << " with TSV " << ts_value << " with index " << output_index-settings.GetMVATestMethodsNFolds()[NFoldIndex]+finalIndex << std::endl;
 						return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index-settings.GetMVATestMethodsNFolds()[NFoldIndex]+finalIndex] : DefaultValues::UndefinedFloat);
 					}
-					else if (((settings.GetMVATestMethodsNFolds()[NFoldIndex]-1)*width <= ts_value) and (ts_value < 100)){
+					else if (((settings.GetMVATestMethodsNFolds()[NFoldIndex]-1)*width <= ts_value) and (ts_value < 100) and (finalIndex == settings.GetMVATestMethodsNFolds()[NFoldIndex])){
+						LOG(DEBUG) << "fill combined NFold training " << bdt_out_name << " with TSV " << ts_value << " with index " << output_index-settings.GetMVATestMethodsNFolds()[NFoldIndex]+finalIndex << " in else part" << std::endl;
 						return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index-settings.GetMVATestMethodsNFolds()[NFoldIndex]+finalIndex] : DefaultValues::UndefinedFloat);
 					}
 				}
 				return -2.0;
 			});
+			output_index += 1;
 		}
 	}
 
