@@ -53,7 +53,7 @@ void SvfitProducer::Init(setting_type const& settings)
 		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->mass() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitMet", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.momentum ? product.m_svfitResults.fittedMET->Rho() : DefaultValues::UndefinedFloat);
+		return (product.m_svfitResults.fittedMET ? product.m_svfitResults.fittedMET->Rho() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTransverseMass", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.transverseMass ? static_cast<float>(*(product.m_svfitResults.transverseMass)) : DefaultValues::UndefinedFloat);
@@ -108,13 +108,32 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	{
 		decayType2 = svFitStandalone::kTauToElecDecay;
 	}
+
+	// set decayModes. For hadronic taus use the one from the decayModeFinding (OldDMs). Else set it to -1 (this is the default)
+	int decayMode1, decayMode2;
+	if (decayType1 == svFitStandalone::kTauToHadDecay)
+	{
+		decayMode1 = static_cast<KTau*>(product.m_flavourOrderedLeptons[0])->getDiscriminator("decayModeFinding", event.m_tauMetadata);
+	}
+	else
+	{
+		decayMode1 = -1;
+	}
+	if (decayType2 == svFitStandalone::kTauToHadDecay)
+	{
+		decayMode2 = static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->getDiscriminator("decayModeFinding", event.m_tauMetadata);
+	}
+	else
+	{
+		decayMode2 = -1;
+	}
 	// construct inputs
 	product.m_svfitInputs.Set(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
 	                          product.m_met.p4.Vect(), product.m_met.significance);
 	
 	// construct event key
 	product.m_svfitEventKey.Set(event.m_eventInfo->nRun, event.m_eventInfo->nLumi, event.m_eventInfo->nEvent,
-	                            decayType1, decayType2,
+	                            decayType1, decayType2, decayMode1, decayMode2,
 	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, product.m_svfitInputs.GetHash());
 
 //	if (settings.GetGenerateSvfitInput())

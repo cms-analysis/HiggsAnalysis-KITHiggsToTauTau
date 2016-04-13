@@ -56,6 +56,7 @@ int main(int argc, const char *argv[])
     }
     ULong64_t run, lumi, event;
     svFitStandalone::kDecayType decayType1, decayType2;
+    int decayMode1, decayMode2;
     int systematicShift;
     float systematicShiftSigma;
     int integrationMethod;
@@ -94,6 +95,8 @@ int main(int argc, const char *argv[])
     inputtree->SetBranchAddress("integrationMethod", &integrationMethod);
     inputtree->SetBranchAddress("decayType1", &decayType1);
     inputtree->SetBranchAddress("decayType2", &decayType2);
+    inputtree->SetBranchAddress("decayMode1", &decayMode1);
+    inputtree->SetBranchAddress("decayMode2", &decayMode2);
 
     inputtree->SetBranchAddress("leptonMomentum1", &leptonMomentum1);
     inputtree->SetBranchAddress("leptonMomentum2", &leptonMomentum2);
@@ -154,8 +157,8 @@ int main(int argc, const char *argv[])
 
         // execute integration
         std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-            svFitStandalone::MeasuredTauLepton(static_cast<svFitStandalone::kDecayType>(decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMomentum1->M()),
-            svFitStandalone::MeasuredTauLepton(static_cast<svFitStandalone::kDecayType>(decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMomentum2->M())
+            svFitStandalone::MeasuredTauLepton(static_cast<svFitStandalone::kDecayType>(decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMomentum1->M(), decayMode1),
+            svFitStandalone::MeasuredTauLepton(static_cast<svFitStandalone::kDecayType>(decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMomentum2->M(), decayMode2)
         };
         TMatrixD metCovarianceMatrix(2, 2);
         metCovarianceMatrix[0][0] = metCovariance->At(0, 0);
@@ -164,6 +167,9 @@ int main(int argc, const char *argv[])
         metCovarianceMatrix[1][1] = metCovariance->At(1, 1);
         SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(measuredTauLeptons, metMomentum->x(), metMomentum->y(), metCovarianceMatrix, false);
         svfitStandaloneAlgorithm.addLogM(false);
+        TString cmsswBase = TString( getenv ("CMSSW_BASE") );
+        TFile* inputFile_visPtResolution = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
+        svfitStandaloneAlgorithm.shiftVisPt(true, inputFile_visPtResolution);
 
         if (integrationMethod == 0)
         {

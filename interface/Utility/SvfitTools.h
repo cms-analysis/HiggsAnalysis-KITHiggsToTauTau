@@ -44,6 +44,8 @@ public:
 	uint64_t event;
 	int decayType1;
 	int decayType2;
+	int decayMode1;
+	int decayMode2;
 	int systematicShift;
 	float systematicShiftSigma;
 	int integrationMethod;
@@ -52,15 +54,13 @@ public:
 	SvfitEventKey() {};
 	SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
 	              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-	              IntegrationMethod const& integrationMethod,
-	              uint32_t const &hash);
+	              int const& decayMode1, int const& decayMode2, HttEnumTypes::SystematicShift const& systematicShift,
+	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint32_t const &hash);
 	
 	void Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
 	         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-	         IntegrationMethod const& integrationMethod,
-	         uint32_t const &hash);
+	         int const& decayMode1, int const& decayMode2, HttEnumTypes::SystematicShift const& systematicShift,
+	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint32_t const &hash);
 	
 	HttEnumTypes::SystematicShift GetSystematicShift() const;
 	IntegrationMethod GetIntegrationMethod() const;

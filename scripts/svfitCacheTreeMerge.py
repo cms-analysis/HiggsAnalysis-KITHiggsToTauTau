@@ -59,7 +59,7 @@ def main():
 
 		merged_tree_name = treemerge.treemerge(
 				input, input_trees,
-				output, output_tree,
+				output, output_trees,
 				match_input_tree_names=True
 		)
 		log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
