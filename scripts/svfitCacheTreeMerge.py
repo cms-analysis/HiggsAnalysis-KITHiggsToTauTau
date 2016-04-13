@@ -26,6 +26,7 @@ def _call_command(command):
 	logger.subprocessCall(command.split())
 
 def nick_from_dir(directory):
+	directory = directory.rstrip("/")
 	return directory[directory.rfind("/")+1:]
 
 def main():
