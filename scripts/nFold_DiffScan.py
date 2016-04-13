@@ -96,5 +96,8 @@ if __name__ == "__main__":
 	ax.set_ylabel("$95\\%\\mathrm{\\,of}\\mathrm{\\,events}<\\sqrt{\\sum((\\mathrm{T}(i)-\\mathrm{Fin})/(\\mathrm{N}-1))^2}$")
 	plt.tight_layout()
 	plt.savefig("%s.png"%args.output_file)
+	log.info("create plot %s.png"%args.output_file)
 	plt.savefig("%s.pdf"%args.output_file)
+	log.info("create plot %s.pdf"%args.output_file)
 	plt.savefig("%s.eps"%args.output_file)
+	log.info("create plot %s.eps"%args.output_file)
