@@ -1,0 +1,7 @@
+{
+    "PlotlevelFilterExpressionQuantities" : [
+		"extraelec_veto",
+		"extramuon_veto"
+    ],
+    "PlotlevelFilterExpression" : "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
+}

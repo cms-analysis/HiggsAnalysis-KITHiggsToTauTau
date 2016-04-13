@@ -2,7 +2,7 @@
 	"TauID_documentation" : [
 	],
 
-	"TauDiscriminatorIsolationName" : "byCombinedIsolationDeltaBetaCorrRaw3Hits",
+	"TauDiscriminatorIsolationName" : "byIsolationMVArun2v1DBoldDMwLTraw",
 
 	"TauElectronLowerDeltaRCut" : -1.0,
 	"TauMuonLowerDeltaRCut" : -1.0
