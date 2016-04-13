@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import argparse
 import copy
+import sys
 import os
 import re
 
@@ -22,7 +23,9 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
-def plot_correlations(parameters, correlation_dict, sample, channel, dir_path, outname):
+def plot_correlations(parameters, correlation_dict, sample, channel, dir_path, outname, dim_size):
+	if isinstance(channel, list):
+		channel = channel[0]
 	corr_vars = {}
 	ws = correlation_dict["weight_sum"]
 	labeldict = labels.LabelsDict()
@@ -43,14 +46,24 @@ def plot_correlations(parameters, correlation_dict, sample, channel, dir_path, o
 			log.error("ValueError: %s" %varxy)
 			corr_vars[varxy] = None
 	jsonTools.JsonDict(corr_vars).save(os.path.join(dir_path,"%s_correlations.json"%channel),indent=4)
-	whole = len(parameters)/5
+	whole = len(parameters)/dim_size
+	whole = max(whole, 1)
+	max_iterate = min(dim_size, len(parameters))
+	print "==============================="
+	print "whole and max_iterate"
+	print whole, max_iterate
+	print "==============================="
+
 	param_lists = []
 	for i in range(whole):
 		param_lists.append([])
-		for j in range(5):
-			param_lists[i].append(parameters[5*i+j])
-	param_lists.append(parameters[5*whole:])
+		for j in range(max_iterate):
+			param_lists[i].append(parameters[max_iterate*i+j])
+	param_lists.append(parameters[max_iterate*whole:])
+	if param_lists[-1] == []:
+		param_lists.pop(-1)
 	param_lists.append(parameters)
+	print param_lists
 	for i in range(len(param_lists)):
 		for j in range(i,len(param_lists)):
 			if j == len(param_lists)-1 and j != i:
@@ -69,6 +82,11 @@ def plot_correlations(parameters, correlation_dict, sample, channel, dir_path, o
 					weights.append(corr_vars["+-+".join((pairs[1],pairs[0]))])
 			fig = plt.figure()
 			ax = fig.add_subplot(111)
+			print x_vals
+			print y_vals
+			print weights
+			print len(x_params)
+			print len(y_params)
 			counts, xedges, yedges, cax = ax.hist2d(x_vals, y_vals, weights=weights, bins=[len(x_params), len(y_params)], range=[(0,len(x_params)),(0,len(y_params))], cmap=cm.coolwarm, vmin=-0.5, vmax=0.5)
 			title_string = "Correlation Matrix: %s $\\rightarrow$ %s"%(labeldict.get_nice_label(sample) ,labeldict.get_nice_label("channel_%s"%channel ))
 			#title_string = title_string.replace("$", "")
@@ -95,8 +113,11 @@ def plot_correlations(parameters, correlation_dict, sample, channel, dir_path, o
 			ax.tick_params(axis='both', which='major', pad=5)
 			plt.tight_layout()
 			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.png"%(outname,i,j)))
+			log.info("create plot %s" %os.path.join(dir_path,"%s-%i-%i_corM.png"%(outname,i,j)))
 			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.pdf"%(outname,i,j)))
+			log.info("create plot %s" %os.path.join(dir_path,"%s-%i-%i_corM.pdf"%(outname,i,j)))
 			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.eps"%(outname,i,j)))
+			log.info("create plot %s" %os.path.join(dir_path,"%s-%i-%i_corM.eps"%(outname,i,j)))
 
 
 
@@ -116,11 +137,16 @@ if __name__ == "__main__":
 						default=["ggh", "qqh", "vh", "ztt", "zll", "ttj", "vv", "wj", "data"],
 						choices=["ggh", "qqh", "vh", "ztt", "zll", "ttj", "vv", "wj", "data"],
 						help="Samples for correlation calculation and scatter plots. [Default: %(default)s]")
+	parser.add_argument("--plot-vars", nargs="+", default=["all"],
+						help = "plot correlation for those variables. [Default: %(default)s]")
+	parser.add_argument("--dimension", type = int, default = 5,
+						help="dimension of the output matrices. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
 	dir_path = os.path.expandvars(args.input_dir)
 	config_list = []
+	parameters_list = []
 	for sample in args.samples:
 		file_dir = os.path.join(dir_path, sample)
 		if os.path.exists(file_dir):
@@ -129,7 +155,20 @@ if __name__ == "__main__":
 				config = config_list[-1]
 				log.debug("sample: %s; channel: %s; dir: %s"%(sample, channel, file_dir))
 				log.debug("parameters: %s" %str(config["parameters_list"]))
-				plot_correlations(copy.copy(config["parameters_list"]), config["correlations"], sample, channel, file_dir, channel)
+				if len(parameters_list) < 2:
+					if "all" in args.plot_vars:
+						parameters_list = config["parameters_list"]
+					else:
+						for var in args.plot_vars:
+							if var in config["parameters_list"]:
+								parameters_list.append(var)
+							else:
+								log.error("You requested to plot correlation for variable {var}, which is not present in the calculated correlation values".format(var=var))
+								sys.exit()
+					plot_correlations(parameters_list, copy.copy(config["correlations"]), sample, channel, file_dir, channel, args.dimension)
+				else:
+					plot_correlations(parameters_list, copy.copy(config["correlations"]), sample, channel, file_dir, channel, args.dimension)
+
 	overall_correlations = None
 	for i,config in enumerate(config_list):
 		if config["request_nick"] == "data":
@@ -142,5 +181,5 @@ if __name__ == "__main__":
 	if not os.path.exists(os.path.join(dir_path, "combination")):
 		os.makedirs(os.path.join(dir_path, "combination"))
 
-	plot_correlations(config_list[0]["parameters_list"], overall_correlations, "Combination" ,config_list[0]["channel"], os.path.join(dir_path, "combination"), args.output_file)
+	plot_correlations(parameters_list, overall_correlations, "Combination" ,args.channels, os.path.join(dir_path, "combination"), args.output_file, args.dimension)
 	#calculate variances and correlations -> moved to collector_script
