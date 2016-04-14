@@ -94,13 +94,13 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	{
 		decayType1 = svFitStandalone::kTauToMuDecay;
 	}
-	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET || product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
+	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET || product.m_decayChannel == HttEnumTypes::DecayChannel::EM || product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
 	{
 		decayType1 = svFitStandalone::kTauToElecDecay;
 	}
 	
 	svFitStandalone::kDecayType decayType2 = svFitStandalone::kTauToHadDecay;
-	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MM)
+	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MM || product.m_decayChannel == HttEnumTypes::DecayChannel::EM)
 	{
 		decayType2 = svFitStandalone::kTauToMuDecay;
 	}
@@ -113,7 +113,15 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	int decayMode1, decayMode2;
 	if (decayType1 == svFitStandalone::kTauToHadDecay)
 	{
-		decayMode1 = static_cast<KTau*>(product.m_flavourOrderedLeptons[0])->getDiscriminator("decayModeFinding", event.m_tauMetadata);
+		KLepton* lepton = product.m_flavourOrderedLeptons[0];
+		if (lepton->flavour() == KLeptonFlavour::TAU)
+		{
+			decayMode1 = static_cast<KTau*>(lepton)->decayMode;
+		}
+		else
+		{
+			decayMode1 = -1;
+		}
 	}
 	else
 	{
@@ -121,7 +129,15 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	}
 	if (decayType2 == svFitStandalone::kTauToHadDecay)
 	{
-		decayMode2 = static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->getDiscriminator("decayModeFinding", event.m_tauMetadata);
+		KLepton* lepton = product.m_flavourOrderedLeptons[1];
+		if (lepton->flavour() == KLeptonFlavour::TAU)
+		{
+			decayMode2 = static_cast<KTau*>(lepton)->decayMode;
+		}
+		else
+		{
+			decayMode2 = -1;
+		}
 	}
 	else
 	{

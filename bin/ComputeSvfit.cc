@@ -70,6 +70,7 @@ int main(int argc, const char *argv[])
     uint64_t outrun, outlumi, outevent;
     uint32_t outhash;
     int outdecayType1, outdecayType2;
+    int outdecayMode1, outdecayMode2;
     int outsystematicShift;
     float outsystematicShiftSigma;
     int outintegrationMethod;
@@ -127,6 +128,8 @@ int main(int argc, const char *argv[])
     outputtree->Branch("integrationMethod", &outintegrationMethod);
     outputtree->Branch("decayType1", &outdecayType1);
     outputtree->Branch("decayType2", &outdecayType2);
+    outputtree->Branch("decayMode1", &outdecayMode1);
+    outputtree->Branch("decayMode2", &outdecayMode2);
 
     //outputtree->Branch("leptonMomentum1", &leptonMomentum1);
     //outputtree->Branch("leptonMomentum2", &leptonMomentum2);
@@ -139,6 +142,12 @@ int main(int argc, const char *argv[])
     //outputtree->Branch("svfitMet", &fittedMET);
     outputtree->Branch("svfitTransverseMass", &transverseMass, "svfitTransverseMass/D");
     //outputtree->Branch("svfitTransverseMassUnc", &transverseMassUncertainty, "svfitTransverseMassUnc/D");
+    TDirectory *savedir(gDirectory);
+    TFile *savefile(gFile);
+    TString cmsswBase = TString( getenv ("CMSSW_BASE") );
+    TFile* inputFile_visPtResolution = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
+    gDirectory = savedir;
+    gFile = savefile;
     unsigned int nEntries = inputtree->GetEntries();
     for(unsigned int entry = 0; entry < nEntries; entry++)
     {
@@ -153,6 +162,8 @@ int main(int argc, const char *argv[])
         outintegrationMethod = integrationMethod;
         outdecayType1 = decayType1;
         outdecayType2 = decayType2;
+        outdecayMode1 = decayMode1;
+        outdecayMode2 = decayMode2;
         outhash = hash;
 
         // execute integration
@@ -167,8 +178,6 @@ int main(int argc, const char *argv[])
         metCovarianceMatrix[1][1] = metCovariance->At(1, 1);
         SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(measuredTauLeptons, metMomentum->x(), metMomentum->y(), metCovarianceMatrix, false);
         svfitStandaloneAlgorithm.addLogM(false);
-        TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-        TFile* inputFile_visPtResolution = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
         svfitStandaloneAlgorithm.shiftVisPt(true, inputFile_visPtResolution);
 
         if (integrationMethod == 0)

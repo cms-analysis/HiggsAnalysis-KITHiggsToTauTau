@@ -174,5 +174,6 @@ private:
 	SvfitInputs svfitInputs;
 	SvfitResults svfitResults;
 	SvfitEventKey svfitEventKey;
+	TFile * m_inputFile_visPtResolution = 0;
 };
 
