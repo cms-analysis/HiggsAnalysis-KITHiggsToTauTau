@@ -58,6 +58,7 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
 				"producer:PUWeightProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
