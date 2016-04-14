@@ -69,6 +69,7 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
+				"producer:SampleStitchingWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
 			"DY.?JetsToLLM(50|150)" : [
