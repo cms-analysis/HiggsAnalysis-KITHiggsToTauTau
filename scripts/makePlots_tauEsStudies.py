@@ -47,7 +47,7 @@ if __name__ == "__main__":
 	parser.add_argument("--fit-method", default="logllh",
 						choices=["chi2", "logllh"],
 						help="Choose a fit (chi2 or logllh)")
-	parser.add_argument("--pt-ranges",
+	parser.add_argument("--pt-ranges", nargs="*",
 						default=["1.0"],
 						help=""	)
 	parser.add_argument("--channels", nargs="*",
@@ -181,7 +181,7 @@ if __name__ == "__main__":
 						shift_config["directories"] = [args.input_dir]
 						shift_config["nicks_blacklist"].append("noplot")
 						shift_config["output_dir"] = os.path.expandvars(args.output_dir)
-						shift_config["filename"] = "plot_es-shift_" + str(shift).replace(".","_") + "_" + decayMode + "_" + name_hash
+						shift_config["filename"] = "plot_es-shift_" + str(shift).replace(".","_") + "_" + decayMode + "_" + quantity + "_" + name_hash
 						shift_config["legend"] = [0.7, 0.4, 0.95, 0.83]
 						shift_config["cms"] = True
 						shift_config["extra_text"] = "Preliminary"
@@ -206,7 +206,7 @@ if __name__ == "__main__":
 				merged_config["directories"] = [args.input_dir]
 				merged_config["nicks_blacklist"].append("noplot")
 				merged_config["output_dir"] = os.path.expandvars(args.output_dir)
-				merged_config["filename"] = decayMode + "_" + name_hash
+				merged_config["filename"] = decayMode + "_" + quantity + "_" + name_hash
 				
 				# set proper binnings of the distributions
 				if decayMode == "OneProngPiZeros" and quantity == "m_2":
@@ -242,10 +242,10 @@ if __name__ == "__main__":
 						merged_config["fit_method"] = "chi2"
 
 					config_plotfit = {}
-					config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + name_hash + ".root"
+					config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + "_" + name_hash + ".root"
 					config_plotfit["markers"] = ["LP"]
 					config_plotfit["x_expressions"]  = ["chi2_result"]
-					config_plotfit["filename"] = "chi2_" + decayMode + "_" + name_hash
+					config_plotfit["filename"] = "chi2_" + decayMode + "_" + quantity + "_" + name_hash
 					config_plotfit["x_label"] = "#tau_{ES}"
 					config_plotfit["y_label"] = "#Delta#chi^{2}"
 				
@@ -266,11 +266,11 @@ if __name__ == "__main__":
 
 					config_plotfit = {}
 
-					config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + name_hash + ".root"
+					config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + "_" + name_hash + ".root"
 					config_plotfit["markers"] = ["LP"]
 					#config_plotfit["texts"] = [decayMode]
 					config_plotfit["x_expressions"]  = ["logllh_result_0"]
-					config_plotfit["filename"] = "logllh_" + decayMode + "_" + name_hash
+					config_plotfit["filename"] = "logllh_" + decayMode + "_" + quantity + "_" + name_hash
 					config_plotfit["x_label"] = "#tau_{ES}"
 					config_plotfit["y_label"] = "-2NLL"
 
