@@ -227,33 +227,36 @@ if __name__ == "__main__":
 			merged_config.setdefault("analysis_modules", []).append("AddHistograms")
 			merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
-			# for each shift, sum the ztt and bkg histograms
-			for shift in args.es_shifts:
-				all_samples = ["ztt_" + str(shift).replace(".", "_") + "_0"] + [nick + "_0" for nick in bkg_samples if nick + "_0" in merged_config["nicks"]]
+			config_plotfits = []
+			for pt_index, (pt_range) in enumerate(args.pt_ranges):
+				# for each shift, sum the ztt and bkg histograms
+				for shift in args.es_shifts:
+					all_samples = ["ztt_" + str(shift).replace(".", "_") + "_" + str(pt_index)] + [nick + "_" + str(pt_index) for nick in bkg_samples if nick + "_" + str(pt_index) in merged_config["nicks"]]
 				
-				# needed for AddHistograms module
-				merged_config.setdefault("histogram_nicks", []).append([" ".join(all_samples)])
-				sum_result_nick = "noplot_ztt_" + str(shift).replace(".", "_") + "_0"
-				merged_config.setdefault("sum_result_nicks", []).append([sum_result_nick])
+					# needed for AddHistograms module
+					merged_config.setdefault("histogram_nicks", []).append([" ".join(all_samples)])
+					sum_result_nick = "noplot_ztt_" + str(shift).replace(".", "_") + "_" + str(pt_index)
+					merged_config.setdefault("sum_result_nicks", []).append([sum_result_nick])
 				
-				# needed for ExportRoot module
-				merged_config.setdefault("labels", []).append([sum_result_nick])
-				merged_config.setdefault("nicks_instead_labels", []).append([True])
+					# needed for ExportRoot module
+					merged_config.setdefault("labels", []).append([sum_result_nick])
+					merged_config.setdefault("nicks_instead_labels", []).append([True])
 				
-				# needed for TauEsStudies module
-				merged_config.setdefault("ztt_nicks", []).append([sum_result_nick])
-				merged_config.setdefault("data_nicks", []).append(["data_0"])
-				merged_config.setdefault("es_shifts", []).append([str(shift)])
-				merged_config.setdefault("res_hist_nicks", []).append(["chi2_result"])
-				merged_config["fit_method"] = "chi2"
+					# needed for TauEsStudies module
+					merged_config.setdefault("ztt_nicks", []).append([sum_result_nick])
+					merged_config.setdefault("data_nicks", []).append(["data_" + str(pt_index)])
+					merged_config.setdefault("es_shifts", []).append([str(shift)])
+					merged_config.setdefault("res_hist_nicks", []).append(["chi2_result_" + str(pt_index)])
+					merged_config["fit_method"] = "chi2"
 
-			config_plotfit = {}
-			config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
-			config_plotfit["markers"] = ["LP"]
-			config_plotfit["x_expressions"]  = ["chi2_result"]
-			config_plotfit["filename"] = "chi2_" + decayMode + "_" + quantity + "_" + name_hash
-			config_plotfit["x_label"] = "#tau_{ES}"
-			config_plotfit["y_label"] = "#Delta#chi^{2}"
+				config_plotfit = {}
+				config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
+				config_plotfit["markers"] = ["LP"]
+				config_plotfit["x_expressions"]  = ["chi2_result_" + str(pt_index)]
+				config_plotfit["filename"] = "chi2_" + decayMode + "_" + quantity + "_" + str(pt_index)
+				config_plotfit["x_label"] = "#tau_{ES}"
+				config_plotfit["y_label"] = "#Delta#chi^{2}"
+				config_plotfits.append(config_plotfit)
 			
 		elif args.fit_method == "logllh":
 			merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
@@ -287,7 +290,8 @@ if __name__ == "__main__":
 		plot_configs.append(merged_config)
 
 		#append config for the fit plot
-		plot_configs.append(config_plotfit)
+		for config in config_plotfits:
+			plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
