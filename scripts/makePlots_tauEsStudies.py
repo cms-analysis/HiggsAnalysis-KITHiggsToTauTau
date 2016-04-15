@@ -291,7 +291,7 @@ if __name__ == "__main__":
 				config_plotfit = {}
 				config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
 				config_plotfit["markers"] = ["LP"]
-				config_plotfit["x_expressions"]  = ["logllh_result_0"]
+				config_plotfit["x_expressions"]  = ["logllh_result_" + str(pt_index)]
 				config_plotfit["filename"] = "logllh_" + decayMode + "_" + quantity + "_" + str(pt_index)
 				config_plotfit["x_label"] = "#tau_{ES}"
 				config_plotfit["y_label"] = "-2NLL"
