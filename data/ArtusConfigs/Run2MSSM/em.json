@@ -9,7 +9,6 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsBTaggedJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsAntiTtbarMva.json",
             "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
@@ -156,7 +155,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
-					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -196,7 +194,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
-					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -230,7 +227,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
-					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				]
