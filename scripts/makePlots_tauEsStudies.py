@@ -97,8 +97,6 @@ if __name__ == "__main__":
 		merged_config={}
 		
 		for pt_index, (pt_range) in enumerate(args.pt_ranges):
-			name_hash = hashlib.md5("_".join([str(item) for item in [channel, decayMode, quantity, pt_range]])).hexdigest()
-
 			ztt_configs = []
 			rest_config = {}
 		
@@ -261,27 +259,27 @@ if __name__ == "__main__":
 		elif args.fit_method == "logllh":
 			merged_config.setdefault("analysis_modules", []).append("TauEsStudies")
 
-			for index, (pt_range) in enumerate(args.pt_ranges):
+			config_plotfits = []
+			for pt_index, (pt_range) in enumerate(args.pt_ranges):
 				#needed for TauEsStudies module
 				es_shifts_str = [str(shift) for shift in args.es_shifts]
 				merged_config.setdefault("es_shifts", []).append([" ".join(es_shifts_str)])
-				merged_config.setdefault("data_nicks", []).append("data" + "_" + str(index))
-				bkg_samples_used = [(nick + "_" + str(index)) for nick in bkg_samples if (nick + "_" + str(index)) in merged_config["nicks"]]
+				merged_config.setdefault("data_nicks", []).append("data" + "_" + str(pt_index))
+				bkg_samples_used = [(nick + "_" + str(pt_index)) for nick in bkg_samples if (nick + "_" + str(pt_index)) in merged_config["nicks"]]
 				merged_config.setdefault("bkg_nicks", []).append([" ".join(bkg_samples_used)])
-				ztt_nicks = [("ztt_" + str(shift).replace(".", "_") + "_" + str(index)) for shift in args.es_shifts]
+				ztt_nicks = [("ztt_" + str(shift).replace(".", "_") + "_" + str(pt_index)) for shift in args.es_shifts]
 				merged_config.setdefault("ztt_nicks", []).append([" ".join(ztt_nicks)])
-				merged_config.setdefault("res_hist_nicks", []).append("logllh_result" + "_" + str(index))
+				merged_config.setdefault("res_hist_nicks", []).append("logllh_result" + "_" + str(pt_index))
 				merged_config["fit_method"] = "logllh"
 
-			config_plotfit = {}
-
-			config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
-			config_plotfit["markers"] = ["LP"]
-			#config_plotfit["texts"] = [decayMode]
-			config_plotfit["x_expressions"]  = ["logllh_result_0"]
-			config_plotfit["filename"] = "logllh_" + decayMode + "_" + quantity + "_" + name_hash
-			config_plotfit["x_label"] = "#tau_{ES}"
-			config_plotfit["y_label"] = "-2NLL"
+				config_plotfit = {}
+				config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
+				config_plotfit["markers"] = ["LP"]
+				config_plotfit["x_expressions"]  = ["logllh_result_0"]
+				config_plotfit["filename"] = "logllh_" + decayMode + "_" + quantity + "_" + str(pt_index)
+				config_plotfit["x_label"] = "#tau_{ES}"
+				config_plotfit["y_label"] = "-2NLL"
+				config_plotfits.append(config_plotfit)
 
 		#plot modules
 		merged_config.setdefault("plot_modules", []).append("ExportRoot")
@@ -292,6 +290,17 @@ if __name__ == "__main__":
 		#append config for the fit plot
 		for config in config_plotfits:
 			plot_configs.append(config)
+		
+		#fit result vs. pt
+		config_resultfit = {}
+		config_resultfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
+		config_resultfit["markers"] = ["E"]
+		config_resultfit["texts"] = [decayMode]
+		config_resultfit["x_expressions"]  = ["result_vs_pt"]
+		config_resultfit["x_label"] = "p_{T}^{#tau} [GeV]"
+		config_resultfit["y_label"] = "#tau_{ES}"
+		config_resultfit["y_lims"] = [min(args.es_shifts), max(args.es_shifts)]
+		plot_configs.append(config_resultfit)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint

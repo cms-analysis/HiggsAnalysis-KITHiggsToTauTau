@@ -75,12 +75,11 @@ class TauEsStudies(analysisbase.AnalysisBase):
 	def run(self, plotData=None):
 		super(TauEsStudies, self).run(plotData)
 
+		best_shifts=[]
+		errors_1sigma = []
+		
 		if plotData.plotdict["fit_method"] == "logllh":
 			print "Start Roofit Likelihood Scan ..."
-
-			best_shifts=[]
-			errors_1sigma = []
-			errors_2sigma = []
 
 			# always set this to stop ROOT doing odd things
 			ROOT.PyConfig.IgnoreCommandLineOptions = True
@@ -189,27 +188,12 @@ class TauEsStudies(analysisbase.AnalysisBase):
 
 				#calculate sigmas
 				sigma1 = abs(fitf.GetX(1) - minimum_of_fit)
-				sigma2 = abs(fitf.GetX(4) - minimum_of_fit)
 
 				#get minimum
 				print "Minimum of fitfunction at: ", minimum_of_fit, " +- ", sigma1
-				print "2 sigma: ", sigma2
-
 				best_shifts.append(minimum_of_fit)
 				errors_1sigma.append(sigma1)
-				errors_2sigma.append(sigma2)
-
-			##create plot for pt binning
-			#ptBins = [20.0,30.0,45.0,60.0]
-			#ptBinsHist = ROOT.TH1F(res_hist_nick,"",3,array.array("d",ptBins))
-
-			#for index, (best_shift,error_1sigma) in enumerate(zip(best_shifts,errors_1sigma)):
-				#ptBinsHist.SetBinContent(index+1,best_shift)
-				#ptBinsHist.SetBinError(index+1,error_1sigma)
-				#print best_shift, " +- ", error_1sigma
-
-			#plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = ptBinsHist
-
+		
 		elif plotData.plotdict["fit_method"] == "chi2":
 			print "Start Chi2 fit ..."
 
@@ -286,3 +270,18 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				minimum_of_fit = fit2chi.GetMinimumX(min(es_shifts),max(es_shifts))
 				sigma1 = abs(fit2chi.GetX(1)-minimum_of_fit)
 				print "Minimum of fitfunction at: ", minimum_of_fit, " +/- ", sigma1
+				best_shifts.append(minimum_of_fit)
+				errors_1sigma.append(sigma1)
+		
+		#create plot for pt binning
+		ptBins = [20.0, 30.0, 50.0]
+		ptBinsHist = ROOT.TH1F(res_hist_nick,"", 2, array.array("d",ptBins))
+
+		for index, (best_shift,error_1sigma) in enumerate(zip(best_shifts,errors_1sigma)):
+			ptBinsHist.SetBinContent(index+1, best_shift)
+			ptBinsHist.SetBinError(index+1, error_1sigma)
+			print best_shift, " +- ", error_1sigma
+
+		plotData.plotdict["nicks"].append("result_vs_pt")
+		plotData.plotdict["labels"].append("result_vs_pt")
+		plotData.plotdict.setdefault("root_objects", {})["result_vs_pt"] = ptBinsHist
