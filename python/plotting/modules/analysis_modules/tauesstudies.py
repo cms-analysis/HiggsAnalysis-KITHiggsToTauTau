@@ -48,6 +48,10 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				"--fit-method", default="logllh",
 	            help="Choose logllh or chi2"
 	    )
+		self.tauesstudies_options.add_argument(
+				"--bin-edges", default=[20,500],
+				help="Choose bin edges for pt ranges studied"
+		)
 
 	def prepare_args(self, parser, plotData):
 		super(TauEsStudies, self).prepare_args(parser, plotData)
@@ -274,8 +278,8 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				errors_1sigma.append(sigma1)
 		
 		#create plot for pt binning
-		ptBins = [20.0, 30.0, 50.0]
-		ptBinsHist = ROOT.TH1F(res_hist_nick,"", 2, array.array("d",ptBins))
+		ptBins = plotData.plotdict["bin_edges"]
+		ptBinsHist = ROOT.TH1F(res_hist_nick,"", len(ptBins)-1, array.array("d",ptBins))
 
 		for index, (best_shift,error_1sigma) in enumerate(zip(best_shifts,errors_1sigma)):
 			ptBinsHist.SetBinContent(index+1, best_shift)

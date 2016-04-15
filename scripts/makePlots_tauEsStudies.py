@@ -50,9 +50,9 @@ if __name__ == "__main__":
 						choices=["chi2", "logllh"],
 						help="Choose a fit (chi2 or logllh)")
 	parser.add_argument("--pt-ranges", nargs="*",
-						default=["1.0"],
+						default=[20.0],
 						#default=["(pt_2<30.0)", "(pt_2>30.0)*(pt_2<50.0)"],
-						help=""	)
+						help="Enter the lower bin edges for the pt ranges."	)
 	parser.add_argument("--channel",
 	                    default="mt",
 	                    help="Channel. [Default: %(default)s]")
@@ -96,7 +96,21 @@ if __name__ == "__main__":
 	for decayMode in args.decay_modes:
 		merged_config={}
 		
+		binEdges = []
+		for pt_range in args.pt_ranges:
+			binEdges.append(pt_range)
+		binEdges = map(float, binEdges)
+		binEdges.append(500.0)
+		
 		for pt_index, (pt_range) in enumerate(args.pt_ranges):
+			lowEdge = str(args.pt_ranges[pt_index])
+			if len(args.pt_ranges) > pt_index+1:
+				highEdge = args.pt_ranges[pt_index+1]
+			else:
+				highEdge = "500";
+			
+			ptweight = "(pt_2>" + lowEdge + ")*(pt_2<" + highEdge + ")"
+			
 			ztt_configs = []
 			rest_config = {}
 		
@@ -107,7 +121,7 @@ if __name__ == "__main__":
 					channel=channel,
 					category="cat" + decayMode + "_" + channel,
 					nick_suffix="_" + str(pt_index),
-					weight=pt_range,
+					weight=ptweight,
 					lumi=args.lumi * 1000
 			)
                 
@@ -127,7 +141,7 @@ if __name__ == "__main__":
 						category="cat" + decayMode + "_" + channel,
 						nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
 						ztt_from_mc=args.ztt_from_mc,
-						weight=pt_range,
+						weight=ptweight,
 						lumi=args.lumi * 1000
 				)
 
@@ -246,6 +260,7 @@ if __name__ == "__main__":
 					merged_config.setdefault("es_shifts", []).append([str(shift)])
 					merged_config.setdefault("res_hist_nicks", []).append(["chi2_result_" + str(pt_index)])
 					merged_config["fit_method"] = "chi2"
+					merged_config["bin_edges"] = binEdges
 
 				config_plotfit = {}
 				config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
@@ -271,6 +286,7 @@ if __name__ == "__main__":
 				merged_config.setdefault("ztt_nicks", []).append([" ".join(ztt_nicks)])
 				merged_config.setdefault("res_hist_nicks", []).append("logllh_result" + "_" + str(pt_index))
 				merged_config["fit_method"] = "logllh"
+				merged_config["bin_edges"] = binEdges
 
 				config_plotfit = {}
 				config_plotfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
