@@ -76,14 +76,27 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		#========================================Copy here!========================================
 			expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/expressions.cfg")
 			with open(expressions_path) as exps:
+				vbf_name = ""
+				vbf_value = 1.0
 				for line in exps:
-					name, values = map(strip, line.split(" : "))
+					vbf, name, values = map(strip, line.split(" : "))
+					if not vbf is "":
+						vbf_name = name
+						vbf_value = float(values[1])
+						continue
+
 					values = map(float, values.split(" "))
 					values.pop(0)
 					values.pop(-1)
-					self.expressions_dict["mva_%s_%s_up"%(channel,name)] = "(%f <= %s)"%(values[1], name)
-					self.expressions_dict["mva_%s_%s_mid"%(channel,name)] = "(%f <= %s && %s < %f)"%(values[0], name, name, values[1])
-					self.expressions_dict["mva_%s_%s_down"%(channel,name)] = "(%s < %f)"%(name, values[0])
+					if vbf_name == "":
+						self.expressions_dict["mva_%s_%s_up"%(channel,name)] = "(%f <= %s)"%(values[1], name)
+						self.expressions_dict["mva_%s_%s_mid"%(channel,name)] = "(%f <= %s && %s < %f)"%(values[0], name, name, values[1])
+						self.expressions_dict["mva_%s_%s_down"%(channel,name)] = "(%s < %f)"%(name, values[0])
+					else:
+						for vbf_tag, expr in [("no_vbf", "(%s < %f)"%(vbf_name, vbf_value)), ("vbf", "(%f <= %s)"%(vbf_value, vbf_name))]:
+							self.expressions_dict["mva_%s_%s_%s_up_%s"%(channel,name,vbf_name,vbf_tag)] = expr+"*(%f <= %s)"%(values[1], name)
+							self.expressions_dict["mva_%s_%s_%s_mid_%s"%(channel,name,vbf_name,vbf_tag)] = expr+"*(%f <= %s && %s < %f)"%(values[0], name, name, values[1])
+							self.expressions_dict["mva_%s_%s_%s_down_%s"%(channel,name,vbf_name,vbf_tag)] = expr+"*(%s < %f)"%(name, values[0])
 		#========================================Copy here!========================================
 		self.expressions_dict["cat_OneProng"] = "(decayMode_2 == 0)"
 		self.expressions_dict["catOneProng"] = self.expressions_dict["cat_OneProng"]
