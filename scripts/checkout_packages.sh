@@ -33,7 +33,7 @@ git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 # checkout KITHiggsToTauTau CMSSW analysis package
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b Kappa_2_1
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
-svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
+#svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 
 # Svfit and HHKinFit
 git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone
