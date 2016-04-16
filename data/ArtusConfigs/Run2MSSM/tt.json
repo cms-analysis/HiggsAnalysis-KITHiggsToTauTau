@@ -65,7 +65,7 @@
 		"Quantities" : [
 			{
 				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
@@ -101,7 +101,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				],
@@ -135,7 +134,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				],

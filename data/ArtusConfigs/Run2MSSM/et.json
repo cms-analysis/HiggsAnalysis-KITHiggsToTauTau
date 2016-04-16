@@ -108,7 +108,7 @@
 		"Quantities" : [
 			{
 				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
@@ -154,7 +154,6 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"producer:SvfitProducer",
-					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -191,11 +190,10 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"#producer:TopPtReweightingProducer",
+					"producer:TopPtReweightingProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"producer:SvfitProducer",
-					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -238,7 +236,6 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"producer:SvfitProducer",
-					"producer:GenTauDecayProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
