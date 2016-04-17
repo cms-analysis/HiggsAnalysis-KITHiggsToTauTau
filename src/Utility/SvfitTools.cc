@@ -316,9 +316,34 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey 
 
 std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const
 {
+    double leptonMass1, leptonMass2;
+    if(svfitEventKey.decayType1 == 2)
+    {
+        leptonMass1 = 0.51100e-3;
+    }
+    else if(svfitEventKey.decayType1 == 3)
+    {
+        leptonMass1 = 105.658e-3;
+    }
+    else
+    {
+        leptonMass1 = leptonMomentum1->M();
+    }
+    if(svfitEventKey.decayType2 == 2)
+    {
+        leptonMass2 = 0.51100e-3;
+    }
+    else if(svfitEventKey.decayType2 == 3)
+    {
+        leptonMass2 = 105.658e-3;
+    }
+    else
+    {
+        leptonMass2 = leptonMomentum2->M();
+    }
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMomentum1->M(),svfitEventKey.decayMode1),
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMomentum2->M(),svfitEventKey.decayMode2)
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1,svfitEventKey.decayMode1),
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2,svfitEventKey.decayMode2)
 	};
 	return measuredTauLeptons;
 }
