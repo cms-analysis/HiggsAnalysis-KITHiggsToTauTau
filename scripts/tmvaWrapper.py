@@ -68,6 +68,8 @@ def do_training(args):
 	s_b_extension = []
 	#TMVA Stuff
 	ROOT.TMVA.Tools.Instance()
+	ROOT.gPluginMgr.AddHandler("TMVA@@MethodBase", ".*_FastBDT.*", "TMVA::MethodFastBDT", "TMVAFastBDT", "MethodFastBDT(TMVA::DataSetInfo&,TString)")
+	ROOT.gPluginMgr.AddHandler("TMVA@@MethodBase", ".*FastBDT.*", "TMVA::MethodFastBDT", "TMVAFastBDT", "MethodFastBDT(TString&,TString&,TMVA::DataSetInfo&,TString&)")
 	if args["Split"] and args["n_fold"] == 1:
 		splits_list.append("(TrainingSelectionValue>=%i)*"%int(args["Split"]))
 		splits_list.append("(TrainingSelectionValue<%i)*"%int(args["Split"]))

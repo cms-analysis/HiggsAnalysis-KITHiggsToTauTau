@@ -43,6 +43,13 @@ cd $CMSSW_BASE/src
 echo '<use   name="rootrflx"/>'>> TauAnalysis/SVfitStandalone/BuildFile.xml
 git clone https://github.com/thomas-mueller/HHKinFit2.git
 
+# FastBDT
+git clone https://github.com/thomaskeck/FastBDT.git
+cd $CMSSW_BASE/src/FastBDT
+cmake .
+make
+cd $CMSSW_BASE/src/
+
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
