@@ -210,7 +210,7 @@ if __name__ == "__main__":
 
 					config["x_expressions"] = [args.quantity]
 					
-					binnings_key = "binningHttMSSM13TeV_"+category+"_svfitMass"
+					binnings_key = "binningHttMSSM13TeV_"+category+"_"+args.quantity
 					if binnings_key in binnings_settings.binnings_dict:
 						config["x_bins"] = [binnings_key]
 					else:
