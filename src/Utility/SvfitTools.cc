@@ -546,10 +546,17 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	if (neededRecalculation)
 	{
 		// construct algorithm
+		if(! m_inputFile_visPtResolution)
+		{
+			TDirectory *savedir(gDirectory);
+			TFile *savefile(gFile);
+			TString cmsswBase = TString( getenv ("CMSSW_BASE") );
+			m_inputFile_visPtResolution = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
+			gDirectory = savedir;
+			gFile = savefile;
+		}
 		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm(svfitEventKey);
-		TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-		TFile* inputFile_visPtResolution = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
-		svfitStandaloneAlgorithm.shiftVisPt(true, inputFile_visPtResolution);
+		svfitStandaloneAlgorithm.shiftVisPt(true, m_inputFile_visPtResolution);
 	
 		// execute integration
 		if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::VEGAS)

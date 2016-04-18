@@ -27,11 +27,16 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--combine-log", nargs="+",
 						default=["*_TrainingLog.json"],
 						help="include training log files into collectionm [Default: %(default)s]")
+	parser.add_argument("--vbf-tags", nargs="+", default=[],
+						help="trainings which are used for vbf tagging")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
 	log_file_list = []
 	log_exclude_list = []
+	log_vbf_list2 = []
+	log_vbf_list = []
+	log_vbf_name_list = []
 	accepted_dirs = []
 	if args.output_dir == None:
 		out_dir = args.input_dir[0]
@@ -42,9 +47,13 @@ if __name__ == "__main__":
 	for in_dir in args.input_dir:
 		map(log_file_list.__iadd__, map(glob.glob, [os.path.join(in_dir, l) for l in args.combine_log]))
 		map(log_exclude_list.__iadd__, map(glob.glob, [os.path.join(in_dir, l) for l in args.exclude_log]))
+		map(log_vbf_list2.__iadd__, map(glob.glob, [os.path.join(in_dir, l) for l in args.vbf_tags]))
 	for ex_log in log_exclude_list:
 		if ex_log in log_file_list:
 			log_file_list.pop(log_file_list.index(ex_log))
+	for tag in log_vbf_list2:
+		if tag in log_file_list:
+			log_vbf_list.append(tag)
 	settings_info = {
     "MVATestMethodsInputQuantities" : [
 	],
@@ -79,6 +88,8 @@ if __name__ == "__main__":
 		accepted_dirs.append(weight_path)
 		n_fold = c_log["N-Fold"]
 		training_name = c_log["training_name"]
+		if log_file in log_vbf_list:
+			log_vbf_name_list.append(training_name)
 		methods = c_log["methods"]
 
 		if ("%i;"%quantities_index + quantities) not in settings_info["MVATestMethodsInputQuantities"]:
@@ -102,35 +113,23 @@ if __name__ == "__main__":
 	jsonTools.JsonDict(settings_info).save(os.path.join(out_dir, "settingsMVATestMethods.json"), indent = 4)
 	jsonTools.JsonDict(settings_quantities).save(os.path.join(out_dir, "MVATestMethodsQuantities.json"), indent = 4)
 
-	#with open(os.path.join(out_dir, "mvadatacardsconfigs.json"), "w") as logfile:
-		##logfile.write("\ncopy to $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/datacards/mvadatacardsconfigs.py\n")
-		#out_lines = []
-		#for i,name in enumerate(settings_info["MVATestMethodsNames"]):
-			#out_lines.append("%s_up\n"%(name))
-			#out_lines.append("%s_down\n"%(name))
-			#out_lines.append("%s_mid\n"%(name))
-		#out_lines[-1]=out_lines[-1].replace(",", "")
-		#for chan in ["mt", "et", "em", "tt"]:
-			#logfile.write("%s\n"%chan)
-			#for line in out_lines:
-				#logfile.write("\t%s_"%chan+line)
-			##logfile.write("\t\t\t},\n")
 	with open(os.path.join(out_dir, "mvadatacards.cfg"), "w") as logfile:
 		out_lines=[]
 		for name in settings_info["MVATestMethodsNames"]:
+			if name in log_vbf_name_list:
+				continue
 			out_lines.append("%s_up\n"%name)
 			out_lines.append("%s_down\n"%name)
 			out_lines.append("%s_mid\n"%name)
-		#logfile.write("\ncopy to $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/datacards/mvadatacards.py\n")
-		#logfile.write("categs = [\n")
+		for vbf_tag in log_vbf_name_list:
+			for name in settings_info["MVATestMethodsNames"]:
+				if name in log_vbf_name_list:
+					continue
+				for tag in ("no_vbf", "vbf"):
+					out_lines.append("%s_%s_up_%s\n"%(name,vbf_tag,tag))
+					out_lines.append("%s_%s_down_%s\n"%(name,vbf_tag,tag))
+					out_lines.append("%s_%s_mid_%s\n"%(name,vbf_tag,tag))
 		logfile.write("".join(out_lines))
-	#with open(os.path.join(out_dir, "expressions.cfg"), "w") as logfile:
-		##logfile.write("\ncopy to $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/expressions.py\n")
-		#for cat in settings_info["MVATestMethodsNames"]:
-			#logfile.write("mva_{0}_%s_up\t(0.5 <= %s)\n"%(cat,cat))
-			#logfile.write("mva_{0}_%s_down\t(%s < -0.5)\n"%(cat,cat))
-			#logfile.write("mva_{0}_%s_mid\t(-0.5 <= %s && %s < 0.5)\n"%(cat,cat,cat))
-		#logfile.write("\ncopy to .sh script and execute/source line by line\n")
 
 	with open(os.path.join(out_dir, "plot_commands.sh"), "w") as logfile:
 		logfile.write("#!/bin/bash\n")
@@ -144,12 +143,23 @@ if __name__ == "__main__":
 		logfile.write("#=====BDT plotting commands start here=====\n")
 		logfile.write("mkdir -p $PlotPath/BDTs\n")
 		logfile.write("rm $PlotPath/BDTs/minmax.txt\n")
-		logfile.write("touch $PlotPath/BDTS/minmax.txt\n")
+		logfile.write("touch $PlotPath/BDTs/minmax.txt\n")
 		logfile.write("\n\n#=====BDT Overview=====\n\n")
 		for i,name in enumerate(settings_info["MVATestMethodsNames"]):
 			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"100,0,100\" --filename \"stepped_{name}\"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -e 'iso_1' 'mt' -c $Channels --scale-signal 250 -o $PlotPath/BDTs/{name} -n $Paralells -x 'TrainingSelectionValue' -w '1*(T1{name}=={name})+2*(T2{name}=={name})+3*(T3{name}=={name})+4*(T4{name}=={name})+5*(T5{name}=={name})'\n".format(name=name))
-			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"40,-1,1\" --filename \"integral_%s\"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -e 'iso_1' 'mt' --integrated-sob --integration-methods 'righttoleft' 'righttoleft' 'righttoleft' 'rcombination' --integration-output $PlotPath/BDTs/minmax.txt -c $Channels --blinding-threshold 0.15 --scale-signal 250 -o $PlotPath/BDTs/%s -n $Paralells -x %s\n"%(name,name,name))
-			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --y-subplot-lims 0.5 1.5 --x-bins \"40,-1,1\" --filename \"ratio_%s\"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -e 'iso_1' 'mt' -r --blinding-threshold 0.15 -c $Channels --scale-signal 250 -o $PlotPath/BDTs/%s -n $Paralells -x %s\n\n"%(name,name,name))
+			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --y-subplot-lims 0.5 1.5 --x-bins \"40,-1,1\" --filename \"ratio_%s\"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -e 'iso_1' 'mt' -r --blinding-threshold 0.15 -c $Channels --scale-signal 250 -o $PlotPath/BDTs/%s -n $Paralells -x %s\n"%(name,name,name))
+			if name in log_vbf_name_list:
+				logfile.write("\n")
+				continue
+			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"40,-1,1\" --filename \"integral_%s\" --sob-frontname \" : \"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -e 'iso_1' 'mt' --integrated-sob --integration-methods 'righttoleft' 'righttoleft' 'righttoleft' 'rcombination' --integration-output $PlotPath/BDTs/minmax.txt -c $Channels --blinding-threshold 0.15 --scale-signal 250 -o $PlotPath/BDTs/%s -n $Paralells -x %s\n\n"%(name,name,name))
+		for vbf_tag in log_vbf_name_list:
+			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"40,-1,1\" --filename \"integral_{name}\" --sob-frontname \"vbf : \"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -e 'iso_1' 'mt' --integrated-sob --integration-methods 'righttoleft' 'righttoleft' 'rcombination' --integration-output $PlotPath/BDTs/minmax.txt -c $Channels --blinding-threshold 0.15 --scale-signal 250 -o $PlotPath/BDTs/{name} -n $Paralells -x {name}\n".format(name= vbf_tag))
+			for i,name in enumerate(settings_info["MVATestMethodsNames"]):
+				if name in log_vbf_name_list:
+					continue
+				logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"40,-1,1\" --filename \"integral_{name}_{vbf_tag}\" --sob-frontname \" : \"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -e 'iso_1' 'mt' --integrated-sob --integration-methods 'righttoleft' 'righttoleft' 'righttoleft' 'rcombination' --integration-output $PlotPath/BDTs/minmax.txt -c $Channels --blinding-threshold 0.15 --scale-signal 250 -o $PlotPath/BDTs/{name} -n $Paralells -x {name}\n".format(name=name, vbf_tag=vbf_tag))
+			logfile.write("\n")
+
 		logfile.write("\n\n#=====copy files with new categories=====\n")
 		logfile.write("cp $PlotPath/BDTs/minmax.txt $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/expressions.cfg\n")
 		logfile.write("cp %s $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/mvadatacards.cfg\n"%os.path.join(out_dir, "mvadatacards.cfg"))
@@ -178,11 +188,29 @@ if __name__ == "__main__":
 		logfile.write("\n\n#=====Limit commands start here=====\n\n")
 		logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsSMHtt.py -i $ArtusInput -x $Variable --add-bbb-uncs -m $Masses -n $Paralells --clear-output-dir -c $Channels -o $PlotPath/classic\n\n")
 		limit_folders = ["$PlotPath/classic"]
+		logfile.write("\n\n#=====No VBF-Tag=====\n\n")
 		for cat in settings_info["MVATestMethodsNames"]:
+			if cat in log_vbf_name_list:
+				continue
 			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsMVATest.py -i $ArtusInput -x $Variable --add-bbb-uncs -m $Masses -n $Paralells --log-level debug --clear-output-dir -e 'iso_1' 'mt' -c $Channels --categories %s_up %s_down %s_mid -o $PlotPath/%s\n\n"%(cat,cat,cat,cat))
 			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsMVATest.py -i $ArtusInput -x $Variable --add-bbb-uncs -m $Masses -n $Paralells --log-level debug --clear-output-dir -c $Channels --categories %s_up %s_down %s_mid -o $PlotPath/%s_nec\n\n"%(cat,cat,cat,cat))
 			limit_folders.append("$PlotPath/%s"%cat)
 			limit_folders.append("$PlotPath/%s_nec"%cat)
+		logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/limit_collector.py -i %s -o $PlotPath/limits -m $Masses\n"%(" ".join(limit_folders)))
+
+		logfile.write("\n\n#=====With VBF-Tag=====\n\n")
+		limit_folders = ["$PlotPath/classic"]
+		for vbf_tag in log_vbf_name_list:
+			logfile.write("#=====VBF Tag variable: %s ===========\n" %vbf_tag)
+			for cat in settings_info["MVATestMethodsNames"]:
+				if cat in log_vbf_name_list:
+					continue
+				logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsMVATest.py -i $ArtusInput -x $Variable --add-bbb-uncs -m $Masses -n $Paralells --log-level debug --clear-output-dir -e 'iso_1' 'mt' -c $Channels --categories {cat}_{vbf_tag}_up_vbf {cat}_{vbf_tag}_up_no_vbf {cat}_{vbf_tag}_down_vbf {cat}_{vbf_tag}_down_no_vbf {cat}_{vbf_tag}_mid_vbf {cat}_{vbf_tag}_mid_no_vbf  -o $PlotPath/{cat}_{vbf_tag}\n".format(cat=cat, vbf_tag=vbf_tag))
+				logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsMVATest.py -i $ArtusInput -x $Variable --add-bbb-uncs -m $Masses -n $Paralells --log-level debug --clear-output-dir -c $Channels --categories {cat}_{vbf_tag}_up_vbf {cat}_{vbf_tag}_up_no_vbf {cat}_{vbf_tag}_down_vbf {cat}_{vbf_tag}_down_no_vbf {cat}_{vbf_tag}_mid_vbf {cat}_{vbf_tag}_mid_no_vbf -o $PlotPath/{cat}_{vbf_tag}_nec\n\n".format(cat=cat, vbf_tag=vbf_tag))
+				limit_folders.append("$PlotPath/%s_%s"%(cat,vbf_tag))
+				limit_folders.append("$PlotPath/%s_%s_nec"%(cat,vbf_tag))
+			logfile.write("\n")
+
 		logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/limit_collector.py -i %s -o $PlotPath/limits -m $Masses\n"%(" ".join(limit_folders)))
 		logfile.write("\n\n#=====remove files with new categories=====\n\n")
 		logfile.write("\n\nrm $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/expressions.cfg\n")

@@ -92,11 +92,8 @@ def do_training(args):
 	elif not os.path.exists(dir_path):
 		os.makedirs(dir_path)
 		os.makedirs(dir_path+"/storage")
-		os.makedirs(dir_path+"/weights")
 	if not os.path.exists(dir_path+"/storage"):
 		os.makedirs(dir_path+"/storage")
-	if not os.path.exists(dir_path+"/weights"):
-		os.makedirs(dir_path+"/weights")
 
 	#produce trees
 	log.info("start production of input trees for training - splitting included")
@@ -147,7 +144,7 @@ def do_training(args):
 			store_file.Write()
 			store_file.Close()
 
-	#due to backward compatibillity: args["n_fold"] is per default 0 and Split None, if one wishes to do a non n-fold training with a specified split value:
+	#due to backward compatibillity: args["n_fold"] is per default 1 and Split None, if one wishes to do a non n-fold training with a specified split value:
 	#set Split = desired split value, n_fold = 0 or default -> use n_fold + 1 for iterations range(n+1) = [0,...,n]
 	log.info("Preparations for input samples is done, start with TMVA setup")
 	for ifac in range(1,args["n_fold"]+1):
@@ -296,7 +293,7 @@ if __name__ == "__main__":
 		cargs.output_file = os.getcwd()
 	if cargs.batch_system:
 		dir_path, filename = os.path.split(cargs.output_file)
-		cargs.output_file = os.path.join(os.getcwd())
+		cargs.output_file = os.getcwd()
 	#=====here starts predefined code for scans and collection of signal background combinations
 	if cargs.modify:
 		config_list = []
@@ -309,8 +306,8 @@ if __name__ == "__main__":
 				config_list.append(copy_cargs)
 
 		if 2 in cargs.modification:
-			for i in range(1000, 1701, 100):
-				for samps in [(['ggh', 'qqh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['ggh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['qqh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['ggh'],['qqh']), (['qqh'],['ggh'])]:
+			for i in range(750, 1751, 250)+range(1800,2001,100):
+				for samps in [(['ggh', 'qqh', 'vh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['ggh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['qqh'], ["ztt", "zll", "ttj", "vv", "wj"])]:
 					#=======This is a very basic collection of possible signal background combinations
 					copy_cargs = copy.deepcopy(cargs_values)
 					copy_cargs["signal_samples"] = samps[0]
@@ -328,7 +325,25 @@ if __name__ == "__main__":
 						back = samps[1][0]
 					copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], front + fill + back).format(i)
 					copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={0}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2".format(i)]
+					config_list.append(copy.deepcopy(copy_cargs))
+					copy_cargs["quantities"].append("m_vis")
+					copy_cargs["output_file"] += "_m_vis"
 					config_list.append(copy_cargs)
+			for i in range(100, 1501, 100):
+				samps = ['qqh', 'ggh']
+				#=======This is a very basic collection of possible signal background combinations
+				copy_cargs = copy.deepcopy(cargs_values)
+				copy_cargs["signal_samples"] = [samps[0]]
+				copy_cargs["bkg_samples"] = [samps[1]]
+				front = samps[0]
+				back = samps[1]
+				fill = '_{0}_'
+				copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], front + fill + back).format(i)
+				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={0}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2".format(i)]
+				config_list.append(copy.deepcopy(copy_cargs))
+				copy_cargs["quantities"].append("m_vis")
+				copy_cargs["output_file"] += "_m_vis"
+				config_list.append(copy_cargs)
 		if 3 in cargs.modification:
 			for i in range(4,9,1):
 				copy_cargs = copy.deepcopy(cargs_values)
@@ -341,6 +356,9 @@ if __name__ == "__main__":
 				log.info("Dry-Run: aborting training")
 				log.info(config_list[cargs.config_number])
 				sys.exit()
+			if cargs.config_number > len(config_list):
+				log.error("config_number is greater than length of config_list, cancel program")
+				sys.exit(-2)
 			do_training(config_list[cargs.config_number])
 		else:
 			log.info("Start training of %i BDTs"%len(config_list))

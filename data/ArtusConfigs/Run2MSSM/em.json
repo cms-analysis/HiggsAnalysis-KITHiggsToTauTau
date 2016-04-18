@@ -9,10 +9,10 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsBTaggedJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsAntiTtbarMva.json",
             "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSvfit.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsSvfit.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_em.json"
 		],
 		"Channel" : "EM",
 		"MinNElectrons" : 1,
@@ -114,7 +114,7 @@
 		"Quantities" : [
 			{
 				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
@@ -148,13 +148,12 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"filter:MinimalPlotlevelFilter",
 					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
-					"producer:GenTauDecayProducer",
-					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -187,13 +186,12 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
+					"filter:MinimalPlotlevelFilter",
 					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
-					"producer:GenTauDecayProducer",
-					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -221,12 +219,12 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"filter:MinimalPlotlevelFilter",
 					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
-					"producer:AntiTtbarDiscriminatorTmvaReader",
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				]

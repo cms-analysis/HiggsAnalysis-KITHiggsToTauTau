@@ -48,6 +48,10 @@ class TauEsStudies(analysisbase.AnalysisBase):
 				"--fit-method", default="logllh",
 	            help="Choose logllh or chi2"
 	    )
+		self.tauesstudies_options.add_argument(
+				"--bin-edges", default=[20,500],
+				help="Choose bin edges for pt ranges studied"
+		)
 
 	def prepare_args(self, parser, plotData):
 		super(TauEsStudies, self).prepare_args(parser, plotData)
@@ -75,12 +79,11 @@ class TauEsStudies(analysisbase.AnalysisBase):
 	def run(self, plotData=None):
 		super(TauEsStudies, self).run(plotData)
 
+		best_shifts=[]
+		errors_1sigma = []
+		
 		if plotData.plotdict["fit_method"] == "logllh":
 			print "Start Roofit Likelihood Scan ..."
-
-			best_shifts=[]
-			errors_1sigma = []
-			errors_2sigma = []
 
 			# always set this to stop ROOT doing odd things
 			ROOT.PyConfig.IgnoreCommandLineOptions = True
@@ -189,89 +192,100 @@ class TauEsStudies(analysisbase.AnalysisBase):
 
 				#calculate sigmas
 				sigma1 = abs(fitf.GetX(1) - minimum_of_fit)
-				sigma2 = abs(fitf.GetX(4) - minimum_of_fit)
 
 				#get minimum
 				print "Minimum of fitfunction at: ", minimum_of_fit, " +- ", sigma1
-				print "2 sigma: ", sigma2
-
 				best_shifts.append(minimum_of_fit)
 				errors_1sigma.append(sigma1)
-				errors_2sigma.append(sigma2)
-
-			##create plot for pt binning
-			#ptBins = [20.0,30.0,45.0,60.0]
-			#ptBinsHist = ROOT.TH1F(res_hist_nick,"",3,array.array("d",ptBins))
-
-			#for index, (best_shift,error_1sigma) in enumerate(zip(best_shifts,errors_1sigma)):
-				#ptBinsHist.SetBinContent(index+1,best_shift)
-				#ptBinsHist.SetBinError(index+1,error_1sigma)
-				#print best_shift, " +- ", error_1sigma
-
-			#plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = ptBinsHist
-
+		
 		elif plotData.plotdict["fit_method"] == "chi2":
 			print "Start Chi2 fit ..."
 
-			es_shifts=[]
-			chi2res=[]
-
-			for index, (res_hist_nick, data_nick, ztt_nick, es_shift) in enumerate(zip(
+			pt_ranges = 0
+			for res_hist_nick in plotData.plotdict["res_hist_nicks"]:
+				if (res_hist_nick[-1] == str(pt_ranges)):
+					pt_ranges += 1
+			
+			for pt_range in range(pt_ranges):
+				
+				es_shifts=[]
+				chi2res=[]
+				
+				for index, (res_hist_nick, data_nick, ztt_nick, es_shift) in enumerate(zip(
 					*[plotData.plotdict[k] for k in ["res_hist_nicks", "data_nicks","ztt_nicks","es_shifts"]]
-			)):
-				es_shifts.append(float(es_shift[0]))
-				chi2res.extend([plotData.plotdict["root_objects"][ztt_nick[0]].Chi2Test(plotData.plotdict["root_objects"][data_nick], "CHI2")])
+				)):
+					if (res_hist_nick[-1] != str(pt_range)):
+						continue
+					
+					shift_index = index % (len(plotData.plotdict["res_hist_nicks"]) / pt_ranges)
+					es_shifts.append(float(es_shift[0]))
+					chi2res.extend([plotData.plotdict["root_objects"][ztt_nick[0]].Chi2Test(plotData.plotdict["root_objects"][data_nick], "CHI2")])
 
-				if index == 0:
-					chi2min = chi2res[0]
-					min_shift = es_shifts[0]
-				if chi2min > chi2res[index]:
-					chi2min = chi2res[index]
-					min_shift = es_shifts[index]
+					if shift_index == 0:
+						chi2min = chi2res[0]
+						min_shift = es_shifts[0]
+					if chi2min > chi2res[shift_index]:
+						chi2min = chi2res[shift_index]
+						min_shift = es_shifts[shift_index]
 
-			for i in range(len(chi2res)):
-				chi2res[i] = (chi2res[i] - chi2min)
+				for i in range(len(chi2res)):
+					chi2res[i] = (chi2res[i] - chi2min)
 			
-			for x_value, y_value in zip(es_shifts, chi2res):
-				print "Shift: ", x_value, " Chi2Val: ", y_value
+				for x_value, y_value in zip(es_shifts, chi2res):
+					print "Shift: ", x_value, " Chi2Val: ", y_value
 
-			print "Minimum found at: ", min_shift
+				print "Minimum found at: ", min_shift
 
-			#Graph
-			Chi2Graph = ROOT.TGraphErrors(
-					len(es_shifts),
-					array.array("d", es_shifts), array.array("d", chi2res),
-					array.array("d",[0.001]*len(es_shifts)),array.array("d",[20.0]*len(chi2res))
-			)
-			res_hist_nick = plotData.plotdict["res_hist_nicks"][0]
-			plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = Chi2Graph
+				#Graph
+				Chi2Graph = ROOT.TGraphErrors(
+						len(es_shifts),
+						array.array("d", es_shifts), array.array("d", chi2res),
+						array.array("d",[0.001]*len(es_shifts)),array.array("d",[20.0]*len(chi2res))
+				)
+				res_hist_nick = plotData.plotdict["res_hist_nicks"][0][:-1] + str(pt_range)
+				plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = Chi2Graph
 
-			plotData.plotdict["root_objects"][res_hist_nick].SetName(res_hist_nick)
-			plotData.plotdict["root_objects"][res_hist_nick].SetTitle("")
+				plotData.plotdict["root_objects"][res_hist_nick].SetName(res_hist_nick)
+				plotData.plotdict["root_objects"][res_hist_nick].SetTitle("")
 
-			#Fit function
-			#more complex version
-			fit2chi = ROOT.TF1("f1","[0]+([1]*(exp((x-[2])/[3]) + exp(-1.0*(x-[2])/[4])))",min(es_shifts),max(es_shifts))
-			fit2chi.SetParameter(2, 1.0)
-			fit2chi.SetParameter(3, 0.05)
-			fit2chi.SetParameter(4, 0.05)
-			fit2chi.SetParLimits(0, -2000, 2000)
-			fit2chi.SetParLimits(1, 0, 2000)
-			fit2chi.SetParLimits(2, 0.5, 1.5)
-			fit2chi.SetParLimits(3, 0.01, 0.1)
-			fit2chi.SetParLimits(4, 0.01, 0.1)
+				#Fit function
+				#more complex version
+				fit2chi = ROOT.TF1("f1","[0]+([1]*(exp((x-[2])/[3]) + exp(-1.0*(x-[2])/[4])))",min(es_shifts),max(es_shifts))
+				fit2chi.SetParameter(2, 1.0)
+				fit2chi.SetParameter(3, 0.05)
+				fit2chi.SetParameter(4, 0.05)
+				fit2chi.SetParLimits(0, -2000, 2000)
+				fit2chi.SetParLimits(1, 0, 2000)
+				fit2chi.SetParLimits(2, 0.5, 1.5)
+				fit2chi.SetParLimits(3, 0.01, 0.1)
+				fit2chi.SetParLimits(4, 0.01, 0.1)
 			
-			#simple symmetric parabola
-			#fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
-			#fit2chi.SetParameter(0, 0.0)
-			#fit2chi.SetParameter(1, 50000.0)
-			#fit2chi.SetParameter(2, 1.0)
-			#fit2chi.SetParLimits(0,0,1000000)
-			#fit2chi.SetParLimits(1,0,1000000)
-			#fit2chi.SetParLimits(2,min(es_shifts),max(es_shifts))
-			Chi2Graph.Fit("f1","R")
+				#simple symmetric parabola
+				#fit2chi = ROOT.TF1("f1","[0] + [1]*(x-[2])*(x-[2])",min(es_shifts),max(es_shifts))
+				#fit2chi.SetParameter(0, 0.0)
+				#fit2chi.SetParameter(1, 50000.0)
+				#fit2chi.SetParameter(2, 1.0)
+				#fit2chi.SetParLimits(0,0,1000000)
+				#fit2chi.SetParLimits(1,0,1000000)
+				#fit2chi.SetParLimits(2,min(es_shifts),max(es_shifts))
+				Chi2Graph.Fit("f1","R")
 
-			#get minimum
-			minimum_of_fit = fit2chi.GetMinimumX(min(es_shifts),max(es_shifts))
-			sigma1 = abs(fit2chi.GetX(1)-minimum_of_fit)
-			print "Minimum of fitfunction at: ", minimum_of_fit, " +/- ", sigma1
+				#get minimum
+				minimum_of_fit = fit2chi.GetMinimumX(min(es_shifts),max(es_shifts))
+				sigma1 = abs(fit2chi.GetX(1)-minimum_of_fit)
+				print "Minimum of fitfunction at: ", minimum_of_fit, " +/- ", sigma1
+				best_shifts.append(minimum_of_fit)
+				errors_1sigma.append(sigma1)
+		
+		#create plot for pt binning
+		ptBins = plotData.plotdict["bin_edges"]
+		ptBinsHist = ROOT.TH1F(res_hist_nick,"", len(ptBins)-1, array.array("d",ptBins))
+
+		for index, (best_shift,error_1sigma) in enumerate(zip(best_shifts,errors_1sigma)):
+			ptBinsHist.SetBinContent(index+1, best_shift)
+			ptBinsHist.SetBinError(index+1, error_1sigma)
+			print best_shift, " +- ", error_1sigma
+
+		plotData.plotdict["nicks"].append("result_vs_pt")
+		plotData.plotdict["labels"].append("result_vs_pt")
+		plotData.plotdict.setdefault("root_objects", {})["result_vs_pt"] = ptBinsHist

@@ -104,6 +104,8 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-b", "--background-method", default="classic",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
+	parser.add_argument("--controlregions", action="store_true", default=False,
+	                    help="Also create histograms for control regions. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
@@ -160,10 +162,6 @@ if __name__ == "__main__":
 					exclude_cuts=["mt", "pzeta"]
 				elif category[3:] == 'inclusivenotwoprong':
 					exclude_cuts=["pzeta"]
-			if "wjetscr" in category:
-			    exclude_cuts.append("mt")
-			if "qcdcr" in category or "_ss" in category:
-			    exclude_cuts.append("os")
 			
 			for shape_systematic, list_of_samples in samples_dict[channel]:
 				nominal = (shape_systematic == "nominal")
@@ -188,12 +186,13 @@ if __name__ == "__main__":
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
 							category="catHttMSSM13TeV_"+category,
-							weight=args.weight+[additional_weight],
+							weight=args.weight+"*"+additional_weight,
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=args.higgs_masses,
 							mssm=True,
-							estimationMethod=args.background_method
+							estimationMethod=args.background_method,
+							controlregions=args.controlregions
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
