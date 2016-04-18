@@ -63,38 +63,40 @@ class EstimateQcd(estimatebase.EstimateBase):
 		
 		for qcd_data_shape_nick, qcd_data_yield_nick, qcd_data_control_nick, qcd_data_substract_nicks, qcd_extrapolation_factor_ss_os, qcd_subtract_shape in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			
+			yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_control_nick])()
+			yield_qcd_control = yield_data_control
+			for nick in qcd_data_substract_nicks:
+				yield_bkg_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+				if nick in plotData.metadata:
+					yield_bkg_control = uncertainties.ufloat(
+							plotData.metadata[nick].get("yield", yield_bkg_control.nominal_value),
+							plotData.metadata[nick].get("yield_unc", yield_bkg_control.std_dev)
+					)
+				yield_qcd_control -= yield_bkg_control
+				
+				if qcd_subtract_shape:
+					plotData.plotdict["root_objects"][qcd_data_control_nick].Add(plotData.plotdict["root_objects"][nick], -1.0/plotData.plotdict["qcd_scale_factor"])
+			
 			if qcd_subtract_shape:
-				for nick in qcd_data_substract_nicks:
-					plotData.plotdict["root_objects"][qcd_data_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0/plotData.plotdict["qcd_scale_factor"])
-				plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(qcd_extrapolation_factor_ss_os)
-			else:
-				yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_control_nick])()
-				yield_qcd_control = yield_data_control
-				for nick in qcd_data_substract_nicks:
-					yield_bkg_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-					if nick in plotData.metadata:
-						yield_bkg_control = uncertainties.ufloat(
-								plotData.metadata[nick].get("yield", yield_bkg_control.nominal_value),
-								plotData.metadata[nick].get("yield_unc", yield_bkg_control.std_dev)
-						)
-					yield_qcd_control -= yield_bkg_control
-				yield_qcd_control = max(0.0, yield_qcd_control)
+				plotData.plotdict["root_objects"][qcd_data_shape_nick] = plotData.plotdict["root_objects"][qcd_data_control_nick]
 			
-				scale_factor = yield_qcd_control * qcd_extrapolation_factor_ss_os
-				if yield_data_control != 0.0:
-					scale_factor /= yield_data_control
+			yield_qcd_control = max(0.0, yield_qcd_control)
 			
-				final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_yield_nick])() * scale_factor
-				log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
+			scale_factor = yield_qcd_control * qcd_extrapolation_factor_ss_os
+			if yield_data_control != 0.0:
+				scale_factor /= yield_data_control
 			
-				plotData.metadata[qcd_data_shape_nick] = {
-					"yield" : final_yield.nominal_value,
-					"yield_unc" : final_yield.std_dev,
-					"yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
-				}
+			final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_yield_nick])() * scale_factor
+			log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 			
-				integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])()
-				if integral_shape != 0.0:
-					scale_factor = final_yield / integral_shape
-					log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
-					plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
+			plotData.metadata[qcd_data_shape_nick] = {
+				"yield" : final_yield.nominal_value,
+				"yield_unc" : final_yield.std_dev,
+				"yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
+			}
+			
+			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])()
+			if integral_shape != 0.0:
+				scale_factor = final_yield / integral_shape
+				log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
+				plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
