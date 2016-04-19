@@ -90,6 +90,7 @@ if __name__ == "__main__":
 	args.decay_modes = [None if decayMode == "None" else decayMode for decayMode in args.decay_modes]
 
 	plot_configs = []
+	fit_configs = []
 	channel = args.channel
 	quantity = args.quantity
 
@@ -300,26 +301,29 @@ if __name__ == "__main__":
 		#plot modules
 		merged_config.setdefault("plot_modules", []).append("ExportRoot")
 
-		#append merged config to plot configs
-		plot_configs.append(merged_config)
+		#append merged config to fit configs
+		fit_configs.append(merged_config)
 
 		#append config for the fit plot
 		for config in config_plotfits:
-			plot_configs.append(config)
+			fit_configs.append(config)
 		
 		#fit result vs. pt
 		config_resultfit = {}
 		config_resultfit["files"] = "plots/tauEsStudies_plots/" + decayMode + "_" + quantity + ".root"
 		config_resultfit["markers"] = ["E"]
 		config_resultfit["texts"] = [decayMode]
-		config_resultfit["x_expressions"]  = ["result_vs_pt"]
+		config_resultfit["x_expressions"]  = ["result_" + args.fit_method + "_vs_pt"]
 		config_resultfit["x_label"] = "p_{T}^{#tau} [GeV]"
 		config_resultfit["y_label"] = "#tau_{ES}"
 		config_resultfit["y_lims"] = [min(args.es_shifts), max(args.es_shifts)]
-		plot_configs.append(config_resultfit)
+		#plot_configs.append(config_resultfit)
+		fit_configs.append(config_resultfit)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
+		pprint.ppring(fit_configs)
 
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	higgsplot.HiggsPlotter(list_of_config_dicts=fit_configs, list_of_args_strings=[args.args], n_processes=1, n_plots=args.n_plots)

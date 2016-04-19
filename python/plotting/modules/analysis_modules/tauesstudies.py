@@ -286,6 +286,6 @@ class TauEsStudies(analysisbase.AnalysisBase):
 			ptBinsHist.SetBinError(index+1, error_1sigma)
 			print best_shift, " +- ", error_1sigma
 
-		plotData.plotdict["nicks"].append("result_vs_pt")
-		plotData.plotdict["labels"].append("result_vs_pt")
-		plotData.plotdict.setdefault("root_objects", {})["result_vs_pt"] = ptBinsHist
+		plotData.plotdict["nicks"].append("result_" + plotData.plotdict["fit_method"] + "_vs_pt")
+		plotData.plotdict["labels"].append("result_" + plotData.plotdict["fit_method"] + "_vs_pt")
+		plotData.plotdict.setdefault("root_objects", {})["result_" + plotData.plotdict["fit_method"] + "_vs_pt"] = ptBinsHist
