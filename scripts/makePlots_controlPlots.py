@@ -52,11 +52,11 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 	else:
 		config["nicks_blacklist"].append("blinding")
 
-def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, higgsmass):
+def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, signal_nick, higgsmass):
 	config["analysis_modules"].append("ScaleHistograms")
-	config["scale_nicks"] = ["htt%i"%higgsmass]
+	config["scale_nicks"] = ["%s%i"%(signal_nick, higgsmass)]
 	config["scales"] = [ 1/args.scale_signal ]
-	config["scale_result_nicks"] = ["htt%iScaled"%higgsmass]
+	config["scale_result_nicks"] = ["%s%iScaled"%(signal_nick, higgsmass)]
 
 	config["analysis_modules"].append("SignalOverBackgroundIntegral")
 	config["sob_integral_background_nicks"] = []
@@ -127,6 +127,8 @@ if __name__ == "__main__":
 	                    help="Integration Method. Chose lefttoright or righttoleft, !!!combination needs to be specified last!!!. [Default: %(default)s]")
 	parser.add_argument("--integration-output", default=None,
 						help="outputfile to specifiy where to write calculated maxima/minima, None is no output [Default:%(default)s]")
+	parser.add_argument("--integration-nick", default="htt",
+						help="integration signal nick [Default:%(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
@@ -304,7 +306,7 @@ if __name__ == "__main__":
 					hmass_temp = 125
 					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
 						hmass_temp = int(args.higgs_masses[0])
-					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, hmass_temp)
+					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, args.integration_nick, hmass_temp)
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
