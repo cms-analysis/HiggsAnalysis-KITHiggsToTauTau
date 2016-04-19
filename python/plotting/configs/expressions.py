@@ -86,29 +86,29 @@ class ExpressionsDict(expressions.ExpressionsDict):
 					if vbf == "vbf_tagger":
 						vbf_name = name
 						vbf_value = values[0]
-						self.expressions_dict["%s_%s_tagged"%(channel,name)] = "(%f <= %s)"%(vbf_value, name)
-						self.expressions_dict["%s_%s_not_tagged"%(channel,name)] = "(%s < %f)"%(name, vbf_value)
+						self.expressions_dict["%s_tagged"%(name)] = "(%f <= %s)"%(vbf_value, name)
+						self.expressions_dict["%s_not_tagged"%(name)] = "(%s < %f)"%(name, vbf_value)
 						continue
 					elif vbf == "tagged":
 						self.expressions_dict["mva_{channel}_{vbf_tagger}_{mva_name}_tagged_signal".format(
-							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{channel}_{vbf_tagger}_tagged".format(
+							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{vbf_tagger}_tagged".format(
 								channel=channel, vbf_tagger=vbf_name)]+"*({upper} <= {mva_name})".format(upper=values[1], mva_name=name)
 						self.expressions_dict["mva_{channel}_{vbf_tagger}_{mva_name}_tagged_bkg".format(
-							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{channel}_{vbf_tagger}_tagged".format(
+							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{vbf_tagger}_tagged".format(
 								channel=channel, vbf_tagger=vbf_name)]+"*({lower} > {mva_name})".format(lower=values[0], mva_name=name)
 						self.expressions_dict["mva_{channel}_{vbf_tagger}_{mva_name}_tagged_mixed".format(
-							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{channel}_{vbf_tagger}_tagged".format(
+							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{vbf_tagger}_tagged".format(
 								channel=channel, vbf_tagger=vbf_name)]+"*({lower} <= {mva_name} && {mva_name} < {upper})".format(
 									upper=values[1], lower=values[0], mva_name=name)
 					elif vbf == "not_tagged":
 						self.expressions_dict["mva_{channel}_{vbf_tagger}_{mva_name}_not_tagged_signal".format(
-							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{channel}_{vbf_tagger}_not_tagged".format(
+							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{vbf_tagger}_not_tagged".format(
 								channel=channel, vbf_tagger=vbf_name)]+"*({upper} <= {mva_name})".format(upper=values[1], mva_name=name)
 						self.expressions_dict["mva_{channel}_{vbf_tagger}_{mva_name}_not_tagged_bkg".format(
-							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{channel}_{vbf_tagger}_not_tagged".format(
+							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{vbf_tagger}_not_tagged".format(
 								channel=channel, vbf_tagger=vbf_name)]+"*({lower} > {mva_name})".format(lower=values[0], mva_name=name)
 						self.expressions_dict["mva_{channel}_{vbf_tagger}_{mva_name}_not_tagged_mixed".format(
-							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{channel}_{vbf_tagger}_not_tagged".format(
+							channel=channel, vbf_tagger=vbf_name, mva_name=name)]=self.expressions_dict["{vbf_tagger}_not_tagged".format(
 								channel=channel, vbf_tagger=vbf_name)]+"*({lower} <= {mva_name} && {mva_name} < {upper})".format(
 									upper=values[1], lower=values[0], mva_name=name)
 
