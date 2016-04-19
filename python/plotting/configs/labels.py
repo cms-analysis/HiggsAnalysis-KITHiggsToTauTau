@@ -496,6 +496,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ee_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["ee_metProjectionPhi"] = "#nu_{#phi}"
 			for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
+				self.labels_dict[ch+"TrainingSelectionValue"] = "N-Fold Split Variable"
 				self.labels_dict[ch+"all_vs_all"] = "BDT_{all}^{all}"
 				self.labels_dict[ch+"all_vs_zll"] = "BDT_{Z#rightarrow \\ell\\ell}^{all}"
 				self.labels_dict[ch+"all_vs_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{all}"
@@ -1010,6 +1011,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ee_metProjectionPerp"] = "$\\nu_{\\perp}  / \\mathrm{GeV}$"
 			self.labels_dict["ee_metProjectionPhi"] = "$\\nu_{\\phi}$"
 			for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
+				self.labels_dict[ch+"TrainingSelectionValue"] = "N-Fold Split Variable"
 				self.labels_dict[ch+"all_vs_all"] = "$\\mathrm{BDT}_{\\mathrm{all}}^{\\mathrm{all}}$"
 				self.labels_dict[ch+"all_vs_zll"] = "$\\mathrm{BDT}_{\\mathrm{Z}\\rightarrow \\ell\\ell}^{\\mathrm{all}}$"
 				self.labels_dict[ch+"all_vs_ztt"] = "$\\mathrm{BDT}_{\\mathrm{Z}\\rightarrow\\tau\\tau}^{\\mathrm{all}}$"

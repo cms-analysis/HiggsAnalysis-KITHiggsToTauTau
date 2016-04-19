@@ -23,19 +23,19 @@ void TopPtReweightingProducer::Produce( KappaEvent const& event,
 	assert(tops.size() == 2);
 	if ((tops.at(0).p4.Pt() > 400.0) && (tops.at(1).p4.Pt() > 400.0))
 	{
-		topPtWeight = sqrt(exp(0.156-0.0137*400.0)*exp(0.156-0.0137*400.0));
+		topPtWeight = sqrt(exp(0.156-0.00137*400.0)*exp(0.156-0.00137*400.0));
 	}
 	else if (tops.at(0).p4.Pt() > 400.0)
 	{
-		topPtWeight = sqrt(exp(0.156-0.0137*400.0)*exp(0.156-0.0137*tops.at(1).p4.Pt()));
+		topPtWeight = sqrt(exp(0.156-0.00137*400.0)*exp(0.156-0.00137*tops.at(1).p4.Pt()));
 	}
 	else if (tops.at(1).p4.Pt() > 400.0)
 	{
-		topPtWeight = sqrt(exp(0.156-0.0137*400.0)*exp(0.156-0.0137*tops.at(0).p4.Pt()));
+		topPtWeight = sqrt(exp(0.156-0.00137*400.0)*exp(0.156-0.00137*tops.at(0).p4.Pt()));
 	}
 	else
 	{
-		topPtWeight = sqrt(exp(0.156-0.0137*tops.at(0).p4.Pt())*exp(0.156-0.0137*tops.at(1).p4.Pt()));
+		topPtWeight = sqrt(exp(0.156-0.00137*tops.at(0).p4.Pt())*exp(0.156-0.00137*tops.at(1).p4.Pt()));
 	}
 	product.m_optionalWeights["topPtReweightWeight"] = topPtWeight;
 	

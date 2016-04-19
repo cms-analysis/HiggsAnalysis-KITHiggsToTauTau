@@ -17,23 +17,11 @@ import glob
 import time
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
-
-def do_training(args):
-
-	info_log = copy.deepcopy(args)
-	info_log["comment"] = " ".join(sys.argv)
-	info_log["config_list"] = []
-	info_log["variables"] = ",".join(args["quantities"])
-	info_log["N-Fold"] = args["n_fold"]
-
-	if "qcd" in (args["bkg_samples"]+args["signal_samples"]):
-		log.error("qcd not possible for training")
-		sys.exit()
-
-	sample_settings = samples.Samples()
-	#getting config
+def get_configs(args, info_log):
 	plot_configs = []
+	#generate config_list containing one config file per requested nick for training
 	log.info("prepare config files to extract file paths, weights and cuts")
+	sample_settings = samples.Samples()
 	for channel in args["channels"]:
 		category = None
 		for requested_sample in (args["bkg_samples"]+args["signal_samples"]):
@@ -60,9 +48,13 @@ def do_training(args):
 				config["sig_bkg"] = "Background"
 			elif requested_sample in args["signal_samples"]:
 				config["sig_bkg"] = "Signal"
-			info_log["config_list"].append(config)
 			plot_configs.append(config)
+			info_log["config_list"].append(config)
 	log.info("Config information aquired")
+	return (plot_configs, info_log)
+
+def do_splitting(args, plot_configs):
+
 	splits_list = []
 	stored_files_list = []
 	s_b_extension = []
@@ -78,13 +70,9 @@ def do_training(args):
 		for i in range(args["n_fold"]):
 			splits_list.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
 
-	info_log["splits"] = splits_list
-
 	# create output file
 	dir_path, filename = os.path.split(args["output_file"])
 	filename = filename.replace(".root", "")
-	info_log["training_name"] = filename
-	info_log["dir_path"] = dir_path
 	storage_name_extension = dir_path + "/storage/" + filename + "_storage"
 	log.info("prepare output directory")
 	if dir_path is None:
@@ -97,7 +85,6 @@ def do_training(args):
 
 	#produce trees
 	log.info("start production of input trees for training - splitting included")
-	info_log["steps"] = []
 	for config in plot_configs:
 		c_tree_list = ROOT.TList()
 		root_file_name_list = []
@@ -105,7 +92,11 @@ def do_training(args):
 		s_b_extension.append(config["sig_bkg"])
 		log.info("Prepare sample: %s" %config["request_nick"])
 		cuts = ""
-		#time.sleep(5)
+		#if the splitted files already exists, sckip producing them
+		if sum([os.path.exists("%s_%s_%s.root"%(storage_name_extension, config["request_nick"], "split%i"%(j+1))) for j, split in enumerate(splits_list)]):
+			log.info("Splitsamples already there, skip production")
+			continue
+
 		for i,nick in enumerate(config["nicks"]):
 			if not bool(sum([x in nick for x in ["wmh", "wph", "zh"]])) and "noplot" in nick:
 				continue
@@ -117,7 +108,7 @@ def do_training(args):
 		for root_file_name in root_file_name_list:
 			#load the requested rootfiles with their containing ntuples
 			log.debug("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
-			info_log["steps"].append("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
+			#info_log["steps"].append("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
 			#time.sleep(5)
 			c_tree_list.Add(ROOT.TChain())
 			root_file_name = root_file_name + '/' + config["folders"][0]
@@ -143,6 +134,31 @@ def do_training(args):
 			storage_tree.SetName("SplitTree")
 			store_file.Write()
 			store_file.Close()
+	return (splits_list, stored_files_list, s_b_extension)
+
+def do_training(args):
+	info_log = copy.deepcopy(args)
+	info_log["comment"] = " ".join(sys.argv)
+	info_log["config_list"] = []
+	info_log["variables"] = ",".join(args["quantities"])
+	info_log["N-Fold"] = args["n_fold"]
+
+	if "qcd" in (args["bkg_samples"]+args["signal_samples"]):
+		log.error("qcd not possible for training")
+		sys.exit()
+
+	# create output file
+	dir_path, filename = os.path.split(args["output_file"])
+	filename = filename.replace(".root", "")
+	info_log["training_name"] = filename
+	info_log["dir_path"] = dir_path
+	#getting config
+	plot_configs, info_log = get_configs(args, info_log)
+	#acquire splitted samples
+	splits_list, stored_files_list, s_b_extension = do_splitting(args, plot_configs)
+	#TMVA Stuff
+	ROOT.TMVA.Tools.Instance()
+	info_log["splits"] = splits_list
 
 	#due to backward compatibillity: args["n_fold"] is per default 1 and Split None, if one wishes to do a non n-fold training with a specified split value:
 	#set Split = desired split value, n_fold = 0 or default -> use n_fold + 1 for iterations range(n+1) = [0,...,n]
@@ -181,8 +197,6 @@ def do_training(args):
 													1,
 													ROOT.TCut(''), "train")
 					log.debug("Add to Factory_%i sample %s as TrainingsSample as %s"%(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension[j]))
-			log.debug("factory.AddTree(%s,%s,%s,TCut(''), train/test)" %(
-				nick, s_b_extension[j], cuts[j]))
 
 		factory.SetBackgroundWeightExpression('eventWeight')
 		factory.SetSignalWeightExpression('eventWeight')
