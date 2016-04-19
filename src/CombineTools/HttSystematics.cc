@@ -1,4 +1,4 @@
-
+/*
 #include <vector>
 #include <string>
 #include "CombineHarvester/CombineTools/interface/Systematics.h"
@@ -779,7 +779,7 @@ void HttSystematics::AddSystematicsETMT(ch::CombineHarvester & cb) {
 	      ({"et"},      {"8TeV"}, {6},               1.30)
 	      ({"et"},      {"8TeV"}, {7},               2.00));
 
-	/*
+	///*
 	src.cp().channel({"mt"}).process({"QCD"}).bin_id({3})
 	    .AddSyst(cb, "CMS_htt_QCDShape_mt_1jet_medium_$ERA", "shape",
 	      SystMap<>::init(1.00));
@@ -804,7 +804,7 @@ void HttSystematics::AddSystematicsETMT(ch::CombineHarvester & cb) {
 	src.cp().channel({"et"}).process({"QCD"}).bin_id({6}).era({"8TeV"})
 	    .AddSyst(cb, "CMS_htt_QCDShape_et_vbf_loose_$ERA", "shape",
 	      SystMap<>::init(1.00));
-	*/
+	//
 
 	src.cp().process({"ZJ"})
 	    .AddSyst(cb, "CMS_htt_ZJetFakeTau_$BIN_$ERA", "lnN",
@@ -990,4 +990,4 @@ void HttSystematics::AddSystematicsTT(ch::CombineHarvester & cb) {
 	    .AddSyst(cb, "CMS_htt_ZLeptonFakeTau_$BIN_$ERA", "lnN",
 	      SystMap<>::init(1.30));
 }
-
+*/
