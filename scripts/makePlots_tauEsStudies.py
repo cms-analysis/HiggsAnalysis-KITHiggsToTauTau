@@ -50,8 +50,7 @@ if __name__ == "__main__":
 						choices=["chi2", "logllh"],
 						help="Choose a fit (chi2 or logllh)")
 	parser.add_argument("--pt-ranges", nargs="*",
-						default=[20.0],
-						#default=["(pt_2<30.0)", "(pt_2>30.0)*(pt_2<50.0)"],
+						default=["20.0"],
 						help="Enter the lower bin edges for the pt ranges."	)
 	parser.add_argument("--channel",
 	                    default="mt",
@@ -108,7 +107,7 @@ if __name__ == "__main__":
 			if len(args.pt_ranges) > pt_index+1:
 				highEdge = args.pt_ranges[pt_index+1]
 			else:
-				highEdge = "500";
+				highEdge = "500"
 			
 			ptweight = "(pt_2>" + lowEdge + ")*(pt_2<" + highEdge + ")"
 			
