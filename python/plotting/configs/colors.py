@@ -11,7 +11,7 @@ import Artus.HarryPlotter.utility.colors as colors
 class ColorsDict(colors.ColorsDict):
 	def __init__(self, color_scheme="default", additional_colors=None):
 		super(ColorsDict, self).__init__(color_scheme=color_scheme, additional_colors=additional_colors)
-		
+
 		self.colors_dict["kit_gruen_1"] = "#00A88F"
 		self.colors_dict["kit_gruen_2"] = "#4CC1A5"
 		self.colors_dict["kit_gruen_3"] = "#7FD2B8"
@@ -71,10 +71,10 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["kit_grau_3"] = "#918F90"
 		self.colors_dict["kit_grau_4"] = "#BDBCBC"
 		self.colors_dict["kit_grau_5"] = "#DEDDDE"
-		
+
 		self.colors_dict["data"] = "#000000"
 		self.colors_dict["data_obs"] = self.colors_dict["data"]
-		
+
 		if color_scheme.lower() == "kit":
 			self.colors_dict["zll"] = self.colors_dict["kit_gruen_1"]+" "+self.colors_dict["kit_gruen_2"]
 			self.colors_dict["zmm"] = self.colors_dict["zll"]
@@ -102,11 +102,11 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["hww"] = self.colors_dict["kit_lila_3"]+" "+self.colors_dict["kit_lila_4"]
 			self.colors_dict["hww125"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000"
-			
+
 			self.colors_dict["channel_tt"] = self.colors_dict["kit_blau_1"]
 			self.colors_dict["channel_mt"] = self.colors_dict["kit_rot_1"]
 			self.colors_dict["channel_mm"] = self.colors_dict["kit_gruen_1"]
-		
+
 		else: # if color_scheme.lower() == "cern":
 			self.colors_dict["zll"] = "#000000 #4496C8"
 			self.colors_dict["zmm"] = self.colors_dict["zll"]
@@ -127,9 +127,9 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["fakes"] = self.colors_dict["qcd"]
 			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
 			self.colors_dict["htt"] = "#0000FF"
-                        self.colors_dict["ggh"] = self.colors_dict["kit_rot_1"]
-                        self.colors_dict["qqh"] = self.colors_dict["kit_orange_1"]
-                        self.colors_dict["vh"]  = self.colors_dict["kit_lila_1"]
+			self.colors_dict["ggh"] = self.colors_dict["kit_rot_1"]
+			self.colors_dict["qqh"] = self.colors_dict["kit_gruen_1"]
+			self.colors_dict["vh"]  = self.colors_dict["kit_lila_1"]
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
 			self.colors_dict["totalbkg"] = "#000000"
 
@@ -138,7 +138,6 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["ggh"]
 			self.colors_dict["qqh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["qqh"]
 			self.colors_dict["vh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["vh"]
-
 			for scale in [10, 25, 100, 250]:
 				self.colors_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["htt{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["ggh{mass:d}".format(mass=higgs_mass)]
