@@ -82,7 +82,7 @@ class Datacards(object):
 			ch.SystMap("era", "channel")
 				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
 				(["7TeV", "8TeV"], ["tt"],       1.19)
-				(       ["13TeV"], ["mt", "et", "tt"], 1.05) # copied from 8TeV
+				(       ["13TeV"], ["mt", "et", "tt"], 1.05)
 		]
 		self.tau_efficieny_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
@@ -90,7 +90,7 @@ class Datacards(object):
 			ch.SystMap("era", "channel")
 				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
 				(["7TeV", "8TeV"], ["tt"],       1.19)
-				(       ["13TeV"], ["mt", "et", "tt"], 1.03) # copied from 8TeV
+				(       ["13TeV"], ["mt", "et", "tt"], 1.03)
 		]
 		self.btag_efficieny_syst_args = [
 			"CMS_eff_b_$ERA",
@@ -116,49 +116,56 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["ZTT", "ZLL", "ZL", "ZJ"], 1.03)
 				(       ["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ"], 1.04)
 		]
+		self.zll_cross_section_syst_args = [
+			"CMS_$ANALYSIS_zjXsec_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], 1.04)
+		]
 		self.ttj_cross_section_syst_args = [
-			"CMS_$ANALYSIS_ttjNorm_$ERA",
+			"CMS_$ANALYSIS_ttjXsec_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
 				( ["7TeV"], ["TTJ"], 1.08)
 				( ["8TeV"], ["TTJ"], 1.1)
-				(["13TeV"], ["TTJ", "TT"], 1.06) # copied from 8TeV
+				(["13TeV"], ["TTJ", "TT"], 1.06)
 		]
 		self.ttj_extrapol_syst_args = [
 			"CMS_$ANALYSIS_ttjExtrapol_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				( ["7TeV"], ["TTJ"], 1.08)
-				( ["8TeV"], ["TTJ"], 1.1)
-				(["13TeV"], ["TTJ", "TT"], 1.10) # copied from 8TeV
+				(["13TeV"], ["TTJ", "TT"], 1.10)
 		]
-
-		#self.singlet_cross_section_syst_args = [
-			#"CMS_$ANALYSIS_singletNorm_$ERA",
-			#"lnN",
-			#ch.SystMap("era", "process")
-				#(["13TeV"], [], 1.04)
-
+		self.singlet_cross_section_syst_args = [
+			"CMS_$ANALYSIS_singletXsec_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["13TeV"], ["VV"], 1.04)
+		]
 		self.vv_cross_section_syst_args = [
-			"CMS_$ANALYSIS_vvNorm_$ERA",
+			"CMS_$ANALYSIS_vvXsec_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
 				(["7TeV", "8TeV"], ["VV"], 1.15)
-				(       ["13TeV"], ["VV"], 1.10) # copied from 8TeV
+				(       ["13TeV"], ["VV"], 1.10)
 		]
 		self.wj_cross_section_syst_args = [
-			"CMS_$ANALYSIS_wjNorm_$CHANNEL_$ERA",
+			"CMS_$ANALYSIS_wjXsec_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["WJ", "W"], 1.04)
+		]
+		self.wj_cross_section_syst_args_run1 = [
+			"CMS_$ANALYSIS_wjXsec_$CHANNEL_$ERA",
 			"lnN",
 			ch.SystMap("era", "process", "channel")
 				(["7TeV", "8TeV"], ["WJ"], ["mt", "et"], 1.2)
-				(       ["13TeV"], ["WJ", "W"], ["mt", "et"], 1.04) # copied from 8TeV
 		]
 		self.wj_extrapol_syst_args = [
-			"CMS_$ANALYSIS_wjExtrapol_$CHANNEL_$ERA",
+			"CMS_$ANALYSIS_wjExtrapol_$ERA",
 			"lnN",
-			ch.SystMap("era", "process", "channel")
-				(["7TeV", "8TeV"], ["WJ"], ["mt", "et"], 1.2)
-				(       ["13TeV"], ["WJ", "W"], ["mt", "et"], 1.2) # copied from 8TeV
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["WJ", "W"], 1.2)
 		]
 		
 		self.qcd_syst_args = [
@@ -188,6 +195,24 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["ZLL"], ["mt", "et"], 1.30)
 				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "tt"], 1.15)
 				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["et"], 1.30)
+		]
+		self.eFakeTau_vloose_syst_args = [
+			"CMS_$ANALYSIS_rate_eFakeTau_vloose_$ERA",
+			"lnN",
+			ch.SystMap("era", "process", "channel")
+				(       ["13TeV"], ["ZLL", "ZL"], ["mt", "tt"], 1.10)
+		]
+		self.eFakeTau_tight_syst_args = [
+			"CMS_$ANALYSIS_rate_eFakeTau_tight_$ERA",
+			"lnN",
+			ch.SystMap("era", "process", "channel")
+				(       ["13TeV"], ["ZLL", "ZL"], ["et"], 1.30)
+		]
+		self.muFakeTau_syst_args = [
+			"CMS_$ANALYSIS_mFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process",)
+				(       ["13TeV"], ["ZLL", "ZL"], 2.00)
 		]
 		
 		self.zee_norm_syst_args = [
@@ -266,14 +291,21 @@ class Datacards(object):
 				(["13TeV"], ["WH"], 1.022)
 				(["13TeV"], ["ZH"], 1.022)
 		]
-		self.ztt_pdf_scale_syst_args = [
-			"PDF_scale_$PROCESS",
+		
+		self.ztt_qcd_scale_syst_args = [
+			"CMS_$ANALYSIS_QCDscale_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(["13TeV"], ["ZTT"], 1.015)
+				(["13TeV"], ["ZTT"], 1.005)
+		]
+		self.ztt_qcd_scale_tt_syst_args = [
+			"CMS_$ANALYSIS_QCDscale_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("era", "process", "channel")
+				(["13TeV"], ["ZTT"], ["tt"], 1.005)
 		]
 		self.ztt_pdf_scale_syst_args = [
-			"PDF_scale_$PROCESS",
+			"CMS_$ANALYSIS_pdf_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
 				(["13TeV"], ["ZTT"], 1.015)
