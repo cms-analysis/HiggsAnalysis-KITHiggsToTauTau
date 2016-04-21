@@ -45,7 +45,7 @@ if __name__ == "__main__":
 		}
 	}
 
-	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for ZTT cross section measurement.",
+	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for tau energy scale measurement.",
 	                                 parents=[logger.loggingParser])
 
 	parser.add_argument("-i", "--input-dir", required=True,
@@ -212,6 +212,27 @@ if __name__ == "__main__":
 						# merge configs
 						merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
 					
+					# combine harvester need to find ZTT in root file
+					# and config_ztt only contains ZTT_0_96, ZTT_0_97, etc.
+					config_ztt_nom = sample_settings.get_config(
+						samples=[getattr(samples.Samples, "ztt")],
+						channel=channel,
+						category="cat" + decayMode + "_" + channel,
+						nick_suffix="_" + str(pt_index),
+						weight=ptweight,
+						lumi=args.lumi * 1000
+					)
+					
+					config_ztt_nom["x_expressions"] = [quantity] * len(config_ztt_nom["nicks"])
+					histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
+					config_ztt_nom["labels"] = [histogram_name_template.replace("$", "").format(
+						PROCESS=datacards.configs.sample2process(sample),
+						BIN=category,
+						SYSTEMATIC=systematic
+					)]
+					
+					merged_config = samples.Samples.merge_configs(merged_config, config_ztt_nom)
+					
 					systematics_settings = systematics_factory.get(shape_systematic)(merged_config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					merged_config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
@@ -284,4 +305,30 @@ if __name__ == "__main__":
 					output_root_filename_template.replace("{", "").replace("}", ""),
 					args.output_dir
 				))
+				
+			model_settings = models.get("default", {"" :{}})
+			fit_settings = model_settings.get("fit", {"" : {}})
+			
+			for fit_name, fit_options in fit_settings.iteritems():
+				# text2workspace call
+				datacards_workspaces = datacards.text2workspace(
+					datacards_cbs,
+					args.n_processes,
+					"-P {MODEL} {MODEL_PARAMETERS}".format(
+						MODEL=model_settings["P"],
+						MODEL_PARAMETERS=model_settings.get("model_parameters", "")
+					)
+				)
+				
+				#combine call
+				datacards.combine(
+					datacards_cbs,
+					datacards_workspaces,
+					None,
+					args.n_processes,
+					"-M {FIT_METHOD} {FIT_OPTIONS} -n \"\"".format(
+						FIT_METHOD=fit_options["method"],
+						FIT_OPTIONS=fit_options["options"]
+					)
+				)
 			
