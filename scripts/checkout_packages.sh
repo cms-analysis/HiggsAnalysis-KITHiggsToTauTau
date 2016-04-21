@@ -20,8 +20,6 @@ git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
 ##git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit
 git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b v5.0.3
 
-# needed for error propagation e.g. in the background estimations
-git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 scram b -j 10
 
 
@@ -64,6 +62,9 @@ git checkout dd7cf43e3f930040959f7d700cef976307d7cec3 -b current
 cd $CMSSW_BASE/src
 echo '<use   name="rootrflx"/>'>> TauAnalysis/SVfitStandalone/BuildFile.xml
 git clone https://github.com/thomas-mueller/HHKinFit2.git
+
+# needed for error propagation e.g. in the background estimations
+git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 
 # FastBDT
 git clone https://github.com/thomaskeck/FastBDT.git
