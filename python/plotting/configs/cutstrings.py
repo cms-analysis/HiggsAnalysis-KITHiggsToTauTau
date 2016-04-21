@@ -239,9 +239,9 @@ class CutStringsDict:
 	def _get_cutdict(self, channel, cut_type):
 		cuts = {}
 		if cut_type=="baseline":
-			cuts = cutstringsdict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="mssm":
-			cuts = cutstringsdict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="antievloosepass":
 			cuts = CutStringsDict.antievloosepass(channel, cut_type)
 		elif cut_type=="antievloosefail":
