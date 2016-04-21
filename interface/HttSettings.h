@@ -52,9 +52,9 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, IdentificationEfficiencyMode, "multiply_weights");
 
 	std::vector<std::string> EleTauFakeRateHistograms = {"antiEVLoose", "antiELoose", "antiEMedium", "antiETight", "antiEVTight"};
-	IMPL_SETTING_STRINGLIST_DEFAULT(EleTauFakeRateWeightFile, {});
+	IMPL_SETTING_STRINGLIST(EleTauFakeRateWeightFile);
 	IMPL_SETTING_STRINGLIST_DEFAULT(EleTauFakeRateHistograms, EleTauFakeRateHistograms);
-	IMPL_SETTING_STRINGLIST_DEFAULT(MuonTauFakeRateWeightFile, {});
+	IMPL_SETTING_STRINGLIST(MuonTauFakeRateWeightFile);
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuonTauFakeRateHistograms, {});
 
 	IMPL_SETTING(std::string, ElectronIDType);
