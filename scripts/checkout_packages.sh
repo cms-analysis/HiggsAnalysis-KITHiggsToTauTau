@@ -5,8 +5,30 @@ export SCRAM_ARCH=slc6_amd64_gcc493
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
 
-# set up CMSSW release area
-scramv1 project CMSSW CMSSW_8_0_4; cd CMSSW_8_0_4/src # slc6 # Combine requires this version
+startdir=$(pwd)
+
+### First set up everything necessary for the statistical combination ###
+cd $startdir
+export SCRAM_ARCH=slc6_amd64_gcc481
+scramv1 project CMSSW CMSSW_7_1_5; cd CMSSW_7_1_5/src
+eval `scramv1 runtime -sh`
+# needed for plotting and statistical inference
+git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau HiggsAnalysis/HiggsToTauTau
+git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
+#### --change to the recommendation of Combind Twiki 
+##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
+##git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit
+git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b v5.0.3
+
+# needed for error propagation e.g. in the background estimations
+git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
+scram b -j 10
+
+
+### set up CMSSW release area for the analysis ###
+cd $startdir
+SCRAM_ARCH=slc6_amd64_gcc530
+scramv1 project CMSSW CMSSW_8_0_4; cd CMSSW_8_0_4/src
 eval `scramv1 runtime -sh`
 
 # JEC
@@ -50,16 +72,6 @@ cmake .
 make
 cd $CMSSW_BASE/src/
 
-# needed for plotting and statistical inference
-git clone https://github.com/artus-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
-git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
-#### --change to the recommendation of Combind Twiki 
-##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
-##git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit
-git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b v6.1.1
-
-# needed for error propagation e.g. in the background estimations
-git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 
 # Grid-Control
 svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/trunk/grid-control -r 1701
