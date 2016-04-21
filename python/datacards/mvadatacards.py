@@ -15,18 +15,20 @@ class MVADatacards(datacards.Datacards):
 			signal_processes = ["ggH", "qqH", "WH", "ZH"]
 			# ==========================Copy here!=========================================
 			# MT channel
-			categories = ["inclusive"]
-			categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/mvadatacards.cfg")
-			with open(categories_path) as categs:
-				for line in categs:
-					cat = line.strip()
-					categories.append(cat)
+			categories={}
+			for channel in ["tt", "mt", "et", "em"]:
+				categories[channel] = []
+				categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
+				with open(categories_path) as categs:
+					for line in categs:
+						cat = line.strip()
+						categories[channel].append(cat)
 			###=========================Copy here!=========================================
 			self.add_processes(
 					channel="mt",
 					#categories=["mt_"+category for category in ["2jet_vbf", "ztt_loose", "ztt_tight", "inclusive"]],
 					#categories=["mt_"+category for category in ["inclusive"]],
-					categories=["mt_"+category for category in categories],
+					categories=[category for category in categories["mt"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["MVATest"],
@@ -52,7 +54,7 @@ class MVADatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+category for category in categories],
+					categories=[category for category in categories["et"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["MVATest"],
@@ -78,7 +80,7 @@ class MVADatacards(datacards.Datacards):
 			# EM channel
 			self.add_processes(
 					channel="em",
-					categories=["em_"+category for category in categories],
+					categories=[category for category in categories["em"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["MVATest"],
@@ -97,7 +99,7 @@ class MVADatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in categories],
+					categories=[category for category in categories["tt"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["MVATest"],
