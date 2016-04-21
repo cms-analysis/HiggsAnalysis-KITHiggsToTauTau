@@ -45,7 +45,7 @@ if __name__ == "__main__":
 		}
 	}
 
-	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for ZTT cross section measurement.",
+	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for tau energy scale measurement.",
 	                                 parents=[logger.loggingParser])
 
 	parser.add_argument("-i", "--input-dir", required=True,
@@ -211,6 +211,27 @@ if __name__ == "__main__":
 						
 						# merge configs
 						merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
+					
+					# combine harvester need to find ZTT in root file
+					# and config_ztt only contains ZTT_0_96, ZTT_0_97, etc.
+					config_ztt_nom = sample_settings.get_config(
+						samples=[getattr(samples.Samples, "ztt")],
+						channel=channel,
+						category="cat" + decayMode + "_" + channel,
+						nick_suffix="_" + str(pt_index),
+						weight=ptweight,
+						lumi=args.lumi * 1000
+					)
+					
+					config_ztt_nom["x_expressions"] = [quantity] * len(config_ztt_nom["nicks"])
+					histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
+					config_ztt_nom["labels"] = [histogram_name_template.replace("$", "").format(
+						PROCESS=datacards.configs.sample2process(sample),
+						BIN=category,
+						SYSTEMATIC=systematic
+					)]
+					
+					merged_config = samples.Samples.merge_configs(merged_config, config_ztt_nom)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(merged_config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb

@@ -316,7 +316,7 @@ if __name__ == "__main__":
 		config_resultfit["x_label"] = "p_{T}^{#tau} [GeV]"
 		config_resultfit["y_label"] = "#tau_{ES}"
 		config_resultfit["y_lims"] = [min(args.es_shifts), max(args.es_shifts)]
-		#plot_configs.append(config_resultfit)
+		config_resultfit["filename"] = "result_" + args.fit_method + "_" + decayMode + "_" + quantity + ".root"
 		fit_configs.append(config_resultfit)
 
 	if log.isEnabledFor(logging.DEBUG):
