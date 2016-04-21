@@ -194,7 +194,8 @@ if __name__ == "__main__":
 							higgs_masses=args.higgs_masses,
 							mssm=True,
 							estimationMethod=args.background_method,
-							controlregions=args.controlregions
+							controlregions=args.controlregions,
+							cut_type="mssm"
 					)
 					
 					# systematics_settings = systematics_factory.get(shape_systematic)(config)
