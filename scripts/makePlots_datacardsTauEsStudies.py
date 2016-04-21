@@ -305,4 +305,30 @@ if __name__ == "__main__":
 					output_root_filename_template.replace("{", "").replace("}", ""),
 					args.output_dir
 				))
+				
+			model_settings = models.get("default", {"" :{}})
+			fit_settings = model_settings.get("fit", {"" : {}})
+			
+			for fit_name, fit_options in fit_settings.iteritems():
+				# text2workspace call
+				datacards_workspaces = datacards.text2workspace(
+					datacards_cbs,
+					args.n_processes,
+					"-P {MODEL} {MODEL_PARAMETERS}".format(
+						MODEL=model_settings["P"],
+						MODEL_PARAMETERS=model_settings.get("model_parameters", "")
+					)
+				)
+				
+				#combine call
+				datacards.combine(
+					datacards_cbs,
+					datacards_workspaces,
+					None,
+					args.n_processes,
+					"-M {FIT_METHOD} {FIT_OPTIONS} -n \"\"".format(
+						FIT_METHOD=fit_options["method"],
+						FIT_OPTIONS=fit_options["options"]
+					)
+				)
 			
