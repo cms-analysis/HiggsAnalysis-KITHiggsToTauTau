@@ -38,7 +38,7 @@ if __name__ == "__main__":
 	log_vbf_list = []
 	log_vbf_name_list = []
 	accepted_dirs = []
-	variables = ["TrainingSelectionValue"]
+	variables = []
 	if args.output_dir == None:
 		out_dir = args.input_dir[0]
 	else:
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 						  "iso_1":"lep1IsoOverPt:=iso_1", "m_vis":"diLepMass:=m_vis"}
 	for log_file in log_file_list:
 		c_log = jsonTools.JsonDict(log_file)
-		quantities = c_log["variables"]
+		quantities = ",".join(map(lambda ls: ls.pop(0), map(lambda s: s.split(";"), c_log["variables"].split(","))))
 		for quan in quantities.split(","):
 			if not quan in variables:
 				variables.append(quan)
@@ -155,12 +155,12 @@ if __name__ == "__main__":
 		logfile.write("touch $PlotPath/BDTs/minmax.txt\n")
 		logfile.write("\n#============Control Plots =============\n")
 		logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -r -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -c $Channels -w $Weights --scale-signal 250 -o $PlotPath/Controllplots -n $Paralells -x {variables}\n".format(variables=" ".join(variables)))
-		logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -r -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -c $Channels -w $Weights --scale-signal 250 -o $PlotPath/Controllplots_ext -e mt iso_1 -n $Paralells -x {variables}\n".format(variables=" ".join(variables)))
+		#logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -r -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -c $Channels -w $Weights --scale-signal 250 -o $PlotPath/Controllplots_ext -e mt iso_1 -n $Paralells -x {variables}\n".format(variables=" ".join(variables)))
 		logfile.write("\n\n#=====BDT Overview=====\n\n")
 		for i,name in enumerate(settings_info["MVATestMethodsNames"]):
-			if int(settings_info["MVATestMethodsNFolds"][i]) == 5:
+			#if int(settings_info["MVATestMethodsNFolds"][i]) == 5:
 				#logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"{nfold},0,100\" --filename \"stepped_{name}\"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses -e 'iso_1' 'mt' -c $Channels -w $Weights --scale-signal 250 -o $PlotPath/BDTs/{name} -n $Paralells -x 'TrainingSelectionValue' -w '1*(T1{name}=={name})+2*(T2{name}=={name})+3*(T3{name}=={name})+4*(T4{name}=={name})+5*(T5{name}=={name})'\n".format(name=name, nfold=settings_info["MVATestMethodsNFolds"][i]))
-				logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --y-subplot-lims 0.5 1.5 --x-bins \"40,-1,1\" --filename \"ratio_%s\"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses  -r --blinding-threshold 0.15 -c $Channels -w $Weights --scale-signal 250 -o $PlotPath/BDTs/%s -n $Paralells -x %s\n"%(name,name,name))
+			logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --y-subplot-lims 0.5 1.5 --x-bins \"40,-1,1\" --filename \"ratio_%s\"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses  -r --blinding-threshold 0.15 -c $Channels -w $Weights --scale-signal 250 -o $PlotPath/BDTs/%s -n $Paralells -x %s\n"%(name,name,name))
 			if name in log_vbf_name_list:
 				logfile.write("\n")
 				continue
@@ -173,8 +173,8 @@ if __name__ == "__main__":
 			for i,name in enumerate(settings_info["MVATestMethodsNames"]):
 				if name in log_vbf_name_list:
 					continue
-				logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"40,-1,1\" --filename \"integral_{name}_{vbf_tag}_tagged\" --sob-frontname \"tagged : \"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses  --integrated-sob --integration-methods 'righttoleft' 'righttoleft' 'righttoleft' 'rcombination' --integration-output $PlotPath/BDTs/minmax.txt -c $Channels --categories {name}_{vbf_tag}_tagged -w $Weights --blinding-threshold 0.15 --scale-signal 250 -o $PlotPath/BDTs/{name} -n $Paralells -x {name}\n".format(name=name, vbf_tag=vbf_tag))
-				logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"40,-1,1\" --filename \"integral_{name}_{vbf_tag}_not_tagged\" --sob-frontname \"not_tagged : \"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses  --integrated-sob --integration-methods 'righttoleft' 'righttoleft' 'righttoleft' 'rcombination' --integration-output $PlotPath/BDTs/minmax.txt -c $Channels --categories -{name}_{vbf_tag}_not_tagged w $Weights --blinding-threshold 0.15 --scale-signal 250 -o $PlotPath/BDTs/{name} -n $Paralells -x {name}\n".format(name=name, vbf_tag=vbf_tag))
+				logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"40,-1,1\" --filename \"integral_{name}_{vbf_tag}_tagged\" --sob-frontname \"tagged : \"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses  --integrated-sob --integration-methods 'righttoleft' 'righttoleft' 'righttoleft' 'rcombination' --integration-output $PlotPath/BDTs/minmax.txt -c $Channels --categories {vbf_tag}_tagged -w $Weights --blinding-threshold 0.15 --scale-signal 250 -o $PlotPath/BDTs/{name} -n $Paralells -x {name}\n".format(name=name, vbf_tag=vbf_tag))
+				logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i $ArtusInput -a '--legend 0.23 0.63 0.9 0.83 --formats png eps pdf --y-rel-lims 0.9 1.75 --x-bins \"40,-1,1\" --filename \"integral_{name}_{vbf_tag}_not_tagged\" --sob-frontname \"not_tagged : \"' -s ztt zll ttj vv wj qcd ggh qqh vh htt data -m $Masses  --integrated-sob --integration-methods 'righttoleft' 'righttoleft' 'righttoleft' 'rcombination' --integration-output $PlotPath/BDTs/minmax.txt -c $Channels --categories {vbf_tag}_not_tagged -w $Weights --blinding-threshold 0.15 --scale-signal 250 -o $PlotPath/BDTs/{name} -n $Paralells -x {name}\n".format(name=name, vbf_tag=vbf_tag))
 			logfile.write("\n")
 
 		logfile.write("\n\n#=====copy files with new categories=====\n")

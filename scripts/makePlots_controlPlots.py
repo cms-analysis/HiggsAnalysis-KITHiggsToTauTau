@@ -17,10 +17,14 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import sys
 
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass):
+	if not "scale_nicks" in config.keys():
+		config["scale_nicks"]=[]
+		config["scales"]=[]
+		config["scale_result_nicks"]=[]
 	config["analysis_modules"].append("ScaleHistograms")
-	config["scale_nicks"] = ["htt%i"%higgsmass]
-	config["scales"] = [ 1/args.scale_signal ]
-	config["scale_result_nicks"] = ["htt%iScaled"%higgsmass]
+	config["scale_nicks"].append("htt%i"%higgsmass)
+	config["scales"].append(1/args.scale_signal)
+	config["scale_result_nicks"].append("htt%iScaled"%higgsmass)
 
 	config["analysis_modules"].append("BlindingPolicy")
 	config["blinding_background_nicks"] = []
@@ -52,11 +56,15 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 	else:
 		config["nicks_blacklist"].append("blinding")
 
-def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, signal_nick, higgsmass):
+def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, signal_nick):
+	if not "scale_nicks" in config.keys():
+		config["scale_nicks"]=[]
+		config["scales"]=[]
+		config["scale_result_nicks"]=[]
 	config["analysis_modules"].append("ScaleHistograms")
-	config["scale_nicks"] = ["%s%i"%(signal_nick, higgsmass)]
-	config["scales"] = [ 1/args.scale_signal ]
-	config["scale_result_nicks"] = ["%s%iScaled"%(signal_nick, higgsmass)]
+	config["scale_nicks"].append(signal_nick)
+	config["scales"].append(1/args.scale_signal)
+	config["scale_result_nicks"].append("%sScaled"%signal_nick)
 
 	config["analysis_modules"].append("SignalOverBackgroundIntegral")
 	config["sob_integral_background_nicks"] = []
@@ -68,7 +76,7 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 		config["sob_integral_method"].append(method)
 		config["sob_integral_result_nicks"].append("integration_%i"%i + method)
 		config["sob_integral_background_nicks"].append(" ".join(bkg_samples))
-		config["sob_integral_signal_nicks"].append("htt%iScaled"%higgsmass)
+		config["sob_integral_signal_nicks"].append("%sScaled"%signal_nick)
 		config["sob_integral_outputs"].append(args.integration_output)
 	if(show_subplot):
 		config["y_subplot_label"] = "int.(S)/#sqrt{int.(B)}"
@@ -306,7 +314,12 @@ if __name__ == "__main__":
 					hmass_temp = 125
 					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
 						hmass_temp = int(args.higgs_masses[0])
-					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, args.integration_nick, hmass_temp)
+					sig_nick = "htt%i"%hmass_temp
+					if not args.integration_nick == "htt":
+						sig_nick = args.integration_nick + "%i"%hmass_temp +"_%i"%args.scale_signal
+
+					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_nick)
+
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]

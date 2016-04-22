@@ -94,10 +94,10 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 	MotherDaughterBundle selectedTau1 = product.m_genBosonTree.m_daughters[0];
 	MotherDaughterBundle selectedTau2 = product.m_genBosonTree.m_daughters[1];
-
+	
 	//TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	// otherwise the weights are set to 1
-	if ((std::abs(selectedTau1.m_node->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_node->pdgId) != DefaultValues::pdgIdTau))
+	if ((std::abs(selectedTau1.m_node->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_node->pdgId) == DefaultValues::pdgIdTau))
 	{
 		TauSpinner::SimpleParticle X = GetSimpleParticle(product.m_genBosonLV, settings.GetBosonPdgIds()[0]);
 		TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_node->p4, selectedTau1.m_node->pdgId);

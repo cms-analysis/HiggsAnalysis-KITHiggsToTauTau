@@ -25,7 +25,7 @@ class CutStringsDict:
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
 		elif channel == "mt":
-			cuts["mt"] = "(mt_1<40.0)"
+			cuts["mt"] = "(mt_1<30.0)" if cut_type == "mssm" else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
@@ -239,6 +239,8 @@ class CutStringsDict:
 	def _get_cutdict(self, channel, cut_type):
 		cuts = {}
 		if cut_type=="baseline":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="antievloosepass":
 			cuts = CutStringsDict.antievloosepass(channel, cut_type)

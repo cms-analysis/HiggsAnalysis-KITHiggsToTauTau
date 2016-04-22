@@ -32,7 +32,7 @@ public:
 	/// added by HttValidVetoMuonsProducer
 	std::vector<KMuon*> m_validVetoMuons;
 	std::vector<KMuon*> m_invalidVetoMuons;
-	
+
 	/// added by DiTauPairCandidatesProducers
 	std::vector<DiTauPair> m_validDiTauPairCandidates;
 	std::vector<DiTauPair> m_invalidDiTauPairCandidates;
@@ -44,7 +44,7 @@ public:
 	// filled by DecayChannelProducer
 	bool m_extraElecVeto = false;
 	bool m_extraMuonVeto = false;
-	
+
 	// filled by DiLeptonVetoProducers
 	int m_nDiElectronVetoPairsOS = 0;
 	int m_nDiElectronVetoPairsSS = 0;
@@ -53,26 +53,26 @@ public:
 
 	// filled by TTHTauPairProducer
 	std::vector<KTau*> m_validTTHTaus;
-	
+
 	// filled by DecayChannelProducer
 	HttEnumTypes::DecayChannel m_decayChannel;
-	
+
 	// filled by EventCategoryProducer
 	std::vector<HttEnumTypes::EventCategory> m_eventCategories;
 	HttEnumTypes::EventCategory m_exclusiveEventCategory;
-	
+
 	// TODO: To be set by producers that apply shifts
 	HttEnumTypes::SystematicShift m_systematicShift = HttEnumTypes::SystematicShift::CENTRAL;
 	float m_systematicShiftSigma = 0.0;
-	
+
 	// filled by DecayChannelProducer
 	std::vector<KLepton*> m_ptOrderedLeptons; // highest pt leptons first
 	std::vector<KLepton*> m_flavourOrderedLeptons; // according to channel definition
 	std::vector<KLepton*> m_chargeOrderedLeptons; // positively charged leptons first
-	
+
 	// filled by HttTauEnergyCorrectionProducer
 	std::map<KTau*, double> m_tauEnergyScaleWeight;
-	
+
 	// filled by HttValid<Leptons>Producer
 	std::map<KLepton*, double> m_leptonIsolation;
 	std::map<KLepton*, double> m_leptonIsolationOverPt;
@@ -111,33 +111,33 @@ public:
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
 	RMFLV m_diTauSystemCA;
 	bool m_validCollinearApproximation = false;
-	
+
 	double pZetaVis = 0.0;
 	double pZetaMiss = 0.0;
 	double pZetaMissVis = 0.0;
-	
+
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;
 	mutable SvfitInputs m_svfitInputs;
 	mutable SvfitResults m_svfitResults;
 	bool m_svfitCalculated = false;
-	
+
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
 	bool m_diJetSystemAvailable = false;
 	int m_nCentralJets20 = 0;
 	int m_nCentralJets30 = 0;
-	
+
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
 	KMET* m_pfmetUncorr = 0;
-	
+
 	// filled by the MetCorrectors
 	std::vector<float> m_metCorrections;
 	std::vector<float> m_pfmetCorrections;
 	KMET m_met;
 	KMET m_pfmet;
-	
+
 	// filled by the TauTauRestFrameProducer
 	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;
 	std::vector<RMFLV> m_flavourOrderedTauMomenta;
@@ -180,10 +180,10 @@ public:
 	double m_recoIP2 = DefaultValues::UndefinedDouble;
 	double m_recoTrackRefError1 = DefaultValues::UndefinedDouble;
 	double m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
-	
+
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
-    
+
     //MVATestMethods
     std::vector<double> m_MVATestMethodsDiscriminators;
 
@@ -200,22 +200,22 @@ public:
 	std::vector<std::pair<KMuon*, KMuon*> > m_triggerTagProbeMuonPairs;
 	std::vector<std::pair<KMuon*, KTau*> > m_triggerTagProbeMuonTauPairs;
 	std::vector<std::pair<KElectron*, KTau*> > m_triggerTagProbeElectronTauPairs;
-	
+
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonTauMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
-    
-    // filled by MVAInputQuantitiesProducer    
-    int tsValue = 0.0;
-    double pVecSum = -999;
-    double pScalSum = -999;
-    double min_ll_jet_eta = -999;
-    double lep1_centrality = -999;
-    double lep2_centrality = -999;
-    
+
+    // filled by MVAInputQuantitiesProducer
+    int tsValue = 0;
+    double pVecSum = -1;
+    double pScalSum = -1;
+    double min_ll_jet_eta = 10;
+    double lep1_centrality = -4;
+    double lep2_centrality = -1;
+
     // filled by AcceptanceEfficiencyProducer
-    int m_accEffDC = 0; 
+    int m_accEffDC = 0;
     KGenParticle* m_accEffTauMinus = nullptr;
     KGenParticle* m_accEffTauPlus = nullptr;
 };

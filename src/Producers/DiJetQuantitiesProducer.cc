@@ -8,13 +8,13 @@
 double DiJetQuantitiesProducer::GetDiJetQuantity(product_type const& product,
                                                  dijet_extractor_lambda dijetQuantity)
 {
-	return ((static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? dijetQuantity((static_cast<HttProduct const&>(product)).m_diJetSystem) : DefaultValues::UndefinedDouble);
+	return ((static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? dijetQuantity((static_cast<HttProduct const&>(product)).m_diJetSystem) : -1);
 }
 
 void DiJetQuantitiesProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
-	
+
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetMass", [this](event_type const& event, product_type const& product) {
 		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
@@ -37,7 +37,7 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetAbsDeltaEta", [](event_type const& event, product_type const& product) {
 		return product.m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
-		                                        DefaultValues::UndefinedDouble;
+		                                        -1;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetdiLepPhi", [](event_type const& event, product_type const& product) {
 		return product.m_diJetSystemAvailable ? (product.m_diJetSystem + product.m_diLeptonSystem).Phi() :
@@ -69,7 +69,7 @@ void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& pro
 			// skip first two jets
 			if ((*jet) == product.m_validJets[0]) continue;
 			if ((*jet) == product.m_validJets[1]) continue;
-			
+
 			if ((minJetEta < (*jet)->p4.Eta()) && ((*jet)->p4.Eta() < maxJetEta))
 			{
 				if ((*jet)->p4.Pt() > 20.0)

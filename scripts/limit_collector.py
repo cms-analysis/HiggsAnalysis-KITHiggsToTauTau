@@ -60,7 +60,7 @@ if __name__ == "__main__":
 			y_mid.append(mid)
 			y_up.append(up-mid)
 			y_down.append(mid-down)
-		print x_values, y_mid
+		print x_values, y_mid, y_down, y_up
 		ax.errorbar(x_values, y_mid, yerr=[y_down, y_up], color=color, markersize = 12.5, ls = "None", markeredgewidth=2, label=label, marker = "x")
 
 	ax.set_xticks([i for i in range(0,len(x_names)+1)])

@@ -61,13 +61,11 @@ public:
 	typedef typename HttTypes::event_type spec_event_type;
 	typedef typename HttTypes::product_type spec_product_type;
 	typedef typename HttTypes::setting_type spec_setting_type;
-
-
+	
 	virtual std::string GetProducerId() const override
 	{
 		return "MVATestMethodsProducer";
 	}
-//	 MVATestMethodsProducer();
 	MVATestMethodsProducer();
 
 	virtual void Init(spec_setting_type const& settings) override;

@@ -1,10 +1,7 @@
-
 #include <Math/VectorUtil.h>
-
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVATestMethodsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 #include "Artus/Utility/interface/DefaultValues.h"
-
 
 MVATestMethodsProducer::MVATestMethodsProducer() :
 	TmvaClassificationMultiReaderBase<HttTypes>(&spec_setting_type::GetMVATestMethodsInputQuantities,
@@ -63,7 +60,6 @@ void MVATestMethodsProducer::Init(spec_setting_type const& settings)
 			output_index += 1;
 		}
 	}
-
 	// has to be called at the end of the subclass function
 	TmvaClassificationMultiReaderBase<HttTypes>::Init(settings);
 }
@@ -76,7 +72,6 @@ void  MVATestMethodsProducer::Produce(spec_event_type const& event,
 	assert(event.m_tjets);
 	assert(event.m_jetMetadata);
 	assert(product.m_metUncorr);
-
 	// has to be called at the end of the subclass function
 	TmvaClassificationMultiReaderBase<HttTypes>::Produce(event, product, settings);
 }

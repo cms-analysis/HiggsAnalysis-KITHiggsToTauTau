@@ -21,24 +21,28 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 
 samples_dict = {
-        # 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
-        # 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
-        'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
-        'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
-        'em' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
-        'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])]
-        }
+	'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl"])],
+	'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl"])],
+	# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
+	# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
+	# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
+	# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
+	'em' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
+	'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])]
+	}
 shapes = {
-        "toppt" : "CMS_htt_ttbarShape_${CHANNEL}_13TeV",
-        "taupt" : "CMS_eff_t_mssmHigh_${CHANNEL}_13TeV",
-        "taues" : "CMS_scale_t_${CHANNEL}_13TeV"
-        }
+	"toppt" : "CMS_htt_ttbarShape_13TeV",
+	"taupt" : "CMS_eff_t_mssmHigh_{CHANNEL}_13TeV",
+	"taues" : "CMS_scale_t_{CHANNEL}_13TeV",
+	"zpt" : "CMS_htt_dyShape_13TeV"
+	}
 shapes_weight_dict = {
-		"toppt" : ("1.0/TopPtReweightWeight","TopPtReweightWeight"),
-		"taupt" : ("(1-200*had_gen_match_pT_1)*(1-200*had_gen_match_pT_2)", "(1+200*had_gen_match_pT_1)*(1+200*had_gen_match_pT_2)"),
+		"toppt" : ("1.0/topPtReweightWeight","topPtReweightWeight"),
+		"zpt" : ("1.0/zPtReweightWeight","zPtReweightWeight"),
+		"taupt" : ("(1-0.0002*had_gen_match_pT_1)*(1-0.0002*had_gen_match_pT_2)", "(1+0.0002*had_gen_match_pT_1)*(1+0.0002*had_gen_match_pT_2)"),
 		"taues" : ("1.0", "1.0"),
 		"nominal" : ("1.0", "1.0")
-        }
+	}
 mapping_process2sample = {
 	"data_obs" : "data",
 	"ZTT" : "ztt",
@@ -58,8 +62,8 @@ mapping_process2sample = {
 }
 
 def sample2process(sample):
-        tmp_sample = re.match("(?P<sample>[^0-9]*).*", sample).groupdict().get("sample", "")
-        return sample.replace(tmp_sample, dict([reversed(item) for item in mapping_process2sample.iteritems()]).get(tmp_sample, tmp_sample))
+	tmp_sample = re.match("(?P<sample>[^0-9]*).*", sample).groupdict().get("sample", "")
+	return sample.replace(tmp_sample, dict([reversed(item) for item in mapping_process2sample.iteritems()]).get(tmp_sample, tmp_sample))
 
 def getcategory(basecategory, sample):
 	regions = {"_os_highmt" : "_wjets_cr", "_ss_highmt" : "_wjets_ss_cr", "_ss_lowmt" : "_qcd_cr"}
@@ -170,7 +174,7 @@ if __name__ == "__main__":
 					list_of_samples = args.samples
 				
 				for shift_up in ([True] if nominal else [True, False]):
-					systematic = "nominal" if nominal else (shapes[shape_systematic].format(CHANNEL = channel) + ("Up" if shift_up else "Dmwn"))
+					systematic = "nominal" if nominal else (shapes[shape_systematic].format(CHANNEL = channel) + ("Up" if shift_up else "Down"))
 					
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 							samples="\", \"".join(list_of_samples),
@@ -178,7 +182,7 @@ if __name__ == "__main__":
 							category=category,
 							systematic=systematic
 					))
-                                        # modify weight for toppt, taupt
+					# modify weight for toppt, taupt
 					additional_weight = shapes_weight_dict[shape_systematic][1] if shift_up else shapes_weight_dict[shape_systematic][0]
 
 					# prepare plotting configs for retrieving the input histograms
@@ -192,20 +196,24 @@ if __name__ == "__main__":
 							higgs_masses=args.higgs_masses,
 							mssm=True,
 							estimationMethod=args.background_method,
-							controlregions=args.controlregions
+							controlregions=args.controlregions,
+							cut_type="mssm"
 					)
 					
-					systematics_settings = systematics_factory.get(shape_systematic)(config)
-					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+					# systematics_settings = systematics_factory.get(shape_systematic)(config)
+					# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
-                                        # modify folder for taues
-                                        if shape_systematic == "taues":
-                                            replacestring = "jecUncNom_tauEsUp" if shift_up else "jecUncNom_tauEsDown"
-                                            config["folders"] = [folder.replace("jecUncNom_tauEsNom", replacestring) for folder in config["folders"]]
+					# modify folder for taues
+					if shape_systematic == "taues":
+						replacestring = "jecUncNom_tauEsUp" if shift_up else "jecUncNom_tauEsDown"
+						for index, folder in enumerate(config["folders"]):
+					   		if any([(proc in config["nicks"][index]) for proc in ["ggh","bbh","ztt"]]):
+								# hack to only substitute the folder for those where it is needed
+								config["folders"][index] = config["folders"][index].replace("jecUncNom_tauEsNom", replacestring)
 
 					config["x_expressions"] = [args.quantity]
 					
-					binnings_key = "binningHttMSSM13TeV_"+category+"_svfitMass"
+					binnings_key = "binningHttMSSM13TeV_"+category+"_"+args.quantity
 					if binnings_key in binnings_settings.binnings_dict:
 						config["x_bins"] = [binnings_key]
 					else:
@@ -237,7 +245,7 @@ if __name__ == "__main__":
 					if "legend_markers" in config:
 						config.pop("legend_markers")
 					if args.for_dcsync:
-					    config["wjets_from_mc"] = [True,True]
+						config["wjets_from_mc"] = [True,True]
 			
 					plot_configs.append(config)
 			

@@ -165,11 +165,39 @@ int main(int argc, const char *argv[])
         outdecayMode1 = decayMode1;
         outdecayMode2 = decayMode2;
         outhash = hash;
+        double leptonMass1 = 0;
+        double leptonMass2 = 0;
 
         // execute integration
+        //setup inputs for calculation
+        if(decayType1 == 2)
+        {
+            leptonMass1 = 0.51100e-3;
+        }
+        else if(decayType1 == 3)
+        {
+            leptonMass1 = 105.658e-3;
+        }
+        else
+        {
+            leptonMass1 = leptonMomentum1->M();
+        }
+        if(decayType2 == 2)
+        {
+            leptonMass2 = 0.51100e-3;
+        }
+        else if(decayType2 == 3)
+        {
+            leptonMass2 = 105.658e-3;
+        }
+        else
+        {
+            leptonMass2 = leptonMomentum2->M();
+        }
+
         std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-            svFitStandalone::MeasuredTauLepton(static_cast<svFitStandalone::kDecayType>(decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMomentum1->M(), decayMode1),
-            svFitStandalone::MeasuredTauLepton(static_cast<svFitStandalone::kDecayType>(decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMomentum2->M(), decayMode2)
+            svFitStandalone::MeasuredTauLepton(static_cast<svFitStandalone::kDecayType>(decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, decayMode1),
+            svFitStandalone::MeasuredTauLepton(static_cast<svFitStandalone::kDecayType>(decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, decayMode2)
         };
         TMatrixD metCovarianceMatrix(2, 2);
         metCovarianceMatrix[0][0] = metCovariance->At(0, 0);

@@ -251,13 +251,11 @@ if __name__ == "__main__":
 						default=["tt", "mt", "et", "em", "mm", "ee"],
 						help="Channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantities", nargs="*",
-						default=["pVecSum", "pt_1", "mt_1", "pt_2", "mt_2", "met",
-								"mvamet", "pZetaMissVis", "pzetamiss",
-								"pzetavis","njets", "nbtag",
-								"min_ll_jet_eta","lep1_centrality",
-								"lep2_centrality",
-								"delta_lep_centrality", "iso_1"],
-						help="Quantities to train on. [Default: %(default)s]")
+						default=["pVecSum;F", "pt_1;F", "mt_1;F", "pt_2;F", "mt_2;F",
+								"mvamet;F", "pZetaMissVis;F","njets;I",
+								"lep1_centrality;F","lep2_centrality;F",
+								"delta_lep_centrality;F", "pScalSum;F"],
+						help="Quantities to train on.  [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=2.301,
 						help="""Luminosity for the given data in fb^(-1).
 								[Default: %(default)s]""")
@@ -265,7 +263,7 @@ if __name__ == "__main__":
 						help="""Additional weight (cut) expression.
 						[Default: %(default)s]""")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+",
-						default=["iso_1", "mt"],
+						default=[],
 						choices=["pZetaMiss", "pZetaVis", "iso_1", "iso_2", "mt_1", "mt_2", "mt"],
 						help="""Exclude (default) selection cuts.
 						[Default: %(default)s]""")
@@ -323,44 +321,50 @@ if __name__ == "__main__":
 				config_list.append(copy_cargs)
 
 		if 2 in cargs.modification:
-			for i in range(750, 1751, 250)+range(1800,2001,100):
-				for samps in [(['ggh', 'qqh', 'vh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['ggh'], ["ztt", "zll", "ttj", "vv", "wj"]), (['qqh'], ["ztt", "zll", "ttj", "vv", "wj"])]:
+			for j in range(2,6):
+				for i in range(750, 1751, 250):
+					for samps in [(['ggh', 'qqh', 'vh'], ["ztt", "zll", "ttj", "vv", "wj"])]:
+					#, (['qqh'], ["ztt", "zll", "ttj", "vv", "wj"])]:
+						#=======This is a very basic collection of possible signal background combinations
+						copy_cargs = copy.deepcopy(cargs_values)
+						copy_cargs["signal_samples"] = samps[0]
+						copy_cargs["bkg_samples"] = samps[1]
+						front = ''
+						back = ''
+						fill = '_{0}_'
+						if len(samps[0]) > 1:
+							front = "{fold}_".format(fold=j) + 'xxh'
+						else:
+							front = "{fold}_".format(fold=j) + samps[0][0]
+						if len(samps[1]) > 1:
+							back = 'all'
+						else:
+							back = samps[1][0]
+						copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], front + fill + back).format(i)
+						copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={0}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2".format(i)]
+						copy_cargs["n_fold"] = j
+						config_list.append(copy.deepcopy(copy_cargs))
+						#copy_cargs["quantities"].append("m_vis")
+						#copy_cargs["output_file"] += "_m_vis"
+						#config_list.append(copy_cargs)
+				for i in range(100, 501, 100):
+					samps = ['qqh', 'ggh']
 					#=======This is a very basic collection of possible signal background combinations
 					copy_cargs = copy.deepcopy(cargs_values)
-					copy_cargs["signal_samples"] = samps[0]
-					copy_cargs["bkg_samples"] = samps[1]
-					front = ''
-					back = ''
-					fill = '_{0}_'
-					if len(samps[0]) > 1:
-						front = 'xxh'
-					else:
-						front = samps[0][0]
-					if len(samps[1]) > 1:
-						back = 'all'
-					else:
-						back = samps[1][0]
-					copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], front + fill + back).format(i)
-					copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={0}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2".format(i)]
+					copy_cargs["signal_samples"] = [samps[0]]
+					copy_cargs["bkg_samples"] = [samps[1]]
+					front = "{fold}_".format(fold=j)+samps[0]
+					back = samps[1]
+					fill = '_{i}_'
+					copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], front + fill + back).format(i=i)
+					copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=i)]
+					copy_cargs["n_fold"] = j
+					copy_cargs["quantities"].append("jdeta")
+					copy_cargs["quantities"].append("mjj")
 					config_list.append(copy.deepcopy(copy_cargs))
-					copy_cargs["quantities"].append("m_vis")
-					copy_cargs["output_file"] += "_m_vis"
-					config_list.append(copy_cargs)
-			for i in range(100, 1501, 100):
-				samps = ['qqh', 'ggh']
-				#=======This is a very basic collection of possible signal background combinations
-				copy_cargs = copy.deepcopy(cargs_values)
-				copy_cargs["signal_samples"] = [samps[0]]
-				copy_cargs["bkg_samples"] = [samps[1]]
-				front = samps[0]
-				back = samps[1]
-				fill = '_{0}_'
-				copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], front + fill + back).format(i)
-				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={0}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2".format(i)]
-				config_list.append(copy.deepcopy(copy_cargs))
-				copy_cargs["quantities"].append("m_vis")
-				copy_cargs["output_file"] += "_m_vis"
-				config_list.append(copy_cargs)
+					#copy_cargs["quantities"].append("m_vis")
+					#copy_cargs["output_file"] += "_m_vis"
+					#config_list.append(copy_cargs)
 		if 3 in cargs.modification:
 			for i in range(4,9,1):
 				copy_cargs = copy.deepcopy(cargs_values)
@@ -371,6 +375,8 @@ if __name__ == "__main__":
 			log.info("Start training of BDT config number %i"%cargs.config_number)
 			if cargs.dry_run:
 				log.info("Dry-Run: aborting training")
+				jsonTools.JsonDict(config_list[cargs.config_number]).save("TrainingConfigs.config", indent = 4)
+				log.info("TrainingConfigs[%i] saved to TrainingConfigs.config"%cargs.config_number)
 				log.info(config_list[cargs.config_number])
 				sys.exit()
 			if cargs.config_number > len(config_list):
@@ -381,6 +387,8 @@ if __name__ == "__main__":
 			log.info("Start training of %i BDTs"%len(config_list))
 			if cargs.dry_run:
 				log.info("Dry-Run: aborting training")
+				jsonTools.JsonDict(config_list).save("TrainingConfigs.config", indent = 4)
+				log.info("TrainingConfigs saved to TrainingConfigs.config")
 				sys.exit()
 			aTools.parallelize(do_training, config_list, n_processes=int(cargs.j))
 	else:
