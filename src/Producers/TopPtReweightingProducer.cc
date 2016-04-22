@@ -19,7 +19,6 @@ void TopPtReweightingProducer::Produce( KappaEvent const& event,
 	}
 	
 	float topPtWeight;
-	std::cout << tops.size() << std::endl;
 	assert(tops.size() == 2);
 	if ((tops.at(0).p4.Pt() > 400.0) && (tops.at(1).p4.Pt() > 400.0))
 	{

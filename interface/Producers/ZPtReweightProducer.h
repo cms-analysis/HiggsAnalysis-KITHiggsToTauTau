@@ -5,6 +5,7 @@
 //#include "Artus/KappaAnalysis/interface/KappaProducerBase.h"
 #include "Artus/Core/interface/ProducerBase.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+#include <boost/regex.hpp>
 
 /**
    \brief ZPtReweightProducer

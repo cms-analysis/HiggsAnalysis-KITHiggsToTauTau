@@ -21,8 +21,8 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 
 samples_dict = {
-	'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"])],
-	'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"])],
+	'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl"])],
+	'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl"])],
 	# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 	# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 	# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
@@ -33,10 +33,12 @@ samples_dict = {
 shapes = {
 	"toppt" : "CMS_htt_ttbarShape_13TeV",
 	"taupt" : "CMS_eff_t_mssmHigh_{CHANNEL}_13TeV",
-	"taues" : "CMS_scale_t_{CHANNEL}_13TeV"
+	"taues" : "CMS_scale_t_{CHANNEL}_13TeV",
+	"zpt" : "CMS_htt_dyShape_13TeV"
 	}
 shapes_weight_dict = {
 		"toppt" : ("1.0/topPtReweightWeight","topPtReweightWeight"),
+		"zpt" : ("1.0/zPtReweightWeight","zPtReweightWeight"),
 		"taupt" : ("(1-0.0002*had_gen_match_pT_1)*(1-0.0002*had_gen_match_pT_2)", "(1+0.0002*had_gen_match_pT_1)*(1+0.0002*had_gen_match_pT_2)"),
 		"taues" : ("1.0", "1.0"),
 		"nominal" : ("1.0", "1.0")
