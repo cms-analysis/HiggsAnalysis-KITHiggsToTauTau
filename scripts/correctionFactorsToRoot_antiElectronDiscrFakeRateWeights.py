@@ -21,7 +21,7 @@ if __name__ == "__main__":
 	                                 parents=[logger.loggingParser])
 
 	parser.add_argument("-o", "--output",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA5FakeRateWeights.root",
+	                    default="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 
 	args = parser.parse_args()

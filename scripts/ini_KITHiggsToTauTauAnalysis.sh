@@ -16,6 +16,9 @@ export PATH=${CMSSW_BASE}/src/grid-control/:${PATH}
 cp $KITHIGGSTOTAUTAUPATH/data/tauspinner.xml $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected/tauspinner.xml
 scram setup tauspinner
 
+# FastBDT
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CMSSW_BASE}/src/FastBDT/
+
 # overwrite artus settings
 if [[ `hostname` == *naf* ]]; then
 	export ARTUS_WORK_BASE="/nfs/dust/cms/user/${USER}/htautau/artus/"

@@ -58,6 +58,10 @@ def do_splitting(args, plot_configs):
 	splits_list = []
 	stored_files_list = []
 	s_b_extension = []
+	#TMVA Stuff
+	ROOT.TMVA.Tools.Instance()
+	ROOT.gPluginMgr.AddHandler("TMVA@@MethodBase", ".*_FastBDT.*", "TMVA::MethodFastBDT", "TMVAFastBDT", "MethodFastBDT(TMVA::DataSetInfo&,TString)")
+	ROOT.gPluginMgr.AddHandler("TMVA@@MethodBase", ".*FastBDT.*", "TMVA::MethodFastBDT", "TMVAFastBDT", "MethodFastBDT(TString&,TString&,TMVA::DataSetInfo&,TString&)")
 	if args["Split"] and args["n_fold"] == 1:
 		splits_list.append("(TrainingSelectionValue>=%i)*"%int(args["Split"]))
 		splits_list.append("(TrainingSelectionValue<%i)*"%int(args["Split"]))
@@ -194,8 +198,8 @@ def do_training(args):
 													ROOT.TCut(''), "train")
 					log.debug("Add to Factory_%i sample %s as TrainingsSample as %s"%(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension[j]))
 
-		factory.SetBackgroundWeightExpression('eventWeight')
-		factory.SetSignalWeightExpression('eventWeight')
+		factory.SetBackgroundWeightExpression('eventWeight' + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
+		factory.SetSignalWeightExpression('eventWeight' + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
 		factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
 												ROOT.TCut(''),
 												"NormMode=None:!V")
@@ -204,7 +208,10 @@ def do_training(args):
 			log.debug("prepare method %s"%method)
 			method, options = method.split(';')
 			name = method + '_' + filename
-			factory.BookMethod(method, name, options)
+			if(method == "FastBDT"):
+				factory.BookMethod(ROOT.TMVA.Types.kPlugins, method, options)
+			else:
+				factory.BookMethod(method, name, options)
 			log.debug("TMVA.Factory.BookMethod(" + ", ".join(
 				["\"" + m + "\"" for m in (method, name, options)]) + ")")
 		#perform full training
