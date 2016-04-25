@@ -43,7 +43,7 @@ cd $CMSSW_BASE/src
 git clone https://github.com/thomas-mueller/HHKinFit2.git
 
 # needed for plotting and statistical inference
-git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
+git clone https://github.com/artus-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
 #git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester # uncommented since not approved for ROOT6
 #### --change to the recommendation of Combind Twiki 
 ##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
