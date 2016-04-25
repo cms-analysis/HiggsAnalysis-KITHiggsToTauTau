@@ -63,6 +63,13 @@ git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/
 ## git clone https://github.com/rfriese/TauSpinnerSetup
 ## python TauSpinnerSetup/checkoutPackagesForTauSpinner.py --tauolaversion=1.1.5
 
+#FastBDT
+git clone https://github.com/thomaskeck/FastBDT.git
+cd $CMSSW_BASE/src/FastBDT
+cmake .
+make
+cd $CMSSW_BASE/src/
+
 # Grid-Control
 svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/trunk/grid-control -r 1501
 
