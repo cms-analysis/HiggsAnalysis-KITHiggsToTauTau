@@ -100,9 +100,9 @@ if __name__ == "__main__":
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
 		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
@@ -158,10 +158,6 @@ if __name__ == "__main__":
 						systematic=systematic
 					))
 		
-					# prepare plotting configs for retrieving the input histograms
-					ztt_configs = []
-					rest_config = {}
-		
 					# config for rest for each pt range
 					# need to get "rest" first in order for corrections of negative bin contents to have an effect
 					config_rest = sample_settings.get_config(
@@ -207,32 +203,33 @@ if __name__ == "__main__":
 						config_ztt["labels"] = [histogram_name_template.replace("$", "").format(
 							PROCESS=datacards.configs.sample2process(sample),
 							BIN=category,
+							MASS=str(shift),
 							SYSTEMATIC=systematic
-						) + "_" + str(shift) for sample in config_ztt["labels"]]
+						) for sample in config_ztt["labels"]]
 						
 						# merge configs
 						merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
 					
 					# combine harvester needs to find ZTT in root file
 					# and config_ztt only contains ZTT_0_96, ZTT_0_97, etc.
-					config_ztt_nom = sample_settings.get_config(
-						samples=[getattr(samples.Samples, "ztt")],
-						channel=channel,
-						category="cat" + decayMode + "_" + channel,
-						nick_suffix="_" + str(pt_index),
-						weight=ptweight,
-						lumi=args.lumi * 1000
-					)
+					#config_ztt_nom = sample_settings.get_config(
+						#samples=[getattr(samples.Samples, "ztt")],
+						#channel=channel,
+						#category="cat" + decayMode + "_" + channel,
+						#nick_suffix="_" + str(pt_index),
+						#weight=ptweight,
+						#lumi=args.lumi * 1000
+					#)
 					
-					config_ztt_nom["x_expressions"] = [quantity] * len(config_ztt_nom["nicks"])
-					histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
-					config_ztt_nom["labels"] = [histogram_name_template.replace("$", "").format(
-						PROCESS=datacards.configs.sample2process(sample),
-						BIN=category,
-						SYSTEMATIC=systematic
-					)]
+					#config_ztt_nom["x_expressions"] = [quantity] * len(config_ztt_nom["nicks"])
+					#histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
+					#config_ztt_nom["labels"] = [histogram_name_template.replace("$", "").format(
+						#PROCESS=datacards.configs.sample2process(sample),
+						#BIN=category,
+						#SYSTEMATIC=systematic
+					#)]
 					
-					merged_config = samples.Samples.merge_configs(merged_config, config_ztt_nom)
+					#merged_config = samples.Samples.merge_configs(merged_config, config_ztt_nom)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(merged_config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
@@ -297,56 +294,59 @@ if __name__ == "__main__":
 					processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
 					add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 				)
-				
+			
 			# create morphing
-			ws = ROOT.RooWorkspace("TauES","TauES")
-			if decayMode == "OneProngPiZeros" and quantity == "m_2":
-				mes = ROOT.RooRealVar("mes","",0.775,0.3,4.2)
-			elif decayMode == "ThreeProng" and quantity == "m_2":
-				mes = ROOT.RooRealVar("mes","",1.23,0.8,1.5)
-			elif decayMode == "OneProng" or quantity == "m_vis":
-				mes = ROOT.RooRealVar("mes","",91,0,200)
+			ws = ROOT.RooWorkspace("w","w")
+			#if decayMode == "OneProngPiZeros" and quantity == "m_2":
+				#mes = ROOT.RooRealVar("mes","",0.775,0.3,4.2)
+			#elif decayMode == "ThreeProng" and quantity == "m_2":
+				#mes = ROOT.RooRealVar("mes","",1.23,0.8,1.5)
+			#elif decayMode == "OneProng" or quantity == "m_vis":
+			mes = ROOT.RooRealVar("mes","", 1.0, 0.94, 1.06)
 			
 			morphing.BuildRooMorphing(ws,datacards.cb,category,datacards.configs.sample2process(sample),mes,"norm",True,True)
 			
 			# For some reason the default arguments are not working in the python wrapper
 			# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
 			# is set by hand to their default values
-			datacards.cb.AddWorkspace(ws,False)
-			datacards.cb.cp().signals().ExtractPdfs(datacards.cb, "TauES", "$BIN_$PROCESS_morph","")
+			datacards.cb.AddWorkspace(ws, False)
+			datacards.cb.cp().signals().ExtractPdfs(datacards.cb, "w", "$BIN_$PROCESS_morph","")
 	
-			# write datacards and call text2workspace
+			# write datacards
 			datacards_cbs = {}
 			for datacard_filename_template in datacard_filename_templates:
-				datacards_cbs.update(datacards.write_datacards(
-					datacard_filename_template.replace("{", "").replace("}", ""),
-					output_root_filename_template.replace("{", "").replace("}", ""),
-					args.output_dir
-				))
+				dcname = os.path.join(args.output_dir, datacard_filename_template.replace("$", "").format(
+										ANALYSIS="ztt",
+										CHANNEL=channel,
+										ERA="13TeV"))
+				output = os.path.join(args.output_dir, output_root_filename_template.replace("$", "").format(
+										ANALYSIS="ztt",
+										ERA="13TeV"))
 				
-			model_settings = models.get("default", {"" :{}})
-			fit_settings = model_settings.get("fit", {"" : {}})
+				if not os.path.exists(os.path.dirname(dcname)):
+					os.makedirs(os.path.dirname(dcname))
+				if not os.path.exists(os.path.dirname(output)):
+					os.makedirs(os.path.dirname(output))
+				datacards.cb.cp().channel([channel]).mass(["*"]).WriteDatacard(dcname, output)
+				datacards_cbs[dcname] = datacards.cb
 			
-			for fit_name, fit_options in fit_settings.iteritems():
-				# text2workspace call
-				datacards_workspaces = datacards.text2workspace(
-					datacards_cbs,
-					args.n_processes,
-					"-P {MODEL} {MODEL_PARAMETERS}".format(
-						MODEL=model_settings["P"],
-						MODEL_PARAMETERS=model_settings.get("model_parameters", "")
-					)
-				)
-				
-				#combine call
-				datacards.combine(
-					datacards_cbs,
-					datacards_workspaces,
-					None,
-					args.n_processes,
-					"-M {FIT_METHOD} {FIT_OPTIONS} -n \"\"".format(
-						FIT_METHOD=fit_options["method"],
-						FIT_OPTIONS=fit_options["options"]
-					)
-				)
+			#text2workspace call
+			commands = []
+			for datacard, cb in datacards_cbs.iteritems():
+				commands.append("text2workspace.py {DATACARD} -o {OUTPUT}".format(
+					DATACARD=datacard,
+					OUTPUT=os.path.splitext(datacard)[0]+".root"))
+		
+			tools.parallelize(_call_command, commands, n_processes=1)
 			
+			#combine call
+			#fails with
+			#Error in <GSLError>: Error 4 in interp.c at 38 : insufficient number of points for interpolation type
+			#Error in <GSLError>: Error 8 in spline.c at 42 : failed to allocate space for interp
+			#double ROOT::Math::GSLInterpolator::Eval(double) const: Assertion `fAccel' failed.
+			commands = []
+			for datacard, cb in datacards_cbs.iteritems():
+				commands.append("combine -M MaxLikelihoodFit -m 1.0 {WORKSPACE}".format(
+					WORKSPACE=os.path.splitext(datacard)[0]+".root"))
+		
+			tools.parallelize(_call_command, commands, n_processes=1)
