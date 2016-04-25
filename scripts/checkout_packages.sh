@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e # exit on errors
 
-export SCRAM_ARCH=slc6_amd64_gcc481
+export SCRAM_ARCH=slc6_amd64_gcc530
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
 
 # set up CMSSW release area
-scramv1 project CMSSW CMSSW_7_1_5; cd CMSSW_7_1_5/src # slc6 # Combine requires this version
+scramv1 project CMSSW CMSSW_8_0_4; cd CMSSW_8_0_4/src 
 eval `scramv1 runtime -sh`
 
 # JEC
@@ -31,7 +31,7 @@ git clone https://github.com/artus-analysis/Artus.git -b Kappa_2_1
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau
+git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b ROOT6
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
 #svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 
@@ -40,20 +40,20 @@ git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStand
 cd TauAnalysis/SVfitStandalone
 git checkout dd7cf43e3f930040959f7d700cef976307d7cec3 -b current
 cd $CMSSW_BASE/src
-echo '<use   name="rootrflx"/>'>> TauAnalysis/SVfitStandalone/BuildFile.xml
 git clone https://github.com/thomas-mueller/HHKinFit2.git
 
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
-git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
+#git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester # uncommented since not approved for ROOT6
 #### --change to the recommendation of Combind Twiki 
 ##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
 ##git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit
-git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
-cd HiggsAnalysis/CombinedLimit
-git fetch origin
-git checkout v5.0.3
-cd -
+
+# git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit # does not compile in ROOT6
+# cd HiggsAnalysis/CombinedLimit
+#git fetch origin
+#git checkout v5.0.3
+#cd -
 
 
 # needed for error propagation e.g. in the background estimations
