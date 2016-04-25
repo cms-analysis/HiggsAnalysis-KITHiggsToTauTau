@@ -340,10 +340,6 @@ if __name__ == "__main__":
 			tools.parallelize(_call_command, commands, n_processes=1)
 			
 			#combine call
-			#fails with
-			#Error in <GSLError>: Error 4 in interp.c at 38 : insufficient number of points for interpolation type
-			#Error in <GSLError>: Error 8 in spline.c at 42 : failed to allocate space for interp
-			#double ROOT::Math::GSLInterpolator::Eval(double) const: Assertion `fAccel' failed.
 			commands = []
 			for datacard, cb in datacards_cbs.iteritems():
 				commands.append("combine -M MaxLikelihoodFit -m 1.0 {WORKSPACE}".format(

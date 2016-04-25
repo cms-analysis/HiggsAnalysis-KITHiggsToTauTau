@@ -23,7 +23,7 @@ class TauEsDatacards(datacards.Datacards):
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],
-					mass=["1.0"]
+					mass=["0.96","0.97","0.98","0.99","1.0","1.01","1.02","1.03","1.04","1.05","1.06"]
 			)
 		
 			# efficiencies
