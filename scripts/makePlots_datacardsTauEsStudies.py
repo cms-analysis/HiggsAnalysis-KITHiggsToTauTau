@@ -10,6 +10,7 @@ import copy
 import os
 
 import CombineHarvester.CombineTools.ch as ch
+import CombineHarvester.CombinePdfs.morphing as morphing
 import ROOT
 
 import Artus.Utility.tools as tools
@@ -212,7 +213,7 @@ if __name__ == "__main__":
 						# merge configs
 						merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
 					
-					# combine harvester need to find ZTT in root file
+					# combine harvester needs to find ZTT in root file
 					# and config_ztt only contains ZTT_0_96, ZTT_0_97, etc.
 					config_ztt_nom = sample_settings.get_config(
 						samples=[getattr(samples.Samples, "ztt")],
@@ -296,6 +297,23 @@ if __name__ == "__main__":
 					processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
 					add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 				)
+				
+			# create morphing
+			ws = ROOT.RooWorkspace("TauES","TauES")
+			if decayMode == "OneProngPiZeros" and quantity == "m_2":
+				mes = ROOT.RooRealVar("mes","",0.775,0.3,4.2)
+			elif decayMode == "ThreeProng" and quantity == "m_2":
+				mes = ROOT.RooRealVar("mes","",1.23,0.8,1.5)
+			elif decayMode == "OneProng" or quantity == "m_vis":
+				mes = ROOT.RooRealVar("mes","",91,0,200)
+			
+			morphing.BuildRooMorphing(ws,datacards.cb,category,datacards.configs.sample2process(sample),mes,"norm",True,True)
+			
+			# For some reason the default arguments are not working in the python wrapper
+			# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
+			# is set by hand to their default values
+			datacards.cb.AddWorkspace(ws,False)
+			datacards.cb.cp().signals().ExtractPdfs(datacards.cb, "TauES", "$BIN_$PROCESS_morph","")
 	
 			# write datacards and call text2workspace
 			datacards_cbs = {}
