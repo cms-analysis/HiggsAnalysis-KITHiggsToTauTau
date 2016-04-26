@@ -4,7 +4,7 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import HiggsAnalysis.KITHiggsToTauTau.datacards.mvadatacards_base as datacards
+import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import os
 
 class MVADatacards(datacards.Datacards):
@@ -14,7 +14,6 @@ class MVADatacards(datacards.Datacards):
 		if cb is None:
 			signal_processes = ["ggH", "qqH", "WH", "ZH"]
 			# ==========================Copy here!=========================================
-			# MT channel
 			categories={}
 			for channel in ["tt", "mt", "et", "em"]:
 				categories[channel] = []
@@ -24,6 +23,8 @@ class MVADatacards(datacards.Datacards):
 						cat = line.strip()
 						categories[channel].append(cat)
 			###=========================Copy here!=========================================
+
+			# MT channel
 			self.add_processes(
 					channel="mt",
 					#categories=["mt_"+category for category in ["2jet_vbf", "ztt_loose", "ztt_tight", "inclusive"]],
@@ -31,7 +32,7 @@ class MVADatacards(datacards.Datacards):
 					categories=[category for category in categories["mt"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
-					analysis=["MVATest"],
+					analysis=["mvaHtt"],
 					era=["13TeV"],
 					mass=higgs_masses
 			)
@@ -57,7 +58,7 @@ class MVADatacards(datacards.Datacards):
 					categories=[category for category in categories["et"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
-					analysis=["MVATest"],
+					analysis=["mvaHtt"],
 					era=["13TeV"],
 					mass=higgs_masses
 			)
@@ -83,7 +84,7 @@ class MVADatacards(datacards.Datacards):
 					categories=[category for category in categories["em"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
-					analysis=["MVATest"],
+					analysis=["mvaHtt"],
 					era=["13TeV"],
 					mass=higgs_masses
 			)
@@ -102,7 +103,7 @@ class MVADatacards(datacards.Datacards):
 					categories=[category for category in categories["tt"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
-					analysis=["MVATest"],
+					analysis=["mvaHtt"],
 					era=["13TeV"],
 					mass=higgs_masses
 			)
