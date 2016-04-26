@@ -9,8 +9,6 @@ import argparse
 import copy
 import os
 
-import CombineHarvester.CombineTools.ch as ch
-
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
