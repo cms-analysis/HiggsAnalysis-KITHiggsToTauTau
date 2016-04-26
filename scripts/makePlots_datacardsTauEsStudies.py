@@ -23,9 +23,26 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.taupogdatacards as taupogdatacar
 
 
 
-def _call_command(command):
+def _call_command(args):
+	command = None
+	cwd = None
+	if isinstance(args, basestring):
+		command = args
+	else:
+		command = args[0]
+		if len(args) > 1:
+			cwd = args[1]
+	
+	old_cwd = None
+	if not cwd is None:
+		old_cwd = os.getcwd()
+		os.chdir(cwd)
+	
 	log.debug(command)
 	logger.subprocessCall(command, shell=True)
+	
+	if not cwd is None:
+		os.chdir(old_cwd)
 
 
 if __name__ == "__main__":
@@ -210,27 +227,6 @@ if __name__ == "__main__":
 						# merge configs
 						merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
 					
-					# combine harvester needs to find ZTT in root file
-					# and config_ztt only contains ZTT_0_96, ZTT_0_97, etc.
-					#config_ztt_nom = sample_settings.get_config(
-						#samples=[getattr(samples.Samples, "ztt")],
-						#channel=channel,
-						#category="cat" + decayMode + "_" + channel,
-						#nick_suffix="_" + str(pt_index),
-						#weight=ptweight,
-						#lumi=args.lumi * 1000
-					#)
-					
-					#config_ztt_nom["x_expressions"] = [quantity] * len(config_ztt_nom["nicks"])
-					#histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
-					#config_ztt_nom["labels"] = [histogram_name_template.replace("$", "").format(
-						#PROCESS=datacards.configs.sample2process(sample),
-						#BIN=category,
-						#SYSTEMATIC=systematic
-					#)]
-					
-					#merged_config = samples.Samples.merge_configs(merged_config, config_ztt_nom)
-					
 					systematics_settings = systematics_factory.get(shape_systematic)(merged_config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					merged_config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
@@ -297,11 +293,6 @@ if __name__ == "__main__":
 			
 			# create morphing
 			ws = ROOT.RooWorkspace("w","w")
-			#if decayMode == "OneProngPiZeros" and quantity == "m_2":
-				#mes = ROOT.RooRealVar("mes","",0.775,0.3,4.2)
-			#elif decayMode == "ThreeProng" and quantity == "m_2":
-				#mes = ROOT.RooRealVar("mes","",1.23,0.8,1.5)
-			#elif decayMode == "OneProng" or quantity == "m_vis":
 			mes = ROOT.RooRealVar("mes","", 1.0, 0.94, 1.06)
 			
 			morphing.BuildRooMorphing(ws,datacards.cb,category,datacards.configs.sample2process(sample),mes,"norm",True,True)
@@ -341,8 +332,11 @@ if __name__ == "__main__":
 			
 			#combine call
 			commands = []
-			for datacard, cb in datacards_cbs.iteritems():
-				commands.append("combine -M MaxLikelihoodFit -m 1.0 {WORKSPACE}".format(
-					WORKSPACE=os.path.splitext(datacard)[0]+".root"))
+			commands.extend([[
+				"combine -M MaxLikelihoodFit -m 1.0 {WORKSPACE}".format(
+					WORKSPACE=os.path.splitext(datacard)[0]+".root",
+				),
+				os.path.dirname(datacard)
+			] for datacard, cb in datacards_cbs.iteritems()])
 		
 			tools.parallelize(_call_command, commands, n_processes=1)
