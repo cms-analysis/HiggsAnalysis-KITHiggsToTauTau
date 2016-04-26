@@ -72,9 +72,11 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 	config["sob_integral_result_nicks"] = []
 	config["sob_integral_method"] = []
 	config["sob_integral_outputs"] = []
-	for i,method in enumerate(args.integration_methods):
-		config["sob_integral_method"].append(method)
-		config["sob_integral_result_nicks"].append("integration_%i"%i + method)
+	config["sob_integral_direction"]=[]
+	for i,direction in enumerate(args.integration_directions):
+		config["sob_integral_direction"].append(direction)
+		config["sob_integral_method"].append(args.integration_methods)
+		config["sob_integral_result_nicks"].append("integration_%i"%i + direction)
 		config["sob_integral_background_nicks"].append(" ".join(bkg_samples))
 		config["sob_integral_signal_nicks"].append("%sScaled"%signal_nick)
 		config["sob_integral_outputs"].append(args.integration_output)
@@ -83,15 +85,15 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
 		config["y_subplot_lims"] = [0, 1.5]
 		config["subplot_nicks"] = ["integration"]
-		for method in args.integration_methods:
+		for direction in args.integration_directions:
 			config["markers"].append("LINE")
 			config["legend_markers"].append("L")
 			config["labels"].append("#int{S}/#sqrt{#int{B}}")
-			if(method == "righttoleft"):
+			if(direction == "righttoleft"):
 				config["colors"].append("kit_blau_1")
-			elif(method == "lefttoright"):
+			elif(direction == "lefttoright"):
 				config["colors"].append("kit_rot_1")
-			elif(method == "rcombination"):
+			elif(direction == "rcombination"):
 				config["colors"].append("kit_gruen_1")
 	else:
 		config["nicks_blacklist"].append("integration")
@@ -131,12 +133,22 @@ if __name__ == "__main__":
 	                    help="b_reg. [Default: %(default)s]")
 	parser.add_argument("--integrated-sob", default=False, action="store_true",
 	                    help="Add integrated s/sqrt(b) subplot [Default: %(default)s]")
-	parser.add_argument("--integration-methods", default=["righttoleft", "righttoleft"], nargs="*",
-	                    help="Integration Method. Chose lefttoright or righttoleft, !!!combination needs to be specified last!!!. [Default: %(default)s]")
+	parser.add_argument("--integration-methods", default="soversqrtb", choices = ["soversqrtb", "soversplusb", "soversqrtsplusb"],
+	                    help="Integration Method. [Default: %(default)s]")
+	parser.add_argument("--integration-directions", default=["righttoleft", "righttoleft"], nargs="*",
+	                    help="Integration direction. Chose lefttoright or righttoleft, !!!combination needs to be specified last!!!. [Default: %(default)s]")
 	parser.add_argument("--integration-output", default=None,
 						help="outputfile to specifiy where to write calculated maxima/minima, None is no output [Default:%(default)s]")
 	parser.add_argument("--integration-nick", default="htt",
 						help="integration signal nick [Default:%(default)s]")
+	parser.add_argument("--integration-background", nargs="+", default=["all"],
+						help="integration background nick [Default:%(default)s]")
+	parser.add_argument("--scale-mc-only", default="1.0",
+                        help="scales only MC events. [Default: %(default)s]")
+	parser.add_argument("--cut-mc-only", default="1.0",
+                        help="cut applied only on MC. [Default: %(default)s]")
+	parser.add_argument("--project-to-lumi", default=1.0,
+                        help="multiplies current lumi. 2 would mean double lumi you have right now [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm", "ee"],
 	                    help="Channels. [Default: %(default)s]")
@@ -248,6 +260,9 @@ if __name__ == "__main__":
 						blind_expression=channel+"_"+quantity,
 						stack_signal=args.stack_signal,
 						scale_signal=args.scale_signal,
+						project_to_lumi=args.project_to_lumi,
+						cut_mc_only=args.cut_mc_only,
+						scale_mc_only=args.scale_mc_only,
 						mssm=args.mssm
 				)
 
@@ -315,9 +330,38 @@ if __name__ == "__main__":
 					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
 						hmass_temp = int(args.higgs_masses[0])
 					sig_nick = "htt%i"%hmass_temp
-					if not args.integration_nick == "htt":
+					if not args.integration_nick == "htt" and int(args.scale_signal)!=1:
 						sig_nick = args.integration_nick + "%i"%hmass_temp +"_%i"%args.scale_signal
-
+					elif not args.integration_nick == "htt" and int(args.scale_signal)==1:
+						sig_nick = args.integration_nick + "%i"%hmass_temp
+					if not "all" in args.integration_background:
+						temp_nicks = []
+						signal_nicks = ["%s%i_%i"%(sig,int(mass),int(args.scale_signal)) for sig in ["ggh", "qqh", "vh"] for mass in args.higgs_masses]
+						for nick in args.integration_background:
+							if nick in signal_nicks:
+								if not "scale_nicks" in config.keys():
+									config["scale_nicks"]=[]
+									config["scales"]=[]
+									config["scale_result_nicks"]=[]
+								config["scale_nicks"].append(nick)
+								config["scales"].append(1/args.scale_signal)
+								config["scale_result_nicks"].append("%sScaled"%nick)
+								temp_nicks.append("%sScaled"%nick)
+							elif nick in ["ggh", "qqh", "vh"]:
+								if not "scale_nicks" in config.keys():
+									config["scale_nicks"]=[]
+									config["scales"]=[]
+									config["scale_result_nicks"]=[]
+								if int(args.scale_signal) == 1:
+									config["scale_nicks"].append("%s%i"%(nick,int(args.higgs_masses[0])))
+								else:
+									config["scale_nicks"].append("%s%i_%i"%(nick,int(args.higgs_masses[0]),int(args.scale_signal)))
+								config["scales"].append(1/args.scale_signal)
+								config["scale_result_nicks"].append("%sScaled"%nick)
+								temp_nicks.append("%sScaled"%nick)
+							elif nick in config["nicks"]:
+								temp_nicks.append(nick)
+						bkg_samples_used = temp_nicks
 					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_nick)
 
 				# add s/sqrt(b) subplot

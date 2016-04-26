@@ -75,6 +75,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		for channel in ["tt", "mt", "et", "em"]:
 		#========================================Copy here!========================================
 			expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_expressions.cfg"%channel)
+			self.expressions_dict["%s_inclusive"%(channel)] = "(1.0)"
 			with open(expressions_path, "r") as exps:
 				regular_name = ""
 				for line in exps:
@@ -89,9 +90,9 @@ class ExpressionsDict(expressions.ExpressionsDict):
 						regular_name= name
 						continue
 					elif vbf == "vbf_tagger":
-						self.expressions_dict["mva_{channel}_{vbf_tagger}_{mva_name}_tagged_signal".format(
+						self.expressions_dict["{channel}_{vbf_tagger}_{mva_name}_tagged_signal".format(
 							channel=channel, vbf_tagger=name, mva_name=regular_name)]=self.expressions_dict["{channel}_{reg_name}_signal".format(channel=channel, reg_name=regular_name)]+"*({upper} <= {vbf_tagger})".format(upper=values[0], vbf_tagger=name)
-						self.expressions_dict["mva_{channel}_{vbf_tagger}_{mva_name}_not_tagged_signal".format(
+						self.expressions_dict["{channel}_{vbf_tagger}_{mva_name}_not_tagged_signal".format(
 							channel=channel, vbf_tagger=name, mva_name=regular_name)]=self.expressions_dict["{channel}_{reg_name}_signal".format(channel=channel, reg_name=regular_name)]+"*({lower} > {vbf_tagger})".format(lower=values[0], vbf_tagger=name)
 		#========================================Copy here!========================================
 		self.expressions_dict["cat_OneProng"] = "(decayMode_2 == 0)"
@@ -120,4 +121,3 @@ class ExpressionsDict(expressions.ExpressionsDict):
 				for replacement in replacements.iteritems():
 					new_short_expression = new_short_expression.replace(*replacement)
 				self.expressions_dict[new_short_expression] = long_expression
-		print self.expressions_dict

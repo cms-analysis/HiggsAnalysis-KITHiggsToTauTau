@@ -512,11 +512,11 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt13TeV_tt_inclusive_svfitMass"] = " ".join([str(float(f)) for f in [0, 50]+range(90, 171, 20)+[200, 350]])
 		# H->tautau MSSM binnings
 		for channel in ["mt", "et", "em", "tt"]:
-			self.binnings_dict[channel+"_mt_2"] = "30,-,150"
+			self.binnings_dict[channel+"_mt_2"] = "30,0,150"
 			self.binnings_dict[channel+"_lep1_centrality"] = "10,0,1"
 			self.binnings_dict[channel+"_lep2_centrality"] = "10,0,1"
 			self.binnings_dict[channel+"_delta_lep_centrality"] = "20,-2,2"
-			self.binnings_dict[channel+"_pVecSum"] = "100,-2500,2500"
+			self.binnings_dict[channel+"_pVecSum"] = "100,0,2500"
 			self.binnings_dict[channel+"_TrainingSelectionValue"] = "10,0,100"
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_inclusive_svfitMass"] = " ".join([str(float(f)) for f in range(0,4000,10)])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_nobtag_mt_sv"] = "0 9.93847 19.8421 30.1921 39.6147 49.4733 60.2784 69.9045 79.0905 89.4836 101.242 109.027 120.346 129.599 139.564 150.295 161.851 170.045 178.654 187.698 202.13 223.114 252.433 271.843 300.063 323.135 347.981 403.552 503.981 599.075 694.743 786.038 889.33 1110.65 1288.02 1493.7 1689.99 1912.07 2110.56 2272.85 2508.8 2701.7 2909.43 3133.14 3291.76 3458.4 3724.32 3912.87"
