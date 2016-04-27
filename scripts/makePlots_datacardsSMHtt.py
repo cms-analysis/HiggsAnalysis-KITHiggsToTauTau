@@ -65,6 +65,8 @@ if __name__ == "__main__":
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
+	parser.add_argument("--scale-lumi", default=False,
+                        help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -257,6 +259,11 @@ if __name__ == "__main__":
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
 	
+
+	# scale
+	if(args.scale_lumi):
+		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
+
 	# write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
