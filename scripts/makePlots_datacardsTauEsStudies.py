@@ -48,22 +48,6 @@ def _call_command(args):
 
 if __name__ == "__main__":
 
-	models = {
-		"default" : {
-			"P" : "HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_xsec",
-			"fit" : {
-				"" : {
-					"method" : "MaxLikelihoodFit",
-					"options" : "--skipBOnlyFit --expectSignal=1 --toys -1",
-					"poi" : "r",
-				},
-			},
-			"fit_plots" : {
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/ztt_mlfit_bestfitvalues.json"
-			},
-		}
-	}
-
 	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for tau energy scale measurement.",
 	                                 parents=[logger.loggingParser])
 
@@ -364,7 +348,7 @@ if __name__ == "__main__":
 			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
 			
 			#plot postfit
-			
+			plot_configs = [] #reset list containing the plot configs
 			bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
 			
 			for level in ["prefit", "postfit"]:
@@ -386,7 +370,7 @@ if __name__ == "__main__":
 							config = {}
 							config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
 							config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
-							#config.setdefault("sum_scale_factors", []).append("1.0 1.0") #is this needed?
+							config.setdefault("sum_scale_factors", []).append("1.0 1.0")
 							config.setdefault("sum_result_nicks", []).append("Total")
 							
 							processes_to_plot = list(processes)
@@ -394,7 +378,7 @@ if __name__ == "__main__":
 							processes_to_plot = [p for p in processes if not "noplot" in p]
 							processes_to_plot.insert(3, "EWK")
 							config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
-							#config["sum_scale_factors"].append("1.0 1.0 1.0") #is this needed?
+							config["sum_scale_factors"].append("1.0 1.0 1.0")
 							config["sum_result_nicks"].append("EWK")
 							
 							config["files"] = [postfit_shapes]
@@ -437,7 +421,6 @@ if __name__ == "__main__":
 							config["lumis"] = [float("%.1f" % args.lumi)]
 							config["cms"] = True
 							config["extra_text"] = "Preliminary"
-							config["legend"] = [0.7, 0.5, 0.9, 0.78]
 							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 							config["filename"] = level+"_"+category
 							#config["formats"] = ["png", "pdf"]
