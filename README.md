@@ -7,90 +7,9 @@ Documentation is found in the [GitHub wiki](https://github.com/cms-analysis/Higg
 
 # KITHiggsToTauTau Analysis Code
 
-## Dependencies
-- Kappa: git clone https://github.com/KappaAnalysis/Kappa.git
-- KappaTools: git clone https://github.com/KappaAnalysis/KappaTools.git
-- Artus+HarryPlotter: git clone https://github.com/artus-analysis/Artus.git
-- More documentation and recipes: [TWiki](https://twiki.cern.ch/twiki/bin/viewauth/CMS/KITHiggsAnalysisWorkflow#AnalYsisARTUS)
-
-## Location of Files
-
-For the [Artus repository](https://github.com/artus-analysis/Artus) a similar understanding of the directories applies.
-
-### C++
-- [interface](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/interface) and [src](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/src): code that is compiled in libraries
-	- No subdirectory: code that is derived from [Artus core](https://github.com/artus-analysis/Artus/tree/master/Core/interface) classes
-	- Producers subdirectory: Artus producers
-	- Filters subdirectory: Artus filters
-	- Consumers subdirectory: Artus consumers
-	- Utility subdirectory: Other code
-- [bin](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/bin): code that is compiled into executables. Every executable needs an entry in the [BuildFile.xml](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/bin/BuildFile.xml)
-
-### Python
-- [python](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/python): files that need to be included in other files/scripts
-	- [plotting](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/python/plotting): Modules and Python configurations for HarryPlotter
-
-### Scripts
-- [scripts](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/scripts): no subdirectories, files should be marked as executable
-
-### Configuration
-- [data](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/data): small/text-based configuration files
-  - [ArtusConfigs](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/data/ArtusConfigs): JSON files for C++ code
-  - [ArtusWrapperConfigs](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/data/ArtusWrapperConfigs): Config files for the Python wrapper (HiggsToTauTauAnalysis.py)
-  - [Samples](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/data/Samples): File lists for Artus
-  - [plots/configs](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/data/plots/configs): JSON files for HarryPlotter
-  - [gc](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/tree/master/data/gc): Grid-Control configurations needed for the Python wrapper
-- [auxiliaries](https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk): larger configuration files (e.g. ROOT files) and additional small data to keep tracked. Dedicated SVN repository.
-
-
 ## Workflow
 
-The following code fragments are meant as examples. All scripts offer meaningfull help via -h/--help (or sometimes without arguments).
-
-#### Kappa file helpers
-
-- Print electron MVAs in Kappa skim: [`availableKappaElectronMvaIds.py <Kappa file(s)>`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/availableKappaElectronMvaIds.py)
-- Print HLT triggers in Kappa skim: [`availableKappaHltTriggers.py <Kappa file(s)>`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/availableKappaHltTriggers.py)
-- Print jet taggers in Kappa skim: [`availableKappaJetTaggers.py <Kappa file(s)>`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/availableKappaJetTaggers.py)
-- Print tau discriminators in Kappa skim: [`availableKappaTauDiscriminators.py <Kappa file(s)>`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/availableKappaTauDiscriminators.python)
-- Print user info in Kappa skim: [`availableKappaUserInfo.py <Kappa file(s)>`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/availableKappaUserInfo.py)
-- Find Kappa skim containing certain events: [`findKappaFiles.py -h`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/findKappaFiles.py)
-- Remove empty fileslists: [deleteEmptyFilelists.sh](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/Kappa_2_1/scripts/deleteEmptyFilelists.sh)
-
 ### Running Artus
-
-The C++ executable ([HiggsToTauTauAnalysis](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/bin/HiggsToTauTauAnalysis.cc)) is called by a python wrapper ([HiggsToTauTauAnalysis.py](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/blob/master/scripts/HiggsToTauTauAnalysis.py)) for convenience reasons.
-
-The 8TeV SM analysis can be run with by stepping back to the "8TeVFinal" Tag in Artus, Kappa and KITHiggs repositories.
-
-The new SM analysis can be run with by stepping back to the "8TeVFinal" Tag in Artus, Kappa and KITHiggs repositories.
-
-	HiggsToTauTauAnalysis.py @HiggsAnalysis/KITHiggsToTauTau/data/ArtusWrapperConfigs/Run2Analysis.cfg -i HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_collection_SM_Analysis_CompletePlus_HToTauTau_13TeV_recent.txt [-b --project-name <project name>]
-
-Beware that the above example runs on a (very!) large number of input files and has a complicated structure, which is driven by the complexity of the analysis. A more didactic example, which runs locally on a Kappa skim and applies only a very basic selection on electrons and muons, can be executed with:
-
-	HiggsToTauTauAnalysis.py -i /afs/cern.ch/user/f/fcolombo/public/kappa_VBFHToTauTauM125_Phys14DR_PU20bx25_13TeV_MINIAODSIM.root @HiggsAnalysis/KITHiggsToTauTau/data/ArtusWrapperConfigs/exampleConfig.cfg
-
-Especially for beginners, it is advisable to look carefully into the content of the above exemplary configs and json files, in order to get familiar with the way in which the Producers, Consumers and Filters are organized and called in Artus and how settings such as cut thresholds are defined.
-
-For beeing able to use the --batch mode, go.py from grid-control (release 1499) needs to be in the $PATH. Default configurations, log files and outputs are written to `$ARTUS_WORK_BASE/<date>_<project name>`
-
-To speed up the post-processing of the outputs, they can be merged (per nick name) by [artusMergeOutputs.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/artusMergeOutputs.py):
-
-	artusMergeOutputs.py <project directory>
-
-In case some jobs fail, they can be collected by [getFailedJobOutputs.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/getFailedJobOutputs.py) into a single directory to ease digesting the errors:
-
-	getFailedJobOutputs.py <project directory>
-
-JSON configurations (\*.json, \*.root, "{...}") can be compared by [artusConfigDiff.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/artusConfigDiff.py):
-
-	artusConfigDiff.py <config 1> <config 2>
-
-The (committed) status of two different Artus runs can be compared using [artusRepositoryDiff.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/artusRepositoryDiff.py):
-
-	cd <repository to compare>
-	artusRepositoryDiff.py <config 1> <config 2>
 
 ### Svfit
 
