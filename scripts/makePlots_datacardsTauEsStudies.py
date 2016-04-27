@@ -322,11 +322,13 @@ if __name__ == "__main__":
 				datacards_cbs[dcname] = datacards.cb
 			
 			#text2workspace call
+			datacards_workspaces = {}
 			commands = []
 			for datacard, cb in datacards_cbs.iteritems():
 				commands.append("text2workspace.py {DATACARD} -o {OUTPUT}".format(
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+".root"))
+				datacards_workspaces[datacard] = os.path.splitext(datacard)[0]+".root"
 		
 			tools.parallelize(_call_command, commands, n_processes=1)
 			
@@ -340,3 +342,21 @@ if __name__ == "__main__":
 			] for datacard, cb in datacards_cbs.iteritems()])
 		
 			tools.parallelize(_call_command, commands, n_processes=1)
+			
+			#postfitshapes call
+			datacards_postfit_shapes = {}
+			commands = []
+			commands.extend(["PostFitShapesFromWorkspace --postfit -w {WORKSPACE} -d {DATACARD} -o {OUTPUT} -f {FIT_RESULT}".format(
+					WORKSPACE=datacards_workspaces[datacard],
+					DATACARD=datacard,
+					OUTPUT=os.path.splitext(datacard)[0]+"_fit_s.root",
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:fit_s"),
+			) for datacard, cb in datacards_cbs.iteritems()])
+			datacards_postfit_shapes.setdefault("fit_s", {}).update({
+					datacard : os.path.splitext(datacard)[0]+"_fit_s.root"
+			for datacard, cb in datacards_cbs.iteritems()})
+			
+			tools.parallelize(_call_command, commands, n_processes=args.n_processes)
+			
+			#pull plots
+			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["r"]}, n_processes=args.n_processes)
