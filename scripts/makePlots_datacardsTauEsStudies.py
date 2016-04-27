@@ -72,7 +72,7 @@ if __name__ == "__main__":
 	parser.add_argument("--quantity", default="m_2", choices=["m_2","m_vis"],
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--es-shifts", nargs="*",
-	                    default=[0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
+	                    default=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
 	                    help="Energy scale shifts."),
 	parser.add_argument("--pt-ranges", nargs="*",
 	                    default=["20.0"],
@@ -361,4 +361,87 @@ if __name__ == "__main__":
 			tools.parallelize(_call_command, commands, n_processes=args.n_processes)
 			
 			#pull plots
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["r"]}, n_processes=args.n_processes)
+			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
+			
+			#plot postfit
+			
+			bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
+			
+			for level in ["prefit", "postfit"]:
+				if datacards_postfit_shapes:
+					for datacard in datacards_cbs.keys():
+						postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
+						for category in datacards_cbs[datacard].cp().bin_set():
+							results_file = ROOT.TFile(os.path.join(os.path.dirname(datacard), "mlfit.root"))
+							results_tree = results_file.Get("tree_fit_sb")
+							results_tree.GetEntry(0)
+							bestfit = results_tree.mu
+							
+							bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
+							sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
+							
+							processes = bkg_process + sig_process
+							processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+							
+							config = {}
+							config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
+							config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
+							#config.setdefault("sum_scale_factors", []).append("1.0 1.0") #is this needed?
+							config.setdefault("sum_result_nicks", []).append("Total")
+							
+							processes_to_plot = list(processes)
+							processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+							processes_to_plot = [p for p in processes if not "noplot" in p]
+							processes_to_plot.insert(3, "EWK")
+							config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
+							#config["sum_scale_factors"].append("1.0 1.0 1.0") #is this needed?
+							config["sum_result_nicks"].append("EWK")
+							
+							config["files"] = [postfit_shapes]
+							config["folders"] = [category+"_"+level]
+							config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
+							config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
+							config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
+							config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
+							config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
+							config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
+							config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
+							if decayMode == "OneProngPiZeros" and quantity == "m_2":
+								config["x_label"] = "m_{#tau_{h}} (GeV)"
+								config["y_label"] = "Events / bin"
+								config["x_lims"] = [0.3,4.2]
+							elif decayMode == "ThreeProng" and quantity == "m_2":
+								config["x_label"] = "m_{#tau_{h}} (GeV)"
+								config["y_label"] = "Events / bin"
+								config["x_lims"] = [0.8,1.5]
+							elif decayMode == "OneProng" or quantity == "m_vis":
+								config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
+								config["y_label"] = "Events / bin"
+								config["x_lims"] = [20,200]
+								
+							config.setdefault("analysis_modules", []).append("Ratio")
+							config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
+							config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
+							config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
+							config["ratio_denominator_no_errors"] = True
+							config.setdefault("colors", []).extend(["#000000 transgrey", "#000000"])
+							config.setdefault("markers", []).extend(["E2", "E"])
+							config.setdefault("legend_markers", []).extend(["F", "ELP"])
+							config.setdefault("labels", []).extend([""] * 2)
+							config["legend"] = [0.7, 0.4, 0.92, 0.82]
+							config["y_subplot_lims"] = [0.5, 1.5]
+							config["y_subplot_label"] = "Obs./Exp."
+							config["subplot_grid"] = True
+							
+							config["energies"] = [13.0]
+							config["lumis"] = [float("%.1f" % args.lumi)]
+							config["cms"] = True
+							config["extra_text"] = "Preliminary"
+							config["legend"] = [0.7, 0.5, 0.9, 0.78]
+							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+							config["filename"] = level+"_"+category
+							#config["formats"] = ["png", "pdf"]
+							
+							plot_configs.append(config)
+						
+			higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
