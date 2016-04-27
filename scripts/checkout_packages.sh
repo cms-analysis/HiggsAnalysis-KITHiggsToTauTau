@@ -64,7 +64,8 @@ git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/
 ## python TauSpinnerSetup/checkoutPackagesForTauSpinner.py --tauolaversion=1.1.5
 
 # Grid-Control
-svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/trunk/grid-control -r 1501
+git clone https://github.com/thomas-mueller/grid-control.git -b wms_cream
+# based on svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/tags/stable/grid-control -r 1701
 
 # source ini script, needs to be done in every new shell
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
