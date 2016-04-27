@@ -47,45 +47,6 @@ For the [Artus repository](https://github.com/artus-analysis/Artus) a similar un
 
 The following code fragments are meant as examples. All scripts offer meaningfull help via -h/--help (or sometimes without arguments).
 
-### Skimming
-If you want to skim a new Dataset, use [registerDataset.py](https://github.com/KappaAnalysis/Kappa/blob/CMSSW_7_6_X/Skimming/scripts/registerDataset.py) from the Kappa repository. It autmatically fills meta information of each sample, including the number of generated events for each dataset.
-
-Skimming with crab3:
-
-	source /cvmfs/cms.cern.ch/crab3/crab.sh
-	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
-	python crabConfig.py submit
-
-Outputs are written in your personal DESY dCache directory:
-
-	se path = srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN=/pnfs/desy.de/cms/tier2/store/user/%USERNAME%/higgs-kit/skimming/<date>_<campaign>`
-
-
-In case not all skims of a MC sample have been skimmed succesfully, you can manually check how many have been processed with [getNumberOfGeneratedEvents.py](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/getNumberOfGeneratedEvents.py).
-
-
-File lists for Artus need to be created by [createInputFilelists.py](https://github.com/artus-analysis/Artus/blob/master/Configuration/scripts/createInputFilelists.py):
-
-	createInputFilelists.py -s /pnfs/desy.de/cms/tier2/store/user/tmuller/higgs-kit/skimming/<date>_<campaign> -d <date> [-r]
-
-
-When using NLO samples, the proper normalization has to be applied. This can be done with [getGeneratorWeight.py](https://github.com/artus-analysis/Artus/blob/Kappa_2_1/KappaAnalysis/scripts/getGeneratorWeight.py). Do e.g.
-
-	for folder in /pnfs/desy.de/cms/tier2/store/user/$USER/higgs-kit/skimming/<date>/*; do ./getGeneratorWeight.py $folder/*/*/*/*.root; done
-
-to update all entries in the Kappa database. Remember to commit your changes afterwards.
-
-
-JEC parameters can be downloaded using [getJecParameters.py](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/getJecParameters.py):
-
-	getJecParameters.py
-
-The retrieved files have to be configured in Artus.
-
-Pile-up weights are determined using [puWeightCalc.py](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/puWeightCalc.py):
-
-	puWeightCalc.py -h
-
 #### Kappa file helpers
 
 - Print electron MVAs in Kappa skim: [`availableKappaElectronMvaIds.py <Kappa file(s)>`](https://github.com/artus-analysis/Artus/blob/master/KappaAnalysis/scripts/availableKappaElectronMvaIds.py)
