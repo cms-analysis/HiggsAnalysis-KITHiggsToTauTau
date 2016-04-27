@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 import argparse
 import copy
 import os
+import sys
 
 import CombineHarvester.CombineTools.ch as ch
 import CombineHarvester.CombinePdfs.morphing as morphing
@@ -333,9 +334,10 @@ if __name__ == "__main__":
 			tools.parallelize(_call_command, commands, n_processes=1)
 			
 			#combine call
+			#important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
 			commands = []
 			commands.extend([[
-				"combine -M MaxLikelihoodFit -m 1.0 {WORKSPACE}".format(
+				"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes {WORKSPACE}".format(
 					WORKSPACE=os.path.splitext(datacard)[0]+".root",
 				),
 				os.path.dirname(datacard)
