@@ -41,7 +41,7 @@ cd TauAnalysis/SVfitStandalone
 git checkout dd7cf43e3f930040959f7d700cef976307d7cec3 -b current
 cd $CMSSW_BASE/src
 echo '<use   name="rootrflx"/>'>> TauAnalysis/SVfitStandalone/BuildFile.xml
-git clone https://github.com/thomas-mueller/HHKinFit2.git
+git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
@@ -59,9 +59,6 @@ cd -
 # needed for error propagation e.g. in the background estimations
 git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 
-# install TauSpinner is not needed anymore (since now it used TauSpinner from /cvmfs )
-## git clone https://github.com/rfriese/TauSpinnerSetup
-## python TauSpinnerSetup/checkoutPackagesForTauSpinner.py --tauolaversion=1.1.5
 #FastBDT
 git clone https://github.com/artus-analysis/FastBDT.git
 cd $CMSSW_BASE/src/FastBDT
@@ -70,7 +67,7 @@ make
 cd $CMSSW_BASE/src/
 
 # Grid-Control
-git clone https://github.com/thomas-mueller/grid-control.git -b wms_cream
+git clone https://github.com/artus-analysis/grid-control.git -b wms_cream
 # based on svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/tags/stable/grid-control -r 1701
 
 # source ini script, needs to be done in every new shell
