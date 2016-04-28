@@ -10,7 +10,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
 class TauEsDatacards(datacards.Datacards):
-	def __init__(self, cb=None):
+	def __init__(self, shifts=[], cb=None):
 		super(TauEsDatacards, self).__init__(cb)
 		
 		if cb is None:
@@ -23,7 +23,7 @@ class TauEsDatacards(datacards.Datacards):
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],
-					mass=["0.94","0.95","0.96","0.97","0.98","0.99","1.0","1.01","1.02","1.03","1.04","1.05","1.06"]
+					mass=shifts
 			)
 		
 			# efficiencies

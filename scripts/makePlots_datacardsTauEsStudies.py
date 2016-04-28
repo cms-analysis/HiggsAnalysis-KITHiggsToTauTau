@@ -55,9 +55,11 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("--quantity", default="m_2", choices=["m_2","m_vis"],
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--es-shifts", nargs="*",
-	                    default=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
-	                    help="Energy scale shifts."),
+	parser.add_argument("--shift-ranges", nargs="*", type=float,
+                        default=[0.94,1.06],
+                        help="Provide minimum and maximum energy scale shift. [Default: %(default)s]")
+	parser.add_argument("--shift-binning", type=float, default=0.01,
+						help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
 	parser.add_argument("--pt-ranges", nargs="*",
 	                    default=["20.0"],
 	                    help="Enter the lower bin edges for the pt ranges."	)
@@ -80,6 +82,8 @@ if __name__ == "__main__":
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
+	parser.add_argument("--combine-verbosity", default="1", choices=["-1","0","1","2"],
+						help="Control output amount of combine. [Default: %(default)s]")
 	
 	
 	args = parser.parse_args()
@@ -88,6 +92,15 @@ if __name__ == "__main__":
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
+		
+	# produce es shifts from input arguments
+	es_shifts = [args.shift_ranges[0]]
+	es_shifts_str = [str(args.shift_ranges[0])] #taupogdatacards needs a list of strings. this can maybe be done better
+	while es_shifts[-1] < args.shift_ranges[-1]:
+		# sometimes, we get numbers like 0.990000000001 without round
+		current_shift = round(es_shifts[-1]+args.shift_binning,4)
+		es_shifts.append(current_shift)
+		es_shifts_str.append(str(current_shift))
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -96,7 +109,7 @@ if __name__ == "__main__":
 	plot_configs = []
 	hadd_commands = []
 
-	datacards = taupogdatacards.TauEsDatacards()
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -183,7 +196,7 @@ if __name__ == "__main__":
 					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
 					
 					#one ztt nick config for each es shift
-					for shift in args.es_shifts:
+					for shift in es_shifts:
 						config_ztt = sample_settings.get_config(
 							samples=[getattr(samples.Samples, "ztt")],
 							channel=channel,
@@ -278,7 +291,7 @@ if __name__ == "__main__":
 			
 			# create morphing
 			ws = ROOT.RooWorkspace("w","w")
-			mes = ROOT.RooRealVar("mes","", 1.0, 0.94, 1.06)
+			mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 			
 			morphing.BuildRooMorphing(ws,datacards.cb,category,datacards.configs.sample2process(sample),mes,"norm",True,True)
 			
@@ -321,7 +334,8 @@ if __name__ == "__main__":
 			#important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
 			commands = []
 			commands.extend([[
-				"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes {WORKSPACE}".format(
+				"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
+					VERBOSITY=args.combine_verbosity,
 					WORKSPACE=os.path.splitext(datacard)[0]+".root",
 				),
 				os.path.dirname(datacard)
@@ -332,7 +346,10 @@ if __name__ == "__main__":
 			#2nd combine call to get deltaNLL distribution
 			commands = []
 			commands.extend([[
-				"combine -M MultiDimFit --algo grid --points 120 --setPhysicsModelParameterRanges mes=0.94,1.06 --redefineSignalPOIs mes {WORKSPACE}".format(
+				"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
+					BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
+					RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
+					VERBOSITY=args.combine_verbosity,
 					WORKSPACE=os.path.splitext(datacard)[0]+".root",
 				),
 				os.path.dirname(datacard)
@@ -355,7 +372,7 @@ if __name__ == "__main__":
 			
 			tools.parallelize(_call_command, commands, n_processes=args.n_processes)
 			
-			#pull plots
+			#pull plots # TODO: these are currently overwritten if pt-ranges are given!
 			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
 			
 			#plot postfit
@@ -433,7 +450,7 @@ if __name__ == "__main__":
 							config["cms"] = True
 							config["extra_text"] = "Preliminary"
 							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-							config["filename"] = level+"_"+category
+							config["filename"] = level+"_"+category+"_"+decayMode+"_"+quantity+"_"+str(pt_index)
 							#config["formats"] = ["png", "pdf"]
 							
 							plot_configs.append(config)
