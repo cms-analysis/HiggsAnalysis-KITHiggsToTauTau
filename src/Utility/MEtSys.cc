@@ -67,8 +67,6 @@ MEtSys::MEtSys(TString fileName) {
 
     }
   }
-  
-  file->Close();
 }
 
 void MEtSys::ComputeHadRecoilFromMet(float metX,
