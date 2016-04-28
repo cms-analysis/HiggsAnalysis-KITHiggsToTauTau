@@ -63,8 +63,9 @@ git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/
 ## git clone https://github.com/rfriese/TauSpinnerSetup
 ## python TauSpinnerSetup/checkoutPackagesForTauSpinner.py --tauolaversion=1.1.5
 sed 's/cms2/ikhhed3/g' ${CMSSW_BASE}/src/HiggsAnalysis/KITHiggsToTauTau/data/tauspinner.xml -i
+
 #FastBDT
-git clone https://github.com/thomaskeck/FastBDT.git
+git clone https://github.com/artus-analysis/FastBDT.git
 cd $CMSSW_BASE/src/FastBDT
 cmake .
 make

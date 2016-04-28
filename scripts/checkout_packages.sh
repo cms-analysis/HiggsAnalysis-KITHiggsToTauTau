@@ -62,6 +62,12 @@ git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/
 # install TauSpinner is not needed anymore (since now it used TauSpinner from /cvmfs )
 ## git clone https://github.com/rfriese/TauSpinnerSetup
 ## python TauSpinnerSetup/checkoutPackagesForTauSpinner.py --tauolaversion=1.1.5
+#FastBDT
+git clone https://github.com/artus-analysis/FastBDT.git
+cd $CMSSW_BASE/src/FastBDT
+cmake .
+make
+cd $CMSSW_BASE/src/
 
 # Grid-Control
 git clone https://github.com/thomas-mueller/grid-control.git -b wms_cream
