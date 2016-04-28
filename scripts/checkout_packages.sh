@@ -71,7 +71,8 @@ make
 cd $CMSSW_BASE/src/
 
 # Grid-Control
-svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/trunk/grid-control -r 1501
+git clone https://github.com/thomas-mueller/grid-control.git -b wms_cream
+# based on svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/tags/stable/grid-control -r 1701
 
 # source ini script, needs to be done in every new shell
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh

@@ -39,6 +39,7 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 
 	list_of_roots = glob.glob(os.path.join(args.input_dir, "*/sqrt_diff.root"))
+	print list_of_roots
 	x_names = [] #store names of BDTs
 	x_values = [] #store dummy x-value for plotting
 	y_mc_values = [] #store diff-value for mc

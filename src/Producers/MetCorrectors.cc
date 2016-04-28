@@ -8,7 +8,8 @@ MetCorrector::MetCorrector() :
 	MetCorrectorBase(&HttTypes::product_type::m_pfmetUncorr,
 			 &HttTypes::product_type::m_pfmet,
 			 &HttTypes::product_type::m_pfmetCorrections,
-			 &HttTypes::setting_type::GetMetRecoilCorrectorFile
+			 &HttTypes::setting_type::GetMetRecoilCorrectorFile,
+			 &HttTypes::setting_type::GetMetShiftCorrectorFile
 	)
 {
 }
@@ -47,7 +48,8 @@ MvaMetCorrector::MvaMetCorrector() :
 	MetCorrectorBase(&HttTypes::product_type::m_metUncorr,
 			 &HttTypes::product_type::m_met,
 			 &HttTypes::product_type::m_metCorrections,
-			 &HttTypes::setting_type::GetMvaMetRecoilCorrectorFile
+			 &HttTypes::setting_type::GetMvaMetRecoilCorrectorFile,
+			 &HttTypes::setting_type::GetMvaMetShiftCorrectorFile
 	)
 {
 }
