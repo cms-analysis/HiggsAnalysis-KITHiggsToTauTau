@@ -31,6 +31,7 @@
 		"nick" : {
 			"default" : -1.0,
 			"SM_(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : 0.0,
+			"^(W(minus|plus)|Z|VBF|GluGlu)HToTauTau" : 0.0,
 			"SUSY(BB|GluGluTo)HToTauTau" : 1.0
 		}
 	}
