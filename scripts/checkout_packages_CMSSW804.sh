@@ -54,7 +54,7 @@ git clone https://github.com/artus-analysis/HiggsAnalysis-HiggsToTauTau.git Higg
 #git fetch origin
 #git checkout v5.0.3
 #cd -
-
+sed '/CombineHarvester/d' ${CMSSW_BASE}/src/HiggsAnalysis/KITHiggsToTauTau/BuildFile.xml -i
 
 # needed for error propagation e.g. in the background estimations
 git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
@@ -62,7 +62,7 @@ git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/
 # install TauSpinner is not needed anymore (since now it used TauSpinner from /cvmfs )
 ## git clone https://github.com/rfriese/TauSpinnerSetup
 ## python TauSpinnerSetup/checkoutPackagesForTauSpinner.py --tauolaversion=1.1.5
-
+sed 's/cms2/ikhhed3/g' ${CMSSW_BASE}/src/HiggsAnalysis/KITHiggsToTauTau/data/tauspinner.xml -i
 #FastBDT
 git clone https://github.com/thomaskeck/FastBDT.git
 cd $CMSSW_BASE/src/FastBDT
