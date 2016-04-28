@@ -329,6 +329,17 @@ if __name__ == "__main__":
 		
 			tools.parallelize(_call_command, commands, n_processes=1)
 			
+			#2nd combine call to get deltaNLL distribution
+			commands = []
+			commands.extend([[
+				"combine -M MultiDimFit --algo grid --points 120 --setPhysicsModelParameterRanges mes=0.94,1.06 --redefineSignalPOIs mes {WORKSPACE}".format(
+					WORKSPACE=os.path.splitext(datacard)[0]+".root",
+				),
+				os.path.dirname(datacard)
+			] for datacard, cb in datacards_cbs.iteritems()])
+			
+			tools.parallelize(_call_command, commands, n_processes=1)
+			
 			#postfitshapes call
 			datacards_postfit_shapes = {}
 			commands = []
