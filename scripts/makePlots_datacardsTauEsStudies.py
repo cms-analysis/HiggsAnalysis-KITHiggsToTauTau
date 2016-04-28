@@ -106,21 +106,16 @@ if __name__ == "__main__":
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
 	
-	plot_configs = []
-	hadd_commands = []
-
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str)
-	
 	# initialise datacards
-	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
+	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}"
+	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
-		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		"datacards/combined/${ANALYSIS}_${ERA}.txt",
+		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}",
+		"datacards/combined/${ANALYSIS}_${ERA}",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
@@ -128,18 +123,22 @@ if __name__ == "__main__":
 	channel = "mt"
 	category = "mt_inclusive"
 	quantity = args.quantity
-	datacards.cb.channel([channel])
-
-	output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					BIN=category,
-					ERA="13TeV"
-	))
 	
 	for decayMode in args.decay_modes:
 		for pt_index, (pt_range) in enumerate(args.pt_ranges):
 			
+			datacards = taupogdatacards.TauEsDatacards(es_shifts_str)
+			datacards.cb.channel([channel])
+			
+			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					BIN=category,
+					ERA="13TeV"
+			) + "_" + str(pt_index) + ".root")
+			
+			plot_configs = []
+			hadd_commands = []
 			merged_config={}
 			
 			lowEdge = str(args.pt_ranges[pt_index])
@@ -240,7 +239,7 @@ if __name__ == "__main__":
 						BIN=category,
 						SYSTEMATIC=systematic,
 						ERA="13TeV"
-					))
+					) + "_" + str(pt_index) + ".root")
 					tmp_output_files.append(tmp_output_file)
 					merged_config["output_dir"] = os.path.dirname(tmp_output_file)
 					merged_config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
@@ -276,7 +275,7 @@ if __name__ == "__main__":
 			
 			# update CombineHarvester with the yields and shapes
 			datacards.extract_shapes(
-				os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
+				os.path.join(args.output_dir, input_root_filename_template.replace("$", "")+"_"+str(pt_index)+".root"),
 				bkg_histogram_name_template, sig_histogram_name_template,
 				bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 				update_systematics=False
@@ -293,7 +292,7 @@ if __name__ == "__main__":
 			ws = ROOT.RooWorkspace("w","w")
 			mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 			
-			morphing.BuildRooMorphing(ws,datacards.cb,category,datacards.configs.sample2process(sample),mes,"norm",True,True)
+			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
 			
 			# For some reason the default arguments are not working in the python wrapper
 			# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
@@ -307,10 +306,10 @@ if __name__ == "__main__":
 				dcname = os.path.join(args.output_dir, datacard_filename_template.replace("$", "").format(
 										ANALYSIS="ztt",
 										CHANNEL=channel,
-										ERA="13TeV"))
+										ERA="13TeV") + "_" + str(pt_index) + ".txt")
 				output = os.path.join(args.output_dir, output_root_filename_template.replace("$", "").format(
 										ANALYSIS="ztt",
-										ERA="13TeV"))
+										ERA="13TeV") + "_" + str(pt_index) + ".txt")
 				
 				if not os.path.exists(os.path.dirname(dcname)):
 					os.makedirs(os.path.dirname(dcname))
