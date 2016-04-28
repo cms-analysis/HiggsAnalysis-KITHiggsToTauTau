@@ -33,7 +33,7 @@ if __name__ == "__main__":
 	parser.add_argument("--ztt-from-mc", default=False, action="store_true",
 	                    help="Use MC simulation to estimate ZTT. [Default: %(default)s]")
 	parser.add_argument("--es-shifts", nargs="*",
-		     default=[0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
+		     default=[0.94,0.95,0.96,0.97,0.98,0.99,1.0,1.01,1.02,1.03,1.04,1.05,1.06],
 		     #default=[0.96,1.0,1.06],
 			    #default=[0.960,0.961,0.962,0.963,0.964,0.965,0.966,0.967,0.968,0.969,
 	                             #0.970,0.971,0.972,0.973,0.974,0.975,0.976,0.977,0.978,0.979,
@@ -212,7 +212,7 @@ if __name__ == "__main__":
 						shift_config["x_bins"] = "7,0.8,1.5"
 					elif decayMode == "OneProng" or quantity == "m_vis":
 						shift_config["x_bins"] = "20,0.0,200.0"
-					shift_config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
+						shift_config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
 					shift_config["y_lims"] = [0.0]
 					shift_config["y_subplot_lims"] = [0.5, 1.5]
 					shift_config["y_label"] = "Events / bin"

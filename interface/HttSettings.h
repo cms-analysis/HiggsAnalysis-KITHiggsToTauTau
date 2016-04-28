@@ -37,6 +37,11 @@ public:
 
 	IMPL_SETTING(std::string, MetRecoilCorrectorFile);
 	IMPL_SETTING(std::string, MvaMetRecoilCorrectorFile);
+	IMPL_SETTING(std::string, MetShiftCorrectorFile);
+	IMPL_SETTING(std::string, MvaMetShiftCorrectorFile);
+	
+	IMPL_SETTING_DEFAULT(int, MetSysType, 0);
+	IMPL_SETTING_DEFAULT(int, MetSysShift, 0);
 
 	IMPL_SETTING_STRINGLIST_DEFAULT(PlotlevelFilterExpressionQuantities, {});
 	IMPL_SETTING_DEFAULT(std::string, PlotlevelFilterExpression, "");

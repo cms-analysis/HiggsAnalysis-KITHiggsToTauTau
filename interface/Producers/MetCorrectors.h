@@ -7,6 +7,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MEtSys.h"
 
 #include <boost/regex.hpp>
 
@@ -31,13 +32,15 @@ public:
 	MetCorrectorBase(TMet* product_type::*metMemberUncorrected,
 			 TMet product_type::*metMemberCorrected,
 			 std::vector<float> product_type::*metCorrections,
-			 std::string (setting_type::*GetRecoilCorrectorFile)(void) const
+			 std::string (setting_type::*GetRecoilCorrectorFile)(void) const,
+			 std::string (setting_type::*GetMetShiftCorrectorFile)(void) const
 	) :
 		ProducerBase<HttTypes>(),
 		m_metMemberUncorrected(metMemberUncorrected),
 		m_metMemberCorrected(metMemberCorrected),
 		m_metCorrections(metCorrections),
-		GetRecoilCorrectorFile(GetRecoilCorrectorFile)
+		GetRecoilCorrectorFile(GetRecoilCorrectorFile),
+		GetMetShiftCorrectorFile(GetMetShiftCorrectorFile)
 	{
 	}
 
@@ -46,6 +49,11 @@ public:
 		ProducerBase<HttTypes>::Init(settings);
 		
 		m_recoilCorrector = new RecoilCorrector((settings.*GetRecoilCorrectorFile)());
+		
+		if ((settings.GetMetSysType() != 0) || (settings.GetMetSysShift() != 0))
+		{
+			m_metShiftCorrector = new MEtSys((settings.*GetMetShiftCorrectorFile)());
+		}
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 
@@ -110,13 +118,81 @@ public:
 			correctedMetX,
 			correctedMetY);
 		
-		// Apply the correction to the MET object
 		(product.*m_metMemberCorrected) = *(product.*m_metMemberUncorrected);
-		(product.*m_metMemberCorrected).p4.SetPxPyPzE(
-			correctedMetX,
-			correctedMetY,
-			0.,
-			std::sqrt(metResolution * metResolution + correctedMetX * correctedMetX + correctedMetY * correctedMetY));
+		
+		// Apply the correction to the MET object (only for DY, W and Higgs samples)
+		if (boost::regex_search(product.m_nickname, boost::regex("DY.?JetsToLL|W.?JetsToLNu|HToTauTau", boost::regex::icase | boost::regex::extended)))
+		{
+			(product.*m_metMemberCorrected).p4.SetPxPyPzE(
+				correctedMetX,
+				correctedMetY,
+				0.,
+				std::sqrt(metResolution * metResolution + correctedMetX * correctedMetX + correctedMetY * correctedMetY));
+		}
+		
+		// Apply the correction to the MET object, if required (done for all the samples)
+		if ((settings.GetMetSysType() != 0) || (settings.GetMetSysShift() != 0))
+		{
+			MEtSys::ProcessType processType;
+			MEtSys::SysType sysType;
+			MEtSys::SysShift sysShift;
+			
+			float correctedMetShiftX, correctedMetShiftY;
+			
+			if (boost::regex_search(product.m_nickname, boost::regex("DY.?JetsToLL|W.?JetsToLNu|HToTauTau", boost::regex::extended)))
+			{
+				processType = MEtSys::ProcessType::BOSON;
+			}
+			else if (boost::regex_search(product.m_nickname, boost::regex("TT", boost::regex::extended)))
+			{
+				processType = MEtSys::ProcessType::TOP;
+			}
+			else
+			{
+				processType = MEtSys::ProcessType::EWK;
+			}
+			
+			if (settings.GetMetSysType() == 1)
+			{
+				sysType = MEtSys::SysType::Response;
+			}
+			else if (settings.GetMetSysType() == 2)
+			{
+				sysType = MEtSys::SysType::Resolution;
+			}
+			else
+			{
+				sysType = MEtSys::SysType::NoType;
+				LOG(FATAL) << "Invalid HttSettings::MetSysType option";
+			}
+			
+			if (settings.GetMetSysShift() > 0)
+			{
+				sysShift = MEtSys::SysShift::Up;
+			}
+			else
+			{
+				sysShift = MEtSys::SysShift::Down;
+			}
+			
+			m_metShiftCorrector->ApplyMEtSys(
+				(product.*m_metMemberCorrected).p4.Px(), (product.*m_metMemberCorrected).p4.Py(),
+				genPx, genPy,
+				visPx, visPy,
+				nJets30,
+				processType,
+				sysType,
+				sysShift,
+				correctedMetShiftX,
+				correctedMetShiftY
+			);
+			
+			(product.*m_metMemberCorrected).p4.SetPxPyPzE(
+				correctedMetShiftX,
+				correctedMetShiftY,
+				0.,
+				std::sqrt(metResolution * metResolution + correctedMetShiftX * correctedMetShiftX + correctedMetShiftY * correctedMetShiftY));
+		}
 	}
 
 protected:
@@ -124,7 +200,9 @@ protected:
 	TMet product_type::*m_metMemberCorrected;
 	std::vector<float> product_type::*m_metCorrections;
 	std::string (setting_type::*GetRecoilCorrectorFile)(void) const;
+	std::string (setting_type::*GetMetShiftCorrectorFile)(void) const;
 	RecoilCorrector* m_recoilCorrector;
+	MEtSys* m_metShiftCorrector;
 };
 
 
