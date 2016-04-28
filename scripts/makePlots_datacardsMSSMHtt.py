@@ -21,8 +21,8 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 
 samples_dict = {
-	'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl"])],
-	'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl"])],
+	'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd"])],
+	'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj","wj","qcd"]), ("taues",["ztt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd"])],
 	# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 	# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 	# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],

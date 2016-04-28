@@ -83,8 +83,9 @@ class Samples(samples.SamplesBase):
 		config["weights"] = [weight.format(blind=self.expressions.replace_expressions("blind_"+str(blind_expression)) if "blind_"+str(blind_expression) in self.expressions.expressions_dict else "1.0") for weight in config["weights"]]
 
 		# execute bin correction modules after possible background estimation modules
-		config.setdefault("analysis_modules", []).sort(key=lambda module: module in ["BinErrorsOfEmptyBins", "CorrectNegativeBinContents"])
-
+		if not kwargs.get("mssm", False):
+			config.setdefault("analysis_modules", []).sort(key=lambda module: module in ["BinErrorsOfEmptyBins", "CorrectNegativeBinContents"])
+		
 		return config
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -184,8 +185,8 @@ class Samples(samples.SamplesBase):
 			)
 		else:
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
-
-		Samples._add_bin_corrections(config, "ztt", nick_suffix)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "ztt", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
 
 		return config
@@ -222,8 +223,8 @@ class Samples(samples.SamplesBase):
 			pass
 		else:
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
-
-		Samples._add_bin_corrections(config, "zl", nick_suffix)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "zl", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
 		return config
 
@@ -259,8 +260,8 @@ class Samples(samples.SamplesBase):
 			pass
 		else:
 			log.error("Sample config (ZJ) currently not implemented for channel \"%s\"!" % channel)
-
-		Samples._add_bin_corrections(config, "zj", nick_suffix)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "zj", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
 		return config
 
@@ -294,8 +295,8 @@ class Samples(samples.SamplesBase):
 			)
 		else:
 			log.error("Sample config (ZLL) currently not implemented for channel \"%s\"!" % channel)
-
-		Samples._add_bin_corrections(config, "zll", nick_suffix)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "zll", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
 
@@ -421,8 +422,8 @@ class Samples(samples.SamplesBase):
 			config.setdefault("ttbar_mc_control_nicks", []).append("noplot_ttj_mc_control"+nick_suffix)
 		else:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
-
-		Samples._add_bin_corrections(config, "ttj", nick_suffix)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "ttj", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 
@@ -456,8 +457,8 @@ class Samples(samples.SamplesBase):
 			)
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
-
-		Samples._add_bin_corrections(config, "vv", nick_suffix)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "vv", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 
@@ -666,7 +667,8 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_os_highmt_mc_nicks", []).append("wj_os_highmt"+nick_suffix)
 					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj"+nick_suffix)
 					for nick in ["ztt_os_highmt", "zll_os_highmt", "zl_os_highmt", "zj_os_highmt", "ttj_os_highmt", "vv_os_highmt", "data_os_highmt", "wj_os_highmt", "ztt_ss_highmt", "zll_ss_highmt", "zl_ss_highmt", "zj_ss_highmt", "ttj_ss_highmt", "vv_ss_highmt", "data_ss_highmt", "wj_ss_highmt"]:
-						Samples._add_bin_corrections(config, nick, nick_suffix)
+						if not kwargs.get("mssm", False):
+							Samples._add_bin_corrections(config, nick, nick_suffix)
 						Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
 				else:
 					config.setdefault("wjets_ss_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
@@ -782,7 +784,8 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_bin_corrections(config, "wj", nick_suffix)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "wj", nick_suffix)
 			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
 
@@ -1189,11 +1192,13 @@ class Samples(samples.SamplesBase):
 
 					if channel in ["et","mt"]:
 						for nick in ["ztt_ss_lowmt", "zll_ss_lowmt", "zl_ss_lowmt", "zj_ss_lowmt", "ttj_ss_lowmt", "vv_ss_lowmt", "wj_ss_lowmt","data_ss_lowmt", "qcd_ss_highmt", "qcd_os_highmt", "qcd_ss_lowmt"]:
-							Samples._add_bin_corrections(config, nick, nick_suffix)
+							if not kwargs.get("mssm", False):
+								Samples._add_bin_corrections(config, nick, nick_suffix)
 							Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
 					else:
 						for nick in ["ztt_ss_lowmt", "zll_ss_lowmt", "ttj_ss_lowmt", "vv_ss_lowmt", "wj_ss_lowmt","data_ss_lowmt", "qcd_ss_highmt", "qcd_os_highmt", "qcd_ss_lowmt"]:
-							Samples._add_bin_corrections(config, nick, nick_suffix)
+							if not kwargs.get("mssm", False):
+								Samples._add_bin_corrections(config, nick, nick_suffix)
 							Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
 
 				else:
@@ -1215,7 +1220,8 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_bin_corrections(config, "qcd", nick_suffix)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "qcd", nick_suffix)
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 
@@ -1235,12 +1241,12 @@ class Samples(samples.SamplesBase):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
 			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
-
-			Samples._add_bin_corrections(
-					config,
-					"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-					nick_suffix
-			)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(
+						config,
+						"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
 			Samples._add_plot(
 					config,
 					"bkg" if kwargs.get("stack_signal", False) else "htt",
@@ -1284,11 +1290,12 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (bbH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(
-						config,
-						"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
-				)
+				if not kwargs.get("mssm", False):
+					Samples._add_bin_corrections(
+							config,
+							"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
 				Samples._add_plot(
 						config,
 						"bbh",
@@ -1332,11 +1339,12 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (ggH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(
-						config,
-						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
-				)
+				if not mssm:
+					Samples._add_bin_corrections(
+							config,
+							"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
 				Samples._add_plot(
 						config,
 						"ggh",
@@ -1380,11 +1388,12 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(
-						config,
-						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
-				)
+				if not kwargs.get("mssm", False):
+					Samples._add_bin_corrections(
+							config,
+							"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
 				Samples._add_plot(
 						config,
 						"qqh",
@@ -1413,11 +1422,12 @@ class Samples(samples.SamplesBase):
 			config.setdefault("sum_result_nicks", []).append("vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
 
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(
-						config,
-						"vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
-				)
+				if not kwargs.get("mssm", False):
+					Samples._add_bin_corrections(
+							config,
+							"vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
 				Samples._add_plot(
 						config,
 						"vh",
@@ -1476,11 +1486,12 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (WH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(
-						config,
-						"wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
-				)
+				if not kwargs.get("mssm", False):
+					Samples._add_bin_corrections(
+							config,
+							"wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
 				Samples._add_plot(
 						config,
 						"wh",
@@ -1525,11 +1536,12 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (ZH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
 
 			if not kwargs.get("no_plot", False):
-				Samples._add_bin_corrections(
-						config,
-						"zh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
-				)
+				if not kwargs.get("mssm", False):
+					Samples._add_bin_corrections(
+							config,
+							"zh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
 				Samples._add_plot(
 						config,
 						"zh",
