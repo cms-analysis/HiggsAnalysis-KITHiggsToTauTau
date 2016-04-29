@@ -66,9 +66,9 @@ class Samples(samples.SamplesBase):
 		elif channel == "em":
 			return "(gen_match_1 < 3 || gen_match_2 < 4)*stitchWeightZLL*"
 		elif channel == "mm":
-			return "(gen_match_1 < 4 || gen_match_2 < 4)*stitchWeightZLL"
+			return "(gen_match_1 < 4 || gen_match_2 < 4)*stitchWeightZLL*"
 		elif channel == "tt":
-			return "(gen_match_2 < 5 || gen_match_2 == 6 || gen_match_1 == 6)*stitchWeightZLL"
+			return "(gen_match_2 < 5 || gen_match_2 == 6 || gen_match_1 == 6)*stitchWeightZLL*"
 		else:
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
