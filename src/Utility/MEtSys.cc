@@ -2,6 +2,9 @@
 
 MEtSys::MEtSys(TString fileName) {
 
+  TDirectory *savedir(gDirectory);
+  TFile *savefile(gFile);
+
   TString cmsswBase = TString( getenv ("CMSSW_BASE") );
   TString baseDir = cmsswBase + "/src";
   TString _fileName = baseDir+"/"+fileName;
@@ -67,6 +70,9 @@ MEtSys::MEtSys(TString fileName) {
 
     }
   }
+  
+  gDirectory = savedir;
+  gFile = savefile;
 }
 
 void MEtSys::ComputeHadRecoilFromMet(float metX,
