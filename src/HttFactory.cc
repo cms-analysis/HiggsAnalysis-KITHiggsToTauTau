@@ -37,6 +37,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/AcceptanceEfficiencyProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TopPtReweightingProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZPtReweightProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleEleTauFakeRateWeightProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -197,6 +198,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
         return new TopPtReweightingProducer();
     else if(id == ZPtReweightProducer().GetProducerId())
         return new ZPtReweightProducer();
+    else if(id == SimpleEleTauFakeRateWeightProducer().GetProducerId())
+        return new SimpleEleTauFakeRateWeightProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
