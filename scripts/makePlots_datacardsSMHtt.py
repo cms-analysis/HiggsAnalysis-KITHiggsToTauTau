@@ -82,6 +82,7 @@ if __name__ == "__main__":
 	
 	plot_configs = []
 	output_files = []
+	merged_output_files = []
 	hadd_commands = []
 	
 	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses)
@@ -222,6 +223,22 @@ if __name__ == "__main__":
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
+		if args.for_dcsync:
+			merged_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-mvis.root"
+			merged_output_file = os.path.join(args.output_dir, merged_input_root_filename_template.replace("$", "").format(
+					ANALYSIS="htt",
+					CHANNEL=channel,
+					ERA="13TeV"
+			))
+			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
+					DST=merged_output_file,
+					SRC=" ".join(output_files)
+			))
+			output_files = []
+			merged_output_files.append(merged_output_file)
+	
+	if args.for_dcsync:
+		input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-mvis.root"
 	
 	#if log.isEnabledFor(logging.DEBUG):
 	#	import pprint
@@ -240,7 +257,7 @@ if __name__ == "__main__":
 	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
 	debug_plot_configs = []
-	for output_file in output_files:
+	for output_file in (output_files if not args.for_dcsync else merged_output_files):
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	
