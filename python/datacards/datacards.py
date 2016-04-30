@@ -243,6 +243,15 @@ class Datacards(object):
 				(["13TeV"], ["em"], 1.0)
 				(["13TeV"], ["et"], 1.0)
 		]
+		self.met_resp_syst_args = [
+			"CMS_scale_met_$CHANNEL_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["em"], 1.0)
+				(["13TeV"], ["et"], 1.0)
+				(["13TeV"], ["mt"], 1.0)
+				(["13TeV"], ["tt"], 1.0)
+		]
 		
 		self.probetau_es_syst_args = [
 			"CMS_scale_probetau_$CHANNEL_$ERA",
