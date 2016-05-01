@@ -416,7 +416,7 @@ class Samples(samples.SamplesBase):
 
 			if not "EstimateTtbar" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateTtbar")
-			config.setdefault("ttbar_from_mc", []).append(False)
+			config.setdefault("ttbar_from_mc", []).append(True)
 			config.setdefault("ttbar_shape_nicks", []).append("ttj"+nick_suffix)
 			config.setdefault("ttbar_data_control_nicks", []).append("noplot_ttj_data_control"+nick_suffix)
 			config.setdefault("ttbar_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
