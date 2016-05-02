@@ -289,13 +289,6 @@ if __name__ == "__main__":
 		update_systematics=False
 	)
 	
-	# add bin-by-bin uncertainties
-	if args.add_bbb_uncs:
-		datacards.add_bin_by_bin_uncertainties(
-			processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
-			add_threshold=0.1, merge_threshold=0.5, fix_norm=True
-		)
-	
 	# create morphing
 	ws = ROOT.RooWorkspace("w","w")
 	mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
@@ -310,6 +303,13 @@ if __name__ == "__main__":
 	# is set by hand to their default values
 	datacards.cb.AddWorkspace(ws, False)
 	datacards.cb.cp().signals().ExtractPdfs(datacards.cb, "w", "$BIN_$PROCESS_morph","")
+	
+	# add bin-by-bin uncertainties
+	if args.add_bbb_uncs:
+		datacards.add_bin_by_bin_uncertainties(
+			processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
+			add_threshold=0.1, merge_threshold=0.5, fix_norm=True
+		)
 	
 	# write datacards
 	datacards_cbs = {}
