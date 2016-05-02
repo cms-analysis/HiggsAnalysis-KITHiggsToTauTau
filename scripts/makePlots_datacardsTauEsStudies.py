@@ -101,6 +101,11 @@ if __name__ == "__main__":
 		current_shift = round(es_shifts[-1]+args.shift_binning,4)
 		es_shifts.append(current_shift)
 		es_shifts_str.append(str(current_shift))
+		
+	# produce decaymode bins
+	decay_modes = []
+	for decayMode in args.decay_modes:
+		decay_modes.append(decayMode)
 	
 	# produce pt-bins
 	pt_weights = []
@@ -134,13 +139,13 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	channel = "mt"
 	quantity = args.quantity
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, pt_bins)
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, pt_bins)
 	datacards.cb.channel([channel])
 	
 	for decayMode in args.decay_modes:
 		for pt_index, (pt_range) in enumerate(args.pt_ranges):
 			
-			category = "mt_inclusive_ptbin"+pt_bins[pt_index]
+			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
@@ -295,9 +300,10 @@ if __name__ == "__main__":
 	ws = ROOT.RooWorkspace("w","w")
 	mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 	
-	for pt_index, (pt_range) in enumerate(args.pt_ranges):
-		category = "mt_inclusive_ptbin"+pt_bins[pt_index]
-		morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
+	for decayMode in args.decay_modes:
+		for pt_index, (pt_range) in enumerate(args.pt_ranges):
+			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
 	
 	# For some reason the default arguments are not working in the python wrapper
 	# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
@@ -307,25 +313,26 @@ if __name__ == "__main__":
 	
 	# write datacards
 	datacards_cbs = {}
-	for pt_index, (pt_range) in enumerate(args.pt_ranges):
-		category = "mt_inclusive_ptbin"+pt_bins[pt_index]
-		dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
-						ANALYSIS="ztt",
-						CHANNEL=channel,
-						BIN=category,
-						ERA="13TeV"))
-		output = os.path.join(args.output_dir, output_root_template.replace("$", "").format(
-						ANALYSIS="ztt",
-						CHANNEL=channel,
-						BIN=category,
-						ERA="13TeV"))
-		
-		if not os.path.exists(os.path.dirname(dcname)):
-			os.makedirs(os.path.dirname(dcname))
-		if not os.path.exists(os.path.dirname(output)):
-			os.makedirs(os.path.dirname(output))
-		datacards.cb.cp().channel([channel]).bin([category]).mass(["*"]).WriteDatacard(dcname, output)
-		datacards_cbs[dcname] = datacards.cb
+	for decayMode in args.decay_modes:
+		for pt_index, (pt_range) in enumerate(args.pt_ranges):
+			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+			dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
+							ANALYSIS="ztt",
+							CHANNEL=channel,
+							BIN=category,
+							ERA="13TeV"))
+			output = os.path.join(args.output_dir, output_root_template.replace("$", "").format(
+							ANALYSIS="ztt",
+							CHANNEL=channel,
+							BIN=category,
+							ERA="13TeV"))
+			
+			if not os.path.exists(os.path.dirname(dcname)):
+				os.makedirs(os.path.dirname(dcname))
+			if not os.path.exists(os.path.dirname(output)):
+				os.makedirs(os.path.dirname(output))
+			datacards.cb.cp().channel([channel]).bin([category]).mass(["*"]).WriteDatacard(dcname, output)
+			datacards_cbs[dcname] = datacards.cb
 	# write combined datacard
 	dcname = os.path.join(args.output_dir, datacard_combined_template.replace("$", "").format(
 					ANALYSIS="ztt",
@@ -407,7 +414,7 @@ if __name__ == "__main__":
 		for datacard in datacards_cbs.keys():
 			postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
 			for category in datacards_cbs[datacard].cp().bin_set():
-				
+
 				if (("combined" not in datacard) and (category not in datacard)):
 					continue
 				
@@ -472,7 +479,7 @@ if __name__ == "__main__":
 				config["cms"] = True
 				config["extra_text"] = "Preliminary"
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-				config["filename"] = level+"_"+category+"_"+decayMode+"_"+quantity+"_"+str(pt_index)
+				config["filename"] = level+"_"+category+"_"+quantity
 				#config["formats"] = ["png", "pdf"]
 				
 				plot_configs.append(config)
