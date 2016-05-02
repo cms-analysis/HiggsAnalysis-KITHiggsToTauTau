@@ -60,21 +60,21 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.026)
-				(       ["13TeV"], 1.046)
+				(       ["13TeV"], 1.046) # recommended uncertainty in dec 2015, https://hypernews.cern.ch/HyperNews/CMS/get/luminosity/544.html
 		]
 		self.electron_efficieny_syst_args = [
 			"CMS_eff_e",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
-				(       ["13TeV"], 1.05) # copied from 8TeV
+				(       ["13TeV"], 1.05) # Fabio, slide 4, https://indico.cern.ch/event/510575/contributions/1190414/attachments/1246714/1836380/20160321_slides.pdf
 		]
 		self.muon_efficieny_syst_args = [
 			"CMS_eff_m",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
-				(       ["13TeV"], 1.05) # copied from 8TeV
+				(       ["13TeV"], 1.05) # copied from 8TeV? Source?
 		]
 		self.tau_efficieny_corr_syst_args = [
 			"CMS_eff_t_$ERA",
@@ -82,7 +82,7 @@ class Datacards(object):
 			ch.SystMap("era", "channel")
 				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
 				(["7TeV", "8TeV"], ["tt"],       1.19)
-				(       ["13TeV"], ["mt", "et", "tt"], 1.05)
+				(       ["13TeV"], ["mt", "et", "tt"], 1.05) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.tau_efficieny_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
@@ -90,7 +90,7 @@ class Datacards(object):
 			ch.SystMap("era", "channel")
 				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
 				(["7TeV", "8TeV"], ["tt"],       1.19)
-				(       ["13TeV"], ["mt", "et", "tt"], 1.03)
+				(       ["13TeV"], ["mt", "et", "tt"], 1.03) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.btag_efficieny_syst_args = [
 			"CMS_eff_b_$ERA",
@@ -120,7 +120,7 @@ class Datacards(object):
 			"CMS_$ANALYSIS_zjXsec_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], 1.04)
+				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], 1.04) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.ttj_cross_section_syst_args = [
 			"CMS_$ANALYSIS_ttjXsec_$ERA",
@@ -128,44 +128,38 @@ class Datacards(object):
 			ch.SystMap("era", "process")
 				( ["7TeV"], ["TTJ"], 1.08)
 				( ["8TeV"], ["TTJ"], 1.1)
-				(["13TeV"], ["TTJ", "TT"], 1.06)
+				(["13TeV"], ["TTJ", "TT"], 1.06) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.ttj_extrapol_syst_args = [
 			"CMS_$ANALYSIS_ttjExtrapol_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(["13TeV"], ["TTJ", "TT"], 1.10)
+				(["13TeV"], ["TTJ", "TT"], 1.10) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.singlet_cross_section_syst_args = [
 			"CMS_$ANALYSIS_singletXsec_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(["13TeV"], ["VV"], 1.04)
+				(["13TeV"], ["VV"], 1.04) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.vv_cross_section_syst_args = [
 			"CMS_$ANALYSIS_vvXsec_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
 				(["7TeV", "8TeV"], ["VV"], 1.15)
-				(       ["13TeV"], ["VV"], 1.10)
+				(       ["13TeV"], ["VV"], 1.10) # https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.wj_cross_section_syst_args = [
 			"CMS_$ANALYSIS_wjXsec_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(       ["13TeV"], ["WJ", "W"], 1.04)
-		]
-		self.wj_cross_section_syst_args_run1 = [
-			"CMS_$ANALYSIS_wjXsec_$CHANNEL_$ERA",
-			"lnN",
-			ch.SystMap("era", "process", "channel")
-				(["7TeV", "8TeV"], ["WJ"], ["mt", "et"], 1.2)
+				(       ["13TeV"], ["WJ", "W"], 1.04) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.wj_extrapol_syst_args = [
 			"CMS_$ANALYSIS_wjExtrapol_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(       ["13TeV"], ["WJ", "W"], 1.2)
+				(       ["13TeV"], ["WJ", "W"], 1.2) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		
 		self.qcd_syst_args = [
@@ -193,33 +187,33 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process", "channel")
 				(["7TeV", "8TeV"], ["ZLL"], ["mt", "et"], 1.30)
-				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "tt"], 1.15)
-				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["et"], 1.30)
+				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["mt", "tt"], 1.15) #CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+				(       ["13TeV"], ["ZLL", "ZL", "ZJ"], ["et"], 1.30) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.eFakeTau_vloose_syst_args = [
 			"CMS_$ANALYSIS_rate_eFakeTau_vloose_$ERA",
 			"lnN",
 			ch.SystMap("era", "process", "channel")
-				(       ["13TeV"], ["ZLL", "ZL"], ["mt", "tt"], 1.10)
+				(       ["13TeV"], ["ZLL", "ZL"], ["mt", "tt"], 1.10) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.eFakeTau_tight_syst_args = [
 			"CMS_$ANALYSIS_rate_eFakeTau_tight_$ERA",
 			"lnN",
 			ch.SystMap("era", "process", "channel")
-				(       ["13TeV"], ["ZLL", "ZL"], ["et"], 1.30)
+				(       ["13TeV"], ["ZLL", "ZL"], ["et"], 1.30) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.muFakeTau_syst_args = [
 			"CMS_$ANALYSIS_mFakeTau_$ERA",
 			"lnN",
 			ch.SystMap("era", "process",)
-				(       ["13TeV"], ["ZLL", "ZL"], 2.00)
+				(       ["13TeV"], ["ZLL", "ZL"], 2.00) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		
 		self.zee_norm_syst_args = [
 			"CMS_$ANALYSIS_zeeNorm_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(       ["13TeV"], ["ZLL", "ZL"], 1.03)
+				(       ["13TeV"], ["ZLL", "ZL"], 1.03) # Source?
 		]
 		
 		self.jec_syst_args = [
@@ -279,7 +273,7 @@ class Datacards(object):
 				(["13TeV"], ["et"], 1.0)
 		]
 		
-		# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV#s_13_0_TeV
+		# https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV2014#s_13_0_TeV
 		self.htt_qcd_scale_syst_args = [
 			"QCD_scale_$PROCESS",
 			"lnN",
@@ -305,19 +299,19 @@ class Datacards(object):
 			"CMS_$ANALYSIS_QCDscale_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(["13TeV"], ["ZTT"], 1.005)
+				(["13TeV"], ["ZTT"], 1.005) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.ztt_qcd_scale_tt_syst_args = [
 			"CMS_$ANALYSIS_QCDscale_$CHANNEL_$ERA",
 			"lnN",
 			ch.SystMap("era", "process", "channel")
-				(["13TeV"], ["ZTT"], ["tt"], 1.005)
+				(["13TeV"], ["ZTT"], ["tt"], 1.06)
 		]
 		self.ztt_pdf_scale_syst_args = [
 			"CMS_$ANALYSIS_pdf_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(["13TeV"], ["ZTT"], 1.015)
+				(["13TeV"], ["ZTT"], 1.015) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 
 		# CMS AN-13-262 (v8, table 3)
