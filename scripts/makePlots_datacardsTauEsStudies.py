@@ -447,15 +447,15 @@ if __name__ == "__main__":
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
 				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
-				if decayMode == "OneProngPiZeros" and quantity == "m_2":
+				if "OneProngPiZeros" in category and quantity == "m_2":
 					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["y_label"] = "Events / bin"
 					config["x_lims"] = [0.3,4.2]
-				elif decayMode == "ThreeProng" and quantity == "m_2":
+				elif "ThreeProng" in category and quantity == "m_2":
 					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["y_label"] = "Events / bin"
 					config["x_lims"] = [0.8,1.5]
-				elif decayMode == "OneProng" or quantity == "m_vis":
+				elif "OneProng" in category or quantity == "m_vis":
 					config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
 					config["y_label"] = "Events / bin"
 					config["x_lims"] = [20,200]
@@ -485,3 +485,51 @@ if __name__ == "__main__":
 				plot_configs.append(config)
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# prepare output table and print it to shell
+	output_dict_mu = {}
+	output_dict_errHi = {}
+	output_dict_errLo = {}
+	for decayMode in decay_modes:
+		for ptBin in pt_bins:
+			output_dict_mu.setdefault(decayMode, {})[ptBin] = 0
+			output_dict_errHi.setdefault(decayMode, {})[ptBin] = 0
+			output_dict_errLo.setdefault(decayMode, {})[ptBin] = 0
+	
+	for datacard, cb in datacards_cbs.iteritems():
+		filename = os.path.join(os.path.dirname(datacard), "mlfit.root")
+		if "combined" in filename:
+			continue
+		resultsfile = ROOT.TFile(filename)
+		resultstree = resultsfile.Get("tree_fit_sb")
+		resultstree.GetEntry(0)
+		decayMode = filename.split("_")[-2]
+		ptBin =  filename.split("_")[-1].split("/")[0].split("ptbin")[-1]
+		output_dict_mu[decayMode][ptBin] = resultstree.mu
+		output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr
+		output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
+		
+	print "########################### Fit results table ###########################"
+	row_format = "{:^20}" * (len(decay_modes) + 1)
+	print row_format.format("", *decay_modes)
+	print
+	for ptBin in pt_bins:
+		print "{:^20}".format("Pt bin "+ptBin),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_mu[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_mu[decayMode][ptBin])
+		print "{:^20}".format("+ 1sigma "),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_errHi[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_errHi[decayMode][ptBin])
+		print "{:^20}".format("- 1sigma "),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_errLo[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_errLo[decayMode][ptBin])
+		print
