@@ -33,6 +33,8 @@ class SMHttDatacards(datacards.Datacards):
 
 			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
