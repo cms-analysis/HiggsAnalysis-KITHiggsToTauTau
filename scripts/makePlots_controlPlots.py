@@ -143,6 +143,8 @@ if __name__ == "__main__":
 						help="integration signal nick [Default:%(default)s]")
 	parser.add_argument("--integration-background", nargs="+", default=["all"],
 						help="integration background nick [Default:%(default)s]")
+	parser.add_argument("--full-integral", action="store_true",
+						help="calculate full integral of all histograms and write to file")
 	parser.add_argument("--scale-mc-only", default="1.0",
                         help="scales only MC events. [Default: %(default)s]")
 	parser.add_argument("--cut-mc-only", default="1.0",
@@ -267,6 +269,7 @@ if __name__ == "__main__":
 				)
 
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
+				config["category"] = category
 
 				binnings_key = channel+"_"+quantity
 				if binnings_key in binnings_settings.binnings_dict:
@@ -363,6 +366,16 @@ if __name__ == "__main__":
 								temp_nicks.append(nick)
 						bkg_samples_used = temp_nicks
 					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_nick)
+				#add FullIntegral
+				if(args.full_integral):
+					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					hmass_temp = 125
+					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
+						hmass_temp = int(args.higgs_masses[0])
+					sig_nick = "htt%i"%hmass_temp
+					bkg_samples_used.append(sig_nick)
+					config["full_integral_nicks"]=[" ".join(bkg_samples_used)]
+					config["analysis_modules"].append("FullIntegral")
 
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):

@@ -39,7 +39,6 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 
 	list_of_roots = glob.glob(os.path.join(args.input_dir, "*/sqrt_diff.root"))
-	print list_of_roots
 	x_names = [] #store names of BDTs
 	x_values = [] #store dummy x-value for plotting
 	y_mc_values = [] #store diff-value for mc
@@ -68,12 +67,8 @@ if __name__ == "__main__":
 		data_tot = data.Integral()
 		data_point = False
 		mc_point = False
-		print mc_tot
-		print data_tot
+
 		for j in range(1,1001,1):
-			if j%100 == 1:
-				print mc_hist.GetBinContent(j)
-				print data.GetBinContent(j)
 			mc_sum += mc_hist.GetBinContent(j)
 			data_sum += data.GetBinContent(j)
 			if (not mc_point) and (abs(mc_sum/mc_tot - 0.95)<0.01 or mc_sum/mc_tot>0.95):
@@ -86,7 +81,7 @@ if __name__ == "__main__":
 
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
-
+	print x_names, y_mc_values, y_data_values
 	ax.plot(x_values, y_mc_values, label="MC", color="blue", marker="x", markersize = 12.5, ls = "None", markeredgewidth=2)
 	ax.plot(x_values, y_data_values, label="Data", color="red", marker=".", markersize = 12.5, ls = "None",)
 	ax.set_xticks(x_values)
