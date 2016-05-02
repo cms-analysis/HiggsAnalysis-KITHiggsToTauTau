@@ -335,6 +335,7 @@ if __name__ == "__main__":
 	
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 --significance -n \"\"")
 	
 	"""
 	# cV-cF scan
