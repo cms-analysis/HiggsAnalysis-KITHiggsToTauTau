@@ -84,6 +84,8 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--combine-verbosity", default="1", choices=["-1","0","1","2"],
 						help="Control output amount of combine. [Default: %(default)s]")
+	parser.add_argument("--do-parabola-fit", action="store_true", default=False,
+						help="Redo parabola fit for cross checks. [Default: %(default)s]")
 	
 	
 	args = parser.parse_args()
@@ -375,18 +377,19 @@ if __name__ == "__main__":
 	tools.parallelize(_call_command, commands, n_processes=1)
 	
 	#2nd combine call to get deltaNLL distribution
-	commands = []
-	commands.extend([[
-		"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
-			BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
-			RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
-			VERBOSITY=args.combine_verbosity,
-			WORKSPACE=os.path.splitext(datacard)[0]+".root",
-		),
-		os.path.dirname(datacard)
-	] for datacard, cb in datacards_cbs.iteritems()])
-	
-	tools.parallelize(_call_command, commands, n_processes=1)
+	if args.do_parabola_fit:
+		commands = []
+		commands.extend([[
+			"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
+				BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
+				RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
+				VERBOSITY=args.combine_verbosity,
+				WORKSPACE=os.path.splitext(datacard)[0]+".root",
+			),
+			os.path.dirname(datacard)
+		] for datacard, cb in datacards_cbs.iteritems()])
+		
+		tools.parallelize(_call_command, commands, n_processes=1)
 	
 	#postfitshapes call
 	datacards_postfit_shapes = {}
@@ -486,6 +489,32 @@ if __name__ == "__main__":
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
+	# due to a gDirectory problem, plotting the parabola does not work atm
+	# TODO: implement different procedure
+	#plot_configs = []
+	#
+	#if args.do_parabola_fit:
+	#	for datacard, cb in datacards_cbs.iteritems():
+	#		if "combined" in os.path.dirname(datacard):
+	#			continue
+	#		config = {}
+	#		config.setdefault("analysis_modules", []).append("FunctionPlot")
+	#		config["files"] =  os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
+	#		config["folders"] = "limit"
+	#		config["x_expressions"] = "mes"
+	#		config["weights"] = "deltaNLL"
+	#		config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+	#		config["filename"] = "parabola_"+category+"_"+quantity
+	#		config["function_fit"] = ["nick0"]
+	#		config["functions"] = ["[0]+([1]*(exp((x-[2])/[3]) + exp(-1.0*(x-[2])/[4])))"]
+	#		config["function_parameters"] = ["-400.0,200.0,1.0,0.05,0.05"]
+	#		config["x_label"] = "#tau_{ES}"
+	#		config["y_label"] = "-2NLL"
+	#		
+	#		plot_configs.append(config)
+	#
+	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
 	# prepare output table and print it to shell
 	output_dict_mu = {}
 	output_dict_errHi = {}
@@ -508,6 +537,7 @@ if __name__ == "__main__":
 		output_dict_mu[decayMode][ptBin] = resultstree.mu
 		output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr
 		output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
+		resultsfile.Close()
 		
 	print "########################### Fit results table ###########################"
 	row_format = "{:^20}" * (len(decay_modes) + 1)
