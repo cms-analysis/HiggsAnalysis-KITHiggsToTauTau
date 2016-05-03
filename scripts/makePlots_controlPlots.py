@@ -160,16 +160,13 @@ if __name__ == "__main__":
 	                    default=["integral",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2", "mt_2",
-	                             "pt_ll", "eta_ll", "phi_ll", "m_ll", "mt_ll",
-	                             "pt_llmet", "eta_llmet", "phi_llmet", "m_llmet", "mt_llmet",
-	                             "mt_lep1met",
-	                             "pt_sv", "eta_sv", "phi_sv", "svfitMass",
+	                             "pt_sv", "eta_sv", "phi_sv", "m_sv",
 	                             "met", "metphi", "metcov00", "metcov01", "metcov10", "metcov11",
 	                             "mvamet", "mvametphi", "mvacov00", "mvacov01", "mvacov10", "mvacov11",
-	                             "pZetaMissVis", "pzetamiss", "pzetavis"
-	                             "jpt_1_pt30", "jeta_1_pt30", "jphi_1_pt30",
-	                             "jpt_2_pt30", "jeta_2_pt30", "jphi_2_pt30",
-	                             "njetspt30", "mjj_pt30", "jdeta_pt30", "njetingap_pt30",
+	                             "pZetaMissVis", "pzetamiss", "pzetavis",
+	                             "jpt_1", "jeta_1", "jphi_1",
+	                             "jpt_2", "jeta_2", "jphi_2",
+	                             "njetspt30", "mjj", "jdeta", "njetingap20", "njetingap",
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
@@ -233,12 +230,19 @@ if __name__ == "__main__":
 
 	binnings_settings = binnings.BinningsDict()
 
-	args.categories = [None if category == "None" else category for category in args.categories]
+	args.categories = [None if category == "None" else "MSSM" if args.mssm else category for category in args.categories]
 
 	plot_configs = []
 	for channel in args.channels:
 		for category in args.categories:
 			for quantity in args.quantities:
+				category_string = None
+				if category != None:
+					if(args.mssm):
+						category_string = "catHttMSSM13TeV"
+					else:
+						category_string = "catHtt13TeV"
+					category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
 
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity+".json") for channel_dir in [channel, "default"]]
@@ -248,11 +252,10 @@ if __name__ == "__main__":
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
 				quantity = json_config.pop("x_expressions", [quantity])[0]
-
 				config = sample_settings.get_config(
 						samples=list_of_samples,
 						channel=channel,
-						category=category if not args.mssm else "catHttMSSM13TeV_{channel}_{category}".format(channel=channel, category=category),
+						category=category_string,
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
