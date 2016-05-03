@@ -31,7 +31,7 @@ git clone https://github.com/artus-analysis/Artus.git -b Kappa_2_1
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b ROOT6
+git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
 #svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 
@@ -40,7 +40,8 @@ git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStand
 cd TauAnalysis/SVfitStandalone
 git checkout dd7cf43e3f930040959f7d700cef976307d7cec3 -b current
 cd $CMSSW_BASE/src
-git clone https://github.com/artus-analysis/HHKinFit2.git
+# checkout HHKinFit2 package - artus branch because of folder structure
+git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
 # needed for plotting and statistical inference
 git clone https://github.com/artus-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
