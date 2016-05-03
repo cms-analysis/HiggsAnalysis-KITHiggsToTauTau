@@ -230,12 +230,19 @@ if __name__ == "__main__":
 
 	binnings_settings = binnings.BinningsDict()
 
-	args.categories = [None if category == "None" else category for category in args.categories]
+	args.categories = [None if category == "None" else "MSSM" if args.mssm else category for category in args.categories]
 
 	plot_configs = []
 	for channel in args.channels:
 		for category in args.categories:
 			for quantity in args.quantities:
+				category_string = None
+				if category != None:
+					if(args.mssm):
+						category_string = "catHttMSSM13TeV"
+					else:
+						category_string = "catHtt13TeV"
+					category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
 
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity+".json") for channel_dir in [channel, "default"]]
@@ -245,11 +252,10 @@ if __name__ == "__main__":
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
 				quantity = json_config.pop("x_expressions", [quantity])[0]
-
 				config = sample_settings.get_config(
 						samples=list_of_samples,
 						channel=channel,
-						category=category if not args.mssm else "catHttMSSM13TeV_{channel}_{category}".format(channel=channel, category=category),
+						category=category_string,
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
