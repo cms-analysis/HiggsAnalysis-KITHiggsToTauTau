@@ -1,0 +1,41 @@
+{
+	"analysis_modules": [
+			"NormalizeToUnity",
+			"PrintInfos"
+	],
+	"folders": [
+	"gen/ntuple"
+	],
+	"formats": [
+	   "png"
+
+	   ],
+	"legend": [0.2, 0.7, 0.9, 0.9],
+	"legend_cols": 3,
+	"legend_markers": ["L"],
+	"labels" :["#alpha=0", "#alpha=#pi/8", "#alpha=#pi/4", "#alpha=3#pi/8", "#alpha=#pi/2"],
+	"markers": [
+	   "E"
+	],
+
+	"grid": true,
+	"x_bins": [
+	    "30,0.0,6.28"
+		],
+	"x_expressions": [
+		"genPhiStarCP"
+	
+	],
+	"x_label": "#Phi_{CP}/rad",
+	"x_lims": [
+	0.0,
+	6.3
+	],
+	"y_bins": [
+	"10"
+	],
+	"y_label": "#partial N / #partial #Phi_{CP} ",
+	"y_lims": [
+	0.0,0.15
+	]
+}
