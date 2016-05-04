@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Artus/KappaAnalysis/interface/KappaProducerBase.h"
+#include <boost/regex.hpp>
 
 /**
    \brief TopPtReweightingProducer

@@ -9,6 +9,7 @@ import copy
 
 import Artus.Utility.jsonTools as jsonTools
 
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.cutstrings as cutstrings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expressions
 
 
@@ -87,6 +88,18 @@ class SamplesBase(object):
 				merged_config[key] = value
 		
 		return merged_config
+
+	@staticmethod
+	def cut_string(channel, exclude_cuts=None, cut_type="baseline"):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		cuts = cutstrings.CutStringsDict()._get_cutdict(channel, cut_type)
+		cuts_list = [cut for (name, cut) in cuts.iteritems() if not name in exclude_cuts]
+		if len(cuts_list) == 0:
+			cuts_list.append("1.0")
+
+		return "*".join(cuts_list)
 	
 	@staticmethod
 	def _add_input(config, input_file, folder, scale_factor, weight, nick, nick_suffix=""):

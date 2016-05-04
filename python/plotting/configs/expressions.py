@@ -72,6 +72,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_low"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}<={pt_cut_1})*({pt_var}>{pt_cut_2})".format(pt_var=pt_var, pt_cut_1=pt_cut_btag_high, pt_cut_2=pt_cut_btag_low)
 
 		# MVA Htt categories
+		import Artus.Utility.jsonTools as jsonTools
 		for channel in ["tt", "mt", "et", "em"]:
 		#========================================Copy here!========================================
 			expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_expressions.cfg"%channel)
@@ -94,7 +95,83 @@ class ExpressionsDict(expressions.ExpressionsDict):
 							channel=channel, vbf_tagger=name, mva_name=regular_name)]=self.expressions_dict["{channel}_{reg_name}_signal".format(channel=channel, reg_name=regular_name)]+"*({upper} <= {vbf_tagger})".format(upper=values[0], vbf_tagger=name)
 						self.expressions_dict["{channel}_{vbf_tagger}_{mva_name}_not_tagged_signal".format(
 							channel=channel, vbf_tagger=name, mva_name=regular_name)]=self.expressions_dict["{channel}_{reg_name}_signal".format(channel=channel, reg_name=regular_name)]+"*({lower} > {vbf_tagger})".format(lower=values[0], vbf_tagger=name)
-		#========================================Copy here!========================================
+			expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_shift_expressions.cfg"%channel)
+			if not os.path.exists(expressions_path):
+				continue
+			#with open(expressions_path, "r") as exps:
+				#for line in exps:
+					#line = line.strip("\n")
+					#cat_name, cat_string = line.split(" : ")
+					#self.expressions_dict[cat_name] = cat_string
+			shifts_dict = jsonTools.JsonDict(expressions_path)
+			self.expressions_dict.update(shifts_dict)
+		#========================================Copy here!=======================================
+		#jsonTools.JsonDict(self.expressions_dict).save(os.path.expandvars("$CMSSW_BASE/src/expressions.json"), indent = 4)
+
+
+		#self.expressions_dict["mt_mod_vbf"] = "(0.945<=5_qqh_300_ggh)"
+		#self.expressions_dict["mt_mod_non_vbf"] = "(0.945>5_qqh_300_ggh)"
+		#self.expressions_dict["mt_mod_sig"] = "(0.205<=5_xxh_1750_all)*(0.945>5_qqh_300_ggh)"
+		#self.expressions_dict["mt_mod_mixed"] = "(0.205>5_xxh_1750_all&&-0.39<=5_xxh_1750_all)*(0.945>5_qqh_300_ggh)"
+		#self.expressions_dict["mt_mod_bkg"] = "(-0.39>5_xxh_1750_all)*(0.945>5_qqh_300_ggh)"
+
+		#self.expressions_dict["mt_3_xxh_1750_all_signal_up"]="(0.135 <= 3_xxh_1750_all)"
+		#self.expressions_dict["mt_3_xxh_1750_all_mixed_up"]="(-0.49 <= 3_xxh_1750_all && 3_xxh_1750_all < 0.135)"
+		#self.expressions_dict["mt_3_xxh_1750_all_bkg_up"]="(3_xxh_1750_all < -0.49)"
+		#self.expressions_dict["mt_3_xxh_1750_all_signal_down"]="(0.335 <= 3_xxh_1750_all)"
+		#self.expressions_dict["mt_3_xxh_1750_all_mixed_down"]="(-0.29 <= 3_xxh_1750_all && 3_xxh_1750_all < 0.335)"
+		#self.expressions_dict["mt_3_xxh_1750_all_bkg_down"]="(3_xxh_1750_all < -0.29)"
+
+		##vbf_tagger : 3_qqh_100_ggh : -1.0 0.645 1.0
+		##vbf_tagger : 3_qqh_100_ggh : -1.0 0.605 1.0
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_tagged_signal_up_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.575 <= 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_not_tagged_signal_up_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.575 > 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_tagged_signal_up_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.645 <= 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_not_tagged_signal_up_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.645 > 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_tagged_signal_up_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.715 <= 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_not_tagged_signal_up_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.715 > 3_qqh_100_ggh)"
+
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_tagged_signal_down_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.535 <= 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_not_tagged_signal_down_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.535 > 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_tagged_signal_down_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.605 <= 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_not_tagged_signal_down_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.605 > 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_tagged_signal_down_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.675 <= 3_qqh_100_ggh)"
+		#self.expressions_dict["mt_3_qqh_100_ggh_3_xxh_1750_all_not_tagged_signal_down_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.675 > 3_qqh_100_ggh)"
+
+		##vbf_tagger : 3_qqh_300_ggh : -1.0 0.69 1.0
+		##vbf_tagger : 3_qqh_300_ggh : -1.0 0.695 1.0
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_tagged_signal_up_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.575 <= 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_not_tagged_signal_up_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.575 > 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_tagged_signal_up_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.69 <= 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_not_tagged_signal_up_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.69 > 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_tagged_signal_up_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.805 <= 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_not_tagged_signal_up_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.805 > 3_qqh_300_ggh)"
+
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_tagged_signal_down_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.58 <= 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_not_tagged_signal_down_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.58 > 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_tagged_signal_down_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.695 <= 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_not_tagged_signal_down_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.695 > 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_tagged_signal_down_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.81 <= 3_qqh_300_ggh)"
+		#self.expressions_dict["mt_3_qqh_300_ggh_3_xxh_1750_all_not_tagged_signal_down_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.81 > 3_qqh_300_ggh)"
+
+
+		##vbf_tagger : 3_qqh_500_ggh : -1.0 0.705 1.0
+		##vbf_tagger : 3_qqh_500_ggh : -1.0 0.66 1.0
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_tagged_signal_up_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.56 <= 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_not_tagged_signal_up_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.56 > 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_tagged_signal_up_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.705 <= 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_not_tagged_signal_up_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.705 > 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_tagged_signal_up_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.85 <= 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_not_tagged_signal_up_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_up"]+"*(0.85 > 3_qqh_500_ggh)"
+
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_tagged_signal_down_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.515 <= 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_not_tagged_signal_down_up"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.515 > 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_tagged_signal_down_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.66 <= 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_not_tagged_signal_down_nom"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.66 > 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_tagged_signal_down_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.805 <= 3_qqh_500_ggh)"
+		#self.expressions_dict["mt_3_qqh_500_ggh_3_xxh_1750_all_not_tagged_signal_down_down"]=self.expressions_dict["mt_3_xxh_1750_all_signal_down"]+"*(0.805 > 3_qqh_500_ggh)"
+
+
 		self.expressions_dict["cat_OneProng"] = "(decayMode_2 == 0)"
 		self.expressions_dict["catOneProng"] = self.expressions_dict["cat_OneProng"]
 		for channel in [ "mt", "et"]:

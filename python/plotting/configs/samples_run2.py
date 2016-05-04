@@ -8,24 +8,11 @@ log = logging.getLogger(__name__)
 import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.cutstrings as cutstrings
 
 
 default_lumi = 2155
 
 class Samples(samples.SamplesBase):
-
-	@staticmethod
-	def cut_string(channel, exclude_cuts=None, cut_type="baseline"):
-		if exclude_cuts is None:
-			exclude_cuts = []
-
-		cuts = cutstrings.CutStringsDict()._get_cutdict(channel, cut_type)
-		cuts_list = [cut for (name, cut) in cuts.iteritems() if not name in exclude_cuts]
-		if len(cuts_list) == 0:
-			cuts_list.append("1.0")
-
-		return "*".join(cuts_list)
 
 	@staticmethod
 	def ztt_genmatch(channel):
@@ -61,12 +48,14 @@ class Samples(samples.SamplesBase):
 
 	@staticmethod
 	def zll_genmatch(channel):
-		if channel in ["mt", "et", "tt"]:
+		if channel in ["mt", "et"]:
 			return "(gen_match_2 < 5 || gen_match_2 == 6)*stitchWeightZLL*"
 		elif channel == "em":
 			return "(gen_match_1 < 3 || gen_match_2 < 4)*stitchWeightZLL*"
 		elif channel == "mm":
-			return "(gen_match_1 < 4 || gen_match_2 < 4)*stitchWeightZLL"
+			return "(gen_match_1 < 4 || gen_match_2 < 4)*stitchWeightZLL*"
+		elif channel == "tt":
+			return "(gen_match_2 < 5 || gen_match_2 == 6 || gen_match_1 == 6)*stitchWeightZLL*"
 		else:
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -414,7 +403,7 @@ class Samples(samples.SamplesBase):
 
 			if not "EstimateTtbar" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateTtbar")
-			config.setdefault("ttbar_from_mc", []).append(False)
+			config.setdefault("ttbar_from_mc", []).append(True)
 			config.setdefault("ttbar_shape_nicks", []).append("ttj"+nick_suffix)
 			config.setdefault("ttbar_data_control_nicks", []).append("noplot_ttj_data_control"+nick_suffix)
 			config.setdefault("ttbar_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))

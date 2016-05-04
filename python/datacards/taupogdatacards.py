@@ -10,7 +10,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
 class TauEsDatacards(datacards.Datacards):
-	def __init__(self, shifts=[], cb=None):
+	def __init__(self, shifts=[], decaymodes=[], pt_bins=[], cb=None):
 		super(TauEsDatacards, self).__init__(cb)
 		
 		if cb is None:
@@ -18,7 +18,7 @@ class TauEsDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category for category in ["inclusive"]],
+					categories=["mt_"+category+"_"+decaymode+"_ptbin"+pt_bin for category in ["inclusive"] for decaymode in decaymodes for pt_bin in pt_bins],
 					bkg_processes=["ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],

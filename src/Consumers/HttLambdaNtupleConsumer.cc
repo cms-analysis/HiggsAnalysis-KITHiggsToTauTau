@@ -65,22 +65,6 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	{
 		return ((product.m_nDiElectronVetoPairsOS + product.m_nDiMuonVetoPairsOS) >= 1) ? 1 : 0;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genpX", [](event_type const& event, product_type const& product)
-	{
-		return product.m_metCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionGenPx"](event, product) : DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genpY", [](event_type const& event, product_type const& product)
-	{
-		return product.m_metCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionGenPy"](event, product) : DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("vispX", [](event_type const& event, product_type const& product)
-	{
-		return product.m_metCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionVisPx"](event, product) : DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("vispY", [](event_type const& event, product_type const& product)
-	{
-		return product.m_metCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionVisPy"](event, product) : DefaultValues::UndefinedFloat;
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mt_tot", [](event_type const& event, product_type const& product)
 	{
 		return sqrt(pow(SafeMap::Get(LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities(),std::string("mt_tt"))(event,product),2)+pow(SafeMap::Get(LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities(),std::string("lep1MetMt"))(event,product),2)+pow(SafeMap::Get(LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities(),std::string("lep2MetMt"))(event,product),2));
@@ -166,42 +150,6 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitTransverseMass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("met_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitMet"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZEE", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return (product.m_genDiLeptonDecayMode == KappaEnumTypes::DiLeptonDecayMode::EE);
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZMM", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return (product.m_genDiLeptonDecayMode == KappaEnumTypes::DiLeptonDecayMode::MM);
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZLL", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return ((product.m_genDiLeptonDecayMode == KappaEnumTypes::DiLeptonDecayMode::MM) || (product.m_genDiLeptonDecayMode == KappaEnumTypes::DiLeptonDecayMode::EE));
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZtt", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::TT);
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZmt", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::MT);
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZet", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::ET);
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZee", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::EE);
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZmm", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::MM);
-	});
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("isZem", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return (product.m_genTauTauDecayMode == KappaEnumTypes::TauTauDecayMode::EM);
-	});
 	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("NUP", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return product.m_genNPartons;

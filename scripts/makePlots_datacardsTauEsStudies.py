@@ -84,6 +84,8 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--combine-verbosity", default="1", choices=["-1","0","1","2"],
 						help="Control output amount of combine. [Default: %(default)s]")
+	parser.add_argument("--do-parabola-fit", action="store_true", default=False,
+						help="Redo parabola fit for cross checks. [Default: %(default)s]")
 	
 	
 	args = parser.parse_args()
@@ -101,15 +103,28 @@ if __name__ == "__main__":
 		current_shift = round(es_shifts[-1]+args.shift_binning,4)
 		es_shifts.append(current_shift)
 		es_shifts_str.append(str(current_shift))
+		
+	# produce decaymode bins
+	decay_modes = []
+	for decayMode in args.decay_modes:
+		decay_modes.append(decayMode)
+	
+	# produce pt-bins
+	pt_weights = []
+	pt_bins = []
+	for pt_index, (pt_range) in enumerate(args.pt_ranges):
+		lowEdge = str(args.pt_ranges[pt_index])
+		if len(args.pt_ranges) > pt_index+1:
+			highEdge = args.pt_ranges[pt_index+1]
+		else:
+			highEdge = "500"
+	
+		pt_weights.append("(pt_2>" + lowEdge + ")*(pt_2<" + highEdge + ")")
+		pt_bins.append(str(pt_index))
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
-	
-	plot_configs = []
-	hadd_commands = []
-
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -118,37 +133,31 @@ if __name__ == "__main__":
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = [
-		"datacards/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		"datacards/combined/${ANALYSIS}_${ERA}.txt",
-	]
-	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
+	datacard_template = "datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.txt"
+	datacard_combined_template = "datacards/combined/${ANALYSIS}_${CHANNEL}_${ERA}.txt"
+	output_root_template = "datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}.input_${ERA}.root"
+	output_root_combined_template = "datacards/combined/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
 	
 	# restrict CombineHarvester to configured channels:
 	channel = "mt"
-	category = "mt_inclusive"
 	quantity = args.quantity
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, pt_bins)
 	datacards.cb.channel([channel])
-
-	output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					BIN=category,
-					ERA="13TeV"
-	))
 	
 	for decayMode in args.decay_modes:
 		for pt_index, (pt_range) in enumerate(args.pt_ranges):
 			
+			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					BIN=category,
+					ERA="13TeV"
+			))
+			
+			plot_configs = []
+			hadd_commands = []
 			merged_config={}
-			
-			lowEdge = str(args.pt_ranges[pt_index])
-			if len(args.pt_ranges) > pt_index+1:
-				highEdge = args.pt_ranges[pt_index+1]
-			else:
-				highEdge = "500"
-			
-			ptweight = "(pt_2>" + lowEdge + ")*(pt_2<" + highEdge + ")"
 			
 			datacards_per_channel_category = taupogdatacards.TauEsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 	
@@ -180,7 +189,7 @@ if __name__ == "__main__":
 						channel=channel,
 						category="cat" + decayMode + "_" + channel,
 						nick_suffix="_" + str(pt_index),
-						weight=ptweight,
+						weight=pt_weights[pt_index],
 						lumi=args.lumi * 1000
 					)
 					
@@ -202,7 +211,7 @@ if __name__ == "__main__":
 							channel=channel,
 							category="cat" + decayMode + "_" + channel,
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
-							weight=ptweight,
+							weight=pt_weights[pt_index],
 							lumi=args.lumi * 1000
 						)
 						
@@ -273,186 +282,284 @@ if __name__ == "__main__":
 			# create input histograms with HarryPlotter
 			higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
 			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
-			
-			# update CombineHarvester with the yields and shapes
-			datacards.extract_shapes(
-				os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
-				bkg_histogram_name_template, sig_histogram_name_template,
-				bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
-				update_systematics=False
-			)
-			
-			# add bin-by-bin uncertainties
-			if args.add_bbb_uncs:
-				datacards.add_bin_by_bin_uncertainties(
-					processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
-					add_threshold=0.1, merge_threshold=0.5, fix_norm=True
-				)
-			
-			# create morphing
-			ws = ROOT.RooWorkspace("w","w")
-			mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
-			
-			morphing.BuildRooMorphing(ws,datacards.cb,category,datacards.configs.sample2process(sample),mes,"norm",True,True)
-			
-			# For some reason the default arguments are not working in the python wrapper
-			# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
-			# is set by hand to their default values
-			datacards.cb.AddWorkspace(ws, False)
-			datacards.cb.cp().signals().ExtractPdfs(datacards.cb, "w", "$BIN_$PROCESS_morph","")
 	
-			# write datacards
-			datacards_cbs = {}
-			for datacard_filename_template in datacard_filename_templates:
-				dcname = os.path.join(args.output_dir, datacard_filename_template.replace("$", "").format(
-										ANALYSIS="ztt",
-										CHANNEL=channel,
-										ERA="13TeV"))
-				output = os.path.join(args.output_dir, output_root_filename_template.replace("$", "").format(
-										ANALYSIS="ztt",
-										ERA="13TeV"))
+	# update CombineHarvester with the yields and shapes
+	datacards.extract_shapes(
+		os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
+		bkg_histogram_name_template, sig_histogram_name_template,
+		bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
+		update_systematics=False
+	)
+	
+	# create morphing
+	ws = ROOT.RooWorkspace("w","w")
+	mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
+	
+	for decayMode in args.decay_modes:
+		for pt_index, (pt_range) in enumerate(args.pt_ranges):
+			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
+	
+	# For some reason the default arguments are not working in the python wrapper
+	# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
+	# is set by hand to their default values
+	datacards.cb.AddWorkspace(ws, False)
+	datacards.cb.cp().signals().ExtractPdfs(datacards.cb, "w", "$BIN_$PROCESS_morph","")
+	
+	# add bin-by-bin uncertainties
+	if args.add_bbb_uncs:
+		datacards.add_bin_by_bin_uncertainties(
+			processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
+			add_threshold=0.1, merge_threshold=0.5, fix_norm=True
+		)
+	
+	# write datacards
+	datacards_cbs = {}
+	for decayMode in args.decay_modes:
+		for pt_index, (pt_range) in enumerate(args.pt_ranges):
+			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+			dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
+							ANALYSIS="ztt",
+							CHANNEL=channel,
+							BIN=category,
+							ERA="13TeV"))
+			output = os.path.join(args.output_dir, output_root_template.replace("$", "").format(
+							ANALYSIS="ztt",
+							CHANNEL=channel,
+							BIN=category,
+							ERA="13TeV"))
+			
+			if not os.path.exists(os.path.dirname(dcname)):
+				os.makedirs(os.path.dirname(dcname))
+			if not os.path.exists(os.path.dirname(output)):
+				os.makedirs(os.path.dirname(output))
+			datacards.cb.cp().channel([channel]).bin([category]).mass(["*"]).WriteDatacard(dcname, output)
+			datacards_cbs[dcname] = datacards.cb
+	# write combined datacard
+	dcname = os.path.join(args.output_dir, datacard_combined_template.replace("$", "").format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					ERA="13TeV"))
+	output = os.path.join(args.output_dir, output_root_combined_template.replace("$", "").format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					ERA="13TeV"))
+	
+	if not os.path.exists(os.path.dirname(dcname)):
+		os.makedirs(os.path.dirname(dcname))
+	if not os.path.exists(os.path.dirname(output)):
+		os.makedirs(os.path.dirname(output))
+	datacards.cb.cp().channel([channel]).mass(["*"]).WriteDatacard(dcname, output)
+	datacards_cbs[dcname] = datacards.cb
+
+	#text2workspace call
+	datacards_workspaces = {}
+	commands = []
+	for datacard, cb in datacards_cbs.iteritems():
+		commands.append("text2workspace.py {DATACARD} -o {OUTPUT}".format(
+			DATACARD=datacard,
+			OUTPUT=os.path.splitext(datacard)[0]+".root"))
+		datacards_workspaces[datacard] = os.path.splitext(datacard)[0]+".root"
+	
+	tools.parallelize(_call_command, commands, n_processes=1)
+	
+	#combine call
+	#important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
+	commands = []
+	commands.extend([[
+		"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
+			VERBOSITY=args.combine_verbosity,
+			WORKSPACE=os.path.splitext(datacard)[0]+".root",
+		),
+		os.path.dirname(datacard)
+	] for datacard, cb in datacards_cbs.iteritems()])
+	
+	tools.parallelize(_call_command, commands, n_processes=1)
+	
+	#2nd combine call to get deltaNLL distribution
+	if args.do_parabola_fit:
+		commands = []
+		commands.extend([[
+			"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
+				BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
+				RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
+				VERBOSITY=args.combine_verbosity,
+				WORKSPACE=os.path.splitext(datacard)[0]+".root",
+			),
+			os.path.dirname(datacard)
+		] for datacard, cb in datacards_cbs.iteritems()])
+		
+		tools.parallelize(_call_command, commands, n_processes=1)
+	
+	#postfitshapes call
+	datacards_postfit_shapes = {}
+	commands = []
+	commands.extend(["PostFitShapesFromWorkspace --postfit -w {WORKSPACE} -d {DATACARD} -o {OUTPUT} -f {FIT_RESULT}".format(
+			WORKSPACE=datacards_workspaces[datacard],
+			DATACARD=datacard,
+			OUTPUT=os.path.splitext(datacard)[0]+"_fit_s.root",
+			FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:fit_s"),
+	) for datacard, cb in datacards_cbs.iteritems()])
+	datacards_postfit_shapes.setdefault("fit_s", {}).update({
+			datacard : os.path.splitext(datacard)[0]+"_fit_s.root"
+	for datacard, cb in datacards_cbs.iteritems()})
+	
+	tools.parallelize(_call_command, commands, n_processes=args.n_processes)
+	
+	#pull plots
+	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
+	
+	#plot postfit
+	plot_configs = [] #reset list containing the plot configs
+	bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
+	
+	for level in ["prefit", "postfit"]:
+		for datacard in datacards_cbs.keys():
+			postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
+			for category in datacards_cbs[datacard].cp().bin_set():
+
+				if (("combined" not in datacard) and (category not in datacard)):
+					continue
 				
-				if not os.path.exists(os.path.dirname(dcname)):
-					os.makedirs(os.path.dirname(dcname))
-				if not os.path.exists(os.path.dirname(output)):
-					os.makedirs(os.path.dirname(output))
-				datacards.cb.cp().channel([channel]).mass(["*"]).WriteDatacard(dcname, output)
-				datacards_cbs[dcname] = datacards.cb
-			
-			#text2workspace call
-			datacards_workspaces = {}
-			commands = []
-			for datacard, cb in datacards_cbs.iteritems():
-				commands.append("text2workspace.py {DATACARD} -o {OUTPUT}".format(
-					DATACARD=datacard,
-					OUTPUT=os.path.splitext(datacard)[0]+".root"))
-				datacards_workspaces[datacard] = os.path.splitext(datacard)[0]+".root"
+				bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
+				sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
+				
+				processes = bkg_process + sig_process
+				processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+				
+				config = {}
+				config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
+				config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
+				config.setdefault("sum_scale_factors", []).append("1.0 1.0")
+				config.setdefault("sum_result_nicks", []).append("Total")
+				
+				processes_to_plot = list(processes)
+				processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+				processes_to_plot = [p for p in processes if not "noplot" in p]
+				processes_to_plot.insert(3, "EWK")
+				config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
+				config["sum_scale_factors"].append("1.0 1.0 1.0")
+				config["sum_result_nicks"].append("EWK")
+				
+				config["files"] = [postfit_shapes]
+				config["folders"] = [category+"_"+level]
+				config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
+				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
+				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
+				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
+				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
+				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
+				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
+				if "OneProngPiZeros" in category and quantity == "m_2":
+					config["x_label"] = "m_{#tau_{h}} (GeV)"
+					config["y_label"] = "Events / bin"
+					config["x_lims"] = [0.3,4.2]
+				elif "ThreeProng" in category and quantity == "m_2":
+					config["x_label"] = "m_{#tau_{h}} (GeV)"
+					config["y_label"] = "Events / bin"
+					config["x_lims"] = [0.8,1.5]
+				elif "OneProng" in category or quantity == "m_vis":
+					config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
+					config["y_label"] = "Events / bin"
+					config["x_lims"] = [20,200]
+				
+				config.setdefault("analysis_modules", []).append("Ratio")
+				config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
+				config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
+				config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
+				config["ratio_denominator_no_errors"] = True
+				config.setdefault("colors", []).extend(["#000000 transgrey", "#000000"])
+				config.setdefault("markers", []).extend(["E2", "E"])
+				config.setdefault("legend_markers", []).extend(["F", "ELP"])
+				config.setdefault("labels", []).extend([""] * 2)
+				config["legend"] = [0.7, 0.4, 0.92, 0.82]
+				config["y_subplot_lims"] = [0.5, 1.5]
+				config["y_subplot_label"] = "Obs./Exp."
+				config["subplot_grid"] = True
+				
+				config["energies"] = [13.0]
+				config["lumis"] = [float("%.1f" % args.lumi)]
+				config["cms"] = True
+				config["extra_text"] = "Preliminary"
+				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+				config["filename"] = level+"_"+category+"_"+quantity
+				#config["formats"] = ["png", "pdf"]
+				
+				plot_configs.append(config)
+	
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# due to a gDirectory problem, plotting the parabola does not work atm
+	# TODO: implement different procedure
+	#plot_configs = []
+	#
+	#if args.do_parabola_fit:
+	#	for datacard, cb in datacards_cbs.iteritems():
+	#		if "combined" in os.path.dirname(datacard):
+	#			continue
+	#		config = {}
+	#		config.setdefault("analysis_modules", []).append("FunctionPlot")
+	#		config["files"] =  os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
+	#		config["folders"] = "limit"
+	#		config["x_expressions"] = "mes"
+	#		config["weights"] = "deltaNLL"
+	#		config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+	#		config["filename"] = "parabola_"+category+"_"+quantity
+	#		config["function_fit"] = ["nick0"]
+	#		config["functions"] = ["[0]+([1]*(exp((x-[2])/[3]) + exp(-1.0*(x-[2])/[4])))"]
+	#		config["function_parameters"] = ["-400.0,200.0,1.0,0.05,0.05"]
+	#		config["x_label"] = "#tau_{ES}"
+	#		config["y_label"] = "-2NLL"
+	#		
+	#		plot_configs.append(config)
+	#
+	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# prepare output table and print it to shell
+	output_dict_mu = {}
+	output_dict_errHi = {}
+	output_dict_errLo = {}
+	for decayMode in decay_modes:
+		for ptBin in pt_bins:
+			output_dict_mu.setdefault(decayMode, {})[ptBin] = 0
+			output_dict_errHi.setdefault(decayMode, {})[ptBin] = 0
+			output_dict_errLo.setdefault(decayMode, {})[ptBin] = 0
+	
+	for datacard, cb in datacards_cbs.iteritems():
+		filename = os.path.join(os.path.dirname(datacard), "mlfit.root")
+		if "combined" in filename:
+			continue
+		resultsfile = ROOT.TFile(filename)
+		resultstree = resultsfile.Get("tree_fit_sb")
+		resultstree.GetEntry(0)
+		decayMode = filename.split("_")[-2]
+		ptBin =  filename.split("_")[-1].split("/")[0].split("ptbin")[-1]
+		output_dict_mu[decayMode][ptBin] = resultstree.mu
+		output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr
+		output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
+		resultsfile.Close()
 		
-			tools.parallelize(_call_command, commands, n_processes=1)
-			
-			#combine call
-			#important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
-			commands = []
-			commands.extend([[
-				"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
-					VERBOSITY=args.combine_verbosity,
-					WORKSPACE=os.path.splitext(datacard)[0]+".root",
-				),
-				os.path.dirname(datacard)
-			] for datacard, cb in datacards_cbs.iteritems()])
-		
-			tools.parallelize(_call_command, commands, n_processes=1)
-			
-			#2nd combine call to get deltaNLL distribution
-			commands = []
-			commands.extend([[
-				"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
-					BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
-					RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
-					VERBOSITY=args.combine_verbosity,
-					WORKSPACE=os.path.splitext(datacard)[0]+".root",
-				),
-				os.path.dirname(datacard)
-			] for datacard, cb in datacards_cbs.iteritems()])
-			
-			tools.parallelize(_call_command, commands, n_processes=1)
-			
-			#postfitshapes call
-			datacards_postfit_shapes = {}
-			commands = []
-			commands.extend(["PostFitShapesFromWorkspace --postfit -w {WORKSPACE} -d {DATACARD} -o {OUTPUT} -f {FIT_RESULT}".format(
-					WORKSPACE=datacards_workspaces[datacard],
-					DATACARD=datacard,
-					OUTPUT=os.path.splitext(datacard)[0]+"_fit_s.root",
-					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:fit_s"),
-			) for datacard, cb in datacards_cbs.iteritems()])
-			datacards_postfit_shapes.setdefault("fit_s", {}).update({
-					datacard : os.path.splitext(datacard)[0]+"_fit_s.root"
-			for datacard, cb in datacards_cbs.iteritems()})
-			
-			tools.parallelize(_call_command, commands, n_processes=args.n_processes)
-			
-			#pull plots # TODO: these are currently overwritten if pt-ranges are given!
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
-			
-			#plot postfit
-			plot_configs = [] #reset list containing the plot configs
-			bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
-			
-			for level in ["prefit", "postfit"]:
-				if datacards_postfit_shapes:
-					for datacard in datacards_cbs.keys():
-						postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
-						for category in datacards_cbs[datacard].cp().bin_set():
-							results_file = ROOT.TFile(os.path.join(os.path.dirname(datacard), "mlfit.root"))
-							results_tree = results_file.Get("tree_fit_sb")
-							results_tree.GetEntry(0)
-							bestfit = results_tree.mu
-							
-							bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
-							sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
-							
-							processes = bkg_process + sig_process
-							processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
-							
-							config = {}
-							config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
-							config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
-							config.setdefault("sum_scale_factors", []).append("1.0 1.0")
-							config.setdefault("sum_result_nicks", []).append("Total")
-							
-							processes_to_plot = list(processes)
-							processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
-							processes_to_plot = [p for p in processes if not "noplot" in p]
-							processes_to_plot.insert(3, "EWK")
-							config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
-							config["sum_scale_factors"].append("1.0 1.0 1.0")
-							config["sum_result_nicks"].append("EWK")
-							
-							config["files"] = [postfit_shapes]
-							config["folders"] = [category+"_"+level]
-							config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
-							config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
-							config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
-							config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
-							config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
-							config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
-							config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
-							if decayMode == "OneProngPiZeros" and quantity == "m_2":
-								config["x_label"] = "m_{#tau_{h}} (GeV)"
-								config["y_label"] = "Events / bin"
-								config["x_lims"] = [0.3,4.2]
-							elif decayMode == "ThreeProng" and quantity == "m_2":
-								config["x_label"] = "m_{#tau_{h}} (GeV)"
-								config["y_label"] = "Events / bin"
-								config["x_lims"] = [0.8,1.5]
-							elif decayMode == "OneProng" or quantity == "m_vis":
-								config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
-								config["y_label"] = "Events / bin"
-								config["x_lims"] = [20,200]
-								
-							config.setdefault("analysis_modules", []).append("Ratio")
-							config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
-							config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
-							config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
-							config["ratio_denominator_no_errors"] = True
-							config.setdefault("colors", []).extend(["#000000 transgrey", "#000000"])
-							config.setdefault("markers", []).extend(["E2", "E"])
-							config.setdefault("legend_markers", []).extend(["F", "ELP"])
-							config.setdefault("labels", []).extend([""] * 2)
-							config["legend"] = [0.7, 0.4, 0.92, 0.82]
-							config["y_subplot_lims"] = [0.5, 1.5]
-							config["y_subplot_label"] = "Obs./Exp."
-							config["subplot_grid"] = True
-							
-							config["energies"] = [13.0]
-							config["lumis"] = [float("%.1f" % args.lumi)]
-							config["cms"] = True
-							config["extra_text"] = "Preliminary"
-							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-							config["filename"] = level+"_"+category+"_"+decayMode+"_"+quantity+"_"+str(pt_index)
-							#config["formats"] = ["png", "pdf"]
-							
-							plot_configs.append(config)
-						
-			higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	print "########################### Fit results table ###########################"
+	row_format = "{:^20}" * (len(decay_modes) + 1)
+	print row_format.format("", *decay_modes)
+	print
+	for ptBin in pt_bins:
+		print "{:^20}".format("Pt bin "+ptBin),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_mu[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_mu[decayMode][ptBin])
+		print "{:^20}".format("+ 1sigma "),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_errHi[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_errHi[decayMode][ptBin])
+		print "{:^20}".format("- 1sigma "),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_errLo[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_errLo[decayMode][ptBin])
+		print

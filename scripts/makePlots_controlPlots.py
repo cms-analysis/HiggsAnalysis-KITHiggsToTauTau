@@ -131,6 +131,8 @@ if __name__ == "__main__":
 	                    help="Blinding Method. Chose soversqrtb or ams. [Default: %(default)s]")
 	parser.add_argument("--blinding-parameter", default=0.0, type=float,
 	                    help="b_reg. [Default: %(default)s]")
+	parser.add_argument("--blinding-variables", default=["all"], nargs="*",
+	                    help="Variables to blind. [Default: %(default)s]")
 	parser.add_argument("--integrated-sob", default=False, action="store_true",
 	                    help="Add integrated s/sqrt(b) subplot [Default: %(default)s]")
 	parser.add_argument("--integration-methods", default="soversqrtb", choices = ["soversqrtb", "soversplusb", "soversqrtsplusb"],
@@ -143,6 +145,8 @@ if __name__ == "__main__":
 						help="integration signal nick [Default:%(default)s]")
 	parser.add_argument("--integration-background", nargs="+", default=["all"],
 						help="integration background nick [Default:%(default)s]")
+	parser.add_argument("--full-integral", action="store_true",
+						help="calculate full integral of all histograms and write to file")
 	parser.add_argument("--scale-mc-only", default="1.0",
                         help="scales only MC events. [Default: %(default)s]")
 	parser.add_argument("--cut-mc-only", default="1.0",
@@ -158,16 +162,13 @@ if __name__ == "__main__":
 	                    default=["integral",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2", "mt_2",
-	                             "pt_ll", "eta_ll", "phi_ll", "m_ll", "mt_ll",
-	                             "pt_llmet", "eta_llmet", "phi_llmet", "m_llmet", "mt_llmet",
-	                             "mt_lep1met",
-	                             "pt_sv", "eta_sv", "phi_sv", "svfitMass",
+	                             "pt_sv", "eta_sv", "phi_sv", "m_sv",
 	                             "met", "metphi", "metcov00", "metcov01", "metcov10", "metcov11",
 	                             "mvamet", "mvametphi", "mvacov00", "mvacov01", "mvacov10", "mvacov11",
-	                             "pZetaMissVis", "pzetamiss", "pzetavis"
-	                             "jpt_1_pt30", "jeta_1_pt30", "jphi_1_pt30",
-	                             "jpt_2_pt30", "jeta_2_pt30", "jphi_2_pt30",
-	                             "njetspt30", "mjj_pt30", "jdeta_pt30", "njetingap_pt30",
+	                             "pZetaMissVis", "pzetamiss", "pzetavis",
+	                             "jpt_1", "jeta_1", "jphi_1",
+	                             "jpt_2", "jeta_2", "jphi_2",
+	                             "njetspt30", "mjj", "jdeta", "njetingap20", "njetingap",
 	                             "trigweight_1", "trigweight_2", "puweight",
 	                             "npv", "npu", "rho"],
 	                    help="Quantities. [Default: %(default)s]")
@@ -231,12 +232,19 @@ if __name__ == "__main__":
 
 	binnings_settings = binnings.BinningsDict()
 
-	args.categories = [None if category == "None" else category for category in args.categories]
+	args.categories = [None if category == "None" else "MSSM" if args.mssm else category for category in args.categories]
 
 	plot_configs = []
 	for channel in args.channels:
 		for category in args.categories:
 			for quantity in args.quantities:
+				category_string = None
+				if category != None:
+					if(args.mssm):
+						category_string = "catHttMSSM13TeV"
+					else:
+						category_string = "catHtt13TeV"
+					category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
 
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity+".json") for channel_dir in [channel, "default"]]
@@ -246,11 +254,10 @@ if __name__ == "__main__":
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
 				quantity = json_config.pop("x_expressions", [quantity])[0]
-
 				config = sample_settings.get_config(
 						samples=list_of_samples,
 						channel=channel,
-						category=category if not args.mssm else "catHttMSSM13TeV_{channel}_{category}".format(channel=channel, category=category),
+						category=category_string,
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
@@ -267,6 +274,7 @@ if __name__ == "__main__":
 				)
 
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
+				config["category"] = category
 
 				binnings_key = channel+"_"+quantity
 				if binnings_key in binnings_settings.binnings_dict:
@@ -363,6 +371,16 @@ if __name__ == "__main__":
 								temp_nicks.append(nick)
 						bkg_samples_used = temp_nicks
 					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_nick)
+				#add FullIntegral
+				if(args.full_integral):
+					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					hmass_temp = 125
+					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
+						hmass_temp = int(args.higgs_masses[0])
+					sig_nick = "htt%i"%hmass_temp
+					bkg_samples_used.append(sig_nick)
+					config["full_integral_nicks"]=[" ".join(bkg_samples_used)]
+					config["analysis_modules"].append("FullIntegral")
 
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):
@@ -373,7 +391,8 @@ if __name__ == "__main__":
 					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, hmass_temp)
 
 				if(args.blinding_threshold > 0):
-					blind_signal(config, args.blinding_threshold, args.ratio)
+					if(args.blinding_variables[0] == "all" or quantity in args.blinding_variables):
+						blind_signal(config, args.blinding_threshold, args.ratio)
 
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,

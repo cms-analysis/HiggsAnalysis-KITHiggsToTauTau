@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import os
+import sys
 
 class MVADatacards(datacards.Datacards):
 	def __init__(self, higgs_masses=["125"], cb=None):
@@ -21,9 +22,13 @@ class MVADatacards(datacards.Datacards):
 				with open(categories_path) as categs:
 					for line in categs:
 						cat = line.strip()
-						categories[channel].append(cat)
+						if cat not in categories[channel]:
+							categories[channel].append(cat)
 			###=========================Copy here!=========================================
-
+			categories["mt"].append("mt_mod_vbf")
+			categories["mt"].append("mt_mod_sig")
+			categories["mt"].append("mt_mod_mixed")
+			categories["mt"].append("mt_mod_bkg")
 			# MT channel
 			self.add_processes(
 					channel="mt",
@@ -82,7 +87,7 @@ class MVADatacards(datacards.Datacards):
 			self.add_processes(
 					channel="em",
 					categories=[category for category in categories["em"]],
-					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
+					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["mvaHtt"],
 					era=["13TeV"],
@@ -133,6 +138,10 @@ class MVADatacards(datacards.Datacards):
 
 			# MET
 			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)
+
+			#BDTs
+			self.cb.cp().AddSyst(self.cb, *self.mva_vbf_bdt_syst_uncs)
+			self.cb.cp().AddSyst(self.cb, *self.mva_bdt_syst_uncs)
 
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).channel(["tt"]).AddSyst(self.cb, *self.qcd_syst_args) # automatically in other channels

@@ -32,7 +32,7 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 		return diJetSystem.Phi(); });
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetDeltaPhi", [](event_type const& event, product_type const& product) {
-		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
+		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
 		                                        DefaultValues::UndefinedDouble;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetAbsDeltaEta", [](event_type const& event, product_type const& product) {
