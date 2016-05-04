@@ -131,6 +131,8 @@ if __name__ == "__main__":
 	                    help="Blinding Method. Chose soversqrtb or ams. [Default: %(default)s]")
 	parser.add_argument("--blinding-parameter", default=0.0, type=float,
 	                    help="b_reg. [Default: %(default)s]")
+	parser.add_argument("--blinding-variables", default=["all"], nargs="*",
+	                    help="Variables to blind. [Default: %(default)s]")
 	parser.add_argument("--integrated-sob", default=False, action="store_true",
 	                    help="Add integrated s/sqrt(b) subplot [Default: %(default)s]")
 	parser.add_argument("--integration-methods", default="soversqrtb", choices = ["soversqrtb", "soversplusb", "soversqrtsplusb"],
@@ -389,7 +391,8 @@ if __name__ == "__main__":
 					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, hmass_temp)
 
 				if(args.blinding_threshold > 0):
-					blind_signal(config, args.blinding_threshold, args.ratio)
+					if(args.blinding_variables[0] == "all" or quantity in args.blinding_variables):
+						blind_signal(config, args.blinding_threshold, args.ratio)
 
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
