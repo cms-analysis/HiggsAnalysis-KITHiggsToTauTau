@@ -8,24 +8,11 @@ log = logging.getLogger(__name__)
 import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.cutstrings as cutstrings
 
 
 default_lumi = 2155
 
 class Samples(samples.SamplesBase):
-
-	@staticmethod
-	def cut_string(channel, exclude_cuts=None, cut_type="baseline"):
-		if exclude_cuts is None:
-			exclude_cuts = []
-
-		cuts = cutstrings.CutStringsDict()._get_cutdict(channel, cut_type)
-		cuts_list = [cut for (name, cut) in cuts.iteritems() if not name in exclude_cuts]
-		if len(cuts_list) == 0:
-			cuts_list.append("1.0")
-
-		return "*".join(cuts_list)
 
 	@staticmethod
 	def ztt_genmatch(channel):
