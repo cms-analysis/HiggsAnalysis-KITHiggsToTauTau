@@ -538,6 +538,36 @@ if __name__ == "__main__":
 		output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr
 		output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
 		resultsfile.Close()
+	
+	plot_configs = []
+	
+	for decayMode in decay_modes:
+		config = {}
+		config["input_modules"] = ["InputInteractive"]
+		#config["x_lims"] = [min(pt_bins), max(pt_bins)]
+		config["y_lims"] = [min(es_shifts), max(es_shifts)]
+		config["x_label"] = "p_{T} bin"
+		config["y_label"] = "#tau_{ES}"
+		config["markers"] = ["P"]
+		config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
+		config["filename"] = "result_vs_pt_" + decayMode
+		xbins = []
+		ybins = []
+		yerrslo = []
+		yerrshi = []
+		for ptBin in pt_bins:
+			xbins.append(ptBin+"")
+			ybins.append(str(output_dict_mu[decayMode][ptBin])+" ")
+			yerrslo.append(str(output_dict_errLo[decayMode][ptBin]))
+			yerrshi.append(str(output_dict_errHi[decayMode][ptBin]))
+		config["x_expressions"] = xbins
+		config["y_expressions"] = ybins
+		config["y_errors"] = yerrslo
+		config["y_errors_up"] = yerrshi
+	
+		plot_configs.append(config)
+	
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
 	print "########################### Fit results table ###########################"
 	row_format = "{:^20}" * (len(decay_modes) + 1)
