@@ -533,6 +533,7 @@ if __name__ == "__main__":
 		config["x_label"] = "p_{T} bin"
 		config["y_label"] = "#tau_{ES}"
 		config["markers"] = ["P"]
+		config["colors"] = "kBlack"
 		config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
 		config["filename"] = "result_vs_pt_" + decayMode + "_" + quantity
 		config["x_expressions"] = xbins
@@ -570,6 +571,7 @@ if __name__ == "__main__":
 				config["x_lims"] = [min(es_shifts)-args.shift_binning, max(es_shifts)+args.shift_binning]
 				config["y_lims"] = [0.9*min([float(dnll) for dnll in deltaNLL_list]),1.1*max([float(dnll) for dnll in deltaNLL_list])]
 				config["markers"] = ["P"]
+				config["colors"] = "kBlack"
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = "parabola_" + category + "_" + quantity
 				config["x_expressions"] = mes_list
