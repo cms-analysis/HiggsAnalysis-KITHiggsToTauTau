@@ -84,7 +84,7 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--combine-verbosity", default="1", choices=["-1","0","1","2"],
 						help="Control output amount of combine. [Default: %(default)s]")
-	parser.add_argument("--do-parabola-fit", action="store_true", default=False,
+	parser.add_argument("--plot-parabola", action="store_true", default=False,
 						help="Redo parabola fit for cross checks. [Default: %(default)s]")
 	
 	
@@ -377,7 +377,7 @@ if __name__ == "__main__":
 	tools.parallelize(_call_command, commands, n_processes=1)
 	
 	#2nd combine call to get deltaNLL distribution
-	if args.do_parabola_fit:
+	if args.plot_parabola:
 		commands = []
 		commands.extend([[
 			"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
@@ -489,33 +489,7 @@ if __name__ == "__main__":
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
-	# due to a gDirectory problem, plotting the parabola does not work atm
-	# TODO: implement different procedure
-	#plot_configs = []
-	#
-	#if args.do_parabola_fit:
-	#	for datacard, cb in datacards_cbs.iteritems():
-	#		if "combined" in os.path.dirname(datacard):
-	#			continue
-	#		config = {}
-	#		config.setdefault("analysis_modules", []).append("FunctionPlot")
-	#		config["files"] =  os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
-	#		config["folders"] = "limit"
-	#		config["x_expressions"] = "mes"
-	#		config["weights"] = "deltaNLL"
-	#		config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-	#		config["filename"] = "parabola_"+category+"_"+quantity
-	#		config["function_fit"] = ["nick0"]
-	#		config["functions"] = ["[0]+([1]*(exp((x-[2])/[3]) + exp(-1.0*(x-[2])/[4])))"]
-	#		config["function_parameters"] = ["-400.0,200.0,1.0,0.05,0.05"]
-	#		config["x_label"] = "#tau_{ES}"
-	#		config["y_label"] = "-2NLL"
-	#		
-	#		plot_configs.append(config)
-	#
-	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
-	
-	# prepare output table and print it to shell
+	# prepare output table
 	output_dict_mu = {}
 	output_dict_errHi = {}
 	output_dict_errLo = {}
@@ -539,18 +513,10 @@ if __name__ == "__main__":
 		output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
 		resultsfile.Close()
 	
+	# plot best fit result as function of pt bins
 	plot_configs = []
 	
 	for decayMode in decay_modes:
-		config = {}
-		config["input_modules"] = ["InputInteractive"]
-		#config["x_lims"] = [min(pt_bins), max(pt_bins)]
-		config["y_lims"] = [min(es_shifts), max(es_shifts)]
-		config["x_label"] = "p_{T} bin"
-		config["y_label"] = "#tau_{ES}"
-		config["markers"] = ["P"]
-		config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
-		config["filename"] = "result_vs_pt_" + decayMode
 		xbins = []
 		ybins = []
 		yerrslo = []
@@ -560,6 +526,15 @@ if __name__ == "__main__":
 			ybins.append(str(output_dict_mu[decayMode][ptBin])+" ")
 			yerrslo.append(str(output_dict_errLo[decayMode][ptBin]))
 			yerrshi.append(str(output_dict_errHi[decayMode][ptBin]))
+		config = {}
+		config["input_modules"] = ["InputInteractive"]
+		config["x_lims"] = [-0.5,len(pt_bins)-0.5]
+		config["y_lims"] = [min(es_shifts), max(es_shifts)]
+		config["x_label"] = "p_{T} bin"
+		config["y_label"] = "#tau_{ES}"
+		config["markers"] = ["P"]
+		config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
+		config["filename"] = "result_vs_pt_" + decayMode + "_" + quantity
 		config["x_expressions"] = xbins
 		config["y_expressions"] = ybins
 		config["y_errors"] = yerrslo
@@ -568,7 +543,43 @@ if __name__ == "__main__":
 		plot_configs.append(config)
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# plot parabolas for cross checks
+	if args.plot_parabola:
+		plot_configs = []
 		
+		for datacard, cb in datacards_cbs.iteritems():
+			filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
+			if "combined" in filename:
+				continue
+			for category in datacards_cbs[datacard].cp().bin_set():
+				if category not in filename:
+					continue
+				file = ROOT.TFile(filename)
+				tree = file.Get("limit")
+				mes_list = []
+				deltaNLL_list = []
+				for entry in range(tree.GetEntries()):
+					tree.GetEntry(entry)
+					mes_list.append(str(tree.mes)+" ")
+					deltaNLL_list.append(str(2*tree.deltaNLL)+" ")
+				config = {}
+				config["input_modules"] = ["InputInteractive"]
+				config["x_label"] = "#tau_{ES}"
+				config["y_label"] = "2#DeltaNLL"
+				config["x_lims"] = [min(es_shifts)-args.shift_binning, max(es_shifts)+args.shift_binning]
+				config["y_lims"] = [0.9*min([float(dnll) for dnll in deltaNLL_list]),1.1*max([float(dnll) for dnll in deltaNLL_list])]
+				config["markers"] = ["P"]
+				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+				config["filename"] = "parabola_" + category + "_" + quantity
+				config["x_expressions"] = mes_list
+				config["y_expressions"] = deltaNLL_list
+				
+				plot_configs.append(config)
+		
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# print output table to shell	
 	print "########################### Fit results table ###########################"
 	row_format = "{:^20}" * (len(decay_modes) + 1)
 	print row_format.format("", *decay_modes)
