@@ -1,0 +1,11 @@
+{
+	"property" : [
+		"m_sv",
+		"pt_sv",
+		"eta_sv",
+		"phi_sv",
+		"#met_sv",
+		"#m_sv_Up",
+		"#m_sv_Down"
+	]
+}
