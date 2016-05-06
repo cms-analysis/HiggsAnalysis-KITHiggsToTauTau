@@ -162,7 +162,7 @@ if __name__ == "__main__":
 	                    default=["integral",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2", "mt_2",
-	                             "pt_sv", "eta_sv", "phi_sv", "m_sv",
+	                             "pt_sv", "eta_sv", "phi_sv", "m_sv", "m_vis", "ptvis",
 	                             "met", "metphi", "metcov00", "metcov01", "metcov10", "metcov11",
 	                             "mvamet", "mvametphi", "mvacov00", "mvacov01", "mvacov10", "mvacov11",
 	                             "pZetaMissVis", "pzetamiss", "pzetavis",
