@@ -86,6 +86,8 @@ if __name__ == "__main__":
 						help="Control output amount of combine. [Default: %(default)s]")
 	parser.add_argument("--plot-parabola", action="store_true", default=False,
 						help="Redo parabola fit for cross checks. [Default: %(default)s]")
+	parser.add_argument("--www", nargs="?", default=None, const="",
+						help="Publish plots. [Default: %(default)s]")
 	
 	
 	args = parser.parse_args()
@@ -125,6 +127,7 @@ if __name__ == "__main__":
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
+	www_output_dirs = []
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -155,7 +158,7 @@ if __name__ == "__main__":
 					ERA="13TeV"
 			))
 			
-			plot_configs = []
+			input_plot_configs = []
 			hadd_commands = []
 			merged_config={}
 			
@@ -265,7 +268,7 @@ if __name__ == "__main__":
 					elif decayMode == "OneProng" or quantity == "m_vis":
 						merged_config.setdefault("x_bins", []).append(["20,0.0,200.0"])
 					
-					plot_configs.append(merged_config)
+					input_plot_configs.append(merged_config)
 			
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
 				DST=output_file,
@@ -273,14 +276,14 @@ if __name__ == "__main__":
 			))
 
 			# delete existing output files
-			output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
+			output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in input_plot_configs[:args.n_plots[0]]]))
 			for output_file in output_files:
 				if os.path.exists(output_file):
 					os.remove(output_file)
 					log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	
 			# create input histograms with HarryPlotter
-			higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
+			higgsplot.HiggsPlotter(list_of_config_dicts=input_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
 			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
 	# update CombineHarvester with the yields and shapes
@@ -410,7 +413,7 @@ if __name__ == "__main__":
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
 	
 	#plot postfit
-	plot_configs = [] #reset list containing the plot configs
+	postfit_plot_configs = [] #reset list containing the plot configs
 	bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
 	
 	for level in ["prefit", "postfit"]:
@@ -485,9 +488,12 @@ if __name__ == "__main__":
 				config["filename"] = level+"_"+category+"_"+quantity
 				#config["formats"] = ["png", "pdf"]
 				
-				plot_configs.append(config)
+				if not (config["output_dir"] in www_output_dirs):
+					www_output_dirs.append(config["output_dir"])
+				
+				postfit_plot_configs.append(config)
 	
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# prepare output table
 	output_dict_mu = {}
@@ -514,7 +520,7 @@ if __name__ == "__main__":
 		resultsfile.Close()
 	
 	# plot best fit result as function of pt bins
-	plot_configs = []
+	ptbin_plot_configs = []
 	
 	for decayMode in decay_modes:
 		xbins = []
@@ -540,14 +546,17 @@ if __name__ == "__main__":
 		config["y_expressions"] = ybins
 		config["y_errors"] = yerrslo
 		config["y_errors_up"] = yerrshi
+		
+		if not (config["output_dir"] in www_output_dirs):
+			www_output_dirs.append(config["output_dir"])
 	
-		plot_configs.append(config)
+		ptbin_plot_configs.append(config)
 	
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	higgsplot.HiggsPlotter(list_of_config_dicts=ptbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# plot parabolas for cross checks
 	if args.plot_parabola:
-		plot_configs = []
+		parabola_plot_configs = []
 		
 		for datacard, cb in datacards_cbs.iteritems():
 			filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
@@ -577,9 +586,33 @@ if __name__ == "__main__":
 				config["x_expressions"] = mes_list
 				config["y_expressions"] = deltaNLL_list
 				
-				plot_configs.append(config)
+				if not (config["output_dir"] in www_output_dirs):
+					www_output_dirs.append(config["output_dir"])
+				
+				parabola_plot_configs.append(config)
 		
-		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+		higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+		
+	if not args.www is None:
+		for output_dir in www_output_dirs:
+			from Artus.HarryPlotter.plotdata import PlotData
+			subpath = os.path.normpath(output_dir).split("/")[-1]
+			output_filenames = []
+			for config in postfit_plot_configs:
+				if(subpath in config["output_dir"]):
+					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
+			for config in ptbin_plot_configs:
+				if(subpath in config["output_dir"]):
+					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
+			for config in parabola_plot_configs:
+				if(subpath in config["output_dir"]):
+					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
+			PlotData.webplotting(
+						www = args.www if(subpath == "tauEsStudies_datacards") else os.path.join(args.www, subpath),
+						output_dir = output_dir,
+						export_json = False,
+						output_filenames = output_filenames
+						)
 	
 	# print output table to shell	
 	print "########################### Fit results table ###########################"
