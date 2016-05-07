@@ -56,16 +56,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 	else:
 		config["nicks_blacklist"].append("blinding")
 
-def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, signal_nick):
-	if not "scale_nicks" in config.keys():
-		config["scale_nicks"]=[]
-		config["scales"]=[]
-		config["scale_result_nicks"]=[]
-	config["analysis_modules"].append("ScaleHistograms")
-	config["scale_nicks"].append(signal_nick)
-	config["scales"].append(1/args.scale_signal)
-	config["scale_result_nicks"].append("%sScaled"%signal_nick)
-
+def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, signal_samples):
 	config["analysis_modules"].append("SignalOverBackgroundIntegral")
 	config["sob_integral_background_nicks"] = []
 	config["sob_integral_signal_nicks"] = []
@@ -78,7 +69,7 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 		config["sob_integral_method"].append(args.integration_methods)
 		config["sob_integral_result_nicks"].append("integration_%i"%i + direction)
 		config["sob_integral_background_nicks"].append(" ".join(bkg_samples))
-		config["sob_integral_signal_nicks"].append("%sScaled"%signal_nick)
+		config["sob_integral_signal_nicks"].append(" ".join(signal_samples))
 		config["sob_integral_outputs"].append(args.integration_output)
 	if(show_subplot):
 		config["y_subplot_label"] = "int.(S)/#sqrt{int.(B)}"
@@ -119,8 +110,8 @@ if __name__ == "__main__":
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
-	parser.add_argument("--scale-signal", type=float, default=1.0,
-	                    help="Scale signal (htt). Allowed values are 1, 10, 25 and 100. [Default: %(default)s]")
+	parser.add_argument("--scale-signal", type=int, default=1,
+	                    help="Scale signal (htt). Allowed values are 1, 10, 25, 100 and 250. [Default: %(default)s]")
 	parser.add_argument("--sbratio", default=False, action="store_true",
 	                    help="Add s/sqrt(b) subplot [Default: %(default)s]")
 	parser.add_argument("--blinding-threshold", default=0, type=float,
@@ -141,10 +132,10 @@ if __name__ == "__main__":
 	                    help="Integration direction. Chose lefttoright or righttoleft, !!!combination needs to be specified last!!!. [Default: %(default)s]")
 	parser.add_argument("--integration-output", default=None,
 						help="outputfile to specifiy where to write calculated maxima/minima, None is no output [Default:%(default)s]")
-	parser.add_argument("--integration-nick", default="htt",
-						help="integration signal nick [Default:%(default)s]")
-	parser.add_argument("--integration-background", nargs="+", default=["all"],
-						help="integration background nick [Default:%(default)s]")
+	parser.add_argument("--integration-nicks",nargs="+", default=["htt"],
+						help="integration signal nicks [Default:%(default)s]")
+	parser.add_argument("--integration-backgrounds", nargs="+", default=["all"],
+						help="integration background nicks [Default:%(default)s]")
 	parser.add_argument("--full-integral", action="store_true",
 						help="calculate full integral of all histograms and write to file")
 	parser.add_argument("--scale-mc-only", default="1.0",
@@ -228,8 +219,18 @@ if __name__ == "__main__":
 	www_output_dirs = []
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
-	bkg_samples = [sample for sample in args.samples if sample != "data" and sample != "htt"]
-
+	bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
+	sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "qqh", "vh"]]
+	sig_samples = []
+	for mass in args.higgs_masses:
+		scale_str = "_%i"%args.scale_signal
+		if int(args.scale_signal) == 1:
+			scale_str = ""
+		for sample in sig_samples_raw:
+			if sample is not "htt":
+				sig_samples.append(sample+"%s"%(mass))
+			else:
+				sig_samples.append(sample+"%s%s"%(mass, scale_str))
 	binnings_settings = binnings.BinningsDict()
 
 	args.categories = [None if category == "None" else "MSSM" if args.mssm else category for category in args.categories]
@@ -333,44 +334,55 @@ if __name__ == "__main__":
 
 				#add integrated s/sqrt(b) subplot
 				if(args.integrated_sob):
-					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					hmass_temp = 125
-					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
-						hmass_temp = int(args.higgs_masses[0])
-					sig_nick = "htt%i"%hmass_temp
-					if not args.integration_nick == "htt" and int(args.scale_signal)!=1:
-						sig_nick = args.integration_nick + "%i"%hmass_temp +"_%i"%args.scale_signal
-					elif not args.integration_nick == "htt" and int(args.scale_signal)==1:
-						sig_nick = args.integration_nick + "%i"%hmass_temp
-					if not "all" in args.integration_background:
-						temp_nicks = []
-						signal_nicks = ["%s%i_%i"%(sig,int(mass),int(args.scale_signal)) for sig in ["ggh", "qqh", "vh"] for mass in args.higgs_masses]
-						for nick in args.integration_background:
-							if nick in signal_nicks:
-								if not "scale_nicks" in config.keys():
-									config["scale_nicks"]=[]
-									config["scales"]=[]
-									config["scale_result_nicks"]=[]
-								config["scale_nicks"].append(nick)
-								config["scales"].append(1/args.scale_signal)
-								config["scale_result_nicks"].append("%sScaled"%nick)
-								temp_nicks.append("%sScaled"%nick)
-							elif nick in ["ggh", "qqh", "vh"]:
-								if not "scale_nicks" in config.keys():
-									config["scale_nicks"]=[]
-									config["scales"]=[]
-									config["scale_result_nicks"]=[]
-								if int(args.scale_signal) == 1:
-									config["scale_nicks"].append("%s%i"%(nick,int(args.higgs_masses[0])))
-								else:
-									config["scale_nicks"].append("%s%i_%i"%(nick,int(args.higgs_masses[0]),int(args.scale_signal)))
-								config["scales"].append(1/args.scale_signal)
-								config["scale_result_nicks"].append("%sScaled"%nick)
-								temp_nicks.append("%sScaled"%nick)
-							elif nick in config["nicks"]:
-								temp_nicks.append(nick)
-						bkg_samples_used = temp_nicks
-					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_nick)
+					scale_nicks_temp = []
+					scale_nicks = []
+					replaced_sig_nicks = []
+					replaced_bkg_nicks = []
+					for sample in args.integration_nicks:
+						if sample in sig_samples_raw and len(args.higgs_masses) > 1:
+							log.fatal("found non specific signal nick %s while plotting more than 1 mass, please use [name][mass]_[scale_signal] as specifier"%(sample))
+							sys.exit()
+						elif sample in sig_samples_raw:
+							replaced_sig_nicks += [nick for nick in sig_samples if sample in nick]
+						elif sample in bkg_samples:
+							replaced_sig_nicks.append(sample)
+
+					for sample in args.integration_backgrounds:
+						if sample in sig_samples_raw and len(args.higgs_masses) > 1:
+							log.fatal("found non specific signal nick %s while plotting more than 1 mass, please use [name][mass]_[scale_signal] as specifier"%(sample))
+							sys.exit()
+						elif sample in sig_samples_raw:
+							replaced_bkg_nicks += [nick for nick in sig_samples if sample in nick]
+						elif sample in bkg_samples:
+							replaced_bkg_nicks.append(sample)
+						elif sample == "all":
+							replaced_bkg_nicks += bkg_samples
+					for sample in replaced_bkg_nicks+replaced_sig_nicks:
+						nick = sample
+						if sample in sig_samples_raw and len(args.higgs_masses) > 1:
+							log.fatal("found non specific signal nick %s while plotting more than 1 mass, please use [name][mass]_[scale_signal] as specifier"%(sample))
+							sys.exit()
+						if nick in sig_samples and args.scale_signal != 1:
+							scale_nicks_temp.append(sample)
+					for nick in scale_nicks_temp:
+						if nick not in scale_nicks:
+							scale_nicks.append(nick)
+					bkg_samples_used = [nick if nick not in scale_nicks else "%s_Scaled"%nick for nick in replaced_bkg_nicks]
+					sig_samples_used = [nick if nick not in scale_nicks else "%s_Scaled"%nick for nick in replaced_sig_nicks]
+					if not "scale_nicks" in config.keys():
+						config["analysis_modules"].append("ScaleHistograms")
+						config["scale_nicks"]=[]
+						config["scales"]=[]
+						config["scale_result_nicks"]=[]
+					for sample in scale_nicks:
+						config["scale_nicks"].append(sample)
+						config["scales"].append(1.0/args.scale_signal)
+						config["scale_result_nicks"].append(sample+"_Scaled")
+					log.warning(bkg_samples_used)
+					log.warning(sig_samples_used)
+					#sys.exit()
+					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_samples_used)
+
 				#add FullIntegral
 				if(args.full_integral):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
