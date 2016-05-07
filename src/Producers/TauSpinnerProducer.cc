@@ -97,11 +97,11 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	
 	//TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	// otherwise the weights are set to 1
-	if ((std::abs(selectedTau1.m_node->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_node->pdgId) == DefaultValues::pdgIdTau))
+	if ((std::abs(selectedTau1.m_genParticle->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_genParticle->pdgId) == DefaultValues::pdgIdTau))
 	{
 		TauSpinner::SimpleParticle X = GetSimpleParticle(product.m_genBosonLV, settings.GetBosonPdgIds()[0]);
-		TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_node->p4, selectedTau1.m_node->pdgId);
-		TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_node->p4, selectedTau2.m_node->pdgId);
+		TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_genParticle->p4, selectedTau1.m_genParticle->pdgId);
+		TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_genParticle->p4, selectedTau2.m_genParticle->pdgId);
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
 		GetFinalStates(selectedTau1, &tauFinalStates1);
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
@@ -175,7 +175,7 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(GenP
 	for (unsigned int i = 0; i < mother.m_daughters.size(); ++i)
 	{
 		// this if-condition has to define what particles go into TauSpinner
-		int pdgId = abs(mother.m_daughters[i].m_node->pdgId);
+		int pdgId = abs(mother.m_daughters[i].m_genParticle->pdgId);
 		if (pdgId == DefaultValues::pdgIdGamma ||
 			pdgId == DefaultValues::pdgIdPiZero ||
 			pdgId == DefaultValues::pdgIdPiPlus ||
@@ -188,7 +188,7 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(GenP
 			pdgId == DefaultValues::pdgIdNuMu ||
 			pdgId == DefaultValues::pdgIdNuTau)
 		{
-			resultVector->push_back(GetSimpleParticle(mother.m_daughters[i].m_node->p4, mother.m_daughters[i].m_node->pdgId));
+			resultVector->push_back(GetSimpleParticle(mother.m_daughters[i].m_genParticle->p4, mother.m_daughters[i].m_genParticle->pdgId));
 		}
 		else
 		{
