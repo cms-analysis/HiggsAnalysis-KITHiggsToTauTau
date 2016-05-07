@@ -28,7 +28,7 @@ def calculate_diff(filename, htt_name, sigma_value=0.68):
 	htt = tfile.Get(htt_name)
 	mc_hist = ROOT.TH1F("mc_events", "mc_events", 1000,0,2)
 	#Probably add signal_only histogram at some point
-	for hist in [ztt, zll, wj, qcd, vv, ttj, htt]:
+	for hist in [htt]:
 		mc_hist.Add(hist)
 	mc_sum = 0
 	data_sum = 0

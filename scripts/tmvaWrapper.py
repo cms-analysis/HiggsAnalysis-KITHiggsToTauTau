@@ -320,7 +320,7 @@ if __name__ == "__main__":
 
 		if 2 in cargs.modification:
 			for j in range(2,6):
-				for i in range(750, 1751, 250):
+				for i in range(750, 2751, 250):
 					for samps in [(['ggh', 'qqh', 'vh'], ["ztt", "zll", "ttj", "vv", "wj"])]:
 					#, (['qqh'], ["ztt", "zll", "ttj", "vv", "wj"])]:
 						#=======This is a very basic collection of possible signal background combinations
@@ -342,10 +342,10 @@ if __name__ == "__main__":
 						copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={0}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.2".format(i)]
 						copy_cargs["n_fold"] = j
 						config_list.append(copy.deepcopy(copy_cargs))
-						#copy_cargs["quantities"].append("m_vis")
-						#copy_cargs["output_file"] += "_m_vis"
-						#config_list.append(copy_cargs)
-				for i in range(100, 501, 100):
+						copy_cargs["quantities"].append("m_vis")
+						copy_cargs["output_file"] += "_m_vis"
+						config_list.append(copy_cargs)
+				for i in range(100, 501, 200)+range(750, 1501, 250):
 					samps = ['qqh', 'ggh']
 					#=======This is a very basic collection of possible signal background combinations
 					copy_cargs = copy.deepcopy(cargs_values)
@@ -360,9 +360,9 @@ if __name__ == "__main__":
 					copy_cargs["quantities"].append("jdeta")
 					copy_cargs["quantities"].append("mjj")
 					config_list.append(copy.deepcopy(copy_cargs))
-					#copy_cargs["quantities"].append("m_vis")
-					#copy_cargs["output_file"] += "_m_vis"
-					#config_list.append(copy_cargs)
+					copy_cargs["quantities"].append("m_vis")
+					copy_cargs["output_file"] += "_m_vis"
+					config_list.append(copy_cargs)
 		if 3 in cargs.modification:
 			for i in range(4,9,1):
 				copy_cargs = copy.deepcopy(cargs_values)
