@@ -4,7 +4,7 @@
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
-#include "Artus/KappaAnalysis/interface/Utility/MotherDaughterBundle.h"
+#include "Artus/KappaAnalysis/interface/Utility/GenParticleDecayTree.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
@@ -166,13 +166,13 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 	// and the decay tree is built by the GenTauDecayProducer
 	assert(product.m_genBosonTree.m_daughters.size() > 1);
 	
-	MotherDaughterBundle* higgs = &(product.m_genBosonTree);
-	MotherDaughterBundle* selectedTau1 = &(higgs->m_daughters[0]);
-	MotherDaughterBundle* selectedTau2 = &(higgs->m_daughters[1]);
+	GenParticleDecayTree* higgs = &(product.m_genBosonTree);
+	GenParticleDecayTree* selectedTau1 = &(higgs->m_daughters[0]);
+	GenParticleDecayTree* selectedTau2 = &(higgs->m_daughters[1]);
 	selectedTau1->CreateFinalStateProngs(selectedTau1);
 	selectedTau2->CreateFinalStateProngs(selectedTau2);
-	std::vector<MotherDaughterBundle*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
-	std::vector<MotherDaughterBundle*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
+	std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
+	std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
 	//Selection of the right channel for phi, phi* and psi*CP

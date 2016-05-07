@@ -92,8 +92,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	
 	assert(! settings.GetBosonPdgIds().empty());
 
-	MotherDaughterBundle selectedTau1 = product.m_genBosonTree.m_daughters[0];
-	MotherDaughterBundle selectedTau2 = product.m_genBosonTree.m_daughters[1];
+	GenParticleDecayTree selectedTau1 = product.m_genBosonTree.m_daughters[0];
+	GenParticleDecayTree selectedTau2 = product.m_genBosonTree.m_daughters[1];
 	
 	//TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 	// otherwise the weights are set to 1
@@ -169,7 +169,7 @@ TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& pa
 }
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
-std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(MotherDaughterBundle& mother,
+std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(GenParticleDecayTree& mother,
 		std::vector<TauSpinner::SimpleParticle>* resultVector) const
 {
 	for (unsigned int i = 0; i < mother.m_daughters.size(); ++i)
