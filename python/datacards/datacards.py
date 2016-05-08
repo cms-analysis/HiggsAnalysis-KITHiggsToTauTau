@@ -60,7 +60,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.026)
-				(       ["13TeV"], 1.046) # recommended uncertainty in dec 2015, https://hypernews.cern.ch/HyperNews/CMS/get/luminosity/544.html
+				(       ["13TeV"], 1.027) # CMS-PAS-LUM-15-001
 		]
 		self.electron_efficieny_syst_args = [
 			"CMS_eff_e",
