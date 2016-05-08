@@ -15,9 +15,6 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
                                     setting_type const& settings) const
 {
     
-    // Load Fake Factor file    !!currently done in Init so following two lines commented!!
-    //TFile* ff_file = TFile::Open("/afs/desy.de/user/g/gkoehler/CMSSW/Analysis_CMSSW804/CMSSW_8_0_4/src/HTTutilities/Jet2TauFakes/data/fakeFactors_20160425.root");
-    //FakeFactor* ff = (FakeFactor*)ff_file->Get("ff_comb");
     FakeFactor* ff = (FakeFactor*)ff_file->Get("ff_comb");
     
     // Input names
@@ -51,6 +48,4 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
     product.m_optionalWeights["jetToTauFakeWeight"] = ff->value(inputs);
 
     delete ff;
-    //ff_file->Close();
-    
 }

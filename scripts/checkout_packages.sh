@@ -43,6 +43,9 @@ cd $CMSSW_BASE/src
 echo '<use   name="rootrflx"/>'>> TauAnalysis/SVfitStandalone/BuildFile.xml
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
+# Jet2Tau Fakes
+git clone https://github.com/artus-analysis/Jet2TauFakes.git HTTutilities/Jet2TauFakes
+
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester

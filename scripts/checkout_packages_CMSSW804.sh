@@ -40,6 +40,10 @@ git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStand
 cd TauAnalysis/SVfitStandalone
 git checkout dd7cf43e3f930040959f7d700cef976307d7cec3 -b current
 cd $CMSSW_BASE/src
+
+# Jet2Tau Fakes
+git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
+
 # checkout HHKinFit2 package - artus branch because of folder structure
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
