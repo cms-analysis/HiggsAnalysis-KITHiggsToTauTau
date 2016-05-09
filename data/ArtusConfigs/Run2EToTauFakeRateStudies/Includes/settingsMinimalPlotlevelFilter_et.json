@@ -1,0 +1,8 @@
+{
+    "PlotlevelFilterExpressionQuantities" : [
+		"lep1IsoOverPt",
+		"againstMuonLoose3_2",
+		"byLooseIsolationMVArun2v1DBoldDMwLT_2"
+    ],
+    "PlotlevelFilterExpression" : "(lep1IsoOverPt < 0.1)*(againstMuonLoose3_2 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+}

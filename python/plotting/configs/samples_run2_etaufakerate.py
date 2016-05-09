@@ -270,14 +270,14 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 		
 		if channel in ["mt", "et"]:
-			shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)
+			shape_weight = weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)
 			#if (not category is None) and (category != ""):
 				## relaxed isolation
 				#shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type) + "*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
 			
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
 					shape_weight,
@@ -330,19 +330,19 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"noplot_wj_mc_signal",
 					nick_suffix=nick_suffix
 			)
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+					"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 					"noplot_wj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -359,10 +359,10 @@ class Samples(samples.SamplesBase):
 		elif channel in ["tt"]:
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"wj",
 					nick_suffix=nick_suffix
 			)
@@ -387,10 +387,10 @@ class Samples(samples.SamplesBase):
 			# WJets for QCD estimate
 			Samples._add_input(
 					config,
-					"WJetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+					"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 					"noplot_wj_ss",
 					nick_suffix=nick_suffix
 			)
@@ -443,19 +443,19 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"WJetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+						"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						lumi,
-						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_wj_ss_mc_signal",
 						nick_suffix=nick_suffix
 				)
 				Samples._add_input(
 						config,
-						"WJetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+						"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						lumi,
-						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						"noplot_wj_ss_mc_control",
 						nick_suffix=nick_suffix
 				)

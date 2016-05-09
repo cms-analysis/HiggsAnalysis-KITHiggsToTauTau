@@ -271,7 +271,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, IsoPtSumOverPtMaximum, 0.4);
 
 	// setting for mass smearing applied in DiLeptonQuantitiesProducer
-	IMPL_SETTING_DEFAULT(float, MassSmearing, 0.20);
+	IMPL_SETTING_DEFAULT(float, MassSmearing, 0.10);
 
 	// settings for the acceptance cuts in GenAcceptanceProducer
 	IMPL_SETTING_DEFAULT(float, Lepton1AcceptancePtCut, -1.0);
