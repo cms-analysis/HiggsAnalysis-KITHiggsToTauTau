@@ -127,7 +127,9 @@ if __name__ == "__main__":
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
-	www_output_dirs = []
+	www_output_dirs_postfit = []
+	www_output_dirs_ptbin = []
+	www_output_dirs_parabola = []
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -488,8 +490,8 @@ if __name__ == "__main__":
 				config["filename"] = level+"_"+category+"_"+quantity
 				#config["formats"] = ["png", "pdf"]
 				
-				if not (config["output_dir"] in www_output_dirs):
-					www_output_dirs.append(config["output_dir"])
+				if not (config["output_dir"] in www_output_dirs_postfit):
+					www_output_dirs_postfit.append(config["output_dir"])
 				
 				postfit_plot_configs.append(config)
 	
@@ -547,8 +549,8 @@ if __name__ == "__main__":
 		config["y_errors"] = yerrslo
 		config["y_errors_up"] = yerrshi
 		
-		if not (config["output_dir"] in www_output_dirs):
-			www_output_dirs.append(config["output_dir"])
+		if not (config["output_dir"] in www_output_dirs_ptbin):
+			www_output_dirs_ptbin.append(config["output_dir"])
 	
 		ptbin_plot_configs.append(config)
 	
@@ -586,26 +588,21 @@ if __name__ == "__main__":
 				config["x_expressions"] = mes_list
 				config["y_expressions"] = deltaNLL_list
 				
-				if not (config["output_dir"] in www_output_dirs):
-					www_output_dirs.append(config["output_dir"])
+				if not (config["output_dir"] in www_output_dirs_parabola):
+					www_output_dirs_parabola.append(config["output_dir"])
 				
 				parabola_plot_configs.append(config)
 		
 		higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
+	# it's not pretty but it works :)
 	if not args.www is None:
-		for output_dir in www_output_dirs:
-			from Artus.HarryPlotter.plotdata import PlotData
+		from Artus.HarryPlotter.plotdata import PlotData
+		for output_dir in www_output_dirs_postfit:
 			subpath = os.path.normpath(output_dir).split("/")[-1]
 			output_filenames = []
 			for config in postfit_plot_configs:
-				if(subpath in config["output_dir"]):
-					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
-			for config in ptbin_plot_configs:
-				if(subpath in config["output_dir"]):
-					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
-			for config in parabola_plot_configs:
-				if(subpath in config["output_dir"]):
+				if(output_dir in config["output_dir"] and not config["filename"] in output_filenames):
 					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
 			PlotData.webplotting(
 						www = args.www if(subpath == "tauEsStudies_datacards") else os.path.join(args.www, subpath),
@@ -613,6 +610,31 @@ if __name__ == "__main__":
 						export_json = False,
 						output_filenames = output_filenames
 						)
+		for output_dir in www_output_dirs_ptbin:
+			subpath = os.path.normpath(output_dir).split("/")[-1]
+			output_filenames = []
+			for config in ptbin_plot_configs:
+				if(output_dir in config["output_dir"] and not config["filename"] in output_filenames):
+					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
+			PlotData.webplotting(
+						www = args.www if(subpath == "tauEsStudies_datacards") else os.path.join(args.www, subpath),
+						output_dir = output_dir,
+						export_json = False,
+						output_filenames = output_filenames
+						)
+		if args.plot_parabola:
+			for output_dir in www_output_dirs_parabola:
+				subpath = os.path.normpath(output_dir).split("/")[-1]
+				output_filenames = []
+				for config in parabola_plot_configs:
+					if(output_dir in config["output_dir"] and not config["filename"] in output_filenames):
+						output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
+				PlotData.webplotting(
+							www = args.www if(subpath == "tauEsStudies_datacards") else os.path.join(args.www, subpath),
+							output_dir = output_dir,
+							export_json = False,
+							output_filenames = output_filenames
+							)
 	
 	# print output table to shell	
 	print "########################### Fit results table ###########################"
