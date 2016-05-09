@@ -3,9 +3,11 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "Artus/KappaAnalysis/interface/KappaProducerBase.h"
-#include <boost/regex.hpp>
 #include "HTTutilities/Jet2TauFakes/interface/FakeFactor.h"
 
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
+#include <TROOT.h>
+#endif
 
 /**
    \brief JetToTauFakesProducer
@@ -26,7 +28,11 @@ public:
 
     virtual void Init(setting_type const& settings) override
  	{
-	 ProducerBase<HttTypes>::Init(settings);
+         #if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
+         gROOT->ProcessLine("#include <map>");
+         #endif
+
+         ProducerBase<HttTypes>::Init(settings);
          TDirectory *savedir(gDirectory);
          TFile *savefile(gFile);
          TString cmsswBase = TString( getenv ("CMSSW_BASE") );
