@@ -227,6 +227,7 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 		
 			# efficiencies
 			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
 			# Probe Tau ES
@@ -254,6 +255,9 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
+			
+			# W+jets extrapolation
+			self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 			
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
