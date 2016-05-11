@@ -23,6 +23,24 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as syste
 import HiggsAnalysis.KITHiggsToTauTau.datacards.taupogdatacards as taupogdatacards
 
 
+decayMode_dict = {
+	"all" : {
+		"color" : "1",
+		"label" : "all decay modes"
+	},
+	"OneProng" : {
+		"color" : "2",
+		"label" : "h^{#pm}"
+	},
+	"OneProngPiZeros" : {
+		"color" : "4",
+		"label" : "h^{#pm}(#geq 1 #pi^{0})"
+	},
+	"ThreeProng" : {
+		"color" : "6",
+		"label" : "h^{#pm}h^{#mp}h^{#pm}"
+	}
+}
 
 def _call_command(args):
 	command = None
@@ -501,12 +519,8 @@ if __name__ == "__main__":
 	higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# compute parabola from NLL scan and from here extract the best fit value and the uncertainties
-	output_dict_mu = {}
-	output_dict_errHi = {}
-	output_dict_errLo = {}
-	output_dict_scan_mu = {}
-	output_dict_scan_errHi = {}
-	output_dict_scan_errLo = {}
+	output_dict_mu, output_dict_errHi, output_dict_errLo = {}, {}, {}
+	output_dict_scan_mu, output_dict_scan_errHi, output_dict_scan_errLo = {}, {}, {}
 	
 	for decayMode in decay_modes:
 		for ptBin in pt_bins:
@@ -561,10 +575,9 @@ if __name__ == "__main__":
 			for index, (nll) in enumerate(deltaNLL_list):
 				deltaNLLshifted_list.append(nll - min_nll)
 			
-			found2sigmaLow = False
-			found1sigmaLow = False
-			found1sigmaHi = False
-			found2sigmaHi = False
+			found2sigmaLow, found1sigmaLow, found1sigmaHi, found2sigmaHi = False, False, False, False
+			err2sigmaLow,err1sigmaLow, err1sigmaHi, err2sigmaHi = 0.0, 0.0, 0.0, 0.0
+			
 			for index, (nll) in enumerate(deltaNLLshifted_list):
 				if (mes_list[index] <= min_shift):
 					if (nll <= 4.0 and not found2sigmaLow): #crossing 2-sigma line from the left
@@ -618,37 +631,49 @@ if __name__ == "__main__":
 	higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# plot best fit result as function of pt bins
+	config = {}
+	xbins, xerrs, ybins, yerrslo, yerrshi = [], [], [], [], []
 	for decayMode in decay_modes:
-		xbins = []
-		ybins = []
-		yerrslo = []
-		yerrshi = []
+		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
+		for index, ptBin in enumerate(pt_bins[1:]):
+			yval += str(output_dict_scan_mu[decayMode][ptBin])+" "
+			yerrsloval += str(output_dict_scan_errLo[decayMode][ptBin])+" "
+			yerrshival += str(output_dict_scan_errHi[decayMode][ptBin])+" "
+			if index < (len(pt_bins[1:])-1):
+				xval += str((float(pt_ranges[index+1])+float(pt_ranges[index+2]))/2.0)+" "
+				xerrsval += str((float(pt_ranges[index+2])-float(pt_ranges[index+1]))/2.0)+" "
 		
-		for ptBin in pt_bins:
-			xbins.append(ptBin+"")
-			ybins.append(str(output_dict_mu[decayMode][ptBin])+" ")
-			yerrslo.append(str(output_dict_errLo[decayMode][ptBin]))
-			yerrshi.append(str(output_dict_errHi[decayMode][ptBin]))
+		xval += str((float(pt_ranges[index+1])+200.0)/2.0)
+		xerrsval += str((200.0 - float(pt_ranges[index+1]))/2.0)
 		
-		config = {}
-		config["input_modules"] = ["InputInteractive"]
-		config["x_lims"] = [-0.5,len(pt_bins)-0.5]
-		config["y_lims"] = [min(es_shifts), max(es_shifts)]
-		config["x_label"] = "p_{T} bin"
-		config["y_label"] = "#tau_{ES}"
-		config["markers"] = ["P"]
-		config["colors"] = "kBlack"
-		config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
-		config["filename"] = "result_vs_pt_" + decayMode + "_" + quantity
-		config["x_expressions"] = xbins
-		config["y_expressions"] = ybins
-		config["y_errors"] = yerrslo
-		config["y_errors_up"] = yerrshi
-		
-		if not (config["output_dir"] in www_output_dirs_ptbin):
-			www_output_dirs_ptbin.append(config["output_dir"])
+		xbins.append(xval)
+		xerrs.append(xerrsval)
+		ybins.append(yval)
+		yerrslo.append(yerrsloval)
+		yerrshi.append(yerrshival)
+		config.setdefault("colors", []).append(decayMode_dict[decayMode]["color"])
+		config.setdefault("labels", []).append(decayMode_dict[decayMode]["label"])
 	
-		ptbin_plot_configs.append(config)
+	config["input_modules"] = ["InputInteractive"]
+	config["x_lims"] = [0.0, 200.0]
+	config["y_lims"] = [min(es_shifts), max(es_shifts)]
+	config["x_label"] = "p^{#tau_{h}}_{T} [GeV]"
+	config["y_label"] = "#tau_{h}-ES shift"
+	config["markers"] = ["P"]
+	config["legend"] = [0.2,0.78,0.6,0.9]
+	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
+	config["filename"] = "result_vs_pt_" + quantity
+	config["x_expressions"] = xbins
+	config["x_errors"] = xerrs
+	config["x_errors_up"] = xerrs
+	config["y_expressions"] = ybins
+	config["y_errors"] = yerrslo
+	config["y_errors_up"] = yerrshi
+	
+	if not (config["output_dir"] in www_output_dirs_ptbin):
+		www_output_dirs_ptbin.append(config["output_dir"])
+	
+	ptbin_plot_configs.append(config)
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=ptbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
