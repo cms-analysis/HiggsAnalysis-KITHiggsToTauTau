@@ -5,10 +5,58 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse, copy, os, re, sys
+import glob
+import ROOT
+import matplotlib.pyplot as plt
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expressions
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+
+def plot_overlap(triple_list, names, file_path="Testfile", labels=("classic", "tagger")):
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	c1_left=[]
+	c1_width=[]
+	c1_bottom=[]
+	c1_height=[]
+	c2_left=[]
+	c2_width=[]
+	c2_bottom=[]
+	c2_height=[]
+	c3_width=[]
+	ax.set_xlim(-1, 3+max(map(sum, triple_list)))
+	right_border = 2+max(map(sum, triple_list))
+	for i,triple in enumerate(triple_list):
+		c1_left.append(1)
+		c1_width.append(triple[0]+triple[2])
+		c1_bottom.append(2*i+0.5)
+		c1_height.append(1)
+		c2_left.append(1+triple[0])
+		c2_width.append(triple[1]+triple[2])
+		c3_width.append(triple[2])
+		ax.annotate("%1.2f"%triple[0], xy=(0, 2*i+1), size="x-large")
+		ax.annotate("%1.2f"%triple[1], xy=(1.5+sum(triple), 2*i+1), size="x-large")
+		ax.annotate("%1.2f"%triple[2], xy=(1+triple[0]+0.5*triple[2], 2*i+1), size="x-large")
+
+	ax.barh(left=c1_left, width=c1_width, bottom=c1_bottom, height=c1_height, edgecolor = "blue", facecolor="none", label="classic")
+	ax.barh(left=c2_left,width=c2_width, bottom=c1_bottom, height=c1_height, edgecolor = "red", facecolor="none", label="vbf tagger")
+	ax.barh(left=c2_left,width=c3_width, bottom=c1_bottom, height=c1_height, edgecolor = "none", facecolor="green", hatch="/", alpha=0.15, label="overlap", zorder=1)
+	ax.set_yticks([2*x+1 for x in range(len(names))])
+	ax.set_yticklabels(names, size='x-large', va='center', ha='right', rotation_mode='anchor')
+
+	plt.title("Event Overlap")
+	ax.set_ylim(0, 2*len(names))
+	ax.set_ylabel("")
+	ax.set_xlabel("")
+	ax.legend(loc="best")
+	plt.tight_layout()
+	plt.savefig("%s.png"%file_path)
+	plt.savefig("%s.pdf"%file_path)
+	plt.savefig("%s.eps"%file_path)
+	log.info("create plot %s.png"%file_path)
+	log.info("create plot %s.pdf"%file_path)
+	log.info("create plot %s.eps"%file_path)
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Plot overlapping signal events.",
@@ -25,11 +73,17 @@ if __name__ == "__main__":
 						help="Second Categories, can be specified multiple times. Several categories specified at once will be concatenated with or[Default: %(default)s]")
 	parser.add_argument("-S", "--Samples", nargs="+", default=["ggh", "qqh"],
 	                    help="Samples to be compared [Default: %(default)s]")
-	parser.add_argument("-o", "--output-file",
-						default="Overlap",
-						help="Output file. [Default: %(default)s]")
-	parser.add_argument("-T", "--Ticklabels", nargs="+", default=["Category1", "Category2", "Overlap"],
-	                    help="Ticklabels, replace by first name in first and second [Default: %(default)s]")
+	parser.add_argument("-o", "--output-dir",
+						default="./",
+						help="path to output file. [Default: %(default)s]")
+	parser.add_argument("--filename",
+						default="./",
+						help="name of output file. [Default: %(default)s]")
+	parser.add_argument("--labels", nargs="+",
+						default=["classic", "VBF-tagger"],
+						help="label names. [Default: %(default)s]")
+	#parser.add_argument("-T", "--Ticklabels", nargs="+", default=["Category1", "Category2", "Overlap"],
+	                    #help="Ticklabels, replace by first name in first and second [Default: %(default)s]")
 	parser.add_argument("-c", "--channel",
 						default="mt",
 						help="Channel. [Default: %(default)s]")
@@ -46,7 +100,7 @@ if __name__ == "__main__":
 	config = sample_settings.get_config(
 	samples=list_of_samples,
 	channel=args.channel,
-	category="",
+	category="1.0",
 	weight="1.0",
 	higgs_masses=args.higgs_masses,
 	normalise_signal_to_one_pb=False,
@@ -54,13 +108,49 @@ if __name__ == "__main__":
 	)
 	firsts = [exp_dict.replace_expressions(s) for s in args.first_category]
 	seconds = [exp_dict.replace_expressions(s) for s in args.second_category]
-	config["x_expressions"] = "1*({first})+2*({second})".format(first=" || ".join(firsts), second=" || ".join(seconds))
-	config["x_ticks"] = [1,2,3]
-	config["x_bins"] = "3,0.5,3.5"
-	config["x_tick_labels"] = args.Ticklabels
-	config["filename"] = args.output_file
+	config["x_expressions"] = ["1*({first})+2*({second})".format(first=" || ".join(firsts), second=" || ".join(seconds))]
+	#config["x_expressions"] = ["m_sv"]
+
+	#config["x_ticks"] = [1,2,3]
+	config["x_bins"] = ["3,0.5,3.5"]
+	#config["x_tick_labels"] = args.Ticklabels
+	config["filename"] = args.filename
+	config["output_dir"] = args.output_dir
 	config["directories"] = [args.input_dir]
-	print config
+	args.args += " --plot-modules ExportRoot"
+	#print config
 	higgsplot.HiggsPlotter(list_of_config_dicts=[config],
 							list_of_args_strings=[args.args])
+	names = []
+	for nick in args.Samples:
+		for mass in args.higgs_masses:
+			add = nick
+			if nick in ("ggh", "qqh", "vh"):
+				add += "%s"%mass
+			names.append(add)
+
+	#sys.exit()
+	tfile = ROOT.TFile(os.path.join(args.output_dir, args.filename+".root"), "READ")
+	#ztt = tfile.Get("ztt")
+	#zll = tfile.Get("zll")
+	#wj = tfile.Get("wj")
+	#qcd = tfile.Get("qcd")
+	#vv = tfile.Get("vv")
+	#data = tfile.Get("data")
+	#ttj = tfile.Get("ttj")
+	#qqh = tfile.Get("qqh125")
+	#ggh = tfile.Get("ggh125")
+	triples = []
+	for i,name in enumerate(names):
+		histogram = tfile.Get(name)
+		names[i] = names[i].replace("qqh", "VBF")
+		names[i] = names[i].replace("h", "H")
+		triples.append([])
+		for n in range(1, histogram.GetNbinsX()+1):
+			#print histogram.GetBinContent(n)
+			triples[-1].append(histogram.GetBinContent(n))
+	print triples
+	print names
+	#sys.exit()
+	plot_overlap(triples, names, os.path.join(args.output_dir, args.filename))
 

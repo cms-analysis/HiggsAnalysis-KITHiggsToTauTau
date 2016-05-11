@@ -61,6 +61,9 @@ def do_splitting(args, plot_configs):
 	if args["Split"] and args["n_fold"] == 1:
 		splits_list.append("(TrainingSelectionValue>=%i)*"%int(args["Split"]))
 		splits_list.append("(TrainingSelectionValue<%i)*"%int(args["Split"]))
+	elif args["n_fold"] and len(args["custom_splitting"]) == int(args["n_fold"]):
+		for split in args["custom_splitting"]:
+			splits_list.append(split)
 	elif args["n_fold"]:
 		part_size = 100/(args["n_fold"])
 		for i in range(args["n_fold"]):
@@ -248,7 +251,10 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--channels", nargs="*",
 						default=["tt", "mt", "et", "em", "mm", "ee"],
 						help="Channels. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantities", nargs="*",
+	parser.add_argument("-C", "--custom-splitting", nargs="+",
+						default=[],
+						help="use custom splitting for N-Fold. [Default: %(default)s]")
+	parser.add_argument("-x", "--quantities", nargs="+",
 						default=["pVecSum;F", "pt_1;F", "mt_1;F", "pt_2;F", "mt_2;F",
 								"mvamet;F", "pZetaMissVis;F","njets;I",
 								"lep1_centrality;F","lep2_centrality;F",
@@ -369,6 +375,33 @@ if __name__ == "__main__":
 				copy_cargs["output_file"] = os.path.join(copy_cargs["output_file"], "all_{0}_all".format(i))
 				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees=1500:MinNodeSize=0.25:BoostType=Grad:Shrinkage=1:MaxDepth={0}".format(i)]
 				config_list.append(copy_cargs)
+
+		if 4 in cargs.modification:
+			for i in range(1,11):
+				copy_cargs = copy.deepcopy(cargs_values)
+				copy_path = copy_cargs["output_file"]
+				splits_list = []
+				part_size = 100./(2*i)
+				for n in range(2*i):
+					splits_list.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(n*part_size),int((n+1)*part_size)))
+				copy_cargs["custom_splitting"].append("||".join(splits_list[::2]))
+				copy_cargs["custom_splitting"].append("||".join(splits_list[1::2]))
+				print copy_cargs["custom_splitting"]
+				copy_cargs["signal_samples"] = ['ggh', 'qqh', 'vh']
+				copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+				copy_cargs["output_file"] = os.path.join(copy_path, "reg_{i}").format(i=i)
+				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=1500)]
+				copy_cargs["n_fold"] = 2
+				config_list.append(copy.deepcopy(copy_cargs))
+
+				copy_cargs["signal_samples"] = ['qqh']
+				copy_cargs["bkg_samples"] = ["ggh"]
+				copy_cargs["output_file"] = os.path.join(copy_path, "vbf_{i}").format(i=i)
+				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=500)]
+				copy_cargs["quantities"].append("jdeta")
+				copy_cargs["quantities"].append("mjj")
+				config_list.append(copy.deepcopy(copy_cargs))
+
 		if cargs.batch_system:
 			log.info("Start training of BDT config number %i"%cargs.config_number)
 			if cargs.dry_run:

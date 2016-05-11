@@ -18,17 +18,17 @@ class MVADatacards(datacards.Datacards):
 			categories={}
 			for channel in ["tt", "mt", "et", "em"]:
 				categories[channel] = []
+				for cat in ["inclusive", "0jet_high", "0jet_low", "1jet_high", "1jet_low", "2jet_vbf"]:
+					categories[channel].append(channel+"_"+cat)
 				categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
+				if not os.path.exists(categories_path):
+					continue
 				with open(categories_path) as categs:
 					for line in categs:
 						cat = line.strip()
 						if cat not in categories[channel]:
 							categories[channel].append(cat)
 			###=========================Copy here!=========================================
-			categories["mt"].append("mt_mod_vbf")
-			categories["mt"].append("mt_mod_sig")
-			categories["mt"].append("mt_mod_mixed")
-			categories["mt"].append("mt_mod_bkg")
 			# MT channel
 			self.add_processes(
 					channel="mt",
