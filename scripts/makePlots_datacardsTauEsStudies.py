@@ -109,17 +109,23 @@ if __name__ == "__main__":
 	for decayMode in args.decay_modes:
 		decay_modes.append(decayMode)
 	
-	# produce pt-bins
+	# produce pt-bins (first one is always inclusive)
+	pt_ranges = ["0.0"]
+	for pt_index, (pt_range) in enumerate(args.pt_ranges):
+		pt_ranges.append(args.pt_ranges[pt_index])
 	pt_weights = []
 	pt_bins = []
-	for pt_index, (pt_range) in enumerate(args.pt_ranges):
-		lowEdge = str(args.pt_ranges[pt_index])
-		if len(args.pt_ranges) > pt_index+1:
-			highEdge = args.pt_ranges[pt_index+1]
+	for pt_index, (pt_range) in enumerate(pt_ranges):
+		lowEdge = str(pt_ranges[pt_index])
+		if pt_range == "0.0":
+			pt_weights.append("1.0")
 		else:
-			highEdge = "500"
+			if len(pt_ranges) > pt_index+1:
+				highEdge = pt_ranges[pt_index+1]
+			else:
+				highEdge = "500"
 	
-		pt_weights.append("(pt_2>" + lowEdge + ")*(pt_2<" + highEdge + ")")
+			pt_weights.append("(pt_2>" + lowEdge + ")*(pt_2<" + highEdge + ")")
 		pt_bins.append(str(pt_index))
 	
 	# initialisations for plotting
@@ -148,7 +154,7 @@ if __name__ == "__main__":
 	datacards.cb.channel([channel])
 	
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(args.pt_ranges):
+		for pt_index, (pt_range) in enumerate(pt_ranges):
 			
 			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
@@ -262,9 +268,9 @@ if __name__ == "__main__":
 						
 					# set proper binnings of the distributions
 					if decayMode == "OneProngPiZeros" and quantity == "m_2":
-						merged_config.setdefault("x_bins", []).append(["14,0.4,1.1"])
+						merged_config.setdefault("x_bins", []).append(["14,0.4,1.1"]) #TODO: go back to 0.3-4.2 (as defined in HPS)
 					elif decayMode == "ThreeProng" and quantity == "m_2":
-						merged_config.setdefault("x_bins", []).append(["10,0.85,1.35"])
+						merged_config.setdefault("x_bins", []).append(["10,0.85,1.35"]) #TODO: go back to 0.8-1.5 (as defined in HPS)
 					elif decayMode == "OneProng" or quantity == "m_vis":
 						merged_config.setdefault("x_bins", []).append(["20,0.0,200.0"])
 					
@@ -299,7 +305,7 @@ if __name__ == "__main__":
 	mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 	
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(args.pt_ranges):
+		for pt_index, (pt_range) in enumerate(pt_ranges):
 			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
 	
@@ -319,7 +325,7 @@ if __name__ == "__main__":
 	# write datacards
 	datacards_cbs = {}
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(args.pt_ranges):
+		for pt_index, (pt_range) in enumerate(pt_ranges):
 			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
 			dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
 							ANALYSIS="ztt",
@@ -652,7 +658,10 @@ if __name__ == "__main__":
 	print row_format.format("", *decay_modes)
 	print
 	for ptBin in pt_bins:
-		print "{:^20}".format("Pt bin "+ptBin),
+		if ptBin == "0":
+			print "{:^20}".format("Inclusive"),
+		else:
+			print "{:^20}".format("Pt bin "+ptBin),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
 				print "{:<10.5f}({:<10.5f})".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin]),
