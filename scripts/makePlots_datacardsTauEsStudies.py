@@ -383,7 +383,7 @@ if __name__ == "__main__":
 	#(always done, since the bestfit value and uncertainties are taken from this scan)
 	commands = []
 	commands.extend([[
-		"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
+		"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} --robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\" {WORKSPACE}".format(
 			BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
 			RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
 			VERBOSITY=args.combine_verbosity,
@@ -498,12 +498,18 @@ if __name__ == "__main__":
 	output_dict_mu = {}
 	output_dict_errHi = {}
 	output_dict_errLo = {}
+	output_dict_scan_mu = {}
+	output_dict_scan_errHi = {}
+	output_dict_scan_errLo = {}
 	
 	for decayMode in decay_modes:
 		for ptBin in pt_bins:
 			output_dict_mu.setdefault(decayMode, {})[ptBin] = 0
 			output_dict_errHi.setdefault(decayMode, {})[ptBin] = 0
 			output_dict_errLo.setdefault(decayMode, {})[ptBin] = 0
+			output_dict_scan_mu.setdefault(decayMode, {})[ptBin] = 0
+			output_dict_scan_errHi.setdefault(decayMode, {})[ptBin] = 0
+			output_dict_scan_errLo.setdefault(decayMode, {})[ptBin] = 0
 	
 	parabola_plot_configs = []
 	ptbin_plot_configs = []
@@ -528,43 +534,67 @@ if __name__ == "__main__":
 			tree = file.Get("limit")
 			mes_list = []
 			deltaNLL_list = []
+			deltaNLLshifted_list = []
 			
 			# the entry '0' contains the best shift and deltaNLL=0 --> start from 1
 			for entry in range(1, tree.GetEntries()):
 				tree.GetEntry(entry)
 				mes_list.append(tree.mes)
 				deltaNLL_list.append(2*tree.deltaNLL)
-			print "mes_list:", mes_list
-			print "deltaNLL:", deltaNLL_list
 			
 			#find minimum
 			for index, (nll) in enumerate(deltaNLL_list):
 				if index == 0:
 					min_nll = deltaNLL_list[0]
-					min_shift = es_shifts[0]
+					min_shift = mes_list[0]
 				if min_nll > deltaNLL_list[index]:
 					min_nll = deltaNLL_list[index]
-					min_shift = es_shifts[index]
+					min_shift = mes_list[index]
 			
-			#fill delta nll list
-			#TODO: find left-right intercept for 1sigma uncertainty
+			#find left-right intercept for 1sigma uncertainty
+			for index, (nll) in enumerate(deltaNLL_list):
+				deltaNLLshifted_list.append(nll - min_nll)
+			
+			found2sigmaLow = False
+			found1sigmaLow = False
+			found1sigmaHi = False
+			found2sigmaHi = False
+			for index, (nll) in enumerate(deltaNLLshifted_list):
+				if (mes_list[index] <= min_shift):
+					if (nll <= 4.0 and not found2sigmaLow): #crossing 2-sigma line from the left
+						found2sigmaLow = True
+						err2sigmaLow = abs((mes_list[index-1]+mes_list[index])/2.0 - min_shift)
+					if (nll <= 1.0 and not found1sigmaLow): #crossing 1-sigma line from the left
+						found1sigmaLow = True
+						err1sigmaLow = abs((mes_list[index-1]+mes_list[index])/2.0 - min_shift)
+				else:
+					if (nll >= 1.0 and not found1sigmaHi): #crossing 1-sigma line again
+						found1sigmaHi = True
+						err1sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
+					if (nll >= 4.0 and not found2sigmaHi): #crossing 2-sigma line again
+						found2sigmaHi = True
+						err2sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
+			
+			#values for parabola plot
 			xvalues = ""
 			yvalues = ""
-			for index, (nll) in enumerate(deltaNLL_list):
+			for index, (nll) in enumerate(deltaNLLshifted_list):
 				xvalues += str(mes_list[index]) + " "
-				yvalues += str(nll - min_nll) + " "
+				yvalues += str(nll) + " "
 		
-			#TODO: the numbers here below should not be taken from the resultstree but from the logL scan
 			output_dict_mu[decayMode][ptBin] = resultstree.mu
 			output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr
 			output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
+			output_dict_scan_mu[decayMode][ptBin] = min_shift
+			output_dict_scan_errHi[decayMode][ptBin] = err1sigmaHi
+			output_dict_scan_errLo[decayMode][ptBin] = err1sigmaLow
 			
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
-			config["x_label"] = "#tau_{h}-{ES}"
+			config["x_label"] = "#tau_{h}-ES"
 			config["y_label"] = "-2 #Delta lnL"
 			config["x_lims"] = [min(es_shifts)-args.shift_binning, max(es_shifts)+args.shift_binning]
-			config["y_lims"] = [-5.0, 10.0]
+			config["y_lims"] = [0.0, 10.0]
 			config["markers"] = ["P"]
 			config["colors"] = "kBlack"
 			config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
@@ -576,9 +606,8 @@ if __name__ == "__main__":
 				www_output_dirs_parabola.append(config["output_dir"])
 			
 			parabola_plot_configs.append(config)
-		
 		resultsfile.Close()
-	
+
 	#plot parabolas
 	higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
@@ -618,7 +647,7 @@ if __name__ == "__main__":
 	higgsplot.HiggsPlotter(list_of_config_dicts=ptbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# print output table to shell
-	print "########################### Fit results table ###########################"
+	print "################### Fit results table (in parentheses numbers from logL scan) ###################"
 	row_format = "{:^20}" * (len(decay_modes) + 1)
 	print row_format.format("", *decay_modes)
 	print
@@ -626,21 +655,21 @@ if __name__ == "__main__":
 		print "{:^20}".format("Pt bin "+ptBin),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<20}".format(output_dict_mu[decayMode][ptBin]),
+				print "{:<10.5f}({:<10.5f})".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin]),
 			else:
-				print "{:<20}".format(output_dict_mu[decayMode][ptBin])
+				print "{:<10.5f}({:<10.5f})".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin])
 		print "{:^20}".format("+ 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<20}".format(output_dict_errHi[decayMode][ptBin]),
+				print "{:<10.5f}({:<10.5f})".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin]),
 			else:
-				print "{:<20}".format(output_dict_errHi[decayMode][ptBin])
+				print "{:<10.5f}({:<10.5f})".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin])
 		print "{:^20}".format("- 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<20}".format(output_dict_errLo[decayMode][ptBin]),
+				print "{:<10.5f}({:<10.5f})".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin]),
 			else:
-				print "{:<20}".format(output_dict_errLo[decayMode][ptBin])
+				print "{:<10.5f}({:<10.5f})".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin])
 		print
 
 	# it's not pretty but it works :)
