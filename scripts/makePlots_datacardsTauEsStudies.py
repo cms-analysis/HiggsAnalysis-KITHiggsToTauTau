@@ -58,7 +58,7 @@ if __name__ == "__main__":
 	parser.add_argument("--shift-ranges", nargs="*", type=float,
                         default=[0.94,1.06],
                         help="Provide minimum and maximum energy scale shift. [Default: %(default)s]")
-	parser.add_argument("--shift-binning", type=float, default=0.01,
+	parser.add_argument("--shift-binning", type=float, default=0.001,
 						help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
 	parser.add_argument("--pt-ranges", nargs="*",
 	                    default=["20.0"],
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 	                    default=["OneProngPiZeros"],
 	                    choices=["OneProng","OneProngPiZeros", "ThreeProng"],
 	                    help="Decay modes of reconstructed hadronic tau leptons in Z #rightarrow #tau#tau. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
+	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=2.301,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
@@ -84,8 +84,6 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--combine-verbosity", default="1", choices=["-1","0","1","2"],
 						help="Control output amount of combine. [Default: %(default)s]")
-	parser.add_argument("--plot-parabola", action="store_true", default=False,
-						help="Redo parabola fit for cross checks. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="",
 						help="Publish plots. [Default: %(default)s]")
 	
@@ -264,9 +262,9 @@ if __name__ == "__main__":
 						
 					# set proper binnings of the distributions
 					if decayMode == "OneProngPiZeros" and quantity == "m_2":
-						merged_config.setdefault("x_bins", []).append(["39,0.3,4.2"])
+						merged_config.setdefault("x_bins", []).append(["14,0.4,1.1"])
 					elif decayMode == "ThreeProng" and quantity == "m_2":
-						merged_config.setdefault("x_bins", []).append(["7,0.8,1.5"])
+						merged_config.setdefault("x_bins", []).append(["10,0.85,1.35"])
 					elif decayMode == "OneProng" or quantity == "m_vis":
 						merged_config.setdefault("x_bins", []).append(["20,0.0,200.0"])
 					
@@ -372,7 +370,7 @@ if __name__ == "__main__":
 	#important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
 	commands = []
 	commands.extend([[
-		"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
+		"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes -v {VERBOSITY} --robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\" {WORKSPACE}".format(
 			VERBOSITY=args.combine_verbosity,
 			WORKSPACE=os.path.splitext(datacard)[0]+".root",
 		),
@@ -382,19 +380,19 @@ if __name__ == "__main__":
 	tools.parallelize(_call_command, commands, n_processes=1)
 	
 	#2nd combine call to get deltaNLL distribution
-	if args.plot_parabola:
-		commands = []
-		commands.extend([[
-			"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
-				BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
-				RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
-				VERBOSITY=args.combine_verbosity,
-				WORKSPACE=os.path.splitext(datacard)[0]+".root",
-			),
-			os.path.dirname(datacard)
-		] for datacard, cb in datacards_cbs.iteritems()])
-		
-		tools.parallelize(_call_command, commands, n_processes=1)
+	#(always done, since the bestfit value and uncertainties are taken from this scan)
+	commands = []
+	commands.extend([[
+		"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} {WORKSPACE}".format(
+			BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
+			RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
+			VERBOSITY=args.combine_verbosity,
+			WORKSPACE=os.path.splitext(datacard)[0]+".root",
+		),
+		os.path.dirname(datacard)
+	] for datacard, cb in datacards_cbs.iteritems()])
+	
+	tools.parallelize(_call_command, commands, n_processes=1)
 	
 	#postfitshapes call
 	datacards_postfit_shapes = {}
@@ -455,17 +453,16 @@ if __name__ == "__main__":
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
 				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
+				
+				config["y_label"] = "Events / bin"
 				if "OneProngPiZeros" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} (GeV)"
-					config["y_label"] = "Events / bin"
-					config["x_lims"] = [0.3,4.2]
+					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_lims"] = [0.2,1.4]
 				elif "ThreeProng" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} (GeV)"
-					config["y_label"] = "Events / bin"
-					config["x_lims"] = [0.8,1.5]
+					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_lims"] = [0.6,1.8]
 				elif "OneProng" in category or quantity == "m_vis":
-					config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
-					config["y_label"] = "Events / bin"
+					config["x_label"] = "m_{#mu#tau_{h}} [GeV]"
 					config["x_lims"] = [20,200]
 				
 				config.setdefault("analysis_modules", []).append("Ratio")
@@ -496,44 +493,108 @@ if __name__ == "__main__":
 				postfit_plot_configs.append(config)
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
-	
-	# prepare output table
+
+	# compute parabola from NLL scan and from here extract the best fit value and the uncertainties
 	output_dict_mu = {}
 	output_dict_errHi = {}
 	output_dict_errLo = {}
+	
 	for decayMode in decay_modes:
 		for ptBin in pt_bins:
 			output_dict_mu.setdefault(decayMode, {})[ptBin] = 0
 			output_dict_errHi.setdefault(decayMode, {})[ptBin] = 0
 			output_dict_errLo.setdefault(decayMode, {})[ptBin] = 0
 	
+	parabola_plot_configs = []
+	ptbin_plot_configs = []
 	for datacard, cb in datacards_cbs.iteritems():
-		filename = os.path.join(os.path.dirname(datacard), "mlfit.root")
+		filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
 		if "combined" in filename:
 			continue
-		resultsfile = ROOT.TFile(filename)
+		
+		resultsfilename = os.path.join(os.path.dirname(datacard), "mlfit.root")
+		resultsfile = ROOT.TFile(resultsfilename)
 		resultstree = resultsfile.Get("tree_fit_sb")
 		resultstree.GetEntry(0)
-		decayMode = filename.split("_")[-2]
-		ptBin =  filename.split("_")[-1].split("/")[0].split("ptbin")[-1]
-		output_dict_mu[decayMode][ptBin] = resultstree.mu
-		output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr
-		output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
+		
+		for category in datacards_cbs[datacard].cp().bin_set():
+			if category not in filename:
+				continue
+			
+			decayMode = category.split("_")[-2]
+			ptBin = category.split("_")[-1].split("ptbin")[-1]
+			
+			file = ROOT.TFile(filename)
+			tree = file.Get("limit")
+			mes_list = []
+			deltaNLL_list = []
+			
+			# the entry '0' contains the best shift and deltaNLL=0 --> start from 1
+			for entry in range(1, tree.GetEntries()):
+				tree.GetEntry(entry)
+				mes_list.append(tree.mes)
+				deltaNLL_list.append(2*tree.deltaNLL)
+			print "mes_list:", mes_list
+			print "deltaNLL:", deltaNLL_list
+			
+			#find minimum
+			for index, (nll) in enumerate(deltaNLL_list):
+				if index == 0:
+					min_nll = deltaNLL_list[0]
+					min_shift = es_shifts[0]
+				if min_nll > deltaNLL_list[index]:
+					min_nll = deltaNLL_list[index]
+					min_shift = es_shifts[index]
+			
+			#fill delta nll list
+			#TODO: find left-right intercept for 1sigma uncertainty
+			xvalues = ""
+			yvalues = ""
+			for index, (nll) in enumerate(deltaNLL_list):
+				xvalues += str(mes_list[index]) + " "
+				yvalues += str(nll - min_nll) + " "
+		
+			#TODO: the numbers here below should not be taken from the resultstree but from the logL scan
+			output_dict_mu[decayMode][ptBin] = resultstree.mu
+			output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr
+			output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
+			
+			config = {}
+			config["input_modules"] = ["InputInteractive"]
+			config["x_label"] = "#tau_{h}-{ES}"
+			config["y_label"] = "-2 #Delta lnL"
+			config["x_lims"] = [min(es_shifts)-args.shift_binning, max(es_shifts)+args.shift_binning]
+			config["y_lims"] = [-5.0, 10.0]
+			config["markers"] = ["P"]
+			config["colors"] = "kBlack"
+			config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+			config["filename"] = "parabola_" + category + "_" + quantity
+			config["x_expressions"] = [xvalues]
+			config["y_expressions"] = [yvalues]
+			
+			if not (config["output_dir"] in www_output_dirs_parabola):
+				www_output_dirs_parabola.append(config["output_dir"])
+			
+			parabola_plot_configs.append(config)
+		
 		resultsfile.Close()
 	
-	# plot best fit result as function of pt bins
-	ptbin_plot_configs = []
+	#plot parabolas
+	higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
+	# plot best fit result as function of pt bins
 	for decayMode in decay_modes:
 		xbins = []
 		ybins = []
 		yerrslo = []
 		yerrshi = []
+		
 		for ptBin in pt_bins:
 			xbins.append(ptBin+"")
 			ybins.append(str(output_dict_mu[decayMode][ptBin])+" ")
 			yerrslo.append(str(output_dict_errLo[decayMode][ptBin]))
 			yerrshi.append(str(output_dict_errHi[decayMode][ptBin]))
+		
 		config = {}
 		config["input_modules"] = ["InputInteractive"]
 		config["x_lims"] = [-0.5,len(pt_bins)-0.5]
@@ -555,46 +616,33 @@ if __name__ == "__main__":
 		ptbin_plot_configs.append(config)
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=ptbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
-	
-	# plot parabolas for cross checks
-	if args.plot_parabola:
-		parabola_plot_configs = []
-		
-		for datacard, cb in datacards_cbs.iteritems():
-			filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
-			if "combined" in filename:
-				continue
-			for category in datacards_cbs[datacard].cp().bin_set():
-				if category not in filename:
-					continue
-				file = ROOT.TFile(filename)
-				tree = file.Get("limit")
-				mes_list = []
-				deltaNLL_list = []
-				for entry in range(tree.GetEntries()):
-					tree.GetEntry(entry)
-					mes_list.append(str(tree.mes)+" ")
-					deltaNLL_list.append(str(2*tree.deltaNLL)+" ")
-				config = {}
-				config["input_modules"] = ["InputInteractive"]
-				config["x_label"] = "#tau_{ES}"
-				config["y_label"] = "2#DeltaNLL"
-				config["x_lims"] = [min(es_shifts)-args.shift_binning, max(es_shifts)+args.shift_binning]
-				config["y_lims"] = [0.9*min([float(dnll) for dnll in deltaNLL_list]),1.1*max([float(dnll) for dnll in deltaNLL_list])]
-				config["markers"] = ["P"]
-				config["colors"] = "kBlack"
-				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-				config["filename"] = "parabola_" + category + "_" + quantity
-				config["x_expressions"] = mes_list
-				config["y_expressions"] = deltaNLL_list
-				
-				if not (config["output_dir"] in www_output_dirs_parabola):
-					www_output_dirs_parabola.append(config["output_dir"])
-				
-				parabola_plot_configs.append(config)
-		
-		higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
-		
+
+	# print output table to shell
+	print "########################### Fit results table ###########################"
+	row_format = "{:^20}" * (len(decay_modes) + 1)
+	print row_format.format("", *decay_modes)
+	print
+	for ptBin in pt_bins:
+		print "{:^20}".format("Pt bin "+ptBin),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_mu[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_mu[decayMode][ptBin])
+		print "{:^20}".format("+ 1sigma "),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_errHi[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_errHi[decayMode][ptBin])
+		print "{:^20}".format("- 1sigma "),
+		for decayMode in decay_modes:
+			if decayMode != decay_modes[-1]:
+				print "{:<20}".format(output_dict_errLo[decayMode][ptBin]),
+			else:
+				print "{:<20}".format(output_dict_errLo[decayMode][ptBin])
+		print
+
 	# it's not pretty but it works :)
 	if not args.www is None:
 		from Artus.HarryPlotter.plotdata import PlotData
@@ -622,42 +670,15 @@ if __name__ == "__main__":
 						export_json = False,
 						output_filenames = output_filenames
 						)
-		if args.plot_parabola:
-			for output_dir in www_output_dirs_parabola:
-				subpath = os.path.normpath(output_dir).split("/")[-1]
-				output_filenames = []
-				for config in parabola_plot_configs:
-					if(output_dir in config["output_dir"] and not config["filename"] in output_filenames):
-						output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
-				PlotData.webplotting(
-							www = args.www if(subpath == "tauEsStudies_datacards") else os.path.join(args.www, subpath),
-							output_dir = output_dir,
-							export_json = False,
-							output_filenames = output_filenames
-							)
-	
-	# print output table to shell	
-	print "########################### Fit results table ###########################"
-	row_format = "{:^20}" * (len(decay_modes) + 1)
-	print row_format.format("", *decay_modes)
-	print
-	for ptBin in pt_bins:
-		print "{:^20}".format("Pt bin "+ptBin),
-		for decayMode in decay_modes:
-			if decayMode != decay_modes[-1]:
-				print "{:<20}".format(output_dict_mu[decayMode][ptBin]),
-			else:
-				print "{:<20}".format(output_dict_mu[decayMode][ptBin])
-		print "{:^20}".format("+ 1sigma "),
-		for decayMode in decay_modes:
-			if decayMode != decay_modes[-1]:
-				print "{:<20}".format(output_dict_errHi[decayMode][ptBin]),
-			else:
-				print "{:<20}".format(output_dict_errHi[decayMode][ptBin])
-		print "{:^20}".format("- 1sigma "),
-		for decayMode in decay_modes:
-			if decayMode != decay_modes[-1]:
-				print "{:<20}".format(output_dict_errLo[decayMode][ptBin]),
-			else:
-				print "{:<20}".format(output_dict_errLo[decayMode][ptBin])
-		print
+		for output_dir in www_output_dirs_parabola:
+			subpath = os.path.normpath(output_dir).split("/")[-1]
+			output_filenames = []
+			for config in parabola_plot_configs:
+				if(output_dir in config["output_dir"] and not config["filename"] in output_filenames):
+					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
+			PlotData.webplotting(
+						www = args.www if(subpath == "tauEsStudies_datacards") else os.path.join(args.www, subpath),
+						output_dir = output_dir,
+						export_json = False,
+						output_filenames = output_filenames
+						)
