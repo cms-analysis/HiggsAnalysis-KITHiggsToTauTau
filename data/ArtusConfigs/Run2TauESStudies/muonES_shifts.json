@@ -1,0 +1,39 @@
+{
+	"jecUncNom_tauEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2015" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"MuonEnergyCorrectionShift" : 1.0
+	},
+	"jecUncNom_tauEsNom_muonEsUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2015" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"MuonEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 1.05
+			}
+		}
+	},
+	"jecUncNom_tauEsNom_muonEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2015" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"MuonEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 0.95
+			}
+		}
+	}
+}
