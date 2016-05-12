@@ -181,7 +181,6 @@ if __name__ == "__main__":
 			
 			input_plot_configs = []
 			hadd_commands = []
-			merged_config={}
 			
 			datacards_per_channel_category = taupogdatacards.TauEsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 	
@@ -189,11 +188,6 @@ if __name__ == "__main__":
 
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
-		
-				#for the moment, no shape systematics
-				if not nominal:
-					continue
-		
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 		
 				for shift_up in ([True] if nominal else [True, False]):
@@ -205,11 +199,13 @@ if __name__ == "__main__":
 						category=category,
 						systematic=systematic
 					))
-		
+
+					merged_config={}
+					
 					# config for rest for each pt range
 					# need to get "rest" first in order for corrections of negative bin contents to have an effect
 					config_rest = sample_settings.get_config(
-						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample != "ztt" ],
+						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample != "ztt"],
 						channel=channel,
 						category="cat" + decayMode + "_" + channel,
 						nick_suffix="_" + str(pt_index),
@@ -225,13 +221,19 @@ if __name__ == "__main__":
 						SYSTEMATIC=systematic
 					) for sample in config_rest["labels"]]
 					
+					systematics_settings = systematics_factory.get(shape_systematic)(config_rest)
+					config_rest = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+					
 					# merge configs
 					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
 					
 					#one ztt nick config for each es shift
 					for shift in es_shifts:
+						if "ztt" not in list_of_samples:
+							continue
+						
 						config_ztt = sample_settings.get_config(
-							samples=[getattr(samples.Samples, "ztt")],
+							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "ztt"],
 							channel=channel,
 							category="cat" + decayMode + "_" + channel,
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
@@ -247,6 +249,9 @@ if __name__ == "__main__":
 						elif quantity == "m_vis":
 							config_ztt["x_expressions"] = [quantity + "*sqrt(" + str(shift) + ")"] * len(config_ztt["nicks"])
 						
+						systematics_settings = systematics_factory.get(shape_systematic)(config_ztt)
+						config_ztt = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+						
 						histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
 						config_ztt["labels"] = [histogram_name_template.replace("$", "").format(
 							PROCESS=datacards.configs.sample2process(sample),
@@ -257,10 +262,6 @@ if __name__ == "__main__":
 						
 						# merge configs
 						merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
-					
-					systematics_settings = systematics_factory.get(shape_systematic)(merged_config)
-					# TODO: evaluate shift from datacards_per_channel_category.cb
-					merged_config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 			
 					merged_config["directories"] = [args.input_dir]
 					merged_config["qcd_subtract_shape"] = [False]

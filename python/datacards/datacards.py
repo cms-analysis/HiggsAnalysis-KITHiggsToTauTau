@@ -265,6 +265,12 @@ class Datacards(object):
 			ch.SystMap("era", "channel")
 				(["13TeV"], ["et"], 1.0)
 		]
+		self.muFakeTau_es_syst_args = [
+			"CMS_$ANALYSIS_scale_mFakeTau_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["mt"], 1.0)
+		]
 
 		self.massres_syst_args = [
 			"CMS_scale_massRes_$CHANNEL_$ERA",
