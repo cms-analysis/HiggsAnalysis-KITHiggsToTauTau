@@ -167,6 +167,10 @@ public:
 
 	IMPL_SETTING_DEFAULT(std::string, ElectronEnergyCorrection, "none");
 	IMPL_SETTING_DEFAULT(float, ElectronEnergyCorrectionShift, 1.0);
+	IMPL_SETTING_DEFAULT(std::string, MuonEnergyCorrection, "none");
+	IMPL_SETTING_DEFAULT(float, MuonEnergyCorrectionShift, 1.0);
+	IMPL_SETTING_DEFAULT(std::string, TauEnergyCorrection, "none");
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionShift, 1.0);
 
 	IMPL_SETTING(float, RecoMuonInElectronConeLowerPtCut);
 	IMPL_SETTING(float, RecoMuonInElectronConeUpperAbsEtaCut);
@@ -187,9 +191,6 @@ public:
 
 	IMPL_SETTING_DEFAULT(float, TauLeadingTrackPtCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, TauTrackMultiplicityCut, -1.0);
-
-	IMPL_SETTING_DEFAULT(std::string, TauEnergyCorrection, "none");
-	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionShift, 1.0);
 
 	IMPL_SETTING_DEFAULT(float, SvfitMassShift, 1.0);
 
