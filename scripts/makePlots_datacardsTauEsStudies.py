@@ -79,7 +79,7 @@ if __name__ == "__main__":
 	parser.add_argument("--shift-binning", type=float, default=0.001,
 						help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
 	parser.add_argument("--pt-ranges", nargs="*",
-	                    default=["20.0"],
+	                    default=[],
 	                    help="Enter the lower bin edges for the pt ranges."	)
 	parser.add_argument("--decay-modes", nargs="+",
 	                    default=["OneProngPiZeros"],
@@ -134,16 +134,13 @@ if __name__ == "__main__":
 	pt_weights = []
 	pt_bins = []
 	for pt_index, (pt_range) in enumerate(pt_ranges):
-		lowEdge = str(pt_ranges[pt_index])
 		if pt_range == "0.0":
 			pt_weights.append("1.0")
 		else:
 			if len(pt_ranges) > pt_index+1:
-				highEdge = pt_ranges[pt_index+1]
+				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")*(pt_2<"+str(pt_ranges[pt_index+1])+")")
 			else:
-				highEdge = "500"
-	
-			pt_weights.append("(pt_2>" + lowEdge + ")*(pt_2<" + highEdge + ")")
+				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")")
 		pt_bins.append(str(pt_index))
 	
 	# initialisations for plotting
@@ -643,8 +640,15 @@ if __name__ == "__main__":
 				xval += str((float(pt_ranges[index+1])+float(pt_ranges[index+2]))/2.0)+" "
 				xerrsval += str((float(pt_ranges[index+2])-float(pt_ranges[index+1]))/2.0)+" "
 		
-		xval += str((float(pt_ranges[index+1])+200.0)/2.0)
-		xerrsval += str((200.0 - float(pt_ranges[index+1]))/2.0)
+		if len(pt_bins[1:]) > 0:
+			xval += str((float(pt_ranges[index+1])+200.0)/2.0)
+			xerrsval += str((200.0 - float(pt_ranges[index+1]))/2.0)
+		else: # no pt ranges were given - plot only inclusive result
+			xval += "110.0 "
+			xerrsval += "90.0 "
+			yval += str(output_dict_scan_mu[decayMode]["0"])+" "
+			yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
+			yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
 		
 		xbins.append(xval)
 		xerrs.append(xerrsval)
