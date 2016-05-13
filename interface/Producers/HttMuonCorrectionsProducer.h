@@ -27,11 +27,13 @@ public:
 	enum class MuonEnergyCorrection : int
 	{
 		NONE  = -1,
-		FALL2015 = 0,      
+		FALL2015 = 0,
+		ROCHCORR2015 = 1
 	};
 	static MuonEnergyCorrection ToMuonEnergyCorrection(std::string const& muonEnergyCorrection)
 	{
 		if (muonEnergyCorrection == "fall2015") return MuonEnergyCorrection::FALL2015;
+		else if (muonEnergyCorrection == "rochcorr2015") return MuonEnergyCorrection::ROCHCORR2015;
 		else return MuonEnergyCorrection::NONE;
 	}
 	

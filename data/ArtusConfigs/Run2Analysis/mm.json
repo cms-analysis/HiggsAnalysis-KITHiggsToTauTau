@@ -104,6 +104,8 @@
 			"nAllDiTauPairCandidates"
 		],
 		"OSChargeLeptons" : true,
+		"MuonEnergyCorrection" : "rochcorr2015",
+		"MuonRochesterCorrectionsFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/rochcorr/RoccoR_13tev.txt",
 		"Processors" : {
 			"nick" : {
 				"default" : [
@@ -112,6 +114,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -148,6 +151,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -185,6 +189,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
