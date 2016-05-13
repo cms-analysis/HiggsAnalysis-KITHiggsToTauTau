@@ -1541,3 +1541,24 @@ class Samples(samples.SamplesBase):
 				)
 		return config
 
+
+	def ff(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		data_weight = "(1.0)*"
+		
+		if channel == "mt":
+			Samples._add_input(
+					config,
+					"SingleMuon_Run2015?_*_13TeV_*AOD/*.root",
+					channel+"_jecUncNom_tauEsNom/ntuple",
+					1.0,
+					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+					"ff",
+					nick_suffix=nick_suffix
+			)
+		else:
+			log.error("Sample config (FakeFactor) currently not implemented for channel \"%s\"!" % channel)
+		Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
+		return config

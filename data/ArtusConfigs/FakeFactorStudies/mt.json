@@ -131,7 +131,7 @@
 			"nLooseMuons",
 			"nDiTauPairCandidates",
 			"nAllDiTauPairCandidates",
-			"jetToTauFakeWeight"
+			"jetToTauFakeWeight_comb"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
