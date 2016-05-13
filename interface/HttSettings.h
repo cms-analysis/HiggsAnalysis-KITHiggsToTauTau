@@ -34,6 +34,7 @@ public:
 
 	IMPL_SETTING(bool, OSChargeLeptons);
 
+	IMPL_SETTING(std::string, MuonRochesterCorrectionsFile);
 
 	IMPL_SETTING(std::string, MetRecoilCorrectorFile);
 	IMPL_SETTING(std::string, MvaMetRecoilCorrectorFile);
