@@ -12,6 +12,10 @@
    Required config tags
    - MuonEnergyCorrection (possible value: fall2015)
 */
+
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RoccoR.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/rochcor2015.h"
+
 class HttMuonCorrectionsProducer: public MuonCorrectionsProducer
 {
 
@@ -49,6 +53,7 @@ protected:
 
 private:
 	MuonEnergyCorrection muonEnergyCorrection;
+	rochcor2015 *rmcor;
 
 };
 
