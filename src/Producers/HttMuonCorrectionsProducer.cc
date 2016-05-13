@@ -41,15 +41,13 @@ void HttMuonCorrectionsProducer::AdditionalCorrections(KMuon* muon, event_type c
 		if (static_cast<HttSettings const&>(settings).GetInputIsData())
 		{
 			rmcor->momcor_data(mu, q, 0, qter);
-			RMFLV muon_corr(mu.X(),mu.Y(),mu.Z(),mu.T());
-			muon->p4 = muon_corr;
+			muon->p4.SetPxPyPzE(mu.Px(),mu.Py(),mu.Pz(),mu.E());
 		}
 		else
 		{
 			int ntrk = muon->track.nPixelLayers + muon->track.nStripLayers; // TODO: this corresponds to reco::HitPattern::trackerLayersWithMeasurementOld(). update to "new" implementation also in Kappa
 			rmcor->momcor_mc(mu, q, ntrk, qter);
-			RMFLV muon_corr(mu.X(),mu.Y(),mu.Z(),mu.T());
-			muon->p4 = muon_corr;
+			muon->p4.SetPxPyPzE(mu.Px(),mu.Py(),mu.Pz(),mu.E());
 		}
 	}
 	else if (muonEnergyCorrection != MuonEnergyCorrection::NONE)
