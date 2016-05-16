@@ -132,15 +132,19 @@ if __name__ == "__main__":
 	for pt_index, (pt_range) in enumerate(args.pt_ranges):
 		pt_ranges.append(args.pt_ranges[pt_index])
 	pt_weights = []
+	pt_strings = []
 	pt_bins = []
 	for pt_index, (pt_range) in enumerate(pt_ranges):
 		if pt_range == "0.0":
 			pt_weights.append("1.0")
+			pt_strings.append("p_{T}^{#tau_{h}} > 20 GeV")
 		else:
 			if len(pt_ranges) > pt_index+1:
 				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")*(pt_2<"+str(pt_ranges[pt_index+1])+")")
+				pt_strings.append(pt_ranges[pt_index]+" < p_{T}^{#tau_{h}} < "+pt_ranges[pt_index+1]+ " GeV")
 			else:
 				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")")
+				pt_strings.append("p_{T}^{#tau_{h}} > "+pt_ranges[pt_index]+" GeV")
 		pt_bins.append(str(pt_index))
 	
 	# initialisations for plotting
@@ -436,7 +440,7 @@ if __name__ == "__main__":
 	
 	#plot postfit
 	postfit_plot_configs = [] #reset list containing the plot configs
-	bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
 	
 	for level in ["prefit", "postfit"]:
 		for datacard in datacards_cbs.keys():
@@ -508,6 +512,13 @@ if __name__ == "__main__":
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category+"_"+quantity
 				#config["formats"] = ["png", "pdf"]
+				
+				decayMode = category.split("_")[-2]
+				ptBin = int(category.split("_")[-1].split("ptbin")[-1])
+				config["texts"] = [decayMode_dict[decayMode]["label"]+ " decay mode", pt_strings[ptBin]]
+				config["texts_x"] = [0.52, 0.52]
+				config["texts_y"] = [0.81, 0.74]
+				config["texts_size"] = [0.055]
 				
 				if not (config["output_dir"] in www_output_dirs_postfit):
 					www_output_dirs_postfit.append(config["output_dir"])
@@ -618,6 +629,10 @@ if __name__ == "__main__":
 			config["filename"] = "parabola_" + category + "_" + quantity
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
+			config["texts"] = [decayMode_dict[decayMode]["label"]+ " decay mode", pt_strings[int(ptBin)]]
+			config["texts_x"] = [0.36, 0.35]
+			config["texts_y"] = [0.87, 0.82]
+			config["texts_size"] = [0.035]
 			
 			if not (config["output_dir"] in www_output_dirs_parabola):
 				www_output_dirs_parabola.append(config["output_dir"])
