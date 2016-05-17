@@ -216,25 +216,92 @@ class CutStringsDict:
 		return cuts
 	
 	@staticmethod
-	def tauidpass(channel, cut_type):
+	def tauidloosepass(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["discriminator"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 > 0.5)"
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["discriminator"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
 	
 	@staticmethod
-	def tauidfail(channel, cut_type):
+	def tauidloosefail(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["discriminator"] = "(byMediumCombinedIsolationDeltaBetaCorr3Hits_2 < 0.5)"
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["discriminator"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
 	
+	@staticmethod
+	def tauidmediumpass(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["discriminator"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def tauidmediumfail(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["discriminator"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def tauidtightpass(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["discriminator"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def tauidtightfail(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["discriminator"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def tauidvtightpass(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["discriminator"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def tauidvtightfail(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["discriminator"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
 	
 	def _get_cutdict(self, channel, cut_type):
 		cuts = {}
@@ -272,10 +339,22 @@ class CutStringsDict:
 		elif cut_type=="antimutightfail":
 			cuts = CutStringsDict.antimutightfail(channel, cut_type)
 		
-		elif cut_type=="tauidpass":
-			cuts = CutStringsDict.tauidpass(channel, cut_type)
-		elif cut_type=="tauidfail":
-			cuts = CutStringsDict.tauidfail(channel, cut_type)
+		elif cut_type=="tauidloosepass":
+			cuts = CutStringsDict.tauidloosepass(channel, cut_type)
+		elif cut_type=="tauidloosefail":
+			cuts = CutStringsDict.tauidloosefail(channel, cut_type)
+		elif cut_type=="tauidmediumpass":
+			cuts = CutStringsDict.tauidmediumpass(channel, cut_type)
+		elif cut_type=="tauidmediumfail":
+			cuts = CutStringsDict.tauidmediumfail(channel, cut_type)
+		elif cut_type=="tauidtightpass":
+			cuts = CutStringsDict.tauidtightpass(channel, cut_type)
+		elif cut_type=="tauidtightfail":
+			cuts = CutStringsDict.tauidtightfail(channel, cut_type)
+		elif cut_type=="tauidvtightpass":
+			cuts = CutStringsDict.tauidvtightpass(channel, cut_type)
+		elif cut_type=="tauidvtightfail":
+			cuts = CutStringsDict.tauidvtightfail(channel, cut_type)
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
 			sys.exit(1)
