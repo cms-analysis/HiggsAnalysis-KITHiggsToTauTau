@@ -51,33 +51,29 @@
 		"nick" : {
 			"default" : [
 				"#filter:RunLumiEventFilter",
-				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
-				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:PUWeightProducer"
 			],
 			"W.?JetsToLNu" : [
 				"#filter:RunLumiEventFilter",
-				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:NicknameProducer",
-				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:NicknameProducer",
+				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
-				"producer:SampleStitchingWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:PUWeightProducer",
+				"producer:SampleStitchingWeightProducer"
 			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
-				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:NicknameProducer",
-				"producer:PUWeightProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
@@ -86,16 +82,16 @@
 				"producer:GenTauDecayModeProducer",
 				"#producer:GenTauCPProducer",
 				"#producer:RecoTauCPProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:NicknameProducer",
+				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
-				"producer:SampleStitchingWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:PUWeightProducer",
+				"producer:SampleStitchingWeightProducer"
 			],
 			"HToTauTau" : [
 				"#filter:RunLumiEventFilter",
-				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:NicknameProducer",
-				"producer:PUWeightProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
@@ -105,14 +101,18 @@
 				"#producer:GenTauCPProducer",
 				"#producer:RecoTauCPProducer",
 				"#producer:TauSpinnerProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:NicknameProducer",
+				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:PUWeightProducer"
 			],
 			"Run2015" : [
 				"#filter:RunLumiEventFilter",
 				"filter:JsonFilter",
-				"producer:NicknameProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:NicknameProducer"
 			]
 		}
 	},
