@@ -181,6 +181,12 @@ class Datacards(object):
 
 				(["13TeV"], ["QCD"], ["tt_inclusive"], 1.35) # copied from 8TeV
 		]
+		self.qcd_syst_inclusive_args = [
+			"CMS_$ANALYSIS_qcdSyst_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["13TeV"], ["QCD"], 1.10)
+		]
 		self.zllFakeTau_syst_args = [
 			"CMS_$ANALYSIS_eFakeTau_$CHANNEL_$ERA",
 			"lnN",
