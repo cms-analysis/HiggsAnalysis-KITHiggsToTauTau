@@ -297,7 +297,8 @@ if __name__ == "__main__":
 					elif decayMode == "AllDMsNotOneProng":
 						merged_config.setdefault("x_bins", []).append(["10,0.4,1.35"]) #TODO: adapt this depending from the above two
 					elif decayMode == "OneProng" or quantity == "m_vis":
-						merged_config.setdefault("x_bins", []).append(["20,0.0,200.0"])
+						merged_config.setdefault("x_bins", []).append(["40,0.0,200.0"])
+						merged_config.setdefault("custom_rebin", []).append([40,45,50,55,60,65,70,75,80,85])
 					
 					input_plot_configs.append(merged_config)
 			
@@ -612,21 +613,21 @@ if __name__ == "__main__":
 			xvalues = ""
 			yvalues = ""
 			for index, (nll) in enumerate(deltaNLLshifted_list):
-				xvalues += str(mes_list[index]) + " "
+				xvalues += str((mes_list[index]-1.0)*100) + " "
 				yvalues += str(nll) + " "
 		
-			output_dict_mu[decayMode][ptBin] = resultstree.mu
-			output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr
-			output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr
-			output_dict_scan_mu[decayMode][ptBin] = min_shift
-			output_dict_scan_errHi[decayMode][ptBin] = err1sigmaHi
-			output_dict_scan_errLo[decayMode][ptBin] = err1sigmaLow
+			output_dict_mu[decayMode][ptBin] = (resultstree.mu-1.0)*100
+			output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr*100
+			output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr*100
+			output_dict_scan_mu[decayMode][ptBin] = (min_shift-1.0)*100
+			output_dict_scan_errHi[decayMode][ptBin] = err1sigmaHi*100
+			output_dict_scan_errLo[decayMode][ptBin] = err1sigmaLow*100
 			
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
-			config["x_label"] = "#tau_{h}-ES"
+			config["x_label"] = "#tau_{h}-ES [%]"
 			config["y_label"] = "-2 #Delta lnL"
-			config["x_lims"] = [min(es_shifts)-args.shift_binning, max(es_shifts)+args.shift_binning]
+			config["x_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
 			config["y_lims"] = [0.0, 10.0]
 			config["markers"] = ["P"]
 			config["colors"] = "kBlack"
@@ -681,9 +682,9 @@ if __name__ == "__main__":
 	
 	config["input_modules"] = ["InputInteractive"]
 	config["x_lims"] = [0.0, 200.0]
-	config["y_lims"] = [min(es_shifts), max(es_shifts)]
+	config["y_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
 	config["x_label"] = "p^{#tau_{h}}_{T} [GeV]"
-	config["y_label"] = "#tau_{h}-ES shift"
+	config["y_label"] = "#tau_{h}-ES [%]"
 	config["markers"] = ["P"]
 	config["legend"] = [0.2,0.78,0.6,0.9]
 	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
@@ -714,21 +715,21 @@ if __name__ == "__main__":
 			print "{:^20}".format("Pt bin "+ptBin),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.5f}({:<10.5f})".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin]),
+				print "{:<5.2f}({:<3.2f}) %".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin]),
 			else:
-				print "{:<10.5f}({:<10.5f})".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin])
+				print "{:<5.2f}({:<3.2f}) %".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin])
 		print "{:^20}".format("+ 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.5f}({:<10.5f})".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin]),
+				print "{:<5.2f}({:<3.2f}) %".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin]),
 			else:
-				print "{:<10.5f}({:<10.5f})".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin])
+				print "{:<5.2f}({:<3.2f}) %".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin])
 		print "{:^20}".format("- 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.5f}({:<10.5f})".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin]),
+				print "{:<5.2f}({:<3.2f}) %".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin]),
 			else:
-				print "{:<10.5f}({:<10.5f})".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin])
+				print "{:<5.2f}({:<3.2f}) %".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin])
 		print
 
 	# it's not pretty but it works :)

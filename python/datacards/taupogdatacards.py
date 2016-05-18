@@ -60,7 +60,7 @@ class TauEsDatacards(datacards.Datacards):
 			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.ztt_qcd_scale_syst_args)
 
 			# QCD systematic
-			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
+			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_inclusive_args)
 		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
