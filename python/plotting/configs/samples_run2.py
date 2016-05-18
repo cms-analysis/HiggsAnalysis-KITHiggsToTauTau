@@ -894,7 +894,7 @@ class Samples(samples.SamplesBase):
 
 				Samples._add_input(
 						config,
-						"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root" if channel == "em" else "Tau_Run2015?_*_13TeV_*AOD/*.root"),
+						"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if (channel == "mt" or channel == "mm") else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root" if channel == "em" else "Tau_Run2015?_*_13TeV_*AOD/*.root"),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						1.0,
 						shape_weight,
@@ -903,7 +903,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root" if channel == "em" else "Tau_Run2015?_*_13TeV_*AOD/*.root"),
+						"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if (channel == "mt" or channel == "mm") else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root" if channel == "em" else "Tau_Run2015?_*_13TeV_*AOD/*.root"),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						1.0,
 						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
@@ -912,7 +912,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root" if channel == "em" else "Tau_Run2015?_*_13TeV_*AOD/*.root"),
+						"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if (channel == "mt" or channel == "mm") else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root" if channel == "em" else "Tau_Run2015?_*_13TeV_*AOD/*.root"),
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						1.0,
 						data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
