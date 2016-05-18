@@ -16,6 +16,8 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i","--input-dirs", action="append", nargs = "+", help="Input ROOT file")
 	parser.add_argument("-d","--diff-dirs", action="append", nargs="+", default = [],help="Diff Dirs, calculate and plot difference between input dirs and diff-dirs")
+	parser.add_argument("--expand-diffs", default=None,
+						help="use the limit extracted from this workspace as baseline for the others: other-this")
 	parser.add_argument("-m", "--mass", type=int, default=125, help="higgs mass")
 	parser.add_argument("-o", "--output_file", default="limit_collection", help="output file")
 	parser.add_argument("-l", "--labels", nargs = "+", default=["limits"],
@@ -29,10 +31,12 @@ if __name__ == "__main__":
 	x_names = []
 	plots = []
 	calculate_diff = True
-	if len(args.diff_dirs) is not len(args.input_dirs):
+
+	if len(args.diff_dirs) is not len(args.input_dirs) and args.expand_diffs:
+		args.diff_dirs = [[args.expand_diffs]]*len(args.input_dirs)
+	elif len(args.diff_dirs) is not len(args.input_dirs):
 		args.diff_dirs = args.input_dirs
 		calculate_diff = False
-	print args.input_dirs, args.labels, args.colors
 	for (in_dirs, label, color, diff_dirs) in zip(args.input_dirs, args.labels, args.colors, args.diff_dirs):
 		x_values = []
 		y_mid = []
@@ -42,8 +46,9 @@ if __name__ == "__main__":
 		diff_list = []
 		map(file_list.__iadd__, map(glob.glob, [os.path.join(x, "datacards/combined/%i/*Combine*Asymp*"%args.mass) for x in in_dirs]))
 		map(diff_list.__iadd__, map(glob.glob, [os.path.join(x, "datacards/combined/%i/*Combine*Asymp*"%args.mass) for x in diff_dirs]))
-		print file_list
-		for i, (in_file, diff_file, path, diff_path)  in enumerate(zip(file_list, diff_list, in_dirs, diff_dirs)):
+		if len(diff_list) != len(file_list) and len(diff_list) == 1:
+			diff_list *= len(file_list)
+		for i, (in_file, diff_file, path)  in enumerate(zip(file_list, diff_list, in_dirs)):
 			if not ".root" in in_file or not ".root" in diff_file:
 				continue
 			if not os.path.split(path)[1] in x_names:
@@ -81,9 +86,9 @@ if __name__ == "__main__":
 			if calculate_diff:
 				x_values.append(x_names.index(os.path.split(path)[1]))
 				y_mid.append(mid-mid_d)
-				full_error_change = abs(up-down-up_d+down_d)
-				y_up.append(full_error_change/2.0)
-				y_down.append(full_error_change/2.0)
+				full_error_change = up-down-up_d+down_d
+				y_up.append(full_error_change if full_error_change > 0 else 0)
+				y_down.append(abs(full_error_change) if full_error_change < 0 else 0)
 			else:
 				x_values.append(x_names.index(os.path.split(path)[1]))
 				y_mid.append(mid)

@@ -397,7 +397,7 @@ if __name__ == "__main__":
 				copy_cargs["signal_samples"] = ['qqh']
 				copy_cargs["bkg_samples"] = ["ggh"]
 				copy_cargs["output_file"] = os.path.join(copy_path, "vbf_{i}").format(i=i)
-				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=500)]
+				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=50)]
 				copy_cargs["quantities"].append("jdeta")
 				copy_cargs["quantities"].append("mjj")
 				config_list.append(copy.deepcopy(copy_cargs))

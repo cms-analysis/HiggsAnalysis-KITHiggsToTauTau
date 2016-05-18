@@ -63,13 +63,16 @@ if __name__ == "__main__":
 			for vbf_tagger in args.vbfs:
 				for tag in ("tagged", "not_tagged"):
 					name = "{ch}_{tagger}_{reg_bdt}_{tag}_signal".format(ch=Channel, tagger=vbf_tagger, reg_bdt=reg_bdt_name, tag=tag)
-					up_up = integral_dict[name+"_up_up"]
-					up_nom = integral_dict[name+"_up_nom"]
-					nom_up = integral_dict[name+"_nom_up"]
-					nom_nom = integral_dict[name]
-					nom_down = integral_dict[name+"_nom_down"]
-					down_nom = integral_dict[name+"_down_nom"]
-					down_down = integral_dict[name+"_down_down"]
+					try:
+						up_up = integral_dict[name+"_up_up"]
+						up_nom = integral_dict[name+"_up_nom"]
+						nom_up = integral_dict[name+"_nom_up"]
+						nom_nom = integral_dict[name]
+						nom_down = integral_dict[name+"_nom_down"]
+						down_nom = integral_dict[name+"_down_nom"]
+						down_down = integral_dict[name+"_down_down"]
+					except KeyError:
+						continue
 					uncorr_vbf = [nom_down/nom_nom, nom_up/nom_nom]
 					uncorr_reg = (down_nom/nom_nom, up_nom/nom_nom)
 					tot_unc = (down_down/nom_nom-1, up_up/nom_nom-1)
