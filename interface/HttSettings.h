@@ -40,7 +40,7 @@ public:
 	IMPL_SETTING(std::string, MvaMetRecoilCorrectorFile);
 	IMPL_SETTING(std::string, MetShiftCorrectorFile);
 	IMPL_SETTING(std::string, MvaMetShiftCorrectorFile);
-	
+
 	IMPL_SETTING_DEFAULT(int, MetSysType, 0);
 	IMPL_SETTING_DEFAULT(int, MetSysShift, 0);
 
@@ -255,6 +255,7 @@ public:
     IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
     IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
     IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(MVACustomWeights, {});
 	IMPL_SETTING_INTLIST_DEFAULT(MVATestMethodsNFolds, {});
     IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsWeights, {});
 
