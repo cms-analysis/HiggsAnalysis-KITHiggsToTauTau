@@ -294,7 +294,7 @@ if __name__ == "__main__":
 						merged_config.setdefault("x_bins", []).append(["14,0.4,1.1"]) #TODO: go back to 0.3-4.2 (as defined in HPS)
 					elif decayMode == "ThreeProng" and quantity == "m_2":
 						merged_config.setdefault("x_bins", []).append(["10,0.85,1.35"]) #TODO: go back to 0.8-1.5 (as defined in HPS)
-					elif decayMode == "AllDMsNotOneProng":
+					elif decayMode == "AllDMs" and quantity != "m_vis":
 						merged_config.setdefault("x_bins", []).append(["10,0.4,1.35"]) #TODO: adapt this depending from the above two
 					elif decayMode == "OneProng" or quantity == "m_vis":
 						merged_config.setdefault("x_bins", []).append(["40,0.0,200.0"])
@@ -715,21 +715,21 @@ if __name__ == "__main__":
 			print "{:^20}".format("Pt bin "+ptBin),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<5.2f}({:<3.2f}) %".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin]),
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin]),
 			else:
-				print "{:<5.2f}({:<3.2f}) %".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin])
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin])
 		print "{:^20}".format("+ 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<5.2f}({:<3.2f}) %".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin]),
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin]),
 			else:
-				print "{:<5.2f}({:<3.2f}) %".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin])
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin])
 		print "{:^20}".format("- 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<5.2f}({:<3.2f}) %".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin]),
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin]),
 			else:
-				print "{:<5.2f}({:<3.2f}) %".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin])
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin])
 		print
 
 	# it's not pretty but it works :)
