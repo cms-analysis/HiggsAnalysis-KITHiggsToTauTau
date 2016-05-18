@@ -24,21 +24,21 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.taupogdatacards as taupogdatacar
 
 
 decayMode_dict = {
-	"all" : {
+	"AllDMs" : {
 		"color" : "1",
-		"label" : "all decay modes"
+		"label" : "All decay modes"
 	},
 	"OneProng" : {
 		"color" : "2",
-		"label" : "h^{#pm}"
+		"label" : "h^{#pm} decay mode"
 	},
 	"OneProngPiZeros" : {
 		"color" : "4",
-		"label" : "h^{#pm}(#geq 1 #pi^{0})"
+		"label" : "h^{#pm}(#geq 1 #pi^{0}) decay modes"
 	},
 	"ThreeProng" : {
 		"color" : "6",
-		"label" : "h^{#pm}h^{#mp}h^{#pm}"
+		"label" : "h^{#pm}h^{#mp}h^{#pm} decay mode"
 	}
 }
 
@@ -83,7 +83,7 @@ if __name__ == "__main__":
 	                    help="Enter the lower bin edges for the pt ranges."	)
 	parser.add_argument("--decay-modes", nargs="+",
 	                    default=["OneProngPiZeros"],
-	                    choices=["OneProng","OneProngPiZeros", "ThreeProng"],
+	                    choices=["AllDMs","OneProng","OneProngPiZeros","ThreeProng"],
 	                    help="Decay modes of reconstructed hadronic tau leptons in Z #rightarrow #tau#tau. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
@@ -208,10 +208,13 @@ if __name__ == "__main__":
 					
 					# config for rest for each pt range
 					# need to get "rest" first in order for corrections of negative bin contents to have an effect
+					catForConfig = "cat" + decayMode + "_" + channel
+					if (decayMode == "AllDMs" and quantity == "m_2"):
+						catForConfig = "catAllDMsNotOneProng_" + channel
 					config_rest = sample_settings.get_config(
 						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample != "ztt"],
 						channel=channel,
-						category="cat" + decayMode + "_" + channel,
+						category=catForConfig,
 						nick_suffix="_" + str(pt_index),
 						weight=pt_weights[pt_index],
 						lumi=args.lumi * 1000
@@ -239,7 +242,7 @@ if __name__ == "__main__":
 						config_ztt = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "ztt"],
 							channel=channel,
-							category="cat" + decayMode + "_" + channel,
+							category=catForConfig,
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
 							weight=pt_weights[pt_index],
 							lumi=args.lumi * 1000
@@ -291,6 +294,8 @@ if __name__ == "__main__":
 						merged_config.setdefault("x_bins", []).append(["14,0.4,1.1"]) #TODO: go back to 0.3-4.2 (as defined in HPS)
 					elif decayMode == "ThreeProng" and quantity == "m_2":
 						merged_config.setdefault("x_bins", []).append(["10,0.85,1.35"]) #TODO: go back to 0.8-1.5 (as defined in HPS)
+					elif decayMode == "AllDMsNotOneProng":
+						merged_config.setdefault("x_bins", []).append(["10,0.4,1.35"]) #TODO: adapt this depending from the above two
 					elif decayMode == "OneProng" or quantity == "m_vis":
 						merged_config.setdefault("x_bins", []).append(["20,0.0,200.0"])
 					
@@ -515,7 +520,7 @@ if __name__ == "__main__":
 				
 				decayMode = category.split("_")[-2]
 				ptBin = int(category.split("_")[-1].split("ptbin")[-1])
-				config["texts"] = [decayMode_dict[decayMode]["label"]+ " decay mode", pt_strings[ptBin]]
+				config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[ptBin]]
 				config["texts_x"] = [0.52, 0.52]
 				config["texts_y"] = [0.81, 0.74]
 				config["texts_size"] = [0.055]
@@ -629,7 +634,7 @@ if __name__ == "__main__":
 			config["filename"] = "parabola_" + category + "_" + quantity
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
-			config["texts"] = [decayMode_dict[decayMode]["label"]+ " decay mode", pt_strings[int(ptBin)]]
+			config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[int(ptBin)]]
 			config["texts_x"] = [0.36, 0.35]
 			config["texts_y"] = [0.87, 0.82]
 			config["texts_size"] = [0.035]
@@ -672,7 +677,7 @@ if __name__ == "__main__":
 		yerrslo.append(yerrsloval)
 		yerrshi.append(yerrshival)
 		config.setdefault("colors", []).append(decayMode_dict[decayMode]["color"])
-		config.setdefault("labels", []).append(decayMode_dict[decayMode]["label"])
+		config.setdefault("labels", []).append(decayMode_dict[decayMode]["label"].split(" decay")[0])
 	
 	config["input_modules"] = ["InputInteractive"]
 	config["x_lims"] = [0.0, 200.0]
