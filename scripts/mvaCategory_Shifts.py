@@ -17,7 +17,7 @@ from string import strip
 import matplotlib.pyplot as plt
 
 def calculate_diff(filename, htt_name, sigma_value=0.68):
-	tfile = ROOT.TFile(diff_root, "READ")
+	tfile = ROOT.TFile(filename, "READ")
 	ztt = tfile.Get("ztt")
 	zll = tfile.Get("zll")
 	wj = tfile.Get("wj")
@@ -25,32 +25,46 @@ def calculate_diff(filename, htt_name, sigma_value=0.68):
 	vv = tfile.Get("vv")
 	data = tfile.Get("data")
 	ttj = tfile.Get("ttj")
-	htt = tfile.Get(htt_name)
+	sig_hist = tfile.Get(htt_name)
 	mc_hist = ROOT.TH1F("mc_events", "mc_events", 1000,0,2)
 	#Probably add signal_only histogram at some point
-	for hist in [htt]:
+	for hist in [ztt, zll, wj, qcd, vv, ttj]:
 		mc_hist.Add(hist)
 	mc_sum = 0
 	data_sum = 0
+	sig_sum = 0
 	mc_tot = mc_hist.Integral()
 	data_tot = data.Integral()
+	sig_tot = sig_hist.Integral()
 	data_point = False
 	mc_point = False
-	return_value = 0
+	sig_point = False
+	mc_value = 0
+	data_value = 0
+	sig_value = 0
 	for j in range(1,1001,1):
+		sig_sum += sig_hist.GetBinContent(j)
 		mc_sum += mc_hist.GetBinContent(j)
 		data_sum += data.GetBinContent(j)
 		if (not mc_point) and (abs(mc_sum/mc_tot - sigma_value)<0.001 or mc_sum/mc_tot>sigma_value):
 			mc_point = True
 			lower = mc_hist.GetBinLowEdge(j)
 			width = mc_hist.GetBinWidth(j)
-			return_value = lower+width
-			break
+			mc_value = lower+width
+		if (not sig_point) and (abs(sig_sum/sig_tot - sigma_value)<0.001 or sig_sum/sig_tot>sigma_value):
+			sig_point = True
+			lower = sig_hist.GetBinLowEdge(j)
+			width = sig_hist.GetBinWidth(j)
+			sig_value = lower+width
+			#break
 		if (not data_point) and (abs(data_sum/data_tot - sigma_value)<0.001 or data_sum/data_tot>sigma_value):
 			data_point = True
+			lower = data.GetBinLowEdge(j)
+			width = data.GetBinWidth(j)
+			data_value = lower+width
 	tfile.Close()
 	del tfile
-	return return_value
+	return sig_value + abs(sig_value-mc_value) + abs(data_value-mc_value), mc_value, sig_value, data_value
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Collect and Combine Correlation Information",
@@ -104,13 +118,20 @@ if __name__ == "__main__":
 	for bdt_name in base_cuts.iterkeys():
 		diff_root = os.path.join(args.base_folder, bdt_name, "sqrt_diff.root")
 		htt = "htt%s"%args.higgs_mass
-		base_cuts[bdt_name]["sqrt_diff"] = calculate_diff(diff_root, htt, 0.68)
+		base_cuts[bdt_name]["sqrt_diff"], base_cuts[bdt_name]["mc_diff"], base_cuts[bdt_name]["sig_diff"], base_cuts[bdt_name]["data_diff"] = calculate_diff(diff_root, htt, 0.68)
 	for bdt_name in vbf_taggers:
 		diff_root = os.path.join(args.base_folder, bdt_name, "sqrt_diff.root")
 		htt = "htt%s"%args.higgs_mass
-		vbf_shift = calculate_diff(diff_root, htt, 0.68)
+		vbf_shift, vbf_mc, vbf_sig, vbf_data = calculate_diff(diff_root, htt, 0.68)
 		for reg_bdt in base_cuts.iterkeys():
-			base_cuts[reg_bdt]["vbfs"][bdt_name]["sqrt_diff"] = vbf_shift
+			try:
+				base_cuts[reg_bdt]["vbfs"][bdt_name]["sqrt_diff"] = vbf_shift
+				base_cuts[reg_bdt]["vbfs"][bdt_name]["sig_diff"] = vbf_sig
+				base_cuts[reg_bdt]["vbfs"][bdt_name]["data_diff"] = vbf_data
+				base_cuts[reg_bdt]["vbfs"][bdt_name]["mc_diff"] = vbf_mc
+
+			except KeyError:
+				continue
 	full_path = os.path.expandvars(args.output_file)
 	path, filename = os.path.split(full_path)
 	jsonTools.JsonDict(base_cuts).save(os.path.join(path, "CombinedInfo.json"), indent=4)

@@ -10,7 +10,7 @@ import glob
 import ROOT
 import matplotlib.pyplot as plt
 
-def plot_overlap(vbf, ggh, file_path="Testfile"):
+def plot_overlap(triple_list, names, file_path="Testfile"):
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	c1_left=[]
@@ -24,7 +24,7 @@ def plot_overlap(vbf, ggh, file_path="Testfile"):
 	c3_width=[]
 	ax.set_xlim(-1, max(3+sum(ggh),3+sum(vbf)))
 	right_border = max(2+sum(ggh),2+sum(vbf))
-	for i,tups in enumerate([vbf, ggh]):
+	for i,triple in enumerate(triple_list):
 		c1_left.append(1)
 		c1_width.append(tups[0]+tups[2])
 		c1_bottom.append(2*i+0.5)
@@ -40,7 +40,7 @@ def plot_overlap(vbf, ggh, file_path="Testfile"):
 	ax.barh(left=c2_left,width=c2_width, bottom=c1_bottom, height=c1_height, edgecolor = "red", facecolor="none", label="vbf tagger")
 	ax.barh(left=c2_left,width=c3_width, bottom=c1_bottom, height=c1_height, edgecolor = "none", facecolor="green", hatch="/", alpha=0.15, label="overlap", zorder=1)
 	ax.set_yticks([1,3])
-	ax.set_yticklabels(["VBF", "ggH"], size='x-large', va='center', ha='right', rotation_mode='anchor')
+	ax.set_yticklabels(names, size='x-large', va='center', ha='right', rotation_mode='anchor')
 
 
 	ax.set_ylim(0, 4)

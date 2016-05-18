@@ -63,14 +63,17 @@ if __name__ == "__main__":
 			for vbf_tagger in args.vbfs:
 				for tag in ("tagged", "not_tagged"):
 					name = "{ch}_{tagger}_{reg_bdt}_{tag}_signal".format(ch=Channel, tagger=vbf_tagger, reg_bdt=reg_bdt_name, tag=tag)
-					up_up = integral_dict[name+"_up_up"]
-					up_nom = integral_dict[name+"_up_nom"]
-					nom_up = integral_dict[name+"_nom_up"]
-					nom_nom = integral_dict[name]
-					nom_down = integral_dict[name+"_nom_down"]
-					down_nom = integral_dict[name+"_down_nom"]
-					down_down = integral_dict[name+"_down_down"]
-					uncorr_vbf = (nom_down/nom_nom, nom_up/nom_nom)
+					try:
+						up_up = integral_dict[name+"_up_up"]
+						up_nom = integral_dict[name+"_up_nom"]
+						nom_up = integral_dict[name+"_nom_up"]
+						nom_nom = integral_dict[name]
+						nom_down = integral_dict[name+"_nom_down"]
+						down_nom = integral_dict[name+"_down_nom"]
+						down_down = integral_dict[name+"_down_down"]
+					except KeyError:
+						continue
+					uncorr_vbf = [nom_down/nom_nom, nom_up/nom_nom]
 					uncorr_reg = (down_nom/nom_nom, up_nom/nom_nom)
 					tot_unc = (down_down/nom_nom-1, up_up/nom_nom-1)
 					corr_reg = [0, 0]
@@ -92,6 +95,12 @@ if __name__ == "__main__":
 						log.info(uncorr_reg)
 						log.info(abs_vbf)
 						log.info(uncorr_vbf)
+					for i,val in enumerate(corr_reg):
+						if val == 0.0:
+							corr_reg[i]=0.01
+					for i,val in enumerate(uncorr_vbf):
+						if val == 0.0:
+							uncorr_vbf[i]=0.01
 					reg_unc_dict[name] = corr_reg
 					vbf_unc_dict[name] = uncorr_vbf
 	jsonTools.JsonDict(reg_unc_dict).save(os.path.join(o_path, "Reg_BDT.txt"), indent=4)

@@ -23,7 +23,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 		config["scale_result_nicks"]=[]
 	config["analysis_modules"].append("ScaleHistograms")
 	config["scale_nicks"].append("htt%i"%higgsmass)
-	config["scales"].append(1/args.scale_signal)
+	config["scales"].append(1.0/args.scale_signal)
 	config["scale_result_nicks"].append("htt%iScaled"%higgsmass)
 
 	config["analysis_modules"].append("BlindingPolicy")
@@ -179,6 +179,8 @@ if __name__ == "__main__":
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--mssm", default=False, action="store_true",
 	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
+	parser.add_argument("--mva", default=False, action="store_true",
+	                    help="Produce plots for the mva studies. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -246,7 +248,8 @@ if __name__ == "__main__":
 					else:
 						category_string = "catHtt13TeV"
 					category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
-
+					if args.mva:
+						category_string = category
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity+".json") for channel_dir in [channel, "default"]]
 				for json_filename in json_filenames:

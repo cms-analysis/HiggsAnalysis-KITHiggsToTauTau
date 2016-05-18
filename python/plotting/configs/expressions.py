@@ -76,6 +76,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		for channel in ["tt", "mt", "et", "em"]:
 		#========================================Copy here!========================================
 			expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_expressions.cfg"%channel)
+			if not os.path.exists(expressions_path):
+				continue
 			self.expressions_dict["%s_inclusive"%(channel)] = "(1.0)"
 			with open(expressions_path, "r") as exps:
 				regular_name = ""
