@@ -136,7 +136,7 @@ if __name__ == "__main__":
 	pt_bins = []
 	for pt_index, (pt_range) in enumerate(pt_ranges):
 		if pt_range == "0.0":
-			pt_weights.append("1.0")
+			pt_weights.append("(pt_2>20)")
 			pt_strings.append("p_{T}^{#tau_{h}} > 20 GeV")
 		else:
 			if len(pt_ranges) > pt_index+1:
@@ -249,6 +249,8 @@ if __name__ == "__main__":
 							lumi=args.lumi * 1000,
 							cut_type="tauescuts"
 						)
+						# shift also pt to account for acceptance effects
+						config_ztt["weights"] = [weight.replace("pt_2",str(shift)+"*pt_2") for weight in config_ztt["weights"]]
 						
 						if decayMode == "OneProng" and quantity == "m_2":
 							log.error("Tau mass (m_2) fit not possible in 1prong decay mode")
