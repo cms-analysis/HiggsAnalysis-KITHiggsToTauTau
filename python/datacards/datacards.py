@@ -400,7 +400,7 @@ class Datacards(object):
 			mapster_2(["dummy"], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W", "ggH", "qqH", "WH", "ZH", "VH"], (1.0,1.0))
 		self.mva_vbf_bdt_syst_uncs.append(mapster_2)
 
-	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], *args, **kwargs):
+	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], addData=True, *args, **kwargs):
 		bin = [(self.configs.category2binid(category, channel), category) for category in categories]
 
 		for key in ["channel", "procs", "bin", "signal"]:
@@ -411,7 +411,8 @@ class Datacards(object):
 		if "mass" in non_sig_kwargs:
 			non_sig_kwargs.pop("mass")
 
-		self.cb.AddObservations(channel=[channel], mass=["*"], bin=bin, *args, **non_sig_kwargs)
+		if addData:		
+			self.cb.AddObservations(channel=[channel], mass=["*"], bin=bin, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 
