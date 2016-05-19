@@ -119,20 +119,37 @@
 		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
 		"DirectIso" : true,
-		"Quantities" : [
-			{
-				"include" : [
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/cpQuantities.json"
+		"Quantities" : {
+			"nick" : {
+				"default" : [
+					{
+						"include" : [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+						]
+					},
+					"nVetoMuons",
+					"nLooseElectrons",
+					"nLooseMuons",
+					"nDiTauPairCandidates",
+					"nAllDiTauPairCandidates"
+				],
+				"DY.?JetsToLLM|HToTauTau" : [
+					{
+						"include" : [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json"
+						]
+					},
+					"nVetoMuons",
+					"nLooseElectrons",
+					"nLooseMuons",
+					"nDiTauPairCandidates",
+					"nAllDiTauPairCandidates"
 				]
-			},
-			"nVetoMuons",
-			"nLooseElectrons",
-			"nLooseMuons",
-			"nDiTauPairCandidates",
-			"nAllDiTauPairCandidates"
-		],
+			}
+		},
 		"OSChargeLeptons" : true,
 		"Processors" : {
 			"nick" : {
