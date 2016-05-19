@@ -24,6 +24,23 @@
 				"producer:PUWeightProducer",
 				"producer:SampleStitchingWeightProducer"
 			],
+			"DY.?JetsToLLM10" : [
+				"#filter:RunLumiEventFilter",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenDiLeptonDecayModeProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GenTauDecayModeProducer",
+				"producer:GenTauCPProducer",
+				"#producer:RecoTauCPProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:NicknameProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:PUWeightProducer"
+			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
