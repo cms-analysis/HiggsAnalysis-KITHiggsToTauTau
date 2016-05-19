@@ -165,10 +165,10 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
 	assert(product.m_genBosonTree.m_daughters.size() > 1);
+	assert(product.m_genBosonLVFound);
 	
-	GenParticleDecayTree* higgs = &(product.m_genBosonTree);
-	GenParticleDecayTree* selectedTau1 = &(higgs->m_daughters[0]);
-	GenParticleDecayTree* selectedTau2 = &(higgs->m_daughters[1]);
+	GenParticleDecayTree* selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
+	GenParticleDecayTree* selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
 	selectedTau1->CreateFinalStateProngs(selectedTau1);
 	selectedTau2->CreateFinalStateProngs(selectedTau2);
 	std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
@@ -201,11 +201,11 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		product.m_genOStarCP = cpq.CalculateOStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 		// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
 		// decay planes 
-		double genPhiCP = cpq.CalculatePhiCP(higgs->m_genParticle->p4, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+		double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 		product.m_genPhi = cpq.GetGenPhi();
-		product.m_genOCP = cpq.CalculateOCP(higgs->m_genParticle->p4, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genOCP = cpq.CalculateOCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 
-		std::vector<float> tauDir = cpq.CalculateTauMinusDirection(higgs->m_genParticle->p4, selectedTau1->m_genParticle->p4);
+		std::vector<float> tauDir = cpq.CalculateTauMinusDirection(product.m_genBosonLV, selectedTau1->m_genParticle->p4);
 		product.m_genTauMinusDirX = tauDir.at(0);
 		product.m_genTauMinusDirY = tauDir.at(1);
 		product.m_genTauMinusDirZ = tauDir.at(2);
@@ -227,8 +227,8 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 			product.m_genPhiCP = genPhiCP;
 		}
 		//ZPlusMinus calculation
-		product.m_genZPlus = cpq.CalculateZPlusMinus(higgs->m_genParticle->p4, chargedPart1->p4);
-		product.m_genZMinus = cpq.CalculateZPlusMinus(higgs->m_genParticle->p4, chargedPart2->p4);
+		product.m_genZPlus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart1->p4);
+		product.m_genZMinus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart2->p4);
 		product.m_genZs = cpq.CalculateZs(product.m_genZPlus, product.m_genZMinus);
 	}
 	if(selectedTau1->m_daughters.size() == 2)
