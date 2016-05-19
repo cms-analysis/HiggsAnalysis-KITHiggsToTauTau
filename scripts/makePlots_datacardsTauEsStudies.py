@@ -217,7 +217,8 @@ if __name__ == "__main__":
 						category=catForConfig,
 						nick_suffix="_" + str(pt_index),
 						weight=pt_weights[pt_index],
-						lumi=args.lumi * 1000
+						lumi=args.lumi * 1000,
+						cut_type="tauescuts"
 					)
 					
 					config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
@@ -245,7 +246,8 @@ if __name__ == "__main__":
 							category=catForConfig,
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
 							weight=pt_weights[pt_index],
-							lumi=args.lumi * 1000
+							lumi=args.lumi * 1000,
+							cut_type="tauescuts"
 						)
 						
 						if decayMode == "OneProng" and quantity == "m_2":

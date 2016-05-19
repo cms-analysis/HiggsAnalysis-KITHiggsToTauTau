@@ -303,6 +303,17 @@ class CutStringsDict:
 			sys.exit(1)
 		return cuts
 	
+	@staticmethod
+	def tauescuts(channel, cut_type):
+		if channel == "mt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
 	def _get_cutdict(self, channel, cut_type):
 		cuts = {}
 		if cut_type=="baseline":
@@ -355,6 +366,9 @@ class CutStringsDict:
 			cuts = CutStringsDict.tauidvtightpass(channel, cut_type)
 		elif cut_type=="tauidvtightfail":
 			cuts = CutStringsDict.tauidvtightfail(channel, cut_type)
+		
+		elif cut_type=="tauescuts":
+			cuts = CutStringsDict.tauescuts(channel, cut_type)
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
 			sys.exit(1)
