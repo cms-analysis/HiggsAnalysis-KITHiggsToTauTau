@@ -193,10 +193,12 @@ std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 		}
 		else
 		{
+			/*
 			if (mother.m_daughters[i].m_finalState)
 			{
-				LOG(FATAL) << "Could not find a proper final state that can be handled by TauSpinner" << std::endl;
+				LOG(FATAL) << "Could not find a proper final state that can be handled by TauSpinner. Found particle with PDG ID " << mother.m_daughters[i].m_genParticle->pdgId << "." << std::endl;
 			}
+			*/
 			LOG_N_TIMES(20, DEBUG) << "Recursion, pdgId " << pdgId << " is not considered being a final states" << std::endl;
 			GetFinalStates(mother.m_daughters[i], resultVector);
 		}
