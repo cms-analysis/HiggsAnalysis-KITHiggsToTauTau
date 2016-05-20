@@ -25,6 +25,7 @@
 		"Consumers" : [
 			"cutflow_histogram",
 			"KappaLambdaNtupleConsumer",
+			"#PrintEventsConsumer",
 			"#PrintGenParticleDecayTreeConsumer"
 		]
 	}

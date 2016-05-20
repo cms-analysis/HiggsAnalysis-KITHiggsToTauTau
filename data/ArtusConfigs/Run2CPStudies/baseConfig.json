@@ -2,5 +2,14 @@
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/baseConfig.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json"
+	],
+	"#RunWhitelist" : [
+		1
+	],
+	"#LumiWhitelist" : [
+		194
+	],
+	"#EventWhitelist" : [
+		38756
 	]
 }
