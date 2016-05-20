@@ -35,7 +35,12 @@ class DatacardConfigs(object):
 				"mt_0jet_low" : 2,
 				"mt_1jet_high" : 3,
 				"mt_1jet_low" : 4,
-				"mt_2jet_vbf" : 5
+				"mt_2jet_vbf" : 5,
+				"mt_mod_vbf" : 6,
+				"mt_mod_sig" : 7,
+				"mt_mod_mixed" : 8,
+				"mt_mod_bkg" : 9,
+				"mt_CP_mt" : 10,
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -44,6 +49,7 @@ class DatacardConfigs(object):
 				"et_1jet_high" : 3,
 				"et_1jet_low" : 4,
 				"et_2jet_vbf" : 5,
+				"et_CP_et": 10,
 			},
 			"em" : {
 				"em_inclusive" : 0,
@@ -52,6 +58,7 @@ class DatacardConfigs(object):
 				"em_1jet_high" : 3,
 				"em_1jet_low" : 4,
 				"em_2jet_vbf" : 5,
+				"em_CP_em" :10,
 			},
 			"tt" : {
 				"tt_inclusive" : 0,
@@ -60,6 +67,7 @@ class DatacardConfigs(object):
 				"tt_1jet_high" : 3,
 				"tt_1jet_low" : 4,
 				"tt_2jet_vbf" : 5,
+				"tt_CP_tt" : 10
 			},
 		}
 		categories={}
