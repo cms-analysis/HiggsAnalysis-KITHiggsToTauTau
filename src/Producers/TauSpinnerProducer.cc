@@ -103,9 +103,9 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_genParticle->p4, selectedTau1.m_genParticle->pdgId);
 		TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_genParticle->p4, selectedTau2.m_genParticle->pdgId);
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
-		GetFinalStates(selectedTau1, &tauFinalStates1);
+		GetFinalStates(selectedTau1, tauFinalStates1);
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
-		GetFinalStates(selectedTau2, &tauFinalStates2);
+		GetFinalStates(selectedTau2, tauFinalStates2);
 
 		//LOG_N_TIMES(20, DEBUG) << "The event contains the following particles: " << std::endl;
 		//LOG_N_TIMES(20, DEBUG) << "Higgs " << std::to_string(X) << std::endl;
@@ -169,8 +169,9 @@ TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& pa
 }
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
-std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(GenParticleDecayTree& mother,
-		std::vector<TauSpinner::SimpleParticle>* resultVector) const
+std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
+		GenParticleDecayTree& mother,
+		std::vector<TauSpinner::SimpleParticle>& resultVector) const
 {
 	for (unsigned int i = 0; i < mother.m_daughters.size(); ++i)
 	{
@@ -188,7 +189,7 @@ std::vector<TauSpinner::SimpleParticle>* TauSpinnerProducer::GetFinalStates(GenP
 			pdgId == DefaultValues::pdgIdNuMu ||
 			pdgId == DefaultValues::pdgIdNuTau)
 		{
-			resultVector->push_back(GetSimpleParticle(mother.m_daughters[i].m_genParticle->p4, mother.m_daughters[i].m_genParticle->pdgId));
+			resultVector.push_back(GetSimpleParticle(mother.m_daughters[i].m_genParticle->p4, mother.m_daughters[i].m_genParticle->pdgId));
 		}
 		else
 		{
