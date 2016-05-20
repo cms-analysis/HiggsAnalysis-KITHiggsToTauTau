@@ -16,7 +16,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
-import HiggsAnalysis.KITHiggsToTauTau.datacards.CPstudiesdatacards as CPstudiesdatacards
+import HiggsAnalysis.KITHiggsToTauTau.datacards.cpstudiesdatacards as cpstudiesdatacards
 import math
 
 
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = CPstudiesdatacards.CPstudiesDatacards(alphatau_shifts_str)
+	datacards = cpstudiesdatacards.CPstudiesDatacards(alphatau_shifts_str)
 	#if args.for_dcsync:
 	#	datacards = CPstudiesdatacards.CPstudiesDatacardsForSync(shifts=args.shifts)
 	
@@ -136,7 +136,7 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			datacards_per_channel_category = CPstudiesdatacards.CPstudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			datacards_per_channel_category = cpstudiesdatacards.CPstudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = []
 			if args.for_dcsync:
@@ -145,7 +145,7 @@ if __name__ == "__main__":
 				elif category[3:] == 'inclusivemt40':
 					exclude_cuts=["pzeta"]
 				
-				datacards_per_channel_category = CPstudiesdatacards.CPstudiesDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
+				datacards_per_channel_category = cpstudiesdatacards.CPstudiesDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			higgs_masses = args.higgs_masses
 			
