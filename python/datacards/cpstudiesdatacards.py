@@ -24,7 +24,7 @@ class CPStudiesDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
-					mass=alphatau,
+					mass=cp_mixing_angles_over_pi_half,
 					add_data=False
 			)
 
@@ -54,7 +54,7 @@ class CPStudiesDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
-					mass=alphatau,
+					mass=cp_mixing_angles_over_pi_half,
 					add_data=False
 			)
 
@@ -82,7 +82,7 @@ class CPStudiesDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
-					mass=alphatau,
+					mass=cp_mixing_angles_over_pi_half,
 					add_data=False
 			)
 
@@ -102,7 +102,7 @@ class CPStudiesDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
-					mass=alphatau,
+					mass=cp_mixing_angles_over_pi_half,
 					add_data=False
 			)
 

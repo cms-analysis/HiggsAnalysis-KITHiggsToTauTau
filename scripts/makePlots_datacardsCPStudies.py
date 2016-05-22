@@ -35,9 +35,9 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--channel", action="append",
 	                    default=["all"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
-	parser.add_argument("--shift-ranges", nargs="*", type=float,
-                        default=[0.,math.pi/2.],
-                        help="Provide minimum and maximum energy scale shift. [Default: %(default)s]")	
+	parser.add_argument("--cp-mixings", nargs="+", type=float,
+                        default=[mixing/100.0 for mixing in range(0, 101, 25)],
+                        help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
@@ -77,12 +77,11 @@ if __name__ == "__main__":
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-	# alphatau_shifts
-	alphatau_shifts=["{0:03d}".format(0),"{0:03d}".format(25),"{0:03d}".format(50),"{0:03d}".format(75),"{0:03d}".format(100)]
-	alphatau_shifts_str=[str(shift) for shift in alphatau_shifts]
+		
+	# preparation of CP mixing angles alpha_tau/(pi/2)
+	cp_mixing_angles_over_pi_half = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
+	cp_mixing_angles_over_pi_half_str=[str(mixing) for mixing in cp_mixing_angles_over_pi_half]
 	
-	#alphatau_weights
-	alphatau_weights=["tauSpinnerWeight000","tauSpinnerWeight025","tauSpinnerWeight050","tauSpinnerWeight075","tauSpinnerWeight100"]
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
@@ -186,23 +185,23 @@ if __name__ == "__main__":
 					) for sample in config_bkg["labels"]]
 					config_bkg["x_expressions"] = [args.quantity]
 					config = samples.Samples.merge_configs(config, config_bkg)				
-					for i_shift in range(len(alphatau_shifts)):
+					for cp_mixing_angle_over_pi_half in cp_mixing_angles_over_pi_half_str:
 
 						config_sig = sample_settings.get_config(
 							   	samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "qqh" or sample == "ggh"],
 								channel=channel,							     	
 								category="catHtt13TeV_"+category,
-								nick_suffix="_" + str(alphatau_shifts[i_shift]).replace(".", "_"),
-							     	weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*"+alphatau_weights[i_shift],
+								nick_suffix="_" + cp_mixing_angle_over_pi_half,
+								weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle_over_pi_half,
 							     	lumi = args.lumi * 1000,
 								higgs_masses=higgs_masses 	
 						)
 						histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
 						config_sig["labels"] = [histogram_name_template.replace("$", "").format(
-						PROCESS=datacards.configs.sample2process(sample).replace("125", ""),
-						BIN=category,
-						MASS=str(alphatau_shifts[i_shift]),
-						SYSTEMATIC=systematic
+								PROCESS=datacards.configs.sample2process(sample).replace("125", ""),
+								BIN=category,
+								MASS=cp_mixing_angle_over_pi_half,
+								SYSTEMATIC=systematic
 						) for sample in config_sig["labels"]]
 						config_sig["x_expressions"] = [args.quantity]						
 						binnings_key = "binningHtt13TeV_"+category+"_svfitMass"
