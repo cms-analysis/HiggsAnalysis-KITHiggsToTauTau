@@ -232,6 +232,7 @@ if __name__ == "__main__":
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
+			merged_output_files.append(output_file)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
