@@ -93,9 +93,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = cpstudiesdatacards.CPstudiesDatacards(alphatau_shifts_str)
-	#if args.for_dcsync:
-	#	datacards = CPstudiesdatacards.CPstudiesDatacardsForSync(shifts=args.shifts)
+	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixing_angles_over_pi_half_str)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -136,7 +134,7 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			datacards_per_channel_category = cpstudiesdatacards.CPstudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			datacards_per_channel_category = cpstudiesdatacards.CPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = []
 			if args.for_dcsync:

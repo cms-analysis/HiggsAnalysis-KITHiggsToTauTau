@@ -7,9 +7,9 @@ log = logging.getLogger(__name__)
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
-class CPstudiesDatacards(datacards.Datacards):
-	def __init__(self, alphatau=[], cb=None):
-		super(CPstudiesDatacards, self).__init__(cb)
+class CPStudiesDatacards(datacards.Datacards):
+	def __init__(self, cp_mixing_angles_over_pi_half=[], cb=None):
+		super(CPStudiesDatacards, self).__init__(cb)
 
 		if cb is None:
 			signal_processes = ["ggH", "qqH"]
