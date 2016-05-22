@@ -11,6 +11,7 @@ import os
 import ROOT
 
 import Artus.HarryPlotter.plot_modules.plotroot as plotroot
+import Artus.HarryPlotter.utility.roottools as roottools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.colors as colors
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.labels as labels
 
@@ -39,7 +40,7 @@ class PlotRootHtt(plotroot.PlotRoot):
 		# load HttStyles
 		cwd = os.getcwd()
 		os.chdir(os.path.expandvars("$CMSSW_BASE/src"))
-		ROOT.gROOT.LoadMacro(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/src/HttStyles.cc")+"+")
+		roottools.RootTools.load_compile_macro(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/src/HttStyles.cc"))
 		ROOT.SetStyle()
 		os.chdir(cwd)
 	
