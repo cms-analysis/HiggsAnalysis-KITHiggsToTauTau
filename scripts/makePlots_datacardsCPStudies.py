@@ -262,6 +262,10 @@ if __name__ == "__main__":
 			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 			update_systematics=True
 	)
+	
+	# signals morphing according to alpha_tau / (pi/2)
+	datacards.create_morphing_signals("cpmixing", 0.0, 0.0, 1.0)
+	
 	# add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
@@ -326,7 +330,7 @@ if __name__ == "__main__":
 	#)
 
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic  --redefineSignalPOIs cpmixing -n \"\"")
 	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 --significance -n \"\"")
 
 	"""
