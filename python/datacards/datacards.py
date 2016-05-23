@@ -582,8 +582,8 @@ class Datacards(object):
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 
 	def text2workspace(self, datacards_cbs, n_processes=1, *args):
-		commands = ["text2workspace.py {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
-				MASS=("-m "+[mass for mass in cb.mass_set() if mass != "*"][0]) if len(cb.mass_set()) > 1 else "", # TODO: maybe there are more masses?
+		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+".root"
@@ -608,8 +608,8 @@ class Datacards(object):
 		commands = []
 		for index, (chunk_min, chunk_max) in enumerate(chunks):
 			commands.extend([[
-					"combine {MASS} {POI_RANGE} {ARGS} {WORKSPACE} {CHUNK_POINTS}".format(
-							MASS=("-m "+[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0]) if len(datacards_cbs[datacard].mass_set()) > 1 else "", # TODO: maybe there are more masses?
+					"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE} {CHUNK_POINTS}".format(
+							MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 							POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
 							ARGS=tmp_args.format(CHUNK=str(index), RMIN="{RMIN}", RMAX="{RMAX}"),
 							WORKSPACE=workspace,
@@ -653,7 +653,7 @@ class Datacards(object):
 			commands.extend(["PostFitShapes --postfit -d {DATACARD} -o {OUTPUT} -m {MASS} -f {FIT_RESULT} {ARGS}".format(
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
-					MASS=[mass for mass in cb.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
@@ -678,7 +678,7 @@ class Datacards(object):
 					WORKSPACE=datacards_workspaces[datacard],
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
-					MASS=[mass for mass in cb.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
