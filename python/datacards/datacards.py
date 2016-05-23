@@ -608,8 +608,8 @@ class Datacards(object):
 		commands = []
 		for index, (chunk_min, chunk_max) in enumerate(chunks):
 			commands.extend([[
-					"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE} {CHUNK_POINTS}".format(
-							MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+					"combine {MASS} {POI_RANGE} {ARGS} {WORKSPACE} {CHUNK_POINTS}".format(
+							MASS=("-m "+[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0]) if len(datacards_cbs[datacard].mass_set()) > 1 else "", # TODO: maybe there are more masses?
 							POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
 							ARGS=tmp_args.format(CHUNK=str(index), RMIN="{RMIN}", RMAX="{RMAX}"),
 							WORKSPACE=workspace,
