@@ -99,10 +99,17 @@ class Datacards(object):
 			"CMS_eff_b_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel")
-				(["13TeV"], ["mt"], 0.96) # copied from 8TeV
-				(["13TeV"], ["et"], 0.96) # copied from 8TeV
-				(["13TeV"], ["em"], 0.93) # copied from 8TeV
-				(["13TeV"], ["tt"], 0.93) # copied from 8TeV
+				(["8TeV"], ["mt"], 0.96)
+				(["8TeV"], ["et"], 0.96)
+				(["8TeV"], ["em"], 0.93)
+				(["8TeV"], ["tt"], 0.93)
+				(["13TeV"], ["em","et","mt","tt"], 1.01) # AN-2016/036
+		]
+		self.btag_mistag_syst_args = [
+			"CMS_mistag_b_$ERA",
+			"lnN",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["em","et","mt","tt"], 1.08) # AN-2016/036
 		]
 		self.met_scale_syst_args = [
 			"CMS_$ANALYSIS_scale_met_$ERA",
