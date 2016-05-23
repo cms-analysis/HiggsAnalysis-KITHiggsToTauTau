@@ -17,7 +17,6 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.cpstudiesdatacards as cpstudiesdatacards
-import math
 
 
 def _call_command(command):
@@ -80,7 +79,7 @@ if __name__ == "__main__":
 	cp_mixing_angles_over_pi_half = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
 	cp_mixing_angles_over_pi_half_str=[str(mixing) for mixing in cp_mixing_angles_over_pi_half]
 	cp_mixing_floats=[str(mixing)for mixing in args.cp_mixings]
-	print cp_mixing_floats
+	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
@@ -100,7 +99,12 @@ if __name__ == "__main__":
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
+	datacard_filename_templates = [
+		"datacards/individual/${BIN}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		"datacards/combined/${ANALYSIS}_${ERA}.txt",
+	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
 	# prepare channel settings based on args and datacards
