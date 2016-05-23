@@ -64,7 +64,7 @@ def calculate_diff(filename, htt_name, sigma_value=0.68):
 			data_value = lower+width
 	tfile.Close()
 	del tfile
-	return sig_value + abs(sig_value-mc_value) + abs(data_value-mc_value), mc_value, sig_value, data_value
+	return sig_value + abs(sig_value-mc_value), mc_value, sig_value, data_value
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Collect and Combine Correlation Information",

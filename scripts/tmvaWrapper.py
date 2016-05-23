@@ -65,10 +65,12 @@ def do_splitting(args, plot_configs):
 		for split in args["custom_splitting"]:
 			splits_list.append(split)
 	elif args["n_fold"]:
-		part_size = 100/(args["n_fold"])
+		part_size = 100./((args["n_fold"])*4.)
+		temp_splits = []
 		for i in range(args["n_fold"]):
-			splits_list.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
-
+			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
+		for i in range(args["n_fold"]):
+			splits_list.append("||".join(temp_splits[i::args["n_fold"]]))
 	# create output file
 	dir_path, filename = os.path.split(args["output_file"])
 	filename = filename.replace(".root", "")
@@ -390,14 +392,16 @@ if __name__ == "__main__":
 				copy_cargs["signal_samples"] = ['ggh', 'qqh', 'vh']
 				copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
 				copy_cargs["output_file"] = os.path.join(copy_path, "reg_{i}").format(i=i)
-				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=1500)]
+				#copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=1500)]
+				copy_cargs["methods"] = ["FastBDT;H:V:NTrees={i}:Shrinkage=0.1:RandRatio=0.5:NTreeLayers=3:NCutLevel=10:useWeightedFeatureBinning=true:transform2probability=false".format(i=1500)]
 				copy_cargs["n_fold"] = 2
 				config_list.append(copy.deepcopy(copy_cargs))
 
 				copy_cargs["signal_samples"] = ['qqh']
 				copy_cargs["bkg_samples"] = ["ggh"]
 				copy_cargs["output_file"] = os.path.join(copy_path, "vbf_{i}").format(i=i)
-				copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=50)]
+				#copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees={i}:MinNodeSize=0.25:BoostType=Grad:Shrinkage=0.1".format(i=50)]
+				copy_cargs["methods"] = ["FastBDT;H:V:NTrees={i}:Shrinkage=0.1:RandRatio=0.5:NTreeLayers=3:NCutLevel=10:useWeightedFeatureBinning=true:transform2probability=false".format(i=50)]
 				copy_cargs["quantities"].append("jdeta")
 				copy_cargs["quantities"].append("mjj")
 				config_list.append(copy.deepcopy(copy_cargs))

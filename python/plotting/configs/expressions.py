@@ -80,6 +80,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# MVA Htt categories
 		import Artus.Utility.jsonTools as jsonTools
 		for channel in ["tt", "mt", "et", "em"]:
+			for classic in ["0jet_high", "0jet_low", "1jet_high", "1jet_low", "2jet_vbf"]:
+				self.expressions_dict["{channel}_{classic}".format(channel=channel, classic=classic)] = self.expressions_dict["catHtt13TeV_{channel}_{classic}".format(channel=channel, classic=classic)]
 		#========================================Copy here!========================================
 			expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_expressions.cfg"%channel)
 			if not os.path.exists(expressions_path):
