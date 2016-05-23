@@ -106,7 +106,7 @@ if __name__ == "__main__":
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-
+	
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[1:]
@@ -242,7 +242,7 @@ if __name__ == "__main__":
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-
+	
 	# delete existing output files
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
 	for output_file in tmp_output_files:
@@ -290,9 +290,12 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
-
+	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
-
+	
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic  --redefineSignalPOIs cpmixing -n \"\"")
+	#binning_combine_options = int((args.cp_mixings[4]-args.cp_mixings[0])/0.25)
+	stable_combine_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""	
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameterRanges cpmixing={RANGE} {STABLE} --points {POINTS} -n \"\"".format(STABLE=stable_combine_options, POINTS=len(args.cp_mixings), RANGE="{0:f},{1:f}".format(min(args.cp_mixings)-0.025, max(args.cp_mixings)+0.025)))
+	
 
