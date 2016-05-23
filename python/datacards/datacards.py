@@ -582,8 +582,8 @@ class Datacards(object):
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 
 	def text2workspace(self, datacards_cbs, n_processes=1, *args):
-		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
-				MASS=[mass for mass in cb.mass_set() if mass != "*"][0], # TODO: maybe there are more masses?
+		commands = ["text2workspace.py {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
+				MASS=("-m "+[mass for mass in cb.mass_set() if mass != "*"][0]) if len(cb.mass_set()) > 1 else "", # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+".root"
