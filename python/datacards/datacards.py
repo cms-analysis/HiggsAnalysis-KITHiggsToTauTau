@@ -510,16 +510,16 @@ class Datacards(object):
 			self.cb.PrintAll()
 	
 	def create_morphing_signals(self, mophing_variable_name, nominal_value, min_value, max_value):
-		workspace = ROOT.RooWorkspace("workspace", "workspace")
-		morphing_variable = ROOT.RooRealVar(mophing_variable_name, mophing_variable_name, nominal_value, min_value, max_value)
+		self.workspace = ROOT.RooWorkspace("workspace", "workspace")
+		self.morphing_variable = ROOT.RooRealVar(mophing_variable_name, mophing_variable_name, nominal_value, min_value, max_value)
 		
 		cb_signals = self.cb.cp().signals()
 		for category in cb_signals.bin_set():
 			cb_signals_category = cb_signals.cp().bin([category])
 			for signal_process in cb_signals_category.process_set():
-				morphing.BuildRooMorphing(workspace, self.cb, category, signal_process, morphing_variable, "norm", True, log.isEnabledFor(logging.DEBUG))
+				morphing.BuildRooMorphing(self.workspace, self.cb, category, signal_process, self.morphing_variable, "norm", True, log.isEnabledFor(logging.DEBUG))
 		
-		self.cb.AddWorkspace(workspace, False)
+		self.cb.AddWorkspace(self.workspace, False)
 		self.cb.cp().signals().ExtractPdfs(self.cb, "workspace", "$BIN_$PROCESS_morph", "")
 
 		if log.isEnabledFor(logging.DEBUG):
