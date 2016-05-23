@@ -576,7 +576,7 @@ class Datacards(object):
 			writer.SetVerbosity(1)
 		
 		# enable writing datacards in cases where the mass does not have its original meaning
-		if (len(self.cb.mass_set()) == 1) and (self.cb.mass_set()[0] = "*"):
+		if (len(self.cb.mass_set()) == 1) and (self.cb.mass_set()[0] == "*"):
 			writer.SetWildcardMasses([])
 
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
