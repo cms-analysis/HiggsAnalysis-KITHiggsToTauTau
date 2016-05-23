@@ -37,6 +37,12 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"
 			pt_cut = "35.0" if channel in ["mt", "et", "tt"] else "35.0"
+		#CP-studies
+			self.expressions_dict["catHtt13TeV_"+channel+"_CP_mt"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.44)*(decayMode_2 < 5)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_CP_et"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.44)*(decayMode_2 < 5)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_CP_em"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.44)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_CP_tt"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.55 && TauPProngEnergy >= 0.55)"
+					
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusivemt40"] = "(1.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
