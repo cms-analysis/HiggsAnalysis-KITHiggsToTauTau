@@ -79,7 +79,8 @@ if __name__ == "__main__":
 	# preparation of CP mixing angles alpha_tau/(pi/2)
 	cp_mixing_angles_over_pi_half = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
 	cp_mixing_angles_over_pi_half_str=[str(mixing) for mixing in cp_mixing_angles_over_pi_half]
-
+	cp_mixing_floats=[str(mixing)for mixing in args.cp_mixings]
+	print cp_mixing_floats
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
@@ -90,15 +91,15 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 
-	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixing_angles_over_pi_half_str)
+	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixing_floats)
 
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}_${MASS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${MASS}_${SYSTEMATIC}"
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
@@ -173,13 +174,13 @@ if __name__ == "__main__":
 					) for sample in config_bkg["labels"]]
 					config = samples.Samples.merge_configs(config, config_bkg)
 					
-					for cp_mixing_angle_over_pi_half in cp_mixing_angles_over_pi_half_str:
+					for (cp_mixing_angle_over_pi_half,mixing_float) in zip(cp_mixing_angles_over_pi_half_str,cp_mixing_floats):
 
 						config_sig = sample_settings.get_config(
 								samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "qqh" or sample == "ggh"],
 								channel=channel,
 								category="catHtt13TeV_"+category,
-								nick_suffix="_" + cp_mixing_angle_over_pi_half,
+								nick_suffix="_" + mixing_float,
 								weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle_over_pi_half,
 								lumi = args.lumi * 1000,
 								higgs_masses=higgs_masses
@@ -188,7 +189,7 @@ if __name__ == "__main__":
 						config_sig["labels"] = [histogram_name_template.replace("$", "").format(
 								PROCESS=datacards.configs.sample2process(sample).replace("125", ""),
 								BIN=category,
-								MASS=cp_mixing_angle_over_pi_half,
+								MASS=mixing_float,
 								SYSTEMATIC=systematic
 						) for sample in config_sig["labels"]]
 
