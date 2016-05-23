@@ -71,6 +71,8 @@ if __name__ == "__main__":
 
     ],
     "MVATestMethodsWeights" : [
+	],
+	"MVACustomWeights" : [
 	]
 	}
 	settings_quantities = {"property":[]}
@@ -95,6 +97,7 @@ if __name__ == "__main__":
 		weight_path, dump = os.path.split(log_file)
 		accepted_dirs.append(weight_path)
 		n_fold = c_log["N-Fold"]
+		splits = c_log["splits"]
 		training_name = c_log["training_name"]
 		if log_file in log_vbf_list:
 			log_vbf_name_list.append(training_name)
@@ -121,6 +124,7 @@ if __name__ == "__main__":
 				for i in range(1,n_fold+1):
 					settings_info["MVATestMethodsMethods"].append("%i;%s"%(found_quantities_index, method))
 					settings_info["MVATestMethodsWeights"].append(full_path(weight_path+"/T%i_%s_%s.weights.xml"%(i,method,training_name)))
+					settings_info["MVACustomWeights"].append(splits[i-1].replace("TrainingSelectionValue", "x"))
 					settings_quantities["property"].append("T%i%s"%(i, training_name))
 	jsonTools.JsonDict(settings_info).save(os.path.join(out_dir, "%s_settingsMVATestMethods.json"%Channel), indent = 4)
 	jsonTools.JsonDict(settings_quantities).save(os.path.join(out_dir, "%s_MVATestMethodsQuantities.json"%Channel), indent = 4)
@@ -275,7 +279,7 @@ if __name__ == "__main__":
 
 
 		logfile.write("\n\n#=====Limit commands start here=====\n\n")
-		logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsSMHtt.py -i $ArtusInput -x $Variable --add-bbb-uncs -m $Masses -n $Paralells --clear-output-dir -c {channel} -w $Weights -o $PlotPath/{channel}/classic\n\n".format(channel=Channel))
+		logfile.write("python $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsMVATest.py -i $ArtusInput -x $Variable --add-bbb-uncs -m $Masses -n $Paralells --clear-output-dir -c {channel} -w $Weights -o $PlotPath/{channel}/classic --categories 0jet_high 0jet_low 1jet_high 1jet_low 2jet_vbf --scale-mc-only $scale_mc --project-to-lumi $project_lumi --cut-mc-only $cut_mc\n\n".format(channel=Channel))
 		limit_folders = ["$PlotPath/{channel}/classic".format(channel=Channel)]
 		for cat in settings_info["MVATestMethodsNames"]:
 			if cat in log_vbf_name_list:

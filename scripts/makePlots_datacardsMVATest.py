@@ -65,6 +65,8 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 						default="$CMSSW_BASE/src/plots/MVATest_datacards/",
 						help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--no-replotting", action="store_true", default=False,
+						help="do not produce new input plots, make only new datacards and calculate anew")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 						help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
@@ -227,13 +229,15 @@ if __name__ == "__main__":
 	output_files = list(set(output_files))
 
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
-	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	if args.clear_output_dir and not args.no_replotting:
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	debug_plot_configs = []
 	for output_file in output_files:
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
-	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	if args.clear_output_dir and not args.no_replotting:
+		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -301,9 +305,10 @@ if __name__ == "__main__":
 			#args.n_processes,
 			#"-t limit -b channel"
 	#)
-
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal 1 -t 5 -M Asymptotic -n\"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit -m 125 -t 5 --expectSignal 1\"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo singles -t 5 --expectSignal 1 --rMin 0 --rMax 5 --robustFit 1\"\"")
 
 	"""
 	# cV-cF scan

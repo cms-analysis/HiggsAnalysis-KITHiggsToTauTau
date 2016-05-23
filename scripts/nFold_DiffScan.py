@@ -63,7 +63,7 @@ def calculate_diff(filename, htt_name, sigma_value=0.50):
 			data_value = lower+width
 	tfile.Close()
 	del tfile
-	return sig_value + max(abs(mc_value-sig_value), abs(data_value-sig_value)) + abs(data_value-mc_value), mc_value, sig_value, data_value
+	return sig_value + abs(mc_value-sig_value), mc_value, sig_value, data_value
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Collect and Combine Correlation Information",
@@ -94,7 +94,7 @@ if __name__ == "__main__":
 	y_shift_values = []
 	y_sig_values = []
 	y_mc_values = [] #store diff-value for mc
-	y_data_values = [] #store diff-value for data
+	#y_data_values = [] #store diff-value for data
 
 	for i,root_file in  enumerate(list_of_roots):
 		shift, mc_value, sig_value, data_value = calculate_diff(root_file, "htt%s"%args.higgs_mass, sigma_value=0.50)
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 		y_shift_values.append(shift)
 		y_mc_values.append(mc_value)
 		y_sig_values.append(sig_value)
-		y_data_values.append(data_value)
+		#y_data_values.append(data_value)
 
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 	ax.plot(x_values, y_shift_values, label="shifts", color="red", marker="x", markersize = 12.5, ls = "None", markeredgewidth=2)
 	ax.plot(x_values, y_sig_values, label="signal", color="blue", marker="o", markersize = 12.5, ls = "None", markeredgewidth=2)
 	ax.plot(x_values, y_mc_values, label="bkg", color="green", marker="+", markersize = 12.5, ls = "None", markeredgewidth=2)
-	ax.plot(x_values, y_data_values, label="data", color="orange", marker=".", markersize = 12.5, ls = "None", markeredgewidth=2)
+	#ax.plot(x_values, y_data_values, label="data", color="orange", marker=".", markersize = 12.5, ls = "None", markeredgewidth=2)
 	ax.set_xticks(x_values)
 	ax.set_xlim(-1, len(x_values))
 	ax.set_ylim(0.9*min(y_data_values+y_mc_values+y_shift_values+y_sig_values), 1.1*max(y_data_values+y_mc_values+y_shift_values+y_sig_values))
