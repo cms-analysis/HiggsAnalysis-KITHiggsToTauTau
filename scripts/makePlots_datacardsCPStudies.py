@@ -76,11 +76,11 @@ if __name__ == "__main__":
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-
+	
 	# preparation of CP mixing angles alpha_tau/(pi/2)
+	args.cp_mixings.sort()
 	cp_mixing_angles_over_pi_half = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
-	cp_mixing_angles_over_pi_half_str=[str(mixing) for mixing in cp_mixing_angles_over_pi_half]
-	cp_mixing_floats=[str(mixing)for mixing in args.cp_mixings]
+	cp_mixings_str = [str(mixing) for mixing in args.cp_mixings]
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -92,7 +92,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 
-	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixing_floats, add_data=True)
+	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixings_str, add_data=True)
 
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -181,7 +181,7 @@ if __name__ == "__main__":
 					) for sample in config_bkg["labels"]]
 					config = samples.Samples.merge_configs(config, config_bkg)
 					
-					for cp_mixing_angle_over_pi_half, mixing_float in zip(cp_mixing_angles_over_pi_half_str, cp_mixing_floats):
+					for cp_mixing_angle_over_pi_half, cp_mixing_str in zip(cp_mixing_angles_over_pi_half, cp_mixings_str):
 
 
 						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
@@ -194,7 +194,7 @@ if __name__ == "__main__":
 								samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
 								channel=channel,
 								category="catHtt13TeV_"+category,
-								nick_suffix="_" + mixing_float,
+								nick_suffix="_" + cp_mixing_str,
 								weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle_over_pi_half,
 								lumi = args.lumi * 1000,
 								higgs_masses=higgs_masses
@@ -202,7 +202,7 @@ if __name__ == "__main__":
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process(sample).replace("125", ""),
 								BIN=category,
-								MASS=mixing_float,
+								MASS=cp_mixing_str,
 								SYSTEMATIC=systematic
 						) for sample in config_sig["labels"]]
 
@@ -334,6 +334,16 @@ if __name__ == "__main__":
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} {STABLE} --points {POINTS} -n \"\"".format(STABLE=stable_combine_options, POINTS=len(args.cp_mixings), RANGE="{0:f},{1:f}".format(min(args.cp_mixings)-0.025, max(args.cp_mixings)+0.025)))
+	datacards.combine(
+			datacards_cbs,
+			datacards_workspaces,
+			None,
+			args.n_processes,
+			"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
+					STABLE=stable_combine_options,
+					RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
+					POINTS=len(args.cp_mixings)
+			)
+	)
 	
 
