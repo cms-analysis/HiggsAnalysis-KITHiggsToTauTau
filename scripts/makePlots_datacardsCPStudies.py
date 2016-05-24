@@ -50,6 +50,8 @@ if __name__ == "__main__":
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("--add-data", action="store_true", default=False,
+	                    help="Use data instead of an asimov dataset. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -90,7 +92,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 
-	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixing_floats)
+	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixing_floats, add_data=args.add_data)
 
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -149,21 +151,23 @@ if __name__ == "__main__":
 
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
-				list_of_samples = ([] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+				list_of_bkg_samples = [datacards.configs.process2sample(process) for process in list_of_samples if process in datacards_per_channel_category.cb.cp().backgrounds().process_set()]
+				list_of_sig_samples = [datacards.configs.process2sample(process) for process in list_of_samples if process in datacards_per_channel_category.cb.cp().signals().process_set()]
+				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 
+					# prepare plotting configs for retrieving the input histograms
+					config={}
+					
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
-							samples="\", \"".join(list_of_samples),
+							samples="\", \"".join((["data"] if nominal and args.add_data else []) + list_of_bkg_samples),
 							channel=channel,
 							category=category,
 							systematic=systematic
 					))
-
-					# prepare plotting configs for retrieving the input histograms
-					config={}
 					config_bkg = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "ztt" or sample == "zll"],
+							samples=[getattr(samples.Samples, sample) for sample in (["data"] if nominal and args.add_data else []) + list_of_bkg_samples],
 							channel=channel,
 							category="catHtt13TeV_"+category,
 							weight=args.weight,
@@ -180,8 +184,15 @@ if __name__ == "__main__":
 					
 					for (cp_mixing_angle_over_pi_half,mixing_float) in zip(cp_mixing_angles_over_pi_half_str,cp_mixing_floats):
 
+
+						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+								samples="\", \"".join(list_of_sig_samples),
+								channel=channel,
+								category=category,
+								systematic=systematic
+						))
 						config_sig = sample_settings.get_config(
-								samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "qqh" or sample == "ggh"],
+								samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
 								channel=channel,
 								category="catHtt13TeV_"+category,
 								nick_suffix="_" + mixing_float,

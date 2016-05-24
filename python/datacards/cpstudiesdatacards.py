@@ -8,7 +8,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
 class CPStudiesDatacards(datacards.Datacards):
-	def __init__(self, cp_mixing_angles_over_pi_half=[], cb=None):
+	def __init__(self, cp_mixing_angles_over_pi_half=[], add_data=True, cb=None):
 		super(CPStudiesDatacards, self).__init__(cb)
 
 		if cb is None:
@@ -25,7 +25,7 @@ class CPStudiesDatacards(datacards.Datacards):
 					analysis=["htt"],
 					era=["13TeV"],
 					mass=cp_mixing_angles_over_pi_half,
-					add_data=False
+					add_data=add_data
 			)
 
 			# efficiencies
@@ -55,7 +55,7 @@ class CPStudiesDatacards(datacards.Datacards):
 					analysis=["htt"],
 					era=["13TeV"],
 					mass=cp_mixing_angles_over_pi_half,
-					add_data=False
+					add_data=add_data
 			)
 
 			# efficiencies
@@ -83,7 +83,7 @@ class CPStudiesDatacards(datacards.Datacards):
 					analysis=["htt"],
 					era=["13TeV"],
 					mass=cp_mixing_angles_over_pi_half,
-					add_data=False
+					add_data=add_data
 			)
 
 			# efficiencies
@@ -103,7 +103,7 @@ class CPStudiesDatacards(datacards.Datacards):
 					analysis=["htt"],
 					era=["13TeV"],
 					mass=cp_mixing_angles_over_pi_half,
-					add_data=False
+					add_data=add_data
 			)
 
 			# efficiencies
