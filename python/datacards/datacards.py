@@ -714,6 +714,7 @@ class Datacards(object):
 							config = {}
 
 							processes_to_plot = list(bkg_processes)
+							"""
 							if category.split("_")[0] in ["em", "et", "mt", "tt"]:
 								config.setdefault("analysis_modules", []).append(["SumOfHistograms"])
 								bkg_processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in bkg_processes]
@@ -722,6 +723,7 @@ class Datacards(object):
 								config.setdefault("sum_nicks", []).append("ZJ_noplot VV_noplot W_noplot")
 								config.setdefault("sum_scale_factors", []).append("1.0 1.0 1.0")
 								config.setdefault("sum_result_nicks", []).append("EWK")
+							"""
 
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
