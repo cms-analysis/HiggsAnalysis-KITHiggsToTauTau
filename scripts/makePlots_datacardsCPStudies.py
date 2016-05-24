@@ -293,9 +293,24 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
-	# Asymptotic limits
+	# Max. likelihood fit and postfit plots
+	stable_combine_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
+	
+	datacards.combine(
+			datacards_cbs,
+			datacards_workspaces,
+			None,
+			args.n_processes,
+			"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 {stable} -n \"\"".format(stable=stable_combine_options)
+	)
+	#datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes)#, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	#datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes)#, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	
+	#datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
+	#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+	#datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+
 	#binning_combine_options = int((args.cp_mixings[4]-args.cp_mixings[0])/0.25)
-	stable_combine_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""	
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameterRanges cpmixing={RANGE} {STABLE} --points {POINTS} -n \"\"".format(STABLE=stable_combine_options, POINTS=len(args.cp_mixings), RANGE="{0:f},{1:f}".format(min(args.cp_mixings)-0.025, max(args.cp_mixings)+0.025)))
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} {STABLE} --points {POINTS} -n \"\"".format(STABLE=stable_combine_options, POINTS=len(args.cp_mixings), RANGE="{0:f},{1:f}".format(min(args.cp_mixings)-0.025, max(args.cp_mixings)+0.025)))
 	
 
