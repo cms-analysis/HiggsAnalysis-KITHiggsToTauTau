@@ -14,7 +14,7 @@ git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone https://github.com/KappaAnalysis/Kappa.git -b CMSSW_7_6_X
+git clone https://github.com/KappaAnalysis/Kappa.git
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
