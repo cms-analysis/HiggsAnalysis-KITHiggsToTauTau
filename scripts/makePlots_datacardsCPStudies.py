@@ -92,7 +92,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 
-	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixing_floats, add_data=args.add_data)
+	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixing_floats, add_data=True)
 
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -174,15 +174,14 @@ if __name__ == "__main__":
 							lumi=args.lumi * 1000
 					)
 
-					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-					config_bkg["labels"] = [histogram_name_template.replace("$", "").format(
+					config_bkg["labels"] = [(bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
 						PROCESS=datacards.configs.sample2process(sample),
 						BIN=category,
 						SYSTEMATIC=systematic
 					) for sample in config_bkg["labels"]]
 					config = samples.Samples.merge_configs(config, config_bkg)
 					
-					for (cp_mixing_angle_over_pi_half,mixing_float) in zip(cp_mixing_angles_over_pi_half_str,cp_mixing_floats):
+					for cp_mixing_angle_over_pi_half, mixing_float in zip(cp_mixing_angles_over_pi_half_str, cp_mixing_floats):
 
 
 						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
@@ -200,8 +199,7 @@ if __name__ == "__main__":
 								lumi = args.lumi * 1000,
 								higgs_masses=higgs_masses
 						)
-						histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
-						config_sig["labels"] = [histogram_name_template.replace("$", "").format(
+						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process(sample).replace("125", ""),
 								BIN=category,
 								MASS=mixing_float,
@@ -210,7 +208,22 @@ if __name__ == "__main__":
 
 						config = samples.Samples.merge_configs(config, config_sig)
 
-
+					# create asimov dataset
+					if not args.add_data:
+						if not "AddHistograms" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("AddHistograms")
+						nicks_to_sum = copy.deepcopy(list_of_bkg_samples)
+						nicks_to_sum.extend([sample+higgs_masses[0]+"_"+str(min(args.cp_mixings)) for sample in list_of_sig_samples])
+						config.setdefault("histogram_nicks", []).append(" ".join(nicks_to_sum))
+						config.setdefault("sum_result_nicks", []).append("asimov_s")
+						config.setdefault("labels", []).append((bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
+								PROCESS=datacards.configs.sample2process("data"),
+								BIN=category,
+								SYSTEMATIC=systematic
+						))
+						config.setdefault("colors", []).append("data")
+						config.setdefault("markers", []).append("data")
+					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
