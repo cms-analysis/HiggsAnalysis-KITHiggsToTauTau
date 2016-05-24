@@ -250,7 +250,7 @@ if __name__ == "__main__":
 							cut_type="tauescuts"
 						)
 						# shift also pt to account for acceptance effects
-						config_ztt["weights"] = [weight.replace("pt_2",str(shift)+"*pt_2") for weight in config_ztt["weights"]]
+						config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]
 						
 						if decayMode == "OneProng" and quantity == "m_2":
 							log.error("Tau mass (m_2) fit not possible in 1prong decay mode")
@@ -498,7 +498,7 @@ if __name__ == "__main__":
 					config["x_label"] = "m_{#tau_{h}} [GeV]"
 					config["x_lims"] = [0.6,1.8]
 				elif "OneProng" in category or quantity == "m_vis":
-					config["x_label"] = "m_{#mu#tau_{h}} [GeV]"
+					config["x_label"] = "m_{vis}(#mu#tau_{h}) [GeV]"
 					config["x_lims"] = [20,200]
 				
 				config.setdefault("analysis_modules", []).append("Ratio")
@@ -629,19 +629,24 @@ if __name__ == "__main__":
 			
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
+			config["analysis_modules"] = ["AddLine"]
 			config["x_label"] = "#tau_{h}-ES [%]"
-			config["y_label"] = "-2 #Delta lnL"
+			config["y_label"] = "-2 \\\mathrm{\\\Delta ln} \\\mathscr{L}"
 			config["x_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
 			config["y_lims"] = [0.0, 10.0]
-			config["markers"] = ["P"]
-			config["colors"] = "kBlack"
+			config["x_lines"] = ["-6 6"]
+			config["y_lines"] = ["1 1", "4 4"]
+			config["markers"] = ["P", "L", "L"]
+			config["marker_styles"] = [5]
+			config["line_styles"] = [2]
+			config["colors"] = ["kBlack", "kBlue", "kBlue"]
 			config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 			config["filename"] = "parabola_" + category + "_" + quantity
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
-			config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[int(ptBin)]]
-			config["texts_x"] = [0.36, 0.35]
-			config["texts_y"] = [0.87, 0.82]
+			config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[int(ptBin)], "1#sigma", "2#sigma"]
+			config["texts_x"] = [0.36, 0.35, 0.98, 0.98]
+			config["texts_y"] = [0.87, 0.82, 0.23, 0.46]
 			config["texts_size"] = [0.035]
 			
 			if not (config["output_dir"] in www_output_dirs_parabola):
