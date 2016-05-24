@@ -30,6 +30,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["vh"] = "VH"
 			self.labels_dict["hww"] = "H #rightarrow WW"
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
+			self.labels_dict["ff"] = "Fake Factor"
 
 			self.labels_dict["channel_tt"] = "#tau_{h}#tau_{h}"
 			self.labels_dict["channel_mt"] = "#mu#tau_{h}"

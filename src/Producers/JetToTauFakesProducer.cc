@@ -1,7 +1,7 @@
 #include "Artus/Utility/interface/SafeMap.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/JetToTauFakesProducer.h"
-//NOT NEEDED AS OF NOW	#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
 //#include "HTTutilities/Jet2TauFakes/interface/FakeFactor.h"
 
@@ -26,7 +26,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
     
     
     // Fill inputs
-    std::vector<double> inputs(4);
+    std::vector<double> inputs(5);
     
     inputs[0] = product.m_flavourOrderedLeptons[1]->p4.Pt();
     
@@ -37,10 +37,10 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
     inputs[2] = product.m_diLeptonSystem.mass();
     
     // Transverse Mass calculated from Muon and MET - needs Quantities to compute
-    //NOT NEEDED AS OF NOW	inputs[3] = Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4);
+    inputs[3] = Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4);
     
     // Using Muon Isolation over pT
-    inputs[3] = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], std::numeric_limits<double>::max());
+    inputs[4] = SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], std::numeric_limits<double>::max());
     
     
     

@@ -138,6 +138,8 @@ if __name__ == "__main__":
 						help="integration background nicks [Default:%(default)s]")
 	parser.add_argument("--full-integral", action="store_true",
 						help="calculate full integral of all histograms and write to file")
+	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "comparison"],
+			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--scale-mc-only", default="1.0",
                         help="scales only MC events. [Default: %(default)s]")
 	parser.add_argument("--cut-mc-only", default="1.0",
@@ -269,6 +271,7 @@ if __name__ == "__main__":
 						lumi = args.lumi * 1000,
 						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", []),
 						blind_expression=channel+"_"+quantity,
+						fakefactor_method=args.fakefactor_method,
 						stack_signal=args.stack_signal,
 						scale_signal=args.scale_signal,
 						project_to_lumi=args.project_to_lumi,

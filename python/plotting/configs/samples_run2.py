@@ -256,7 +256,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
 		return config
 
-	def zll(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+	def zll(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -273,6 +273,12 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+
+		if channel == "mt" and fakefactor_method == "standard":
+			mc_weight = "(gen_match_2 != 6)*" + mc_weight
+		if channel == "mt" and fakefactor_method == "comparison":
+			mc_weight = "(gen_match_2 == 6)*" + mc_weight
+		
 
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
@@ -291,7 +297,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
 
-	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -308,6 +314,11 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+
+		if channel == "mt" and fakefactor_method == "standard":
+			mc_weight = "(gen_match_2 != 6)*" + mc_weight
+		if channel == "mt" and fakefactor_method == "comparison":
+			mc_weight = "(gen_match_2 == 6)*" + mc_weight
 
 		if channel in ["mt", "et", "tt"]:
 			Samples._add_input(
@@ -453,7 +464,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 
-	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", controlregions=False,**kwargs):
+	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -470,6 +481,11 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+
+		if channel == "mt" and fakefactor_method == "standard":
+			mc_weight = "(gen_match_2 != 6)*" + mc_weight
+		if channel == "mt" and fakefactor_method == "comparison":
+			mc_weight = "(gen_match_2 == 6)*" + mc_weight
 
 		if channel in ["mt", "et"]:
 			if estimationMethod == "new":
@@ -1562,5 +1578,5 @@ class Samples(samples.SamplesBase):
 			)
 		else:
 			log.error("Sample config (FakeFactor) currently not implemented for channel \"%s\"!" % channel)
-		Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
 		return config
