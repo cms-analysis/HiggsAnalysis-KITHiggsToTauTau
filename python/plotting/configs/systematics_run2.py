@@ -14,6 +14,7 @@ class SystematicsFactory(dict):
 		
 		self["nominal"] = Nominal
 		self["CMS_scale_j_13TeV"] = JecUncSystematic
+		self["CMS_scale_t_13TeV"] = TauEsSystematic
 		self["CMS_ztt_scale_mFakeTau_13TeV"] = MuFakeTauEsSystematic
 		
 		for channel in ["mt", "et", "tt"]:

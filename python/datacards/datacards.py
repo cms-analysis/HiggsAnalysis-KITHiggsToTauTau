@@ -245,6 +245,12 @@ class Datacards(object):
 				(["13TeV"], ["et"], 1.0)
 				(["13TeV"], ["tt"], 1.0)
 		]
+		self.tau_es_corr_syst_args = [
+			"CMS_scale_t_$ERA",
+			"shape",
+			ch.SystMap("era")
+				(["13TeV"], 1.0)
+		]
 		self.ele_es_syst_args = [
 			"CMS_scale_e_$CHANNEL_$ERA",
 			"shape",
