@@ -219,7 +219,8 @@ class CutStringsDict:
 	def tauidloosepass(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -230,7 +231,8 @@ class CutStringsDict:
 	def tauidloosefail(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -241,7 +243,8 @@ class CutStringsDict:
 	def tauidmediumpass(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -252,7 +255,8 @@ class CutStringsDict:
 	def tauidmediumfail(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -263,7 +267,8 @@ class CutStringsDict:
 	def tauidtightpass(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -274,7 +279,8 @@ class CutStringsDict:
 	def tauidtightfail(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -285,7 +291,8 @@ class CutStringsDict:
 	def tauidvtightpass(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -296,7 +303,8 @@ class CutStringsDict:
 	def tauidvtightfail(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
