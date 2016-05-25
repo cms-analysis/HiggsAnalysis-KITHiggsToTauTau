@@ -190,22 +190,22 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MTTriggerTagAndProbeProducer();
 	else if(id == ETTriggerTagAndProbeProducer().GetProducerId())
 		return new ETTriggerTagAndProbeProducer();
-    else if(id == MVATestMethodsProducer().GetProducerId())
-        return new MVATestMethodsProducer();
+	else if(id == MVATestMethodsProducer().GetProducerId())
+		return new MVATestMethodsProducer();
 	else if(id == HHKinFitProducer().GetProducerId())
-        return new HHKinFitProducer();
-    else if(id == MVAInputQuantitiesProducer().GetProducerId())
-        return new MVAInputQuantitiesProducer();
-    else if(id == AcceptanceEfficiencyProducer().GetProducerId())
-        return new AcceptanceEfficiencyProducer();
-    else if(id == TopPtReweightingProducer().GetProducerId())
-        return new TopPtReweightingProducer();
-    else if(id == ZPtReweightProducer().GetProducerId())
-        return new ZPtReweightProducer();
-    else if(id == SimpleEleTauFakeRateWeightProducer().GetProducerId())
-        return new SimpleEleTauFakeRateWeightProducer();
-    else if(id == JetToTauFakesProducer().GetProducerId())
-        return new JetToTauFakesProducer();
+		return new HHKinFitProducer();
+	else if(id == MVAInputQuantitiesProducer().GetProducerId())
+		return new MVAInputQuantitiesProducer();
+	else if(id == AcceptanceEfficiencyProducer().GetProducerId())
+		return new AcceptanceEfficiencyProducer();
+	else if(id == TopPtReweightingProducer().GetProducerId())
+		return new TopPtReweightingProducer();
+	else if(id == ZPtReweightProducer().GetProducerId())
+		return new ZPtReweightProducer();
+	else if(id == SimpleEleTauFakeRateWeightProducer().GetProducerId())
+		return new SimpleEleTauFakeRateWeightProducer();
+	else if(id == JetToTauFakesProducer().GetProducerId())
+		return new JetToTauFakesProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

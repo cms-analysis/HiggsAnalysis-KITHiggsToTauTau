@@ -25,20 +25,18 @@
  *
  */
 // template<class HttTypes>
-class MinimalPlotlevelFilter: public FilterBase<HttTypes> {
+class MinimalPlotlevelFilter: public FilterBase<HttTypes> 
+{
 public:
-
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	typedef std::function<float(event_type const&, product_type const&)> float_extractor_lambda;
-
 	MinimalPlotlevelFilter(){}
-
 	virtual std::string GetFilterId() const override {
-            return "MinimalPlotlevelFilter";
-    }
-
+			return "MinimalPlotlevelFilter";
+	}
+	
 	void Init(setting_type const& settings) override
 	{
 		FilterBase<HttTypes>::Init(settings);
@@ -46,7 +44,7 @@ public:
 		m_ExpressionQuantities.clear();
 		m_ExpressionNames.clear();
 		for (std::vector<std::string>::const_iterator quantity = (settings.GetPlotlevelFilterExpressionQuantities)().begin();
-			 quantity != (settings.GetPlotlevelFilterExpressionQuantities)().end(); ++quantity)
+			quantity != (settings.GetPlotlevelFilterExpressionQuantities)().end(); ++quantity)
 		{
 			bool variable_found = false;
 			if (LambdaNtupleConsumer<HttTypes>::GetFloatQuantities().count(*quantity) > 0)
@@ -79,7 +77,7 @@ public:
 		}
 // 		if(m_ExpressionNames.size() < settings.GetPlotlevelFilterExpressionQuantities().size())
 	}
-
+	
 	template<typename T>
 	void removeSubstrs(typename std::basic_string<T>& s,char p) const
 	{
@@ -89,9 +87,7 @@ public:
 			s.erase(i, n);
 		}
 	}
-
-
-
+	
 	bool evaluateSubExpression(std::string& expression, event_type const& event, product_type const& product, setting_type const& settings) const
 	{
 		bool OrIn = boost::algorithm::contains(expression, "||");
@@ -103,7 +99,6 @@ public:
 			boost::algorithm::split(substrings, expression, boost::algorithm::is_any_of("||"));
 			std::transform(substrings.begin(), substrings.end(), substrings.begin(),
 					[](std::string s) { return boost::algorithm::trim_copy(s); });
-
 			for (uint it = 0; it < substrings.size(); ++it)
 				{
 					std::string sexp = substrings[it];
@@ -120,10 +115,10 @@ public:
 			std::transform(substrings.begin(), substrings.end(), substrings.begin(),
 					[](std::string s) { return boost::algorithm::trim_copy(s); });
 			for (int it = 0; it < 3; it++)
-				 {
+				{
 					removeSubstrs(substrings[it], ')');
 					removeSubstrs(substrings[it], '(');
-				 }
+				}
 			uint position = 999;
 			for(uint itstr = 0; itstr < m_ExpressionNames.size(); ++itstr)
 			{
@@ -133,7 +128,6 @@ public:
 					break;
 				}
 			}
-
 			if(position == 999){
 				LOG(WARNING) << "Variable " << substrings[0] << " not found!";
 				LOG(WARNING) << "Variable used in expression was not found in variable list, you might want to check if variable is already produced when this filter is run.";
@@ -166,7 +160,7 @@ public:
 			return true;
 		}
 	}
-		virtual bool DoesEventPass(event_type const& event,
+	virtual bool DoesEventPass(event_type const& event,
 		product_type const& product, setting_type const& settings) const override
 		{
 			(m_SubExpressions).clear();
@@ -193,5 +187,4 @@ private:
 	std::vector<float_extractor_lambda> m_ExpressionQuantities;
 	std::vector<std::string> m_ExpressionNames;
 	mutable std::vector<std::string> m_SubExpressions;
-
 };

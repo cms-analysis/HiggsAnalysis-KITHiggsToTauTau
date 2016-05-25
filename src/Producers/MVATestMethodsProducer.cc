@@ -6,9 +6,9 @@
 
 MVATestMethodsProducer::MVATestMethodsProducer() :
 	TmvaClassificationMultiReaderBase<HttTypes>(&spec_setting_type::GetMVATestMethodsInputQuantities,
-											&spec_setting_type::GetMVATestMethodsMethods,
-											&spec_setting_type::GetMVATestMethodsWeights,
-											&spec_product_type::m_MVATestMethodsDiscriminators)
+												&spec_setting_type::GetMVATestMethodsMethods,
+												&spec_setting_type::GetMVATestMethodsWeights,
+												&spec_product_type::m_MVATestMethodsDiscriminators)
 {
 }
 

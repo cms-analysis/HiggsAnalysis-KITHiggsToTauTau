@@ -185,7 +185,7 @@ public:
 	std::vector<double> m_antiTtbarDiscriminators;
 
     //MVATestMethods
-    std::vector<double> m_MVATestMethodsDiscriminators;
+	std::vector<double> m_MVATestMethodsDiscriminators;
 
 	// filled by HttValidGenTausProducer. Naming scheme like for the reco particles
 	std::vector<KGenTau*> m_ptOrderedGenTaus;
@@ -207,17 +207,17 @@ public:
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
 
     // filled by MVAInputQuantitiesProducer
-    int tsValue = 0;
-    double pVecSum = -1;
-    double pScalSum = -1;
-    double min_ll_jet_eta = 10;
-    double lep1_centrality = -4;
-    double lep2_centrality = -1;
-	double diLep_centrality = 5;
-	double diLep_diJet_deltaR = 100;
+// 	int tsValue = 0;
+	double m_pVecSum = -1;
+	double m_pScalSum = -1;
+	double m_MinLLJetEta = 10;
+	double m_Lep1Centrality = -4;
+	double m_Lep2Centrality = -1;
+	double m_DiLepCentrality = 5;
+	double m_DiLepDiJetDeltaR = 100;
 
     // filled by AcceptanceEfficiencyProducer
-    int m_accEffDC = 0;
-    KGenParticle* m_accEffTauMinus = nullptr;
-    KGenParticle* m_accEffTauPlus = nullptr;
+	int m_accEffDC = 0;
+	KGenParticle* m_accEffTauMinus = nullptr;
+	KGenParticle* m_accEffTauPlus = nullptr;
 };
