@@ -7,6 +7,8 @@
     "lep1_centrality",
     "lep2_centrality",
     "delta_lep_centrality",
+    "diLep_centrality",
+    "diLep_diJet_deltaR",
     "abs_min_ll_jet_eta"
     ]
 }

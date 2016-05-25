@@ -19,6 +19,8 @@
 		"weight",
 		"#embeddedWeight",
 		"m_vis",
+		"H_mass",
+		"H_pt",
 		"diLepMass",
 		"diLepMassSmearUp",
 		"diLepMassSmearDown",

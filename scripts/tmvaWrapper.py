@@ -212,7 +212,7 @@ def do_training(args):
 			method, options = method.split(';')
 			name = method + '_' + filename
 			if(method == "FastBDT"):
-				factory.BookMethod(ROOT.TMVA.Types.kPlugins, method, options)
+				factory.BookMethod(ROOT.TMVA.Types.kPlugins, name, options)
 			else:
 				factory.BookMethod(method, name, options)
 			log.debug("TMVA.Factory.BookMethod(" + ", ".join(
