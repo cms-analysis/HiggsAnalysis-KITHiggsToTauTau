@@ -32,6 +32,12 @@ void MVAInputQuantitiesProducer::Init(setting_type const& settings)
     LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("delta_lep_centrality", [](event_type const& event, product_type const& product) {
         return std::abs(product.lep1_centrality-product.lep2_centrality);
     });
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLep_centrality", [](event_type const& event, product_type const& product) {
+        return std::abs(product.diLep_centrality);
+    });
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLep_diJet_deltaR", [](event_type const& event, product_type const& product) {
+        return std::abs(product.diLep_diJet_deltaR);
+    });
 
 }
 
@@ -48,14 +54,10 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
 
     //pVecSum production vectorial sum of missing E_t DiLepton und DiJet
     product.pVecSum = (product.m_met.p4 + product.m_diLeptonSystem + product.m_diJetSystem).M();
+    //pScalSum production scalar sum of missing E_t DiLepton und DiJet
+    product.pScalSum = (product.m_met.p4).M() + product.m_diLeptonSystem.M() + product.m_diJetSystem.M();
 
-    //pScalSum production scalar sum of missing E_t DiLepton und DiJet
-    product.pScalSum = (product.m_met.p4).M() + product.m_diLeptonSystem.M() + product.m_diJetSystem.M();
-    //pVecSum production vectorial sum of missing E_t DiLepton und DiJet
-    product.pVecSum = (product.m_met.p4 + product.m_diLeptonSystem + product.m_diJetSystem).M();
-    //pScalSum production scalar sum of missing E_t DiLepton und DiJet
-    product.pScalSum = (product.m_met.p4).M() + product.m_diLeptonSystem.M() + product.m_diJetSystem.M();
-//     if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 20.0) >= 1)
+//    if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 20.0) >= 1)
 //     {
 //         product.min_ll_jet_eta = product.m_diLeptonSystem.Eta() + product.m_validJets[0]->p4.Eta();
 //     }
@@ -69,6 +71,7 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
     double jet1_eta = product.m_validJets[0]->p4.Eta();
     double jet2_eta = product.m_validJets[1]->p4.Eta();
     product.min_ll_jet_eta = std::min(product.m_diLeptonSystem.Eta() + jet1_eta, product.m_diLeptonSystem.Eta() + jet2_eta);
+	product.diLep_diJet_deltaR = ROOT::Math::VectorUtil::DeltaR(product.m_diLeptonSystem, product.m_diJetSystem);
 
 	//object_centrality production
     double eta = 0.0;
@@ -76,6 +79,8 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
     product.lep1_centrality = TMath::Exp(-4.0/(jet1_eta-jet2_eta)/(jet1_eta-jet2_eta)*(eta-(jet1_eta+jet2_eta)/2.0)*(eta-(jet1_eta+jet2_eta)/2.0));
     eta = product.m_flavourOrderedLeptons[1]->p4.Eta();
     product.lep2_centrality = TMath::Exp(-4.0/(jet1_eta-jet2_eta)/(jet1_eta-jet2_eta)*(eta-(jet1_eta+jet2_eta)/2.0)*(eta-(jet1_eta+jet2_eta)/2.0));
+	eta = product.m_diLeptonSystem.Eta();
+    product.diLep_centrality = TMath::Exp(-4.0/(jet1_eta-jet2_eta)/(jet1_eta-jet2_eta)*(eta-(jet1_eta+jet2_eta)/2.0)*(eta-(jet1_eta+jet2_eta)/2.0));
     }
 
 }
