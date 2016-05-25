@@ -236,8 +236,8 @@ if __name__ == "__main__":
 	debug_plot_configs = []
 	for output_file in output_files:
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
-	if args.clear_output_dir and not args.no_replotting:
-		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	#if args.clear_output_dir and not args.no_replotting:
+		#higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -306,9 +306,10 @@ if __name__ == "__main__":
 			#"-t limit -b channel"
 	#)
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal 1 -t 5 -M Asymptotic -n\"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit -m 125 -t 5 --expectSignal 1\"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo singles -t 5 --expectSignal 1 --rMin 0 --rMax 5 --robustFit 1\"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M Asymptotic --expectSignal 1 -t -1 --toysFrequentist\"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit --expectSignal 1 -t -1 --toysFrequentist\"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance\"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo singles -t -1 --expectSignal 1 --rMin 0 --rMax 5 --robustFit 1 --toysFrequentist\"\"")
 
 	"""
 	# cV-cF scan

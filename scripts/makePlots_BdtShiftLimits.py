@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i","--input-dirs",action="append", nargs = "+", help="Input ROOT file")
 	parser.add_argument("-d","--diff-dirs", action="append", nargs="+", default = [],help="Diff Dirs, calculate and plot difference between input dirs and diff-dirs")
-	parser.add_argument("--unc-files", nargs = "+",default=[], action="append", help="BDT uncertainty files")
+	#parser.add_argument("--unc-files", nargs = "+",default=[], action="append", help="BDT uncertainty files")
 
 	parser.add_argument("-l", "--labels", nargs = "+", default=["limits"],
 						help="labels for the legend, has to be specified as often as --input-dirs. [Default%(default)s]")
@@ -87,24 +87,15 @@ if __name__ == "__main__":
 	if len(args.diff_dirs[0]) is not len (args.input_dirs[0]):
 		args.diff_dirs = [[]]*len(args.input_dirs)
 		calculate_diff = False
-	if args.unc_files == []:
-		args.unc_files = [[]]*len(args.input_dirs)
-		uncertainties = False
-	elif len(args.unc_files) is not len(args.input_dirs):
-		args.unc_files = args.unc_files * len(args.input_dirs)
-	if len(args.unc_files[0]) == 0:
-		args.unc_files = [[]]*len(args.input_dirs)
-		uncertainties = False
 
 	search_pattern = "{mass}/*Combine*Asymp*".format(mass=args.mass)
 	if args.limits_type == "multidim":
 		search_pattern = "{mass}/*Combine*MultiDim*".format(mass=args.mass)
 	#print args.input_dirs, args.labels, args.colors, args.diff_dirs, args.unc_files
-	for (in_dirs, label, color, diff_dirs, unc_paths) in zip(args.input_dirs, args.labels, args.colors, args.diff_dirs, args.unc_files):
+	for (in_dirs, label, color, diff_dirs) in zip(args.input_dirs, args.labels, args.colors, args.diff_dirs):
 		values = {}
 		file_list = []
 		diff_list = []
-		unc_dicts = [jsonTools.JsonDict(x) for x in unc_paths]
 		map(file_list.__iadd__, map(glob.glob, [os.path.join(x, "datacards/combined/"+search_pattern) for x in in_dirs]))
 		map(diff_list.__iadd__, map(glob.glob, [os.path.join(x, "datacards/combined/"+search_pattern) for x in diff_dirs]))
 		if len(diff_list) != len(file_list) and len(diff_list) == 0:
@@ -135,15 +126,6 @@ if __name__ == "__main__":
 				if split_name not in values[name]["categories"].keys():
 					values[name]["categories"][split_name] = {}
 				values[name]["categories"][split_name]["value"] = get_limit(cat, args.limits_type)
-				errs = 0
-				for uncs in unc_dicts:
-					vals = uncs.get(cat_name, 0)
-					if isinstance(vals, list):
-						vals = (abs(vals[0]-1.)+abs(vals[1]-1.))/2.0
-					elif isinstance(vals, float):
-						vals = abs(vals-1.0)
-					errs += vals*vals
-				values[name]["categories"][split_name]["unc"] = errs**0.5
 		values_list.append(values)
 		#print values
 		x_values = np.array([values[name]["x_val"] for name in x_names])
