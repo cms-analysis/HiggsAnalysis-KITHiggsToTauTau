@@ -1,0 +1,24 @@
+{
+	"files": [
+		"higgsCombine.MultiDimFit.mH*.root"
+	],
+	"folders": [
+		"limit"
+	],
+	"legend": [0.25, 0.8, 0.45, 0.9],
+	"legend_cols": 3,
+        "legend_markers": "",
+	"markers": [
+		"P"
+	],
+	"tree_draw_options": [
+		"TGraph"
+	],
+	"x_expressions": [
+		"cpmixing*TMath::Pi()/2"
+	],
+	"x_label": "#alpha_{#tau}",
+	"y_expressions": [ "deltaNLL"
+	],
+	"y_label": "-2 #Delta ln(L)"
+}
