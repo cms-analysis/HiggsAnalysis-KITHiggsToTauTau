@@ -245,8 +245,8 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			});
 		}
 		
-		std::string quantity = "decayMode_" + std::to_string(leptonIndex+1);
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(quantity, [leptonIndex](event_type const& event, product_type const& product)
+		std::string decayModeQuantity = "decayMode_" + std::to_string(leptonIndex+1);
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(decayModeQuantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
 			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			if (lepton->flavour() == KLeptonFlavour::TAU)
@@ -259,8 +259,8 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			}
 		});
 		
-		std::string quantity = "gen_match_" + std::to_string(leptonIndex+1);
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(quantity, [leptonIndex](event_type const& event, product_type const& product)
+		std::string genMatchQuantity = "gen_match_" + std::to_string(leptonIndex+1);
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(genMatchQuantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
 			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
@@ -268,8 +268,8 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			return  GeneratorInfo::GetGenMatchingCode(genParticle);
 		});
 		
-		std::string quantity = "had_gen_match_pT_" + std::to_string(leptonIndex+1);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(quantity, [leptonIndex](event_type const& event, product_type const& product)
+		std::string hadGenMatchPtQuantity = "had_gen_match_pT_" + std::to_string(leptonIndex+1);
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(hadGenMatchPtQuantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
 			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
