@@ -47,58 +47,6 @@
 	"#EventWhitelist" : [
 	],
 	"OutputPath" : "output.root",
-	"Processors" : {
-		"nick" : {
-			"default" : [
-				"#filter:RunLumiEventFilter",
-				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:NicknameProducer",
-				"producer:PUWeightProducer",
-				"producer:GenParticleProducer",
-				"producer:GenPartonCounterProducer",
-				"producer:GeneratorWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
-			],
-			"W.?JetsToLNu" : [
-				"#filter:RunLumiEventFilter",
-				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:NicknameProducer",
-				"producer:PUWeightProducer",
-				"producer:GenParticleProducer",
-				"producer:GenPartonCounterProducer",
-				"producer:GeneratorWeightProducer",
-				"producer:SampleStitchingWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
-			],
-			"DY.?JetsToLLM(50|150)" : [
-				"#filter:RunLumiEventFilter",
-				"producer:CrossSectionWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:NicknameProducer",
-				"producer:PUWeightProducer",
-				"producer:GenBosonDiLeptonDecayModeProducer",
-				"producer:GenDiLeptonDecayModeProducer",
-				"producer:GenParticleProducer",
-				"producer:GenPartonCounterProducer",
-				"producer:GenTauDecayProducer",
-				"producer:GenTauDecayModeProducer",
-				"#producer:GenTauCPProducer",
-				"#producer:RecoTauCPProducer",
-				"#producer:TauSpinnerProducer",
-				"producer:GeneratorWeightProducer",
-				"producer:SampleStitchingWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
-			],
-			"Run2015" : [
-				"#filter:RunLumiEventFilter",
-				"filter:JsonFilter",
-				"producer:NicknameProducer",
-				"#producer:TaggedJetCorrectionsProducer"
-			]
-		}
-	},
 	"PileupWeightFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeVFall15MiniAODv2_PromptReco_69mbMinBiasXS.root",
@@ -123,6 +71,16 @@
 	"MvaMetRecoilCorrectorFile" : {
 		"nick" : {
 			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
+		}
+	},
+	"MetShiftCorrectorFile" : {
+		"nick" : {
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
+		}
+	},
+	"MvaMetShiftCorrectorFile" : {
+		"nick" : {
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 		}
 	},
 	"JsonFiles" : {
