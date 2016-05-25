@@ -23,6 +23,10 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return Utility::ToUnderlyingValue(product.m_decayChannel);
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("leadingLepLV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_ptOrderedLeptons[0]->p4;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepCharge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->charge();
@@ -114,6 +118,10 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4);
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("trailingLepLV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_ptOrderedLeptons[1]->p4;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepCharge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->charge();
