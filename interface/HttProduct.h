@@ -213,6 +213,8 @@ public:
     double min_ll_jet_eta = 10;
     double lep1_centrality = -4;
     double lep2_centrality = -1;
+	double diLep_centrality = 5;
+	double diLep_diJet_deltaR = 100;
 
     // filled by AcceptanceEfficiencyProducer
     int m_accEffDC = 0;
