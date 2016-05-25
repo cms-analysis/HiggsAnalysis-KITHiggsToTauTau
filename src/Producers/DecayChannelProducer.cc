@@ -226,15 +226,14 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	tauDiscriminators.push_back("neutralIsoPtSum");
 	tauDiscriminators.push_back("puCorrPtSum");
 
-	for (std::string tauDiscriminator : tauDiscriminators)
+	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
-		for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+		for (std::string tauDiscriminator : tauDiscriminators)
 		{
 			std::string quantity = tauDiscriminator + "_" + std::to_string(leptonIndex+1);
 			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(quantity, [tauDiscriminator, leptonIndex](event_type const& event, product_type const& product)
 			{
-				assert(leptonIndex < product.m_flavourOrderedLeptons.size());
-				KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
+				KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 				if (lepton->flavour() == KLeptonFlavour::TAU)
 				{
 					return static_cast<KTau*>(lepton)->getDiscriminator(tauDiscriminator, event.m_tauMetadata);
@@ -245,15 +244,11 @@ void DecayChannelProducer::Init(setting_type const& settings)
 				}
 			});
 		}
-	}
-
-	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
-	{
+		
 		std::string quantity = "decayMode_" + std::to_string(leptonIndex+1);
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(quantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
-			assert(leptonIndex < product.m_flavourOrderedLeptons.size());
-			KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
+			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			if (lepton->flavour() == KLeptonFlavour::TAU)
 			{
 				return static_cast<KTau*>(lepton)->decayMode;
@@ -263,28 +258,20 @@ void DecayChannelProducer::Init(setting_type const& settings)
 				return DefaultValues::UndefinedInt;
 			}
 		});
-	}
-
-	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
-	{
+		
 		std::string quantity = "gen_match_" + std::to_string(leptonIndex+1);
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(quantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
-			assert(leptonIndex < product.m_flavourOrderedLeptons.size());
-			KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
+			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
 
 			return  GeneratorInfo::GetGenMatchingCode(genParticle);
 		});
-	}
-
-	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
-	{
+		
 		std::string quantity = "had_gen_match_pT_" + std::to_string(leptonIndex+1);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(quantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
-			assert(leptonIndex < product.m_flavourOrderedLeptons.size());
-			KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
+			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
 
 			// Return pT in case it matches a hadronic tau
