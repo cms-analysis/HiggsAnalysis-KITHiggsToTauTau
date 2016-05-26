@@ -85,7 +85,8 @@ if __name__ == "__main__":
 						  ",pzetavis,":",pZetaVis:=pzetavis,",
 						  "njets":"nJets30:=njets","nbtag":"nBJets20:=nbtag",
 						  "iso_1":"lep1IsoOverPt:=iso_1", "m_vis":"diLepMass:=m_vis",
-						  "jdeta":"diJetAbsDeltaEta:=jdeta", "mjj":"diJetMass:=mjj"}
+						  "jdeta":"diJetAbsDeltaEta:=jdeta", "mjj":"diJetMass:=mjj",
+						  "H_pt":"diLepMetPt:=H_pt", "ptvis":"diLepPt:=ptvis"}
 	for log_file in log_file_list:
 		c_log = jsonTools.JsonDict(log_file)
 		quantities = ",".join(map(lambda ls: ls.pop(0), map(lambda s: s.split(";"), c_log["variables"].split(","))))

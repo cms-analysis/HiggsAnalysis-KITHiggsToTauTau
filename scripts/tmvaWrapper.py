@@ -260,7 +260,8 @@ if __name__ == "__main__":
 						default=["pVecSum;F", "pt_1;F", "mt_1;F", "pt_2;F", "mt_2;F",
 								"mvamet;F", "pZetaMissVis;F","njets;I",
 								"lep1_centrality;F","lep2_centrality;F",
-								"delta_lep_centrality;F", "pScalSum;F"],
+								"delta_lep_centrality;F", "pScalSum;F", "H_pt;F", "ptvis;F",
+								"diLep_centrality;F", "diLep_diJet_deltaR;F"],
 						help="Quantities to train on.  [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=2.301,
 						help="""Luminosity for the given data in fb^(-1).
