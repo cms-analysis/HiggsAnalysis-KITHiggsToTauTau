@@ -114,6 +114,11 @@ def do_splitting(args, plot_configs):
 			c_tree_list.Add(ROOT.TChain())
 			root_file_name = root_file_name + '/' + config["folders"][0]
 			c_tree_list[-1].Add(root_file_name)
+			c_tree_list[-1].SetBranchStatus("*", 1)
+			#for iname in c_tree_list[-1].GetListOfBranches():
+				#print iname
+			#import pdb
+			#pdb.set_trace()
 		for j,split in enumerate(splits_list):
 			#combine the root ntuples from c_tree_list into one ntuple. this happens for every split sample for the nfold training
 			c_tree_list2 = ROOT.TList()
@@ -219,6 +224,8 @@ def do_training(args):
 				["\"" + m + "\"" for m in (method, name, options)]) + ")")
 		#perform full training
 		log.debug("TMVA.Factory.TrainAllMethods()")
+		#import pdb
+		#pdb.set_trace()
 		factory.TrainAllMethods()
 
 		log.debug("TMVA.Factory.TestAllMethods()")
