@@ -58,6 +58,10 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("lep1LV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons[0]->p4;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->charge();
@@ -117,6 +121,27 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	{
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4);
 	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genLep1LV", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4 : RMFLV());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep1Pt", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4.Pt() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep1Eta", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4.Eta() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep1Phi", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4.Phi() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep1Mass", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4.mass() : DefaultValues::UndefinedFloat);
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("trailingLepLV", [](event_type const& event, product_type const& product)
 	{
@@ -153,6 +178,10 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("lep2LV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons[1]->p4;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->charge();
@@ -196,6 +225,28 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	{
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[1]->p4, product.m_met.p4);
 	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genLep2LV", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[1] ? product.m_flavourOrderedGenLeptons[1]->p4 : RMFLV());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep2Pt", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[1] ? product.m_flavourOrderedGenLeptons[1]->p4.Pt() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep2Eta", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[1] ? product.m_flavourOrderedGenLeptons[1]->p4.Eta() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep2Phi", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[1] ? product.m_flavourOrderedGenLeptons[1]->p4.Phi() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep2Mass", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[1] ? product.m_flavourOrderedGenLeptons[1]->p4.mass() : DefaultValues::UndefinedFloat);
+	});
+	
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("extraelec_veto", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return static_cast<HttProduct const&>(product).m_extraElecVeto;
