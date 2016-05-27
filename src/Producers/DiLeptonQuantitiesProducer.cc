@@ -3,7 +3,6 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
 
 
 void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
@@ -82,7 +81,10 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
 		KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
-		product.m_diLeptonGenSystem += genParticle->p4;
+		if (genParticle)
+		{
+			product.m_diLeptonGenSystem += genParticle->p4;
+		}
 	}
 	
 	// collinear approximation

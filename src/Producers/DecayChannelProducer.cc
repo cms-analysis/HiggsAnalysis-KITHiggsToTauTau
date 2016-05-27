@@ -271,7 +271,14 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(genMatchQuantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
 			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
-			return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
+			if (genParticle)
+			{
+				return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
+			}
+			else
+			{
+				return Utility::ToUnderlyingValue(HttEnumTypes::GenMatchingCode::IS_FAKE);
+			}
 		});
 		
 		std::string hadGenMatchPtQuantity = "had_gen_match_pT_" + std::to_string(leptonIndex+1);
@@ -280,7 +287,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
 
 			// Return pT in case it matches a hadronic tau
-			if(GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY)
+			if (genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
 			{
 				return genParticle->p4.Pt();
 			}
