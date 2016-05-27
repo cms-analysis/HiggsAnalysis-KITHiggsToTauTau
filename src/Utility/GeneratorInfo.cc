@@ -37,15 +37,16 @@ KGenParticle* GeneratorInfo::GetGenMatchedParticle(
 		std::map<KTau*, KGenTau*> const& tauGenTauMap
 )
 {
-	// TODO: the pointer new KGenParticle() is a possible memory leak
-	KGenParticle* genParticle = SafeMap::GetWithDefault(leptonGenParticleMap, lepton, new KGenParticle());
+	KGenParticle* defaultGenParticle = nullptr;
+	KGenParticle* genParticle = SafeMap::GetWithDefault(leptonGenParticleMap, lepton, defaultGenParticle);
 	
 	if (lepton->flavour() == KLeptonFlavour::TAU)
 	{
-		KGenTau* genTau = SafeMap::GetWithDefault(tauGenTauMap, static_cast<KTau*>(lepton), new KGenTau());
+		KGenTau* defaultGenTau = nullptr;
+		KGenTau* genTau = SafeMap::GetWithDefault(tauGenTauMap, static_cast<KTau*>(lepton), defaultGenTau);
 		
-		float deltaRTauGenTau = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genTau->visible.p4);
-		float deltaRTauGenParticle = ROOT::Math::VectorUtil::DeltaR(lepton->p4, genParticle->p4);
+		float deltaRTauGenTau = (genTau ? ROOT::Math::VectorUtil::DeltaR(lepton->p4, genTau->visible.p4) : std::numeric_limits<float>::max());
+		float deltaRTauGenParticle = (genParticle ? ROOT::Math::VectorUtil::DeltaR(lepton->p4, genParticle->p4) : std::numeric_limits<float>::max());
 		
 		if (deltaRTauGenParticle < deltaRTauGenTau)
 		{
