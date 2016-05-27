@@ -23,6 +23,9 @@ class SystematicsFactory(dict):
 		for channel in ["em", "et"]:
 			self["CMS_scale_e_"+channel+"_13TeV"] = EleEsSystematic
 		
+		for channel in ["em", "mt"]:
+			self["CMS_scale_m_"+channel+"_13TeV"] = MuonEsSystematic
+		
 		for channel in ["em", "et", "mt", "tt"]:
 			self["CMS_scale_met_"+channel+"_13TeV"] = MetResponseSystematic
 		
@@ -118,6 +121,21 @@ class EleEsSystematic(SystematicShiftBase):
 					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsUp")
 				elif shift < 0.0:
 					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsDown")
+		
+		return plot_config
+
+
+class MuonEsSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(MuonEsSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("muonEsNom", "muonEsUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("muonEsNom", "muonEsDown")
 		
 		return plot_config
 
