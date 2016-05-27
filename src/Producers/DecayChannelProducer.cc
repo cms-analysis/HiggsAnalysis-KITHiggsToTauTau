@@ -273,7 +273,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
 
-			return  GeneratorInfo::GetGenMatchingCode(genParticle);
+			return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
 		});
 		
 		std::string hadGenMatchPtQuantity = "had_gen_match_pT_" + std::to_string(leptonIndex+1);
@@ -283,11 +283,14 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
 
 			// Return pT in case it matches a hadronic tau
-			if(GeneratorInfo::GetGenMatchingCode(genParticle) == 5)
+			if(GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY)
 			{
 				return genParticle->p4.Pt();
 			}
-			return 0.0f;
+			else
+			{
+				return 0.0f;
+			}
 		});
 	}
 }

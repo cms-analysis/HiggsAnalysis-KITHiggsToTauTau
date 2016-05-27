@@ -1,33 +1,33 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
 
-int GeneratorInfo::GetGenMatchingCode(const KGenParticle* genParticle)
+HttEnumTypes::GenMatchingCode GeneratorInfo::GetGenMatchingCode(const KGenParticle* genParticle)
 {
 	int pdgId = std::abs(genParticle->pdgId);
 	
 	if (pdgId == 11 && genParticle->p4.Pt() > 8. && genParticle->isPrompt())
 	{
-		return static_cast<int>(GenMatchingCode::isElePrompt);
+		return HttEnumTypes::GenMatchingCode::IS_ELE_PROMPT;
 	}
 	else if (pdgId == 13 && genParticle->p4.Pt() > 8. && genParticle->isPrompt())
 	{
-		return static_cast<int>(GenMatchingCode::isMuonPrompt);
+		return HttEnumTypes::GenMatchingCode::IS_MUON_PROMPT;
 	}
 	else if (pdgId == 11 && genParticle->p4.Pt() > 8. && genParticle->isDirectPromptTauDecayProduct())
 	{
-		return static_cast<int>(GenMatchingCode::isEleFromTau);
+		return HttEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU;
 	}
 	else if (pdgId == 13 && genParticle->p4.Pt() > 8. && genParticle->isDirectPromptTauDecayProduct())
 	{
-		return static_cast<int>(GenMatchingCode::isMuonFromTau);
+		return HttEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU;
 	}
 	else if (pdgId == 15 && genParticle->p4.Pt() > 15.)
 	{
-		return static_cast<int>(GenMatchingCode::isTauHadDecay);
+		return HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY;
 	}
 	else
 	{
-		return static_cast<int>(GenMatchingCode::isFake);
+		return HttEnumTypes::GenMatchingCode::IS_FAKE;
 	}
 }
 

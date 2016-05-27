@@ -15,7 +15,7 @@ void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, produc
 	KLepton* lepton = product.m_flavourOrderedLeptons[1];
 	const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
 
-	if((GeneratorInfo::GetGenMatchingCode(genParticle) == 1) || (GeneratorInfo::GetGenMatchingCode(genParticle) == 3))
+	if((GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU))
 	{
 		if(lepton->p4.Eta() < 1.5)
 		{
