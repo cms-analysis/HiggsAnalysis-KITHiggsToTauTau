@@ -270,17 +270,14 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		std::string genMatchQuantity = "gen_match_" + std::to_string(leptonIndex+1);
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(genMatchQuantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
-			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
-			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
-
+			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
 			return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
 		});
 		
 		std::string hadGenMatchPtQuantity = "had_gen_match_pT_" + std::to_string(leptonIndex+1);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(hadGenMatchPtQuantity, [leptonIndex](event_type const& event, product_type const& product)
 		{
-			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
-			const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
+			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
 
 			// Return pT in case it matches a hadronic tau
 			if(GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY)
@@ -301,8 +298,8 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 
 	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 
-	KLepton* lepton1 = 0;
-	KLepton* lepton2 = 0;
+	KLepton* lepton1 = nullptr;
+	KLepton* lepton2 = nullptr;
 
 	size_t nElectrons = product.m_validElectrons.size();
 	size_t nMuons = product.m_validMuons.size();
@@ -401,7 +398,40 @@ void DecayChannelProducer::Produce(event_type const& event, product_type& produc
 			product.m_chargeOrderedLeptons.push_back(lepton1);
 		}
 	}
+	
+	FillGenLeptonCollections(product);
 }
+
+void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
+{
+	product.m_ptOrderedGenLeptons.clear();
+	for (std::vector<KLepton*>::iterator lepton = product.m_ptOrderedLeptons.begin();
+	     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
+	{
+		product.m_ptOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
+				&(*(*lepton)), product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+		));
+	}
+	
+	product.m_flavourOrderedGenLeptons.clear();
+	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
+	{
+		product.m_flavourOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+		));
+	}
+	
+	product.m_chargeOrderedGenLeptons.clear();
+	for (std::vector<KLepton*>::iterator lepton = product.m_chargeOrderedLeptons.begin();
+	     lepton != product.m_chargeOrderedLeptons.end(); ++lepton)
+	{
+		product.m_chargeOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+		));
+	}
+}
+
 
 void TTHDecayChannelProducer::Produce(event_type const& event, product_type& product,
 	                              setting_type const& settings) const
@@ -409,9 +439,9 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 
 	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
 
-	KLepton* lepton1 = 0;
-	KLepton* lepton2 = 0;
-	KLepton* lepton3 = 0;
+	KLepton* lepton1 = nullptr;
+	KLepton* lepton2 = nullptr;
+	KLepton* lepton3 = nullptr;
 
 	size_t nElectrons = product.m_validElectrons.size();
 	size_t nMuons = product.m_validMuons.size();
@@ -474,6 +504,8 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
 	          { return lepton1->charge() > lepton2->charge(); });
 	}
+	
+	FillGenLeptonCollections(product);
 }
 
 
@@ -575,4 +607,6 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	{
 		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > 0);
 	}
+	
+	FillGenLeptonCollections(product);
 }

@@ -69,6 +69,10 @@ public:
 	std::vector<KLepton*> m_ptOrderedLeptons; // highest pt leptons first
 	std::vector<KLepton*> m_flavourOrderedLeptons; // according to channel definition
 	std::vector<KLepton*> m_chargeOrderedLeptons; // positively charged leptons first
+	
+	std::vector<KGenParticle*> m_ptOrderedGenLeptons; // same ordering as reco collection
+	std::vector<KGenParticle*> m_flavourOrderedGenLeptons; // same ordering as reco collection
+	std::vector<KGenParticle*> m_chargeOrderedGenLeptons; // same ordering as reco collection
 
 	// filled by HttTauEnergyCorrectionProducer
 	std::map<KTau*, double> m_tauEnergyScaleWeight;

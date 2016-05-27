@@ -81,9 +81,7 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
-		KLepton* lepton = product.m_flavourOrderedLeptons[leptonIndex];
-		const KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
-		
+		KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
 		product.m_diLeptonGenSystem += genParticle->p4;
 	}
 	

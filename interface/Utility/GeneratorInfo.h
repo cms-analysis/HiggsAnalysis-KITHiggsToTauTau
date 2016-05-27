@@ -17,10 +17,10 @@ class GeneratorInfo {
 public:
 	static HttEnumTypes::GenMatchingCode GetGenMatchingCode(const KGenParticle* genParticle);
 	
-	static const KGenParticle* GetGenMatchedParticle(
+	static KGenParticle* GetGenMatchedParticle(
 			KLepton* lepton,
-			const std::map<KLepton*, const KGenParticle*> leptonGenParticleMap,
-			const std::map<KTau*, KGenTau*> tauGenTauMap
+			std::map<KLepton*, KGenParticle*> const& leptonGenParticleMap,
+			std::map<KTau*, KGenTau*> const& tauGenTauMap
 	);
 
 private:

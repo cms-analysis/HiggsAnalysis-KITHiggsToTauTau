@@ -31,11 +31,14 @@ HttEnumTypes::GenMatchingCode GeneratorInfo::GetGenMatchingCode(const KGenPartic
 	}
 }
 
-const KGenParticle* GeneratorInfo::GetGenMatchedParticle(KLepton* lepton,
-						 const std::map<KLepton*, const KGenParticle*> leptonGenParticleMap,
-						 const std::map<KTau*, KGenTau*> tauGenTauMap)
+KGenParticle* GeneratorInfo::GetGenMatchedParticle(
+		KLepton* lepton,
+		std::map<KLepton*, KGenParticle*> const& leptonGenParticleMap,
+		std::map<KTau*, KGenTau*> const& tauGenTauMap
+)
 {
-	const KGenParticle* genParticle = SafeMap::GetWithDefault(leptonGenParticleMap, lepton, new const KGenParticle());
+	// TODO: the pointer new KGenParticle() is a possible memory leak
+	KGenParticle* genParticle = SafeMap::GetWithDefault(leptonGenParticleMap, lepton, new KGenParticle());
 	
 	if (lepton->flavour() == KLeptonFlavour::TAU)
 	{

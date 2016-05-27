@@ -24,6 +24,8 @@ public:
 
 protected:
 	HttEnumTypes::DecayChannel m_decayChannel;
+	
+	void FillGenLeptonCollections(product_type& product) const;
 };
 
 
