@@ -1,1 +1,0 @@
-DCAP_sample_DoubleEG_Run2015B_PromptRecov1_13TeV_MINIAOD_2015-09-14.txt

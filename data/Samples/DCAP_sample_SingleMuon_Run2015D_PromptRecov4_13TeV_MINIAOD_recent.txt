@@ -1,1 +1,0 @@
-DCAP_sample_SingleMuon_Run2015D_PromptRecov4_13TeV_MINIAOD_2015-11-21.txt

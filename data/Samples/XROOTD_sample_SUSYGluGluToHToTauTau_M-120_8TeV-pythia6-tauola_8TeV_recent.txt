@@ -1,1 +1,0 @@
-XROOTD_sample_SUSYGluGluToHToTauTau_M-120_8TeV-pythia6-tauola_8TeV_2015-03-30.txt

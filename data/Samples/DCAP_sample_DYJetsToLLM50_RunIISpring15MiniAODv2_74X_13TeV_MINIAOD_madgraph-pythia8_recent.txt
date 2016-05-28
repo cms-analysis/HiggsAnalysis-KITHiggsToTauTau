@@ -1,1 +1,0 @@
-DCAP_sample_DYJetsToLLM50_RunIISpring15MiniAODv2_74X_13TeV_MINIAOD_madgraph-pythia8_2015-11-25.txt

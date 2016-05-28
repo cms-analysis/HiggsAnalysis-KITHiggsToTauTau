@@ -1,1 +1,0 @@
-DCAP_sample_GluGluZHHToWWM125_RunIISpring15DR74_Asympt25ns_13TeV_MINIAOD_powhegpythia8_2015-10-08.txt
