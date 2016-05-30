@@ -294,6 +294,12 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZLL) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zll", nick_suffix)
+		
+		if channel == "mt" and fakefactor_method == "standard":
+			config["weights"][config["nicks"].index("zll")] = config["weights"][config["nicks"].index("zll")]  + "*(gen_match_2 != 6)"
+		if channel == "mt" and fakefactor_method == "comparison":
+			config["weights"][config["nicks"].index("zll")] = config["weights"][config["nicks"].index("zll")]  + "*(gen_match_2 == 6)"
+		
 		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
 
@@ -314,11 +320,6 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
-
-		if channel == "mt" and fakefactor_method == "standard":
-			mc_weight = "(gen_match_2 != 6)*" + mc_weight
-		if channel == "mt" and fakefactor_method == "comparison":
-			mc_weight = "(gen_match_2 == 6)*" + mc_weight
 
 		if channel in ["mt", "et", "tt"]:
 			Samples._add_input(
@@ -426,10 +427,16 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttj", nick_suffix)
+		
+		if channel == "mt" and fakefactor_method == "standard":
+			config["weights"][config["nicks"].index("ttj")] = config["weights"][config["nicks"].index("ttj")]  + "*(gen_match_2 != 6)"
+		if channel == "mt" and fakefactor_method == "comparison":
+			config["weights"][config["nicks"].index("ttj")] = config["weights"][config["nicks"].index("ttj")]  + "*(gen_match_2 == 6)"
+		
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 
-	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -461,6 +468,12 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vv", nick_suffix)
+		
+		if channel == "mt" and fakefactor_method == "standard":
+			config["weights"][config["nicks"].index("vv")] = config["weights"][config["nicks"].index("vv")]  + "*(gen_match_2 != 6)"
+		if channel == "mt" and fakefactor_method == "comparison":
+			config["weights"][config["nicks"].index("vv")] = config["weights"][config["nicks"].index("vv")]  + "*(gen_match_2 == 6)"
+		
 		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 
@@ -481,11 +494,6 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
-
-		if channel == "mt" and fakefactor_method == "standard":
-			mc_weight = "(gen_match_2 != 6)*" + mc_weight
-		if channel == "mt" and fakefactor_method == "comparison":
-			mc_weight = "(gen_match_2 == 6)*" + mc_weight
 
 		if channel in ["mt", "et"]:
 			if estimationMethod == "new":
@@ -770,7 +778,14 @@ class Samples(samples.SamplesBase):
 
 				if not "EstimateWjets" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("EstimateWjets")
-				config.setdefault("wjets_from_mc", []).append(False)
+				if channel == "mt" and fakefactor_method == "standard":
+					config["weights"][config["nicks"].index("wj")] = config["weights"][config["nicks"].index("wj")]  + "*(gen_match_2 != 6)"
+					config.setdefault("wjets_from_mc", []).append(True)
+				if channel == "mt" and fakefactor_method == "comparison":
+					config["weights"][config["nicks"].index("wj")] = config["weights"][config["nicks"].index("wj")]  + "*(gen_match_2 == 6)"
+					config.setdefault("wjets_from_mc", []).append(False)
+				if fakefactor_method is None:
+					config.setdefault("wjets_from_mc", []).append(False)
 				config.setdefault("wjets_shape_nicks", []).append("wj"+nick_suffix)
 				config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_data_control"+nick_suffix)
 				config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_wj_control noplot_zll_wj_control noplot_ttj_wj_control noplot_vv_wj_control".split()]))
