@@ -180,3 +180,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 				for replacement in replacements.iteritems():
 					new_short_expression = new_short_expression.replace(*replacement)
 				self.expressions_dict[new_short_expression] = long_expression
+	
+	@staticmethod
+	def static_get_expression(expression):
+		exp_dict = ExpressionsDict()
+		return exp_dict.expressions_dict.get(expression)
