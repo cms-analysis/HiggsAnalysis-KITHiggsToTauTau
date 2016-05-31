@@ -6,6 +6,8 @@ log = logging.getLogger(__name__)
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
+cern_categories = ["vbf", "1jet_boosted", "1jet_highpt2", "0jet_highpt2", "1jet_lowpt2", "0jet_lowpt2"]
+new_categories = ["vbf_tag", "2jet_untagged", "1jet_boost_high", "1jet_boost_medium", "0jet_nhighpt2", "1jet_boost_low", "0jet_nlowpt2"]
 
 class SMHttDatacards(datacards.Datacards):
 	def __init__(self, higgs_masses=["125"], cb=None):
@@ -18,7 +20,7 @@ class SMHttDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category for category in ["0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]],
+					categories=["mt_"+category for category in (["0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
 					#categories=["mt_"+category for category in ["inclusive"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
@@ -47,7 +49,7 @@ class SMHttDatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+category for category in ["0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]],
+					categories=["et_"+category for category in (["0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -73,7 +75,7 @@ class SMHttDatacards(datacards.Datacards):
 			# EM channel
 			self.add_processes(
 					channel="em",
-					categories=["em_"+category for category in ["0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]],
+					categories=["em_"+category for category in (["0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
 					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -92,7 +94,7 @@ class SMHttDatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in ["inclusive"]],
+					categories=["tt_"+category for category in (["inclusive"]+cern_categories[:4]+new_categories[:5])],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],

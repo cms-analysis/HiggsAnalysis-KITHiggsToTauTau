@@ -58,7 +58,34 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			))
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_high"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_low"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}<={pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
-
+			
+			# Standard Model experimental
+			boosted_higgs_string = "(H_pt>100)"
+			boosted_higgs_medium_string = "(H_pt>50)"
+			boosted_higgs_low_string = "(H_pt>30)"
+			vbf_medium_string = "(mjj>500&&jdeta>3.5)"
+			vbf_loose_string = "(mjj>200&&jdeta>2)"
+			jet2_string = "(njetspt30>1)"
+			jet1_string = "(njetspt30>0)"
+			pt2_tight_string = "(pt_2>=45)"
+			pt2_medium_string = "(pt_2>=35)"
+			pt2_loose_string = "(pt_2>=25)"
+			eta_hard_string = "jdeta>4.0"
+			# used in CERN signal extraction study
+			self.expressions_dict["catHtt13TeV_"+channel+"_vbf"] = self.combine([vbf_medium_string, jet2_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boosted"] = self.combine([jet1_string, self.invert(vbf_medium_string), boosted_higgs_string, pt2_tight_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_highpt2"] = self.combine([jet1_string, self.invert(vbf_medium_string), self.invert(boosted_higgs_string), pt2_tight_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_lowpt2"] = self.combine([jet1_string, self.invert(vbf_medium_string), self.invert(pt2_tight_string)])
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_highpt2"] = self.combine([self.invert(jet1_string), pt2_tight_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_lowpt2"] = self.combine([self.invert(jet1_string), self.invert(pt2_tight_string)])
+			# motivated by s/sqrt(b) efficiency
+			self.expressions_dict["catHtt13TeV_"+channel+"_vbf_tag"] = self.combine([jet2_string, boosted_higgs_medium_string, eta_hard_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_untagged"] = self.combine([jet2_string, self.invert(self.combine([boosted_higgs_medium_string, eta_hard_string]))]) 
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_high"] = self.combine([jet1_string, boosted_higgs_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_medium"] = self.combine([jet1_string, self.invert(boosted_higgs_string), boosted_higgs_low_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_low"] = self.combine([jet1_string, self.invert(boosted_higgs_low_string)])
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nhighpt2"] = self.combine([self.invert(jet1_string), pt2_tight_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nlowpt2"] = self.combine([self.invert(jet1_string), self.invert(pt2_tight_string)])
 
 		# MSSSM
 		for channel in ["et","mt","tt","em"]:
