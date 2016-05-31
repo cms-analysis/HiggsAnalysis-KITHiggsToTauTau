@@ -34,7 +34,7 @@ decayMode_dict = {
 	},
 	"OneProngPiZeros" : {
 		"color" : "4",
-		"label" : "h^{#pm}(#geq 1 #pi^{0}) decay modes"
+		"label" : "h^{#pm}(#geq 1 #pi^{0}) decay mode"
 	},
 	"ThreeProng" : {
 		"color" : "6",
@@ -497,6 +497,9 @@ if __name__ == "__main__":
 				elif "ThreeProng" in category and quantity == "m_2":
 					config["x_label"] = "m_{#tau_{h}} [GeV]"
 					config["x_lims"] = [0.6,1.8]
+				elif "AllDMs" in category and quantity == "m_2":
+					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_lims"] = [0.2,1.8]
 				elif "OneProng" in category or quantity == "m_vis":
 					config["x_label"] = "m_{vis}(#mu#tau_{h}) [GeV]"
 					config["x_lims"] = [20,200]
