@@ -216,13 +216,13 @@ if __name__ == "__main__":
 						nicks_to_sum.extend([sample+higgs_masses[0]+"_"+str(min(args.cp_mixings)) for sample in list_of_sig_samples])
 						config.setdefault("histogram_nicks", []).append(" ".join(nicks_to_sum))
 						config.setdefault("sum_result_nicks", []).append("asimov_s")
-						config.setdefault("labels", []).append((bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
+						config.setdefault("labels", []).insert(0, (bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process("data"),
 								BIN=category,
 								SYSTEMATIC=systematic
 						))
-						config.setdefault("colors", []).append("data")
-						config.setdefault("markers", []).append("data")
+						config.setdefault("colors", []).insert(0, "data")
+						config.setdefault("markers", []).insert(0, "data")
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
