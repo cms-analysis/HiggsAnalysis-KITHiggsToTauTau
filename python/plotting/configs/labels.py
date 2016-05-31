@@ -66,6 +66,9 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_delta_lep_centrality"] = "#DeltaCentrality"
 				self.labels_dict[channel+"_min_ll_jet_eta"] = "min(#eta_{\\ell\\ell}+#eta_{j1}, #eta_{\\ell\\ell}+#eta_{j2})"
 				self.labels_dict[channel+"_pVecSum"] = "#cbar#vec{#slash{E}_{T}}+#vec{p_{T}(ll)}+#vec{p_{T}(jj)}#cbar"
+				self.labels_dict[channel+"_H_mass"] = "m_{H}"
+				self.labels_dict[channel+"_H_pt"] = "p_{T}^{H}"
+				self.labels_dict[channel+"_ptvis"] = "p_{T}^{vis}"
 			self.labels_dict["diLepMass"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["svfitMass"] = "Di-#tau Mass m_{#tau#tau} / GeV"
 
