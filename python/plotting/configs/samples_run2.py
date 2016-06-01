@@ -10,7 +10,7 @@ import copy
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 
 
-default_lumi = 2155
+default_lumi = 2.301*1000.0
 
 class Samples(samples.SamplesBase):
 

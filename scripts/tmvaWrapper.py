@@ -270,7 +270,7 @@ if __name__ == "__main__":
 								"delta_lep_centrality;F", "pScalSum;F", "H_pt;F", "ptvis;F",
 								"diLep_centrality;F", "diLep_diJet_deltaR;F"],
 						help="Quantities to train on.  [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=2.301,
+	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 						help="""Luminosity for the given data in fb^(-1).
 								[Default: %(default)s]""")
 	parser.add_argument("-w", "--weight", default="1.0",

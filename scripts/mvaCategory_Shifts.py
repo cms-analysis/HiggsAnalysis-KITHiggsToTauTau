@@ -15,6 +15,7 @@ import itertools
 import ROOT
 from string import strip
 import matplotlib.pyplot as plt
+#import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 
 def calculate_diff(filename, htt_name, sigma_value=0.68):
 	tfile = ROOT.TFile(filename, "READ")
@@ -82,7 +83,7 @@ if __name__ == "__main__":
 							help="Output file. [Default: %(default)s]")
 	#parser.add_argument("--legend", default="upper left",
 						#help="position of legend, use 'matplotlib position' as argument[Default:%(default)s]")
-	#parser.add_argument("--lumi", type=float, default=2.301,
+	#parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    #help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	#parser.add_argument("-e", "--exclude-log", nargs="+",
 						#default=[],

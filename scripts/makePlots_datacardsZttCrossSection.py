@@ -78,7 +78,7 @@ if __name__ == "__main__":
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--grid-bins", default="50",
 	                    help="Binning of the grid for the logL scan. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=2.301,
+	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
