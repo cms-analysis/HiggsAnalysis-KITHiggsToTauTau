@@ -81,6 +81,7 @@ if __name__ == "__main__":
 	ax = fig.add_subplot(111)
 	x_names = []
 	categories_names = []
+	x_values = []
 	values_list = []
 	calculate_diff = True
 	uncertainties = True
@@ -203,10 +204,13 @@ if __name__ == "__main__":
 				#ax.plot(x_values_list, np.array(ups)-np.array(downs), marker="_", label="size 68% range", color = color, markersize = 12.5, ls = "None", markeredgewidth=2)
 			ax.set_ylabel("significance", size='x-large')
 			ax.set_xlabel("x times current lumi", size='x-large')
+		ax.set_xticklabels([str("%1.1f"%x) for x in x_values_list], size='large')
 		jsonTools.JsonDict(save_values).save("%s_Values.txt"%args.output_file, indent=4)
-	ax.set_xticks(x_values_list)
-	ax.set_xlim(0, 1.2*max(x_values_list))
-	ax.set_xticklabels([str("%1.1f"%x) for x in x_values_list], size='large')
+		x_values = x_values_list
+	else:
+		ax.set_xticklabels(x_names)
+	ax.set_xticks(x_values)
+	ax.set_xlim(-0.2, 1.2*max(x_values))
 	lgd = ax.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0., numpoints=1)
 	plt.savefig("%s.png"%args.output_file, bbox_extra_artists=(lgd,), bbox_inches='tight')
 	plt.savefig("%s.pdf"%args.output_file, bbox_extra_artists=(lgd,), bbox_inches='tight')
