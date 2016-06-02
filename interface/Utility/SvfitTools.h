@@ -39,28 +39,24 @@ public:
 		else return IntegrationMethod::NONE;
 	}
 	
-	uint64_t run;
-	uint64_t lumi;
-	uint64_t event;
+	uint64_t runLumiEvent;
 	int decayType1;
 	int decayType2;
-	int decayMode1;
-	int decayMode2;
 	int systematicShift;
 	float systematicShiftSigma;
 	int integrationMethod;
-	uint32_t hash;
+	uint64_t hash;
 	
 	SvfitEventKey() {};
-	SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
+	SvfitEventKey(uint64_t const& runLumiEvent,
 	              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	              int const& decayMode1, int const& decayMode2, HttEnumTypes::SystematicShift const& systematicShift,
-	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint32_t const &hash);
+	              HttEnumTypes::SystematicShift const& systematicShift,
+	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint64_t const &hash);
 	
-	void Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
+	void Set(uint64_t const& runLumiEvent,
 	         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	         int const& decayMode1, int const& decayMode2, HttEnumTypes::SystematicShift const& systematicShift,
-	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint32_t const &hash);
+	         HttEnumTypes::SystematicShift const& systematicShift,
+	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint64_t const &hash);
 	
 	HttEnumTypes::SystematicShift GetSystematicShift() const;
 	IntegrationMethod GetIntegrationMethod() const;
@@ -91,14 +87,19 @@ public:
 	
 	RMDataV* metMomentum = 0;
 	RMSM2x2* metCovariance = 0;
+
+	int* decayMode1 = 0;
+	int* decayMode2 = 0;
 	
 	SvfitInputs() {};
 	SvfitInputs(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
-	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
+	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance,
+	            int const& decayMode1, int const& decayMode2);
 	~SvfitInputs();
 	
 	void Set(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
-	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
+	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance,
+	         int const& decayMode1, int const& decayMode2);
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
@@ -108,8 +109,6 @@ public:
 	bool operator!=(SvfitInputs const& rhs) const;
 	
 	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity=0, bool addLogM=false) const;
-
-	uint32_t GetHash();
 
 private:
 	std::vector<svFitStandalone::MeasuredTauLepton> GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const;

@@ -7,6 +7,7 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/KappaAnalysis/interface/KappaTypes.h"
 #include "Artus/Utility/interface/SafeMap.h"
+#include "boost/functional/hash.hpp"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
@@ -104,33 +105,31 @@ public:
 			
 			// create hashes from lepton selection. Any number of leptons is possible 
 			std::vector<KLepton*> leptons = product.m_ptOrderedLeptons;
-			std::vector<unsigned int> hashes;
+			std::vector<size_t> hashes;
 			do
 			{
-				unsigned int hash = 0;
+				size_t hash = 0;
 				for (std::vector<KLepton*>::iterator lepton = leptons.begin(); lepton != leptons.end(); ++lepton)
 				{
-					hash = bitShift(hash, 3);
-					hash = hash ^ SafeMap::GetWithDefault(
-							product.m_originalLeptons,
-							static_cast<const KLepton*>(*lepton),
-							static_cast<const KLepton*>(*lepton)
-					)->getHash();
+				    boost::hash_combine(hash,(*lepton)->internalId);
 				}
 				hashes.push_back(hash);
 			}
 			while (std::prev_permutation(leptons.begin(), leptons.end(), [](KLepton const* lepton1, KLepton const* lepton2) -> bool { return lepton1->p4.Pt() < lepton2->p4.Pt(); }));
 			
+			bool foundMvaMet = false;
 			for (typename std::vector<TMet>::iterator met = (event.*m_metsMember)->begin(); met != (event.*m_metsMember)->end(); ++met)
 			{
 				if (std::find(hashes.begin(), hashes.end(), met->leptonSelectionHash)!= hashes.end())
 				{
 					product.m_metUncorr = &(*met);
+					foundMvaMet = true;
 					break;
 				} 
 			}
 			
-			assert(product.m_metUncorr != nullptr);
+			// Make sure we found a corresponding MVAMET, this is to ensure we do not fall back to the PFMet
+			assert(foundMvaMet && (product.m_metUncorr != nullptr));
 			// If this assertion fails, one might have to consider running the MetSelector before this producer
 			// in order to have the (PF) MET as a fallback solution
 			
