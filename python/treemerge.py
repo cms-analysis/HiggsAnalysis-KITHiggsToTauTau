@@ -14,7 +14,7 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gROOT.SetBatch(True)
 
 import Artus.HarryPlotter.utility.roottools as roottools
-import Artus.HarryPlotter.utility.tfilecontextmanager as tfilecontextmanager
+import Artus.Utility.tfilecontextmanager as tfilecontextmanager
 
 
 def treemerge(input_file_names, input_tree_names,

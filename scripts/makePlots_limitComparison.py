@@ -13,7 +13,7 @@ import tempfile
 
 import Artus.Utility.jsonTools as jsonTools
 import Artus.HarryPlotter.utility.roottools as roottools
-import Artus.HarryPlotter.utility.tfilecontextmanager as tfilecontextmanager
+import Artus.Utility.tfilecontextmanager as tfilecontextmanager
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 

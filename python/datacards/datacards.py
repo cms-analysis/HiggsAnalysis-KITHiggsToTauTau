@@ -17,7 +17,7 @@ import CombineHarvester.CombinePdfs.morphing as morphing
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 import Artus.HarryPlotter.utility.roottools as roottools
-import Artus.HarryPlotter.utility.tfilecontextmanager as tfilecontextmanager
+import Artus.Utility.tfilecontextmanager as tfilecontextmanager
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
