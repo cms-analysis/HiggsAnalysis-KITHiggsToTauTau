@@ -10,7 +10,8 @@ import copy
 import glob
 import os
 import shutil
-
+import ROOT
+ROOT.gSystem.Load("libHiggsAnalysisCombinedLimit")
 import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.jsonTools as jsonTools
@@ -70,14 +71,14 @@ if __name__ == "__main__":
 	
 	parser.add_argument("-d", "--datacards", nargs="+", required=True,
 	                    help="Datacards.")
-	parser.add_argument("-L", "--lumi-datacards", type=float, default=samples.default_lumi/1000.0,
+	parser.add_argument("-L", "--lumi-datacards", type=float, default=samples.default_lumi,
 	                    help="Integrated luminosity / pb used for the datacards. [Default: %(default)s]")
 	parser.add_argument("-l", "--lumis", nargs="+", type=int, default=range(1000, 10000, 1000)+range(10000, 100000, 10000)+[100000],#+range(100000, 300001, 100000),
-	                    help="Projection values for integrated luminosities / fb. [Default: %(default)s]")
+	                    help="Projection values for integrated luminosities / pb. [Default: %(default)s]")
 	parser.add_argument("-m", "--models", nargs="+", default=["default"],
 	                    choices=models.keys(),
 	                    help="Statistics models. [Default: %(default)s]")
-	parser.add_argument("--freeze-syst-uncs", nargs="+", type="bool", default=[False, True],
+	parser.add_argument("--freeze-syst-uncs", nargs="+", type="bool", default=[False],#, True],
 	                    help="Freeze systematics (needs run without freezing first). [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
@@ -100,10 +101,12 @@ if __name__ == "__main__":
 		
 	datacards_configs = datacardconfigs.DatacardConfigs()
 	
+	
+	
 	plot_configs = []
 	for datacard in args.datacards:
 		cb = ch.CombineHarvester()
-		
+		cb.SetFlag("workspaces-use-clone", True)
 		for template in datacards_configs.htt_datacard_filename_templates:
 			template_tag = template.split("$")[0]
 						
@@ -117,7 +120,7 @@ if __name__ == "__main__":
 		for model in args.models:
 			model_settings = models.get(model, {})
 			
-			#datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
+			datacards_workspaces = {}
 			for freeze_syst_uncs in args.freeze_syst_uncs:
 				
 				output_dir_base = args.output_dir
@@ -160,11 +163,13 @@ if __name__ == "__main__":
 				if not freeze_syst_uncs:
 					datacards_workspaces = datacards.text2workspace(datacards_cbs, args.n_processes)
 					
+					#continue
 				json_configs = []
 				
 				
 				# fits
 				for fit_name, fit_options in model_settings.get("fit", {}).iteritems():
+					tmp_datacards_workspaces = datacards_workspaces[fit_name] if freeze_syst_uncs else datacards_workspaces
 					stable_combine_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 	
 					datacards.combine(
@@ -176,7 +181,7 @@ if __name__ == "__main__":
 					)
 					
 					datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-					datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
+					datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "x_expressions" : "genPhiStarCP"}, n_processes=args.n_processes)
 					
 					datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 					datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
@@ -193,24 +198,27 @@ if __name__ == "__main__":
 							)
 					)
 					
+				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MultiDimFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
 				#datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MaxLikelihoodFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
-				
-				json_configs.extend(model_settings.get("fit_plots", []))
-				json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in json_configs]
-				for config in json_configs:
-					config["directories"] = os.path.join(output_dir_base, "*")
-					config["x_expressions"] = [x.replace("lumi", "(lumi/1000.0)") for x in config.get("x_expressions", [])]
+				plot_configs=[]
+				config={
+					"folders": [
+    					"limit"
+    	     			],
+					"files": [
+						"higgsCombine.MultiDimFit.mH*.root"
+						],
 					
-					if not config.get("labels", None) is None:
-						config["legend"] = [0.45, 0.88-(len(config["labels"])*0.05), 0.9, 0.88]
-					
-					if "pvalue" in config.get("filename", ""):
-						config["x_lims"] = [min(args.lumis)/1000.0, max(args.lumis)/1000.0]
-					
-					config["output_dir"] = os.path.join(output_dir_base, "plots")
-					
-					plot_configs.append(config)
-	
+					#"x_bins":[1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 11000],
+					"y_bins":[5,0,1.1],
+					"x_expressions":"lumi",
+					"y_expressions":"cpmixing",
+					"weights": "deltaNLL",
+					"markers": "COLZ",
+					"z_label": "deltaNLL"						
+						}
+				plot_configs.append(config)
+		
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
