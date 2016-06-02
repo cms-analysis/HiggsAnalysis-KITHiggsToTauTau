@@ -46,6 +46,9 @@ git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 # Jet2Tau Fakes
 git clone https://github.com/artus-analysis/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 
+# EmuQCD Method
+git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
+
 # Fit Package for tau polarisation
 git clone https://github.com/CMSAachen3B/SimpleFits.git -b artus_master
 

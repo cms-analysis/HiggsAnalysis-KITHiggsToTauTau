@@ -16,6 +16,7 @@
 <use name="CombineHarvester/CombineTools" />
 <use name="HHKinFit2/HHKinFit2" />
 <use name="HTTutilities/Jet2TauFakes" />
+<use name="HTT-utilities/QCDModelingEMu" />
 <use name="SimpleFits/FitSoftware" />
 
 
