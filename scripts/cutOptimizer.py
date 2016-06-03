@@ -217,30 +217,33 @@ if __name__ == "__main__":
 		else:
 			b_max_index = current_cuts[0]-1
 			b_min = x_bins[b_max_index-3] if b_max_index >=3 else x_bins[0]
-			b_max = x_bins[b_max_index+3] if len(x_bins) - b_max_index >=3 else x_bins[-1]
+			b_max = x_bins[b_max_index+3] if (len(x_bins) - b_max_index) >3 else x_bins[-1]
 			b_min = int(b_min*100)
 			b_max = int(b_max*100)
 			step = (b_max-b_min)/10 if (b_max-b_min)/10 >= 1 else 1
 			x_bins = [x_bins[0]]+[x/100.0 for x in range(b_min, b_max, int(step))]+[x_bins[-1]]
 			config["x_bins"] = [" ".join([str(x/100.0) for x in x_bins])]
+			print config["x_bins"]
 			if args.y_quantity is not None:
-				b_max_index = current_cuts[0]-1
+				b_max_index = current_cuts[1]-1
 				b_min = y_bins[b_max_index-3] if b_max_index >=3 else y_bins[0]
-				b_max = y_bins[b_max_index+3] if len(y_bins) - b_max_index >=3 else y_bins[-1]
+				b_max = y_bins[b_max_index+3] if (len(y_bins) - b_max_index) >3 else y_bins[-1]
 				b_min = int(b_min*100)
 				b_max = int(b_max*100)
 				step = (b_max-b_min)/10 if (b_max-b_min)/10 >= 1 else 1
 				y_bins = [y_bins[0]]+[x/100.0 for x in range(b_min, b_max, int(step))]+[y_bins[-1]]
 				config["y_bins"] = [" ".join([str(x/100.0) for x in y_bins])]
+				print config["y_bins"]
 			if args.z_quantity is not None:
-				b_max_index = current_cuts[0]-1
+				b_max_index = current_cuts[2]-1
 				b_min = z_bins[b_max_index-3] if b_max_index >=3 else z_bins[0]
-				b_max = z_bins[b_max_index+3] if len(z_bins) - b_max_index >=3 else x_bins[-1]
+				b_max = z_bins[b_max_index+3] if (len(z_bins) - b_max_index) >3 else z_bins[-1]
 				b_min = int(b_min*100)
 				b_max = int(b_max*100)
 				step = (b_max-b_min)/10 if (b_max-b_min)/10 >= 1 else 1
 				z_bins = [z_bins[0]]+[x/100.0 for x in range(b_min, b_max, int(step))]+[z_bins[-1]]
 				config["z_bins"] = [" ".join([str(x/100.0) for x in z_bins])]
+				print config["z_bins"]
 			higgsplot.HiggsPlotter(list_of_config_dicts=[config])
 
 		tfile = ROOT.TFile(os.path.expandvars(os.path.join(args.output_dir, "CutOptimizerStorage.root")), "READ")
