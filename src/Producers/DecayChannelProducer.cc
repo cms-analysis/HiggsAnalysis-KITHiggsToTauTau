@@ -27,6 +27,80 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	{
 		return product.m_ptOrderedLeptons[0]->p4;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("lep1LV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons[0]->p4;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("posLepLV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_chargeOrderedLeptons[0]->p4;
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("trailingLepLV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_ptOrderedLeptons[1]->p4;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("lep2LV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons[1]->p4;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("negLepLV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_chargeOrderedLeptons[1]->p4;
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("leadingGenLepLV", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_ptOrderedGenLeptons[0] ? product.m_ptOrderedGenLeptons[0]->p4 : DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genLep1LV", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4 : DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("posGenLepLV", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_chargeOrderedGenLeptons[0] ? product.m_chargeOrderedGenLeptons[0]->p4 : DefaultValues::UndefinedRMFLV);
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("leadingGenLepFound", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_ptOrderedGenLeptons[0] != nullptr);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("genLep1Found", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[0] != nullptr);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("posGenLepFound", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_chargeOrderedGenLeptons[0] != nullptr);
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("trailingGenLepLV", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_ptOrderedGenLeptons[1] ? product.m_ptOrderedGenLeptons[1]->p4 : DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genLep2LV", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[1] ? product.m_flavourOrderedGenLeptons[1]->p4 : DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("negGenLepLV", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_chargeOrderedGenLeptons[1] ? product.m_chargeOrderedGenLeptons[1]->p4 : DefaultValues::UndefinedRMFLV);
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("trailingGenLepFound", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_ptOrderedGenLeptons[1] != nullptr);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("genLep2Found", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedGenLeptons[1] != nullptr);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("negGenLepFound", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_chargeOrderedGenLeptons[1] != nullptr);
+	});
+	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingLepCharge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[0]->charge();
@@ -58,10 +132,6 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[0], DefaultValues::UndefinedDouble);
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("lep1LV", [](event_type const& event, product_type const& product)
-	{
-		return product.m_flavourOrderedLeptons[0]->p4;
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[0]->charge();
@@ -122,10 +192,6 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genLep1LV", [](event_type const& event, product_type const& product)
-	{
-		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4 : RMFLV());
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep1Pt", [](event_type const& event, product_type const& product)
 	{
 		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4.Pt() : DefaultValues::UndefinedFloat);
@@ -143,10 +209,6 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return (product.m_flavourOrderedGenLeptons[0] ? product.m_flavourOrderedGenLeptons[0]->p4.mass() : DefaultValues::UndefinedFloat);
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("trailingLepLV", [](event_type const& event, product_type const& product)
-	{
-		return product.m_ptOrderedLeptons[1]->p4;
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trailingLepCharge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_ptOrderedLeptons[1]->charge();
@@ -178,10 +240,6 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_ptOrderedLeptons[1], DefaultValues::UndefinedDouble);
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("lep2LV", [](event_type const& event, product_type const& product)
-	{
-		return product.m_flavourOrderedLeptons[1]->p4;
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Charge", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons[1]->charge();
@@ -226,10 +284,6 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[1]->p4, product.m_met.p4);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genLep2LV", [](event_type const& event, product_type const& product)
-	{
-		return (product.m_flavourOrderedGenLeptons[1] ? product.m_flavourOrderedGenLeptons[1]->p4 : RMFLV());
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genLep2Pt", [](event_type const& event, product_type const& product)
 	{
 		return (product.m_flavourOrderedGenLeptons[1] ? product.m_flavourOrderedGenLeptons[1]->p4.Pt() : DefaultValues::UndefinedFloat);

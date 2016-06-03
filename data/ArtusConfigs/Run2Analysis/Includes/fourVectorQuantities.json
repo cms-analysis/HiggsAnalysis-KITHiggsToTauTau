@@ -1,0 +1,27 @@
+{
+	"property" : [
+		"leadingLepLV",
+		"lep1LV",
+		"posLepLV",
+		
+		"trailingLepLV",
+		"lep2LV",
+		"negLepLV",
+		
+		"leadingGenLepLV",
+		"genLep1LV",
+		"posGenLepLV",
+		
+		"leadingGenLepFound",
+		"genLep1Found",
+		"posGenLepFound",
+		
+		"trailingGenLepLV",
+		"genLep2LV",
+		"negGenLepLV",
+		
+		"trailingGenLepFound",
+		"genLep2Found",
+		"negGenLepFound"
+	]
+}
