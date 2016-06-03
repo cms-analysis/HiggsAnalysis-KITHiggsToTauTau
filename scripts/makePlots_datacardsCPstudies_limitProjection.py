@@ -206,12 +206,12 @@ if __name__ == "__main__":
     					"limit"
     	     			],
 					"files": [
-						"higgsCombine.MultiDimFit.mH*.root"
+						"plots/htt_datacards/datacards/individual/mt_CP_mt/htt_mt_10_13TeV/projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root"
 						],
-					
-					#"x_bins":[1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 11000],
-					"y_bins":[5,0,1.1],
-					"x_expressions":"lumi",
+					"filename": "lumivscpmixing_normal",
+					"x_bins":["1 2 3 4 5 6 7 8 9 10 20 30 40 50 60 70 80 90 100 101"],
+					"y_bins":["20,0,1.01"],
+					"x_expressions":"lumi/1000",
 					"y_expressions":"cpmixing",
 					"weights": "deltaNLL",
 					"markers": "COLZ",
