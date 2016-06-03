@@ -203,7 +203,7 @@ if __name__ == "__main__":
 				#ax.plot(x_values_list, y_values, marker="x", label=label, color = color, markersize = 12.5, ls = "None", markeredgewidth=2)
 				#ax.plot(x_values_list, np.array(ups)-np.array(downs), marker="_", label="size 68% range", color = color, markersize = 12.5, ls = "None", markeredgewidth=2)
 			ax.set_ylabel("significance", size='x-large')
-			ax.set_xlabel("x times current lumi", size='x-large')
+			ax.set_xlabel("$\\mathrm{x\\,times\\,current\\,lumi}(2.3\\,\\mathrm{fb}^{-1})$", size='x-large')
 		ax.set_xticklabels([str("%1.1f"%x) for x in x_values_list], size='large')
 		jsonTools.JsonDict(save_values).save("%s_Values.txt"%args.output_file, indent=4)
 		x_values = x_values_list

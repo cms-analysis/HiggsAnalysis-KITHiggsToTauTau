@@ -86,7 +86,7 @@ if __name__ == "__main__":
 						  "njets":"nJets30:=njets","nbtag":"nBJets20:=nbtag",
 						  "iso_1":"lep1IsoOverPt:=iso_1", "m_vis":"diLepMass:=m_vis",
 						  "jdeta":"diJetAbsDeltaEta:=jdeta", "mjj":"diJetMass:=mjj",
-						  "H_pt":"diLepMetPt:=H_pt", "ptvis":"diLepPt:=ptvis"}
+						  "H_pt":"diLepMetPt:=H_pt", "ptvis":"diLepPt:=ptvis", "m_sv":"svfitMass:=m_sv", "pt_sv":"svfitPt:=pt_sv"}
 	for log_file in log_file_list:
 		c_log = jsonTools.JsonDict(log_file)
 		quantities = ",".join(map(lambda ls: ls.pop(0), map(lambda s: s.split(";"), c_log["variables"].split(","))))
@@ -129,6 +129,7 @@ if __name__ == "__main__":
 					settings_quantities["property"].append("T%i%s"%(i, training_name))
 	jsonTools.JsonDict(settings_info).save(os.path.join(out_dir, "%s_settingsMVATestMethods.json"%Channel), indent = 4)
 	jsonTools.JsonDict(settings_quantities).save(os.path.join(out_dir, "%s_MVATestMethodsQuantities.json"%Channel), indent = 4)
+	log.info("save to %s"%os.path.join(out_dir, "%s_settingsMVATestMethods.json"%Channel))
 	categories = []
 	vbf_categories = []
 	integral_categories = []
