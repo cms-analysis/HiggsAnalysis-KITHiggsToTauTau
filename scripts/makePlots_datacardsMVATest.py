@@ -306,10 +306,12 @@ if __name__ == "__main__":
 			#"-t limit -b channel"
 	#)
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M Asymptotic --expectSignal 1 -t -1 --toysFrequentist\"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit --expectSignal 1 -t -1 --toysFrequentist\"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance\"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo singles -t -1 --expectSignal 1 --rMin 0 --rMax 5 --robustFit 1 --toysFrequentist\"\"")
+
+	#TODO uncomment your chosen combine-call
+	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M Asymptotic --expectSignal 1 -t 100 --toysFrequentist\"\"")
+	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit --expectSignal 1 -t 100 --toysFrequentist\"\"")
+	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t 100 --expectSignal 1 --toysFrequentist --significance\"\"")
+	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo singles -t 100 --expectSignal 1 --rMin 0 --rMax 5 --robustFit 1 --toysFrequentist\"\"")
 
 	"""
 	# cV-cF scan

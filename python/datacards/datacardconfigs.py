@@ -36,10 +36,6 @@ class DatacardConfigs(object):
 				"mt_1jet_high" : 3,
 				"mt_1jet_low" : 4,
 				"mt_2jet_vbf" : 5,
-				"mt_mod_vbf" : 6,
-				"mt_mod_sig" : 7,
-				"mt_mod_mixed" : 8,
-				"mt_mod_bkg" : 9,
 				"mt_CP_mt" : 10,
 				"mt_vbf" : 11,
 				"mt_1jet_boosted" : 12,
@@ -54,6 +50,11 @@ class DatacardConfigs(object):
 				"mt_1jet_boost_low" : 21,
 				"mt_0jet_nhighpt2" : 22,
 				"mt_0jet_nlowpt2" : 23,
+				"mt_0jet_sig" : 24,
+				"mt_0jet_bkg" : 25,
+				"mt_1jet_sig" : 26,
+				"mt_1jet_bkg" : 27,
+				"mt_2jet_vbf_bdt" : 28
 			},
 			"et" : {
 				"et_inclusive" : 0,
