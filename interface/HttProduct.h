@@ -108,11 +108,10 @@ public:
 	RMFLV m_diLeptonGenSystem;
 
 	// filled by the MetprojectionProducer
-	TVector2 m_recoNeutrinoOnRecoMetProjection;
-	TVector2 m_recoNeutrinoOnGenMetProjection;
 	TVector2 m_recoMetOnGenMetProjection;
 	TVector2 m_metPull;
 	TVector2 m_metPfPull;
+	TVector2 m_recoMetOnBoson;
 	double chiSquare;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)

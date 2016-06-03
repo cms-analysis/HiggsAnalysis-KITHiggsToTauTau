@@ -11,6 +11,8 @@
    
 */
 class MetprojectionProducer: public ProducerBase<HttTypes> {
+private:
+	bool m_isData;
 public:
 	
 	typedef typename HttTypes::event_type event_type;

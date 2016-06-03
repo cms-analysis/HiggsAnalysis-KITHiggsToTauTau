@@ -14,26 +14,19 @@
 void MetprojectionProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
+	m_isData = settings.GetInputIsData();
 
-
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoNeutrinoOnRecoMetProjectionPar", [](event_type const& event, product_type const& product) {
-		return product.m_recoNeutrinoOnRecoMetProjection.X();
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPar", [](event_type const& event, product_type const& product) {
+		return product.m_recoMetOnBoson.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoNeutrinoOnRecoMetProjectionPerp", [](event_type const& event, product_type const& product) {
-		return product.m_recoNeutrinoOnRecoMetProjection.Y();
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetParMinusBoson", [](event_type const& event, product_type const& product) {
+		return product.m_recoMetOnBoson.X() - product.m_diLeptonSystem.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoNeutrinoOnRecoMetProjectionPhi", [](event_type const& event, product_type const& product) {
-		return TVector2::Phi_mpi_pi(product.m_recoNeutrinoOnRecoMetProjection.Phi());
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPerp", [](event_type const& event, product_type const& product) {
+		return product.m_recoMetOnBoson.Y();
 	});
-
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoNeutrinoOnGenMetProjectionPar", [](event_type const& event, product_type const& product) {
-		return product.m_recoNeutrinoOnGenMetProjection.X();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoNeutrinoOnGenMetProjectionPerp", [](event_type const& event, product_type const& product) {
-		return product.m_recoNeutrinoOnGenMetProjection.Y();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoNeutrinoOnGenMetProjectionPhi", [](event_type const& event, product_type const& product) {
-		return TVector2::Phi_mpi_pi(product.m_recoNeutrinoOnGenMetProjection.Phi());
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPhi", [](event_type const& event, product_type const& product) {
+		return product.m_recoMetOnBoson.Phi();
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetOnGenMetProjectionPar", [](event_type const& event, product_type const& product) {
@@ -75,26 +68,23 @@ void MetprojectionProducer::Init(setting_type const& settings)
 
 void MetprojectionProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
-	bool svFitPresent = product.m_svfitResults.momentum;
 	assert(product.m_metUncorr);
-	assert(event.m_genMet);
 
-	// comparisons with SVFit, purely on reco level
 	TVector2 diLeptonMomentum(product.m_diLeptonSystem.x(), product.m_diLeptonSystem.Y());
-	TVector2 met(product.m_met.p4.Vect().X(), product.m_met.p4.Vect().Y());
-	TVector2 genMet(event.m_genMet->p4.Vect().X(), event.m_genMet->p4.Vect().Y());
-	if(svFitPresent)
+	TVector2 met(product.m_metUncorr->p4.Vect().X(), product.m_metUncorr->p4.Vect().Y());
+
+	TVector2 genMet(0,0);
+	if( !m_isData )
 	{
-		TVector2 svFitMomentum(product.m_svfitResults.momentum->X(), product.m_svfitResults.momentum->Y());
-		TVector2 neutrinoMomentum = svFitMomentum - diLeptonMomentum;
-		product.m_recoNeutrinoOnRecoMetProjection = neutrinoMomentum.Rotate(- met.Phi());
-		product.m_recoNeutrinoOnGenMetProjection = neutrinoMomentum.Rotate( - genMet.Phi());
+		assert(event.m_genMet);
+		genMet.Set(event.m_genMet->p4.Vect().X(), event.m_genMet->p4.Vect().Y());
+		product.m_recoMetOnGenMetProjection = met.Rotate( -genMet.Phi());
 	}
 
-	product.m_recoMetOnGenMetProjection = met.Rotate( -genMet.Phi());
+	product.m_recoMetOnBoson = met.Rotate(-diLeptonMomentum.Phi());
 
 	// "pulls", recommended as crosscheck for covariance matrix, suggested by Christian Veelken
-	if(product.m_genBosonLVFound)
+	if(product.m_genBosonLVFound && (!m_isData))
 	{
 		TVector2 genBoson(product.m_genBosonLV.X(), product.m_genBosonLV.Y());
 		TVector2 rotatedMet = met.Rotate( - genBoson.Phi());
@@ -104,12 +94,12 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 		rotationMatrix(0,1) =   std::sin( genBoson.Phi());
 		rotationMatrix(1,0) = - std::sin( genBoson.Phi());
 
-		ROOT::Math::SMatrix<double,2> rotatedMatrix = rotationMatrix * product.m_met.significance;
+		ROOT::Math::SMatrix<double,2> rotatedMatrix = rotationMatrix * product.m_metUncorr->significance;
 		product.m_metPull.Set( (rotatedGenMet.X() - rotatedMet.X()) / sqrt(rotatedMatrix(0,0)), 
 	                       	   (rotatedGenMet.Y() - rotatedMet.Y()) / sqrt(rotatedMatrix(1,1)) );
 
 		TVector2 dRecoGenMet = met - genMet;
-		product.chiSquare = Quantities::MetChiSquare(dRecoGenMet, product.m_met.significance);
+		product.chiSquare = Quantities::MetChiSquare(dRecoGenMet, product.m_metUncorr->significance);
 	}
 	else
 	{
