@@ -16,6 +16,7 @@ class GeneratorInfo {
 
 public:
 	static HttEnumTypes::GenMatchingCode GetGenMatchingCode(const KGenParticle* genParticle);
+	static RMFLV* GetVisibleLV(KGenParticle* genParticle);
 	
 	static KGenParticle* GetGenMatchedParticle(
 			KLepton* lepton,

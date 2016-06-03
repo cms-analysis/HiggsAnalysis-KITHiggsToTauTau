@@ -31,6 +31,24 @@ HttEnumTypes::GenMatchingCode GeneratorInfo::GetGenMatchingCode(const KGenPartic
 	}
 }
 
+RMFLV* GeneratorInfo::GetVisibleLV(KGenParticle* genParticle)
+{
+	RMFLV* visibleLV = nullptr;
+	if (genParticle)
+	{
+		KGenTau* genTau = static_cast<KGenTau*>(genParticle);
+		if (genTau)
+		{
+			visibleLV = &(genTau->visible.p4);
+		}
+		else
+		{
+			visibleLV = &(genParticle->p4);
+		}
+	}
+	return visibleLV;
+}
+
 KGenParticle* GeneratorInfo::GetGenMatchedParticle(
 		KLepton* lepton,
 		std::map<KLepton*, KGenParticle*> const& leptonGenParticleMap,
