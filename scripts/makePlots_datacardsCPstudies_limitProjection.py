@@ -101,18 +101,26 @@ if __name__ == "__main__":
 		
 	datacards_configs = datacardconfigs.DatacardConfigs()
 	
+	filename_templates= [
+		"datacards/individual/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt${MASS}",
+		"datacards/combined/${ANALYSIS}_${ERA}.txt${MASS}",
+	]
 	
 	
 	plot_configs = []
 	for datacard in args.datacards:
 		cb = ch.CombineHarvester()
 		cb.SetFlag("workspaces-use-clone", True)
-		for template in datacards_configs.htt_datacard_filename_templates:
+		for template in filename_templates:
 			template_tag = template.split("$")[0]
 						
 			if template_tag in datacard:
-				matched_template = os.path.join(datacard[:datacard.index(template_tag)], template).replace("${BIN}", "[\\w\\.]+").replace("{", "").replace("}", "")
-				cb.ParseDatacard(datacard, "htt", "13TeV", "mt", 10, "*")
+				matched_template = os.path.join(datacard[:datacard.index(template_tag)], template).replace("{", "").replace("}", "")
+				print datacard
+				print matched_template
+				cb.QuickParseDatacard(datacard, matched_template)
 				break
 			
 		datacards = cpstudiesdatacards.CPStudiesDatacards(cb=cb)
@@ -206,8 +214,8 @@ if __name__ == "__main__":
     					"limit"
     	     			],
 					"files": [
-						"plots/htt_datacards/datacards/individual/mt_CP_mt/htt_mt_10_13TeV/projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root"
-						],
+						"plots/htt_datacards/datacards/individual/10/htt_mt_10_13TeV/projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root"
+						],#TODO muss man von hand jedes mal ändern :/
 					"filename": "lumivscpmixing_normal",
 					"x_bins":["1 2 3 4 5 6 7 8 9 10 20 30 40 50 60 70 80 90 100 101"],
 					"y_bins":["20,0,1.01"],
