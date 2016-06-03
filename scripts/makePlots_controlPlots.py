@@ -5,17 +5,12 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import argparse
-import copy
-import os
-
+import argparse, copy, os, sys
 import Artus.Utility.jsonTools as jsonTools
-
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 
-import sys
 
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass):
 	if not "scale_nicks" in config.keys():
@@ -63,7 +58,7 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 	config["sob_integral_signal_nicks"] = []
 	config["sob_integral_result_nicks"] = []
 	config["sob_integral_method"] = []
-	config["sob_integral_outputs"] = []
+	config["sob_integral_outputs"] = args.integration_output
 	config["sob_integral_direction"]=[]
 	for i,direction in enumerate(args.integration_directions):
 		config["sob_integral_direction"].append(direction)
@@ -71,11 +66,10 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 		config["sob_integral_result_nicks"].append("integration_%i"%i + direction)
 		config["sob_integral_background_nicks"].append(" ".join(bkg_samples))
 		config["sob_integral_signal_nicks"].append(" ".join(signal_samples))
-		config["sob_integral_outputs"].append(args.integration_output)
+		#config["sob_integral_outputs"].append(args.integration_output)
 	if(show_subplot):
-		config["y_subplot_label"] = "int.(S)/#sqrt{int.(B)}"
-		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
-		config["y_subplot_lims"] = [0, 1.5]
+		config["y_subplot_label"] = "int.(S)/#sqrt{int.(B)+int(S)}"
+		config["y_subplot_lims"] = None
 		config["subplot_nicks"] = ["integration"]
 		for direction in args.integration_directions:
 			config["markers"].append("LINE")
@@ -100,15 +94,15 @@ def blind_signal(config, blinding_threshold, ratio_true):
 
 def ewk_background(config):
 	if not "SumOfHistograms" in config.get("analysis_modules", []):
-		config.setdefault("analysis_modules", []).append("SumOfHistograms")	
+		config.setdefault("analysis_modules", []).append("SumOfHistograms")
 	temp = config["nicks"]
 	samples_list_ewk = [samples.replace("ttj","ttj_noplot").replace("vv","vv_noplot").replace("wj","wj_noplot") if not "noplot" in samples else samples for samples in config["nicks"]]
 	samples_to_plot = [samples for samples in samples_list_ewk if not "noplot" in samples]
 	config.setdefault("sum_nicks", []).append("ttj_noplot vv_noplot wj_noplot")
 	config["wjets_shape_nicks"] = ["wj_noplot"]
 	config.setdefault("sum_scale_factors", []).append("1.0 1.0 1.0")
-	config.setdefault("sum_result_nicks", []).append("ewk")	
-	if "ff" in samples_to_plot:	
+	config.setdefault("sum_result_nicks", []).append("ewk")
+	if "ff" in samples_to_plot:
 		samples_to_plot.insert(samples_to_plot.index("ff"), "ewk")
 	else:
 		samples_to_plot.append("ewk")
@@ -203,6 +197,7 @@ if __name__ == "__main__":
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--mssm", default=False, action="store_true",
 	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
+	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("--mva", default=False, action="store_true",
 	                    help="Produce plots for the mva studies. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
@@ -242,7 +237,7 @@ if __name__ == "__main__":
 	if ("zj" in args.samples or "zl" in args.samples) and not args.run1:
 		log.critical("Plot will fail: zl or zj samples given as input. Remove to continue")
 		sys.exit(1)
-	
+
 	www_output_dirs = []
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
@@ -302,7 +297,7 @@ if __name__ == "__main__":
 						scale_mc_only=args.scale_mc_only,
 						mssm=args.mssm
 				)
-				
+
 				if args.fakefactor_method is not None and channel == "mt":
 					ewk_background(config)
 
@@ -343,7 +338,7 @@ if __name__ == "__main__":
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)
-				
+
 
 				for analysis_module in args.analysis_modules:
 					if not analysis_module in config.get("analysis_modules", []):
@@ -357,12 +352,12 @@ if __name__ == "__main__":
 				if args.cms:
 					config["cms"] = True
 					config["extra_text"] = "Preliminary"
-					config["legend"] = [0.7, 0.4, 0.95, 0.83] if (args.ratio or args.sbratio) else [0.7, 0.5, 0.9, 0.85]
+					config["legend"] = [0.7, 0.4, 0.95, 0.83] if args.ratio or args.integrated_sob or args.sbratio else [0.7, 0.5, 0.9, 0.85]
 				elif args.shapes:
 					config["legend"] = [0.55, 0.65, 0.9, 0.88]
 				else:
-					config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if (args.ratio or args.sbratio) else 1.4]
-					config["legend"] = [0.23, 0.63, 0.9, 0.83] if (args.ratio or args.sbratio) else [0.23, 0.73, 0.9, 0.89]
+					config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio or args.integrated_sob or args.sbratio else 1.4]
+					config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio or args.integrated_sob or args.sbratio else [0.23, 0.73, 0.9, 0.89]
 					config["legend_cols"] = 3
 				if not args.shapes:
 					if not args.lumi is None:
@@ -450,7 +445,8 @@ if __name__ == "__main__":
 				))
 				if not (config["output_dir"] in www_output_dirs):
 					www_output_dirs.append(config["output_dir"])
-
+				if "qcd" in bkg_samples:
+					config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 
 				config.update(json_config)
 				plot_configs.append(config)
@@ -464,7 +460,9 @@ if __name__ == "__main__":
 	if not args.www is None:
 		for output_dir in www_output_dirs:
 			from Artus.HarryPlotter.plotdata import PlotData
-			subpath =os.path.normpath(output_dir).split("/")[-1]
+			main_path, subpath =os.path.split(os.path.normpath(output_dir))
+			main_path, subpath_2 =os.path.split(main_path)
+			subpath = os.path.join(subpath_2, subpath)
 			output_filenames = []
 			for config in plot_configs:
 				if(subpath in config["output_dir"]):
