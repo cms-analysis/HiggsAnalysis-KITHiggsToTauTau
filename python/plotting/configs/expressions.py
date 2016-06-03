@@ -42,11 +42,14 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_et"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.44)*(decayMode_2 < 5)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_em"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.44)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_tt"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.55 && TauPProngEnergy >= 0.55)"
+			
 			# Standard Model
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusivemt40"] = "(1.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
+
 			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catHtt13TeV_"+channel+"_2jet_inclusive"]+"*(mjj>200.0)*(jdeta>2.0)"
+
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_inclusive"] = ("(! ({vbf}))".format(
 					vbf=self.expressions_dict["catHtt13TeV_"+channel+"_2jet_vbf"]
 			))+"*(njetspt30>0)"
@@ -58,7 +61,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			))
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_high"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_low"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}<={pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
-			
+
 			# Standard Model experimental
 			boosted_higgs_string = "(H_pt>100)"
 			boosted_higgs_medium_string = "(H_pt>50)"
@@ -80,7 +83,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_lowpt2"] = self.combine([self.invert(jet1_string), self.invert(pt2_tight_string)])
 			# motivated by s/sqrt(b) efficiency
 			self.expressions_dict["catHtt13TeV_"+channel+"_vbf_tag"] = self.combine([jet2_string, boosted_higgs_medium_string, eta_hard_string])
-			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_untagged"] = self.combine([jet2_string, self.invert(self.combine([boosted_higgs_medium_string, eta_hard_string]))]) 
+			self.expressions_dict["catHtt13TeV_"+channel+"_2jet_untagged"] = self.combine([jet2_string, self.invert(self.combine([boosted_higgs_medium_string, eta_hard_string]))])
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_high"] = self.combine([jet1_string, boosted_higgs_string])
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_medium"] = self.combine([jet1_string, self.invert(boosted_higgs_string), boosted_higgs_low_string])
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_low"] = self.combine([jet1_string, self.invert(boosted_higgs_low_string)])
@@ -107,6 +110,30 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_low"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}<={pt_cut_1})*({pt_var}>{pt_cut_2})".format(pt_var=pt_var, pt_cut_1=pt_cut_btag_high, pt_cut_2=pt_cut_btag_low)
 
 		# MVA Htt categories
+		self.expressions_dict["mt_vbf_pre"] = "((0.3<=ttj_1)*(0.45<=ztt_1))"
+		self.expressions_dict["mt_vbf_sig"] = "{pre}*(0.8<=vbf_1)".format(pre=self.expressions_dict["mt_vbf_pre"])
+		self.expressions_dict["mt_vbf_like"] = "{pre}*(-0.5<=vbf_1&&vbf_1<0.8)".format(pre=self.expressions_dict["mt_vbf_pre"])
+		self.expressions_dict["mt_vbf_bkg"] = "{pre}*(vbf_1<-0.5)".format(pre=self.expressions_dict["mt_vbf_pre"])
+		self.expressions_dict["mt_vbf_rest"] = "!{pre}".format(pre=self.expressions_dict["mt_vbf_pre"])
+		self.expressions_dict["mt_2jets_all"] = "(njetspt30>1)"
+		self.expressions_dict["mt_1jets_all"] = "(njetspt30==1)"
+		self.expressions_dict["mt_0jets_all"] = "(njetspt30==0)"
+		self.expressions_dict["mt_2jets_vbfbdt"] = "(0.8<=vbf_1)"
+		self.expressions_dict["mt_2jet_vbf_bdt"] = "({pre}*(0.8<=vbf_1))".format(pre=self.expressions_dict["mt_vbf_pre"])
+		self.expressions_dict["mt_1jet_inclusive_bdt"] = ("((! {vbf})".format(
+				vbf=self.expressions_dict["mt_2jet_vbf_bdt"]
+		))+"*(njetspt30>0))"
+		self.expressions_dict["mt_1jet_sig"] = self.expressions_dict["mt_1jet_inclusive_bdt"]+"*((0.4<=ttj_1)*(0.4<=ztt_1))"
+		self.expressions_dict["mt_1jet_bkg"] = self.expressions_dict["mt_1jet_inclusive_bdt"]+"*(!((0.4<=ttj_1)*(0.4<=ztt_1)))"
+		self.expressions_dict["mt_0jet_inclusive_bdt"] = ("(!{vbf})*(!{onejet})".format(
+				vbf=self.expressions_dict["mt_2jet_vbf_bdt"],
+				onejet=self.expressions_dict["mt_1jet_inclusive_bdt"]
+		))
+		self.expressions_dict["mt_0jet_sig"] = self.expressions_dict["mt_0jet_inclusive_bdt"]+"*((-0.6<=ttj_1)*(0.2<=ztt_1))"
+		self.expressions_dict["mt_0jet_bkg"] = self.expressions_dict["mt_0jet_inclusive_bdt"]+"*(!((-0.6<=ttj_1)*(0.2<=ztt_1)))"
+
+
+
 		import Artus.Utility.jsonTools as jsonTools
 		for channel in ["tt", "mt", "et", "em"]:
 			for classic in ["0jet_high", "0jet_low", "1jet_high", "1jet_low", "2jet_vbf"]:
@@ -180,7 +207,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 				for replacement in replacements.iteritems():
 					new_short_expression = new_short_expression.replace(*replacement)
 				self.expressions_dict[new_short_expression] = long_expression
-	
+
 	@staticmethod
 	def static_get_expression(expression):
 		exp_dict = ExpressionsDict()
