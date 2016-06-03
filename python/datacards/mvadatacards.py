@@ -18,7 +18,7 @@ class MVADatacards(datacards.Datacards):
 			categories={}
 			for channel in ["tt", "mt", "et", "em"]:
 				categories[channel] = []
-				for cat in ["inclusive", "0jet_high", "0jet_low", "1jet_high", "1jet_low", "2jet_vbf"]:
+				for cat in ["inclusive", "0jet_high", "0jet_low", "1jet_high", "1jet_low", "2jet_vbf", "0jet_sig", "0jet_bkg", "1jet_sig", "1jet_bkg", "2jet_vbf_bdt"]:
 					categories[channel].append(channel+"_"+cat)
 				categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
 				if not os.path.exists(categories_path):
