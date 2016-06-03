@@ -30,8 +30,8 @@ def rms(ivec):
 	result = math.sqrt(result)
 	return result
 
-def mse(ivec):
-	nrms = rms(ivec)
+def mse(ivec, central=0):
+	nrms = rms(ivec) if central ==0 else central
 	return rms([ (value - nrms) for value in ivec])
 
 
@@ -151,7 +151,7 @@ def main():
 		A = {}
 		for weight in [weight for weight in full_dict[channel]["full"] if "NNPDF30_nlo_as_0118" in weight ]:
 			A[weight] = full_dict[channel]["fullinclusive"][weight] / full_dict[channel]["full"][weight]
-		unc["pdf_" + channel + "_fullinclusive"] = mse(A.values()) / rms(A.values()) 
+		unc["pdf_" + channel + "_fullinclusive"] =  mse(A.values(), A["NNPDF30_nlo_as_0118_00_weight"]) / A["NNPDF30_nlo_as_0118_00_weight"]
 		acceptance_to_tree(A, "pdf", channel)
 
 	#alpha_s
@@ -177,7 +177,7 @@ def main():
 			A = {}
 			for weight in [weight for weight in full_dict[channel][category] if "NNPDF30_nlo_as_0118" in weight ]:
 				A[weight] = full_dict[channel][category][weight] / full_dict[channel]["inclusive"][weight]
-			unc["pdf_" + channel+"_"+category] = mse(A.values()) / rms(A.values()) 
+			unc["pdf_" + channel+"_"+category] = mse(A.values(), A["NNPDF30_nlo_as_0118_00_weight"]) / A["NNPDF30_nlo_as_0118_00_weight"]
 			acceptance_to_tree(A, "pdf", channel, category)
 
 	#alpha_s
