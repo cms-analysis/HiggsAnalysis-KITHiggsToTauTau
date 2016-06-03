@@ -112,6 +112,24 @@ class SMHttDatacards(datacards.Datacards):
 
 			# fake-rate
 			self.cb.cp().channel(["tt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
+			
+			# ======================================================================
+			# MM channel
+			self.add_processes(
+					channel="mm",
+					categories=["mm_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
+					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
+					sig_processes=signal_processes,
+					analysis=["htt"],
+					era=["13TeV"],
+					mass=higgs_masses
+			)
+			
+			self.cb.cp().channel(["mm"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mm"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			
+			for category in ["mm_" + cat for cat in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)]:
+				self.cb.cp().channel(["mm"]).bin([category]).process(["ZLL"]).AddSyst(self.cb, *self.zll_incl_rate_param_syst_args)
 
 			# ======================================================================
 			# All channels
