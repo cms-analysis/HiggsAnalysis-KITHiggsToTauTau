@@ -180,7 +180,7 @@
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"Run2015" : [
+				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

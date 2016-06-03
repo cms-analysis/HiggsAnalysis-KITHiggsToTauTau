@@ -28,7 +28,7 @@
 					"HLT_IsoMu24_eta2p1",
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
 					"HLT_IsoMu18"
 				]
 			}
@@ -67,7 +67,7 @@
 				"Run2015(A|B|C)" : [
 					"HLT_IsoMu24_eta2p1_v"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Rund2016)" : [
 					"HLT_IsoMu18_v"
 				]
 			}
@@ -101,7 +101,7 @@
 				"Spring15MiniAODv2" : [
 					"HLT_IsoMu17_eta2p1_v:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
 					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
 				]
 			}
@@ -223,7 +223,7 @@
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"Run2015" : [
+				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

@@ -1,30 +1,26 @@
 {
 	"GenParticles" : {
 		"nick" : {
-			"(?<!PFembedded).Run2012" : "",
-			"(?<!PFembedded).Run2015" : "",
+			"(?<!PFembedded).Run201" : "",
 			"default" : "genParticles"
 		}
 	},
 	"GenTaus" : {
 		"nick" : {
-			"(?<!PFembedded).Run2012" : "",
-			"(?<!PFembedded).Run2015" : "",
+			"(?<!PFembedded).Run201" : "",
 			"default" : "genTaus"
 		}
 	},
 	"GenTauJets" : {
 		"nick" : {
-			"(?<!PFembedded).Run2012" : "",
-			"(?<!PFembedded).Run2015" : "",
+			"(?<!PFembedded).Run201" : "",
 			"8TeV" : "",
 			"default" : "tauGenJets"
 		}
 	},
 	"GenMet" : {
 		"nick" : {
-			"(?<!PFembedded).Run2012" : "",
-			"(?<!PFembedded).Run2015" : "",
+			"(?<!PFembedded).Run201" : "",
 			"default" : "genmetTrue"
 		}
 	},
@@ -37,8 +33,7 @@
 		"nick" : {
 			"8TeV" : "AK5PFTaggedJets",
 			"13TeV.*_AODSIM" : "AK5PFTaggedJets",
-			"Spring15.*_13TeV.*_MINIAOD": "ak5PFJets",
-			"(16Dec2015v1|Fall15)": "ak4PF"
+			"MINIAOD": "ak4PF"
 		}
 	},
 	"PileupDensity" : {
@@ -49,16 +44,13 @@
 	},
 	"Met" : {
 		"nick" : {
-			"default" : "met",
-			"RunIISpring15MiniAODv2" : "patPFMetT1",
-			"Run2015_(PromptReco|05Oct2015)" : "patPFMetT1"
-
+			"default" : "met"
 		}
 	},
 	"PuppiMet" : {
 		"nick" : {
 			"default" : "",
-			"(16Dec2015v1|Fall15)": "metPuppi"
+			"(16Dec2015v1|Fall15|Spring16|Run2015)": "metPuppi"
 		}
 	},
 	"MvaMets" : {
