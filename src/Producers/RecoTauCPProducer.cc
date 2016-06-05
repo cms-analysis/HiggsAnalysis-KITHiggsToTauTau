@@ -48,97 +48,33 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
 	assert(event.m_vertexSummary);
-
-	// Defining CPQuantities object to use variables and functions of this class
+	assert(product.m_flavourOrderedLeptons.size() >= 2);
+	
+	KTrack& track1 = product.m_flavourOrderedLeptons[0]->track;
+	KTrack& track2 = product.m_flavourOrderedLeptons[1]->track;
+	RMFLV& momentum1 = product.m_flavourOrderedLeptons[0]->p4;
+	RMFLV& momentum2 = product.m_flavourOrderedLeptons[1]->p4;
+	
+	if ((product.m_decayChannel == HttEnumTypes::DecayChannel::TT) &&
+	    (static_cast<KTau*>(product.m_flavourOrderedLeptons[0])->chargedHadronCandidates.size() > 0))
+	{
+		momentum1 = static_cast<KTau*>(product.m_flavourOrderedLeptons[0])->chargedHadronCandidates.at(0).p4;
+	}
+	if (((product.m_decayChannel == HttEnumTypes::DecayChannel::ET) ||
+	     (product.m_decayChannel == HttEnumTypes::DecayChannel::MT) ||
+	     (product.m_decayChannel == HttEnumTypes::DecayChannel::TT)) &&
+	    (static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->chargedHadronCandidates.size() > 0))
+	{
+		momentum2 = static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->chargedHadronCandidates.at(0).p4;
+	}
+	
 	CPQuantities cpq;
-	if(product.m_decayChannel == HttEnumTypes::DecayChannel::TT)
-	{
-		KVertex primevertex = event.m_vertexSummary->pv;
-		KTau* tau1 = product.m_validTaus[0];
-		KTau* tau2 = product.m_validTaus[1];
-		if(tau1->chargedHadronCandidates.size()==1 && tau2->chargedHadronCandidates.size()==1)
-		{
-			KPFCandidate* chargePart1 = &(tau1->chargedHadronCandidates[0]);
-			KPFCandidate* chargePart2 = &(tau2->chargedHadronCandidates[0]);
-			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, tau1->track, tau2->track, chargePart1->p4, chargePart2->p4);
-			product.m_recoPhiStar = cpq.GetRecoPhiStar();
-			product.m_recoIP1 = cpq.GetRecoIP1();
-			product.m_recoIP2 = cpq.GetRecoIP2();
-			product.m_recoChargedHadronEnergies.first = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
-			product.m_recoChargedHadronEnergies.second = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart2->p4);
-			product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(tau1->track);
-			product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(tau2->track);
-		}
-	}
-
-	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
-	{
-		KVertex primevertex = event.m_vertexSummary->pv;
-		KElectron* electron1 = product.m_validElectrons[0];
-		KElectron* electron2 = product.m_validElectrons[1];
-		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, electron2->track, electron1->p4, electron2->p4);
-		product.m_recoPhiStar = cpq.GetRecoPhiStar();
-		product.m_recoIP1 = cpq.GetRecoIP1();
-		product.m_recoIP2 = cpq.GetRecoIP2();
-		product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(electron1->track);
-		product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(electron2->track);
-	}
-	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::MM)
-	{
-		KVertex primevertex = event.m_vertexSummary->pv;
-		KMuon* muon1 = product.m_validMuons[0];
-		KMuon* muon2 = product.m_validMuons[1];
-		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, muon1->track, muon2->track, muon1->p4, muon2->p4);
-		product.m_recoPhiStar = cpq.GetRecoPhiStar();
-		product.m_recoIP1 = cpq.GetRecoIP1();
-		product.m_recoIP2 = cpq.GetRecoIP2();
-		product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(muon1->track);
-		product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(muon2->track);
-	}
-	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET)
-	{
-		KVertex primevertex = event.m_vertexSummary->pv;
-		KElectron* electron1 = product.m_validElectrons[0];
-		KTau* tau1 = product.m_validTaus[0];
-		if (tau1->chargedHadronCandidates.size()==1)
-		{
-			KPFCandidate* chargePart1 = &(tau1->chargedHadronCandidates[0]);
-			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, tau1->track, electron1->p4, chargePart1->p4);
-			product.m_recoPhiStar = cpq.GetRecoPhiStar();
-			product.m_recoIP1 = cpq.GetRecoIP1();
-			product.m_recoIP2 = cpq.GetRecoIP2();
-			product.m_recoChargedHadronEnergies.first = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
-			product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(electron1->track);
-			product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(tau1->track);
-		}
-	}
-	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT)
-	{
-		KVertex primevertex = event.m_vertexSummary->pv;
-		KMuon* muon1 = product.m_validMuons[0];
-		KTau* tau1 = product.m_validTaus[0];
-		if (tau1->chargedHadronCandidates.size()==1)
-		{
-			KPFCandidate* chargePart1 = &(tau1->chargedHadronCandidates[0]);
-			product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, muon1->track, tau1->track, muon1->p4, chargePart1->p4);
-			product.m_recoPhiStar = cpq.GetRecoPhiStar();
-			product.m_recoIP1 = cpq.GetRecoIP1();
-			product.m_recoIP2 = cpq.GetRecoIP2();
-			product.m_recoChargedHadronEnergies.first = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, chargePart1->p4);
-			product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(muon1->track);
-			product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(tau1->track);
-		}
-	}
-	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::EM)
-	{
-		KVertex primevertex = event.m_vertexSummary->pv;
-		KElectron* electron1 = product.m_validElectrons[0];
-		KMuon* muon1 = product.m_validMuons[0];
-		product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(primevertex, electron1->track, muon1->track, electron1->p4, muon1->p4);
-		product.m_recoPhiStar = cpq.GetRecoPhiStar();
-		product.m_recoIP1 = cpq.GetRecoIP1();
-		product.m_recoIP2 = cpq.GetRecoIP2();
-		product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(electron1->track);
-		product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(muon1->track);
-	}
+	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, track1, track2, momentum1, momentum2);
+	product.m_recoPhiStar = cpq.GetRecoPhiStar();
+	product.m_recoIP1 = cpq.GetRecoIP1();
+	product.m_recoIP2 = cpq.GetRecoIP2();
+	product.m_recoChargedHadronEnergies.first = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, momentum1);
+	product.m_recoChargedHadronEnergies.second = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, momentum2);
+	product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(track1);
+	product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(track2);
 }
