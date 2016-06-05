@@ -69,8 +69,10 @@
 				"default" : [
 					{
 						"include" : [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json"
 						]
 					},
 					"nLooseElectrons",
@@ -81,9 +83,11 @@
 				"DY.?JetsToLLM|HToTauTau" : [
 					{
 						"include" : [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json"
 						]
 					},
 					"nLooseElectrons",
@@ -128,6 +132,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
+					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -164,6 +169,7 @@
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
  					"producer:EleTauFakeRateWeightProducer",
+					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -192,6 +198,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
+					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]
 			}
