@@ -12,11 +12,15 @@ import Artus.Utility.jsonTools as jsonTools
 import numpy as np
 import matplotlib.pyplot as plt
 
-def get_limit(root_file, file_type="asymptotic"):
-	if root_file is None:
+def get_limit(root_files, file_type="asymptotic"):
+	if root_files is None:
 		return (0,0,0)
-	chain = ROOT.TChain(root_file)
-	chain.Add(root_file+"/limit", -1)
+	chain = ROOT.TChain()
+	if not isinstance(root_files, list):
+		chain.Add(root_files+"/limit", -1)
+	else:
+		for root_file in root_files:
+			chain.Add(root_file+"/limit", -1)
 	up = 0
 	mid = 0
 	down = 0
@@ -49,7 +53,10 @@ def get_limit(root_file, file_type="asymptotic"):
 		mid = np.percentile(sigs, 50)
 		down = np.percentile(sigs, 16)
 		up = np.percentile(sigs, 84)
-	print root_file, (down, mid, up)
+	if not isinstance(root_files, list):
+		print root_files, (down, mid, up)
+	else:
+		print root_files[0] + " to " + os.path.split(root_files[-1])[-1] , (down, mid, up)
 	return (down,mid,up)
 
 if __name__ == "__main__":
@@ -114,13 +121,12 @@ if __name__ == "__main__":
 		values = {}
 		file_list = []
 		diff_list = []
-		map(file_list.__iadd__, map(glob.glob, [os.path.join(x, "datacards/combined/"+search_pattern) for x in in_dirs]))
-		map(diff_list.__iadd__, map(glob.glob, [os.path.join(x, "datacards/combined/"+search_pattern) for x in diff_dirs]))
+		map(file_list.__iadd__, [map(glob.glob, [os.path.join(x, "datacards/combined/"+search_pattern) for x in in_dirs])])
+		map(diff_list.__iadd__, [map(glob.glob, [os.path.join(x, "datacards/combined/"+search_pattern) for x in diff_dirs])])
 		if len(diff_list) != len(file_list) and len(diff_list) == 0:
 			diff_list = [None]*len(file_list)
 		for i, (in_file, diff_file, path)  in enumerate(zip(file_list, diff_list, in_dirs)):
-			if not ".root" in in_file:
-				continue
+			in_file = [f for f in in_file if ".root" in f]
 			name = os.path.split(path)[1]
 			if not name in x_names:
 				x_names.append(os.path.split(path)[1])
@@ -131,7 +137,7 @@ if __name__ == "__main__":
 			d = os.path.join(path, "datacards/individual/")
 			categories = [os.path.join(d,o) for o in os.listdir(d) if os.path.isdir(os.path.join(d,o))]
 			category_files = []
-			map(category_files.__iadd__, map(glob.glob, [os.path.join(x, search_pattern) for x in categories]))
+			map(category_files.__iadd__, [map(glob.glob, [os.path.join(x, search_pattern) for x in categories])])
 			for cat, cat_path in zip(category_files, categories):
 				cat_name = os.path.split(cat_path)[1]
 				if not args.channel in cat_name:
