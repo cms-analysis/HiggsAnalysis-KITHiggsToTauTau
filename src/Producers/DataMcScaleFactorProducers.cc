@@ -130,7 +130,8 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 		
 		double efficiencyData = efficienciesData[0][0]*efficienciesData[1][1] + efficienciesData[0][1]*efficienciesData[1][0] - efficienciesData[0][1]*efficienciesData[1][1];
 		double efficiencyMc = efficienciesMc[0][0]*efficienciesMc[1][1] + efficienciesMc[0][1]*efficienciesMc[1][0] - efficienciesMc[0][1]*efficienciesMc[1][1];
-		product.m_weights[std::string(m_weightName + "_1")] = efficiencyData / efficiencyMc;
+		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
+		product.m_weights[std::string(m_weightName + "_1")] = weight;
 	}
 }
 
