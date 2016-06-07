@@ -336,7 +336,8 @@ if __name__ == "__main__":
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
 	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 --significance -n \"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t 100 --expectSignal 1 --toysFrequentist --significance\"\"")
+	for index in range(50):
+		datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t 20 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index)
 	
 	"""
 	# cV-cF scan
