@@ -75,7 +75,7 @@ if __name__ == "__main__":
 						help="use one of the following limit types: [Default:%(default)s, choices:%(choices)s]")
 	parser.add_argument("--base-line", default=None,
 						help="use the limit extracted from this workspace as baseline for the others: other-this")
-	parser.add_argument("--channel", default="mt",
+	parser.add_argument("--channels", default="mt", nargs="+",
 						help="channels. [Default%(default)s]")
 	parser.add_argument("--lumi-mode", action="store_true", default=False, help="do lumi projection")
 	parser.add_argument("--lumi-list", nargs="+", default=[], help="lumi values")
@@ -138,18 +138,19 @@ if __name__ == "__main__":
 			categories = [os.path.join(d,o) for o in os.listdir(d) if os.path.isdir(os.path.join(d,o))]
 			category_files = []
 			map(category_files.__iadd__, [map(glob.glob, [os.path.join(x, search_pattern) for x in categories])])
-			for cat, cat_path in zip(category_files, categories):
-				cat_name = os.path.split(cat_path)[1]
-				if not args.channel in cat_name:
-					continue
-				split_name = cat_name.replace("%s_"%args.channel,"")
-				for repl in name.split("_"):
-					split_name = split_name.replace(repl+"_", "")
-				if split_name not in categories_names:
-					categories_names.append(split_name)
-				if split_name not in values[name]["categories"].keys():
-					values[name]["categories"][split_name] = {}
-				values[name]["categories"][split_name]["value"] = get_limit(cat, args.limits_type)
+			for channel in args.channels:
+				for cat, cat_path in zip(category_files, categories):
+					cat_name = os.path.split(cat_path)[1]
+					if not channel in cat_name:
+						continue
+					split_name = cat_name.replace("%s_"%channel,"")
+					for repl in name.split("_"):
+						split_name = split_name.replace(repl+"_", "")
+					if split_name not in categories_names:
+						categories_names.append(split_name)
+					if split_name not in values[name]["categories"].keys():
+						values[name]["categories"][split_name] = {}
+					values[name]["categories"][split_name]["value"] = get_limit(cat, args.limits_type)
 		values_list.append(values)
 		#print values
 		lower = np.array([values[name]["combined"][0]-values[name]["combined_diff"][0] for name in x_names])
