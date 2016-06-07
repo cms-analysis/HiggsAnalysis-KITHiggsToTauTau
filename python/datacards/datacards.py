@@ -348,13 +348,6 @@ class Datacards(object):
 			ch.SystMap("era", "process")
 				(["13TeV"], ["ZTT"], 1.015) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
-		
-		self.zll_incl_rate_param_syst_args = [
-			"n_zll_$BIN_norm",# TODO: channel needs to be removed from name in order for rateParam to work properly
-			"rateParam",
-			ch.SystMap("process")
-				(["ZLL"], 1.0)
-		]
 
 		# CMS AN-13-262 (v8, table 3)
 		self.htt_ueps_syst_args = [
