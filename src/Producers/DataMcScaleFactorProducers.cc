@@ -122,8 +122,8 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 	else if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CORRELATE_TRIGGERS)
 	{
 		assert((efficienciesData.size() == 2) &&
-		       (efficienciesMc[0].size() == 2) &&
-		       (efficienciesMc[1].size() == 2) &&
+		       (efficienciesData[0].size() == 2) &&
+		       (efficienciesData[1].size() == 2) &&
 		       (efficienciesMc.size() == 2) &&
 		       (efficienciesMc[0].size() == 2) &&
 		       (efficienciesMc[1].size() == 2));
