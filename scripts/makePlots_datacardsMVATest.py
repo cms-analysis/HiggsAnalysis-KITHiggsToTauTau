@@ -67,6 +67,7 @@ if __name__ == "__main__":
 						help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--no-replotting", action="store_true", default=False,
 						help="do not produce new input plots, make only new datacards and calculate anew")
+	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 						help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
@@ -163,7 +164,7 @@ if __name__ == "__main__":
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
-							category=category,
+							category="catMVAStudies_"+category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							exclude_cuts=args.exclude_cuts,
@@ -175,10 +176,10 @@ if __name__ == "__main__":
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-
+					config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 					config["x_expressions"] = [args.quantity]
 
-					binnings_key = "binningMVA13TeV_"+channel+"_%s"%args.quantity
+					binnings_key = "binningMVAStudies_"+category+"_%s"%args.quantity
 					if binnings_key in binnings_settings.binnings_dict:
 						config["x_bins"] = [binnings_key]
 					else:
@@ -310,7 +311,7 @@ if __name__ == "__main__":
 	#TODO uncomment your chosen combine-call
 	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M Asymptotic --expectSignal 1 -t 100 --toysFrequentist\"\"")
 	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit --expectSignal 1 -t 100 --toysFrequentist\"\"")
-	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t 100 --expectSignal 1 --toysFrequentist --significance\"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance\"\"")
 	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MultiDimFit --algo singles -t 100 --expectSignal 1 --rMin 0 --rMax 5 --robustFit 1 --toysFrequentist\"\"")
 
 	"""

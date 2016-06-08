@@ -56,6 +56,7 @@ if __name__ == "__main__":
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
@@ -178,10 +179,10 @@ if __name__ == "__main__":
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					
+					config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 					config["x_expressions"] = [args.quantity]
-					
-					binnings_key = "binningHtt13TeV_"+category+"_svfitMass"
+
+					binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
 					if binnings_key in binnings_settings.binnings_dict:
 						config["x_bins"] = [binnings_key]
 					else:

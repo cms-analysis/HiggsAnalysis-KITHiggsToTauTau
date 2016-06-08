@@ -5,6 +5,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
 import os
 import sys
 
@@ -14,20 +15,21 @@ class MVADatacards(datacards.Datacards):
 
 		if cb is None:
 			signal_processes = ["ggH", "qqH", "WH", "ZH"]
+			channels=["mt", "et", "tt", "em"]
 			# ==========================Copy here!=========================================
-			categories={}
-			for channel in ["tt", "mt", "et", "em"]:
-				categories[channel] = []
-				for cat in ["inclusive", "0jet_high", "0jet_low", "1jet_high", "1jet_low", "2jet_vbf", "0jet_sig", "0jet_bkg", "1jet_sig", "1jet_bkg", "2jet_vbf_bdt"]:
-					categories[channel].append(channel+"_"+cat)
-				categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
-				if not os.path.exists(categories_path):
-					continue
-				with open(categories_path) as categs:
-					for line in categs:
-						cat = line.strip()
-						if cat not in categories[channel]:
-							categories[channel].append(cat)
+			categories=Categories.CategoriesDict().getCategories(channels=channels)
+			#for channel in channels:
+				#categories[channel] = []
+				#for cat in ["inclusive", "0jet_high", "0jet_low", "1jet_high", "1jet_low", "2jet_vbf", "0jet_sig", "0jet_bkg", "1jet_sig", "1jet_bkg", "2jet_vbf_bdt"]:
+					#categories[channel].append(channel+"_"+cat)
+				#categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
+				#if not os.path.exists(categories_path):
+					#continue
+				#with open(categories_path) as categs:
+					#for line in categs:
+						#cat = line.strip()
+						#if cat not in categories[channel]:
+							#categories[channel].append(cat)
 			###=========================Copy here!=========================================
 			# MT channel
 			self.add_processes(

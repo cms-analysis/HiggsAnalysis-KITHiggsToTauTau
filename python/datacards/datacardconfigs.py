@@ -3,7 +3,7 @@
 import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
-
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
 import re, os
 
 
@@ -50,11 +50,6 @@ class DatacardConfigs(object):
 				"mt_1jet_boost_low" : 21,
 				"mt_0jet_nhighpt2" : 22,
 				"mt_0jet_nlowpt2" : 23,
-				"mt_0jet_sig" : 24,
-				"mt_0jet_bkg" : 25,
-				"mt_1jet_sig" : 26,
-				"mt_1jet_bkg" : 27,
-				"mt_2jet_vbf_bdt" : 28
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -123,14 +118,21 @@ class DatacardConfigs(object):
 				"tt_0jet_nlowpt2" : 23,
 			},
 		}
-		categories={}
-		for channel in ["tt", "mt", "et", "em"]:
-			categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
-			with open(categories_path) as categs:
-				for line in categs:
-					cat = line.strip()
-					self._mapping_category2binid[channel][cat] = len(self._mapping_category2binid[channel].keys())
-
+		#for channel in ["tt", "mt", "et", "em"]:
+			#categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
+			#with open(categories_path) as categs:
+				#for line in categs:
+					#cat = line.strip()
+					#self._mapping_category2binid[channel][cat] = len(self._mapping_category2binid[channel].keys())
+		channels=["mt", "et", "tt", "em"]
+		# ==========================Copy here!=========================================
+		categories=Categories.CategoriesDict().getCategories(channels=channels)
+		import operator
+		#TODO get maximum binvalue for categories already there
+		max_number = 1 + max([max(v.iteritems(), key=operator.itemgetter(1))[1] for k,v in self._mapping_category2binid.iteritems()])
+		for chan in channels:
+			for i, cat in enumerate(categories[chan]):
+				self._mapping_category2binid[chan][cat] = max_number + i
 		self.htt_datacard_filename_templates = [
 			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
