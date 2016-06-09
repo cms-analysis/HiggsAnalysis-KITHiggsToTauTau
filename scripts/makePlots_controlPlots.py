@@ -265,11 +265,11 @@ if __name__ == "__main__":
 				if category != None:
 					if(args.mssm):
 						category_string = "catHttMSSM13TeV"
+					if args.mva:
+						category_string = "catMVAStudies"
 					else:
 						category_string = "catHtt13TeV"
 					category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
-					if args.mva:
-						category_string = category
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity+".json") for channel_dir in [channel, "default"]]
 				for json_filename in json_filenames:
@@ -304,9 +304,19 @@ if __name__ == "__main__":
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
 				config["category"] = category
 
-				binnings_key = channel+"_"+quantity
+				if(args.mssm):
+						binning_string = "binningHttMSSM13TeV"
+				if args.mva:
+					binning_string = "binningMVAStudies"
+				else:
+					binning_string = "binningHtt13TeV"
+				binnings_key = (binning_string + "_{channel}_{category}").format(channel=channel, category=category)
 				if binnings_key in binnings_settings.binnings_dict:
 					config["x_bins"] = json_config.pop("x_bins", [binnings_key])
+				elif channel+"_"+quantity in binnings_settings.binnings_dict:
+					binnings_key = channel+"_"+quantity
+					config["x_bins"] = json_config.pop("x_bins", [binnings_key])
+
 				config["x_label"] = json_config.pop("x_label", channel+"_"+quantity)
 
 				config["title"] = "channel_"+channel
