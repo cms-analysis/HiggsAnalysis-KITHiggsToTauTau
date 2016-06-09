@@ -19,7 +19,7 @@
 		"MinNElectrons" : 1,
 		"MinNTaus" : 1,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : { 
+		"HltPaths" : {
 			"nick": {
 				"Spring15MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf"
@@ -47,7 +47,7 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
-		"TriggerObjectLowerPtCut" : { 
+		"TriggerObjectLowerPtCut" : {
 			"nick": {
 				"default": -1.0,
 				"Spring15MiniAODv2" : 23.0,
@@ -59,7 +59,7 @@
 		"DiTauPairLepton1LowerPtCuts" : [
 			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : {
 			"nick": {
 				"Spring15MiniAODv2" : [
 					"HLT_Ele22_eta2p1_WP75_Gsf_v"
@@ -126,6 +126,7 @@
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
@@ -173,6 +174,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
+ 					"producer:MVAInputQuantitiesProducer",
+					"producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -215,6 +218,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
+ 					"producer:MVAInputQuantitiesProducer",
+					"producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -250,6 +255,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
+ 					"producer:MVAInputQuantitiesProducer",
+					"producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				]
 			}

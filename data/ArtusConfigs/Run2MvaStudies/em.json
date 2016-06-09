@@ -19,7 +19,7 @@
 		"MaxNLooseElectrons" : 1,
 		"MaxNLooseMuons" : 1,
 		"HltPaths_comment" : "The first path must be one with the higher pt cut on the electron. The second and last path must be one with the higher pt cut on the muon. Corresponding Pt cuts are implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : { 
+		"HltPaths" : {
 			"nick": {
 				"MiniAODv2" : [
 					"HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL",
@@ -115,6 +115,7 @@
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
@@ -156,8 +157,9 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
+ 					"producer:MVAInputQuantitiesProducer",
+					"producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -196,6 +198,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
+ 					"producer:MVAInputQuantitiesProducer",
+					"producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -229,6 +233,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
+ 					"producer:MVAInputQuantitiesProducer",
+					"producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				]
 			}
