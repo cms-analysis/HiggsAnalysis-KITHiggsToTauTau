@@ -38,7 +38,14 @@ fi
 if [[ `hostname` == *naf* ]]; then
 	export ARTUS_WORK_BASE="/nfs/dust/cms/user/${USER}/htautau/artus/"
 elif [[ `hostname` == *ekp* ]]; then
-	export ARTUS_WORK_BASE="/storage/a/${USER}/htautau/artus/"
+	STORAGELIST=(a 5 6 7 8 9 jbod) #list of allowed storages ordered by priority (descending)
+	for STORAGE in ${STORAGELIST[*]}
+		do
+			if [ -d /storage/${STORAGE}/${USER} ]; then
+				export ARTUS_WORK_BASE="/storage/${STORAGE}/${USER}/htautau/artus/"
+				break
+			fi
+	done
 elif [[ `hostname` == *cern* ]]; then
 	export ARTUS_WORK_BASE="/afs/cern.ch/work/${USER:0:1}/${USER}/htautau/artus/"
 fi
