@@ -206,30 +206,66 @@ if __name__ == "__main__":
 							)
 					)
 					
-				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MultiDimFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
-				#datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MaxLikelihoodFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
-				plot_configs=[]
-				config={
-					"folders": [
-    					"limit"
-    	     			],
-					"files": [
-						"plots/htt_datacards/datacards/individual/10/htt_mt_10_13TeV/projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root"
+					datacards.combine(
+							datacards_cbs,
+							datacards_workspaces,
+							None,
+							args.n_processes,
+							"--expectSignal=1 -t -1 -M Asymptotic -n \"\""
+					)
+					
+					#getting limits of the tree:
+					for lumi in args.lumis:
+						limit_file=os.path.join(os.path.splitext(datacard)[0],"projection/default/totUnc/"+str("{:06}".format(lumi))+"/higgsCombine.Asymptotic.mH0.root")
+						file = ROOT.TFile(limit_file)
+						tree = file.Get("limit")
+						quantile_expected_list = []
+						limits_list = []
+				
+						for entry in range(0, tree.GetEntries()):
+							tree.GetEntry(entry)
+							quantile_expected_list.append(tree.quantileExpected)
+							limits_list.append(tree.limit)
+						print lumi
+						print limits_list
+						print quantile_expected_list
+						print "****************************************************"
+				#datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MultiDimFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
+				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "Asymptotic")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
+		
+		#os.path.splitext(datacard)[0]
+		file=os.path.join(os.path.splitext(datacard)[0],"projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root")
+		channel=["em","et","mt","tt"]
+		"""
+		l=[args.lumis[i]/1000 for i in range(len(args.lumis))]
+		l=l.append(max(l)+1)
+		print l
+		xbins=[str(lumis[i]) for i in range(len(lumis))]
+		print xbins
+		"""#TODO soft-coding the xbins
+		plot_configs=[]
+		for i in range(len(channel)):
+			config={
+				"folders": [
+						"limit"
+						],
+				"files": [
+						file
 						],#TODO muss man von hand jedes mal ändern :/
-					"filename": "lumivscpmixing_normal",
-					"x_bins":["1 2 3 4 5 6 7 8 9 10 20 30 40 50 60 70 80 90 100 101"],
-					"y_bins":["20,0,1.01"],
-					"x_expressions":"lumi/1000",
-					"y_expressions":"cpmixing",
-					"weights": "deltaNLL",
-					"markers": "COLZ",
-					"z_label": "deltaNLL"						
-						}
-				plot_configs.append(config)
+				"filename": "lumivscpmixing_normal_"+channel[i],
+				"x_bins":["1 2 3 4 5 6 7 8 9 10 20 30 40 50 60 70 80 90 100 101"],
+				"y_bins":["20,0,1.01"],
+				"x_expressions":"lumi/1000",
+				"y_expressions":"cpmixing",
+				"weights": "deltaNLL",
+				"markers": "COLZ",
+				"z_label": "deltaNLL"						
+			}
+			plot_configs.append(config)
 		
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-	
+		
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
