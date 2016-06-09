@@ -29,7 +29,7 @@ void MVAInputQuantitiesProducer::Init(setting_type const& settings)
 		return product.m_Lep2Centrality;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("delta_lep_centrality", [](event_type const& event, product_type const& product) {
-		return std::abs(product.m_Lep1Centrality-product.m_Lep2Centrality);
+		return std::abs(product.m_Lep1Centrality)-product.m_Lep2Centrality;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLep_centrality", [](event_type const& event, product_type const& product) {
 		return std::abs(product.m_DiLepCentrality);
