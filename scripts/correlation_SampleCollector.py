@@ -125,7 +125,7 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Collect and Combine Correlation Information",
 									 parents=[logger.loggingParser])
 	parser.add_argument("-i", "--input-dir", required=True,
-						help="Input directory. Use directory of ooutput from correlation_SampleProducer.py")
+						help="Input directory. Use directory of output from correlation_SampleProducer.py")
 	parser.add_argument("-c", "--channels", nargs="*",
 						default=["tt", "mt", "et", "em", "mm", "ee"],
 						choices=["tt", "mt", "et", "em", "mm", "ee"],
