@@ -2,7 +2,7 @@
 	"JetID" : "loose",
 	"PuJetIDs" : {
 		"nick" : {
-			"default" : [ "pileupJetIdfullDiscriminant" ],
+			"default" : [ "puJetIDFullLoose" ],
 			"13TeV*._MINIAODSIM" : [ "pileupJetIdfullDiscriminant" ]
 		}
 	},
