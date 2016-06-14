@@ -67,7 +67,7 @@
 				"Run2015(A|B|C)" : [
 					"HLT_IsoMu24_eta2p1_v"
 				],
-				"(Fall15MiniAODv2|Run2015D|Rund2016)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
 					"HLT_IsoMu18_v"
 				]
 			}
