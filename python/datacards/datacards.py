@@ -568,9 +568,9 @@ class Datacards(object):
 
 		self.cb.ForEachSyst(remove)
 
-	def scale_expectation(self, scale_factor):
-		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
-		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
+	def scale_expectation(self, scale_factor, no_norm_rate_bkg=False, no_norm_rate_sig=False):
+		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_bkg else process.rate()) * scale_factor))
+		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_sig else process.rate()) * scale_factor))
 
 	def replace_observation_by_asimov_dataset(self, signal_mass):
 		log.warning("Asimov data sets need to be created with combine -t -1 --expectSignal 0 [--toysFrequentist], since CH (python) does not yet support modifying of shapes!")

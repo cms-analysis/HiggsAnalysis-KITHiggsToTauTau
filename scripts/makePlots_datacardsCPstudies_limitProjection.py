@@ -155,7 +155,7 @@ if __name__ == "__main__":
 					scaled_datacards = cpstudiesdatacards.CPStudiesDatacards(cb=datacards.cb.deep())
 					
 					lumi_scale_factor = lumi / args.lumi_datacards
-					scaled_datacards.scale_expectation(lumi_scale_factor)
+					scaled_datacards.scale_expectation(lumi_scale_factor, no_norm_rate_sig=True)
 					#scaled_datacards.replace_observation_by_asimov_dataset("125")
 					scaled_datacards.cb.PrintAll()
 					print output_dir
