@@ -10,8 +10,12 @@ import copy
 import glob
 import os
 import shutil
+
 import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gSystem.Load("libHiggsAnalysisCombinedLimit")
+
 import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.jsonTools as jsonTools
