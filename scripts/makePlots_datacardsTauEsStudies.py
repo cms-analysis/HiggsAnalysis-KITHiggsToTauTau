@@ -430,6 +430,9 @@ if __name__ == "__main__":
 	
 	tools.parallelize(_call_command, commands, n_processes=1)
 	
+	#plot nuisance impacts
+	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
+	
 	#postfitshapes call
 	datacards_postfit_shapes = {}
 	commands = []
