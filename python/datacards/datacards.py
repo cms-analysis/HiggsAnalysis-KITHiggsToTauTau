@@ -265,6 +265,12 @@ class Datacards(object):
 				(["13TeV"], ["em"], 1.0)
 				(["13TeV"], ["mt"], 1.0)
 		]
+		self.ttj_syst_args = [
+			"CMS_htt_ttbarShape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
 
 		self.met_resp_syst_args = [
 			"CMS_scale_met_$CHANNEL_$ERA",
