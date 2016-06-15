@@ -5,7 +5,11 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import argparse, copy, os, sys
+import argparse
+import copy
+import os
+import sys
+
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings

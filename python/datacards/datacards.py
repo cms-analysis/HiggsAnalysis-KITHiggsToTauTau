@@ -568,9 +568,9 @@ class Datacards(object):
 
 		self.cb.ForEachSyst(remove)
 
-	def scale_expectation(self, scale_factor):
-		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
-		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.rate() * scale_factor))
+	def scale_expectation(self, scale_factor, no_norm_rate_bkg=False, no_norm_rate_sig=False):
+		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_bkg else process.rate()) * scale_factor))
+		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_sig else process.rate()) * scale_factor))
 
 	def replace_observation_by_asimov_dataset(self, signal_mass):
 		log.warning("Asimov data sets need to be created with combine -t -1 --expectSignal 0 [--toysFrequentist], since CH (python) does not yet support modifying of shapes!")
@@ -833,3 +833,52 @@ class Datacards(object):
 
 		# create result plots HarryPlotter
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
+	
+	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
+		tmp_args = " ".join(args)
+		
+		commandsInitialFit = []
+		commandsInitialFit.extend([[
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doInitialFit --allPars {ARGS}".format(
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
+						ARGS=tmp_args.format(),
+						WORKSPACE=workspace
+				),
+				os.path.dirname(workspace)
+		] for datacard, workspace in datacards_workspaces.iteritems()])
+		
+		commandsFits = []
+		commandsFits.extend([[
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doFits --parallel {NPROCS} --allPars {ARGS}".format(
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
+						ARGS=tmp_args.format(),
+						WORKSPACE=workspace,
+						NPROCS=n_processes
+				),
+				os.path.dirname(workspace)
+		] for datacard, workspace in datacards_workspaces.iteritems()])
+		
+		commandsOutput = []
+		commandsOutput.extend([[
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --output impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
+						ARGS=tmp_args.format(),
+						WORKSPACE=workspace,
+						NPROCS=n_processes
+				),
+				os.path.dirname(workspace)
+		] for datacard, workspace in datacards_workspaces.iteritems()])
+		
+		commandsPlot = []
+		commandsPlot.extend([[
+				"plotImpacts.py -i {INPUT} -o {OUTPUT}".format(
+						INPUT="nuisance_impacts.json",
+						OUTPUT="nuisance_impacts"
+				),
+				os.path.dirname(workspace)
+		] for datacard, workspace in datacards_workspaces.iteritems()])
+
+		tools.parallelize(_call_command, commandsInitialFit, n_processes=1)
+		tools.parallelize(_call_command, commandsFits, n_processes=n_processes)
+		tools.parallelize(_call_command, commandsOutput, n_processes=n_processes)
+		tools.parallelize(_call_command, commandsPlot, n_processes=1)
