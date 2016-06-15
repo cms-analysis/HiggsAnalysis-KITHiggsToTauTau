@@ -168,6 +168,8 @@ public:
 
 	IMPL_SETTING_DEFAULT(std::string, ElectronEnergyCorrection, "none");
 	IMPL_SETTING_DEFAULT(float, ElectronEnergyCorrectionShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronEnergyCorrectionShiftEB, 1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronEnergyCorrectionShiftEE, 1.0);
 	IMPL_SETTING_DEFAULT(std::string, MuonEnergyCorrection, "none");
 	IMPL_SETTING_DEFAULT(float, MuonEnergyCorrectionShift, 1.0);
 	IMPL_SETTING_DEFAULT(std::string, TauEnergyCorrection, "none");
