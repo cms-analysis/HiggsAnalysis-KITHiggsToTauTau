@@ -36,7 +36,7 @@ class ZttXsecDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 
 			# Tau ES
-			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
 			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
@@ -64,7 +64,7 @@ class ZttXsecDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 
 			# Tau ES
-			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_corr_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
@@ -88,7 +88,16 @@ class ZttXsecDatacards(datacards.Datacards):
 
 			# extrapolation uncertainty
 			self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
-			
+
+			# Electron ES
+			self.cb.cp().channel(["em"]).process(["ZTT", "TT", "W", "VV"]).AddSyst(self.cb, *self.ele_es_syst_args)
+
+			# Muon ES
+			self.cb.cp().channel(["em"]).process(["ZTT", "TT", "W", "VV"]).AddSyst(self.cb, *self.mu_es_syst_args)
+
+			# Top pT reweight
+			self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
+
 			# ======================================================================
 			# All channels
 			#self.cb.cp().process(["ZTT"]).AddSyst(self.cb, "ZTT_uniform_2", "lnU", ch.SystMap()(2.0))
@@ -178,7 +187,7 @@ class ZttEffDatacards(datacards.Datacards):
 			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 		
 			# cross section
-			self.cb.cp().process(["ZTT", "ZL", "ZJ"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+			self.cb.cp().process(["ZL", "ZJ"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)

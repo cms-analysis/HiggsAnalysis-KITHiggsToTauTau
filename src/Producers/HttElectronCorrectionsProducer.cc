@@ -31,9 +31,28 @@ void HttElectronCorrectionsProducer::AdditionalCorrections(KElectron* electron, 
 	}
 	
 	float eleEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetElectronEnergyCorrectionShift();
+	float eleEnergyCorrectionShiftEB = static_cast<HttSettings const&>(settings).GetElectronEnergyCorrectionShiftEB();
+	float eleEnergyCorrectionShiftEE = static_cast<HttSettings const&>(settings).GetElectronEnergyCorrectionShiftEE();
+
+	if (eleEnergyCorrectionShift != 1.0 && (eleEnergyCorrectionShiftEB != 1.0 || eleEnergyCorrectionShiftEE != 1.0))
+	{
+		LOG(FATAL) << "Too many different electron energy corrections (all eta, barrel-only, endcap-only)";
+	}
+	
 	if (eleEnergyCorrectionShift != 1.0)
 	{
 		electron->p4 = electron->p4 * eleEnergyCorrectionShift;
+	}
+	if (eleEnergyCorrectionShiftEB != 1.0 || eleEnergyCorrectionShiftEE != 1.0)
+	{
+		if (std::abs(electron->p4.Eta()) < DefaultValues::EtaBorderEB)
+		{
+			electron->p4 = electron->p4 * eleEnergyCorrectionShiftEB;
+		}
+		else
+		{
+			electron->p4 = electron->p4 * eleEnergyCorrectionShiftEE;
+		}
 	}
 }
 
