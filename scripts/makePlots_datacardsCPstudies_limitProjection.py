@@ -215,7 +215,7 @@ if __name__ == "__main__":
 							datacards_workspaces,
 							None,
 							args.n_processes,
-							"--expectSignal=1 -t -1 -M Asymptotic -n \"\""
+							"--expectSignal=1 -t -1 -M Asymptotic --redefineSignalPOIs cpmixing --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing=0,1 --rMin 0 --rMax 100 -n \"\""
 					)
 					
 					#getting limits of the tree:
