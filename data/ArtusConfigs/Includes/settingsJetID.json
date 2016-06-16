@@ -3,7 +3,8 @@
 	"PuJetIDs" : {
 		"nick" : {
 			"default" : [ "puJetIDFullLoose" ],
-			"13TeV*._MINIAODSIM" : [ "pileupJetIdfullDiscriminant" ]
+			"13TeV*._MINIAODSIM" : [ "pileupJetIdfullDiscriminant" ],
+			"Fall15" : [ "pileupJetIdfullDiscriminant" ]
 		}
 	},
 	"PuJetIDFullDiscrName" : "pileupJetIdfullDiscriminant",
