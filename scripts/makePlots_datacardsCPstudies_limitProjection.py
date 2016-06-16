@@ -239,10 +239,11 @@ if __name__ == "__main__":
 		channel=["em","et","mt","tt"]
 		
 		lst=[(lumi/1000) for lumi in args.lumis]
+		lst.extend([max(lst)+(max(lst)-min(lst))/len(lst)])		
 		lst.sort()
 		lst=[str(lst[i]) for i in range(len(lst))]
 		xbins=" ".join(lst)
-		
+		print xbins
 		plot_configs=[]
 		for i in range(len(channel)):
 			config={
@@ -261,7 +262,8 @@ if __name__ == "__main__":
 				"y_expressions":"cpmixing*TMath::Pi()/2",
 				"weights": "deltaNLL*(t_real<=0.00001)",
 				"markers": "COLZ",
-				"z_label": "-2 #Delta ln(L)"					
+				"z_label": "-2 #Delta ln(L)",
+				"output_dir": os.path.join(os.path.splitext(datacard)[0],"projection/")				
 			}
 			plot_configs.append(config)
 		config_limitsoverlumi = jsonTools.JsonDict(os.path.expandvars("HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json"))
@@ -271,6 +273,7 @@ if __name__ == "__main__":
 		config_limitsoverlumi["y_label"]="95% CL Limit on CP-mixing-angle"
 		config_limitsoverlumi["x_expressions"]= "lumi/1000","0:lumi/1000","0:lumi/1000","0:lumi/1000","0:lumi/1000"
 		config_limitsoverlumi["y_expressions"]="limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2"
+		config_limitsoverlumi["output_dir"]=os.path.join(os.path.splitext(datacard)[0],"projection/")
 		plot_configs.append(config_limitsoverlumi)
 		print os.path.join(os.path.splitext(datacard)[0])
 	if log.isEnabledFor(logging.DEBUG):
