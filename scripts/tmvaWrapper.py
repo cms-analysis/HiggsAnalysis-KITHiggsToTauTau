@@ -68,7 +68,7 @@ def do_splitting(args, plot_configs):
 		part_size = 100./((args["n_fold"])*4.)
 		temp_splits = []
 		for i in range(args["n_fold"]):
-			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
+			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size),int(25+i*part_size),int(25+(i+1)*part_size),int(50+i*part_size),int(50+(i+1)*part_size),int(75+i*part_size),int(75+(i+1)*part_size)))
 		for i in range(args["n_fold"]):
 			splits_list.append("||".join(temp_splits[i::args["n_fold"]]))
 	# create output file
