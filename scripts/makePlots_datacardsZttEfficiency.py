@@ -106,9 +106,10 @@ if __name__ == "__main__":
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 
-	#weight_string = "(fabs(eta_2) < 1.460)"
+	weight_string = "(fabs(eta_2) < 1.460)"
 	#weight_string = "(fabs(eta_2) < 1.460)*(decayMode_2 == 1)"
-	weight_string = "(fabs(eta_2) > 1.558)"
+	#weight_string = "(fabs(eta_2) > 1.558)"
+	#weight_string = "1.0"
 	
 	# initialisations for plotting
 	if args.model == "etaufakerate":
@@ -175,7 +176,7 @@ if __name__ == "__main__":
 		for category in categories:
 			if (channel != category[:2]):
 				continue
-
+			
 			if args.model in ["etaufakerate", "mutaufakerate"]: 
 				datacards_per_channel_category = zttxsecdatacards.ZttLepTauFakeRateDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			elif args.model == "tauideff":
@@ -214,15 +215,22 @@ if __name__ == "__main__":
 							cut_type=category[3:]
 					)
 					
-					# do not apply shape subtraction in QCD estimate, to avoid poorly described templates
-					config["qcd_subtract_shape"] = [False]
-					config["x_bins"] = ["60,0,300"]
 					if args.model in ["etaufakerate", "mutaufakerate"]:
+						#do not apply shape subtraction in QCD estimate, to avoid poorly described templates
+						config["qcd_subtract_shape"] = [False]
+						config["x_bins"] = ["60,0,300"]
 						if "pass" in category:
-							config["custom_rebin"] = [60,70,80,90,100,110,120]
-							#config["custom_rebin"] = [60,65,70,75,80,85,90,95,100,105,110,115,120]
+							#config["custom_rebin"] = [60,70,80,90,100,110,120]
+							config["custom_rebin"] = [60,65,70,75,80,85,90,95,100,105,110,115,120]
 						elif "fail" in category:
 							config["custom_rebin"] = [60,120]
+					if args.model == "tauideff":
+						config["x_bins"] = ["33,35,200"]
+						config["qcd_extrapolation_factors_ss_os"] = [1.06]
+						#if "pass" in category:
+							#config["custom_rebin"] = [20,30,40,50,60,70,80,90,100,110,120,130,140,150]
+						#elif "fail" in category:
+							#config["custom_rebin"] = [20,30,40,50,60,70,80,90,100,110,120,130,140,150]
 					
 					config["x_expressions"] = [args.quantity]
 					config["directories"] = [args.input_dir]
@@ -417,15 +425,18 @@ if __name__ == "__main__":
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
 				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
-				config["x_label"] = "m_{vis} (GeV)" #category[:2]+"_"+args.quantity
+				config["x_label"] = "m_{vis} [GeV]" #category[:2]+"_"+args.quantity
 				config["y_label"] = "Events / bin"
-				config["x_lims"] = [60, 120]
+				if args.model in ["etaufakerate", "mutaufakerate"]:
+					config["x_lims"] = [60, 120]
+				elif args.model == "tauideff":
+					config["x_lims"] = [35, 200]
 				
 				#config["title"] = "channel_"+category[:2]
 				config["energies"] = [13.0]
 				config["lumis"] = [float("%.1f" % args.lumi)]
-				config["cms"] = True
-				config["extra_text"] = "Preliminary"
+				#config["cms"] = True
+				#config["extra_text"] = "Preliminary"
 				config["legend"] = [0.7, 0.5, 0.9, 0.78]
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category
@@ -442,12 +453,12 @@ if __name__ == "__main__":
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["F", "ELP"])
 					config.setdefault("labels", []).extend([""] * 2)
-					config["legend"] = [0.7, 0.4, 0.92, 0.82]
+					config["legend"] = [0.65, 0.4, 0.92, 0.82]
 					config["y_subplot_lims"] = [0.5, 1.5]
 					config["y_subplot_label"] = "Obs./Exp."
 					config["subplot_grid"] = True
 				
-				if "fail" in category:
+				if "fail" in category and args.model in ["etaufakerate", "mutaufakerate"]:
 					config.pop("legend")
 				
 				plot_configs.append(config)
