@@ -343,18 +343,5 @@ if __name__ == "__main__":
 	
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 --significance -n \"\"")
-	#for index in range(50):
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index)
-	
-	#postfitshapes call
-	datacards_postfit_shapes = {}
-	commands = []
-	commands.extend(["PostFitShapesFromWorkspace -m 125 -w {WORKSPACE} -d {DATACARD} -o {OUTPUT}".format(
-			WORKSPACE=datacards_workspaces[datacard],
-			DATACARD=datacard,
-			OUTPUT=os.path.splitext(datacard)[0]+"_fit_s.root"
-	) for datacard, cb in datacards_cbs.iteritems()])
 
-
-	tools.parallelize(_call_command, commands, n_processes=args.n_processes)
