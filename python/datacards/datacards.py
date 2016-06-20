@@ -579,11 +579,9 @@ class Datacards(object):
 		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_sig else process.rate()) * scale_factor))
 
 	def replace_observation_by_asimov_dataset(self, signal_mass):
-		log.warning("Asimov data sets need to be created with combine -t -1 --expectSignal 0 [--toysFrequentist], since CH (python) does not yet support modifying of shapes!")
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
-			#observation.set_shape(cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape(), True)
-			observation.ShapeAsTH1F = cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape()
+			observation.set_shape(cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape(), True)
 			observation.set_rate(cb.cp().backgrounds().GetRate() + cb.cp().signals().mass([signal_mass]).GetRate())
 
 		self.cb.cp().ForEachObs(_replace_observation_by_asimov_dataset)
