@@ -19,14 +19,21 @@ void MetprojectionProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPar", [](event_type const& event, product_type const& product) {
 		return product.m_recoMetOnBoson.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetParMinusBoson", [](event_type const& event, product_type const& product) {
-		return product.m_recoMetOnBoson.X() - product.m_diLeptonSystem.Pt();
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPerp", [](event_type const& event, product_type const& product) {
 		return product.m_recoMetOnBoson.Y();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPhi", [](event_type const& event, product_type const& product) {
 		return product.m_recoMetOnBoson.Phi();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoilPar", [](event_type const& event, product_type const& product) {
+		return product.m_recoilOnBoson.X();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoilPerp", [](event_type const& event, product_type const& product) {
+		return product.m_recoilOnBoson.Y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoilPhi", [](event_type const& event, product_type const& product) {
+		return product.m_recoilOnBoson.Phi();
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetOnGenMetProjectionPar", [](event_type const& event, product_type const& product) {
@@ -72,6 +79,8 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 
 	TVector2 diLeptonMomentum(product.m_diLeptonSystem.x(), product.m_diLeptonSystem.Y());
 	TVector2 met(product.m_metUncorr->p4.Vect().X(), product.m_metUncorr->p4.Vect().Y());
+	TVector2 recoil = diLeptonMomentum + met;
+	recoil = recoil.Rotate(TMath::Pi()); 
 
 	TVector2 genMet(0,0);
 	if( !m_isData )
@@ -80,8 +89,13 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 		genMet.Set(event.m_genMet->p4.Vect().X(), event.m_genMet->p4.Vect().Y());
 		product.m_recoMetOnGenMetProjection = met.Rotate( -genMet.Phi());
 	}
+	else
+	{
+		product.m_recoMetOnGenMetProjection = TVector2(0,0);
+	}
 
 	product.m_recoMetOnBoson = met.Rotate(-diLeptonMomentum.Phi());
+	product.m_recoilOnBoson = recoil.Rotate(-diLeptonMomentum.Phi());
 
 	// "pulls", recommended as crosscheck for covariance matrix, suggested by Christian Veelken
 	if(product.m_genBosonLVFound && (!m_isData))
