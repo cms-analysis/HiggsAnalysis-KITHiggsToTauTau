@@ -117,6 +117,28 @@ class DatacardConfigs(object):
 				"tt_0jet_nhighpt2" : 22,
 				"tt_0jet_nlowpt2" : 23,
 			},
+			"mm" : {
+				"mm_inclusive" : 0,
+				"mm_0jet_high" : 1,
+				"mm_0jet_low" : 2,
+				"mm_1jet_high" : 3,
+				"mm_1jet_low" : 4,
+				"mm_2jet_vbf" : 5,
+				"mm_CP_em" :10,
+				"mm_vbf" : 11,
+				"mm_1jet_boosted" : 12,
+				"mm_1jet_highpt2" : 13,
+				"mm_1jet_lowpt2" : 14,
+				"mm_0jet_highpt2" : 15,
+				"mm_0jet_lowpt2" : 16,
+				"mm_vbf_tag" : 17,
+				"mm_2jet_untagged" : 18,
+				"mm_1jet_boost_high" : 19,
+				"mm_1jet_boost_medium" : 20,
+				"mm_1jet_boost_low" : 21,
+				"mm_0jet_nhighpt2" : 22,
+				"mm_0jet_nlowpt2" : 23,
+			},
 		}
 		#for channel in ["tt", "mt", "et", "em"]:
 			#categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
@@ -124,7 +146,7 @@ class DatacardConfigs(object):
 				#for line in categs:
 					#cat = line.strip()
 					#self._mapping_category2binid[channel][cat] = len(self._mapping_category2binid[channel].keys())
-		channels=["mt", "et", "tt", "em"]
+		channels=["mt", "et", "tt", "em","mm"]
 		# ==========================Copy here!=========================================
 		categories=Categories.CategoriesDict().getCategories(channels=channels)
 		import operator
