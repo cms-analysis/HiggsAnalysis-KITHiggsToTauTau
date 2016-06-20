@@ -158,14 +158,11 @@ if __name__ == "__main__":
 					scaled_datacards.scale_expectation(lumi_scale_factor, no_norm_rate_sig=True)
 					#scaled_datacards.replace_observation_by_asimov_dataset("125")
 					scaled_datacards.cb.PrintAll()
-					print output_dir
-					print os.path.basename(datacard)
-					print os.path.splitext(os.path.basename(datacard))[0]+"_input.root"
 					scaled_datacards_cbs = scaled_datacards.write_datacards(
 							os.path.basename(datacard),
 							os.path.splitext(os.path.basename(datacard))[0]+"_input.root",
 							output_dir
-					)#TODO HIER STÜRZT PROGG AB
+					)
 					#datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 					datacards_cbs.update(scaled_datacards_cbs)
 					for scaled_datacard, cb in scaled_datacards_cbs.iteritems():
@@ -230,23 +227,23 @@ if __name__ == "__main__":
 							tree.GetEntry(entry)
 							quantile_expected_list.append(tree.quantileExpected)
 							limits_list.append(tree.limit)
-						print lumi
-						print limits_list
-						print quantile_expected_list
-						print "****************************************************"
+						log.debug("lumi")
+						log.debug("limits_list")
+						log.debug("quantile_expected_list")
+						log.debug("****************************************************")
 				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MultiDimFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
 				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine.Asymptotic.mH0.root", os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
 		
 		#os.path.splitext(datacard)[0]
 		file=os.path.join(os.path.splitext(datacard)[0],"projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root")
 		channel=["em","et","mt","tt"]
-		"""
-		l=[args.lumis[i]/1000 for i in range(len(args.lumis))]
-		l=l.append(max(l)+1)
-		print l
-		xbins=[str(lumis[i]) for i in range(len(lumis))]
+		
+		lst=[(lumi/1000) for lumi in args.lumis]
+		lst.extend([max(lst)+(max(lst)-min(lst))/len(lst)])		
+		lst.sort()
+		lst=[str(lst[i]) for i in range(len(lst))]
+		xbins=" ".join(lst)
 		print xbins
-		"""#TODO soft-coding the xbins
 		plot_configs=[]
 		for i in range(len(channel)):
 			config={
@@ -259,20 +256,24 @@ if __name__ == "__main__":
 						file
 						],
 				"filename": "lumivscpmixing_normal_"+channel[i],
-				"x_bins":["1 2 3 4 5 6 7 8 9 10 20 30 40 50 60 70 80 90 100 101"],
+				"x_bins":[xbins],
 				"y_bins":["20,0,1.65"],
 				"x_expressions":"lumi/1000",
 				"y_expressions":"cpmixing*TMath::Pi()/2",
 				"weights": "deltaNLL*(t_real<=0.00001)",
 				"markers": "COLZ",
-				"z_label": "-2 #Delta ln(L)"					
+				"z_label": "-2 #Delta ln(L)",
+				"output_dir": os.path.join(os.path.splitext(datacard)[0],"projection/")				
 			}
 			plot_configs.append(config)
 		config_limitsoverlumi = jsonTools.JsonDict(os.path.expandvars("HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json"))
-		config_limitsoverlumi["directories"] = "plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/001000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/002000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/003000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/004000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/005000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/006000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/007000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/008000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/009000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/010000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/020000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/030000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/040000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/050000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/060000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/070000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/080000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/090000/ plots/htt_datacards/datacards/combined/htt_13TeV/projection/default/totUnc/100000/"
+		dir_list=[os.path.join(output_dir_base, "{:06}".format(lumi)) for lumi in args.lumis]
+		dir_list.sort()
+		config_limitsoverlumi["directories"] = " ".join(dir_list)
 		config_limitsoverlumi["y_label"]="95% CL Limit on CP-mixing-angle"
 		config_limitsoverlumi["x_expressions"]= "lumi/1000","0:lumi/1000","0:lumi/1000","0:lumi/1000","0:lumi/1000"
 		config_limitsoverlumi["y_expressions"]="limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2"
+		config_limitsoverlumi["output_dir"]=os.path.join(os.path.splitext(datacard)[0],"projection/")
 		plot_configs.append(config_limitsoverlumi)
 		print os.path.join(os.path.splitext(datacard)[0])
 	if log.isEnabledFor(logging.DEBUG):
