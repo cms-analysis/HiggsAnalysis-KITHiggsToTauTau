@@ -17,7 +17,7 @@ import glob
 import time
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
-def get_configs(args, info_log):
+def get_configs(args, info_log, loop):
 	plot_configs = []
 	#generate config_list containing one config file per requested nick for training
 	log.info("prepare config files to extract file paths, weights and cuts")
@@ -48,6 +48,12 @@ def get_configs(args, info_log):
 				config["sig_bkg"] = "Background"
 			elif requested_sample in args["signal_samples"]:
 				config["sig_bkg"] = "Signal"
+			if loop > 1:
+				#config.setdefault("files", []).append(os.path.basename(args["output_file"]) + "*" + requested_sample + "*.root")
+				del config["files"][:]
+				config["files"].append(os.path.basename(args["output_file"]) + "*" + requested_sample + "*.root")
+				del config["folders"][:]
+				config["folders"].append("SplitTree")
 			plot_configs.append(config)
 			info_log["config_list"].append(config)
 	log.info("Config information aquired")
@@ -138,11 +144,24 @@ def do_splitting(args, plot_configs):
 			log.debug("Prepare Sample %s "%stored_files_list[-1])
 			storage_tree = c_tree.CopyTree("", "tree%i"%(j+1))
 			storage_tree.SetName("SplitTree")
-			store_file.Write()
+			storage_tree.Write()
 			store_file.Close()
 	return (splits_list, stored_files_list, s_b_extension)
 
-def do_training(args):
+def do_focussed_training(args):
+	dir_path, filename = os.path.split(args["output_file"])
+	#do -f training loops
+	for loop in range(1, args["focussed_training"]+1):
+		#determine output and input paths for each loop
+		args["output_file"] = os.path.join(dir_path, "Loop" + str(loop), filename)
+		if loop > 1:
+			args["input_dir"] = os.path.join(dir_path, "Loop" + str(loop-1), "storage", "")
+		#add preselection
+
+		do_training(args, loop)
+		#add bdt-values to sample
+
+def do_training(args, loop):
 	info_log = copy.deepcopy(args)
 	info_log["comment"] = " ".join(sys.argv)
 	info_log["config_list"] = []
@@ -159,7 +178,7 @@ def do_training(args):
 	info_log["training_name"] = filename
 	info_log["dir_path"] = dir_path
 	#getting config
-	plot_configs, info_log = get_configs(args, info_log)
+	plot_configs, info_log = get_configs(args, info_log, loop)
 	#acquire splitted samples
 	splits_list, stored_files_list, s_b_extension = do_splitting(args, plot_configs)
 	#TMVA Stuff
@@ -312,6 +331,8 @@ if __name__ == "__main__":
 						help="select wich config to be processeed by this job, only used for batch-jobs [Default: %(default)s]")
 	parser.add_argument("--dry-run", default = False, action="store_true",
 						help="number of parallel processes for training, only used for local jobs [Default: %(default)s]")
+	parser.add_argument("-f", "--focussed-training", type=int, default=1,
+						help="number of loops for focussed training. 1 is regular training. [Default: %(default)s]")
 
 
 	cargs = parser.parse_args()
@@ -425,7 +446,10 @@ if __name__ == "__main__":
 			if cargs.config_number > len(config_list):
 				log.error("config_number is greater than length of config_list, cancel program")
 				sys.exit(-2)
-			do_training(config_list[cargs.config_number])
+			if cargs.focussed_training >=2:
+				do_focussed_training(config_list[cargs.config_number])
+			else:
+				do_training(config_list[cargs.config_number])
 		else:
 			log.info("Start training of %i BDTs"%len(config_list))
 			if cargs.dry_run:
@@ -441,4 +465,7 @@ if __name__ == "__main__":
 		if cargs.dry_run:
 			log.info("Dry-Run: aborting training")
 			sys.exit()
-		do_training(config_list[0])
+		if cargs.focussed_training >=2:
+			do_focussed_training(config_list[0])
+		else:
+			do_training(config_list[0])
