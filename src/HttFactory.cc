@@ -41,6 +41,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleEleTauFakeRateWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/JetToTauFakesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -209,6 +210,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new JetToTauFakesProducer();
 	else if(id == PolarisationQuantitiesProducer().GetProducerId())
 		return new PolarisationQuantitiesProducer();
+        else if(id == SimpleFitProducer().GetProducerId())
+            return new SimpleFitProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
