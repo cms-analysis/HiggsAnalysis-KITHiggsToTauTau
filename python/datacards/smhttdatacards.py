@@ -22,7 +22,6 @@ class SMHttDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="mt",
 					categories=["mt_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
-					#categories=["mt_"+category for category in ["inclusive"]],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -131,6 +130,7 @@ class SMHttDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="mm",
 					categories=["mm_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
+					#categories=["mm_inclusive"],
 					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -164,7 +164,7 @@ class SMHttDatacards(datacards.Datacards):
 			#self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
 
 			# cross section
-			self.cb.cp().process(["ZTT", "ZL", "ZJ"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+			self.cb.cp().process(["ZTT", "ZL", "ZJ","ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			self.cb.cp().process(["TT"]).channel(["mt", "et", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args) # automatically in other channels determined
 			#self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)

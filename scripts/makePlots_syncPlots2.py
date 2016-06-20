@@ -79,12 +79,40 @@ if __name__ == "__main__":
 			
 			plot_config["files"] = [event_matching_output]
 			plot_config["folders"] = ["common1", "common2", "only1", "only2"]
+			plot_config["nicks"] = ["common1", "common2", "only1", "only2"]
 			plot_config["x_expressions"] = [quantity]
+			
+			plot_config.setdefault("analysis_modules", []).append("Ratio")
+			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]
+			plot_config["ratio_denominator_nicks"] = plot_config["nicks"][1]
+			
+			plot_config["labels"] = ["common in 1", "common in 2", "only in 1", "only in 2", ""]
+			plot_config["legend_markers"] = ["LP", "F", "F", "F", ""]
+			plot_config["legend"] = [0.7, 0.55, 0.9, 0.85]
+			plot_config["y_label"] = "Events"
+			plot_config["fill_styles"] = [0]
+			plot_config["colors"] = ["kBlack", "kRed", "kBlue", "kGreen", "kBlack"]
+			plot_config["markers"] = ["P", "HIST", "HIST", "HIST", "P"]
+			plot_config["y_subplot_lims"] = [0.95, 1.05]
 		
 		else:
 			plot_config["files"] = [args.input_1, args.input_2]
 			plot_config["folders"] = [args.folder_1, args.folder_2]
+			plot_config["nicks"] = ["events1", "events2"]
 			plot_config["x_expressions"] = [quantity]
+			
+			plot_config.setdefault("analysis_modules", []).append("Ratio")
+			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]
+			plot_config["ratio_denominator_nicks"] = plot_config["nicks"][1]
+			
+			plot_config["labels"] = ["events in 1", "events in 2", ""]
+			plot_config["legend_markers"] = ["LP", "F", ""]
+			plot_config["legend"] = [0.7, 0.55, 0.9, 0.85]
+			plot_config["y_label"] = "Events"
+			plot_config["fill_styles"] = [0]
+			plot_config["colors"] = ["kBlack", "kRed", "kBlack"]
+			plot_config["markers"] = ["P", "HIST", "P"]
+			plot_config["y_subplot_lims"] = [0.95, 1.05]
 		
 		plot_config["output_dir"] = os.path.expandvars(args.output_dir)
 		plot_configs.append(plot_config)

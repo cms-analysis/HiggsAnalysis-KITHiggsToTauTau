@@ -1,6 +1,6 @@
 
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducers.h"
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
@@ -9,8 +9,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
 
-
-void GenTauCPProducer::Init(setting_type const& settings)
+void GenTauCPProducerBase::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 	
@@ -158,8 +157,8 @@ void GenTauCPProducer::Init(setting_type const& settings)
 	});
 }
 
-void GenTauCPProducer::Produce(event_type const& event, product_type& product,
-	                           setting_type const& settings) const
+void GenTauCPProducerBase::Produce(event_type const& event, product_type& product,
+                                   setting_type const& settings) const
 {
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
@@ -241,4 +240,38 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 		product.m_genAlphaTauNeutrinos = cpq.CalculateAlphaTauNeutrinos(selectedTau1->m_genParticle->p4, selectedTau1->m_daughters[0].m_genParticle->p4, selectedTau2->m_genParticle->p4, selectedTau2->m_daughters[0].m_genParticle->p4);
 	}
 
+}
+
+	
+std::string GenTauCPProducer::GetProducerId() const
+{
+	return "GenTauCPProducer";
+}
+
+void GenTauCPProducer::Init(setting_type const& settings)
+{
+	GenTauCPProducerBase::Init(settings);
+}
+
+void GenTauCPProducer::Produce(event_type const& event, product_type& product,
+                               setting_type const& settings) const
+{
+	GenTauCPProducerBase::Produce(event, product, settings);
+}
+
+
+std::string GenMatchedTauCPProducer::GetProducerId() const
+{
+	return "GenMatchedTauCPProducer";
+}
+
+void GenMatchedTauCPProducer::Init(setting_type const& settings)
+{
+	GenTauCPProducerBase::Init(settings);
+}
+
+void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& product,
+                                      setting_type const& settings) const
+{
+	GenTauCPProducerBase::Produce(event, product, settings);
 }

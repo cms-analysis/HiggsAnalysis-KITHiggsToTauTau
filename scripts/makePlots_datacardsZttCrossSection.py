@@ -35,7 +35,7 @@ if __name__ == "__main__":
 			"fit" : {
 				"" : {
 					"method" : "MaxLikelihoodFit",
-					"options" : "--skipBOnlyFit --expectSignal=1 --toys -1",
+					"options" : "--skipBOnlyFit", #--expectSignal=1 --toys -1
 					"poi" : "r",
 				},
 			},
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 			"fit" : {
 				"" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {GRID_BINS} --expectSignal=1 --toys -1 --minimizerStrategy 0 --setPhysicsModelParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"",
+					"options" : "--algo grid --points {GRID_BINS} --minimizerStrategy 0 --setPhysicsModelParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"", #--expectSignal=1 --toys -1
 					"poi" : "r",
 				}
 			},
@@ -318,7 +318,7 @@ if __name__ == "__main__":
 		config["directories"] = [directory.format(OUTDIR=args.output_dir) for directory in config.get("directories", [])]
 
 	# create plots using HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# prefit-postfit plots
 	plot_configs = []
@@ -352,12 +352,13 @@ if __name__ == "__main__":
 					config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
 					config["sum_scale_factors"].append("1.0 1.0 1.0")
 					config["sum_result_nicks"].append("EWK")
-					#processes = [p.replace("ZL","ZL_noplot").replace("ZJ","ZJ_noplot") for p in processes]
-					#processes_to_plot = [p for p in processes if not "noplot" in p]
-					#processes_to_plot.insert(1, "ZLL")
-					#config["sum_nicks"].append("ZL_noplot ZJ_noplot")
-					#config["sum_scale_factors"].append("1.0 1.0")
-					#config["sum_result_nicks"].append("ZLL")
+				if category[:2] in ["em"]:
+					processes = [p.replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+					processes_to_plot = [p for p in processes if not "noplot" in p]
+					processes_to_plot.insert(3, "EWK")
+					config["sum_nicks"].append("VV_noplot W_noplot")
+					config["sum_scale_factors"].append("1.0 1.0")
+					config["sum_result_nicks"].append("EWK")
 				
 				config["files"] = [postfit_shapes]
 				config["folders"] = [category+"_"+level]
@@ -383,6 +384,7 @@ if __name__ == "__main__":
 				
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category
+				config["formats"] = ["png", "pdf"]
 				
 				if args.ratio:
 					if not "Ratio" in config.get("analysis_modules", []):
@@ -395,7 +397,7 @@ if __name__ == "__main__":
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["F", "ELP"])
 					config.setdefault("labels", []).extend([""] * 2)
-					config["legend"] = [0.7, 0.4, 0.92, 0.82]
+					config["legend"] = [0.65, 0.4, 0.92, 0.82]
 					config["y_subplot_lims"] = [0.5, 1.5]
 					config["y_subplot_label"] = "Obs./Exp."
 					config["subplot_grid"] = True

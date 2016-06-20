@@ -59,8 +59,8 @@ def do_splitting(args, plot_configs):
 	stored_files_list = []
 	s_b_extension = []
 	if args["Split"] and args["n_fold"] == 1:
-		splits_list.append("(TrainingSelectionValue>=%i)*"%int(args["Split"]))
-		splits_list.append("(TrainingSelectionValue<%i)*"%int(args["Split"]))
+		splits_list.append("(TrainingSelectionValue>=%i)"%int(args["Split"]))
+		splits_list.append("(TrainingSelectionValue<%i)"%int(args["Split"]))
 	elif args["n_fold"] and len(args["custom_splitting"]) == int(args["n_fold"]):
 		for split in args["custom_splitting"]:
 			splits_list.append(split)
@@ -68,7 +68,7 @@ def do_splitting(args, plot_configs):
 		part_size = 100./((args["n_fold"])*4.)
 		temp_splits = []
 		for i in range(args["n_fold"]):
-			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
+			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size),int(25+i*part_size),int(25+(i+1)*part_size),int(50+i*part_size),int(50+(i+1)*part_size),int(75+i*part_size),int(75+(i+1)*part_size)))
 		for i in range(args["n_fold"]):
 			splits_list.append("||".join(temp_splits[i::args["n_fold"]]))
 	# create output file
@@ -238,7 +238,7 @@ def do_training(args):
 		output.Close()
 		del factory
 		log.info("Training output is written to \"" + os.path.join(dir_path, filename+"T%i.root"%ifac) + "\".")
-		log_log = jsonTools.JsonDict(info_log)
+	log_log = jsonTools.JsonDict(info_log)
 	log_log.save(os.path.join(dir_path,"%s_TrainingLog.json"%filename), indent=4)
 
 

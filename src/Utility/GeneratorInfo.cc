@@ -36,7 +36,7 @@ RMFLV* GeneratorInfo::GetVisibleLV(KGenParticle* genParticle)
 	RMFLV* visibleLV = nullptr;
 	if (genParticle)
 	{
-		KGenTau* genTau = static_cast<KGenTau*>(genParticle);
+		KGenTau* genTau = dynamic_cast<KGenTau*>(genParticle);
 		if (genTau)
 		{
 			visibleLV = &(genTau->visible.p4);

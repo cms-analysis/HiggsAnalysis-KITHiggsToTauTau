@@ -69,11 +69,11 @@ public:
 	std::vector<KLepton*> m_ptOrderedLeptons; // highest pt leptons first
 	std::vector<KLepton*> m_flavourOrderedLeptons; // according to channel definition
 	std::vector<KLepton*> m_chargeOrderedLeptons; // positively charged leptons first
-	
+
 	std::vector<KGenParticle*> m_ptOrderedGenLeptons; // same ordering as reco collection
 	std::vector<KGenParticle*> m_flavourOrderedGenLeptons; // same ordering as reco collection
 	std::vector<KGenParticle*> m_chargeOrderedGenLeptons; // same ordering as reco collection
-	
+
 	std::vector<RMFLV*> m_ptOrderedGenLeptonVisibleLVs; // same ordering as reco collection
 	std::vector<RMFLV*> m_flavourOrderedGenLeptonVisibleLVs; // same ordering as reco collection
 	std::vector<RMFLV*> m_chargeOrderedGenLeptonVisibleLVs; // same ordering as reco collection
@@ -106,7 +106,7 @@ public:
 	RMFLV m_diLeptonSystem;
 	RMFLV m_diLeptonPlusMetSystem;
 	RMFLV m_diLeptonGenSystem;
-	
+
 	// filled by the PolarisationQuantitiesProducer
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
 
@@ -221,10 +221,10 @@ public:
 	double m_pVecSum = -1;
 	double m_pScalSum = -1;
 	double m_MinLLJetEta = 10;
-	double m_Lep1Centrality = -4;
+	double m_Lep1Centrality = -1.5;
 	double m_Lep2Centrality = -1;
-	double m_DiLepCentrality = 5;
-	double m_DiLepDiJetDeltaR = 100;
+	double m_DiLepCentrality = -1;
+	double m_DiLepDiJetDeltaR = -1;
 
     // filled by AcceptanceEfficiencyProducer
 	int m_accEffDC = 0;

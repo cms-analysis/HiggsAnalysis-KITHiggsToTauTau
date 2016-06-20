@@ -10,8 +10,12 @@ import copy
 import glob
 import os
 import shutil
+
 import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gSystem.Load("libHiggsAnalysisCombinedLimit")
+
 import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.jsonTools as jsonTools
@@ -104,8 +108,8 @@ if __name__ == "__main__":
 	filename_templates= [
 		"datacards/individual/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt${MASS}",
-		"datacards/combined/${ANALYSIS}_${ERA}.txt${MASS}",
+		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	
 	
@@ -151,17 +155,14 @@ if __name__ == "__main__":
 					scaled_datacards = cpstudiesdatacards.CPStudiesDatacards(cb=datacards.cb.deep())
 					
 					lumi_scale_factor = lumi / args.lumi_datacards
-					scaled_datacards.scale_expectation(lumi_scale_factor)
+					scaled_datacards.scale_expectation(lumi_scale_factor, no_norm_rate_sig=True)
 					#scaled_datacards.replace_observation_by_asimov_dataset("125")
 					scaled_datacards.cb.PrintAll()
-					print output_dir
-					print os.path.basename(datacard)
-					print os.path.splitext(os.path.basename(datacard))[0]+"_input.root"
 					scaled_datacards_cbs = scaled_datacards.write_datacards(
 							os.path.basename(datacard),
 							os.path.splitext(os.path.basename(datacard))[0]+"_input.root",
 							output_dir
-					)#TODO HIER STÜRZT PROGG AB
+					)
 					#datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 					datacards_cbs.update(scaled_datacards_cbs)
 					for scaled_datacard, cb in scaled_datacards_cbs.iteritems():
@@ -206,30 +207,78 @@ if __name__ == "__main__":
 							)
 					)
 					
+					datacards.combine(
+							datacards_cbs,
+							datacards_workspaces,
+							None,
+							args.n_processes,
+							"--expectSignal=1 -t -1 -M Asymptotic --redefineSignalPOIs cpmixing --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing=0,1 --rMin 0 --rMax 100 -n \"\""
+					)
+					
+					#getting limits of the tree:
+					for lumi in args.lumis:
+						limit_file=os.path.join(os.path.splitext(datacard)[0],"projection/default/totUnc/"+str("{:06}".format(lumi))+"/higgsCombine.Asymptotic.mH0.root")
+						file = ROOT.TFile(limit_file)
+						tree = file.Get("limit")
+						quantile_expected_list = []
+						limits_list = []
+				
+						for entry in range(0, tree.GetEntries()):
+							tree.GetEntry(entry)
+							quantile_expected_list.append(tree.quantileExpected)
+							limits_list.append(tree.limit)
+						log.debug("lumi")
+						log.debug("limits_list")
+						log.debug("quantile_expected_list")
+						log.debug("****************************************************")
 				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MultiDimFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
-				#datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MaxLikelihoodFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
-				plot_configs=[]
-				config={
-					"folders": [
-    					"limit"
-    	     			],
-					"files": [
-						"plots/htt_datacards/datacards/individual/10/htt_mt_10_13TeV/projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root"
-						],#TODO muss man von hand jedes mal ändern :/
-					"filename": "lumivscpmixing_normal",
-					"x_bins":["1 2 3 4 5 6 7 8 9 10 20 30 40 50 60 70 80 90 100 101"],
-					"y_bins":["20,0,1.01"],
-					"x_expressions":"lumi/1000",
-					"y_expressions":"cpmixing",
-					"weights": "deltaNLL",
-					"markers": "COLZ",
-					"z_label": "deltaNLL"						
-						}
-				plot_configs.append(config)
+				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine.Asymptotic.mH0.root", os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, "-t limit -b lumi")
 		
+		#os.path.splitext(datacard)[0]
+		file=os.path.join(os.path.splitext(datacard)[0],"projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root")
+		channel=["em","et","mt","tt"]
+		
+		lst=[(lumi/1000) for lumi in args.lumis]
+		lst.extend([max(lst)+(max(lst)-min(lst))/len(lst)])		
+		lst.sort()
+		lst=[str(lst[i]) for i in range(len(lst))]
+		xbins=" ".join(lst)
+		print xbins
+		plot_configs=[]
+		for i in range(len(channel)):
+			config={
+				"folders": [
+						"limit"
+						],
+				"x_label": "Integrated Luminosity / fb^{-1}",
+				"y_label": "CP-mixing-angle #alpha_{#tau}",
+				"files": [
+						file
+						],
+				"filename": "lumivscpmixing_normal_"+channel[i],
+				"x_bins":[xbins],
+				"y_bins":["20,0,1.65"],
+				"x_expressions":"lumi/1000",
+				"y_expressions":"cpmixing*TMath::Pi()/2",
+				"weights": "deltaNLL*(t_real<=0.00001)",
+				"markers": "COLZ",
+				"z_label": "-2 #Delta ln(L)",
+				"output_dir": os.path.join(os.path.splitext(datacard)[0],"projection/")				
+			}
+			plot_configs.append(config)
+		config_limitsoverlumi = jsonTools.JsonDict(os.path.expandvars("HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/exp_limit_over_lumi.json"))
+		dir_list=[os.path.join(output_dir_base, "{:06}".format(lumi)) for lumi in args.lumis]
+		dir_list.sort()
+		config_limitsoverlumi["directories"] = " ".join(dir_list)
+		config_limitsoverlumi["y_label"]="95% CL Limit on CP-mixing-angle"
+		config_limitsoverlumi["x_expressions"]= "lumi/1000","0:lumi/1000","0:lumi/1000","0:lumi/1000","0:lumi/1000"
+		config_limitsoverlumi["y_expressions"]="limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2","0:limit*TMath::Pi()/2"
+		config_limitsoverlumi["output_dir"]=os.path.join(os.path.splitext(datacard)[0],"projection/")
+		plot_configs.append(config_limitsoverlumi)
+		print os.path.join(os.path.splitext(datacard)[0])
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-	
+		
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 

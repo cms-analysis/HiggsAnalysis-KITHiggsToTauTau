@@ -28,7 +28,7 @@
 					"HLT_IsoMu24_eta2p1",
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
 					"HLT_IsoMu18"
 				]
 			}
@@ -67,7 +67,7 @@
 				"Run2015(A|B|C)" : [
 					"HLT_IsoMu24_eta2p1_v"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
 					"HLT_IsoMu18_v"
 				]
 			}
@@ -101,7 +101,7 @@
 				"Spring15MiniAODv2" : [
 					"HLT_IsoMu17_eta2p1_v:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
 					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
 				]
 			}
@@ -131,7 +131,24 @@
 			"nLooseMuons",
 			"nDiTauPairCandidates",
 			"nAllDiTauPairCandidates",
-			"jetToTauFakeWeight_comb"
+			"topPtReweightWeight",
+			"jetToTauFakeWeight_comb",
+			"jetToTauFakeWeight_qcd_up",
+			"jetToTauFakeWeight_qcd_down",
+			"jetToTauFakeWeight_w_up",
+			"jetToTauFakeWeight_w_down",
+			"jetToTauFakeWeight_tt_corr_up",
+			"jetToTauFakeWeight_tt_corr_down",
+			"jetToTauFakeWeight_tt_stat_up",
+			"jetToTauFakeWeight_tt_stat_down",
+			"jetToTauFakeWeight_frac_w_up",
+			"jetToTauFakeWeight_frac_w_down",
+			"jetToTauFakeWeight_frac_qcd_up",
+			"jetToTauFakeWeight_frac_qcd_down",
+			"jetToTauFakeWeight_frac_tt_up",
+			"jetToTauFakeWeight_frac_tt_down",
+			"jetToTauFakeWeight_frac_dy_up",
+			"jetToTauFakeWeight_frac_dy_down"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
@@ -170,6 +187,7 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
+					"producer:TopPtReweightingProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
@@ -222,7 +240,7 @@
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"Run2015" : [
+				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

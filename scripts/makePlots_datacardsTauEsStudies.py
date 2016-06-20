@@ -295,11 +295,11 @@ if __name__ == "__main__":
 						
 					# set proper binnings of the distributions
 					if decayMode == "OneProngPiZeros" and quantity == "m_2":
-						merged_config.setdefault("x_bins", []).append(["14,0.4,1.1"]) #TODO: go back to 0.3-4.2 (as defined in HPS)
+						merged_config.setdefault("x_bins", []).append(["12,0.2,1.4"]) #TODO: go back to 0.3-4.2 (as defined in HPS)
 					elif decayMode == "ThreeProng" and quantity == "m_2":
-						merged_config.setdefault("x_bins", []).append(["10,0.85,1.35"]) #TODO: go back to 0.8-1.5 (as defined in HPS)
+						merged_config.setdefault("x_bins", []).append(["9,0.7,1.6"]) #TODO: go back to 0.8-1.5 (as defined in HPS)
 					elif decayMode == "AllDMs" and quantity != "m_vis":
-						merged_config.setdefault("x_bins", []).append(["10,0.4,1.35"]) #TODO: adapt this depending from the above two
+						merged_config.setdefault("x_bins", []).append(["14,0.2,1.6"]) #TODO: adapt this depending from the above two
 					elif decayMode == "OneProng" or quantity == "m_vis":
 						merged_config.setdefault("x_bins", []).append(["40,0.0,200.0"])
 						merged_config.setdefault("custom_rebin", []).append([40,45,50,55,60,65,70,75,80,85])
@@ -429,6 +429,9 @@ if __name__ == "__main__":
 	] for datacard, cb in datacards_cbs.iteritems()])
 	
 	tools.parallelize(_call_command, commands, n_processes=1)
+	
+	#plot nuisance impacts
+	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
 	
 	#postfitshapes call
 	datacards_postfit_shapes = {}

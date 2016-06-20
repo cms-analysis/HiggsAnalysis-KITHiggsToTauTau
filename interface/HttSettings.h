@@ -168,6 +168,8 @@ public:
 
 	IMPL_SETTING_DEFAULT(std::string, ElectronEnergyCorrection, "none");
 	IMPL_SETTING_DEFAULT(float, ElectronEnergyCorrectionShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronEnergyCorrectionShiftEB, 1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronEnergyCorrectionShiftEE, 1.0);
 	IMPL_SETTING_DEFAULT(std::string, MuonEnergyCorrection, "none");
 	IMPL_SETTING_DEFAULT(float, MuonEnergyCorrectionShift, 1.0);
 	IMPL_SETTING_DEFAULT(std::string, TauEnergyCorrection, "none");
@@ -208,6 +210,7 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton2LowerPtCuts, {});
 	IMPL_SETTING_SORTED_STRINGLIST_DEFAULT(DiTauPairHltPathsWithoutCommonMatchRequired, {});
 	IMPL_SETTING_DEFAULT(bool, DiTauPairIsTauIsoMVA, false);
+	IMPL_SETTING_DEFAULT(bool, DiTauPairNoHLT, false);
 
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
