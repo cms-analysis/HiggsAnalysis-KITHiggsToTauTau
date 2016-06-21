@@ -115,6 +115,7 @@ public:
 	TVector2 m_metPull;
 	TVector2 m_metPfPull;
 	TVector2 m_recoMetOnBoson;
+	TVector2 m_recoilOnBoson;
 	double chiSquare;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
