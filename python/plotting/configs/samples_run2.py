@@ -1263,20 +1263,22 @@ class Samples(samples.SamplesBase):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
 			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
 			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
-			if not kwargs.get("mssm", False):
-				Samples._add_bin_corrections(
+			
+			if not kwargs.get("no_plot", False):
+				if not kwargs.get("mssm", False):
+					Samples._add_bin_corrections(
+							config,
+							"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
+				Samples._add_plot(
 						config,
+						"bkg" if kwargs.get("stack_signal", False) else "htt",
+						"LINE",
+						"L",
 						"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix
 				)
-			Samples._add_plot(
-					config,
-					"bkg" if kwargs.get("stack_signal", False) else "htt",
-					"LINE",
-					"L",
-					"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-					nick_suffix
-			)
 		return config
 
 	def bbh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
