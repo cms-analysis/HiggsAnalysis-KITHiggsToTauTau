@@ -1247,28 +1247,45 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 
-	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
+	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False,
+	        lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], **kwargs):
+		
 		if exclude_cuts is None:
 			exclude_cuts = []
 
-		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
+		config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+			
+		def final_nick(tmp_sample, tmp_mass):
+			return tmp_sample+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix
 
-		for mass in higgs_masses:
+		for index, mass in enumerate(additional_higgs_masses_for_shape+higgs_masses):
+			is_additional_mass = (index < len(additional_higgs_masses_for_shape))
+			
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
-			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
+			config.setdefault("histogram_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
+			config.setdefault("sum_result_nicks", []).append(final_nick("htt", mass)+"_noplot")
 			
-			if not kwargs.get("no_plot", False):
+			if not is_additional_mass:
+				config.setdefault("histogram_nicks", []).append(" ".join([final_nick("htt", m)+"_noplot" for m in [mass]+additional_higgs_masses_for_shape]))
+				config.setdefault("sum_result_nicks", []).append(final_nick("htt", mass)+"_noplot_shape")
+				
+				if not "ShapeYieldMerge" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("ShapeYieldMerge")
+				config.setdefault("shape_nicks", []).append(final_nick("htt", mass)+"_noplot_shape")
+				config.setdefault("yield_nicks", []).append(final_nick("htt", mass)+"_noplot")
+				config.setdefault("shape_yield_nicks", []).append(final_nick("htt", mass))
+			
+			if (not kwargs.get("no_plot", False)) and (not is_additional_mass):
 				if not kwargs.get("mssm", False):
 					Samples._add_bin_corrections(
 							config,
-							"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							final_nick("htt", mass),
 							nick_suffix
 					)
 				Samples._add_plot(
@@ -1276,7 +1293,7 @@ class Samples(samples.SamplesBase):
 						"bkg" if kwargs.get("stack_signal", False) else "htt",
 						"LINE",
 						"L",
-						"htt"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						final_nick("htt", mass),
 						nick_suffix
 				)
 		return config
