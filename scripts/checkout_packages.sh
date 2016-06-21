@@ -46,6 +46,9 @@ git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 # Jet2Tau Fakes
 git clone https://github.com/artus-analysis/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 
+# Fit Package for tau polarisation
+git clone https://github.com/CMSAachen3B/SimpleFits.git -b artus_master
+
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
