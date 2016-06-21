@@ -33,7 +33,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
         muonPar[1] = 0.8;   // lambda
         muonPar[2] = 0.8;   // phi
         muonPar[3] = product.m_flavourOrderedLeptons[0]->track.getDz(&event.m_vertexSummary->pv);   // dz
-        muonPar[4] =  product.m_flavourOrderedLeptons[0]->track.getDxy(&event.m_vertexSummary->pv);    // dxy
+        muonPar[4] = product.m_flavourOrderedLeptons[0]->track.getDxy(&event.m_vertexSummary->pv);    // dxy
 
         TMatrixTSym<double> muonCov;
         muonCov[0][0] = 0.5;
@@ -101,8 +101,18 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 
 
         // MET info
-        double MET= product.m_met.p4.Pt();   // ????
+        TMatrixT<double> metPar;
+        metPar[0] = product.m_met.p4.Px();
+        metPar[1] = product.m_met.p4.Py();
+
+        TMatrixTSym<double> metCov;
+        metCov[0][0] = 0.3;
+        metCov[0][1] = 0.4;
+        metCov[1][1] = 0.5;
+        
+        PTObject MET(metPar, metCov); //   // ????
            
+        // double MET =125;
         // Primary Vertex Info
         TVector3 PV(0.5, 0.4, 0.3);
 	TMatrixTSym<double> PVCov;
@@ -118,6 +128,10 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 
         GlobalEventFit GF(Muon, Tauh,  MET,  PV, PVCov);
         //GlobalEventFit GF(TrackParticle Muon, LorentzVectorParticle Tauh, double MET, TVector3 PV, TMatrixTSym<double> PVCov);
+
+        //GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, double Phi_Res, TVector3 PV, TMatrixTSym<double> PVCov){  }
+        // GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, PTObject MET, TVector3 PV, TMatrixTSym<double> PVCov){  }
+
 
           GF.Fit();
      
