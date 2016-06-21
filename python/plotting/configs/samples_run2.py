@@ -1286,7 +1286,7 @@ class Samples(samples.SamplesBase):
 				if not "ShapeYieldMerge" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("ShapeYieldMerge")
 				config.setdefault("shape_nicks", []).append(final_nick("htt", mass)+"_noplot_shape")
-				config.setdefault("yield_nicks", []).append(final_nick("htt", mass)+("" if mssm and normalise_to_sm_xsec else "")+"_noplot")
+				config.setdefault("yield_nicks", []).append(final_nick("htt", mass)+("_sm" if mssm and normalise_to_sm_xsec else "")+"_noplot")
 				config.setdefault("shape_yield_nicks", []).append(final_nick("htt", mass))
 			
 			if (not kwargs.get("no_plot", False)) and (not is_additional_mass):
