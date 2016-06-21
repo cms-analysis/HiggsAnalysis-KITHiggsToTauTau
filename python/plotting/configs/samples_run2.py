@@ -1248,17 +1248,21 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False,
-	        lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], **kwargs):
+	        lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, **kwargs):
 		
 		if exclude_cuts is None:
 			exclude_cuts = []
 
 		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+		if mssm:
+			config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
+			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		else:
+			config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
+			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+			config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
+			                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 			
 		def final_nick(tmp_sample, tmp_mass):
 			return tmp_sample+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix
@@ -1268,7 +1272,7 @@ class Samples(samples.SamplesBase):
 			
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
+			config.setdefault("histogram_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["ggh"]+(["bbh"] if mssm else ["qqh", "vh"])]))
 			config.setdefault("sum_result_nicks", []).append(final_nick("htt", mass)+"_noplot")
 			
 			if not is_additional_mass:
@@ -1282,7 +1286,7 @@ class Samples(samples.SamplesBase):
 				config.setdefault("shape_yield_nicks", []).append(final_nick("htt", mass))
 			
 			if (not kwargs.get("no_plot", False)) and (not is_additional_mass):
-				if not kwargs.get("mssm", False):
+				if not mssm:
 					Samples._add_bin_corrections(
 							config,
 							final_nick("htt", mass),
