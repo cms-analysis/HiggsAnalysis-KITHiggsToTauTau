@@ -19,6 +19,7 @@ class CutStringsDict:
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
+			cuts["m_vis"] = "(m_vis > 60.0)*(m_vis < 120.0)"
 		elif channel == "ee":
 			pass
 		elif channel == "em":

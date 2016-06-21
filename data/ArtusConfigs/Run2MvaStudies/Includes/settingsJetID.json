@@ -2,13 +2,8 @@
 	"JetID" : "loose",
 	"JetIDVersion" : "2015",
 
-	"PuJetIDs" : {
-		"nick" : {
-			"default" : [ "puJetIDFullLoose" ],
-			"13TeV*._MINIAODSIM" : [ "pileupJetIdfullDiscriminant" ],
-			"Fall15" : [ "pileupJetIdfullDiscriminant" ]
-		}
-	},
+	"PuJetIDs" : [
+	],
 	"PuJetIDFullDiscrName" : "pileupJetIdfullDiscriminant",
 	"JetTaggerLowerCuts" : [ 
 	],
