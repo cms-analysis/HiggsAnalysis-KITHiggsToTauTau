@@ -2,7 +2,6 @@
 	"property" : [
 		"recoMetOnGenMetProjectionPar", "recoMetOnGenMetProjectionPerp", "recoMetOnGenMetProjectionPhi",
 		"metPullX", "metPullY", 
-		"genBosonPt", "genBosonPhi", "genBosonMass", "genBosonEta",
 		"genMetPt", "genMetPhi", "genMetSumEt", "chiSquare",  "probChiSquare",
 		"recoMetPhi", "recoMetPerp", "recoMetPar",
 		"recoilPhi", "recoilPerp", "recoilPar"
