@@ -53,15 +53,15 @@ void MetprojectionProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetSumEt", [](event_type const& event, product_type const& product) 
 	{
-		return event.m_genMet->sumEt;
+		return (!(event.m_genMet) ? DefaultValues::UndefinedFloat : event.m_genMet->sumEt);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetPt", [] (event_type const& event, product_type const& product)
 	{
-		return event.m_genMet->p4.Pt();
+		return (!(event.m_genMet) ? DefaultValues::UndefinedFloat : event.m_genMet->p4.Pt());
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetPhi", [](event_type const& event, product_type const& product)
 	{
-		return event.m_genMet->p4.Phi();
+		return (!(event.m_genMet) ? DefaultValues::UndefinedFloat : event.m_genMet->p4.Phi());
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("chiSquare", [](event_type const& event, product_type const& product)
 	{
@@ -117,8 +117,8 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 	}
 	else
 	{
-		product.m_metPull.Set(0.0,0.0);
-		product.m_metPfPull.Set(0.0,0.0);
-		product.chiSquare = 0;
+		product.m_metPull.Set(DefaultValues::UndefinedFloat, DefaultValues::UndefinedFloat);
+		product.m_metPfPull.Set(DefaultValues::UndefinedFloat, DefaultValues::UndefinedFloat);
+		product.chiSquare = DefaultValues::UndefinedFloat;
 	}
 }
