@@ -24,10 +24,10 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 
      	// // consider only the first two leptons
         if(product.m_flavourOrderedLeptons.size() == 2){
-            LOG(INFO) << "I am here!.. ";	
+            //    LOG(INFO) << "I am here!.. " << "TrackParticle::NHelixPar: "<<  TrackParticle::NHelixPar << " LorentzVectorParticle::NLorentzandVertexPar: " << LorentzVectorParticle::NLorentzandVertexPar ;	
 
          // Muon Track Properties
-        TMatrixT<double> muonPar;
+            TMatrixT<double> muonPar(TrackParticle::NHelixPar,1);
         double pt = product.m_flavourOrderedLeptons[0]->p4.Pt();
         muonPar[0] = 1/pt;   // kappa
         muonPar[1] = 0.8;   // lambda
@@ -35,7 +35,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
         muonPar[3] = product.m_flavourOrderedLeptons[0]->track.getDz(&event.m_vertexSummary->pv);   // dz
         muonPar[4] = product.m_flavourOrderedLeptons[0]->track.getDxy(&event.m_vertexSummary->pv);    // dxy
 
-        TMatrixTSym<double> muonCov;
+        TMatrixTSym<double> muonCov(TrackParticle::NHelixPar);
         muonCov[0][0] = 0.5;
         muonCov[0][1] = 0.5;
         muonCov[0][2] = 0.5;
@@ -62,8 +62,8 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
         double muonB = 1; 
 
 
-        // a1(3 prong pion) Vector Particle Properties
-        TMatrixT<double> tauhPar;
+        // a1(3 prong pion) Vector Particle Properties *** for now it includes all hadronic decay products
+        TMatrixT<double> tauhPar(LorentzVectorParticle::NLorentzandVertexPar,1);
         tauhPar[0] = product.m_flavourOrderedLeptons[1]->p4.Px(); // px
         tauhPar[1] = product.m_flavourOrderedLeptons[1]->p4.Py(); // py
         tauhPar[2] = product.m_flavourOrderedLeptons[1]->p4.Pz();  // pz
@@ -72,7 +72,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
         tauhPar[5] = 0.8;  // vy
         tauhPar[6] = 0.8;  // vz
 
-        TMatrixTSym<double> tauhCov;
+        TMatrixTSym<double> tauhCov(LorentzVectorParticle::NLorentzandVertexPar);
         tauhCov[0][0] = 0.5;
         tauhCov[0][1] = 0.5;
         tauhCov[0][2] = 0.5;
@@ -80,42 +80,45 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
         tauhCov[0][4] = 0.5;
         tauhCov[0][5] = 0.5;
         tauhCov[0][6] = 0.5;
-        tauhCov[0][7] = 0.5;
         tauhCov[1][1] = 0.5;
         tauhCov[1][2] = 0.5;
         tauhCov[1][3] = 0.5;
         tauhCov[1][4] = 0.5;
-        tauhCov[1][4] = 0.5;
-        tauhCov[1][4] = 0.5;
-        tauhCov[1][4] = 0.5;
+        tauhCov[1][5] = 0.5;
+        tauhCov[1][6] = 0.5;
         tauhCov[2][2] = 0.5;
         tauhCov[2][3] = 0.5;
         tauhCov[2][4] = 0.5;
+        tauhCov[2][5] = 0.5;
+        tauhCov[2][6] = 0.5;
         tauhCov[3][3] = 0.5;
         tauhCov[3][4] = 0.5;
+        tauhCov[3][5] = 0.5;
+        tauhCov[3][6] = 0.5;
         tauhCov[4][4] = 0.5;
+        tauhCov[4][5] = 0.5;
+        tauhCov[4][6] = 0.5;
 
         int tauhPdgid = 13;
         double tauhCharge =  product.m_flavourOrderedLeptons[1]->charge();
-        double tauhB = 1; 
-
+        double tauhB = 1;
+        
 
         // MET info
-        TMatrixT<double> metPar;
+        TMatrixT<double> metPar(2,1);
         metPar[0] = product.m_met.p4.Px();
         metPar[1] = product.m_met.p4.Py();
 
-        TMatrixTSym<double> metCov;
+        TMatrixTSym<double> metCov(2);
         metCov[0][0] = 0.3;
         metCov[0][1] = 0.4;
         metCov[1][1] = 0.5;
         
         PTObject MET(metPar, metCov); //   // ????
            
-        // double MET =125;
         // Primary Vertex Info
         TVector3 PV(0.5, 0.4, 0.3);
-	TMatrixTSym<double> PVCov;
+	TMatrixTSym<double> PVCov(3);
 	PVCov[0][0]= 0.5;
         PVCov[0][1]= 0.5;
         PVCov[0][2]= 0.5;
@@ -126,18 +129,13 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
         TrackParticle Muon(muonPar, muonCov, muonPdgid, muonMass, muonCharge, muonB);
         LorentzVectorParticle Tauh(tauhPar, tauhCov, tauhPdgid, tauhCharge, tauhB);
 
-        GlobalEventFit GF(Muon, Tauh,  MET,  PV, PVCov);
-        //GlobalEventFit GF(TrackParticle Muon, LorentzVectorParticle Tauh, double MET, TVector3 PV, TMatrixTSym<double> PVCov);
-
-        //GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, double Phi_Res, TVector3 PV, TMatrixTSym<double> PVCov){  }
+         GlobalEventFit GF(Muon, Tauh,  MET,  PV, PVCov);
+         //GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, double Phi_Res, TVector3 PV, TMatrixTSym<double> PVCov){  }
         // GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, PTObject MET, TVector3 PV, TMatrixTSym<double> PVCov){  }
-
-
-          GF.Fit();
-     
+         
+         //  GF.Fit();
+         
         }
-
-
 }
 
 
