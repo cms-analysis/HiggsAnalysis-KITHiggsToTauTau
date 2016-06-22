@@ -1613,7 +1613,7 @@ class Samples(samples.SamplesBase):
 					"ff",
 					nick_suffix=nick_suffix
 			)
-		if channel == "et":
+		elif channel == "et":
 			Samples._add_input(
 					config,
 					"SingleElectron_Run2015?_*_13TeV_*AOD/*.root",
