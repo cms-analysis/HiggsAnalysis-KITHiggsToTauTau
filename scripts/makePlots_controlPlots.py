@@ -302,7 +302,7 @@ if __name__ == "__main__":
 						mssm=args.mssm
 				)
 
-				if args.fakefactor_method is not None and channel == "mt":
+				if args.fakefactor_method is not None and channel in ["mt", "et"]:
 					ewk_background(config)
 
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
@@ -343,7 +343,7 @@ if __name__ == "__main__":
 						config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
 					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
-					if args.fakefactor_method is not None and channel  == "mt":
+					if args.fakefactor_method is not None and channel  in ["mt", "et"]:
 						config["ratio_numerator_nicks"][0] = config["ratio_numerator_nicks"][0] + " ewk"
 						config["ratio_denominator_nicks"][0] = config["ratio_denominator_nicks"][0] + " ewk"
 						config["ratio_denominator_nicks"][1] = config["ratio_denominator_nicks"][1] + " ewk"

@@ -273,11 +273,6 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
-
-		if channel == "mt" and fakefactor_method == "standard":
-			mc_weight = "(gen_match_2 != 6)*" + mc_weight
-		if channel == "mt" and fakefactor_method == "comparison":
-			mc_weight = "(gen_match_2 == 6)*" + mc_weight
 		
 
 		if channel in ["mt", "et", "tt", "em", "mm"]:
@@ -295,9 +290,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zll", nick_suffix)
 		
-		if channel == "mt" and fakefactor_method == "standard":
+		if channel in ["mt", "et"] and fakefactor_method == "standard":
 			config["weights"][config["nicks"].index("zll")] = config["weights"][config["nicks"].index("zll")]  + "*(gen_match_2 != 6)"
-		if channel == "mt" and fakefactor_method == "comparison":
+		if channel in ["mt", "et"] and fakefactor_method == "comparison":
 			config["weights"][config["nicks"].index("zll")] = config["weights"][config["nicks"].index("zll")]  + "*(gen_match_2 == 6)"
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
@@ -428,9 +423,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttj", nick_suffix)
 		
-		if channel == "mt" and fakefactor_method == "standard":
+		if channel in ["mt", "et"] and fakefactor_method == "standard":
 			config["weights"][config["nicks"].index("ttj")] = config["weights"][config["nicks"].index("ttj")]  + "*(gen_match_2 != 6)"
-		if channel == "mt" and fakefactor_method == "comparison":
+		if channel in ["mt", "et"] and fakefactor_method == "comparison":
 			config["weights"][config["nicks"].index("ttj")] = config["weights"][config["nicks"].index("ttj")]  + "*(gen_match_2 == 6)"
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
@@ -469,9 +464,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vv", nick_suffix)
 		
-		if channel == "mt" and fakefactor_method == "standard":
+		if channel in ["mt", "et"] and fakefactor_method == "standard":
 			config["weights"][config["nicks"].index("vv")] = config["weights"][config["nicks"].index("vv")]  + "*(gen_match_2 != 6)"
-		if channel == "mt" and fakefactor_method == "comparison":
+		if channel in ["mt", "et"] and fakefactor_method == "comparison":
 			config["weights"][config["nicks"].index("vv")] = config["weights"][config["nicks"].index("vv")]  + "*(gen_match_2 == 6)"
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
@@ -778,10 +773,10 @@ class Samples(samples.SamplesBase):
 
 				if not "EstimateWjets" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("EstimateWjets")
-				if channel == "mt" and fakefactor_method == "standard":
+				if channel in ["mt", "et"] and fakefactor_method == "standard":
 					config["weights"][config["nicks"].index("wj")] = config["weights"][config["nicks"].index("wj")]  + "*(gen_match_2 != 6)"
 					config.setdefault("wjets_from_mc", []).append(True)
-				if channel == "mt" and fakefactor_method == "comparison":
+				if channel in ["mt", "et"] and fakefactor_method == "comparison":
 					config["weights"][config["nicks"].index("wj")] = config["weights"][config["nicks"].index("wj")]  + "*(gen_match_2 == 6)"
 					config.setdefault("wjets_from_mc", []).append(False)
 				if fakefactor_method is None:
@@ -1612,6 +1607,16 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"SingleMuon_Run2015?_*_13TeV_*AOD/*.root",
+					channel+"_jecUncNom_tauEsNom/ntuple",
+					1.0,
+					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+					"ff",
+					nick_suffix=nick_suffix
+			)
+		if channel == "et":
+			Samples._add_input(
+					config,
+					"SingleElectron_Run2015?_*_13TeV_*AOD/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					1.0,
 					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
