@@ -28,7 +28,7 @@ def get_configs(args, info_log):
 	log.info("prepare config files to extract file paths, weights and cuts")
 	sample_settings = samples.Samples()
 	for channel in args["channels"]:
-		category = None
+		category = args.get("category","inclusive")
 		for requested_sample in (args["bkg_samples"]+args["signal_samples"]):
 			list_of_samples = [getattr(samples.Samples, requested_sample)]
 			config = sample_settings.get_config(
@@ -357,6 +357,9 @@ if __name__ == "__main__":
 						help="Quantities to train on.  [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 						help="""Luminosity for the given data in fb^(-1).
+								[Default: %(default)s]""")
+	parser.add_argument("--category", type=str, default="inclusive",
+						help="""Category for sample selection.
 								[Default: %(default)s]""")
 	parser.add_argument("-w", "--weight", default="1.0",
 						help="""Additional weight (cut) expression.
