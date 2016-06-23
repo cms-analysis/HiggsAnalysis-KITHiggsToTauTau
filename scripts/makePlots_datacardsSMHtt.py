@@ -194,7 +194,6 @@ if __name__ == "__main__":
 					if args.auto_rebin:
 						start = 0
 						end = 0
-						print config["x_bins"][0]
 						bins = binnings_settings.get_binning(config["x_bins"][0]) # handle different cases : nBins,start_bin,end_bin and bin edgeds specified by hand
 						if "," in bins:
 							nbins, start, end = bins.split(",")
@@ -202,7 +201,6 @@ if __name__ == "__main__":
 							start = bins.split(" ")[0]
 							end = bins.split(" ")[-1]
 						config["x_bins"] = ["100," + start + "," + end] 
-						print config["x_bins"]
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
