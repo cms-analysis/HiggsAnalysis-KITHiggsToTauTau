@@ -886,3 +886,11 @@ class Datacards(object):
 		tools.parallelize(_call_command, commandsFits, n_processes=n_processes)
 		tools.parallelize(_call_command, commandsOutput, n_processes=n_processes)
 		tools.parallelize(_call_command, commandsPlot, n_processes=1)
+
+	def auto_rebin(self, bin_threshold = 1.0, rebin_mode = 0):
+		rebin = ch.AutoRebin()
+		rebin.SetBinThreshold(bin_threshold)
+		rebin.SetRebinMode(rebin_mode)
+		rebin.SetPerformRebin(True)
+		rebin.SetVerbosity(1)
+		rebin.Rebin(self.cb, self.cb)
