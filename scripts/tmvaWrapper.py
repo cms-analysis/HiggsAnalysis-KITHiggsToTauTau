@@ -20,7 +20,7 @@ import AddMVATrainingToTrees
 import GetFocussedTrainingCut
 
 ROOT.PyConfig.IgnoreCommandLineOptions = True
-def get_configs(args, info_log, loop):
+def get_configs(args, info_log):
 	plot_configs = []
 	#generate config_list containing one config file per requested nick for training
 	log.info("prepare config files to extract file paths, weights and cuts")
@@ -51,7 +51,7 @@ def get_configs(args, info_log, loop):
 				config["sig_bkg"] = "Background"
 			elif requested_sample in args["signal_samples"]:
 				config["sig_bkg"] = "Signal"
-			if loop > 1:
+			if args.get("loop",1) > 1:
 				#config.setdefault("files", []).append(os.path.basename(args["output_file"]) + "*" + requested_sample + "*.root")
 				del config["files"][:]
 				config["files"].append(os.path.basename(args["output_file"]) + "*" + requested_sample + "*.root")
@@ -157,13 +157,17 @@ def do_focussed_training(args):
 	BDTScoreCut = -1.
 	#do -f training loops
 	for loop in range(1, args["focussed_training"]+1):
+		log.info("#########################")
+		log.info("### Begin with Loop " + str(loop) + " ###")
+		log.info("#########################")
 		#determine output and input paths for each loop
 		args["output_file"] = os.path.join(dir_path, "Loop" + str(loop), filename)
 		if loop > 1:
 			args["input_dir"] = os.path.join(dir_path, "Loop" + str(loop-1), "storage", "")
+			log.info("Cut at BDT score " + str(BDTScoreCut))
 			args["pre_selection"] = "(BDTScore" + str(loop-1) + ">=" + str(BDTScoreCut) + ")"
-
-		do_training(args, loop)
+		args["loop"] = loop
+		do_training(args)
 		#add bdt-values to sample
 		AddMVATrainingToTrees.append_MVAbranch(glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", "*")), ["SplitTree"],[jsonTools.JsonDict(os.path.join(dir_path, "Loop" + str(loop), filename + "_TrainingLog.json"))], ["BDTScore"+str(loop)])
 		#create histograms and find cut value 'BDTScoreCut' for next loop
@@ -180,7 +184,7 @@ def do_focussed_training(args):
 		BDTScoreCut = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), "signaleff", 0.9)
 
 
-def do_training(args, loop):
+def do_training(args):
 	info_log = copy.deepcopy(args)
 	info_log["comment"] = " ".join(sys.argv)
 	info_log["config_list"] = []
@@ -197,7 +201,7 @@ def do_training(args, loop):
 	info_log["training_name"] = filename
 	info_log["dir_path"] = dir_path
 	#getting config
-	plot_configs, info_log = get_configs(args, info_log, loop)
+	plot_configs, info_log = get_configs(args, info_log)
 	#acquire splitted samples
 	splits_list, stored_files_list, s_b_extension = do_splitting(args, plot_configs)
 	#TMVA Stuff
