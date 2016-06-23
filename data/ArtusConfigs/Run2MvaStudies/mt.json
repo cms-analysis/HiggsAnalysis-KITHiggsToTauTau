@@ -173,7 +173,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
  					"producer:MVAInputQuantitiesProducer",
 					"producer:MVATestMethodsProducer",
@@ -218,7 +217,6 @@
 					"producer:EventCategoryProducer",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
  					"producer:MVAInputQuantitiesProducer",
 					"producer:MVATestMethodsProducer",
@@ -256,10 +254,9 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
+ 					"producer:SvfitProducer",
 					"producer:MVAInputQuantitiesProducer",
 					"producer:MVATestMethodsProducer",
- 					"producer:SvfitProducer",
 					"producer:EventWeightProducer"
 				]
 			}

@@ -504,7 +504,43 @@ if __name__ == "__main__":
 				copy_cargs["quantities"].append("jdeta")
 				copy_cargs["quantities"].append("mjj")
 				config_list.append(copy.deepcopy(copy_cargs))
-
+		if 5 in cargs.modification:
+			"BDT;nCuts=1200:NTrees=1500:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.1:MaxDepth=3:SeparationType=SDivSqrtSPlusB"
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_cargs["signal_samples"] = ["ggh", "qqh"]
+			copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees=1500:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.1:MaxDepth=3:SeparationType=SDivSqrtSPlusB"]
+			copy_cargs["n_fold"] = 2
+			copy_path = copy_cargs["output_file"]
+			for channel in ["em", "et", "mt", "tt"]:
+				copy_cargs["channels"] = [channel]
+				copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "diLepJet1DeltaR", "diLepBoost", "diLepDeltaR"]
+				for jets in [0,1,2]:
+					copy_cargs["bkg_samples"] = ["ztt"]
+					copy_cargs["pre_selection"] = "(njetspt30==%i)"%jets
+					if jets == 2:
+						copy_cargs["signal_samples"] = ["qqh"]
+						copy_cargs["pre_selection"] = "(njetspt30>=%i)"%jets
+						copy_cargs["quantities"] = copy_cargs["quantities"] + ["diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality"]
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat1"%(channel,jets))
+						config_list.append(copy.deepcopy(copy_cargs))
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat2"%(channel,jets))
+						copy_cargs["bkg_samples"] = ["ttj", "wj", "vv"]
+						config_list.append(copy.deepcopy(copy_cargs))
+					if jets == 1:
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat1"%(channel,jets))
+						config_list.append(copy.deepcopy(copy_cargs))
+						copy_cargs["bkg_samples"] = ["ttj", "vv"]
+						if channel in ["et", "mt"]:
+							copy_cargs["bkg_samples"] = ["wj", "zll"]
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat2"%(channel,jets))
+						config_list.append(copy.deepcopy(copy_cargs))
+					if jets == 0:
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat1"%(channel,jets))
+						config_list.append(copy.deepcopy(copy_cargs))
+						if channel in ["et", "mt"]:
+							copy_cargs["bkg_samples"] = ["wj", "zll"]
+							copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat2"%(channel,jets))
+							config_list.append(copy.deepcopy(copy_cargs))
 		if cargs.batch_system:
 			log.info("Start training of BDT config number %i"%cargs.config_number)
 			if cargs.dry_run:

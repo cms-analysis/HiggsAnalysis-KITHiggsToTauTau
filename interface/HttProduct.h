@@ -226,6 +226,9 @@ public:
 	double m_Lep2Centrality = -1;
 	double m_DiLepCentrality = -1;
 	double m_DiLepDiJetDeltaR = -1;
+	double m_diLepBoost = -10;
+	double m_diLepJet1DeltaR = -10;
+	double m_diLepDeltaR = -10;
 
     // filled by AcceptanceEfficiencyProducer
 	int m_accEffDC = 0;
