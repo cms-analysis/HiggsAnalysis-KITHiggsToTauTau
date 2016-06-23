@@ -1244,9 +1244,7 @@ class Samples(samples.SamplesBase):
 
 	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False,
 	        lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
-		additional_higgs_masses_for_shape=["130"]
-		mssm = True
-		normalise_to_sm_xsec=True
+		
 		if exclude_cuts is None:
 			exclude_cuts = []
 
