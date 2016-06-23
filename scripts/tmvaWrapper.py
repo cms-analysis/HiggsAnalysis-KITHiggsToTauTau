@@ -16,6 +16,9 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import glob
 import time
 import ROOT
+import AddMVATrainingToTrees
+import GetFocussedTrainingCut
+
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 def get_configs(args, info_log):
 	plot_configs = []
@@ -48,6 +51,12 @@ def get_configs(args, info_log):
 				config["sig_bkg"] = "Background"
 			elif requested_sample in args["signal_samples"]:
 				config["sig_bkg"] = "Signal"
+			if args.get("loop",1) > 1:
+				#config.setdefault("files", []).append(os.path.basename(args["output_file"]) + "*" + requested_sample + "*.root")
+				del config["files"][:]
+				config["files"].append(os.path.basename(args["output_file"]) + "*" + requested_sample + "*.root")
+				del config["folders"][:]
+				config["folders"].append("SplitTree")
 			plot_configs.append(config)
 			info_log["config_list"].append(config)
 	log.info("Config information aquired")
@@ -67,10 +76,10 @@ def do_splitting(args, plot_configs):
 	elif args["n_fold"]:
 		part_size = 100./((args["n_fold"])*4.)
 		temp_splits = []
+		for i in range((args["n_fold"])*4):
+			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
 		for i in range(args["n_fold"]):
-			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size),int(25+i*part_size),int(25+(i+1)*part_size),int(50+i*part_size),int(50+(i+1)*part_size),int(75+i*part_size),int(75+(i+1)*part_size)))
-		for i in range(args["n_fold"]):
-			splits_list.append("||".join(temp_splits[i::args["n_fold"]]))
+			splits_list.append("("+"||".join(temp_splits[i::args["n_fold"]])+")")
 	# create output file
 	dir_path, filename = os.path.split(args["output_file"])
 	filename = filename.replace(".root", "")
@@ -128,6 +137,7 @@ def do_splitting(args, plot_configs):
 			for index in range(len(c_tree_list)):
 				#import pdb
 				log.debug("Cut Tree %s for Sample %s "%(root_file_name_list[index], stored_files_list[-1]))
+				log.debug("Selection string: " + selection_string)
 				#pdb.set_trace()
 				c_tree_list2.Add(c_tree_list[index].CopyTree(selection_string, "tree%i"%index))
 			log.debug("Merge Trees for Sample %s "%stored_files_list[-1])
@@ -138,9 +148,41 @@ def do_splitting(args, plot_configs):
 			log.debug("Prepare Sample %s "%stored_files_list[-1])
 			storage_tree = c_tree.CopyTree("", "tree%i"%(j+1))
 			storage_tree.SetName("SplitTree")
-			store_file.Write()
+			storage_tree.Write()
 			store_file.Close()
 	return (splits_list, stored_files_list, s_b_extension)
+
+def do_focussed_training(args):
+	dir_path, filename = os.path.split(args["output_file"])
+	BDTScoreCut = -1.
+	#do -f training loops
+	for loop in range(1, args["focussed_training"]+1):
+		log.info("#########################")
+		log.info("### Begin with Loop " + str(loop) + " ###")
+		log.info("#########################")
+		#determine output and input paths for each loop
+		args["output_file"] = os.path.join(dir_path, "Loop" + str(loop), filename)
+		if loop > 1:
+			args["input_dir"] = os.path.join(dir_path, "Loop" + str(loop-1), "storage", "")
+			log.info("Cut at BDT score " + str(BDTScoreCut))
+			args["pre_selection"] = "(BDTScore" + str(loop-1) + ">=" + str(BDTScoreCut) + ")"
+		args["loop"] = loop
+		do_training(args)
+		#add bdt-values to sample
+		AddMVATrainingToTrees.append_MVAbranch(glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", "*")), ["SplitTree"],[jsonTools.JsonDict(os.path.join(dir_path, "Loop" + str(loop), filename + "_TrainingLog.json"))], ["BDTScore"+str(loop)])
+		#create histograms and find cut value 'BDTScoreCut' for next loop
+		signalfiles = []
+		for sample in args["signal_samples"]:
+			for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
+				signalfiles.append(samplefile)
+		log.debug("Signalfiles: " + str(signalfiles))
+		backgroundfiles = []
+		for sample in args["bkg_samples"]:
+                        for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
+				backgroundfiles.append(samplefile)
+		log.debug("Backgroundfiles: " + str(backgroundfiles))
+		BDTScoreCut = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), "signaleff", 0.9)
+
 
 def do_training(args):
 	info_log = copy.deepcopy(args)
@@ -312,6 +354,8 @@ if __name__ == "__main__":
 						help="select wich config to be processeed by this job, only used for batch-jobs [Default: %(default)s]")
 	parser.add_argument("--dry-run", default = False, action="store_true",
 						help="number of parallel processes for training, only used for local jobs [Default: %(default)s]")
+	parser.add_argument("-f", "--focussed-training", type=int, default=1,
+						help="number of loops for focussed training. 1 is regular training. [Default: %(default)s]")
 
 
 	cargs = parser.parse_args()
@@ -425,7 +469,10 @@ if __name__ == "__main__":
 			if cargs.config_number > len(config_list):
 				log.error("config_number is greater than length of config_list, cancel program")
 				sys.exit(-2)
-			do_training(config_list[cargs.config_number])
+			if cargs.focussed_training >=2:
+				do_focussed_training(config_list[cargs.config_number])
+			else:
+				do_training(config_list[cargs.config_number])
 		else:
 			log.info("Start training of %i BDTs"%len(config_list))
 			if cargs.dry_run:
@@ -441,4 +488,7 @@ if __name__ == "__main__":
 		if cargs.dry_run:
 			log.info("Dry-Run: aborting training")
 			sys.exit()
-		do_training(config_list[0])
+		if cargs.focussed_training >=2:
+			do_focussed_training(config_list[0])
+		else:
+			do_training(config_list[0])

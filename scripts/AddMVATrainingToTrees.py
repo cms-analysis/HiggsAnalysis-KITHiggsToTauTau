@@ -57,9 +57,12 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 	for filename in filenames:
 		c_file = ROOT.TFile(filename, "update")
 		for ntuple in ntuple_strings:
-			ROOT.gDirectory.cd("..")
-			ROOT.gDirectory.cd(ntuple.split("/")[0])
-			tree = ROOT.gDirectory.Get(ntuple.split("/")[1])
+			ROOT.gDirectory.cd("/")
+			if "/" in ntuple:
+				ROOT.gDirectory.cd(ntuple.split("/")[0])
+				tree = ROOT.gDirectory.Get(ntuple.split("/")[1])
+			else:
+				tree = ROOT.gDirectory.Get(ntuple)
 			real_branches = []
 			for key in all_variables:
 				tree.SetBranchAddress(str(key), all_variables[key])
