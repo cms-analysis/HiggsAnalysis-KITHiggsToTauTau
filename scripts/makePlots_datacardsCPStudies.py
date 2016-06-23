@@ -279,7 +279,8 @@ if __name__ == "__main__":
 	
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
-	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	if args.n_plots[0] != 0:	
+		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	debug_plot_configs = []
 	for output_file in merged_output_files:
@@ -343,8 +344,9 @@ if __name__ == "__main__":
 			args.n_processes,
 			"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
 					STABLE=stable_combine_options,
-					RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
-					POINTS=len(args.cp_mixings)
+					RANGE="-0.0125,1.0125",
+					#RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
+					POINTS=2*len(args.cp_mixings)-1
 			)
 	)
 
