@@ -16,6 +16,9 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import glob
 import time
 import ROOT
+import AddMVATrainingToTrees
+import GetFocussedTrainingCut
+
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 def get_configs(args, info_log, loop):
 	plot_configs = []
@@ -73,10 +76,10 @@ def do_splitting(args, plot_configs):
 	elif args["n_fold"]:
 		part_size = 100./((args["n_fold"])*4.)
 		temp_splits = []
+		for i in range((args["n_fold"])*4):
+			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
 		for i in range(args["n_fold"]):
-			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)+(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size),int(25+i*part_size),int(25+(i+1)*part_size),int(50+i*part_size),int(50+(i+1)*part_size),int(75+i*part_size),int(75+(i+1)*part_size)))
-		for i in range(args["n_fold"]):
-			splits_list.append("||".join(temp_splits[i::args["n_fold"]]))
+			splits_list.append("("+"||".join(temp_splits[i::args["n_fold"]])+")")
 	# create output file
 	dir_path, filename = os.path.split(args["output_file"])
 	filename = filename.replace(".root", "")
@@ -134,6 +137,7 @@ def do_splitting(args, plot_configs):
 			for index in range(len(c_tree_list)):
 				#import pdb
 				log.debug("Cut Tree %s for Sample %s "%(root_file_name_list[index], stored_files_list[-1]))
+				log.debug("Selection string: " + selection_string)
 				#pdb.set_trace()
 				c_tree_list2.Add(c_tree_list[index].CopyTree(selection_string, "tree%i"%index))
 			log.debug("Merge Trees for Sample %s "%stored_files_list[-1])
@@ -150,16 +154,31 @@ def do_splitting(args, plot_configs):
 
 def do_focussed_training(args):
 	dir_path, filename = os.path.split(args["output_file"])
+	BDTScoreCut = -1.
 	#do -f training loops
 	for loop in range(1, args["focussed_training"]+1):
 		#determine output and input paths for each loop
 		args["output_file"] = os.path.join(dir_path, "Loop" + str(loop), filename)
 		if loop > 1:
 			args["input_dir"] = os.path.join(dir_path, "Loop" + str(loop-1), "storage", "")
-		#add preselection
+			args["pre_selection"] = "(BDTScore" + str(loop-1) + ">=" + str(BDTScoreCut) + ")"
 
 		do_training(args, loop)
 		#add bdt-values to sample
+		AddMVATrainingToTrees.append_MVAbranch(glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", "*")), ["SplitTree"],[jsonTools.JsonDict(os.path.join(dir_path, "Loop" + str(loop), filename + "_TrainingLog.json"))], ["BDTScore"+str(loop)])
+		#create histograms and find cut value 'BDTScoreCut' for next loop
+		signalfiles = []
+		for sample in args["signal_samples"]:
+			for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
+				signalfiles.append(samplefile)
+		log.debug("Signalfiles: " + str(signalfiles))
+		backgroundfiles = []
+		for sample in args["bkg_samples"]:
+                        for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
+				backgroundfiles.append(samplefile)
+		log.debug("Backgroundfiles: " + str(backgroundfiles))
+		BDTScoreCut = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), "signaleff", 0.9)
+
 
 def do_training(args, loop):
 	info_log = copy.deepcopy(args)
