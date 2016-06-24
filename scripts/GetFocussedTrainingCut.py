@@ -69,7 +69,7 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 				cutbin = i
 			else:
 				break
-	if method == "backgroundrej":
+	if method == "backgroundrej":	#parameter = desired background rejection
 		cutbin = 1
 		#find optimal BDT score to cut
 		for i in range (2,nbins):
@@ -77,6 +77,14 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 				cutbin = i
 			else:
 				break
+	if method == "bargaining":	#parameter = what percentage of background rejection is on percent of signal efficiency worth?
+		cutbin = 1
+		profit = parameter*BDThistCUMSG.GetBinContent(cutbin)+BDThistCUMBG.GetBinContent(cutbin)
+		#find optimal BDT score to cut
+		for i in range (2,nbins):
+			if parameter*BDThistCUMSG.GetBinContent(i)+BDThistCUMBG.GetBinContent(i) > profit:
+				cutbin = i
+				profit = parameter*BDThistCUMSG.GetBinContent(i)+BDThistCUMBG.GetBinContent(i)
 	#end of metric definitions 
 	if cutbin == 0:
 		raise StandardError("Was not able to find cut value! Check whether you have chosen a proper cut method.")
