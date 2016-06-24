@@ -93,7 +93,7 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 		log.info("Signal efficiency of chosen cut at BDT score " + str(cutvalue) + ": " + str(BDThistCUMSG.GetBinContent(cutbin)))
 		log.info("Background rejection of chosen cut at BDT score " + str(cutvalue) + ": " + str(BDThistCUMBG.GetBinContent(cutbin)))
 	store_file.Close()
-	return cutvalue
+	return cutvalue, BDThistCUMSG.GetBinContent(cutbin), BDThistCUMBG.GetBinContent(cutbin)
   
 if __name__ == "__main__":
 	files1 = ["test6/Loop1/storage/vbf_vs_ggh_storage_qqh_split1.root", "test6/Loop1/storage/vbf_vs_ggh_storage_qqh_split2.root"]
