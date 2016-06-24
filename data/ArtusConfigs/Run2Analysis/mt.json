@@ -174,11 +174,11 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer",
-                                        "producer:SimpleFitProducer"            
+					"producer:SimpleFitProducer"
 				],
 				"DY.?JetsToLL" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -255,10 +255,10 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:EventWeightProducer",
-                                        "producer:SimpleFitProducer"            
-                                ]
+					"producer:SimpleFitProducer"
+					]
 			}
 		},
 		"AddGenMatchedParticles" : true,
