@@ -284,4 +284,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, Lepton2AcceptancePtCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, Lepton1AcceptanceEtaCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_DEFAULT(float, Lepton2AcceptanceEtaCut, std::numeric_limits<float>::max());
+
+	// settings for the ScaleVariationProducer
+	IMPL_SETTING_STRINGLIST_DEFAULT(GenEventInfoMetadataNames, {});
 };
