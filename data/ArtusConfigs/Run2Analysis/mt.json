@@ -177,9 +177,8 @@
  					"producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"producer:EventWeightProducer",
-                                        "producer:SimpleFitProducer"            
-				],
+					"producer:EventWeightProducer"
+              				],
 				"DY.?JetsToLL" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
@@ -222,8 +221,7 @@
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
-					"producer:EventWeightProducer",
-                                        "producer:SimpleFitProducer"          
+					"producer:EventWeightProducer"
 				],
 				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -256,8 +254,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
-					"producer:EventWeightProducer",
-                                        "producer:SimpleFitProducer"            
+					"producer:EventWeightProducer"            
                                 ]
 			}
 		},

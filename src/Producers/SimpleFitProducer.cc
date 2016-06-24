@@ -12,29 +12,29 @@
 
 void SimpleFitProducer::Init(setting_type const& settings)
 {
-	ProducerBase<HttTypes>::Init(settings);
-	
-    }
+    ProducerBase<HttTypes>::Init(settings);
+    
+}
 
 
 void SimpleFitProducer::Produce(event_type const& event, product_type& product,
-								 setting_type const& settings) const
+                                setting_type const& settings) const
 {
-	assert(event.m_eventInfo);
-
-     	// // consider only the first two leptons
-        if(product.m_flavourOrderedLeptons.size() == 2){
-            //    LOG(INFO) << "I am here!.. " << "TrackParticle::NHelixPar: "<<  TrackParticle::NHelixPar << " LorentzVectorParticle::NLorentzandVertexPar: " << LorentzVectorParticle::NLorentzandVertexPar ;	
-
-         // Muon Track Properties
-            TMatrixT<double> muonPar(TrackParticle::NHelixPar,1);
+    assert(event.m_eventInfo);
+    
+    // // consider only the first two leptons
+    if(product.m_flavourOrderedLeptons.size() == 2){
+        //    LOG(INFO) << "I am here!.. " << "TrackParticle::NHelixPar: "<<  TrackParticle::NHelixPar << " LorentzVectorParticle::NLorentzandVertexPar: " << LorentzVectorParticle::NLorentzandVertexPar ;	
+        
+        // Muon Track Properties
+        TMatrixT<double> muonPar(TrackParticle::NHelixPar,1);
         double pt = product.m_flavourOrderedLeptons[0]->p4.Pt();
         muonPar[0] = 1/pt;   // kappa
         muonPar[1] = 0.8;   // lambda
         muonPar[2] = 0.8;   // phi
         muonPar[3] = product.m_flavourOrderedLeptons[0]->track.getDz(&event.m_vertexSummary->pv);   // dz
         muonPar[4] = product.m_flavourOrderedLeptons[0]->track.getDxy(&event.m_vertexSummary->pv);    // dxy
-
+        
         TMatrixTSym<double> muonCov(TrackParticle::NHelixPar);
         muonCov[0][0] = 0.5;
         muonCov[0][1] = 0.5;
@@ -55,7 +55,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
         muonCov[3][4] = 0.5;
         
         muonCov[4][4] = 0.5;
-
+        
         int muonPdgid = 13;
         double muonMass = product.m_flavourOrderedLeptons[0]->p4.mass(); //0.105; //GeV    
         double muonCharge = product.m_flavourOrderedLeptons[0]->charge();
@@ -103,7 +103,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
         double tauhCharge =  product.m_flavourOrderedLeptons[1]->charge();
         double tauhB = 1;
         
-
+        
         // MET info
         TMatrixT<double> metPar(2,1);
         metPar[0] = product.m_met.p4.Px();
@@ -128,14 +128,14 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	
         TrackParticle Muon(muonPar, muonCov, muonPdgid, muonMass, muonCharge, muonB);
         LorentzVectorParticle Tauh(tauhPar, tauhCov, tauhPdgid, tauhCharge, tauhB);
-
-         GlobalEventFit GF(Muon, Tauh,  MET,  PV, PVCov);
-         //GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, double Phi_Res, TVector3 PV, TMatrixTSym<double> PVCov){  }
+        
+        GlobalEventFit GF(Muon, Tauh,  MET,  PV, PVCov);
+        //GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, double Phi_Res, TVector3 PV, TMatrixTSym<double> PVCov){  }
         // GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, PTObject MET, TVector3 PV, TMatrixTSym<double> PVCov){  }
-         
-         //  GF.Fit();
-         
-        }
+        
+        //  GF.Fit();
+        
+    }
 }
 
 
