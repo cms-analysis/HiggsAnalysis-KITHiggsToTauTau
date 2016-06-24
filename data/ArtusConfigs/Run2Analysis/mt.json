@@ -223,7 +223,7 @@
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:EventWeightProducer",
-                                        "producer:SimpleFitProducer"          
+					"producer:SimpleFitProducer"
 				],
 				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
