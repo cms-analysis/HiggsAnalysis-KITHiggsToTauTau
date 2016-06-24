@@ -1270,8 +1270,8 @@ class Samples(samples.SamplesBase):
 			config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 			
-		def final_nick(tmp_sample, tmp_mass):
-			return tmp_sample+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix
+		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
+			return tmp_sample+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
 
 		for index, mass in enumerate(additional_higgs_masses_for_shape+higgs_masses):
 			is_additional_mass = (index < len(additional_higgs_masses_for_shape))
@@ -1307,7 +1307,7 @@ class Samples(samples.SamplesBase):
 						"bkg" if kwargs.get("stack_signal", False) else "htt",
 						"LINE",
 						"L",
-						final_nick("htt", mass),
+						final_nick("htt", mass, False),
 						nick_suffix
 				)
 		return config
