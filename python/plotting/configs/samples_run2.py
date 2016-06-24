@@ -1248,16 +1248,27 @@ class Samples(samples.SamplesBase):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
+		# gluon fusion (SM/MSSM)
 		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+		if mssm and  normalise_to_sm_xsec:
+			config = self.ggh(config, channel, category, weight, nick_suffix+"_sm_noplot", higgs_masses,
+			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=False, **kwargs)
+		
+		# vector boson fusion (SM)
+		if (not mssm) or normalise_to_sm_xsec:
+			config = self.qqh(config, channel, category, weight, nick_suffix+("_sm" if mssm else "")+"_noplot", higgs_masses+([] if mssm else additional_higgs_masses_for_shape),
+			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+		
+		# Higgs strahlung (SM)
+		if (not mssm) or normalise_to_sm_xsec:
+			config = self.vh(config, channel, category, weight, nick_suffix+("_sm" if mssm else "")+"_noplot", higgs_masses+([] if mssm else additional_higgs_masses_for_shape),
+			                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+
+		# production in association with b-quarks (MSSM)
 		if mssm:
 			config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-		if (not mssm) or normalise_to_sm_xsec:
-			config = self.qqh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-			config = self.vh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-			                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 			
 		def final_nick(tmp_sample, tmp_mass):
 			return tmp_sample+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix
@@ -1275,7 +1286,7 @@ class Samples(samples.SamplesBase):
 				config.setdefault("sum_result_nicks", []).append(final_nick("htt", mass)+"_noplot_shape")
 				
 				if mssm and normalise_to_sm_xsec:
-					config.setdefault("histogram_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["ggh", "qqh", "vh"]]))
+					config.setdefault("histogram_nicks", []).append(" ".join([final_nick(sample, mass)+"_sm_noplot" for sample in ["ggh", "qqh", "vh"]]))
 					config.setdefault("sum_result_nicks", []).append(final_nick("htt", mass)+"_sm_noplot")
 				
 				if not "ShapeYieldMerge" in config.get("analysis_modules", []):
@@ -1327,7 +1338,7 @@ class Samples(samples.SamplesBase):
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
-						"bbH"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
 			else:
