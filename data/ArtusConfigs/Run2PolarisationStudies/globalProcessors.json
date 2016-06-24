@@ -55,7 +55,7 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"producer:SampleStitchingWeightProducer"
+        			"producer:SampleStitchingWeightProducer"
 			],
 			"HToTauTau" : [
 				"#filter:RunLumiEventFilter",
