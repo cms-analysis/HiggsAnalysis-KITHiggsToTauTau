@@ -41,7 +41,7 @@ if __name__ == "__main__":
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
-	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125", "120", "130"],
+	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["120", "130", "125"], # we do not have 125 GeV MSSM samples
 	                    help="Higgs masses. The first mass defines the mass of interest and additional masses are used to increase the statistics by preserving the yield given by the first mass. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
@@ -183,9 +183,11 @@ if __name__ == "__main__":
 					) for sample in config_bkg["labels"]]
 					config = samples.Samples.merge_configs(config, config_bkg)
 					
-					for cp_mixing_angle_over_pi_half, cp_mixing_str in zip(cp_mixing_angles_over_pi_half, cp_mixings_str):
-
-
+					for cp_mixing, cp_mixing_angle_over_pi_half, cp_mixing_str in zip(args.cp_mixings, cp_mixing_angles_over_pi_half, cp_mixings_str):
+						tmp_additional_higgs_masses_for_shape = copy.deepcopy(additional_higgs_masses_for_shape)
+						#if (cp_mixing > 0.5) and ("125" in tmp_additional_higgs_masses_for_shape):
+						#	tmp_additional_higgs_masses_for_shape.remove("125")
+						
 						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 								samples="\", \"".join(list_of_sig_samples),
 								channel=channel,
@@ -196,21 +198,26 @@ if __name__ == "__main__":
 								samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
 								channel=channel,
 								category="catHtt13TeV_"+category,
-								nick_suffix="_" + cp_mixing_str,
+								nick_suffix="_"+cp_mixing_str,
 								weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle_over_pi_half,
-								lumi = args.lumi * 1000,
+								lumi=args.lumi * 1000,
 								higgs_masses=higgs_masses,
-								additional_higgs_masses_for_shape=additional_higgs_masses_for_shape
+								additional_higgs_masses_for_shape=tmp_additional_higgs_masses_for_shape,
+								#mssm=(cp_mixing > 0.5),
+								#normalise_to_sm_xsec=True
 						)
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
-								PROCESS=datacards.configs.sample2process(sample).replace("125", ""),
+								PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
 								BIN=category,
 								MASS=cp_mixing_str,
 								SYSTEMATIC=systematic
 						) for sample in config_sig["labels"]]
 
-						config = samples.Samples.merge_configs(config, config_sig)
-
+						config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
+					
+					if "stacks" in config:
+						config.pop("stacks")
+					
 					# create asimov dataset
 					if not args.add_data:
 						if not "SumOfHistograms" in config.get("analysis_modules", []):
