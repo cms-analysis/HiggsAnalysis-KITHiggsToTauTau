@@ -352,6 +352,7 @@ if __name__ == "__main__":
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)
+					config.setdefault("stacks", []).extend(["unc", "ratio"])
 
 
 				for analysis_module in args.analysis_modules:
