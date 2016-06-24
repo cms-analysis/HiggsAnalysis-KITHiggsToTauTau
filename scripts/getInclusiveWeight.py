@@ -134,8 +134,8 @@ def main():
 				weight_string += "*" + cutstring
 			full_dict[channel][category] = count(args.inclusive_file, weight_string, get_channel_string(channel))
 
-
 	unc = {}
+	eff = {}
 	root_tree_file=ROOT.TFile("theory_uncertainties_" + args.process+".root","RECREATE")
 	######## calculate inclusive weights
 	# scale
@@ -144,6 +144,7 @@ def main():
 		for weight in [weight for weight in full_dict[channel]["full"] if "muR" in weight]:
 			A[weight] = full_dict[channel]["fullinclusive"][weight] / full_dict[channel]["full"][weight]
 		unc["scale_" + channel + "_fullinclusive"] = (max(A.values()) - min(A.values()))/2. / A["muR1p0_muF1p0_weight"]
+		eff[channel] = A["muR1p0_muF1p0_weight"]
 		acceptance_to_tree(A, "scale", channel)
 
 	# PDF Sets
@@ -171,6 +172,7 @@ def main():
 				A[weight] = full_dict[channel][category][weight] / full_dict[channel]["inclusive"][weight]
 			unc["scale_" + channel+"_"+category] = (max(A.values()) - min(A.values()))/2. / A["muR1p0_muF1p0_weight"]
 			acceptance_to_tree(A, "scale", channel, category)
+			eff[channel + '_' + category] = A["muR1p0_muF1p0_weight"]
 	# PDF Sets
 	for channel in args.channels:
 		for category in args.categories:
@@ -193,6 +195,8 @@ def main():
 	save_as_histograms(unc, root_tree_file)
 	root_tree_file.Close()
 	pprint.pprint(unc)
+	print "efficiencies: "
+	pprint.pprint(eff)
 
 
 if __name__ == "__main__":
