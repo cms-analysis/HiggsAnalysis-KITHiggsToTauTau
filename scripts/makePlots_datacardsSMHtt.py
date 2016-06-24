@@ -44,6 +44,8 @@ if __name__ == "__main__":
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--auto-rebin", action="store_true", default=False,
+	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
@@ -189,7 +191,16 @@ if __name__ == "__main__":
 						config["x_bins"] = [binnings_key]
 					else:
 						config["x_bins"] = ["35,0.0,350.0"]
-					
+					if args.auto_rebin:
+						start = 0
+						end = 0
+						bins = binnings_settings.get_binning(config["x_bins"][0]) # handle different cases : nBins,start_bin,end_bin and bin edgeds specified by hand
+						if "," in bins:
+							nbins, start, end = bins.split(",")
+						else:
+							start = bins.split(" ")[0]
+							end = bins.split(" ")[-1]
+						config["x_bins"] = ["100," + start + "," + end] 
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
@@ -288,6 +299,9 @@ if __name__ == "__main__":
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset("125")
+
+	if args.auto_rebin:
+		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
 
 	# write datacards and call text2workspace
 	datacards_cbs = {}
