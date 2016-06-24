@@ -16,6 +16,8 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import glob
 import time
 import ROOT
+import shutil
+import math
 import AddMVATrainingToTrees
 import GetFocussedTrainingCut
 
@@ -155,11 +157,12 @@ def do_splitting(args, plot_configs):
 def do_focussed_training(args):
 	dir_path, filename = os.path.split(args["output_file"])
 	BDTScoreCut = -1.
+	significanceimprovement = 1.
 	#do -f training loops
 	for loop in range(1, args["focussed_training"]+1):
-		log.info("#########################")
-		log.info("### Begin with Loop " + str(loop) + " ###")
-		log.info("#########################")
+		log.info("#####################")
+		log.info("### Launch Loop %i ###"%loop)
+		log.info("#####################")
 		#determine output and input paths for each loop
 		args["output_file"] = os.path.join(dir_path, "Loop" + str(loop), filename)
 		if loop > 1:
@@ -169,6 +172,7 @@ def do_focussed_training(args):
 		args["loop"] = loop
 		do_training(args)
 		#add bdt-values to sample
+		log.info("Calculate BDT scores and append to event trees")
 		AddMVATrainingToTrees.append_MVAbranch(glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", "*")), ["SplitTree"],[jsonTools.JsonDict(os.path.join(dir_path, "Loop" + str(loop), filename + "_TrainingLog.json"))], ["BDTScore"+str(loop)])
 		#create histograms and find cut value 'BDTScoreCut' for next loop
 		signalfiles = []
@@ -181,8 +185,22 @@ def do_focussed_training(args):
                         for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
 				backgroundfiles.append(samplefile)
 		log.debug("Backgroundfiles: " + str(backgroundfiles))
-		BDTScoreCut = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), "signaleff", 0.9)
-
+		BDTScoreCut, signaleff, backgroundrej = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), "signaleff", 0.9)
+		log.info("Significance improvement of the current loop appliying this cut: " + str(signaleff/math.sqrt(1.0-backgroundrej)))
+		significanceimprovement = significanceimprovement*signaleff/math.sqrt(1.0-backgroundrej)
+		log.info("Total significance improvement: " + str(significanceimprovement))
+		
+	#copy files to remote workdir in order to have them transfered from batch system to your local storage
+	if args["batch_system"]:
+		for loop in range(1, args["focussed_training"]+1):
+			#copy weightfiles
+			for weightfile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "*weight*")):
+				path, weightfilename = os.path.split(weightfile)
+				shutil.copyfile(weightfile, os.path.join(dir_path, "Loop" + str(loop) + weightfilename))
+			#copy rootfiles
+			for rootfile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "*.root")):
+				path, rootfilename = os.path.split(rootfile)
+				shutil.copyfile(rootfile, os.path.join(dir_path, "Loop" + str(loop) + rootfilename))
 
 def do_training(args):
 	info_log = copy.deepcopy(args)
@@ -480,7 +498,10 @@ if __name__ == "__main__":
 				jsonTools.JsonDict(config_list).save("TrainingConfigs.config", indent = 4)
 				log.info("TrainingConfigs saved to TrainingConfigs.config")
 				sys.exit()
-			aTools.parallelize(do_training, config_list, n_processes=int(cargs.j))
+			if cargs.focussed_training >=2:
+				aTools.parallelize(do_focussed_training, config_list, n_processes=int(cargs.j))
+			else:
+				aTools.parallelize(do_training, config_list, n_processes=int(cargs.j))
 	else:
 		config_list = []
 		config_list.append(cargs_values)

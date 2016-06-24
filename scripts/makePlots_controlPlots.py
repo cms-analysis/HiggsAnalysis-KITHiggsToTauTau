@@ -96,26 +96,6 @@ def blind_signal(config, blinding_threshold, ratio_true):
 	if ratio_true:
 		config["mask_histogram_nicks"] = ["data", "ratio_Data"]
 
-def ewk_background(config):
-	if not "SumOfHistograms" in config.get("analysis_modules", []):
-		config.setdefault("analysis_modules", []).append("SumOfHistograms")
-	temp = config["nicks"]
-	samples_list_ewk = [samples.replace("ttj","ttj_noplot").replace("vv","vv_noplot").replace("wj","wj_noplot") if not "noplot" in samples else samples for samples in config["nicks"]]
-	samples_to_plot = [samples for samples in samples_list_ewk if not "noplot" in samples]
-	config.setdefault("sum_nicks", []).append("ttj_noplot vv_noplot wj_noplot")
-	config["wjets_shape_nicks"] = ["wj_noplot"]
-	config.setdefault("sum_scale_factors", []).append("1.0 1.0 1.0")
-	config.setdefault("sum_result_nicks", []).append("ewk")
-	if "ff" in samples_to_plot:
-		samples_to_plot.insert(samples_to_plot.index("ff"), "ewk")
-	else:
-		samples_to_plot.append("ewk")
-	config["nicks"] = samples_list_ewk
-	config["labels"] = [label.lower() for label in samples_to_plot]
-	config["markers"] = ["HIST"]*(len(samples_to_plot)-1) + ["E"]
-	config["colors"] = [color.lower() for color in samples_to_plot]
-	config["legend_markers"] = ["F"]*(len(samples_to_plot)-1) + ["ELP"]
-	config["stacks"] = ["bkg"]*(len(samples_to_plot)-1) + ["data"]
 
 if __name__ == "__main__":
 
@@ -126,7 +106,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ff", "ggh", "qqh", "vh", "htt", "data"],
+	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ewk", "ff", "ggh", "qqh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -302,8 +282,6 @@ if __name__ == "__main__":
 						mssm=args.mssm
 				)
 
-				if args.fakefactor_method is not None and channel in ["mt", "et"]:
-					ewk_background(config)
 
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
 				config["category"] = category
@@ -343,15 +321,12 @@ if __name__ == "__main__":
 						config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
 					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
-					if args.fakefactor_method is not None and channel  in ["mt", "et"]:
-						config["ratio_numerator_nicks"][0] = config["ratio_numerator_nicks"][0] + " ewk"
-						config["ratio_denominator_nicks"][0] = config["ratio_denominator_nicks"][0] + " ewk"
-						config["ratio_denominator_nicks"][1] = config["ratio_denominator_nicks"][1] + " ewk"
 					config.setdefault("ratio_result_nicks", []).extend(["ratio_MC", "ratio_Data"])
 					config.setdefault("colors", []).extend(["#000000"] * 2)
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["ELP"]*2)
 					config.setdefault("labels", []).extend([""] * 2)
+					config.setdefault("stacks", []).extend(["unc", "ratio"])
 
 
 				for analysis_module in args.analysis_modules:
