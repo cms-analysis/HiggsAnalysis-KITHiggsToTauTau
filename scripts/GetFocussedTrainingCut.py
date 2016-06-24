@@ -9,13 +9,13 @@ import Artus.Utility.jsonTools as jsonTools
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, parameter, nbins=100):
-	#store_file = ROOT.TFile("BDTHisto.root", "RECREATE")
-	#tree_list = ROOT.TList()
+	log.info("Generate BDThistograms.root")
 	tree = ""
 	#create histogram
         BDThistSG = ROOT.TH1F("BDT-Sig", "Signal BDT-Scores", nbins, -1, 1)
 	BDThistBG = ROOT.TH1F("BDT-Bcg", "Background BDT-Scores", nbins, -1, 1)
-	 
+	
+	log.debug("Fill signal histogram")
 	for file in signalfiles:
 		f = ROOT.TFile.Open(file, "read")
 		tree = f.Get("SplitTree")
@@ -25,6 +25,7 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 				raise AttributeError("event has no attribute '%s'"%(leaftocut,))
 			BDThistSG.Fill(getattr(event, leaftocut), event.eventWeight)
 		f.Close()
+	log.debug("Fill background histogram")
 	for file in backgroundfiles:
                 f = ROOT.TFile.Open(file, "read") 
                 tree = f.Get("SplitTree")
@@ -34,19 +35,18 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
                                 raise AttributeError("event has no attribute '%s'"%(leaftocut,))
 			BDThistBG.Fill(getattr(event, leaftocut), event.eventWeight)
                 f.Close()
-	#create histogram
-	#BDThist = ROOT.TH1F("BDT-Score", "weighted number of events", 100, -1, 1)
-	#bincontent = BDThist.GetBinContent(1...100)
+
 	store_file = ROOT.TFile(os.path.join(outputdir, "BDThistograms.root"), "RECREATE")
      
 	#calculate histogram integrals for normalization
 	integralSG = BDThistSG.Integral()
-	integralBG = 1.#BDThistBG.ComputeIntegral()
+	integralBG = BDThistBG.Integral()
 	#create cumulated histograms
 	BDThistCUMSG = ROOT.TH1F("Sig-Eff", "Signal-Efficiency", nbins-1, -1.0+1.0/nbins, 1.0-1.0/nbins)
 	BDThistCUMBG = ROOT.TH1F("Bcg-Rjc", "Background-Rejection", nbins-1, -1, 1)
 	sigeff = 1.
 	bcgrej = 0.
+	log.debug("Fill cumulated histograms")
 	for i in range(1,nbins):
 		sigeff -= BDThistSG.GetBinContent(i)/integralSG
 		bcgrej += BDThistBG.GetBinContent(i)/integralBG		
@@ -58,6 +58,7 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 	BDThistCUMSG.Write()
 	BDThistCUMBG.Write()
 	
+	log.debug("Find cut")
 	cutbin = 0
 	#Available metrics for cut determination:
 	if method == "signaleff":	#parameter = desired signal efficiency
@@ -68,12 +69,21 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 				cutbin = i
 			else:
 				break
-	
+	if method == "backgroundrej":
+		cutbin = 1
+		#find optimal BDT score to cut
+		for i in range (2,nbins):
+			if abs(parameter-BDThistCUMBG.GetBinContent(i)) <= abs(parameter-BDThistCUMBG.GetBinContent(cutbin)):
+				cutbin = i
+			else:
+				break
 	#end of metric definitions 
 	if cutbin == 0:
-		raise StandardError("Was not able to find cut value!")
+		raise StandardError("Was not able to find cut value! Check whether you have chosen a proper cut method.")
 	else:
 		cutvalue =  BDThistCUMSG.GetBinCenter(cutbin)
+		log.info("Signal efficiency of chosen cut at BDT score " + str(cutvalue) + ": " + str(BDThistCUMSG.GetBinContent(cutbin)))
+		log.info("Background rejection of chosen cut at BDT score " + str(cutvalue) + ": " + str(BDThistCUMBG.GetBinContent(cutbin)))
 	store_file.Close()
 	return cutvalue
   
