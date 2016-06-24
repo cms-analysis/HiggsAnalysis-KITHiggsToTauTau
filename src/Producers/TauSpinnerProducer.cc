@@ -140,7 +140,9 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			{
 				tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
 			}
-			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)))
+			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)) ||
+			         Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdHCPOdd)) ||
+			         Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdACPOdd)))
 			{
 				tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
 			}
