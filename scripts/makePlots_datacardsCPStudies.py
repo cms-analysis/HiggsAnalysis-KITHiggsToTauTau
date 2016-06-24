@@ -213,11 +213,11 @@ if __name__ == "__main__":
 
 					# create asimov dataset
 					if not args.add_data:
-						if not "AddHistograms" in config.get("analysis_modules", []):
-							config.setdefault("analysis_modules", []).append("AddHistograms")
+						if not "SumOfHistograms" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("SumOfHistograms")
 						nicks_to_sum = copy.deepcopy(list_of_bkg_samples)
 						nicks_to_sum.extend([sample+higgs_masses[0]+"_"+str(min(args.cp_mixings)) for sample in list_of_sig_samples])
-						config.setdefault("histogram_nicks", []).append(" ".join(nicks_to_sum))
+						config.setdefault("sum_nicks", []).append(" ".join(nicks_to_sum))
 						config.setdefault("sum_result_nicks", []).append("asimov_s")
 						config.setdefault("labels", []).insert(0, (bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process("data"),
