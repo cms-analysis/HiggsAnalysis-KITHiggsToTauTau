@@ -1,0 +1,27 @@
+{
+	"inclusive" : {
+		"EventWeight" : "eventWeight",
+		"Quantities" : [
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/lheWeights.json"
+				]
+			}
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+				]
+			}
+		},
+		"Consumers" : {
+			"nick" : {
+				"default" : [
+				],
+			"HToTauTau" : [
+				"KappaLambdaNtupleConsumer"
+				]
+			}
+		}
+	}
+}
