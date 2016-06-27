@@ -12,20 +12,6 @@
 	"TauSpinnerSettingsIpol" : "1",
 	"TauSpinnerSettingsNonSM2" : "0",
 	"TauSpinnerSettingsNonSMN" : "0",
-	"TauSpinnerSettingsBoost" : false,
-
-	"ChooseTauDaughter" : true,
-
-	"ChosenTauDaughters" : [
-		"211",
-		"20213",
-		"11",
-		"13",
-		"323",
-		"321",
-		"24",
-		"213"
-	],
 	
 	"TauSpinnerMixingAnglesOverPiHalf" : [
 		0.00,

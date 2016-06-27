@@ -236,13 +236,9 @@ public:
 	IMPL_SETTING(int, TauSpinnerSettingsIpol);
 	IMPL_SETTING(int, TauSpinnerSettingsNonSM2);
 	IMPL_SETTING(int, TauSpinnerSettingsNonSMN);
-	IMPL_SETTING(bool, TauSpinnerSettingsBoost);
 
 	IMPL_SETTING_FLOATLIST_DEFAULT(TauSpinnerMixingAnglesOverPiHalf, {});
 	IMPL_SETTING_DEFAULT(float, TauSpinnerMixingAnglesOverPiHalfSample, -1.0);
-
-	IMPL_SETTING(bool, ChooseTauDaughter);
-	IMPL_SETTING_STRINGLIST_DEFAULT(ChosenTauDaughters, {});
 
 	IMPL_SETTING(int, BosonPdgId);
 
