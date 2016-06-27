@@ -75,7 +75,7 @@ def fill_histogram(unc, unctype):
 		i=i+1
 	new_histo.Write()
 
-def acceptance_to_tree(A, method, channel, category="fullinclusive"):
+def acceptance_to_tree(A, method, channel, category="inclusive"):
 	name = "_".join([method, channel, category])
 	acceptance_tree = ROOT.TTree(name, name)
 	acceptance=array('d', [0])
@@ -98,8 +98,7 @@ def main():
 	parser = argparse.ArgumentParser(description="Determine the full weight of a sample for inclusive acceptance studies",
 	                                 parents=[logger.loggingParser])
 
-	parser.add_argument("--full-file", help="Input files.")
-	parser.add_argument("--inclusive-file", help="Input files.")
+	parser.add_argument("-i", "--input-file", help="Input files.")
 	parser.add_argument("--channels", default=["et", "mt", "tt", "em"], nargs="+", help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", default=["0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"], nargs="+", help="Channels. [Default: %(default)s]")
 	parser.add_argument("--process", help="Process Name [Default: %(default)s]")
@@ -108,22 +107,29 @@ def main():
 	logger.initLogger(args)
 	
 	full_dict = {}
-	args.categories = ["inclusive"] + args.categories
+	categories = ["inclusive"] + args.categories
 
 	#inclusive
 	for channel in args.channels:
 		full_dict[channel] = {}
-		full_dict[channel]["full"] = count(args.full_file, "(1)", get_channel_string(channel))
+		full_dict[channel]["full"] = count(args.input_file, "isZ"+channel+">0.5", "inclusive") # count total number of events
 		weight_string = ""
 		cutstrings = CutStringsDict.baseline(channel, "sm")
 		del cutstrings["blind"]
 		for cutstring in cutstrings.values():
 			weight_string += "*" + cutstring
-		full_dict[channel]["fullinclusive"] = count(args.inclusive_file, weight_string, get_channel_string(channel))
+		full_dict[channel]["inclusive"] = count(args.input_file, weight_string, get_channel_string(channel))
+
+	n_events_total = count(args.input_file, "1", "inclusive")["muR1p0_muF1p0_weight"]
+
+	print "out of " + str(n_events_total) + " simulated events: " 
+	for channel in args.channels:
+		print "\t" + channel + ": " + str(full_dict[channel]["full"]["muR1p0_muF1p0_weight"] / n_events_total * 100) + "% of all events, \t selection efficincy is " + \
+			str(full_dict[channel]["inclusive"]["muR1p0_muF1p0_weight"] / full_dict[channel]["full"]["muR1p0_muF1p0_weight"] * 100) + "% "
 
 	# categories: apply eventWeight
 	for channel in args.channels:
-		for category in args.categories:
+		for category in categories:
 			lookup_string = "catHtt13TeV_"+channel+"_"+category
 			weight_string = "(" + ExpressionsDict.static_get_expression(lookup_string) + ")"
 			#weight_string += "*puWeight"
@@ -132,7 +138,7 @@ def main():
 			del cutstrings["blind"]
 			for cutstring in cutstrings.values():
 				weight_string += "*" + cutstring
-			full_dict[channel][category] = count(args.inclusive_file, weight_string, get_channel_string(channel))
+			full_dict[channel][category] = count(args.input_file, weight_string, get_channel_string(channel))
 
 	unc = {}
 	eff = {}
@@ -142,8 +148,8 @@ def main():
 	for channel in args.channels:
 		A = {}
 		for weight in [weight for weight in full_dict[channel]["full"] if "muR" in weight]:
-			A[weight] = full_dict[channel]["fullinclusive"][weight] / full_dict[channel]["full"][weight]
-		unc["scale_" + channel + "_fullinclusive"] = (max(A.values()) - min(A.values()))/2. / A["muR1p0_muF1p0_weight"]
+			A[weight] = full_dict[channel]["inclusive"][weight] / full_dict[channel]["full"][weight]
+		unc["scale_" + channel + "_inclusive"] = (max(A.values()) - min(A.values()))/2. / A["muR1p0_muF1p0_weight"]
 		eff[channel] = A["muR1p0_muF1p0_weight"]
 		acceptance_to_tree(A, "scale", channel)
 
@@ -151,22 +157,23 @@ def main():
 	for channel in args.channels:
 		A = {}
 		for weight in [weight for weight in full_dict[channel]["full"] if "NNPDF30_nlo_as_0118" in weight ]:
-			A[weight] = full_dict[channel]["fullinclusive"][weight] / full_dict[channel]["full"][weight]
-		unc["pdf_" + channel + "_fullinclusive"] =  mse(A.values(), A["NNPDF30_nlo_as_0118_00_weight"]) / A["NNPDF30_nlo_as_0118_00_weight"]
+			A[weight] = full_dict[channel]["inclusive"][weight] / full_dict[channel]["full"][weight]
+		unc["pdf_" + channel + "_inclusive"] =  mse(A.values(), A["NNPDF30_nlo_as_0118_00_weight"]) / A["NNPDF30_nlo_as_0118_00_weight"]
 		acceptance_to_tree(A, "pdf", channel)
 
 	#alpha_s
 	for channel in args.channels:
 		A = {}
 		for weight in ['NNPDF30_nlo_as_0119_weight','NNPDF30_nlo_as_0118_00_weight','NNPDF30_nlo_as_0117_weight' ]:
-			A[weight] = full_dict[channel]["fullinclusive"][weight] / full_dict[channel]["full"][weight]
-		unc["alphas_" + channel + "_fullinclusive"] = (max(A.values()) - min(A.values()))/2. / A["NNPDF30_nlo_as_0118_00_weight"]
+			A[weight] = full_dict[channel]["inclusive"][weight] / full_dict[channel]["full"][weight]
+		unc["alphas_" + channel + "_inclusive"] = (max(A.values()) - min(A.values()))/2. / A["NNPDF30_nlo_as_0118_00_weight"]
 		acceptance_to_tree(A, "alphas", channel)
 
+	categories = args.categories
 	####### calculate category uncertainties
 	# scale
 	for channel in args.channels:
-		for category in args.categories:
+		for category in categories:
 			A = {}
 			for weight in [weight for weight in full_dict[channel][category] if "muR" in weight]:
 				A[weight] = full_dict[channel][category][weight] / full_dict[channel]["inclusive"][weight]
@@ -175,7 +182,7 @@ def main():
 			eff[channel + '_' + category] = A["muR1p0_muF1p0_weight"]
 	# PDF Sets
 	for channel in args.channels:
-		for category in args.categories:
+		for category in categories:
 			A = {}
 			for weight in [weight for weight in full_dict[channel][category] if "NNPDF30_nlo_as_0118" in weight ]:
 				A[weight] = full_dict[channel][category][weight] / full_dict[channel]["inclusive"][weight]
@@ -184,7 +191,7 @@ def main():
 
 	#alpha_s
 	for channel in args.channels:
-		for category in args.categories:
+		for category in categories:
 			A = {}
 			for weight in ['NNPDF30_nlo_as_0119_weight','NNPDF30_nlo_as_0118_00_weight','NNPDF30_nlo_as_0117_weight' ]:
 				A[weight] = full_dict[channel][category][weight] / full_dict[channel]["inclusive"][weight]
