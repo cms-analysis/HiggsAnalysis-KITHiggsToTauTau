@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 
 import argparse
 import copy
+import numpy
 import os
 
 import Artus.Utility.tools as tools
@@ -36,8 +37,10 @@ if __name__ == "__main__":
 	                    default=["all"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--cp-mixings", nargs="+", type=float,
-                        default=[mixing/100.0 for mixing in range(0, 101, 25)],
+                        default=list(numpy.arange(0.0, 1.001, 0.05)),
                         help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
+	parser.add_argument("--cp-mixing-scan-points", type=int, default=((len(parser.get_default("cp_mixings"))-1)*4)+1,
+                        help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
@@ -82,6 +85,10 @@ if __name__ == "__main__":
 	args.cp_mixings.sort()
 	cp_mixing_angles_over_pi_half = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
 	cp_mixings_str = [str(mixing) for mixing in args.cp_mixings]
+	
+	cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
+	cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
+	cp_mixings_combine_range_max = (3*cp_mixings_scan[-1]-cp_mixings_scan[-2]) / 2.0
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -351,9 +358,8 @@ if __name__ == "__main__":
 			args.n_processes,
 			"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
 					STABLE=stable_combine_options,
-					RANGE="-0.0125,1.0125",
-					#RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
-					POINTS=2*len(args.cp_mixings)-1
+					RANGE="{0:f},{1:f}".format(cp_mixings_combine_range_min, cp_mixings_combine_range_max),
+					POINTS=args.cp_mixing_scan_points
 			)
 	)
 
