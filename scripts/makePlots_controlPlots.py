@@ -239,7 +239,7 @@ if __name__ == "__main__":
 				sig_samples.append(sample+"%s%s"%(mass, scale_str))
 	binnings_settings = binnings.BinningsDict()
 
-	args.categories = [None if category == "None" else "MSSM" if args.mssm else category for category in args.categories]
+	args.categories = [None if category == "None" else category for category in args.categories]
 
 	plot_configs = []
 	for channel in args.channels:
