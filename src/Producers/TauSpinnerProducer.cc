@@ -35,6 +35,7 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	// see the print out of this function or tau_reweight_lib.cxx for explanation of paramesters
 	// $CMSSW_RELEASE_BASE/../../../external/tauolapp/1.1.5-cms2/include/TauSpinner/tau_reweight_lib.h
 	// http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html
+	// https://arxiv.org/pdf/1402.2068v1.pdf
 	Tauolapp::Tauola::initialize();
 	LHAPDF::initPDFSetByName(settings.GetTauSpinnerSettingsPDF());
 	
