@@ -8,7 +8,7 @@
 double DiJetQuantitiesProducer::GetDiJetQuantity(product_type const& product,
                                                  dijet_extractor_lambda dijetQuantity)
 {
-	return ((static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? dijetQuantity((static_cast<HttProduct const&>(product)).m_diJetSystem) : -1);
+	return ((static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? dijetQuantity((static_cast<HttProduct const&>(product)).m_diJetSystem) : -11);
 }
 
 void DiJetQuantitiesProducer::Init(setting_type const& settings)

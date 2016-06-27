@@ -41,8 +41,8 @@ if __name__ == "__main__":
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
-	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
-	                    help="Higgs masses. [Default: %(default)s]")
+	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125", "120", "130"],
+	                    help="Higgs masses. The first mass defines the mass of interest and additional masses are used to increase the statistics by preserving the yield given by the first mass. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 
-	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixings_str, add_data=True)
+	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixings_str, add_data=True) # add_data=args.add_data)
 
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -139,7 +139,8 @@ if __name__ == "__main__":
 		for category in categories:
 			datacards_per_channel_category = cpstudiesdatacards.CPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
-			higgs_masses = args.higgs_masses
+			higgs_masses = args.higgs_masses[:1]
+			additional_higgs_masses_for_shape = args.higgs_masses[1:]
 
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
@@ -174,7 +175,7 @@ if __name__ == "__main__":
 							weight=args.weight,
 							lumi=args.lumi * 1000
 					)
-					print "\", \"".join((["data"] if nominal and args.add_data else []) + list_of_bkg_samples)
+
 					config_bkg["labels"] = [(bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
 						PROCESS=datacards.configs.sample2process(sample),
 						BIN=category,
@@ -198,7 +199,8 @@ if __name__ == "__main__":
 								nick_suffix="_" + cp_mixing_str,
 								weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle_over_pi_half,
 								lumi = args.lumi * 1000,
-								higgs_masses=higgs_masses
+								higgs_masses=higgs_masses,
+								additional_higgs_masses_for_shape=additional_higgs_masses_for_shape
 						)
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process(sample).replace("125", ""),
@@ -277,7 +279,8 @@ if __name__ == "__main__":
 	
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
-	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	if args.n_plots[0] != 0:	
+		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	debug_plot_configs = []
 	for output_file in merged_output_files:
@@ -341,9 +344,9 @@ if __name__ == "__main__":
 			args.n_processes,
 			"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
 					STABLE=stable_combine_options,
-					RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
-					POINTS=len(args.cp_mixings)
+					RANGE="-0.0125,1.0125",
+					#RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
+					POINTS=2*len(args.cp_mixings)-1
 			)
 	)
-	
 

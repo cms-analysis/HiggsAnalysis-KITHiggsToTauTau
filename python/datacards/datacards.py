@@ -577,6 +577,9 @@ class Datacards(object):
 	def scale_expectation(self, scale_factor, no_norm_rate_bkg=False, no_norm_rate_sig=False):
 		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_bkg else process.rate()) * scale_factor))
 		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_sig else process.rate()) * scale_factor))
+	
+	def scale_processes(self, scale_factor, processes, no_norm_rate=False):
+		self.cb.cp().process(processes).ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate else process.rate()) * scale_factor))
 
 	def replace_observation_by_asimov_dataset(self, signal_mass):
 		def _replace_observation_by_asimov_dataset(observation):
@@ -886,3 +889,11 @@ class Datacards(object):
 		tools.parallelize(_call_command, commandsFits, n_processes=n_processes)
 		tools.parallelize(_call_command, commandsOutput, n_processes=n_processes)
 		tools.parallelize(_call_command, commandsPlot, n_processes=1)
+
+	def auto_rebin(self, bin_threshold = 1.0, rebin_mode = 0):
+		rebin = ch.AutoRebin()
+		rebin.SetBinThreshold(bin_threshold)
+		rebin.SetRebinMode(rebin_mode)
+		rebin.SetPerformRebin(True)
+		rebin.SetVerbosity(1)
+		rebin.Rebin(self.cb, self.cb)

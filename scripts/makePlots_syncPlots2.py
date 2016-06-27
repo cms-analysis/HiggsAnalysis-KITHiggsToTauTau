@@ -81,6 +81,7 @@ if __name__ == "__main__":
 			plot_config["folders"] = ["common1", "common2", "only1", "only2"]
 			plot_config["nicks"] = ["common1", "common2", "only1", "only2"]
 			plot_config["x_expressions"] = [quantity]
+			plot_config["weights"] = ["("+quantity+"> -990)"]
 			
 			plot_config.setdefault("analysis_modules", []).append("Ratio")
 			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]
@@ -100,6 +101,7 @@ if __name__ == "__main__":
 			plot_config["folders"] = [args.folder_1, args.folder_2]
 			plot_config["nicks"] = ["events1", "events2"]
 			plot_config["x_expressions"] = [quantity]
+			plot_config["weights"] = ["("+quantity+"> -990)"]
 			
 			plot_config.setdefault("analysis_modules", []).append("Ratio")
 			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]

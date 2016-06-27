@@ -201,6 +201,7 @@
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:RecoTauCPProducer",
+                                        "producer:SimpleFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -247,6 +248,7 @@
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:RecoTauCPProducer",
+                                        "producer:SimpleFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -282,6 +284,7 @@
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
 					"producer:RecoTauCPProducer",
+                                        "producer:SimpleFitProducer",
 					"producer:EventWeightProducer"
 				]
 			}

@@ -12,7 +12,7 @@ class CPStudiesDatacards(datacards.Datacards):
 		super(CPStudiesDatacards, self).__init__(cb)
 
 		if cb is None:
-			signal_processes = ["ggH", "qqH"]
+			signal_processes = ["ggH", "qqH","VH"]
 
 			# ======================================================================
 			# MT channel

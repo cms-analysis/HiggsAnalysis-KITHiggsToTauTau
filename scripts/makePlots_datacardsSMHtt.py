@@ -44,6 +44,8 @@ if __name__ == "__main__":
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--auto-rebin", action="store_true", default=False,
+	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
@@ -189,7 +191,16 @@ if __name__ == "__main__":
 						config["x_bins"] = [binnings_key]
 					else:
 						config["x_bins"] = ["35,0.0,350.0"]
-					
+					if args.auto_rebin:
+						start = 0
+						end = 0
+						bins = binnings_settings.get_binning(config["x_bins"][0]) # handle different cases : nBins,start_bin,end_bin and bin edgeds specified by hand
+						if "," in bins:
+							nbins, start, end = bins.split(",")
+						else:
+							start = bins.split(" ")[0]
+							end = bins.split(" ")[-1]
+						config["x_bins"] = ["100," + start + "," + end] 
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
@@ -289,6 +300,9 @@ if __name__ == "__main__":
 	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset("125")
 
+	if args.auto_rebin:
+		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
+
 	# write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
@@ -343,18 +357,5 @@ if __name__ == "__main__":
 	
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 --significance -n \"\"")
-	#for index in range(50):
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index)
-	
-	#postfitshapes call
-	datacards_postfit_shapes = {}
-	commands = []
-	commands.extend(["PostFitShapesFromWorkspace -m 125 -w {WORKSPACE} -d {DATACARD} -o {OUTPUT}".format(
-			WORKSPACE=datacards_workspaces[datacard],
-			DATACARD=datacard,
-			OUTPUT=os.path.splitext(datacard)[0]+"_fit_s.root"
-	) for datacard, cb in datacards_cbs.iteritems()])
 
-
-	tools.parallelize(_call_command, commands, n_processes=args.n_processes)
