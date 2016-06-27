@@ -110,7 +110,7 @@ if __name__ == "__main__":
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
-		"datacards/individual/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
