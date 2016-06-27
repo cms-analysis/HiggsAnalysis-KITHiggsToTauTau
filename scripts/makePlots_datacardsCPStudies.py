@@ -367,7 +367,7 @@ if __name__ == "__main__":
 	
 	for datacard, workspace in datacards_workspaces.iteritems():
 		config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
-		config["files"] = [os.path.join(os.path.dirname(workspace), "higgsCombine*MultiDimFit*mH*.root")]
+		config["directories"] = [os.path.dirname(workspace)]
 		config["labels"] = ["TODO"]
 		config["output_dir"] = os.path.join(os.path.dirname(workspace), "plots")
 		config["filename"] = "likelihoodScan"
