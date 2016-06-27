@@ -84,7 +84,7 @@ if __name__ == "__main__":
 	# preparation of CP mixing angles alpha_tau/(pi/2)
 	args.cp_mixings.sort()
 	cp_mixing_angles_over_pi_half = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
-	cp_mixings_str = [str(mixing) for mixing in args.cp_mixings]
+	cp_mixings_str = ["{mixing:0.2f}".format(mixing=mixing) for mixing in args.cp_mixings]
 	
 	cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
 	cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
@@ -230,7 +230,7 @@ if __name__ == "__main__":
 						if not "SumOfHistograms" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("SumOfHistograms")
 						nicks_to_sum = copy.deepcopy(list_of_bkg_samples)
-						nicks_to_sum.extend([sample+higgs_masses[0]+"_"+str(min(args.cp_mixings)) for sample in list_of_sig_samples])
+						nicks_to_sum.extend([sample+higgs_masses[0]+"_{mixing:0.2f}".format(mixing=min(args.cp_mixings)) for sample in list_of_sig_samples])
 						config.setdefault("sum_nicks", []).append(" ".join(nicks_to_sum))
 						config.setdefault("sum_result_nicks", []).append("asimov_s")
 						config.setdefault("labels", []).insert(0, (bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
