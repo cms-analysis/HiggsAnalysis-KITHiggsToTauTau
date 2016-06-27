@@ -185,8 +185,8 @@ if __name__ == "__main__":
 					
 					for cp_mixing, cp_mixing_angle_over_pi_half, cp_mixing_str in zip(args.cp_mixings, cp_mixing_angles_over_pi_half, cp_mixings_str):
 						tmp_additional_higgs_masses_for_shape = copy.deepcopy(additional_higgs_masses_for_shape)
-						#if (cp_mixing > 0.5) and ("125" in tmp_additional_higgs_masses_for_shape):
-						#	tmp_additional_higgs_masses_for_shape.remove("125")
+						if (cp_mixing > 0.5) and ("125" in tmp_additional_higgs_masses_for_shape):
+							tmp_additional_higgs_masses_for_shape.remove("125")
 						
 						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 								samples="\", \"".join(list_of_sig_samples),
@@ -203,8 +203,8 @@ if __name__ == "__main__":
 								lumi=args.lumi * 1000,
 								higgs_masses=higgs_masses,
 								additional_higgs_masses_for_shape=tmp_additional_higgs_masses_for_shape,
-								#mssm=(cp_mixing > 0.5),
-								#normalise_to_sm_xsec=True
+								mssm=(cp_mixing > 0.5),
+								normalise_to_sm_xsec=True
 						)
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
