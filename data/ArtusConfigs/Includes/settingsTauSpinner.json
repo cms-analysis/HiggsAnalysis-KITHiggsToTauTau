@@ -1,6 +1,13 @@
 {
 	"TauSpinnerSettingsPDF" : "MSTW2008nnlo90cl.LHgrid",
-	"TauSpinnerSettingsCmsEnergy" : 8000.0,
+	"TauSpinnerSettingsCmsEnergy" : {
+		"nick" : {
+			"7TeV" : 7000.0,
+			"8TeV" : 8000.0,
+			"13TeV" : 13000.0,
+			"14TeV" : 14000.0
+		}
+	},
 	"TauSpinnerSettingsIpp" : true,
 	"TauSpinnerSettingsIpol" : "1",
 	"TauSpinnerSettingsNonSM2" : "0",
@@ -9,8 +16,8 @@
 
 	"ChooseTauDaughter" : true,
 
-	"ChosenTauDaughters" :
-	[	"211",
+	"ChosenTauDaughters" : [
+		"211",
 		"20213",
 		"11",
 		"13",
