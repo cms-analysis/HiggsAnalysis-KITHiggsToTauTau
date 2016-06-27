@@ -18,6 +18,7 @@ import Artus.Utility.progressiterator as pi
 import Artus.Utility.tools as tools
 
 import glob
+import tempfile
 
 # Example usage for multiple nicknames:
 # for x in /nfs/dust/cms/user/tmuller/htautau/artus/2015-02-10_17-33_svfitComputation/output/*; do echo $x; svfitCacheTreeMerge.py -i $x/*.root --input-trees `artusPipelines.py $x/*.root | sed -e 's@\$@/svfitCache@g'` -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${x}.root" | sed -e 's@/nfs/dust/cms/user/tmuller/htautau/artus/2015-02-10_17-33_svfitComputation/output/@@g'`; done
@@ -72,21 +73,34 @@ def main():
 			mkdir_command = "gfal-mkdir %s" %(args.output)
 			print "Creating " + args.output
 			logger.subprocessCall(mkdir_command.split())
-		for directory in input_dirs:
-			nick_names[nick_from_dir(directory)] = directory
-		for nick_name, input_dir in pi.ProgressIterator(nick_names.iteritems(),
-		                                                   length=len(nick_names),
-		                                                   description="Merging Svfit Caches"):
-			tmp_filename = ("/tmp/" + nick_name+".root")
-			out_filename = args.output + "/" + nick_name + ".root"
-			in_files = " ".join(glob.glob(input_dir + "/*/*/*/*/*.root"))
-			merge_commands.append("hadd -f %s %s" % (tmp_filename, in_files ))
-			copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
-			config_file.append('"%s" : "%s",' % (nick_name, "dcap://dcache-cms-dcap.desy.de/pnfs/" + out_filename.split("pnfs")[1]))
+		tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp")
+		untar_command = ["tar xvf %s %s &> /dev/null"%(file,tmpdir) for file in glob.glob(input_dirs + "*.tar.gz")]
+		if not args.no_run:
+			for index in range(len(untar_commands)):
+				tools.parallelize(_call_command, [untar_commands[index]], 1)
+		,tmpdir),tmpdir)
+		regex=re.compile(".*/(.*)_jobs_[0-9]+_SvfitCache.._(.*)[0-9]+.root")
+		matches = [(regex.match(file).groups(),file) for file in glob.glob(tmpdir+"*.root")]
+		dirs = {}
+		# go through matches and create nested dict {'sample' : {'Pipeline' : [files]}}
+		for match in matches:
+			if match[0][0] not in dirs:
+				dirs[match[0][0]] = {}
+			if match[0][1] not in dirs[match[0][0]]:
+				dirs[match[0][0]][match[0][1]] = []
+			dirs[match[0][0]][match[0][1]].append(match[1])
+		for samples in dirs:
+			for pipeline in dirs[samples]:
+				tmp_filename = tmpdir + "/" + pipeline + "/svfitCache_" + samples + ".root"
+				out_filename = args.output + "/" + pipeline + "/svfitCache_" + samples + ".root"
+				merge_commands.append("hadd -f %s %s"%(tmp_filename, " ".join(dirs[samples][pipeline]))
+				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
+				config_file.append('"%s" : "%s",' % (nick_name, "dcap://dcache-cms-dcap.desy.de/pnfs/" + out_filename.split("pnfs")[1]))
 		if not args.no_run:
 			for index in range(len(merge_commands)):
 				tools.parallelize(_call_command, [merge_commands[index]], 1)
 				tools.parallelize(_call_command, [copy_commands[index]], 1)
+		os.rmdir(tmpdir)
 		print "done. Artus SvfitCacheFile settings: "
 		for entry in config_file: 
 			print entry

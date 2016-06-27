@@ -54,30 +54,32 @@ int main(int argc, const char *argv[])
     {
         throw std::runtime_error("libKappa.so could not be found");
     }
-    ULong64_t run, lumi, event;
+    // Svfit Eventkey
+    ULong64_t runLumiEvent;
     svFitStandalone::kDecayType decayType1, decayType2;
-    int decayMode1, decayMode2;
     int systematicShift;
     float systematicShiftSigma;
     int integrationMethod;
+    uint64_t hash;
 
+    // Svfit Inputs
     RMFLV* leptonMomentum1 = new RMFLV();
     RMFLV* leptonMomentum2 = new RMFLV();
     RMDataV* metMomentum = new RMDataV();
     RMSM2x2* metCovariance = new RMSM2x2();
-    uint32_t hash;
+    int decayMode1, decayMode2;
 
-    uint64_t outrun, outlumi, outevent;
-    uint32_t outhash;
+    // keys for the output file
+    uint64_t outrunLumiEvent;
+    uint64_t outhash;
     int outdecayType1, outdecayType2;
-    int outdecayMode1, outdecayMode2;
     int outsystematicShift;
     float outsystematicShiftSigma;
     int outintegrationMethod;
-
+    
     RMFLV momentum;//, momentumUncertainty;
-    //RMDataV fittedMET;
     double transverseMass;//, transverseMassUncertainty;
+
     std::string inputfilename = vm["inputfile"].as<std::string>();
     char chars[] = "\"";
     removeCharsFromString(inputfilename, chars);
@@ -88,82 +90,72 @@ int main(int argc, const char *argv[])
     TFile *outfile = new TFile((vm["outputfile"].as<std::string>()).c_str(),"RECREATE");
     TTree *outputtree = new TTree("svfitCache","svfitCache");
 
-    inputtree->SetBranchAddress("run", &run);
-    inputtree->SetBranchAddress("lumi", &lumi);
-    inputtree->SetBranchAddress("event", &event);
+    // Svfit Eventkey
+    inputtree->SetBranchAddress("runLumiEvent", &runLumiEvent);
     inputtree->SetBranchAddress("systematicShift", &systematicShift);
     inputtree->SetBranchAddress("systematicShiftSigma", &systematicShiftSigma);
     inputtree->SetBranchAddress("integrationMethod", &integrationMethod);
     inputtree->SetBranchAddress("decayType1", &decayType1);
     inputtree->SetBranchAddress("decayType2", &decayType2);
-    inputtree->SetBranchAddress("decayMode1", &decayMode1);
-    inputtree->SetBranchAddress("decayMode2", &decayMode2);
+    inputtree->SetBranchAddress("hash", &hash);
 
+    // Svfit Inputs
     inputtree->SetBranchAddress("leptonMomentum1", &leptonMomentum1);
     inputtree->SetBranchAddress("leptonMomentum2", &leptonMomentum2);
     inputtree->SetBranchAddress("metMomentum", &metMomentum);
     inputtree->SetBranchAddress("metCovariance", &metCovariance);
-    inputtree->SetBranchAddress("hash", &hash);
+    inputtree->SetBranchAddress("decayMode1", &decayMode1);
+    inputtree->SetBranchAddress("decayMode2", &decayMode2);
 
-    inputtree->SetBranchStatus("run", true);
-    inputtree->SetBranchStatus("lumi", true);
-    inputtree->SetBranchStatus("event", true);
+    // Svfit Eventkey
+    inputtree->SetBranchStatus("runLumiEvent", true);
     inputtree->SetBranchStatus("systematicShift", true);
     inputtree->SetBranchStatus("systematicShiftSigma", true);
     inputtree->SetBranchStatus("integrationMethod", true);
     inputtree->SetBranchStatus("decayType1", true);
     inputtree->SetBranchStatus("decayType2", true);
+    inputtree->SetBranchStatus("hash", true);
 
+    // Svfit Inputs
     inputtree->SetBranchStatus("leptonMomentum1", true);
     inputtree->SetBranchStatus("leptonMomentum2", true);
     inputtree->SetBranchStatus("metMomentum", true);
     inputtree->SetBranchStatus("metCovariance", true);
-    inputtree->SetBranchStatus("hash", true);
+    inputtree->SetBranchStatus("decayMode1", true);
+    inputtree->SetBranchStatus("decayMode2", true);
 
-    outputtree->Branch("run", &outrun, "run/l");
-    outputtree->Branch("lumi", &outlumi, "lumi/l");
-    outputtree->Branch("event", &outevent, "event/l");
+    // Svfit Eventkey
+    outputtree->Branch("runLumiEvent", &outrunLumiEvent, "runLumiEvent/l");
     outputtree->Branch("systematicShift", &outsystematicShift);
     outputtree->Branch("systematicShiftSigma", &outsystematicShiftSigma);
     outputtree->Branch("integrationMethod", &outintegrationMethod);
     outputtree->Branch("decayType1", &outdecayType1);
     outputtree->Branch("decayType2", &outdecayType2);
-    outputtree->Branch("decayMode1", &outdecayMode1);
-    outputtree->Branch("decayMode2", &outdecayMode2);
-
-    //outputtree->Branch("leptonMomentum1", &leptonMomentum1);
-    //outputtree->Branch("leptonMomentum2", &leptonMomentum2);
-    //outputtree->Branch("metMomentum", &metMomentum);
-    //outputtree->Branch("metCovariance", &metCovariance);
     outputtree->Branch("hash", &outhash);
 
+
     outputtree->Branch("svfitMomentum", &momentum);
-    //outputtree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
-    //outputtree->Branch("svfitMet", &fittedMET);
     outputtree->Branch("svfitTransverseMass", &transverseMass, "svfitTransverseMass/D");
-    //outputtree->Branch("svfitTransverseMassUnc", &transverseMassUncertainty, "svfitTransverseMassUnc/D");
+
     TDirectory *savedir(gDirectory);
     TFile *savefile(gFile);
     TString cmsswBase = TString( getenv ("CMSSW_BASE") );
     TFile* inputFile_visPtResolution = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
     gDirectory = savedir;
     gFile = savefile;
+
     unsigned int nEntries = inputtree->GetEntries();
     for(unsigned int entry = 0; entry < nEntries; entry++)
     {
         std::cout << "Entry: " << entry << " / " << nEntries << std::endl;
         inputtree->GetEntry(entry);
 
-        outrun = run;
-        outlumi = lumi;
-        outevent = event;
+        outrunLumiEvent = runLumiEvent;
         outsystematicShift = systematicShift;
         outsystematicShiftSigma = systematicShiftSigma;
         outintegrationMethod = integrationMethod;
         outdecayType1 = decayType1;
         outdecayType2 = decayType2;
-        outdecayMode1 = decayMode1;
-        outdecayMode2 = decayMode2;
         outhash = hash;
         double leptonMass1 = 0;
         double leptonMass2 = 0;
@@ -222,19 +214,12 @@ int main(int argc, const char *argv[])
         }
 
         // retrieve results
-        //fittedMET = svfitStandaloneAlgorithm.fittedMET();
-        //momentumUncertainty.SetPt(svfitStandaloneAlgorithm.ptUncert());
-        //momentumUncertainty.SetEta(svfitStandaloneAlgorithm.etaUncert());
-        //momentumUncertainty.SetPhi(svfitStandaloneAlgorithm.phiUncert());
-        //momentumUncertainty.SetM(svfitStandaloneAlgorithm.massUncert());
-
         momentum.SetPt(svfitStandaloneAlgorithm.pt());
         momentum.SetEta(svfitStandaloneAlgorithm.eta());
         momentum.SetPhi(svfitStandaloneAlgorithm.phi());
         momentum.SetM(svfitStandaloneAlgorithm.mass());
 
         transverseMass = svfitStandaloneAlgorithm.transverseMass();
-        //transverseMassUncertainty = svfitStandaloneAlgorithm.transverseMassUncert();
 
         outputtree->Fill();
     }
