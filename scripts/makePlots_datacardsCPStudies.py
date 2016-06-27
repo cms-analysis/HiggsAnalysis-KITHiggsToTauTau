@@ -334,6 +334,8 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
+	result_plot_configs = []
+	
 	# Max. likelihood fit and postfit plots
 	stable_combine_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 	
@@ -362,4 +364,18 @@ if __name__ == "__main__":
 					POINTS=args.cp_mixing_scan_points
 			)
 	)
+	
+	for datacard, workspace in datacards_workspaces.iteritems():
+		config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
+		config["files"] = [os.path.join(os.path.dirname(workspace), "higgsCombine*MultiDimFit*mH*.root")]
+		config["labels"] = ["TODO"]
+		config["output_dir"] = os.path.join(os.path.dirname(workspace), "plots")
+		config["filename"] = "likelihoodScan"
+		result_plot_configs.append(config)
+
+	if log.isEnabledFor(logging.DEBUG):
+		import pprint
+		pprint.pprint(plot_configs)
+	
+	higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
