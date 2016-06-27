@@ -18,10 +18,8 @@
 		"MinNMuons" : 2,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : [
-			"#HLT_IsoMu20",
-			"#HLT_IsoTkMu20",
-			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL"
+			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : false,
@@ -34,35 +32,25 @@
 		"DiTauPairMinDeltaRCut" : 0.3,
 		"DeltaRTriggerMatchingMuons" : 0.1,
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"#HLT_IsoMu20_v",
-			"#HLT_IsoTkMu20_v",
-			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"
+			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v",
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"
 		],
 		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL:20.0",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL:20.0"
+			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:20.0",
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:20.0"
 		],
 		"DiTauPairLepton2LowerPtCuts" : [
-			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL:10.0",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL:10.0"
+			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:10.0",
+			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:10.0"
 		],
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : [
-			"#0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_SingleMu_eff.root",
-			"#0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_SingleMu_eff.root",
-			"#1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_SingleMu_eff.root",
-			"#1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_SingleMu_eff.root",
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu8_fall15.root",
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu17_fall15.root",
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu8_fall15.root",
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu17_fall15.root"
 		],
 		"TriggerEfficiencyMc" : [
-			"#0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Spring15_Muon_SingleMu_eff.root",
-			"#0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Spring15_Muon_SingleMu_eff.root",
-			"#1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Spring15_Muon_SingleMu_eff.root",
-			"#1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Spring15_Muon_SingleMu_eff.root",
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu8_fall15.root",
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu17_fall15.root",
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu8_fall15.root",
@@ -82,10 +70,8 @@
 		"MuonTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"#HLT_IsoMu20_v:hltL3crIsoL1sMu16L1f0L2f10QL3f20QL3trkIsoFiltered0p09",
-					"#HLT_IsoTkMu20_v:hltL3fL1sMu16L1f0Tkf20QL3trkIsoFiltered0p09",
-					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v:hltL3fL1sDoubleMu103p5L1f0L2f10OneMuL3Filtered17",
-					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v:hltDiMuonGlb17Trk8RelTrkIsoFiltered0p4"
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:hltDiMuonGlb17Glb8RelTrkIsoFiltered0p4DzFiltered0p2",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:hltDiMuonGlb17Trk8RelTrkIsoFiltered0p4DzFiltered0p2"
 				]
 			}
 		},
