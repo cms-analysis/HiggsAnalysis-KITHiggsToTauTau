@@ -1,1 +1,1 @@
-DCAP_sample_DY4JetsToLLM50_RunIISpring16MiniAODv1_PUSpring16_13TeV_MINIAOD_madgraph-pythia8_2016-06-06.txt
+DCAP_sample_DY4JetsToLLM50_RunIISpring16MiniAODv1_PUSpring16_13TeV_MINIAOD_madgraph-pythia8_2016-06-23.txt
