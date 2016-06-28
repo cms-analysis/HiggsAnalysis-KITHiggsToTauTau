@@ -158,6 +158,8 @@ def do_focussed_training(args):
 	dir_path, filename = os.path.split(args["output_file"])
 	BDTScoreCut = -1.
 	significanceimprovement = 1.
+	totalSE = 1.
+	totalBR = 0.
 	#do -f training loops
 	for loop in range(1, args["focussed_training"]+1):
 		log.info("#####################")
@@ -185,10 +187,14 @@ def do_focussed_training(args):
                         for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
 				backgroundfiles.append(samplefile)
 		log.debug("Backgroundfiles: " + str(backgroundfiles))
-		BDTScoreCut, signaleff, backgroundrej = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), "signaleff", 0.9)
+		BDTScoreCut, signaleff, backgroundrej = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), args["FT_cut_method"], args["FT_cut_parameter"])
 		log.info("Significance improvement of the current loop appliying this cut: " + str(signaleff/math.sqrt(1.0-backgroundrej)))
 		significanceimprovement = significanceimprovement*signaleff/math.sqrt(1.0-backgroundrej)
+		totalSE = totalSE*signaleff
+		totalBR = 1.0-((1.0-totalBR)*(1.0-backgroundrej))
 		log.info("Total significance improvement: " + str(significanceimprovement))
+		log.info("Total signal efficiency: " + str(totalSE))
+		log.info("Total background rejection: " + str(totalBR))
 		
 	#copy files to remote workdir in order to have them transfered from batch system to your local storage
 	if args["batch_system"]:
@@ -374,6 +380,10 @@ if __name__ == "__main__":
 						help="number of parallel processes for training, only used for local jobs [Default: %(default)s]")
 	parser.add_argument("-f", "--focussed-training", type=int, default=1,
 						help="number of loops for focussed training. 1 is regular training. [Default: %(default)s]")
+	parser.add_argument("--FT-cut-method", default="bargaining",
+                                                help="Method to cut as specified in 'GetFocussedTrainingCut.py'. [Default: %(default)s]")
+	parser.add_argument("--FT-cut-parameter", type=float, default=2.0,
+                                                help="Parameter used by the selected cut method. [Default: %(default)s]")
 
 
 	cargs = parser.parse_args()
