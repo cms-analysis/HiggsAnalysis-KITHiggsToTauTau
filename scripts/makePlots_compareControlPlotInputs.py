@@ -109,8 +109,8 @@ if __name__ == "__main__":
 		if multiple_samples:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([tmp_sample_string+nick_suffix for tmp_sample_string in tmp_sample_strings]))
-			config.setdefault("sum_result_nicks", []).append("_".join(tmp_sample_strings+[str(index)]))
+			config.setdefault("add_nicks", []).append(" ".join([tmp_sample_string+nick_suffix for tmp_sample_string in tmp_sample_strings]))
+			config.setdefault("add_result_nicks", []).append("_".join(tmp_sample_strings+[str(index)]))
 		
 		if (index == 0) and compare_two_qantities:
 			plot_2d_config = copy.deepcopy(config)
@@ -119,7 +119,6 @@ if __name__ == "__main__":
 	
 		plot_config = samples.Samples.merge_configs(plot_config, config)
 	plot_configs.append(plot_config)
-		
 	
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint

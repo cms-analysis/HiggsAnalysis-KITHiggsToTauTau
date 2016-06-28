@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 
 import argparse
 import copy
+import numpy
 import os
 
 import Artus.Utility.tools as tools
@@ -36,12 +37,14 @@ if __name__ == "__main__":
 	                    default=["all"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--cp-mixings", nargs="+", type=float,
-                        default=[mixing/100.0 for mixing in range(0, 101, 25)],
+                        default=list(numpy.arange(0.0, 1.001, 0.05)),
                         help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
+	parser.add_argument("--cp-mixing-scan-points", type=int, default=((len(parser.get_default("cp_mixings"))-1)*4)+1,
+                        help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
-	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125", "120", "130"],
+	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["120", "130", "125"], # we do not have 125 GeV MSSM samples
 	                    help="Higgs masses. The first mass defines the mass of interest and additional masses are used to increase the statistics by preserving the yield given by the first mass. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
@@ -81,7 +84,11 @@ if __name__ == "__main__":
 	# preparation of CP mixing angles alpha_tau/(pi/2)
 	args.cp_mixings.sort()
 	cp_mixing_angles_over_pi_half = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
-	cp_mixings_str = [str(mixing) for mixing in args.cp_mixings]
+	cp_mixings_str = ["{mixing:0.2f}".format(mixing=mixing) for mixing in args.cp_mixings]
+	
+	cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
+	cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
+	cp_mixings_combine_range_max = (3*cp_mixings_scan[-1]-cp_mixings_scan[-2]) / 2.0
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -103,7 +110,7 @@ if __name__ == "__main__":
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
-		"datacards/individual/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
@@ -183,9 +190,11 @@ if __name__ == "__main__":
 					) for sample in config_bkg["labels"]]
 					config = samples.Samples.merge_configs(config, config_bkg)
 					
-					for cp_mixing_angle_over_pi_half, cp_mixing_str in zip(cp_mixing_angles_over_pi_half, cp_mixings_str):
-
-
+					for cp_mixing, cp_mixing_angle_over_pi_half, cp_mixing_str in zip(args.cp_mixings, cp_mixing_angles_over_pi_half, cp_mixings_str):
+						tmp_additional_higgs_masses_for_shape = copy.deepcopy(additional_higgs_masses_for_shape)
+						if (cp_mixing > 0.5) and ("125" in tmp_additional_higgs_masses_for_shape):
+							tmp_additional_higgs_masses_for_shape.remove("125")
+						
 						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 								samples="\", \"".join(list_of_sig_samples),
 								channel=channel,
@@ -196,28 +205,33 @@ if __name__ == "__main__":
 								samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
 								channel=channel,
 								category="catHtt13TeV_"+category,
-								nick_suffix="_" + cp_mixing_str,
+								nick_suffix="_"+cp_mixing_str,
 								weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle_over_pi_half,
-								lumi = args.lumi * 1000,
+								lumi=args.lumi * 1000,
 								higgs_masses=higgs_masses,
-								additional_higgs_masses_for_shape=additional_higgs_masses_for_shape
+								additional_higgs_masses_for_shape=tmp_additional_higgs_masses_for_shape,
+								mssm=(cp_mixing > 0.5),
+								normalise_to_sm_xsec=True
 						)
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
-								PROCESS=datacards.configs.sample2process(sample).replace("125", ""),
+								PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
 								BIN=category,
 								MASS=cp_mixing_str,
 								SYSTEMATIC=systematic
 						) for sample in config_sig["labels"]]
 
-						config = samples.Samples.merge_configs(config, config_sig)
-
+						config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
+					
+					if "stacks" in config:
+						config.pop("stacks")
+					
 					# create asimov dataset
 					if not args.add_data:
-						if not "AddHistograms" in config.get("analysis_modules", []):
-							config.setdefault("analysis_modules", []).append("AddHistograms")
+						if not "SumOfHistograms" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("SumOfHistograms")
 						nicks_to_sum = copy.deepcopy(list_of_bkg_samples)
-						nicks_to_sum.extend([sample+higgs_masses[0]+"_"+str(min(args.cp_mixings)) for sample in list_of_sig_samples])
-						config.setdefault("histogram_nicks", []).append(" ".join(nicks_to_sum))
+						nicks_to_sum.extend([sample+higgs_masses[0]+"_{mixing:0.2f}".format(mixing=min(args.cp_mixings)) for sample in list_of_sig_samples])
+						config.setdefault("sum_nicks", []).append(" ".join(nicks_to_sum))
 						config.setdefault("sum_result_nicks", []).append("asimov_s")
 						config.setdefault("labels", []).insert(0, (bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process("data"),
@@ -320,6 +334,8 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
+	result_plot_configs = []
+	
 	# Max. likelihood fit and postfit plots
 	stable_combine_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 	
@@ -344,9 +360,22 @@ if __name__ == "__main__":
 			args.n_processes,
 			"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
 					STABLE=stable_combine_options,
-					RANGE="-0.0125,1.0125",
-					#RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
-					POINTS=2*len(args.cp_mixings)-1
+					RANGE="{0:f},{1:f}".format(cp_mixings_combine_range_min, cp_mixings_combine_range_max),
+					POINTS=args.cp_mixing_scan_points
 			)
 	)
+	
+	for datacard, workspace in datacards_workspaces.iteritems():
+		config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
+		config["directories"] = [os.path.dirname(workspace)]
+		config["labels"] = ["TODO"]
+		config["output_dir"] = os.path.join(os.path.dirname(workspace), "plots")
+		config["filename"] = "likelihoodScan"
+		result_plot_configs.append(config)
+
+	if log.isEnabledFor(logging.DEBUG):
+		import pprint
+		pprint.pprint(plot_configs)
+	
+	higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 

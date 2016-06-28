@@ -797,8 +797,8 @@ class Samples(samples.SamplesBase):
 		config = self.wj(config, channel, category, weight, nick_suffix+"_noplot", lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 		if not "AddHistograms" in config.get("analysis_modules", []):
 			config.setdefault("analysis_modules", []).append("AddHistograms")
-		config.setdefault("histogram_nicks", []).append(" ".join([sample+nick_suffix+"_noplot" for sample in ["qcd", "wj"]]))
-		config.setdefault("sum_result_nicks", []).append("qcdwj"+nick_suffix)
+		config.setdefault("add_nicks", []).append(" ".join([sample+nick_suffix+"_noplot" for sample in ["qcd", "wj"]]))
+		config.setdefault("add_result_nicks", []).append("qcdwj"+nick_suffix)
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "qcdwj", nick_suffix)
 		return config
@@ -817,8 +817,8 @@ class Samples(samples.SamplesBase):
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "wh", "zh"]]))
-			config.setdefault("sum_result_nicks", []).append("htt"+str(mass)+nick_suffix)
+			config.setdefault("add_nicks", []).append(" ".join([sample+str(mass)+nick_suffix+"_noplot" for sample in ["ggh", "qqh", "wh", "zh"]]))
+			config.setdefault("add_result_nicks", []).append("htt"+str(mass)+nick_suffix)
 			
 			Samples._add_plot(config, "sig", "LINE", "L", "htt"+str(mass), nick_suffix)
 		return config

@@ -32,7 +32,10 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 	pipelineName = settings.GetName();
 	
 	// interface to TauSpinner
-	// see tau_reweight_lib.cxx for explanation of paramesters
+	// see the print out of this function or tau_reweight_lib.cxx for explanation of paramesters
+	// $CMSSW_RELEASE_BASE/../../../external/tauolapp/1.1.5-cms2/include/TauSpinner/tau_reweight_lib.h
+	// http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html
+	// https://arxiv.org/pdf/1402.2068v1.pdf
 	Tauolapp::Tauola::initialize();
 	LHAPDF::initPDFSetByName(settings.GetTauSpinnerSettingsPDF());
 	
@@ -140,7 +143,9 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			{
 				tauSpinnerWeight = calculateWeightFromParticlesWorHpn(X, tau1, tau2, tauFinalStates1);
 			}
-			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)))
+			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)) ||
+			         Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdHCPOdd)) ||
+			         Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdACPOdd)))
 			{
 				tauSpinnerWeight = calculateWeightFromParticlesH(X, tau1, tau2, tauFinalStates1, tauFinalStates2);
 			}

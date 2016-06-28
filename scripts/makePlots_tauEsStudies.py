@@ -246,16 +246,16 @@ if __name__ == "__main__":
 					all_samples = ["ztt_" + str(shift).replace(".", "_") + "_" + str(pt_index)] + [nick + "_" + str(pt_index) for nick in bkg_samples if nick + "_" + str(pt_index) in merged_config["nicks"]]
 				
 					# needed for AddHistograms module
-					merged_config.setdefault("histogram_nicks", []).append([" ".join(all_samples)])
-					sum_result_nick = "noplot_ztt_" + str(shift).replace(".", "_") + "_" + str(pt_index)
-					merged_config.setdefault("sum_result_nicks", []).append([sum_result_nick])
+					merged_config.setdefault("add_nicks", []).append([" ".join(all_samples)])
+					add_result_nick = "noplot_ztt_" + str(shift).replace(".", "_") + "_" + str(pt_index)
+					merged_config.setdefault("add_result_nicks", []).append([add_result_nick])
 				
 					# needed for ExportRoot module
-					merged_config.setdefault("labels", []).append([sum_result_nick])
+					merged_config.setdefault("labels", []).append([add_result_nick])
 					merged_config.setdefault("nicks_instead_labels", []).append([True])
 				
 					# needed for TauEsStudies module
-					merged_config.setdefault("ztt_nicks", []).append([sum_result_nick])
+					merged_config.setdefault("ztt_nicks", []).append([add_result_nick])
 					merged_config.setdefault("data_nicks", []).append(["data_" + str(pt_index)])
 					merged_config.setdefault("es_shifts", []).append([str(shift)])
 					merged_config.setdefault("res_hist_nicks", []).append(["chi2_result_" + str(pt_index)])
