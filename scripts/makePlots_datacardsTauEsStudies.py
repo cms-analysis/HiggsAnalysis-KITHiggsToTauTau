@@ -516,6 +516,7 @@ if __name__ == "__main__":
 				config.setdefault("markers", []).extend(["E2", "E"])
 				config.setdefault("legend_markers", []).extend(["F", "ELP"])
 				config.setdefault("labels", []).extend([""] * 2)
+				config.setdefault("stacks", []).extend(["unc", "ratio"])
 				config["legend"] = [0.7, 0.4, 0.92, 0.82]
 				config["y_subplot_lims"] = [0.5, 1.5]
 				config["y_subplot_label"] = "Obs./Exp."

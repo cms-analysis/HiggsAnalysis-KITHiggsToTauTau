@@ -58,7 +58,7 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 	BDThistCUMSG.Write()
 	BDThistCUMBG.Write()
 	
-	log.debug("Find cut")
+	log.debug("Find cut. Cut method: " + method + "; Parameter: " + str(parameter))
 	cutbin = 0
 	#Available metrics for cut determination:
 	if method == "signaleff":	#parameter = desired signal efficiency
@@ -86,14 +86,16 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 				cutbin = i
 				profit = parameter*BDThistCUMSG.GetBinContent(i)+BDThistCUMBG.GetBinContent(i)
 	#end of metric definitions 
+	cutSGeff = BDThistCUMSG.GetBinContent(cutbin)
+	cutBGrej = BDThistCUMBG.GetBinContent(cutbin)
 	if cutbin == 0:
 		raise StandardError("Was not able to find cut value! Check whether you have chosen a proper cut method.")
 	else:
 		cutvalue =  BDThistCUMSG.GetBinCenter(cutbin)
-		log.info("Signal efficiency of chosen cut at BDT score " + str(cutvalue) + ": " + str(BDThistCUMSG.GetBinContent(cutbin)))
-		log.info("Background rejection of chosen cut at BDT score " + str(cutvalue) + ": " + str(BDThistCUMBG.GetBinContent(cutbin)))
+		log.info("Signal efficiency of chosen cut at BDT score " + str(cutvalue) + ": " + str(cutSGeff))
+		log.info("Background rejection of chosen cut at BDT score " + str(cutvalue) + ": " + str(cutBGrej))
 	store_file.Close()
-	return cutvalue, BDThistCUMSG.GetBinContent(cutbin), BDThistCUMBG.GetBinContent(cutbin)
+	return cutvalue, cutSGeff, cutBGrej
   
 if __name__ == "__main__":
 	files1 = ["test6/Loop1/storage/vbf_vs_ggh_storage_qqh_split1.root", "test6/Loop1/storage/vbf_vs_ggh_storage_qqh_split2.root"]
