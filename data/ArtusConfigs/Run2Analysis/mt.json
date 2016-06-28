@@ -56,9 +56,12 @@
 		},
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairIsTauIsoMVA": true,
-		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_IsoMu24_eta2p1_v:25.0"
-		],
+		"DiTauPairLepton1LowerPtCuts" : {
+			"nick" : {
+				"default" : [ "HLT_IsoMu24_eta2p1_v:25.0"],
+				"Run2016" : [ "HLT_IsoMu22_eta2p1_v2:25.0"],
+			}
+		},
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
 				"SpringMiniAODv2" : [
@@ -67,8 +70,11 @@
 				"Run2015(A|B|C)" : [
 					"HLT_IsoMu24_eta2p1_v"
 				],
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v"
+				],
+				"Run2016" : [
+					"HLT_IsoMu22_v"
 				]
 			}
 		},
