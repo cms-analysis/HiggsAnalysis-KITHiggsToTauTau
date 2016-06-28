@@ -36,7 +36,16 @@
 				"Run2016" : [
 					"HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL",
 					"HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL"
+				],
+				"Spring16" : [
+					"unavailable"
 				]
+			}
+		},
+		"NoHltFiltering" : {
+			"nick" : {
+				"default" : false,
+				"Spring16" : true
 			}
 		},
 		"ElectronLowerPtCuts" : [

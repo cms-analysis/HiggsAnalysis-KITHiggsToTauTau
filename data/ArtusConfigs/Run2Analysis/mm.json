@@ -17,10 +17,23 @@
 		"Channel" : "MM",
 		"MinNMuons" : 2,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : [
-			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
-		],
+		"HltPaths" : {
+			"nick" : {
+				"default" : [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
+				],
+				"Spring16" : [
+					"unavailable"
+				]
+			}
+		},
+		"NoHltFiltering" : {
+			"nick" : {
+				"default" : false,
+				"Spring16" : true
+			}
+		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : false,
 		"MuonLowerPtCuts" : [

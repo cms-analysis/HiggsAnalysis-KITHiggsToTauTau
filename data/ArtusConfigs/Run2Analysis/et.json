@@ -30,7 +30,16 @@
 				],
 				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
 					"HLT_Ele23_WPLoose_Gsf"
+				],
+				"Spring16" : [
+					"unavailable"
 				]
+			}
+		},
+		"NoHltFiltering" : {
+			"nick" : {
+				"default" : false,
+				"Spring16" : true
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
