@@ -58,8 +58,7 @@
 		"DiTauPairIsTauIsoMVA": true,
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
-				"default" : [ "HLT_IsoMu24_eta2p1_v:25.0"],
-				"Run2016" : [ "HLT_IsoMu22_eta2p1_v2:25.0"],
+				"default" : [ "HLT_IsoMu24_eta2p1_v:25.0"]
 			}
 		},
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
@@ -76,6 +75,12 @@
 				"Run2016" : [
 					"HLT_IsoMu22_v"
 				]
+			}
+		},
+		"DiTauPairNoHLT" : {
+			"nick" : {
+				"default" : false,
+				"Spring16" : true
 			}
 		},
 		"EventWeight" : "eventWeight",

@@ -72,6 +72,12 @@
 				]
 			}
 		},
+		"DiTauPairNoHLT" : {
+			"nick" : {
+				"default" : false,
+				"Spring16" : true
+			}
+		},
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : {
 			"nick": {

@@ -43,6 +43,12 @@
 			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:10.0",
 			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:10.0"
 		],
+		"DiTauPairNoHLT" : {
+			"nick" : {
+				"default" : false,
+				"Spring16" : true
+			}
+		},
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : {
 			"nick" : {
