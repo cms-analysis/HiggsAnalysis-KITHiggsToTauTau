@@ -131,7 +131,7 @@ int main(int argc, const char *argv[])
     outputtree->Branch("integrationMethod", &outintegrationMethod);
     outputtree->Branch("decayType1", &outdecayType1);
     outputtree->Branch("decayType2", &outdecayType2);
-    outputtree->Branch("hash", &outhash);
+    outputtree->Branch("hash", &outhash, "hash/l");
 
 
     outputtree->Branch("svfitMomentum", &momentum);

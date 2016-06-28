@@ -48,7 +48,7 @@ void SvfitEventKey::CreateBranches(TTree* tree)
 	tree->Branch("systematicShift", &systematicShift);
 	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("integrationMethod", &integrationMethod);
-	tree->Branch("hash", &hash);
+	tree->Branch("hash", &hash, "hash/l");
 }
 
 void SvfitEventKey::SetBranchAddresses(TTree* tree)
@@ -226,8 +226,8 @@ void SvfitInputs::CreateBranches(TTree* tree)
 	tree->Branch("leptonMomentum2", "RMFLV", &leptonMomentum2);
 	tree->Branch("metMomentum", "ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag>", &metMomentum);
 	tree->Branch("metCovariance", "ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >", &metCovariance);
-	tree->Branch("decayMode1", &decayMode1);
-	tree->Branch("decayMode2", &decayMode2);
+	tree->Branch("decayMode1", decayMode1);
+	tree->Branch("decayMode2", decayMode2);
 }
 
 void SvfitInputs::SetBranchAddresses(TTree* tree)
@@ -236,8 +236,8 @@ void SvfitInputs::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("leptonMomentum2", &leptonMomentum2);
 	tree->SetBranchAddress("metMomentum", &metMomentum);
 	tree->SetBranchAddress("metCovariance", &metCovariance);
-	tree->SetBranchAddress("decayMode1", &decayMode1);
-	tree->SetBranchAddress("decayMode2", &decayMode2);
+	tree->SetBranchAddress("decayMode1", decayMode1);
+	tree->SetBranchAddress("decayMode2", decayMode2);
 	ActivateBranches(tree, true);
 }
 
