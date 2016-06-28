@@ -56,7 +56,8 @@ def get_configs(args, info_log):
 			if args.get("loop",1) > 1:
 				#config.setdefault("files", []).append(os.path.basename(args["output_file"]) + "*" + requested_sample + "*.root")
 				del config["files"][:]
-				config["files"].append(os.path.basename(args["output_file"]) + "*" + requested_sample + "*.root")
+				config["files"].append("L%i_%s*%s*.root"%(args["loop"]-1, os.path.basename(args["output_file"]).split("_",1)[1], requested_sample))
+				print "L%i_%s*%s*.root"%(args["loop"]-1, os.path.basename(args["output_file"]).split("_",1)[1], requested_sample)
 				del config["folders"][:]
 				config["folders"].append("SplitTree")
 			plot_configs.append(config)
@@ -160,34 +161,39 @@ def do_focussed_training(args):
 	significanceimprovement = 1.
 	totalSE = 1.
 	totalBR = 0.
+	if dir_path is None:
+		pass
+	elif not os.path.exists(dir_path):
+		os.makedirs(dir_path)
+	CutInfo = open(os.path.join(dir_path,"CutInfo.txt"),"w")
 	#do -f training loops
 	for loop in range(1, args["focussed_training"]+1):
 		log.info("#####################")
 		log.info("### Launch Loop %i ###"%loop)
 		log.info("#####################")
 		#determine output and input paths for each loop
-		args["output_file"] = os.path.join(dir_path, "Loop" + str(loop), filename)
+		args["output_file"] = os.path.join(dir_path, "Loop%i"%loop, "L%i_%s"%(loop, filename))
 		if loop > 1:
-			args["input_dir"] = os.path.join(dir_path, "Loop" + str(loop-1), "storage", "")
+			args["input_dir"] = os.path.join(dir_path, "Loop%i"%(loop-1), "storage", "")
 			log.info("Cut at BDT score " + str(BDTScoreCut))
-			args["pre_selection"] = "(BDTScore" + str(loop-1) + ">=" + str(BDTScoreCut) + ")"
+			args["pre_selection"] = "(BDTScore%i>=%f)"%(loop-1, BDTScoreCut)
 		args["loop"] = loop
 		do_training(args)
 		#add bdt-values to sample
 		log.info("Calculate BDT scores and append to event trees")
-		AddMVATrainingToTrees.append_MVAbranch(glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", "*")), ["SplitTree"],[jsonTools.JsonDict(os.path.join(dir_path, "Loop" + str(loop), filename + "_TrainingLog.json"))], ["BDTScore"+str(loop)])
+		AddMVATrainingToTrees.append_MVAbranch(glob.glob(os.path.join(dir_path, "Loop%i"%loop, "storage", "*")), ["SplitTree"],[jsonTools.JsonDict(os.path.join(dir_path, "Loop%i"%loop, "L%i_%s_TrainingLog.json"%(loop, filename)))], ["BDTScore%i"%loop])
 		#create histograms and find cut value 'BDTScoreCut' for next loop
 		signalfiles = []
 		for sample in args["signal_samples"]:
-			for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
+			for samplefile in glob.glob(os.path.join(dir_path, "Loop%i"%loop, "storage", "L%i_%s_storage_%s_*"%(loop, filename, sample))):
 				signalfiles.append(samplefile)
 		log.debug("Signalfiles: " + str(signalfiles))
 		backgroundfiles = []
 		for sample in args["bkg_samples"]:
-                        for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
+                	for samplefile in glob.glob(os.path.join(dir_path, "Loop%i"%loop, "storage", "L%i_%s_storage_%s_*"%(loop, filename, sample))):
 				backgroundfiles.append(samplefile)
 		log.debug("Backgroundfiles: " + str(backgroundfiles))
-		BDTScoreCut, signaleff, backgroundrej = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), args["FT_cut_method"], args["FT_cut_parameter"])
+		BDTScoreCut, signaleff, backgroundrej = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop%i"%loop), signalfiles, backgroundfiles, "BDTScore%i"%loop, args["FT_cut_method"], args["FT_cut_parameter"])
 		log.info("Significance improvement of the current loop appliying this cut: " + str(signaleff/math.sqrt(1.0-backgroundrej)))
 		significanceimprovement = significanceimprovement*signaleff/math.sqrt(1.0-backgroundrej)
 		totalSE = totalSE*signaleff
@@ -195,7 +201,20 @@ def do_focussed_training(args):
 		log.info("Total significance improvement: " + str(significanceimprovement))
 		log.info("Total signal efficiency: " + str(totalSE))
 		log.info("Total background rejection: " + str(totalBR))
+		CutInfo.write("#############\n")
+		CutInfo.write("### Loop%i ###\n"%loop)
+		CutInfo.write("#############\n")
+		CutInfo.write("Cut method:                     %s\n"%args["FT_cut_method"])
+		CutInfo.write("Cut parameter:                  %f\n"%args["FT_cut_parameter"])
+		CutInfo.write("Cutting at BDT score            %f\n"%BDTScoreCut)
+		CutInfo.write("Signal efficiency:              %f\n"%signaleff)
+		CutInfo.write("Background rejection:           %f\n"%backgroundrej)
+		CutInfo.write("Significance improvement:       %f\n"%(signaleff/math.sqrt(1.0-backgroundrej)))
+		CutInfo.write("Total signal efficiency:        %f\n"%totalSE)
+		CutInfo.write("Total background rejection:     %f\n"%totalBR)
+		CutInfo.write("Total significance improvement: %f\n"%significanceimprovement)
 		
+	CutInfo.close()
 	#copy files to remote workdir in order to have them transfered from batch system to your local storage
 	if args["batch_system"]:
 		for loop in range(1, args["focussed_training"]+1):
