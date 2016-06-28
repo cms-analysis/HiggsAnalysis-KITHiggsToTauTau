@@ -1270,24 +1270,24 @@ class Samples(samples.SamplesBase):
 			config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 			
-		def final_nick(tmp_sample, tmp_mass):
-			return tmp_sample+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix
+		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
+			return tmp_sample+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
 
 		for index, mass in enumerate(additional_higgs_masses_for_shape+higgs_masses):
 			is_additional_mass = (index < len(additional_higgs_masses_for_shape))
 			
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["ggh"]+(["bbh"] if mssm else ["qqh", "vh"])]))
-			config.setdefault("sum_result_nicks", []).append(final_nick("htt", mass)+"_noplot")
+			config.setdefault("add_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["ggh"]+(["bbh"] if mssm else ["qqh", "vh"])]))
+			config.setdefault("add_result_nicks", []).append(final_nick("htt", mass)+"_noplot")
 			
 			if not is_additional_mass:
-				config.setdefault("histogram_nicks", []).append(" ".join([final_nick("htt", m)+"_noplot" for m in [mass]+additional_higgs_masses_for_shape]))
-				config.setdefault("sum_result_nicks", []).append(final_nick("htt", mass)+"_noplot_shape")
+				config.setdefault("add_nicks", []).append(" ".join([final_nick("htt", m)+"_noplot" for m in [mass]+additional_higgs_masses_for_shape]))
+				config.setdefault("add_result_nicks", []).append(final_nick("htt", mass)+"_noplot_shape")
 				
 				if mssm and normalise_to_sm_xsec:
-					config.setdefault("histogram_nicks", []).append(" ".join([final_nick(sample, mass)+"_sm_noplot" for sample in ["ggh", "qqh", "vh"]]))
-					config.setdefault("sum_result_nicks", []).append(final_nick("htt", mass)+"_sm_noplot")
+					config.setdefault("add_nicks", []).append(" ".join([final_nick(sample, mass)+"_sm_noplot" for sample in ["ggh", "qqh", "vh"]]))
+					config.setdefault("add_result_nicks", []).append(final_nick("htt", mass)+"_sm_noplot")
 				
 				if not "ShapeYieldMerge" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("ShapeYieldMerge")
@@ -1307,7 +1307,7 @@ class Samples(samples.SamplesBase):
 						"bkg" if kwargs.get("stack_signal", False) else "htt",
 						"LINE",
 						"L",
-						final_nick("htt", mass),
+						final_nick("htt", mass, False),
 						nick_suffix
 				)
 		return config
@@ -1473,8 +1473,8 @@ class Samples(samples.SamplesBase):
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
-			config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wh", "zh"]]))
-			config.setdefault("sum_result_nicks", []).append("vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
+			config.setdefault("add_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wh", "zh"]]))
+			config.setdefault("add_result_nicks", []).append("vh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
 
 			if not kwargs.get("no_plot", False):
 				if not kwargs.get("mssm", False):
@@ -1534,8 +1534,8 @@ class Samples(samples.SamplesBase):
 
 				if not "AddHistograms" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("AddHistograms")
-				config.setdefault("histogram_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wmh", "wph"]]))
-				config.setdefault("sum_result_nicks", []).append("wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
+				config.setdefault("add_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wmh", "wph"]]))
+				config.setdefault("add_result_nicks", []).append("wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
 
 			else:
 				log.error("Sample config (WH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
@@ -1637,4 +1637,44 @@ class Samples(samples.SamplesBase):
 		else:
 			log.error("Sample config (FakeFactor) currently not implemented for channel \"%s\"!" % channel)
 		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
+		return config
+
+
+	def ewk(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+
+		data_weight = "(1.0)*"
+		mc_weight = "(1.0)*"
+		if kwargs.get("project_to_lumi", False):
+			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
+		if kwargs.get("cut_mc_only", False):
+			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
+		if kwargs.get("scale_mc_only", False):
+			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+
+		if channel in ["mt", "et"]:
+			Samples._add_input(
+					config,
+					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIIFall15*_*_13TeV_*AOD_*/*.root WZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root ZZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root VV*_RunIIFall15*_*_13TeV_*AOD_*/*.root W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+					channel+"_jecUncNom_tauEsNom/ntuple",
+					lumi,
+					mc_weight+weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					"ewk",
+					nick_suffix=nick_suffix
+			)
+		else:
+			log.error("Sample config (EWK) currently not implemented for channel \"%s\"!" % channel)
+		
+		if channel in ["mt", "et"] and fakefactor_method == "standard":
+			config["weights"][config["nicks"].index("ewk")] = config["weights"][config["nicks"].index("ewk")]  + "*(gen_match_2 != 6)"
+		if channel in ["mt", "et"] and fakefactor_method == "comparison":
+			config["weights"][config["nicks"].index("ewk")] = config["weights"][config["nicks"].index("ewk")]  + "*(gen_match_2 == 6)"
+		
+		Samples._add_plot(config, "bkg", "HIST", "F", "ewk", nick_suffix)
 		return config

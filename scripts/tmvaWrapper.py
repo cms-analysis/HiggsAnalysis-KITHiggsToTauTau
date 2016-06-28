@@ -17,6 +17,7 @@ import glob
 import time
 import ROOT
 import shutil
+import math
 import AddMVATrainingToTrees
 import GetFocussedTrainingCut
 
@@ -156,6 +157,7 @@ def do_splitting(args, plot_configs):
 def do_focussed_training(args):
 	dir_path, filename = os.path.split(args["output_file"])
 	BDTScoreCut = -1.
+	significanceimprovement = 1.
 	#do -f training loops
 	for loop in range(1, args["focussed_training"]+1):
 		log.info("#####################")
@@ -183,8 +185,11 @@ def do_focussed_training(args):
                         for samplefile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "storage", filename + "_storage_" + sample + "_*")):
 				backgroundfiles.append(samplefile)
 		log.debug("Backgroundfiles: " + str(backgroundfiles))
-		BDTScoreCut = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), "signaleff", 0.9)
-	
+		BDTScoreCut, signaleff, backgroundrej = GetFocussedTrainingCut.get_cut(os.path.join(dir_path, "Loop" + str(loop)), signalfiles, backgroundfiles, "BDTScore" + str(loop), "signaleff", 0.9)
+		log.info("Significance improvement of the current loop appliying this cut: " + str(signaleff/math.sqrt(1.0-backgroundrej)))
+		significanceimprovement = significanceimprovement*signaleff/math.sqrt(1.0-backgroundrej)
+		log.info("Total significance improvement: " + str(significanceimprovement))
+		
 	#copy files to remote workdir in order to have them transfered from batch system to your local storage
 	if args["batch_system"]:
 		for loop in range(1, args["focussed_training"]+1):

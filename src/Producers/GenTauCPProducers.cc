@@ -175,7 +175,10 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
 	//Selection of the right channel for phi, phi* and psi*CP
-	if (abs(selectedTau1->m_genParticle->pdgId) == 15 && abs(selectedTau2->m_genParticle->pdgId) == 15 && selectedTau1OneProngs.size() != 0 && selectedTau2OneProngs.size() != 0)
+	if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+	    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+	    (selectedTau1OneProngs.size() != 0) &&
+	    (selectedTau2OneProngs.size() != 0))
 	{
 		//Initialization of charged particles
 		KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->m_genParticle;

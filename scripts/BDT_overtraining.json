@@ -58,11 +58,11 @@
         "train_signal",
         "train_bkg"
     ],
-    "histogram_nicks": [
+    "add_nicks": [
         "test_signal test_bkg",
         "train_signal train_bkg"
     ],
-    "sum_result_nicks": [
+    "add_result_nicks": [
         "test_noplot",
         "train_noplot"
     ],

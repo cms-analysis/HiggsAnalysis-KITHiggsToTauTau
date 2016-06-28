@@ -26,6 +26,7 @@ class DatacardConfigs(object):
 			"VH" : "vh",
 			"WH" : "wh",
 			"ZH" : "zh",
+			"HTT" : "htt",
 		}
 
 		self._mapping_category2binid = {

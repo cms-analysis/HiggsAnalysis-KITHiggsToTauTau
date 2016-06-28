@@ -27,6 +27,8 @@
 				24
 			],
 			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : [
+				25,
+				35,
 				36
 			]
 		}
