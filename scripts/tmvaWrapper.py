@@ -531,11 +531,11 @@ if __name__ == "__main__":
 						copy_cargs["signal_samples"] = ["qqh"]
 						copy_cargs["pre_selection"] = "(njetspt30>=%i)"%jets
 						if channel == "em":
-							copy_cargs["quantities"] = ["H_pt", "diLepDeltaR", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality"]
+							copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
 						if channel == "et":
-							copy_cargs["quantities"] = ["pt_2", "H_pt", "diLepDeltaR", "diLep_diJet_deltaR", "mjj", "jdeta"]
+							copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
 						if channel == "mt":
-							copy_cargs["quantities"] = ["H_pt", "diLepDeltaR", "mjj", "product_lep_centrality"]
+							copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
 
 						for counter in range(len(copy_cargs["quantities"])):
 							poped = copy_cargs["quantities"].pop(0)
@@ -547,11 +547,11 @@ if __name__ == "__main__":
 							copy_cargs["quantities"].append(poped)
 
 						if channel == "em":
-							copy_cargs["quantities"] = ["pt_sv", "jdeta"]
+							copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
 						if channel == "et":
-							copy_cargs["quantities"] = ["pZetaMissVis", "ptvis", "jdeta"]
+							copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
 						if channel == "mt":
-							copy_cargs["quantities"] = ["pt_1", "mt_2", "ptvis", "diLep_diJet_deltaR", "jdeta"]
+							copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
 
 						for counter in range(len(copy_cargs["quantities"])):
 							poped = copy_cargs["quantities"].pop(0)
@@ -730,6 +730,137 @@ if __name__ == "__main__":
 						copy_cargs["bkg_samples"] = ["wj", "zll"]
 						copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat2_rm_%s"%(channel,jets,"Nothing"))
 						config_list.append(copy.deepcopy(copy_cargs))
+
+		if 10 in cargs.modification:
+			"BDT;nCuts=1200:NTrees=1500:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.1:MaxDepth=3:SeparationType=SDivSqrtSPlusB"
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees=750:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.1:MaxDepth=3:SeparationType=SDivSqrtSPlusB"]
+			copy_cargs["n_fold"] = 2
+			copy_cargs["signal_samples"] = ["ggh", "qqh"]
+			copy_path = copy_cargs["output_file"]
+			for channel in ["em", "et", "mt"]:
+				jets = 0
+				copy_cargs["channels"] = [channel]
+				copy_cargs["bkg_samples"] = ["ztt"]
+				copy_cargs["pre_selection"] = "(njetspt30==%i)"%jets
+				if channel == "em":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR"]
+				if channel == "et":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR"]
+				if channel == "mt":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR"]
+				for counter in range(len(copy_cargs["quantities"])):
+					poped = copy_cargs["quantities"].pop(0)
+					poped_name = poped
+					if "*" in poped:
+						poped_name = "function"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat1_rm_%s"%(channel,jets,poped_name))
+					config_list.append(copy.deepcopy(copy_cargs))
+					copy_cargs["quantities"].append(poped)
+				if channel in ["et", "mt"]:
+					if channel == "et":
+						copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR"]
+					if channel == "mt":
+						copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR"]
+					copy_cargs["bkg_samples"] = ["wj", "zll"]
+					for counter in range(len(copy_cargs["quantities"])):
+						poped = copy_cargs["quantities"].pop(0)
+						poped_name = poped
+						if "*" in poped:
+							poped_name = "function"
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat2_rm_%s"%(channel,jets,poped_name))
+						config_list.append(copy.deepcopy(copy_cargs))
+						copy_cargs["quantities"].append(poped)
+		if 11 in cargs.modification:
+			"BDT;nCuts=1200:NTrees=1500:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.1:MaxDepth=3:SeparationType=SDivSqrtSPlusB"
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees=750:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.1:MaxDepth=3:SeparationType=SDivSqrtSPlusB"]
+			copy_cargs["n_fold"] = 2
+			copy_cargs["signal_samples"] = ["ggh", "qqh"]
+			copy_path = copy_cargs["output_file"]
+			for channel in ["em", "et", "mt"]:
+				jets = 1
+				copy_cargs["channels"] = [channel]
+				copy_cargs["bkg_samples"] = ["ztt"]
+				copy_cargs["pre_selection"] = "(njetspt30==%i)"%jets
+				if channel == "em":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR"]
+				if channel == "et":
+					#continue
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR"]
+				if channel == "mt":
+					#continue
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR"]
+				for counter in range(len(copy_cargs["quantities"])):
+					poped = copy_cargs["quantities"].pop(0)
+					poped_name = poped
+					if "*" in poped:
+						poped_name = "function"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat1_rm_%s"%(channel,jets,poped_name))
+					config_list.append(copy.deepcopy(copy_cargs))
+					copy_cargs["quantities"].append(poped)
+				copy_cargs["bkg_samples"] = ["wj", "zll"]
+				if channel == "em":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR"]
+					copy_cargs["bkg_samples"] = ["ttj", "vv"]
+				if channel == "et":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR"]
+					#continue
+				if channel == "mt":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR"]
+					#continue
+				for counter in range(len(copy_cargs["quantities"])):
+					poped = copy_cargs["quantities"].pop(0)
+					poped_name = poped
+					if "*" in poped:
+						poped_name = "function"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat2_rm_%s"%(channel,jets,poped_name))
+					config_list.append(copy.deepcopy(copy_cargs))
+					copy_cargs["quantities"].append(poped)
+		if 12 in cargs.modification:
+			"BDT;nCuts=1200:NTrees=1500:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.1:MaxDepth=3:SeparationType=SDivSqrtSPlusB"
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_cargs["methods"] = ["BDT;nCuts=1200:NTrees=750:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.1:MaxDepth=3:SeparationType=SDivSqrtSPlusB"]
+			copy_cargs["n_fold"] = 2
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["signal_samples"] = ["qqh"]
+			for channel in ["em", "et", "mt"]:
+				jets = 2
+				copy_cargs["channels"] = [channel]
+				copy_cargs["bkg_samples"] = ["ztt"]
+				copy_cargs["pre_selection"] = "(njetspt30==%i)"%jets
+				if channel == "em":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
+				if channel == "et":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
+				if channel == "mt":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
+
+				for counter in range(len(copy_cargs["quantities"])):
+					poped = copy_cargs["quantities"].pop(0)
+					poped_name = poped
+					if "*" in poped:
+						poped_name = "function"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat1_rm_%s"%(channel,jets,poped_name))
+					config_list.append(copy.deepcopy(copy_cargs))
+					copy_cargs["quantities"].append(poped)
+
+				if channel == "em":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
+				if channel == "et":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
+				if channel == "mt":
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "pt_2", "mt_2", "mvamet", "pZetaMissVis", "H_pt", "ptvis", "pt_sv", "pt_sv*cosh(eta_sv);F;0;2000", "diLepDeltaR", "diLepJet1DeltaR", "diLep_centrality", "diLep_diJet_deltaR", "mjj", "jdeta", "product_lep_centrality", "diLepJet1DeltaR"]
+
+				for counter in range(len(copy_cargs["quantities"])):
+					poped = copy_cargs["quantities"].pop(0)
+					poped_name = poped
+					if "*" in poped:
+						poped_name = "function"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_%iJets_Cat2_rm_%s"%(channel,jets,poped_name))
+					copy_cargs["bkg_samples"] = ["ttj", "wj", "vv"]
+					config_list.append(copy.deepcopy(copy_cargs))
+					copy_cargs["quantities"].append(poped)
 		if cargs.batch_system:
 			log.info("Start training of BDT config number %i"%cargs.config_number)
 			if cargs.dry_run and cargs.config_step < 1:
