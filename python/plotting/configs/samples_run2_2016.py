@@ -319,7 +319,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt"]:
 			Samples._add_input(
 					config,
-					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -329,7 +329,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "mm":
 			Samples._add_input(
 					config,
-					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 					channel+"_jecUncNom/ntuple",
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -339,7 +339,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "em":
 			Samples._add_input(
 					config,
-					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 					channel+"_jecUncNom/ntuple",
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -393,7 +393,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 					channel+"_jecUncNom/ntuple",
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -402,7 +402,7 @@ class Samples(samples.SamplesBase):
 			)
 			Samples._add_input(
 					config,
-					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 					channel+"_jecUncNom/ntuple",
 					lumi,
 					mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
@@ -530,7 +530,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						channel+"_jecUncNom_tauEsNom/ntuple",
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
@@ -602,7 +602,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						channel+"_jecUncNom_tauEsNom/ntuple",
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
@@ -736,7 +736,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						channel+"_jecUncNom_tauEsNom/ntuple",
 						lumi,
 						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
@@ -867,7 +867,7 @@ class Samples(samples.SamplesBase):
 					)
 					Samples._add_input(
 							config,
-							"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+							"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 							channel+"_jecUncNom_tauEsNom/ntuple",
 							lumi,
 							mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
@@ -967,7 +967,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
 						lumi,
 						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
@@ -1040,7 +1040,7 @@ class Samples(samples.SamplesBase):
 					)
 				Samples._add_input(
 						config,
-						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						channel+"_jecUncNom_tauEsNom/ntuple",
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
@@ -1094,7 +1094,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						channel+"_jecUncNom_tauEsNom/ntuple",
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
@@ -1148,7 +1148,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root",
+						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						channel+"_jecUncNom_tauEsNom/ntuple",
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
@@ -1661,7 +1661,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*.root ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
+					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
 					mc_weight+weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
