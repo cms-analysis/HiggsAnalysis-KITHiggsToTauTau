@@ -9,7 +9,7 @@ import copy
 import os
 import sys
 import re
-
+import ROOT
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
@@ -42,11 +42,16 @@ if __name__ == "__main__":
 							help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-p", "--n-plots", type=int,
 							help="Number of plots. [Default: all]")
+	parser.add_argument("--calculate-separation", action="store_true", default =False,
+							help="calculate separation using TestSample")
+	parser.add_argument("--no-plot", action="store_true", default =False,
+							help="skip plotting")
 	args = parser.parse_args()
 	logger.initLogger(args)
 	regex = re.compile(r"T[0-9]{1,}\.root", re.IGNORECASE)
 
 	config_list = []
+	file_list = []
 	for i,path in enumerate(args.input_file):
 		if not os.path.isfile(path):
 			continue
@@ -67,7 +72,38 @@ if __name__ == "__main__":
 		if len(args.filename) > 0:
 			json_config["filename"] = args.filename[i%len(args.filename)]
 		config_list.append(json_config)
+		file_list.append(os.path.join(json_config["output_dir"], json_config["filename"]+".root"))
 	log.info("Plot all %i plots"%len(config_list))
-	higgsplot.HiggsPlotter(list_of_config_dicts=config_list,
-							list_of_args_strings=[args.args],
-							n_processes=args.n_processes, n_plots=args.n_plots)
+	if not args.no_plot:
+		higgsplot.HiggsPlotter(list_of_config_dicts=config_list,
+								list_of_args_strings=[args.args],
+								n_processes=args.n_processes, n_plots=args.n_plots)
+	if args.calculate_separation:
+		known_files = {}
+		with open(os.path.join(args.output_dir, "Separations.txt"), "w") as out_stream:
+			for rfile in file_list:
+				dirs, filename = os.path.split(rfile.replace(".root", ""))
+				tfile = ROOT.TFile(rfile)
+				test_signal =tfile.Get("Test Signal")
+				test_bkg =tfile.Get("Test Bkg")
+				sep = 0
+				int_sig = test_signal.Integral()
+				int_bkg = test_bkg.Integral()
+				for i in range(1, test_signal.GetNbinsX()+1):
+					ts = test_signal.GetBinContent(i)/int_sig
+					tb = test_bkg.GetBinContent(i)/int_bkg
+					if (ts+tb) > 0.0:
+						sep = sep + (ts-tb)**2/(ts+tb)
+				out_stream.write("%s: %f\n"%(filename, sep))
+				try:
+					trainings, poped_var = filename.split("_rm_")
+					trainings = trainings + poped_var[-2]+poped_var[-1]
+				except ValueError:
+					trainings, poped_var = (filename, " ")
+				if trainings not in known_files.keys():
+					known_files[trainings] = (poped_var, sep)
+				elif sep > known_files[trainings][1]:
+					known_files[trainings] = (poped_var, sep)
+			out_stream.write("===================Maxima===============\n")
+			for key, (var, sep) in known_files.iteritems():
+				out_stream.write("{key}: {var} {sep}\n".format(key=key, var=var, sep=sep))
