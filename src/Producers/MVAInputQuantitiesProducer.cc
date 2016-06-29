@@ -98,9 +98,15 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
 		double jet1_phi = product.m_validJets[0]->p4.Phi();
 		double svfit_eta = product.m_svfitResults.momentum->Eta();
 		double svfit_phi = product.m_svfitResults.momentum->Phi();
+// 		double svfit_pt = product.m_svfitResults.momentum->Pt();
+		product.m_diLepJet1DeltaR = TMath::Sqrt((svfit_eta-jet1_eta)*(svfit_eta-jet1_eta)+(svfit_phi-jet1_phi)*(svfit_phi-jet1_phi));
+	}
+	if (product.m_svfitResults.momentum)
+	{
+		double svfit_eta = product.m_svfitResults.momentum->Eta();
+// 		double svfit_phi = product.m_svfitResults.momentum->Phi();
 		double svfit_pt = product.m_svfitResults.momentum->Pt();
 		product.m_diLepBoost = svfit_pt*TMath::CosH(svfit_eta);
-		product.m_diLepJet1DeltaR = TMath::Sqrt((svfit_eta-jet1_eta)*(svfit_eta-jet1_eta)+(svfit_phi-jet1_phi)*(svfit_phi-jet1_phi));
 	}
 
 }

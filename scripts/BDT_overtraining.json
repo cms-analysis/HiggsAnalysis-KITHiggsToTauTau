@@ -46,10 +46,10 @@
         "ELP"
     ],
     "weights": [
-        "(classID==1)",
-        "(classID==0)",
-        "(classID==1)",
-        "(classID==0)"
+        "weight*(classID==1)",
+        "weight*(classID==0)",
+        "weight*(classID==1)",
+        "weight*(classID==0)"
     ],
     "y_label": "Events (normalized to 1)",
     "nicks": [
