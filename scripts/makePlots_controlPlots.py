@@ -186,6 +186,8 @@ if __name__ == "__main__":
 	                    help="Produce plots for the mva studies. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
+	parser.add_argument("--era", default="2015",
+	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -206,7 +208,10 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 
 	if not args.run1:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+		if args.era == "2015":
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+		else:
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 
