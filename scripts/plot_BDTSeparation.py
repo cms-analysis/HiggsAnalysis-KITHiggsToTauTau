@@ -12,6 +12,7 @@ import re
 import ROOT
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
+import matplotlib.pyplot as plt
 
 '''Plot every combination in given folder
 python plot_overtraining.py -i ../new_try/*.root -x BDT_all_all BDT_all_zll BDT_all_ztt BDT_glu_zll BDT_glu_ztt BDT_vbf_zll BDT_vbf_ztt -l "BDT_{all}^{all}" "BDT_{Z#rightarrow ll}^{all}" "BDT_{Z#rightarrow#tau#tau}^{all}" "BDT_{Z#rightarrow ll}^{ggh}" "BDT_{z#rightarrow#tau#tau}^{ggh}" "BDT_{Z#rightarrow ll}^{vbf}" "BDT_{z#rightarrow#tau#tau}^{vbf}" -f all_all all_zll all_ztt ggh_zll ggh_ztt vbf_zll vbf_ztt
@@ -22,6 +23,31 @@ with qcd+data, all catagories
 
 ./HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i /afs/desy.de/user/m/mschmitt/work-dir/htautau/artus/2016-02-03_22-40_analysis/merged -x all_vs_all all_vs_zll all_vs_ztt ggh_vs_zll ggh_vs_ztt vbf_vs_zll vbf_vs_ztt m_vis -a '--formats png eps --y-rel-lims 0.9 1.75 --y-subplot-label "S/#sqrt{B}" --y-subplot-lims 0.01 10.0 --y-subplot-log True' -s ztt zll zl zj ttj vv wj qcd ggh qqh vh htt --sbratio -c mt -n 12 --scale-signal 250 -w '(TrainingSelectionValue>35)' -o plots/08_02_16/qcd_exct --analysis-modules NormalizeByBinWidth --categories catMVA13TeV_mt_ztt_low catMVA13TeV_mt_ztt_mid catMVA13TeV_mt_ztt_high catMVA13TeV_mt_inclusive -e "pZetaMiss" "pZetaVis" "iso_1" "iso_2" "mt_1" "mt_2" && ./HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_controlPlots.py -i /afs/desy.de/user/m/mschmitt/work-dir/htautau/artus/2016-02-03_22-40_analysis/merged -x all_vs_all all_vs_zll all_vs_ztt ggh_vs_zll ggh_vs_ztt vbf_vs_zll vbf_vs_ztt m_vis -a '--formats png eps --y-rel-lims 0.9 1.75 --y-subplot-label "S/#sqrt{B}" --y-subplot-lims 0.01 10.0 --y-subplot-log True' -s ztt zll zl zj ttj vv wj qcd ggh qqh vh htt --sbratio -c mt -n 12 --scale-signal 250 -w '(TrainingSelectionValue>35)' -o plots/08_02_16/qcd --analysis-modules NormalizeByBinWidth --categories catMVA13TeV_mt_ztt_low catMVA13TeV_mt_ztt_mid catMVA13TeV_mt_ztt_high catMVA13TeV_mt_inclusive
 '''
+
+def makePlot(x_vals, y_val_list, y_err_list, x_names, channel, category, bdt, output_dir):
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	nice_channel = {
+		"em": "$e\\mathrm{\\mu}$",
+		"mt": "$\\mathrm{\\mu\\tau}$",
+		"et": "$e\\mathrm{\\tau}$",
+		"tt": "$\\mathrm{\\tau\\tau}$"}
+
+	for i,(yvals, y_errs) in enumerate(zip(y_val_list, y_err_list)):
+		ax.plot(x_vals, yvals, label="CV-T%i"%(i+1), marker="x", markersize = 12.5, ls = "None", markeredgewidth=2)
+
+	#ax.set_xticklabels(x_names)
+	#ax.set_xticks(x_vals)
+	ax.set_xlim(-0.2, 1.2*max(x_vals))
+	lgd = ax.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0., numpoints=1)
+	ax.set_xlabel("Iteration", size="x-large", ha='right', x=0.97)
+	ax.set_ylabel("Separation", size="x-large", va='top', y=0.97)
+	ans = ax.set_title("{channel}\t{category} - {bdt}".format(channel=nice_channel[channel], category=category, bdt=bdt), ha='left', x=0.01, y=1.01, size="x-large")
+	plot_name = os.path.join(output_dir, "%s_%s_%s"%(channel,category,bdt))
+	plt.savefig("%s.png"%plot_name, bbox_extra_artists=(lgd, ans), bbox_inches='tight')
+	plt.savefig("%s.pdf"%plot_name, bbox_extra_artists=(lgd, ans), bbox_inches='tight')
+	log.info("create plot %s.png"%plot_name)
+
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Make overtraining control plots.",
 											parents=[logger.loggingParser])
@@ -29,8 +55,8 @@ if __name__ == "__main__":
 						help="Input rootfiles")
 	#parser.add_argument("-x", "--quantities", nargs="*",required = True,
 	#                    help="Quantities.")
-	parser.add_argument("-l", "--label", nargs="*",required = False,
-						default = [], help="x-label.")
+	#parser.add_argument("-l", "--label", nargs="*",required = False,
+						#default = [], help="x-label.")
 	parser.add_argument("-f", "--filename", nargs="*", required = False,
 						default = [], help="output filename")
 	parser.add_argument("-o", "--output-dir",
@@ -38,75 +64,68 @@ if __name__ == "__main__":
 							help="Output directory. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 							help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
-	parser.add_argument("-n", "--n-processes", type=int, default=1,
-							help="Number of (parallel) processes. [Default: %(default)s]")
-	parser.add_argument("-p", "--n-plots", type=int,
-							help="Number of plots. [Default: all]")
-	parser.add_argument("--calculate-separation", action="store_true", default =False,
-							help="calculate separation using TestSample")
-	parser.add_argument("--no-plot", action="store_true", default =False,
-							help="skip plotting")
+	#parser.add_argument("-n", "--n-processes", type=int, default=1,
+							#help="Number of (parallel) processes. [Default: %(default)s]")
+	#parser.add_argument("-p", "--n-plots", type=int,
+							#help="Number of plots. [Default: all]")
+	#parser.add_argument("--calculate-separation", action="store_true", default =False,
+							#help="calculate separation using TestSample")
+	#parser.add_argument("--no-plot", action="store_true", default =False,
+							#help="skip plotting")
 	args = parser.parse_args()
 	logger.initLogger(args)
-	regex = re.compile(r"T[0-9]{1,}\.root", re.IGNORECASE)
+	if not os.path.exists(args.output_dir):
+		os.makedirs(args.output_dir)
+	bdt_name = {}
+	for in_file in args.input_file:
+		with open(in_file) as in_stream:
+			begin = False
+			for line in in_stream:
 
-	config_list = []
-	file_list = []
-	for i,path in enumerate(args.input_file):
-		if not os.path.isfile(path):
-			continue
-		if not ".root" in path:
-			continue
-		json_config = {}
-		base_dict = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "BDT_overtraining.json")
-		json_config = jsonTools.JsonDict(base_dict).doIncludes(
-			).doComments()
-		json_config["files"] = path
-		trash, file_name = os.path.split(path)
-		json_config["x_expressions"] = "BDT_"+regex.sub("", file_name)
-		json_config["x_label"] = regex.sub("", file_name)
-		json_config["filename"] = "Overtraining_"+ file_name.replace(".root", "")
-		json_config["output_dir"] = os.path.join(os.path.expandvars(args.output_dir),regex.sub("", file_name))
-		if len(args.label) > 0:
-			json_config["x_label"] = args.label[i%len(args.label)]
-		if len(args.filename) > 0:
-			json_config["filename"] = args.filename[i%len(args.filename)]
-		config_list.append(json_config)
-		file_list.append(os.path.join(json_config["output_dir"], json_config["filename"]+".root"))
-	log.info("Plot all %i plots"%len(config_list))
-	if not args.no_plot:
-		higgsplot.HiggsPlotter(list_of_config_dicts=config_list,
-								list_of_args_strings=[args.args],
-								n_processes=args.n_processes, n_plots=args.n_plots)
-	if args.calculate_separation:
-		known_files = {}
-		with open(os.path.join(args.output_dir, "Separations.txt"), "w") as out_stream:
-			for rfile in file_list:
-				dirs, filename = os.path.split(rfile.replace(".root", ""))
-				tfile = ROOT.TFile(rfile)
-				test_signal =tfile.Get("Test Signal")
-				test_bkg =tfile.Get("Test Bkg")
-				sep = 0
-				int_sig = test_signal.Integral()
-				int_bkg = test_bkg.Integral()
-				for i in range(1, test_signal.GetNbinsX()+1):
-					ts = test_signal.GetBinContent(i)/int_sig
-					tb = test_bkg.GetBinContent(i)/int_bkg
-					if (ts+tb) > 0.0:
-						sep = sep + (ts-tb)**2/(ts+tb)
-				Nsig = test_signal.GetEntries()
-				Nbkg = test_bkg.GetEntries()
-				err_max = max(2./Nsig**0.5, 2./Nbkg**0.5)
-				out_stream.write("%s: %f %f\n"%(filename, sep,err_max))
-				try:
-					trainings, poped_var = filename.split("_rm_")
-					trainings = trainings + poped_var[-2]+poped_var[-1]
-				except ValueError:
-					trainings, poped_var = (filename, " ")
-				if trainings not in known_files.keys():
-					known_files[trainings] = (poped_var, sep, err_max)
-				elif sep > known_files[trainings][1]:
-					known_files[trainings] = (poped_var, sep, err_max)
-			out_stream.write("===================Maxima===============\n")
-			for key, (var, sep,err) in known_files.iteritems():
-				out_stream.write("{key}: {var} {sep} {err}\n".format(key=key, var=var, sep=sep,err=err))
+				if begin and ":" in line:
+					cat, vals = line.split(": ")
+					if not cat in bdt_name.keys():
+						bdt_name[cat] = [vals]
+					else:
+						bdt_name[cat].append(vals)
+					if args.args in line:
+						print line, "store in %s"%cat
+				elif '===Maxima===' in line:
+					begin = True
+	for cat in bdt_name.keys():
+		if bdt_name[cat]:
+			end_string = cat[-2:]
+			cat = cat.replace(end_string, "")
+			cat1 = cat + "T1"
+			cat2 = cat + "T2"
+			vars1 = bdt_name[cat1]
+			vars2 = bdt_name[cat2]
+			bdt_name[cat1] = False
+			bdt_name[cat2] = False
+			var1_names = []
+			var2_names = []
+			var1_y = []
+			var2_y = []
+			var1_err = []
+			var2_err = []
+			x_range = [x for x in range(len(vars1))]
+			for var in vars1:
+				(name, val, err) = var.split(" ")
+				val = float(val)
+				var1_names.append(name.replace("T1", ""))
+				var1_y.append(val)
+				var1_err.append(float(err))
+			for var in vars2:
+				(name, val, err) = var.split(" ")
+				val = float(val)
+				var2_names.append(name.replace("T2", ""))
+				var2_y.append(val)
+				var2_err.append(float(err))
+			x_names = []
+			for name1, name2 in zip(var1_names, var2_names):
+				if name1 == name2:
+					x_names.append('1')
+				else:
+					x_names.append('2')
+			(trash, channel, category, bdt) = cat.split("_")
+			makePlot(x_range, [var1_y, var2_y], [var1_err, var2_err], x_names, channel, category, bdt, args.output_dir)
