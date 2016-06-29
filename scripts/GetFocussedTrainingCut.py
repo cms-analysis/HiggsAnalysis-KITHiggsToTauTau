@@ -77,7 +77,7 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 				cutbin = i
 			else:
 				break
-	if method == "bargaining":	#parameter = what percentage of background rejection is on percent of signal efficiency worth?
+	if method == "bargaining":	#parameter = what percentage of background rejection is one percent of signal efficiency worth?
 		cutbin = 1
 		profit = parameter*BDThistCUMSG.GetBinContent(cutbin)+BDThistCUMBG.GetBinContent(cutbin)
 		#find optimal BDT score to cut

@@ -9,6 +9,7 @@ import CombineHarvester.CombineTools.ch as ch
 
 cern_categories = ["vbf", "1jet_boosted", "1jet_highpt2", "0jet_highpt2", "1jet_lowpt2", "0jet_lowpt2"]
 new_categories = ["vbf_tag", "2jet_untagged", "1jet_boost_high", "1jet_boost_medium", "0jet_nhighpt2", "1jet_boost_low", "0jet_nlowpt2"]
+new_categories += ["0jet_inclusive", "1jet_inclusive", "2jet_inclusive"]
 
 class SMHttDatacards(datacards.Datacards):
 	def __init__(self, higgs_masses=["125"], cb=None):
