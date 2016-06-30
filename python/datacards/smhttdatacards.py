@@ -104,7 +104,7 @@ class SMHttDatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in (["inclusive"]+cern_categories[:4]+new_categories[:5])],
+					categories=["tt_"+category for category in (["inclusive"]+cern_categories+new_categories)],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
