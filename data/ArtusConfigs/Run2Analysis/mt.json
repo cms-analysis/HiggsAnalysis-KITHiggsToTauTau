@@ -29,10 +29,10 @@
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
-					"HLT_IsoMu18_v"
+					"HLT_IsoMu18"
 				],
 				"Run2016" : [
-					"HLT_IsoMu22_v"
+					"HLT_IsoMu22"
 				],
 				"Spring16" : [
 					"unavailable"
