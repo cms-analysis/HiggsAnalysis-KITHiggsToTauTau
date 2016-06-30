@@ -149,8 +149,18 @@
 			"nAllDiTauPairCandidates"
 		],
 		"OSChargeLeptons" : true,
-		"MuonEnergyCorrection" : "rochcorr2015",
-		"MuonRochesterCorrectionsFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/rochcorr/RoccoR_13tev.txt",
+		"MuonEnergyCorrection" : {
+			"nick": {
+				"default" : "",
+				"(Fall15MiniAODv2|Run2015)" : "rochcorr2015"
+			}
+		},
+		"MuonRochesterCorrectionsFile" : {
+			"nick": {
+				"default" : "",
+				"(Fall15MiniAODv2|Run2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/rochcorr/RoccoR_13tev.txt"
+			}
+		},
 		"Processors" : {
 			"nick" : {
 				"default" : [
