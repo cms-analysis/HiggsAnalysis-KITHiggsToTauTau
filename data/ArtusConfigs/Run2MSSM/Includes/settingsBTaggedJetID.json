@@ -3,7 +3,7 @@
 		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#b_tagging"
 	],
 
-	"BTaggedJetCombinedSecondaryVertexName" : "PfCombinedInclusiveSecondaryVertexV2BJetTags",
+	"BTaggedJetCombinedSecondaryVertexName" : "pfCombinedInclusiveSecondaryVertexV2BJetTags",
 	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.8,
 	"BTaggedJetCombinedSecondaryVertexLooseWP" : 0.605,
 	"BTaggedJetAbsEtaCut" : 2.4,

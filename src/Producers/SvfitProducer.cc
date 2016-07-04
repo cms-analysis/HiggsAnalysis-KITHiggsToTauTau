@@ -2,6 +2,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/filesystem/convenience.hpp>
+#include "boost/functional/hash.hpp"
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
@@ -24,7 +25,19 @@ void SvfitProducer::Init(setting_type const& settings)
 	
 	if (! settings.GetSvfitCacheFile().empty())
 	{
-		SvfitProducer::svfitTools.Init(std::vector<std::string>(1, settings.GetSvfitCacheFile()),
+        std::string svfitCacheFile = settings.GetSvfitCacheFile();
+        // Check if we need to look in a subfolder
+        if ( ! settings.GetSvfitCacheFileFolder().empty())
+        {
+            // modify the path to include the subfolder defined in the setting SvfitCacheFileFolder
+            boost::filesystem::path inputFilePath(svfitCacheFile);
+            boost::filesystem::path inputFileName = inputFilePath.filename();
+            inputFilePath = inputFilePath.parent_path();
+            inputFilePath /= boost::filesystem::path(settings.GetSvfitCacheFileFolder());
+            inputFilePath /= inputFileName;
+            svfitCacheFile = inputFilePath.string();
+        }
+		SvfitProducer::svfitTools.Init(std::vector<std::string>(1, svfitCacheFile),
 		                               settings.GetSvfitCacheTree());
 	}
 	else if ( ! settings.GetSvfitCacheFilePrefix().empty())
@@ -145,12 +158,16 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	}
 	// construct inputs
 	product.m_svfitInputs.Set(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
-	                          product.m_met.p4.Vect(), product.m_met.significance);
+	                          product.m_met.p4.Vect(), product.m_met.significance, decayMode1, decayMode2);
 	
 	// construct event key
-	product.m_svfitEventKey.Set(event.m_eventInfo->nRun, event.m_eventInfo->nLumi, event.m_eventInfo->nEvent,
-	                            decayType1, decayType2, decayMode1, decayMode2,
-	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, product.m_svfitInputs.GetHash());
+	size_t runLumiEvent = 0;
+	boost::hash_combine(runLumiEvent, event.m_eventInfo->nRun);
+	boost::hash_combine(runLumiEvent, event.m_eventInfo->nLumi);
+	boost::hash_combine(runLumiEvent, event.m_eventInfo->nEvent);
+
+	product.m_svfitEventKey.Set(runLumiEvent, decayType1, decayType2,
+	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, product.m_met.leptonSelectionHash);
 
 //	if (settings.GetGenerateSvfitInput())
 //	{

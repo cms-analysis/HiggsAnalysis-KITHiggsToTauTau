@@ -4,6 +4,7 @@
 
 	"PuJetIDs" : [
 	],
+	"PuJetIDFullDiscrName" : "pileupJetIdfullDiscriminant",
 	"JetTaggerLowerCuts" : [ 
 	],
 	"JetTaggerUpperCuts" : [

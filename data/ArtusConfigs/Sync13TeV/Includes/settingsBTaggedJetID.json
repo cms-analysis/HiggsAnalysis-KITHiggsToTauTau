@@ -5,7 +5,7 @@
 	"BTaggedJetCombinedSecondaryVertexName" : {
 		"nick" : {
 			"default" : "CombinedInclusiveSecondaryVertexV2BJetTags",
-			"(Spring|Fall)15" : "PfCombinedInclusiveSecondaryVertexV2BJetTags"
+			"(Spring|Fall)15" : "pfCombinedInclusiveSecondaryVertexV2BJetTags"
 		}
 	},
 	"BTaggedJetCombinedSecondaryVertexMediumWP" : {

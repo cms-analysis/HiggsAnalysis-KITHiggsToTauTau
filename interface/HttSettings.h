@@ -215,6 +215,7 @@ public:
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
+	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFileFolder, "");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFilePrefix, "");
 	IMPL_SETTING_DEFAULT(bool, UseFirstInputFileNameForSvfit, false);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheMissBehaviour, "assert");
@@ -280,4 +281,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, Lepton2AcceptancePtCut, -1.0);
 	IMPL_SETTING_DEFAULT(float, Lepton1AcceptanceEtaCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_DEFAULT(float, Lepton2AcceptanceEtaCut, std::numeric_limits<float>::max());
+
+	// settings for the ScaleVariationProducer
+	IMPL_SETTING_STRINGLIST_DEFAULT(GenEventInfoMetadataNames, {});
 };

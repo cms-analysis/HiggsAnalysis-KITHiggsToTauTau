@@ -8,26 +8,22 @@
 
 TChain* SvfitTools::svfitCacheInputTree = 0;
 
-SvfitEventKey::SvfitEventKey(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
+SvfitEventKey::SvfitEventKey(uint64_t const& runLumiEvent,
                              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-                             int const& decayMode1, int const& decayMode2, HttEnumTypes::SystematicShift const& systematicShift,
-                             float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint32_t const& hash)
+                             HttEnumTypes::SystematicShift const& systematicShift,
+                             float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint64_t const& hash)
 {
-	Set(run, lumi, event, decayType1, decayType2, decayMode1, decayMode2, systematicShift, systematicShiftSigma, integrationMethod, hash);
+	Set(runLumiEvent, decayType1, decayType2, systematicShift, systematicShiftSigma, integrationMethod, hash);
 }
 
-void SvfitEventKey::Set(uint64_t const& run, uint64_t const& lumi, uint64_t const& event,
+void SvfitEventKey::Set(uint64_t const& runLumiEvent,
                         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-                        int const& decayMode1, int const& decayMode2, HttEnumTypes::SystematicShift const& systematicShift,
-                        float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint32_t const& hash)
+                        HttEnumTypes::SystematicShift const& systematicShift,
+                        float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint64_t const& hash)
 {
-	this->run = run;
-	this->lumi = lumi;
-	this->event = event;
+	this->runLumiEvent = runLumiEvent;
 	this->decayType1 = Utility::ToUnderlyingValue(decayType1);
 	this->decayType2 = Utility::ToUnderlyingValue(decayType2);
-	this->decayMode1 = decayMode1;
-	this->decayMode2 = decayMode2;
 	this->systematicShift = Utility::ToUnderlyingValue<HttEnumTypes::SystematicShift>(systematicShift);
 	this->systematicShiftSigma = systematicShiftSigma;
 	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
@@ -46,28 +42,20 @@ SvfitEventKey::IntegrationMethod SvfitEventKey::GetIntegrationMethod() const
 
 void SvfitEventKey::CreateBranches(TTree* tree)
 {
-	tree->Branch("run", &run, "run/l");
-	tree->Branch("lumi", &lumi, "lumi/l");
-	tree->Branch("event", &event, "event/l");
+	tree->Branch("runLumiEvent", &runLumiEvent, "runLumiEvent/l");
 	tree->Branch("decayType1", &decayType1);
 	tree->Branch("decayType2", &decayType2);
-	tree->Branch("decayMode1", &decayMode1);
-	tree->Branch("decayMode2", &decayMode2);
 	tree->Branch("systematicShift", &systematicShift);
 	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("integrationMethod", &integrationMethod);
-	tree->Branch("hash", &hash);
+	tree->Branch("hash", &hash, "hash/l");
 }
 
 void SvfitEventKey::SetBranchAddresses(TTree* tree)
 {
-	tree->SetBranchAddress("run", &run);
-	tree->SetBranchAddress("lumi", &lumi);
-	tree->SetBranchAddress("event", &event);
+	tree->SetBranchAddress("runLumiEvent", &runLumiEvent);
 	tree->SetBranchAddress("decayType1", &decayType1);
 	tree->SetBranchAddress("decayType2", &decayType2);
-	tree->SetBranchAddress("decayMode1", &decayMode1);
-	tree->SetBranchAddress("decayMode2", &decayMode2);
 	tree->SetBranchAddress("systematicShift", &systematicShift);
 	tree->SetBranchAddress("systematicShiftSigma", &systematicShiftSigma);
 	tree->SetBranchAddress("integrationMethod", &integrationMethod);
@@ -77,13 +65,9 @@ void SvfitEventKey::SetBranchAddresses(TTree* tree)
 
 void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 {
-	tree->SetBranchStatus("run", activate);
-	tree->SetBranchStatus("lumi", activate);
-	tree->SetBranchStatus("event", activate);
+	tree->SetBranchStatus("runLumiEvent", activate);
 	tree->SetBranchStatus("decayType1", activate);
 	tree->SetBranchStatus("decayType2", activate);
-	tree->SetBranchStatus("decayMode1", activate);
-	tree->SetBranchStatus("decayMode2", activate);
 	tree->SetBranchStatus("systematicShift", activate);
 	tree->SetBranchStatus("systematicShiftSigma", activate);
 	tree->SetBranchStatus("integrationMethod", activate);
@@ -92,85 +76,55 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 
 bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
 {
-	if (run == rhs.run)
+	if (runLumiEvent == rhs.runLumiEvent)
 	{
-		if (lumi == rhs.lumi)
-		{
-			if (event == rhs.event)
-			{
-				if (decayType1 == rhs.decayType1)
-				{
-					if (decayType2 == rhs.decayType2)
-					{
-						if (decayMode1 == rhs.decayMode1)
-						{
-							if (decayMode2 == rhs.decayMode2)
-							{
-								if (integrationMethod == rhs.integrationMethod)
-								{
-									if (systematicShift == rhs.systematicShift)
-									{
-										if (hash == rhs.hash)
-										{
-											return (systematicShiftSigma < rhs.systematicShiftSigma);
-										}
-										else
-										{
-											return (hash < rhs.hash);
-										}
-									}
-									else
-									{
-										return (systematicShift < rhs.systematicShift);
-									}
-								}
-								else
-								{
-									return (integrationMethod < rhs.integrationMethod);
-								}
-							}
-							else
-							{
-								return (decayMode2 < rhs.decayMode2);
-							}
-						}
-						else
-						{
-							return (decayMode1 < rhs.decayMode1);
-						}
-					}
-					else
-					{
-						return (decayType2 < rhs.decayType2);
-					}
-				}
-				else
-				{
-					return (decayType1 < rhs.decayType1);
-				}
-			}
-			else
-			{
-				return (event < rhs.event);
-			}
-		}
-		else
-		{
-			return (lumi < rhs.lumi);
-		}
+        if (decayType1 == rhs.decayType1)
+        {
+            if (decayType2 == rhs.decayType2)
+            {
+                if (integrationMethod == rhs.integrationMethod)
+                {
+                    if (systematicShift == rhs.systematicShift)
+                    {
+                        if (hash == rhs.hash)
+                        {
+                            return (systematicShiftSigma < rhs.systematicShiftSigma);
+                        }
+                        else
+                        {
+                            return (hash < rhs.hash);
+                        }
+                    }
+                    else
+                    {
+                        return (systematicShift < rhs.systematicShift);
+                    }
+                }
+                else
+                {
+                    return (integrationMethod < rhs.integrationMethod);
+                }
+            }
+            else
+            {
+                return (decayType2 < rhs.decayType2);
+            }
+        }
+        else
+        {
+            return (decayType1 < rhs.decayType1);
+        }
 	}
 	else {
-		return (run < rhs.run);
+		return (runLumiEvent < rhs.runLumiEvent);
 	}
 }
 
 bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 {
-	return ((run == rhs.run) && (lumi == rhs.lumi) && (event == rhs.event) &&
+	return ((runLumiEvent == rhs.runLumiEvent) &&
 	        (decayType1 == rhs.decayType1) &&
 	        (decayType2 == rhs.decayType2) &&
-	        (decayMode1 == rhs.decayMode1) &&
-	        (decayMode2 == rhs.decayMode2) &&
 	        (integrationMethod == rhs.integrationMethod) &&
 	        (systematicShift == rhs.systematicShift) &&
 	        CutRange::EqualsCut(systematicShiftSigma).IsInRange(rhs.systematicShiftSigma) &&
@@ -185,13 +139,9 @@ bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
 std::string std::to_string(SvfitEventKey const& svfitEventKey)
 {
 	return std::string("SvfitEventKey(") +
-			"run=" + std::to_string(svfitEventKey.run) + ", " +
-			"lumi=" + std::to_string(svfitEventKey.lumi) + ", " +
-			"event=" + std::to_string(svfitEventKey.event) + ", " +
+			"runLumiEvent=" + std::to_string(svfitEventKey.runLumiEvent) + ", " +
 			"decayType1=" + std::to_string(svfitEventKey.decayType1) + ", " +
 			"decayType2=" + std::to_string(svfitEventKey.decayType2) + ", " +
-			"decayMode1=" + std::to_string(svfitEventKey.decayMode1) + ", " +
-			"decayMode2=" + std::to_string(svfitEventKey.decayMode2) + ", " +
 			"systematicShift=" + std::to_string(svfitEventKey.systematicShift) + ", " +
 			"systematicShiftSigma=" + std::to_string(svfitEventKey.systematicShiftSigma) + ", " +
 			"integrationMethod=" + std::to_string(svfitEventKey.integrationMethod) + "," +
@@ -204,10 +154,11 @@ std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey)
 }
 
 SvfitInputs::SvfitInputs(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
-                         RMDataV const& metMomentum, RMSM2x2 const& metCovariance)
+                         RMDataV const& metMomentum, RMSM2x2 const& metCovariance,
+                         int const& decayMode1, int const& decayMode2)
 	: SvfitInputs()
 {
-	Set(leptonMomentum1, leptonMomentum2, metMomentum, metCovariance);
+	Set(leptonMomentum1, leptonMomentum2, metMomentum, metCovariance, decayMode1, decayMode2);
 }
 
 SvfitInputs::~SvfitInputs()
@@ -233,7 +184,8 @@ SvfitInputs::~SvfitInputs()
 }
 
 void SvfitInputs::Set(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
-                      RMDataV const& metMomentum, RMSM2x2 const& metCovariance)
+                      RMDataV const& metMomentum, RMSM2x2 const& metCovariance,
+                      int const& decayMode1, int const& decayMode2)
 {
 	if (! this->leptonMomentum1)
 	{
@@ -251,11 +203,21 @@ void SvfitInputs::Set(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2
 	{
 		this->metCovariance = new RMSM2x2();
 	}
+	if (! this->decayMode1)
+	{
+		this->decayMode1 = new int;
+	}
+	if (! this->decayMode2)
+	{
+		this->decayMode2 = new int;
+	}
 	
 	*(this->leptonMomentum1) = leptonMomentum1;
 	*(this->leptonMomentum2) = leptonMomentum2;
 	*(this->metMomentum) = metMomentum;
 	*(this->metCovariance) = metCovariance;
+	*(this->decayMode1) = decayMode1;
+	*(this->decayMode2) = decayMode2;
 }
 
 void SvfitInputs::CreateBranches(TTree* tree)
@@ -264,6 +226,8 @@ void SvfitInputs::CreateBranches(TTree* tree)
 	tree->Branch("leptonMomentum2", "RMFLV", &leptonMomentum2);
 	tree->Branch("metMomentum", "ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag>", &metMomentum);
 	tree->Branch("metCovariance", "ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >", &metCovariance);
+	tree->Branch("decayMode1", decayMode1);
+	tree->Branch("decayMode2", decayMode2);
 }
 
 void SvfitInputs::SetBranchAddresses(TTree* tree)
@@ -272,6 +236,8 @@ void SvfitInputs::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("leptonMomentum2", &leptonMomentum2);
 	tree->SetBranchAddress("metMomentum", &metMomentum);
 	tree->SetBranchAddress("metCovariance", &metCovariance);
+	tree->SetBranchAddress("decayMode1", decayMode1);
+	tree->SetBranchAddress("decayMode2", decayMode2);
 	ActivateBranches(tree, true);
 }
 
@@ -281,6 +247,8 @@ void SvfitInputs::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("leptonMomentum2", activate);
 	tree->SetBranchStatus("metMomentum", activate);
 	tree->SetBranchStatus("metCovariance", activate);
+	tree->SetBranchStatus("decayMode1", activate);
+	tree->SetBranchStatus("decayMode2", activate);
 }
 
 bool SvfitInputs::operator==(SvfitInputs const& rhs) const
@@ -288,19 +256,14 @@ bool SvfitInputs::operator==(SvfitInputs const& rhs) const
 	return (Utility::ApproxEqual(*leptonMomentum1, *(rhs.leptonMomentum1)) &&
 	        Utility::ApproxEqual(*leptonMomentum2, *(rhs.leptonMomentum2)) &&
 	        Utility::ApproxEqual(*metMomentum, *(rhs.metMomentum)) &&
-	        Utility::ApproxEqual(*metCovariance, *(rhs.metCovariance)));
+	        Utility::ApproxEqual(*metCovariance, *(rhs.metCovariance)) &&
+	        (*decayMode1 == *(rhs.decayMode1)) &&
+	        (*decayMode2 == *(rhs.decayMode2)));
 }
 
 bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
 {
 	return (! (*this == rhs));
-}
-
-uint32_t SvfitInputs::GetHash()
-{
-	return ( getLVChargeHash(leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMomentum1->M(), 1) ^
-	         getLVChargeHash(leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMomentum2->M(), -1) ^
-	         getLVChargeHash(metMomentum->x(), metCovariance->At(0, 0), metMomentum->y(), metCovariance->At(1, 1), 0) );
 }
 
 SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM) const
@@ -342,8 +305,8 @@ std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLepto
         leptonMass2 = leptonMomentum2->M();
     }
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1,svfitEventKey.decayMode1),
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2,svfitEventKey.decayMode2)
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, *decayMode1),
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, *decayMode2)
 	};
 	return measuredTauLeptons;
 }

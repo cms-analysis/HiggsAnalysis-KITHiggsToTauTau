@@ -53,7 +53,8 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer"
+				"producer:PUWeightProducer",
+				"producer:ScaleVariationProducer"
 			],
 			"Run201" : [
 				"#filter:RunLumiEventFilter",
