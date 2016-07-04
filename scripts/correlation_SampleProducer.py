@@ -88,31 +88,43 @@ def calculate_partial_correlation(config):
 	root_inf = ROOT.TFile(config["storage_file"], "read")
 	root_inst = root_inf.Get(config["storage_ntuple"])
 	for variables in itertools.combinations(config["parameters_list"], 2):
-		xbins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip()
-		ybins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[1]).strip()
-		xbins = []
-		ybins = []
-		if "," in xbins_list:
-			xbins_list = map(float, xbins_list.split(","))
-			xbins += xbins_list
-			xbins[0] = int(xbins[0])
-		elif len(xbins_list.split(" ")) >= 2:
-			a_bins_list = array.array('d',map(float, xbins_list.split(" ")))
-			xbins_list.append(len(xbins_list.split(" "))-1)
-			xbins.append(a_bins_list)
-		else:
-			xbins = [100,0.,0.]
+		bins_raw = [binnings_dict.get_binning("%s_"%config["channel"]+variables[1]).strip(),
+					binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip()]
+		for i, bins in enumerate(bins_raw):
+			if " " in bins:
+				tmp_bins = bins.split(" ")
+				bins_raw[i] = [100,float(tmp_bins[0]),float(tmp_bins[-1])]
+			elif "," in bins:
+				tmp_bins = bins.split(",")
+				bins_raw[i] = [100,float(tmp_bins[0]),float(tmp_bins[-1])]
+			else:
+				bins_raw[i] = [100,0.,0.]
 
-		if "," in ybins_list:
-			ybins_list = map(float, ybins_list.split(","))
-			ybins += ybins_list
-			ybins[0] = int(ybins[0])
-		elif len(ybins_list.split(" ")) >= 2:
-			a_bins_list = array.array('d',map(float, ybins_list.split(" ")))
-			ybins.append(len(ybins_list.split(" "))-1)
-			ybins.append(a_bins_list)
-		else:
-			ybins = [100,0.,0.]
+
+		[xbins, ybins] = bins_raw
+		log.warning(bins_raw)
+		#sys.exit()
+		#if "," in xbins_list:
+			#xbins_list = map(float, xbins_list.split(","))
+			#xbins += xbins_list
+			#xbins[0] = int(xbins[0])
+		#elif len(xbins_list.split(" ")) >= 2:
+			#a_bins_list = array.array('d',map(float, xbins_list.split(" ")))
+			#xbins_list.append(len(xbins_list.split(" "))-1)
+			#xbins.append(a_bins_list)
+		#else:
+			#xbins = [100,0.,0.]
+
+		#if "," in ybins_list:
+			#ybins_list = map(float, ybins_list.split(","))
+			#ybins += ybins_list
+			#ybins[0] = int(ybins[0])
+		#elif len(ybins_list.split(" ")) >= 2:
+			#a_bins_list = array.array('d',map(float, ybins_list.split(" ")))
+			#ybins.append(len(ybins_list.split(" "))-1)
+			#ybins.append(a_bins_list)
+		#else:
+			#ybins = [100,0.,0.]
 
 		binnings = xbins + ybins
 		log.debug("Generate RootHistogram TH2F: %s"%("+-+".join(variables)))
