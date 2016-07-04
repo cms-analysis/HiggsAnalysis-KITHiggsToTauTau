@@ -47,6 +47,11 @@ if __name__ == "__main__":
 							#help="skip plotting")
 	args = parser.parse_args()
 	logger.initLogger(args)
+	nice_channel = {
+		"em": "#scale[1.5]{e#mu ",
+		"mt": "#scale[1.5]{#mu#tau_{h} ",
+		"et": "#scale[1.5]{e#tau_{h} ",
+		"tt": "#scale[1.5]{#tau_{h}#tau_{h} "}
 	binnings_dict = import_binnings.BinningsDict()
 	input_bdts = {}
 	for i,in_dir in enumerate(args.input_dirs):
@@ -63,7 +68,9 @@ if __name__ == "__main__":
 	jsonTools.JsonDict(input_bdts).save("testPlot.json", indent=4)
 	for name, plot in input_bdts.iteritems():
 		bdt_var = "BDT_"+name
-		channel = name.split("_")[0]
+		split_parts = name.split("_")
+		channel = split_parts[0]
+		title = nice_channel[channel] + split_parts[1].replace("Jets", " Jet") + " %s"%split_parts[2] + "}"
 		config = {
 		"analysis_modules": [
 			"NormalizeToUnity",
@@ -78,7 +85,7 @@ if __name__ == "__main__":
 		"legend_markers": [
 			"PE"
 				],
-		"title": "channel_%s"%channel,
+		"title": title,
 		"x_label": "Background Rejection",
 		"y_label": "Signal Efficiency",
 		"legend": [
@@ -93,6 +100,7 @@ if __name__ == "__main__":
 		"labels": [],
 		"colors": [],
 		"x_bins": [],
+		"formats": ["pdf", "png"],
 		"x_expressions": [],
 		"weights": [
 			"weight*(classID==1)",

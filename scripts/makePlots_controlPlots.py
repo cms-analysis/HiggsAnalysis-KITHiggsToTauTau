@@ -16,15 +16,15 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 
 
-def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass):
+def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick):
 	if not "scale_nicks" in config.keys():
 		config["scale_nicks"]=[]
 		config["scales"]=[]
 		config["scale_result_nicks"]=[]
 	config["analysis_modules"].append("ScaleHistograms")
-	config["scale_nicks"].append("htt%i"%higgsmass)
+	config["scale_nicks"].append(higgs_nick)
 	config["scales"].append(1.0/args.scale_signal)
-	config["scale_result_nicks"].append("htt%iScaled"%higgsmass)
+	config["scale_result_nicks"].append("%s_SoB_Scaled"%higgs_nick)
 
 	config["analysis_modules"].append("BlindingPolicy")
 	config["blinding_background_nicks"] = []
@@ -36,7 +36,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgsmass)
 		config["blinding_method"].append(method)
 		config["blinding_result_nicks"].append("blinding_" + method)
 		config["blinding_background_nicks"].append(" ".join(bkg_samples))
-		config["blinding_signal_nicks"].append("htt%iScaled"%higgsmass)
+		config["blinding_signal_nicks"].append("%s_SoB_Scaled"%higgs_nick)
 		config["blinding_parameters"].append(args.blinding_parameter)
 
 	if( show_subplot ):
@@ -238,11 +238,17 @@ if __name__ == "__main__":
 		if int(args.scale_signal) == 1:
 			scale_str = ""
 		for sample in sig_samples_raw:
-			if sample is not "htt":
-				sig_samples.append(sample+"%s"%(mass))
-			else:
-				sig_samples.append(sample+"%s%s"%(mass, scale_str))
+			#if sample is not "htt":
+				#sig_samples.append(sample+"%s"%(mass))
+			#else:
+				#sig_samples.append(sample+"%s%s"%(mass, scale_str))
+			sig_samples.append(sample+"%s%s"%(mass, scale_str))
+
+
+	log.debug("used bkg + signal nicks")
+	log.debug(" ".join(bkg_samples+sig_samples))
 	binnings_settings = binnings.BinningsDict()
+
 
 	args.categories = [None if category == "None" else category for category in args.categories]
 
@@ -383,6 +389,8 @@ if __name__ == "__main__":
 							replaced_bkg_nicks.append(sample)
 						elif sample == "all":
 							replaced_bkg_nicks += bkg_samples
+					log.debug("replace bkg + signal nicks")
+					log.debug(" ".join(replaced_bkg_nicks+replaced_sig_nicks))
 					for sample in replaced_bkg_nicks+replaced_sig_nicks:
 						nick = sample
 						if sample in sig_samples_raw and len(args.higgs_masses) > 1:
@@ -404,6 +412,8 @@ if __name__ == "__main__":
 						config["scale_nicks"].append(sample)
 						config["scales"].append(1.0/args.scale_signal)
 						config["scale_result_nicks"].append(sample+"_Scaled")
+					log.warning(config["scale_nicks"])
+					log.warning(scale_nicks)
 					log.warning(bkg_samples_used)
 					log.warning(sig_samples_used)
 					#sys.exit()
@@ -423,10 +433,14 @@ if __name__ == "__main__":
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					hmass_temp = 125
+					higgs_temp = "htt125"
 					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
-						hmass_temp = int(args.higgs_masses[0])
-					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, hmass_temp)
+						higgs_temp = "htt%i"%int(args.higgs_masses[0])
+					for sample in sig_samples:
+						if higgs_temp in sample:
+							higgs_temp = sample
+							break
+					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, higgs_temp)
 
 				if(args.blinding_threshold > 0):
 					if(args.blinding_variables[0] == "all" or quantity in args.blinding_variables):

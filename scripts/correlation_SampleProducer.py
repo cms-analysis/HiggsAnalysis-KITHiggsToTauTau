@@ -22,8 +22,9 @@ import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 def calculate_partial_correlation(config):
-
-	stored_files_list = []
+	channel = config["channel"]
+	category = config["category"]
+	requested_sample = config["request_nick"]
 	#construct list of rootfiles, if prepare samples is enabled, files are produced
 	c_tree = ""
 	c_tree_list = ROOT.TList()
@@ -69,10 +70,11 @@ def calculate_partial_correlation(config):
 			c_tree =ROOT.TChain()
 		log.debug("Prepare Sample %s from %i files"%(root_storage_file,len(c_tree_list)))
 		c_tree.SetName(config["folders"][0].replace("/ntuple", ""))
+		c_tree.Write()
 		for i in range(len(c_tree_list)):
 			del c_tree_list[0]
 		del c_tree_list
-		store_file.Write()
+		#store_file.Write()
 		store_file.Close()
 	#log.error("Reached Breakpoint, would start calculations next!")
 	#sys.exit()
@@ -80,6 +82,7 @@ def calculate_partial_correlation(config):
 	corr_vars = {}
 	binnings_dict = import_binnings.BinningsDict()
 	nick_path = os.path.join(config["output_dir_path"], channel, category, requested_sample)
+	log.debug("save output to folder %s"%nick_path)
 	if not os.path.exists(nick_path):
 		os.makedirs(nick_path)
 	root_inf = ROOT.TFile(config["storage_file"], "read")
@@ -183,7 +186,6 @@ def calculate_partial_correlation(config):
 		root_histograms[varxy].Write()
 	corr_vars["weight_sum"] = i
 	corr_vars["n"] = n
-	hist_file.Write()
 	hist_file.Close()
 	root_inf.Close()
 	config["correlations"] = corr_vars
@@ -300,7 +302,7 @@ if __name__ == "__main__":
 				config["channel"] = channel
 				config["prepare_samples"] = prepare_samples
 				config["overwrite_samples"] = overwrite_samples
-				config["storage_name_extension"] = os.path.join(storage_name_extension, channel, category, requested_sample)
+				config["storage_name_extension"] = os.path.join(storage_name_extension, channel, category_string, requested_sample)
 				if not os.path.exists(config["storage_name_extension"]):
 					os.makedirs(config["storage_name_extension"])
 				config["output_filename"] = args.filename
