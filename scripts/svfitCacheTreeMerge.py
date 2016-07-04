@@ -16,6 +16,7 @@ ROOT.gErrorIgnoreLevel = ROOT.kError
 import HiggsAnalysis.KITHiggsToTauTau.treemerge as treemerge
 import Artus.Utility.progressiterator as pi
 import Artus.Utility.tools as tools
+import Artus.Utility.jsonTools as jsonTools
 
 import glob
 import tempfile
@@ -42,6 +43,8 @@ def main():
 	                    help="Paths of input SVfit cache trees. [Default: %(default)s]")
 	parser.add_argument("--output-tree", default="svfitCache",
 	                    help="Name of output SVfit cache tree. [Default: %(default)s]")
+	parser.add_argument("--use-pipelines", default=False, action="store_true",
+	                    help="Write caches into one chache per pipeline[Default: %(default)s]")
 	parser.add_argument("--dcache", type=bool, default=False,
 	                    help="Read&Write from and to desy dcache[Default: %(default)s]")
 	parser.add_argument("--no-run", default=False, action="store_true",
@@ -57,13 +60,28 @@ def main():
 		output = args.output
 		input_trees = args.input_trees
 		output_trees = args.output_tree
-
-		merged_tree_name = treemerge.treemerge(
-				input, input_trees,
-				output, output_trees,
-				match_input_tree_names=True
-		)
-		log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
+		if args.use_pipelines:
+			config = jsonTools.JsonDict(input[0])
+			pipelines = config.get("Pipelines", {}).keys()
+			# extract names without the leading channel
+			pipelines = ["_".join(pipeline.split("_")[1:]) for pipeline in pipelines]
+			pipelines = list(set(pipelines))
+			for pipeline in pipelines:
+				if not os.path.exists(pipeline):
+					os.makedirs(pipeline)
+				merged_tree_name = treemerge.treemerge(
+						input, [pipeline+"/"+input_tree for input_tree in input_trees],
+						pipeline+"/"+output, output_trees,
+						match_input_tree_names=True
+				)
+				log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
+		else:
+			merged_tree_name = treemerge.treemerge(
+					input, input_trees,
+					output, output_trees,
+					match_input_tree_names=True
+			)
+			log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
 	else:
 		input_dirs = args.input
 		nick_names = {}
@@ -78,7 +96,6 @@ def main():
 		if not args.no_run:
 			for index in range(len(untar_commands)):
 				tools.parallelize(_call_command, [untar_commands[index]], 1)
-		,tmpdir),tmpdir)
 		regex=re.compile(".*/(.*)_jobs_[0-9]+_SvfitCache.._(.*)[0-9]+.root")
 		matches = [(regex.match(file).groups(),file) for file in glob.glob(tmpdir+"*.root")]
 		dirs = {}
@@ -93,7 +110,7 @@ def main():
 			for pipeline in dirs[samples]:
 				tmp_filename = tmpdir + "/" + pipeline + "/svfitCache_" + samples + ".root"
 				out_filename = args.output + "/" + pipeline + "/svfitCache_" + samples + ".root"
-				merge_commands.append("hadd -f %s %s"%(tmp_filename, " ".join(dirs[samples][pipeline]))
+				merge_commands.append("hadd -f %s %s"%(tmp_filename, " ".join(dirs[samples][pipeline])))
 				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
 				config_file.append('"%s" : "%s",' % (nick_name, "dcap://dcache-cms-dcap.desy.de/pnfs/" + out_filename.split("pnfs")[1]))
 		if not args.no_run:
