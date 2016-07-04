@@ -74,7 +74,7 @@ class Samples(samples.SamplesBase):
 					"Tau*_Run2012?_22Jan2013_8TeV/*.root",
 					channel+"_dirIso_z_jecUncNom_tauEs/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -84,7 +84,7 @@ class Samples(samples.SamplesBase):
 					"MuEG_Run2012?_22Jan2013_8TeV/*.root",
 					"em_dirIso_jecUnc/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -94,7 +94,7 @@ class Samples(samples.SamplesBase):
 					"DoubleMu*_Run2012?_22Jan2013_8TeV/*.root",
 					"mm_dirIso_jecUnc/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -119,7 +119,7 @@ class Samples(samples.SamplesBase):
 						"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 						channel+"_dirIso" + ("_tt" if channel in ["tt", "em", "mm"] else "_ztt") + "_jecUncNom" + ("_tauEsNom" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi,
-						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+						weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 						"ztt",
 						nick_suffix=nick_suffix
 				)
@@ -129,7 +129,7 @@ class Samples(samples.SamplesBase):
 						"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						1.0,
-						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+						weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 						"ztt",
 						nick_suffix=nick_suffix
 				)
@@ -138,7 +138,7 @@ class Samples(samples.SamplesBase):
 						"*_PFembedded_Run2012?_22Jan2013_"+channel+"_8TeV/*.root",
 						channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						1.0,
-						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+						weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 						"noplot_ztt_emb_inc",
 						nick_suffix=nick_suffix
 				)
@@ -147,7 +147,7 @@ class Samples(samples.SamplesBase):
 						"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 						channel+"_dirIso" + ("_tt" if channel in ["tt", "em", "mm"] else "_ztt") + "_jecUncNom" + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 						lumi,
-						weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+						weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 						"noplot_ztt_mc_inc",
 						nick_suffix=nick_suffix
 				)
@@ -180,7 +180,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					(channel+"_dirIso_ee_jecUncNom" + ("_tauEsNom" if channel == "tt" else "") + "/ntuple "+channel+"_dirIso_mm_jecUncNom" + ("_tauEsNom" if channel == "tt" else "") + "/ntuple") if channel in ["tt", "em", "mm"] else channel+"_dirIso_zl_jecUncNom_tauEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"zl",
 					nick_suffix=nick_suffix
 			)
@@ -204,7 +204,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_zj_jecUncNom_tauEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"zj"
 			)
 			
@@ -230,7 +230,7 @@ class Samples(samples.SamplesBase):
 					"TTJets*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_z_jecUncNom_tauEs/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -240,7 +240,7 @@ class Samples(samples.SamplesBase):
 					"TTJetsTo*_madgraph_tauola_8TeV/*.root",
 					"em_dirIso_jecUncNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -249,7 +249,7 @@ class Samples(samples.SamplesBase):
 					"T*_powheg_tauola_8TeV/*.root",
 					"em_dirIso_jecUncNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -259,7 +259,7 @@ class Samples(samples.SamplesBase):
 					"MuEG_Run2012?_22Jan2013_8TeV/*.root",
 					"em_dirIso_jecUnc/ntuple",
 					1.0,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
 					"noplot_ttj_data_control"
 			)
 			Samples._add_input(
@@ -267,7 +267,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_tt_jecUncNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
 					"noplot_ztt_mc_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -276,7 +276,7 @@ class Samples(samples.SamplesBase):
 					"DYJetsToLL_M_50_madgraph_8TeV/*.root",
 					channel+"_dirIso_ee_jecUncNom/ntuple "+channel+"_dirIso_mm_jecUncNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
 					"noplot_zll_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -285,7 +285,7 @@ class Samples(samples.SamplesBase):
 					"WJetsToLN_madgraph_8TeV/*.root",
 					channel+"_dirIso_jecUncNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
 					"noplot_wj_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -294,7 +294,7 @@ class Samples(samples.SamplesBase):
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso_jecUncNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
 					"noplot_vv_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -303,7 +303,7 @@ class Samples(samples.SamplesBase):
 					"TTJetsTo*_madgraph_tauola_8TeV/*.root",
 					"em_dirIso_jecUncNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
 					"noplot_ttj_mc_signal",
 					nick_suffix=nick_suffix
 			)
@@ -312,7 +312,7 @@ class Samples(samples.SamplesBase):
 					"T*_powheg_tauola_8TeV/*.root",
 					"em_dirIso_jecUncNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"]),
 					"noplot_ttj_mc_signal",
 					nick_suffix=nick_suffix
 			)
@@ -321,7 +321,7 @@ class Samples(samples.SamplesBase):
 					"TTJetsTo*_madgraph_tauola_8TeV/*.root",
 					"em_dirIso_jecUncNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
 					"noplot_ttj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -330,7 +330,7 @@ class Samples(samples.SamplesBase):
 					"T*_powheg_tauola_8TeV/*.root",
 					"em_dirIso_jecUncNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"]) + "*(pZetaMissVis < -20.0)",
 					"noplot_ttj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -350,7 +350,7 @@ class Samples(samples.SamplesBase):
 					"TTJetsTo*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso" + ("_jecUncNom_tauEs" if channel == "tt" else "") + "/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -374,7 +374,7 @@ class Samples(samples.SamplesBase):
 					"??JetsToLL??*_madgraph_tauola_8TeV/*.root",
 					channel+"_dirIso" + ("_z" if channel in ["et", "mt"] else "") + "_jecUncNom" + ("_tauEs" if channel in ["tt", "et", "mt"] else "") + "/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"vv",
 					nick_suffix=nick_suffix
 			)
@@ -384,7 +384,7 @@ class Samples(samples.SamplesBase):
 					"??_pythia_tauola_8TeV/*.root",
 					channel+"_dirIso_jecUncNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"vv",
 					nick_suffix=nick_suffix
 			)
@@ -408,7 +408,7 @@ class Samples(samples.SamplesBase):
 					"WJetsToLN_madgraph_8TeV/*.root",
 					"tt_dirIso_jecUncNom_tauEs/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts),
 					"wj",
 					nick_suffix=nick_suffix
 			)

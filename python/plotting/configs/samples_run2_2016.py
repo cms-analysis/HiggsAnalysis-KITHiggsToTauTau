@@ -15,9 +15,11 @@ default_lumi = 3.99*1000.0
 energy = 13
 data_format = "MINIAOD"
 data_campaign = "Run2016.*"
-mc_campaign = ""
+mc_campaign = "RunIISpring16MiniAODv.*"
 
 class Samples(samples.SamplesBase):
+
+	
 
 	@staticmethod 
 	def root_file_folder(channel):
@@ -153,10 +155,24 @@ class Samples(samples.SamplesBase):
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
 
+		# DY N Jets and 10 to 50 from miniAODv1
+		query = {}
+		query["data"] = False
+		query["campaign"] = mc_campaign + "1"
+		query["generator"] = "madgraph\-pythia8"
+		query["process"] = "(DYJetsToLLM10to50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)"
+		artus_files = self.artus_file_names(query , 5)
+
+		# only ext sample miniAODv2
+		query["process"] = "DYJetsToLLM50"
+		query["campaign"] = mc_campaign + "2"
+		artus_files = artus_files + " " + self.artus_file_names(query , 1)
+
+		self.root_file_folder(channel),
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
 					config,
-					"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
+					artus_files,
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),

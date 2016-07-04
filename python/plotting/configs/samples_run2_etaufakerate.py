@@ -80,7 +80,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015?_*_13TeV_*AOD/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -90,7 +90,7 @@ class Samples(samples.SamplesBase):
 					"SingleElectron_Run2015?_*_13TeV_*AOD/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -100,7 +100,7 @@ class Samples(samples.SamplesBase):
 					"Tau_Run2015?_*_13TeV_*AOD/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"data",
 					nick_suffix=nick_suffix
 			)
@@ -124,7 +124,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
@@ -150,7 +150,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*eventWeight*" + Samples.zl_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"zl",
 					nick_suffix=nick_suffix
 			)
@@ -175,7 +175,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*eventWeight*" + Samples.zj_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"zj",
 					nick_suffix=nick_suffix
 			)
@@ -200,7 +200,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*eventWeight*" + Samples.zll_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"zll",
 					nick_suffix=nick_suffix
 			)
@@ -225,7 +225,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -250,7 +250,7 @@ class Samples(samples.SamplesBase):
 					"ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIIFall15*_*_13TeV_*AOD_*/*.root WZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root ZZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root VV*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"vv",
 					nick_suffix=nick_suffix
 			)
@@ -270,10 +270,10 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 		
 		if channel in ["mt", "et"]:
-			shape_weight = weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)
+			shape_weight = weight+"*stitchWeightWJ*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)
 			#if (not category is None) and (category != ""):
 				## relaxed isolation
-				#shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type) + "*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
+				#shape_weight = weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type) + "*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
 			
 			Samples._add_input(
 					config,
@@ -289,7 +289,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2015?_*_13TeV_*AOD/*root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					1.0,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 					"noplot_wj_data_control"
 			)
 			Samples._add_input(
@@ -297,7 +297,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+					"eventWeight*" + Samples.ztt_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 					"noplot_ztt_mc_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -306,7 +306,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+					"eventWeight*" + Samples.zll_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 					"noplot_zll_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -315,7 +315,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 					"noplot_ttj_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -324,7 +324,7 @@ class Samples(samples.SamplesBase):
 					"ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIIFall15*_*_13TeV_*AOD_*/*.root WZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root ZZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root VV*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 					"noplot_vv_wj_control",
 					nick_suffix=nick_suffix
 			)
@@ -333,7 +333,7 @@ class Samples(samples.SamplesBase):
 					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*stitchWeightWJ*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"noplot_wj_mc_signal",
 					nick_suffix=nick_suffix
 			)
@@ -342,7 +342,7 @@ class Samples(samples.SamplesBase):
 					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+					"stitchWeightWJ*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 					"noplot_wj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -362,7 +362,7 @@ class Samples(samples.SamplesBase):
 					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					weight+"*stitchWeightWJ*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"wj",
 					nick_suffix=nick_suffix
 			)
@@ -390,7 +390,7 @@ class Samples(samples.SamplesBase):
 					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+					"stitchWeightWJ*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 					"noplot_wj_ss",
 					nick_suffix=nick_suffix
 			)
@@ -401,7 +401,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root"),
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						1.0,
-						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						"noplot_wj_ss_data_control",
 						nick_suffix=nick_suffix
 				)
@@ -410,7 +410,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						lumi,
-						"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						"eventWeight*" + Samples.ztt_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						"noplot_ztt_ss_mc_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -419,7 +419,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						lumi,
-						"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						"eventWeight*" + Samples.zll_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						"noplot_zll_ss_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -428,7 +428,7 @@ class Samples(samples.SamplesBase):
 						"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root",
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						lumi,
-						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						"noplot_ttj_ss_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -437,7 +437,7 @@ class Samples(samples.SamplesBase):
 						"ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIIFall15*_*_13TeV_*AOD_*/*.root WZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root ZZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root VV*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						lumi,
-						"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						"noplot_vv_ss_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -446,7 +446,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						lumi,
-						"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						"stitchWeightWJ*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_wj_ss_mc_signal",
 						nick_suffix=nick_suffix
 				)
@@ -455,7 +455,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 						channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 						lumi,
-						"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						"stitchWeightWJ*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						"noplot_wj_ss_mc_control",
 						nick_suffix=nick_suffix
 				)
@@ -470,13 +470,13 @@ class Samples(samples.SamplesBase):
 				config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
 			
 			# QCD
-			shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"
+			shape_weight = weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"
 			#if (not category is None) and (category != ""):
 				## relaxed/inverted isolation
 				#if channel in ["et", "mt"]:
-					#shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "iso_2"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"+"*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
+					#shape_weight = weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "iso_2"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"+"*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
 				#else:
-					#shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "iso_1", "iso_2"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"
+					#shape_weight = weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "iso_1", "iso_2"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"
 			
 			Samples._add_input(
 					config,
@@ -492,7 +492,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root" if channel == "em" else "Tau_Run2015?_*_13TeV_*AOD/*.root"),
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					1.0,
-					weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+					weight+"*eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 					"noplot_data_qcd_yield",
 					nick_suffix=nick_suffix
 			)
@@ -501,7 +501,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2015?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2015?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2015?_*_13TeV_*AOD/*.root" if channel == "em" else "Tau_Run2015?_*_13TeV_*AOD/*.root"),
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					1.0,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 					"noplot_data_qcd_control",
 					nick_suffix=nick_suffix
 			)
@@ -510,7 +510,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + Samples.ztt_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 					"noplot_ztt_mc_qcd_control",
 					nick_suffix=nick_suffix
 			)
@@ -519,7 +519,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIIFall15*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + Samples.zll_genmatch(channel) + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 					"noplot_zll_qcd_control",
 					nick_suffix=nick_suffix
 			)
@@ -528,7 +528,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 					"noplot_ttj_qcd_control",
 					nick_suffix=nick_suffix
 			)
@@ -537,7 +537,7 @@ class Samples(samples.SamplesBase):
 					"ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIIFall15*_*_13TeV_*AOD_*/*.root WZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root ZZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root VV*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_tagEleEsNom_probeTauEsNom_probeEleEsNom/ntuple",
 					lumi,
-					"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+					"eventWeight*" + self.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 					"noplot_vv_qcd_control",
 					nick_suffix=nick_suffix
 			)
