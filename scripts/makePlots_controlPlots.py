@@ -105,7 +105,7 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
+	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ewk", "ff", "ggh", "qqh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
