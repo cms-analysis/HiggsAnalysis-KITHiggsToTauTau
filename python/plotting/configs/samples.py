@@ -96,7 +96,7 @@ class SamplesBase(object):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
-		cuts = cutstrings.CutStringsDict()._get_cutdict(channel, cut_type)
+		cuts = cutstrings.CutStringsDict._get_cutdict(channel, cut_type)
 		cuts_list = [cut for (name, cut) in cuts.iteritems() if not name in exclude_cuts]
 		if len(cuts_list) == 0:
 			cuts_list.append("1.0")

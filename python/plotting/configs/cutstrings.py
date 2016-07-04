@@ -324,8 +324,9 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
-	def _get_cutdict(self, channel, cut_type):
+
+	@staticmethod
+	def _get_cutdict(channel, cut_type):
 		cuts = {}
 		if cut_type=="baseline":
 			cuts = CutStringsDict.baseline(channel, cut_type)
