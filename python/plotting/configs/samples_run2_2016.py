@@ -96,6 +96,18 @@ class Samples(samples.SamplesBase):
 		
 		return config
 
+	def projection(self, kwargs):
+		data_weight = "(1.0)*"
+		mc_weight = "(1.0)*"
+		if kwargs.get("project_to_lumi", False):
+			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
+		if kwargs.get("cut_mc_only", False):
+			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
+		if kwargs.get("scale_mc_only", False):
+			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		return data_weight, mc_weight
+
 	def files_data(self, channel):
 		query = {}
 		expect_n_results = 1 # adjust in if-statements if different depending on channel
@@ -162,15 +174,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 
 		self.root_file_folder(channel),
@@ -214,15 +218,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZLL", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
@@ -258,15 +254,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		Samples._add_input(
 				config,
@@ -378,15 +366,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		if channel in ["mt", "et", "em", "tt", "mm"]:
 			Samples._add_input(
@@ -422,15 +402,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		if channel in ["mt", "et"]:
 			if estimationMethod == "new":
@@ -756,15 +728,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("QCD", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		if channel in ["et", "mt", "em", "tt", "mm"]:
 			if estimationMethod == "classic":
@@ -1262,15 +1226,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("bbh", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em"]:
@@ -1317,15 +1273,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ggh", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm"]:
@@ -1369,15 +1317,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("qqH", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm"]:
@@ -1458,15 +1398,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("WH", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm"]:
@@ -1525,15 +1457,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZH", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm"]:
@@ -1608,15 +1532,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 
-		data_weight = "(1.0)*"
-		mc_weight = "(1.0)*"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-			mc_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + mc_weight
-		if kwargs.get("cut_mc_only", False):
-			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
-		if kwargs.get("scale_mc_only", False):
-			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
+		data_weight, mc_weight = self.projection(kwargs) 
 
 		if channel in ["mt", "et"]:
 			Samples._add_input(
