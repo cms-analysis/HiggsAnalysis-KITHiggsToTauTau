@@ -22,6 +22,7 @@ class SamplesBase(object):
 		self.postfit_scales = None
 		self.expressions = expressions.ExpressionsDict()
 		
+		self.exclude_cuts = []
 		self.period = "run"
 		
 	
@@ -91,11 +92,16 @@ class SamplesBase(object):
 		
 		return merged_config
 
+	def _cut_string(self, channel, exclude_cuts=None, cut_type="baseline"):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		exclude_cuts += self.exclude_cuts
+		return self.cut_string(channel, exclude_cuts, cut_type)
+
 	@staticmethod
 	def cut_string(channel, exclude_cuts=None, cut_type="baseline"):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
 		cuts = cutstrings.CutStringsDict._get_cutdict(channel, cut_type)
 		cuts_list = [cut for (name, cut) in cuts.iteritems() if not name in exclude_cuts]
 		if len(cuts_list) == 0:

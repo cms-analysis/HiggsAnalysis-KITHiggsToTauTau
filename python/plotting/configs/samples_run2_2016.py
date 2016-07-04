@@ -82,7 +82,7 @@ class Samples(samples.SamplesBase):
 
 	def __init__(self):
 		super(Samples, self).__init__()
-
+		self.exclude_cuts = ["blind"]
 		self.period = "run2"
 
 	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
@@ -127,7 +127,7 @@ class Samples(samples.SamplesBase):
 				self.artus_file_names(query , expect_n_results),
 				self.root_file_folder(channel),
 				1.0,
-				data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+				data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 				"data",
 				nick_suffix=nick_suffix
 		)
@@ -159,7 +159,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
@@ -195,7 +195,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"zl",
 					nick_suffix=nick_suffix
 			)
@@ -232,7 +232,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"zj",
 					nick_suffix=nick_suffix
 			)
@@ -270,7 +270,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"zll",
 					nick_suffix=nick_suffix
 			)
@@ -311,7 +311,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -321,7 +321,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -331,7 +331,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -340,7 +340,7 @@ class Samples(samples.SamplesBase):
 					"MuonEG_Run2016?_*_13TeV_*AOD/*.root",
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
+					data_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_ttj_data_control",
 					nick_suffix=nick_suffix
 			)
@@ -349,7 +349,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
+					mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_ztt_mc_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -358,7 +358,7 @@ class Samples(samples.SamplesBase):
 					"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
+					mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_zll_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -367,7 +367,7 @@ class Samples(samples.SamplesBase):
 					"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
+					mc_weight+"eventWeight*stitchWeightWJ*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_wj_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -376,7 +376,7 @@ class Samples(samples.SamplesBase):
 					"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
+					mc_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_vv_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -385,7 +385,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"noplot_ttj_mc_signal",
 					nick_suffix=nick_suffix
 			)
@@ -394,7 +394,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
+					mc_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_ttj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -444,7 +444,7 @@ class Samples(samples.SamplesBase):
 					"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"vv",
 					nick_suffix=nick_suffix
 			)
@@ -486,7 +486,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "ztt_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -495,7 +495,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "zll_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -504,7 +504,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "zl_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -513,7 +513,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "zj_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -522,7 +522,7 @@ class Samples(samples.SamplesBase):
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "ttj_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -531,7 +531,7 @@ class Samples(samples.SamplesBase):
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "vv_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -540,7 +540,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2016?_*_13TeV_*AOD/*root",
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "data_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -549,7 +549,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "wj_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -558,7 +558,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ztt_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -567,7 +567,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "zll_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -576,7 +576,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "zl_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -585,7 +585,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "zj_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -594,7 +594,7 @@ class Samples(samples.SamplesBase):
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ttj_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -603,7 +603,7 @@ class Samples(samples.SamplesBase):
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "vv_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -612,7 +612,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2016?_*_13TeV_*AOD/*root",
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "data_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -621,7 +621,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "wj_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -630,7 +630,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"wj",
 						nick_suffix=nick_suffix
 				)
@@ -639,7 +639,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type),
+						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type),
 						"noplot_wj_mc_os_inclusive",
 						nick_suffix=nick_suffix
 				)
@@ -648,7 +648,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_wj_mc_ss_inclusive",
 						nick_suffix=nick_suffix
 				)
@@ -682,10 +682,10 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj"+nick_suffix)
 
 			if estimationMethod == "classic":
-				shape_weight = mc_weight+weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)
+				shape_weight = mc_weight+weight+"*eventWeight*stitchWeightWJ*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)
 				#if (not category is None) and (category != ""):
 					## relaxed isolation
-					#shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type) + "*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
+					#shape_weight = weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type) + "*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
 
 				Samples._add_input(
 						config,
@@ -701,7 +701,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2016?_*_13TeV_*AOD/*root",
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						data_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_wj_data_control",
 						nick_suffix=nick_suffix
 				)
@@ -710,7 +710,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_ztt_mc_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -719,7 +719,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_zll_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -728,7 +728,7 @@ class Samples(samples.SamplesBase):
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_ttj_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -737,7 +737,7 @@ class Samples(samples.SamplesBase):
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_vv_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -746,7 +746,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						mc_weight+weight+"*eventWeight*stitchWeightWJ*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"noplot_wj_mc_signal",
 						nick_suffix=nick_suffix
 				)
@@ -755,7 +755,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
+						mc_weight+"eventWeight*stitchWeightWJ*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_wj_mc_control",
 						nick_suffix=nick_suffix
 				)
@@ -782,7 +782,7 @@ class Samples(samples.SamplesBase):
 					"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight+"*eventWeight*stitchWeightWJ*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"wj",
 					nick_suffix=nick_suffix
 			)
@@ -821,7 +821,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+"eventWeight*stitchWeightWJ*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_wj_ss",
 						nick_suffix=nick_suffix
 				)
@@ -832,7 +832,7 @@ class Samples(samples.SamplesBase):
 							"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
 							self.root_file_folder(channel),
 							1.0,
-							data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+							data_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_wj_ss_data_control",
 							nick_suffix=nick_suffix
 					)
@@ -841,7 +841,7 @@ class Samples(samples.SamplesBase):
 							"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+							mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_ztt_ss_mc_wj_control",
 							nick_suffix=nick_suffix
 					)
@@ -850,7 +850,7 @@ class Samples(samples.SamplesBase):
 							"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+							mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_zll_ss_wj_control",
 							nick_suffix=nick_suffix
 					)
@@ -859,7 +859,7 @@ class Samples(samples.SamplesBase):
 							"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+							mc_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_ttj_ss_wj_control",
 							nick_suffix=nick_suffix
 					)
@@ -868,7 +868,7 @@ class Samples(samples.SamplesBase):
 							"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+							mc_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_vv_ss_wj_control",
 							nick_suffix=nick_suffix
 					)
@@ -877,7 +877,7 @@ class Samples(samples.SamplesBase):
 							"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+							mc_weight+"stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 							"noplot_wj_ss_mc_signal",
 							nick_suffix=nick_suffix
 					)
@@ -886,7 +886,7 @@ class Samples(samples.SamplesBase):
 							"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+							mc_weight+"stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_wj_ss_mc_control",
 							nick_suffix=nick_suffix
 					)
@@ -901,13 +901,13 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
 
 				# QCD
-				shape_weight = data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"
+				shape_weight = data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"
 				#if (not category is None) and (category != ""):
 					## relaxed/inverted isolation
 					#if channel in ["et", "mt"]:
-						#shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "iso_2"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"+"*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
+						#shape_weight = weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "iso_2"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"+"*(byCombinedIsolationDeltaBetaCorrRaw3Hits_2<10.0)"
 					#else:
-						#shape_weight = weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "iso_1", "iso_2"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"
+						#shape_weight = weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "iso_1", "iso_2"], cut_type=cut_type) + "*((q_1*q_2)>0.0)"
 
 				Samples._add_input(
 						config,
@@ -923,7 +923,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root" if channel == "em" else "DoubleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mm" else "Tau_Run2016?_*_13TeV_*AOD/*.root"),
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_data_qcd_yield",
 						nick_suffix=nick_suffix
 				)
@@ -932,7 +932,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root" if channel == "em" else "DoubleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mm" else "Tau_Run2016?_*_13TeV_*AOD/*.root"),
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						data_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_data_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -941,7 +941,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_ztt_mc_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -950,7 +950,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_zll_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -959,7 +959,7 @@ class Samples(samples.SamplesBase):
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_ttj_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -968,7 +968,7 @@ class Samples(samples.SamplesBase):
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+"eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_vv_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -995,7 +995,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ztt_ss_lowmt",
 						nick_suffix=nick_suffix
 				)
@@ -1004,7 +1004,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "zll_ss_lowmt",
 						nick_suffix=nick_suffix
 				)
@@ -1014,7 +1014,7 @@ class Samples(samples.SamplesBase):
 							"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+							mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 							("noplot_" if not controlregions else "") + "zl_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1023,7 +1023,7 @@ class Samples(samples.SamplesBase):
 							"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+							mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 							("noplot_" if not controlregions else "") + "zj_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1032,7 +1032,7 @@ class Samples(samples.SamplesBase):
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ttj_ss_lowmt",
 						nick_suffix=nick_suffix
 				)
@@ -1041,7 +1041,7 @@ class Samples(samples.SamplesBase):
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "vv_ss_lowmt",
 						nick_suffix=nick_suffix
 				)
@@ -1050,7 +1050,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "wj_ss_lowmt",
 						nick_suffix=nick_suffix
 				)
@@ -1059,7 +1059,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "data_ss_lowmt",
 						nick_suffix=nick_suffix
 				)
@@ -1068,7 +1068,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_ztt_shape_ss_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1077,7 +1077,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_zll_shape_ss_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1086,7 +1086,7 @@ class Samples(samples.SamplesBase):
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_ttj_shape_ss_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1095,7 +1095,7 @@ class Samples(samples.SamplesBase):
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_vv_shape_ss_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1104,7 +1104,7 @@ class Samples(samples.SamplesBase):
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*stitchWeightWJ*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_wj_shape_ss_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1113,7 +1113,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "qcd_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1122,7 +1122,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_ztt_shape_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1131,7 +1131,7 @@ class Samples(samples.SamplesBase):
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_zll_shape_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1140,7 +1140,7 @@ class Samples(samples.SamplesBase):
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_ttj_shape_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1149,7 +1149,7 @@ class Samples(samples.SamplesBase):
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 						self.root_file_folder(channel),
 						lumi,
-						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_vv_shape_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1158,7 +1158,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "qcd_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1167,7 +1167,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
 						self.root_file_folder(channel),
 						1.0,
-						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
+						data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "qcd_ss_lowmt",
 						nick_suffix=nick_suffix
 				)
@@ -1176,7 +1176,7 @@ class Samples(samples.SamplesBase):
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
 						self.root_file_folder(channel),
 						1.0,
-						(data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
+						(data_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"qcd",
 						nick_suffix=nick_suffix
 				)
@@ -1326,7 +1326,7 @@ class Samples(samples.SamplesBase):
 						"SUSYGluGluToBBHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
@@ -1375,7 +1375,7 @@ class Samples(samples.SamplesBase):
 						"GluGluHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)) if not mssm else "SUSYGluGluToHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
@@ -1424,7 +1424,7 @@ class Samples(samples.SamplesBase):
 						"VBFHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 			)
@@ -1507,7 +1507,7 @@ class Samples(samples.SamplesBase):
 						"WminusHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"wmh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix+"_noplot"
 				)
@@ -1516,7 +1516,7 @@ class Samples(samples.SamplesBase):
 						"WplusHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"wph"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix+"_noplot"
 				)
@@ -1571,7 +1571,7 @@ class Samples(samples.SamplesBase):
 						"ZHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
-						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"zh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
@@ -1609,7 +1609,7 @@ class Samples(samples.SamplesBase):
 					"SingleMuon_Run2016?_*_13TeV_*AOD/*.root",
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
 					"ff",
 					nick_suffix=nick_suffix
 			)
@@ -1619,7 +1619,7 @@ class Samples(samples.SamplesBase):
 					"SingleElectron_Run2016?_*_13TeV_*AOD/*.root",
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
 					"ff",
 					nick_suffix=nick_suffix
 			)
@@ -1653,7 +1653,7 @@ class Samples(samples.SamplesBase):
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*stitchWeightWJ*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ewk",
 					nick_suffix=nick_suffix
 			)
