@@ -8,15 +8,29 @@ log = logging.getLogger(__name__)
 import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
+from Kappa.Skimming.registerDatasetHelper import get_nick_list
 
-
+# constants for all plots
 default_lumi = 3.99*1000.0
+energy = 13
+data_format = "MINIAOD"
+data_campaign = "Run2016.*"
+mc_campaign = ""
 
 class Samples(samples.SamplesBase):
 
 	@staticmethod 
 	def root_file_folder(channel):
 		return channel+"_jecUncNom"+("_tauEsNom" if "t" in channel else "")+"/ntuple"
+
+	@staticmethod
+	def artus_file_names( query, expect_n_results = 1):
+		query["energy"] = energy
+		query["format"] = data_format
+		found_file_names = []
+		for nick in get_nick_list ( query, expect_n_results = expect_n_results):
+			found_file_names.append(nick  + "/*.root")
+		return " ".join(found_file_names) # convert it to a HP-readable format
 
 	@staticmethod
 	def ztt_genmatch(channel):
@@ -94,58 +108,32 @@ class Samples(samples.SamplesBase):
 		if kwargs.get("project_to_lumi", False):
 			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
 
+		expect_n_results = 1 # adjust in if-statements if different depending on channel
 		if channel == "mt":
-			Samples._add_input(
-					config,
-					"SingleMuon_Run2016?_*_13TeV_*AOD/*.root",
-					self.root_file_folder(channel),
-					1.0,
-					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"data",
-					nick_suffix=nick_suffix
-			)
+			query = { "process" : "SingleMuon" }
 		elif channel == "et":
-			Samples._add_input(
-					config,
-					"SingleElectron_Run2016?_*_13TeV_*AOD/*.root",
-					self.root_file_folder(channel),
-					1.0,
-					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"data",
-					nick_suffix=nick_suffix
-			)
+			query = { "process" : "SingleElectron" }
 		elif channel == "em":
-			Samples._add_input(
-					config,
-					"MuonEG_Run2016?_*_13TeV_*AOD/*.root",
-					self.root_file_folder(channel),
-					1.0,
-					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"data",
-					nick_suffix=nick_suffix
-			)
+			query = { "process" : "MuonEG" }
 		elif channel == "mm":
-			Samples._add_input(
-					config,
-					"DoubleMuon_Run2016?_*_13TeV_*AOD/*.root",
-					self.root_file_folder(channel),
-					1.0,
-					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"data",
-					nick_suffix=nick_suffix
-			)
+			query = { "process" : "DoubleMuon" }
 		elif channel == "tt":
-			Samples._add_input(
-					config,
-					"Tau_Run2016?_*_13TeV_*AOD/*.root",
-					self.root_file_folder(channel),
-					1.0,
-					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"data",
-					nick_suffix=nick_suffix
-			)
+			query = { "process" : "Tau" }
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
+
+		query["data"] = True
+		query["campaign"] = data_campaign
+
+		Samples._add_input(
+				config,
+				self.artus_file_names(query , expect_n_results),
+				self.root_file_folder(channel),
+				1.0,
+				data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+				"data",
+				nick_suffix=nick_suffix
+		)
 
 		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
