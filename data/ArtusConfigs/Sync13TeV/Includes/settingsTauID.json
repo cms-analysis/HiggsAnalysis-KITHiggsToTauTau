@@ -5,7 +5,7 @@
 	"TauDiscriminatorIsolationName" : {
 		"nick" : {
 			"default" : "byCombinedIsolationDeltaBetaCorrRaw3Hits",
-			"Fall15" : "byIsolationMVArun2v1DBoldDMwLTraw"
+			"(Fall15|Spring16)" : "byIsolationMVArun2v1DBoldDMwLTraw"
 		}
 	},
 

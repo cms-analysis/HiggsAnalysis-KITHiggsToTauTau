@@ -9,7 +9,7 @@
 	"LooseElectronIDType" : {
 		"nick" : {
 			"default" : "none",
-			"(Spring|Fall)15" : "mvanontrigspring15loose"
+			"(Spring15|Fall15|Spring16)" : "mvanontrigspring15loose"
 		}
 	},
 

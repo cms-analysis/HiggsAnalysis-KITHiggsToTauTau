@@ -5,14 +5,15 @@
 	"BTaggedJetCombinedSecondaryVertexName" : {
 		"nick" : {
 			"default" : "CombinedInclusiveSecondaryVertexV2BJetTags",
-			"(Spring|Fall)15" : "pfCombinedInclusiveSecondaryVertexV2BJetTags"
+			"(Spring15|Fall15|Spring16)" : "pfCombinedInclusiveSecondaryVertexV2BJetTags"
 		}
 	},
 	"BTaggedJetCombinedSecondaryVertexMediumWP" : {
 		"nick" : {
 			"default" : 0.814,
 			"Spring15" : 0.89,
-			"Fall15" : 0.8
+			"Fall15" : 0.8,
+			"Spring16" : 0.8
 		}
 	},
 	"BTaggedJetAbsEtaCut" : 2.4,
