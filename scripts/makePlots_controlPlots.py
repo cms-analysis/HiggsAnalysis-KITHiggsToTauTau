@@ -221,8 +221,10 @@ if __name__ == "__main__":
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
 		if not args.run1:
-			args.samples.remove("zl")
-			args.samples.remove("zj")
+			if "zl" in args.samples:
+				args.samples.remove("zl") 
+			if "zj" in args.samples:
+				args.samples.remove("zj")
 	if ("zj" in args.samples or "zl" in args.samples) and not args.run1:
 		log.critical("Plot will fail: zl or zj samples given as input. Remove to continue")
 		sys.exit(1)
