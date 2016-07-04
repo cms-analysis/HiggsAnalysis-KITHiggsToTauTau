@@ -2,16 +2,17 @@
 	"jecUncNom_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run2015" : 0.0,
+				"Run201" : 0.0,
 				"default" : 0.0
 			}
 		},
-		"TauEnergyCorrectionShift" : 1.0
+		"TauEnergyCorrectionShift" : 1.0,
+		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
 	},
 	"jecUncNom_tauEsUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run2015" : 0.0,
+				"Run201" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -20,12 +21,18 @@
 				"default" : 1.0,
 				"HToTauTau|DY.?JetsToLL" : 1.03
 			}
-		}
+		},
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncNom_tauEsNom",
+		        "HToTauTau|DY.?JetsToLL" : "jecUncNom_tauEsUp"
+            }
+        }
 	},
 	"jecUncNom_tauEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run2015" : 0.0,
+				"Run201" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -34,24 +41,42 @@
 				"default" : 1.0,
 				"HToTauTau|DY.?JetsToLL" : 0.97
 			}
-		}
+		},
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncNom_tauEsNom",
+		        "HToTauTau|DY.?JetsToLL" : "jecUncNom_tauEsDown"
+            }
+        }
 	},
 	"jecUncUp_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run2015" : 0.0,
+				"Run201" : 0.0,
 				"default" : 1.0
 			}
 		},
-		"TauEnergyCorrectionShift" : 1.0
+		"TauEnergyCorrectionShift" : 1.0,
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncUp_tauEsNom",
+		        "Run201" : "jecUncNom_tauEsNom"
+            }
+        }
 	},
 	"jecUncDown_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run2015" : 0.0,
+				"Run201" : 0.0,
 				"default" : -1.0
 			}
 		},
-		"TauEnergyCorrectionShift" : 1.0
+		"TauEnergyCorrectionShift" : 1.0,
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncDown_tauEsNom",
+		        "Run201" : "jecUncNom_tauEsNom"
+            }
+        }
 	}
 }

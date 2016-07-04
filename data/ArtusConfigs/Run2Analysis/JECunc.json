@@ -2,25 +2,38 @@
 	"jecUncNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run2015" : 0.0,
+				"Run201" : 0.0,
 				"default" : 0.0
 			}
-		}
+		},
+		"SvfitCacheFileFolder" : "jecUncNom"
 	},
 	"jecUncUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run2015" : 0.0,
+				"Run201" : 0.0,
 				"default" : 1.0
 			}
-		}
+		},
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncUp",
+		        "Run201" : "jecUncNom"
+            }
+        }
 	},
 	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run2015" : 0.0,
+				"Run201" : 0.0,
 				"default" : -1.0
 			}
-		}
+		},
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncDown",
+		        "Run201" : "jecUncNom"
+            }
+        }
 	}
 }
