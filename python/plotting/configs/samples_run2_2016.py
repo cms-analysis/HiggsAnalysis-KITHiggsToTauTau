@@ -14,6 +14,10 @@ default_lumi = 3.99*1000.0
 
 class Samples(samples.SamplesBase):
 
+	@staticmethod 
+	def root_file_folder(channel):
+		return channel+"_jecUncNom"+("_tauEsNom" if "t" in channel else "")+"/ntuple"
+
 	@staticmethod
 	def ztt_genmatch(channel):
 		if channel in ["mt", "et"]:
@@ -94,7 +98,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"SingleMuon_Run2016?_*_13TeV_*AOD/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					1.0,
 					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"data",
@@ -104,7 +108,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"SingleElectron_Run2016?_*_13TeV_*AOD/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					1.0,
 					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"data",
@@ -114,7 +118,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"MuonEG_Run2016?_*_13TeV_*AOD/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					1.0,
 					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"data",
@@ -124,7 +128,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DoubleMuon_Run2016?_*_13TeV_*AOD/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					1.0,
 					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"data",
@@ -134,7 +138,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"Tau_Run2016?_*_13TeV_*AOD/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					1.0,
 					data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"data",
@@ -168,7 +172,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"ztt",
@@ -204,7 +208,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"zl",
@@ -241,7 +245,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"zj",
@@ -279,7 +283,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"zll",
@@ -320,7 +324,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8_*/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"ttj",
@@ -330,7 +334,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"ttj",
@@ -340,7 +344,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"ttj",
@@ -349,7 +353,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"MuonEG_Run2016?_*_13TeV_*AOD/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					1.0,
 					data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_ttj_data_control",
@@ -358,7 +362,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_ztt_mc_ttj_control",
@@ -367,7 +371,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_zll_ttj_control",
@@ -376,7 +380,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_wj_ttj_control",
@@ -385,7 +389,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_vv_ttj_control",
@@ -394,7 +398,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"noplot_ttj_mc_signal",
@@ -403,7 +407,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-					channel+"_jecUncNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "pzeta", "nobtag"], cut_type=cut_type) + "*(pZetaMissVis < -20.0)",
 					"noplot_ttj_mc_control",
@@ -453,7 +457,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"vv",
@@ -495,7 +499,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "ztt_os_highmt",
@@ -504,7 +508,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "zll_os_highmt",
@@ -513,7 +517,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "zl_os_highmt",
@@ -522,7 +526,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "zj_os_highmt",
@@ -531,7 +535,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "ttj_os_highmt",
@@ -540,7 +544,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "vv_os_highmt",
@@ -549,7 +553,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2016?_*_13TeV_*AOD/*root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "data_os_highmt",
@@ -558,7 +562,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "wj_os_highmt",
@@ -567,7 +571,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ztt_ss_highmt",
@@ -576,7 +580,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "zll_ss_highmt",
@@ -585,7 +589,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "zl_ss_highmt",
@@ -594,7 +598,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "zj_ss_highmt",
@@ -603,7 +607,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ttj_ss_highmt",
@@ -612,7 +616,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "vv_ss_highmt",
@@ -621,7 +625,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2016?_*_13TeV_*AOD/*root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "data_ss_highmt",
@@ -630,7 +634,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "wj_ss_highmt",
@@ -639,7 +643,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 						"wj",
@@ -648,7 +652,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type),
 						"noplot_wj_mc_os_inclusive",
@@ -657,7 +661,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_wj_mc_ss_inclusive",
@@ -701,7 +705,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						shape_weight,
 						"wj",
@@ -710,7 +714,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else "SingleElectron_Run2016?_*_13TeV_*AOD/*root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_wj_data_control",
@@ -719,7 +723,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_ztt_mc_wj_control",
@@ -728,7 +732,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_zll_wj_control",
@@ -737,7 +741,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_ttj_wj_control",
@@ -746,7 +750,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_vv_wj_control",
@@ -755,7 +759,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 						"noplot_wj_mc_signal",
@@ -764,7 +768,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "mt"], cut_type=cut_type) + "*(mt_1>70.0)",
 						"noplot_wj_mc_control",
@@ -791,7 +795,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom"+("_tauEsNom" if channel == "tt" else "")+"/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"wj",
@@ -830,7 +834,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_wj_ss",
@@ -841,7 +845,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							1.0,
 							data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_wj_ss_data_control",
@@ -850,7 +854,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_ztt_ss_mc_wj_control",
@@ -859,7 +863,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_zll_ss_wj_control",
@@ -868,7 +872,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_ttj_ss_wj_control",
@@ -877,7 +881,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_vv_ss_wj_control",
@@ -886,7 +890,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 							"noplot_wj_ss_mc_signal",
@@ -895,7 +899,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_wj_ss_mc_control",
@@ -923,7 +927,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root" if channel == "em" else "DoubleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mm" else "Tau_Run2016?_*_13TeV_*AOD/*.root"),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						shape_weight,
 						"qcd",
@@ -932,7 +936,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root" if channel == "em" else "DoubleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mm" else "Tau_Run2016?_*_13TeV_*AOD/*.root"),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_data_qcd_yield",
@@ -941,7 +945,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root" if channel == "em" else "DoubleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mm" else "Tau_Run2016?_*_13TeV_*AOD/*.root"),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_data_qcd_control",
@@ -950,7 +954,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_ztt_mc_qcd_control",
@@ -959,7 +963,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_zll_qcd_control",
@@ -968,7 +972,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_ttj_qcd_control",
@@ -977,7 +981,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						"noplot_vv_qcd_control",
@@ -1004,7 +1008,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ztt_ss_lowmt",
@@ -1013,7 +1017,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "zll_ss_lowmt",
@@ -1023,7 +1027,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							lumi,
 							mc_weight+weight+"*eventWeight*" + Samples.zl_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 							("noplot_" if not controlregions else "") + "zl_ss_lowmt",
@@ -1032,7 +1036,7 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-							channel+"_jecUncNom_tauEsNom/ntuple",
+							self.root_file_folder(channel),
 							lumi,
 							mc_weight+weight+"*eventWeight*" + Samples.zj_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 							("noplot_" if not controlregions else "") + "zj_ss_lowmt",
@@ -1041,7 +1045,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ttj_ss_lowmt",
@@ -1050,7 +1054,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "vv_ss_lowmt",
@@ -1059,7 +1063,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "wj_ss_lowmt",
@@ -1068,7 +1072,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "data_ss_lowmt",
@@ -1077,7 +1081,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_ztt_shape_ss_qcd_control",
@@ -1086,7 +1090,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_zll_shape_ss_qcd_control",
@@ -1095,7 +1099,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_ttj_shape_ss_qcd_control",
@@ -1104,7 +1108,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_vv_shape_ss_qcd_control",
@@ -1113,7 +1117,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*stitchWeightWJ*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_wj_shape_ss_qcd_control",
@@ -1122,7 +1126,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "qcd_ss_highmt",
@@ -1131,7 +1135,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.ztt_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_ztt_shape_ss_highmt",
@@ -1140,7 +1144,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"DY*JetsToLLM10to50_RunIISpring16*_*_13TeV_*AOD_*/*.root DY*JetsToLLM50_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.zll_genmatch(channel) + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_zll_shape_ss_highmt",
@@ -1149,7 +1153,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_ttj_shape_ss_highmt",
@@ -1158,7 +1162,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						lumi,
 						(mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"noplot_vv_shape_ss_highmt",
@@ -1167,7 +1171,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os", "mt"], cut_type=cut_type) + "*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "qcd_os_highmt",
@@ -1176,7 +1180,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "qcd_ss_lowmt",
@@ -1185,7 +1189,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SingleMuon_Run2016?_*_13TeV_*AOD/*.root" if channel == "mt" else ("SingleElectron_Run2016?_*_13TeV_*AOD/*root" if channel == "et" else "MuonEG_Run2016?_*_13TeV_*AOD/*.root"),
-						channel+"_jecUncNom_tauEsNom/ntuple",
+						self.root_file_folder(channel),
 						1.0,
 						(data_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "os"], cut_type=cut_type) + "*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if "_btag" in category else "nbtag"),
 						"qcd",
@@ -1335,7 +1339,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"SUSYGluGluToBBHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 						"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -1384,7 +1388,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"GluGluHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)) if not mssm else "SUSYGluGluToHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -1433,7 +1437,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"VBFHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -1516,7 +1520,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"WminusHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 						"wmh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -1525,7 +1529,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"WplusHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 						"wph"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -1580,7 +1584,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						"ZHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_powheg*pythia8/*.root".format(mass=str(mass)),
-						channel+"_jecUncNom"+("_tauEsNom" if channel in ["mt", "et", "tt"] else "")+"/ntuple",
+						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 						"zh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -1618,7 +1622,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"SingleMuon_Run2016?_*_13TeV_*AOD/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					1.0,
 					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
 					"ff",
@@ -1628,7 +1632,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"SingleElectron_Run2016?_*_13TeV_*AOD/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					1.0,
 					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind", "iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
 					"ff",
@@ -1662,7 +1666,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					"TT_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8*/*.root ST*_RunIISpring16*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIISpring16*_*_13TeV_*AOD_*/*.root WZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root ZZ*_RunIISpring16*_*_13TeV_*AOD_*/*.root VV*_RunIISpring16*_*_13TeV_*AOD_*/*.root W*JetsToLNu_RunIISpring16*_*_13TeV_*AOD_*/*.root",
-					channel+"_jecUncNom_tauEsNom/ntuple",
+					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*stitchWeightWJ*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"ewk",
