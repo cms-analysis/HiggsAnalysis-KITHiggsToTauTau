@@ -87,8 +87,8 @@ class Samples(samples.Samples):
 		return self.artus_file_names({ "process" : "(STt-channelantitop4fleptonDecays|STt-channeltop4fleptonDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays|"
 		                                    + "WWTo1L1Nu2Q|"
 		                                    + "WZJets|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|" 
-		                                    + "ZZTo2L2Q|ZZTo4L)",
-		                      "data" : False, "campaign" : self.mc_campaign}, 11),
+		                                    + "ZZTo2L2Q|ZZTo4L|VVTo2L2Nu)",
+		                      "data" : False, "campaign" : self.mc_campaign}, 12),
 
 
 	def files_wj(self, channel):

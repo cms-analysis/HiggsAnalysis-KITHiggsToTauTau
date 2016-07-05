@@ -353,8 +353,8 @@ class Samples(samples.SamplesBase):
 		artus_files = self.artus_file_names({ "process" : 
 		                                      "(WWTo1L1Nu2Q|"
 		                                    + "WZJets|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|" 
-		                                    + "ZZTo2L2Q|ZZTo4L)",
-		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 5)
+		                                    + "ZZTo2L2Q|ZZTo4L|VVTo2L2Nu)",
+		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 6)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4fleptonDecays|STt-channeltop4fleptonDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
 		                      "data" : False, "campaign" : self.mc_campaign }, 4),
