@@ -104,6 +104,8 @@ if __name__ == "__main__":
 						help="Control output amount of combine. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="",
 						help="Publish plots. [Default: %(default)s]")
+	parser.add_argument("--era", default="2015",
+	                    help="Era of samples to be used. [Default: %(default)s]")
 	
 	
 	args = parser.parse_args()
@@ -148,6 +150,10 @@ if __name__ == "__main__":
 		pt_bins.append(str(pt_index))
 	
 	# initialisations for plotting
+	if args.era == "2015":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+	else:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
 	www_output_dirs_postfit = []
@@ -453,7 +459,7 @@ if __name__ == "__main__":
 	
 	#plot postfit
 	postfit_plot_configs = [] #reset list containing the plot configs
-	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZLL", "TT", "VV", "W", "QCD"]
 	
 	for level in ["prefit", "postfit"]:
 		for datacard in datacards_cbs.keys():
@@ -476,18 +482,18 @@ if __name__ == "__main__":
 				config.setdefault("sum_result_nicks", []).append("Total")
 				
 				processes_to_plot = list(processes)
-				processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+				processes = [p.replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
 				processes_to_plot = [p for p in processes if not "noplot" in p]
 				processes_to_plot.insert(3, "EWK")
-				config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
-				config["sum_scale_factors"].append("1.0 1.0 1.0")
+				config["sum_nicks"].append("VV_noplot W_noplot")
+				config["sum_scale_factors"].append("1.0 1.0")
 				config["sum_result_nicks"].append("EWK")
 				
 				config["files"] = [postfit_shapes]
 				config["folders"] = [category+"_"+level]
 				config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
 				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
-				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
+				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
 				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
