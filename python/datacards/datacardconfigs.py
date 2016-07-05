@@ -21,6 +21,8 @@ class DatacardConfigs(object):
 			"VV" : "vv",
 			"W" : "wj",
 			"QCD" : "qcd",
+			"EWK" : "ewk",
+			"FF" : "ff",
 			"ggH" : "ggh",
 			"qqH" : "qqh",
 			"VH" : "vh",

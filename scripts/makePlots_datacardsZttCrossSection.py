@@ -78,6 +78,8 @@ if __name__ == "__main__":
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--grid-bins", default="50",
 	                    help="Binning of the grid for the logL scan. [Default: %(default)s]")
+	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "comparison"],
+			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
@@ -113,8 +115,11 @@ if __name__ == "__main__":
 	plot_configs = []
 	hadd_commands = []
 
-	datacards = zttxsecdatacards.ZttXsecDatacards(model=args.model)
-	
+	if(args.fakefactor_method is None):
+		datacards = zttxsecdatacards.ZttXsecDatacards(model=args.model)
+	else:
+		datacards = zttxsecdatacards.ZttJetTauFakeFactorDatacards(model=args.model)	
+
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
