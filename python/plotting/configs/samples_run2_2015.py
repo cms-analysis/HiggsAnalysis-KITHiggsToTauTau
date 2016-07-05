@@ -30,7 +30,7 @@ class Samples(samples.Samples):
 
 	def files_data(self, channel):
 		query = {}
-		expect_n_results = 2 # adjust in if-statements if different depending on channel
+		expect_n_results = 1 # adjust in if-statements if different depending on channel
 		if channel == "mt":
 			query = { "process" : "SingleMuon" }
 		elif channel == "et":
@@ -45,7 +45,7 @@ class Samples(samples.Samples):
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 		query["scenario"] = "16Dec2015v1"
 		query["data"] = True
-		query["campaign"] = "Run2015(C|D).*"
+		query["campaign"] = "Run2015D.*"
 		return self.artus_file_names(query, expect_n_results),
 
 
@@ -60,7 +60,7 @@ class Samples(samples.Samples):
 				"campaign" : self.mc_campaign,
 				"generator" :  "amcatnlo-pythia8",
 				"process" : "DYJetsToLLM10to50"}
-		artus_files = artus_files + "_" + self.artus_file_names(query , 1)
+		artus_files = artus_files + " " + self.artus_file_names(query , 1)
 		return artus_files
 
 
@@ -68,8 +68,14 @@ class Samples(samples.Samples):
 		query = { "data" : False,
 				"campaign" : self.mc_campaign,
 				"generator" :  "madgraph\-pythia8",
-				"process" : "(DYJetsToLLM150|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)" }
-		artus_files = self.artus_file_names(query , 6)
+				"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)" }
+		artus_files = self.artus_file_names(query , 5)
+
+		query = { "data" : False,
+				"campaign" : self.mc_campaign,
+				"generator" :  "amcatnlo-pythia8",
+				"process" : "DYJetsToLLM10to50"}
+		artus_files = artus_files + " " + self.artus_file_names(query , 1)
 		return artus_files
 
 
