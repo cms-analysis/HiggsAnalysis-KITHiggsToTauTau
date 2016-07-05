@@ -210,8 +210,13 @@ if __name__ == "__main__":
 	if not args.run1:
 		if args.era == "2015":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
-		else:
+		elif args.era == "2015new":
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+		elif args.era == "2016":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+		else:
+			log.critical("Invalid era string selected: " + args.era)
+			sys.exit(1)
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 
