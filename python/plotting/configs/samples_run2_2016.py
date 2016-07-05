@@ -242,7 +242,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_ttj(self, channel):
-		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : self.mc_campaign}, 1),
+		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
@@ -394,7 +394,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_wj(self, channel):
-		return self.artus_file_names({"process" : "(W1JetsToLNu|W2JetsToLNu|W3JetsToLNu|W4JetsToLNu|WJetsToLNu)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 5),
+		return self.artus_file_names({"process" : "(W1JetsToLNu|W2JetsToLNu|W3JetsToLNu|W4JetsToLNu|WJetsToLNu)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 5)
 
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:

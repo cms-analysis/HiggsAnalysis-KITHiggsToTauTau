@@ -46,7 +46,7 @@ class Samples(samples.Samples):
 		query["scenario"] = "16Dec2015v1"
 		query["data"] = True
 		query["campaign"] = "Run2015D.*"
-		return self.artus_file_names(query, expect_n_results),
+		return self.artus_file_names(query, expect_n_results)
 
 
 	def files_ztt(self, channel):
@@ -88,7 +88,7 @@ class Samples(samples.Samples):
 		                                    + "WWTo1L1Nu2Q|"
 		                                    + "WZJets|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|" 
 		                                    + "ZZTo2L2Q|ZZTo4L|VVTo2L2Nu)",
-		                      "data" : False, "campaign" : self.mc_campaign}, 12),
+		                      "data" : False, "campaign" : self.mc_campaign}, 12)
 
 
 	def files_wj(self, channel):
