@@ -1,0 +1,21 @@
+{
+	"property" : [
+		"jetToTauFakeWeight_comb",
+		"jetToTauFakeWeight_qcd_up",
+		"jetToTauFakeWeight_qcd_down",
+		"jetToTauFakeWeight_w_up",
+		"jetToTauFakeWeight_w_down",
+		"jetToTauFakeWeight_tt_corr_up",
+		"jetToTauFakeWeight_tt_corr_down",
+		"jetToTauFakeWeight_tt_stat_up",
+		"jetToTauFakeWeight_tt_stat_down",
+		"jetToTauFakeWeight_frac_w_up",
+		"jetToTauFakeWeight_frac_w_down",
+		"jetToTauFakeWeight_frac_qcd_up",
+		"jetToTauFakeWeight_frac_qcd_down",
+		"jetToTauFakeWeight_frac_tt_up",
+		"jetToTauFakeWeight_frac_tt_down",
+		"jetToTauFakeWeight_frac_dy_up",
+		"jetToTauFakeWeight_frac_dy_down"
+	]
+}
