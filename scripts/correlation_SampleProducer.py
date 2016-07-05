@@ -46,6 +46,7 @@ def calculate_partial_correlation(config):
 				log.error(config)
 				sys.exit()
 			cuts = config["weights"][i]
+			config["lumi"] = config["scale_factors"][i]
 
 		for root_file_name in root_file_name_list:
 			log.debug("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
@@ -93,12 +94,12 @@ def calculate_partial_correlation(config):
 		for i, bins in enumerate(bins_raw):
 			if " " in bins:
 				tmp_bins = bins.split(" ")
-				bins_raw[i] = [100,float(tmp_bins[0]),float(tmp_bins[-1])]
+				bins_raw[i] = [10,float(tmp_bins[0]),float(tmp_bins[-1])]
 			elif "," in bins:
 				tmp_bins = bins.split(",")
-				bins_raw[i] = [100,float(tmp_bins[0]),float(tmp_bins[-1])]
+				bins_raw[i] = [10,float(tmp_bins[0]),float(tmp_bins[-1])]
 			else:
-				bins_raw[i] = [100,0.,0.]
+				bins_raw[i] = [10,0.,250]
 
 
 		[xbins, ybins] = bins_raw
@@ -129,28 +130,30 @@ def calculate_partial_correlation(config):
 		binnings = xbins + ybins
 		log.debug("Generate RootHistogram TH2F: %s"%("+-+".join(variables)))
 		log.debug(binnings)
-		root_histograms["+-+".join(variables)] = ROOT.TH2F("+-+".join(variables),
-													"correlation: %s vs %s"%variables, *binnings)
+		root_histograms["+-+".join(variables)] = ROOT.TProfile("+-+".join(variables),
+													"correlation: %s vs %s"%variables, *(xbins+ybins[1:]))
+		root_histograms["+-+".join(variables[-1::-1])] = ROOT.TProfile("+-+".join(variables[-1::-1]),
+													"correlation: %s vs %s"%(variables[-1::-1]), *(ybins+xbins[1:]))
 		corr_vars["+-+".join(variables)] = 0
 		root_histograms["+-+".join(variables)].SetDirectory(0)
 		ROOT.SetOwnership (root_histograms["+-+".join(variables)], False)
-	for variable in config["parameters_list"]:
-		xbins_list = binnings_dict.get_binning("%s_"%config["channel"]+variables[0])
-		xbins = []
-		if "," in xbins_list:
-			xbins_list = map(float, xbins_list.split(","))
-			xbins += xbins_list
-			xbins[0] = int(xbins[0])
-		elif len(xbins_list.split(" ")) >= 2 and xbins_list.split(" ")[1] != "":
-			xbins_list = map(float, xbins_list.split(","))
-			xbins.append(len(xbins_list.split(" "))-1)
-			xbins.apped(a_bins_list)
-		else:
-			xbins = [100,0.,0.]
+		root_histograms["+-+".join(variables[-1::-1])].SetDirectory(0)
+		ROOT.SetOwnership (root_histograms["+-+".join(variables[-1::-1])], False)
 
-		binnings = xbins + xbins
-		root_histograms["+-+".join([variable,variable])] = ROOT.TH2F("+-+".join([variable,variable]),
-													"correlation: %s vs %s"%(variable,variable), *binnings)
+	for variable in config["parameters_list"]:
+		bins = binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip()
+		bins_raw = []
+		if " " in bins:
+			tmp_bins = bins.split(" ")
+			bins_raw = [10,float(tmp_bins[0]),float(tmp_bins[-1])]
+		elif "," in bins:
+			tmp_bins = bins.split(",")
+			bins_raw = [10,float(tmp_bins[0]),float(tmp_bins[-1])]
+		else:
+			bins_raw = [10,0.,250]
+
+		root_histograms["+-+".join([variable,variable])] = ROOT.TProfile("+-+".join([variable,variable]),
+													"correlation: %s vs %s"%(variable,variable), *(bins_raw+bins_raw[1:]))
 		corr_vars["+-+".join([variable,variable])] = 0
 		corr_vars[variable] = 0
 		corr_vars["var_%s"%variable] = 0
@@ -163,13 +166,18 @@ def calculate_partial_correlation(config):
 	i = 0.
 	n = 0
 	zero_vals = {}
+	lumi_val = config["lumi"]
 	for event in root_inst:
 		calced_means = []
-		w = event.__getattr__("eventWeight")
-		for varxy in root_histograms.iterkeys():
+		w = event.__getattr__("eventWeight") * lumi_val
+		for varxy in corr_vars.iterkeys():
+			if not "+-+" in varxy:
+				continue
 			varx, vary = map(str, varxy.split("+-+"))
 			x, y = map(event.__getattr__, map(str, varxy.split("+-+")))
-			root_histograms[varxy].Fill(x, y, w)
+			root_histograms["+-+".join([varx, vary])].Fill(x, y, w)
+			root_histograms["+-+".join([vary, varx])].Fill(y, x, w)
+
 
 			if varx not in zero_vals:
 				zero_vals[varx] = 0
@@ -247,6 +255,8 @@ if __name__ == "__main__":
 	parser.add_argument("-w", "--weight", default="1.0",
 						help="""Additional weight (cut) expression.
 						[Default: %(default)s]""")
+	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000,
+	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-m", "--mva-variables", action="store_true", default=False,
 						help="use the variables defined in MVATestMethods settings of artus run. [Default: %(default)s]")
 	args = parser.parse_args()
@@ -306,8 +316,9 @@ if __name__ == "__main__":
 						weight=args.weight,
 						exclude_cuts=args.exclude_cuts,
 						stack_signal=False,
+						lumi = args.lumi*1000,
 						scale_signal=1.0,
-						mssm=False
+						mssm=args.mssm
 						)
 				config["category"] = category_string
 				config["request_nick"] = requested_sample
