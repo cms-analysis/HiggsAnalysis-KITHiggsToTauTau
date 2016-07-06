@@ -44,6 +44,9 @@ cd $CMSSW_BASE/src
 # Jet2Tau Fakes
 git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 
+# Fit Package for tau polarisation
+git clone https://github.com/CMSAachen3B/SimpleFits.git -b artus_master
+
 # checkout HHKinFit2 package - artus branch because of folder structure
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
