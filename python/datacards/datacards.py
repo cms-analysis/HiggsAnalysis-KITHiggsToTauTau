@@ -880,7 +880,7 @@ class Datacards(object):
 		commandsPlot = []
 		commandsPlot.extend([[
 				"plotImpacts.py -i {INPUT} -o {OUTPUT}".format(
-						INPUT="nuisance_impacts.json",
+						INPUT="impacts.json",
 						OUTPUT="nuisance_impacts"
 				),
 				os.path.dirname(workspace)
