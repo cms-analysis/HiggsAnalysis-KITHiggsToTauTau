@@ -77,7 +77,7 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			double weight = SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
-			//return std::min(((weight > 0.0) ? (1.0 / weight) : 0.0), 10.0);
+			//return std::min(((weight > 0.0) ? (1.0 / weight) : 0.0), 10.0);   // no physics reason for this
 			return ((weight > 0.0) ? (1.0 / weight) : 0.0);
 		});
 	}
