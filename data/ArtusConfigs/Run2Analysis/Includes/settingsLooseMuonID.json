@@ -3,7 +3,12 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json"
 	],
 
-	"Year" : 2015,
+	"Year" : {
+		"nick" : {
+			"default" : 2015,
+			"(Spring16|Run2016)" : 2016
+		}
+	},
 	"LooseMuonID" : "medium",
 
 	"LooseMuonIsoType" : "user",
