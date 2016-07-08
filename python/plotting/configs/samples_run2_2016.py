@@ -1539,7 +1539,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					self.files_ttj(channel) + " _ " + self.files_wj(channel),
+					self.files_ttj(channel) + " " + self.files_wj(channel) + " " + self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*stitchWeightWJ*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
