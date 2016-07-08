@@ -1,0 +1,1 @@
+DCAP_sample_GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_13TeV_MINIAOD_unspecified_2016-07-05.txt
