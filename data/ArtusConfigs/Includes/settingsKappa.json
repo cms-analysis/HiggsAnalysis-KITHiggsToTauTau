@@ -63,6 +63,7 @@
 	"#PFChargedHadronsNoPileUp" : "pfAllChargedParticles",
 	"#PFNeutralHadronsNoPileUp" : "pfNoPileUpNeutralHadrons",
 	"#PFPhotonsNoPileUp" : "pfNoPileUpPhotons",
+	"#PackedPFCandidates" : "packedPFCandidates",
 	"BeamSpot" : "offlineBeamSpot",
 	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
 	"EventMetadata" : "eventInfo",
