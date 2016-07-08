@@ -39,13 +39,15 @@ public:
 	enum class MuonIsoTypeUserMode : int
 	{
 		NONE  = -1,
-		FROMCMSSW = 0,
-		CALCULATED = 1
+		FROMCMSSW = 0, // isolation cone 0.3
+		CALCULATED = 1,
+		FROMCMSSWR04 = 2 // isolation cone 0.4
 	};
 
 	static MuonIsoTypeUserMode ToMuonIsoTypeUserMode(std::string const& muonIsoTypeUserMode)
 	{
 		if (muonIsoTypeUserMode == "fromcmssw") return MuonIsoTypeUserMode::FROMCMSSW;
+		else if (muonIsoTypeUserMode == "fromcmsswr04") return MuonIsoTypeUserMode::FROMCMSSWR04;
 		else if (muonIsoTypeUserMode == "calculated") return MuonIsoTypeUserMode::CALCULATED;
 		else return MuonIsoTypeUserMode::NONE;
 	}
