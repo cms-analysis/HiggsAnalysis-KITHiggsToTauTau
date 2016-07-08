@@ -32,22 +32,23 @@ def calculate_partial_correlation(config):
 	root_storage_file = "%s/%s.root"%(config["storage_name_extension"], "NTuples")
 	config["storage_file"] = root_storage_file
 	config["storage_ntuple"]=config["folders"][0].replace("/ntuple", "")
+
+	cuts = ""
+	#find all physical files and store them in root_filename_list
+	for i,nick in enumerate(config["nicks"]):
+		if not bool(sum([x in nick for x in ["wmh", "wph", "zh"]])) and "noplot" in nick:
+			continue
+		#next line splits file_string into filenames, those could contain * -> use glob.glob to map * to real names, add the list to root_file_name_list
+		map(root_file_name_list.__iadd__, map(glob.glob, map(config["root_input_dir"].__add__, config["files"][i].split(" "))))
+		if (not cuts == "") and (not cuts == config["weights"][i]):
+			log.error("can not decide which weight to use for sample %s nick %s" %(config["request_nick"],nick))
+			log.error(config)
+			sys.exit()
+		cuts = config["weights"][i]
+		config["lumi"] = config["scale_factors"][i]
+
 	if config["prepare_samples"] and not (os.path.exists(root_storage_file) and not config["overwrite_samples"]):
 		log.info("Recreate Sample %s"%root_storage_file)
-		cuts = ""
-		#find all physical files and store them in root_filename_list
-		for i,nick in enumerate(config["nicks"]):
-			if not bool(sum([x in nick for x in ["wmh", "wph", "zh"]])) and "noplot" in nick:
-				continue
-			#next line splits file_string into filenames, those could contain * -> use glob.glob to map * to real names, add the list to root_file_name_list
-			map(root_file_name_list.__iadd__, map(glob.glob, map(config["root_input_dir"].__add__, config["files"][i].split(" "))))
-			if (not cuts == "") and (not cuts == config["weights"][i]):
-				log.error("can not decide which weight to use for sample %s nick %s" %(config["request_nick"],nick))
-				log.error(config)
-				sys.exit()
-			cuts = config["weights"][i]
-			config["lumi"] = config["scale_factors"][i]
-
 		for root_file_name in root_file_name_list:
 			log.debug("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
 			c_tree_list.append(ROOT.TChain())
@@ -88,72 +89,53 @@ def calculate_partial_correlation(config):
 		os.makedirs(nick_path)
 	root_inf = ROOT.TFile(config["storage_file"], "read")
 	root_inst = root_inf.Get(config["storage_ntuple"])
+	log.debug("===============================X-Y Correlations==============================")
 	for variables in itertools.combinations(config["parameters_list"], 2):
-		bins_raw = [binnings_dict.get_binning("%s_"%config["channel"]+variables[1]).strip(),
-					binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip()]
+		bins_raw = [binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip(),
+					binnings_dict.get_binning("%s_"%config["channel"]+variables[1]).strip()]
 		for i, bins in enumerate(bins_raw):
 			if " " in bins:
 				tmp_bins = bins.split(" ")
 				bins_raw[i] = [10,float(tmp_bins[0]),float(tmp_bins[-1])]
 			elif "," in bins:
 				tmp_bins = bins.split(",")
-				bins_raw[i] = [10,float(tmp_bins[0]),float(tmp_bins[-1])]
+				bins_raw[i] = [10,float(tmp_bins[1]),float(tmp_bins[-1])]
 			else:
 				bins_raw[i] = [10,0.,250]
 
 
 		[xbins, ybins] = bins_raw
-		log.warning(bins_raw)
-		#sys.exit()
-		#if "," in xbins_list:
-			#xbins_list = map(float, xbins_list.split(","))
-			#xbins += xbins_list
-			#xbins[0] = int(xbins[0])
-		#elif len(xbins_list.split(" ")) >= 2:
-			#a_bins_list = array.array('d',map(float, xbins_list.split(" ")))
-			#xbins_list.append(len(xbins_list.split(" "))-1)
-			#xbins.append(a_bins_list)
-		#else:
-			#xbins = [100,0.,0.]
-
-		#if "," in ybins_list:
-			#ybins_list = map(float, ybins_list.split(","))
-			#ybins += ybins_list
-			#ybins[0] = int(ybins[0])
-		#elif len(ybins_list.split(" ")) >= 2:
-			#a_bins_list = array.array('d',map(float, ybins_list.split(" ")))
-			#ybins.append(len(ybins_list.split(" "))-1)
-			#ybins.append(a_bins_list)
-		#else:
-			#ybins = [100,0.,0.]
-
-		binnings = xbins + ybins
-		log.debug("Generate RootHistogram TH2F: %s"%("+-+".join(variables)))
-		log.debug(binnings)
 		root_histograms["+-+".join(variables)] = ROOT.TProfile("+-+".join(variables),
-													"correlation: %s vs %s"%variables, *(xbins+ybins[1:]))
+													"correlation: %s vs %s"%variables, *(xbins+ybins[1:]+[ 's']))
+		log.debug("Generate RootHistogram TH2F: %s"%("+-+".join(variables)))
+		log.debug("options: " + str(xbins+ybins[1:]+[ 's']))
 		root_histograms["+-+".join(variables[-1::-1])] = ROOT.TProfile("+-+".join(variables[-1::-1]),
-													"correlation: %s vs %s"%(variables[-1::-1]), *(ybins+xbins[1:]))
+													"correlation: %s vs %s"%(variables[-1::-1]), *(ybins+xbins[1:]+[ 's']))
+		log.debug("Generate RootHistogram TH2F: %s"%("+-+".join(variables[-1::-1])))
+		log.debug("options: " + str(ybins+xbins[1:]+[ 's']))
 		corr_vars["+-+".join(variables)] = 0
 		root_histograms["+-+".join(variables)].SetDirectory(0)
 		ROOT.SetOwnership (root_histograms["+-+".join(variables)], False)
 		root_histograms["+-+".join(variables[-1::-1])].SetDirectory(0)
 		ROOT.SetOwnership (root_histograms["+-+".join(variables[-1::-1])], False)
 
+	log.debug("===============================X-X Correlations==============================")
 	for variable in config["parameters_list"]:
-		bins = binnings_dict.get_binning("%s_"%config["channel"]+variables[0]).strip()
+		bins = binnings_dict.get_binning("%s_"%config["channel"]+variable).strip()
 		bins_raw = []
 		if " " in bins:
 			tmp_bins = bins.split(" ")
 			bins_raw = [10,float(tmp_bins[0]),float(tmp_bins[-1])]
 		elif "," in bins:
 			tmp_bins = bins.split(",")
-			bins_raw = [10,float(tmp_bins[0]),float(tmp_bins[-1])]
+			bins_raw = [10,float(tmp_bins[1]),float(tmp_bins[-1])]
 		else:
 			bins_raw = [10,0.,250]
 
+		log.debug("Generate RootHistogram TH2F: %s"%("+-+".join([variable,variable])))
+		log.debug(bins_raw*2)
 		root_histograms["+-+".join([variable,variable])] = ROOT.TProfile("+-+".join([variable,variable]),
-													"correlation: %s vs %s"%(variable,variable), *(bins_raw+bins_raw[1:]))
+													"correlation: %s vs %s"%(variable,variable), *(bins_raw+bins_raw[1:]+[ 's']))
 		corr_vars["+-+".join([variable,variable])] = 0
 		corr_vars[variable] = 0
 		corr_vars["var_%s"%variable] = 0
@@ -162,14 +144,14 @@ def calculate_partial_correlation(config):
 	log.info( "=================================================================================")
 	log.info( "Calculate correlations in sample %s and make scatter plots for %i variable pairs."%(config["request_nick"],len(root_histograms)))
 	log.info( "=================================================================================")
-
+	#sys.exit()
 	i = 0.
 	n = 0
 	zero_vals = {}
 	lumi_val = config["lumi"]
 	for event in root_inst:
 		calced_means = []
-		w = event.__getattr__("eventWeight") * lumi_val
+		w = event.__getattr__(config["weight_variable"]) * lumi_val
 		for varxy in corr_vars.iterkeys():
 			if not "+-+" in varxy:
 				continue
@@ -217,6 +199,7 @@ if __name__ == "__main__":
 									 parents=[logger.loggingParser])
 	parser.add_argument("-A", "--artus-input", default=None, help="merged folder of ArtusOutput please have a look at --reduced-input [Default=%(default)s]")
 	parser.add_argument("-R", "--reduced-input", default=None, help="reduced input from Artus, already processed by this script[Default=%(default)s] --- If artus-input and reduced-input is given, reproduce missing reduceded samplesin artus-input directory")
+	parser.add_argument("-B", "--bdt_files", nargs="*", default=[], help="tmva output root files[Default=%(default)s]")
 	parser.add_argument("-O", "--overwrite-samples", action="store_true", default=False,
 						help="specify if you already produced reduced files and want to overwrite them. [Default: %(default)s]")
 	parser.add_argument("-s", "--samples", nargs="+",
@@ -230,7 +213,10 @@ if __name__ == "__main__":
 						help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
 						default="$CMSSW_BASE/src/plots/correlations",
-						help="Output directory. [Default: %(default)s]")
+						help="Output directory - Create Subfolder with date and time to store everything[Default: %(default)s]")
+	parser.add_argument("--force-this-output",
+						default=None,
+						help="Force to write output exactly to this folder - you might override precious samples![Default: %(default)s]")
 	parser.add_argument("-f", "--filename",
 						default="Correlation",
 						help="Output filename. [Default: %(default)s]")
@@ -265,8 +251,15 @@ if __name__ == "__main__":
 	from datetime import datetime as dt
 
 	output_dir_path = os.path.join(os.path.expandvars(args.output_dir), str(dt.utcnow().strftime("%Y_%m_%d_%H-%M"))+"_%s"%args.filename)
+	skip_classic_input = False
+	storage_name_extension = ""
+	if args.force_this_output:
+		output_dir_path = args.force_this_output
 	if args.artus_input is None and args.reduced_input is None:
-		log.error("Need input folder!")
+		storage_name_extension = os.path.join(output_dir_path, "storage")
+		skip_classic_input = True
+	if args.artus_input is None and args.reduced_input is None and args.bdt_files == []:
+		log.error("Need Input!")
 		sys.exit()
 	elif not args.artus_input is None and not args.reduced_input is None:
 		root_input_dir = os.path.expandvars(args.artus_input)
@@ -277,12 +270,12 @@ if __name__ == "__main__":
 		root_input_dir = os.path.expandvars(args.artus_input)
 		storage_name_extension = os.path.join(output_dir_path, "storage")
 		prepare_samples = True
-		overwrite_samples = False
+		overwrite_samples = args.overwrite_samples
 	elif args.reduced_input is not None:
 		root_input_dir = os.path.expandvars(args.reduced_input)
 		storage_name_extension = os.path.join(args.reduced_input, "storage")
 		prepare_samples = False
-		overwrite_samples = False
+		overwrite_samples = args.overwrite_samples
 
 	if output_dir_path is None:
 		pass
@@ -294,64 +287,130 @@ if __name__ == "__main__":
 
 	sample_settings = samples.Samples()
 	#get all configs
-	for channel in args.channels:
-		for category in args.categories:
-			if category != None:
-				if(args.mssm):
-					category_string = "catHttMSSM13TeV"
-				if args.mva:
-					category_string = "catMVAStudies"
-				else:
-					category_string = "catHtt13TeV"
-				category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
-			for requested_sample in args.samples:
-				list_of_samples = [getattr(samples.Samples, requested_sample)]
-				config = sample_settings.get_config(
-						samples=list_of_samples,
-						channel=channel,
-						category=category_string,
-						higgs_masses=args.higgs_masses,
-						normalise_signal_to_one_pb=False,
-						ztt_from_mc=False,
-						weight=args.weight,
-						exclude_cuts=args.exclude_cuts,
-						stack_signal=False,
-						lumi = args.lumi*1000,
-						scale_signal=1.0,
-						mssm=args.mssm
-						)
-				config["category"] = category_string
-				config["request_nick"] = requested_sample
-				config["channel"] = channel
-				config["prepare_samples"] = prepare_samples
-				config["overwrite_samples"] = overwrite_samples
-				config["storage_name_extension"] = os.path.join(storage_name_extension, channel, category_string, requested_sample)
-				if not os.path.exists(config["storage_name_extension"]):
-					os.makedirs(config["storage_name_extension"])
-				config["output_filename"] = args.filename
-				config["output_dir_path"] = output_dir_path
-				config["root_input_dir"] = root_input_dir
-				plot_configs.append(config)
+	if not skip_classic_input:
+		for channel in args.channels:
+			for category in args.categories:
+				if category != None:
+					if(args.mssm):
+						category_string = "catHttMSSM13TeV"
+					if args.mva:
+						category_string = "catMVAStudies"
+					else:
+						category_string = "catHtt13TeV"
+					category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
+				for requested_sample in args.samples:
+					list_of_samples = [getattr(samples.Samples, requested_sample)]
+					config = sample_settings.get_config(
+							samples=list_of_samples,
+							channel=channel,
+							category=category_string,
+							higgs_masses=args.higgs_masses,
+							normalise_signal_to_one_pb=False,
+							ztt_from_mc=False,
+							weight=args.weight,
+							exclude_cuts=args.exclude_cuts,
+							stack_signal=False,
+							lumi = args.lumi*1000,
+							scale_signal=1.0,
+							mssm=args.mssm
+							)
+					config["category"] = category_string
+					config["request_nick"] = requested_sample
+					config["channel"] = channel
+					config["prepare_samples"] = prepare_samples
+					config["overwrite_samples"] = overwrite_samples
+					config["storage_name_extension"] = os.path.join(storage_name_extension, channel, category_string, requested_sample)
+					if not os.path.exists(config["storage_name_extension"]):
+						os.makedirs(config["storage_name_extension"])
+					config["output_filename"] = args.filename
+					config["output_dir_path"] = output_dir_path
+					config["root_input_dir"] = root_input_dir
+					config["weight_variable"] = "eventWeight"
+					plot_configs.append(config)
 
-	#artus =jsonTools.JsonDict(glob.glob(os.path.join(config["input_dir"], "artus_*.json")))
-	#find all correlations to be calculated and plottet
-	for config in plot_configs:
-		parsed_parameters = []
-		#if args.mva_variables:
-			#unparsed_ParameterList = []
-			#map(unparsed_ParameterList.__iadd__,
-				#map(lambda b: b[1].split(","), map(lambda s: s.split(";"),
-													#artus["Pipelines"][config["folders"][0].replace("/ntuple", "")]["MVATestMethodsInputQuantities"])))
-			#for unsplitted_vars in unparsed_ParameterList:
-				#if ":=" in unsplitted_vars:
-					#var = unsplitted_vars.split(":=")[1]
-				#else:
-					#var = unsplitted_vars
-				#if not var in parsed_parameters:
-					#parsed_parameters.append(var)
-		for additional_var in args.add_vars:
-			if not additional_var in parsed_parameters:
-				parsed_parameters.append(additional_var)
-		config["parameters_list"] = parsed_parameters
+		#artus =jsonTools.JsonDict(glob.glob(os.path.join(config["input_dir"], "artus_*.json")))
+		#find all correlations to be calculated and plottet
+		for config in plot_configs:
+			parsed_parameters = []
+			#if args.mva_variables:
+				#unparsed_ParameterList = []
+				#map(unparsed_ParameterList.__iadd__,
+					#map(lambda b: b[1].split(","), map(lambda s: s.split(";"),
+														#artus["Pipelines"][config["folders"][0].replace("/ntuple", "")]["MVATestMethodsInputQuantities"])))
+				#for unsplitted_vars in unparsed_ParameterList:
+					#if ":=" in unsplitted_vars:
+						#var = unsplitted_vars.split(":=")[1]
+					#else:
+						#var = unsplitted_vars
+					#if not var in parsed_parameters:
+						#parsed_parameters.append(var)
+			for additional_var in args.add_vars:
+				if not additional_var in parsed_parameters:
+					parsed_parameters.append(additional_var)
+			config["parameters_list"] = parsed_parameters
+
+	bdt_file_dict = {}
+	for bdt_file in args.bdt_files:
+		folder, full_name = os.path.split(bdt_file)
+		name = full_name.replace(".root", "")
+		count = 0
+		for letter in name[-1::-1]:
+			count -= 1
+			if letter == "T":
+				break
+		name = name[:count]
+		folder_and_name = os.path.join(folder, name)
+		if folder_and_name in bdt_file_dict.keys():
+			bdt_file_dict[folder_and_name].append(full_name)
+		else:
+			bdt_file_dict[folder_and_name] = [full_name]
+
+	for key, file_list in bdt_file_dict.iteritems():
+		config = {}
+		folder, name = os.path.split(key)
+		container = name.split("_")
+		config["root_input_dir"] = folder
+		config["channel"] = container[0]
+
+		config["category"] = container[1].replace("1", "One").replace("2", "Two").replace("0", "Zero").replace("Jets", "Jet30")
+		category_string = "catMVAStudies"
+		config["category"] = (category_string + "_{channel}_{category}").format(channel=channel, category=config["category"])
+
+		config["scale_factors"] = [1]
+		config["folders"] = ["TestTree"]
+		config["weight_variable"] = "weight"
+		config["files"] = ["/"+" /".join(file_list)]
+		config["output_filename"] = args.filename
+		config["output_dir_path"] = output_dir_path
+		config["prepare_samples"] = True
+		config["overwrite_samples"] = True
+
+		config["parameters_list"] = []
+		print "Open RootFile\t", os.path.join(folder, file_list[0])
+		infile = ROOT.TFile(os.path.join(folder, file_list[0]), "READ")
+		intree = infile.Get("TestTree")
+		for branch in intree.GetListOfBranches():
+			branch_name = branch.GetName()
+			if not "class" in branch_name and not "weight" in branch_name:
+				config["parameters_list"].append(branch.GetName())
+		infile.Close()
+
+		config["request_nick"] = container[2]+"_signal"
+		config["nicks"] = [container[2]+"_signal"]
+		config["weights"]= ["(classID==1)"]
+		channel, category_string, requested_sample = config["channel"], config["category"], config["request_nick"]
+		config["storage_name_extension"] = os.path.join(storage_name_extension, channel, category_string, requested_sample)
+		plot_configs.append(copy.deepcopy(config))
+		if not os.path.exists(config["storage_name_extension"]):
+			os.makedirs(config["storage_name_extension"])
+
+		config["request_nick"] = container[2]+"_bkg"
+		config["nicks"] = [container[2]+"_bkg"]
+		config["weights"]= ["(classID==0)"]
+		channel, category_string, requested_sample = config["channel"], config["category"], config["request_nick"]
+		config["storage_name_extension"] = os.path.join(storage_name_extension, channel, category_string, requested_sample)
+		plot_configs.append(copy.deepcopy(config))
+		if not os.path.exists(config["storage_name_extension"]):
+			os.makedirs(config["storage_name_extension"])
 
 	aTools.parallelize(calculate_partial_correlation, plot_configs, n_processes=args.n_processes)

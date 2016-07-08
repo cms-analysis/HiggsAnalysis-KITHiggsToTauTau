@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
-def plot_correlations(parameters, correlation_dict, sample, channel, dir_path, outname, dim_size):
+def plot_correlations(parameters, correlation_dict, channel, category, sample):
 	if isinstance(channel, list):
 		channel = channel[0]
 	corr_vars = {}
@@ -130,9 +130,9 @@ if __name__ == "__main__":
 						default=["tt", "mt", "et", "em", "mm", "ee"],
 						choices=["tt", "mt", "et", "em", "mm", "ee"],
 						help="Channels. [Default: %(default)s]")
-	parser.add_argument("-o", "--output-file",
-							default="combination",
-							help="Output file. [Default: %(default)s]")
+	parser.add_argument("-o", "--output-dir",
+							default="SameAsInput",
+							help="Output dir. [Default: %(default)s]")
 	parser.add_argument("-s", "--samples", nargs="+",
 						default=["ggh", "qqh", "vh", "ztt", "zll", "ttj", "vv", "wj", "data"],
 						choices=["ggh", "qqh", "vh", "ztt", "zll", "ttj", "vv", "wj", "data"],
@@ -145,17 +145,35 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 
 	dir_path = os.path.expandvars(args.input_dir)
+	out_path = ""
+	if args.output_dir == "SameAsInput":
+		out_path = dir_path
 	config_list = []
 	parameters_list = []
-	for sample in args.samples:
-		file_dir = os.path.join(dir_path, sample)
-		if os.path.exists(file_dir):
-			for channel in args.channels:
-				config_list.append(jsonTools.JsonDict(os.path.join(file_dir, "%s_corr-config.json"%channel)))
+	for channel in args.channels:
+		for category in args.categories:
+			overall_correlations = None
+			category_string = ""
+			if category != None:
+				if(args.mssm):
+					category_string = "catHttMSSM13TeV"
+				if args.mva:
+					category_string = "catMVAStudies"
+				else:
+					category_string = "catHtt13TeV"
+				category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
+			for sample in args.samples:
+				info_path = os.path.join(dir_path, channel, category_string, sample, "*.root")
+				info_path = glob.glob(info_path)
+				if len(info_path) > 1:
+					log.critical("More than one file per channel-category-sample matched your discriprion --- aborting")
+					sys.exit()
+				info_path = info_path[0]
+				config_list.append(jsonTools.JsonDict(info_path))
 				config = config_list[-1]
-				log.debug("sample: %s; channel: %s; dir: %s"%(sample, channel, file_dir))
+				log.debug("sample: %s; channel: %s; dir: %s"%(sample, channel, dir_path))
 				log.debug("parameters: %s" %str(config["parameters_list"]))
-				if len(parameters_list) < 2:
+				if len(parameters_list) == 1:
 					if "all" in args.plot_vars:
 						parameters_list = config["parameters_list"]
 					else:
@@ -165,21 +183,16 @@ if __name__ == "__main__":
 							else:
 								log.error("You requested to plot correlation for variable {var}, which is not present in the calculated correlation values".format(var=var))
 								sys.exit()
-					plot_correlations(parameters_list, copy.copy(config["correlations"]), sample, channel, file_dir, channel, args.dimension)
+					plot_correlations(parameters_list, copy.copy(config["correlations"]), sample, channel, dir_path, channel, args.dimension)
 				else:
-					plot_correlations(parameters_list, copy.copy(config["correlations"]), sample, channel, file_dir, channel, args.dimension)
-
-	overall_correlations = None
-	for i,config in enumerate(config_list):
-		if config["request_nick"] == "data":
-			continue
-		if overall_correlations is None:
-			overall_correlations = copy.copy(config["correlations"])
-		else:
-			for varxy in overall_correlations.iterkeys():
-				overall_correlations[varxy] += config["correlations"][varxy]
-	if not os.path.exists(os.path.join(dir_path, "combination")):
-		os.makedirs(os.path.join(dir_path, "combination"))
-
-	plot_correlations(parameters_list, overall_correlations, "Combination" ,args.channels, os.path.join(dir_path, "combination"), args.output_file, args.dimension)
-	#calculate variances and correlations -> moved to collector_script
+					plot_correlations(parameters_list, copy.copy(config["correlations"]), sample, channel, dir_path, channel, args.dimension)
+				if sample == "data":
+					continue
+				if overall_correlations is None:
+					overall_correlations = copy.copy(config["correlations"])
+				else:
+					for varxy in overall_correlations.iterkeys():
+						overall_correlations[varxy] += config["correlations"][varxy]
+			if not os.path.exists(os.path.join(dir_path, "combination")):
+				os.makedirs(os.path.join(dir_path, "combination"))
+			plot_correlations(parameters_list, overall_correlations, "Combination" ,args.channels, os.path.join(dir_path, "combination"), args.output_file, args.dimension)

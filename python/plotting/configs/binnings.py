@@ -22,6 +22,8 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[channel+"_integral"] = "1,0.0,1.0"
 			self.binnings_dict[channel+"_min_ll_jet_eta"] = "16,-8,8"
 			self.binnings_dict[channel+"_diLepBoost"] = "25,0,2000"
+			self.binnings_dict[channel+"_diLepDeltaR"] = "20,0,10"
+			self.binnings_dict[channel+"_diLepJet1DeltaR"] = "20,0,10"
 			for i in range(16):
 				self.binnings_dict[channel+"_MVATestMethod_%i"%i] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
 		for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
