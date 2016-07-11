@@ -38,12 +38,13 @@ def calculate_partial_correlation(config):
 	for i,nick in enumerate(config["nicks"]):
 		if not bool(sum([x in nick for x in ["wmh", "wph", "zh"]])) and "noplot" in nick:
 			continue
+		log.debug("search files:\n" + str(config["files"][i]))
 		#next line splits file_string into filenames, those could contain * -> use glob.glob to map * to real names, add the list to root_file_name_list
 		map(root_file_name_list.__iadd__, map(glob.glob, map(config["root_input_dir"].__add__, config["files"][i].split(" "))))
 		if (not cuts == "") and (not cuts == config["weights"][i]):
 			log.error("can not decide which weight to use for sample %s nick %s" %(config["request_nick"],nick))
 			log.error(config)
-			sys.exit()
+			#sys.exit()
 		cuts = config["weights"][i]
 		config["lumi"] = config["scale_factors"][i]
 
@@ -251,6 +252,7 @@ if __name__ == "__main__":
 	from datetime import datetime as dt
 
 	output_dir_path = os.path.join(os.path.expandvars(args.output_dir), str(dt.utcnow().strftime("%Y_%m_%d_%H-%M"))+"_%s"%args.filename)
+	root_input_dir = ""
 	skip_classic_input = False
 	storage_name_extension = ""
 	if args.force_this_output:
@@ -324,7 +326,7 @@ if __name__ == "__main__":
 						os.makedirs(config["storage_name_extension"])
 					config["output_filename"] = args.filename
 					config["output_dir_path"] = output_dir_path
-					config["root_input_dir"] = root_input_dir
+					config["root_input_dir"] = root_input_dir+"/"
 					config["weight_variable"] = "eventWeight"
 					plot_configs.append(config)
 
@@ -369,7 +371,7 @@ if __name__ == "__main__":
 		config = {}
 		folder, name = os.path.split(key)
 		container = name.split("_")
-		config["root_input_dir"] = folder
+		config["root_input_dir"] = folder+"/"
 		config["channel"] = container[0]
 
 		config["category"] = container[1].replace("1", "One").replace("2", "Two").replace("0", "Zero").replace("Jets", "Jet30")
@@ -386,7 +388,7 @@ if __name__ == "__main__":
 		config["overwrite_samples"] = True
 
 		config["parameters_list"] = []
-		print "Open RootFile\t", os.path.join(folder, file_list[0])
+		#print "Open RootFile\t", os.path.join(folder, file_list[0])
 		infile = ROOT.TFile(os.path.join(folder, file_list[0]), "READ")
 		intree = infile.Get("TestTree")
 		for branch in intree.GetListOfBranches():

@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
-def plot_correlations(parameters, correlation_dict, channel, category, sample):
+def plot_correlations(parameters, correlation_dict, dir_path, channel, category, sample, dimension=7):
 	if isinstance(channel, list):
 		channel = channel[0]
 	corr_vars = {}
@@ -45,10 +45,10 @@ def plot_correlations(parameters, correlation_dict, channel, category, sample):
 		except ValueError:
 			log.error("ValueError: %s" %varxy)
 			corr_vars[varxy] = None
-	jsonTools.JsonDict(corr_vars).save(os.path.join(dir_path,"%s_correlations.json"%channel),indent=4)
-	whole = len(parameters)/dim_size
+	jsonTools.JsonDict(corr_vars).save(os.path.join(dir_path, channel, category_string, sample, "FinalCorrelation.json"), indent=4)
+	whole = len(parameters)/dimension
 	whole = max(whole, 1)
-	max_iterate = min(dim_size, len(parameters))
+	max_iterate = min(dimension, len(parameters))
 	print "==============================="
 	print "whole and max_iterate"
 	print whole, max_iterate
@@ -87,7 +87,7 @@ def plot_correlations(parameters, correlation_dict, channel, category, sample):
 			print weights
 			print len(x_params)
 			print len(y_params)
-			counts, xedges, yedges, cax = ax.hist2d(x_vals, y_vals, weights=weights, bins=[len(x_params), len(y_params)], range=[(0,len(x_params)),(0,len(y_params))], cmap=cm.coolwarm, vmin=-0.5, vmax=0.5)
+			counts, xedges, yedges, cax = ax.hist2d(x_vals, y_vals, weights=weights, bins=[len(x_params), len(y_params)], range=[(0,len(x_params)),(0,len(y_params))], cmap=cm.coolwarm, vmin=-1.0, vmax=1.0)
 			title_string = "Correlation Matrix: %s $\\rightarrow$ %s"%(labeldict.get_nice_label(sample) ,labeldict.get_nice_label("channel_%s"%channel ))
 			#title_string = title_string.replace("$", "")
 			#title_string = "$"+title_string+"$"
@@ -107,20 +107,18 @@ def plot_correlations(parameters, correlation_dict, channel, category, sample):
 				for triples in zip(x_vals, y_vals, weights):
 					ax.annotate(s="%1.2f"%triples[2], xy=(triples[0],triples[1]), ha = "center", va = "center", size='large')
 			# Add colorbar, make sure to specify tick locations to match desired ticklabels
-			cbar = fig.colorbar(cax, ticks=[-0.5, 0, 0.5])
-			cbar.ax.set_yticklabels(['<-0.5', '0', '>0.5'])  # vertically oriented colorbar
+			cbar = fig.colorbar(cax, ticks=[-1.0, 0, 1.0])
+			cbar.ax.set_yticklabels(['-1.0', '0', '1.0'])  # vertically oriented colorbar
 			ax.grid(True, which="minor", linewidth = 1.5)
 			ax.tick_params(axis='both', which='major', pad=5)
 			plt.tight_layout()
-			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.png"%(outname,i,j)))
-			log.info("create plot %s" %os.path.join(dir_path,"%s-%i-%i_corM.png"%(outname,i,j)))
-			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.pdf"%(outname,i,j)))
-			log.info("create plot %s" %os.path.join(dir_path,"%s-%i-%i_corM.pdf"%(outname,i,j)))
-			plt.savefig(os.path.join(dir_path,"%s-%i-%i_corM.eps"%(outname,i,j)))
-			log.info("create plot %s" %os.path.join(dir_path,"%s-%i-%i_corM.eps"%(outname,i,j)))
-
-
-
+			outname = "CorrelationPlot"
+			plt.savefig(os.path.join(dir_path, channel, category_string, sample, "%s-%i-%i_corM.png"%(outname,i,j)))
+			log.info("create plot %s" %os.path.join(dir_path, channel, category_string, sample, "%s-%i-%i_corM.png"%(outname,i,j)))
+			plt.savefig(os.path.join(dir_path, channel, category_string, sample, "%s-%i-%i_corM.png"%(outname,i,j)))
+			log.info("create plot %s" %os.path.join(dir_path, channel, category_string, sample, "%s-%i-%i_corM.png"%(outname,i,j)))
+			plt.savefig(os.path.join(dir_path, channel, category_string, sample, "%s-%i-%i_corM.png"%(outname,i,j)))
+			log.info("create plot %s" %os.path.join(dir_path, channel, category_string, sample, "%s-%i-%i_corM.png"%(outname,i,j)))
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Collect and Combine Correlation Information",
 									 parents=[logger.loggingParser])
@@ -128,8 +126,15 @@ if __name__ == "__main__":
 						help="Input directory. Use directory of output from correlation_SampleProducer.py")
 	parser.add_argument("-c", "--channels", nargs="*",
 						default=["tt", "mt", "et", "em", "mm", "ee"],
-						choices=["tt", "mt", "et", "em", "mm", "ee"],
 						help="Channels. [Default: %(default)s]")
+	parser.add_argument("--mssm", default=False, action="store_true",
+	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
+	parser.add_argument("--mva", default=False, action="store_true",
+	                    help="Produce plots for the mva studies. [Default: %(default)s]")
+	parser.add_argument("--categories", nargs="+", default=["inclusive"],
+	                    help="Categories. [Default: %(default)s]")
+	parser.add_argument("--higgs-masses", nargs="+", default=["125"],
+						help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
 							default="SameAsInput",
 							help="Output dir. [Default: %(default)s]")
@@ -152,6 +157,7 @@ if __name__ == "__main__":
 	parameters_list = []
 	for channel in args.channels:
 		for category in args.categories:
+			sample_list = []
 			overall_correlations = None
 			category_string = ""
 			if category != None:
@@ -163,7 +169,8 @@ if __name__ == "__main__":
 					category_string = "catHtt13TeV"
 				category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
 			for sample in args.samples:
-				info_path = os.path.join(dir_path, channel, category_string, sample, "*.root")
+				log.debug("sample: %s; channel: %s; dir: %s"%(sample, channel, dir_path))
+				info_path = os.path.join(dir_path, channel, category_string, sample, "Correlations.json")
 				info_path = glob.glob(info_path)
 				if len(info_path) > 1:
 					log.critical("More than one file per channel-category-sample matched your discriprion --- aborting")
@@ -171,9 +178,8 @@ if __name__ == "__main__":
 				info_path = info_path[0]
 				config_list.append(jsonTools.JsonDict(info_path))
 				config = config_list[-1]
-				log.debug("sample: %s; channel: %s; dir: %s"%(sample, channel, dir_path))
-				log.debug("parameters: %s" %str(config["parameters_list"]))
-				if len(parameters_list) == 1:
+				print config["correlations"]
+				if len(parameters_list) == 0:
 					if "all" in args.plot_vars:
 						parameters_list = config["parameters_list"]
 					else:
@@ -183,9 +189,11 @@ if __name__ == "__main__":
 							else:
 								log.error("You requested to plot correlation for variable {var}, which is not present in the calculated correlation values".format(var=var))
 								sys.exit()
-					plot_correlations(parameters_list, copy.copy(config["correlations"]), sample, channel, dir_path, channel, args.dimension)
+					log.debug("parameters: %s" %str(parameters_list))
+					plot_correlations(parameters_list, copy.copy(config["correlations"]), out_path, channel, category_string, sample, args.dimension)
 				else:
-					plot_correlations(parameters_list, copy.copy(config["correlations"]), sample, channel, dir_path, channel, args.dimension)
+					log.debug("parameters: %s" %str(parameters_list))
+					plot_correlations(parameters_list, copy.copy(config["correlations"]), out_path, channel, category_string, sample, args.dimension)
 				if sample == "data":
 					continue
 				if overall_correlations is None:
@@ -193,6 +201,7 @@ if __name__ == "__main__":
 				else:
 					for varxy in overall_correlations.iterkeys():
 						overall_correlations[varxy] += config["correlations"][varxy]
-			if not os.path.exists(os.path.join(dir_path, "combination")):
-				os.makedirs(os.path.join(dir_path, "combination"))
-			plot_correlations(parameters_list, overall_correlations, "Combination" ,args.channels, os.path.join(dir_path, "combination"), args.output_file, args.dimension)
+				sample_list.append(sample)
+			if not os.path.exists(os.path.join(out_path, "combination", channel, category_string, "_".join(sample_list))):
+				os.makedirs(os.path.join(out_path, "combination", channel, category_string, "_".join(sample_list)))
+			plot_correlations(parameters_list, overall_correlations, os.path.join(out_path, "combination"), channel, category_string, "_".join(sample_list), args.dimension)
