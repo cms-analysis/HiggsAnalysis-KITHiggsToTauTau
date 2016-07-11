@@ -114,6 +114,9 @@ if __name__ == "__main__":
 		else:
 			args.categories = args.categories[len(parser.get_default("channel")):]
 
+	#restriction to CH
+	datacards.cb.channel(args.channel)
+
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
 		# prepare category settings based on args and datacards
