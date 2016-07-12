@@ -15,6 +15,7 @@ import sys
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.labels as labels
+import numpy as np
 import ROOT
 import glob
 import itertools
@@ -23,7 +24,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
-def makePlots(variables, samples, data, dir_path, channel, category, sample_str):
+def makePlots(variables, samples, data, dir_path, channel, category, sample_str, corr_dicts, red_plot):
 	tProfiles = {}
 	tProfiles_data = {}
 	nice_channel = {
@@ -31,6 +32,32 @@ def makePlots(variables, samples, data, dir_path, channel, category, sample_str)
 		"mt": "$\\mathrm{\\mu\\tau}$",
 		"et": "$e\\mathrm{\\tau}$",
 		"tt": "$\\mathrm{\\tau\\tau}$"}
+	corrs = []
+	for correlation_dict_full in corr_dicts:
+		corrs.append({})
+		if correlation_dict_full is None:
+			continue
+		correlation_dict = correlation_dict_full["correlations"]
+		ws = correlation_dict["weight_sum"]
+		for varxy in correlation_dict.iterkeys():
+			try:
+				varx, vary = map(str, varxy.split("+-+"))
+			except ValueError:
+				continue
+			corrs[-1]["var_%s"%varx] = (correlation_dict["var_%s"%varx] - (correlation_dict[varx]**2.)/ws)/ws
+			corrs[-1]["var_%s"%vary] = (correlation_dict["var_%s"%vary] - (correlation_dict[vary]**2.)/ws)/ws
+			try:
+				corrs[-1][varxy] = (correlation_dict[varxy]-correlation_dict[varx]*correlation_dict[vary]/ws)/ws/(
+					corrs[-1]["var_%s"%varx])**0.5/(corrs[-1]["var_%s"%vary])**0.5
+				#corrs[-1][varxy] = (correlation_dict[varxy]-correlation_dict[varx]*correlation_dict[vary]/ws)/ws
+			except ZeroDivisionError:
+				log.error("ZeroDivisonError: %s - Sample: %s - Category: %s" %(varxy,correlation_dict_full["request_nick"],correlation_dict_full["category"]))
+				corrs[-1][varxy] = 0
+			except ValueError:
+				log.error("ValueError: %s - Sample: %s - Category: %s" %(varxy,correlation_dict_full["request_nick"],correlation_dict_full["category"]))
+				corrs[-1][varxy] = 0
+
+
 	for var in variables:
 		for var2 in variables:
 			name = var+"+-+"+var2
@@ -61,25 +88,39 @@ def makePlots(variables, samples, data, dir_path, channel, category, sample_str)
 		tProfiles_data[name] = infile.Get(name)
 
 	for name in var_pairs:
+		x_var, y_var = name.split("+-+")
 		mc_prof = tProfiles[name]
 		data_prof = tProfiles_data[name]
-		x_vals = [mc_prof.GetBinCenter(i) for i in range(1, mc_prof.GetNbinsX()+1, 1)]
-		y_vals = [mc_prof.GetBinContent(i) for i in range(1, mc_prof.GetNbinsX()+1, 1)]
-		y_vals_data = [data_prof.GetBinContent(i) for i in range(1, data_prof.GetNbinsX()+1, 1)]
-		y_errs = [mc_prof.GetBinError(i) for i in range(1, mc_prof.GetNbinsX()+1, 1)]
-		y_errs_data = [data_prof.GetBinError(i) for i in range(1, data_prof.GetNbinsX()+1, 1)]
+		x_vals = np.array([mc_prof.GetBinCenter(i) for i in range(1, mc_prof.GetNbinsX()+1, 1)])
+		y_vals = np.array([mc_prof.GetBinContent(i) for i in range(1, mc_prof.GetNbinsX()+1, 1)])
+		y_vals_data = np.array([data_prof.GetBinContent(i) for i in range(1, data_prof.GetNbinsX()+1, 1)])
+		y_errs = np.array([mc_prof.GetBinError(i) for i in range(1, mc_prof.GetNbinsX()+1, 1)])
+		y_errs_data = np.array([data_prof.GetBinError(i) for i in range(1, data_prof.GetNbinsX()+1, 1)])
+
+		korr_data = corrs[1][name] if name in corrs[1].keys() else corrs[1].get("+-+".join(name.split("+-+")[-1::-1]), "NaN")
+		korr_mc = corrs[0][name] if name in corrs[0].keys() else corrs[0].get("+-+".join(name.split("+-+")[-1::-1]), "NaN")
+
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
 		ax.set_xlabel(name.split("+-+")[0], size="x-large")
 		ax.set_ylabel(name.split("+-+")[1], size="x-large")
 		ax.errorbar(x_vals, y_vals, yerr=y_errs, label="MC", ls="None")
 		ax.errorbar(x_vals, y_vals_data, yerr=y_errs_data, label="data", ls="None")
+		y_min, y_max = ax.get_ylim()
+		y_max = y_max + 0.15 * (y_max-y_min)
+		ax.set_ylim(y_min, y_max)
+		ax.annotate(s="Data Correlation: %1.2f"%(korr_data), xy=(x_vals[0],0.99*y_max-0.05*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
+		ax.annotate(s="MC  Correlation: %1.2f"%(korr_mc), xy=(x_vals[0],0.99*y_max-0.15*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
 		lgd = ax.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0., numpoints=1)
 		ans = ax.set_title("{channel}\t{category}".format(channel=nice_channel[channel], category=category), ha='left', x=0.01, y=1.01, size="x-large")
 		if not os.path.exists(os.path.join(out_path, "combination", channel, category_string, sample_str)):
 			os.makedirs(os.path.join(out_path, "combination", channel, category_string, sample_str))
-		log.debug("save plot as: " + os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name))
-		fig.savefig(os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name), bbox_extra_artists=(lgd, ans), bbox_inches='tight')
+		if not red_plot:
+			fig.savefig(os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name), bbox_extra_artists=(lgd, ans), bbox_inches='tight')
+			log.debug("save plot as: " + os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name))
+		elif abs(korr_data-korr_mc) > 0.05:
+			fig.savefig(os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name), bbox_extra_artists=(lgd, ans), bbox_inches='tight')
+			log.debug("save plot as: " + os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name))
 	infile.Close()
 
 if __name__ == "__main__":
@@ -101,6 +142,10 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 							default="SameAsInput",
 							help="Output dir. [Default: %(default)s]")
+	parser.add_argument("--use-corr-dict", action="store_true",
+							default=False,
+							help="Use Json files instead of calculating correlation from profile. [Default: %(default)s]")
+	parser.add_argument("--corr-dict-name", default = "Correlations.json", help="Name of json file. [Default: %(default)s]")
 	parser.add_argument("-s", "--samples", nargs="+",
 						default=["ggh", "qqh", "vh", "ztt", "zll", "ttj", "vv", "wj", "data"],
 						choices=["ggh", "qqh", "vh", "ztt", "zll", "ttj", "vv", "wj", "data"],
@@ -109,11 +154,14 @@ if __name__ == "__main__":
 						help = "plot correlation for those variables. [Default: %(default)s]")
 	parser.add_argument("--dimension", type = int, default = 5,
 						help="dimension of the output matrices. [Default: %(default)s]")
+	parser.add_argument("--plot-critical", default = False, action="store_true", help="Plot ONLY histograms with a critical level of differences. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
 	dir_path = os.path.expandvars(args.input_dir)
 	out_path = ""
+	mc_corr = None
+	data_corr = None
 	if args.output_dir == "SameAsInput":
 		out_path = dir_path
 	config_list = []
@@ -144,6 +192,15 @@ if __name__ == "__main__":
 				if sample != "data":
 					sample_list.append(info_path)
 					sample_strings.append(sample)
+					if args.use_corr_dict:
+						if mc_corr is None:
+							mc_corr = jsonTools.JsonDict(info_path.replace("Histograms.root", args.corr_dict_name))
+						else:
+							for namexy, varxy  in jsonTools.JsonDict(info_path.replace("Histograms.root", args.corr_dict_name))["correlations"].iteritems():
+								mc_corr["correlations"][namexy] = mc_corr["correlations"].get(namexy, 0) + varxy
 				else:
 					data_sample = info_path
-			makePlots(args.plot_vars, sample_list, data_sample, out_path, channel, category_string, "_".join(sample_strings))
+					if args.use_corr_dict:
+						data_corr = jsonTools.JsonDict(info_path.replace("Histograms.root", args.corr_dict_name))
+
+			makePlots(args.plot_vars, sample_list, data_sample, out_path, channel, category_string, "_".join(sample_strings), [mc_corr, data_corr], args.plot_critical)

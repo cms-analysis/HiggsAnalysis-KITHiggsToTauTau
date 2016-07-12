@@ -41,18 +41,14 @@ def plot_correlations(parameters, correlation_dict, dir_path, channel, category,
 				corr_vars["var_%s"%varx])**0.5/(corr_vars["var_%s"%vary])**0.5
 		except ZeroDivisionError:
 			log.error("ZeroDivisonError: %s" %varxy)
-			corr_vars[varxy] = None
+			corr_vars[varxy] = 0
 		except ValueError:
 			log.error("ValueError: %s" %varxy)
-			corr_vars[varxy] = None
+			corr_vars[varxy] = 0
 	jsonTools.JsonDict(corr_vars).save(os.path.join(dir_path, channel, category_string, sample, "FinalCorrelation.json"), indent=4)
 	whole = len(parameters)/dimension
 	whole = max(whole, 1)
 	max_iterate = min(dimension, len(parameters))
-	print "==============================="
-	print "whole and max_iterate"
-	print whole, max_iterate
-	print "==============================="
 
 	param_lists = []
 	for i in range(whole):
@@ -63,7 +59,6 @@ def plot_correlations(parameters, correlation_dict, dir_path, channel, category,
 	if param_lists[-1] == []:
 		param_lists.pop(-1)
 	param_lists.append(parameters)
-	print param_lists
 	for i in range(len(param_lists)):
 		for j in range(i,len(param_lists)):
 			if j == len(param_lists)-1 and j != i:
@@ -82,11 +77,6 @@ def plot_correlations(parameters, correlation_dict, dir_path, channel, category,
 					weights.append(corr_vars["+-+".join((pairs[1],pairs[0]))])
 			fig = plt.figure()
 			ax = fig.add_subplot(111)
-			print x_vals
-			print y_vals
-			print weights
-			print len(x_params)
-			print len(y_params)
 			counts, xedges, yedges, cax = ax.hist2d(x_vals, y_vals, weights=weights, bins=[len(x_params), len(y_params)], range=[(0,len(x_params)),(0,len(y_params))], cmap=cm.coolwarm, vmin=-1.0, vmax=1.0)
 			title_string = "Correlation Matrix: %s $\\rightarrow$ %s"%(labeldict.get_nice_label(sample) ,labeldict.get_nice_label("channel_%s"%channel ))
 			#title_string = title_string.replace("$", "")
@@ -178,7 +168,6 @@ if __name__ == "__main__":
 				info_path = info_path[0]
 				config_list.append(jsonTools.JsonDict(info_path))
 				config = config_list[-1]
-				print config["correlations"]
 				if len(parameters_list) == 0:
 					if "all" in args.plot_vars:
 						parameters_list = config["parameters_list"]
