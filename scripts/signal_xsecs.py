@@ -28,13 +28,13 @@ if __name__ == "__main__":
 	                                 parents=[logger.loggingParser])
 
 	parser.add_argument("--ggh-table", help="XSxBR Table for ggH process. [Default: %(default)s]",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/data/xsecs_brs/ggH_8TeV_YR3.txt")
+	                    default="$CMSSW_BASE/src/CombineHarvester/CombineTools/input/xsecs_brs/ggH_8TeV_YR3.txt")
 	parser.add_argument("--qqh-table", help="XSxBR Table for qqH process. [Default: %(default)s]",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/data/xsecs_brs/qqH_8TeV_YR3.txt")
+	                    default="$CMSSW_BASE/src/CombineHarvester/CombineTools/input/xsecs_brs/qqH_8TeV_YR3.txt")
 	parser.add_argument("--wh-table", help="XSxBR Table for WH process. [Default: %(default)s]",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/data/xsecs_brs/WH_8TeV_YR3.txt")
+	                    default="$CMSSW_BASE/src/CombineHarvester/CombineTools/input/xsecs_brs/WH_8TeV_YR3.txt")
 	parser.add_argument("--zh-table", help="XSxBR Table for ZH process. [Default: %(default)s]",
-	                    default="$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/data/xsecs_brs/ZH_8TeV_YR3.txt")
+	                    default="$CMSSW_BASE/src/CombineHarvester/CombineTools/input/xsecs_brs/ZH_8TeV_YR3.txt")
 	parser.add_argument("--tth-table", help="XSxBR Table for ttH process. [Default: %(default)s]",
 	                    default=None)
 	
