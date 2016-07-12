@@ -8,7 +8,7 @@ import copy
 import os
 import re
 
-# http://cms-analysis.github.io/HiggsAnalysis-HiggsToTauTau/python-interface.html
+# http://cms-analysis.github.io/CombineHarvester/python-interface.html
 import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.tools as tools
