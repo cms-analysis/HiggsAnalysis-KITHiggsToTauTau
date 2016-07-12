@@ -50,7 +50,6 @@ git clone https://github.com/artus-analysis/Jet2TauFakes.git HTTutilities/Jet2Ta
 git clone https://github.com/CMSAachen3B/SimpleFits.git -b artus_master
 
 # needed for plotting and statistical inference
-git clone https://github.com/cms-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
 #### --change to the recommendation of Combind Twiki 
 ##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X

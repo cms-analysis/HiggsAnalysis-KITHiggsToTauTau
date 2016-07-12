@@ -51,7 +51,6 @@ git clone https://github.com/CMSAachen3B/SimpleFits.git -b artus_master
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
 # needed for plotting and statistical inference
-git clone https://github.com/artus-analysis/HiggsAnalysis-HiggsToTauTau.git HiggsAnalysis/HiggsToTauTau
 #git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester # uncommented since not approved for ROOT6
 #### --change to the recommendation of Combind Twiki 
 ##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
