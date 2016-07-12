@@ -14,8 +14,6 @@ ROOT.gROOT.SetBatch(True)
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gErrorIgnoreLevel = ROOT.kError
 
-from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
-
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
@@ -52,7 +50,6 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 	logger.initLogger(args)
-	args.higgs_masses = parseArgs(args.higgs_masses)
 	
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()

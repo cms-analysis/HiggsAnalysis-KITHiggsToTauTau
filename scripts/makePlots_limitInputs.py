@@ -14,8 +14,6 @@ ROOT.gROOT.SetBatch(True)
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gErrorIgnoreLevel = ROOT.kError
 
-from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
-
 import Artus.Utility.jsonTools as jsonTools
 import Artus.Utility.tools as tools
 
@@ -44,7 +42,7 @@ if __name__ == "__main__":
 	parser.add_argument("--quantities", nargs="*",
 	                    default=["integral", "m_ll", "svfitMass"],
 	                    help="Quantities. [Default: %(default)s]")
-	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["110_145:5"],
+	parser.add_argument("-m", "--higgs-masses", nargs="+", default=[str(mass) for mass in range(110, 146, 5)],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--tau-es-shifts", nargs="+", type=float, default=[1.0, -1.0],
 	                    help="Tau ES shifts. [Default: %(default)s]")
@@ -59,7 +57,6 @@ if __name__ == "__main__":
 
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
-	args["higgs_masses"] = parseArgs(args["higgs_masses"])
 	
 	channel_renamings = {
 		#"mt" : "muTau",

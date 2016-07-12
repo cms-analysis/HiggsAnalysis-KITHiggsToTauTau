@@ -14,8 +14,6 @@ ROOT.gROOT.SetBatch(True)
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gErrorIgnoreLevel = ROOT.kError
 
-from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
-
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
@@ -58,8 +56,6 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 	
 	# preparation of arguments
-	args.higgs_masses = parseArgs(args.higgs_masses)
-	
 	if len(args.fit_results) > 1 and len(args.fit_results) != len(args.datacards):
 		log.warning("%d fit results need to be expanded/truncated to %d datacards!" % (len(args.fit_results), len(args.datacards)))
 	args.fit_results = (args.fit_results*len(args.datacards))[:len(args.datacards)]

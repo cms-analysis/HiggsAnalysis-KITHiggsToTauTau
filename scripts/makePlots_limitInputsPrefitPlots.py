@@ -13,8 +13,6 @@ ROOT.gROOT.SetBatch(True)
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gErrorIgnoreLevel = ROOT.kError
 
-from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
-
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
@@ -49,8 +47,6 @@ if __name__ == "__main__":
 	
 	args = vars(parser.parse_args())
 	logger.initLogger(args)
-	
-	args["higgs_masses"] = parseArgs(args["higgs_masses"])
 	
 	root_file = ROOT.TFile(args["input"], "READ")
 	keys = root_file.GetListOfKeys()

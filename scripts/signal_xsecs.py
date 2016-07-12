@@ -9,8 +9,6 @@ import argparse
 import os
 import re
 
-from HiggsAnalysis.HiggsToTauTau.utils import parseArgs
-
 
 def parse_table(table_file):
 	xsecs_vs_masses = {}
@@ -50,8 +48,6 @@ if __name__ == "__main__":
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
-	args.higgs_masses = parseArgs(args.higgs_masses)
 	
 	ggH_xsecs = parse_table(args.ggh_table) if args.ggh_table else {}
 	for mass in args.higgs_masses:
