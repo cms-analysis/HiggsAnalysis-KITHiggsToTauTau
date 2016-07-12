@@ -22,35 +22,35 @@
 				]
 			}
 		},
-		"TauID" : "TauIDRecommendation13TeV",
-		"TauUseOldDMs" : true,
-		"MuonLowerPtCuts" : [
+		"#TauID" : "TauIDRecommendation13TeV",
+		"#TauUseOldDMs" : true,
+		"#MuonLowerPtCuts" : [
 			"19.0"
 		],
-		"MuonUpperAbsEtaCuts" : [
+		"#MuonUpperAbsEtaCuts" : [
 			"2.1"
 		],
-		"TauLowerPtCuts" : [
+		"#TauLowerPtCuts" : [
 			"20.0"
 		],
-		"TauUpperAbsEtaCuts" : [
+		"#TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
-		"TriggerObjectLowerPtCut" : { 
+		"#TriggerObjectLowerPtCut" : { 
 			"nick": {
 				"default": -1.0,
 				"Spring15MiniAODv2" : 18.0,
 				"Fall15MiniAODv2" : -1.0
 			}
 		},
-		"DiTauPairMinDeltaRCut" : 0.5,
-		"DiTauPairIsTauIsoMVA": true,
-		"DiTauPairLepton1LowerPtCuts" : {
+		"#DiTauPairMinDeltaRCut" : 0.5,
+		"#DiTauPairIsTauIsoMVA": true,
+		"#DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [ "HLT_IsoMu24_eta2p1_v:25.0"]
 			}
 		},
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+		"#DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
 				"SpringMiniAODv2" : [
 					"HLT_IsoMu17_eta2p1_v"
@@ -66,16 +66,16 @@
 				]
 			}
 		},
-		"DiTauPairNoHLT" : {
+		"#DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
 				"Spring16" : true
 			}
 		},
-		"EventWeight" : "eventWeight",
-		"IdentificationEfficiencyMode" : "multiply_weights",
-		"TauTauRestFrameReco" : "collinear_approximation",
-		"TauTriggerFilterNames" : {
+		"#EventWeight" : "eventWeight",
+		"#IdentificationEfficiencyMode" : "multiply_weights",
+		"#TauTauRestFrameReco" : "collinear_approximation",
+		"#TauTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
 					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltPFTau20TrackLooseIsoAgainstMuon",
@@ -83,15 +83,15 @@
 				]
 			}
 		},
-		"InvalidateNonMatchingElectrons" : false,
-		"InvalidateNonMatchingMuons" : true,
-		"InvalidateNonMatchingTaus" : true,
-		"InvalidateNonMatchingJets" : false,
-		"DirectIso" : true,
-		"Quantities" : [
+		"#InvalidateNonMatchingElectrons" : false,
+		"#InvalidateNonMatchingMuons" : true,
+		"#InvalidateNonMatchingTaus" : true,
+		"#InvalidateNonMatchingJets" : false,
+		"#DirectIso" : true,
+		"#Quantities" : [
 			"Pts"
 		],
-		"OSChargeLeptons" : true,
+		"#OSChargeLeptons" : true,
 		"Processors" : {
 			"nick" : {
 				"default" : [
@@ -101,11 +101,11 @@
 				]
 			}
 		},
-		"AddGenMatchedParticles" : true,
-		"AddGenMatchedTaus" : true,
-		"AddGenMatchedTauJets" : true,
-		"BranchGenMatchedMuons" : true,
-		"BranchGenMatchedTaus" : true,
+		"#AddGenMatchedParticles" : true,
+		"#AddGenMatchedTaus" : true,
+		"#AddGenMatchedTauJets" : true,
+		"#BranchGenMatchedMuons" : true,
+		"#BranchGenMatchedTaus" : true,
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"#cutflow_histogram",
