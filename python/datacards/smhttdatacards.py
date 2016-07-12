@@ -4,12 +4,11 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
 cern_categories = ["vbf", "1jet_boosted", "1jet_highpt2", "0jet_highpt2", "1jet_lowpt2", "0jet_lowpt2"]
-new_categories = ["vbf_tag", "2jet_untagged", "1jet_boost_high", "1jet_boost_medium", "0jet_nhighpt2", "1jet_boost_low", "0jet_nlowpt2"]
-new_categories += ["0jet_inclusive", "1jet_inclusive", "2jet_inclusive"]
 
 class SMHttDatacards(datacards.Datacards):
 	def __init__(self, higgs_masses=["125"], cb=None):
@@ -22,7 +21,7 @@ class SMHttDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
+					categories=["mt_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories)]+Categories.CategoriesDict().getCategories(["mt"])["mt"],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -46,14 +45,14 @@ class SMHttDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
-			for category in ["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories:
+			for category in ["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+Categories.CategoriesDict().getCategories(["mt"], False)["mt"]:
 				self.cb.cp().channel(["mt"]).bin(["mt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
+					categories=["et_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories)]+Categories.CategoriesDict().getCategories(["et"])["et"],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -75,14 +74,14 @@ class SMHttDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["et"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
-			for category in ["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories:
+			for category in ["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+Categories.CategoriesDict().getCategories(["et"], False)["et"]:
 				self.cb.cp().channel(["et"]).bin(["et_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# EM channel
 			self.add_processes(
 					channel="em",
-					categories=["em_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
+					categories=["em_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories)]+Categories.CategoriesDict().getCategories(["em"])["em"],
 					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -97,14 +96,14 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 		
-			for category in ["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories:
+			for category in ["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+Categories.CategoriesDict().getCategories(["em"], False)["em"]:
 				self.cb.cp().channel(["em"]).bin(["em_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in (["inclusive"]+cern_categories+new_categories)],
+					categories=["tt_"+category for category in (["inclusive"]+cern_categories)]+Categories.CategoriesDict().getCategories(["tt"])["tt"],
 					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -123,14 +122,14 @@ class SMHttDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["tt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
-			for category in ["inclusive"]+cern_categories[:4]+new_categories[:5]:
+			for category in ["inclusive"]+cern_categories[:4]+Categories.CategoriesDict().getCategories(["tt"], False)["tt"]:
 				self.cb.cp().channel(["tt"]).bin(["tt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 			
 			# ======================================================================
 			# MM channel
 			self.add_processes(
 					channel="mm",
-					categories=["mm_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories)],
+					categories=["mm_"+category for category in (["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories)]+Categories.CategoriesDict().getCategories(["mm"])["mm"],
 					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
@@ -141,7 +140,7 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mm"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["mm"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			
-			for category in ["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+new_categories:
+			for category in ["inclusive", "0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"]+cern_categories+Categories.CategoriesDict().getCategories(["mm"], False)["mm"]:
 				self.cb.cp().channel(["mm"]).bin(["mm_"+category]).process(["ZLL"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
