@@ -893,7 +893,7 @@ class CategoriesDict(object):
 	def getBinningsDict(self):
 		return self.binnings
 
-	def getCategories(self, channels):
+	def getCategories(self, channels, prefix = True):
 		Categories = {}
 		placeholder=0
 		for chan in channels:
@@ -901,7 +901,7 @@ class CategoriesDict(object):
 		for name, info in self.categoriesDict.iteritems():
 			for chan in channels:
 				if chan+"_" in info["channel"]:
-					Categories[chan].append(name.format(analysis="", channel=chan+"_", discriminator=""))
+					Categories[chan].append(name.format(analysis="", channel=(chan+"_") if prefix else "", discriminator=""))
 				else:
 					Categories[chan].append("placeholder{ph}".format(ph=placeholder))
 					placeholder += 1

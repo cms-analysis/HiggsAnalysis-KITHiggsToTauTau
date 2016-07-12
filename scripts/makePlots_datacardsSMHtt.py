@@ -32,11 +32,11 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-c", "--channel", action="append",
-	                    default=["all"],
+	parser.add_argument("-c", "--channel", action = "append",
+	                    default=["et", "mt", "tt", "em", "mm"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
-	parser.add_argument("--categories", action="append", nargs="+",
-	                    default=[["all"]] * len(parser.get_default("channel")),
+	parser.add_argument("--categories", nargs="+", action = "append",
+	                    default=[(category + "_inclusive") for category in parser.get_default("channel")],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -106,27 +106,26 @@ if __name__ == "__main__":
 	if args.for_dcsync:
 		output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
 	
-	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):
-		args.channel = args.channel[1:]
-	if (len(args.channel) == 1) and (args.channel[0] == "all"):
-		args.channel = datacards.cb.channel_set()
-	else:
-		args.channel = list(set(args.channel).intersection(set(datacards.cb.channel_set())))
-	
-	# restrict CombineHarvester to configured channels:
+		args.channel = args.channel[len(parser.get_default("channel")):]
+
+		if args.categories == parser.get_default("categories"):
+			args.categories = [[(channel + "_inclusive")] for channel in args.channel]
+		else:
+			args.categories = args.categories[len(parser.get_default("channel")):]
+
+	#restriction to CH
 	datacards.cb.channel(args.channel)
-	
-	if args.categories != parser.get_default("categories"):
-		args.categories = args.categories[1:]
-	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
+
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
 		# prepare category settings based on args and datacards
-		if (len(categories) == 1) and (categories[0] == "all"):
-			categories = datacards.cb.cp().channel([channel]).bin_set()
-		else:
-			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
+		categories_save = sorted(categories)
+		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
+		if(categories_save != sorted(categories)):
+			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
+			log.fatal(list(set(categories_save) - set(categories)))
+			sys.exit(1)
 		args.categories[index] = categories
 		
 		# restrict CombineHarvester to configured categories:

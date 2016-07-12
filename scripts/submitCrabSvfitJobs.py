@@ -91,12 +91,12 @@ def submission(base_path):
 	files =0
 	cache_files = [f for f in glob(base_path+"/*/*.root") if("SvfitCache" in f)]
 	if len(cache_files) == 0:
-		continue
-	if len(cache_files > 8000):
+		return
+	if len(cache_files) > 8000:
             cache_files = [cache_files[i:i+8000] for i in xrange(0,len(cache_files),8000)]
         else:
             cache_files = [cache_files]
-        for index,cache_file enumerate(cache_files):
+        for index,cache_file in enumerate(cache_files):
             jobfile_name = get_filename(today,index)
             jobfile = open(jobfile_name,"w+")
             jobfile.write("#!/bin/bash\n")
