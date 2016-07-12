@@ -47,9 +47,9 @@ def makePlots(variables, samples, data, dir_path, channel, category, sample_str,
 			corrs[-1]["var_%s"%varx] = (correlation_dict["var_%s"%varx] - (correlation_dict[varx]**2.)/ws)/ws
 			corrs[-1]["var_%s"%vary] = (correlation_dict["var_%s"%vary] - (correlation_dict[vary]**2.)/ws)/ws
 			try:
-				corrs[-1][varxy] = (correlation_dict[varxy]-correlation_dict[varx]*correlation_dict[vary]/ws)/ws/(
-					corrs[-1]["var_%s"%varx])**0.5/(corrs[-1]["var_%s"%vary])**0.5
-				#corrs[-1][varxy] = (correlation_dict[varxy]-correlation_dict[varx]*correlation_dict[vary]/ws)/ws
+				#corrs[-1][varxy] = (correlation_dict[varxy]-correlation_dict[varx]*correlation_dict[vary]/ws)/ws/(
+					#corrs[-1]["var_%s"%varx])**0.5/(corrs[-1]["var_%s"%vary])**0.5
+				corrs[-1][varxy] = (correlation_dict[varxy]-correlation_dict[varx]*correlation_dict[vary]/ws)/ws
 			except ZeroDivisionError:
 				log.error("ZeroDivisonError: %s - Sample: %s - Category: %s" %(varxy,correlation_dict_full["request_nick"],correlation_dict_full["category"]))
 				corrs[-1][varxy] = 0
@@ -81,7 +81,7 @@ def makePlots(variables, samples, data, dir_path, channel, category, sample_str,
 					tProfiles[name] = infile.Get(name)
 		else:
 			for name in var_pairs:
-				print name, tProfiles[name]
+				#print name, tProfiles[name]
 				tProfiles[name].Add(infile.Get(name))
 	infile = ROOT.TFile(data)
 	for name in var_pairs:
@@ -97,8 +97,22 @@ def makePlots(variables, samples, data, dir_path, channel, category, sample_str,
 		y_errs = np.array([mc_prof.GetBinError(i) for i in range(1, mc_prof.GetNbinsX()+1, 1)])
 		y_errs_data = np.array([data_prof.GetBinError(i) for i in range(1, data_prof.GetNbinsX()+1, 1)])
 
-		korr_data = corrs[1][name] if name in corrs[1].keys() else corrs[1].get("+-+".join(name.split("+-+")[-1::-1]), "NaN")
-		korr_mc = corrs[0][name] if name in corrs[0].keys() else corrs[0].get("+-+".join(name.split("+-+")[-1::-1]), "NaN")
+		cov_data = 0
+		korr_data = 0
+		cov_mc = 0
+		korr_mc = 0
+
+		try:
+			cov_data = corrs[1][name] if name in corrs[1].keys() else float(corrs[1].get("+-+".join(name.split("+-+")[-1::-1]), "NaN"))
+			korr_data = cov_data/(corrs[1]["var_%s"%x_var])**0.5/(corrs[1]["var_%s"%y_var])**0.5
+			cov_mc = corrs[0][name] if name in corrs[0].keys() else float(corrs[0].get("+-+".join(name.split("+-+")[-1::-1]), "NaN"))
+			korr_mc = cov_mc/(corrs[0]["var_%s"%x_var])**0.5/(corrs[0]["var_%s"%y_var])**0.5
+		except ZeroDivisionError:
+			log.error("ZeroDivisonError: %s - Channel: %s - Category: %s" %(name,channel,category))
+			cov_data = corrs[1][name] if name in corrs[1].keys() else float(corrs[1].get("+-+".join(name.split("+-+")[-1::-1]), "NaN"))
+			korr_data = 0
+			cov_mc = corrs[0][name] if name in corrs[0].keys() else float(corrs[0].get("+-+".join(name.split("+-+")[-1::-1]), "NaN"))
+			korr_mc = 0
 
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
@@ -106,19 +120,25 @@ def makePlots(variables, samples, data, dir_path, channel, category, sample_str,
 		ax.set_ylabel(name.split("+-+")[1], size="x-large")
 		ax.errorbar(x_vals, y_vals, yerr=y_errs, label="MC", ls="None")
 		ax.errorbar(x_vals, y_vals_data, yerr=y_errs_data, label="data", ls="None")
-		y_min, y_max = ax.get_ylim()
-		y_max = y_max + 0.15 * (y_max-y_min)
-		ax.set_ylim(y_min, y_max)
-		ax.annotate(s="Data Correlation: %1.2f"%(korr_data), xy=(x_vals[0],0.99*y_max-0.05*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
-		ax.annotate(s="MC  Correlation: %1.2f"%(korr_mc), xy=(x_vals[0],0.99*y_max-0.15*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
 		lgd = ax.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0., numpoints=1)
 		ans = ax.set_title("{channel}\t{category}".format(channel=nice_channel[channel], category=category), ha='left', x=0.01, y=1.01, size="x-large")
 		if not os.path.exists(os.path.join(out_path, "combination", channel, category_string, sample_str)):
 			os.makedirs(os.path.join(out_path, "combination", channel, category_string, sample_str))
 		if not red_plot:
+			y_min, y_max = ax.get_ylim()
+			y_max = y_max + 0.2 * (y_max-y_min)
+			ax.set_ylim(y_min, y_max)
+			ax.annotate(s="Data Correlation: %1.2f"%(korr_data), xy=(x_vals[0],0.99*y_max-0.05*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
+			ax.annotate(s="MC Correlation: %1.2f"%(korr_mc), xy=(x_vals[0],0.99*y_max-0.15*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
 			fig.savefig(os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name), bbox_extra_artists=(lgd, ans), bbox_inches='tight')
 			log.debug("save plot as: " + os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name))
 		elif abs(korr_data-korr_mc) > 0.05:
+			y_min, y_max = ax.get_ylim()
+			y_max = y_max + 0.3 * (y_max-y_min)
+			ax.set_ylim(y_min, y_max)
+			ax.annotate(s="Data: Cor., Cov., sig(%s), sig(%s)"%(x_var, y_var), xy=(x_vals[0],0.99*y_max-0.05*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
+			ax.annotate(s="Data: %1.2f, %1.2f, %1.2f, %1.2f"%(korr_data, cov_data, corrs[1]["var_%s"%x_var]**0.5, corrs[1]["var_%s"%y_var]**0.5), xy=(x_vals[0],0.99*y_max-0.15*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
+			ax.annotate(s="MC: %1.2f, %1.2f, %1.2f, %1.2f"%(korr_mc, cov_mc, corrs[0]["var_%s"%x_var]**0.5, corrs[0]["var_%s"%y_var]**0.5), xy=(x_vals[0],0.99*y_max-0.25*(y_max-y_min)), ha = "left", va = "center", fontsize='large')
 			fig.savefig(os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name), bbox_extra_artists=(lgd, ans), bbox_inches='tight')
 			log.debug("save plot as: " + os.path.join(out_path, "combination", channel, category_string, sample_str, "%s.png"%name))
 	infile.Close()
@@ -160,14 +180,14 @@ if __name__ == "__main__":
 
 	dir_path = os.path.expandvars(args.input_dir)
 	out_path = ""
-	mc_corr = None
-	data_corr = None
 	if args.output_dir == "SameAsInput":
 		out_path = dir_path
 	config_list = []
 	parameters_list = args
 	for channel in args.channels:
 		for category in args.categories:
+			mc_corr = None
+			data_corr = None
 			sample_list = []
 			sample_strings = []
 			data_sample = ""
@@ -202,5 +222,6 @@ if __name__ == "__main__":
 					data_sample = info_path
 					if args.use_corr_dict:
 						data_corr = jsonTools.JsonDict(info_path.replace("Histograms.root", args.corr_dict_name))
-
+			#print mc_corr["correlations"], data_corr["correlations"]
+			#sys.exit()
 			makePlots(args.plot_vars, sample_list, data_sample, out_path, channel, category_string, "_".join(sample_strings), [mc_corr, data_corr], args.plot_critical)
