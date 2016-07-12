@@ -81,7 +81,7 @@ if __name__ == "__main__":
 			
 			for index_fit_type, fit_type in enumerate(["fit_s", "fit_b"]):
 				shapes_root_file = os.path.join(mass_output_dir, os.path.splitext(os.path.basename(datacard))[0]+"_"+fit_type+".root")
-				command = "$CMSSW_BASE/src/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/bin/PostFitShapes" + \
+				command = "PostFitShapes" + \
 				          " --datacard " + datacard + \
 				          " --fitresult " + fit_result + ":" + fit_type + \
 				          " --mass " + mass + \
