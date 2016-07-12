@@ -120,9 +120,9 @@ if __name__ == "__main__":
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
 		# prepare category settings based on args and datacards
-		categories_save = categories
+		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-		if(categories_save != categories):
+		if(categories_save != sorted(categories)):
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
