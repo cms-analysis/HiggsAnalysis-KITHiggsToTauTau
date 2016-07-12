@@ -296,8 +296,8 @@ def do_training(args):
 													ROOT.TCut(''), "train")
 					log.debug("Add to Factory_%i sample %s as TrainingsSample as %s"%(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension[j]))
 
-		factory.SetBackgroundWeightExpression('eventWeight' + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
-		factory.SetSignalWeightExpression('eventWeight' + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
+		factory.SetBackgroundWeightExpression('eventWeight*stitchWeightZTT*stitchWeightZLL*stitchWeightWJ' + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
+		factory.SetSignalWeightExpression('eventWeight*stitchWeightZTT*stitchWeightZLL*stitchWeightWJ' + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
 		factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
 												ROOT.TCut(''),
 												"NormMode=None:!V")

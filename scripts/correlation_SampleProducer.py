@@ -153,6 +153,8 @@ def calculate_partial_correlation(config):
 	for event in root_inst:
 		calced_means = []
 		w = event.__getattr__(config["weight_variable"]) * lumi_val
+		if config["request_nick"] in ["ztt", "zll", "wj"]:
+			w *= event.__getattr__("stitchWeight%s"%(config["request_nick"].upper()))
 		for varxy in corr_vars.iterkeys():
 			if not "+-+" in varxy:
 				continue
