@@ -30,31 +30,3 @@
 	<use name="boost_filesystem"/>
 	<use name="TauAnalysis/SVfitStandalone" />
 </bin>
-
-<!-- Compilation deactivated for swtich to python interface of CombineHarvester -->
-<!--
-<bin name="SMLegacyDatacards" file="SMLegacyDatacards.cc">
-	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
-	<Flags LDFLAGS="-rdynamic" />
-	<Flags LDFLAGS="-Lsrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib -lCHCombineTools" />
-	<use name="root"/>
-	<use name="roofit"/>
-	<use name="boost"/>
-	<use name="boost_filesystem"/>
-	<use name="boost_program_options"/>
-	<flags EDM_PLUGIN="1"/>
-</bin>
-
-<bin name="SMDatacards" file="SMDatacards.cc">
-	<Flags CXXFLAGS="-Isrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester" />
-	<Flags LDFLAGS="-rdynamic" />
-	<Flags LDFLAGS="-Lsrc/HiggsAnalysis/HiggsToTauTau/CombineHarvester/CombineTools/lib -lCHCombineTools" />
-	<use name="root"/>
-	<use name="roofit"/>
-	<use name="boost"/>
-	<use name="boost_filesystem"/>
-	<use name="boost_program_options"/>
-	<use name="HiggsAnalysis/KITHiggsToTauTau"/>
-	<flags EDM_PLUGIN="1"/>
-</bin>
--->
