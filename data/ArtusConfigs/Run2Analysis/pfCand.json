@@ -22,76 +22,9 @@
 				]
 			}
 		},
-		"#TauID" : "TauIDRecommendation13TeV",
-		"#TauUseOldDMs" : true,
-		"#MuonLowerPtCuts" : [
-			"19.0"
-		],
-		"#MuonUpperAbsEtaCuts" : [
-			"2.1"
-		],
-		"#TauLowerPtCuts" : [
-			"20.0"
-		],
-		"#TauUpperAbsEtaCuts" : [
-			"2.3"
-		],
-		"#TriggerObjectLowerPtCut" : { 
-			"nick": {
-				"default": -1.0,
-				"Spring15MiniAODv2" : 18.0,
-				"Fall15MiniAODv2" : -1.0
-			}
-		},
-		"#DiTauPairMinDeltaRCut" : 0.5,
-		"#DiTauPairIsTauIsoMVA": true,
-		"#DiTauPairLepton1LowerPtCuts" : {
-			"nick" : {
-				"default" : [ "HLT_IsoMu24_eta2p1_v:25.0"]
-			}
-		},
-		"#DiTauPairHltPathsWithoutCommonMatchRequired" : { 
-			"nick": {
-				"SpringMiniAODv2" : [
-					"HLT_IsoMu17_eta2p1_v"
-				],
-				"Run2015(A|B|C)" : [
-					"HLT_IsoMu24_eta2p1_v"
-				],
-				"(Fall15MiniAODv2|Run2015D)" : [
-					"HLT_IsoMu18_v"
-				],
-				"Run2016" : [
-					"HLT_IsoMu22_v"
-				]
-			}
-		},
-		"#DiTauPairNoHLT" : {
-			"nick" : {
-				"default" : false,
-				"Spring16" : true
-			}
-		},
-		"#EventWeight" : "eventWeight",
-		"#IdentificationEfficiencyMode" : "multiply_weights",
-		"#TauTauRestFrameReco" : "collinear_approximation",
-		"#TauTriggerFilterNames" : {
-			"nick" : {
-				"default" : [
-					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltPFTau20TrackLooseIsoAgainstMuon",
-					"HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu17LooseIsoPFTau20"
-				]
-			}
-		},
-		"#InvalidateNonMatchingElectrons" : false,
-		"#InvalidateNonMatchingMuons" : true,
-		"#InvalidateNonMatchingTaus" : true,
-		"#InvalidateNonMatchingJets" : false,
-		"#DirectIso" : true,
 		"#Quantities" : [
 			"Pts"
 		],
-		"#OSChargeLeptons" : true,
 		"Processors" : {
 			"nick" : {
 				"default" : [
@@ -101,11 +34,6 @@
 				]
 			}
 		},
-		"#AddGenMatchedParticles" : true,
-		"#AddGenMatchedTaus" : true,
-		"#AddGenMatchedTauJets" : true,
-		"#BranchGenMatchedMuons" : true,
-		"#BranchGenMatchedTaus" : true,
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"#cutflow_histogram",
