@@ -30,7 +30,10 @@ def get_configs(args, info_log):
 	for channel in args["channels"]:
 		category = args.get("category",None)
 		for requested_sample in (args["bkg_samples"]+args["signal_samples"]):
-			list_of_samples = [getattr(samples.Samples, requested_sample)]
+			if requested_sample == "samesigndata":
+				list_of_samples = [getattr(samples.Samples, "data")]
+			else:
+				list_of_samples = [getattr(samples.Samples, requested_sample)]
 			config = sample_settings.get_config(
 					samples=list_of_samples,
 					channel=channel,
@@ -60,6 +63,8 @@ def get_configs(args, info_log):
 				print "L%i_%s*%s*.root"%(args["loop"]-1, os.path.basename(args["output_file"]).split("_",1)[1], requested_sample)
 				del config["folders"][:]
 				config["folders"].append("SplitTree")
+			if requested_sample == "samesigndata":
+				config["weights"][0]=config["weights"][0].replace("(q_1*q_2)<0.0", "(q_1*q_2)>0.0")
 			plot_configs.append(config)
 			info_log["config_list"].append(config)
 	log.info("Config information aquired")
@@ -221,12 +226,22 @@ def do_focussed_training(args):
 			#copy weightfiles
 			for weightfile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "*weight*")):
 				path, weightfilename = os.path.split(weightfile)
-				shutil.copyfile(weightfile, os.path.join(dir_path, "Loop" + str(loop) + weightfilename))
+				shutil.copyfile(weightfile, os.path.join(dir_path, weightfilename))
 			#copy rootfiles
 			for rootfile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "*.root")):
 				path, rootfilename = os.path.split(rootfile)
-				shutil.copyfile(rootfile, os.path.join(dir_path, "Loop" + str(loop) + rootfilename))
-
+				if rootfile == "BDThistograms.root":
+					shutil.copyfile(rootfile, os.path.join(dir_path, "L%i_%s"%(loop, rootfilename)))
+				else:
+					shutil.copyfile(rootfile, os.path.join(dir_path, rootfilename))
+			#copy .C files
+			for Cfile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "*.C")):
+                                path, Cfilename = os.path.split(Cfile)
+                                shutil.copyfile(Cfile, os.path.join(dir_path, Cfilename))
+			#copy jsonfiles
+			for jsonfile in glob.glob(os.path.join(dir_path, "Loop" + str(loop), "*.json")):
+                                path, jsonfilename = os.path.split(jsonfile)
+                                shutil.copyfile(jsonfile, os.path.join(dir_path, jsonfilename))
 def do_training(args):
 	info_log = copy.deepcopy(args)
 	info_log["comment"] = " ".join(sys.argv)
@@ -345,7 +360,7 @@ if __name__ == "__main__":
 						help="Signal-Samples. [Default: %(default)s]")
 	parser.add_argument("-b", "--bkg-samples", nargs="+",
 						default=["ztt", "zll", "ttj", "vv", "wj"],
-						choices=["ztt", "zll", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh"],
+						choices=["ztt", "zll", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "samesigndata"],
 						help="Bkg-Samples. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
 						default=["tt", "mt", "et", "em", "mm", "ee"],
@@ -423,9 +438,10 @@ if __name__ == "__main__":
 		cargs.output_file = os.getcwd()
 	if cargs.batch_system:
 		dir_path, filename = os.path.split(cargs.output_file)
-		cargs.output_file = os.getcwd()
+		cargs.output_file = os.path.join(os.getcwd(), filename)
 	#=====here starts predefined code for scans and collection of signal background combinations
 	if cargs.modify:
+		cargs.output_file = os.getcwd()
 		config_list = []
 		if 1 in cargs.modification:
 			for i in range(500,2500,100):

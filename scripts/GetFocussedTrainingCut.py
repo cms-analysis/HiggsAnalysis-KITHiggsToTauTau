@@ -9,13 +9,14 @@ import Artus.Utility.jsonTools as jsonTools
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, parameter, nbins=100):
-	log.info("Generate BDThistograms.root")
+	log.info("Generate BDThistograms.root with Double precision")
 	tree = ""
 	#create histogram
-        BDThistSG = ROOT.TH1F("BDT-Sig", "Signal BDT-Scores", nbins, -1, 1)
-	BDThistBG = ROOT.TH1F("BDT-Bcg", "Background BDT-Scores", nbins, -1, 1)
+        BDThistSG = ROOT.TH1D("BDT-Sig", "Signal BDT-Scores", nbins, -1, 1)
+	BDThistBG = ROOT.TH1D("BDT-Bcg", "Background BDT-Scores", nbins, -1, 1)
 	
 	log.debug("Fill signal histogram")
+	a = 0.00000000000
 	for file in signalfiles:
 		f = ROOT.TFile.Open(file, "read")
 		tree = f.Get("SplitTree")
@@ -23,9 +24,11 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 			#print event.BDTScore1
 			if not hasattr(event, leaftocut):
 				raise AttributeError("event has no attribute '%s'"%(leaftocut,))
+			a += event.eventWeight*1000000
 			BDThistSG.Fill(getattr(event, leaftocut), event.eventWeight)
 		f.Close()
 	log.debug("Fill background histogram")
+	print a
 	for file in backgroundfiles:
                 f = ROOT.TFile.Open(file, "read") 
                 tree = f.Get("SplitTree")
@@ -42,8 +45,8 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 	integralSG = BDThistSG.Integral()
 	integralBG = BDThistBG.Integral()
 	#create cumulated histograms
-	BDThistCUMSG = ROOT.TH1F("Sig-Eff", "Signal-Efficiency", nbins-1, -1.0+1.0/nbins, 1.0-1.0/nbins)
-	BDThistCUMBG = ROOT.TH1F("Bcg-Rjc", "Background-Rejection", nbins-1, -1, 1)
+	BDThistCUMSG = ROOT.TH1D("Sig-Eff", "Signal-Efficiency", nbins-1, -1.0+1.0/nbins, 1.0-1.0/nbins)
+	BDThistCUMBG = ROOT.TH1D("Bcg-Rjc", "Background-Rejection", nbins-1, -1, 1)
 	sigeff = 1.
 	bcgrej = 0.
 	log.debug("Fill cumulated histograms")
@@ -98,6 +101,6 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 	return cutvalue, cutSGeff, cutBGrej
   
 if __name__ == "__main__":
-	files1 = ["test6/Loop1/storage/vbf_vs_ggh_storage_qqh_split1.root", "test6/Loop1/storage/vbf_vs_ggh_storage_qqh_split2.root"]
-	files2 = ["test6/Loop1/storage/vbf_vs_ggh_storage_ggh_split1.root", "test6/Loop1/storage/vbf_vs_ggh_storage_ggh_split2.root"]
-	print get_cut("test6/Loop1", files1, files2, "BDTScore1", "signaleff", 0.5)
+	files1 = ["Bargaining2/Loop1/storage/L1_vbfggh_vs_default_storage_qqh_split1.root", "Bargaining2/Loop1/storage/L1_vbfggh_vs_default_storage_qqh_split2.root", "Bargaining2/Loop1/storage/L1_vbfggh_vs_default_storage_ggh_split1.root", "Bargaining2/Loop1/storage/L1_vbfggh_vs_default_storage_ggh_split2.root"]
+	files2 = ["Bargaining2/Loop1/storage/L1_vbfggh_vs_default_storage_ggh_split1.root", "Bargaining2/Loop1/storage/L1_vbfggh_vs_default_storage_ggh_split2.root"]
+	print get_cut("./", files1, files2, "BDTScore1", "signaleff", 0.5)
