@@ -118,7 +118,7 @@ def submission(base_path):
             config.Data.outputPrimaryDataset = 'Svfit'
             config.Data.splitting = 'EventBased'
             config.Data.unitsPerJob = 1
-            config.Data.totalUnits = len(cache_files)
+            config.Data.totalUnits = len(cache_file)
             config.Data.publication = False
             config.Data.outputDatasetTag = config.General.requestName
             config.Data.outLFNDirBase = '/store/user/%s/higgs-kit/Svfit/%s/'%(getUsernameFromSiteDB(),today)
