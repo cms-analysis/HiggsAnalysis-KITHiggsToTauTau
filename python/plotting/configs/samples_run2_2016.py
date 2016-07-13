@@ -123,7 +123,7 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 
 		query["data"] = True
-		query["campaign"] = "Run2016.*"
+		query["campaign"] = "Run2016B.*"
 		return self.artus_file_names(query, expect_n_results),
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -242,7 +242,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_ttj(self, channel):
-		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : "RunIISpring16MiniAODv1"}, 1)
 
 	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
@@ -354,10 +354,10 @@ class Samples(samples.SamplesBase):
 		                                      "(WWTo1L1Nu2Q|"
 		                                    + "WZJets|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|" 
 		                                    + "ZZTo2L2Q|ZZTo4L|VVTo2L2Nu)",
-		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 6)
+		                      "data" : False, "campaign" : "RunIISpring16MiniAODv1", "generator" : "amcatnlo-pythia8"}, 6)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4fleptonDecays|STt-channeltop4fleptonDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
-		                      "data" : False, "campaign" : self.mc_campaign }, 4),
+		                      "data" : False, "campaign" : "RunIISpring16MiniAODv1" }, 4),
 		return artus_files
 
 	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -394,7 +394,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_wj(self, channel):
-		return self.artus_file_names({"process" : "(W1JetsToLNu|W2JetsToLNu|W3JetsToLNu|W4JetsToLNu|WJetsToLNu)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 5)
+		return self.artus_file_names({"process" : "(W1JetsToLNu|W2JetsToLNu|W3JetsToLNu|W4JetsToLNu|WJetsToLNu)", "data": False, "campaign" : "RunIISpring16MiniAODv1", "generator" : "madgraph-pythia8"}, 5)
 
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
