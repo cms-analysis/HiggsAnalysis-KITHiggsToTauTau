@@ -36,7 +36,7 @@ if __name__ == "__main__":
 	                    default=["et", "mt", "tt", "em", "mm"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=[(category + "_inclusive") for category in parser.get_default("channel")],
+	                    default=[["inclusive"]],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -109,10 +109,8 @@ if __name__ == "__main__":
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
 
-		if args.categories == parser.get_default("categories"):
-			args.categories = [[(channel + "_inclusive")] for channel in args.channel]
-		else:
-			args.categories = args.categories[len(parser.get_default("channel")):]
+	if args.categories != parser.get_default("categories"):
+		args.categories = args.categories[1:]
 
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
