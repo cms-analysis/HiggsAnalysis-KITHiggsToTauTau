@@ -114,11 +114,16 @@ if __name__ == "__main__":
 		else:
 			args.categories = args.categories[len(parser.get_default("channel")):]
 
+	# catch if on command-line only one set has been specified and repeat it
+	if(len(args.categories) == 1):
+		args.categories = [args.categories[0]] * len(args.channel)
+
 	#restriction to CH
 	datacards.cb.channel(args.channel)
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-		
+		# include channel prefix
+		categories= [channel + "_" + category for category in categories]
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
@@ -126,7 +131,6 @@ if __name__ == "__main__":
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
-		args.categories[index] = categories
 		
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
