@@ -1,1 +1,0 @@
-DCAP_sample_TauPlusX_Run2012B_22Jan2013_8TeV_2014-12-24.txt
