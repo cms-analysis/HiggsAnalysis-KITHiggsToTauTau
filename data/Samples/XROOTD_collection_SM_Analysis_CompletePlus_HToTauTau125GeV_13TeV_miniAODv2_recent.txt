@@ -1,2 +1,0 @@
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_Analysis_Complete_13TeV_miniAODv2_recent.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_HToTauTau125GeV_13TeV_miniAODv2_recent.txt

@@ -1,1 +1,0 @@
-DCAP_sample_SM_WH_ZH_TTH_HToTauTau_M_140_powheg_pythia_8TeV_2015-02-06.txt
