@@ -1,1 +1,0 @@
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_sample_WJetsToLN_madgraph_8TeV_recent.txt
