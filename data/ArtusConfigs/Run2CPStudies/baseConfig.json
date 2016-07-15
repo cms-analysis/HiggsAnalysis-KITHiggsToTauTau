@@ -1,7 +1,8 @@
 {
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/baseConfig.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json"
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSampleStitchingWeights.json"
 	],
 	"#RunWhitelist" : [
 		1
