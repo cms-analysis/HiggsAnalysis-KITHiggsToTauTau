@@ -74,7 +74,7 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer"
 			],
-			"Run2015" : [
+			"Run201" : [
 				"#filter:RunLumiEventFilter",
 				"filter:JsonFilter",
 				"#producer:TaggedJetCorrectionsProducer",
