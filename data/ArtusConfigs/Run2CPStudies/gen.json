@@ -11,7 +11,7 @@
 						]
 					}
 				],
-				"DY.?JetsToLLM|HToTauTau" : [
+				"DY.?JetsToLLM|HToTauTau|H2JetsToTauTau" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",

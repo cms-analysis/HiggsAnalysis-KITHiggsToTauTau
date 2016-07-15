@@ -57,7 +57,7 @@
 				"producer:PUWeightProducer",
 				"producer:SampleStitchingWeightProducer"
 			],
-			"HToTauTau" : [
+			"HToTauTau|H2JetsToTauTau" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
