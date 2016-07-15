@@ -166,8 +166,21 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	assert(product.m_genBosonTree.m_daughters.size() > 1);
 	assert(product.m_genBosonLVFound);
 	
-	GenParticleDecayTree* selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
-	GenParticleDecayTree* selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
+	//GenParticleDecayTree* selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
+	//GenParticleDecayTree* selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
+	GenParticleDecayTree* selectedTau1;
+	GenParticleDecayTree* selectedTau2;
+	//std::cout << "charge[0] " << product.m_genBosonTree.m_daughters[0].m_genParticle->charge() << " and charge[1] " << product.m_genBosonTree.m_daughters[1].m_genParticle->charge() << std::endl;
+	if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
+		selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
+		selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
+	}
+	else {
+		selectedTau1 = &(product.m_genBosonTree.m_daughters[1]);
+		selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
+	}
+
+
 	selectedTau1->CreateFinalStateProngs(selectedTau1);
 	selectedTau2->CreateFinalStateProngs(selectedTau2);
 	std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;

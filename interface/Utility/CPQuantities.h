@@ -8,9 +8,9 @@
 
 /**
    \brief Place to collect functions calculating CP quantities
-   -Phi* : this is a variable, with which one can say, whether the considered boson is a scalar (CP even) or a pseudoscalar (CP odd)
-   -Phi*CP : this is a variable, with which one can figure out, whether the Higgs is a CP-mixture or not
-   -Zs : this is a variable, with which one can figure out, wether the considered boson is a scalar (CP even) or a pseudoscalar (CP odd)
+   -Phi* : this is a variable, with which one can say, whether the considered boson is a CP even state or a CP odd state
+   -Phi*CP : this is a variable, with which one can figure out, whether the Higgs is a CP mixture or not
+   -Zs : this is a variable, with which one can figure out, wether the considered boson has spin 1 (Z) or 0 (Higgs)
 */
 
 class CPQuantities

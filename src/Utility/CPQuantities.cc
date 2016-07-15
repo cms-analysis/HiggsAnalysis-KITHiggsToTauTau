@@ -1,7 +1,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
-// this version uses tau 4-momenta to calculate decay planes (usefull for GenTauCPProducer)
+// this version uses tau 4-momenta to calculate decay planes (useful for GenTauCPProducer)
 double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
 {
 	//Momentum vectors of the Taus
@@ -19,7 +19,7 @@ double CPQuantities::CalculateOStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, 
 	k2.SetXYZ(tau2.Px(), tau2.Py() , tau2.Pz());
 	return this->CalculateOStarCPSame(k1, k2, chargPart1, chargPart2);
 }
-// this version uses track and vertex information to calculate the decay planes (usefull for RecoTauCPProducer)
+// this version uses track and vertex information to calculate the decay planes (useful for RecoTauCPProducer)
 double CPQuantities::CalculatePhiStarCP(KVertex pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
 {
 	//Primary vertex
@@ -45,6 +45,7 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	RMFLV ProngImp = chargPart1 + chargPart2;
 	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
+
 	//Step 2: Calculating impact parameter vectors n1 n2
 
 	//Momentum vectors of the charged particles
@@ -114,6 +115,7 @@ double CPQuantities::CalculateOStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVecto
 	RMFLV ProngImp = chargPart1 + chargPart2;
 	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
+
 	//Step 2: Calculating impact parameter vectors n1 n2
 
 	//Momentum vectors of the charged particles

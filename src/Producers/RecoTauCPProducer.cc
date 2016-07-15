@@ -54,7 +54,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	KTrack& track2 = product.m_flavourOrderedLeptons[1]->track;
 	RMFLV& momentum1 = product.m_flavourOrderedLeptons[0]->p4;
 	RMFLV& momentum2 = product.m_flavourOrderedLeptons[1]->p4;
-	
+
 	if ((product.m_decayChannel == HttEnumTypes::DecayChannel::TT) &&
 	    (static_cast<KTau*>(product.m_flavourOrderedLeptons[0])->chargedHadronCandidates.size() > 0))
 	{
@@ -68,6 +68,20 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		momentum2 = static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->chargedHadronCandidates.at(0).p4;
 	}
 	
+
+	// define which is the chargePlus particle and which is the chargeMinus particle
+	KTrack& trackP = track1;
+	KTrack& trackM = track2;
+	RMFLV& momentumP = momentum1;
+	RMFLV& momentumM = momentum2;
+
+	if (product.m_flavourOrderedLeptons[0]->charge() == -1){   // reminder: track1 = product.m_flavourOrderedLeptons[0]->track
+		trackP = track2;
+		trackM = track1;
+		momentumP = momentum2;
+		momentumM = momentum1;
+	}
+
 	CPQuantities cpq;
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, track1, track2, momentum1, momentum2);
 	product.m_recoPhiStar = cpq.GetRecoPhiStar();
