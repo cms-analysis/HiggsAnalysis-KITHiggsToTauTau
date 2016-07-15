@@ -9,7 +9,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
 class SMHttDatacards(datacards.Datacards):
-	def __init__(self, higgs_masses=["125"], cb=None):
+	def __init__(self, higgs_masses=["125"], useRateParam=False, cb=None):
 		super(SMHttDatacards, self).__init__(cb)
 
 		if cb is None:
@@ -43,8 +43,9 @@ class SMHttDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
-			for category in Categories.CategoriesDict().getCategories(["mt"], False)["mt"]:
-				self.cb.cp().channel(["mt"]).bin(["mt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
+			if useRateParam:
+				for category in Categories.CategoriesDict().getCategories(["mt"], False)["mt"]:
+					self.cb.cp().channel(["mt"]).bin(["mt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# ET channel
@@ -72,8 +73,9 @@ class SMHttDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["et"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
-			for category in Categories.CategoriesDict().getCategories(["et"], False)["et"]:
-				self.cb.cp().channel(["et"]).bin(["et_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
+			if useRateParam:
+				for category in Categories.CategoriesDict().getCategories(["et"], False)["et"]:
+					self.cb.cp().channel(["et"]).bin(["et_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# EM channel
@@ -93,9 +95,10 @@ class SMHttDatacards(datacards.Datacards):
 
 			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
-		
-			for category in Categories.CategoriesDict().getCategories(["em"], False)["em"]:
-				self.cb.cp().channel(["em"]).bin(["em_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
+			
+			if useRateParam:
+				for category in Categories.CategoriesDict().getCategories(["em"], False)["em"]:
+					self.cb.cp().channel(["em"]).bin(["em_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# TT channel
@@ -138,8 +141,9 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mm"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["mm"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			
-			for category in Categories.CategoriesDict().getCategories(["mm"], False)["mm"]:
-				self.cb.cp().channel(["mm"]).bin(["mm_"+category]).process(["ZLL"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
+			if useRateParam:
+				for category in Categories.CategoriesDict().getCategories(["mm"], False)["mm"]:
+					self.cb.cp().channel(["mm"]).bin(["mm_"+category]).process(["ZLL"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# All channels

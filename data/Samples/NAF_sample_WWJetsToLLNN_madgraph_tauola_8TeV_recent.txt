@@ -1,1 +1,0 @@
-NAF_sample_WWJetsToLLNN_madgraph_tauola_8TeV_2014-12-24.txt

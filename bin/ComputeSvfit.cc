@@ -60,7 +60,7 @@ int main(int argc, const char *argv[])
     int systematicShift;
     float systematicShiftSigma;
     int integrationMethod;
-    uint64_t hash;
+    ULong64_t hash;
 
     // Svfit Inputs
     RMFLV* leptonMomentum1 = new RMFLV();
@@ -70,8 +70,8 @@ int main(int argc, const char *argv[])
     int decayMode1, decayMode2;
 
     // keys for the output file
-    uint64_t outrunLumiEvent;
-    uint64_t outhash;
+    ULong64_t outrunLumiEvent;
+    ULong64_t outhash;
     int outdecayType1, outdecayType2;
     int outsystematicShift;
     float outsystematicShiftSigma;

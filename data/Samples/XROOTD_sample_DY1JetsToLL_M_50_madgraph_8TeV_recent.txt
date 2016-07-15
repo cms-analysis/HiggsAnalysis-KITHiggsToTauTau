@@ -1,1 +1,0 @@
-XROOTD_sample_DY1JetsToLL_M_50_madgraph_8TeV_2015-02-17.txt

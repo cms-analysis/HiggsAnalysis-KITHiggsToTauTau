@@ -1,1 +1,0 @@
-XROOTD_sample_TW_powheg_tauola_8TeV_2014-12-24.txt

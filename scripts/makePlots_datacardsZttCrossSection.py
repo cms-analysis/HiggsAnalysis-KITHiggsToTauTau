@@ -196,6 +196,7 @@ if __name__ == "__main__":
 							channel=channel,
 							category="catZtt13TeV_"+category,
 							weight=args.weight,
+							fakefactor_method=args.fakefactor_method,
 							lumi = args.lumi * 1000
 					)
 					
@@ -327,7 +328,7 @@ if __name__ == "__main__":
 
 	# prefit-postfit plots
 	plot_configs = []
-	bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "EWK", "W", "FF", "QCD"]
 	for level in ["prefit", "postfit"]:
 		if not datacards_postfit_shapes:
 			continue
@@ -350,7 +351,7 @@ if __name__ == "__main__":
 				config.setdefault("sum_result_nicks", []).append("Total")
 				
 				processes_to_plot = list(processes)
-				if category[:2] in ["et", "mt", "tt"]:
+				if category[:2] in ["et", "mt", "tt"] and args.fakefactor_method is None:
 					processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
 					processes_to_plot = [p for p in processes if not "noplot" in p]
 					processes_to_plot.insert(3, "EWK")
@@ -369,7 +370,7 @@ if __name__ == "__main__":
 				config["folders"] = [category+"_"+level]
 				config["nicks"] = processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]
 				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
-				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"]
+				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["total", "data", "ratio_unc", "ratio"]
 
 				if level == "postfit":
 					config["scale_factors"] = [bestfit] + [1.0]*(len(processes) - 1) + [1.0, bestfit, 1.0]
