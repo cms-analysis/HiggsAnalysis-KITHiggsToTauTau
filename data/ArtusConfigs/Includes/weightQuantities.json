@@ -45,6 +45,12 @@
 		"antiELooseSFWeight_2",
 		"antiEMediumSFWeight_2",
 		"antiETightSFWeight_2",
-		"antiEVTightSFWeight_2"
+		"antiEVTightSFWeight_2",
+		"emuQcdWeightUp",
+		"emuQcdWeightNom",
+		"emuQcdWeightDown",
+		"topPtReweightWeight",
+		"zPtReweightWeight",
+		"eleTauFakeRateWeight"
 	]
 }

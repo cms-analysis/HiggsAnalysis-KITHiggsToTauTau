@@ -26,7 +26,19 @@
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18"
+				],
+				"Run2016" : [
+					"HLT_IsoMu22"
+				],
+				"Spring16" : [
+					"unavailable"
 				]
+			}
+		},
+		"NoHltFiltering" : {
+			"nick" : {
+				"default" : false,
+				"Spring16" : true
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
@@ -55,23 +67,44 @@
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v"
+				],
+				"Run2016" : [
+					"HLT_IsoMu22_v"
 				]
 			}
 		},
+		"DiTauPairNoHLT" : {
+			"nick" : {
+				"default" : false,
+				"Spring16" : true
+			}
+		},
 		"EventWeight" : "eventWeight",
-		"TriggerEfficiencyData" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"
-		],
-		"TriggerEfficiencyMc" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"
-		],
+		"TriggerEfficiencyData" : {
+			"nick" : { 
+				"(Run2016|Spring16)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_IsoMu22_eff_Spring16.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
+			}
+		},
+		"TriggerEfficiencyMc" : {
+			"nick" : {
+				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"]
+			}
+		},
 		"TriggerEfficiencyMode" : "multiply_weights",
-		"IdentificationEfficiencyData" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p1_fall15.root"
-		],
-		"IdentificationEfficiencyMc" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p1_fall15.root"
-		],
+		"IdentificationEfficiencyData" : {
+			"nick" : {
+				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso0p10_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p1_fall15.root"]
+			}
+		},
+		"IdentificationEfficiencyMc" : {
+			"nick" : {
+				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p10_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p1_fall15.root"]
+			}
+		},
 		"IdentificationEfficiencyMode" : "multiply_weights",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"MuonTriggerFilterNames" : {
@@ -83,6 +116,9 @@
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
+				],
+				"Run2016" : [
+					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09"
 				]
 			}
 		},
@@ -110,9 +146,7 @@
 				]
 			},
 			"had_gen_match_pT_1",
-			"had_gen_match_pT_2",
-			"topPtReweightWeight",
-			"zPtReweightWeight"
+			"had_gen_match_pT_2"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
