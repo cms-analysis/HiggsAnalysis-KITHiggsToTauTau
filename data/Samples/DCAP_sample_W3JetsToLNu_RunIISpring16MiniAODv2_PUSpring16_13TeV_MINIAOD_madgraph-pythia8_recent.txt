@@ -1,0 +1,1 @@
+DCAP_sample_W3JetsToLNu_RunIISpring16MiniAODv2_PUSpring16_13TeV_MINIAOD_madgraph-pythia8_2016-07-15.txt

@@ -1,0 +1,1 @@
+DCAP_sample_WplusHToTauTauM125_RunIISpring16MiniAODv1_PUSpring16_13TeV_MINIAOD_powheg-pythia8_2016-07-15.txt

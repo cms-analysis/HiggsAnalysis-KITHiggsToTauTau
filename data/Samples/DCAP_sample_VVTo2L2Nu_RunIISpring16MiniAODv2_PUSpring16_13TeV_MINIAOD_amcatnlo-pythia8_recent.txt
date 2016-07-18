@@ -1,0 +1,1 @@
+DCAP_sample_VVTo2L2Nu_RunIISpring16MiniAODv2_PUSpring16_13TeV_MINIAOD_amcatnlo-pythia8_2016-07-15.txt

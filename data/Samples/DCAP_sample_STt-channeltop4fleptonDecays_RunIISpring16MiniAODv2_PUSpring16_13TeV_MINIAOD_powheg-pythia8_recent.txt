@@ -1,0 +1,1 @@
+DCAP_sample_STt-channeltop4fleptonDecays_RunIISpring16MiniAODv2_PUSpring16_13TeV_MINIAOD_powheg-pythia8_2016-07-15.txt
