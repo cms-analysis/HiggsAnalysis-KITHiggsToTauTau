@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 
 import argparse
 import os
+import re
 
 import ROOT
 ROOT.gROOT.SetBatch(True)
@@ -92,12 +93,13 @@ def main():
 			print "Creating " + args.output
 			logger.subprocessCall(mkdir_command.split())
 		tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp")
-		untar_command = ["tar xvf %s %s &> /dev/null"%(file,tmpdir) for file in glob.glob(input_dirs + "*.tar.gz")]
+		untar_commands = ["tar xvf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
+		print untar_commands
 		if not args.no_run:
 			for index in range(len(untar_commands)):
 				tools.parallelize(_call_command, [untar_commands[index]], 1)
-		regex=re.compile(".*/(.*)_jobs_[0-9]+_SvfitCache.._(.*)[0-9]+.root")
-		matches = [(regex.match(file).groups(),file) for file in glob.glob(tmpdir+"*.root")]
+		regex=re.compile(".*/(.*)_job_[0-9]+_SvfitCache.._(.*?)[0-9]+.root")
+		matches = [(regex.match(file).groups(),file) for file in glob.glob(tmpdir+"/*.root")]
 		dirs = {}
 		# go through matches and create nested dict {'sample' : {'Pipeline' : [files]}}
 		for match in matches:
@@ -112,7 +114,7 @@ def main():
 				out_filename = args.output + "/" + pipeline + "/svfitCache_" + samples + ".root"
 				merge_commands.append("hadd -f %s %s"%(tmp_filename, " ".join(dirs[samples][pipeline])))
 				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
-				config_file.append('"%s" : "%s",' % (nick_name, "dcap://dcache-cms-dcap.desy.de/pnfs/" + out_filename.split("pnfs")[1]))
+			config_file.append('"%s" : "%s",' % (nick_name, "dcap://dcache-cms-dcap.desy.de/pnfs/" + args.output + "/svfitCache_" + samples + ".root"))
 		if not args.no_run:
 			for index in range(len(merge_commands)):
 				tools.parallelize(_call_command, [merge_commands[index]], 1)

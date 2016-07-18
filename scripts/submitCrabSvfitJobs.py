@@ -106,13 +106,13 @@ def submission(base_path):
                     jobfile.write("arr[%s,0]=dcap://dcache-cms-dcap.desy.de/%s\n"%(index+1,file))
             jobfile.write("if [ \"x$2\" != \"x\" ]; then\npushd %s\nSCRAM_ARCH=slc6_amd64_gcc493\nsource /cvmfs/cms.cern.ch/cmsset_default.sh\neval `scramv1 runtime -sh`\n"%(os.getcwd()))
             jobfile.write("ComputeSvfit -i ${arr[$1,0]} -o SvfitCache.root\n")
-            jobfile.write("else\n./ComputeSvfit -i ${arr[$1,0]} -o $(basename ${arr[$1,0]})\ntar -cf $(basename ${arr[$1,0]})\nfi\n")
+            jobfile.write("else\n./ComputeSvfit -i ${arr[$1,0]} -o $(basename ${arr[$1,0]})\ntar -cf SvfitCache.tar $(basename ${arr[$1,0]})\nfi\n")
             jobfile.close()
 			
             config.General.workArea = '/nfs/dust/cms/user/%s/%s/'%(getUsernameFromSiteDB(),today)
             config.General.transferOutputs = True
             config.General.transferLogs = True
-            jobname = "SvFit_"+today
+            jobname = "SvFit_"+today+"_"+index
             config.General.requestName = jobname
             print jobname
             config.Data.outputPrimaryDataset = 'Svfit'
@@ -132,7 +132,7 @@ def submission(base_path):
             config.JobType.inputFiles = ['Kappa/lib/libKappa.so', os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', jobfile_name]
             config.JobType.allowUndistributedCMSSW = True
             config.JobType.scriptExe = jobfile_name
-            config.JobType.outputFiles = ['SvfitCache.tar.gz']
+            config.JobType.outputFiles = ['SvfitCache.tar']
 			
             config.Site.storageSite = "T2_DE_DESY"
                     # config.Site.blacklist = ["T3_US_PuertoRico","T2_ES_CIEMAT","T2_DE_RWTH","T3_US_Colorado","T2_BR_UERJ","T2_ES_IFCA","T2_RU_JINR","T2_UA_KIPT","T2_EE_Estonia","T2_FR_GRIF_LLR","T2_CH_CERN","T2_FR_GRIF_LLR","T3_IT_Bologna","T2_US_Nebraska","T2_US_Nebraska","T3_TW_NTU_HEP","T2_US_Caltech","T3_US_Cornell","T2_IT_Legnaro","T2_HU_Budapest","T2_IT_Pisa","T2_US_Florida",'T2_IT_Bari',"T2_FR_GRIF_IRFU","T2_IT_Rome","T2_FR_GRIF_IRFU","T2_CH_CSCS","T3_TW_NCU"]
