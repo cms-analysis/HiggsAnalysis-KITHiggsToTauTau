@@ -271,6 +271,54 @@ class Datacards(object):
 			ch.SystMap("era")
 			(["13TeV"], 1.0)
 		]
+		self.jetFakeTau_qcd_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_qcd_Shape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
+		self.jetFakeTau_w_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_w_Shape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
+		self.jetFakeTau_tt_corr_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_tt_corr_Shape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
+		self.jetFakeTau_tt_stat_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_tt_stat_Shape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
+		self.jetFakeTau_frac_qcd_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_frac_qcd_Shape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
+		self.jetFakeTau_frac_tt_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_frac_tt_Shape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
+		self.jetFakeTau_frac_w_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_frac_w_Shape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
+		self.jetFakeTau_frac_dy_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_frac_dy_Shape_$ERA",
+			"shape",
+			ch.SystMap("era")
+			(["13TeV"], 1.0)
+		]
 
 		self.met_resp_syst_args = [
 			"CMS_scale_met_$CHANNEL_$ERA",

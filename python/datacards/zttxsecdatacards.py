@@ -313,6 +313,17 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 
 			# Top pT reweight
 			self.cb.cp().channel(["mt"]).process(["EWK"]).AddSyst(self.cb, *self.ttj_syst_args)
+			
+			# Fake-Factor (Jets faking Taus)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_qcd_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_w_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_tt_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_tt_stat_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_qcd_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_w_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_tt_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_dy_syst_args)
+			
 
 			# ======================================================================
 			# ET channel
@@ -336,6 +347,16 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+
+			# Fake-Factor (Jets faking Taus)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_qcd_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_w_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_tt_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_tt_stat_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_qcd_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_w_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_tt_syst_args)
+			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_dy_syst_args)
 			
 			# ======================================================================
 			# All channels
