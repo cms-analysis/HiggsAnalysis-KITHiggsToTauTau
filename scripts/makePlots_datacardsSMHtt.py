@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 import argparse
 import copy
 import os
+import sys
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
@@ -74,6 +75,8 @@ if __name__ == "__main__":
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
+	parser.add_argument("--remote", action="store_true", default=False,
+						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -277,7 +280,7 @@ if __name__ == "__main__":
 	debug_plot_configs = []
 	for output_file in (output_files if not args.for_dcsync else merged_output_files):
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
-	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -362,3 +365,6 @@ if __name__ == "__main__":
 	# Asymptotic limits
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index)
+	if args.remote:
+		#os.system("tar cfv " + os.path.join(args.output_dir, "jobresult.tar") + " " + os.path.join(args.output_dir, "datacards") + " " + os.path.join(args.output_dir, "input"))
+		os.system("tar cfv jobresult.tar datacards/ input/")
