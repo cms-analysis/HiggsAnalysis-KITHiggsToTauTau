@@ -1,6 +1,7 @@
 {
 	"property" : [
 		"rhoNeutralChargedAsymmetry_1",
-		"rhoNeutralChargedAsymmetry_2"
+		"rhoNeutralChargedAsymmetry_2",
+		"tauSpinnerPolarisation"
 	]
 }
