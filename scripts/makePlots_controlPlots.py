@@ -201,7 +201,7 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/control_plots/",
 	                    help="Output directory. [Default: %(default)s]")
-	parser.add_argument("--www", nargs="?", default=None, const="",
+	parser.add_argument("--www", nargs="?", default=None, const="control_plots",
 	                    help="Publish plots. [Default: %(default)s]")
 
 	args = parser.parse_args()
@@ -234,7 +234,6 @@ if __name__ == "__main__":
 		log.critical("Plot will fail: zl or zj samples given as input. Remove to continue")
 		sys.exit(1)
 
-	www_output_dirs = []
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
 	bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
@@ -458,10 +457,12 @@ if __name__ == "__main__":
 						channel if len(args.channels) > 1 else "",
 						category if len(args.categories) > 1 else ""
 				))
-				if not (config["output_dir"] in www_output_dirs):
-					www_output_dirs.append(config["output_dir"])
+				
 				if "qcd" in bkg_samples:
-					config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
+					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
+				
+				if not args.www is None:
+					config["www"] = os.path.join(args.www, channel, "" if category is None else category)
 
 				config.update(json_config)
 				plot_configs.append(config)
@@ -472,20 +473,3 @@ if __name__ == "__main__":
 
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
-	if not args.www is None:
-		for output_dir in www_output_dirs:
-			from Artus.HarryPlotter.plotdata import PlotData
-			main_path, subpath =os.path.split(os.path.normpath(output_dir))
-			main_path, subpath_2 =os.path.split(main_path)
-			subpath = os.path.join(subpath_2, subpath)
-			output_filenames = []
-			for config in plot_configs:
-				if(subpath in config["output_dir"]):
-					output_filenames.append(os.path.join(output_dir, config["x_expressions"][0]+ ".png"))
-
-			PlotData.webplotting(
-			             www = args.www if(subpath == "control_plots") else os.path.join(args.www, subpath),
-			             output_dir = output_dir,
-			             export_json = False,
-			             output_filenames = output_filenames
-			             )
