@@ -16,7 +16,6 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 	BDThistBG = ROOT.TH1D("BDT-Bcg", "Background BDT-Scores", nbins, -1, 1)
 	
 	log.debug("Fill signal histogram")
-	a = 0.00000000000
 	for file in signalfiles:
 		f = ROOT.TFile.Open(file, "read")
 		tree = f.Get("SplitTree")
@@ -24,11 +23,9 @@ def get_cut(outputdir, signalfiles, backgroundfiles, leaftocut, method, paramete
 			#print event.BDTScore1
 			if not hasattr(event, leaftocut):
 				raise AttributeError("event has no attribute '%s'"%(leaftocut,))
-			a += event.eventWeight*1000000
 			BDThistSG.Fill(getattr(event, leaftocut), event.eventWeight)
 		f.Close()
 	log.debug("Fill background histogram")
-	print a
 	for file in backgroundfiles:
                 f = ROOT.TFile.Open(file, "read") 
                 tree = f.Get("SplitTree")
