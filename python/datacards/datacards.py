@@ -896,5 +896,5 @@ class Datacards(object):
 		rebin.SetBinThreshold(bin_threshold)
 		rebin.SetRebinMode(rebin_mode)
 		rebin.SetPerformRebin(True)
-		rebin.SetVerbosity(1)
+		rebin.SetVerbosity(0)
 		rebin.Rebin(self.cb, self.cb)
