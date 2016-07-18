@@ -16,7 +16,7 @@ class Samples(samples.SamplesBase):
 
 	
 	# constants for all plots
-	default_lumi = 3.99*1000.0
+	default_lumi = 6.26*1000.0
 	data_format = "MINIAOD"
 	mc_campaign = "RunIISpring16MiniAODv.*"
 
@@ -123,7 +123,7 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 
 		query["data"] = True
-		query["campaign"] = "Run2016B.*"
+		query["campaign"] = "Run2016.*"
 		return self.artus_file_names(query, expect_n_results),
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -151,18 +151,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_ztt(self, channel):
-		# DY N Jets and 10 to 50 from miniAODv1
-		query = { "data" : False,
-				"campaign" : self.mc_campaign + "1",
-				"generator" :  "madgraph\-pythia8",
-				"process" : "(DYJetsToLLM10to50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)" }
-		artus_files = self.artus_file_names(query , 5)
-
-		# only ext sample miniAODv2
-		query["process"] = "DYJetsToLLM50"
-		query["campaign"] = self.mc_campaign + "2"
-		artus_files = artus_files + " " + self.artus_file_names(query , 1)
-		return artus_files 
+		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DYJetsToLLM150|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : "RunIISpring16MiniAODv2"}, 7)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -195,18 +184,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_zll(self, channel):
-		# DY N Jets and 10 to 50 from miniAODv1
-		query = { "data" : False,
-				"campaign" : self.mc_campaign + "1",
-				"generator" :  "madgraph\-pythia8",
-				"process" : "(DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)" }
-		artus_files = self.artus_file_names(query , 4)
-
-		# only ext sample miniAODv2
-		query["process"] = "DYJetsToLLM50"
-		query["campaign"] = self.mc_campaign + "2"
-		artus_files = artus_files + " " + self.artus_file_names(query , 1)
-		return artus_files
+		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : "RunIISpring16MiniAODv2"}, 6)
 
 	def zll(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
@@ -242,7 +220,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_ttj(self, channel):
-		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : "RunIISpring16MiniAODv1"}, 1)
+		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : "RunIISpring16MiniAODv2"}, 1)
 
 	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
@@ -354,10 +332,10 @@ class Samples(samples.SamplesBase):
 		                                      "(WWTo1L1Nu2Q|"
 		                                    + "WZJets|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|" 
 		                                    + "ZZTo2L2Q|ZZTo4L|VVTo2L2Nu)",
-		                      "data" : False, "campaign" : "RunIISpring16MiniAODv1", "generator" : "amcatnlo-pythia8"}, 6)
+		                      "data" : False, "campaign" : "RunIISpring16MiniAODv2", "generator" : "amcatnlo-pythia8"}, 6)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4fleptonDecays|STt-channeltop4fleptonDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
-		                      "data" : False, "campaign" : "RunIISpring16MiniAODv1" }, 4),
+		                      "data" : False, "campaign" : "RunIISpring16MiniAODv2" }, 4),
 		return artus_files
 
 	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -394,7 +372,17 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_wj(self, channel):
-		return self.artus_file_names({"process" : "(W1JetsToLNu|W2JetsToLNu|W3JetsToLNu|W4JetsToLNu|WJetsToLNu)", "data": False, "campaign" : "RunIISpring16MiniAODv1", "generator" : "madgraph-pythia8"}, 5)
+		# W + N jets from MiniAODv2
+		query = { "data" : False,
+						"campaign" : self.mc_campaign + "2",
+						"generator" : "madgraph-pythia8",
+						"process" : "(W1JetsToLNu|W2JetsToLNu|W3JetsToLNu|W4JetsToLNu)"}
+		artus_files = self.artus_file_names(query, 4)
+		# inclusive W+jets sample from MiniAODv1
+		query["process"] = "WJetsToLNu"
+		query["campaign"] = self.mc_campaign + "1"
+		artus_files = artus_files + " " + self.artus_file_names(query, 1)
+		return artus_files
 
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
@@ -1262,7 +1250,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_ggh(self, channel, mass=125):
-		return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : "RunIISpring16MiniAODv2"}, 1)
 
 	def files_susy_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "SUSYGluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
@@ -1309,7 +1297,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_qqh(self, channel, mass=125):
-		return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : "RunIISpring16MiniAODv2"}, 1)
 
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -1390,7 +1378,7 @@ class Samples(samples.SamplesBase):
 		return self.artus_file_names({"process" : "WminusHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def files_wh_plus(self, channel, mass=125):
-		return self.artus_file_names({"process" : "WminusHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "WplusHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def wh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
