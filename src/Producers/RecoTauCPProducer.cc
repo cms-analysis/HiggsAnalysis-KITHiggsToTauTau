@@ -83,7 +83,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 
 	CPQuantities cpq;
-	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, track1, track2, momentum1, momentum2);
+	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
 	product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	product.m_recoIP1 = cpq.GetRecoIP1();
 	product.m_recoIP2 = cpq.GetRecoIP2();
