@@ -2,7 +2,7 @@
 	"SvfitIntegrationMethod" : "MarkovChain",
 	"GenerateSvfitInput" : false,
 	"UseFirstInputFileNameForSvfit" : false,
-	"SvfitCacheMissBehaviour" : "recalculate",
+	"SvfitCacheMissBehaviour" : "undefined",
 	"SvfitInputCutOff" : 2000,
 	"UpdateSvfitCache" : true,
 	"SvfitOutFile" : "SvfitCache.root",

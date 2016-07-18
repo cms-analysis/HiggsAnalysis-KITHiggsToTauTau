@@ -37,6 +37,8 @@ void BTagEffConsumer::ProcessFilteredEvent(event_type const& event, product_type
 
   //for(std::vector<KMuon*>::const_iterator validMuon = product.m_validMuons.begin();validMuon!=product.m_validMuons.end();++validMuon)
   //for (std::vector<KBasicJet*>::cons_iterator jet = product.m_validJets.begin(); jet != product.m_validJets.end(); ++jet)
+  std::map<std::string, std::vector<float>> bTagWorkingPoints = Utility::ParseMapTypes<std::string,float>(Utility::ParseVectorToMap(settings.GetBTaggerWorkingPoints()));
+  float bTaggingWorkingPoint = bTagWorkingPoints.at(settings.GetBTagWPs().at(0)).at(0);
   for (auto jet = product.m_validJets.begin(); jet != product.m_validJets.end(); ++jet)
     {
       KJet* tjet = static_cast<KJet*>(*jet);
@@ -52,19 +54,19 @@ void BTagEffConsumer::ProcessFilteredEvent(event_type const& event, product_type
 	      
 	      if(jetflavor==5){
 		h2_BTaggingEff_Denom_b->Fill(tjet->p4.pt(), std::fabs(tjet->p4.eta()));
-		if(combinedSecondaryVertex>settings.GetBTaggedJetCombinedSecondaryVertexMediumWP()){
+		if(combinedSecondaryVertex>bTaggingWorkingPoint){
 		  h2_BTaggingEff_Num_b->Fill(tjet->p4.pt(), std::fabs(tjet->p4.eta()));			    
 		}
 	      }
 	      else if(jetflavor==4){
 		h2_BTaggingEff_Denom_c->Fill(tjet->p4.pt(), std::fabs(tjet->p4.eta()));
-		if(combinedSecondaryVertex>settings.GetBTaggedJetCombinedSecondaryVertexMediumWP()){
+		if(combinedSecondaryVertex>bTaggingWorkingPoint){
 		  h2_BTaggingEff_Num_c->Fill(tjet->p4.pt(), std::fabs(tjet->p4.eta()));			   
 		}
 	      }
 	      else{
 		h2_BTaggingEff_Denom_udsg->Fill(tjet->p4.pt(), std::fabs(tjet->p4.eta()));
-		if(combinedSecondaryVertex>settings.GetBTaggedJetCombinedSecondaryVertexMediumWP()){
+		if(combinedSecondaryVertex>bTaggingWorkingPoint){
 		  h2_BTaggingEff_Num_udsg->Fill(tjet->p4.pt(), std::fabs(tjet->p4.eta()));			   
 		}
 	      }
