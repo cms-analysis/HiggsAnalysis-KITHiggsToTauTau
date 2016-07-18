@@ -12,9 +12,7 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
-	virtual std::string GetProducerId() const override {
-		return "PolarisationQuantitiesProducer";
-	}
+	virtual std::string GetProducerId() const override;
 	
 	virtual void Init(setting_type const& settings) override;
 
