@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <TH2.h>
 //#include "Artus/KappaAnalysis/interface/KappaProducerBase.h"
 #include "Artus/Core/interface/ProducerBase.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
@@ -27,14 +26,16 @@ public:
 	virtual void Init(setting_type const& settings) override
 	{
 		ProducerBase<HttTypes>::Init(settings);
-        TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-        m_qcdWeights = new QCDModelForEMu(cmsswBase+"/src/HTT-utilities/QCDModelingEMu/data/QCD_weight_emu.root"); 
+		TDirectory *savedir(gDirectory);
+		TFile *savefile(gFile);
+		m_qcdWeights = new QCDModelForEMu("HTT-utilities/QCDModelingEMu/data/QCD_weight_emu.root"); 
+		gDirectory = savedir;
+		gFile = savefile;
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override;
 private:
-    TH2D* m_zPtHist = 0;
-    QCDModelForEMu* m_qcdWeights=0;
+	QCDModelForEMu* m_qcdWeights=0;
 
 };
