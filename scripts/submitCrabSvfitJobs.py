@@ -102,8 +102,8 @@ def submission(base_path):
             jobfile.write("#!/bin/bash\n")
             jobfile.write("declare -A arr\n")
             jobfile.write(CRAB_PREFIX)
-            for index,file in enumerate(cache_file):
-                    jobfile.write("arr[%s,0]=dcap://dcache-cms-dcap.desy.de/%s\n"%(index+1,file))
+            for index2,file in enumerate(cache_file):
+                    jobfile.write("arr[%s,0]=dcap://dcache-cms-dcap.desy.de/%s\n"%(index2+1,file))
             jobfile.write("if [ \"x$2\" != \"x\" ]; then\npushd %s\nSCRAM_ARCH=slc6_amd64_gcc493\nsource /cvmfs/cms.cern.ch/cmsset_default.sh\neval `scramv1 runtime -sh`\n"%(os.getcwd()))
             jobfile.write("ComputeSvfit -i ${arr[$1,0]} -o SvfitCache.root\n")
             jobfile.write("else\n./ComputeSvfit -i ${arr[$1,0]} -o $(basename ${arr[$1,0]})\ntar -cf SvfitCache.tar $(basename ${arr[$1,0]})\nfi\n")
