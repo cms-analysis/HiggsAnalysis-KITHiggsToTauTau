@@ -76,6 +76,15 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 
 		isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
 	}
+	else if (muonIsoTypeUserMode == MuonIsoTypeUserMode::FROMCMSSWR04)
+	{
+		chargedIsolationPtSum = muon->sumChargedHadronPtR04;
+		neutralIsolationPtSum = muon->sumNeutralHadronEtR04;
+		photonIsolationPtSum = muon->sumPhotonEtR04;
+		deltaBetaIsolationPtSum = muon->sumPUPtR04;
+
+		isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
+	}
 	else if (muonIsoTypeUserMode == MuonIsoTypeUserMode::CALCULATED)
 	{
 		chargedIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(

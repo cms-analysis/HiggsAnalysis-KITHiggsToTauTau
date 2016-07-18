@@ -3,7 +3,12 @@
 		"https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2015#Muons"
 	],
 	
-	"Year" : 2015,
+	"Year" : {
+		"nick" : {
+			"default" : 2015,
+			"(Spring16|Run2016)" : 2016
+		}
+	},
 	"MuonID" : "medium",
 	
 	"MuonIsoType" : "user",
