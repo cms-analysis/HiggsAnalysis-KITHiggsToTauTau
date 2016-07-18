@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import itertools
 import pprint
+import numpy as np
+import copy
 
 class CategoriesDict(object):
 	def __init__(self):
@@ -12,12 +14,107 @@ class CategoriesDict(object):
 		vbf_loose_string = "(mjj>200&&jdeta>2)"
 		jet2_string = "(njetspt30>1)"
 		jet1_string = "(njetspt30>0)"
+		jet0_string = "(njetspt30<1)"
 		pt2_tight_string = "(pt_2>=45)"
 		pt2_medium_string = "(pt_2>=35)"
 		pt2_loose_string = "(pt_2>=25)"
 		eta_hard_string = "jdeta>4.0"
 		self.pp = pprint.PrettyPrinter(indent=4)
 		self.categoriesDict = {}
+		for mjj in range(100,1001,100):
+			for jdeta in np.linspace(1.5, 6.5, 11):
+				vbf_string = "(mjj>" + str(mjj) + ")*(jdeta>" + str(jdeta) + ")"
+				self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = {
+						"channel": [
+							"mt_",
+							"et_",
+							"tt_",
+							"em_"
+							],
+						"expressions":{
+							"global":self.combine([vbf_string, jet2_string]),
+							"analysis": [
+								"catHtt13TeV_",
+								"catMVAStudies_"
+								],
+							},
+						"binnings":{
+							"analysis": [
+								"binningHtt13TeV_",
+								"binningMVAStudies_"
+								],
+							"global":{
+								"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,211,15)]),
+								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+								}
+							}
+						}
+				self.categoriesDict["{analysis}{channel}ivbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"])
+				self.categoriesDict["{analysis}{channel}ivbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([self.invert(vbf_string), jet2_string])
+
+
+		for h_pt in range(20,151,10):
+			for pt_2 in range(20,101,10):
+				cut_string = "(H_pt>" + str(h_pt) + ")*(pt_2>" + str(pt_2) + ")"
+				self.categoriesDict["{analysis}{channel}1jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = {
+						"channel": [
+							"mt_",
+							"et_",
+							"tt_",
+							"em_"
+							],
+						"expressions":{
+							"global":self.combine([cut_string, jet1_string]),
+							"analysis": [
+								"catHtt13TeV_",
+								"catMVAStudies_"
+								],
+							},
+						"binnings":{
+							"analysis": [
+								"binningHtt13TeV_",
+								"binningMVAStudies_"
+								],
+							"global":{
+								"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,211,15)]),
+								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+								}
+							}
+						}
+				self.categoriesDict["{analysis}{channel}i1jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}1jet_" + str(h_pt) +"_"+ str(pt_2) + "{discriminator}"])
+				self.categoriesDict["{analysis}{channel}i1jet_" + str(h_pt) + "_" + str(pt_2) +"{discriminator}"]["expressions"]["global"] = self.combine([self.invert(cut_string), jet1_string])
+
+		for h_pt in range(20,151,10):
+			for pt_2 in range(20,101,10):
+				cut_string = "(H_pt>" + str(h_pt) + ")*(pt_2>" + str(pt_2) + ")"
+				self.categoriesDict["{analysis}{channel}0jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = {
+						"channel": [
+							"mt_",
+							"et_",
+							"tt_",
+							"em_"
+							],
+						"expressions":{
+							"global":self.combine([cut_string, jet0_string]),
+							"analysis": [
+								"catHtt13TeV_",
+								"catMVAStudies_"
+								],
+							},
+						"binnings":{
+							"analysis": [
+								"binningHtt13TeV_",
+								"binningMVAStudies_"
+								],
+							"global":{
+								"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,211,15)]),
+								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+								}
+							}
+						}
+				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}0jet_" + str(h_pt) +"_"+ str(pt_2) + "{discriminator}"])
+				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) +"{discriminator}"]["expressions"]["global"] = self.combine([self.invert(cut_string), jet0_string])
+
 		self.categoriesDict["{analysis}{channel}vbf{discriminator}"] = {
 				"channel": [
 					"mm_",
@@ -948,7 +1045,8 @@ class CategoriesDict(object):
 		return Categories
 
 	def invert(self, expression):
-		return "(!" + expression + ")"
+		tmp_expression = "(" + expression + ")"
+		return "(" + tmp_expression + "==0)" 
 
 	def combine(self, strings_to_combine):
 		return "(" + "*".join(strings_to_combine) + ")"
