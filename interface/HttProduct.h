@@ -107,6 +107,9 @@ public:
 	RMFLV m_diLeptonPlusMetSystem;
 	RMFLV m_diLeptonGenSystem;
 
+	// filled by the TauSpinnerProducer
+	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
+
 	// filled by the PolarisationQuantitiesProducer
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
 
