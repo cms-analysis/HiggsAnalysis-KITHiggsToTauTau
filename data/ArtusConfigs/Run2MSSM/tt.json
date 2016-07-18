@@ -88,8 +88,8 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
-			"#nloosebtag",
-			"#nmediumbtag",
+			"nloosebtag",
+			"nmediumbtag",
 			"had_gen_match_pT_1",
 			"had_gen_match_pT_2"
 		],
