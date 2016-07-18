@@ -112,7 +112,7 @@ def submission(base_path):
             config.General.workArea = '/nfs/dust/cms/user/%s/%s/'%(getUsernameFromSiteDB(),today)
             config.General.transferOutputs = True
             config.General.transferLogs = True
-            jobname = "SvFit_"+today+"_"+index
+            jobname = "SvFit_"+today+"_"+str(index)
             config.General.requestName = jobname
             print jobname
             config.Data.outputPrimaryDataset = 'Svfit'

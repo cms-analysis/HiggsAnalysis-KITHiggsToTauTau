@@ -115,6 +115,101 @@ class CategoriesDict(object):
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}0jet_" + str(h_pt) +"_"+ str(pt_2) + "{discriminator}"])
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) +"{discriminator}"]["expressions"]["global"] = self.combine([self.invert(cut_string), jet0_string])
 
+		self.categoriesDict["{analysis}{channel}FT_InsteadQCuts{discriminator}"] = {
+				"channel": [
+					"mt_"
+					],
+				"expressions":{
+					"global":"(L1_vbfggh_vs_default>=0.02)",
+					"analysis":[
+						"catMVAStudies_"
+						],
+					},
+				"binnings":{
+					"analysis": [
+						"binningMVAStudies_"
+						],
+					"global":{
+						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+						}
+					}					
+				}
+		self.categoriesDict["{analysis}{channel}FT_B{discriminator}"] = {
+				"channel": [
+					"mt_"
+					],
+				"expressions":{
+					"global":"(L1_vbfggh_vs_default>=-1.0)*(L1_vbfggh_vs_default<-0.32)",
+					"analysis":[
+						"catMVAStudies_"
+						],
+					},
+				"binnings":{
+					"analysis": [
+						"binningMVAStudies_"
+						],
+					"global":{
+						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+						}
+					}					
+				}
+		self.categoriesDict["{analysis}{channel}FT_SB{discriminator}"] = {
+				"channel": [
+					"mt_"
+					],
+				"expressions":{
+					"global":"(L1_vbfggh_vs_default>=-0.32)*(L2_vbfggh_vs_default<-0.30)",
+					"analysis":[
+						"catMVAStudies_"
+						],
+					},
+				"binnings":{
+					"analysis": [
+						"binningMVAStudies_"
+						],
+					"global":{
+						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}FT_SSB{discriminator}"] = {
+				"channel": [
+					"mt_"
+					],
+				"expressions":{
+					"global":"(L1_vbfggh_vs_default>=-1.0)*(L2_vbfggh_vs_default>=-0.30)*(L3_vbfggh_vs_default<-0.30)",
+					"analysis":[
+						"catMVAStudies_"
+						],
+					},
+				"binnings":{
+					"analysis": [
+						"binningMVAStudies_"
+						],
+					"global":{
+						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}FT_SSS{discriminator}"] = {
+				"channel": [
+					"mt_"
+					],
+				"expressions":{
+					"global":"(L1_vbfggh_vs_default>=-1.0)*(L2_vbfggh_vs_default>=-0.30)*(L3_vbfggh_vs_default>=-0.30)",
+					"analysis":[
+						"catMVAStudies_"
+						],
+					},
+				"binnings":{
+					"analysis": [
+						"binningMVAStudies_"
+						],
+					"global":{
+						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+						}
+					}
+				}
 		self.categoriesDict["{analysis}{channel}vbf{discriminator}"] = {
 				"channel": [
 					"mm_",
