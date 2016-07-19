@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 import argparse
 import os
 import re
+import shutil
 
 import ROOT
 ROOT.gROOT.SetBatch(True)
@@ -44,6 +45,8 @@ def main():
 	                    help="Paths of input SVfit cache trees. [Default: %(default)s]")
 	parser.add_argument("--output-tree", default="svfitCache",
 	                    help="Name of output SVfit cache tree. [Default: %(default)s]")
+	parser.add_argument("--previous-cache", default="",
+	                    help="Path to a previous cache which will be merged. [Default: %(default)s]")
 	parser.add_argument("--use-pipelines", default=False, action="store_true",
 	                    help="Write caches into one chache per pipeline[Default: %(default)s]")
 	parser.add_argument("--dcache", type=bool, default=False,
@@ -85,7 +88,6 @@ def main():
 			log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
 	else:
 		input_dirs = args.input
-		nick_names = {}
 		ls_command = "gfal-ls %s" %(args.output)
 		retCode = logger.subprocessCall(ls_command.split())
 		if(retCode != 0):
@@ -94,7 +96,6 @@ def main():
 			logger.subprocessCall(mkdir_command.split())
 		tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp")
 		untar_commands = ["tar xvf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
-		print untar_commands
 		if not args.no_run:
 			for index in range(len(untar_commands)):
 				tools.parallelize(_call_command, [untar_commands[index]], 1)
@@ -108,18 +109,25 @@ def main():
 			if match[0][1] not in dirs[match[0][0]]:
 				dirs[match[0][0]][match[0][1]] = []
 			dirs[match[0][0]][match[0][1]].append(match[1])
-		for samples in dirs:
-			for pipeline in dirs[samples]:
-				tmp_filename = tmpdir + "/" + pipeline + "/svfitCache_" + samples + ".root"
-				out_filename = args.output + "/" + pipeline + "/svfitCache_" + samples + ".root"
-				merge_commands.append("hadd -f %s %s"%(tmp_filename, " ".join(dirs[samples][pipeline])))
+		for sample in dirs:
+			for pipeline in dirs[sample]:
+				# create folders as needed
+				if not os.path.exists(tmpdir + "/" + pipeline):
+					os.makedirs(tmpdir + "/" + pipeline)
+				previous_cache_file = ""
+				if args.previous_cache:
+					if os.path.isfile(args.previous_cache + "/" + pipeline + "/svfitCache_" + sample + ".root"):
+						previous_cache_file = args.previous_cache + "/" + pipeline + "/svfitCache_" + sample + ".root"
+				tmp_filename = tmpdir + "/" + pipeline + "/svfitCache_" + sample + ".root"
+				out_filename = args.output + "/" + pipeline + "/svfitCache_" + sample + ".root"
+				merge_commands.append("hadd -f %s %s %s"%(tmp_filename, " ".join(dirs[sample][pipeline]), previous_cache_file))
 				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
-			config_file.append('"%s" : "%s",' % (nick_name, "dcap://dcache-cms-dcap.desy.de/pnfs/" + args.output + "/svfitCache_" + samples + ".root"))
+			config_file.append('"%s" : "%s",' % (sample, "dcap://dcache-cms-dcap.desy.de/pnfs/" + args.output + "/svfitCache_" + sample + ".root"))
 		if not args.no_run:
 			for index in range(len(merge_commands)):
 				tools.parallelize(_call_command, [merge_commands[index]], 1)
 				tools.parallelize(_call_command, [copy_commands[index]], 1)
-		os.rmdir(tmpdir)
+		shutil.rmtree(tmpdir)
 		print "done. Artus SvfitCacheFile settings: "
 		for entry in config_file: 
 			print entry
