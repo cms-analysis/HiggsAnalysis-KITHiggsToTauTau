@@ -185,7 +185,8 @@
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"
+					"nAllDiTauPairCandidates",
+					"tauSpinnerPolarisation"
 				]
 			}
 		},
