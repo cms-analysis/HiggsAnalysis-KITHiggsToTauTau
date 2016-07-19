@@ -108,7 +108,7 @@ class Samples(samples.SamplesBase):
 
 	def files_data(self, channel):
 		query = {}
-		expect_n_results = 1 # adjust in if-statements if different depending on channel
+		expect_n_results = 3 # adjust in if-statements if different depending on channel
 		if channel == "mt":
 			query = { "process" : "SingleMuon" }
 		elif channel == "et":
@@ -151,7 +151,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_ztt(self, channel):
-		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DYJetsToLLM150|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : "RunIISpring16MiniAODv2"}, 7)
+		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DYJetsToLLM150|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : "RunIISpring16MiniAODv2", "generator" : "madgraph\-pythia8"}, 7)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -184,7 +184,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_zll(self, channel):
-		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : "RunIISpring16MiniAODv2"}, 6)
+		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : "RunIISpring16MiniAODv2", "generator" : "madgraph\-pythia8"}, 6)
 
 	def zll(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
