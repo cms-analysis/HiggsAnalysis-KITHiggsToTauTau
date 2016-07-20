@@ -11,12 +11,12 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 from Kappa.Skimming.registerDatasetHelper import get_nick_list
 
 energy = 13
+default_lumi = 6.26*1000.0
 
 class Samples(samples.SamplesBase):
 
 	
 	# constants for all plots
-	default_lumi = 6.26*1000.0
 	data_format = "MINIAOD"
 	mc_campaign = "RunIISpring16MiniAODv.*"
 

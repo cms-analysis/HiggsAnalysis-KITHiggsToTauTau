@@ -77,9 +77,23 @@ if __name__ == "__main__":
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--remote", action="store_true", default=False,
 						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
+	parser.add_argument("--era", default="2015",
+	                    help="Era of samples to be used. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
+	
+	if args.era == "2015":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+	elif args.era == "2015new":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+	elif args.era == "2016":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+		if args.lumi == parser.get_default("lumi"):
+			args.lumi = samples.default_lumi/1000.0
+	else:
+		log.critical("Invalid era string selected: " + args.era)
+		sys.exit(1)
 	
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):

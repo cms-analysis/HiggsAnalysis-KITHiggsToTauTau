@@ -214,6 +214,8 @@ if __name__ == "__main__":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 		elif args.era == "2016":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+			if args.lumi == parser.get_default("lumi"):
+				args.lumi = samples.default_lumi/1000.0
 		else:
 			log.critical("Invalid era string selected: " + args.era)
 			sys.exit(1)

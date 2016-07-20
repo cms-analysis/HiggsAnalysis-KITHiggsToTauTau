@@ -109,7 +109,6 @@ if __name__ == "__main__":
 	parser.add_argument("--tighten-mass-window", action="store_true", default=False,
 						help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
 	
-	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
@@ -156,6 +155,8 @@ if __name__ == "__main__":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+		if args.lumi == parser.get_default("lumi"):
+			args.lumi = samples.default_lumi/1000.0
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
 	www_output_dirs_postfit = []
