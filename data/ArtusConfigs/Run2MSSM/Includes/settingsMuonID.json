@@ -8,6 +8,12 @@
 	
 	"MuonIsoType" : "user",
 	"MuonIso" : "none",
+	"MuonIsoTypeUserMode" : {
+		"nick" : {
+			"default" : "fromcmssw",
+			"(Spring16|Run2016)" : "fromcmsswr04"
+		}
+	},
 	
 	"MuonIsoSignalConeSize" : 0.3,
 	"MuonDeltaBetaCorrectionFactor" : 0.5,
