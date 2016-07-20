@@ -443,6 +443,7 @@ if __name__ == "__main__":
 	tools.parallelize(_call_command, commands, n_processes=1)
 	
 	#plot nuisance impacts
+	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="mes"))
 	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
 	
 	#postfitshapes call
@@ -538,6 +539,7 @@ if __name__ == "__main__":
 				config["lumis"] = [float("%.1f" % args.lumi)]
 				config["cms"] = True
 				config["extra_text"] = "Preliminary"
+				config["year"] = "2016"
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category+"_"+quantity
 				#config["formats"] = ["png", "pdf"]
@@ -664,9 +666,12 @@ if __name__ == "__main__":
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
 			config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[int(ptBin)], "1#sigma", "2#sigma"]
-			config["texts_x"] = [0.36, 0.35, 0.98, 0.98]
-			config["texts_y"] = [0.87, 0.82, 0.23, 0.46]
+			config["texts_x"] = [0.52, 0.52, 0.98, 0.98]
+			config["texts_y"] = [0.81, 0.74, 0.23, 0.46]
 			config["texts_size"] = [0.035]
+			config["cms"] = True
+			config["extra_text"] = "Preliminary"
+			config["year"] = "2016"
 			
 			if not (config["output_dir"] in www_output_dirs_parabola):
 				www_output_dirs_parabola.append(config["output_dir"])
