@@ -21,7 +21,7 @@
 			"DY.?JetsToLL" : [
 				23
 			],
-			"^(GluGlu|VBF)HToTauTau" : [
+			"^(GluGlu|VBF|Wminus|Wplus|Z)HToTauTau" : [
 				25
 			],
 			"W.?JetsToLN" : [

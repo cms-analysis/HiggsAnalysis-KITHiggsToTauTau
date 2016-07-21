@@ -40,7 +40,7 @@
 				"producer:PUWeightProducer",
 				"producer:SampleStitchingWeightProducer"
 			],
-			"HToTauTau" : [
+			"^(GluGlu|VBF|Wminus|Wplus|Z)HToTauTau" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
@@ -55,6 +55,21 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
 				"producer:ScaleVariationProducer"
+			],
+			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : [
+				"#filter:RunLumiEventFilter",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenDiLeptonDecayModeProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GenTauDecayModeProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:NicknameProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:PUWeightProducer"
 			],
 			"Run201" : [
 				"#filter:RunLumiEventFilter",
