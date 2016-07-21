@@ -108,6 +108,8 @@ if __name__ == "__main__":
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--tighten-mass-window", action="store_true", default=False,
 						help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
+	parser.add_argument("--plot-with-shift", type=float, default=0.0,
+						help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -124,6 +126,9 @@ if __name__ == "__main__":
 		current_shift = round(es_shifts[-1]+args.shift_binning,4)
 		es_shifts.append(current_shift)
 		es_shifts_str.append(str(current_shift))
+	if args.plot_with_shift != 0.0:
+		es_shifts = [args.plot_with_shift-0.0001,args.plot_with_shift+0.0001]
+		es_shifts_str = [str(es_shifts[0]),str(es_shifts[1])]
 		
 	# produce decaymode bins
 	decay_modes = []
@@ -513,7 +518,7 @@ if __name__ == "__main__":
 					config["x_lims"] = [0.2,1.4]
 				elif "ThreeProng" in category and quantity == "m_2":
 					config["x_label"] = "m_{#tau_{h}} [GeV]"
-					config["x_lims"] = [0.6,1.8]
+					config["x_lims"] = [0.8,1.5]
 				elif "AllDMs" in category and quantity == "m_2":
 					config["x_label"] = "m_{#tau_{h}} [GeV]"
 					config["x_lims"] = [0.2,1.8]
@@ -540,10 +545,10 @@ if __name__ == "__main__":
 				config["lumis"] = [float("%.1f" % args.lumi)]
 				config["cms"] = True
 				config["extra_text"] = "Preliminary"
-				config["year"] = "2016"
+				config["year"] = args.era
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category+"_"+quantity
-				#config["formats"] = ["png", "pdf"]
+				config["formats"] = ["png", "pdf"]
 				
 				decayMode = category.split("_")[-2]
 				ptBin = int(category.split("_")[-1].split("ptbin")[-1])
@@ -672,7 +677,7 @@ if __name__ == "__main__":
 			config["texts_size"] = [0.035]
 			config["cms"] = True
 			config["extra_text"] = "Preliminary"
-			config["year"] = "2016"
+			config["year"] = args.era
 			
 			if not (config["output_dir"] in www_output_dirs_parabola):
 				www_output_dirs_parabola.append(config["output_dir"])
