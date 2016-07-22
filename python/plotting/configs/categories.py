@@ -21,9 +21,11 @@ class CategoriesDict(object):
 		eta_hard_string = "jdeta>4.0"
 		self.pp = pprint.PrettyPrinter(indent=4)
 		self.categoriesDict = {}
-		for mjj in range(100,1001,100):
-			for jdeta in np.linspace(1.5, 6.5, 11):
-				vbf_string = "(mjj>" + str(mjj) + ")*(jdeta>" + str(jdeta) + ")"
+		for mjj in range(0,801,100):
+			for jdeta in np.linspace(0.0, 6.0, 13):
+				vbf_string = ("(mjj>" + str(mjj) + ")") if mjj >0 else ""
+				if(jdeta != 0):
+					vbf_string += ("*" if len(vbf_string) > 0 else "" ) + "(jdeta>" + str(jdeta) + ")"
 				self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = {
 						"channel": [
 							"mt_",
@@ -53,9 +55,11 @@ class CategoriesDict(object):
 				self.categoriesDict["{analysis}{channel}ivbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([self.invert(vbf_string), jet2_string])
 
 
-		for h_pt in range(20,151,10):
-			for pt_2 in range(20,101,10):
-				cut_string = "(H_pt>" + str(h_pt) + ")*(pt_2>" + str(pt_2) + ")"
+		for h_pt in range(0,151,10):
+			for pt_2 in range(0,101,10):
+				cut_string = "(H_pt>" + str(h_pt) + ")" if h_pt > 0 else ""
+				if pt_2 > 0:
+					cut_string += ("*" if len(cut_string) > 0 else "" ) + "(pt_2>" + str(pt_2) + ")"
 				self.categoriesDict["{analysis}{channel}1jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = {
 						"channel": [
 							"mt_",
@@ -84,9 +88,11 @@ class CategoriesDict(object):
 				self.categoriesDict["{analysis}{channel}i1jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}1jet_" + str(h_pt) +"_"+ str(pt_2) + "{discriminator}"])
 				self.categoriesDict["{analysis}{channel}i1jet_" + str(h_pt) + "_" + str(pt_2) +"{discriminator}"]["expressions"]["global"] = self.combine([self.invert(cut_string), jet1_string])
 
-		for h_pt in range(20,151,10):
-			for pt_2 in range(20,101,10):
-				cut_string = "(H_pt>" + str(h_pt) + ")*(pt_2>" + str(pt_2) + ")"
+		for h_pt in range(0,151,10):
+			for pt_2 in range(0,101,10):
+				cut_string = "(H_pt>" + str(h_pt) + ")" if h_pt > 0 else ""
+				if pt_2 > 0:
+					cut_string += ("*" if len(cut_string) > 0 else "" ) + "(pt_2>" + str(pt_2) + ")"
 				self.categoriesDict["{analysis}{channel}0jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = {
 						"channel": [
 							"mt_",
