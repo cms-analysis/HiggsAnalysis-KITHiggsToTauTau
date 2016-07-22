@@ -110,6 +110,8 @@ if __name__ == "__main__":
 						help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
 	parser.add_argument("--plot-with-shift", type=float, default=0.0,
 						help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
+	parser.add_argument("--colors-dm-dependent", action="store_true", default=False,
+						help="Use different colors for each decay mode corresponding to m_tau in TAU-14-001. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -509,6 +511,13 @@ if __name__ == "__main__":
 				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
 				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
+				if args.colors_dm_dependent:
+					if "OneProng" in category and not "OneProngPiZeros" in category:
+						config["colors"] = [color.replace("ztt", "#000000 #FF6633") for color in config["colors"]]
+					elif "OneProngPiZeros" in category:
+						config["colors"] = [color.replace("ztt", "#000000 kOrange-4") for color in config["colors"]]
+					elif "ThreeProng" in category:
+						config["colors"] = [color.replace("ztt", "#000000 #FFFFCC") for color in config["colors"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
 				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
 				
@@ -548,7 +557,7 @@ if __name__ == "__main__":
 				config["year"] = args.era
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category+"_"+quantity
-				config["formats"] = ["png", "pdf"]
+				#config["formats"] = ["png", "pdf"]
 				
 				decayMode = category.split("_")[-2]
 				ptBin = int(category.split("_")[-1].split("ptbin")[-1])
