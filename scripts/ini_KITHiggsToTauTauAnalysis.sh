@@ -10,7 +10,7 @@ source $CMSSW_BASE/src/Artus/HarryPlotter/scripts/ini_harry_cmssw.sh
 export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau
 
 # grid-control
-export PATH=${CMSSW_BASE}/src/grid-control/:${PATH}
+export PATH=${CMSSW_BASE}/src/grid-control/:${CMSSW_BASE}/src/grid-control/scripts/:${PATH}
 
 # setup TauSpinner
 cp $KITHIGGSTOTAUTAUPATH/data/tauspinner.xml $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected/tauspinner.xml
