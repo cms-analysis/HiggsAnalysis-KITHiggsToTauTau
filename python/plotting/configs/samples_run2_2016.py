@@ -1208,6 +1208,9 @@ class Samples(samples.SamplesBase):
 				)
 		return config
 
+	def files_bbh(self, channel, mass=125):
+		return self.artus_file_names({"process" : "SUSYGluGluToBBHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "2"}, 1)
+
 	def bbh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -1222,7 +1225,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em"]:
 				Samples._add_input(
 						config,
-						"SUSYGluGluToBBHToTauTauM{mass}_RunIISpring16*_*_13TeV_*AOD_pythia8/*.root".format(mass=str(mass)),
+						files_bbh(channel, mass),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -1269,7 +1272,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						self.files_ggh(channel) if not mssm else self.files_susy_ggh(channel),
+						self.files_ggh(channel, mass) if not mssm else self.files_susy_ggh(channel, mass),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
