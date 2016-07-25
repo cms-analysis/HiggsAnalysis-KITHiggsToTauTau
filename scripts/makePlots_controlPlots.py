@@ -147,7 +147,7 @@ if __name__ == "__main__":
 	parser.add_argument("--project-to-lumi", default=1.0,
                         help="multiplies current lumi. 2 would mean double lumi you have right now [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
-	                    default=["tt", "mt", "et", "em", "mm", "ee"],
+	                    default=["tt", "mt", "et", "em", "mm"],
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
