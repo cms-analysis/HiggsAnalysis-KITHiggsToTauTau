@@ -80,7 +80,7 @@ class Samples(samples.Samples):
 
 
 	def files_ttj(self, channel):
-		return super(Samples, self).files_ttj(channel)
+		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : self.mc_campaign+"2" }, 1)
 
 
 	def files_vv(self, config):
@@ -92,23 +92,29 @@ class Samples(samples.Samples):
 
 
 	def files_wj(self, channel):
-		return super(Samples, self).files_wj(channel)
+		# W + N jets from MiniAODv2
+		query = { "data" : False,
+						"campaign" : self.mc_campaign,
+						"generator" : "madgraph-pythia8",
+						"process" : "(WJetsToLNu|W1JetsToLNu|W2JetsToLNu|W3JetsToLNu|W4JetsToLNu)"}
+		artus_files = self.artus_file_names(query, 5)
+		return artus_files
 
 	def files_ggh(self, channel, mass=125):
-		return super(Samples, self).files_ggh(channel)
+		return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "2"}, 1)
 
 	def files_susy_ggh(self, channel, mass=125):
-		return super(Samples, self).files_susy_ggh(channel)
+		return self.artus_file_names({"process" : "SUSYGluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def files_qqh(self, channel, mass=125):
-		return super(Samples, self).files_qqh(channel)
+		return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "2"}, 1)
 
 	def files_wh_minus(self, channel, mass=125):
-		return super(Samples, self).files_wh_minus(channel)
+		return self.artus_file_names({"process" : "WminusHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def files_wh_plus(self, channel, mass=125):
-		return super(Samples, self).files_wh_plus(channel)
+		return self.artus_file_names({"process" : "WplusHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def files_zh(self, channel, mass=125):
-		return super(Samples, self).files_zh(channel)
+		return self.artus_file_names({"process" : "ZHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
