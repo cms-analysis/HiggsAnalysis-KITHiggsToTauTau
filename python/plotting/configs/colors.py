@@ -115,6 +115,8 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["zl"]  = self.colors_dict["zll"]
 			self.colors_dict["zj"]  = self.colors_dict["zll"]
 			self.colors_dict["ztt"] = "#000000 #FFCC66"
+			self.colors_dict["zttpospol"] = "#000000 #FFCC33"
+			self.colors_dict["zttnegpol"] = "#000000 #FFCC66"
 			self.colors_dict["tt"] = "#000000 #9999CC"
 			self.colors_dict["ttj"] = self.colors_dict["tt"]
 			self.colors_dict["ttbar"] = self.colors_dict["tt"]

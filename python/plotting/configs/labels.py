@@ -19,6 +19,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["zmm"] = "Z #rightarrow #mu#mu"
 			self.labels_dict["zee"] = "Z #rightarrow ee"
 			self.labels_dict["ztt"] = "Z #rightarrow #tau#tau"
+			self.labels_dict["zttpospol"] = "Z #rightarrow #tau#tau (+)"
+			self.labels_dict["zttnegpol"] = "Z #rightarrow #tau#tau (-)"
 			self.labels_dict["tt"] = "t#bar{t} + jets"
 			self.labels_dict["wj"] = "W + jets"
 			self.labels_dict["vv"] = "Di-boson"

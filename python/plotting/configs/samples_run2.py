@@ -178,9 +178,17 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ztt", nick_suffix)
-		Samples._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
+		Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ztt"), nick_suffix)
 
 		return config
+
+	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		weight = "(tauSpinnerPolarisation>=0.0)*(%s)" % weight
+		return self.ztt(config, channel, category, weight, "pospol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
+
+	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		weight = "(tauSpinnerPolarisation<0.0)*(%s)" % weight
+		return self.ztt(config, channel, category, weight, "negpol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
 
 	def zl(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
