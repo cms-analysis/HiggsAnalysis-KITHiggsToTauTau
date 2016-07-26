@@ -28,6 +28,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["qcd"] = "QCD"
 			self.labels_dict["htt"] = "H #rightarrow #tau#tau"
 			self.labels_dict["ggh"] = "ggH"
+			self.labels_dict["bbh"] = "bbH"
 			self.labels_dict["qqh"] = "qqH"
 			self.labels_dict["vh"] = "VH"
 			self.labels_dict["hww"] = "H #rightarrow WW"

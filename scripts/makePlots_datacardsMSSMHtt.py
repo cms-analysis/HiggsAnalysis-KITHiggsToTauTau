@@ -16,7 +16,7 @@ import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 
@@ -27,8 +27,8 @@ samples_dict = {
 	# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 	# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
 	# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
-	'em' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])],
-	'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh'])]
+	'em' : [('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]),("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll"])],
+        'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll", "zj", "zl"])]
 	}
 shapes = {
 	"toppt" : "CMS_htt_ttbarShape_13TeV",
@@ -96,10 +96,12 @@ if __name__ == "__main__":
 	                    help="Samples used. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
+	parser.add_argument("--lumi", type=float, default=samples.Samples().default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
 	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
+        parser.add_argument("--workingpoint", default="",
+                            help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
@@ -152,7 +154,7 @@ if __name__ == "__main__":
 	
 	# args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 	if args.higgs_masses[0] == "all":
-		args.higgs_masses = ["80","90","100","110","120","130","140","160","180","200","250","300","350","400","450","500","600","700","800","900","1000","1200","1400","1500","1600","1800","2000","2300","2600","2900","3200"]
+		args.higgs_masses = ["90","100","110","120","130","140","160","180","200","250","300","400","450","500","600","700","800","900","1000","1200","1400","1600","1800","2000","2300","2600","2900","3200"]
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		tmp_output_files = []
 		output_file = os.path.join(args.output_dir, "htt_%s.inputs-mssm-13TeV%s.root"%(channel,args.postfix))
@@ -205,6 +207,9 @@ if __name__ == "__main__":
 					# systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
+                                        if args.workingpoint:
+                                            for index, folder in enumerate(config["weights"]):
+                                                config["weights"][index] = config["weights"][index].replace("nbtag","n"+args.workingpoint+"btag")
 					# modify folder for taues
 					if shape_systematic == "taues":
 						replacestring = "jecUncNom_tauEsUp" if shift_up else "jecUncNom_tauEsDown"
@@ -273,6 +278,6 @@ if __name__ == "__main__":
 	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
 	debug_plot_configs = []
-	for output_file in output_files:
-		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
-	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	# for output_file in output_files:
+		# debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
+	# higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
