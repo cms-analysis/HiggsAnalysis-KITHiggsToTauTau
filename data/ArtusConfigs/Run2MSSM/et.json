@@ -12,7 +12,6 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsTauES.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_et.json"
 		],
 		"Channel" : "ET",
@@ -47,8 +46,11 @@
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
 		],
-		"TauLowerPtCuts" : [
-			"20.0"
+		"TauLowerPtCuts" : {
+		    "nick" : {
+		        "default" : "20.0",
+		        "Run2016|Spring16" : "30.0"
+            }
 		],
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
@@ -129,7 +131,9 @@
 			}
 		},
 		"BTagWPs" : [
-			"medium"
+			"medium",
+			"loose",
+			"tight"
 		],
 		"InvalidateNonMatchingElectrons" : true,
 		"InvalidateNonMatchingMuons" : false,
@@ -143,6 +147,9 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
+			"nloosebtag",
+			"nmediumbtag",
+			"ntightbtag",
 			"had_gen_match_pT_1",
 			"had_gen_match_pT_2"
 		],
@@ -183,7 +190,6 @@
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -224,7 +230,6 @@
 					"producer:TopPtReweightingProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -268,7 +273,6 @@
 					"producer:EventCategoryProducer",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -311,13 +315,12 @@
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"Run2015" : [
+				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
@@ -347,7 +350,6 @@
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				]
@@ -361,7 +363,6 @@
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
-			"SvfitCacheConsumer",
 			"#CutFlowTreeConsumer",
 			"#KappaElectronsConsumer",
 			"#KappaTausConsumer",

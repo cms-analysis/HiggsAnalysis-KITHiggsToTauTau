@@ -11,7 +11,6 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsTauES.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_tt.json"
 		],
 		"Channel" : "TT",
@@ -78,8 +77,9 @@
 		"InvalidateNonMatchingJets" : false,
 		"DirectIso" : true,
 		"BTagWPs" : [
+			"medium",
 			"loose",
-			"medium"
+			"tight"
 		],
 		"Quantities" : [
 			{
@@ -90,6 +90,7 @@
 			},
 			"nloosebtag",
 			"nmediumbtag",
+			"ntightbtag",
 			"had_gen_match_pT_1",
 			"had_gen_match_pT_2"
 		],
@@ -119,7 +120,6 @@
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -150,7 +150,6 @@
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -186,7 +185,6 @@
 					"producer:MvaMetCorrector",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -220,7 +218,6 @@
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -228,7 +225,7 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:EventWeightProducer"
 				],
-				"Run2015" : [
+				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
@@ -248,7 +245,6 @@
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -264,7 +260,6 @@
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
-			"SvfitCacheConsumer",
 			"#CutFlowTreeConsumer",
 			"#KappaTausConsumer",
 			"#KappaTaggedJetsConsumer",
