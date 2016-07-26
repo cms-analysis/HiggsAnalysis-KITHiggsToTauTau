@@ -208,19 +208,13 @@ if __name__ == "__main__":
 
 					binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
 					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [binnings_key]
+						config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
 					else:
-						config["x_bins"] = ["35,0.0,350.0"]
-					if args.auto_rebin:
-						start = 0
-						end = 0
-						bins = binnings_settings.get_binning(config["x_bins"][0]) # handle different cases : nBins,start_bin,end_bin and bin edgeds specified by hand
-						if "," in bins:
-							nbins, start, end = bins.split(",")
-						else:
-							start = bins.split(" ")[0]
-							end = bins.split(" ")[-1]
-						config["x_bins"] = ["100," + start + "," + end] 
+						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are:")
+						for key in binnings_settings.binnings_dict:
+							print key
+						sys.exit()
+						
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
