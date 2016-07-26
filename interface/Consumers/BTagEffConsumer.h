@@ -23,10 +23,10 @@ public:
 	virtual void Finish(setting_type const& settings) override;
 
 private:
-	TH2D* h2_BTaggingEff_Denom_b;
-	TH2D* h2_BTaggingEff_Denom_c;
-	TH2D* h2_BTaggingEff_Denom_udsg;
-	TH2D* h2_BTaggingEff_Num_b;
-	TH2D* h2_BTaggingEff_Num_c;
-	TH2D* h2_BTaggingEff_Num_udsg;
+	TH2D* m_BTaggingEff_Denom_b;
+	TH2D* m_BTaggingEff_Denom_c;
+	TH2D* m_BTaggingEff_Denom_udsg;
+	TH2D* m_BTaggingEff_Num_b;
+	TH2D* m_BTaggingEff_Num_c;
+	TH2D* m_BTaggingEff_Num_udsg;
 };
