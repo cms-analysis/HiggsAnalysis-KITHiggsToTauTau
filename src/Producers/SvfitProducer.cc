@@ -13,8 +13,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
 
 
-SvfitTools SvfitProducer::svfitTools = SvfitTools();
-
 void SvfitProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
@@ -25,19 +23,19 @@ void SvfitProducer::Init(setting_type const& settings)
 	
 	if (! settings.GetSvfitCacheFile().empty())
 	{
-        std::string svfitCacheFile = settings.GetSvfitCacheFile();
-        // Check if we need to look in a subfolder
-        if ( ! settings.GetSvfitCacheFileFolder().empty())
-        {
-            // modify the path to include the subfolder defined in the setting SvfitCacheFileFolder
-            boost::filesystem::path inputFilePath(svfitCacheFile);
-            boost::filesystem::path inputFileName = inputFilePath.filename();
-            inputFilePath = inputFilePath.parent_path();
-            inputFilePath /= boost::filesystem::path(settings.GetSvfitCacheFileFolder());
-            inputFilePath /= inputFileName;
-            svfitCacheFile = inputFilePath.string();
-        }
-		SvfitProducer::svfitTools.Init(std::vector<std::string>(1, svfitCacheFile),
+		std::string svfitCacheFile = settings.GetSvfitCacheFile();
+		// Check if we need to look in a subfolder
+		if ( ! settings.GetSvfitCacheFileFolder().empty())
+		{
+			// modify the path to include the subfolder defined in the setting SvfitCacheFileFolder
+			boost::filesystem::path inputFilePath(svfitCacheFile);
+			boost::filesystem::path inputFileName = inputFilePath.filename();
+			inputFilePath = inputFilePath.parent_path();
+			inputFilePath /= boost::filesystem::path(settings.GetSvfitCacheFileFolder());
+			inputFilePath /= inputFileName;
+			svfitCacheFile = inputFilePath.string();
+		}
+		svfitTools.Init(std::vector<std::string>(1, svfitCacheFile),
 		                               settings.GetSvfitCacheTree());
 	}
 	else if ( ! settings.GetSvfitCacheFilePrefix().empty())
@@ -46,7 +44,7 @@ void SvfitProducer::Init(setting_type const& settings)
 		for (auto file : settings.GetInputFiles()) {
 			cacheFiles.push_back(settings.GetSvfitCacheFilePrefix()+boost::filesystem::basename(boost::filesystem::path(file))+std::string(".root"));
 		}
-		SvfitProducer::svfitTools.Init(cacheFiles, settings.GetSvfitCacheTree());
+		svfitTools.Init(cacheFiles, settings.GetSvfitCacheTree());
 	}
 	svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
 	// add possible quantities for the lambda ntuples consumers
@@ -178,7 +176,7 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 //	else
 	{
 		// calculate results
-		product.m_svfitResults = SvfitProducer::svfitTools.GetResults(product.m_svfitEventKey,
+		product.m_svfitResults = svfitTools.GetResults(product.m_svfitEventKey,
 		                                                              product.m_svfitInputs,
 	                                                                  product.m_svfitCalculated,
 	                                                                  svfitCacheMissBehaviour);

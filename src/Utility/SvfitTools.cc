@@ -6,20 +6,18 @@
 
 #include "Kappa/DataFormats/interface/Hash.h"
 
-TChain* SvfitTools::svfitCacheInputTree = 0;
-
-SvfitEventKey::SvfitEventKey(uint64_t const& runLumiEvent,
+SvfitEventKey::SvfitEventKey(ULong64_t const& runLumiEvent,
                              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                              HttEnumTypes::SystematicShift const& systematicShift,
-                             float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint64_t const& hash)
+                             float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, ULong64_t const& hash)
 {
 	Set(runLumiEvent, decayType1, decayType2, systematicShift, systematicShiftSigma, integrationMethod, hash);
 }
 
-void SvfitEventKey::Set(uint64_t const& runLumiEvent,
+void SvfitEventKey::Set(ULong64_t const& runLumiEvent,
                         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
                         HttEnumTypes::SystematicShift const& systematicShift,
-                        float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint64_t const& hash)
+                        float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, ULong64_t const& hash)
 {
 	this->runLumiEvent = runLumiEvent;
 	this->decayType1 = Utility::ToUnderlyingValue(decayType1);
@@ -78,42 +76,42 @@ bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
 {
 	if (runLumiEvent == rhs.runLumiEvent)
 	{
-        if (decayType1 == rhs.decayType1)
-        {
-            if (decayType2 == rhs.decayType2)
-            {
-                if (integrationMethod == rhs.integrationMethod)
-                {
-                    if (systematicShift == rhs.systematicShift)
-                    {
-                        if (hash == rhs.hash)
-                        {
-                            return (systematicShiftSigma < rhs.systematicShiftSigma);
-                        }
-                        else
-                        {
-                            return (hash < rhs.hash);
-                        }
-                    }
-                    else
-                    {
-                        return (systematicShift < rhs.systematicShift);
-                    }
-                }
-                else
-                {
-                    return (integrationMethod < rhs.integrationMethod);
-                }
-            }
-            else
-            {
-                return (decayType2 < rhs.decayType2);
-            }
-        }
-        else
-        {
-            return (decayType1 < rhs.decayType1);
-        }
+		if (decayType1 == rhs.decayType1)
+		{
+			if (decayType2 == rhs.decayType2)
+			{
+				if (integrationMethod == rhs.integrationMethod)
+				{
+					if (systematicShift == rhs.systematicShift)
+					{
+						if (hash == rhs.hash)
+						{
+							return (systematicShiftSigma < rhs.systematicShiftSigma);
+						}
+						else
+						{
+							return (hash < rhs.hash);
+						}
+					}
+					else
+					{
+						return (systematicShift < rhs.systematicShift);
+					}
+				}
+				else
+				{
+					return (integrationMethod < rhs.integrationMethod);
+				}
+			}
+			else
+			{
+				return (decayType2 < rhs.decayType2);
+			}
+		}
+		else
+		{
+			return (decayType1 < rhs.decayType1);
+		}
 	}
 	else {
 		return (runLumiEvent < rhs.runLumiEvent);
@@ -279,31 +277,31 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey 
 
 std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const
 {
-    double leptonMass1, leptonMass2;
-    if(svfitEventKey.decayType1 == 2)
-    {
-        leptonMass1 = 0.51100e-3;
-    }
-    else if(svfitEventKey.decayType1 == 3)
-    {
-        leptonMass1 = 105.658e-3;
-    }
-    else
-    {
-        leptonMass1 = leptonMomentum1->M();
-    }
-    if(svfitEventKey.decayType2 == 2)
-    {
-        leptonMass2 = 0.51100e-3;
-    }
-    else if(svfitEventKey.decayType2 == 3)
-    {
-        leptonMass2 = 105.658e-3;
-    }
-    else
-    {
-        leptonMass2 = leptonMomentum2->M();
-    }
+	double leptonMass1, leptonMass2;
+	if(svfitEventKey.decayType1 == 2)
+	{
+		leptonMass1 = 0.51100e-3;
+	}
+	else if(svfitEventKey.decayType1 == 3)
+	{
+		leptonMass1 = 105.658e-3;
+	}
+	else
+	{
+		leptonMass1 = leptonMomentum1->M();
+	}
+	if(svfitEventKey.decayType2 == 2)
+	{
+		leptonMass2 = 0.51100e-3;
+	}
+	else if(svfitEventKey.decayType2 == 3)
+	{
+		leptonMass2 = 105.658e-3;
+	}
+	else
+	{
+		leptonMass2 = leptonMomentum2->M();
+	}
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
 		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, *decayMode1),
 		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, *decayMode2)
@@ -467,12 +465,10 @@ SvfitTools::SvfitTools(std::vector<std::string> const& fileNames, std::string co
 
 void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string const& treeName)
 {
-	if (SvfitTools::svfitCacheInputTreeIndices.empty())
+	if (svfitCacheInputTreeIndices.empty())
 	{
 		LOG(INFO) << "\tLoading SVfit cache trees from files...";
-		// check first if svfitCacheInputTree is already loaded since it's a static member variable
-		if(! SvfitTools::svfitCacheInputTree )
-			svfitCacheInputTree = new TChain(treeName.c_str());
+		svfitCacheInputTree = new TChain(treeName.c_str());
 		for (std::vector<std::string>::const_iterator fileName = fileNames.begin();
 		     fileName != fileNames.end(); ++fileName)
 		{

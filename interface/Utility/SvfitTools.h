@@ -39,24 +39,24 @@ public:
 		else return IntegrationMethod::NONE;
 	}
 	
-	uint64_t runLumiEvent;
+	ULong64_t runLumiEvent;
 	int decayType1;
 	int decayType2;
 	int systematicShift;
 	float systematicShiftSigma;
 	int integrationMethod;
-	uint64_t hash;
+	ULong64_t hash;
 	
 	SvfitEventKey() {};
-	SvfitEventKey(uint64_t const& runLumiEvent,
+	SvfitEventKey(ULong64_t const& runLumiEvent,
 	              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
 	              HttEnumTypes::SystematicShift const& systematicShift,
-	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint64_t const &hash);
+	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, ULong64_t const &hash);
 	
-	void Set(uint64_t const& runLumiEvent,
+	void Set(ULong64_t const& runLumiEvent,
 	         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
 	         HttEnumTypes::SystematicShift const& systematicShift,
-	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, uint64_t const &hash);
+	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, ULong64_t const &hash);
 	
 	HttEnumTypes::SystematicShift GetSystematicShift() const;
 	IntegrationMethod GetIntegrationMethod() const;
@@ -167,7 +167,7 @@ public:
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
 
 private:
-	static TChain* svfitCacheInputTree;
+	TChain* svfitCacheInputTree;
 	std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
 	
 	SvfitInputs svfitInputs;

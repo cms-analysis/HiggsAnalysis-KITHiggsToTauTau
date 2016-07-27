@@ -30,7 +30,7 @@ public:
 
 	HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour;
 
-	static SvfitTools svfitTools;
+	mutable SvfitTools svfitTools;
 	
 	virtual std::string GetProducerId() const override {
 		return "SvfitProducer";
