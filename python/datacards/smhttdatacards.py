@@ -123,8 +123,9 @@ class SMHttDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["tt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
 			
-			for category in Categories.CategoriesDict().getCategories(["tt"], False)["tt"]:
-				self.cb.cp().channel(["tt"]).bin(["tt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
+			if useRateParam:
+				for category in Categories.CategoriesDict().getCategories(["tt"], False)["tt"]:
+					self.cb.cp().channel(["tt"]).bin(["tt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 			
 			# ======================================================================
 			# MM channel
