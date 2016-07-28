@@ -393,7 +393,7 @@ class Samples(samples.SamplesBase):
 		                      "data" : False, "campaign" : self.mc_campaign + "2", "generator" : "amcatnlo-pythia8"}, 6)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4fleptonDecays|STt-channeltop4fleptonDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
-		                      "data" : False, "campaign" : self.mc_campaign + "2" }, 4),
+		                      "data" : False, "campaign" : self.mc_campaign + "2" }, 4)
 		return artus_files
 
 	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
