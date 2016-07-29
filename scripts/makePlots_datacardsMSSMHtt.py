@@ -16,7 +16,6 @@ import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 
@@ -88,7 +87,7 @@ if __name__ == "__main__":
 	                    default=[],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
-                	    default=[],
+	                    default=[],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["all"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -96,12 +95,14 @@ if __name__ == "__main__":
 	                    help="Samples used. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=samples.Samples().default_lumi/1000.0,
+	parser.add_argument("--lumi", type=float, default=None,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
+	parser.add_argument("-e", "--era", default="",
+	                    help="Era for which the datacards will be build. [Default: %(default)s]")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
 	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
-        parser.add_argument("--workingpoint", default="",
-                            help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("--workingpoint", default="",
+	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
@@ -131,6 +132,14 @@ if __name__ == "__main__":
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
+
+	if args.era == "2015":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+	else:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+
+	if not args.lumi:
+		args.lumi = samples.default_lumi/1000.0
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -186,7 +195,7 @@ if __name__ == "__main__":
 					))
 					# modify weight for toppt, taupt
 					additional_weight = shapes_weight_dict[shape_systematic][1] if shift_up else shapes_weight_dict[shape_systematic][0]
-                                        if channel == "et":
+					if channel == "et":
 						additional_weight += "*eleTauFakeRateWeight"
 
 					# prepare plotting configs for retrieving the input histograms
@@ -201,15 +210,15 @@ if __name__ == "__main__":
 							mssm=True,
 							estimationMethod=args.background_method,
 							controlregions=args.controlregions,
-							cut_type="mssm"
+							cut_type="mssm" if args.era == "2015" else "mssm2016"
 					)
 					
 					# systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
-                                        if args.workingpoint:
-                                            for index, folder in enumerate(config["weights"]):
-                                                config["weights"][index] = config["weights"][index].replace("nbtag","n"+args.workingpoint+"btag")
+					if args.workingpoint:
+						for index, folder in enumerate(config["weights"]):
+							config["weights"][index] = config["weights"][index].replace("nbtag","n"+args.workingpoint+"btag")
 					# modify folder for taues
 					if shape_systematic == "taues":
 						replacestring = "jecUncNom_tauEsUp" if shift_up else "jecUncNom_tauEsDown"
