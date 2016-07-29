@@ -241,6 +241,7 @@
  					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
+					"producer:GenMatchedTauCPProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -282,6 +283,7 @@
  					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
+					"producer:GenMatchedTauCPProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -315,6 +317,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
+					"producer:GenMatchedTauCPProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]

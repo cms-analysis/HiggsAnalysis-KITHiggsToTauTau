@@ -289,5 +289,176 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& product,
                                       setting_type const& settings) const
 {
-	GenTauCPProducerBase::Produce(event, product, settings);
+	// A generator level boson and its decay products must exist
+	// The boson is searched for by a GenBosonProducer
+	// and the decay tree is built by the GenTauDecayProducer
+	assert(product.m_genBosonTree.m_daughters.size() > 1);
+	assert(product.m_genBosonLVFound);
+	
+	std::cout << "   " << std::endl;
+	std::cout << " ------------- INFO ---------------- " << std::endl;
+	std::cout << "matched lep size " << product.m_chargeOrderedGenLeptons.size() << std::endl;
+	std::cout << "match lep pdgId " << product.m_chargeOrderedGenLeptons[0]->pdgId << " " << product.m_chargeOrderedGenLeptons[1]->pdgId << std::endl;
+	std::cout << " " << std::endl;
+	std::cout << "genBoson " << product.m_genBosonLVFound << " daughter size " << product.m_genBosonTree.m_daughters.size() << std::endl;
+
+	
+	// get the genTaus
+	GenParticleDecayTree selectedTau1;
+	GenParticleDecayTree selectedTau2;
+	if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
+		selectedTau1 = product.m_genBosonTree.m_daughters[0];
+		selectedTau2 = product.m_genBosonTree.m_daughters[1];
+	}
+	else {
+		selectedTau1 = product.m_genBosonTree.m_daughters[1];
+		selectedTau2 = product.m_genBosonTree.m_daughters[0];
+	}
+
+	std::cout << "tau1 " << selectedTau1.m_genParticle->charge() << " " << selectedTau1.m_genParticle->pdgId << std::endl;
+	std::cout << "tau2 " << selectedTau2.m_genParticle->charge() << " " << selectedTau2.m_genParticle->pdgId << std::endl;
+
+	std::cout << "tau1 daughters size " << selectedTau1.m_genParticle->nDaughters() << std::endl;
+	std::cout << "tau2 daughters size " << selectedTau2.m_genParticle->nDaughters() << std::endl;
+
+	std::cout << "tau1 daughters " << selectedTau1.m_daughters.size() << std::endl;
+	std::cout << "tau2 daughters " << selectedTau2.m_daughters.size() << std::endl;
+
+	// loop over the tau daughters to find the matchedGenLeptons
+	std::vector<GenParticleDecayTree> tau1Daughters = selectedTau1.m_daughters;
+	std::vector<GenParticleDecayTree> tau2Daughters = selectedTau2.m_daughters;
+	std::vector<KGenParticle*> matchedLep = product.m_chargeOrderedGenLeptons;
+	bool tau1Match = false;
+	bool tau2Match = false;
+	bool match0 = false;
+	bool match1 = false;
+	for (std::vector<GenParticleDecayTree>::const_iterator Part = tau1Daughters.begin(); Part != tau1Daughters.end(); ++Part){
+		std::cout << "Part1 info " << (*Part).m_genParticle->pdgId << " " << (*Part).m_genParticle->charge() << std::endl;
+		if ( ROOT::Math::VectorUtil::DeltaR( (*Part).m_genParticle->p4,  matchedLep[0]->p4 ) < 0.001 ){
+			match0 = true;
+			tau1Match = true;
+		}
+		if ( ROOT::Math::VectorUtil::DeltaR( (*Part).m_genParticle->p4,  matchedLep[1]->p4 ) < 0.001 ){
+			match1 = true;
+			tau1Match = true;
+		}
+	}
+	for (std::vector<GenParticleDecayTree>::const_iterator Part = tau2Daughters.begin(); Part != tau2Daughters.end(); ++Part){
+		std::cout << "Part2 info " << (*Part).m_genParticle->pdgId << " " << (*Part).m_genParticle->charge() << std::endl;
+		if ( !match0 && ROOT::Math::VectorUtil::DeltaR( (*Part).m_genParticle->p4,  matchedLep[0]->p4 ) < 0.001 ){
+			match0 = true;
+			tau2Match = true;
+		}
+		if ( !match1 && ROOT::Math::VectorUtil::DeltaR( (*Part).m_genParticle->p4,  matchedLep[1]->p4 ) < 0.001 ){
+			match1 = true;
+			tau2Match = true;
+		}
+	}
+	std::cout << "match0 " << match0 << " match1 " << match1 << " tau1Match " << tau1Match << " tau2Match " << tau2Match << std::endl;
+	std::cout << "status " << selectedTau1.m_genParticle->status() << " " << selectedTau2.m_genParticle->status() << std::endl;
+
+	std::cout << " " << std::endl;
+//	selectedTau1.CreateFinalStateProngs(&selectedTau1);
+//	std::cout << "final state size " << selectedTau1.m_finalStates.size() << std::endl;
+//
+//	for (unsigned int i=0; i<selectedTau1.m_finalStates.size(); ++i){
+//		std::cout << selectedTau1.m_finalStates[i]->m_genParticle->pdgId << std::endl;
+//	}
+
+	std::cout << " ----------------------------------- " << std::endl;
+
+	//assert(product.m_chargeOrderedGenLeptons.size() > 1);
+	//GenParticleDecayTree* selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
+	//GenParticleDecayTree* selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
+
+	//GenParticleDecayTree selectedTau1(product.m_chargeOrderedGenLeptons[0]);
+	//GenParticleDecayTree selectedTau2(product.m_chargeOrderedGenLeptons[1]);
+
+	//std::cout << "charge[0] " << selectedTau1.m_genParticle->charge() << " and charge[1] " << selectedTau2.m_genParticle->charge() << std::endl;
+//	if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
+//		selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
+//		selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
+//	}
+//	else {
+//		selectedTau1 = &(product.m_genBosonTree.m_daughters[1]);
+//		selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
+//	}
+
+/*
+	selectedTau1->CreateFinalStateProngs(selectedTau1);
+	selectedTau2->CreateFinalStateProngs(selectedTau2);
+	std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
+	std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
+	// Defining CPQuantities object to use variables and functions of this class
+	CPQuantities cpq;
+	//Selection of the right channel for phi, phi* and psi*CP
+	if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+	    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+	    (selectedTau1OneProngs.size() != 0) &&
+	    (selectedTau2OneProngs.size() != 0))
+	{
+		//Initialization of charged particles
+		KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->m_genParticle;
+		KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->m_genParticle;
+		for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
+		{
+			if (abs(selectedTau1OneProngs[i]->GetCharge()) == 1) chargedPart1 = selectedTau1OneProngs[i]->m_genParticle;
+		}
+		for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
+		{
+			if (abs(selectedTau2OneProngs[i]->GetCharge()) == 1) chargedPart2 = selectedTau2OneProngs[i]->m_genParticle;
+		}
+		// Saving the charged particles for  analysis
+		product.m_genOneProngCharged1 = chargedPart1;
+		product.m_genOneProngCharged2 = chargedPart2;
+		// Saving Energies of charged particles in tau rest frames
+		product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->m_genParticle->p4, chargedPart1->p4);
+		product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->m_genParticle->p4, chargedPart2->p4);
+		// Calculation of Phi* and Phi*CP itself
+		double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genPhiStar = cpq.GetGenPhiStar();
+		product.m_genOStarCP = cpq.CalculateOStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+		// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
+		// decay planes 
+		double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+		product.m_genPhi = cpq.GetGenPhi();
+		product.m_genOCP = cpq.CalculateOCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+
+		std::vector<float> tauDir = cpq.CalculateTauMinusDirection(product.m_genBosonLV, selectedTau1->m_genParticle->p4);
+		product.m_genTauMinusDirX = tauDir.at(0);
+		product.m_genTauMinusDirY = tauDir.at(1);
+		product.m_genTauMinusDirZ = tauDir.at(2);
+
+		std::vector<float> piDir = cpq.CalculatePiMinusDirection(selectedTau1->m_genParticle->p4, chargedPart1->p4);
+		product.m_genPiMinusDirX = piDir.at(0);
+		product.m_genPiMinusDirY = piDir.at(1);
+		product.m_genPiMinusDirZ = piDir.at(2);
+
+		//CPTransformation for semileptonic case
+		if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId == DefaultValues::pdgIdElectron || chargedPart1->pdgId == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId == 211)) || ((chargedPart2->pdgId == -DefaultValues::pdgIdElectron || chargedPart2->pdgId == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId == -211))))
+		{	
+			product.m_genPhiStarCP = cpq.PhiTransform(genPhiStarCP);
+			product.m_genPhiCP = cpq.PhiTransform(genPhiCP);
+		}
+		else
+		{
+			product.m_genPhiStarCP = genPhiStarCP;
+			product.m_genPhiCP = genPhiCP;
+		}
+		//ZPlusMinus calculation
+		product.m_genZPlus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart1->p4);
+		product.m_genZMinus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart2->p4);
+		product.m_genZs = cpq.CalculateZs(product.m_genZPlus, product.m_genZMinus);
+	}
+	if(selectedTau1->m_daughters.size() == 2)
+	{
+		product.m_genThetaNuHadron = cpq.CalculateThetaNuHadron(selectedTau1->m_genParticle->p4, selectedTau1->m_daughters[0].m_genParticle->p4, selectedTau1->m_daughters[1].m_genParticle->p4);
+	}
+	
+	if ((! selectedTau1->m_daughters.empty()) && (! selectedTau2->m_daughters.empty()))
+	{
+		product.m_genAlphaTauNeutrinos = cpq.CalculateAlphaTauNeutrinos(selectedTau1->m_genParticle->p4, selectedTau1->m_daughters[0].m_genParticle->p4, selectedTau2->m_genParticle->p4, selectedTau2->m_daughters[0].m_genParticle->p4);
+	}
+*/
+	//GenTauCPProducerBase::Produce(event, product, settings);
 }
