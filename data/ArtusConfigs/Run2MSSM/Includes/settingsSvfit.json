@@ -1,6 +1,0 @@
-{
-	"SvfitOutFile" : "SvfitCache.root",
-	"GenerateSvfitInput" : true,
-	"SvfitInputCutOff" : 10000,
-	"UseFirstInputFileNameForSvfit" : true
-}

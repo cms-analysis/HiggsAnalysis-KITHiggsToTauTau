@@ -47,11 +47,11 @@
 			"2.1"
 		],
 		"TauLowerPtCuts" : {
-		    "nick" : {
-		        "default" : "20.0",
-		        "Run2016|Spring16" : "30.0"
-            }
-		],
+			"nick" : {
+				"default" : "30.0",
+				"Fall15|Run2015" : "20.0"
+			}
+		},
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
