@@ -65,9 +65,9 @@ if __name__ == "__main__":
 			
 			firstGraph = f.Get("ZMass"+eta_labels[0]+"_Data")
 			if directory == "Electron":
-				yBinslist = [-2.5, -1.48, 0.0, 1.48, 2.5]
+				yBinslist = [-2.5, -2.1, -1.48, 0.0, 1.48, 2.1, 2.5]
 			elif directory == "Muon":
-				yBinslist = [-2.5, -1.2, -0.9, 0.0, 0.9, 1.2, 2.5]
+				yBinslist = [-2.5, -2.1, -1.2, -0.9, 0.0, 0.9, 1.2, 2.1, 2.5]
 			
 			xBinslist = []
 			xBinslist.append(0)
