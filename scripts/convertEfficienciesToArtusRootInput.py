@@ -19,11 +19,15 @@ import Artus.Utility.tfilecontextmanager as tfilecontextmanager
 
 
 eta_string_to_float = {
-	"EtaLt1p48"   : 0.5,
-	"EtaGt1p48"   : 2.0,
-	"EtaLt0p9"    : 0.5,
-	"Eta0p9to1p2" : 1.0,
-	"EtaGt1p2"    : 2.0
+	"EtaLt1p48"    : 0.5,
+	"EtaGt1p48"    : 2.0,
+	"Eta1p48to2p1" : 2.0,
+	"EtaGt2p1"     : 2.2,
+	"EtaLt0p9"     : 0.5,
+	"Eta0p9to1p2"  : 1.0,
+	"EtaGt1p2"     : 2.0,
+	"Eta1p2to2p1"  : 1.5,
+	"EtaGt2p1"     : 2.2
 }
 
 if __name__ == "__main__":
@@ -59,7 +63,7 @@ if __name__ == "__main__":
 			for eta_bin in range(1, etaBinsHisto.GetNbinsX()+1):
 				eta_labels.append(etaBinsHisto.GetXaxis().GetBinLabel(eta_bin))
 			
-			firstGraph = f.Get("ZMass"+eta_labels[0]+"_MC")
+			firstGraph = f.Get("ZMass"+eta_labels[0]+"_Data")
 			if directory == "Electron":
 				yBinslist = [-2.5, -1.48, 0.0, 1.48, 2.5]
 			elif directory == "Muon":
@@ -74,12 +78,13 @@ if __name__ == "__main__":
 				xErrHigh = firstGraph.GetErrorXhigh(ipoint)
 				
 				xBinslist.append(x + xErrHigh)
-			xBinslist.append(100.)
 			
 			pt_bins = array.array("d", xBinslist)
 			eta_bins = array.array("d", yBinslist)
 			
-			for datatype in ["Data", "MC"]:
+			for datatype in ["Data","MC"]:
+				if not "IdIso" in file_name and datatype == "MC":
+					continue
 				typelabel = "Run2016" if datatype == "Data" else "MC"
 				effHistoName = "identificationEfficiency" if ("IdIso" in file_name) else "triggerEfficiency"
 				outFileName = effHistoName+'_'+typelabel+'_'+file_name
