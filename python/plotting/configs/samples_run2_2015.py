@@ -12,6 +12,8 @@ from Kappa.Skimming.registerDatasetHelper import get_nick_list
 
 # constants for all plots
 energy = 13
+default_lumi = 2.301*1000.0
+
 class Samples(samples.Samples):
 
 	data_format = "MINIAOD"

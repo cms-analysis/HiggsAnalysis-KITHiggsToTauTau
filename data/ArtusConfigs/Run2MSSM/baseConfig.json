@@ -9,7 +9,7 @@
 	"InputIsData" : {
 		"nick" : {
 			"default" : "false",
-			"Run2015" : "true"
+			"Run201" : "true"
 		}
 	},
 	"BosonPdgIds" : {
@@ -92,7 +92,7 @@
 				"producer:SampleStitchingWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
-			"Run2015" : [
+			"Run201" : [
 				"#filter:RunLumiEventFilter",
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
@@ -103,7 +103,7 @@
 	"PileupWeightFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeVFall15MiniAODv2_PromptReco_69mbMinBiasXS.root",
-			"Run2015" : "not needed"
+			"Run201" : "not needed"
 		}
 	},
 	"BTagScaleFactorFile" : {
@@ -134,6 +134,9 @@
 			],
 			"Run2015(C|D)" : [
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt"
+			],
+			"Run2016" : [
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt"
 			]
 		}
 	}
