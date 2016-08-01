@@ -103,6 +103,7 @@
 	"PileupWeightFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeVFall15MiniAODv2_PromptReco_69mbMinBiasXS.root",
+			"Spring16" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-276811_13TeVSpring16_PromptReco_69p2mbMinBiasXS.root",
 			"Run201" : "not needed"
 		}
 	},
