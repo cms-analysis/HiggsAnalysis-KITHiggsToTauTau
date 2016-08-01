@@ -234,7 +234,7 @@ if __name__ == "__main__":
 						nick_suffix="_" + str(pt_index),
 						weight=pt_weights[pt_index],
 						lumi=args.lumi * 1000,
-						cut_type="tauescuts"
+						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts"
 					)
 					
 					config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
@@ -263,7 +263,7 @@ if __name__ == "__main__":
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
 							weight=pt_weights[pt_index],
 							lumi=args.lumi * 1000,
-							cut_type="tauescuts"
+							cut_type="tauescuts2016" if args.era == "2016" else "tauescuts"
 						)
 						# shift also pt to account for acceptance effects
 						config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]

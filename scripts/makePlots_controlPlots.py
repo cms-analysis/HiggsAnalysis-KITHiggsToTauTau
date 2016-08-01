@@ -298,7 +298,8 @@ if __name__ == "__main__":
 						project_to_lumi=args.project_to_lumi,
 						cut_mc_only=args.cut_mc_only,
 						scale_mc_only=args.scale_mc_only,
-						mssm=args.mssm
+						mssm=args.mssm,
+						cut_type="baseline2016" if args.era == "2016" else "baseline"
 				)
 
 

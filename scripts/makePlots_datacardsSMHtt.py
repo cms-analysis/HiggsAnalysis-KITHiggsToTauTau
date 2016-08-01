@@ -197,7 +197,8 @@ if __name__ == "__main__":
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
-							higgs_masses=higgs_masses
+							higgs_masses=higgs_masses,
+							cut_type="baseline2016" if args.era == "2016" else "baseline"
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
