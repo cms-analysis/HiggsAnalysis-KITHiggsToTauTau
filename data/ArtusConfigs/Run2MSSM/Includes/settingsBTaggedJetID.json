@@ -17,7 +17,8 @@
 	"BMistagShift" : 0,
 	"BTagScaleFactorFile" : {
 		"nick" : {
-			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv"
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",
+			"Spring16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_ichep.csv"
 		}
     }
 }

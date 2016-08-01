@@ -7,12 +7,18 @@
 	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.8,
 	"BTaggerWorkingPoints" : [
 		"tight:0.935",
-		"medium:0.8",
-		"loose:0.46"
+		"medium:0.800",
+		"loose:0.460"
 	],
 	"BTaggedJetAbsEtaCut" : 2.4,
 	"ApplyBTagSF" : false,
 	"BTagSFMethod" : "PromotionDemotion",
 	"BTagShift" : 0,
-	"BMistagShift" : 0
+	"BMistagShift" : 0,
+	"BTagScaleFactorFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",
+			"Spring16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_ichep.csv"
+		}
+    }
 }
