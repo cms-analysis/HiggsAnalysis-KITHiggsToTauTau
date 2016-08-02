@@ -87,6 +87,7 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2PolarisationStudies/Includes/recoPolarisationQuantities.json"
 						]
@@ -151,6 +152,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
+					"producer:GenMatchedTauCPProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -189,6 +191,7 @@
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
  					"producer:EleTauFakeRateWeightProducer",
+					"producer:GenMatchedTauCPProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -219,6 +222,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
+					"producer:GenMatchedTauCPProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]

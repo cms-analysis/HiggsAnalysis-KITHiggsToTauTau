@@ -53,4 +53,7 @@ public:
 
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings) const override;
+
+protected:
+	void FindGenTau(product_type& product) const;
 };
