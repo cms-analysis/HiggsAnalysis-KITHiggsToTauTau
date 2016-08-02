@@ -40,11 +40,34 @@
 				"Spring16" : true
 			}
 		},
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/scalefactors_2016_v1.root",
+		"RooWorkspaceWeightNames" : [
+		    "0:triggerWeight",
+		    "0:isoweight",
+		    "0:idweight"
+        ],
+		"RooWorkspaceObjectNames" : [
+		    "0:m_trg_binned_data",
+		    "0:m_iso_binned_ratio",
+		    "0:m_id_ratio"
+        ],
+		"RooWorkspaceObjectArguments" : [
+		    "0:m_pt,m_eta,m_iso",
+		    "0:m_pt,m_eta,m_iso",
+		    "0:m_pt,m_eta"
+        ],
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
-		"MuonLowerPtCuts" : [
-			"19.0"
-		],
+		"MuonLowerPtCuts" : {
+			"nick": {
+				"(Fall15MiniAODv2|Run2015D)" : [
+					"19.0"
+				],
+				"default" : [
+					"23.0"
+				]
+            }
+		},
 		"MuonUpperAbsEtaCuts" : [
 			"2.1"
 		],

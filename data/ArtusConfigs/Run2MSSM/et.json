@@ -42,9 +42,12 @@
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
-		"ElectronLowerPtCuts" : [
-			"24.0"
-		],
+		"ElectronLowerPtCuts" : {
+			"nick" : {
+				"default" : "26.0",
+				"Fall15|Run2015" : "24.0"
+			}
+		},
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
 		],

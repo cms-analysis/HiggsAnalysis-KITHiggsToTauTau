@@ -18,16 +18,18 @@
 		"HltPaths" : [
 			"HLT_Ele23_WPLoose_Gsf"
 		],
+		"NoHltFiltering" : true,
+		"DiTauPairNoHLT" : true,
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
-			"24.0"
+			"26.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
 		],
 		"TauLowerPtCuts" : [
-			"20.0"
+			"30.0"
 		],
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
@@ -39,18 +41,21 @@
 		],
 		"DiTauPairNoHLT" : true,
 		"EventWeight" : "eventWeight",
+		"BTagWPs" : [
+			"medium"
+		],
 		"TriggerEfficiencyData" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root"
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25eta2p1WPTight_eff.root"
 		],
 		"TriggerEfficiencyMc" : [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"
 		],
 		"TriggerEfficiencyMode" : "multiply_weights",
 		"IdentificationEfficiencyData" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso0p10_eff.root"
 		],
 		"IdentificationEfficiencyMc" : [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"
+			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p10_eff.root"
 		],
 		"IdentificationEfficiencyMode" : "multiply_weights",
 		"TauTauRestFrameReco" : "collinear_approximation",

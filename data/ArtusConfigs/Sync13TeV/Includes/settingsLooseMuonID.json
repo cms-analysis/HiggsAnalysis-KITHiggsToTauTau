@@ -3,7 +3,6 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Sync13TeV/Includes/settingsMuonID.json"
 	],
 
-	"Year" : 2015,
 	"LooseMuonID" : "medium",
 
 	"LooseMuonIsoType" : "user",
