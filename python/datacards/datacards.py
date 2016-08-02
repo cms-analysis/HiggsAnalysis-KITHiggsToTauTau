@@ -810,8 +810,8 @@ class Datacards(object):
 							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
 
-							#if not "NormalizeByBinWidth" in config.get("analysis_modules", []):
-								#config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
+							if plotting_args.get("normalize", False):
+								config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
 
 							if plotting_args.get("ratio", False):
 								if not "Ratio" in config.get("analysis_modules", []):
