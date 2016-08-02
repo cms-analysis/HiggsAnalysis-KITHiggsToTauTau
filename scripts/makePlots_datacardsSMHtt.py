@@ -353,6 +353,11 @@ if __name__ == "__main__":
 	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+stable_options+" -n \"\"")
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	# divide plots by bin width and change the label correspondingly
+	args.args = args.args + " --analysis-modules NormalizeByBinWidth"
+	if args.quantity == "m_sv":
+		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
+
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
