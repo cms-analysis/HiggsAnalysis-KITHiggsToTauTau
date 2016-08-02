@@ -75,6 +75,25 @@ def fill_histogram(unc, unctype):
 		i=i+1
 	new_histo.Write()
 
+# print uncertainties
+# numbers from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt13TeV
+residuals = { 	"ggH" : { "scale" : 0.081, "pdf" : 0.018 , "alphas" : 0.025 },
+				"qqH" : { "scale" : 0.004, "pdf" : 0.021 , "alphas" : 0.005 },
+				"WH" :  { "scale" : 0.007, "pdf" : 0.017 , "alphas" : 0.009 },
+				"ZH" :  { "scale" : 0.038, "pdf" : 0.016 , "alphas" : 0.009 } }
+
+def print_uncertainty(unc, unctype, process):
+	out_tuples = []
+	for key, value in unc.iteritems():
+		if "_inclusive" in key:
+			continue
+		if unctype in key:
+			category = key.replace(unctype + "_", "")
+			out_tuple = ["13TeV"], [process], [category], 1+value+residuals[process][unctype]
+			out_tuples.append(out_tuple)
+	return out_tuples
+
+
 def acceptance_to_tree(A, method, channel, category="inclusive"):
 	name = "_".join([method, channel, category])
 	acceptance_tree = ROOT.TTree(name, name)
@@ -109,6 +128,14 @@ def main():
 	full_dict = {}
 	categories = ["inclusive"] + args.categories
 
+	print os.path.basename(args.input_file)
+	ifilename = os.path.basename(args.input_file)
+	process = ""
+	if("GluGlu" in ifilename): process = "ggH"
+	if("VBF" in ifilename): process = "qqH"
+	if("Wminus" in ifilename or "Wplus" in ifilename) : process = "WH"
+	if("ZH" in ifilename) : process = "ZH"
+	print process
 	#inclusive
 	for channel in args.channels:
 		full_dict[channel] = {}
@@ -142,7 +169,7 @@ def main():
 
 	unc = {}
 	eff = {}
-	root_tree_file=ROOT.TFile("theory_uncertainties_" + args.process+".root","RECREATE")
+	root_tree_file=ROOT.TFile("theory_uncertainties_" + process+".root","RECREATE")
 	######## calculate inclusive weights
 	# scale
 	for channel in args.channels:
@@ -204,6 +231,16 @@ def main():
 	pprint.pprint(unc)
 	print "efficiencies: "
 	pprint.pprint(eff)
+
+	print "qcd scale uncertainties: "
+	scale_tuples = print_uncertainty(unc, "scale", process)
+	for s_tuple in scale_tuples:
+		pprint.pprint(s_tuple)
+
+	print "PDF scale uncertainites: "
+	pdf_tuples = print_uncertainty(unc, "pdf", process)
+	for pdf_tuple in pdf_tuples:
+		pprint.pprint(pdf_tuple)
 
 
 if __name__ == "__main__":
