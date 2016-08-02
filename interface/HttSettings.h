@@ -265,6 +265,12 @@ public:
 
 	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonTriggerFilterNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonTriggerFilterNames, {});
+	
+	// settings for RooWorkspaceWeightProducer
+	IMPL_SETTING_DEFAULT(std::string, RooWorkspace, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceObjectArguments, {});
 
 	// settings for the EmbeddingConsumer
 	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);

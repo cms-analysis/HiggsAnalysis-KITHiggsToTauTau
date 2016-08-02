@@ -40,7 +40,7 @@
 				"Spring16" : true
 			}
 		},
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/scalefactors_2016_v1.root",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/scaleFactorWeights/scalefactors_2016_v1.root",
 		"RooWorkspaceWeightNames" : [
 		    "0:triggerWeight",
 		    "0:isoweight",
