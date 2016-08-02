@@ -804,6 +804,8 @@ class Datacards(object):
 							config["lumis"] = [float("%.1f" % plotting_args.get("lumi", 1.0))]
 							config["cms"] = [True]
 							config["extra_text"] = "Preliminary"
+							if plotting_args.get("era", False):
+								config["year"] = plotting_args.get("era")
 							config["legend"] = [0.7, 0.6, 0.9, 0.88]
 							config["y_lims"] = [0.0]
 
