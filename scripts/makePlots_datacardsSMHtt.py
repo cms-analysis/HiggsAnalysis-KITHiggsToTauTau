@@ -79,6 +79,8 @@ if __name__ == "__main__":
 						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
 	                    help="Era of samples to be used. [Default: %(default)s]")
+	parser.add_argument("--x-bins", default=None,
+	                    help="Manualy set the binning. Default is taken from configuration files.")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -208,8 +210,10 @@ if __name__ == "__main__":
 					config["x_expressions"] = [args.quantity]
 
 					binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
-					if binnings_key in binnings_settings.binnings_dict:
+					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 						config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
+					elif args.x_bins != None:
+						config["x_bins"] = [args.x_bins]
 					else:
 						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are:")
 						for key in binnings_settings.binnings_dict:
