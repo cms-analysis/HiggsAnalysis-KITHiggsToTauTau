@@ -827,7 +827,7 @@ class Datacards(object):
 								config.setdefault("legend_markers", []).extend(["F", "ELP"])
 								config.setdefault("labels", []).extend([""] * 2)
 								config.setdefault("stacks", []).extend(["unc", "ratio"])
-								config["legend"] = [0.65, 0.45, 0.95, 0.92]
+								config["legend"] = [0.7, 0.4, 0.95, 0.83]
 								config["subplot_grid"] = "True"
 								config["y_subplot_lims"] = [0.0, 2.0]
 								config["y_subplot_label"] = "Obs./Exp."
