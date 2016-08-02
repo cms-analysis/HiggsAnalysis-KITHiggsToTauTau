@@ -20,6 +20,7 @@ import pprint
 from Kappa.Skimming.registerDatasetHelper import *
 from HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions import ExpressionsDict
 from HiggsAnalysis.KITHiggsToTauTau.plotting.configs.cutstrings import CutStringsDict
+from HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 import Samples
 
 
 def rms(ivec):
@@ -37,7 +38,7 @@ def mse(ivec, central=0):
 
 def count(file_name, inclusive_weight, channel):
 	root_file = ROOT.TFile(file_name, "READ")
-	eventTree = ROOT.gDirectory.Get(channel + "/ntuple")
+	eventTree = ROOT.gDirectory.Get(channel)
 	n_entries = eventTree.GetEntries()
 	list_of_leaves = eventTree.GetListOfLeaves()
 	weight_names = []
@@ -53,11 +54,6 @@ def count(file_name, inclusive_weight, channel):
 	root_file.Close()
 	return weights
 
-def get_channel_string(ichannel):
-	channel_strings = ["em_jecUncNom", "et_jecUncNom_tauEsNom", "mt_jecUncNom_tauEsNom", "tt_jecUncNom_tauEsNom"]
-	for channel in channel_strings:
-		if ichannel in channel:
-			return channel
 
 def fill_histogram(unc, unctype):
 	new_unc = {}
@@ -139,15 +135,15 @@ def main():
 	#inclusive
 	for channel in args.channels:
 		full_dict[channel] = {}
-		full_dict[channel]["full"] = count(args.input_file, "isZ"+channel+">0.5", "inclusive") # count total number of events
+		full_dict[channel]["full"] = count(args.input_file, "isZ"+channel+">0.5", Samples.root_file_folder("inclusive")) # count total number of events
 		weight_string = ""
 		cutstrings = CutStringsDict.baseline(channel, "sm")
 		del cutstrings["blind"]
 		for cutstring in cutstrings.values():
 			weight_string += "*" + cutstring
-		full_dict[channel]["inclusive"] = count(args.input_file, weight_string, get_channel_string(channel))
+		full_dict[channel]["inclusive"] = count(args.input_file, weight_string, Samples.root_file_folder(channel))
 
-	n_events_total = count(args.input_file, "1", "inclusive")["muR1p0_muF1p0_weight"]
+	n_events_total = count(args.input_file, "1", Samples.root_file_folder("inclusive"))["muR1p0_muF1p0_weight"]
 
 	print "out of " + str(n_events_total) + " simulated events: " 
 	for channel in args.channels:
@@ -165,7 +161,7 @@ def main():
 			del cutstrings["blind"]
 			for cutstring in cutstrings.values():
 				weight_string += "*" + cutstring
-			full_dict[channel][category] = count(args.input_file, weight_string, get_channel_string(channel))
+			full_dict[channel][category] = count(args.input_file, weight_string, Samples.root_file_folder(channel))
 
 	unc = {}
 	eff = {}
