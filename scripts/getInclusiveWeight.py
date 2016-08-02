@@ -20,6 +20,7 @@ import pprint
 from Kappa.Skimming.registerDatasetHelper import *
 from HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions import ExpressionsDict
 from HiggsAnalysis.KITHiggsToTauTau.plotting.configs.cutstrings import CutStringsDict
+from HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 import Samples
 
 
 def rms(ivec):
@@ -37,7 +38,7 @@ def mse(ivec, central=0):
 
 def count(file_name, inclusive_weight, channel):
 	root_file = ROOT.TFile(file_name, "READ")
-	eventTree = ROOT.gDirectory.Get(channel + "/ntuple")
+	eventTree = ROOT.gDirectory.Get(channel)
 	n_entries = eventTree.GetEntries()
 	list_of_leaves = eventTree.GetListOfLeaves()
 	weight_names = []
@@ -53,11 +54,6 @@ def count(file_name, inclusive_weight, channel):
 	root_file.Close()
 	return weights
 
-def get_channel_string(ichannel):
-	channel_strings = ["em_jecUncNom", "et_jecUncNom_tauEsNom", "mt_jecUncNom_tauEsNom", "tt_jecUncNom_tauEsNom"]
-	for channel in channel_strings:
-		if ichannel in channel:
-			return channel
 
 def fill_histogram(unc, unctype):
 	new_unc = {}
@@ -74,6 +70,25 @@ def fill_histogram(unc, unctype):
 		new_histo.GetXaxis().SetBinLabel(i, key)
 		i=i+1
 	new_histo.Write()
+
+# print uncertainties
+# numbers from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt13TeV
+residuals = { 	"ggH" : { "scale" : 0.081, "pdf" : 0.018 , "alphas" : 0.025 },
+				"qqH" : { "scale" : 0.004, "pdf" : 0.021 , "alphas" : 0.005 },
+				"WH" :  { "scale" : 0.007, "pdf" : 0.017 , "alphas" : 0.009 },
+				"ZH" :  { "scale" : 0.038, "pdf" : 0.016 , "alphas" : 0.009 } }
+
+def print_uncertainty(unc, unctype, process):
+	out_tuples = []
+	for key, value in unc.iteritems():
+		if "_inclusive" in key:
+			continue
+		if unctype in key:
+			category = key.replace(unctype + "_", "")
+			out_tuple = ["13TeV"], [process], [category], 1+value+residuals[process][unctype]
+			out_tuples.append(out_tuple)
+	return out_tuples
+
 
 def acceptance_to_tree(A, method, channel, category="inclusive"):
 	name = "_".join([method, channel, category])
@@ -109,18 +124,26 @@ def main():
 	full_dict = {}
 	categories = ["inclusive"] + args.categories
 
+	print os.path.basename(args.input_file)
+	ifilename = os.path.basename(args.input_file)
+	process = ""
+	if("GluGlu" in ifilename): process = "ggH"
+	if("VBF" in ifilename): process = "qqH"
+	if("Wminus" in ifilename or "Wplus" in ifilename) : process = "WH"
+	if("ZH" in ifilename) : process = "ZH"
+	print process
 	#inclusive
 	for channel in args.channels:
 		full_dict[channel] = {}
-		full_dict[channel]["full"] = count(args.input_file, "isZ"+channel+">0.5", "inclusive") # count total number of events
+		full_dict[channel]["full"] = count(args.input_file, "isZ"+channel+">0.5", Samples.root_file_folder("inclusive")) # count total number of events
 		weight_string = ""
 		cutstrings = CutStringsDict.baseline(channel, "sm")
 		del cutstrings["blind"]
 		for cutstring in cutstrings.values():
 			weight_string += "*" + cutstring
-		full_dict[channel]["inclusive"] = count(args.input_file, weight_string, get_channel_string(channel))
+		full_dict[channel]["inclusive"] = count(args.input_file, weight_string, Samples.root_file_folder(channel))
 
-	n_events_total = count(args.input_file, "1", "inclusive")["muR1p0_muF1p0_weight"]
+	n_events_total = count(args.input_file, "1", Samples.root_file_folder("inclusive"))["muR1p0_muF1p0_weight"]
 
 	print "out of " + str(n_events_total) + " simulated events: " 
 	for channel in args.channels:
@@ -138,11 +161,11 @@ def main():
 			del cutstrings["blind"]
 			for cutstring in cutstrings.values():
 				weight_string += "*" + cutstring
-			full_dict[channel][category] = count(args.input_file, weight_string, get_channel_string(channel))
+			full_dict[channel][category] = count(args.input_file, weight_string, Samples.root_file_folder(channel))
 
 	unc = {}
 	eff = {}
-	root_tree_file=ROOT.TFile("theory_uncertainties_" + args.process+".root","RECREATE")
+	root_tree_file=ROOT.TFile("theory_uncertainties_" + process+".root","RECREATE")
 	######## calculate inclusive weights
 	# scale
 	for channel in args.channels:
@@ -204,6 +227,16 @@ def main():
 	pprint.pprint(unc)
 	print "efficiencies: "
 	pprint.pprint(eff)
+
+	print "qcd scale uncertainties: "
+	scale_tuples = print_uncertainty(unc, "scale", process)
+	for s_tuple in scale_tuples:
+		pprint.pprint(s_tuple)
+
+	print "PDF scale uncertainites: "
+	pdf_tuples = print_uncertainty(unc, "pdf", process)
+	for pdf_tuple in pdf_tuples:
+		pprint.pprint(pdf_tuple)
 
 
 if __name__ == "__main__":

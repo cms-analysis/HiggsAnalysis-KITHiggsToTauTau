@@ -19,6 +19,7 @@ class CategoriesDict(object):
 		pt2_medium_string = "(pt_2>=35)"
 		pt2_loose_string = "(pt_2>=25)"
 		eta_hard_string = "jdeta>4.0"
+		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,40,20)+range(50, 150, 10)+range(150,251,20)])
 		self.pp = pprint.PrettyPrinter(indent=4)
 		self.categoriesDict = {}
 		for mjj in range(0,801,100):
@@ -46,7 +47,7 @@ class CategoriesDict(object):
 								"binningMVAStudies_"
 								],
 							"global":{
-								"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,211,15)]),
+								"_m_sv" : auto_rebin_binning,
 								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
 								}
 							}
@@ -80,7 +81,7 @@ class CategoriesDict(object):
 								"binningMVAStudies_"
 								],
 							"global":{
-								"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,211,15)]),
+								"_m_sv" : auto_rebin_binning,
 								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
 								}
 							}
@@ -113,7 +114,7 @@ class CategoriesDict(object):
 								"binningMVAStudies_"
 								],
 							"global":{
-								"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,211,15)]),
+								"_m_sv" : auto_rebin_binning,
 								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
 								}
 							}
@@ -263,7 +264,7 @@ class CategoriesDict(object):
 						"binningMVAStudies_"
 						],
 					"global":{
-						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
+						"_m_sv" : auto_rebin_binning,
 						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
 						}
 					}
@@ -315,7 +316,7 @@ class CategoriesDict(object):
 						"binningMVAStudies_"
 						],
 					"global":{
-						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
+						"_m_sv" : auto_rebin_binning,
 						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
 						}
 					}
@@ -367,7 +368,7 @@ class CategoriesDict(object):
 						"binningMVAStudies_"
 						],
 					"global":{
-						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
+						"_m_sv" : auto_rebin_binning,
 						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
 						}
 					}

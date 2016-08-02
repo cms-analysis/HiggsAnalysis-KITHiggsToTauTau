@@ -53,8 +53,8 @@ if __name__ == "__main__":
 	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
-	parser.add_argument("--analysis-modules", default=[], nargs="+",
-	                    help="Additional analysis Modules. [Default: %(default)s]")
+	parser.add_argument("--do-not-normalize-by-bin-width", default=False, action="store_true",
+	                    help="Turn off normalization by bin width [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
@@ -79,6 +79,8 @@ if __name__ == "__main__":
 						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
 	                    help="Era of samples to be used. [Default: %(default)s]")
+	parser.add_argument("--x-bins", default=None,
+	                    help="Manualy set the binning. Default is taken from configuration files.")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -197,7 +199,8 @@ if __name__ == "__main__":
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
-							higgs_masses=higgs_masses
+							higgs_masses=higgs_masses,
+							cut_type="baseline2016" if args.era == "2016" else "baseline"
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -207,10 +210,12 @@ if __name__ == "__main__":
 					config["x_expressions"] = [args.quantity]
 
 					binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
-					if binnings_key in binnings_settings.binnings_dict:
+					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 						config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
+					elif args.x_bins != None:
+						config["x_bins"] = [args.x_bins]
 					else:
-						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are:")
+						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
 						for key in binnings_settings.binnings_dict:
 							print key
 						sys.exit()
@@ -350,7 +355,12 @@ if __name__ == "__main__":
 	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+stable_options+" -n \"\"")
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
+
+	# divide plots by bin width and change the label correspondingly
+	if args.quantity == "m_sv" and not(args.do_not_normalize_by_bin_width):
+		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
+
+	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 	#datacards.annotate_trees(

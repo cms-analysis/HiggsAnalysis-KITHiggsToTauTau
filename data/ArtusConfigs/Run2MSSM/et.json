@@ -9,8 +9,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsTauES.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_et.json"
 		],
@@ -24,9 +23,12 @@
 					"HLT_Ele32_eta2p1_WPTight_Gsf",
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20"
 				],
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf"
 				],
+				"Run2016" : [
+				    "HLT_Ele25_eta2p1_WPTight_Gsf"
+                ],
 				"Spring16" : [
 					"unavailable"
 				]
@@ -65,9 +67,12 @@
 				"Run2015(A|B|C)" : [
 					"HLT_Ele32_eta2p1_WPTight_Gsf_v"
 				],
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v"
-				]
+				],
+				"Run2016" : [
+				    "HLT_Ele25_eta2p1_WPTight_Gsf_v"
+                ]
 			}
 		},
 		"DiTauPairNoHLT" : {
@@ -79,7 +84,7 @@
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : {
 			"nick": {
-				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele23_eff_Spring16.root" ],
+				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25eta2p1WPTight_eff.root" ],
 				"default" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
 			}
 		},
@@ -117,9 +122,12 @@
 					"HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v:hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20",
 					"HLT_Ele32_eta2p1_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
 				],
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
-				]
+				],
+				"Run2016" : [
+				    "HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
+                ]
 			}
 		},
 		"TauTriggerFilterNames" : {

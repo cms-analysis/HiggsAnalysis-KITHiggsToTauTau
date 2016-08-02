@@ -47,7 +47,7 @@ def get_configs(args, info_log):
 					exclude_cuts=args["exclude_cuts"],
 					stack_signal=False,
 					scale_signal=1.0,
-					mssm=False
+					mssm=args["mssm"]
 					)
 			config["request_nick"] = requested_sample
 			if requested_sample in args["bkg_samples"] and requested_sample in args["signal_samples"]:
@@ -155,17 +155,7 @@ def do_splitting(args, plot_configs):
 			else:
 				c_tree = c_tree_list2[0]
 			log.debug("Prepare Sample %s "%stored_files_list[-1])
-			storage_tree = ""
-			if config["request_nick"] in ["ztt", "zll"]:
-				mod_name = "ZTT" if config["request_nick"] == "zll" else "ZLL"
-				c_tree.SetBranchStatus("stitchWeight%s"%mod_name, 0)
-				storage_tree = c_tree.CopyTree("", "tree%i"%(j+1))
-				ptr = array.array('f',[1])
-				new_branch = storage_tree.Branch("stitchWeight%s"%mod_name, ptr, "ModWeight/F")
-				for evt in storage_tree:
-					new_branch.Fill()
-			else:
-				storage_tree = c_tree.CopyTree("", "tree%i"%(j+1))
+			storage_tree = c_tree.CopyTree("", "tree%i"%(j+1))
 			storage_tree.SetName("SplitTree")
 			storage_tree.Write()
 			store_file.Close()
@@ -321,15 +311,8 @@ def do_training(args):
 													1,
 													ROOT.TCut(''), "train")
 					log.debug("Add to Factory_%i sample %s as TrainingsSample as %s"%(ifac, stored_file+"split%i.root/SplitTree"%(i), s_b_extension[j]))
-		stitching = "stitchWeightZLL*stitchWeightZTT"
-		#if 'ztt' in (args["bkg_samples"]+args['signal_samples']) and 'zll' in (args["bkg_samples"]+args['signal_samples']):
-			#log.error("Due to general weight expression there can be only one of the z samples, ZTT or ZLL")
-		#elif 'ztt' in (args["bkg_samples"]+args['signal_samples']):
-			#stitching = "stitchWeightZTT"
-		#elif 'zll' in (args["bkg_samples"]+args['signal_samples']):
-			#stitching = "stitchWeightZLL"
-		factory.SetBackgroundWeightExpression('eventWeight*{zstitch}*stitchWeightWJ'.format(zstitch=stitching) + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
-		factory.SetSignalWeightExpression('eventWeight*{zstitch}*stitchWeightWJ'.format(zstitch=stitching) + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
+		factory.SetBackgroundWeightExpression('eventWeight' + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
+		factory.SetSignalWeightExpression('eventWeight' + (("*" + args["weight"]) if args["weight"] != "1.0" else ""))
 		factory.PrepareTrainingAndTestTree(ROOT.TCut(''),
 												ROOT.TCut(''),
 												"NormMode=None:!V")
@@ -373,11 +356,11 @@ if __name__ == "__main__":
 						help="Input directory.")
 	parser.add_argument("-s", "--signal-samples", nargs="+",
 						default=["ggh", "qqh", "vh"],
-						choices=["ggh", "qqh", "vh", "ztt", "zll", "ttj", "vv", "wj"],
+						choices=["ggh", "qqh", "vh", "bbh", "ztt", "zll", "ttj", "vv", "wj"],
 						help="Signal-Samples. [Default: %(default)s]")
 	parser.add_argument("-b", "--bkg-samples", nargs="+",
 						default=["ztt", "zll", "ttj", "vv", "wj"],
-						choices=["ztt", "zll", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "samesigndata"],
+						choices=["ztt", "zll", "ttj", "vv", "wj", "qcd", "ggh", "qqh", "vh", "bbh", "samesigndata"],
 						help="Bkg-Samples. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
 						default=["tt", "mt", "et", "em", "mm", "ee"],
@@ -408,6 +391,8 @@ if __name__ == "__main__":
 						[Default: %(default)s]""")
 	parser.add_argument("--higgs-masses", nargs="+", default=["125"],
 						help="Higgs masses. [Default: %(default)s]")
+	parser.add_argument("--mssm", default = False, action="store_true",
+						help="specify if mssm sampling is required [Default: %(default)s]")
 	parser.add_argument("-S", "--Split", default=None,
 						help="""If set enables splitting into training and test
 						tree, use value between 0 and 99 to split tree using

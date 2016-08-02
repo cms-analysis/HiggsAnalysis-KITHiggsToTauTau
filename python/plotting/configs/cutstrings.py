@@ -26,14 +26,14 @@ class CutStringsDict:
 			cuts["pzeta"] = "(pZetaMissVis > -20.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
-			cuts["iso_2"] = "(iso_2 < 0.15)"
+			cuts["iso_2"] = "(iso_2 < 0.2)" if "2016" in cut_type else "(iso_2 < 0.15)"
 		elif channel == "mt":
 			cuts["mt"] = "(mt_1<50.0)" if cut_type == "mssm2016" else "(mt_1<30.0)" if cut_type == "mssm" else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
-			cuts["iso_1"] = "(iso_1 < 0.1)"
+			cuts["iso_1"] = "(iso_1 < 0.15)" if "2016" in cut_type else "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "et":
 			cuts["mt"] = "(mt_1<50.0)" if cut_type == "mssm2016" else "(mt_1<40.0)"
@@ -330,7 +330,11 @@ class CutStringsDict:
 		cuts = {}
 		if cut_type=="baseline":
 			cuts = CutStringsDict.baseline(channel, cut_type)
+		elif cut_type=="baseline2016":
+			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="mssm":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+		elif cut_type=="mssm2016":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="antievloosepass":
 			cuts = CutStringsDict.antievloosepass(channel, cut_type)
@@ -380,6 +384,8 @@ class CutStringsDict:
 			cuts = CutStringsDict.tauidvtightfail(channel, cut_type)
 		
 		elif cut_type=="tauescuts":
+			cuts = CutStringsDict.tauescuts(channel, cut_type)
+		elif cut_type=="tauescuts2016":
 			cuts = CutStringsDict.tauescuts(channel, cut_type)
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
