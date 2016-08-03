@@ -5,6 +5,8 @@
 #include "Artus/Core/interface/ProducerBase.h"
 #include "RooWorkspace.h"
 #include "RooFunctor.h"
+#include "RooAbsCategory.h"
+#include "TSystem.h"
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string.hpp>
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
@@ -32,6 +34,7 @@ public:
 		TDirectory *savedir(gDirectory);
 		TFile *savefile(gFile);
 		TFile f(settings.GetRooWorkspace().c_str());
+		gSystem->AddIncludePath("-I$ROOFITSYS/include");
 		m_workspace = (RooWorkspace*)f.Get("w");
 		f.Close();
 		gDirectory = savedir;
