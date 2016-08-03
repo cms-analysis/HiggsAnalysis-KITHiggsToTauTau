@@ -160,6 +160,7 @@ class SvfitTools {
 
 public:
 	SvfitTools() {}
+	~SvfitTools();
 	SvfitTools(std::vector<std::string> const& fileNames, std::string const& treeName);
 	
 	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
@@ -167,7 +168,8 @@ public:
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
 
 private:
-	TChain* svfitCacheInputTree;
+	TTree* svfitCacheInputTree;
+	TFile* svfitCacheInputFile;
 	std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
 	
 	SvfitInputs svfitInputs;
