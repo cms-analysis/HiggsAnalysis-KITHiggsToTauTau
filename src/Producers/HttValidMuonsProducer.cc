@@ -83,7 +83,7 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 		photonIsolationPtSum = muon->sumPhotonEtR04;
 		deltaBetaIsolationPtSum = muon->sumPUPtR04;
 
-		isolationPtSum = muon->pfIso((settings.*GetMuonDeltaBetaCorrectionFactor)());
+		isolationPtSum = chargedIsolationPtSum + std::max(0.0,neutralIsolationPtSum + photonIsolationPtSum - (settings.*GetMuonDeltaBetaCorrectionFactor)() * deltaBetaIsolationPtSum);
 	}
 	else if (muonIsoTypeUserMode == MuonIsoTypeUserMode::CALCULATED)
 	{
