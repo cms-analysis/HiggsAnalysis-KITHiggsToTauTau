@@ -41,6 +41,9 @@ class ZttXsecDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
 			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			
+			# Top pT reweight
+			self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
 		
 			# ======================================================================
 			# ET channel
@@ -69,6 +72,9 @@ class ZttXsecDatacards(datacards.Datacards):
 			# fake-rate
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			
+			# Top pT reweight
+			self.cb.cp().channel(["et"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
 		
 			# ======================================================================
 			# EM channel
@@ -305,7 +311,7 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["ZL", "EWK", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			
 			# Tau ES
-			#self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
 			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
@@ -342,21 +348,24 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZL", "EWK", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			
 			# Tau ES
-			#self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
 
+			# Top pT reweight
+			self.cb.cp().channel(["et"]).process(["EWK"]).AddSyst(self.cb, *self.ttj_syst_args)
+
 			# Fake-Factor (Jets faking Taus)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_qcd_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_w_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_tt_corr_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_tt_stat_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_qcd_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_w_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_tt_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_dy_syst_args)
+			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_qcd_syst_args)
+			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_w_syst_args)
+			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_tt_corr_syst_args)
+			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_tt_stat_syst_args)
+			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_qcd_syst_args)
+			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_w_syst_args)
+			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_tt_syst_args)
+			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_frac_dy_syst_args)
 			
 			# ======================================================================
 			# All channels
