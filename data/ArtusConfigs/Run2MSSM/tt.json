@@ -57,6 +57,7 @@
 			}
 		},
 		"EventWeight" : "eventWeight",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"TauTriggerFilterNames" : {
 			"nick" : {
@@ -123,7 +124,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"#producer:MVATestMethodsProducer",
+					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"TT_RunIIFall15MiniAODv2" : [
@@ -154,7 +155,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
 					"producer:EventCategoryProducer",
-					"#producer:MVATestMethodsProducer",
+					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -180,15 +181,15 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
+					"#producer:MetCorrector",
+					"#producer:MvaMetCorrector",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"#producer:MVATestMethodsProducer",
+					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
@@ -214,14 +215,14 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
+					"#producer:MetCorrector",
+					"#producer:MvaMetCorrector",
 					"filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"#producer:MVATestMethodsProducer",
+					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run201" : [
@@ -248,7 +249,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"#producer:MVATestMethodsProducer",
+					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				]
 			}

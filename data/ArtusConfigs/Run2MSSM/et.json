@@ -27,8 +27,8 @@
 					"HLT_Ele23_WPLoose_Gsf"
 				],
 				"Run2016" : [
-				    "HLT_Ele25_eta2p1_WPTight_Gsf"
-                ],
+					"HLT_Ele25_eta2p1_WPTight_Gsf"
+				],
 				"Spring16" : [
 					"unavailable"
 				]
@@ -74,8 +74,8 @@
 					"HLT_Ele23_WPLoose_Gsf_v"
 				],
 				"Run2016" : [
-				    "HLT_Ele25_eta2p1_WPTight_Gsf_v"
-                ]
+					"HLT_Ele25_eta2p1_WPTight_Gsf_v"
+				]
 			}
 		},
 		"DiTauPairNoHLT" : {
@@ -84,6 +84,23 @@
 				"Spring16" : true
 			}
 		},
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"RooWorkspaceWeightNames" : [
+			"0:triggerWeight",
+			"0:idweight",
+			"0:isoweight"
+		],
+		"RooWorkspaceObjectNames" : [
+			"0:e_trg_binned_data",
+			"0:e_iso_binned_ratio",
+			"0:e_id_ratio"
+
+		],
+		"RooWorkspaceObjectArguments" : [
+			"0:e_pt,e_eta,e_iso",
+			"0:e_pt,e_eta,e_iso",
+			"0:e_pt,e_eta"
+		],
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : {
 			"nick": {
@@ -129,8 +146,8 @@
 					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
 				],
 				"Run2016" : [
-				    "HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
-                ]
+					"HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
+				]
 			}
 		},
 		"TauTriggerFilterNames" : {
@@ -142,9 +159,7 @@
 			}
 		},
 		"BTagWPs" : [
-			"medium",
-			"loose",
-			"tight"
+			"medium"
 		],
 		"InvalidateNonMatchingElectrons" : true,
 		"InvalidateNonMatchingMuons" : false,
@@ -158,9 +173,7 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
 				]
 			},
-			"nloosebtag",
 			"nmediumbtag",
-			"ntightbtag",
 			"had_gen_match_pT_1",
 			"had_gen_match_pT_2"
 		],
@@ -202,8 +215,9 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"TT_RunIIFall15MiniAODv2" : [
@@ -242,8 +256,9 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -275,8 +290,8 @@
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
+					"#producer:MetCorrector",
+					"#producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -285,8 +300,9 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
@@ -318,8 +334,8 @@
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
+					"#producer:MetCorrector",
+					"#producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -327,8 +343,9 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run201" : [
