@@ -19,10 +19,7 @@
 				"default" : [
 				],
 			"HToTauTau" : [
-					"producer:GenBosonFromGenParticlesProducer",
-					"producer:GenBosonDiLeptonDecayModeProducer",
-					"producer:GenTauDecayProducer",
-					"producer:GenTauDecayModeProducer"
+					"producer:GenBosonFromGenParticlesProducer"
 				]
 			}
 		},
