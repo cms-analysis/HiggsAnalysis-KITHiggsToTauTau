@@ -16,6 +16,20 @@
 		"jetToTauFakeWeight_frac_tt_up",
 		"jetToTauFakeWeight_frac_tt_down",
 		"jetToTauFakeWeight_frac_dy_up",
-		"jetToTauFakeWeight_frac_dy_down"
+		"jetToTauFakeWeight_frac_dy_down",
+		"jetToTauFakeWeight_ff_qcd_ss",
+		"jetToTauFakeWeight_ff_qcd_ss_up",
+		"jetToTauFakeWeight_ff_qcd_ss_down",
+		"jetToTauFakeWeight_ff_qcd_os",
+		"jetToTauFakeWeight_ff_qcd_os_up",
+		"jetToTauFakeWeight_ff_qcd_os_down",
+		"jetToTauFakeWeight_ff_w",
+		"jetToTauFakeWeight_ff_w_up",
+		"jetToTauFakeWeight_ff_w_down",
+		"jetToTauFakeWeight_ff_tt",
+		"jetToTauFakeWeight_ff_tt_corr_up",
+		"jetToTauFakeWeight_ff_tt_corr_down",
+		"jetToTauFakeWeight_ff_tt_stat_up",
+		"jetToTauFakeWeight_ff_tt_stat_down"
 	]
 }
