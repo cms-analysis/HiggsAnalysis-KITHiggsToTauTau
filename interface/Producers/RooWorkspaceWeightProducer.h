@@ -5,7 +5,6 @@
 #include "Artus/Core/interface/ProducerBase.h"
 #include "RooWorkspace.h"
 #include "RooFunctor.h"
-#include "RooAbsCategory.h"
 #include "TSystem.h"
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string.hpp>

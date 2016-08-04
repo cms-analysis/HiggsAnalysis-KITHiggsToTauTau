@@ -26,11 +26,16 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
                 {
                     args.push_back(lepton->p4.Pt());
                 }
-                if(arg=="m_eta" || arg=="e_eta")
+                if(arg=="m_eta")
                 {
                     args.push_back(lepton->p4.Eta());
                 }
-                if(arg=="m_iso")
+                if(arg=="e_eta")
+                {
+                    KElectron* electron = static_cast<KElectron*>(lepton);
+                    args.push_back(electron->superclusterPosition.Eta());
+                }
+                if(arg=="m_iso" || arg=="e_iso")
                 {
                     args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
                 }
