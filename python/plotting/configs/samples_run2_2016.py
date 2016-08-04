@@ -11,7 +11,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 from Kappa.Skimming.registerDatasetHelper import get_nick_list
 
 energy = 13
-default_lumi = 15.9*1000.0
+default_lumi = 12.9*1000.0
 
 class Samples(samples.SamplesBase):
 
