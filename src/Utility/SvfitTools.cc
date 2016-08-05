@@ -467,7 +467,6 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 {
 	if (svfitCacheInputTreeIndices.empty())
 	{
-		TFile::SetCacheFileDir("/tmp/");
 		LOG(INFO) << "\tLoading SVfit cache trees from file...";
 		LOG(INFO) << "\t\t" << fileNames[0] << "/" << treeName;
 		svfitCacheInputFile = TFile::Open(fileNames[0].c_str(), "CACHEREAD", fileNames[0].c_str());
