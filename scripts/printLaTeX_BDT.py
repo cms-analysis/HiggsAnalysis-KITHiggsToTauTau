@@ -5,13 +5,19 @@ import sys
 import logging
 
 def format_number(expr):
-	#base = expr.split("e")[0]
-	#exponent = expr.split("e")[1]
-	#return "%s^{%s}"%(base[:5], exponent)
-	n = "{0:.03e}.".format(float(expr))
-	base = n.split("e")[0]
-	exponent = n.split("e")[1].split(".")[0]
-	return base+"\cdot 10^{"+exponent+"}"
+	f = float(expr)
+	if f == 0.0:
+		return "0.000"
+	elif 0.1<=f<100:
+		return "{0:.04g}".format(f)
+	else:
+		n = "{0:.03e}".format(f)
+		base = n.split("e")[0]
+		exponent = n.split("e")[1]
+		return base+"\cdot 10^{"+exponent+"}"
+
+def format_purity(expr):
+	return "{0:.01f}\\,\\%".format(float(expr)*100.0)
 	
 
 if __name__ == "__main__":
@@ -73,10 +79,10 @@ if __name__ == "__main__":
 					if indentation == 2:
 						Out.write("\\node [name=base,align=center%s]{%s: \\\\ $<%s<$}\n"%(col, variables[var_index].replace("_","\\_"), format_number(cut_value)))
 					else:
-						Out.write("child {node [align=center%s]{S/(S+B): $%s$ \\\\ %s: \\\\ $<%s<$}\n"%(col, format_number(purity), variables[var_index].replace("_","\\_"), format_number(cut_value)))
+						Out.write("child {node [align=center%s]{S/(S+B): $%s$ \\\\ %s: \\\\ $<%s<$}\n"%(col, format_purity(purity), variables[var_index].replace("_","\\_"), format_number(cut_value)))
 					indentation += 2
 				else:
-					Out.write("child {node [align=center%s]{S/(S+B): \\\\ $%s$}}\n"%(col, format_number(purity)))
+					Out.write("child {node [align=center%s]{S/(S+B): \\\\ $%s$}}\n"%(col, format_purity(purity)))
 			if entries[0]=="</Node>":
 				indentation -= 2
 				for i in range(indentation): Out.write(" ")
@@ -87,7 +93,7 @@ if __name__ == "__main__":
 			
 			if entries[0]=="</BinaryTree>":
 				if args.C:
-					Out.write("  \\node [below = 85mm of base,align=center,left color=red!60,right color=green!60,middle color=white]{0.0 \\hspace{80mm} S/(S+B) \\hspace{80mm} 1.0};\n")
+					Out.write("  \\node [below = 85mm of base,align=center,left color=red!60,right color=green!60,middle color=white, rounded corners=0cm, draw=none]{$0\\,\\%$ \\hspace{80mm} S/(S+B) \\hspace{80mm} $100\\,\\%$};\n")
 				break
 		
 	Out.write("\\end{tikzpicture}\n")
