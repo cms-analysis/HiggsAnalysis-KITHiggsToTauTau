@@ -467,6 +467,9 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 {
 	if (svfitCacheInputTreeIndices.empty())
 	{
+		TDirectory *savedir(gDirectory);
+		TFile *savefile(gFile);
+
 		LOG(INFO) << "\tLoading SVfit cache trees from file...";
 		LOG(INFO) << "\t\t" << fileNames[0] << "/" << treeName;
 		svfitCacheInputFile = TFile::Open(fileNames[0].c_str(), "CACHEREAD", fileNames[0].c_str());
@@ -487,6 +490,9 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		LOG(INFO) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
 		
 		svfitResults.SetBranchAddresses(svfitCacheInputTree);
+
+		gDirectory = savedir;
+		gFile = savefile;
 	}
 }
 
