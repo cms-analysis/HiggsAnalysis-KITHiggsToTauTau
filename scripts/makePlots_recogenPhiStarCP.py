@@ -40,28 +40,20 @@ if __name__ == "__main__":
 
 	channels=["ll", "hl", "hh"]
 	texts=["ll ch.", "hl ch.", "hh ch."]
-	folders_gen="gen/ntuple"
-	folders_reco=["em_jecUncNom/ntuple", "et_jecUncNom_tauEsNom/ntuple mt_jecUncNom_tauEsNom/ntuple", "tt_jecUncNom_tauEsNom/ntuple"]
+	folders=["em_jecUncNom/ntuple", "et_jecUncNom_tauEsNom/ntuple mt_jecUncNom_tauEsNom/ntuple", "tt_jecUncNom_tauEsNom/ntuple"]
 
 	# gen weights
-	#wll_SM_gen="(OneProngChargedPart1PdgId==11 || OneProngChargedPart1PdgId==13) && (OneProngChargedPart2PdgId==-11 || OneProngChargedPart2PdgId==-13) && (Tau1OneProngsSize==3 && Tau2OneProngsSize==3) && (TauMProngEnergy>=0.44 && TauPProngEnergy>=0.44)"
-	#whl_SM_gen="((OneProngChargedPart1PdgId==-211 && (OneProngChargedPart2PdgId==-11 || OneProngChargedPart2PdgId==-13)) && (Tau1OneProngsSize==2 && Tau2OneProngsSize==3) && (TauMProngEnergy>=0.55 && TauPProngEnergy>=0.44)) || (((OneProngChargedPart1PdgId==11 || OneProngChargedPart1PdgId==13) && OneProngChargedPart2PdgId==211) && (Tau1OneProngsSize==3 && Tau2OneProngsSize==2) && (TauMProngEnergy>=0.44 && TauPProngEnergy>=0.55))"
-	#whh_SM_gen="(OneProngChargedPart1PdgId==-211 && OneProngChargedPart2PdgId==211) && (Tau1OneProngsSize==2 && Tau2OneProngsSize==2) && (TauMProngEnergy>=0.55 && TauPProngEnergy>=0.55)"
-	wll_SM_gen="(OneProngChargedPart2PdgId==11 || OneProngChargedPart2PdgId==13) && (OneProngChargedPart1PdgId==-11 || OneProngChargedPart1PdgId==-13) && (Tau1OneProngsSize==3 && Tau2OneProngsSize==3) && (TauMProngEnergy>=0.44 && TauPProngEnergy>=0.44)"
-	whl_SM_gen="((OneProngChargedPart2PdgId==-211 && (OneProngChargedPart1PdgId==-11 || OneProngChargedPart1PdgId==-13)) && (Tau1OneProngsSize==3 && Tau2OneProngsSize==2) && (TauMProngEnergy>=0.55 && TauPProngEnergy>=0.44)) || (((OneProngChargedPart2PdgId==11 || OneProngChargedPart2PdgId==13) && OneProngChargedPart1PdgId==211) && (Tau1OneProngsSize==2 && Tau2OneProngsSize==3) && (TauMProngEnergy>=0.44 && TauPProngEnergy>=0.55))"
-	whh_SM_gen="(OneProngChargedPart2PdgId==-211 && OneProngChargedPart1PdgId==211) && (Tau1OneProngsSize==2 && Tau2OneProngsSize==2) && (TauMProngEnergy>=0.55 && TauPProngEnergy>=0.55)"
-
-	wll_DYandSUSY_gen="(OneProngChargedPart2PdgId==11 || OneProngChargedPart2PdgId==13) && (OneProngChargedPart1PdgId==-11 || OneProngChargedPart1PdgId==-13) && (Tau1OneProngsSize==3 && Tau2OneProngsSize==3) && (TauMProngEnergy>=0.44 && TauPProngEnergy>=0.44)"
-	whl_DYandSUSY_gen="((OneProngChargedPart2PdgId==-211 && (OneProngChargedPart1PdgId==-11 || OneProngChargedPart1PdgId==-13)) && (Tau1OneProngsSize==3 && Tau2OneProngsSize==2) && (TauMProngEnergy>=0.55 && TauPProngEnergy>=0.44)) || (((OneProngChargedPart2PdgId==11 || OneProngChargedPart2PdgId==13) && OneProngChargedPart1PdgId==211) && (Tau1OneProngsSize==2 && Tau2OneProngsSize==3) && (TauMProngEnergy>=0.44 && TauPProngEnergy>=0.55))"
-	whh_DYandSUSY_gen="(OneProngChargedPart2PdgId==-211 && OneProngChargedPart1PdgId==211) && (Tau1OneProngsSize==2 && Tau2OneProngsSize==2) && (TauMProngEnergy>=0.55 && TauPProngEnergy>=0.55)"
+	wll_gen="(OneProngChargedPart1PdgId==-11 || OneProngChargedPart2PdgId==-13) && (OneProngChargedPart2PdgId==11 || OneProngChargedPart2PdgId==13) && (Tau1OneProngsSize==3 && Tau2OneProngsSize==3) && (TauPProngEnergy>=0.44 && TauMProngEnergy>=0.44)"
+	whl_gen="((OneProngChargedPart1PdgId==211 && (OneProngChargedPart2PdgId==11 || OneProngChargedPart2PdgId==13)) && (Tau1OneProngsSize==2 && Tau2OneProngsSize==3) && (TauPProngEnergy>=0.55 && TauMProngEnergy>=0.44)) || (((OneProngChargedPart1PdgId==-11 || OneProngChargedPart1PdgId==-13) && OneProngChargedPart2PdgId==-211) && (Tau1OneProngsSize==3 && Tau2OneProngsSize==2) && (TauPProngEnergy>=0.44 && TauMProngEnergy>=0.55))"
+	whh_gen="(OneProngChargedPart1PdgId==211 && OneProngChargedPart2PdgId==-211) && (Tau1OneProngsSize==2 && Tau2OneProngsSize==2) && (TauPProngEnergy>=0.55 && TauMProngEnergy>=0.55)"
 
 	# reco weights
 	wll_reco="1"
 	whl_reco="decayMode_1==0 || decayMode_2==0"
 	whh_reco="decayMode_1==0 && decayMode_2==0"
 
-	w_SM_gen=[wll_SM_gen, whl_SM_gen, whh_SM_gen]
-	w_DYandSUSY_gen=[wll_DYandSUSY_gen, whl_DYandSUSY_gen, whh_DYandSUSY_gen]
+
+	w_gen=[wll_gen, whl_gen, whh_gen]
 	w_reco=[wll_reco, whl_reco, whh_reco]
 
 	plot_configs = []
@@ -73,12 +65,9 @@ if __name__ == "__main__":
 		for j in xrange(3):
 			config["filename"] = "recogenPhiStarCP_"+samples[i]+"_"+channels[j]
 			config["directories"] = args.input
-			config["folders"] = [folders_gen, folders_reco[j]]
+			config["folders"] = [folders[j]]
 			config["texts"] = texts[j]
-			if (samples[i]=="SM"):
-				config["weights"] = [w_SM_gen[j], w_reco[j]]
-			else:
-				config["weights"] = [w_DYandSUSY_gen[j], w_reco[j]]
+			config["weights"] = [w_gen[j]+"&&"+w_reco[j]]
 			plot_configs.append(config.copy())
 
 	if log.isEnabledFor(logging.DEBUG):
