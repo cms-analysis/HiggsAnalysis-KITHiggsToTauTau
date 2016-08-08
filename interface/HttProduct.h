@@ -186,6 +186,9 @@ public:
 
 	// filled by RecoTauCPProducer
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
+
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	KGenParticle* m_recoChargedParticle1 = 0;
 	KGenParticle* m_recoChargedParitcle2 = 0;

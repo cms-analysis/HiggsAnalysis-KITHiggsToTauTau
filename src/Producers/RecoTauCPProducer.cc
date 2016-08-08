@@ -16,6 +16,14 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_recoPhiStarCP;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPrPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPVbs", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPrPVbs;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStar", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStar;
@@ -84,6 +92,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 	CPQuantities cpq;
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
+	//product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(event.m_refitVertexSummary->pv, trackP, trackM, momentumP, momentumM);
+	//product.m_recoPhiStarCPrPVbs = cpq.CalculatePhiStarCP(event.m_refitVertexBSSummary->pv, trackP, trackM, momentumP, momentumM);
+
 	product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	product.m_recoIP1 = cpq.GetRecoIP1();
 	product.m_recoIP2 = cpq.GetRecoIP2();
