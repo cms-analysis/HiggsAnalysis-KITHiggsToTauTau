@@ -441,7 +441,9 @@ class Samples(samples.SamplesBase):
 		artus_files = self.artus_file_names(query, 4)
 		# inclusive W+jets sample from MiniAODv1
 		query["process"] = "WJetsToLNu"
-		query["campaign"] = self.mc_campaign + "1"
+		del(query["generator"])
+		#query["ext"] = "ext1"
+		query["campaign"] = self.mc_campaign + "2reHLT"
 		artus_files = artus_files + " " + self.artus_file_names(query, 1)
 		return artus_files
 
