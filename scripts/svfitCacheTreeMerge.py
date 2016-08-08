@@ -122,7 +122,7 @@ def main():
 				out_filename = args.output + "/" + pipeline + "/svfitCache_" + sample + ".root"
 				merge_commands.append("hadd -f %s %s %s"%(tmp_filename, " ".join(dirs[sample][pipeline]), previous_cache_file))
 				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
-			config_file.append('"%s" : "%s",' % (sample, "dcap://dcache-cms-dcap.desy.de/pnfs/" + args.output + "/svfitCache_" + sample + ".root"))
+			config_file.append('"%s" : "%s",' % (sample, "dcap://dcache-cms-dcap.desy.de" + args.output.split('=')[1] + "/svfitCache_" + sample + ".root"))
 		if not args.no_run:
 			for index in range(len(merge_commands)):
 				tools.parallelize(_call_command, [merge_commands[index]], 1)
