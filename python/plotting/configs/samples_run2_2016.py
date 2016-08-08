@@ -111,7 +111,7 @@ class Samples(samples.SamplesBase):
 
 	def files_data(self, channel):
 		query = {}
-		expect_n_results = 3 # adjust in if-statements if different depending on channel
+		expect_n_results = 4 # adjust in if-statements if different depending on channel
 		if channel == "mt":
 			query = { "process" : "SingleMuon" }
 		elif channel == "et":
