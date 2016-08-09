@@ -74,7 +74,10 @@ class SamplesBase(object):
 				"markers",
 				"colors",
 				"labels",
-				"legend_markers"
+				"legend_markers",
+				"shape_nicks",
+				"yield_nicks",
+				"shape_yield_nicks"
 		] + additional_keys:
 			if key in merged_config or key in config2:
 				merged_config.setdefault(key, []).extend(config2.get(key, []))
