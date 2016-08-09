@@ -18,6 +18,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_ttj_1"] = "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
 		self.binnings_dict["diLepMass"] = "50,0,250"
 		self.binnings_dict["svfitMass"] = "50,0,250"
+		
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.binnings_dict[channel+"_integral"] = "1,0.0,1.0"
 			self.binnings_dict[channel+"_min_ll_jet_eta"] = "16,-8,8"
@@ -26,6 +27,7 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[channel+"_diLepJet1DeltaR"] = "20,0,10"
 			for i in range(16):
 				self.binnings_dict[channel+"_MVATestMethod_%i"%i] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
+		
 		for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
 			self.binnings_dict[ch+"all_vs_all"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
 			self.binnings_dict[ch+"all_vs_zll"] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
@@ -44,6 +46,7 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[ch+"H_mass"] = "40,0.0,2000.0"
 			self.binnings_dict[ch+"H_pt"] = "40,0.0,300.0"
 			self.binnings_dict[ch+"ptvis"] = "40,0.0,300.0"
+		
 		self.binnings_dict["tt_decayMode_1"] = "11,0.0,11.0"
 		self.binnings_dict["tt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["tt_eta_1"] = "10,-2.1,2.1"
@@ -103,6 +106,9 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_metProjectionPar"] = "20,-100.0,300.0"
 		self.binnings_dict["tt_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["tt_metProjectionPhi"] = "20,-3.141,3.141"
+		self.binnings_dict["tt_rhoNeutralChargedAsymmetry_1"] = "20,-1.0,1.00001"
+		self.binnings_dict["tt_rhoNeutralChargedAsymmetry_2"] = "20,-1.0,1.00001"
+		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "20,-2.1,2.1"
 		self.binnings_dict["mt_eta_2"] = "20,-2.3,2.3"
@@ -167,6 +173,8 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_metProjectionPar"] = "21,-20.0,200.0"
 		self.binnings_dict["mt_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["mt_metProjectionPhi"] = "20,-3.141,3.141"
+		self.binnings_dict["mt_rhoNeutralChargedAsymmetry_2"] = "20,-1.0,1.00001"
+		
 		self.binnings_dict["et_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["et_eta_1"] = "20,-2.1,2.1"
 		self.binnings_dict["et_eta_2"] = "20,-2.3,2.3"
@@ -231,6 +239,8 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["et_metProjectionPar"] = "21,-20.0,200.0"
 		self.binnings_dict["et_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["et_metProjectionPhi"] = "20,-3.141,3.141"
+		self.binnings_dict["et_rhoNeutralChargedAsymmetry_2"] = "20,-1.0,1.00001"
+		
 		self.binnings_dict["em_eta_1"] = "20,-2.5,2.5"
 		self.binnings_dict["em_eta_2"] = "20,-2.4,2.4"
 		self.binnings_dict["em_eta_ll"] = "25,-5.0,5.0"
@@ -291,6 +301,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["em_pZetaMissVis"] = "50,-150.0,100.0"
 		self.binnings_dict["em_pzetamiss"] = "50,-150.0,100.0"
 		self.binnings_dict["em_pzetavis"] = "20,0.0,100.0"
+		
 		self.binnings_dict["mm_eta_1"] = "30,-3.0,3.0"
 		self.binnings_dict["mm_eta_2"] = "30,-3.0,3.0"
 		self.binnings_dict["mm_eta_ll"] = "25,-5.0,5.0"
@@ -342,6 +353,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mm_svfitMass"] = "30,0.0,300"
 		self.binnings_dict["mm_trigweight_1"] = "20,0.5,1.5"
 		self.binnings_dict["mm_trigweight_2"] = "20,0.5,1.5"
+		
 		self.binnings_dict["ee_eta_1"] = "30,-3.0,3.0"
 		self.binnings_dict["ee_eta_2"] = "30,-3.0,3.0"
 		self.binnings_dict["ee_eta_ll"] = "25,-5.0,5.0"
@@ -393,6 +405,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["ee_svfitMass"] = "30,0.0,300"
 		self.binnings_dict["ee_trigweight_1"] = "20,0.5,1.5"
 		self.binnings_dict["ee_trigweight_2"] = "20,0.5,1.5"
+		
 		self.binnings_dict["binningHtt8TeV_"+"ee_1jet_high"] = "0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"ee_1jet_low"] = "0.0 0.2 0.4 0.6 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"ee_2jet_vbf"] = "0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0"
@@ -433,6 +446,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt8TeV_"+"tt_1jet_high_mediumhiggs"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"tt_1jet_high_highhiggs"] = "0.0 10.0 20.0 30.0 40.0 50.0 60.0 70.0 80.0 90.0 100.0 110.0 120.0 130.0 140.0 150.0 160.0 170.0 180.0 190.0 200.0 225.0 250.0 275.0 300.0 325.0 350.0"
 		self.binnings_dict["binningHtt8TeV_"+"tt_2jet_vbf"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
+		
 		# H->tautau binnings
 		for channel in ["mt", "et", "em", "tt", "mm"]:
 			self.binnings_dict["binningHtt13TeV_"+channel+"_inclusive_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
@@ -464,6 +478,7 @@ class BinningsDict(binnings.BinningsDict):
 				self.binnings_dict["binningMVA13TeV_"+channel+"_ztt_%i"%i] = self.binnings_dict["mt_ztt_1"]
 				self.binnings_dict["binningMVA13TeV_"+channel+"_vbf_%i"%i] = self.binnings_dict["mt_vbf_1"]
 		self.binnings_dict["binningHtt13TeV_tt_inclusive_svfitMass"] = " ".join([str(float(f)) for f in [0, 50]+range(90, 171, 20)+[200, 350]])
+		
 		# H->tautau MSSM binnings
 		for channel in ["mt", "et", "em", "tt"]:
 			self.binnings_dict[channel+"_mt_2"] = "30,0,150"
@@ -484,6 +499,7 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_nobtag_m_sv"] = " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_btag_m_sv"] = " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 				#==========================CategoriesDictUpdates=========================================================
+		
 		import Artus.Utility.jsonTools as jsonTools
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
 		categoriesUpdate = Categories.CategoriesDict().getBinningsDict()

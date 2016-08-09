@@ -156,6 +156,9 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_pZetaMissVis"] = "#left(p^{miss}_{#zeta} #minus 0.85 p^{vis}_{#zeta}#right) / GeV"
 			self.labels_dict["tt_pzetamiss"] = "p^{miss}_{#zeta} / GeV"
 			self.labels_dict["tt_pzetavis"] = "p^{vis}_{#zeta} / GeV"
+			self.labels_dict["tt_rhoNeutralChargedAsymmetry_1"] = "Leading Tau (E_{#pi^{0}} - E_{#pi^{#pm}}) / (E_{#pi^{0}} + E_{#pi^{#pm}})"
+			self.labels_dict["tt_rhoNeutralChargedAsymmetry_2"] = "Trailing Tau (E_{#pi^{0}} - E_{#pi^{#pm}}) / (E_{#pi^{0}} + E_{#pi^{#pm}})"
+			
 			self.labels_dict["mt_decayMode_2"] = "Tau DM"
 			self.labels_dict["mt_eta_1"] = "Muon #eta"
 			self.labels_dict["mt_eta_2"] = "Tau #eta"
@@ -232,6 +235,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["mt_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["mt_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["mt_rhoNeutralChargedAsymmetry_2"] = "(E_{#pi^{0}} - E_{#pi^{#pm}}) / (E_{#pi^{0}} + E_{#pi^{#pm}})"
+			
 			self.labels_dict["et_decayMode_2"] = "Tau DM"
 			self.labels_dict["et_eta_1"] = "Electron #eta"
 			self.labels_dict["et_eta_2"] = "Tau #eta"
@@ -305,6 +310,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["et_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["et_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["et_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["et_rhoNeutralChargedAsymmetry_2"] = "(E_{#pi^{0}} - E_{#pi^{#pm}}) / (E_{#pi^{0}} + E_{#pi^{#pm}})"
+			
 			self.labels_dict["em_eta_1"] = "Electron #eta"
 			self.labels_dict["em_eta_2"] = "Muon #eta"
 			self.labels_dict["em_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -377,6 +384,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["em_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["em_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["em_metProjectionPhi"] = "#nu_{#phi}"
+			
 			self.labels_dict["mm_eta_1"] = "Leading Muon #eta"
 			self.labels_dict["mm_eta_2"] = "Trailing Muon #eta"
 			self.labels_dict["mm_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -446,6 +454,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mm_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["mm_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["mm_metProjectionPhi"] = "#nu_{#phi}"
+			
 			self.labels_dict["ee_eta_1"] = "Electron #eta"
 			self.labels_dict["ee_eta_2"] = "Muon #eta"
 			self.labels_dict["ee_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -515,6 +524,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ee_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["ee_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["ee_metProjectionPhi"] = "#nu_{#phi}"
+			
 			for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
 				self.labels_dict[ch+"TrainingSelectionValue"] = "N-Fold Split Variable"
 				self.labels_dict[ch+"all_vs_all"] = "BDT_{all}^{all}"
@@ -533,6 +543,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["BDT_ggh_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{ggH}"
 			self.labels_dict["BDT_vbf_zll"] = "BDT_{Z#rightarrow \\ell\\ell}^{vbf}"
 			self.labels_dict["BDT_vbf_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{vbf}"
+			
 			for higgs_mass in xrange(90, 161, 5):
 				self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
