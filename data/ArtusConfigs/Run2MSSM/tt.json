@@ -40,7 +40,7 @@
 				"default" : [
 					"45.0"
 				],
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016|Spring16)" : [
 					"40.0"
 				]
 			}
@@ -64,9 +64,12 @@
 				"default" : [
 					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
 				],
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg",
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:l1extratauccolltection"
+				],
+				"Run2016": [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
 				]
 			}
 		},

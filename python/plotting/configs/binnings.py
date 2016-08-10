@@ -69,6 +69,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_m_ll"] = "60,0.0,300"
 		self.binnings_dict["tt_m_llmet"] = "60,0.0,400"
 		self.binnings_dict["tt_m_sv"] = "25,0.0,250"
+		self.binnings_dict["tt_mt_tot"] = "30,0.0,300"
 		self.binnings_dict["tt_met"] = "40,0.0,200.0"
 		self.binnings_dict["tt_metphi"] = "32,-3.2,3.2"
 		self.binnings_dict["tt_mjj"] = "20,0.0,1500.0"
@@ -130,6 +131,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_m_ll"] = "60,0.0,300"
 		self.binnings_dict["mt_m_llmet"] = "60,0.0,400"
 		self.binnings_dict["mt_m_sv"] = "25,0.0,250"
+		self.binnings_dict["mt_mt_tot"] = "30,0.0,300"
 		self.binnings_dict["mt_met"] = "40,0.0,200.0"
 		self.binnings_dict["mt_metphi"] = "32,-3.2,3.2"
 		self.binnings_dict["mt_mjj"] = "20,0.0,1500.0"
@@ -196,6 +198,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["et_m_ll"] = "60,0.0,300"
 		self.binnings_dict["et_m_llmet"] = "60,0.0,400"
 		self.binnings_dict["et_m_sv"] = "25,0.0,250"
+		self.binnings_dict["et_mt_tot"] = "30,0.0,300"
 		self.binnings_dict["et_met"] = "40,0.0,200.0"
 		self.binnings_dict["et_metphi"] = "32,-3.2,3.2"
 		self.binnings_dict["et_metProjectionPar"] = "20,-100.0,300.0"
@@ -261,6 +264,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["em_m_ll"] = "60,0.0,300"
 		self.binnings_dict["em_m_llmet"] = "60,0.0,400"
 		self.binnings_dict["em_m_sv"] = "25,0.0,250"
+		self.binnings_dict["em_mt_tot"] = "30,0.0,300"
 		self.binnings_dict["em_met"] = "40,0.0,200.0"
 		self.binnings_dict["em_metphi"] = "32,-3.2,3.2"
 		self.binnings_dict["em_mjj"] = "20,0.0,1500.0"
@@ -500,6 +504,8 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[channel+"_H_pt"] = "25,0.0,250"
 			self.binnings_dict[channel+"_TrainingSelectionValue"] = "10,0,100"
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_inclusive_svfitMass"] = " ".join([str(float(f)) for f in range(0,4000,10)])
+			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_nobtag_mt_tot"] = " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
+			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_btag_mt_tot"] = " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_nobtag_mt_sv"] = " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_btag_mt_sv"] = " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_nobtag_m_sv"] = " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])

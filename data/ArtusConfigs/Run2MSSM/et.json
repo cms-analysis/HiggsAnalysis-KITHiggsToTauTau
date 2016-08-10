@@ -44,8 +44,8 @@
 		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : {
 			"nick" : {
-				"default" : "26.0",
-				"Fall15|Run2015" : "24.0"
+				"default" : ["26.0"],
+				"Fall15|Run2015" : ["24.0"]
 			}
 		},
 		"ElectronUpperAbsEtaCuts" : [
@@ -53,8 +53,8 @@
 		],
 		"TauLowerPtCuts" : {
 			"nick" : {
-				"default" : "30.0",
-				"Fall15|Run2015" : "20.0"
+				"default" : ["30.0"],
+				"Fall15|Run2015" : ["20.0"]
 			}
 		},
 		"TauUpperAbsEtaCuts" : [
