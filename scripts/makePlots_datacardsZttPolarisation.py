@@ -302,11 +302,26 @@ if __name__ == "__main__":
 			"-M MaxLikelihoodFit --redefineSignalPOIs pol "+stable_options+" -n \"\""
 	)
 	
-	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
-	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(
+			datacards_cbs,
+			datacards_workspaces,
+			False,
+			args.n_processes,
+			"--sampling" + (" --print" if args.n_processes <= 1 else "")
+	)
+	
+	datacards.prefit_postfit_plots(
+			datacards_cbs,
+			datacards_postfit_shapes,
+			plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity},
+			n_processes=args.n_processes,
+			signal_stacked_on_bkg=True
+	)
+	
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
+	
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
