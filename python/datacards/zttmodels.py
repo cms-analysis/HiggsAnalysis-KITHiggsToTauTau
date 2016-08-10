@@ -98,8 +98,8 @@ class ZttPolarisation(PhysicsModel):
 	def doParametersOfInterest(self):
 		"""Create POI and other parameters, and define the POI set."""
 		# --- POI and other parameters ----
-		self.modelBuilder.doVar("r[1,0,5]")
-		self.modelBuilder.doVar("pol[1,0,2]")
+		self.modelBuilder.doVar("r[1.0,0.0,5.0]")
+		self.modelBuilder.doVar("pol[0.5,0.0,2.0]")
 		self.modelBuilder.factory_('expr::pospol("@0 * @1", r, pol)')
 		self.modelBuilder.factory_('expr::negpol("@0 * (1.0 - @1)", r, pol)')
 
