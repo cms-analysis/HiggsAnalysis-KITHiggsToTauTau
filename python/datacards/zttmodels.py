@@ -103,13 +103,13 @@ class ZttPolarisation(PhysicsModel):
 		self.modelBuilder.factory_('expr::pospol("@0 * @1", r, pol)')
 		self.modelBuilder.factory_('expr::negpol("@0 * (1.0 - @1)", r, pol)')
 
-		self.modelBuilder.doSet("POI","r,eff")
+		self.modelBuilder.doSet("POI","r,pol")
 
 	def getYieldScale(self, bin, process):
 		if self.DC.isSignal[process]:
-			if "pospol" in process:
+			if "pospol" in process.lower():
 				return "pospol"
-			elif "negpol" in process:
+			elif "negpol" in process.lower():
 				return "negpol"
 			else:
 				return "r"

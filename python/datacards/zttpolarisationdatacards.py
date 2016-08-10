@@ -20,16 +20,16 @@ class ZttPolarisationDatacards(datacards.Datacards):
 					channel="mt",
 					categories=["mt_"+category for category in ["inclusive"]],
 					bkg_processes=["ZLL", "TT", "VV", "W", "QCD"],
-					sig_processes=["ZTT"],
+					sig_processes=["ZTTPOSPOL", "ZTTNEGPOL"],
 					analysis=["ztt"],
 					era=["13TeV"],
 					mass=["0"]
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
 			# extrapolation uncertainty
 			self.cb.cp().channel(["mt"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
@@ -42,15 +42,15 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
 
 			# b-tag efficiency and mistag
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TT"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
 
 			# ======================================================================
 			# All channels
-			#self.cb.cp().process(["ZTT"]).AddSyst(self.cb, "ZTT_uniform_2", "lnU", ch.SystMap()(2.0))
+			#self.cb.cp().process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, "ZTT_uniform_2", "lnU", ch.SystMap()(2.0))
 		
 			# lumi
-			self.cb.cp().process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
+			self.cb.cp().process(["ZTTPOSPOL", "ZTTNEGPOL", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 
 			# cross section
 			self.cb.cp().process(["ZLL"]).AddSyst(self.cb, *self.zll_cross_section_syst_args)
@@ -59,8 +59,8 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
 
 			# signal acceptance/efficiency
-			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.ztt_pdf_scale_syst_args)
-			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.ztt_qcd_scale_syst_args)
+			self.cb.cp().process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.ztt_pdf_scale_syst_args)
+			self.cb.cp().process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.ztt_qcd_scale_syst_args)
 
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_inclusive_args)

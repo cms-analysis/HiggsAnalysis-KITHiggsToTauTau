@@ -295,7 +295,14 @@ if __name__ == "__main__":
 			else:
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 	
-	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
+	datacards_workspaces = datacards.text2workspace(
+			datacards_cbs,
+			args.n_processes,
+			"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_pol",
+					MODEL_PARAMETERS=""
+			)
+	)
 	
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 	
