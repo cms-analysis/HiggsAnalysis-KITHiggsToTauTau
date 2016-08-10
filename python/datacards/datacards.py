@@ -759,7 +759,7 @@ class Datacards(object):
 
 		return datacards_postfit_shapes
 
-	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, *args):
+	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, signal_stacked_on_bkg=False, *args):
 		if plotting_args is None:
 			plotting_args = {}
 
@@ -770,33 +770,23 @@ class Datacards(object):
 				if (index == 0) or (level == "postfit"):
 					for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
 						for category in datacards_cbs[datacard].cp().bin_set():
-							bkg_processes = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
-							bkg_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+							stacked_processes = []
+							if signal_stacked_on_bkg:
+								stacked_processes.extend(datacards_cbs[datacard].cp().bin([category]).signals().process_set())
+							stacked_processes.extend(datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set())
+							stacked_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
 
 							config = {}
-
-							processes_to_plot = list(bkg_processes)
-							"""
-							if category.split("_")[0] in ["em", "et", "mt", "tt"]:
-								config.setdefault("analysis_modules", []).append(["SumOfHistograms"])
-								bkg_processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in bkg_processes]
-								processes_to_plot = [p for p in bkg_processes if not "noplot" in p]
-								processes_to_plot.insert(3, "EWK")
-								config.setdefault("sum_nicks", []).append("ZJ_noplot VV_noplot W_noplot")
-								config.setdefault("sum_scale_factors", []).append("1.0 1.0 1.0")
-								config.setdefault("sum_result_nicks", []).append("EWK")
-							"""
-
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
-							config["x_expressions"] = [p.strip("_noplot") for p in bkg_processes] + ["TotalSig"] + ["data_obs", "TotalBkg"]
-							config["nicks"] = bkg_processes + ["TotalSig"] + ["data_obs", "TotalBkg"]
-							config["stacks"] = (["bkg"]*len(processes_to_plot)) + ["sig"] + ["data", "bkg_unc"]
+							config["x_expressions"] = [p.strip("_noplot") for p in stacked_processes] + (["TotalSig"] if signal_stacked_on_bkg else []) + ["data_obs", "TotalBkg"]
+							config["nicks"] = stacked_processes + (["TotalSig"] if signal_stacked_on_bkg else []) + ["data_obs", "TotalBkg"]
+							config["stacks"] = (["stack"]*len(stacked_processes)) + (["sig"] if signal_stacked_on_bkg else []) + ["data", "bkg_unc"]
 
-							config["labels"] = [label.lower() for label in processes_to_plot + ["TotalSig"] + ["data_obs", "TotalBkg"]]
-							config["colors"] = [color.lower() for color in processes_to_plot + ["TotalSig"] + ["data_obs", "TotalBkg"]]
-							config["markers"] = (["HIST"]*len(processes_to_plot)) + ["LINE"] + ["E", "E2"]
-							config["legend_markers"] = (["F"]*len(processes_to_plot)) + ["L"] + ["ELP", "F"]
+							config["labels"] = [label.lower() for label in stacked_processes + (["TotalSig"] if signal_stacked_on_bkg else []) + ["data_obs", "TotalBkg"]]
+							config["colors"] = [color.lower() for color in stacked_processes + (["TotalSig"] if signal_stacked_on_bkg else []) + ["data_obs", "TotalBkg"]]
+							config["markers"] = (["HIST"]*len(stacked_processes)) + (["LINE"] if signal_stacked_on_bkg else []) + ["E", "E2"]
+							config["legend_markers"] = (["F"]*len(stacked_processes)) + (["L"] if signal_stacked_on_bkg else []) + ["ELP", "F"]
 
 							config["x_label"] = category.split("_")[0]+"_"+plotting_args.get("x_expressions", None)
 							config["title"] = "channel_"+category.split("_")[0]
