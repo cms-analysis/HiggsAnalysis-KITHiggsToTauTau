@@ -182,6 +182,8 @@ if __name__ == "__main__":
 	parser.add_argument("--mssm", default=False, action="store_true",
 	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
+	parser.add_argument("-b", "--background-method", default="classic",
+	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("--mva", default=False, action="store_true",
 	                    help="Produce plots for the mva studies. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
@@ -271,7 +273,7 @@ if __name__ == "__main__":
 				if category != None:
 					if(args.mssm):
 						category_string = "catHttMSSM13TeV"
-					if args.mva:
+					elif args.mva:
 						category_string = "catMVAStudies"
 					else:
 						category_string = "catHtt13TeV"
@@ -301,8 +303,9 @@ if __name__ == "__main__":
 						project_to_lumi=args.project_to_lumi,
 						cut_mc_only=args.cut_mc_only,
 						scale_mc_only=args.scale_mc_only,
+						estimationMethod=args.background_method,
 						mssm=args.mssm,
-						cut_type="baseline2016" if args.era == "2016" else "baseline"
+						cut_type="mssm2016" if (args.era == "2016" and args.mssm) else "mssm" if args.mssm else "baseline2016" if args.era == "2016" else "baseline"
 				)
 
 
