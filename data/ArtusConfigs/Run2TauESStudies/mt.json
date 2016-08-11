@@ -96,6 +96,22 @@
 			}
 		},
 		"EventWeight" : "eventWeight",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"RooWorkspaceWeightNames" : [
+			"0:triggerWeight",
+			"0:isoweight",
+			"0:idweight"
+		],
+		"RooWorkspaceObjectNames" : [
+			"0:m_trgOR_binned_data",
+			"0:m_iso_binned_ratio",
+			"0:m_id_ratio"
+		],
+		"RooWorkspaceObjectArguments" : [
+			"0:m_pt,m_eta,m_iso",
+			"0:m_pt,m_eta,m_iso",
+			"0:m_pt,m_eta"
+		],
 		"TriggerEfficiencyData" : {
 			"nick" : { 
 				"(Run2016|Spring16)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_IsoMu22_eff.root"],
@@ -213,8 +229,9 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -257,8 +274,9 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"#producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:EventWeightProducer"
 				],

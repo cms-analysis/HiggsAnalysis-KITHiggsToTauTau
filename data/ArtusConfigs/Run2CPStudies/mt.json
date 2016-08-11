@@ -98,7 +98,7 @@
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : {
 			"nick" : { 
-				"(Run2016|Spring16)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_IsoMu22_eff_Spring16.root"],
+				"(Run2016|Spring16)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_IsoMu22_eff.root"],
 				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
 			}
 		},
@@ -111,13 +111,13 @@
 		"TriggerEfficiencyMode" : "multiply_weights",
 		"IdentificationEfficiencyData" : {
 			"nick" : {
-				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso0p10_eff.root"],
+				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso0p15_eff.root"],
 				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p1_fall15.root"]
 			}
 		},
 		"IdentificationEfficiencyMc" : {
 			"nick" : {
-				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p10_eff.root"],
+				"(Run2016|Spring16)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_eff.root"],
 				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p1_fall15.root"]
 			}
 		},
@@ -362,6 +362,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:PolarisationQuantitiesProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
