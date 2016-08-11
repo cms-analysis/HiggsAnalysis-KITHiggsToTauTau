@@ -61,7 +61,7 @@ for channel in channels:
 		arguments = arguments +" vbf_@P1@_@P2@ ivbf_@P1@_@P2@ "
 	else:
 		#arguments = arguments +" TwoJet30 "
-		arguments = arguments +" vbf_600_2.5 ivbf_600_2.5 "
+		arguments = arguments +" vbf_400_3.0 ivbf_400_3.0 "
 
 cfg.usertask.set('arguments', "%s"%arguments)
 cfg.storage.set('se path', "/nfs/dust/cms/user/rfriese/" + project_name + "/" + active + "scan")

@@ -19,13 +19,13 @@ cmssw_base = os.getenv("CMSSW_BASE") + "/src/"
 cfg.usertask.set("input files", [cmssw_base + "HiggsAnalysis/KITHiggsToTauTau/scripts/userjob_epilog.sh", cmssw_base + "HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsSMHtt.py"] )
 
 executable = 'makePlots_datacardsSMHtt.py'
-input_dataset = "-i /nfs/dust/cms/user/rfriese/htautau/artus/2016-05-31_11-32_FullAnalysis/merged/"
+input_dataset = "-i /nfs/dust/cms/user/rfriese/htautau/artus/2016-08-08_10-13_WSvFit2015/merged/"
 variable = "-x m_sv"
 mass = "-m 125"
 output_dir = "-o ."
 channels= ["et", "mt", "tt", "em"]
 extra=" --n-plots 1000 0 --auto-rebin --qcd-subtract-shape -n 1 --remote --use-asimov-dataset"
-categories = "-c mt -c et -c tt -c em --categories ZeroJet30 1jet_120_40 i1jet_120_40 vbf_400_3.0 vbf_400_3.0"
+categories = "-c mt -c et -c tt -c em --categories ZeroJet30 1jet_120_40 i1jet_120_40 vbf_400_3.0 ivbf_400_3.0"
 
 cfg.parameters.set("parameters", ["NBINS", "MAX"])
 cfg.parameters.set("repeat", 1)
