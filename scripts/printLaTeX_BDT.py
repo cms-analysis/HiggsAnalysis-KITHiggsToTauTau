@@ -19,34 +19,14 @@ def format_number(expr):
 def format_purity(expr):
 	return "{0:.01f}\\,\\%".format(float(expr)*100.0)
 	
-
-if __name__ == "__main__":
-	
-	parser = argparse.ArgumentParser(description="Train BDTs using TMVA interface.")
-	parser.add_argument("-i", "--input-file", required=True,
-						help="Input file.")
-	parser.add_argument("-o", "--output-file",required=False,
-						default="BDT.tex",
-						help="Output file. [Default: %(default)s]")
-	parser.add_argument("-n", "--tree-index", nargs="+", type=int, required=False,
-						default=0,
-						help="index of tree to be printed. [Default: %(default)s]")
-	parser.add_argument("-C", "--C", default = False, action="store_true",
-						help="node color shows S/(S+B) [Default: %(default)s]")
-	args = parser.parse_args()
-	In = open(args.input_file,"r")
-	Out = open(args.output_file,"w")
+def print_BDT_weight_file(args, input_file, output_file):
+	In = open(input_file,"r")
+	Out = open(output_file,"w")
 	
 	Out.write("\\documentclass{article}\n")
 	Out.write("\\usepackage{tikz}\n")
 	Out.write("\\usetikzlibrary{positioning}\n")
 	Out.write("\\begin{document}\n")
-	Out.write("\\resizebox{\\textwidth}{!}{\n")
-	Out.write("\\begin{tikzpicture}[level distance=25mm]\n")
-	Out.write("  \\tikzstyle{every node}=[fill=blue!60,rectangle,draw,rounded corners,inner sep=5pt]\n")
-	Out.write("  \\tikzstyle{level 1}=[sibling distance=120mm, set style={{every node}+=[fill=blue!45]}]\n")
-	Out.write("  \\tikzstyle{level 2}=[sibling distance=60mm, set style={{every node}+=[fill=blue!30]}]\n")
-	Out.write("  \\tikzstyle{level 3}=[sibling distance=30mm, set style={{every node}+=[fill=blue!15]}]\n")
 	
 	variables = []
 	tree_active = False
@@ -59,8 +39,16 @@ if __name__ == "__main__":
 				variables.append(entries[3].split("\"")[1])
 		
 			if entries[0]=="<BinaryTree":
-				if entries[3].split("\"")[1]==str(args.tree_index):
+				if int(entries[3].split("\"")[1]) in args.tree_indices:
+					#initiate tree graph
 					tree_active = True
+					Out.write("%Tree No. %i\n")
+					Out.write("\\resizebox{\\textwidth}{!}{\n")
+					Out.write("\\begin{tikzpicture}[level distance=25mm]\n")
+					Out.write("  \\tikzstyle{every node}=[fill=blue!60,rectangle,draw,rounded corners,inner sep=5pt]\n")
+					Out.write("  \\tikzstyle{level 1}=[sibling distance=120mm, set style={{every node}+=[fill=blue!45]}]\n")
+					Out.write("  \\tikzstyle{level 2}=[sibling distance=60mm, set style={{every node}+=[fill=blue!30]}]\n")
+					Out.write("  \\tikzstyle{level 3}=[sibling distance=30mm, set style={{every node}+=[fill=blue!15]}]\n")
 		else:
 			if entries[0]=="<Node":
 				var_index = int(entries[4].split("\"")[1])
@@ -94,12 +82,34 @@ if __name__ == "__main__":
 			if entries[0]=="</BinaryTree>":
 				if args.C:
 					Out.write("  \\node [below = 85mm of base,align=center,left color=red!60,right color=green!60,middle color=white, rounded corners=0cm, draw=none]{$0\\,\\%$ \\hspace{80mm} S/(S+B) \\hspace{80mm} $100\\,\\%$};\n")
-				break
-		
-	Out.write("\\end{tikzpicture}\n")
-	Out.write("}\n")
+				tree_active = False
+				Out.write("\\end{tikzpicture}\n")
+				Out.write("}\n")
 	Out.write("\\end{document}\n")
 	In.close()
 	Out.close()
 
+if __name__ == "__main__":
+	
+	parser = argparse.ArgumentParser(description="Train BDTs using TMVA interface.")
+	parser.add_argument("-i", "--input-files", nargs="+", required=True,
+						help="Input file.")
+	parser.add_argument("-o", "--output-files", nargs="+", required=False,
+						help="Output file. [Default: inputfilename without .weights.xml plus .tex]")
+	parser.add_argument("--output-folder", required=False,
+						help="Output folder. [Default: same as input]")
+	parser.add_argument("-n", "--tree-indices", nargs="+", type=int, required=False,
+						default=[0],
+						help="index of tree to be printed. [Default: %(default)s]")
+	parser.add_argument("-C", "--C", default = False, action="store_true",
+						help="node color shows S/(S+B) [Default: %(default)s]")
+	args = parser.parse_args()
+	for i, filename in enumerate(args.input_files):
+		if args.output_files == None:
+			output_file = filename.replace(".weights.xml", ".tex")
+		else:
+			output_file = args.output_files[i]
+		if not args.output_folder == None:
+			output_file = os.path.join(args.output_folder, os.path.basename(output_file))
+		print_BDT_weight_file(args, filename, output_file)
 
