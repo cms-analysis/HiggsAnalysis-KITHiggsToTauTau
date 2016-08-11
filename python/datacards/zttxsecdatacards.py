@@ -299,7 +299,7 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="mt",
 					categories=["mt_"+category for category in ["inclusive"]],
-					bkg_processes=["ZL", "EWK", "FF"],
+					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "FF"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],
@@ -307,18 +307,23 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZL", "EWK", "ZTT"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZL", "EWK", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZTT"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+
+			# extrapolation uncertainty
+			self.cb.cp().channel(["mt"]).process(["WJT", "WJL"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 			
 			# Tau ES
+			#self.cb.cp().channel(["mt"]).process(["TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TTJL", "VVL", "WJL", "ZL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TTJL", "VVL", "WJL", "ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
 
 			# Top pT reweight
-			self.cb.cp().channel(["mt"]).process(["EWK"]).AddSyst(self.cb, *self.ttj_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TTJT", "TTJL"]).AddSyst(self.cb, *self.ttj_syst_args)
 			
 			# Fake-Factor (Jets faking Taus)
 			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_qcd_syst_args)
@@ -336,7 +341,7 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="et",
 					categories=["et_"+category for category in ["inclusive"]],
-					bkg_processes=["ZL", "EWK", "FF"],
+					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "FF"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],
@@ -344,18 +349,23 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZL", "EWK", "ZTT"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZL", "EWK", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZTT"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
 			
+			# extrapolation uncertainty
+			self.cb.cp().channel(["et"]).process(["WJT", "WJL"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
+
 			# Tau ES
+			#self.cb.cp().channel(["et"]).process(["TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			self.cb.cp().channel(["et"]).process(["TTJL", "VVL", "WJL", "ZL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
+			self.cb.cp().channel(["et"]).process(["TTJL", "VVL", "WJL", "ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
 
 			# Top pT reweight
-			self.cb.cp().channel(["et"]).process(["EWK"]).AddSyst(self.cb, *self.ttj_syst_args)
+			self.cb.cp().channel(["et"]).process(["TTJT", "TTJL"]).AddSyst(self.cb, *self.ttj_syst_args)
 
 			# Fake-Factor (Jets faking Taus)
 			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.jetFakeTau_qcd_syst_args)
@@ -370,19 +380,17 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			# ======================================================================
 			# All channels
 			# lumi
-			self.cb.cp().process(["ZTT", "ZLL", "EWK", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
+			self.cb.cp().process(["ZTT", "ZLL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 		
 			# cross section
-			self.cb.cp().process(["ZL", "ZJ"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
-			# first iteration, check for later datacards
-			#self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
-			#self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
-			#self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
+			#self.cb.cp().process(["ZL", "ZJ"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+			self.cb.cp().process(["TTJT", "TTJL"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
+			self.cb.cp().process(["VVT", "VVL"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
+			self.cb.cp().process(["WJT", "WJL"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
 			
 			# signal acceptance/efficiency
 			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.ztt_pdf_scale_syst_args)
 			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *self.ztt_qcd_scale_syst_args)
 		
-			# add ff systematics here
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()

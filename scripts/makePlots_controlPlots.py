@@ -106,7 +106,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ewk", "ff", "ggh", "qqh", "bbh", "vh", "htt", "data"],
+	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttjl", "vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff", "ggh", "qqh", "bbh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -221,6 +221,9 @@ if __name__ == "__main__":
 			sys.exit(1)
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
+
+	if args.fakefactor_method is not None:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
 
 	if args.shapes:
 		args.ratio = False

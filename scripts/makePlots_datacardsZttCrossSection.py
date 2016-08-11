@@ -34,8 +34,8 @@ if __name__ == "__main__":
 			"P" : "HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_xsec",
 			"fit" : {
 				"" : {
-					"method" : "MaxLikelihoodFit",
-					"options" : "--skipBOnlyFit", #--expectSignal=1 --toys -1
+					"method" : "MaxLikelihoodFit",#"MaxLikelihoodFit",#"GoodnessOfFit",
+					"options" : "--skipBOnlyFit",#"--skipBOnlyFit",#"--algo saturated --toys 100 -s 54321",#--expectSignal=1 --toys -1
 					"poi" : "r",
 				},
 			},
@@ -107,6 +107,9 @@ if __name__ == "__main__":
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
+
+	if args.fakefactor_method is not None:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -328,7 +331,7 @@ if __name__ == "__main__":
 
 	# prefit-postfit plots
 	plot_configs = []
-	bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "EWK", "W", "FF", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTJT", "TTJL", "VV", "VVT", "VVL", "EWK", "W", "WJT", "WJL", "FF", "QCD"]
 	for level in ["prefit", "postfit"]:
 		if not datacards_postfit_shapes:
 			continue
