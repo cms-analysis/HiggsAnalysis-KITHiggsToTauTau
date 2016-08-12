@@ -273,7 +273,7 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
@@ -360,7 +360,7 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -398,7 +398,7 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:EventWeightProducer"
 				]
 			}
@@ -411,7 +411,7 @@
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
- 			"SvfitCacheConsumer",
+			"SvfitCacheConsumer",
 			"#CutFlowTreeConsumer",
 			"#KappaMuonsConsumer",
 			"#KappaTausConsumer",

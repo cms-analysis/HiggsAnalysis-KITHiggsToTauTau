@@ -214,7 +214,7 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"#producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -252,7 +252,7 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"#producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -289,7 +289,7 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"#producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -328,7 +328,7 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"#producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -362,7 +362,7 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
- 					"#producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:EventWeightProducer"
 				]
 			}
@@ -373,7 +373,7 @@
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
 			"#PrintHltConsumer",
- 			"#SvfitCacheConsumer",
+			"#SvfitCacheConsumer",
 			"#CutFlowTreeConsumer",
 			"#KappaMuonsConsumer",
 			"#KappaTausConsumer",
