@@ -79,26 +79,20 @@
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"RooWorkspaceWeightNames" : [
-			"0:triggerWeight",
 			"0:isoweight",
 			"0:idweight",
-			"1:triggerWeight",
 			"1:isoweight",
 			"1:idweight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:e_trg_binned_data",
 			"0:e_iso_binned_ratio",
 			"0:e_id_ratio",
-			"1:m_trgOR_binned_data",
 			"1:m_iso_binned_ratio",
 			"1:m_id_ratio"
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:e_pt,e_eta,e_iso",
-			"0:e_pt,e_eta,e_iso",
 			"0:e_pt,e_eta",
-			"1:m_pt,m_eta,m_iso",
 			"1:m_pt,m_eta,m_iso",
 			"1:m_pt,m_eta"
 		],
@@ -109,7 +103,7 @@
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele17_fall15.root",
 					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu8_fall15.root",
 					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu17_fall15.root"
-					],
+				],
 				"(Run2016|Spring16)" : [
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele12_eff_Spring16.root",
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele17_eff_Spring16.root",
@@ -319,7 +313,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
+					"producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
@@ -359,7 +353,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
  					"producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
+					"producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
