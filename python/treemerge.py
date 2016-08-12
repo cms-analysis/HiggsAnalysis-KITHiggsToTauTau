@@ -29,6 +29,7 @@ def treemerge(input_file_names, input_tree_names,
 		for name in selected_tree_names:
 			input_tree.Add(os.path.join(input_file_name, name))
 	output_file = ROOT.TFile(output_file_name, "RECREATE")
+	print input_tree # do not remove, does not work without it
 	output_tree = input_tree.CloneTree()
 	output_tree.SetName(output_tree_name)
 	output_file.Write()
