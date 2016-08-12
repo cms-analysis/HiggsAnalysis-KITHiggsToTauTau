@@ -71,15 +71,26 @@ def main():
 			# extract names without the leading channel
 			pipelines = ["_".join(pipeline.split("_")[1:]) for pipeline in pipelines]
 			pipelines = list(set(pipelines))
+			pipelines = [x for x in pipelines if x != '']
+			print pipelines
+			merge_commands = []
 			for pipeline in pipelines:
-				if not os.path.exists(pipeline):
-					os.makedirs(pipeline)
+				out_filename = os.path.join(output, pipeline, "svfitCache_" + os.path.basename(input[0]))
+				if not os.path.exists(os.path.dirname(out_filename)):
+					os.makedirs(os.path.dirname(out_filename))
+				pipeline_input_trees = [pipeline+"/"+input_tree for input_tree in input_trees]
 				merged_tree_name = treemerge.treemerge(
-						input, [pipeline+"/"+input_tree for input_tree in input_trees],
-						pipeline+"/"+output, output_trees,
+						input,  pipeline_input_trees,
+						out_filename, output_trees,
 						match_input_tree_names=True
 				)
 				log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
+				if args.previous_cache:
+					previous = args.previous_cache + "/" + pipeline + "/svfitCache_" + os.path.basename(input[0])
+					current = out_filename
+					merge_commands.append("hadd -f %s %s"%(current, previous))
+			for index in range(len(merge_commands)):
+				tools.parallelize(_call_command, [merge_commands[index]], 1)
 		else:
 			merged_tree_name = treemerge.treemerge(
 					input, input_trees,
