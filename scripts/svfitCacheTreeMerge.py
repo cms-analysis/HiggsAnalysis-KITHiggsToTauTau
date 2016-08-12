@@ -27,7 +27,8 @@ import tempfile
 # for x in /nfs/dust/cms/user/tmuller/htautau/artus/2015-02-10_17-33_svfitComputation/output/*; do echo $x; svfitCacheTreeMerge.py -i $x/*.root --input-trees `artusPipelines.py $x/*.root | sed -e 's@\$@/svfitCache@g'` -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${x}.root" | sed -e 's@/nfs/dust/cms/user/tmuller/htautau/artus/2015-02-10_17-33_svfitComputation/output/@@g'`; done
 def _call_command(command):
 	log.debug(command)
-	logger.subprocessCall(command.split())
+	if logger.subprocessCall(command.split())!=0:
+		raise Exception()
 
 def nick_from_dir(directory):
 	directory = directory.rstrip("/")
@@ -94,7 +95,7 @@ def main():
 			mkdir_command = "gfal-mkdir %s" %(args.output)
 			print "Creating " + args.output
 			logger.subprocessCall(mkdir_command.split())
-		tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp")
+		tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp") #dir=os.getcwd())
 		untar_commands = ["tar xvf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
 		if not args.no_run:
 			for index in range(len(untar_commands)):
