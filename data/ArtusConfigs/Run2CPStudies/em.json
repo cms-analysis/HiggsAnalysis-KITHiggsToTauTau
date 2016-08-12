@@ -346,7 +346,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
-				"^((?!DY.?JetsToLL).)*Spring16" : [
+				"^((?!DY.?JetsToLL|HToTauTau|H2JetsToTauTau).)*Spring16" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
