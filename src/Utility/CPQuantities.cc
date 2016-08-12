@@ -10,6 +10,8 @@ double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1
 	k2.SetXYZ(tau2.Px(), tau2.Py() , tau2.Pz());
 	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "gen");
 }
+
+
 // calculation of O*CP
 double CPQuantities::CalculateOStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
 {
@@ -19,6 +21,8 @@ double CPQuantities::CalculateOStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, 
 	k2.SetXYZ(tau2.Px(), tau2.Py() , tau2.Pz());
 	return this->CalculateOStarCPSame(k1, k2, chargPart1, chargPart2);
 }
+
+
 // this version uses track and vertex information to calculate the decay planes (useful for RecoTauCPProducer)
 double CPQuantities::CalculatePhiStarCP(KVertex pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
 {
@@ -38,6 +42,8 @@ double CPQuantities::CalculatePhiStarCP(KVertex pv, KTrack track1, KTrack track2
 	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "reco");
 
 }
+
+
 // calculation of variables Phi* and Phi*CP
 double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level)
 {
@@ -108,6 +114,8 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	}
 	return phiStarCP;
 }
+
+
 // calculation of O*CP (function called by CalculateOStarCP) 
 double CPQuantities::CalculateOStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2)
 {
@@ -157,6 +165,8 @@ double CPQuantities::CalculateOStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVecto
 	double OStarCP = p1n.Dot(n2t.Cross(n1t));
 	return OStarCP;
 }
+
+
 // calculation of the direction of flight of the tau- in the di-tau RF
 std::vector<float> CPQuantities::CalculateTauMinusDirection(RMFLV boson, RMFLV tau1)
 {
@@ -176,6 +186,8 @@ std::vector<float> CPQuantities::CalculateTauMinusDirection(RMFLV boson, RMFLV t
 	tauDir.push_back(km.Z());
 	return tauDir;
 }
+
+
 // calculation of the direction of flight og the pion- in the tau- RF
 std::vector<float> CPQuantities::CalculatePiMinusDirection(RMFLV tau1, RMFLV chargPart1)
 {
@@ -195,6 +207,8 @@ std::vector<float> CPQuantities::CalculatePiMinusDirection(RMFLV tau1, RMFLV cha
 	piDir.push_back(pm.Z());
 	return piDir;
 }
+
+
 // calculation of the hadron Energies in the approximate diTau restframe
 double CPQuantities::CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad)
 {
@@ -205,11 +219,15 @@ double CPQuantities::CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV cha
 	chargHad = Mditau * chargHad;
 	return chargHad.E();
 }
+
+
 // estimation of the impact parameter error (used on recostruction level)
 double CPQuantities::CalculateTrackReferenceError(KTrack track)
 {
 	return sqrt(track.errDz*track.errDz+track.errDxy*track.errDxy);
 }
+
+
 // calculation of the angle Phi between the tau decay planes
 // - using tau- direction in the tautau RF as reference
 // - calculating the normal vectors to the planes
@@ -250,6 +268,8 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 	}
 	return phiCP;
 }
+
+
 // calculation of the observable OCP
 double CPQuantities::CalculateOCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
 {
@@ -278,6 +298,8 @@ double CPQuantities::CalculateOCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV cha
 	double OCP = ez.Dot(np.Cross(nm));
 	return OCP;
 }
+
+
 // calculation of the charged prong energy in tau restframe
 double CPQuantities::CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng)
 {
@@ -289,6 +311,8 @@ double CPQuantities::CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng)
 	chargedProng = TauRestFrame * chargedProng;
 	return chargedProng.E();
 }
+
+
 // calculation of the angle between the hadron and the tau-neutrino flight directions
 double CPQuantities::CalculateThetaNuHadron(RMFLV tau, RMFLV nuTau, RMFLV hadron)
 {
@@ -313,6 +337,8 @@ double CPQuantities::CalculateThetaNuHadron(RMFLV tau, RMFLV nuTau, RMFLV hadron
 	double theta  = acos(nuVec.Dot(hadVec));
 	return theta;
 }
+
+
 // calculation of the angle between the tau-neutrino and the tau-antineutrino flight directions
 double CPQuantities::CalculateAlphaTauNeutrinos(RMFLV tauM, RMFLV nuTauM, RMFLV tauP, RMFLV nuTauP)
 {
@@ -339,6 +365,8 @@ double CPQuantities::CalculateAlphaTauNeutrinos(RMFLV tauM, RMFLV nuTauM, RMFLV 
 	double alpha  = acos(nuMVec.Dot(nuPVec));
 	return alpha;
 }
+
+
 double CPQuantities::CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart)
 {
 	//calculating boost into higgs restframe
@@ -353,6 +381,8 @@ double CPQuantities::CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart)
 	double zPlusMinus = 2 * chargedPart.E() / higgs.E();
 	return zPlusMinus;
 }
+
+
 double CPQuantities::CalculateZs(double zPlus, double zMinus)
 {
 	//calculate the surface between z+ = z- and z+ = z- + a for each event
@@ -372,6 +402,8 @@ double CPQuantities::CalculateZs(double zPlus, double zMinus)
 	}
 	return zs;
 }
+
+
 double CPQuantities::PhiTransform(double phi)
 {
 	phi = 	fmod((phi + ROOT::Math::Pi()),(2 * ROOT::Math::Pi()));
