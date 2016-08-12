@@ -23,8 +23,6 @@ import Artus.Utility.jsonTools as jsonTools
 import glob
 import tempfile
 
-# Example usage for multiple nicknames:
-# for x in /nfs/dust/cms/user/tmuller/htautau/artus/2015-02-10_17-33_svfitComputation/output/*; do echo $x; svfitCacheTreeMerge.py -i $x/*.root --input-trees `artusPipelines.py $x/*.root | sed -e 's@\$@/svfitCache@g'` -o `echo "HiggsAnalysis/KITHiggsToTauTau/auxiliaries/svfit/svfitCache_${x}.root" | sed -e 's@/nfs/dust/cms/user/tmuller/htautau/artus/2015-02-10_17-33_svfitComputation/output/@@g'`; done
 def _call_command(command):
 	log.debug(command)
 	if logger.subprocessCall(command.split())!=0:
@@ -34,11 +32,17 @@ def nick_from_dir(directory):
 	directory = directory.rstrip("/")
 	return directory[directory.rfind("/")+1:]
 
+def srm(in_path):
+	return "srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN=/%s"%(in_path)
+
+def dcap(in_path):
+	return "dcap://dcache-cms-dcap.desy.de%s"%(in_path)
+
 def main():
 	parser = argparse.ArgumentParser(description="Collect matching trees from input files into one output tree",
 	                                 parents=[logger.loggingParser])
 
-	parser.add_argument("-i", "--input", nargs="+", help="Input ROOT files.")
+	parser.add_argument("-i", "--input", help="Input directory with merged Artus outputs including Svit Cache files")
 	parser.add_argument("-o", "--output", default="svfitCache.root",
 	                    help="Output ROOT file. [Default: %(default)s]")
 	
@@ -48,8 +52,6 @@ def main():
 	                    help="Name of output SVfit cache tree. [Default: %(default)s]")
 	parser.add_argument("--previous-cache", default="",
 	                    help="Path to a previous cache which will be merged. [Default: %(default)s]")
-	parser.add_argument("--use-pipelines", default=False, action="store_true",
-	                    help="Write caches into one chache per pipeline[Default: %(default)s]")
 	parser.add_argument("--dcache", type=bool, default=False,
 	                    help="Read&Write from and to desy dcache[Default: %(default)s]")
 	parser.add_argument("--no-run", default=False, action="store_true",
@@ -60,53 +62,59 @@ def main():
 	config_file = []
 	args = parser.parse_args()
 	logger.initLogger(args)
+	ls_command = "gfal-ls %s" %(srm(args.output))
+	retCode = logger.subprocessCall(ls_command.split())
+	if(retCode != 0):
+		mkdir_command = "gfal-mkdir %s" %(srm(args.output))
+		print "Creating " + srm(args.output)
+		logger.subprocessCall(mkdir_command.split())
+	tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp") #dir=os.getcwd())
 	if not args.dcache:
-		input = args.input
-		output = args.output
-		input_trees = args.input_trees
-		output_trees = args.output_tree
-		if args.use_pipelines:
-			config = jsonTools.JsonDict(input[0])
-			pipelines = config.get("Pipelines", {}).keys()
-			# extract names without the leading channel
-			pipelines = ["_".join(pipeline.split("_")[1:]) for pipeline in pipelines]
-			pipelines = list(set(pipelines))
-			pipelines = [x for x in pipelines if x != '']
-			print pipelines
-			merge_commands = []
-			for pipeline in pipelines:
-				out_filename = os.path.join(output, pipeline, "svfitCache_" + os.path.basename(input[0]))
-				if not os.path.exists(os.path.dirname(out_filename)):
-					os.makedirs(os.path.dirname(out_filename))
-				pipeline_input_trees = [pipeline+"/"+input_tree for input_tree in input_trees]
-				merged_tree_name = treemerge.treemerge(
-						input,  pipeline_input_trees,
-						out_filename, output_trees,
-						match_input_tree_names=True
-				)
-				log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
-				if args.previous_cache:
-					previous = args.previous_cache + "/" + pipeline + "/svfitCache_" + os.path.basename(input[0])
-					current = out_filename
-					merge_commands.append("hadd -f %s %s"%(current, previous))
-			for index in range(len(merge_commands)):
-				tools.parallelize(_call_command, [merge_commands[index]], 1)
-		else:
-			merged_tree_name = treemerge.treemerge(
-					input, input_trees,
-					output, output_trees,
-					match_input_tree_names=True
-			)
-			log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
+		if not args.no_run:
+			for input in glob.glob(args.input + "/*/*.root"):
+				output = tmpdir 
+				input_trees = args.input_trees
+				output_trees = args.output_tree
+				config = jsonTools.JsonDict(input)
+				pipelines = config.get("Pipelines", {}).keys()
+				# extract names without the leading channel
+				pipelines = ["_".join(pipeline.split("_")[1:]) for pipeline in pipelines]
+				pipelines = list(set(pipelines))
+				pipelines = [x for x in pipelines if x != '']
+				merge_commands = []
+				for pipeline in pipelines:
+					out_filename = os.path.join(output, pipeline, "svfitCache_" + os.path.basename(input))
+					if not os.path.exists(os.path.dirname(out_filename)):
+						os.makedirs(os.path.dirname(out_filename))
+					pipeline_input_trees = [pipeline+"/"+input_tree for input_tree in input_trees]
+					merged_tree_name = treemerge.treemerge(
+							[input],  pipeline_input_trees,
+							out_filename, output_trees,
+							match_input_tree_names=True
+					)
+					log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
+			if args.previous_cache: # check for all available files in previous_cache
+				previous_caches = glob.glob(args.previous_cache + "*/*.root")
+				previous_cachefiles = [ "/".join(cache.split("/")[-2:]) for cache in previous_caches ]
+
+				for cachefile in previous_cachefiles:
+					current = os.path.join(output, cachefile)
+					previous = os.path.join(args.previous_cache, cachefile)
+					if not os.path.exists(os.path.dirname(current)):
+						os.makedirs(os.path.dirname(current))
+					merge_commands.append("hadd -f -f6 %s %s"%(current, previous))
+				for index in range(len(merge_commands)):
+					tools.parallelize(_call_command, [merge_commands[index]], 1)
+			# move to output-directory
+			copy_commands = ["gfal-copy -r file:///%s %s" % (output, srm(args.output) )]
+			tools.parallelize(_call_command, [copy_commands[0]], 1)
+		# print c&p summary
+		current_caches = glob.glob(args.output + "*/*.root")
+		nicknames = list(set([ os.path.basename(cache).split(".")[0].replace("svfitCache_", "") for cache in current_caches ]))
+		for nick in sorted(nicknames):
+			config_file.append('\t\t\t"%s" : "%s",' % (nick, dcap(args.output) + "/svfitCache_" + nick + ".root"))
 	else:
-		input_dirs = args.input
-		ls_command = "gfal-ls %s" %(args.output)
-		retCode = logger.subprocessCall(ls_command.split())
-		if(retCode != 0):
-			mkdir_command = "gfal-mkdir %s" %(args.output)
-			print "Creating " + args.output
-			logger.subprocessCall(mkdir_command.split())
-		tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp") #dir=os.getcwd())
+		input_dirs = glob.glob(args.input + "/*/*/*")
 		untar_commands = ["tar xvf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
 		if not args.no_run:
 			for index in range(len(untar_commands)):
@@ -133,16 +141,16 @@ def main():
 				tmp_filename = tmpdir + "/" + pipeline + "/svfitCache_" + sample + ".root"
 				out_filename = args.output + "/" + pipeline + "/svfitCache_" + sample + ".root"
 				merge_commands.append("hadd -f %s %s %s"%(tmp_filename, " ".join(dirs[sample][pipeline]), previous_cache_file))
-				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, out_filename ))
-			config_file.append('"%s" : "%s",' % (sample, "dcap://dcache-cms-dcap.desy.de" + args.output.split('=')[1] + "/svfitCache_" + sample + ".root"))
+				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, srm(out_filename) ))
+			config_file.append('"%s" : "%s",' % (sample, dcap(args.output) + "/svfitCache_" + sample + ".root"))
 		if not args.no_run:
 			for index in range(len(merge_commands)):
 				tools.parallelize(_call_command, [merge_commands[index]], 1)
 				tools.parallelize(_call_command, [copy_commands[index]], 1)
-		shutil.rmtree(tmpdir)
-		print "done. Artus SvfitCacheFile settings: "
-		for entry in config_file: 
-			print entry
+	shutil.rmtree(tmpdir)
+	print "done. Artus SvfitCacheFile settings: "
+	for entry in config_file: 
+		print entry
 
 if __name__ == "__main__":
 	main()
