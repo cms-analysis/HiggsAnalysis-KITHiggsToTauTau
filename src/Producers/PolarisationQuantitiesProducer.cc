@@ -56,7 +56,7 @@ void PolarisationQuantitiesProducer::Produce(
 				}
 				energyNeutralPi = sumGammasLV.E();
 			}
-			product.m_rhoNeutralChargedAsymmetry[*tau] = (((energyNeutralPi + energyChargedPi) != 0.0) ? (energyNeutralPi - energyChargedPi) / (energyNeutralPi + energyChargedPi) : 0.0);
+			product.m_rhoNeutralChargedAsymmetry[*tau] = (((energyNeutralPi + energyChargedPi) != 0.0) ? (energyChargedPi - energyNeutralPi) / (energyChargedPi - energyNeutralPi) : 0.0);
 		}
 	}
 }
