@@ -49,4 +49,10 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
         product.m_weights["idweight_1"] = 1.0;
         product.m_weights["isoweight_1"] = 1.0;
     }
+    if((product.m_weights.find("idweight_2") != product.m_weights.end()) && (product.m_weights.find("isoweight_2") != product.m_weights.end()))
+    {
+        product.m_weights["identificationWeight_2"] = product.m_weights["idweight_2"]*product.m_weights["isoweight_2"];
+        product.m_weights["idweight_2"] = 1.0;
+        product.m_weights["isoweight_2"] = 1.0;
+    }
 }
