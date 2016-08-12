@@ -7,6 +7,11 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 
 
+std::string RecoTauCPProducer::GetProducerId() const
+{
+	return "RecoTauCPProducer";
+}
+
 void RecoTauCPProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
@@ -53,6 +58,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return product.m_recoTrackRefError2;
 	});
 }
+
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
 	assert(event.m_vertexSummary);
@@ -78,22 +84,24 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	
 
 	// define which is the chargePlus particle and which is the chargeMinus particle
-	KTrack& trackP = track1;
-	KTrack& trackM = track2;
-	RMFLV& momentumP = momentum1;
-	RMFLV& momentumM = momentum2;
+	KTrack* trackP = &track1;
+	KTrack* trackM = &track2;
+	RMFLV* momentumP = &momentum1;
+	RMFLV* momentumM = &momentum2;
 
-	if (product.m_flavourOrderedLeptons[0]->charge() == -1){   // reminder: track1 = product.m_flavourOrderedLeptons[0]->track
-		trackP = track2;
-		trackM = track1;
-		momentumP = momentum2;
-		momentumM = momentum1;
+	if (product.m_flavourOrderedLeptons[0]->charge() < 0.0)
+	{
+		// reminder: track1 = product.m_flavourOrderedLeptons[0]->track
+		trackP = &track2;
+		trackM = &track1;
+		momentumP = &momentum2;
+		momentumM = &momentum1;
 	}
 
 	CPQuantities cpq;
-	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
-	//product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(event.m_refitVertexSummary->pv, trackP, trackM, momentumP, momentumM);
-	//product.m_recoPhiStarCPrPVbs = cpq.CalculatePhiStarCP(event.m_refitVertexBSSummary->pv, trackP, trackM, momentumP, momentumM);
+	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, *trackP, *trackM, *momentumP, *momentumM);
+	//product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(event.m_refitVertexSummary->pv, *trackP, *trackM, *momentumP, *momentumM);
+	//product.m_recoPhiStarCPrPVbs = cpq.CalculatePhiStarCP(event.m_refitVertexBSSummary->pv, *trackP, *trackM, *momentumP, *momentumM);
 
 	product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	product.m_recoIP1 = cpq.GetRecoIP1();
