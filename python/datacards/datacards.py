@@ -928,7 +928,7 @@ class Datacards(object):
 		commandsPlot.extend([[
 				"plotImpacts.py -i {INPUT} -o {OUTPUT}".format(
 						INPUT="impacts.json",
-						OUTPUT="nuisance_impacts"
+						OUTPUT="plots/nuisance_impacts"
 				),
 				os.path.dirname(workspace)
 		] for datacard, workspace in datacards_workspaces.iteritems()])
