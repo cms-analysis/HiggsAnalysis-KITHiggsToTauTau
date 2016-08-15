@@ -108,9 +108,43 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvacov11", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["mvaMetCov11"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pzetavis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pZetaVis"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pzetamiss", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pZetaMiss"]);
+	
+	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_1", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["leadingJetLV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetPt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetEta"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetMass"]);
+
+	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_2", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["trailingJetLV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetPt"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetEta"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetMass"]);
+
+	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_3", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["thirdJetLV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetPt"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetEta"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetMass"]);
+	
+	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_4", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["fourthJetLV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetPt"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetEta"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetMass"]);
+	
+	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_5", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["fifthJetLV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetPt"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetEta"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetMass"]);
+	
+	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_6", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["sixthJetLV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetPt"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetEta"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetMass"]);
+	
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jmva_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetPuID"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jcsv_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetCSV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJetPt"]);
@@ -118,24 +152,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bphi_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJetPhi"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bmva_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingBJetPuID"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bcsv_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingBJetCSV"]);
-
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetPhi"]);
-
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetPhi"]);
-
+	
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jmva_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetPuID"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jcsv_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetCSV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJet2Pt"]);
