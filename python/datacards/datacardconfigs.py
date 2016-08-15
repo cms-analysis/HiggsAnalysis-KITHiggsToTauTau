@@ -64,6 +64,8 @@ class DatacardConfigs(object):
 				"mt_0jet_inclusive" : 30,
 				"mt_1jet_inclusive" : 31,
 				"mt_2jet_inclusive" : 32,
+				
+				"mt_l_rho" : 1,
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -89,6 +91,8 @@ class DatacardConfigs(object):
 				"et_0jet_inclusive" : 30,
 				"et_1jet_inclusive" : 31,
 				"et_2jet_inclusive" : 32,
+				
+				"et_l_rho" : 1,
 			},
 			"em" : {
 				"em_inclusive" : 0,
@@ -139,6 +143,8 @@ class DatacardConfigs(object):
 				"tt_0jet_inclusive" : 30,
 				"tt_1jet_inclusive" : 31,
 				"tt_2jet_inclusive" : 32,
+				
+				"tt_rho_x" : 1,
 			},
 			"mm" : {
 				"mm_inclusive" : 0,

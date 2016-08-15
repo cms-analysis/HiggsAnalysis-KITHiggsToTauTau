@@ -18,7 +18,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category for category in ["inclusive"]],
+					categories=["mt_"+category for category in ["l_rho"]],
 					bkg_processes=["ZLL", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZTTPOSPOL", "ZTTNEGPOL"],
 					analysis=["ztt"],

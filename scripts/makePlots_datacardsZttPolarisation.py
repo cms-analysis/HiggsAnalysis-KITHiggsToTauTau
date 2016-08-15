@@ -41,8 +41,6 @@ if __name__ == "__main__":
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantity", default="rhoNeutralChargedAsymmetry_2",
-	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
@@ -176,7 +174,7 @@ if __name__ == "__main__":
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
-							category="catHtt13TeV_"+category,
+							category="catZttPol13TeV_"+category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							higgs_masses=higgs_masses
@@ -186,9 +184,9 @@ if __name__ == "__main__":
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
-					config["x_expressions"] = [args.quantity]
+					config["x_expressions"] = ["testZttPol13TeV_"+category]
 
-					binnings_key = channel+"_"+args.quantity
+					binnings_key = "binningZttPol13TeV_"+category
 					if binnings_key in binnings_settings.binnings_dict:
 						config["x_bins"] = [binnings_key]
 						
@@ -316,7 +314,7 @@ if __name__ == "__main__":
 	datacards.prefit_postfit_plots(
 			datacards_cbs,
 			datacards_postfit_shapes,
-			plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity},
+			plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "1.0"},
 			n_processes=args.n_processes,
 			signal_stacked_on_bkg=True
 	)

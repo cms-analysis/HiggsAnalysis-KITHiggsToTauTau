@@ -33,6 +33,18 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_0jet_inclusive"] = "(njetspt30<1)"
 
+		# Z->tautau polarisation categories
+		for channel in ["mt", "et"]:
+			self.expressions_dict["catZttPol13TeV_"+channel+"_l_rho"] = "(decayMode_2 == 1)"
+		for channel in ["tt"]:
+			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_x"] = "(decayMode_1 == 1)"
+
+		# Z->tautau polarisation test statistics
+		for channel in ["mt", "et"]:
+			self.expressions_dict["testZttPol13TeV_"+channel+"_l_rho"] = "rhoNeutralChargedAsymmetry_2"
+		for channel in ["tt"]:
+			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_x"] = "rhoNeutralChargedAsymmetry_1"
+
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"
