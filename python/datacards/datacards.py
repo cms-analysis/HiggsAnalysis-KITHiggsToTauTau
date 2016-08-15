@@ -779,8 +779,8 @@ class Datacards(object):
 							config = {}
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
-							config["x_expressions"] = [p.strip("_noplot") for p in stacked_processes] + ([] if signal_stacked_on_bkg else ["TotalSig"]) + ["data_obs", "TotalBkg"]
-							config["nicks"] = stacked_processes + ([] if signal_stacked_on_bkg else ["TotalSig"]) + ["data_obs", "TotalBkg"]
+							config["x_expressions"] = [p.strip("_noplot") for p in stacked_processes] + ["TotalSig"] + ["data_obs", "TotalBkg"]
+							config["nicks"] = stacked_processes + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
 							config["stacks"] = (["stack"]*len(stacked_processes)) + ([] if signal_stacked_on_bkg else ["sig"]) + ["data", "bkg_unc"]
 
 							config["labels"] = [label.lower() for label in stacked_processes + ([] if signal_stacked_on_bkg else ["TotalSig"]) + ["data_obs", "TotalBkg"]]
@@ -806,12 +806,19 @@ class Datacards(object):
 								config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
 
 							if plotting_args.get("ratio", False):
+								if signal_stacked_on_bkg:
+									if not "SumOfHistograms" in config.get("analysis_modules", []):
+										config.setdefault("analysis_modules", []).append("SumOfHistograms")
+									config.setdefault("sum_nicks", []).append("TotalBkg_noplot TotalSig_noplot")
+									config.setdefault("sum_result_nicks", []).append("TotalBkg")
+								
 								if not "Ratio" in config.get("analysis_modules", []):
 									config.setdefault("analysis_modules", []).append("Ratio")
 								config.setdefault("ratio_numerator_nicks", []).extend(["TotalBkg", "data_obs"])
 								config.setdefault("ratio_denominator_nicks", []).extend(["TotalBkg"] * 2)
 								config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
 								config["ratio_denominator_no_errors"] = True
+								
 								config.setdefault("colors", []).extend(["totalbkg", "#000000"])
 								config.setdefault("markers", []).extend(["E2", "E"])
 								config.setdefault("legend_markers", []).extend(["F", "ELP"])
