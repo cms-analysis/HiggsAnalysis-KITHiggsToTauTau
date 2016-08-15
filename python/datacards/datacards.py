@@ -819,7 +819,7 @@ class Datacards(object):
 								config.setdefault("stacks", []).extend(["unc", "ratio"])
 								config["legend"] = [0.7, 0.4, 0.95, 0.83]
 								config["subplot_grid"] = "True"
-								config["y_subplot_lims"] = [0.0, 2.0]
+								config["y_subplot_lims"] = [0.5, 1.5]
 								config["y_subplot_label"] = "Obs./Exp."
 
 							plot_configs.append(config)
