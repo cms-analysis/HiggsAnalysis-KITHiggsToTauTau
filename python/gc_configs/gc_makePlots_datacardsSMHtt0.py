@@ -43,7 +43,7 @@ else:
 	cfg.parameters.set("P1", ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"])
 	cfg.parameters.set("P2", ["0", "10", "20", "30", "40", "50", "60", "70"])
 
-arguments = executable + " " + variable +" "+ mass +" "+ output_dir+ " " + extra + " " + input_dataset
+arguments = " ".join([cmssw_base, executable, variable, mass, output_dir, extra, input_dataset])
 for channel in channels:
 	arguments = arguments +" --channel " + channel + " --categories"
 	if active == "0jet":
