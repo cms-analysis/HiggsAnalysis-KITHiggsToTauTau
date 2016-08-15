@@ -696,19 +696,23 @@ class Datacards(object):
 			value_replacements = {}
 
 		commands = []
+		values_tree_files = {}
 		for datacard, workspace in datacards_workspaces.iteritems():
 			search_result = re.search(value_regex, workspace)
 			if not search_result is None:
 				value = search_result.groups()[0]
 				float_value = float(value_replacements.get(value, value))
+				files = os.path.join(os.path.dirname(workspace), root_filename)
+				values_tree_files[float_value] = files
 
 				commands.append("annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
-						FILES=os.path.join(os.path.dirname(workspace), root_filename),
+						FILES=files,
 						VALUE=float_value,
 						ARGS=" ".join(args)
 				))
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		return values_tree_files
 
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, *args):
 		commands = []

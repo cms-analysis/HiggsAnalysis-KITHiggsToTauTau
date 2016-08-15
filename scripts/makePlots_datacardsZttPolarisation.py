@@ -11,6 +11,7 @@ import os
 import sys
 
 import Artus.Utility.tools as tools
+import Artus.Utility.jsonTools as jsonTools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
@@ -77,6 +78,8 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	args.n_plots = [n_plots if n_plots >= 0 else None for n_plots in args.n_plots]
+	
 	if args.era == "2015":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 	elif args.era == "2015new":
@@ -114,7 +117,7 @@ if __name__ == "__main__":
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
 		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-		#"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 		#"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
@@ -245,7 +248,7 @@ if __name__ == "__main__":
 	debug_plot_configs = []
 	for output_file in (output_files):
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
-	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -292,8 +295,6 @@ if __name__ == "__main__":
 			)
 	)
 	
-	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
-	
 	# Max. likelihood fit and postfit plots
 	stable_options = r"--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 	
@@ -325,20 +326,32 @@ if __name__ == "__main__":
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	
-	#datacards.annotate_trees(
-			#datacards_workspaces,
-			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
-			#annotation_replacements,
-			#args.n_processes,
-			#"-t limit -b channel"
-	#)
-	#datacards.annotate_trees(
-			#datacards_workspaces,
-			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
-			#annotation_replacements,
-			#args.n_processes,
-			#"-t limit -b channel"
-	#)
+	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "mt", "et", "tt"])}
+	values_tree_files = {}
+	values_tree_files.update(datacards.annotate_trees(
+			datacards_workspaces,
+			"higgsCombine*MaxLikelihoodFit*mH*.root",
+			[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
+			annotation_replacements,
+			args.n_processes,
+			"-t limit -b channel"
+	))
+	values_tree_files.update(datacards.annotate_trees(
+			datacards_workspaces,
+			"higgsCombine*MaxLikelihoodFit*mH*.root",
+			[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
+			annotation_replacements,
+			args.n_processes,
+			"-t limit -b channel"
+	))
+	
+	# plot best fit values of parameter pol from physics model
+	config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json"))
+	config["files"] = [" ".join([values_tree_files[value] for value in sorted(values_tree_files.keys())])]
+	config["x_ticks"] = sorted(values_tree_files.keys())
+	inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
+	config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]
+	config["x_tick_labels"] = [("" if label == "combined" else "channel_") + label for label in config["x_tick_labels"]]
+	config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
+	higgsplot.HiggsPlotter(list_of_config_dicts=[config], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
