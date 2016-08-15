@@ -779,14 +779,14 @@ class Datacards(object):
 							config = {}
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
-							config["x_expressions"] = [p.strip("_noplot") for p in stacked_processes] + (["TotalSig"] if signal_stacked_on_bkg else []) + ["data_obs", "TotalBkg"]
-							config["nicks"] = stacked_processes + (["TotalSig"] if signal_stacked_on_bkg else []) + ["data_obs", "TotalBkg"]
-							config["stacks"] = (["stack"]*len(stacked_processes)) + (["sig"] if signal_stacked_on_bkg else []) + ["data", "bkg_unc"]
+							config["x_expressions"] = [p.strip("_noplot") for p in stacked_processes] + ["TotalSig"]  + ["data_obs", "TotalBkg"]
+							config["nicks"] = stacked_processes + ["TotalSig"]  + ["data_obs", "TotalBkg"]
+							config["stacks"] = (["stack"]*len(stacked_processes)) + ["sig"] + ["data", "bkg_unc"]
 
-							config["labels"] = [label.lower() for label in stacked_processes + (["TotalSig"] if signal_stacked_on_bkg else []) + ["data_obs", "TotalBkg"]]
-							config["colors"] = [color.lower() for color in stacked_processes + (["TotalSig"] if signal_stacked_on_bkg else []) + ["data_obs", "TotalBkg"]]
-							config["markers"] = (["HIST"]*len(stacked_processes)) + (["LINE"] if signal_stacked_on_bkg else []) + ["E", "E2"]
-							config["legend_markers"] = (["F"]*len(stacked_processes)) + (["L"] if signal_stacked_on_bkg else []) + ["ELP", "F"]
+							config["labels"] = [label.lower() for label in stacked_processes + ["TotalSig"]  + ["data_obs", "TotalBkg"]]
+							config["colors"] = [color.lower() for color in stacked_processes + ["TotalSig"]  + ["data_obs", "TotalBkg"]]
+							config["markers"] = (["HIST"]*len(stacked_processes)) + ["LINE"]  + ["E", "E2"]
+							config["legend_markers"] = (["F"]*len(stacked_processes)) + ["L"]  + ["ELP", "F"]
 
 							config["x_label"] = category.split("_")[0]+"_"+plotting_args.get("x_expressions", None)
 							config["title"] = "channel_"+category.split("_")[0]
