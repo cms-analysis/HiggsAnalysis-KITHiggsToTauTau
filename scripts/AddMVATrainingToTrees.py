@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import Artus.Utility.logger as logger
+import Artus.Utility.tools as aTools
 log = logging.getLogger(__name__)
 import sys
 import os
@@ -36,7 +37,7 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 		for method in temp_method:
 			for temp in range(1,NFolds+1):
 				methods.append(ROOT.TString(method+"_"+str(temp)+'_'+training_name))
-		splits = [ROOT.TFormula("%s%i"%(method,temp), split.replace("TrainingSelectionValue", "x")) for split in log["splits"]]
+		splits = [ROOT.TFormula("%s%i"%(method,temp), split.replace("event", "x")) for split in log["splits"]]
 		reader = ROOT.TMVA.Reader()
 		for var_name in variables_list:
 			reader.AddVariable(ROOT.TString(var_name), all_variables[var_name])
@@ -55,7 +56,7 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 	new_branches = [array.array('f', [x]) for x in range(branch_count)]
 	#looping over all files -> ntuples -> events -> branches to be added
 	for filename in filenames:
-		c_file = ROOT.TFile(filename, "update")
+		c_file = ROOT.TFile(filename.strip('"'), "update")
 		for ntuple in ntuple_strings:
 			ROOT.gDirectory.cd("/")
 			if "/" in ntuple:
@@ -74,18 +75,41 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 					for (method, split) in zip(handl["methods"], handl["splits"]):
 						#import pdb
 						#pdb.set_trace()
-						if split.Eval(event.__getattr__("TrainingSelectionValue")):
+						if split.Eval(event.__getattr__("event")):
 							new_branches[counter][0] = handl["reader"].EvaluateMVA(method)
 							real_branches[counter].Fill()
 							break
 			tree.Write("", ROOT.TObject.kOverwrite)
 		del c_file
+
+def file_wrapper(args):
+	if args[2] in ["ee", "em", "mm"]:
+		ntuple_strings = [args[2]+"_jecUncNom/ntuple"]#, args[2]+"_jecUncDown/ntuple", args[2]+"_jecUncUp/ntuple"]
+	else:
+		ntuple_strings = [args[2]+"_jecUncNom_tauEsNom/ntuple"]
+		if not "Run20" in args[0]:
+			ntuple_strings.append(channel+"_jecUncDown_tauEsNom/ntuple")
+			ntuple_strings.append(channel+"_jecUncUp_tauEsNom/ntuple")
+		if "DY" in args[0] or "HToTauTau" in args[0]:
+			ntuple_strings.append(channel+"_jecUncNom_tauEsUp/ntuple")
+			ntuple_strings.append(channel+"_jecUncNom_tauEsDown/ntuple")
+	append_MVAbranch([args[0]], ntuple_strings, args[1])
+
+
 if __name__ == "__main__":
-	#import argparse
-	#parser = argparse.ArgumentParser(description="Plot overlapping signal events.",
-									 #parents=[logger.loggingParser])
-	#parser.add_argument("-i", "--input-dir",
-						#help="Path to ArtusOutput")
+	import argparse
+	import glob
+	parser = argparse.ArgumentParser(description="Plot overlapping signal events.",
+									 parents=[logger.loggingParser])
+	parser.add_argument("-i", "--input-files", nargs="+", required=True,
+						help="Path to ArtusOutput merged or rootfiles")
+	parser.add_argument("-l", "--training-logs", nargs="+", default=[],
+						help="Path to TrainingLog.json")
+	parser.add_argument("-j", "--j", default = 1,
+						help="number of parallel processes [Default: %(default)s]")
+	parser.add_argument("-c", "--channels", nargs="*",
+						default=["tt", "mt", "et", "em", "mm", "ee"],
+						help="Channels. [Default: %(default)s]")
 	#parser.add_argument("-m", "--higgs-masses",nargs="+", default = ["125"],
 						#help="higgs mass [Default: %(default)s]")
 	#parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -99,8 +123,23 @@ if __name__ == "__main__":
 	#parser.add_argument("-o", "--output-dir",
 						#default="./",
 						#help="path to output file. [Default: %(default)s]")
-
-	filenames = ["TestTree.root"]
-	ntuple_strings = ["mt_jecUncDown_tauEsNom/ntuple","mt_jecUncNom_tauEsDown/ntuple","mt_jecUncNom_tauEsNom/ntuple","mt_jecUncNom_tauEsUp/ntuple","mt_jecUncUp_tauEsNom/ntuple"]
-	training_logs = [jsonTools.JsonDict("TrainingLog.json")]
-	append_MVAbranch(filenames, ntuple_strings, training_logs)
+	args = parser.parse_args()
+	
+	if len(args.input_files)>1:
+		filenames = args.input_files
+	else:
+		if os.path.isdir(args.input_files[0]):
+			filenames = glob.glob(os.path.join(args.input_files, "*", "*.root"))
+		else:
+			filenames = args.input_files
+	#ntuple_strings = ["mt_jecUncDown_tauEsNom/ntuple","mt_jecUncNom_tauEsDown/ntuple","mt_jecUncNom_tauEsNom/ntuple","mt_jecUncNom_tauEsUp/ntuple","mt_jecUncUp_tauEsNom/ntuple"]
+	#training_logs = [jsonTools.JsonDict("TrainingLog.json")]
+	training_logs = []
+	for element in args.training_logs:
+		training_logs.append(jsonTools.JsonDict(element))
+	
+	for channel in args.channels:
+		args_list = []
+		for element in filenames:
+			args_list.append([element, training_logs, channel])
+			aTools.parallelize(file_wrapper, args_list, args.j)
