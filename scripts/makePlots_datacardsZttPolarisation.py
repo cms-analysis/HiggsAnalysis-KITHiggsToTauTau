@@ -73,8 +73,6 @@ if __name__ == "__main__":
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	#parser.add_argument("--use-rate-parameter", action="store_true", default=False,
 	#					help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
-	parser.add_argument("--remote", action="store_true", default=False,
-						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	
@@ -116,7 +114,12 @@ if __name__ == "__main__":
 	sig_histogram_name_template = "${BIN}/${PROCESS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
+	datacard_filename_templates = [
+		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+		#"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+		#"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		"datacards/combined/${ANALYSIS}_${ERA}.txt",
+	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
 	if args.channel != parser.get_default("channel"):
@@ -338,11 +341,4 @@ if __name__ == "__main__":
 			#args.n_processes,
 			#"-t limit -b channel"
 	#)
-	
-	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index)
-	
-	if args.remote:
-		#os.system("tar cfv " + os.path.join(args.output_dir, "jobresult.tar") + " " + os.path.join(args.output_dir, "datacards") + " " + os.path.join(args.output_dir, "input"))
-		os.system("tar cfv jobresult.tar datacards/ input/")
+
