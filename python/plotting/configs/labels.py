@@ -162,6 +162,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_pZetaMissVis"] = "#left(p^{miss}_{#zeta} #minus 0.85 p^{vis}_{#zeta}#right) / GeV"
 			self.labels_dict["tt_pzetamiss"] = "p^{miss}_{#zeta} / GeV"
 			self.labels_dict["tt_pzetavis"] = "p^{vis}_{#zeta} / GeV"
+			self.labels_dict["tt_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			self.labels_dict["tt_rhoNeutralChargedAsymmetry_1"] = "Leading Tau (E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			self.labels_dict["tt_rhoNeutralChargedAsymmetry_2"] = "Trailing Tau (E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			
@@ -241,6 +242,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["mt_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["mt_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["mt_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			self.labels_dict["mt_rhoNeutralChargedAsymmetry_2"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			
 			self.labels_dict["et_decayMode_2"] = "Tau DM"
@@ -316,6 +318,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["et_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["et_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["et_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["et_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			self.labels_dict["et_rhoNeutralChargedAsymmetry_2"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			
 			self.labels_dict["em_eta_1"] = "Electron #eta"
