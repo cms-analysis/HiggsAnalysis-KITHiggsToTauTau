@@ -19,7 +19,7 @@ class CategoriesDict(object):
 		pt2_medium_string = "(pt_2>=35)"
 		pt2_loose_string = "(pt_2>=25)"
 		eta_hard_string = "jdeta>4.0"
-		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,40,20)+range(50, 150, 10)+range(150,251,20)])
+		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,40,10)+range(50, 150, 5)+range(150,251,10)])
 		self.pp = pprint.PrettyPrinter(indent=4)
 		self.categoriesDict = {}
 		for mjj in range(0,801,100):
