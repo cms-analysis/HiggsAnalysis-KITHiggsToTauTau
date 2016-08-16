@@ -36,7 +36,7 @@ public:
          TDirectory *savedir(gDirectory);
          TFile *savefile(gFile);
          TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-         ff_file = new TFile(cmsswBase+"/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/fakeFactors_20160511.root");
+         ff_file = new TFile(cmsswBase+"/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/fakeFactors_20160809.root");
          gDirectory = savedir;
          gFile = savefile;
  	}
