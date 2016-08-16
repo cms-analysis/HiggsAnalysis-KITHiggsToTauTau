@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e # exit on errors
 
-export SCRAM_ARCH=slc6_amd64_gcc481
+export SCRAM_ARCH=slc6_amd64_gcc491
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
 
 # set up CMSSW release area
-scramv1 project CMSSW CMSSW_7_1_5; cd CMSSW_7_1_5/src # slc6 # Combine requires this version
+scramv1 project CMSSW CMSSW_7_4_7; cd CMSSW_7_4_7/src # slc6 # Combine requires this version
 eval `scramv1 runtime -sh`
 
 # JEC
@@ -60,7 +60,7 @@ git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
 git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 cd HiggsAnalysis/CombinedLimit
 git fetch origin
-git checkout v5.0.3
+git checkout v6.2.1
 cd -
 
 
