@@ -43,9 +43,9 @@
     "x_expressions": [
         "channel"
     ], 
-    "x_label": "Channel Index", 
+    "x_label": "", 
     "y_expressions": [
         "limit"
     ], 
-    "y_label": "Best Fit Value"
+    "y_label": "Best Fit Polarisation"
 }
