@@ -162,6 +162,8 @@ if __name__ == "__main__":
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+				bkg_data_samples = [sample for sample in list_of_samples if (sample != "zttpospol") and (sample != "zttnegpol")]
+				sig_samples = [sample for sample in list_of_samples if (sample == "zttpospol") or (sample == "zttnegpol")]
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -174,14 +176,46 @@ if __name__ == "__main__":
 					))
 					
 					# prepare plotting configs for retrieving the input histograms
-					config = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
-							channel=channel,
-							category="catZttPol13TeV_"+category,
-							weight=args.weight,
-							lumi = args.lumi * 1000,
-							higgs_masses=higgs_masses
-					)
+					config = {}
+					
+					if len(bkg_data_samples) > 0:
+						bkg_data_config = sample_settings.get_config(
+								samples=[getattr(samples.Samples, sample) for sample in bkg_data_samples],
+								channel=channel,
+								category="catZttPol13TeV_"+category,
+								weight=args.weight,
+								lumi = args.lumi * 1000,
+								higgs_masses=higgs_masses
+						)
+						config = samples.Samples.merge_configs(config, bkg_data_config)
+					
+					if len(sig_samples) > 0:
+						sig_config = sample_settings.get_config(
+								samples=[getattr(samples.Samples, sample) for sample in sig_samples],
+								channel=channel,
+								category="catZttPol13TeV_"+category,
+								weight=args.weight,
+								lumi = args.lumi * 1000,
+								higgs_masses=higgs_masses,
+								nick_suffix="_noplot"
+						)
+						sig_config = samples.Samples.merge_configs(sig_config, sample_settings.get_config(
+								samples=[samples.Samples.ztt],
+								channel=channel,
+								category="catZttPol13TeV_"+category,
+								weight=args.weight,
+								lumi = args.lumi * 1000 / 2.0,
+								higgs_masses=higgs_masses,
+								nick_suffix="_noplot",
+								no_plot=True
+						))
+						config = samples.Samples.merge_configs(config, sig_config)
+						
+						if not "ShapeYieldMerge" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("ShapeYieldMerge")
+						config.setdefault("shape_nicks", []).extend(["zttpospol_noplot", "zttnegpol_noplot"])
+						config.setdefault("yield_nicks", []).extend(["ztt_noplot"] * 2)
+						config.setdefault("shape_yield_nicks", []).extend(["zttpospol", "zttnegpol"])
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
