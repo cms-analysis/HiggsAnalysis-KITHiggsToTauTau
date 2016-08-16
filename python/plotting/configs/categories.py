@@ -22,7 +22,7 @@ class CategoriesDict(object):
 		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,40,10)+range(50, 150, 5)+range(150,251,10)])
 		self.pp = pprint.PrettyPrinter(indent=4)
 		self.categoriesDict = {}
-		for mjj in range(0,801,100):
+		for mjj in range(0,1001,100):
 			for jdeta in np.linspace(0.0, 6.0, 13):
 				vbf_string = ("(mjj>" + str(mjj) + ")") if mjj >0 else ""
 				if(jdeta != 0):
@@ -56,7 +56,7 @@ class CategoriesDict(object):
 				self.categoriesDict["{analysis}{channel}ivbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([self.invert(vbf_string), jet2_string])
 
 
-		for h_pt in range(0,151,10):
+		for h_pt in range(0,201,10):
 			for pt_2 in range(0,101,10):
 				cut_string = "(H_pt>" + str(h_pt) + ")" if h_pt > 0 else ""
 				if pt_2 > 0:

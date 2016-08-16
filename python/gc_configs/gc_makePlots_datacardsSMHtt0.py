@@ -34,11 +34,11 @@ extra=" --n-plots 1000 0 --auto-rebin --qcd-subtract-shape -n 1 --remote --use-a
 cfg.parameters.set("parameters", ["P1", "P2"])
 cfg.parameters.set("repeat", 1)
 if active == "2jet":
-	cfg.parameters.set("P1", ["0", "100", "200", "300", "400", "500", "600", "700", "800"])
-	cfg.parameters.set("P2", ["0.0", "0.5", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0","4.5", "5.0"])
+	cfg.parameters.set("P1", ["0", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000"])
+	cfg.parameters.set("P2", ["0.0", "0.5", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0","4.5", "5.0", "5.5", "6.0"])
 elif active == "1jet":
-	cfg.parameters.set("P1", ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150"])
-	cfg.parameters.set("P2", ["0", "10", "20", "30", "40", "50", "60", "70"])
+	cfg.parameters.set("P1", ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"])
+	cfg.parameters.set("P2", ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"])
 else:
 	cfg.parameters.set("P1", ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"])
 	cfg.parameters.set("P2", ["0", "10", "20", "30", "40", "50", "60", "70"])
@@ -55,14 +55,14 @@ for channel in channels:
 	if active == "1jet":
 		arguments = arguments +" 1jet_@P1@_@P2@ i1jet_@P1@_@P2@ "
 	else:
-		arguments = arguments +" OneJet30 "
-		#arguments = arguments +" 1jet_120_40 i1jet_120_40 "
+		#arguments = arguments +" OneJet30 "
+		arguments = arguments +" 1jet_150_0 i1jet_150_0 "
 
 	if active == "2jet":
 		arguments = arguments +" vbf_@P1@_@P2@ ivbf_@P1@_@P2@ "
 	else:
-		arguments = arguments +" TwoJet30 "
-		#arguments = arguments +" vbf_400_3.0 ivbf_400_3.0 "
+		#arguments = arguments +" TwoJet30 "
+		arguments = arguments +" vbf_800_0.0 ivbf_800_0.0 "
 
 cfg.usertask.set('arguments', "%s"%arguments)
 cfg.storage.set('se path', "/nfs/dust/cms/user/rfriese/" + project_name + "/" + active)
