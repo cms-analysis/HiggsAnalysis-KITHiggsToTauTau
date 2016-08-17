@@ -27,7 +27,10 @@ def setInputFilenames(filelist, filedict):
 			if os.path.isdir(entry):
 				setInputFilenames(glob.glob(os.path.join(entry, "*")), filedict)
 			elif entry.endswith(".root"):
-				filedict.setdefault(os.path.basename(entry).replace(".root",""), []).append(entry + " = 1")
+				nick = os.path.basename(entry).replace(".root","")
+				if "_job" in nick:
+					nick = nick.split("_job")[0]
+				filedict.setdefault(nick, []).append(entry + " = 1")
 			else:
 				log.warning("Found file in input search path that is not further considered: " + entry + "\n")
 			
@@ -46,6 +49,8 @@ if __name__ == "__main__":
 	configOptionsGroup.add_argument("-c", "--channels", nargs="*",
 						default=["tt", "mt", "et", "em", "mm", "ee"],
 						help="Channels. [Default: %(default)s]")
+	configOptionsGroup.add_argument("--calc-Training-BDT", default = False, action="store_true",
+						help="Calculate BDT scores for the training set as well [Default: %(default)s]")
 	configOptionsGroup.add_argument("--gc-config", default="$CMSSW_BASE/src/Artus/Configuration/data/grid-control_base_config.conf",
 		                                help="Path to grid-control base config that is replace by the wrapper. [Default: %(default)s]")
 	configOptionsGroup.add_argument("--gc-config-includes", nargs="+",
@@ -105,6 +110,8 @@ if __name__ == "__main__":
 	epilogArguments += " -c"
 	for entry in args.channels:
 		epilogArguments += " " + entry
+	if args.calc_Training_BDT:
+		epilogArguments += " --calc-Training-BDT"
 	epilogArguments += " -l"
 	for entry in args.training_logs:
 		epilogArguments += " " + entry

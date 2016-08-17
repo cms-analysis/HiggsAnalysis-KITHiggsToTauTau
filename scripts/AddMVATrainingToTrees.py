@@ -11,7 +11,7 @@ import array
 import Artus.Utility.jsonTools as jsonTools
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
-def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="same as training"):
+def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="same as training", calcTrainBDT=False):
 	#Setup of all the readers/methods etc. for value calculation
 	ROOT.TMVA.Tools.Instance()
 	tmva_handling_list = []
@@ -52,11 +52,25 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 					"reader": reader
 					}
 		tmva_handling_list.append(handling)
+		
+		if calcTrainBDT:
+			splits2 = [ROOT.TFormula("%s%i"%(method,temp), "1.0-" + split.replace("event", "x")) for split in log["splits"]]
+			handling = {"variables":variables_list,
+					"training_name": training_name + "_TrainingSet",
+					"NFolds": NFolds,
+					"weight_files": weight_files,
+					"splits":splits2,
+					"methods": methods,
+					"reader": reader
+					}
+			tmva_handling_list.append(handling)	
+	if calcTrainBDT:
+		branch_count = 2*branch_count
 
 	new_branches = [array.array('f', [x]) for x in range(branch_count)]
 	#looping over all files -> ntuples -> events -> branches to be added
 	for filename in filenames:
-		c_file = ROOT.TFile(filename.strip('"'), "update")
+		c_file = ROOT.TFile(filename, "update")
 		for ntuple in ntuple_strings:
 			ROOT.gDirectory.cd("/")
 			if "/" in ntuple:
@@ -87,13 +101,13 @@ def file_wrapper(args):
 		ntuple_strings = [args[2]+"_jecUncNom/ntuple"]#, args[2]+"_jecUncDown/ntuple", args[2]+"_jecUncUp/ntuple"]
 	else:
 		ntuple_strings = [args[2]+"_jecUncNom_tauEsNom/ntuple"]
-		if not "Run20" in args[0]:
+		if not "Run20" in os.path.basename(args[0]):
 			ntuple_strings.append(channel+"_jecUncDown_tauEsNom/ntuple")
 			ntuple_strings.append(channel+"_jecUncUp_tauEsNom/ntuple")
-		if "DY" in args[0] or "HToTauTau" in args[0]:
+		if "DY" in args[0] or "HToTauTau" in os.path.basename(args[0]):
 			ntuple_strings.append(channel+"_jecUncNom_tauEsUp/ntuple")
 			ntuple_strings.append(channel+"_jecUncNom_tauEsDown/ntuple")
-	append_MVAbranch([args[0]], ntuple_strings, args[1])
+	append_MVAbranch(filenames=[args[0]], ntuple_strings=ntuple_strings, training_logs=args[1], calcTrainBDT=args[3])
 
 
 if __name__ == "__main__":
@@ -110,6 +124,8 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--channels", nargs="*",
 						default=["tt", "mt", "et", "em", "mm", "ee"],
 						help="Channels. [Default: %(default)s]")
+	parser.add_argument("--calc-Training-BDT", default = False, action="store_true",
+						help="Calculate BDT scores for the training set as well [Default: %(default)s]")
 	#parser.add_argument("-m", "--higgs-masses",nargs="+", default = ["125"],
 						#help="higgs mass [Default: %(default)s]")
 	#parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -125,13 +141,17 @@ if __name__ == "__main__":
 						#help="path to output file. [Default: %(default)s]")
 	args = parser.parse_args()
 	
-	if len(args.input_files)>1:
-		filenames = args.input_files
+	#clean argument input-files
+	inputs = []
+	for entry in args.input_files:
+		inputs.append(entry.strip(',').strip('"'))
+	if len(inputs)>1:
+		filenames = inputs
 	else:
-		if os.path.isdir(args.input_files[0]):
-			filenames = glob.glob(os.path.join(args.input_files, "*", "*.root"))
+		if os.path.isdir(inputs[0]):
+			filenames = glob.glob(os.path.join(inputs[0], "*", "*.root"))
 		else:
-			filenames = args.input_files
+			filenames = inputs
 	#ntuple_strings = ["mt_jecUncDown_tauEsNom/ntuple","mt_jecUncNom_tauEsDown/ntuple","mt_jecUncNom_tauEsNom/ntuple","mt_jecUncNom_tauEsUp/ntuple","mt_jecUncUp_tauEsNom/ntuple"]
 	#training_logs = [jsonTools.JsonDict("TrainingLog.json")]
 	training_logs = []
@@ -141,5 +161,5 @@ if __name__ == "__main__":
 	for channel in args.channels:
 		args_list = []
 		for element in filenames:
-			args_list.append([element, training_logs, channel])
-			aTools.parallelize(file_wrapper, args_list, args.j)
+			args_list.append([element, training_logs, channel, args.calc_Training_BDT])
+		aTools.parallelize(file_wrapper, args_list, args.j)
