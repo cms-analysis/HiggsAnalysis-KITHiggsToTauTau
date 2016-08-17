@@ -70,7 +70,15 @@
 		"DiTauPairIsTauIsoMVA": true,
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
-				"default" : [ "HLT_IsoMu24_eta2p1_v:25.0"]
+				"default" : [
+					"HLT_IsoMu24_eta2p1_v:25.0"
+				],
+				"(Fall15MiniAODv2|Run2015D)" : [
+					"HLT_IsoMu18_v:19.0"
+				],
+				"Run2016" : [
+					"HLT_IsoMu22_v:23.0"
+				]
 			}
 		},
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 

@@ -68,9 +68,19 @@
 		},
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairIsTauIsoMVA": true,
-		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
-		],
+		"DiTauPairLepton1LowerPtCuts" : {
+			"nick" : {
+				"default" : [
+					"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
+				],
+				"(Fall15MiniAODv2|Run2015D)" : [
+					"HLT_Ele23_WPLoose_Gsf_v:24.0"
+				],
+				"Run2016" : [
+					"HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"
+				]
+			}
+		},
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
 				"Spring15MiniAODv2" : [
