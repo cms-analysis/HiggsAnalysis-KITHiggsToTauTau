@@ -19,7 +19,8 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 1.03
+				"(HToTauTau|DY.?JetsToLL).*(?=Fall15)" : 1.03,
+				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)" : 1.015
 			}
 		},
 		"SvfitCacheFileFolder" : {
@@ -39,7 +40,8 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 0.97
+				"(HToTauTau|DY.?JetsToLL).*(?=Fall15)" : 0.97,
+				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)" : 0.985
 			}
 		},
 		"SvfitCacheFileFolder" : {
