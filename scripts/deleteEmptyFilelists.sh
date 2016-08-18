@@ -3,7 +3,7 @@ function checkDelete() {
 	then
 		filename=$(basename $1)
 		dirname=$(dirname $1)
-		rm "$dirname/DCAP_${filename:4}" -i
+		rm "$dirname/DCAP_${filename:5}" -i
 	fi
 }
 
