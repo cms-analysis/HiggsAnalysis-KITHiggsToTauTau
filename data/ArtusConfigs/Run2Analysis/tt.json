@@ -42,7 +42,7 @@
 				"default" : [
 					"45.0"
 				],
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016|Spring16)" : [
 					"40.0"
 				]
 			}
