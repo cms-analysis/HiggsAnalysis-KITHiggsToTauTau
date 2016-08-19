@@ -4,6 +4,8 @@
 		"metPullX", "metPullY", 
 		"genMetPt", "genMetPhi", "genMetSumEt", "chiSquare",  "probChiSquare",
 		"recoMetPhi", "recoMetPerp", "recoMetPar",
-		"recoilPhi", "recoilPerp", "recoilPar"
+		"recoilPhi", "recoilPerp", "recoilPar",
+		"pfMetSumEt",
+		"mvaMetSumEt"
 	]
 }
