@@ -151,6 +151,52 @@ public:
 						}
 					}
 				}
+				else // will hopefully become obsolete towards the end of 2016 when the trigger is included in simulation
+				{
+					// this only gives sensible results for single-lepton triggers. for double-lepton or cross triggers please apply cuts at plotting level
+					if (validDiTauPair)
+					{
+						// lepton 1
+						for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton1LowerPtCutsByIndex.begin();
+							lowerPtCutByIndex != m_lepton1LowerPtCutsByIndex.end(); ++lowerPtCutByIndex)
+						{
+							if (diTauPair.first->p4.Pt() <= *std::max_element(lowerPtCutByIndex->second.begin(), lowerPtCutByIndex->second.end()))
+							{
+								validDiTauPair = false;
+							}
+						}
+
+						// lepton 1
+						for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton1LowerPtCutsByHltName.begin();
+							lowerPtCutByHltName != m_lepton1LowerPtCutsByHltName.end(); ++lowerPtCutByHltName)
+						{
+							if (diTauPair.first->p4.Pt() <= *std::max_element(lowerPtCutByHltName->second.begin(), lowerPtCutByHltName->second.end()))
+							{
+								validDiTauPair = false;
+							}
+						}
+
+						// lepton 2
+						for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton2LowerPtCutsByIndex.begin();
+							lowerPtCutByIndex != m_lepton2LowerPtCutsByIndex.end(); ++lowerPtCutByIndex)
+						{
+							if (diTauPair.second->p4.Pt() <= *std::max_element(lowerPtCutByIndex->second.begin(), lowerPtCutByIndex->second.end()))
+							{
+								validDiTauPair = false;
+							}
+						}
+
+						// lepton 2
+						for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton2LowerPtCutsByHltName.begin();
+						lowerPtCutByHltName != m_lepton2LowerPtCutsByHltName.end(); ++lowerPtCutByHltName)
+						{
+							if (diTauPair.second->p4.Pt() <= *std::max_element(lowerPtCutByHltName->second.begin(), lowerPtCutByHltName->second.end()))
+							{
+								validDiTauPair = false;
+							}
+						}
+					}
+				}
 				
 				// check possible additional criteria from subclasses
 				validDiTauPair = validDiTauPair && AdditionalCriteria(diTauPair, event, product, settings);

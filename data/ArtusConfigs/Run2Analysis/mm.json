@@ -48,14 +48,30 @@
 			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v",
 			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"
 		],
-		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:20.0",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:20.0"
-		],
-		"DiTauPairLepton2LowerPtCuts" : [
-			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:10.0",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:10.0"
-		],
+		"DiTauPairLepton1LowerPtCuts" : {
+			"nick" : {
+				"default" : [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:20.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:20.0"
+				],
+				"Spring16" : [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:-1.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:-1.0"
+				]
+			}
+		},
+		"DiTauPairLepton2LowerPtCuts" : {
+			"nick" : {
+				"default" : [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:20.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:20.0"
+				],
+				"Spring16" : [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:-1.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:-1.0"
+				]
+			}
+		},
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
