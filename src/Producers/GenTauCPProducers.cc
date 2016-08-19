@@ -301,22 +301,22 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 	}
 
 	// get the taus: the tau1 is always the positevely charged tau
-	GenParticleDecayTree selectedTau1;
-	GenParticleDecayTree selectedTau2;
+	GenParticleDecayTree* selectedTau1;
+	GenParticleDecayTree* selectedTau2;
 	if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
-		selectedTau1 = product.m_genBosonTree.m_daughters[0];
-		selectedTau2 = product.m_genBosonTree.m_daughters[1];
+		selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
+		selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
 	}
 	else {
-		selectedTau1 = product.m_genBosonTree.m_daughters[1];
-		selectedTau2 = product.m_genBosonTree.m_daughters[0];
+		selectedTau1 = &(product.m_genBosonTree.m_daughters[1]);
+		selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
 	}
 
 	// find the match between the gen tau (or its daughters)
 	// and the leptons saved in the GenLeptons collections
 	// (that are gen particles matched with the reco particles)
-	std::vector<GenParticleDecayTree> tau1Daughters = selectedTau1.m_daughters;
-	std::vector<GenParticleDecayTree> tau2Daughters = selectedTau2.m_daughters;
+	std::vector<GenParticleDecayTree> tau1Daughters = selectedTau1->m_daughters;
+	std::vector<GenParticleDecayTree> tau2Daughters = selectedTau2->m_daughters;
 	std::vector<KGenParticle*> matchedLep = product.m_chargeOrderedGenLeptons;
 	bool tau1Match = false;
 	bool tau2Match = false;
@@ -327,7 +327,7 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 	if (matchedLep[0] && matchedLep[1]){
 		// if the selectedTau decays leptonically,
 		// search for the match between selectedTau daughters and matchedLep
-		if ((int)selectedTau1.m_decayMode == 1 || (int)selectedTau1.m_decayMode == 2){
+		if ((int)selectedTau1->m_decayMode == 1 || (int)selectedTau1->m_decayMode == 2){
 			for (std::vector<GenParticleDecayTree>::const_iterator Part = tau1Daughters.begin(); Part != tau1Daughters.end(); ++Part){
 				if ( ROOT::Math::VectorUtil::DeltaR( (*Part).m_genParticle->p4,  matchedLep[0]->p4 ) < 0.001 ){
 					match0 = true;
@@ -339,21 +339,20 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 				}
 			}
 		}
-
 		// if the selectedTau decays hadronically,
 		// search for the match between selectedTau and matchedLep
 		else {
-			if ( ROOT::Math::VectorUtil::DeltaR( selectedTau1.m_genParticle->p4,  matchedLep[0]->p4 ) < 0.001 ){
+			if ( ROOT::Math::VectorUtil::DeltaR( selectedTau1->m_genParticle->p4,  matchedLep[0]->p4 ) < 0.001 ){
 				match0 = true;
 				tau1Match = true;
 			}
-			if ( ROOT::Math::VectorUtil::DeltaR( selectedTau1.m_genParticle->p4,  matchedLep[1]->p4 ) < 0.001 ){
+			if ( ROOT::Math::VectorUtil::DeltaR( selectedTau1->m_genParticle->p4,  matchedLep[1]->p4 ) < 0.001 ){
 				match1 = true;
 				tau1Match = true;
 			}
 		}
 
-		if ((int)selectedTau2.m_decayMode == 1 || (int)selectedTau2.m_decayMode == 2){
+		if ((int)selectedTau2->m_decayMode == 1 || (int)selectedTau2->m_decayMode == 2){
 			for (std::vector<GenParticleDecayTree>::const_iterator Part = tau2Daughters.begin(); Part != tau2Daughters.end(); ++Part){
 				if ( !match0 && ROOT::Math::VectorUtil::DeltaR( (*Part).m_genParticle->p4,  matchedLep[0]->p4 ) < 0.001 ){
 					match0 = true;
@@ -366,11 +365,11 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 			}
 		}
 		else {
-			if ( !match0 && ROOT::Math::VectorUtil::DeltaR( selectedTau2.m_genParticle->p4,  matchedLep[0]->p4 ) < 0.001 ){
+			if ( !match0 && ROOT::Math::VectorUtil::DeltaR( selectedTau2->m_genParticle->p4,  matchedLep[0]->p4 ) < 0.001 ){
 				match0 = true;
 				tau2Match = true;
 			}
-			if ( !match1 && ROOT::Math::VectorUtil::DeltaR( selectedTau2.m_genParticle->p4,  matchedLep[1]->p4 ) < 0.001 ){
+			if ( !match1 && ROOT::Math::VectorUtil::DeltaR( selectedTau2->m_genParticle->p4,  matchedLep[1]->p4 ) < 0.001 ){
 				match1 = true;
 				tau2Match = true;
 			}
@@ -380,17 +379,17 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 	// Calculate the CP observables only if matchedLep components are non-null
 	// and the match between selectedTaus and matchedLeptons was found
 	if ( matchedLep[0] && matchedLep[1] && tau1Match && tau2Match ){
-		selectedTau1.CreateFinalStateProngs(&selectedTau1);
-		selectedTau2.CreateFinalStateProngs(&selectedTau2);
-		std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1.m_finalStateOneProngs;
-		std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2.m_finalStateOneProngs;
+		selectedTau1->CreateFinalStateProngs(selectedTau1);
+		selectedTau2->CreateFinalStateProngs(selectedTau2);
+		std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
+		std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
 
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;
 
 		// Selection of the right channel for phi, phi* and psi*CP
-		if ((std::abs(selectedTau1.m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
-		    (std::abs(selectedTau2.m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+		if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+		    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
 		    (selectedTau1OneProngs.size() != 0) &&
 		    (selectedTau2OneProngs.size() != 0))
 		{
@@ -412,15 +411,15 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 			product.m_genOneProngCharged2 = chargedPart2;
 
 			// Saving energies of charged particles in tau rest frames
-			product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1.m_genParticle->p4, chargedPart1->p4);
-			product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2.m_genParticle->p4, chargedPart2->p4);
+			product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->m_genParticle->p4, chargedPart1->p4);
+			product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->m_genParticle->p4, chargedPart2->p4);
 
 			// Calculation of Phi* and Phi*CP
-			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1.m_genParticle->p4, selectedTau2.m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhiStar = cpq.GetGenPhiStar();
 
 			// Calculation of Phi and PhiCP
-			double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1.m_genParticle->p4, selectedTau2.m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+			double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhi = cpq.GetGenPhi();
 	
 			//CPTransformation for semileptonic case
