@@ -8,7 +8,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsBTaggedJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM_2015/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_em.json"
 		],
 		"Channel" : "EM",
@@ -74,25 +74,6 @@
 				"Spring16" : true
 			}
 		},
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
-		"RooWorkspaceWeightNames" : [
-			"0:isoweight",
-			"0:idweight",
-			"1:isoweight",
-			"1:idweight"
-		],
-		"RooWorkspaceObjectNames" : [
-			"0:e_iso_binned_ratio",
-			"0:e_id_ratio",
-			"1:m_iso_binned_ratio",
-			"1:m_id_ratio"
-		],
-		"RooWorkspaceObjectArguments" : [
-			"0:e_pt,e_eta,e_iso",
-			"0:e_pt,e_eta",
-			"1:m_pt,m_eta,m_iso",
-			"1:m_pt,m_eta"
-		],
 		"EventWeight" : "eventWeight",
 		"TriggerEfficiencyData" : {
 			"nick" : {
@@ -244,7 +225,6 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -282,7 +262,6 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -322,7 +301,6 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -361,7 +339,6 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],

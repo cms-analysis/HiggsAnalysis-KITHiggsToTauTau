@@ -1,0 +1,29 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsMuonID.json"
+	],
+
+	"Year" : {
+		"nick" : {
+			"default" : 2015,
+			"(Spring16|Run2016)" : 2016
+		}
+	},
+	"LooseMuonID" : "medium",
+
+	"LooseMuonIsoType" : "user",
+	"LooseMuonIso" : "none",
+
+	"LooseMuonIsoPtSumOverPtUpperThresholdEB" : 0.3,
+	"LooseMuonIsoPtSumOverPtUpperThresholdEE" : 0.3,
+
+	"LooseMuonLowerPtCuts" : [
+		"10.0"
+	],
+	"LooseMuonUpperAbsEtaCuts" : [
+		"2.4"
+	],
+	"LooseMuonTrackDxyCut" : 0.045,
+	"LooseMuonTrackDzCut" : 0.2,
+	"DirectIso" : true
+}

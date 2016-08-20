@@ -1,0 +1,28 @@
+{
+	"MuonID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2015#Muons"
+	],
+	
+	"Year" : {
+		"nick" : {
+			"default" : 2015,
+			"(Spring16|Run2016)" : 2016
+		}
+	},
+	"MuonID" : "medium",
+	
+	"MuonIsoType" : "user",
+	"MuonIso" : "none",
+	"MuonIsoTypeUserMode" : {
+		"nick" : {
+			"default" : "fromcmssw",
+			"(Spring16|Run2016)" : "fromcmsswr04"
+		}
+	},
+	
+	"MuonIsoSignalConeSize" : 0.3,
+	"MuonDeltaBetaCorrectionFactor" : 0.5,
+	
+	"MuonTrackDxyCut" : 0.045,
+	"MuonTrackDzCut" : 0.2
+}

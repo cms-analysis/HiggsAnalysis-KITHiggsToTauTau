@@ -1,0 +1,24 @@
+{
+	"BTaggedJetID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#b_tagging"
+	],
+
+	"BTaggedJetCombinedSecondaryVertexName" : "pfCombinedInclusiveSecondaryVertexV2BJetTags",
+	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.8,
+	"BTaggerWorkingPoints" : [
+		"tight:0.935",
+		"medium:0.800",
+		"loose:0.460"
+	],
+	"BTaggedJetAbsEtaCut" : 2.4,
+	"ApplyBTagSF" : false,
+	"BTagSFMethod" : "PromotionDemotion",
+	"BTagShift" : 0,
+	"BMistagShift" : 0,
+	"BTagScaleFactorFile" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",
+			"Spring16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_ichep.csv"
+		}
+    }
+}

@@ -114,6 +114,8 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-b", "--background-method", default="classic",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
+	parser.add_argument("--exclude-cuts", nargs="+", default=[],
+	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--controlregions", action="store_true", default=False,
 	                    help="Also create histograms for control regions. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -208,7 +210,7 @@ if __name__ == "__main__":
 							category="catHttMSSM13TeV_"+category,
 							weight=args.weight+"*"+additional_weight,
 							lumi = args.lumi * 1000,
-							exclude_cuts=exclude_cuts,
+							exclude_cuts=args.exclude_cuts,
 							higgs_masses=args.higgs_masses,
 							mssm=True,
 							estimationMethod=args.background_method,

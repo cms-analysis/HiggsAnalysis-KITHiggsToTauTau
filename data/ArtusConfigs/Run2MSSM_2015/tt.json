@@ -8,7 +8,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJEC.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsBTaggedJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM_2015/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsTauES.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_tt.json"
 		],
@@ -122,12 +122,11 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"filter:MinimalPlotlevelFilter",
+					"#filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"TT_RunIIFall15MiniAODv2" : [
@@ -158,7 +157,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
 					"producer:EventCategoryProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -184,15 +182,14 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"#producer:MetCorrector",
-					"#producer:MvaMetCorrector",
+					"producer:MetCorrector",
+					"producer:MvaMetCorrector",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
@@ -218,14 +215,13 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
-					"#producer:MetCorrector",
-					"#producer:MvaMetCorrector",
+					"producer:MetCorrector",
+					"producer:MvaMetCorrector",
 					"filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run201" : [
