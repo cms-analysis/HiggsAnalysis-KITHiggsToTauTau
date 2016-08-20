@@ -50,6 +50,7 @@
 				"producer:PUWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NicknameProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"filter:GenDiLeptonDecayModeFilter",
 				"producer:GenParticleProducer"
@@ -61,6 +62,7 @@
 				"producer:PUWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NicknameProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"filter:GenDiLeptonDecayModeFilter",
 				"producer:GenParticleProducer",

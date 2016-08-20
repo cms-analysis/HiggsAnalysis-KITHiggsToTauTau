@@ -142,6 +142,7 @@
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
+					"producer:GenBosonDiLeptonDecayModeProducer",
 					"producer:GenDiLeptonDecayModeProducer",
 					"filter:GenDiLeptonDecayModeFilter",
 					"producer:HltProducer",
