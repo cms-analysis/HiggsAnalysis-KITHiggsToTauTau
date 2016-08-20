@@ -57,7 +57,7 @@ public:
 					}
 					else
 					{
-						(product.*m_nDiLeptonVetoPairsOS) += 1;
+						(product.*m_nDiLeptonVetoPairsSS) += 1;
 					}
 				}
 			}
