@@ -1,1 +1,0 @@
-DCAP_sample_STtWtop5finclusiveDecays_RunIISpring16MiniAODv1_PUSpring16_13TeV_MINIAOD_powheg-pythia8_2016-06-23.txt
