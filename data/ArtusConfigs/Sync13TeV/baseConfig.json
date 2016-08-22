@@ -59,6 +59,7 @@
 				"producer:NicknameProducer",
 				"producer:PUWeightProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",

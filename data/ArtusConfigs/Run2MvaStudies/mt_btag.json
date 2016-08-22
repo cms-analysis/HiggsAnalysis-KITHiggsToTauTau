@@ -199,7 +199,6 @@
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
-					"producer:GenDiLeptonDecayModeProducer",
 					"filter:GenDiLeptonDecayModeFilter",
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",

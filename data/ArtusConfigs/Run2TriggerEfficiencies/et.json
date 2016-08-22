@@ -148,7 +148,6 @@
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
-					"producer:GenDiLeptonDecayModeProducer",
 					"filter:GenDiLeptonDecayModeFilter",
 					"producer:HltProducer",
 					"filter:HltFilter",

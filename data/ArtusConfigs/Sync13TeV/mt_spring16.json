@@ -118,7 +118,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:GenDiLeptonDecayModeProducer",
 					"producer:GenTauDecayProducer",
 					"producer:GenTauDecayModeProducer",
 					"producer:TriggerWeightProducer",

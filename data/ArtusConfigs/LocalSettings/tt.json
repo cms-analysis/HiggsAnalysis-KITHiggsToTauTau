@@ -135,6 +135,7 @@
 				],
 				"DY.?JetsToLL" : [
 					"producer:TauCorrectionsProducer",
+					"producer:GenBosonDiLeptonDecayModeProducer",
 					"producer:GenDiLeptonDecayModeProducer",
 					"filter:GenDiLeptonDecayModeFilter",
 					"filter:LooseElectronsCountFilter",
