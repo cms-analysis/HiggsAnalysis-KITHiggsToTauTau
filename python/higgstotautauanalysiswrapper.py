@@ -76,8 +76,6 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			generator_weight = get_generator_weight(self._config["Nickname"])
 			if(generator_weight > 0 and generator_weight <= 1.0):
 				self._config["GeneratorWeight"] = generator_weight
-			elif not isData(self._config["Nickname"]):
-				log.warning("No GeneratorWeight assigned to sample with nickname " + self._config["Nickname"] + ". Adjust your config to give it the default value of 1 or, in case of next-to-leading order samples calculate the GeneratorWeight and add it to datasets.json.")
 
 
 	def run(self):

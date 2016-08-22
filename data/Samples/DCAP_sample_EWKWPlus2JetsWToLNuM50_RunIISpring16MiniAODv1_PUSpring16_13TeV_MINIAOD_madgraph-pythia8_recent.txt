@@ -1,1 +1,0 @@
-DCAP_sample_EWKWPlus2JetsWToLNuM50_RunIISpring16MiniAODv1_PUSpring16_13TeV_MINIAOD_madgraph-pythia8_2016-06-23.txt

@@ -1,0 +1,82 @@
+{
+	"jecUncNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		}
+	},
+	"jecUncUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 1.0
+			}
+		}
+	},
+	"jecUncDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : -1.0
+			}
+		}
+	},
+	"metRecoilUp": {
+		"MetSysType" : {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 2
+			}
+		},
+		"MetSysShift": {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 1.0
+			}
+		}
+	},
+	"metRecoilDown": {
+		"MetSysType" : {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 2
+			}
+		},
+		"MetSysShift": {
+			"nick" : {
+				"Run201" : 0,
+				"default" : -1.0
+			}
+		}
+	},
+	"metResUp": {
+		"MetSysType" : {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 1
+			}
+		},
+		"MetSysShift": {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 1.0
+			}
+		}
+	},
+	"metResDown": {
+		"MetSysType" : {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 1
+			}
+		},
+		"MetSysShift": {
+			"nick" : {
+				"Run201" : 0,
+				"default" : -1.0
+			}
+		}
+	}
+}

@@ -96,13 +96,17 @@ def main():
 			if args.previous_cache: # check for all available files in previous_cache
 				previous_caches = glob.glob(args.previous_cache + "*/*.root")
 				previous_cachefiles = [ "/".join(cache.split("/")[-2:]) for cache in previous_caches ]
-
 				for cachefile in previous_cachefiles:
 					current = os.path.join(output, cachefile)
 					previous = os.path.join(args.previous_cache, cachefile)
 					if not os.path.exists(os.path.dirname(current)):
 						os.makedirs(os.path.dirname(current))
-					merge_commands.append("hadd -f -f6 %s %s"%(current, previous))
+					if os.path.exists(current):
+						merge_commands.append("mv %s %s_tmp.root "%(current, current))
+						merge_commands.append("hadd -f -f6 %s %s_tmp.root %s "%(current, current, previous))
+						merge_commands.append("rm %s_tmp.root "%(current))
+					else:
+						merge_commands.append("hadd -f -f6 %s %s"%(current, previous))
 				for index in range(len(merge_commands)):
 					tools.parallelize(_call_command, [merge_commands[index]], 1)
 			# move to output-directory
