@@ -6,9 +6,30 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse
+import glob
 import os
 
+import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
+
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
+
+
+def get_quantities(input_filename, folder):
+	input_file = ROOT.TFile(glob.glob(input_filename.split()[0])[0])
+	tree = input_file.Get(folder)
+	
+	quantities = []
+	for leaf in sorted(tree.GetListOfLeaves(), key=lambda leaf: leaf.GetName()):
+		quantity = leaf.GetName()
+		if leaf.GetBranch().GetMother().GetName() != leaf.GetName():
+			quantity = leaf.GetBranch().GetMother().GetName()+"."+quantity
+		quantities.append(quantity)
+	
+	input_file.Close()
+	return quantities
 
 
 if __name__ == "__main__":
@@ -18,42 +39,88 @@ if __name__ == "__main__":
 
 	parser.add_argument("--input-1", help="Input files 1.", required=True)
 	parser.add_argument("--input-2", help="Input files 2.", required=True)
-	
-	parser.add_argument("--channel", help="Channel", required=True)
-	parser.add_argument("--quantities", nargs="*",
-	                    default=["integral", "eventsoverlap",
-	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1",
-	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2",
-	                             "mvis", "pt_sv", "eta_sv", "phi_sv", "m_sv",
-	                             "met", "metphi", "metcov00", "metcov01", "metcov10", "metcov11",
-	                             "mvamet", "mvametphi", "mvacov00", "mvacov01", "mvacov10", "mvacov11",
-	                             "jpt_1", "jeta_1", "jphi_1",
-	                             "jpt_2", "jeta_2", "jphi_2",
-	                             "njets", "mjj", "jdeta",
-	                             "trigweight_1", "trigweight_2", "puweight",
-	                             "npv", "npu", "rho"],
-	                    help="Quantities. [Default: %(default)s]")
+	parser.add_argument("--folder-1", help="Folder for input 1.", required=True)
+	parser.add_argument("--folder-2", help="Folder for input 2.", required=True)
+	parser.add_argument("-e", "--event-matching", action="store_true", default=False,
+	                    help="Show four histograms per plot using the output of eventmatching.py. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int,
 	                    help="Number of plots. [Default: all]")
+	parser.add_argument("-o", "--output-dir",
+	                    default="$CMSSW_BASE/src/plots/sync_plots/",
+	                    help="Output directory. [Default: %(default)s]")
 	
-	args = vars(parser.parse_args())
+	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	plots = []
-	for quantity in args["quantities"]:
-		json_exists = True
-		json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_%s.json" % (args["channel"], quantity))
-		if not os.path.exists(json_config):
-			json_exists = False
-			json_config = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/sync_exercise/%s_default.json" % args["channel"])
+	quantities1 = get_quantities(args.input_1, args.folder_1)
+	quantities2 = get_quantities(args.input_2, args.folder_2)
+	common_quantities = list(set(quantities1).intersection(set(quantities2)))
+	
+	plot_configs = []
+	event_matching_output = "eventmatching.root"
+	for index, quantity in enumerate(common_quantities):
+		plot_config = {}
 		
-		plot_args = "--json-defaults %s -i %s %s %s --formats png %s %s" % (json_config, args["input_1"], args["input_2"], ("" if json_exists else ("-x %s" % quantity)), ("" if quantity != "eventsoverlap" else ("--analysis-modules EventSelectionOverlap")), args["args"])
-		plot_args = os.path.expandvars(plot_args)
-		plots.append(plot_args)
+		if args.event_matching:
+			if index == 0:
+				command = "eventmatching.py {input1} {input2} -t {folder1} {folder2} -f {output}".format(
+					input1=args.input_1,
+					input2=args.input_2,
+					folder1=args.folder_1,
+					folder2=args.folder_2,
+					output=event_matching_output
+				)
+				log.info(command)
+				logger.subprocessCall(command, shell=True)
 			
-	higgsplot.HiggsPlotter(list_of_args_strings=plots, n_processes=args["n_processes"], n_plots=args["n_plots"])
+			plot_config["files"] = [event_matching_output]
+			plot_config["folders"] = ["common1", "common2", "only1", "only2"]
+			plot_config["nicks"] = ["common1", "common2", "only1", "only2"]
+			plot_config["x_expressions"] = [quantity]
+			plot_config["weights"] = ["("+quantity+"> -990)"]
+			
+			plot_config.setdefault("analysis_modules", []).append("Ratio")
+			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]
+			plot_config["ratio_denominator_nicks"] = plot_config["nicks"][1]
+			
+			plot_config["labels"] = ["common in 1", "common in 2", "only in 1", "only in 2", ""]
+			plot_config["legend_markers"] = ["LP", "F", "F", "F", ""]
+			plot_config["legend"] = [0.7, 0.55, 0.9, 0.85]
+			plot_config["y_label"] = "Events"
+			plot_config["fill_styles"] = [0]
+			plot_config["colors"] = ["kBlack", "kRed", "kBlue", "kGreen", "kBlack"]
+			plot_config["markers"] = ["P", "HIST", "HIST", "HIST", "P"]
+			plot_config["y_subplot_lims"] = [0.95, 1.05]
+		
+		else:
+			plot_config["files"] = [args.input_1, args.input_2]
+			plot_config["folders"] = [args.folder_1, args.folder_2]
+			plot_config["nicks"] = ["events1", "events2"]
+			plot_config["x_expressions"] = [quantity]
+			plot_config["weights"] = ["("+quantity+"> -990)"]
+			
+			plot_config.setdefault("analysis_modules", []).append("Ratio")
+			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]
+			plot_config["ratio_denominator_nicks"] = plot_config["nicks"][1]
+			
+			plot_config["labels"] = ["events in 1", "events in 2", ""]
+			plot_config["legend_markers"] = ["LP", "F", ""]
+			plot_config["legend"] = [0.7, 0.55, 0.9, 0.85]
+			plot_config["y_label"] = "Events"
+			plot_config["fill_styles"] = [0]
+			plot_config["colors"] = ["kBlack", "kRed", "kBlack"]
+			plot_config["markers"] = ["P", "HIST", "P"]
+			plot_config["y_subplot_lims"] = [0.95, 1.05]
+		
+		plot_config["output_dir"] = os.path.expandvars(args.output_dir)
+		plot_configs.append(plot_config)
+			
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	
+	if os.path.exists(event_matching_output):
+		os.remove(event_matching_output)
 
