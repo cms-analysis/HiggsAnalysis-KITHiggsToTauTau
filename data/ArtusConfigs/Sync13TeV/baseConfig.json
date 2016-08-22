@@ -62,6 +62,8 @@
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GenTauDecayModeProducer",
 				"producer:GeneratorWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			]
