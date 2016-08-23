@@ -88,7 +88,7 @@ class Samples(samples.Samples):
 	def files_vv(self, config):
 		return self.artus_file_names({ "process" : "(STt-channelantitop4fleptonDecays|STt-channeltop4fleptonDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays|"
 		                                    + "WWTo1L1Nu2Q|"
-		                                    + "WZJets|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|" 
+		                                    + "WZJToLLLNu|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|" 
 		                                    + "ZZTo2L2Q|ZZTo4L|VVTo2L2Nu)",
 		                      "data" : False, "campaign" : self.mc_campaign}, 12)
 
@@ -104,9 +104,12 @@ class Samples(samples.Samples):
 
 	def files_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign }, 1)
+	
+	def files_bbh(self, channel, mass=125):
+		return self.artus_file_names({"process" : "SUSYGluGluToBBHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign }, 1)
 
 	def files_susy_ggh(self, channel, mass=125):
-		return self.artus_file_names({"process" : "SUSYGluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "SUSYGluGluToHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def files_qqh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
