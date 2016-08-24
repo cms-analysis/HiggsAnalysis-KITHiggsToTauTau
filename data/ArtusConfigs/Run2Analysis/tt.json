@@ -122,7 +122,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"#producer:TauTauTriggerScaleFactorProducer",
+					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL.*(?=Spring16)" : [
@@ -159,7 +159,7 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
 					"producer:EleTauFakeRateWeightProducer",
-					"#producer:TauTauTriggerScaleFactorProducer",
+					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!DY.?JetsToLL).)*Fall15" : [
