@@ -32,7 +32,8 @@ class CategoriesDict(object):
 							"mt_",
 							"et_",
 							"tt_",
-							"em_"
+							"em_",
+							"mm_"
 							],
 						"expressions":{
 							"global":self.combine([vbf_string, jet2_string]),
@@ -48,7 +49,8 @@ class CategoriesDict(object):
 								],
 							"global":{
 								"_m_sv" : auto_rebin_binning,
-								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+								"_m_vis" : auto_rebin_binning
 								}
 							}
 						}
@@ -66,7 +68,8 @@ class CategoriesDict(object):
 							"mt_",
 							"et_",
 							"tt_",
-							"em_"
+							"em_",
+							"mm_"
 							],
 						"expressions":{
 							"global":self.combine([cut_string, jet1_string]),
@@ -82,7 +85,8 @@ class CategoriesDict(object):
 								],
 							"global":{
 								"_m_sv" : auto_rebin_binning,
-								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+								"_m_vis" : auto_rebin_binning
 								}
 							}
 						}
@@ -99,7 +103,8 @@ class CategoriesDict(object):
 							"mt_",
 							"et_",
 							"tt_",
-							"em_"
+							"em_",
+							"mm_"
 							],
 						"expressions":{
 							"global":self.combine([cut_string, jet0_string]),
@@ -115,7 +120,8 @@ class CategoriesDict(object):
 								],
 							"global":{
 								"_m_sv" : auto_rebin_binning,
-								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+								"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+								"_m_vis" : auto_rebin_binning
 								}
 							}
 						}
@@ -239,7 +245,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -265,7 +272,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv" : auto_rebin_binning,
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" : auto_rebin_binning
 						}
 					}
 				}
@@ -291,7 +299,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -317,7 +326,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv" : auto_rebin_binning,
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" : auto_rebin_binning
 						}
 					}
 				}
@@ -343,7 +353,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -369,7 +380,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv" : auto_rebin_binning,
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" : auto_rebin_binning
 						}
 					}
 				}
@@ -395,7 +407,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -421,7 +434,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -447,7 +461,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -473,7 +488,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -499,7 +515,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -525,7 +542,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -551,7 +569,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -577,7 +596,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -603,7 +623,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -629,7 +650,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -655,7 +677,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -681,7 +704,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -707,7 +731,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -733,7 +758,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis" :" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -759,7 +785,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -785,7 +812,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -816,7 +844,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -847,7 +876,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -878,7 +908,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -909,7 +940,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -935,7 +967,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -966,7 +999,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -997,7 +1031,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -1028,7 +1063,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -1059,7 +1095,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
@@ -1085,7 +1122,8 @@ class CategoriesDict(object):
 						],
 					"global":{
 						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
-						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
+						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
+						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}
 					}
 				}
