@@ -20,6 +20,10 @@
 		"HltPaths" : {
 			"nick" : {
 				"default" : [
+					"HLT_IsoMu22",
+					"HLT_IsoTkMu22"
+				],
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
 					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
 				],
@@ -44,31 +48,31 @@
 		],
 		"DiTauPairMinDeltaRCut" : 0.3,
 		"DeltaRTriggerMatchingMuons" : 0.1,
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
-			"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v",
-			"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"
-		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : {
+			"nick" : {
+				"Run2016" : [
+					"HLT_IsoMu22_v",
+					"HLT_IsoTkMu22_v"
+				]
+			}
+		},
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
+					"HLT_IsoMu22:23.0",
+					"HLT_IsoTkMu22:23.0"
+				],
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:20.0",
 					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:20.0"
-				],
-				"Spring16" : [
-					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:-1.0",
-					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:-1.0"
 				]
 			}
 		},
 		"DiTauPairLepton2LowerPtCuts" : {
 			"nick" : {
-				"default" : [
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:10.0",
 					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:10.0"
-				],
-				"Spring16" : [
-					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:-1.0",
-					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:-1.0"
 				]
 			}
 		},
@@ -81,20 +85,26 @@
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"RooWorkspaceWeightNames" : [
+			"0:triggerWeight",
 			"0:isoweight",
 			"0:idweight",
+			"1:triggerWeight",
 			"1:isoweight",
 			"1:idweight"
 		],
 		"RooWorkspaceObjectNames" : [
+			"0:m_trgOR_binned_data",
 			"0:m_iso_binned_ratio",
 			"0:m_id_ratio",
+			"1:m_trgOR_binned_data",
 			"1:m_iso_binned_ratio",
 			"1:m_id_ratio"
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:m_pt,m_eta,m_iso",
+			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta",
+			"1:m_pt,m_eta,m_iso",
 			"1:m_pt,m_eta,m_iso",
 			"1:m_pt,m_eta"
 		],
@@ -159,7 +169,11 @@
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"MuonTriggerFilterNames" : {
 			"nick" : {
-				"default" : [
+				"Run2016" : [
+					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09"
+				],
+				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:hltDiMuonGlb17Glb8RelTrkIsoFiltered0p4DzFiltered0p2",
 					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:hltDiMuonGlb17Trk8RelTrkIsoFiltered0p4DzFiltered0p2"
 				]
@@ -231,7 +245,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
+					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
@@ -270,7 +284,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
+					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
