@@ -1979,7 +1979,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel) + " " + self.files_wj(channel) + " " + self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*topPtReweightWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ewk",
 					nick_suffix=nick_suffix
 			)
