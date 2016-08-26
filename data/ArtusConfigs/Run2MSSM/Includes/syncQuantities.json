@@ -173,6 +173,6 @@
 		"decayMode_1",
 		"decayMode_2",
 		"npartons",
-		"genDiLeptonBosonMass"
+		"genbosonmass"
 	]
 }
