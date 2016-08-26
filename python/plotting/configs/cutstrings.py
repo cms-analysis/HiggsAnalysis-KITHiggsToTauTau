@@ -16,7 +16,6 @@ class CutStringsDict:
 		cuts["os"] = "((q_1*q_2)<0.0)"
 		
 		if channel == "mm":
-			cuts["trigger_threshold"] = "(pt_1 > 20.0 || pt_2 > 20.0)" if "2016" in cut_type else "(1.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"

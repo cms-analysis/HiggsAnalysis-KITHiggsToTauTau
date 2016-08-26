@@ -59,20 +59,20 @@
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"HLT_IsoMu22:23.0",
-					"HLT_IsoTkMu22:23.0"
+					"HLT_IsoMu22_v:23.0",
+					"HLT_IsoTkMu22_v:23.0"
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
-					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:20.0",
-					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:20.0"
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:20.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:20.0"
 				]
 			}
 		},
 		"DiTauPairLepton2LowerPtCuts" : {
 			"nick" : {
 				"(Fall15MiniAODv2|Run2015D)" : [
-					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ:10.0",
-					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ:10.0"
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:10.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:10.0"
 				]
 			}
 		},
@@ -88,7 +88,6 @@
 			"0:triggerWeight",
 			"0:isoweight",
 			"0:idweight",
-			"1:triggerWeight",
 			"1:isoweight",
 			"1:idweight"
 		],
@@ -96,7 +95,6 @@
 			"0:m_trgOR_binned_data",
 			"0:m_iso_binned_ratio",
 			"0:m_id_ratio",
-			"1:m_trgOR_binned_data",
 			"1:m_iso_binned_ratio",
 			"1:m_id_ratio"
 		],
@@ -104,7 +102,6 @@
 			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta",
-			"1:m_pt,m_eta,m_iso",
 			"1:m_pt,m_eta,m_iso",
 			"1:m_pt,m_eta"
 		],
