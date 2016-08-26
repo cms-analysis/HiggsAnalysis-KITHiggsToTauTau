@@ -187,6 +187,10 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	{
 		return product.m_genNPartons;
 	});
+	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("npartons", [](KappaEvent const& event, KappaProduct const& product)
+	{
+		return event.m_genEventInfo ? DefaultValues::UndefinedInt : event.m_genEventInfo->lheNOutPartons;
+	});
 
 	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("isFake", [](KappaEvent const& event, KappaProduct const& product)
 	{

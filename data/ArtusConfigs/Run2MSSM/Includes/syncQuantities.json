@@ -171,6 +171,8 @@
 		"gen_match_1",
 		"gen_match_2",
 		"decayMode_1",
-		"decayMode_2"
+		"decayMode_2",
+		"npartons",
+		"genDiLeptonBosonMass"
 	]
 }

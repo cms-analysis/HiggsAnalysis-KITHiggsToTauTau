@@ -73,7 +73,6 @@
 				"producer:GenTauDecayProducer",
 				"producer:GenTauDecayModeProducer",
 				"producer:GeneratorWeightProducer",
-				"producer:SampleStitchingWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
 			"DY.?JetsToLLM(50|150)" : [
@@ -89,7 +88,6 @@
 				"producer:GenTauDecayProducer",
 				"producer:GenTauDecayModeProducer",
 				"producer:GeneratorWeightProducer",
-				"producer:SampleStitchingWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
 			"Run201" : [
