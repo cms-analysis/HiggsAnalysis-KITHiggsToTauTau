@@ -62,6 +62,17 @@ class Samples(samples.SamplesBase):
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
 
+	@staticmethod
+	def ztt_zll_stitchingweight():
+		highmass = "(((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.26276e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.18349e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.18854e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.19334e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16985e-6))"
+		lowmass = "*(((genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*2.43669e-5) + ((genbosonmass < 150.0 && npartons == 1)*1.06292e-5) + ((genbosonmass < 150.0 && npartons == 2)*1.10505e-5) + ((genbosonmass < 150.0 && npartons == 3)*1.14799e-5) + ((genbosonmass < 150.0 && npartons == 4)*9.62135e-6))"
+		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight)*"
+		return highmass+lowmass+normalization
+	
+	@staticmethod
+	def wj_stitchingweight():
+		return "(((npartons == 0 || npartons >= 5)*1.3046006677e-3) + ((npartons == 1)*2.162338159e-4) + ((npartons == 2)*1.159006627e-4) + ((npartons == 3)*5.82002641e-5) + ((npartons == 4)*6.27558901e-05))/(numberGeneratedEventsWeight*crossSectionPerEventWeight)*"
+
 	def __init__(self):
 		super(Samples, self).__init__()
 
