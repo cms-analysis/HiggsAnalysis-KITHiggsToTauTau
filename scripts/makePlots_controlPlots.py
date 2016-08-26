@@ -378,6 +378,8 @@ if __name__ == "__main__":
 					if not args.lumi is None:
 						config["lumis"] = [float("%.1f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
+					if not args.run1:
+						config["year"] = args.era
 
 				#add integrated s/sqrt(b) subplot
 				if(args.integrated_sob):
