@@ -28,17 +28,27 @@ samples_dict = {
 	# 'em' : [('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]),("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll"])],
         # 'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll", "zj", "zl"])]
 	}
+if args.fakefactor_method is not None:
+	samples_dict = {
+        	'et' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ewk','ff','ggh','bbh']), ("toppt",["ttj",'ttt','ttjj',"wj","qcd","ewk"]), ("taues",["ztt","wj","qcd","ewk","ff","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ewk","ff","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd","ewk"]), ("ff_qcd",["ff"]), ("ff_w",["ff"])],
+        	'mt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ewk','ff','ggh','bbh']), ("toppt",["ttj",'ttt','ttjj',"wj","qcd","ewk"]), ("taues",["ztt","wj","qcd","ewk","ff","ggh","bbh"]), ("taupt",["ztt","wj","qcd","ewk","ff","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd","ewk"]), ("ff_qcd",["ff"]), ("ff_w",["ff"])],
+        	'tt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])]
+	} 
 shapes = {
 	"toppt" : "CMS_htt_ttbarShape_13TeV",
 	"taupt" : "CMS_eff_t_mssmHigh_{CHANNEL}_13TeV",
 	"taues" : "CMS_scale_t_{CHANNEL}_13TeV",
-	"zpt" : "CMS_htt_dyShape_13TeV"
+	"zpt" : "CMS_htt_dyShape_13TeV",
+	"ff_qcd" : "CMS_{ANALYSIS}_jetFakeTau_qcd_Shape_13TeV",
+	"ff_w" : "CMS_{ANALYSIS}_jetFakeTau_w_Shape_13TeV",
 	}
 shapes_weight_dict = {
 		"toppt" : ("1.0/topPtReweightWeight","topPtReweightWeight"),
 		"zpt" : ("1.0/zPtReweightWeight","zPtReweightWeight"),
 		"taupt" : ("(1-0.0002*had_gen_match_pT_1)*(1-0.0002*had_gen_match_pT_2)", "(1+0.0002*had_gen_match_pT_1)*(1+0.0002*had_gen_match_pT_2)"),
 		"taues" : ("1.0", "1.0"),
+		"ff_qcd" : ("jetToTauFakeWeight_qcd_up/jetToTauFakeWeight_comb","jetToTauFakeWeight_qcd_down/jetToTauFakeWeight_comb")
+		"ff_w" : ("jetToTauFakeWeight_w_up/jetToTauFakeWeight_comb","jetToTauFakeWeight_w_down/jetToTauFakeWeight_comb")
 		"nominal" : ("1.0", "1.0")
 	}
 mapping_process2sample = {
@@ -55,6 +65,8 @@ mapping_process2sample = {
 	"VVJ" : "vvj",
 	"W" : "wj",
 	"QCD" : "qcd",
+	"EWK" : "ewk",
+	"FF" : "ff",
 	"ggH" : "ggh",
 	"bbH" : "bbh",
 	"qqH" : "qqh",
@@ -102,6 +114,8 @@ if __name__ == "__main__":
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-e", "--era", default="",
 	                    help="Era for which the datacards will be build. [Default: %(default)s]")
+	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "individual"],
+			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
 	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
 	parser.add_argument("--workingpoint", default="",
