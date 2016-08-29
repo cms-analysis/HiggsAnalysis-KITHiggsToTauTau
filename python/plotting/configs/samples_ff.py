@@ -83,7 +83,7 @@ class Samples(samples_run2.Samples):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root",
+					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
 					mc_weight+weight+"*eventWeight*(gen_match_2 == 5)*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
@@ -138,7 +138,7 @@ class Samples(samples_run2.Samples):
 					"ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIIFall15*_*_13TeV_*AOD_*/*.root WZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root ZZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root VV*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
-					mc_weight+weight+"*eventWeight*(gen_match_2 <= 2)*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*(gen_match_2 <= 4)*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"vvl",
 					nick_suffix=nick_suffix
 			)
@@ -161,10 +161,10 @@ class Samples(samples_run2.Samples):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root",
+					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
-					mc_weight+weight+"*eventWeight*(gen_match_2 <= 2)*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*(gen_match_2 <= 4)*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"ttjl",
 					nick_suffix=nick_suffix
 			)
@@ -190,7 +190,7 @@ class Samples(samples_run2.Samples):
 					"W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
-					mc_weight+weight+"*eventWeight*(gen_match_2 <= 2)*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					mc_weight+weight+"*eventWeight*(gen_match_2 <= 4)*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
 					"wjl",
 					nick_suffix=nick_suffix
 			)
