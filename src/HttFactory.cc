@@ -46,6 +46,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmuQcdWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RooWorkspaceWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauTriggerScaleFactorProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MuMuTriggerScaleFactorProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -226,6 +227,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
         return new RooWorkspaceWeightProducer();
     else if(id == TauTauTriggerScaleFactorProducer().GetProducerId())
         return new TauTauTriggerScaleFactorProducer();
+    else if(id == MuMuTriggerScaleFactorProducer().GetProducerId())
+        return new MuMuTriggerScaleFactorProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

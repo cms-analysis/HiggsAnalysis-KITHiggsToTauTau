@@ -85,21 +85,18 @@
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"RooWorkspaceWeightNames" : [
-			"0:triggerWeight",
 			"0:isoweight",
 			"0:idweight",
 			"1:isoweight",
 			"1:idweight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:m_trgOR_binned_data",
 			"0:m_iso_binned_ratio",
 			"0:m_id_ratio",
 			"1:m_iso_binned_ratio",
 			"1:m_id_ratio"
 		],
 		"RooWorkspaceObjectArguments" : [
-			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta",
 			"1:m_pt,m_eta,m_iso",
@@ -246,6 +243,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:MuMuTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL.*(?=Spring16)" : [
@@ -285,6 +283,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:MuMuTriggerScaleFactorProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!DY.?JetsToLL).)*Fall15" : [
