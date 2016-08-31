@@ -472,13 +472,13 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		TDirectory *savedir(gDirectory);
 		TFile *savefile(gFile);
 
-		LOG(INFO) << "\tLoading SVfit cache trees from file...";
-		LOG(INFO) << "\t\t" << cacheFileName << "/" << treeName;
 		SvfitTools::svfitCacheInputFile[cacheFileName] = TFile::Open(cacheFileName.c_str(), "CACHEREAD", cacheFileName.c_str());
 		SvfitTools::svfitCacheInputTree[cacheFileName] = dynamic_cast<TTree*>(SvfitTools::svfitCacheInputFile.at(cacheFileName)->Get(treeName.c_str()));
-		
+
+		LOG(INFO) << "\tLoaded SVfit cache trees from file...";
+		LOG(INFO) << "\t\t" << cacheFileName << "/" << treeName << " with " << SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntries() << " Entries" << std::endl;
+
 		svfitEventKey.SetBranchAddresses(SvfitTools::svfitCacheInputTree[cacheFileName]);
-		LOG(DEBUG) << "svfitCacheInputTree has " << SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntries() << " Entries" << std::endl;
 		SvfitTools::svfitCacheInputTreeIndices[cacheFileName] = std::map<SvfitEventKey, uint64_t>();
 		for (uint64_t svfitCacheInputTreeIndex = 0;
 		     svfitCacheInputTreeIndex < uint64_t(SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntries());
@@ -491,7 +491,7 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 			LOG_N_TIMES(10, DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
 		}
 		svfitEventKey.ActivateBranches(SvfitTools::svfitCacheInputTree.at(cacheFileName), false);
-		LOG(INFO) << "\t\t" << SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).size() << " entries found.";
+		LOG(DEBUG) << "\t\t" << SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).size() << " entries found.";
 		
 		svfitResults[cacheFileName] = SvfitResults();
 		svfitResults.at(cacheFileName).SetBranchAddresses(SvfitTools::svfitCacheInputTree.at(cacheFileName));
@@ -499,8 +499,9 @@ void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string con
 		gDirectory = savedir;
 		gFile = savefile;
 	}
-	else {
-		LOG(INFO) << "\tSVfit cache trees from file " << cacheFileName << " already loaded" << std::endl;
+	else 
+	{
+		LOG(DEBUG) << "\tSVfit cache trees from file " << cacheFileName << " already loaded" << std::endl;
 	}
 }
 
@@ -521,7 +522,8 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
 		{
 			neededRecalculation = true;
-			LOG(INFO) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" << std::endl;
+			LOG_N_TIMES(30, INFO) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" 
+			<< std::endl << "Cache searched in file: " << cacheFileName << std::endl;
 		}
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::assert)
 		{
@@ -579,5 +581,6 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 
 SvfitTools::~SvfitTools()
 {
-	//std::cout << "destructor " << std::endl;
+	// do NOT call destructor for TTree and TFile here. They are static and the destructor is called several times when running the factory
+	// We have to trust the OS does handle freeing the memory properly
 }
