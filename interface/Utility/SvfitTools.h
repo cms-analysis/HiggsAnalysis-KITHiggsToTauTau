@@ -161,19 +161,18 @@ class SvfitTools {
 public:
 	SvfitTools() {}
 	~SvfitTools();
-	SvfitTools(std::vector<std::string> const& fileNames, std::string const& treeName);
 	
 	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
 
 private:
-	TTree* svfitCacheInputTree;
-	TFile* svfitCacheInputFile;
-	std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
-	
+	static std::map<std::string, TTree*> svfitCacheInputTree;
+	static std::map<std::string, TFile*> svfitCacheInputFile;
+	static std::map<std::string, std::map<SvfitEventKey, uint64_t>> svfitCacheInputTreeIndices;
+	std::string cacheFileName;
 	SvfitInputs svfitInputs;
-	SvfitResults svfitResults;
+	static std::map<std::string, SvfitResults> svfitResults;
 	SvfitEventKey svfitEventKey;
 	TFile * m_inputFile_visPtResolution = 0;
 };
