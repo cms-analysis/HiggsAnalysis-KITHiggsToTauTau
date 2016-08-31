@@ -165,6 +165,8 @@
 		"decayMode_1",
 		"decayMode_2",
 		"npartons",
-		"genbosonmass"
+		"genbosonmass",
+		"leadingJetGenMatch",
+		"trailingJetGenMatch"
 	]
 }
