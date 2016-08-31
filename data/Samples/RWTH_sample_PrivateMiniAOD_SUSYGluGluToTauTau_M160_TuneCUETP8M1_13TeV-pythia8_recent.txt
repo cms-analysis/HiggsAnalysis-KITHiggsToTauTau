@@ -1,0 +1,1 @@
+RWTH_sample_PrivateMiniAOD_SUSYGluGluToTauTau_M160_TuneCUETP8M1_13TeV-pythia8_30_08_2016.txt
