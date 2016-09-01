@@ -70,12 +70,12 @@ class Samples(samples.SamplesBase):
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight)*"
 		return "("+highmass+mediummass+lowmass+")"+normalization
 
-        # DYJetsToLLM_150 sample currently only contains Z->tautau decays
-        @staticmethod
-        def zll_stitchingweight():
-                mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*2.43669e-5) + ((genbosonmass >= 50.0 && npartons == 1)*1.06292e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.10505e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.14799e-5) + ((genbosonmass >= 50.0 && npartons == 4)*9.62135e-6)+"
-                lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
-                normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight)*"                
+# DYJetsToLLM_150 sample currently only contains Z->tautau decays
+	@staticmethod
+	def zll_stitchingweight():
+		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*2.43669e-5) + ((genbosonmass >= 50.0 && npartons == 1)*1.06292e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.10505e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.14799e-5) + ((genbosonmass >= 50.0 && npartons == 4)*9.62135e-6)+"
+		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight)*"                
 		return "("+mediummass+lowmass+")"+normalization
 	
 	@staticmethod

@@ -21,8 +21,7 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer",
-				"producer:SampleStitchingWeightProducer"
+				"producer:PUWeightProducer"
 			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
@@ -37,8 +36,7 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer",
-				"producer:SampleStitchingWeightProducer"
+				"producer:PUWeightProducer"
 			],
 			"^(GluGlu|VBF|Wminus|Wplus|Z)HToTauTau" : [
 				"#filter:RunLumiEventFilter",
