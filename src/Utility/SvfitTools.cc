@@ -510,18 +510,21 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
                                     bool& neededRecalculation,
                                     HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour)
 {
-	neededRecalculation = false;
-	auto svfitCacheInputTreeIndicesItem = SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).find(svfitEventKey);
-	if (svfitCacheInputTreeIndicesItem != SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).end())
+	neededRecalculation = true;
+	if((cacheFileName != NULL) &&( SvfitTools::svfitCacheInputTreeIndices.find(cacheFileName) != SvfitTools::svfitCacheInputTreeIndices.end() ))
 	{
-		SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntry(svfitCacheInputTreeIndicesItem->second);
-		svfitResults.at(cacheFileName).fromCache();
+		auto svfitCacheInputTreeIndicesItem = SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).find(svfitEventKey);
+		if (svfitCacheInputTreeIndicesItem != SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).end())
+		{
+			SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntry(svfitCacheInputTreeIndicesItem->second);
+			svfitResults.at(cacheFileName).fromCache();
+			neededRecalculation = false;
+		}
 	}
-	else
+	if(neededRecalculation)
 	{
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
 		{
-			neededRecalculation = true;
 			LOG_N_TIMES(30, INFO) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" 
 			<< std::endl << "Cache searched in file: " << cacheFileName << std::endl;
 		}
@@ -533,7 +536,6 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		{
 			svfitResults[cacheFileName] = SvfitResults();
 			svfitResults.at(cacheFileName).fromRecalculation();
-			neededRecalculation = true;
 			return svfitResults.at(cacheFileName);
 		}
 	}
