@@ -1538,7 +1538,7 @@ class Samples(samples.SamplesBase):
 								self.files_wj(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_selection_weights[key] + Samples.wj_stitchingweight(),
+								Samples.wj_stitchingweight() + mc_selection_weights[key],
 								"noplot_wj_"+key,
 								nick_suffix=nick_suffix
 						)
