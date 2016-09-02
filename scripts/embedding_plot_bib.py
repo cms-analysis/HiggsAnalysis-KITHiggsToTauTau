@@ -333,31 +333,33 @@ ePlusmuMinus_PtTauMinus_path1 = ePlusmuMinus_PtTauPlus_path1.clone(
 	x_label = "p^{#tau^{-}(gen)}_{T} [GeV]")
 
 configs.extend(ePlusmuMinus_PtTauMinus_path1.return_json_with_changed_x_and_weight(x_expressions = ["PtTauMinus"]))
-'''
 
+'''
+'''
 ### CP and spin quantities
 
 # for eMinusmuPlus
 
-eMinusmuPlus_PhiStarCP = pltcl.single_plot(
-	name = "ePlusmuMinus_PhiStarCP",
+eMinusmuPlus_PhiCP = pltcl.single_plot(
+	name = "eMinusmuPlus_PhiCP",
 	title = "Z#rightarrow#tau^{+}#tau^{-}#rightarrow#mu^{+}e^{-}+4#nu, E_{l^{#pm}}^{rest frame} > 0.44 GeV",
-	x_expression = "genPhiStarCP",
+	x_expression = "genPhiCP",
 	x_bins = "50,-0.2,6.5",
 	y_label = "arbitary units",
-	x_label = "#phi^{*}_{CP} [rad]",
+	x_label = "#phi_{CP} [rad]",
 	weight = "TauMProngEnergy > 0.44 && TauPProngEnergy > 0.44",
 	wwwfolder = "",
+	normalized_to_hist1 = True,
 	plot_type = "absolute",
 	legend =[0.73,0.7,0.93,0.9],
 	plotlines = [eMinusmuPlus_CP_spin_pythia, eMinusmuPlus_CP_spin_tauola]
 	)
 
-configs.extend(eMinusmuPlus_PhiStarCP.return_json_with_changed_x_and_weight(x_expressions = ["genPhiStarCP"]))
+configs.extend(eMinusmuPlus_PhiCP.return_json_with_changed_x_and_weight(x_expressions = ["genPhiCP"]))
 
 
-eMinusmuPlus_Zs = eMinusmuPlus_PhiStarCP.clone(
-	name = "ePlusmuMinus_Zs",
+eMinusmuPlus_Zs = eMinusmuPlus_PhiCP.clone(
+	name = "eMinusmuPlus_Zs",
 	weight = "1",
 	x_expression = "genZs",
 	x_bins = "50,-0.5,0.5",
@@ -367,7 +369,7 @@ configs.extend(eMinusmuPlus_Zs.return_json_with_changed_x_and_weight(x_expressio
 
 
 eMinusmuPlus_Zp_vs_Zm_pythia = pltcl.single_plot(
-	name = "ePlusmuMinus_Zp_vs_Zm_pythia",
+	name = "eMinusmuPlus_Zp_vs_Zm_pythia",
 	title = "Z#rightarrow#tau^{+}#tau^{-}#rightarrow#mu^{+}e^{-}+4#nu: pythia8",
 	x_expression = "genZPlus",
 	y_expression = "genZMinus",
@@ -383,7 +385,7 @@ eMinusmuPlus_Zp_vs_Zm_pythia = pltcl.single_plot(
 configs.extend(eMinusmuPlus_Zp_vs_Zm_pythia.return_json_with_changed_x_and_weight(x_expressions = ["genZPlus"]))
 
 eMinusmuPlus_Zp_vs_Zm_tauola = pltcl.single_plot(
-	name = "ePlusmuMinus_Zp_vs_Zm_tauola",
+	name = "eMinusmuPlus_Zp_vs_Zm_tauola",
 	title = "Z#rightarrow#tau^{+}#tau^{-}#rightarrow#mu^{+}e^{-}+4#nu: tauola",
 	x_expression = "genZPlus",
 	y_expression = "genZMinus",
@@ -672,4 +674,432 @@ PiPlusPiMinus_nocut_long_Zp_vs_Zm_tauola = pltcl.single_plot(
 
 configs.extend(PiPlusPiMinus_nocut_long_Zp_vs_Zm_tauola.return_json_with_changed_x_and_weight(x_expressions = ["genZPlus"]))
 
+# bare vs. dressed (emu channel)
+
+FSR_pythia_diLepMass = pltcl.single_plot(
+	name = "FSR_pythia_diLepMass",
+	title = "Z#rightarrow#tau^{+}#tau^{-}#rightarrow#mu^{+}e^{-}+4#nu (pythia8): normalized to reco",
+	x_expression = "diLepMass",
+	x_bins = "50,0,150",
+	x_label = "m_{#tau#tau}^{vis}",
+	wwwfolder = "",
+	legend =[0.68,0.65,0.93,0.85],
+	plot_type = "absolute",
+	normalized_to_hist1 = True,
+	subplot_denominator = 1,
+	subplot_numerators = [0,2],
+	y_subplot_lims = [0.9,1.1],
+	y_subplot_label = "#frac{dressed or reco}{bare}",
+	plotlines = [Normal_pythia, Bare_pythia, Dressed_pythia]
+	)
+
+configs.extend(FSR_pythia_diLepMass.return_json_with_changed_x_and_weight(x_expressions = ["diLepMass"]))
+
+
+
+
+FSRstudies_EM = pltcl.single_plot(
+	name = "FSRstudies_EM",
+	title = "",
+	x_expression = "diLepMass",
+	x_bins = "40 45 50 55 60 65 70 75 80 90 100 120 140",
+	normalized_by_binwidth = True,
+	x_label = "m_{#tau#tau}^{vis}",
+	y_label = "#frac{dN}{dm} [GeV^{-1}]",
+	wwwfolder = "",
+	legend =[0.4,0.55,0.93,0.85],
+	plot_type = "absolute",
+	normalize_reference = 1,
+	normalize_targets = [0,4],
+	subplot_denominator = 1,
+	subplot_numerators = [0,2,3],
+	y_subplot_lims = [0.6,1.4],
+	y_subplot_label = "#frac{Z#rightarrow#tau#tau sim.}{#mu#rightarrow#tau emb.}",
+	plotlines = [FSRstudies_EM, FSRstudies_EM_emb_afterFSR, FSRstudies_EM_emb_afterFSR_up, FSRstudies_EM_emb_afterFSR_down, FSRstudies_EM_higgs],
+	)
+
+configs.extend(FSRstudies_EM.return_json_with_changed_x_and_weight(
+	x_expressions = ["diLepMass"],
+	weights = ["eventWeight"]
+	))
+
+FSRstudies_ET = FSRstudies_EM.clone(
+	name = "FSRstudies_ET",
+	title = "",
+	legend =[0.4,0.55,0.9,0.85],
+	plotlines = [FSRstudies_ET, FSRstudies_ET_emb_afterFSR, FSRstudies_ET_emb_afterFSR_up, FSRstudies_ET_emb_afterFSR_down, FSRstudies_ET_higgs]
+	)
+
+configs.extend(FSRstudies_ET.return_json_with_changed_x_and_weight(
+	x_expressions = ["diLepMass"],
+	weights = ["eventWeight"]
+	))
+
+FSRstudies_MT = FSRstudies_EM.clone(
+	name = "FSRstudies_MT",
+	title = "",
+	legend =[0.4,0.55,0.9,0.85],
+	plotlines = [FSRstudies_MT, FSRstudies_MT_emb_afterFSR, FSRstudies_MT_emb_afterFSR_up, FSRstudies_MT_emb_afterFSR_down, FSRstudies_MT_higgs]
+	)
+
+configs.extend(FSRstudies_MT.return_json_with_changed_x_and_weight(
+	x_expressions = ["diLepMass"],
+	weights = ["eventWeight"]
+	))
+
+FSRstudies_TT = FSRstudies_EM.clone(
+	name = "FSRstudies_TT",
+	title = "",
+	legend =[0.4,0.55,0.9,0.85],
+	plotlines = [FSRstudies_TT, FSRstudies_TT_emb_afterFSR, FSRstudies_TT_emb_afterFSR_up, FSRstudies_TT_emb_afterFSR_down, FSRstudies_TT_higgs]
+	)
+
+configs.extend(FSRstudies_TT.return_json_with_changed_x_and_weight(
+	x_expressions = ["diLepMass"],
+	weights = ["eventWeight"]
+	))
+'''
+### Embedding Cleaning Check
+
+emb_clean_check_NE = pltcl.single_plot(
+	name = "emb_clean_check_NE",
+	title = "",
+	x_expression = "NKappaElectrons",
+	x_bins = "7,0,7",
+	normalized_by_binwidth = False,
+	x_label = "N_{e}",
+	y_label = "Events",
+	wwwfolder = "",
+	legend =[0.6,0.55,0.95,0.85],
+	plot_type = "absolute",
+	subplot_denominator = 0,
+	subplot_numerators = [1,2,3],
+	y_subplot_lims = [0.85,1.15],
+	y_subplot_label = "#frac{own work}{Run2015D}",
+	plotlines = [DoubleMuonMINIAOD, DoubleMuonMINIAODonfly, DoubleMuonCleaned, DoubleMuonFullyCleaned],
+)
+
+configs.extend(emb_clean_check_NE.return_json_with_changed_x_and_weight(
+	x_expressions = ["NKappaElectrons", "NKappaElectronsWithEtaCut", "NKappaElectronsWithPtCut","nElectrons","NKappaPackedPFCandidatesElectrons"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+emb_clean_check_NMu = emb_clean_check_NE.clone(
+	name = "emb_clean_check_NMu",
+	x_expression = "NKappaMuons",
+	x_bins = "5,2,7",
+	x_label = "N_{#mu}",
+	y_subplot_lims = [0.9,1.1],
+)
+
+configs.extend(emb_clean_check_NMu.return_json_with_changed_x_and_weight(
+	x_expressions = ["NKappaMuons","NKappaGlobalMuons", "NKappaGlobalMuonsWithPtCut", "NKappaPackedPFCandidatesMuons"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)", "(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+emb_clean_check_NPFC = emb_clean_check_NE.clone(
+	name = "emb_clean_check_NPFC",
+	x_expression = "NKappaPackedPFCandidates",
+	x_bins = "20,300,2000",
+	y_subplot_lims = [0.95,1.05],
+	x_label = "N_{PF cand.}"
+)
+
+configs.extend(emb_clean_check_NPFC.return_json_with_changed_x_and_weight(
+	x_expressions = ["NKappaPackedPFCandidates"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+	
+emb_clean_check_NPFCPh = emb_clean_check_NE.clone(
+	name = "emb_clean_check_NPFC",
+	x_expression = "NKappaPackedPFCandidatesPhotons",
+	x_bins = "60,0,300",
+	y_subplot_lims = [0.95,1.05],
+	x_label = "N_{PF cand.}"
+)
+
+configs.extend(emb_clean_check_NPFCPh.return_json_with_changed_x_and_weight(
+	x_expressions = ["NKappaPackedPFCandidatesPhotons"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+	
+emb_clean_check_NPFCCH = emb_clean_check_NE.clone(
+	name = "emb_clean_check_NPFC",
+	x_expression = "NKappaPackedPFCandidatesChargedHadrons",
+	y_subplot_lims = [0.95,1.05],
+	x_bins = "160,0,800",
+	x_label = "N_{PF cand.}"
+)
+
+configs.extend(emb_clean_check_NPFCCH.return_json_with_changed_x_and_weight(
+	x_expressions = ["NKappaPackedPFCandidatesChargedHadrons"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+emb_clean_check_NPFCNH = emb_clean_check_NE.clone(
+	name = "emb_clean_check_NPFC",
+	x_expression = "NKappaPackedPFCandidatesNeutralHadrons",
+	x_bins = "20,0,100",
+	y_subplot_lims = [0.85,1.15],
+	x_label = "N_{PF cand.}"
+)
+
+configs.extend(emb_clean_check_NPFCNH.return_json_with_changed_x_and_weight(
+	x_expressions = ["NKappaPackedPFCandidatesNeutralHadrons"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+	
+emb_clean_check_NPFCR = emb_clean_check_NE.clone(
+	name = "emb_clean_check_NPFC",
+	x_expression = "NKappaPackedPFCandidatesNeutralRemaining",
+	x_bins = "70,100,800",
+	x_label = "N_{PF cand.}",
+	legend =[0.2,0.25,0.55,0.55],
+)
+
+configs.extend(emb_clean_check_NPFCR.return_json_with_changed_x_and_weight(
+	x_expressions = ["NKappaPackedPFCandidatesRemaining"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+
+emb_clean_check_RunNumber = emb_clean_check_NE.clone(
+	name = "emb_clean_check_RunNumber",
+	x_expression = "RunNumber",
+	x_bins = "50,256600,260800",
+	normalized_to_nevents = False,
+	x_label = "Run Number",
+	y_label = "Events",
+	y_subplot_lims = [0.98,1.02]
+)
+
+configs.extend(emb_clean_check_RunNumber.return_json_with_changed_x_and_weight(
+	x_expressions = ["run"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+emb_clean_check_EventCounter = emb_clean_check_NE.clone(
+	name = "emb_clean_check_EventCounter",
+	x_expression = "EventCounter",
+	x_bins = "1,1,2",
+	x_label = "EventCounter",
+	y_label = "Events",
+	y_subplot_lims = [0.98,1.02],
+	normalized_to_nevents = False
+)
+
+configs.extend(emb_clean_check_EventCounter.return_json_with_changed_x_and_weight(
+	x_expressions = ["EventCounter"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+emb_clean_check_MuonPt = emb_clean_check_NE.clone(
+	name = "emb_clean_check_MuonPt",
+	x_expression = "leadingMuonPt",
+	x_bins = "50,0,160",
+	x_label = "p_{T}^{#mu}"
+)
+
+configs.extend(emb_clean_check_MuonPt.return_json_with_changed_x_and_weight(
+	x_expressions = ["leadingMuonPt", "trailingMuonPt"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)", "(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+emb_clean_check_electronsPt = emb_clean_check_NE.clone(
+	name = "emb_clean_check_electronsPt",
+	x_expression = "electronPts",
+	y_label = "electrons/bin width [GeV^{-1}]",
+	x_bins = "70,0,70",
+	x_label = "p_{T}^{e}"
+)
+
+configs.extend(emb_clean_check_electronsPt.return_json_with_changed_x_and_weight(
+	x_expressions = ["electronPts","looseElectronPts"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)", "(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+emb_clean_check_MET = emb_clean_check_NE.clone(
+	name = "emb_clean_check_MET",
+	x_expression = "PFCandidatesMET",
+	x_bins = "50,0,100",
+	y_subplot_lims = [0.75,1.25],
+	x_label = "missing E_{T}"
+)
+
+configs.extend(emb_clean_check_MET.return_json_with_changed_x_and_weight(
+	x_expressions = ["PFCandidatesMET", "SumPtPFChargedHadrons", "SumPtPFNeutralHadrons", "SumPtPFPhotons", "SumPtPFElectrons", "SumPtPFMuons"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+emb_clean_check_sumPT = emb_clean_check_NE.clone(
+	name = "emb_clean_check_sumPT",
+	x_expression = "PFCandidatesMET",
+	x_bins = "50,0,100",
+	y_subplot_lims = [0.75,1.25],
+	x_label = "|#sum#vec{p_{T}}|"
+)
+
+configs.extend(emb_clean_check_sumPT.return_json_with_changed_x_and_weight(
+	x_expressions = ["SumPtPFChargedHadrons", "SumPtPFNeutralHadrons", "SumPtPFPhotons", "SumPtPFElectrons"],
+#	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
+	))
+
+
+emb_clean_check_deltaR = emb_clean_check_NE.clone(
+	name = "emb_clean_check_deltaR",
+	x_expression = "deltaRsElectronMuon",
+	y_label = "electrons/bin width",
+	y_subplot_lims = [0.8,1.2],
+	x_bins = "40,0,4",
+	x_label = "min_{#mu}#DeltaR_{e,#mu}"
+)
+
+configs.extend(emb_clean_check_deltaR.return_json_with_changed_x_and_weight(
+	x_expressions = ["deltaRsElectronMuon", "deltaRslooseElectronMuon"],
+#	weights = ["deltaRsElectronMuon>0"]
+	))
+
+emb_clean_check_deltaEta = emb_clean_check_NE.clone(
+	name = "emb_clean_check_deltaEta",
+	x_expression = "deltaEtasElectronMuon",
+	y_label = "electrons/bin width",
+	y_subplot_lims = [0.8,1.2],
+	x_bins = "40,0,4",
+	x_label = "min_{#mu}#Delta#eta_{e,#mu}"
+)
+
+configs.extend(emb_clean_check_deltaEta.return_json_with_changed_x_and_weight(
+	x_expressions = ["deltaEtasElectronMuon", "deltaEtaslooseElectronMuon"],
+#	weights = ["deltaEtasElectronMuon>0"]
+	))
+
+emb_clean_check_deltaPhi = emb_clean_check_NE.clone(
+	name = "emb_clean_check_deltaPhi",
+	x_expression = "deltaPhisElectronMuon",
+	y_label = "electrons/bin width",
+	y_subplot_lims = [0.8,1.2],
+	x_bins = "40,0,4",
+	x_label = "min_{#mu}#Delta#phi_{e,#mu}"
+)
+
+configs.extend(emb_clean_check_deltaPhi.return_json_with_changed_x_and_weight(
+	x_expressions = ["deltaPhisElectronMuon", "deltaPhislooseElectronMuon"],
+#	weights = ["deltaPhisElectronMuon>0"]
+	))
+
+
+'''
+vtx_check_dxy_EM = pltcl.single_plot(
+	name = "vtx_check_dxy_EM",
+	x_expression = "vtx_dxy",
+	x_label = "dxy [cm]",
+	y_lims = [0.001,1.],
+	y_log = True,
+	normalized_to_unity = True,
+	wwwfolder = "",
+	legend =[0.45,0.55,0.95,0.8],
+	title = "e#mu",
+	plot_type = "absolute",
+	plotlines = [vtx_corrected_EM,vtx_not_corrected_EM],
+	subplot_denominator = 0,
+	subplot_numerators = [1],
+	y_subplot_label = "#frac{smeared}{corrected}"
+)
+
+#configs.extend(vtx_check_dxy_EM.return_json_with_changed_x_and_weight(
+#	x_expressions = ["vtx_dxy"],
+#	))
+
+vtx_check_dxy_ET = vtx_check_dxy_EM.clone(
+	name = "vtx_check_dxy_ET",
+	title = "e#tau_{h}",
+	plotlines = [vtx_corrected_ET,vtx_not_corrected_ET]
+)
+
+configs.extend(vtx_check_dxy_ET.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dxy"],
+	))
+	
+vtx_check_dxy_MT = vtx_check_dxy_EM.clone(
+	name = "vtx_check_dxy_MT",
+	title = "#mu#tau_{h}",
+	plotlines = [vtx_corrected_MT,vtx_not_corrected_MT]
+)
+
+configs.extend(vtx_check_dxy_MT.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dxy"],
+	))
+
+vtx_check_dxy_TT = vtx_check_dxy_EM.clone(
+	name = "vtx_check_dxy_TT",
+	title = "#tau_{h}#tau_{h}",
+	plotlines = [vtx_corrected_TT,vtx_not_corrected_TT]
+)
+
+configs.extend(vtx_check_dxy_TT.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dxy"],
+	))
+
+vtx_check_dz_EM = vtx_check_dxy_EM.clone(
+	name = "vtx_check_dz_EM",
+	x_expression = "vtx_dz",
+	x_label = "dz [cm]"
+)
+
+configs.extend(vtx_check_dz_EM.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dz"],
+	))
+
+vtx_check_dz_ET = vtx_check_dz_EM.clone(
+	name = "vtx_check_dz_ET",
+	title = "e#tau_{h}",
+	plotlines = [vtx_corrected_ET,vtx_not_corrected_ET]
+)
+
+configs.extend(vtx_check_dz_ET.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dz"],
+	))
+	
+vtx_check_dz_MT = vtx_check_dz_EM.clone(
+	name = "vtx_check_dz_MT",
+	title = "#mu#tau_{h}",
+	plotlines = [vtx_corrected_MT,vtx_not_corrected_MT]
+)
+
+configs.extend(vtx_check_dz_MT.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dz"],
+	))
+
+vtx_check_dz_TT = vtx_check_dz_EM.clone(
+	name = "vtx_check_dz_TT",
+	title = "#tau_{h}#tau_{h}",
+	plotlines = [vtx_corrected_TT,vtx_not_corrected_TT]
+)
+
+configs.extend(vtx_check_dz_TT.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dz"],
+	))
+
+
+vtx_check_dxy_MM = vtx_check_dxy_EM.clone(
+	name = "vtx_check_dxy_MM",
+	title = "#mu#mu",
+	plotlines = [vtx_corrected_MM,vtx_not_corrected_MM]
+)
+
+configs.extend(vtx_check_dxy_MM.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dxy"],
+	))
+
+vtx_check_dz_MM = vtx_check_dz_EM.clone(
+	name = "vtx_check_dz_MM",
+	title = "#mu#mu",
+	plotlines = [vtx_corrected_MM,vtx_not_corrected_MM]
+)
+
+configs.extend(vtx_check_dz_MM.return_json_with_changed_x_and_weight(
+	x_expressions = ["vtx_dz"],
+	))
+
+'''
 higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=configs, list_of_args_strings=[""])

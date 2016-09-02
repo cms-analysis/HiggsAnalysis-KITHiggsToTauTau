@@ -140,7 +140,7 @@ ePlusmuMinus_tauola_path1 = ePlusmuMinus_tauola.clone(
 
 eMinusmuPlus_CP_spin_pythia = pltcl.single_plotline(
 	name = "eMinusmuPlus_CP_spin",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_pythia.root",
+	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_normal.root",
 	num_folder = "acc_eff",
 	den_folder = "acc_eff",
 	num_tree = "ntuple",
@@ -148,7 +148,7 @@ eMinusmuPlus_CP_spin_pythia = pltcl.single_plotline(
 	color = "kRed")
 
 eMinusmuPlus_CP_spin_tauola = eMinusmuPlus_CP_spin_pythia.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_tauola.root",
+	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_tauola_normal.root",
 	label = "tauola",
 	color = "kBlue")
 	
@@ -230,3 +230,305 @@ PiPlusPiMinus_CP_spin_tauola_nocut_long = PiPlusPiMinus_CP_spin_pythia.clone(
 	
 PiPlusPiMinus_CP_spin_pythia_2D_nocut_long = PiPlusPiMinus_CP_spin_pythia_nocut_long.clone(marker = "COLZ", color = None)
 PiPlusPiMinus_CP_spin_tauola_2D_nocut_long = PiPlusPiMinus_CP_spin_tauola_nocut_long.clone(marker = "COLZ", color = None)
+
+
+# bare vs. dressed (emu channel)
+
+Bare_pythia = pltcl.single_plotline(
+	name = "Bare_pythia",
+	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_bare.root",
+	num_folder = "acc_eff",
+	den_folder = "acc_eff",
+	num_tree = "ntuple",
+	label = "bare",
+	color = "kRed")
+
+Dressed_pythia = Bare_pythia.clone(
+	name = "Dressed_pythia",
+	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_dressed.root",
+	label = "dressed",
+	color = "kBlue")
+
+
+Normal_pythia = Bare_pythia.clone(
+	name = "Dressed_pythia",
+	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_normal.root",
+	label = "usual reco",
+	color = "kBlack")
+	
+
+### Full Z->TauTau MC
+
+
+# EM channel
+
+FSRstudies_EM = pltcl.single_plotline(
+	name = "FSRstudies_EM",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-39_analysis/merged/DYJetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/DYJetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8.root",
+	num_folder = "FSRstudies_EM_eleEsNom",
+	den_folder = "FSRstudies_EM_eleEsNom",
+	num_tree = "ntuple",
+	label = "Z#rightarrow#tau#tau sim.",
+	color = "kOrange+7")
+
+FSRstudies_EM_emb_afterFSR = FSRstudies_EM.clone(
+	name = "FSRstudies_EM_emb_afterFSR",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-17_analysis/merged/ZtoTauTauEmbedded_EM/ZtoTauTauEmbedded_EM.root",
+	num_folder = "FSRstudies_EM_eleEsNom",
+	den_folder = "FSRstudies_EM_eleEsNom",
+	label = "#mu#rightarrow#tau emb. #pm 2% e-ES",
+	color = "kBlue")
+
+FSRstudies_EM_emb_afterFSR_up = FSRstudies_EM_emb_afterFSR.clone(
+	name = "FSRstudies_EM_emb_afterFSR_up",
+	num_folder = "FSRstudies_EM_eleEsUp",
+	den_folder = "FSRstudies_EM_eleEsUp",
+	label = "",
+	color = "kCyan+1")
+
+FSRstudies_EM_emb_afterFSR_down = FSRstudies_EM_emb_afterFSR.clone(
+	name = "FSRstudies_EM_emb_afterFSR_down",
+	num_folder = "FSRstudies_EM_eleEsDown",
+	den_folder = "FSRstudies_EM_eleEsDown",
+	label = "",
+	color = "kCyan+2")
+
+
+FSRstudies_EM_higgs = FSRstudies_EM.clone(
+	name = "FSRstudies_EM_higgs",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-40_analysis/merged/GluGluHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_powheg-pythia8/GluGluHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_powheg-pythia8.root",
+	label = "H(125)",
+	color = "kBlack"
+	)
+
+
+# ET channel
+
+
+FSRstudies_ET = FSRstudies_EM.clone(
+	name = "FSRstudies_ET",
+	num_folder = "FSRstudies_ET_tauEsNom",
+	den_folder = "FSRstudies_ET_tauEsNom")
+
+FSRstudies_ET_emb_afterFSR = FSRstudies_EM_emb_afterFSR.clone(
+	name = "FSRstudies_ET_emb_afterFSR",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-13_analysis/merged/ZtoTauTauEmbedded_ET/ZtoTauTauEmbedded_ET.root",
+	num_folder = "FSRstudies_ET_tauEsNom",
+	den_folder = "FSRstudies_ET_tauEsNom",
+	label = "#mu#rightarrow#tau emb. #pm 3% #tau_{h}-ES")
+
+FSRstudies_ET_emb_afterFSR_up = FSRstudies_EM_emb_afterFSR_up.clone(
+	name = "FSRstudies_ET_emb_afterFSR_up",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-13_analysis/merged/ZtoTauTauEmbedded_ET/ZtoTauTauEmbedded_ET.root",
+	num_folder = "FSRstudies_ET_tauEsUp",
+	den_folder = "FSRstudies_ET_tauEsUp")
+
+FSRstudies_ET_emb_afterFSR_down = FSRstudies_EM_emb_afterFSR_down.clone(
+	name = "FSRstudies_ET_emb_afterFSR_down",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-13_analysis/merged/ZtoTauTauEmbedded_ET/ZtoTauTauEmbedded_ET.root",
+	num_folder = "FSRstudies_ET_tauEsDown",
+	den_folder = "FSRstudies_ET_tauEsDown")
+
+FSRstudies_ET_higgs = FSRstudies_EM_higgs.clone(
+	name = "FSRstudies_ET_higgs",
+	num_folder = "FSRstudies_ET_tauEsNom",
+	den_folder = "FSRstudies_ET_tauEsNom"
+	)
+
+# MT channel
+
+FSRstudies_MT = FSRstudies_EM.clone(
+	name = "FSRstudies_MT",
+	num_folder = "FSRstudies_MT_tauEsNom",
+	den_folder = "FSRstudies_MT_tauEsNom")
+
+FSRstudies_MT_emb_afterFSR = FSRstudies_EM_emb_afterFSR.clone(
+	name = "FSRstudies_MT_emb_afterFSR",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-03_analysis/merged/ZtoTauTauEmbedded_MT/ZtoTauTauEmbedded_MT.root",
+	num_folder = "FSRstudies_MT_tauEsNom",
+	den_folder = "FSRstudies_MT_tauEsNom",
+	label = "#mu#rightarrow#tau emb. #pm 3% #tau_{h}-ES")
+
+FSRstudies_MT_emb_afterFSR_up = FSRstudies_EM_emb_afterFSR_up.clone(
+	name = "FSRstudies_MT_emb_afterFSR_up",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-03_analysis/merged/ZtoTauTauEmbedded_MT/ZtoTauTauEmbedded_MT.root",
+	num_folder = "FSRstudies_MT_tauEsUp",
+	den_folder = "FSRstudies_MT_tauEsUp")
+
+FSRstudies_MT_emb_afterFSR_down = FSRstudies_EM_emb_afterFSR_down.clone(
+	name = "FSRstudies_MT_emb_afterFSR_down",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-03_analysis/merged/ZtoTauTauEmbedded_MT/ZtoTauTauEmbedded_MT.root",
+	num_folder = "FSRstudies_MT_tauEsDown",
+	den_folder = "FSRstudies_MT_tauEsDown")
+
+FSRstudies_MT_higgs = FSRstudies_EM_higgs.clone(
+	name = "FSRstudies_MT_higgs",
+	num_folder = "FSRstudies_MT_tauEsNom",
+	den_folder = "FSRstudies_MT_tauEsNom"
+	)
+
+# TT channel
+
+FSRstudies_TT = FSRstudies_EM.clone(
+	name = "FSRstudies_TT",
+	num_folder = "FSRstudies_TT_tauEsNom",
+	den_folder = "FSRstudies_TT_tauEsNom")
+
+FSRstudies_TT_emb_afterFSR = FSRstudies_EM_emb_afterFSR.clone(
+	name = "FSRstudies_TT_emb_afterFSR",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-16_analysis/merged/ZtoTauTauEmbedded_TT/ZtoTauTauEmbedded_TT.root",
+	num_folder = "FSRstudies_TT_tauEsNom",
+	den_folder = "FSRstudies_TT_tauEsNom",
+	label = "#mu#rightarrow#tau emb. #pm 3% #tau_{h}-ES")
+
+FSRstudies_TT_emb_afterFSR_up = FSRstudies_EM_emb_afterFSR_up.clone(
+	name = "FSRstudies_TT_emb_afterFSR_up",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-16_analysis/merged/ZtoTauTauEmbedded_TT/ZtoTauTauEmbedded_TT.root",
+	num_folder = "FSRstudies_TT_tauEsUp",
+	den_folder = "FSRstudies_TT_tauEsUp")
+
+FSRstudies_TT_emb_afterFSR_down = FSRstudies_EM_emb_afterFSR_down.clone(
+	name = "FSRstudies_TT_emb_afterFSR_down",
+	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-16_analysis/merged/ZtoTauTauEmbedded_TT/ZtoTauTauEmbedded_TT.root",
+	num_folder = "FSRstudies_TT_tauEsDown",
+	den_folder = "FSRstudies_TT_tauEsDown")
+
+FSRstudies_TT_higgs = FSRstudies_EM_higgs.clone(
+	name = "FSRstudies_TT_higgs",
+	num_folder = "FSRstudies_TT_tauEsNom",
+	den_folder = "FSRstudies_TT_tauEsNom"
+	)
+
+### Embedding Cleaning Check
+
+DoubleMuonMINIAOD = pltcl.single_plotline(
+	name = "DoubleMuonMINIAOD",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
+	num_folder = "",
+	den_folder = "",
+	num_tree = "common3",
+	label = "Run2015D",
+	color = "kBlack")
+
+DoubleMuonMINIAODonfly = DoubleMuonMINIAOD.clone(
+	name = "DoubleMuonMINIAODonfly",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
+	num_tree = "common2",
+	label = "private",
+	color = "kRed")
+	
+DoubleMuonCleaned = DoubleMuonMINIAOD.clone(
+	name = "DoubleMuonCleaned",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
+	num_tree = "common1",
+	label = "track cleaning",
+	color = "kGreen+2")
+	
+DoubleMuonCleanedCalo = DoubleMuonMINIAOD.clone(
+name = "DoubleMuonCleanedCalo",
+num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
+num_tree = "common4",
+label = "cleaned (w. calo)",
+color = "kOrange")
+
+DoubleMuonFullyCleaned = DoubleMuonMINIAOD.clone(
+name = "DoubleMuonFullyCleaned",
+num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
+num_tree = "common4",
+label = "full cleaning",
+color = "kBlue")
+
+
+## Embedding vertex correction check
+
+vtx_corrected_EM = pltcl.single_plotline(
+	name = "vtx_corrected_EM",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_EM.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. correction",
+	color = "kBlack")
+
+vtx_not_corrected_EM = pltcl.single_plotline(
+	name = "vtx_not_corrected_EM",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_EM.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. smearing",
+	color = "kRed")
+
+vtx_corrected_ET = pltcl.single_plotline(
+	name = "vtx_corrected_ET",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_ET.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. correction",
+	color = "kBlack")
+
+vtx_not_corrected_ET = pltcl.single_plotline(
+	name = "vtx_not_corrected_ET",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_ET.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. smearing",
+	color = "kRed")
+
+vtx_corrected_MT = pltcl.single_plotline(
+	name = "vtx_corrected_MT",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_MT.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. correction",
+	color = "kBlack")
+
+vtx_not_corrected_MT = pltcl.single_plotline(
+	name = "vtx_not_corrected_MT",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_MT.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. smearing",
+	color = "kRed")
+
+vtx_corrected_TT = pltcl.single_plotline(
+	name = "vtx_corrected_TT",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_TT.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. correction",
+	color = "kBlack")
+
+vtx_not_corrected_TT = pltcl.single_plotline(
+	name = "vtx_not_corrected_TT",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_TT.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. smearing",
+	color = "kRed")
+
+vtx_corrected_MM = pltcl.single_plotline(
+	name = "vtx_corrected_MM",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_MM.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. correction",
+	color = "kBlack")
+
+vtx_not_corrected_MM = pltcl.single_plotline(
+	name = "vtx_not_corrected_MM",
+	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_MM.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	label = "with vtx. smearing",
+	color = "kRed")
+
+
