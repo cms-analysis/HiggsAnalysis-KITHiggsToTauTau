@@ -216,9 +216,19 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ztt", nick_suffix)
-		Samples._add_plot(config, "bkg", "HIST", "F", "ztt", nick_suffix)
+		
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ztt"), nick_suffix)
 
 		return config
+
+	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		weight = "(tauSpinnerPolarisation>=0.0)*(%s)" % weight
+		return self.ztt(config, channel, category, weight, "pospol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
+
+	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		weight = "(tauSpinnerPolarisation<0.0)*(%s)" % weight
+		return self.ztt(config, channel, category, weight, "negpol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
 
 	def files_zll(self, channel):
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 6)
@@ -1782,7 +1792,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						self.files_qqh(channel),
+						self.files_qqh(channel, mass),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -1863,7 +1873,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						self.files_wh_minus(channel),
+						self.files_wh_minus(channel, mass),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -1872,7 +1882,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						self.files_wh_plus(channel),
+						self.files_wh_plus(channel, mass),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -1922,7 +1932,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						self.files_zh(channel),
+						self.files_zh(channel, mass),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
