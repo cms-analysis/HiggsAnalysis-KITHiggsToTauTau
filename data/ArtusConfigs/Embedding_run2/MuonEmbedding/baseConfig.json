@@ -1,0 +1,30 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/MuEmbedded/settingsKappa.json"
+	],
+	"SkipEvents" : 0,
+	"EventCount" : -1,
+	"InputIsData" : "true",
+	"InputFiles" : [
+		"/nfs/dust/cms/user/fcolombo/skimming/2014-08-12-skim/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_0.root"
+	],
+	"OutputPath" : "output.root",
+	"NumberGeneratedEvents" : 1,
+	"CrossSection" : 1,
+	"GeneratorWeight" : -999.0,
+	"Processors" : {
+		"nick" : {
+			"default" : [
+				"filter:JsonFilter",
+				"producer:NicknameProducer"
+			]
+		}
+	},
+	"JsonFiles" : {
+		"nick" : {
+			"default" : [
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt"
+			]
+		}
+	}
+}

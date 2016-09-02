@@ -1,0 +1,52 @@
+{
+    "zmumu_selection_for_embedding" : {
+        "Consumers" : [
+            "KappaLambdaNtupleConsumer",
+            "cutflow_histogram"
+        ],
+        "Quantities": [
+            "run",
+            "lumi",
+            "event",
+
+            "ZMass"
+        ],
+        "Processors" : {
+            "nick" : {
+                "default" : [
+                    "producer:HltProducer",
+                    "producer:ValidMuonsProducer",
+                    "filter:MinMuonsCountFilter",
+                    "producer:ZmmProducer",
+                    "filter:ZFilter",
+                    "producer:EventWeightProducer"
+                ]
+            }
+        },
+        "HltPaths" : {
+            "nick" : {
+                "default" : [
+                    "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"
+                ]
+            }
+        },
+
+        "#ValidMuonsProducer": "Settings",
+        "MuonID" : "loose",
+        "MuonIsoType" : "None",
+        "MuonIso" : "None",
+        "Year" : "2015",
+        "MuonDeltaBetaCorrectionFactor" : 0.5,
+
+        "#MuonsCountFilter" : "Settings",
+        "MinNMuons" : 2,
+
+
+        "#ZmmProducer" : "Settings",
+        "ZMassRange" : 30.0,
+        "VetoMultipleZs" : false,
+
+        "EventWeight" : "eventWeight"
+
+    }
+}

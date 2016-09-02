@@ -151,7 +151,7 @@ eMinusmuPlus_CP_spin_tauola = eMinusmuPlus_CP_spin_pythia.clone(
 	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_tauola_normal.root",
 	label = "tauola",
 	color = "kBlue")
-	
+
 eMinusmuPlus_CP_spin_pythia_2D = eMinusmuPlus_CP_spin_pythia.clone(marker = "COLZ", color = None)
 eMinusmuPlus_CP_spin_tauola_2D = eMinusmuPlus_CP_spin_tauola.clone(marker = "COLZ", color = None)
 
@@ -170,7 +170,7 @@ eMinusmuPlus_CP_spin_tauola_nocut = eMinusmuPlus_CP_spin_pythia_nocut.clone(
 	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_tauola_em_mup_nocut_polOn.root",
 	label = "tauola",
 	color = "kBlue")
-	
+
 eMinusmuPlus_CP_spin_pythia_2D_nocut = eMinusmuPlus_CP_spin_pythia_nocut.clone(marker = "COLZ", color = None)
 eMinusmuPlus_CP_spin_tauola_2D_nocut = eMinusmuPlus_CP_spin_tauola_nocut.clone(marker = "COLZ", color = None)
 
@@ -189,7 +189,7 @@ PiPlusPiMinus_CP_spin_tauola = PiPlusPiMinus_CP_spin_pythia.clone(
 	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_tauola_pipi.root",
 	label = "tauola",
 	color = "kBlue")
-	
+
 PiPlusPiMinus_CP_spin_pythia_2D = PiPlusPiMinus_CP_spin_pythia.clone(marker = "COLZ", color = None)
 PiPlusPiMinus_CP_spin_tauola_2D = PiPlusPiMinus_CP_spin_tauola.clone(marker = "COLZ", color = None)
 
@@ -208,7 +208,7 @@ PiPlusPiMinus_CP_spin_tauola_nocut = PiPlusPiMinus_CP_spin_pythia.clone(
 	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_tauola_pipi_nocut_polOn.root",
 	label = "tauola",
 	color = "kBlue")
-	
+
 PiPlusPiMinus_CP_spin_pythia_2D_nocut = PiPlusPiMinus_CP_spin_pythia_nocut.clone(marker = "COLZ", color = None)
 PiPlusPiMinus_CP_spin_tauola_2D_nocut = PiPlusPiMinus_CP_spin_tauola_nocut.clone(marker = "COLZ", color = None)
 
@@ -227,7 +227,7 @@ PiPlusPiMinus_CP_spin_tauola_nocut_long = PiPlusPiMinus_CP_spin_pythia.clone(
 	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_tauola_pipi_nocut_long.root",
 	label = "tauola",
 	color = "kBlue")
-	
+
 PiPlusPiMinus_CP_spin_pythia_2D_nocut_long = PiPlusPiMinus_CP_spin_pythia_nocut_long.clone(marker = "COLZ", color = None)
 PiPlusPiMinus_CP_spin_tauola_2D_nocut_long = PiPlusPiMinus_CP_spin_tauola_nocut_long.clone(marker = "COLZ", color = None)
 
@@ -255,7 +255,7 @@ Normal_pythia = Bare_pythia.clone(
 	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_normal.root",
 	label = "usual reco",
 	color = "kBlack")
-	
+
 
 ### Full Z->TauTau MC
 
@@ -416,14 +416,14 @@ DoubleMuonMINIAODonfly = DoubleMuonMINIAOD.clone(
 	num_tree = "common2",
 	label = "private",
 	color = "kRed")
-	
+
 DoubleMuonCleaned = DoubleMuonMINIAOD.clone(
 	name = "DoubleMuonCleaned",
 	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
 	num_tree = "common1",
 	label = "track cleaning",
 	color = "kGreen+2")
-	
+
 DoubleMuonCleanedCalo = DoubleMuonMINIAOD.clone(
 name = "DoubleMuonCleanedCalo",
 num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
@@ -439,96 +439,14 @@ label = "full cleaning",
 color = "kBlue")
 
 
-## Embedding vertex correction check
-
-vtx_corrected_EM = pltcl.single_plotline(
-	name = "vtx_corrected_EM",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_EM.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. correction",
-	color = "kBlack")
-
-vtx_not_corrected_EM = pltcl.single_plotline(
-	name = "vtx_not_corrected_EM",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_EM.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. smearing",
-	color = "kRed")
-
-vtx_corrected_ET = pltcl.single_plotline(
-	name = "vtx_corrected_ET",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_ET.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. correction",
-	color = "kBlack")
-
-vtx_not_corrected_ET = pltcl.single_plotline(
-	name = "vtx_not_corrected_ET",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_ET.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. smearing",
-	color = "kRed")
-
-vtx_corrected_MT = pltcl.single_plotline(
-	name = "vtx_corrected_MT",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_MT.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. correction",
-	color = "kBlack")
-
-vtx_not_corrected_MT = pltcl.single_plotline(
-	name = "vtx_not_corrected_MT",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_MT.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. smearing",
-	color = "kRed")
-
-vtx_corrected_TT = pltcl.single_plotline(
-	name = "vtx_corrected_TT",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_TT.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. correction",
-	color = "kBlack")
-
-vtx_not_corrected_TT = pltcl.single_plotline(
-	name = "vtx_not_corrected_TT",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_TT.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. smearing",
-	color = "kRed")
+## vertex correction check for Muon Embedding
 
 vtx_corrected_MM = pltcl.single_plotline(
 	name = "vtx_corrected_MM",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_corrected_MM.root",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/EmbeddingVertexCorrection.root",
 	num_folder = "histograms",
 	den_folder = "histograms",
 	num_tree = "",
-	label = "with vtx. correction",
 	color = "kBlack")
-
-vtx_not_corrected_MM = pltcl.single_plotline(
-	name = "vtx_not_corrected_MM",
-	num_file = "/nfs/dust/cms/user/aakhmets/embedding/CMSSW_7_6_4/src/vertex_not_corrected_MM.root",
-	num_folder = "histograms",
-	den_folder = "histograms",
-	num_tree = "",
-	label = "with vtx. smearing",
-	color = "kRed")
 
 

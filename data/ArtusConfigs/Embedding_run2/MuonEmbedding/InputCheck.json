@@ -1,0 +1,25 @@
+{
+    "input_check" : {
+        "Consumers": [
+            "KappaLambdaNtupleConsumer",
+            "cutflow_histogram"
+        ],
+        "Quantities" : [
+            "run",
+            "lumi",
+            "event",
+            "npv",
+            "firstPV_X",
+            "firstPV_Y",
+            "firstPV_Z"
+        ],
+        "Processors" : {
+            "nick" : {
+                "default" : [
+                    "producer:NicknameProducer"
+                ]
+            }
+        },
+        "EventWeight" : "eventWeight"
+    }
+}

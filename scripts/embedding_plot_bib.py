@@ -12,7 +12,7 @@ muon_full_run2 = pltcl.single_plot(
 	name = "muon_full_run2",
 	title = "Run II",
 	x_expression = "npv",
-	x_bins = "1 5 9 13 17 21 25 29 33 38 43 50 61", 
+	x_bins = "1 5 9 13 17 21 25 29 33 38 43 50 61",
 	wwwfolder="Efficiencies",
 	y_label = "Efficiency #scale[0.5]{#frac{#mu(genMatched & ID & Iso)}{#mu(genMatched))}}",
 	plot_type = "efficiency",
@@ -758,7 +758,7 @@ configs.extend(FSRstudies_TT.return_json_with_changed_x_and_weight(
 	x_expressions = ["diLepMass"],
 	weights = ["eventWeight"]
 	))
-'''
+
 ### Embedding Cleaning Check
 
 emb_clean_check_NE = pltcl.single_plot(
@@ -809,7 +809,7 @@ configs.extend(emb_clean_check_NPFC.return_json_with_changed_x_and_weight(
 	x_expressions = ["NKappaPackedPFCandidates"],
 #	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
 	))
-	
+
 emb_clean_check_NPFCPh = emb_clean_check_NE.clone(
 	name = "emb_clean_check_NPFC",
 	x_expression = "NKappaPackedPFCandidatesPhotons",
@@ -822,7 +822,7 @@ configs.extend(emb_clean_check_NPFCPh.return_json_with_changed_x_and_weight(
 	x_expressions = ["NKappaPackedPFCandidatesPhotons"],
 #	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
 	))
-	
+
 emb_clean_check_NPFCCH = emb_clean_check_NE.clone(
 	name = "emb_clean_check_NPFC",
 	x_expression = "NKappaPackedPFCandidatesChargedHadrons",
@@ -848,7 +848,7 @@ configs.extend(emb_clean_check_NPFCNH.return_json_with_changed_x_and_weight(
 	x_expressions = ["NKappaPackedPFCandidatesNeutralHadrons"],
 #	weights = ["(RunNumber != 257613)*(RunNumber < 258500)"]
 	))
-	
+
 emb_clean_check_NPFCR = emb_clean_check_NE.clone(
 	name = "emb_clean_check_NPFC",
 	x_expression = "NKappaPackedPFCandidatesNeutralRemaining",
@@ -989,117 +989,29 @@ configs.extend(emb_clean_check_deltaPhi.return_json_with_changed_x_and_weight(
 
 
 '''
-vtx_check_dxy_EM = pltcl.single_plot(
-	name = "vtx_check_dxy_EM",
-	x_expression = "vtx_dxy",
-	x_label = "dxy [cm]",
-	y_lims = [0.001,1.],
-	y_log = True,
-	normalized_to_unity = True,
-	wwwfolder = "",
-	legend =[0.45,0.55,0.95,0.8],
-	title = "e#mu",
-	plot_type = "absolute",
-	plotlines = [vtx_corrected_EM,vtx_not_corrected_EM],
-	subplot_denominator = 0,
-	subplot_numerators = [1],
-	y_subplot_label = "#frac{smeared}{corrected}"
-)
-
-#configs.extend(vtx_check_dxy_EM.return_json_with_changed_x_and_weight(
-#	x_expressions = ["vtx_dxy"],
-#	))
-
-vtx_check_dxy_ET = vtx_check_dxy_EM.clone(
-	name = "vtx_check_dxy_ET",
-	title = "e#tau_{h}",
-	plotlines = [vtx_corrected_ET,vtx_not_corrected_ET]
-)
-
-configs.extend(vtx_check_dxy_ET.return_json_with_changed_x_and_weight(
-	x_expressions = ["vtx_dxy"],
-	))
-	
-vtx_check_dxy_MT = vtx_check_dxy_EM.clone(
-	name = "vtx_check_dxy_MT",
-	title = "#mu#tau_{h}",
-	plotlines = [vtx_corrected_MT,vtx_not_corrected_MT]
-)
-
-configs.extend(vtx_check_dxy_MT.return_json_with_changed_x_and_weight(
-	x_expressions = ["vtx_dxy"],
-	))
-
-vtx_check_dxy_TT = vtx_check_dxy_EM.clone(
-	name = "vtx_check_dxy_TT",
-	title = "#tau_{h}#tau_{h}",
-	plotlines = [vtx_corrected_TT,vtx_not_corrected_TT]
-)
-
-configs.extend(vtx_check_dxy_TT.return_json_with_changed_x_and_weight(
-	x_expressions = ["vtx_dxy"],
-	))
-
-vtx_check_dz_EM = vtx_check_dxy_EM.clone(
-	name = "vtx_check_dz_EM",
-	x_expression = "vtx_dz",
-	x_label = "dz [cm]"
-)
-
-configs.extend(vtx_check_dz_EM.return_json_with_changed_x_and_weight(
-	x_expressions = ["vtx_dz"],
-	))
-
-vtx_check_dz_ET = vtx_check_dz_EM.clone(
-	name = "vtx_check_dz_ET",
-	title = "e#tau_{h}",
-	plotlines = [vtx_corrected_ET,vtx_not_corrected_ET]
-)
-
-configs.extend(vtx_check_dz_ET.return_json_with_changed_x_and_weight(
-	x_expressions = ["vtx_dz"],
-	))
-	
-vtx_check_dz_MT = vtx_check_dz_EM.clone(
-	name = "vtx_check_dz_MT",
-	title = "#mu#tau_{h}",
-	plotlines = [vtx_corrected_MT,vtx_not_corrected_MT]
-)
-
-configs.extend(vtx_check_dz_MT.return_json_with_changed_x_and_weight(
-	x_expressions = ["vtx_dz"],
-	))
-
-vtx_check_dz_TT = vtx_check_dz_EM.clone(
-	name = "vtx_check_dz_TT",
-	title = "#tau_{h}#tau_{h}",
-	plotlines = [vtx_corrected_TT,vtx_not_corrected_TT]
-)
-
-configs.extend(vtx_check_dz_TT.return_json_with_changed_x_and_weight(
-	x_expressions = ["vtx_dz"],
-	))
-
-
-vtx_check_dxy_MM = vtx_check_dxy_EM.clone(
+vtx_check_dxy_MM = pltcl.single_plot(
 	name = "vtx_check_dxy_MM",
-	title = "#mu#mu",
-	plotlines = [vtx_corrected_MM,vtx_not_corrected_MM]
+	x_expression = "vtx_dxy",
+	x_label = "#Deltaxy [cm]",
+	y_lims = [0,900000],
+	wwwfolder = "",
+	title = "Z#rightarrow#mu#mu: MC vs. Embedded",
+	plot_type = "absolute",
+	plotlines = [vtx_corrected_MM],
 )
 
 configs.extend(vtx_check_dxy_MM.return_json_with_changed_x_and_weight(
 	x_expressions = ["vtx_dxy"],
 	))
 
-vtx_check_dz_MM = vtx_check_dz_EM.clone(
+vtx_check_dz_MM = vtx_check_dxy_MM.clone(
 	name = "vtx_check_dz_MM",
-	title = "#mu#mu",
-	plotlines = [vtx_corrected_MM,vtx_not_corrected_MM]
+	x_expression = "vtx_dz",
+	x_label = "#Deltaz [cm]"
 )
 
 configs.extend(vtx_check_dz_MM.return_json_with_changed_x_and_weight(
 	x_expressions = ["vtx_dz"],
 	))
 
-'''
 higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=configs, list_of_args_strings=[""])
