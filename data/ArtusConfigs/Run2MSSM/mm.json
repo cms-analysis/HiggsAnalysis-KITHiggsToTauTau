@@ -129,6 +129,18 @@
             "muR0p5_muF0p5_weight"
 		],
 		"OSChargeLeptons" : true,
+		"MuonEnergyCorrection" : {
+			"nick": {
+				"default" : "rochcorr2016",
+				"(Fall15MiniAODv2|Run2015)" : "rochcorr2015"
+			}
+		},
+		"MuonRochesterCorrectionsFile" : {
+			"nick": {
+				"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/rochcorr/RoccoR_13tev_2016.txt",
+				"(Fall15MiniAODv2|Run2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/rochcorr/RoccoR_13tev_2015.txt"
+			}
+		},
 		"Processors" : {
 			"nick" : {
 				"default" : [
@@ -210,6 +222,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -290,6 +303,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",

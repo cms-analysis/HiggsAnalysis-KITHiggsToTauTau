@@ -15,9 +15,13 @@ void HttMuonCorrectionsProducer::Init(setting_type const& settings)
 	MuonCorrectionsProducer::Init(settings);
 	
 	muonEnergyCorrection = ToMuonEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(static_cast<HttSettings const&>(settings).GetMuonEnergyCorrection())));
-	if(muonEnergyCorrection == MuonEnergyCorrection::ROCHCORR2015)
+	if (muonEnergyCorrection == MuonEnergyCorrection::ROCHCORR2015)
 	{
-		rmcor = new rochcor2015(static_cast<HttSettings const&>(settings).GetMuonRochesterCorrectionsFile());
+		rmcor2015 = new rochcor2015(static_cast<HttSettings const&>(settings).GetMuonRochesterCorrectionsFile());
+	}
+	if (muonEnergyCorrection == MuonEnergyCorrection::ROCHCORR2016)
+	{
+		rmcor2016 = new rochcor2016(static_cast<HttSettings const&>(settings).GetMuonRochesterCorrectionsFile());
 	}
 }
 
@@ -40,13 +44,33 @@ void HttMuonCorrectionsProducer::AdditionalCorrections(KMuon* muon, event_type c
 
 		if (static_cast<HttSettings const&>(settings).GetInputIsData())
 		{
-			rmcor->momcor_data(mu, q, 0, qter);
+			rmcor2015->momcor_data(mu, q, 0, qter);
 			muon->p4.SetPxPyPzE(mu.Px(),mu.Py(),mu.Pz(),mu.E());
 		}
 		else
 		{
 			int ntrk = muon->track.nPixelLayers + muon->track.nStripLayers; // TODO: this corresponds to reco::HitPattern::trackerLayersWithMeasurementOld(). update to "new" implementation also in Kappa
-			rmcor->momcor_mc(mu, q, ntrk, qter);
+			rmcor2015->momcor_mc(mu, q, ntrk, qter);
+			muon->p4.SetPxPyPzE(mu.Px(),mu.Py(),mu.Pz(),mu.E());
+		}
+	}
+	else if (muonEnergyCorrection == MuonEnergyCorrection::ROCHCORR2016)
+	{
+		TLorentzVector mu;
+		mu.SetPtEtaPhiM(muon->p4.Pt(),muon->p4.Eta(),muon->p4.Phi(),muon->p4.mass());
+
+		float q = muon->charge();
+		float qter = 1.0;
+
+		if (static_cast<HttSettings const&>(settings).GetInputIsData())
+		{
+			rmcor2016->momcor_data(mu, q, 0, qter);
+			muon->p4.SetPxPyPzE(mu.Px(),mu.Py(),mu.Pz(),mu.E());
+		}
+		else
+		{
+			int ntrk = muon->track.nPixelLayers + muon->track.nStripLayers; // TODO: this corresponds to reco::HitPattern::trackerLayersWithMeasurementOld(). update to "new" implementation also in Kappa
+			rmcor2016->momcor_mc(mu, q, ntrk, qter);
 			muon->p4.SetPxPyPzE(mu.Px(),mu.Py(),mu.Pz(),mu.E());
 		}
 	}
