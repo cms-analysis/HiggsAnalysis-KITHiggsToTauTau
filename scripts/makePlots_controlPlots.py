@@ -13,7 +13,7 @@ import sys
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 
 
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick):
@@ -210,9 +210,7 @@ if __name__ == "__main__":
 	logger.initLogger(args)
 
 	if not args.run1:
-		if args.era == "2015":
-			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
-		elif args.era == "2015new":
+		if (args.era == "2015") or (args.era == "2015new"):
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 		elif args.era == "2016":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples

@@ -19,7 +19,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
 import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 
 
 def _call_command(command):
@@ -115,7 +115,7 @@ if __name__ == "__main__":
 	if args.model == "etaufakerate":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_etaufakerate as samples
 	else:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()

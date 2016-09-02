@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expressions
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 
 def plot_overlap(triple_list, names, file_path="Testfile", **kwargs):
 	fig = plt.figure()

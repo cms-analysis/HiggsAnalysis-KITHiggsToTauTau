@@ -18,7 +18,7 @@ import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.taupogdatacards as taupogdatacards
 
@@ -158,8 +158,8 @@ if __name__ == "__main__":
 		pt_bins.append(str(pt_index))
 	
 	# initialisations for plotting
-	if args.era == "2015":
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+	if (args.era == "2015") or (args.era == "2015new"):
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 		if args.lumi == parser.get_default("lumi"):

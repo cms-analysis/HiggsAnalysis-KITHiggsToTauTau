@@ -14,7 +14,7 @@ import glob
 import itertools
 import ROOT
 import matplotlib.pyplot as plt
-#import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+#import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 
 def calculate_diff(filename, htt_name, sigma_value=0.50):
 	tfile = ROOT.TFile(filename, "READ")

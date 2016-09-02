@@ -73,7 +73,7 @@ if __name__ == "__main__":
 	import logging
 	import Artus.Utility.logger as logger
 	log = logging.getLogger(__name__)
-	import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+	import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 	import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 

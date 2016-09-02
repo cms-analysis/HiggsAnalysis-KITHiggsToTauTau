@@ -15,7 +15,7 @@ import Artus.Utility.jsonTools as jsonTools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttpolarisationdatacards as zttpolarisationdatacards
@@ -80,9 +80,7 @@ if __name__ == "__main__":
 	
 	args.n_plots = [n_plots if n_plots >= 0 else None for n_plots in args.n_plots]
 	
-	if args.era == "2015":
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
-	elif args.era == "2015new":
+	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	elif args.era == "2016":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples

@@ -1,9 +1,9 @@
 # This file defines samples used for the Fake Factor datacards
 
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples_run2
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 default_lumi = 2.301*1000.0
 
-class Samples(samples_run2.Samples):
+class Samples(samples.Samples):
 
 	def ewk(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:

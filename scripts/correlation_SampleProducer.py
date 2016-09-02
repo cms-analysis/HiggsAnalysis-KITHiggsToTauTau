@@ -11,7 +11,7 @@ import re
 
 import Artus.Utility.jsonTools as jsonTools
 import sys
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as import_binnings
 import Artus.Utility.tools as aTools
 import ROOT
