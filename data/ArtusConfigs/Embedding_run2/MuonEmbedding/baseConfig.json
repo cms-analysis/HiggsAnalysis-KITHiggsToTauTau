@@ -1,6 +1,6 @@
 {
 	"include" : [
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/MuEmbedded/settingsKappa.json"
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/MuonEmbedding/settingsKappa.json"
 	],
 	"SkipEvents" : 0,
 	"EventCount" : -1,

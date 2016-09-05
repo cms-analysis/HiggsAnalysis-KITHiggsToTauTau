@@ -8,15 +8,29 @@
             "run",
             "lumi",
             "event",
+
             "npv",
             "firstPV_X",
             "firstPV_Y",
-            "firstPV_Z"
+            "firstPV_Z",
+
+            "NPFCandidates",
+            "NPFElectrons",
+            "NPFMuons",
+            "NPFChargedHadrons",
+            "NPFNeutralHadrons",
+            "NPFPhotons",
+            "NPFElectromagneticHF",
+            "NPFHadronicHF",
+
+            "PFSumHt",
+            "PFSumPt"
         ],
         "Processors" : {
             "nick" : {
                 "default" : [
-                    "producer:NicknameProducer"
+                    "producer:NicknameProducer",
+                    "producer:PFCandidatesProducer"
                 ]
             }
         },
