@@ -150,7 +150,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "em":
 			query = { "process" : "MuonEG" }
 		elif channel == "mm":
-			query = { "process" : "DoubleMuon" }
+			query = { "process" : "SingleMuon" }
 		elif channel == "tt":
 			query = { "process" : "Tau" }
 		else:
