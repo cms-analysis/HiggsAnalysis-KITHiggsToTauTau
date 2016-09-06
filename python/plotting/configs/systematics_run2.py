@@ -80,7 +80,7 @@ class JecUncSystematic(SystematicShiftBase):
 		plot_config = super(JecUncSystematic, self).get_config(shift=shift)
 		
 		for index, folder in enumerate(plot_config.get("folders", [])):
-			if not "data" in plot_config["nicks"][index]:
+			if not "Run201" in plot_config["files"][index]:
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("jecUncNom", "jecUncUp")
 				elif shift < 0.0:
