@@ -98,7 +98,9 @@ class SamplesBase(object):
 	def _cut_string(self, channel, exclude_cuts=None, cut_type="baseline"):
 		if exclude_cuts is None:
 			exclude_cuts = []
-		exclude_cuts += self.exclude_cuts
+		for self_exclude_cut in self.exclude_cuts:
+			if not self_exclude_cut in exclude_cuts:
+				exclude_cuts += self.exclude_cuts
 		return self.cut_string(channel, exclude_cuts, cut_type)
 
 	@staticmethod
