@@ -154,7 +154,7 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "W", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 
 			# jets
-			self.cb.cp().process(["ZTT", "ZL", "ZJ", "TT", "VV", "W"]).AddSyst(self.cb, *self.jec_syst_args)
+			self.cb.cp().process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
 
