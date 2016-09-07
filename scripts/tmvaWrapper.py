@@ -77,8 +77,8 @@ def do_splitting(args, plot_configs):
 	stored_files_list = []
 	s_b_extension = []
 	if args["Split"] and args["n_fold"] == 1:
-		splits_list.append("(event%%100>=%i)"%int(args["Split"]))
-		splits_list.append("(event%%100<%i)"%int(args["Split"]))
+		splits_list.append("(TrainingSelectionValue>=%i)"%int(args["Split"]))
+		splits_list.append("(TrainingSelectionValue<%i)"%int(args["Split"]))
 	elif args["n_fold"] and len(args["custom_splitting"]) == int(args["n_fold"]):
 		for split in args["custom_splitting"]:
 			splits_list.append(split)
@@ -86,7 +86,7 @@ def do_splitting(args, plot_configs):
 		part_size = 100./((args["n_fold"])*10.)
 		temp_splits = []
 		for i in range((args["n_fold"])*10):
-			temp_splits.append("(event%%100>=%i)*(event%%100<%i)"%(int(i*part_size),int((i+1)*part_size)))
+			temp_splits.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(i*part_size),int((i+1)*part_size)))
 		for i in range(args["n_fold"]):
 			splits_list.append("("+"||".join(temp_splits[i::args["n_fold"]])+")")
 	# create output file
@@ -396,7 +396,7 @@ if __name__ == "__main__":
 	parser.add_argument("-S", "--Split", default=None,
 						help="""If set enables splitting into training and test
 						tree, use value between 0 and 99 to split tree using
-						variable event%%100. [Default: %(default)s]""")
+						variable TrainingSelectionValue. [Default: %(default)s]""")
 	parser.add_argument("-o", "--output-file",required=False,
 						default=None,
 						help="Output file. [Default: %(default)s]")
@@ -512,7 +512,7 @@ if __name__ == "__main__":
 				splits_list = []
 				part_size = 100./(2*i)
 				for n in range(2*i):
-					splits_list.append("(event%%100>=%i)*(event%%100<%i)"%(int(n*part_size),int((n+1)*part_size)))
+					splits_list.append("(TrainingSelectionValue>=%i)*(TrainingSelectionValue<%i)"%(int(n*part_size),int((n+1)*part_size)))
 				copy_cargs["custom_splitting"].append("||".join(splits_list[::2]))
 				copy_cargs["custom_splitting"].append("||".join(splits_list[1::2]))
 				print copy_cargs["custom_splitting"]
@@ -998,30 +998,55 @@ if __name__ == "__main__":
 			copy_path = copy_cargs["output_file"]
 			copy_cargs["mssm"] = True
 			copy_cargs["higgs_masses"] = ["120"]
-			ntrees = [50, 100, 150, 200, 300, 400, 500, 700, 900, 1200, 1500, 2000]
+			ntrees = [5, 10, 20, 30, 50, 100, 150, 200, 300, 400, 500, 700, 900, 1200, 1500, 2000, 2500, 3500, 5000, 7000]#n=20
 			for channel in copy_cargs["channels"]:
-				for i in range(12):
-					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(ntrees[i])]
+				for entry in ntrees:
+					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
 					#signal to signal
 					copy_cargs["quantities"] = ["nbtag", "pt_1", "pt_2", "pt_tt", "iso_1", "iso_2"]
 					copy_cargs["signal_samples"] = ["bbh"]
 					copy_cargs["bkg_samples"] = ["ggh"]
-					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_bbh_vs_ggh"%(channel,ntrees[i]))
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_bbh_vs_ggh"%(channel,entry))
 					config_list.append(copy.deepcopy(copy_cargs))
 					#signal to signal incl jcsv
 					copy_cargs["quantities"] = ["nbtag", "pt_1", "pt_2", "pt_tt", "iso_1", "iso_2", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0"]
 					copy_cargs["signal_samples"] = ["bbh"]
 					copy_cargs["bkg_samples"] = ["ggh"]
-					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i0_bbh_vs_ggh_plus_jcsv"%(channel,ntrees[i]))
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_bbh_vs_ggh_plus_jcsv"%(channel,entry))
 					config_list.append(copy.deepcopy(copy_cargs))
 					#signals to backgorund
 					copy_cargs["quantities"] = ["nbtag", "pt_1", "pt_2", "pt_tt", "iso_1", "iso_2", "mt_1", "mt_2"]
 					copy_cargs["signal_samples"] = ["bbh", "ggh"]
 					copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
-					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_sig_vs_bkg"%(channel,ntrees[i]))
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_sig_vs_bkg"%(channel,entry))
 					config_list.append(copy.deepcopy(copy_cargs))
-					
-		
+		if 17 in cargs.modification:
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["higgs_masses"] = ["120"]
+			ntrees = [5, 10, 20, 30, 50, 100, 150, 200, 300, 400, 500, 700, 900, 1200, 1500]#n=15
+			for channel in copy_cargs["channels"]:
+				for entry in ntrees:
+					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Bagging:UseRandomisedTrees=True:UseNvars=4:MaxDepth=3"%(entry)]
+					#signal to signal
+					copy_cargs["quantities"] = ["nbtag", "pt_1", "pt_2", "pt_tt", "iso_1", "iso_2"]
+					copy_cargs["signal_samples"] = ["bbh"]
+					copy_cargs["bkg_samples"] = ["ggh"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_bbh_vs_ggh"%(channel,entry))
+					config_list.append(copy.deepcopy(copy_cargs))
+					#signal to signal incl jcsv
+					copy_cargs["quantities"] = ["nbtag", "pt_1", "pt_2", "pt_tt", "iso_1", "iso_2", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0"]
+					copy_cargs["signal_samples"] = ["bbh"]
+					copy_cargs["bkg_samples"] = ["ggh"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_bbh_vs_ggh_plus_jcsv"%(channel,entry))
+					config_list.append(copy.deepcopy(copy_cargs))
+					#signals to backgorund
+					copy_cargs["quantities"] = ["nbtag", "pt_1", "pt_2", "pt_tt", "iso_1", "iso_2", "mt_1", "mt_2"]
+					copy_cargs["signal_samples"] = ["bbh", "ggh"]
+					copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_sig_vs_bkg"%(channel,entry))
+					config_list.append(copy.deepcopy(copy_cargs))
 		if cargs.batch_system:
 			log.info("Start training of BDT config number %i"%cargs.config_number)
 			if cargs.dry_run and cargs.config_step < 1:
