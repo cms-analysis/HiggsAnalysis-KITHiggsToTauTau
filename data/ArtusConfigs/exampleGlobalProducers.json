@@ -20,7 +20,6 @@
 				"#filter:RunLumiEventFilter",
 				"producer:GenParticleProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GenTauDecayModeProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer"

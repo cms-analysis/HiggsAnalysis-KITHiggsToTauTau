@@ -137,7 +137,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
-					"producer:GenTauDecayModeProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:EventWeightProducer"

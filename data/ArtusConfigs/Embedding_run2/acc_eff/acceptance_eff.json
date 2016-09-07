@@ -5,7 +5,6 @@
 				"default" : [
 				"producer:AcceptanceEfficiencyProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GenTauDecayModeProducer",
 				"producer:GenTauCPProducer"
 				]
 			}
