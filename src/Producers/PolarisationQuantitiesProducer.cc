@@ -40,22 +40,7 @@ void PolarisationQuantitiesProducer::Produce(
 		    (((*tau)->piZeroCandidates.size() > 0) || ((*tau)->gammaCandidates.size() > 0)))
 		{
 			double energyChargedPi = (*tau)->chargedHadronCandidates.at(0).p4.E();
-			
-			double energyNeutralPi = 0.0;
-			if ((*tau)->piZeroCandidates.size() > 0)
-			{
-				energyNeutralPi = (*tau)->piZeroCandidates.at(0).p4.E();
-			}
-			else
-			{
-				RMFLV sumGammasLV;
-				for (std::vector<KPFCandidate>::iterator gamma = (*tau)->gammaCandidates.begin();
-				     gamma != (*tau)->gammaCandidates.end(); ++gamma)
-				{
-					sumGammasLV += gamma->p4;
-				}
-				energyNeutralPi = sumGammasLV.E();
-			}
+			double energyNeutralPi = (*tau)->piZeroMomentum().E();
 			product.m_rhoNeutralChargedAsymmetry[*tau] = (((energyNeutralPi + energyChargedPi) != 0.0) ? (energyChargedPi - energyNeutralPi) / (energyChargedPi - energyNeutralPi) : 0.0);
 		}
 	}
