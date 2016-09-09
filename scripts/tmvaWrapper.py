@@ -24,6 +24,12 @@ import array
 
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 def get_configs(args, info_log):
+	#import sample config
+	if (args["era"] == "2015") or (args["era"] == "2015new"):
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+	elif args["era"] == "2016":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+		
 	plot_configs = []
 	#generate config_list containing one config file per requested nick for training
 	log.info("prepare config files to extract file paths, weights and cuts")
@@ -47,7 +53,8 @@ def get_configs(args, info_log):
 					exclude_cuts=args["exclude_cuts"],
 					stack_signal=False,
 					scale_signal=1.0,
-					mssm=args["mssm"]
+					mssm=args["mssm"],
+					cut_type="mssm2016" if (args["era"] == "2016" and args["mssm"]) else "mssm" if args["mssm"] else "baseline2016" if args["era"] == "2016" else "baseline"
 					)
 			config["request_nick"] = requested_sample
 			if requested_sample in args["bkg_samples"] and requested_sample in args["signal_samples"]:
@@ -124,6 +131,8 @@ def do_splitting(args, plot_configs):
 			if (not cuts == "") and (not cuts == config["weights"][i]):
 				log.error("can not decide which weight to use for sample %s nick %s" %(config["request_nick"],nick))
 			cuts = config["weights"][i]
+		print config["files"]
+		print root_file_name_list
 		for root_file_name in root_file_name_list:
 			#load the requested rootfiles with their containing ntuples
 			log.debug("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
@@ -430,11 +439,14 @@ if __name__ == "__main__":
                                                 help="Method to cut as specified in 'GetFocussedTrainingCut.py'. [Default: %(default)s]")
 	parser.add_argument("--FT-cut-parameter", type=float, default=2.0,
                                                 help="Parameter used by the selected cut method. [Default: %(default)s]")
+	parser.add_argument("--era", default="2015", choices=["2015", "2015new", "2016"],
+						help="Era of samples to be used. [Default: %(default)s]")
 
 
 	cargs = parser.parse_args()
 	logger.initLogger(cargs)
 	cargs_values = vars(cargs)
+	
 	#=====If jobs are to run on batch-system, the ouputpath must be adjusted this is done below in if, elif
 	if cargs.output_file == None:
 		cargs.output_file = os.getcwd()
@@ -1047,6 +1059,25 @@ if __name__ == "__main__":
 					copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
 					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M120_NTrees%i_sig_vs_bkg"%(channel,entry))
 					config_list.append(copy.deepcopy(copy_cargs))
+		if 18 in cargs.modification: #n=30
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			#copy_cargs["higgs_masses"] = ["120"]
+			masses = ["120", "600", "2000"]#n=3
+			ntrees = [10, 20, 30, 50, 100, 200, 400, 700, 1000, 1500]#n=10
+			for channel in copy_cargs["channels"]:
+				for mass in masses:
+					copy_cargs["higgs_masses"] = [mass]
+					for entry in ntrees:
+						copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+						#bbh to background
+						copy_cargs["quantities"] = ["njets;I", "nbtag;I", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jeta_1;F;-3.1;3.1", "jeta_2;F;-3.1;3.1", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0", "jcsv_3;F;0.0;1.0", "jcsv_4;F;0.0;1.0"]
+						copy_cargs["signal_samples"] = ["bbh"]
+						copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees%i_bbh_vs_bkg"%(channel, mass, entry))
+						config_list.append(copy.deepcopy(copy_cargs))
 		if cargs.batch_system:
 			log.info("Start training of BDT config number %i"%cargs.config_number)
 			if cargs.dry_run and cargs.config_step < 1:
