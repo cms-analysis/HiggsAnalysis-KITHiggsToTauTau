@@ -25,6 +25,8 @@ class SystematicsFactory(dict):
 		self["CMS_ztt_jetFakeTau_frac_w_Shape_13TeV"] = JetFakeTauFracWShapeSystematic
 		self["CMS_ztt_jetFakeTau_frac_tt_Shape_13TeV"] = JetFakeTauFracTTShapeSystematic
 		self["CMS_ztt_jetFakeTau_frac_dy_Shape_13TeV"] = JetFakeTauFracDYShapeSystematic
+		self["CMS_eff_b_13TeV"] = BTagSystematic
+		self["CMS_mistag_b_13TeV"] = BMistagSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
@@ -355,5 +357,34 @@ class MassResSystematic(SystematicShiftBase):
 					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearUp")
 				elif shift < 0.0:
 					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearDown")
+		
+		return plot_config
+
+
+class BTagSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(BTagSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder[0:3] + "bTagUp/ntuple"
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder[0:3] + "bTagDown/ntuple"
+		
+		return plot_config
+
+class BMistagSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(BMistagSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder[0:3] + "bMistagUp/ntuple"
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder[0:3] + "bMistagDown/ntuple"
 		
 		return plot_config
