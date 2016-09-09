@@ -198,6 +198,11 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_pdf_scale_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_ueps_syst_args)
 
+			# transform B-Tagging shape to lnN
+			self.cb.cp().syst_name(['CMS_eff_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
+			self.cb.cp().syst_name(['CMS_mistag_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
+
+
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
 
