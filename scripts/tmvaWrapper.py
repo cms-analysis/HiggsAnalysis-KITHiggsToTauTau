@@ -131,8 +131,6 @@ def do_splitting(args, plot_configs):
 			if (not cuts == "") and (not cuts == config["weights"][i]):
 				log.error("can not decide which weight to use for sample %s nick %s" %(config["request_nick"],nick))
 			cuts = config["weights"][i]
-		print config["files"]
-		print root_file_name_list
 		for root_file_name in root_file_name_list:
 			#load the requested rootfiles with their containing ntuples
 			log.debug("Prepare Rootfile %s as Sample %s" %(root_file_name, config["request_nick"]))
