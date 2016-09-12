@@ -26,6 +26,7 @@
 			"DY.?JetsToLLM(10to50|50|150)" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:ValidGenTausProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
@@ -40,6 +41,7 @@
 			"^(GluGlu|VBF|Wminus|Wplus|Z)HToTauTau" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:ValidGenTausProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
@@ -55,6 +57,7 @@
 			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:ValidGenTausProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
