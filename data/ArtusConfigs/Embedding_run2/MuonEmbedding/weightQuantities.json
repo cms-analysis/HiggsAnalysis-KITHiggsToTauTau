@@ -1,0 +1,11 @@
+{
+	"property" : [
+		"hltWeight",
+		"hltPrescaleWeight",
+		"puWeight",
+		"generatorWeight",
+		"crossSectionPerEventWeight",
+		"numberGeneratedEventsWeight",
+		"eventWeight"
+	]
+}

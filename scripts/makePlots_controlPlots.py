@@ -169,6 +169,8 @@ if __name__ == "__main__":
 	                    help="Base directory for optional JSON configs. [Default: %(default)s]")
 	parser.add_argument("--run1", default=False, action="store_true",
 	                    help="Use Run1 samples. [Default: %(default)s]")
+	parser.add_argument("--embedding-selection", default=False, action="store_true",
+	                    help="Use samples to consider selection for embedding. [Default: %(default)s]")
 	parser.add_argument("--cms", default=False, action="store_true",
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
@@ -209,7 +211,11 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 
-	if not args.run1:
+	if args.run1:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
+	elif args.embedding_selection:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_embedding_selection as samples
+	else:
 		if (args.era == "2015") or (args.era == "2015new"):
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 		elif args.era == "2016":
@@ -219,8 +225,6 @@ if __name__ == "__main__":
 		else:
 			log.critical("Invalid era string selected: " + args.era)
 			sys.exit(1)
-	else:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 
 	if args.fakefactor_method is not None:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples

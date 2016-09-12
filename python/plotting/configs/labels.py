@@ -46,6 +46,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_et"] = "e#tau_{h}"
 			self.labels_dict["channel_em"] = "e#mu"
 			self.labels_dict["channel_mm"] = "#mu#mu"
+			self.labels_dict["channel_zmumu_selection_for_embedding"] = "embedding #mu#mu-selection"
 			self.labels_dict["channel_ee"] = "ee"
 			self.labels_dict["channel_tt_btag"] = "#tau_{h}#tau_{h}, b-tag"
 			self.labels_dict["channel_mt_btag"] = "#mu#tau_{h}, b-tag"
@@ -95,6 +96,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_vbf_1"] = "BDT VBF"
 			self.labels_dict["diLepMass"] = "Visible di-#tau mass / GeV"
 			self.labels_dict["svfitMass"] = "Di-#tau Mass m_{#tau#tau} / GeV"
+			self.labels_dict["zmumu_selection_for_embedding_ZMass"] = "m(#mu#mu) [GeV]"
 
 			self.labels_dict["tt_decayMode_1"] = "Leading Tau DM"
 			self.labels_dict["tt_decayMode_2"] = "Trailing Tau DM"
