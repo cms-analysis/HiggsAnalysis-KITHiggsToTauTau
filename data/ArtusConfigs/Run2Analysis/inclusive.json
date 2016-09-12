@@ -6,7 +6,13 @@
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/lheWeights.json"
 				]
-			}
+			},
+			"isZtt",
+			"isZmt",
+			"isZet",
+			"isZem",
+			"isZee",
+			"isZmm"
 		],
 		"Processors" : {
 			"nick" : {
