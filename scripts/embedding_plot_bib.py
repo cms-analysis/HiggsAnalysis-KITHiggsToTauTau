@@ -1014,4 +1014,213 @@ configs.extend(vtx_check_dz_MM.return_json_with_changed_x_and_weight(
 	x_expressions = ["vtx_dz"],
 	))
 
+# Merging Check for Muon Embedding
+
+merging_check_NPFE = pltcl.single_plot(
+	name = "merging_check_NPFE",
+	title = "",
+	x_expression = "NPFElectrons",
+	x_bins = "7,0,7",
+	normalized_by_binwidth = False,
+	x_label = "N_{e}",
+	y_label = "Events",
+	wwwfolder = "",
+	legend =[0.6,0.55,0.95,0.85],
+	plot_type = "absolute",
+	subplot_denominator = 0,
+	subplot_numerators = [1,2],
+	y_subplot_lims = [0.85,1.15],
+	y_subplot_label = "#frac{own work}{Run2015D}",
+	plotlines = [DoubleMuonSelected, DoubleMuonMerged, DoubleMuonCleaned]
+)
+
+configs.extend(merging_check_NPFE.return_json_with_changed_x_and_weight(
+	x_expressions = ["NPFElectrons"]
+	))
+
+merging_check_NPFMu = merging_check_NPFE.clone(
+	name = "emb_clean_check_NPFMu",
+	x_expression = "NPFMuons",
+	x_bins = "7,0,7",
+	x_label = "N_{#mu}",
+	subplot_numerators = [1],
+	y_subplot_lims = [0.9,1.1],
+	plotlines = [DoubleMuonSelected, DoubleMuonMerged]
+)
+
+configs.extend(merging_check_NPFMu.return_json_with_changed_x_and_weight(
+	x_expressions = ["NPFMuons"]
+	))
+
+merging_check_NPFC = merging_check_NPFE.clone(
+	name = "merging_check_NPFC",
+	x_expression = "NPFCandidates",
+	x_bins = "20,300,2000",
+	y_subplot_lims = [0.95,1.05],
+	x_label = "N_{PF}"
+)
+
+configs.extend(merging_check_NPFC.return_json_with_changed_x_and_weight(
+	x_expressions = ["NPFCandidates"]
+	))
+
+merging_check_NPFPh = merging_check_NPFE.clone(
+	name = "merging_check_NPFPh",
+	x_expression = "NPFPhotons",
+	x_bins = "60,0,300",
+	y_subplot_lims = [0.95,1.05],
+	x_label = "N_{ph}"
+)
+
+configs.extend(merging_check_NPFPh.return_json_with_changed_x_and_weight(
+	x_expressions = ["NPFPhotons"]
+	))
+
+merging_check_NPFCH = merging_check_NPFE.clone(
+	name = "merging_check_NPFCH",
+	x_expression = "NPFChargedHadrons",
+	y_subplot_lims = [0.95,1.05],
+	x_bins = "160,0,800",
+	x_label = "N_{ch}"
+)
+
+configs.extend(merging_check_NPFCH.return_json_with_changed_x_and_weight(
+	x_expressions = ["NPFChargedHadrons"]
+	))
+
+merging_check_NPFNH = merging_check_NPFE.clone(
+	name = "merging_check_NPFNH",
+	x_expression = "NPFNeutralHadrons",
+	x_bins = "20,0,100",
+	y_subplot_lims = [0.85,1.15],
+	x_label = "N_{nh}"
+)
+
+configs.extend(merging_check_NPFNH.return_json_with_changed_x_and_weight(
+	x_expressions = ["NPFNeutralHadrons"]
+	))
+
+merging_check_sumPt = merging_check_NPFE.clone(
+	name = "merging_check_sumPt",
+	x_expression = "PFSumPt",
+	x_bins = "50,0,100",
+	subplot_numerators = [1],
+	y_subplot_lims = [0.75,1.25],
+	plotlines = [DoubleMuonSelected, DoubleMuonMerged],
+	x_label = "|#sum#vec{p_{T}}|"
+)
+
+configs.extend(merging_check_sumPt.return_json_with_changed_x_and_weight(
+	x_expressions = ["PFSumPt"]
+	))
+
+merging_check_sumHt = merging_check_NPFE.clone(
+	name = "merging_check_sumHt",
+	x_expression = "PFSumHt",
+	x_bins = "50,0,2000",
+	subplot_numerators = [1],
+	y_subplot_lims = [0.75,1.25],
+	plotlines = [DoubleMuonSelected, DoubleMuonMerged],
+	x_label = "|#sump_{T}|"
+)
+
+configs.extend(merging_check_sumHt.return_json_with_changed_x_and_weight(
+	x_expressions = ["PFSumHt"]
+	))
+
+# Zmumu selection Check for Muon Embedding
+selection_check_ZMass = pltcl.single_plot(
+	name = "selection_check_ZMass",
+	title = "",
+	x_expression = "ZMass",
+	x_bins = "50,20,120",
+	normalized_by_binwidth = False,
+	x_label = "m(#mu#mu)",
+	y_label = "Events",
+	wwwfolder = "",
+	legend =[0.4,0.4,0.75,0.7],
+	plot_type = "absolute",
+	subplot_denominator = 0,
+	subplot_numerators = [1,2],
+	y_subplot_lims = [0.85,1.15],
+	y_subplot_label = "#frac{own work}{Run2015D}",
+	plotlines = [DoubleMuonSelectedValidation, DoubleMuonMergedValidation, DoubleMuonMirroredValidation]
+)
+
+configs.extend(selection_check_ZMass.return_json_with_changed_x_and_weight(
+	x_expressions = ["ZMass"]
+	))
+
+selection_check_leadingMuPt = selection_check_ZMass.clone(
+	name = "selection_check_leadingMuPt",
+	x_bins = "70,0,140",
+	legend =[0.6,0.55,0.95,0.85],
+	x_expression = "leadingLeptonFromZPt",
+	x_label = "p_{T}(leading #mu)"
+)
+
+configs.extend(selection_check_leadingMuPt.return_json_with_changed_x_and_weight(
+	x_expressions = ["leadingLeptonFromZPt"]
+	))
+	
+selection_check_leadingMuEta = selection_check_ZMass.clone(
+	name = "selection_check_leadingMuEta",
+	x_expression = "leadingLeptonFromZEta",
+	legend =[0.4,0.25,0.75,0.55],
+	x_bins = "50,-3,3",
+	x_label = "#eta(leading #mu)"
+)
+
+configs.extend(selection_check_leadingMuEta.return_json_with_changed_x_and_weight(
+	x_expressions = ["leadingLeptonFromZEta"]
+	))
+
+selection_check_leadingMuPhi = selection_check_ZMass.clone(
+	name = "selection_check_leadingMuPhi",
+	x_expression = "leadingLeptonFromZPhi",
+	legend =[0.4,0.25,0.75,0.55],
+	x_bins = "50,-3.5,3.5",
+	x_label = "#phi(leading #mu)"
+)
+
+configs.extend(selection_check_leadingMuPhi.return_json_with_changed_x_and_weight(
+	x_expressions = ["leadingLeptonFromZPhi"]
+	))
+
+selection_check_trailingMuPt = selection_check_ZMass.clone(
+	name = "selection_check_trailingMuPt",
+	x_bins = "50,0,100",
+	legend =[0.6,0.55,0.95,0.85],
+	x_expression = "trailingLeptonFromZPt",
+	x_label = "p_{T}(trailing #mu)"
+)
+
+configs.extend(selection_check_trailingMuPt.return_json_with_changed_x_and_weight(
+	x_expressions = ["trailingLeptonFromZPt"]
+	))
+	
+selection_check_trailingMuEta = selection_check_ZMass.clone(
+	name = "selection_check_trailingMuEta",
+	x_expression = "trailingLeptonFromZEta",
+	legend =[0.4,0.25,0.75,0.55],
+	x_bins = "50,-3,3",
+	x_label = "#eta(trailing #mu)"
+)
+
+configs.extend(selection_check_trailingMuEta.return_json_with_changed_x_and_weight(
+	x_expressions = ["trailingLeptonFromZEta"]
+	))
+
+selection_check_trailingMuPhi = selection_check_ZMass.clone(
+	name = "selection_check_trailingMuPhi",
+	x_expression = "trailingLeptonFromZPhi",
+	legend =[0.4,0.25,0.75,0.55],
+	x_bins = "50,-3.5,3.5",
+	x_label = "#phi(trailing #mu)"
+)
+
+configs.extend(selection_check_trailingMuPhi.return_json_with_changed_x_and_weight(
+	x_expressions = ["trailingLeptonFromZPhi"]
+	))
+
 higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=configs, list_of_args_strings=[""])

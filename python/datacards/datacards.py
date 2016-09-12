@@ -95,21 +95,17 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["tt"],       1.19)
 				(       ["13TeV"], ["mt", "et", "tt"], 1.03) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
-		self.btag_efficieny_syst_args = [
+		self.btag_efficiency_syst_args = [
 			"CMS_eff_b_$ERA",
-			"lnN",
+			"shape",
 			ch.SystMap("era", "channel")
-				(["8TeV"], ["mt"], 0.96)
-				(["8TeV"], ["et"], 0.96)
-				(["8TeV"], ["em"], 0.93)
-				(["8TeV"], ["tt"], 0.93)
-				(["13TeV"], ["em","et","mt","tt"], 1.01) # AN-2016/036
+				(["13TeV"], ["em","et","mt"], 1.0)
 		]
 		self.btag_mistag_syst_args = [
 			"CMS_mistag_b_$ERA",
-			"lnN",
+			"shape",
 			ch.SystMap("era", "channel")
-				(["13TeV"], ["em","et","mt","tt"], 1.08) # AN-2016/036
+				(["13TeV"], ["em","et","mt"], 1.0)
 		]
 		self.met_scale_syst_args = [
 			"CMS_$ANALYSIS_scale_met_$ERA",

@@ -11,10 +11,8 @@
 		"loose:0.460"
 	],
 	"BTaggedJetAbsEtaCut" : 2.4,
-	"ApplyBTagSF" : false,
+	"ApplyBTagSF" : true,
 	"BTagSFMethod" : "PromotionDemotion",
-	"BTagShift" : 0,
-	"BMistagShift" : 0,
 	"BTagScaleFactorFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",

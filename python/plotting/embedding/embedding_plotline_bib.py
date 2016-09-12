@@ -449,4 +449,48 @@ vtx_corrected_MM = pltcl.single_plotline(
 	num_tree = "",
 	color = "kBlack")
 
+## Merging Input Check for Muon Embedding
 
+DoubleMuonSelected = pltcl.single_plotline(
+	name = "DoubleMuonSelected",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/selected.root",
+	num_folder = "input_check",
+	den_folder = "input_check",
+	num_tree = "ntuple",
+	label = "Run2015D",
+	color = "kBlack")
+
+DoubleMuonMerged = DoubleMuonSelected.clone(
+	name = "DoubleMuonMerged",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/merged.root",
+	label = "Embedded",
+	color = "kRed")
+
+DoubleMuonCleaned = DoubleMuonSelected.clone(
+	name = "DoubleMuonCleaned",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/cleaned.root",
+	label = "Cleaned",
+	color = "kGreen")
+
+## Z->mumu selection check for Muon Embedding
+
+DoubleMuonSelectedValidation = pltcl.single_plotline(
+	name = "DoubleMuonSelectedValidation",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/selected.root",
+	num_folder = "zmumu_selection_for_embedding",
+	den_folder = "zmumu_selection_for_embedding",
+	num_tree = "ntuple",
+	label = "Run2015D",
+	color = "kBlack")
+
+DoubleMuonMergedValidation = DoubleMuonSelectedValidation.clone(
+	name = "DoubleMuonMergedValidation",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/embedded.root",
+	label = "Embedded",
+	color = "kRed")
+
+DoubleMuonMirroredValidation = DoubleMuonSelectedValidation.clone(
+	name = "DoubleMuonMirroredValidation",
+	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/mirrored.root",
+	label = "Mirrored",
+	color = "kBlue")
