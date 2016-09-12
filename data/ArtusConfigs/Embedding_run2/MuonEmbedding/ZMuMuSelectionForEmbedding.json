@@ -15,7 +15,13 @@
             "leadingLeptonFromZPhi",
             "trailingLeptonFromZPt",
             "trailingLeptonFromZEta",
-            "trailingLeptonFromZPhi"
+            "trailingLeptonFromZPhi",
+            
+            {
+            	"include" : [
+            	"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/MuonEmbedding/weightQuantities.json"
+            	]
+            }
         ],
         "Processors" : {
             "nick" : {
