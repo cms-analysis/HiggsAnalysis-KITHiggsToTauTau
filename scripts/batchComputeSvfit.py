@@ -68,7 +68,7 @@ def main():
 	epilogArguments = ""
 	epilogArguments += "-i $FILE_NAMES "
 	epilogArguments += "-o SvFitCache.root "
-	epilogArguments += "-l " + os.path.expandvars("$CMSSW_BASE/src/Kappa/lib/libKappa.so")
+##	epilogArguments += "-l " + os.path.expandvars("$CMSSW_BASE/src/Kappa/lib/libKappa.so")
 		
 	sepath = "se path = " + svfit_dir 
 	workdir = "workdir = " + svfit_work_dir 
