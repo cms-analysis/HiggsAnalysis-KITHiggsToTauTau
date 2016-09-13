@@ -75,19 +75,19 @@ public:
 				
 				// pair selections
 				bool validDiTauPair = true;
-				
+
 				// OS charge requirement
 				//validDiTauPair = validDiTauPair && diTauPair.IsOppositelyCharged();
-				
+
 				// delta R cut
 				validDiTauPair = validDiTauPair && ((settings.GetDiTauPairMinDeltaRCut() < 0.0) || (diTauPair.GetDeltaR() > static_cast<double>(settings.GetDiTauPairMinDeltaRCut())));
-				
+
 				// require matchings with the same triggers
 				if (!settings.GetDiTauPairNoHLT())
 				{
 					std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons, settings.GetDiTauPairHltPathsWithoutCommonMatchRequired());
 					validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);
-					
+
 					// pt cuts in case one or more HLT paths are matched
 					if (validDiTauPair)
 					{
@@ -149,26 +149,26 @@ public:
 								break;
 							}
 						}
-                        if (settings.GetRequireFirstTriggering())
-                        {
-                            bool hltFired = false;
-                            auto trigger = product.m_detailedTriggerMatchedLeptons[static_cast<KLepton*>(diTauPair.first)];
-                            for (auto hltName : settings.GetHltPaths())
-                            {
-                                for (auto hlts: (*trigger))
-                                {
-                                    if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
-                                    {
-                                        for (auto matchedObjects: hlts.second)
-                                        {
-                                            if (matchedObjects.second.size() > 0) hltFired = true;
-                                        }
-                                    }
-                                }
-                            }
-                            validDiTauPair = validDiTauPair && hltFired;
-                            validDiTauPair = validDiTauPair && (diTauPair.first->p4.Pt() >= diTauPair.second->p4.Pt());
-                        }
+						if (settings.GetRequireFirstTriggering())
+						{
+							bool hltFired = false;
+							auto trigger = product.m_detailedTriggerMatchedLeptons[static_cast<KLepton*>(diTauPair.first)];
+							for (auto hltName : settings.GetHltPaths())
+							{
+								for (auto hlts: (*trigger))
+								{
+									if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
+									{
+										for (auto matchedObjects: hlts.second)
+										{
+											if (matchedObjects.second.size() > 0) hltFired = true;
+										}
+									}
+								}
+							}
+							validDiTauPair = validDiTauPair && hltFired;
+							validDiTauPair = validDiTauPair && (diTauPair.first->p4.Pt() >= diTauPair.second->p4.Pt());
+						}
 
 					}
 				}

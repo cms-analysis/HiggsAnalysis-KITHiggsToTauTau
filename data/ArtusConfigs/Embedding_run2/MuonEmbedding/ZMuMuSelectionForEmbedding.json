@@ -1,5 +1,5 @@
 {
-    "zmumu_selection_for_embedding" : {
+	"zmumu_selection_for_embedding" : {
 		"Consumers" : [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram"
@@ -29,32 +29,32 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-				    "producer:HltProducer",
-				    "filter:HltFilter",
-				    "producer:MuonCorrectionsProducer",
-				    "producer:ValidMuonsProducer",
-				    "filter:MinMuonsCountFilter",
-				    "producer:ZmmProducer",
-				    "filter:ZFilter",
-				    "producer:EventWeightProducer"
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MuonCorrectionsProducer",
+					"producer:ValidMuonsProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ZmmProducer",
+					"filter:ZFilter",
+					"producer:EventWeightProducer"
 				],
 				"Run2015D" : [
-				    "producer:HltProducer",
-				    "filter:HltFilter",
-				    "producer:MuonCorrectionsProducer",
-				    "producer:ValidMuonsProducer",
-				    "filter:MinMuonsCountFilter",
-				    "producer:ZmmProducer",
-				    "filter:ZFilter",
-				    "producer:EventWeightProducer"
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MuonCorrectionsProducer",
+					"producer:ValidMuonsProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ZmmProducer",
+					"filter:ZFilter",
+					"producer:EventWeightProducer"
 				]
 			}
 		},
 		"HltPaths" : {
 			"nick" : {
 				"default" : [
-				    "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
-				    "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
 				]
 			}
 		},
@@ -88,5 +88,5 @@
 
 		"EventWeight" : "eventWeight"
 
-    }
+	}
 }
