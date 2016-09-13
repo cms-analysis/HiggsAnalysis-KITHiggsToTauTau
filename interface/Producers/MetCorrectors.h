@@ -28,6 +28,7 @@ public:
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
+	enum CorrectionMethod { NONE=0, QUANTILE_MAPPING=1, MEAN_RESOLUTION=2};
 	
 	MetCorrectorBase(TMet* product_type::*metMemberUncorrected,
 			 TMet product_type::*metMemberCorrected,
@@ -94,6 +95,16 @@ public:
 		m_isWJets = boost::regex_search(settings.GetNickname(), boost::regex("W.?JetsToLNu", boost::regex::icase | boost::regex::extended));
 		
 		m_doMetSys = ((settings.GetMetSysType() != 0) || (settings.GetMetSysShift() != 0));
+
+		if(settings.GetMetCorrectionMethod() == "quantileMapping")
+			m_correctionMethod = MetCorrectorBase::CorrectionMethod::QUANTILE_MAPPING;
+		else if(settings.GetMetCorrectionMethod() == "meanResolution")
+			m_correctionMethod = MetCorrectorBase::CorrectionMethod::MEAN_RESOLUTION;
+		else
+		{
+			m_correctionMethod = MetCorrectorBase::CorrectionMethod::NONE;
+			LOG(FATAL) << "Invalid MetCorrectionMethod option. Available are 'quantileMapping' and 'meanResolution'";
+		}
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 
@@ -147,16 +158,28 @@ public:
 		
 		float correctedMetX, correctedMetY;
 		
-		m_recoilCorrector->CorrectByMeanResolution(
-			metX,
-			metY,
-			genPx,
-			genPy,
-			visPx,
-			visPy,
-			nJets30,
-			correctedMetX,
-			correctedMetY);
+		if(m_correctionMethod == MetCorrectorBase::CorrectionMethod::QUANTILE_MAPPING)
+			m_recoilCorrector->Correct(
+				metX,
+				metY,
+				genPx,
+				genPy,
+				visPx,
+				visPy,
+				nJets30,
+				correctedMetX,
+				correctedMetY);
+		else if(m_correctionMethod == MetCorrectorBase::CorrectionMethod::MEAN_RESOLUTION)
+			m_recoilCorrector->CorrectByMeanResolution(
+				metX,
+				metY,
+				genPx,
+				genPy,
+				visPx,
+				visPy,
+				nJets30,
+				correctedMetX,
+				correctedMetY);
 		
 		(product.*m_metMemberCorrected) = *(product.*m_metMemberUncorrected);
 		
@@ -208,6 +231,7 @@ protected:
 	MEtSys::SysShift m_sysShift;
 	bool m_isWJets;
 	bool m_doMetSys;
+	CorrectionMethod m_correctionMethod;
 };
 
 
