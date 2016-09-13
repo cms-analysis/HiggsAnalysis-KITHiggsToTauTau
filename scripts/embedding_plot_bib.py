@@ -995,7 +995,7 @@ vtx_check_dxy_MM = pltcl.single_plot(
 	x_label = "#Deltaxy [cm]",
 	y_lims = [0,900000],
 	wwwfolder = "",
-	title = "Z#rightarrow#mu#mu: MC vs. Embedded",
+	title = "Z#rightarrow#mu#mu: Data vs. Embedded",
 	plot_type = "absolute",
 	plotlines = [vtx_corrected_MM],
 )
@@ -1039,7 +1039,7 @@ configs.extend(merging_check_NPFE.return_json_with_changed_x_and_weight(
 	))
 
 merging_check_NPFMu = merging_check_NPFE.clone(
-	name = "emb_clean_check_NPFMu",
+	name = "merging_check_NPFMu",
 	x_expression = "NPFMuons",
 	x_bins = "7,0,7",
 	x_label = "N_{#mu}",
@@ -1138,7 +1138,7 @@ selection_check_ZMass = pltcl.single_plot(
 	x_label = "m(#mu#mu)",
 	y_label = "Events",
 	wwwfolder = "",
-	legend =[0.4,0.4,0.75,0.7],
+	legend =[0.3,0.3,0.65,0.7],
 	plot_type = "absolute",
 	subplot_denominator = 0,
 	subplot_numerators = [1,2],
@@ -1154,7 +1154,7 @@ configs.extend(selection_check_ZMass.return_json_with_changed_x_and_weight(
 selection_check_leadingMuPt = selection_check_ZMass.clone(
 	name = "selection_check_leadingMuPt",
 	x_bins = "70,0,140",
-	legend =[0.6,0.55,0.95,0.85],
+	legend =[0.55,0.45,0.9,0.85],
 	x_expression = "leadingLeptonFromZPt",
 	x_label = "p_{T}(leading #mu)"
 )
@@ -1166,7 +1166,7 @@ configs.extend(selection_check_leadingMuPt.return_json_with_changed_x_and_weight
 selection_check_leadingMuEta = selection_check_ZMass.clone(
 	name = "selection_check_leadingMuEta",
 	x_expression = "leadingLeptonFromZEta",
-	legend =[0.4,0.25,0.75,0.55],
+	legend =[0.4,0.15,0.75,0.55],
 	x_bins = "50,-3,3",
 	x_label = "#eta(leading #mu)"
 )
@@ -1178,7 +1178,7 @@ configs.extend(selection_check_leadingMuEta.return_json_with_changed_x_and_weigh
 selection_check_leadingMuPhi = selection_check_ZMass.clone(
 	name = "selection_check_leadingMuPhi",
 	x_expression = "leadingLeptonFromZPhi",
-	legend =[0.4,0.25,0.75,0.55],
+	legend =[0.4,0.15,0.75,0.55],
 	x_bins = "50,-3.5,3.5",
 	x_label = "#phi(leading #mu)"
 )
@@ -1190,7 +1190,7 @@ configs.extend(selection_check_leadingMuPhi.return_json_with_changed_x_and_weigh
 selection_check_trailingMuPt = selection_check_ZMass.clone(
 	name = "selection_check_trailingMuPt",
 	x_bins = "50,0,100",
-	legend =[0.6,0.55,0.95,0.85],
+	legend =[0.55,0.45,0.9,0.85],
 	x_expression = "trailingLeptonFromZPt",
 	x_label = "p_{T}(trailing #mu)"
 )
@@ -1202,7 +1202,7 @@ configs.extend(selection_check_trailingMuPt.return_json_with_changed_x_and_weigh
 selection_check_trailingMuEta = selection_check_ZMass.clone(
 	name = "selection_check_trailingMuEta",
 	x_expression = "trailingLeptonFromZEta",
-	legend =[0.4,0.25,0.75,0.55],
+	legend =[0.4,0.15,0.75,0.55],
 	x_bins = "50,-3,3",
 	x_label = "#eta(trailing #mu)"
 )
@@ -1214,7 +1214,7 @@ configs.extend(selection_check_trailingMuEta.return_json_with_changed_x_and_weig
 selection_check_trailingMuPhi = selection_check_ZMass.clone(
 	name = "selection_check_trailingMuPhi",
 	x_expression = "trailingLeptonFromZPhi",
-	legend =[0.4,0.25,0.75,0.55],
+	legend =[0.4,0.15,0.75,0.55],
 	x_bins = "50,-3.5,3.5",
 	x_label = "#phi(trailing #mu)"
 )
