@@ -70,12 +70,14 @@
 	},
 	"MetRecoilCorrectorFile" : {
 		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root"
+			"(Fall15MiniAODv2|Run2015D)" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root",
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/PFMET_MG_2016BCD.root"
 		}
 	},
 	"MvaMetRecoilCorrectorFile" : {
 		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
+			"(Fall15MiniAODv2|Run2015D)" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root",
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_MG_2016BCD.root"
 		}
 	},
 	"MetShiftCorrectorFile" : {
