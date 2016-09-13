@@ -486,11 +486,11 @@ DoubleMuonSelectedValidation = pltcl.single_plotline(
 DoubleMuonMergedValidation = DoubleMuonSelectedValidation.clone(
 	name = "DoubleMuonMergedValidation",
 	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/embedded.root",
-	label = "Embedded",
+	label = "#mu#rightarrow#mu embedded",
 	color = "kRed")
 
 DoubleMuonMirroredValidation = DoubleMuonSelectedValidation.clone(
 	name = "DoubleMuonMirroredValidation",
 	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/mirrored.root",
-	label = "Mirrored",
+	label = "#splitline{#mu#rightarrow#mu embedded}{w. mirroring}",
 	color = "kBlue")
