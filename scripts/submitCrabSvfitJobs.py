@@ -129,7 +129,8 @@ def submission(base_path):
 			
             config.JobType.pluginName = 'PrivateMC'
             config.JobType.psetName = os.environ['CMSSW_BASE']+'/src/CombineHarvester/CombineTools/scripts/do_nothing_cfg.py'
-            config.JobType.inputFiles = ['Kappa/lib/libKappa.so', os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', jobfile_name]
+#            config.JobType.inputFiles = ['Kappa/lib/libKappa.so', os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', jobfile_name]
+            config.JobType.inputFiles = [os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', jobfile_name]
             config.JobType.allowUndistributedCMSSW = True
             config.JobType.scriptExe = jobfile_name
             config.JobType.outputFiles = ['SvfitCache.tar']

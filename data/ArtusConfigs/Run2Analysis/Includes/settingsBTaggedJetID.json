@@ -12,11 +12,5 @@
 	],
 	"BTaggedJetAbsEtaCut" : 2.4,
 	"ApplyBTagSF" : true,
-	"BTagSFMethod" : "PromotionDemotion",
-	"BTagScaleFactorFile" : {
-		"nick" : {
-			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",
-			"Spring16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_ichep.csv"
-		}
-    }
+	"BTagSFMethod" : "PromotionDemotion"
 }
