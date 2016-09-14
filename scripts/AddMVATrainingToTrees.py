@@ -89,7 +89,7 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 					for (method, split) in zip(handl["methods"], handl["splits"]):
 						#import pdb
 						#pdb.set_trace()
-						if split.Eval(event.__getattr__("event")):
+						if split.Eval(event.__getattr__("TrainingSelectionValue")):
 							new_branches[counter][0] = handl["reader"].EvaluateMVA(method)
 							real_branches[counter].Fill()
 							break
