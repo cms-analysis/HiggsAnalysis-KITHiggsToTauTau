@@ -14,7 +14,7 @@ git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone https://github.com/KappaAnalysis/Kappa.git
+git clone https://github.com/KappaAnalysis/Kappa.git 
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
@@ -25,12 +25,11 @@ git read-tree -mu HEAD
 cd ..
 
 git clone https://github.com/KappaAnalysis/KappaTools.git 
-
-git clone https://github.com/artus-analysis/Artus.git
+git clone https://github.com/artus-analysis/Artus.git 
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau
+git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau 
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
 #svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 
@@ -81,9 +80,9 @@ git clone https://github.com/grid-control/grid-control.git -b r1941
 
 # source ini script, needs to be done in every new shell
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+scramv1 b -j 24
 
 # compile everything
-scram b -j 4
-cd HiggsAnalysis/KITHiggsToTauTau
-cd -
+
+
 
