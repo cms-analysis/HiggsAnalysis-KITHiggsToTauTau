@@ -8,14 +8,14 @@ std::string TopPtReweightingProducer::GetProducerId() const
 
 void TopPtReweightingProducer::Init(setting_type const& settings)
 {
-    m_isFall15TTbar = boost::regex_search(settings.GetNickname(), boost::regex("TT_", boost::regex::icase | boost::regex::extended));
+    m_isTTbar = boost::regex_search(settings.GetNickname(), boost::regex("TT_", boost::regex::icase | boost::regex::extended));
 }
 
 void TopPtReweightingProducer::Produce( KappaEvent const& event,
 			KappaProduct & product,
 			KappaSettings const& settings) const
 {
-    if (m_isFall15TTbar)
+    if (m_isTTbar)
     {
         assert(event.m_genEventInfo != nullptr);
         std::vector<KGenParticle> tops;

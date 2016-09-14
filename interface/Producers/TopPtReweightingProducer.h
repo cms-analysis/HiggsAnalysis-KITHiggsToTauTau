@@ -21,5 +21,5 @@ public:
 			KappaProduct & product,
 			KappaSettings const& settings) const override;
 private:
-	bool m_isFall15TTbar;
+	bool m_isTTbar;
 };
