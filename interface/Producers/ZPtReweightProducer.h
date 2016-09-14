@@ -34,11 +34,13 @@ public:
         m_zPtHist = (TH2D*)zPtFile->Get("zptmass_histo");
         gDirectory = savedir;
         gFile = savefile;
+	    m_applyReweighting = boost::regex_search(settings.GetNickname(), boost::regex("DY.?JetsToLLM(50|150)", boost::regex::icase | boost::regex::extended));
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override;
 private:
-    TH2D* m_zPtHist = 0;
+	TH2D* m_zPtHist = 0;
+	bool m_applyReweighting;
 
 };
