@@ -1,5 +1,5 @@
 <Flags LDFLAGS="-rdynamic" />
-<Flags LDFLAGS="-Lsrc/Kappa/lib -lKappa" />
+<use name="Kappa/DataFormats" />
 <use name="Artus/Core"/>
 <use name="Artus/Provider"/>
 <use name="Artus/Configuration"/>
