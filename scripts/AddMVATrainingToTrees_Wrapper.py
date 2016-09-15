@@ -136,7 +136,8 @@ if __name__ == "__main__":
 			epilogarguments = epilogArguments,
 			
 			seoutputfiles = "",#"se output files = " if args.log_to_se else "se output files = *.log",
-			backend = backend
+			backend = backend,
+			partitionlfnmodifier = "partition lfn modifier = "
 	)
 	for line in range(len(gcConfigFileContent)):
 		gcConfigFileContent[line] = Template(gcConfigFileContent[line]).safe_substitute(replacingDict)
