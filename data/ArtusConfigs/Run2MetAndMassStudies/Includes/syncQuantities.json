@@ -1,11 +1,17 @@
 {
 	"property" : [
+		"genMetPt", "genMetPhi", "genMetSumEt",
 		"recoMetOnGenMetProjectionPar", "recoMetOnGenMetProjectionPerp", "recoMetOnGenMetProjectionPhi",
 		"metPullX", "metPullY", 
-		"genMetPt", "genMetPhi", "genMetSumEt", "chiSquare",  "probChiSquare",
+		"chiSquare",  "probChiSquare",
 		"recoMetPhi", "recoMetPerp", "recoMetPar",
 		"recoilPhi", "recoilPerp", "recoilPar",
 		"pfMetSumEt",
-		"mvaMetSumEt"
+		"mvaMetSumEt",
+		"recoPfMetOnGenMetProjectionPar", "recoPfMetOnGenMetProjectionPerp", "recoPfMetOnGenMetProjectionPhi",
+		"pfmetPullX", "pfmetPullY", 
+		"chiSquarePf",  "probChiSquarePf",
+		"recoPfMetPhi", "recoPfMetPerp", "recoPfMetPar",
+		"pfrecoilPhi", "pfrecoilPerp", "pfrecoilPar"
 	]
 }
