@@ -67,6 +67,8 @@ class Samples(samples.Samples):
 		query["campaign"] = "Run2015D.*"
 		return self.artus_file_names(query, expect_n_results)
 
+	def files_dy_m50(self, channel):
+		return self.artus_file_names({"process" : "DYJetsToLLM50", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 1)
 
 	def files_ztt(self, channel):
 		query = { "data" : False,

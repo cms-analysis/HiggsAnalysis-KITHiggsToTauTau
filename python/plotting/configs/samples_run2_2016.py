@@ -184,6 +184,9 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 
+	def files_dy_m50(self, channel):
+		return self.artus_file_names({"process" : "DYJetsToLLM50", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 1)
+
 	def files_ztt(self, channel):
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DYJetsToLLM150|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 7)
 
