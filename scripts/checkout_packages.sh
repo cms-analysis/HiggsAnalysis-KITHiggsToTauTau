@@ -42,7 +42,10 @@ echo '<use   name="rootrflx"/>'>> TauAnalysis/SVfitStandalone/BuildFile.xml
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
 # Jet2Tau Fakes
-git clone https://github.com/artus-analysis/Jet2TauFakes.git HTTutilities/Jet2TauFakes
+git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
+cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
+git checkout v0.2.1
+cd $CMSSW_BASE/src/
 
 # EmuQCD Method
 git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu

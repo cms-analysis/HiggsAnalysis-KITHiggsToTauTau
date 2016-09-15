@@ -37,7 +37,7 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 		for method in temp_method:
 			for temp in range(1,NFolds+1):
 				methods.append(ROOT.TString(method+"_"+str(temp)+'_'+training_name))
-		splits = [ROOT.TFormula("%s%i"%(method,temp), split.replace("event", "x")) for split in log["splits"]]
+		splits = [ROOT.TFormula("%s%i"%(method,temp), split.replace("TrainingSelectionValue", "x")) for split in log["splits"]]
 		reader = ROOT.TMVA.Reader()
 		for var_name in variables_list:
 			reader.AddVariable(ROOT.TString(var_name), all_variables[var_name])
@@ -54,7 +54,7 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 		tmva_handling_list.append(handling)
 		
 		if calcTrainBDT:
-			splits2 = [ROOT.TFormula("%s%i"%(method,temp), "1.0-" + split.replace("event", "x")) for split in log["splits"]]
+			splits2 = [ROOT.TFormula("%s%i"%(method,temp), "1.0-" + split.replace("TrainingSelectionValue", "x")) for split in log["splits"]]
 			handling = {"variables":variables_list,
 					"training_name": training_name + "_TrainingSet",
 					"NFolds": NFolds,
@@ -89,7 +89,7 @@ def append_MVAbranch(filenames, ntuple_strings, training_logs, branch_names="sam
 					for (method, split) in zip(handl["methods"], handl["splits"]):
 						#import pdb
 						#pdb.set_trace()
-						if split.Eval(event.__getattr__("event")):
+						if split.Eval(event.__getattr__("TrainingSelectionValue")):
 							new_branches[counter][0] = handl["reader"].EvaluateMVA(method)
 							real_branches[counter].Fill()
 							break
