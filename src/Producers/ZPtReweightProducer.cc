@@ -12,7 +12,7 @@ void ZPtReweightProducer::Produce( event_type const& event, product_type & produ
 	float genPt = 0.;  // generator Z(W) pt
 	float genMass = 0.;  // generator Z(W) mass
 	RMFLV genMomentum;
-	if (boost::regex_search(product.m_nickname, boost::regex("DY.?JetsToLLM(50|150)", boost::regex::icase | boost::regex::extended)))
+	if (m_applyReweighting)
 	{
 		for (KGenParticles::const_iterator genParticle = event.m_genParticles->begin();
 		genParticle != event.m_genParticles->end(); ++genParticle)

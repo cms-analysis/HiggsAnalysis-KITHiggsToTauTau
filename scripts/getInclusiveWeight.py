@@ -108,8 +108,6 @@ def save_as_histograms(unc, root_tree_file):
 
 def main():
 	
-	ROOT.gSystem.Load(os.path.expandvars("$CMSSW_BASE/src/Kappa/lib/libKappa"))
-	
 	parser = argparse.ArgumentParser(description="Determine the full weight of a sample for inclusive acceptance studies",
 	                                 parents=[logger.loggingParser])
 

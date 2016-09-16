@@ -14,7 +14,7 @@ git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone https://github.com/KappaAnalysis/Kappa.git
+git clone https://github.com/KappaAnalysis/Kappa.git 
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
@@ -22,16 +22,14 @@ echo Skimming/data/ >> .git/info/sparse-checkout
 echo Skimming/python/ >> .git/info/sparse-checkout
 git config core.sparsecheckout true
 git read-tree -mu HEAD
-cd $CMSSW_BASE/src
-make -C Kappa/DataFormats/test/
+cd ..
 
 git clone https://github.com/KappaAnalysis/KappaTools.git 
-
-git clone https://github.com/artus-analysis/Artus.git
+git clone https://github.com/artus-analysis/Artus.git 
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau
+git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau 
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
 #svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 
@@ -44,7 +42,10 @@ echo '<use   name="rootrflx"/>'>> TauAnalysis/SVfitStandalone/BuildFile.xml
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
 # Jet2Tau Fakes
-git clone https://github.com/artus-analysis/Jet2TauFakes.git HTTutilities/Jet2TauFakes
+git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
+cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
+git checkout v0.2.1
+cd $CMSSW_BASE/src/
 
 # EmuQCD Method
 git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
@@ -84,7 +85,4 @@ git clone https://github.com/grid-control/grid-control.git -b r1941
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
-scram b -j 4
-cd HiggsAnalysis/KITHiggsToTauTau
-cd -
-
+scramv1 b -j 4

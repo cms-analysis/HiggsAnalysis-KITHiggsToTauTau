@@ -28,6 +28,7 @@ public:
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
+	enum CorrectionMethod { NONE=0, QUANTILE_MAPPING=1, MEAN_RESOLUTION=2};
 	
 	MetCorrectorBase(TMet* product_type::*metMemberUncorrected,
 			 TMet product_type::*metMemberCorrected,
@@ -53,6 +54,56 @@ public:
 		if ((settings.GetMetSysType() != 0) || (settings.GetMetSysShift() != 0))
 		{
 			m_metShiftCorrector = new MEtSys((settings.*GetMetShiftCorrectorFile)());
+
+			if (settings.GetMetSysType() == 1)
+			{
+				m_sysType = MEtSys::SysType::Response;
+			}
+			else if (settings.GetMetSysType() == 2)
+			{
+				m_sysType = MEtSys::SysType::Resolution;
+			}
+			else
+			{
+				m_sysType = MEtSys::SysType::NoType;
+				LOG(FATAL) << "Invalid HttSettings::MetSysType option";
+			}
+			
+			if (settings.GetMetSysShift() > 0)
+			{
+				m_sysShift = MEtSys::SysShift::Up;
+			}
+			else
+			{
+				m_sysShift = MEtSys::SysShift::Down;
+			}
+		}
+
+		// determine process type, trigger several decisions later
+		if (boost::regex_search(settings.GetNickname(), boost::regex("DY.?JetsToLL|W.?JetsToLNu|HToTauTau", boost::regex::extended)))
+		{
+			m_processType = MEtSys::ProcessType::BOSON;
+		}
+		else if (boost::regex_search(settings.GetNickname(), boost::regex("TT", boost::regex::extended)))
+		{
+			m_processType = MEtSys::ProcessType::TOP;
+		}
+		else
+		{
+			m_processType = MEtSys::ProcessType::EWK;
+		}
+		m_isWJets = boost::regex_search(settings.GetNickname(), boost::regex("W.?JetsToLNu", boost::regex::icase | boost::regex::extended));
+		
+		m_doMetSys = ((settings.GetMetSysType() != 0) || (settings.GetMetSysShift() != 0));
+
+		if(settings.GetMetCorrectionMethod() == "quantileMapping")
+			m_correctionMethod = MetCorrectorBase::CorrectionMethod::QUANTILE_MAPPING;
+		else if(settings.GetMetCorrectionMethod() == "meanResolution")
+			m_correctionMethod = MetCorrectorBase::CorrectionMethod::MEAN_RESOLUTION;
+		else
+		{
+			m_correctionMethod = MetCorrectorBase::CorrectionMethod::NONE;
+			LOG(FATAL) << "Invalid MetCorrectionMethod option. Available are 'quantileMapping' and 'meanResolution'";
 		}
 	}
 
@@ -70,7 +121,7 @@ public:
 		
 		// In selected W+Jets events one of the leptons is faked by hadronic jet and this 
 		// jet should be counted as a part of hadronic recoil to the W boson
-		if (boost::regex_search(product.m_nickname, boost::regex("W.?JetsToLNu", boost::regex::icase | boost::regex::extended)))
+		if(m_isWJets)
 		{
 			nJets30 += 1;
 		}
@@ -107,21 +158,33 @@ public:
 		
 		float correctedMetX, correctedMetY;
 		
-		m_recoilCorrector->CorrectByMeanResolution(
-			metX,
-			metY,
-			genPx,
-			genPy,
-			visPx,
-			visPy,
-			nJets30,
-			correctedMetX,
-			correctedMetY);
+		if(m_correctionMethod == MetCorrectorBase::CorrectionMethod::QUANTILE_MAPPING)
+			m_recoilCorrector->Correct(
+				metX,
+				metY,
+				genPx,
+				genPy,
+				visPx,
+				visPy,
+				nJets30,
+				correctedMetX,
+				correctedMetY);
+		else if(m_correctionMethod == MetCorrectorBase::CorrectionMethod::MEAN_RESOLUTION)
+			m_recoilCorrector->CorrectByMeanResolution(
+				metX,
+				metY,
+				genPx,
+				genPy,
+				visPx,
+				visPy,
+				nJets30,
+				correctedMetX,
+				correctedMetY);
 		
 		(product.*m_metMemberCorrected) = *(product.*m_metMemberUncorrected);
 		
 		// Apply the correction to the MET object (only for DY, W and Higgs samples)
-		if (boost::regex_search(product.m_nickname, boost::regex("DY.?JetsToLL|W.?JetsToLNu|HToTauTau", boost::regex::icase | boost::regex::extended)))
+		if (m_processType == MEtSys::ProcessType::BOSON)
 		{
 			(product.*m_metMemberCorrected).p4.SetPxPyPzE(
 				correctedMetX,
@@ -131,58 +194,18 @@ public:
 		}
 		
 		// Apply the correction to the MET object, if required (done for all the samples)
-		if ((settings.GetMetSysType() != 0) || (settings.GetMetSysShift() != 0))
+		if (m_doMetSys)
 		{
-			MEtSys::ProcessType processType;
-			MEtSys::SysType sysType;
-			MEtSys::SysShift sysShift;
-			
 			float correctedMetShiftX, correctedMetShiftY;
-			
-			if (boost::regex_search(product.m_nickname, boost::regex("DY.?JetsToLL|W.?JetsToLNu|HToTauTau", boost::regex::extended)))
-			{
-				processType = MEtSys::ProcessType::BOSON;
-			}
-			else if (boost::regex_search(product.m_nickname, boost::regex("TT", boost::regex::extended)))
-			{
-				processType = MEtSys::ProcessType::TOP;
-			}
-			else
-			{
-				processType = MEtSys::ProcessType::EWK;
-			}
-			
-			if (settings.GetMetSysType() == 1)
-			{
-				sysType = MEtSys::SysType::Response;
-			}
-			else if (settings.GetMetSysType() == 2)
-			{
-				sysType = MEtSys::SysType::Resolution;
-			}
-			else
-			{
-				sysType = MEtSys::SysType::NoType;
-				LOG(FATAL) << "Invalid HttSettings::MetSysType option";
-			}
-			
-			if (settings.GetMetSysShift() > 0)
-			{
-				sysShift = MEtSys::SysShift::Up;
-			}
-			else
-			{
-				sysShift = MEtSys::SysShift::Down;
-			}
 			
 			m_metShiftCorrector->ApplyMEtSys(
 				(product.*m_metMemberCorrected).p4.Px(), (product.*m_metMemberCorrected).p4.Py(),
 				genPx, genPy,
 				visPx, visPy,
 				nJets30,
-				processType,
-				sysType,
-				sysShift,
+				m_processType,
+				m_sysType,
+				m_sysShift,
 				correctedMetShiftX,
 				correctedMetShiftY
 			);
@@ -203,6 +226,12 @@ protected:
 	std::string (setting_type::*GetMetShiftCorrectorFile)(void) const;
 	RecoilCorrector* m_recoilCorrector;
 	MEtSys* m_metShiftCorrector;
+	MEtSys::ProcessType m_processType;
+	MEtSys::SysType m_sysType;
+	MEtSys::SysShift m_sysShift;
+	bool m_isWJets;
+	bool m_doMetSys;
+	CorrectionMethod m_correctionMethod;
 };
 
 

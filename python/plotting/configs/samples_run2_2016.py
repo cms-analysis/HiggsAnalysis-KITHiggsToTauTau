@@ -184,6 +184,9 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 
+	def files_dy_m50(self, channel):
+		return self.artus_file_names({"process" : "DYJetsToLLM50", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 1)
+
 	def files_ztt(self, channel):
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DYJetsToLLM150|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 7)
 
@@ -220,12 +223,44 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		weight = "(tauSpinnerPolarisation>=0.0)*(%s)" % weight
-		return self.ztt(config, channel, category, weight, "pospol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
+		polarisation_weight = "tauSpinnerPolarisation>=0.0"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "pospol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
+		
+		Samples._add_input(
+				config,
+				self.files_dy_m50(channel),
+				"gen/ntuple",
+				1.0,
+				"isZTT*(%s)" % polarisation_weight,
+				"zttpospol_gen_noplot",
+				nick_suffix=nick_suffix
+		)
+		if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
+			config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
+		config.setdefault("ztt_pos_pol_gen_nicks", []).append("zttpospol_gen_noplot")
+		config.setdefault("ztt_pos_pol_reco_nicks", []).append("zttpospol"+nick_suffix)
 
+		return config
+	
 	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		weight = "(tauSpinnerPolarisation<0.0)*(%s)" % weight
-		return self.ztt(config, channel, category, weight, "negpol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
+		polarisation_weight = "tauSpinnerPolarisation<0.0"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "negpol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
+		
+		Samples._add_input(
+				config,
+				self.files_dy_m50(channel),
+				"gen/ntuple",
+				1.0,
+				"isZTT*(%s)" % polarisation_weight,
+				"zttnegpol_gen_noplot",
+				nick_suffix=nick_suffix
+		)
+		if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
+			config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
+		config.setdefault("ztt_neg_pol_gen_nicks", []).append("zttnegpol_gen_noplot")
+		config.setdefault("ztt_neg_pol_reco_nicks", []).append("zttnegpol"+nick_suffix)
+		
+		return config
 
 	def files_zll(self, channel):
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 6)

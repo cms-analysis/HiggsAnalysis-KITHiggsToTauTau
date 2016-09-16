@@ -314,17 +314,21 @@ if __name__ == "__main__":
 				config["x_expressions"] = json_config.pop("x_expressions", [quantity])
 				config["category"] = category
 
+				binning_string = None
 				if(args.mssm):
-						binning_string = "binningHttMSSM13TeV"
+					binning_string = "binningHttMSSM13TeV"
 				if args.mva:
 					binning_string = "binningMVAStudies"
 				else:
 					binning_string = "binningHtt13TeV"
-				binnings_key = (binning_string + "_{channel}_{category}").format(channel=channel, category=category)
+				
+				binnings_key = None
 				if binnings_key in binnings_settings.binnings_dict:
-					config["x_bins"] = json_config.pop("x_bins", [binnings_key])
+					binnings_key = (binning_string + "_{channel}_{category}").format(channel=channel, category=category)
 				elif channel+"_"+quantity in binnings_settings.binnings_dict:
 					binnings_key = channel+"_"+quantity
+				
+				if not binnings_key is None:
 					config["x_bins"] = json_config.pop("x_bins", [binnings_key])
 
 				config["x_label"] = json_config.pop("x_label", channel+"_"+quantity)

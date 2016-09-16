@@ -39,9 +39,9 @@ void PolarisationQuantitiesProducer::Produce(
 		    ((*tau)->chargedHadronCandidates.size() > 0) &&
 		    (((*tau)->piZeroCandidates.size() > 0) || ((*tau)->gammaCandidates.size() > 0)))
 		{
-			double energyChargedPi = (*tau)->chargedHadronCandidates.at(0).p4.E();
+			double energyChargedPi = (*tau)->sumChargedHadronCandidates().E();
 			double energyNeutralPi = (*tau)->piZeroMomentum().E();
-			product.m_rhoNeutralChargedAsymmetry[*tau] = (((energyNeutralPi + energyChargedPi) != 0.0) ? (energyChargedPi - energyNeutralPi) / (energyChargedPi - energyNeutralPi) : 0.0);
+			product.m_rhoNeutralChargedAsymmetry[*tau] = (((energyNeutralPi + energyChargedPi) != 0.0) ? (energyChargedPi - energyNeutralPi) / (energyChargedPi + energyNeutralPi) : 0.0);
 		}
 	}
 }
