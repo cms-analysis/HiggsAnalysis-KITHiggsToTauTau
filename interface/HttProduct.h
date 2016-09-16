@@ -116,10 +116,14 @@ public:
 	// filled by the MetprojectionProducer
 	TVector2 m_recoMetOnGenMetProjection;
 	TVector2 m_metPull;
-	TVector2 m_metPfPull;
 	TVector2 m_recoMetOnBoson;
 	TVector2 m_recoilOnBoson;
-	double chiSquare;
+	double m_chiSquare;
+	TVector2 m_recoPfMetOnGenMetProjection;
+	TVector2 m_pfmetPull;
+	TVector2 m_recoPfMetOnBoson;
+	TVector2 m_pfrecoilOnBoson;
+	double m_chiSquarePf;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
