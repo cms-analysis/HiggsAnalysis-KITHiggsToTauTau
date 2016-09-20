@@ -195,7 +195,7 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL.*(?=Fall15)" : [
