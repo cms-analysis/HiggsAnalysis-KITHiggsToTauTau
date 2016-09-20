@@ -30,30 +30,13 @@ int main(int argc, const char *argv[])
     args.add_options()
         ("help,h", "tba")
         ("inputfile,i",  boost::program_options::value<std::string>(), "Path to the input rootfile")
-        ("outputfile,o", boost::program_options::value<std::string>(), "Output filename")
-        ("libkappa,l",   boost::program_options::value<std::string>()->default_value("Kappa/lib/libKappa.so"), "path to libKappa.so");
+        ("outputfile,o", boost::program_options::value<std::string>(), "Output filename");
 
     // parse the options
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(args).run(), vm);
     boost::program_options::notify(vm);
 
-    if(boost::filesystem::exists(vm["libkappa"].as<std::string>()))
-    {
-        gSystem->Load(vm["libkappa"].as<std::string>().c_str());
-    }
-    else if (boost::filesystem::exists("Kappa/lib/libKappa.so"))
-    {
-        gSystem->Load("Kappa/lib/libKappa.so");
-    }
-    else if (boost::filesystem::exists("libKappa.so"))
-    {
-        gSystem->Load("libKappa.so");
-    }
-    else
-    {
-        throw std::runtime_error("libKappa.so could not be found");
-    }
     // Svfit Eventkey
     ULong64_t runLumiEvent;
     svFitStandalone::kDecayType decayType1, decayType2;

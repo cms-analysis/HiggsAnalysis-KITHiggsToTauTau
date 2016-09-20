@@ -29,6 +29,7 @@
 	<use name="boost_program_options"/>
 	<use name="boost_filesystem"/>
 	<use name="TauAnalysis/SVfitStandalone" />
+	<use name="Kappa/DataFormats" />
 </bin>
 
 <bin name="ExampleTreeProcessing" file="ExampleTreeProcessing.cc">
@@ -39,4 +40,5 @@
 	<use name="boost"/>
 	<use name="boost_program_options"/>
 	<use name="boost_filesystem"/>
+	<use name="Kappa/DataFormats" />
 </bin>
