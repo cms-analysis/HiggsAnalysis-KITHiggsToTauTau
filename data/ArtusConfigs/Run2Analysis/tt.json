@@ -195,10 +195,10 @@
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:EventWeightProducer"
 				],
-				"DY.?JetsToLL.*(?=Spring15)" : [
+				"DY.?JetsToLL.*(?=Fall15)" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
