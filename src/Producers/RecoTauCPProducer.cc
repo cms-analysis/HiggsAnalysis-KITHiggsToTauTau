@@ -64,10 +64,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
-	KTrack& trackP = product.m_chargeOrderedLeptons[0]->track;
-	KTrack& trackM = product.m_chargeOrderedLeptons[1]->track;
-	RMFLV& momentumP = ((product.m_chargeOrderedLeptons[0]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_flavourOrderedLeptons[0])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[0]->p4);
-	RMFLV& momentumM = ((product.m_chargeOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[1]->p4);
+	KTrack trackP = product.m_chargeOrderedLeptons[0]->track;
+	KTrack trackM = product.m_chargeOrderedLeptons[1]->track;
+	RMFLV momentumP = ((product.m_chargeOrderedLeptons[0]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[0])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[0]->p4);
+	RMFLV momentumM = ((product.m_chargeOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[1])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[1]->p4);
 	
 	CPQuantities cpq;
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
