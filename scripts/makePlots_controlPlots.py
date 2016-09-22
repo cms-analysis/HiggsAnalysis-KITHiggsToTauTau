@@ -181,13 +181,15 @@ if __name__ == "__main__":
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
-	parser.add_argument("--mssm", default=False, action="store_true",
-	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("-b", "--background-method", default="classic",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
+	parser.add_argument("--mssm", default=False, action="store_true",
+	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
 	parser.add_argument("--mva", default=False, action="store_true",
 	                    help="Produce plots for the mva studies. [Default: %(default)s]")
+	parser.add_argument("--polarisation", default=False, action="store_true",
+	                    help="Produce the plots for the polarisation analysis. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
@@ -277,6 +279,8 @@ if __name__ == "__main__":
 						category_string = "catHttMSSM13TeV"
 					elif args.mva:
 						category_string = "catMVAStudies"
+					elif args.polarisation:
+						category_string = "catZttPol13TeV"
 					else:
 						category_string = "catHtt13TeV"
 					category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
@@ -315,10 +319,12 @@ if __name__ == "__main__":
 				config["category"] = category
 
 				binning_string = None
-				if(args.mssm):
+				if args.mssm:
 					binning_string = "binningHttMSSM13TeV"
-				if args.mva:
+				elif args.mva:
 					binning_string = "binningMVAStudies"
+				elif args.polarisation:
+					category_string = "binningZttPol13TeV"
 				else:
 					binning_string = "binningHtt13TeV"
 				
