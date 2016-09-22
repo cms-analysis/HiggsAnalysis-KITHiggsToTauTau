@@ -64,10 +64,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
-	KTrack& track1 = product.m_flavourOrderedLeptons[0]->track;
-	KTrack& track2 = product.m_flavourOrderedLeptons[1]->track;
-	RMFLV& momentum1 = product.m_flavourOrderedLeptons[0]->p4;
-	RMFLV& momentum2 = product.m_flavourOrderedLeptons[1]->p4;
+	KTrack track1 = product.m_flavourOrderedLeptons[0]->track;
+	KTrack track2 = product.m_flavourOrderedLeptons[1]->track;
+	RMFLV momentum1 = product.m_flavourOrderedLeptons[0]->p4;
+	RMFLV momentum2 = product.m_flavourOrderedLeptons[1]->p4;
 
 	if ((product.m_decayChannel == HttEnumTypes::DecayChannel::TT) &&
 	    (static_cast<KTau*>(product.m_flavourOrderedLeptons[0])->chargedHadronCandidates.size() > 0))
