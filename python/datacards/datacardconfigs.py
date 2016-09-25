@@ -145,6 +145,7 @@ class DatacardConfigs(object):
 				"tt_2jet_inclusive" : 32,
 				
 				"tt_rho_x" : 1,
+				"tt_x_rho" : 2,
 			},
 			"mm" : {
 				"mm_inclusive" : 0,

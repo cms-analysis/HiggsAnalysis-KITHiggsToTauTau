@@ -457,6 +457,7 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_l_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"]
 		for channel in ["tt"]:
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho_x"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_1"]
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_x_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"]
 			
 		# H->tautau binnings
 		for channel in ["mt", "et", "em", "tt", "mm"]:
