@@ -239,7 +239,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
 		config.setdefault("ztt_pos_pol_gen_nicks", []).append("zttpospol_gen_noplot")
 		config.setdefault("ztt_pos_pol_reco_nicks", []).append("zttpospol"+nick_suffix)
-
+		
 		return config
 	
 	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
