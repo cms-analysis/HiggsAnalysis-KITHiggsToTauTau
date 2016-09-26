@@ -50,7 +50,6 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			for nick in nicks:
 				if isinstance(nick, basestring):
-					print nick
 					assert isinstance(plotData.plotdict["root_objects"].get(nick), ROOT.TH1)
 				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
 					for subnick in nick:

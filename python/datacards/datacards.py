@@ -462,7 +462,6 @@ class Datacards(object):
 		self.mva_vbf_bdt_syst_uncs =[
 			"mva_vbftagger_BDT_shifts",
 			"lnN"]
-		["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W", "ggH", "qqH", "WH", "ZH", "VH"]
 		mapster_2 = ch.SystMap("bin", "process")
 		if os.path.exists(os.path.join(path, "VBF_BDT.cfg")):
 			vbf_bdt = jsonTools.JsonDict(os.path.join(path, "VBF_BDT.cfg"))
