@@ -116,7 +116,7 @@ if __name__ == "__main__":
 	datacard_filename_templates = [
 		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		#"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
@@ -178,7 +178,8 @@ if __name__ == "__main__":
 							category="catZttPol13TeV_"+category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
-							higgs_masses=higgs_masses
+							higgs_masses=higgs_masses,
+							estimationMethod="new"
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
