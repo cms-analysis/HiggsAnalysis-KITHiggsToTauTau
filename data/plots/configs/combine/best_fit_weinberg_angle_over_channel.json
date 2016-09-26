@@ -2,7 +2,7 @@
     "analysis_modules": [
         "GraphCombination"
     ],  
-    "filename": "best_fit_pol_over_channel", 
+    "filename": "best_fit_weinberg_angle_over_channel", 
     "files": [
         "higgsCombine*.MaxLikelihoodFit*mH*.root"
     ], 
@@ -45,7 +45,7 @@
     ], 
     "x_label": "", 
     "y_expressions": [
-        "limit"
+        "(limit+2.0)/8.0"
     ], 
-    "y_label": "Best Fit #LT P_{tau} #GT"
+    "y_label": "Best Fit sin^{2} #theta_{eff}"
 }

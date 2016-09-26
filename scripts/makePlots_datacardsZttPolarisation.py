@@ -345,14 +345,21 @@ if __name__ == "__main__":
 	))
 	
 	# plot best fit values of parameter pol from physics model
-	config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json"))
-	config["files"] = [" ".join([values_tree_files[value] for value in sorted(values_tree_files.keys())])]
-	config["x_ticks"] = sorted(values_tree_files.keys())
-	inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
-	config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]
-	#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
-	config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label + "" for label in config["x_tick_labels"]]
-	config["x_lims"] = [min(values_tree_files.keys()) - 0.5, max(values_tree_files.keys()) + 0.5]
-	config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
-	higgsplot.HiggsPlotter(list_of_config_dicts=[config], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	plot_configs = []
+	for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json"]:
+		
+		config = jsonTools.JsonDict(os.path.expandvars(template))
+		config["files"] = [" ".join([values_tree_files[value] for value in sorted(values_tree_files.keys())])]
+		config["x_ticks"] = sorted(values_tree_files.keys())
+		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
+		config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]
+		#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
+		config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label + "" for label in config["x_tick_labels"]]
+		config["x_lims"] = [min(values_tree_files.keys()) - 0.5, max(values_tree_files.keys()) + 0.5]
+		config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
+		
+		plot_configs.append(config)
+	
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
