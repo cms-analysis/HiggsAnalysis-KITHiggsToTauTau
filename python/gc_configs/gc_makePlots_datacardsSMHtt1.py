@@ -9,7 +9,7 @@ print(time.time())
 #active = ["0jet", "1jet", "2jet"]
 
 active = str(int(sys.argv[1][sys.argv[1].find(".")-1:sys.argv[1].find(".")]))+"jet"
-project_name = "asimovscan2016"
+project_name = "2016-09-22-asimovscan2016btag"
 print "doing stuff for " + active
 
 cfg = Settings()
@@ -24,12 +24,12 @@ cmssw_base = os.getenv("CMSSW_BASE") + "/src/"
 cfg.usertask.set("input files", [cmssw_base + "HiggsAnalysis/KITHiggsToTauTau/scripts/userjob_epilog.sh", cmssw_base + "HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsSMHtt.py"] )
 
 executable = 'makePlots_datacardsSMHtt.py'
-input_dataset = "-i /nfs/dust/cms/user/rfriese/htautau/artus/2016-08-12_2016NemoWSvFit/merged/"
+input_dataset = "-i /nfs/dust/cms/user/rfriese/htautau/artus/2016-09-21_17-08_Analysis2016ICHEP/merged/" 
 variable = "-x m_sv"
 mass = "-m 125"
 output_dir = "-o ."
 channels= ["et", "mt", "tt", "em"]
-extra=" --n-plots 1000 0 --auto-rebin --qcd-subtract-shape -n 1 --remote --use-asimov-dataset --era 2016 "
+extra=" --n-plots 1000 0 --auto-rebin --qcd-subtract-shape -n 1 --remote --use-asimov-dataset --era 2016 -b new"
 
 cfg.parameters.set("parameters", ["P1", "P2"])
 cfg.parameters.set("repeat", 1)
@@ -62,7 +62,7 @@ for channel in channels:
 		arguments = arguments +" vbf_@P1@_@P2@ ivbf_@P1@_@P2@ "
 	else:
 		#arguments = arguments +" TwoJet30 "
-		arguments = arguments +" vbf_800_0.0 ivbf_800_0.0 "
+		arguments = arguments +" vbf_400_0.0 ivbf_400_0.0 "
 
 cfg.usertask.set('arguments', "%s"%arguments)
 cfg.storage.set('se path', "/nfs/dust/cms/user/rfriese/" + project_name + "/" + active)
