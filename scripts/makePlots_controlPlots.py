@@ -314,7 +314,7 @@ if __name__ == "__main__":
 						cut_type="mssm2016" if (args.era == "2016" and args.mssm) else "mssm" if args.mssm else "baseline2016" if args.era == "2016" else "baseline"
 				)
 
-				config["x_expressions"] = [("0" if "pol_gen_noplot" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
+				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 				config["category"] = category
 
 				binning_string = None
@@ -334,7 +334,7 @@ if __name__ == "__main__":
 					binnings_key = channel+"_"+quantity
 				
 				if not binnings_key is None:
-					config["x_bins"] = [("1,-1,1" if "pol_gen_noplot" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
+					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
 
 				config["x_label"] = json_config.pop("x_label", channel+"_"+quantity)
 
