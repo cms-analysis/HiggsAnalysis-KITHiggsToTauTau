@@ -16,7 +16,7 @@ import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
@@ -98,6 +98,9 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/ztt_datacards_xsec/",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--fit-dir",
+	                    default=None,
+	                    help="Directory of the mlfit.root to be used for postfit shapes. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	
@@ -267,11 +270,11 @@ if __name__ == "__main__":
 	)
 	
 	# add bin-by-bin uncertainties
-	if args.add_bbb_uncs:
-		datacards.add_bin_by_bin_uncertainties(
-				processes=datacards.cb.cp().backgrounds().process_set(),
-				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
-		)
+	#if args.add_bbb_uncs:
+	#	datacards.add_bin_by_bin_uncertainties(
+	#			processes=datacards.cb.cp().backgrounds().process_set(),
+	#			add_threshold=0.1, merge_threshold=0.5, fix_norm=True
+	#	)
 	
 	# write datacards and call text2workspace
 	datacards_cbs = {}
@@ -315,7 +318,10 @@ if __name__ == "__main__":
 
 		datacards_postfit_shapes = {}
 		if fit_options.get("method", "MaxLikelihoodFit") == "MaxLikelihoodFit":
-			datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+			if args.fit_dir is None:
+				datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+			else:
+				datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), fit_results_path=args.fit_dir)
 			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : fit_options["poi"]}, n_processes=args.n_processes)
 
 	# plotting
@@ -366,6 +372,13 @@ if __name__ == "__main__":
 					processes_to_plot.insert(3, "EWK")
 					config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
 					config["sum_scale_factors"].append("1.0 1.0 1.0")
+					config["sum_result_nicks"].append("EWK")
+				if category[:2] in ["et", "mt", "tt"] and args.fakefactor_method is not None:
+					processes = [p.replace("TTJT","TTJT_noplot").replace("TTJL", "TTJL_noplot").replace("VVT", "VVT_noplot").replace("VVL", "VVL_noplot") for p in processes]
+					processes_to_plot = [p for p in processes if not "noplot" in p]
+					processes_to_plot.insert(2, "EWK")
+					config["sum_nicks"].append("TTJT_noplot TTJL_noplot VVT_noplot VVL_noplot")
+					config["sum_scale_factors"].append("1.0 1.0 1.0 1.0")
 					config["sum_result_nicks"].append("EWK")
 				if category[:2] in ["em"]:
 					processes = [p.replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
