@@ -374,7 +374,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:JetToTauFakesProducer",
 					"producer:EventCategoryProducer",
-					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
 					"producer:EventWeightProducer"
