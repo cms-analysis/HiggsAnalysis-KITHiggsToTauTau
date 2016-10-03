@@ -6,7 +6,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 1.03
+				"HToTauTau|DY.?JetsToLL|Embedding2016" : 1.03
 			}
 		}
 	},
@@ -14,7 +14,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 0.97
+				"HToTauTau|DY.?JetsToLL|Embedding2016" : 0.97
 			}
 		}
 	}

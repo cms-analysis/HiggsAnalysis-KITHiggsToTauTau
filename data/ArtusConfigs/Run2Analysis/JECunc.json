@@ -2,7 +2,7 @@
 	"jecUncNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -11,48 +11,48 @@
 	"jecUncUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 1.0
 			}
 		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncUp",
-		        "Run201" : "jecUncNom"
+		        "Run201|Embedding2016" : "jecUncNom"
             }
         }
 	},
 	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : -1.0
 			}
 		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncDown",
-		        "Run201" : "jecUncNom"
+		        "Run201|Embedding2016" : "jecUncNom"
             }
         }
 	},
 	"bTagDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
 		"SvfitCacheFileFolder" : "jecUncNom",
 		"BTagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : -1.0
 			}
 		},
 		"BMistagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		}
@@ -60,20 +60,20 @@
 	"bTagUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
 		"SvfitCacheFileFolder" : "jecUncNom",
 		"BTagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 1.0
 			}
 		},
 		"BMistagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		}
@@ -81,20 +81,20 @@
 	"bMistagUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
 		"SvfitCacheFileFolder" : "jecUncNom",
 		"BTagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
 		"BMistagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 1.0
 			}
 		}
@@ -102,20 +102,20 @@
 	"bMistagDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
 		"SvfitCacheFileFolder" : "jecUncNom",
 		"BTagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
 		"BMistagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : -1.0
 			}
 		}

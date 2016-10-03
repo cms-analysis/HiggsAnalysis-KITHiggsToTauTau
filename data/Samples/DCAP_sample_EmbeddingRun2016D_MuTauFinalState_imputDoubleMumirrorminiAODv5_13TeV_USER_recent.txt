@@ -1,0 +1,1 @@
+DCAP_sample_EmbeddingRun2016D_MuTauFinalState_imputDoubleMumirrorminiAODv5_13TeV_USER_80X_2016-10-03.txt

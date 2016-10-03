@@ -2,7 +2,7 @@
 	"jecUncNom_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -12,7 +12,7 @@
 	"jecUncNom_tauEsUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -20,7 +20,7 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|DY.?JetsToLL).*(?=Fall15)" : 1.03,
-				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)" : 1.015
+				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 1.015
 			}
 		},
 		"SvfitCacheFileFolder" : {
@@ -33,7 +33,7 @@
 	"jecUncNom_tauEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -41,7 +41,7 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|DY.?JetsToLL).*(?=Fall15)" : 0.97,
-				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)" : 0.985
+				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 0.985
 			}
 		},
 		"SvfitCacheFileFolder" : {
@@ -54,7 +54,7 @@
 	"jecUncUp_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 1.0
 			}
 		},
@@ -62,14 +62,14 @@
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncUp_tauEsNom",
-		        "Run201" : "jecUncNom_tauEsNom"
+		        "Run201|Embedding2016" : "jecUncNom_tauEsNom"
             }
         }
 	},
 	"jecUncDown_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : -1.0
 			}
 		},
@@ -77,14 +77,14 @@
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncDown_tauEsNom",
-		        "Run201" : "jecUncNom_tauEsNom"
+		        "Run201|Embedding2016" : "jecUncNom_tauEsNom"
             }
         }
 	},
 	"bTagDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -92,13 +92,13 @@
 		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom",
 		"BTagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : -1.0
 			}
 		},
 		"BMistagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		}
@@ -106,7 +106,7 @@
 	"bTagUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -114,13 +114,13 @@
 		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom",
 		"BTagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 1.0
 			}
 		},
 		"BMistagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		}
@@ -128,7 +128,7 @@
 	"bMistagUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -136,13 +136,13 @@
 		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom",
 		"BTagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
 		"BMistagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 1.0
 			}
 		}
@@ -150,7 +150,7 @@
 	"bMistagDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -158,13 +158,13 @@
 		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom",
 		"BTagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : 0.0
 			}
 		},
 		"BMistagShift" : {
 			"nick" : {
-				"Run201" : 0.0,
+				"Run201|Embedding2016" : 0.0,
 				"default" : -1.0
 			}
 		}
