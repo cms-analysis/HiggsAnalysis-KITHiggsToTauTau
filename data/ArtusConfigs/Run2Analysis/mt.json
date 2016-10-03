@@ -42,7 +42,7 @@
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"MuonLowerPtCuts" : [
-			"19.0"
+			"20.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"2.1"
@@ -63,8 +63,8 @@
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"HLT_IsoMu22_v:23.0",
-					"HLT_IsoTkMu22_v:23.0"
+					"HLT_IsoMu22_v:20.0",
+					"HLT_IsoTkMu22_v:20.0"
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v:19.0"
@@ -376,7 +376,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:JetToTauFakesProducer",
 					"producer:EventCategoryProducer",
-					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
 					"producer:EventWeightProducer"

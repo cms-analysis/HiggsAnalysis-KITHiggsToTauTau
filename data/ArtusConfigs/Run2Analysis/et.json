@@ -41,7 +41,7 @@
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
-			"24.0"
+			"25.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
@@ -62,7 +62,7 @@
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"
+					"HLT_Ele25_eta2p1_WPTight_Gsf_v:25.0"
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:24.0"
@@ -374,7 +374,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:JetToTauFakesProducer",
 					"producer:EventCategoryProducer",
-					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
 					"producer:EventWeightProducer"

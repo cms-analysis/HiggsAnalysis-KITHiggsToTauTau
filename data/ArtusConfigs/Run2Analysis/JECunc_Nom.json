@@ -1,0 +1,11 @@
+{
+	"jecUncNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"SvfitCacheFileFolder" : "jecUncNom"
+	}
+}

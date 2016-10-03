@@ -1,6 +1,13 @@
 {
 	"property" : [
 		"rhoNeutralChargedAsymmetry_1",
-		"rhoNeutralChargedAsymmetry_2"
+		"rhoNeutralChargedAsymmetry_2",
+		
+		"leadingTauLV",
+		"leadingTauSumChargedHadronsLV",
+		"leadingTauSumNeutralHadronsLV",
+		"trailingTauLV",
+		"trailingTauSumChargedHadronsLV",
+		"trailingTauSumNeutralHadronsLV"
 	]
 }

@@ -182,8 +182,8 @@ if __name__ == "__main__":
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
-	parser.add_argument("-b", "--background-method", default="classic",
-	                    help="Background estimation method to be used. [Default: %(default)s]")
+	parser.add_argument("-b", "--background-method", default=["classic"], nargs="+",
+	                    help="Background estimation method to be used, channel dependent. [Default: %(default)s]")
 	parser.add_argument("--mssm", default=False, action="store_true",
 	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
 	parser.add_argument("--mva", default=False, action="store_true",
@@ -270,7 +270,11 @@ if __name__ == "__main__":
 	args.categories = [None if category == "None" else category for category in args.categories]
 
 	plot_configs = []
-	for channel in args.channels:
+	# fill in hp-style
+	for index in range(len(args.channels) - len(args.background_method)):
+		args.background_method.append(args.background_method[index])
+
+	for channel, background_method in zip(args.channels, args.background_method):
 		for category in args.categories:
 			for quantity in args.quantities:
 				category_string = None
@@ -309,7 +313,7 @@ if __name__ == "__main__":
 						project_to_lumi=args.project_to_lumi,
 						cut_mc_only=args.cut_mc_only,
 						scale_mc_only=args.scale_mc_only,
-						estimationMethod=args.background_method,
+						estimationMethod=background_method,
 						mssm=args.mssm,
 						cut_type="mssm2016" if (args.era == "2016" and args.mssm) else "mssm" if args.mssm else "baseline2016" if args.era == "2016" else "baseline"
 				)

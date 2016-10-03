@@ -85,6 +85,8 @@ if __name__ == "__main__":
 	                    help="Manualy set the binning. Default is taken from configuration files.")
 	parser.add_argument("--debug-plots", default=False, action="store_true",
 	                    help="Produce debug Plots [Default: %(default)s]")
+	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
+	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -159,7 +161,7 @@ if __name__ == "__main__":
 		for category in categories:
 			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
-			exclude_cuts = []
+			exclude_cuts = args.exclude_cuts
 			if args.for_dcsync:
 				if category[3:] == 'inclusive':
 					exclude_cuts=["mt", "pzeta"]
@@ -203,7 +205,7 @@ if __name__ == "__main__":
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="baseline2016" if args.era == "2016" else "baseline",
-							estimationMethod=args.background_method
+							estimationMethod=args.background_method if channel in ["tt"] else "classic"
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
