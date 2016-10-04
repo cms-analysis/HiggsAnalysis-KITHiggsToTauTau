@@ -212,6 +212,7 @@ public:
 	IMPL_SETTING_SORTED_STRINGLIST_DEFAULT(DiTauPairHltPathsWithoutCommonMatchRequired, {});
 	IMPL_SETTING_DEFAULT(bool, DiTauPairIsTauIsoMVA, false);
 	IMPL_SETTING_DEFAULT(bool, DiTauPairNoHLT, false);
+	IMPL_SETTING_DEFAULT(bool, RequireFirstTriggering, false);
 
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
