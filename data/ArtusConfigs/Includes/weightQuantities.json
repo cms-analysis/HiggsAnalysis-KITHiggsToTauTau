@@ -28,6 +28,7 @@
 		"emuQcdWeightDown",
 		"topPtReweightWeight",
 		"zPtReweightWeight",
-		"eleTauFakeRateWeight"
+		"eleTauFakeRateWeight",
+		"muTauFakeRateWeight"
 	]
 }
