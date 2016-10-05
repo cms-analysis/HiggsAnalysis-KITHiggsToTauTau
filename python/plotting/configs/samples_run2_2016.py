@@ -202,6 +202,13 @@ class Samples(samples.SamplesBase):
 
 
 		self.root_file_folder(channel),
+		if channel in ["mt", "et"]:
+			hadronic_scale_factor = "*(0.85)"
+		elif channel in ["tt"]:
+			hadronic_scale_factor = "*(0.87)"
+		else:
+			hadronic_scale_factor = ""
+			
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
 					config,

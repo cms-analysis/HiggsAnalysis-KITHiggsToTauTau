@@ -40,6 +40,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZPtReweightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ScaleVariationProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleEleTauFakeRateWeightProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleMuTauFakeRateWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/JetToTauFakesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
@@ -213,6 +214,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new ZPtReweightProducer();
 	else if(id == SimpleEleTauFakeRateWeightProducer().GetProducerId())
 		return new SimpleEleTauFakeRateWeightProducer();
+	else if(id == SimpleMuTauFakeRateWeightProducer().GetProducerId())
+		return new SimpleMuTauFakeRateWeightProducer();
 	else if(id == JetToTauFakesProducer().GetProducerId())
 		return new JetToTauFakesProducer();
 	else if(id == PolarisationQuantitiesProducer().GetProducerId())
