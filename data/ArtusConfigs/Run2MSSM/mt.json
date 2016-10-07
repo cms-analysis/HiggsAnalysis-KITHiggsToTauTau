@@ -170,7 +170,8 @@
 			{
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json"
 				]
 			},
 			"nmediumbtag",
@@ -216,7 +217,8 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				],
 				"TT_RunIIFall15MiniAODv2" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -255,7 +257,8 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				],
 				"DY.?JetsToLL" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -297,7 +300,8 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -338,7 +342,8 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				],
 				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -369,7 +374,8 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				]
 			}
 		},

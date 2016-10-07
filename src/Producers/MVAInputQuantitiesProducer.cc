@@ -46,6 +46,21 @@ void MVAInputQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepDeltaR", [](event_type const& event, product_type const& product) {
 		return std::abs(product.m_diLepDeltaR);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dmjj", [](event_type const& event, product_type const& product) {
+		return product.m_diJetDeltaMass;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetSymEta_1", [](event_type const& event, product_type const& product) {
+		return KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 30.0) >=1 ? (std::abs(product.m_validJets[0]->p4.Eta())) : -1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetSymEta_2", [](event_type const& event, product_type const& product) {
+		return product.m_diJetSymDeltaEta;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetDeltaR", [](event_type const& event, product_type const& product) {
+		return product.m_diJetDeltaR;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetAbsDeltaPhi", [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? std::abs(ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4)) : -1;
+	});
 
 }
 
@@ -91,6 +106,11 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
 		product.m_Lep2Centrality = TMath::Exp(-4.0/(jet1_eta-jet2_eta)/(jet1_eta-jet2_eta)*(eta-(jet1_eta+jet2_eta)/2.0)*(eta-(jet1_eta+jet2_eta)/2.0));
 		eta = product.m_diLeptonSystem.Eta();
 		product.m_DiLepCentrality = TMath::Exp(-4.0/(jet1_eta-jet2_eta)/(jet1_eta-jet2_eta)*(eta-(jet1_eta+jet2_eta)/2.0)*(eta-(jet1_eta+jet2_eta)/2.0));
+		double jm_1 = product.m_validJets[0]->p4.mass();
+		double jm_2 = product.m_validJets[1]->p4.mass();
+		product.m_diJetDeltaMass = jm_1-jm_2;
+		product.m_diJetSymDeltaEta = (jet2_eta-jet1_eta)*(TMath::Sign(1.0, jet1_eta));
+		product.m_diJetDeltaR = ROOT::Math::VectorUtil::DeltaR(product.m_validJets[0]->p4, product.m_validJets[1]->p4);
 	}
 	if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 30.0) >=1 and product.m_svfitResults.momentum)
 	{
