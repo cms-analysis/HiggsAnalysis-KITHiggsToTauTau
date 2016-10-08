@@ -28,13 +28,7 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
-	static TLorentzVector GetTauLorentzVector(RMFLV const& tauFourMomentum);
-	static TVector2 GetMetComponents(RMFLV const& metFourMomentum);
-	static TMatrixD GetMetCovarianceMatrix(ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > const& metSignificance);
-	
-	virtual std::string GetProducerId() const override {
-		return "HHKinFitProducer";
-	}
+	virtual std::string GetProducerId() const override;
 	
 	virtual void Init(setting_type const& settings) override;
 

@@ -111,6 +111,7 @@ public:
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
 
 	// filled by the PolarisationQuantitiesProducer
+	std::map<KLepton*, double> m_visibleOverFullEnergy;
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
 
 	// filled by the MetprojectionProducer
@@ -139,6 +140,9 @@ public:
 	mutable SvfitInputs m_svfitInputs;
 	mutable SvfitResults m_svfitResults;
 	bool m_svfitCalculated = false;
+
+	// filled by the HHKinFitProducer
+	std::map<KLepton*, RMFLV> m_hhKinFitTaus;
 
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
