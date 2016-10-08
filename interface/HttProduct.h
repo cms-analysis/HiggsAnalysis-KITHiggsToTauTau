@@ -111,6 +111,7 @@ public:
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
 
 	// filled by the PolarisationQuantitiesProducer
+	std::map<KLepton*, double> m_visibleOverFullEnergy;
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
 
 	// filled by the MetprojectionProducer
