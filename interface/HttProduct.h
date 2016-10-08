@@ -140,6 +140,9 @@ public:
 	mutable SvfitResults m_svfitResults;
 	bool m_svfitCalculated = false;
 
+	// filled by the HHKinFitProducer
+	std::map<KLepton*, RMFLV> m_hhKinFitTaus;
+
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
 	bool m_diJetSystemAvailable = false;
