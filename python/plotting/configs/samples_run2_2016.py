@@ -233,7 +233,7 @@ class Samples(samples.SamplesBase):
 		polarisation_weight = "tauSpinnerPolarisation>=0.0"
 		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "pospol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
 		
-		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", True)
+		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
 		
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
@@ -262,7 +262,7 @@ class Samples(samples.SamplesBase):
 		polarisation_weight = "tauSpinnerPolarisation<0.0"
 		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "negpol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
 		
-		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", True)
+		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
 		
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
