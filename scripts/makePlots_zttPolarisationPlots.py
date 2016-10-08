@@ -71,13 +71,13 @@ if __name__ == "__main__":
 	labels_settings = labels.LabelsDict(latex_version="root")
 
 	if len(args.channels) > len(parser.get_default("channels")):
-		args.channels[len(parser.get_default("channels")):]
+		args.channels = args.channels[len(parser.get_default("channels")):]
 	if len(args.categories) > len(parser.get_default("categories")):
-		args.categories[len(parser.get_default("categories")):]
+		args.categories = args.categories[len(parser.get_default("categories")):]
 	if len(args.pt_cut_expressions) > len(parser.get_default("pt_cut_expressions")):
-		args.pt_cut_expressions[len(parser.get_default("pt_cut_expressions")):]
+		args.pt_cut_expressions = args.pt_cut_expressions[len(parser.get_default("pt_cut_expressions")):]
 	if len(args.pt_cut_values) > len(parser.get_default("pt_cut_values")):
-		args.pt_cut_values[len(parser.get_default("pt_cut_values")):]
+		args.pt_cut_values = args.pt_cut_values[len(parser.get_default("pt_cut_values")):]
 
 	plot_configs = []
 	for channel, categories, pt_cut_expressions, tmp_pt_cut_values in zip(args.channels, args.categories, args.pt_cut_expressions, args.pt_cut_values):
@@ -170,7 +170,7 @@ if __name__ == "__main__":
 			config["x_label"] = channel+"_rhoNeutralChargedAsymmetry"
 			
 			config["y_rel_lims"] = [0.0, 1.6]
-			config["y_label"] = "arbitrary units"
+			config["y_label"] = "arb. u."
 			
 			if "stacks" in config:
 				config.pop("stacks")
