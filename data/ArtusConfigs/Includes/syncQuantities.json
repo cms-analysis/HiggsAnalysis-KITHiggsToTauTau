@@ -110,6 +110,8 @@
 		"##njets",
 		"#njetspt20",
 		"#mva_gf",
-		"#mva_vbf"
+		"#mva_vbf",
+		"muTauFakeRateWeight",
+		"eleTauFakeRateWeight"
 	]
 }

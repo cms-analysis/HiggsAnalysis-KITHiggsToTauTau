@@ -205,7 +205,7 @@ if __name__ == "__main__":
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="baseline2016" if args.era == "2016" else "baseline",
-							estimationMethod=args.background_method
+							estimationMethod=args.background_method if channel in ["tt"] else "classic"
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)

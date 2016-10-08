@@ -1,0 +1,12 @@
+{
+	"jecUncNom_tauEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+	}
+}

@@ -199,7 +199,8 @@
 			{
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json"
 				]
 			},
 			"nloosebtag",
@@ -242,6 +243,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MVAInputQuantitiesProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RooWorkspaceWeightProducer",
@@ -280,6 +282,7 @@
 					"producer:TopPtReweightingProducer",
 					"#producer:EventCategoryProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MVAInputQuantitiesProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RooWorkspaceWeightProducer",
@@ -320,6 +323,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MVAInputQuantitiesProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RooWorkspaceWeightProducer",
@@ -359,6 +363,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MVAInputQuantitiesProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RooWorkspaceWeightProducer",
@@ -393,6 +398,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:EventCategoryProducer",
 					"#producer:MVATestMethodsProducer",
+					"producer:MVAInputQuantitiesProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				]

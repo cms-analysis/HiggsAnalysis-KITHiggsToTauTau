@@ -108,7 +108,8 @@
 			{
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json"
 				]
 			},
 			"nmediumbtag",
@@ -177,7 +178,8 @@
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuMuTriggerScaleFactorProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				],
 				"TT_RunIIFall15MiniAODv2" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -214,7 +216,8 @@
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuMuTriggerScaleFactorProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				],
 				"DY.?JetsToLL" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -256,7 +259,8 @@
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuMuTriggerScaleFactorProducer",
 					"producer:ScaleVariationProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -295,7 +299,8 @@
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuMuTriggerScaleFactorProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				],
 				"Run201" : [
 					"producer:HttValidLooseElectronsProducer",
@@ -324,7 +329,8 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:MVAInputQuantitiesProducer"
 				]
 			}
 		},

@@ -149,6 +149,27 @@ public:
 								break;
 							}
 						}
+                        if (settings.GetRequireFirstTriggering())
+                        {
+                            bool hltFired = false;
+                            auto trigger = product.m_detailedTriggerMatchedLeptons[diTauPair.first];
+                            for (auto hltName : settings.GetHltPaths())
+                            {
+                                for (auto hlts: (*trigger))
+                                {
+                                    if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
+                                    {
+                                        for (auto matchedObjects: hlts.second)
+                                        {
+                                            if (matchedObjects.second.size() > 0) hltFired = true;
+                                        }
+                                    }
+                                }
+                            }
+                            validDiTauPair = validDiTauPair && hltFired;
+                            validDiTauPair = validDiTauPair && (diTauPair.first->p4.Pt() >= diTauPair.second->p4.Pt());
+                        }
+
 					}
 				}
 				else // will hopefully become obsolete towards the end of 2016 when the trigger is included in simulation

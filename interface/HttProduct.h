@@ -239,6 +239,9 @@ public:
 	double m_diLepBoost = -10;
 	double m_diLepJet1DeltaR = -10;
 	double m_diLepDeltaR = -10;
+	double m_diJetDeltaMass = -10;
+	double m_diJetSymDeltaEta = 0;
+	double m_diJetDeltaR = -1;
 
     // filled by AcceptanceEfficiencyProducer
 	int m_accEffDC = 0;

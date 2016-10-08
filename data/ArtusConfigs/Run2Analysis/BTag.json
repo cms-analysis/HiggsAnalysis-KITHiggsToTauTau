@@ -1,0 +1,88 @@
+{
+	"bTagDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"SvfitCacheFileFolder" : "jecUncNom",
+		"BTagShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : -1.0
+			}
+		},
+		"BMistagShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		}
+	},
+	"bTagUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"SvfitCacheFileFolder" : "jecUncNom",
+		"BTagShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 1.0
+			}
+		},
+		"BMistagShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		}
+	},
+	"bMistagUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom",
+		"BTagShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"BMistagShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 1.0
+			}
+		}
+	},
+	"bMistagDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom",
+		"BTagShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"BMistagShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : -1.0
+			}
+		}
+	}
+}

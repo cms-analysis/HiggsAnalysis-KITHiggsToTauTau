@@ -13,6 +13,11 @@
     "abs_min_ll_jet_eta",
     "diLepBoost",
     "diLepJet1DeltaR",
-    "diLepDeltaR"
+    "diLepDeltaR",
+    "dmjj",
+    "diJetSymEta_1",
+    "diJetSymEta_2",
+    "diJetDeltaR",
+    "diJetAbsDeltaPhi"
     ]
 }
