@@ -3,40 +3,10 @@
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
+#include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HHKinFitProducer.h"
 
-
-TLorentzVector HHKinFitProducer::GetTauLorentzVector(RMFLV const& tauFourMomentum)
-{
-	TLorentzVector tauLorentzVector;
-	tauLorentzVector.SetPtEtaPhiM(
-			tauFourMomentum.Pt(),
-			tauFourMomentum.Eta(),
-			tauFourMomentum.Phi(),
-			tauFourMomentum.M()
-	);
-	tauLorentzVector.Print();
-	return tauLorentzVector;
-}
-
-
-TVector2 HHKinFitProducer::GetMetComponents(RMFLV const& metFourMomentum)
-{
-	TVector2(metFourMomentum.Px(), metFourMomentum.Py()).Print();
-	return TVector2(metFourMomentum.Px(), metFourMomentum.Py());
-}
-
-TMatrixD HHKinFitProducer::GetMetCovarianceMatrix(ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > const& metSignificance)
-{
-    TMatrixD metCovMatrix(4, 4);
-    metCovMatrix[0][0] = metSignificance.At(0, 0);
-    metCovMatrix[1][0] = metSignificance.At(1, 0);
-    metCovMatrix[0][1] = metSignificance.At(0, 1);
-    metCovMatrix[1][1] = metSignificance.At(1, 1);
-	metCovMatrix.Print();
-    return metCovMatrix;
-}
 
 void HHKinFitProducer::Init(setting_type const& settings)
 {
@@ -57,10 +27,10 @@ void HHKinFitProducer::Produce(event_type const& event, product_type& product,
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
-	TLorentzVector visibleTau1 = HHKinFitProducer::GetTauLorentzVector(product.m_flavourOrderedLeptons[0]->p4);
-	TLorentzVector visibleTau2 = HHKinFitProducer::GetTauLorentzVector(product.m_flavourOrderedLeptons[1]->p4);
-	TVector2 met = HHKinFitProducer::GetMetComponents(product.m_met.p4);
-	TMatrixD metCov = HHKinFitProducer::GetMetCovarianceMatrix(product.m_met.significance);
+	TLorentzVector visibleTau1 = Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(product.m_flavourOrderedLeptons[0]->p4);
+	TLorentzVector visibleTau2 = Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(product.m_flavourOrderedLeptons[1]->p4);
+	TVector2 met = Utility::ConvertPxPyVector<RMFLV, TVector2>(product.m_met.p4);
+	TMatrixD metCov = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >, TMatrixD>(product.m_met.significance, 2);
 	//metCov[1][1] = metCov[0][0];
 	
 	/*TLorentzVector visibleTau1(-15.902388,37.502301,43.366285,59.503192);
