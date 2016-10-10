@@ -26,6 +26,10 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[channel+"_diLepBoost"] = "25,0,2000"
 			self.binnings_dict[channel+"_diLepDeltaR"] = "20,0,10"
 			self.binnings_dict[channel+"_diLepJet1DeltaR"] = "20,0,10"
+			
+			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "20,-1.0,1.00001"
+			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"] = "20,-1.0,1.00001"
+			
 			for i in range(16):
 				self.binnings_dict[channel+"_MVATestMethod_%i"%i] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
 		
@@ -108,8 +112,6 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_metProjectionPar"] = "20,-100.0,300.0"
 		self.binnings_dict["tt_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["tt_metProjectionPhi"] = "20,-3.141,3.141"
-		self.binnings_dict["tt_rhoNeutralChargedAsymmetry_1"] = "20,-1.0,1.00001"
-		self.binnings_dict["tt_rhoNeutralChargedAsymmetry_2"] = "20,-1.0,1.00001"
 		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "20,-2.1,2.1"
@@ -174,7 +176,6 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_metProjectionPar"] = "21,-20.0,200.0"
 		self.binnings_dict["mt_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["mt_metProjectionPhi"] = "20,-3.141,3.141"
-		self.binnings_dict["mt_rhoNeutralChargedAsymmetry_2"] = "20,-1.0,1.00001"
 		
 		self.binnings_dict["et_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["et_eta_1"] = "20,-2.1,2.1"
@@ -239,7 +240,6 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["et_metProjectionPar"] = "21,-20.0,200.0"
 		self.binnings_dict["et_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["et_metProjectionPhi"] = "20,-3.141,3.141"
-		self.binnings_dict["et_rhoNeutralChargedAsymmetry_2"] = "20,-1.0,1.00001"
 		
 		self.binnings_dict["em_eta_1"] = "20,-2.5,2.5"
 		self.binnings_dict["em_eta_2"] = "20,-2.4,2.4"
@@ -443,9 +443,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt8TeV_"+"tt_2jet_vbf"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 		
 		# Z->tautau polarisation binnings
-		for channel in ["mt", "et"]:
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_l_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"]
-		for channel in ["tt"]:
+		for channel in ["mt", "et", "tt"]:
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho_x"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_1"]
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_x_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"]
 			

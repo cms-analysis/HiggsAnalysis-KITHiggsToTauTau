@@ -35,15 +35,13 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 		# Z->tautau polarisation categories
 		for channel in ["mt", "et"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_l_rho"] = "(decayMode_2 == 1)"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_x_rho"] = "(decayMode_2 == 1)"
 		for channel in ["tt"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_x"] = "((decayMode_1 == 1))"# * (decayMode_2 != 1))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_x_rho"] = "((decayMode_1 != 1) * (decayMode_2 == 1))"
 
 		# Z->tautau polarisation test statistics
-		for channel in ["mt", "et"]:
-			self.expressions_dict["testZttPol13TeV_"+channel+"_l_rho"] = "rhoNeutralChargedAsymmetry_2"
-		for channel in ["tt"]:
+		for channel in ["mt", "et", "tt"]:
 			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_x"] = "rhoNeutralChargedAsymmetry_1"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_x_rho"] = "rhoNeutralChargedAsymmetry_2"
 

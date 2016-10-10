@@ -181,7 +181,8 @@ if __name__ == "__main__":
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							higgs_masses=higgs_masses,
-							estimationMethod="new"
+							estimationMethod="new",
+							polarisation_bias_correction=True
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
