@@ -74,6 +74,8 @@ if __name__ == "__main__":
 	#					help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
 	                    help="Era of samples to be used. [Default: %(default)s]")
+	parser.add_argument("--www", nargs="?", default=None, const="datacards",
+	                    help="Publish plots. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -116,7 +118,7 @@ if __name__ == "__main__":
 	datacard_filename_templates = [
 		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		#"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
@@ -178,7 +180,8 @@ if __name__ == "__main__":
 							category="catZttPol13TeV_"+category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
-							higgs_masses=higgs_masses
+							higgs_masses=higgs_masses,
+							estimationMethod="new"
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -187,11 +190,11 @@ if __name__ == "__main__":
 					
 					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 					
-					config["x_expressions"] = [("0" if "_gen_noplot" in nick else "testZttPol13TeV_"+category) for nick in config["nicks"]]
+					config["x_expressions"] = [("0" if "_gen" in nick else "testZttPol13TeV_"+category) for nick in config["nicks"]]
 
 					binnings_key = "binningZttPol13TeV_"+category
 					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [("1,-1,1" if "_gen_noplot" in nick else binnings_key) for nick in config["nicks"]]
+						config["x_bins"] = [("1,-1,1" if "_gen" in nick else binnings_key) for nick in config["nicks"]]
 						
 					config["directories"] = [args.input_dir]
 					
@@ -246,6 +249,9 @@ if __name__ == "__main__":
 	debug_plot_configs = []
 	for output_file in (output_files):
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
+	if args.www:
+		for debug_plot_config in debug_plot_configs:
+			debug_plot_config["www"] = debug_plot_config["output_dir"].replace(args.output_dir, args.www)
 	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	
 	# update CombineHarvester with the yields and shapes
@@ -315,13 +321,18 @@ if __name__ == "__main__":
 	datacards.prefit_postfit_plots(
 			datacards_cbs,
 			datacards_postfit_shapes,
-			plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "rhoNeutralChargedAsymmetry", "era" : "2015"},
+			plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "rhoNeutralChargedAsymmetry", "era" : "2015", "www" : args.www},
 			n_processes=args.n_processes,
 			signal_stacked_on_bkg=True
 	)
 	
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+	datacards.pull_plots(
+			datacards_postfit_shapes,
+			s_fit_only=True,
+			plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"], "args" : args.args, "www" : args.www},
+			n_processes=args.n_processes
+	)
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	
 	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "mt", "et", "tt"])}
@@ -344,14 +355,23 @@ if __name__ == "__main__":
 	))
 	
 	# plot best fit values of parameter pol from physics model
-	config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json"))
-	config["files"] = [" ".join([values_tree_files[value] for value in sorted(values_tree_files.keys())])]
-	config["x_ticks"] = sorted(values_tree_files.keys())
-	inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
-	config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]
-	#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
-	config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label + "" for label in config["x_tick_labels"]]
-	config["x_lims"] = [min(values_tree_files.keys()) - 0.5, max(values_tree_files.keys()) + 0.5]
-	config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
-	higgsplot.HiggsPlotter(list_of_config_dicts=[config], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	plot_configs = []
+	for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json"]:
+		
+		config = jsonTools.JsonDict(os.path.expandvars(template))
+		config["files"] = [" ".join([values_tree_files[value] for value in sorted(values_tree_files.keys())])]
+		config["x_ticks"] = sorted(values_tree_files.keys())
+		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
+		config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]
+		#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
+		config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label + "" for label in config["x_tick_labels"]]
+		config["x_lims"] = [min(values_tree_files.keys()) - 0.5, max(values_tree_files.keys()) + 0.5]
+		config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
+		if args.www:
+			config["www"] = os.path.join(args.www, "combined/plots")
+		
+		plot_configs.append(config)
+	
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 

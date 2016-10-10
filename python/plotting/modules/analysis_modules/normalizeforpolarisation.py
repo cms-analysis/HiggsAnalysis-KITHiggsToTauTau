@@ -53,13 +53,23 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 			ztt_neg_pol_gen_norm = plotData.plotdict["root_objects"][ztt_neg_pol_gen_nick].Integral()
 			ztt_gen_norm = ztt_pos_pol_gen_norm + ztt_neg_pol_gen_norm
 			
-			if (ztt_gen_norm != 0.0):
-				ztt_pos_pol_reco_scale_factor = 0.5 * ztt_gen_norm / ztt_pos_pol_gen_norm
-				ztt_neg_pol_reco_scale_factor = 0.5 * ztt_gen_norm / ztt_neg_pol_gen_norm
+			integral_preserving_scale_factor = 1.0
+			if True: # TODO: control via program option
+				ztt_pos_pol_reco_norm = plotData.plotdict["root_objects"][ztt_pos_pol_reco_nick].Integral()
+				ztt_neg_pol_reco_norm = plotData.plotdict["root_objects"][ztt_neg_pol_reco_nick].Integral()
 				
+				if ((ztt_pos_pol_gen_norm != 0.0) and (ztt_neg_pol_gen_norm != 0.0)):
+					denominator = 0.5 * (ztt_gen_norm) * ((ztt_pos_pol_reco_norm / ztt_pos_pol_gen_norm) + (ztt_neg_pol_reco_norm / ztt_neg_pol_gen_norm))
+					if denominator != 0.0:
+						integral_preserving_scale_factor = (ztt_pos_pol_reco_norm + ztt_neg_pol_reco_norm) / denominator
+			
+			if (ztt_pos_pol_gen_norm != 0.0):
+				ztt_pos_pol_reco_scale_factor = integral_preserving_scale_factor * 0.5 * ztt_gen_norm / ztt_pos_pol_gen_norm
 				plotData.plotdict["root_objects"][ztt_pos_pol_reco_nick].Scale(ztt_pos_pol_reco_scale_factor)
-				plotData.plotdict["root_objects"][ztt_neg_pol_reco_nick].Scale(ztt_neg_pol_reco_scale_factor)
-				
 				log.debug("Scaled histogram \"%s\" by a factor of %f" % (ztt_pos_pol_reco_nick, ztt_pos_pol_reco_scale_factor))
+			
+			if (ztt_neg_pol_gen_norm != 0.0):
+				ztt_neg_pol_reco_scale_factor = integral_preserving_scale_factor * 0.5 * ztt_gen_norm / ztt_neg_pol_gen_norm
+				plotData.plotdict["root_objects"][ztt_neg_pol_reco_nick].Scale(ztt_neg_pol_reco_scale_factor)
 				log.debug("Scaled histogram \"%s\" by a factor of %f" % (ztt_neg_pol_reco_nick, ztt_neg_pol_reco_scale_factor))
 

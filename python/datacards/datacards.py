@@ -761,7 +761,9 @@ class Datacards(object):
 	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, signal_stacked_on_bkg=False, *args):
 		if plotting_args is None:
 			plotting_args = {}
-
+		
+		base_path = reduce(lambda datacard1, datacard2: tools.longest_common_substring(datacard1, datacard2), datacards_cbs.keys())
+		
 		plot_configs = []
 		bkg_plotting_order = ["ZTTPOSPOL", "ZTTNEGPOL", "ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W", "QCD"]
 		for level in ["prefit", "postfit"]:
@@ -800,6 +802,8 @@ class Datacards(object):
 
 							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
+							if plotting_args.get("www", False):
+								config["www"] = os.path.join(config["output_dir"].replace(base_path, plotting_args["www"]+"/"))
 
 							if plotting_args.get("normalize", False):
 								config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
@@ -851,9 +855,14 @@ class Datacards(object):
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 
-	def pull_plots(self, datacards_postfit_shapes, s_fit_only=False, plotting_args=None, n_processes=1):
+	def pull_plots(self, datacards_postfit_shapes, s_fit_only=False, plotting_args=None, n_processes=1, *args):
 		if plotting_args is None:
 			plotting_args = {}
+		
+		datacards = []
+		for fit_type, datacards_postfit_shapes_dict in datacards_postfit_shapes.iteritems():
+			datacards.extend(datacards_postfit_shapes_dict.keys())
+		base_path = reduce(lambda datacard1, datacard2: tools.longest_common_substring(datacard1, datacard2), datacards)
 
 		plot_configs = []
 		for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
@@ -882,6 +891,8 @@ class Datacards(object):
 
 					config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 					config["filename"] = "pulls"
+					if plotting_args.get("www", False):
+						config["www"] = os.path.join(config["output_dir"].replace(base_path, plotting_args["www"]+"/"))
 
 					plot_configs.append(config)
 

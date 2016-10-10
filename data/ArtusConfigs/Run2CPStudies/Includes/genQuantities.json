@@ -1,0 +1,28 @@
+{
+	"property" : [
+		"genTau1LV",
+		"genTau1Charge",
+		"genTau1DecayMode",
+		"genTau1NProngs",
+		"genTau1NPi0s",
+		
+		"genTau2LV",
+		"genTau2Charge",
+		"genTau2DecayMode",
+		"genTau2NProngs",
+		"genTau2NPi0s",
+		
+		"genDiLeptonDecayMode",
+		"isZEE",
+		"isZMM",
+		"isZTT",
+		
+		"genTauTauDecayMode",
+		"isZtt",
+		"isZmt",
+		"isZet",
+		"isZem",
+		"isZmm",
+		"isZee"
+	]
+}

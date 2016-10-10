@@ -89,7 +89,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
-					"producer:GenTauDecayModeProducer",
 					"#producer:EventWeightProducer"
 				]
 			}
