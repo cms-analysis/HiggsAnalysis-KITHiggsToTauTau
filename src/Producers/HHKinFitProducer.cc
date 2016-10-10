@@ -137,10 +137,16 @@ void HHKinFitProducer::Produce(event_type const& event, product_type& product,
 	HHKinFit2::HHKinFitMasterSingleHiggs hhKinFit(visibleTau1, visibleTau2, met, metCov);
 	hhKinFit.addHypo(90); // TODO: make configurable
 	
-	hhKinFit.fit();
-	HHKinFit2::HHFitHypothesisSingleHiggs hhKinFitHypothesis = hhKinFit.getBestHypothesis();
+	try
+	{
+		hhKinFit.fit();
+		HHKinFit2::HHFitHypothesisSingleHiggs hhKinFitHypothesis = hhKinFit.getBestHypothesis();
 	
-	product.m_hhKinFitTaus[product.m_flavourOrderedLeptons[0]] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(hhKinFit.getFittedTau1(hhKinFitHypothesis));
-	product.m_hhKinFitTaus[product.m_flavourOrderedLeptons[1]] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(hhKinFit.getFittedTau2(hhKinFitHypothesis));
+		product.m_hhKinFitTaus[product.m_flavourOrderedLeptons[0]] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(hhKinFit.getFittedTau1(hhKinFitHypothesis));
+		product.m_hhKinFitTaus[product.m_flavourOrderedLeptons[1]] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(hhKinFit.getFittedTau2(hhKinFitHypothesis));
+	}
+	catch (...)
+	{
+	}
 }
 
