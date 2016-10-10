@@ -68,6 +68,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry_2"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
+				self.labels_dict[channel+"_visibleOverFullEnergy"] = "E_{vis} / E_{#tau}"
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
@@ -181,6 +182,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_pzetavis"] = "p^{vis}_{#zeta} / GeV"
 			self.labels_dict["tt_rhoNeutralChargedAsymmetry_1"] = "Leading Tau (E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			self.labels_dict["tt_rhoNeutralChargedAsymmetry_2"] = "Trailing Tau (E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
+			self.labels_dict["tt_visibleOverFullEnergy_1"] = "Leading Tau E_{vis}(#tau_{had}) / E_{#tau}"
+			self.labels_dict["tt_visibleOverFullEnergy_2"] = "Trailing Tau E_{vis}(#tau_{had}) / E_{#tau}"
 			
 			self.labels_dict["mt_decayMode_2"] = "Tau DM"
 			self.labels_dict["mt_eta_1"] = "Muon #eta"
@@ -259,6 +262,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["mt_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["mt_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["mt_visibleOverFullEnergy_1"] = "E(#mu) / E_{#tau}"
+			self.labels_dict["mt_visibleOverFullEnergy_2"] = "E(#tau_{had}) / E_{#tau}"
 			
 			self.labels_dict["et_decayMode_2"] = "Tau DM"
 			self.labels_dict["et_eta_1"] = "Electron #eta"
@@ -334,6 +339,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["et_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["et_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["et_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["et_visibleOverFullEnergy_1"] = "E(e) / E_{#tau}"
+			self.labels_dict["et_visibleOverFullEnergy_2"] = "E(#tau_{had}) / E_{#tau}"
 			
 			self.labels_dict["em_eta_1"] = "Electron #eta"
 			self.labels_dict["em_eta_2"] = "Muon #eta"
@@ -408,6 +415,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["em_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["em_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["em_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["em_visibleOverFullEnergy_1"] = "E(e) / E_{#tau}"
+			self.labels_dict["em_visibleOverFullEnergy_2"] = "E(#mu) / E_{#tau}"
 			
 			self.labels_dict["mm_eta_1"] = "Leading Muon #eta"
 			self.labels_dict["mm_eta_2"] = "Trailing Muon #eta"
@@ -478,6 +487,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mm_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["mm_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["mm_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["mm_visibleOverFullEnergy_1"] = "Leading Muon E(#mu) / E_{#tau}"
+			self.labels_dict["mm_visibleOverFullEnergy_2"] = "Trailing Muon E(#mu) / E_{#tau}"
 			
 			self.labels_dict["ee_eta_1"] = "Electron #eta"
 			self.labels_dict["ee_eta_2"] = "Muon #eta"
@@ -548,6 +559,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ee_metProjectionPar"] = "#nu_{#parallel} / GeV"
 			self.labels_dict["ee_metProjectionPerp"] = "#nu_{#perp}  / GeV"
 			self.labels_dict["ee_metProjectionPhi"] = "#nu_{#phi}"
+			self.labels_dict["ee_visibleOverFullEnergy_1"] = "Leading Electron E(e) / E_{#tau}"
+			self.labels_dict["ee_visibleOverFullEnergy_2"] = "Trailing Electron E(e) / E_{#tau}"
 			
 			for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
 				self.labels_dict[ch+"TrainingSelectionValue"] = "N-Fold Split Variable"
