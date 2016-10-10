@@ -18,7 +18,7 @@
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : { 
 			"nick": {
-				"Run2016" : [
+				"Run2016|Embedding2016" : [
 					"HLT_IsoMu22",
 					"HLT_IsoTkMu22"
 				],

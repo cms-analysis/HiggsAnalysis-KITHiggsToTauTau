@@ -26,7 +26,7 @@
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf"
 				],
-				"Run2016" : [
+				"Run2016|Embedding2016" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf"
 				],
 				"Spring16" : [

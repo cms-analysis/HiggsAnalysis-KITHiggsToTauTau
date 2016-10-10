@@ -19,7 +19,7 @@
 				"default" : [
 					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
 				],
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D|Run2016|Embedding2016)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
 				],
 				"Spring16" : [
