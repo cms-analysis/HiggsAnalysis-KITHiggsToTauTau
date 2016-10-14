@@ -247,8 +247,12 @@ if __name__ == "__main__":
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
-	bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
-	sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "qqh", "vh"]]
+	if args.mssm:
+		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "bbh"]]
+		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "bbh"]]
+	else:
+		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
+		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "qqh", "vh"]]
 	sig_samples = []
 	for mass in args.higgs_masses:
 		scale_str = "_%i"%args.scale_signal
