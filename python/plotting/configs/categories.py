@@ -127,7 +127,87 @@ class CategoriesDict(object):
 						}
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}0jet_" + str(h_pt) +"_"+ str(pt_2) + "{discriminator}"])
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) +"{discriminator}"]["expressions"]["global"] = self.combine([self.invert(cut_string), jet0_string])
-
+		higgsmasses = ["80","90","100","110","120","130","140","160","180","200","250","300","400","450","500","600","700","800","900","1000","1200","1400","1600","1800","2000","2300","2600","2900","3200"]
+		ncombinedmasses = ["1","5","11","21","31"]
+		for i in range(10,100):
+			for mass in higgsmasses:
+				for X in ncombinedmasses:
+					self.categoriesDict["{analysis}{channel}btag_MVA0."+str(i)+"_M"+mass+"_X"+X+"{discriminator}"] = {
+							"channel": [
+								"mt_"
+								],
+							"expressions":{
+								"global":"(mt_M%s_X%s_NTrees1500_bbh_vs_bkg>=%i/100.0)"%(mass, X, i),
+								"analysis":[
+									"catHttMSSM13TeV_"
+									],
+								},
+							"binnings":{
+								"analysis": [
+									"binningHttMSSM13TeV_"
+									],
+								"global":{
+									"_mt_tot" : " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
+									}
+								}					
+							}
+					self.categoriesDict["{analysis}{channel}nobtag_MVA0."+str(i)+"_M"+mass+"_X"+X+"{discriminator}"] = {
+							"channel": [
+								"mt_"
+								],
+							"expressions":{
+								"global":"(mt_M%s_X%s_NTrees1500_bbh_vs_bkg<%i/100.0)"%(mass, X, i),
+								"analysis":[
+									"catHttMSSM13TeV_"
+									],
+								},
+							"binnings":{
+								"analysis": [
+									"binningHttMSSM13TeV_"
+									],
+								"global":{
+									"_mt_tot" : " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
+									}
+								}					
+							}
+					self.categoriesDict["{analysis}{channel}btag_MVAJ0."+str(i)+"_M"+mass+"_X"+X+"{discriminator}"] = {
+							"channel": [
+								"mt_"
+								],
+							"expressions":{
+								"global":"((mt_M%s_X%s_NTrees1500_bbh_vs_bkg>=%i/100.0)*(njets>0))"%(mass, X, i),
+								"analysis":[
+									"catHttMSSM13TeV_"
+									],
+								},
+							"binnings":{
+								"analysis": [
+									"binningHttMSSM13TeV_"
+									],
+								"global":{
+									"_mt_tot" : " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
+									}
+								}					
+							}
+					self.categoriesDict["{analysis}{channel}nobtag_MVAJ0."+str(i)+"_M"+mass+"_X"+X+"{discriminator}"] = {
+							"channel": [
+								"mt_"
+								],
+							"expressions":{
+								"global":"((mt_M%s_X%s_NTrees1500_bbh_vs_bkg<%i/100.0)*(njets>0)+(njets<=0))"%(mass, X, i),
+								"analysis":[
+									"catHttMSSM13TeV_"
+									],
+								},
+							"binnings":{
+								"analysis": [
+									"binningHttMSSM13TeV_"
+									],
+								"global":{
+									"_mt_tot" : " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
+									}
+								}					
+							}
 		self.categoriesDict["{analysis}{channel}FT_InsteadQCuts{discriminator}"] = {
 				"channel": [
 					"mt_"
