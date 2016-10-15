@@ -113,6 +113,9 @@ public:
 	// filled by the PolarisationQuantitiesProducer
 	std::map<KLepton*, double> m_visibleOverFullEnergy;
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1CosBeta; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1CosGamma; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1SinGamma; // Keys are only of type KTau*
 
 	// filled by the MetprojectionProducer
 	TVector2 m_recoMetOnGenMetProjection;

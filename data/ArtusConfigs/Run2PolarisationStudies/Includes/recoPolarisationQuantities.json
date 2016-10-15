@@ -11,6 +11,13 @@
 		"trailingTauSumChargedHadronsLV",
 		"trailingTauSumNeutralHadronsLV",
 		
+		"a1CosBeta_1",
+		"a1CosBeta_2",
+		"a1CosGamma_1",
+		"a1CosGamma_2",
+		"a1SinGamma_1",
+		"a1SinGamma_2",
+		
 		"visibleOverFullEnergy_1",
 		"visibleOverFullEnergy_2",
 		
