@@ -31,11 +31,11 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--channels", action="append",
 	                    default=["tt", "mt", "et"],
 	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", action="append", nargs="+", default=[["rho_x", "x_rho"], ["l_rho"], ["l_rho"]],
+	parser.add_argument("--categories", action="append", nargs="+", default=[["a1_x", "x_a1", "rho_x", "x_rho", "oneprong_x"], ["x_a1", "x_rho", "x_oneprong"], ["x_a1", "x_rho", "x_oneprong"]],
 	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("--pt-cut-expressions", action="append", nargs="+", default=[["(pt_1>{pt_cut})", "(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})"]],
+	parser.add_argument("--pt-cut-expressions", action="append", nargs="+", default=[["(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"]],
 	                    help="Expressions for pT cuts (must contain {pt_cut} to be replaced). [Default: %(default)s]")
-	parser.add_argument("--pt-cut-values", action="append", nargs="+", default=[["40.0 50.0", "40.0 50.0"], ["20.0 30.0 40.0"], ["25.0 35.0 45.0"]],
+	parser.add_argument("--pt-cut-values", action="append", nargs="+", default=[["40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0"], ["20.0 30.0 40.0", "20.0 30.0 40.0", "20.0 30.0 40.0"], ["25.0 35.0 45.0", "25.0 35.0 45.0", "25.0 35.0 45.0"]],
 	                    help="Values for pT cuts (white space separated). [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")

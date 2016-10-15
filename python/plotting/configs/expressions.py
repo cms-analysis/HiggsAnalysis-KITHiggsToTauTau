@@ -43,11 +43,11 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZttPol13TeV_"+channel+"_x_oneprong"] = "(decayMode_2 == 0)"
 		
 		for channel in ["tt"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_x"] = "((decayMode_1 == 10) * (decayMode_2 != 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_x"] = "((decayMode_1 == 10))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_x"] = "((decayMode_1 == 1) * (decayMode_2 != 10))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong_x"] = "((decayMode_1 == 0) * (decayMode_2 != 10) * (decayMode_2 != 1))"
 			
-			self.expressions_dict["catZttPol13TeV_"+channel+"_x_a1"] = "((decayMode_2 == 10) * (decayMode_1 != 10) * (decayMode_1 != 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_x_a1"] = "((decayMode_2 == 10) * (decayMode_1 != 10))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_x_rho"] = "((decayMode_2 == 1) * (decayMode_1 != 10) * (decayMode_1 != 1))"
 
 		# Z->tautau polarisation test statistics
