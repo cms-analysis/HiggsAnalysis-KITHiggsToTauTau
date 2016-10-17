@@ -1,1 +1,1 @@
-DCAP_sample_MuonEG_Run2016D_PromptRecov2_13TeV_MINIAOD_2016-08-08.txt
+DCAP_sample_MuonEG_Run2016D_PromptRecov2_13TeV_MINIAOD_2016-10-13.txt
