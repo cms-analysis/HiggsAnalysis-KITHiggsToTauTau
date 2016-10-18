@@ -96,6 +96,19 @@
 			"0:m_pt,m_eta",
 			"1:m_pt,m_eta"
 		],
+		"MuMuTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"MuMuTriggerWeightWorkspaceWeightNames" : [
+			"0:triggerWeight",
+			"1:triggerWeight"
+		],
+		"MuMuTriggerWeightWorkspaceObjectNames" : [
+			"0:m_trgIsoMu22orTkIsoMu22_desy_data",
+			"1:m_trgIsoMu22orTkIsoMu22_desy_data"
+		],
+		"MuMuTriggerWeightWorkspaceObjectArguments" : [
+			"0:m_pt,m_eta",
+			"1:m_pt,m_eta"
+		],
 		"TriggerEfficiencyData" : {
 			"nick" : {
 				"default" : [
@@ -238,7 +251,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:MuMuTriggerScaleFactorProducer",
+					"producer:MuMuTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL.*(?=Spring16)" : [
@@ -278,7 +291,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:MuMuTriggerScaleFactorProducer",
+					"producer:MuMuTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!DY.?JetsToLL).)*Fall15" : [

@@ -3,9 +3,49 @@
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/SafeMap.h"
 
-std::string RooWorkspaceWeightProducer::GetProducerId() const
+RooWorkspaceWeightProducer::RooWorkspaceWeightProducer(
+		std::string (setting_type::*GetRooWorkspace)(void) const,
+		std::vector<std::string>& (setting_type::*GetRooWorkspaceWeightNames)(void) const,
+		std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectNames)(void) const,
+		std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectArguments)(void) const
+):
+	GetRooWorkspace(GetRooWorkspace),
+	GetRooWorkspaceWeightNames(GetRooWorkspaceWeightNames),
+	GetRooWorkspaceObjectNames(GetRooWorkspaceObjectNames),
+	GetRooWorkspaceObjectArguments(GetRooWorkspaceObjectArguments)
 {
-	return "RooWorkspaceWeightProducer";
+}
+
+RooWorkspaceWeightProducer::RooWorkspaceWeightProducer():
+		RooWorkspaceWeightProducer(&setting_type::GetRooWorkspace,
+								   &setting_type::GetRooWorkspaceWeightNames,
+								   &setting_type::GetRooWorkspaceObjectNames,
+								   &setting_type::GetRooWorkspaceObjectArguments)
+{
+}
+
+void RooWorkspaceWeightProducer::Init(setting_type const& settings)
+{
+	ProducerBase<HttTypes>::Init(settings);
+	TDirectory *savedir(gDirectory);
+	TFile *savefile(gFile);
+	TFile f(settings.GetRooWorkspace().c_str());
+	gSystem->AddIncludePath("-I$ROOFITSYS/include");
+	m_workspace = (RooWorkspace*)f.Get("w");
+	f.Close();
+	gDirectory = savedir;
+	gFile = savefile;
+	m_weightNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceWeightNames)()));
+
+    std::map<int,std::vector<std::string>> m_objectNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectNames)()));
+    m_functorArgs = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectArguments)()));
+    for(auto objectName:m_objectNames)
+    {
+        for(size_t index = 0; index < objectName.second.size(); index++)
+        {
+            m_functors[objectName.first].push_back(m_workspace->function(objectName.second[index].c_str())->functor(m_workspace->argSet(m_functorArgs[objectName.first][index].c_str())));
+        }
+    }
 }
 
 void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type & product, 
@@ -65,4 +105,47 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
     	product.m_weights["identificationWeight_2"] = product.m_weights["idIsoWeight_2"];
     	product.m_weights["idIsoWeight_2"] = 1.0;
     }
+}
+
+// ==========================================================================================
+
+MuMuTriggerWeightProducer::MuMuTriggerWeightProducer() :
+		RooWorkspaceWeightProducer(&setting_type::GetMuMuTriggerWeightWorkspace,
+								   &setting_type::GetMuMuTriggerWeightWorkspaceWeightNames,
+								   &setting_type::GetMuMuTriggerWeightWorkspaceObjectNames,
+								   &setting_type::GetMuMuTriggerWeightWorkspaceObjectArguments)
+{
+}
+
+void MuMuTriggerWeightProducer::Produce( event_type const& event, product_type & product,
+	                     setting_type const& settings) const
+{
+	double muTrigWeight = 1.0;
+
+	for(auto weightNames:m_weightNames)
+	{
+		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		for(size_t index = 0; index < weightNames.second.size(); index++)
+		{
+			if(weightNames.second.at(index) != "triggerWeight")
+				continue;
+			auto args = std::vector<double>{};
+			std::vector<std::string> arguments;
+			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
+			for(auto arg:arguments)
+			{
+				if(arg=="m_pt")
+				{
+					args.push_back(lepton->p4.Pt());
+				}
+				if(arg=="m_eta")
+				{
+					args.push_back(lepton->p4.Eta());
+				}
+			}
+			muTrigWeight *= (1.0 - m_functors.at(weightNames.first).at(index)->eval(args.data()));
+		}
+	}
+
+	product.m_weights["triggerWeight_1"] = 1-muTrigWeight;
 }

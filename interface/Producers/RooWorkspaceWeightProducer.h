@@ -11,13 +11,12 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 /**
-   \brief EmuQcdWeightProducer
+   \brief RooWorkspaceWeightProducer
    Config tags:
    - Fill me with something meaningful
 
 */
 
-//class EmuQcdWeightProducer : public KappaProducerBase {
 class RooWorkspaceWeightProducer: public ProducerBase<HttTypes> {
 public:
 
@@ -25,39 +24,43 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
-	std::string GetProducerId() const;
+	RooWorkspaceWeightProducer();
+	RooWorkspaceWeightProducer(std::string (setting_type::*GetRooWorkspace)(void) const,
+							   std::vector<std::string>& (setting_type::*GetRooWorkspaceWeightNames)(void) const,
+							   std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectNames)(void) const,
+							   std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectArguments)(void) const);
 
-	virtual void Init(setting_type const& settings) override
-	{
-		ProducerBase<HttTypes>::Init(settings);
-		TDirectory *savedir(gDirectory);
-		TFile *savefile(gFile);
-		TFile f(settings.GetRooWorkspace().c_str());
-		gSystem->AddIncludePath("-I$ROOFITSYS/include");
-		m_workspace = (RooWorkspace*)f.Get("w");
-		f.Close();
-		gDirectory = savedir;
-		gFile = savefile;
-		m_weightNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap(settings.GetRooWorkspaceWeightNames()));
-
-        std::map<int,std::vector<std::string>> m_objectNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap(settings.GetRooWorkspaceObjectNames()));
-        m_functorArgs = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap(settings.GetRooWorkspaceObjectArguments()));
-        for(auto objectName:m_objectNames)
-        {
-            for(size_t index = 0; index < objectName.second.size(); index++)
-            {
-                m_functors[objectName.first].push_back(m_workspace->function(objectName.second[index].c_str())->functor(m_workspace->argSet(m_functorArgs[objectName.first][index].c_str())));
-            }
-        }
-
+	virtual std::string GetProducerId() const override {
+		return "RooWorkspaceWeightProducer";
 	}
+
+	virtual void Init(setting_type const& settings) override;
 
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override;
-private:
+protected:
+	std::string (setting_type::*GetRooWorkspace)(void) const;
+	std::vector<std::string>& (setting_type::*GetRooWorkspaceWeightNames)(void) const;
+	std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectNames)(void) const;
+	std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectArguments)(void) const;
+
     std::map<int,std::vector<std::string>> m_weightNames;
     std::map<int,std::vector<std::string>> m_functorArgs;
     std::map<int,std::vector<RooFunctor*>> m_functors;
     RooWorkspace *m_workspace;
 
+};
+
+class MuMuTriggerWeightProducer: public RooWorkspaceWeightProducer {
+public:
+	MuMuTriggerWeightProducer();
+
+	virtual std::string GetProducerId() const override {
+		return "MuMuTriggerWeightProducer";
+	}
+
+	//virtual void Init(setting_type const& settings);
+
+	virtual void Produce(event_type const& event, product_type & product,
+	                     setting_type const& settings) const override;
 };

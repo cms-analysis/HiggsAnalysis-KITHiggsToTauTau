@@ -275,6 +275,12 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceObjectArguments, {});
 
+	// settings for MuMuTriggerWeightProducer
+	IMPL_SETTING_DEFAULT(std::string, MuMuTriggerWeightWorkspace, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(MuMuTriggerWeightWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(MuMuTriggerWeightWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(MuMuTriggerWeightWorkspaceObjectArguments, {});
+
 	// settings for the EmbeddingConsumer
 	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
 	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);
