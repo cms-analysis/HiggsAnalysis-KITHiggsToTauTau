@@ -38,12 +38,13 @@ public:
 
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override;
-protected:
+private:
 	std::string (setting_type::*GetRooWorkspace)(void) const;
 	std::vector<std::string>& (setting_type::*GetRooWorkspaceWeightNames)(void) const;
 	std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectNames)(void) const;
 	std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectArguments)(void) const;
 
+protected:
     std::map<int,std::vector<std::string>> m_weightNames;
     std::map<int,std::vector<std::string>> m_functorArgs;
     std::map<int,std::vector<RooFunctor*>> m_functors;
