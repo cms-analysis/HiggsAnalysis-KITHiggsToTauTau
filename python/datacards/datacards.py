@@ -5,8 +5,10 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import copy
+import glob
 import os
 import re
+import shutil
 
 import ROOT
 
@@ -656,7 +658,7 @@ class Datacards(object):
 
 		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_cbs.keys()}
 
-	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, *args):
+	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, *args, **kwargs):
 		if datacards_poi_ranges is None:
 			datacards_poi_ranges = {}
 		tmp_args = " ".join(args)
@@ -667,24 +669,65 @@ class Datacards(object):
 			n_points = int(splited_args[splited_args.index("--points") + 1])
 			n_points_per_chunk = 199
 			chunks = [[chunk*n_points_per_chunk, (chunk+1)*n_points_per_chunk-1] for chunk in xrange(n_points/n_points_per_chunk+1)]
+		
+		method = re.search("(-M|--method)[\s=\"\']*(?P<method>\w*)[\"\']?\s", tmp_args)
+		if not method is None:
+			method = method.groupdict()["method"]
+		
+		name = re.search("(-n|--name)[\s=\"\']*(?P<name>\w*)[\"\']?\s", tmp_args)
+		if not name is None:
+			name = name.groupdict()["name"]
+		
+		split_stat_syst_uncs = kwargs.get("split_stat_syst_uncs", False)
+		if split_stat_syst_uncs and (method is None):
+			log.error("Uncertainties are not split into stat. and syst. components, since the method for combine is unknown!")
+			split_stat_syst_uncs = False
+		if split_stat_syst_uncs and (not "MultiDimFit" in method):
+			log.error("Uncertainties are not split into stat. and syst. components. This is only supported for the MultiDimFit method!")
+			split_stat_syst_uncs = False
+		
+		split_stat_syst_uncs_options = [""]
+		if split_stat_syst_uncs:
+			split_stat_syst_uncs_options = [
+				"--saveWorkspace",
+				"--snapshotName {method} -w w --freezeNuisances {uncs}".format(method=method, uncs="{uncs}"),
+			]
 
-		commands = []
-		for index, (chunk_min, chunk_max) in enumerate(chunks):
-			commands.extend([[
-					"combine -m {MASS} {POI_RANGE} {ARGS} {WORKSPACE} {CHUNK_POINTS}".format(
-							MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0", # TODO: maybe there are more masses?
-							POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
-							ARGS=tmp_args.format(CHUNK=str(index), RMIN="{RMIN}", RMAX="{RMAX}"),
-							WORKSPACE=workspace,
-							CHUNK_POINTS = "" if (chunk_min is None) or (chunk_max is None) else "--firstPoint {CHUNK_MIN} --lastPoint {CHUNK_MAX}".format(
-									CHUNK_MIN=chunk_min,
-									CHUNK_MAX=chunk_max
-							)
-					).format(RMIN=datacards_poi_ranges.get(datacard, ["", ""])[0], RMAX=datacards_poi_ranges.get(datacard, ["", ""])[1]),
-					os.path.dirname(workspace)
-			] for datacard, workspace in datacards_workspaces.iteritems()])
+		for split_stat_syst_uncs_index, split_stat_syst_uncs_option in enumerate(split_stat_syst_uncs_options):
+			prepared_tmp_args = None
+			new_name = None
+			if split_stat_syst_uncs:
+				new_name = ("" if name is None else name) + ("Tot" if split_stat_syst_uncs_index == 0 else "Stat") + "Unc"
+				if name is None:
+					prepared_tmp_args = tmp_args + " -n " + new_name
+				else:
+					prepared_tmp_args = re.sub("(--floatOtherPOIs)([\s=\"\']*)(1)([\"\']?\s)", "\\1\\2 0\\4", re.sub("(-n|--name)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2"+new_name+"\\4", tmp_args))
+			else:
+				prepared_tmp_args = tmp_args
+			
+			commands = []
+			for chunk_index, (chunk_min, chunk_max) in enumerate(chunks):
+				commands.extend([[
+						"combine -m {MASS} {POI_RANGE} {ARGS} {CHUNK_POINTS} {SPLIT_STAT_SYST_UNCS} {WORKSPACE}".format(
+								MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+								POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
+								ARGS=prepared_tmp_args.format(CHUNK=str(chunk_index), RMIN="{RMIN}", RMAX="{RMAX}"),
+								CHUNK_POINTS = "" if (chunk_min is None) or (chunk_max is None) else "--firstPoint {CHUNK_MIN} --lastPoint {CHUNK_MAX}".format(
+										CHUNK_MIN=chunk_min,
+										CHUNK_MAX=chunk_max
+								),
+								SPLIT_STAT_SYST_UNCS=split_stat_syst_uncs_option.format(uncs=",".join(datacards_cbs[datacard].syst_name_set())),
+								WORKSPACE="-d "+workspace
+						).format(RMIN=datacards_poi_ranges.get(datacard, ["", ""])[0], RMAX=datacards_poi_ranges.get(datacard, ["", ""])[1]),
+						os.path.dirname(workspace)
+				] for datacard, workspace in datacards_workspaces.iteritems()])
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+			tools.parallelize(_call_command, commands, n_processes=n_processes)
+			
+			if split_stat_syst_uncs and (split_stat_syst_uncs_index == 0):
+				# replace workspaces by saved versions from the first fit including the postfit nuisance parameter values
+				for datacard, workspace in datacards_workspaces.iteritems():
+					datacards_workspaces[datacard] = glob.glob(os.path.join(os.path.dirname(workspace), "higgsCombine"+new_name+"."+method+".*.root"))[0]
 
 	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, *args):
 		if value_replacements is None:

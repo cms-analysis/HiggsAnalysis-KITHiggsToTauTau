@@ -308,7 +308,8 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MaxLikelihoodFit --redefineSignalPOIs pol "+stable_options+" -n \"\""
+			"-M MaxLikelihoodFit --redefineSignalPOIs pol "+stable_options+" -n \"\"",
+			split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 	)
 	
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(
@@ -336,11 +337,21 @@ if __name__ == "__main__":
 	)
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	
+	# split uncertainties
+	datacards.combine(
+			datacards_cbs,
+			datacards_workspaces,
+			None,
+			args.n_processes,
+			"-M MultiDimFit --algo singles -P pol --floatOtherPOIs 1 "+stable_options+" -n ",
+			split_stat_syst_uncs=True
+	)
+	
 	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "mt", "et", "tt"])}
 	values_tree_files = {}
 	values_tree_files.update(datacards.annotate_trees(
 			datacards_workspaces,
-			"higgsCombine*MaxLikelihoodFit*mH*.root",
+			"higgsCombine*.*.mH*.root",
 			[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
 			annotation_replacements,
 			args.n_processes,
@@ -348,7 +359,7 @@ if __name__ == "__main__":
 	))
 	values_tree_files.update(datacards.annotate_trees(
 			datacards_workspaces,
-			"higgsCombine*MaxLikelihoodFit*mH*.root",
+			"higgsCombine*.*.mH*.root",
 			[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
 			annotation_replacements,
 			args.n_processes,
