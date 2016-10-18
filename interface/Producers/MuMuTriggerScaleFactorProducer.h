@@ -34,7 +34,7 @@ public:
 		f.Close();
         gDirectory = savedir;
         gFile = savefile;
-        m_functorMu = m_workspace->function("m_trgOR_binned_data")->functor(m_workspace->argSet("m_pt,m_eta,m_iso"));
+        m_functorMu = m_workspace->function("m_trgIsoMu22orTkIsoMu22_desy_data")->functor(m_workspace->argSet("m_pt,m_eta"));
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 

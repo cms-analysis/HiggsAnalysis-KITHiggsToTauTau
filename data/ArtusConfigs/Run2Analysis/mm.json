@@ -85,21 +85,15 @@
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"RooWorkspaceWeightNames" : [
-			"0:isoweight",
-			"0:idweight",
-			"1:isoweight",
-			"1:idweight"
+			"0:idIsoWeight",
+			"1:idIsoWeight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:m_iso_binned_ratio",
-			"0:m_id_ratio",
-			"1:m_iso_binned_ratio",
-			"1:m_id_ratio"
+			"0:m_idiso0p15_desy_ratio",
+			"1:m_idiso0p15_desy_ratio"
 		],
 		"RooWorkspaceObjectArguments" : [
-			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta",
-			"1:m_pt,m_eta,m_iso",
 			"1:m_pt,m_eta"
 		],
 		"TriggerEfficiencyData" : {
