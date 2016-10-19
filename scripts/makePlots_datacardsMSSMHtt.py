@@ -183,7 +183,7 @@ if __name__ == "__main__":
 	
 	# args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 	if args.higgs_masses[0] == "all":
-		args.higgs_masses = ["90","100","110","120","130","140","160","180","200","250","300","400","450","500","600","700","800","900","1000","1200","1400","1600","1800","2000","2300","2600","2900","3200"]
+		args.higgs_masses = ["90","100","110","120","130","140","160","180","200","250","350","400","450","500","700","800","900","1000","1200","1400","1600","1800","2000","2300","2600","2900","3200"]
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		tmp_output_files = []
 		output_file = os.path.join(args.output_dir, "htt_%s.inputs-mssm-13TeV%s.root"%(channel,args.postfix))
