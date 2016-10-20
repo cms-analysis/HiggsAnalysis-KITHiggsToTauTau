@@ -209,6 +209,8 @@ if __name__ == "__main__":
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="control_plots",
 	                    help="Publish plots. [Default: %(default)s]")
+	parser.add_argument("--emb", default=False, action="store_true",
+	                    help="Use embedded samples. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -246,7 +248,19 @@ if __name__ == "__main__":
 		sys.exit(1)
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
-	sample_settings = samples.Samples()
+	if args.emb:
+		if ("tt" in args.channels or "em" in args.channels or "mm" in args.channels):
+			log.critical("Plot will fail: Embedding --emb valid for mt and et channel. Remove --emb or select different channel.")
+			sys.exit(1)
+		if not (args.era == "2016"):
+			log.critical("Embedding --emb only valid for 2016 samples. Remove --emb or select 2016 samples.")
+			sys.exit(1)
+		if args.run1:
+			log.critical("Embedding --emb only valid for run2. Remove --emb or select run2 samples.")
+			sys.exit(1)
+		sample_settings= samples.Samples(embedding=True)
+	else: 
+		sample_settings= samples.Samples()
 	if args.mssm:
 		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "bbh"]]
 		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "bbh"]]
