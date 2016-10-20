@@ -54,6 +54,19 @@
 		},
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"TauTauTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"TauTauTriggerWeightWorkspaceWeightNames" : [
+			"0:triggerWeight",
+			"1:triggerWeight"
+		],
+		"TauTauTriggerWeightWorkspaceObjectNames" : [
+			"0:t_trgTightIso_data,t_trgTightIsoSS_data",
+			"1:t_trgTightIso_data,t_trgTightIsoSS_data"
+		],
+		"TauTauTriggerWeightWorkspaceObjectArguments" : [
+			"0:t_pt",
+			"1:t_pt"
+		],
 		"EleTauFakeRateWeightFile" : [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
@@ -125,7 +138,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
+					"producer:TauTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL.*(?=Spring16)" : [
@@ -164,7 +177,7 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
 					"producer:EleTauFakeRateWeightProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
+					"producer:TauTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!DY.?JetsToLL).)*Fall15" : [

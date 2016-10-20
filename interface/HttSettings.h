@@ -281,6 +281,12 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuMuTriggerWeightWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuMuTriggerWeightWorkspaceObjectArguments, {});
 
+	// settings for TauTauTriggerWeightProducer
+	IMPL_SETTING_DEFAULT(std::string, TauTauTriggerWeightWorkspace, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauTauTriggerWeightWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauTauTriggerWeightWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauTauTriggerWeightWorkspaceObjectArguments, {});
+
 	// settings for the EmbeddingConsumer
 	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
 	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);

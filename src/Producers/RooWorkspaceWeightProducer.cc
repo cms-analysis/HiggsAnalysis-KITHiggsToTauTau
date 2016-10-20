@@ -2,6 +2,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RooWorkspaceWeightProducer.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/SafeMap.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
 
 RooWorkspaceWeightProducer::RooWorkspaceWeightProducer(
 		std::string (setting_type::*GetRooWorkspace)(void) const,
@@ -37,13 +39,18 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings)
 	gFile = savefile;
 	m_weightNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceWeightNames)()));
 
-    std::map<int,std::vector<std::string>> m_objectNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectNames)()));
+	std::map<int,std::vector<std::string>> objectNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectNames)()));
     m_functorArgs = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectArguments)()));
-    for(auto objectName:m_objectNames)
+    for(auto objectName:objectNames)
     {
         for(size_t index = 0; index < objectName.second.size(); index++)
         {
-            m_functors[objectName.first].push_back(m_workspace->function(objectName.second[index].c_str())->functor(m_workspace->argSet(m_functorArgs[objectName.first][index].c_str())));
+    		std::vector<std::string> objects;
+    		boost::split(objects, objectName.second[index], boost::is_any_of(","));
+        	for(auto object:objects)
+        	{
+        		m_functors[objectName.first].push_back(m_workspace->function(object.c_str())->functor(m_workspace->argSet(m_functorArgs[objectName.first][index].c_str())));
+        	}
         }
     }
 }
@@ -148,4 +155,55 @@ void MuMuTriggerWeightProducer::Produce( event_type const& event, product_type &
 	}
 
 	product.m_weights["triggerWeight_1"] = 1-muTrigWeight;
+}
+
+// ==========================================================================================
+
+TauTauTriggerWeightProducer::TauTauTriggerWeightProducer() :
+		RooWorkspaceWeightProducer(&setting_type::GetTauTauTriggerWeightWorkspace,
+								   &setting_type::GetTauTauTriggerWeightWorkspaceWeightNames,
+								   &setting_type::GetTauTauTriggerWeightWorkspaceObjectNames,
+								   &setting_type::GetTauTauTriggerWeightWorkspaceObjectArguments)
+{
+}
+
+void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type & product,
+						   setting_type const& settings) const
+{
+	double tauTrigWeight = 1.0;
+
+	for(auto weightNames:m_weightNames)
+	{
+		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		KGenParticle* genParticle = product.m_flavourOrderedGenLeptons[weightNames.first];
+		for(size_t index = 0; index < weightNames.second.size(); index++)
+		{
+			if(weightNames.second.at(index) != "triggerWeight")
+				continue;
+			if(m_functors.at(weightNames.first).size() != 2)
+			{
+				LOG(WARNING) << "TauTauTriggerWeightProducer: two object names are required in json config file. Trigger weight will be set to 1.0!";
+				break;
+			}
+			auto args = std::vector<double>{};
+			std::vector<std::string> arguments;
+			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
+			for(auto arg:arguments)
+			{
+				if(arg=="t_pt")
+				{
+					args.push_back(lepton->p4.Pt());
+				}
+			}
+			if(genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
+			{
+				tauTrigWeight = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+			else
+			{
+				tauTrigWeight = m_functors.at(weightNames.first).at(index+1)->eval(args.data());
+			}
+			product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = tauTrigWeight;
+		}
+	}
 }
