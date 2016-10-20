@@ -234,6 +234,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
         return new MuMuTriggerScaleFactorProducer();
     else if(id == MuMuTriggerWeightProducer().GetProducerId())
     	return new MuMuTriggerWeightProducer();
+    else if(id == TauTauTriggerWeightProducer().GetProducerId())
+    	return new TauTauTriggerWeightProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

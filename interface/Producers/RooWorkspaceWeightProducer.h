@@ -60,8 +60,18 @@ public:
 		return "MuMuTriggerWeightProducer";
 	}
 
-	//virtual void Init(setting_type const& settings);
-
 	virtual void Produce(event_type const& event, product_type & product,
 	                     setting_type const& settings) const override;
+};
+
+class TauTauTriggerWeightProducer: public RooWorkspaceWeightProducer {
+public:
+	TauTauTriggerWeightProducer();
+
+	virtual std::string GetProducerId() const override {
+		return "TauTauTriggerWeightProducer";
+	}
+
+	virtual void Produce(event_type const& event, product_type & product,
+						 setting_type const& settings) const override;
 };
