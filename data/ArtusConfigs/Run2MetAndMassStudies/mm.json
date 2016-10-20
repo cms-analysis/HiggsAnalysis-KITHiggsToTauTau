@@ -201,8 +201,8 @@
 		},
 		"MuonRochesterCorrectionsFile" : {
 			"nick": {
-				"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/rochcorr/RoccoR_13tev_2016.txt",
-				"(Fall15MiniAODv2|Run2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/rochcorr/RoccoR_13tev_2015.txt"
+				"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr/RoccoR_13tev_2016.txt",
+				"(Fall15MiniAODv2|Run2015)" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr/RoccoR_13tev_2015.txt"
 			}
 		},
 		"Processors" : {
@@ -213,7 +213,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
-					"producer:MuonCorrectionsProducer",
+					"producer:RochMuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -253,7 +253,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
-					"producer:MuonCorrectionsProducer",
+					"producer:RochMuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -293,7 +293,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
-					"producer:MuonCorrectionsProducer",
+					"producer:RochMuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -330,7 +330,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
-					"producer:MuonCorrectionsProducer",
+					"producer:RochMuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -368,7 +368,7 @@
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
-					"producer:MuonCorrectionsProducer",
+					"producer:RochMuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
