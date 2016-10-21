@@ -44,9 +44,12 @@
 		"MuonLowerPtCuts" : [
 			"20.0"
 		],
-		"MuonUpperAbsEtaCuts" : [
-			"2.1"
-		],
+		"MuonUpperAbsEtaCuts" : {
+			"nick" : {
+				"default" : "2.4",
+				"(Fall15MiniAODv2|Run2015D)" : "2.1"
+			}
+		},
 		"TauLowerPtCuts" : [
 			"18.0"
 		],
