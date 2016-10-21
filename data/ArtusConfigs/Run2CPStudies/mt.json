@@ -42,11 +42,14 @@
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"MuonLowerPtCuts" : [
-			"19.0"
+			"20.0"
 		],
-		"MuonUpperAbsEtaCuts" : [
-			"2.1"
-		],
+		"MuonUpperAbsEtaCuts" : {
+			"nick" : {
+				"default" : "2.4",
+				"(Fall15MiniAODv2|Run2015D)" : "2.1"
+			}
+		},
 		"TauLowerPtCuts" : [
 			"20.0"
 		],
@@ -63,8 +66,8 @@
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"HLT_IsoMu22_v:23.0",
-					"HLT_IsoTkMu22_v:23.0"
+					"HLT_IsoMu22_v:20.0",
+					"HLT_IsoTkMu22_v:20.0"
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v:19.0"
@@ -92,17 +95,14 @@
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
-			"0:isoweight",
-			"0:idweight"
+			"0:idIsoWeight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:m_trgOR_binned_data",
-			"0:m_iso_binned_ratio",
-			"0:m_id_ratio"
+			"0:m_trgIsoMu22orTkIsoMu22_desy_data",
+			"0:m_idiso0p15_desy_ratio"
 		],
 		"RooWorkspaceObjectArguments" : [
-			"0:m_pt,m_eta,m_iso",
-			"0:m_pt,m_eta,m_iso",
+			"0:m_pt,m_eta",
 			"0:m_pt,m_eta"
 		],
 		"TriggerEfficiencyData" : {
@@ -227,6 +227,8 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:TopPtReweightingProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
@@ -274,6 +276,8 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:EventCategoryProducer",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
@@ -323,6 +327,8 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",

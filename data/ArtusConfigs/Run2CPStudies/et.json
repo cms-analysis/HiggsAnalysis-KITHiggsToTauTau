@@ -41,7 +41,7 @@
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : [
-			"24.0"
+			"25.0"
 		],
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
@@ -62,7 +62,7 @@
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"
+					"HLT_Ele25_eta2p1_WPTight_Gsf_v:25.0"
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:24.0"
@@ -89,18 +89,15 @@
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
-			"0:idweight",
-			"0:isoweight"
+			"0:idIsoWeight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:e_trg_binned_data",
-			"0:e_iso_binned_ratio",
-			"0:e_id_ratio"
+			"0:e_trgEle25eta2p1WPTight_desy_data",
+			"0:e_idiso0p10_desy_ratio"
 
 		],
 		"RooWorkspaceObjectArguments" : [
-			"0:e_pt,e_eta,e_iso",
-			"0:e_pt,e_eta,e_iso",
+			"0:e_pt,e_eta",
 			"0:e_pt,e_eta"
 		],
 		"TriggerEfficiencyData" : {
@@ -225,6 +222,8 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:TopPtReweightingProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
@@ -272,6 +271,8 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:EventCategoryProducer",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
@@ -321,6 +322,8 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:EventCategoryProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
