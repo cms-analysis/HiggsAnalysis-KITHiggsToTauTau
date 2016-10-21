@@ -174,6 +174,22 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			validElectron = validElectron && IsMVANonTrigSpring15(&(*electron), event, true);
 		}
+		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDLOOSE)
+		{
+			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::LOOSE);
+		}
+		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDMEDIUM)
+		{
+			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::MEDIUM);
+		}
+		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDTIGHT)
+		{
+			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::TIGHT);
+		}
+		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDVETO)
+		{
+			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::VETO);
+		}
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
 	}
@@ -296,6 +312,11 @@ bool HttValidElectronsProducer::IsCutBasedSpring15(KElectron* electron, event_ty
 	return electron->getId(ChooseCutBasedId(event.m_electronMetadata, wp), event.m_electronMetadata);
 }
 
+bool HttValidElectronsProducer::IsCutBasedSummer16(KElectron* electron, event_type const& event, WorkingPoint wp) const
+{
+	return electron->getId(ChooseCutBasedId(event.m_electronMetadata, wp), event.m_electronMetadata);
+}
+
 bool HttValidElectronsProducer::IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const
 {
 	bool validElectron = true;
@@ -320,6 +341,7 @@ bool HttValidElectronsProducer::IsMVANonTrigSpring15(KElectron* electron, event_
 
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentificationRun2#Non_triggering_electron_MVA_AN1
 	// pT always greater than 10 GeV
+	// TODO: cut-values should be made configurable via json file
 	validElectron = validElectron &&
 		( 
 			(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId(ChooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.967083 : 0.913286))
@@ -345,6 +367,8 @@ std::string HttValidElectronsProducer::ChooseCutBasedId(const KElectronMetadata 
 			stringID = "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose";
 		else if (Utility::Contains(meta->idNames, std::string("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose")))
 			stringID = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose";
+		else if (Utility::Contains(meta->idNames, std::string("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose")))
+			stringID = "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose";
 		else
 			LOG(FATAL) << "HttValidElectronsProducer::ChooseCutBasedId: could not find any Id for the loose WP" << std::endl;
 	}
@@ -358,6 +382,8 @@ std::string HttValidElectronsProducer::ChooseCutBasedId(const KElectronMetadata 
 			stringID = "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium";
 		else if (Utility::Contains(meta->idNames, std::string("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium")))
 			stringID = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium";
+		else if (Utility::Contains(meta->idNames, std::string("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium")))
+			stringID = "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium";
 		else
 			LOG(FATAL) << "HttValidElectronsProducer::ChooseCutBasedId: could not find any Id for the medium WP" << std::endl;
 	}
@@ -371,6 +397,8 @@ std::string HttValidElectronsProducer::ChooseCutBasedId(const KElectronMetadata 
 			stringID = "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight";
 		else if (Utility::Contains(meta->idNames, std::string("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight")))
 			stringID = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight";
+		else if (Utility::Contains(meta->idNames, std::string("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight")))
+			stringID = "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight";
 		else
 			LOG(FATAL) << "HttValidElectronsProducer::ChooseCutBasedId: could not find any Id for the tight WP" << std::endl;
 	}
@@ -384,6 +412,8 @@ std::string HttValidElectronsProducer::ChooseCutBasedId(const KElectronMetadata 
 			stringID = "egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-veto";
 		else if (Utility::Contains(meta->idNames, std::string("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto")))
 			stringID = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto";
+		else if (Utility::Contains(meta->idNames, std::string("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto")))
+			stringID = "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto";
 		else
 			LOG(FATAL) << "HttValidElectronsProducer::ChooseCutBasedId: could not find any Id for the veto WP" << std::endl;
 	}
