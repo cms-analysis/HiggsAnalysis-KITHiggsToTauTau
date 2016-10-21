@@ -6,7 +6,12 @@
 	"VetoElectronReco" : "none",
 
 	"VetoElectronID" : "user",
-	"VetoElectronIDType" : "spring15cutbasedveto",
+	"VetoElectronIDType" : {
+		"nick" : {
+			"default" : "summer16cutbasedveto",
+			"(Run2015|Fall15MiniAODv2)" : "spring15cutbasedveto"
+		}
+	},
 
 	"VetoElectronIsoType" : "user",
 	"VetoElectronIso" : "none",
