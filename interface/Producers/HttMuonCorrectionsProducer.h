@@ -33,7 +33,8 @@ public:
 protected:
 
 	// Htt type muon energy corrections
-	virtual void AdditionalCorrections(KMuon* muon, event_type const& event,
+	virtual void AdditionalCorrections(KMuon* muon, event_type const& event, 
+				product_type& product, setting_type const& settings) const override;
 
 
 };
