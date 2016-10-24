@@ -9,7 +9,7 @@ def format_number(expr):
 	f = float(expr)
 	if f == 0.0:
 		return "0.000"
-	elif 0.1<=f<100:
+	elif 0.1<=abs(f)<100:
 		return "{0:.04g}".format(f)
 	else:
 		n = "{0:.03e}".format(f)
