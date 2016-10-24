@@ -40,9 +40,12 @@
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
-		"ElectronLowerPtCuts" : [
-			"25.0"
-		],
+		"ElectronLowerPtCuts" : {
+			"nick" : {
+				"default" : "26.0",
+				"(Fall15MiniAODv2|Run2015D)" : "24.0"
+			}
+		},
 		"ElectronUpperAbsEtaCuts" : [
 			"2.1"
 		],
@@ -62,7 +65,7 @@
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"HLT_Ele25_eta2p1_WPTight_Gsf_v:25.0"
+					"HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:24.0"
