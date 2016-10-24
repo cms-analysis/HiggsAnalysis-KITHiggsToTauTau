@@ -58,6 +58,8 @@ class Datacards(object):
 			self.cb.SetVerbosity(1)
 
 		self.configs = datacardconfigs.DatacardConfigs()
+		
+		self.stable_options = r"--robustFit 1 --preFitValue 1.0 --minimizerAlgoForMinos Minuit2 --minimizerAlgo Minuit2 --minimizerStrategy 0 --minimizerTolerance 0.1 --cminFallbackAlgo Minuit2,0:1.0"
 
 		# common systematics
 		self.lumi_syst_args = [

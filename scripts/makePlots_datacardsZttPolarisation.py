@@ -301,14 +301,12 @@ if __name__ == "__main__":
 	)
 	
 	# Max. likelihood fit and postfit plots
-	stable_options = r"--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
-	
 	datacards.combine(
 			datacards_cbs,
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MaxLikelihoodFit --redefineSignalPOIs pol "+stable_options+" -n \"\"",
+			"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
 			split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 	)
 	
@@ -343,7 +341,7 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MultiDimFit --algo none -P pol --floatOtherPOIs 1 "+stable_options+" -n ",
+			"-M MultiDimFit --algo none -P pol --floatOtherPOIs 1 "+datacards.stable_options+" -n ",
 			split_stat_syst_uncs=True
 	)
 	
