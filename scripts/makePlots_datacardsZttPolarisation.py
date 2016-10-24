@@ -343,7 +343,7 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MultiDimFit --algo singles -P pol --floatOtherPOIs 1 "+stable_options+" -n ",
+			"-M MultiDimFit --algo none -P pol --floatOtherPOIs 1 "+stable_options+" -n ",
 			split_stat_syst_uncs=True
 	)
 	

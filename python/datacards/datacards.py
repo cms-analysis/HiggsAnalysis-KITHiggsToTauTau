@@ -701,7 +701,7 @@ class Datacards(object):
 				if name is None:
 					prepared_tmp_args = tmp_args + " -n " + new_name
 				else:
-					prepared_tmp_args = re.sub("(--floatOtherPOIs)([\s=\"\']*)(1)([\"\']?\s)", "\\1\\2 0\\4", re.sub("(-n|--name)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2"+new_name+"\\4", tmp_args))
+					prepared_tmp_args = re.sub("(--floatOtherPOIs)([\s=\"\']*)(1)([\"\']?\s)", "\\1\\2 "+("\\3" if split_stat_syst_uncs_index == 0 else "0")+"\\4", re.sub("(-n|--name)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2"+new_name+"\\4", tmp_args))
 			else:
 				prepared_tmp_args = tmp_args
 			
