@@ -310,9 +310,10 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M {FIT_METHOD} {FIT_OPTIONS} -n \"\"".format(
+			"-M {FIT_METHOD} {FIT_OPTIONS} {STABLE} -n \"\"".format(
 				FIT_METHOD=fit_options["method"],
-				FIT_OPTIONS=tmp_fit_options
+				FIT_OPTIONS=tmp_fit_options,
+				STABLE=datacards.stable_options,
 			)
 		)
 

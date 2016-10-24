@@ -179,14 +179,13 @@ if __name__ == "__main__":
 				# fits
 				for fit_name, fit_options in model_settings.get("fit", {}).iteritems():
 					tmp_datacards_workspaces = datacards_workspaces[fit_name] if freeze_syst_uncs else datacards_workspaces
-					stable_combine_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
 	
 					datacards.combine(
 							datacards_cbs,
 							datacards_workspaces,
 							None,
 							args.n_processes,
-							"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 {stable} -n \"\"".format(stable=stable_combine_options)
+							"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
 					)
 					
 					datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
@@ -201,7 +200,7 @@ if __name__ == "__main__":
 							None,
 							args.n_processes,
 							"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
-									STABLE=stable_combine_options,
+									STABLE=datacards.stable_options,
 									RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
 									POINTS=len(args.cp_mixings)
 							)
@@ -212,7 +211,7 @@ if __name__ == "__main__":
 							datacards_workspaces,
 							None,
 							args.n_processes,
-							"--expectSignal=1 -t -1 -M Asymptotic --redefineSignalPOIs cpmixing --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing=0,1 --rMin 0 --rMax 100 -n \"\""
+							"--expectSignal=1 -t -1 -M Asymptotic --redefineSignalPOIs cpmixing --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing=0,1 --rMin 0 --rMax 100 {STABLE} -n \"\"".format(STABLE=datacards.stable_options)
 					)
 					
 					#getting limits of the tree:
