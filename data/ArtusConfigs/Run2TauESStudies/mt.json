@@ -41,12 +41,18 @@
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
-		"MuonLowerPtCuts" : [
-			"20.0"
-		],
-		"MuonUpperAbsEtaCuts" : [
-			"2.1"
-		],
+		"MuonLowerPtCuts" : {
+			"nick" : {
+				"default" : "23.0",
+				"(Fall15MiniAODv2|Run2015D)" : "19.0"
+			}
+		},
+		"MuonUpperAbsEtaCuts" : {
+			"nick" : {
+				"default" : "2.4",
+				"(Fall15MiniAODv2|Run2015D)" : "2.1"
+			}
+		},
 		"TauLowerPtCuts" : [
 			"18.0"
 		],
@@ -63,8 +69,8 @@
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"HLT_IsoMu22_v:20.0",
-					"HLT_IsoTkMu22_v:20.0"
+					"HLT_IsoMu22_v:23.0",
+					"HLT_IsoTkMu22_v:23.0"
 				],
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v:19.0"
@@ -191,13 +197,13 @@
 					"producer:RecoTauGenTauMatchingProducer",
 					"producer:MatchedLeptonsProducer",
 					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
+					"#producer:MvaMetSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
+					"#producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -238,13 +244,13 @@
 					"producer:RecoTauGenTauMatchingProducer",
 					"producer:MatchedLeptonsProducer",
 					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
+					"#producer:MvaMetSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"#producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
+					"#producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -349,7 +355,41 @@
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"Run201" : [
+				"Run2016" : [
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:HttValidVetoMuonsProducer",
+					"producer:ValidElectronsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidMTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:Run2DecayChannelProducer",
+					"#producer:MvaMetSelector",
+					"producer:DiVetoMuonVetoProducer",
+					"#producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:JetToTauFakesProducer",
+					"producer:EventCategoryProducer",
+					"filter:MinimalPlotlevelFilter",
+					"#producer:MVATestMethodsProducer",
+ 					"#producer:SvfitProducer",
+					"producer:EventWeightProducer"
+				],
+				"Run2015" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

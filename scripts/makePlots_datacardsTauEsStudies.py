@@ -426,8 +426,9 @@ if __name__ == "__main__":
 	#important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
 	commands = []
 	commands.extend([[
-		"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes -v {VERBOSITY} --robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\" {WORKSPACE}".format(
+		"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes -v {VERBOSITY} {STABLE} {WORKSPACE}".format(
 			VERBOSITY=args.combine_verbosity,
+			STABLE=datacards.stable_options,
 			WORKSPACE=os.path.splitext(datacard)[0]+".root",
 		),
 		os.path.dirname(datacard)
@@ -439,10 +440,11 @@ if __name__ == "__main__":
 	#(always done, since the bestfit value and uncertainties are taken from this scan)
 	commands = []
 	commands.extend([[
-		"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY} --robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\" {WORKSPACE}".format(
+		"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY}  {STABLE} {WORKSPACE}".format(
 			BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
 			RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
 			VERBOSITY=args.combine_verbosity,
+			STABLE=datacards.stable_options,
 			WORKSPACE=os.path.splitext(datacard)[0]+".root",
 		),
 		os.path.dirname(datacard)

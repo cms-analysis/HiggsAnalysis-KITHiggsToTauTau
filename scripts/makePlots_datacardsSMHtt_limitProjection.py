@@ -348,8 +348,6 @@ if __name__ == "__main__":
 				
 				json_configs = []
 				
-				stable_options = "--robustFit=1 --preFitValue=1. --X-rtd FITTER_NEW_CROSSING_ALGO --minimizerAlgoForMinos=Minuit2 --minimizerToleranceForMinos=0.1 --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --minimizerAlgo=Minuit2 --minimizerStrategy=0 --minimizerTolerance=0.1 --cminFallbackAlgo \"Minuit2,0:1.\""
-				
 				# fits
 				for fit_name, fit_options in model_settings.get("fit", {}).iteritems():
 					if freeze_syst_uncs and (("CVCF" in fit_name) or ("RVRF" in fit_name)):
@@ -376,7 +374,7 @@ if __name__ == "__main__":
 							method=fit_options.get("method", "MaxLikelihoodFit"),
 							fit_options=tmp_fit_options,
 							freeze="--snapshotName {method} -S 0".format(method=fit_options.get("method", "MaxLikelihoodFit")) if freeze_syst_uncs else "--saveWorkspace",
-							stable=stable_options,
+							stable=datacards.stable_options,
 							name="\"\"" if fit_name == "" else (fit_name + ("{CHUNK}" if "--points" in tmp_fit_options else ""))
 					))
 					
