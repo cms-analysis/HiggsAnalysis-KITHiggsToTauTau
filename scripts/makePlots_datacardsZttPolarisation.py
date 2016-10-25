@@ -125,11 +125,11 @@ if __name__ == "__main__":
 	
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
-
+	
 	if args.categories != parser.get_default("categories"):
-		args.categories = args.categories[1:]
+		args.categories = args.categories[len(parser.get_default("categories")):]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
-
+	
 	# restrict CombineHarvester to configured channels
 	datacards.cb.channel(args.channel)
 
@@ -230,9 +230,9 @@ if __name__ == "__main__":
 					SRC=" ".join(tmp_output_files)
 			))
 	
-	#if log.isEnabledFor(logging.DEBUG):
-	#	import pprint
-	#	pprint.pprint(plot_configs)
+	if log.isEnabledFor(logging.DEBUG):
+		import pprint
+		pprint.pprint(plot_configs)
 	
 	# delete existing output files
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
