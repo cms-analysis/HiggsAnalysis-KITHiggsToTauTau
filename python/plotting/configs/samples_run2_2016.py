@@ -141,12 +141,12 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
 		return data_weight, mc_weight
 
-	def get_weights_ztt(self,weight="(1.0)",mc_sample_weights="(1.0)",zPt=False,**kwargs):
+	def get_weights_ztt(self,weight="(1.0)",mc_sample_weight="(1.0)",zPt=False,**kwargs):
 		data_weight, mc_weight = self.projection(kwargs)
 		if zPt:
 			if self.embedding:
-				return(self.ztt_stitchingweight()+mc_sample_weights+"*zPtReweightWeight*(eventWeight<1.0)*0.87")
-			return(self.ztt_stitchingweight()+mc_sample_weights+"*zPtReweightWeight")
+				return(self.ztt_stitchingweight()+mc_sample_weight+"*zPtReweightWeight*(eventWeight<1.0)*0.87")
+			return(self.ztt_stitchingweight()+mc_sample_weight+"*zPtReweightWeight")
 		if self.embedding:
 			return(mc_weight+weight+"*eventWeight*(eventWeight<1.0)*0.87*" + self.ztt_stitchingweight())
 		return(mc_weight+weight+"*eventWeight*" + self.ztt_stitchingweight())
@@ -1571,7 +1571,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							self.get_weights_ztt(mc_sample_weights=mc_sample_weights,zPt=True)
+							self.get_weights_ztt(mc_sample_weight=mc_sample_weight,zPt=True)
 							+ Samples.ztt_genmatch(channel),
 							"noplot_ztt_mc_qcd_control",
 							nick_suffix=nick_suffix
@@ -1647,7 +1647,7 @@ class Samples(samples.SamplesBase):
 								self.files_ztt(channel),
 								self.root_file_folder(channel),
 								lumi,
-								self.get_weights_ztt(mc_sample_weights=mc_sample_weights[key],zPt=True)
+								self.get_weights_ztt(mc_sample_weight=mc_selection_weights[key],zPt=True)
 								+ Samples.ztt_genmatch(channel) ,
 								"noplot_ztt_"+key,
 								nick_suffix=nick_suffix
