@@ -138,6 +138,8 @@ if __name__ == "__main__":
 						help="integration background nicks [Default:%(default)s]")
 	parser.add_argument("--full-integral", action="store_true",
 						help="calculate full integral of all histograms and write to file")
+	parser.add_argument("--integrals-for-samples", action="store_true",
+						help="calculate integrals for each individual sample selected and write to file. Working only if --full-integral is not chosen.")
 	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "comparison"],
 			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--scale-mc-only", default="1.0",
@@ -475,6 +477,11 @@ if __name__ == "__main__":
 					sig_nick = "htt%i"%hmass_temp
 					bkg_samples_used.append(sig_nick)
 					config["full_integral_nicks"]=[" ".join(bkg_samples_used)]
+					config["analysis_modules"].append("FullIntegral")
+
+				# add individual (full) integrals for samples to be plotted
+				elif(args.integrals_for_samples):
+					config["full_integral_nicks"] = args.samples
 					config["analysis_modules"].append("FullIntegral")
 
 				# add s/sqrt(b) subplot
