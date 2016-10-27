@@ -1,7 +1,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
 
-HttEnumTypes::GenMatchingCode GeneratorInfo::GetGenMatchingCode(const KGenParticle* genParticle)
+HttEnumTypes::GenMatchingCode GeneratorInfo::GetGenMatchingCode(KGenParticle* genParticle)
 {
 	int pdgId = std::abs(genParticle->pdgId);
 	
@@ -21,7 +21,7 @@ HttEnumTypes::GenMatchingCode GeneratorInfo::GetGenMatchingCode(const KGenPartic
 	{
 		return HttEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU;
 	}
-	else if (pdgId == 15 && genParticle->p4.Pt() > 15.)
+	else if (pdgId == 15 && GetVisibleLV(genParticle)->Pt() > 15.)
 	{
 		return HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY;
 	}
