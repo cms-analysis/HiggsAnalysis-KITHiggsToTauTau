@@ -18,6 +18,10 @@ class Samples(samples.Samples):
 
 	data_format = "MINIAOD"
 	mc_campaign = "RunIIFall15MiniAOD.*"
+		
+	def __init__(self,embedding=False):
+		super(Samples, self).__init__()
+		self.embedding=embedding
 	
 	def ztt_stitchingweight(self):
 		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.26276e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.18349e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.18854e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.19334e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16985e-6)+"
@@ -71,6 +75,8 @@ class Samples(samples.Samples):
 		return self.artus_file_names({"process" : "DYJetsToLLM50", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 1)
 
 	def files_ztt(self, channel):
+		if self.embedding:
+			return self.artus_file_names({"process" : "Embedding2015D" , "campaign" : "MuTauFinalState" }, 1)
 		query = { "data" : False,
 				"campaign" : self.mc_campaign,
 				"generator" :  "madgraph\-pythia8",
