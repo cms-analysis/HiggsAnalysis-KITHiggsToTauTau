@@ -102,6 +102,10 @@ public:
 			for (uint it = 0; it < substrings.size(); ++it)
 				{
 					std::string sexp = substrings[it];
+					// substrings contains always on empty string after the splitting.
+					// We need to skip this substring since the code fails otherwise.
+					if(sexp == "")
+						continue;
 					LOG_N_TIMES(1,DEBUG) << "subexpression is " << sexp << " use || operation";
 					back = back || evaluateSubExpression(sexp, event, product, settings);
 				}
@@ -114,7 +118,7 @@ public:
 			boost::algorithm::split(substrings, expression, boost::algorithm::is_any_of(" "));
 			std::transform(substrings.begin(), substrings.end(), substrings.begin(),
 					[](std::string s) { return boost::algorithm::trim_copy(s); });
-			for (int it = 0; it < 3; it++)
+			for (unsigned int it = 0; it < substrings.size(); it++)
 				{
 					removeSubstrs(substrings[it], ')');
 					removeSubstrs(substrings[it], '(');
