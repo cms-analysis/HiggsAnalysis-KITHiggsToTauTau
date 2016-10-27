@@ -623,6 +623,31 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 	FillGenLeptonCollections(product);
 }
 
+void Run2DecayChannelProducer::Init(setting_type const& settings)
+{
+	DecayChannelProducer::Init(settings);
+
+	// For taus in Run2 we use dz saved in the KTau
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Dz", [](event_type const& event, product_type const& product)
+	{
+		if(product.m_flavourOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU)
+		{
+			KTau* tau = dynamic_cast<KTau*>(product.m_flavourOrderedLeptons.at(0));
+			return tau->dz;
+		}
+		return product.m_flavourOrderedLeptons.at(0)->track.getDz(&event.m_vertexSummary->pv);
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Dz", [](event_type const& event, product_type const& product)
+	{
+		if(product.m_flavourOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU)
+		{
+			KTau* tau = dynamic_cast<KTau*>(product.m_flavourOrderedLeptons.at(1));
+			return tau->dz;
+		}
+		return product.m_flavourOrderedLeptons.at(1)->track.getDz(&event.m_vertexSummary->pv);
+	});
+}
 
 void Run2DecayChannelProducer::Produce(event_type const& event, product_type& product,
 	                              setting_type const& settings) const

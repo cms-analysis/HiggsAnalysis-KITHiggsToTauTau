@@ -53,6 +53,8 @@ public:
 		return "Run2DecayChannelProducer";
 	}
 	
+	virtual void Init(setting_type const& settings) override;
+
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings) const override;
 };
