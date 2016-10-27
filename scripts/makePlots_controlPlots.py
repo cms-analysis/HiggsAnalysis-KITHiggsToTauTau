@@ -252,9 +252,6 @@ if __name__ == "__main__":
 		if ("tt" in args.channels or "em" in args.channels or "mm" in args.channels):
 			log.critical("Plot will fail: Embedding --emb valid for mt and et channel. Remove --emb or select different channel.")
 			sys.exit(1)
-		if not (args.era == "2016"):
-			log.critical("Embedding --emb only valid for 2016 samples. Remove --emb or select 2016 samples.")
-			sys.exit(1)
 		if args.run1:
 			log.critical("Embedding --emb only valid for run2. Remove --emb or select run2 samples.")
 			sys.exit(1)
