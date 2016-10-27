@@ -18,7 +18,8 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_ttj_1"] = "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0"
 		self.binnings_dict["diLepMass"] = "50,0,250"
 		self.binnings_dict["svfitMass"] = "50,0,250"
-		self.binnings_dict["zmumu_selection_for_embedding_ZMass"] = "50,0,250"
+		self.binnings_dict["zmumu_selection_for_embedding_ZMass"] = "19,50,240"
+		self.binnings_dict["zmumu_selection_for_embedding_integral"] = "1,0,1"
 		
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.binnings_dict[channel+"_integral"] = "1,0.0,1.0"

@@ -6,7 +6,7 @@
 	"EventCount" : -1,
 	"InputIsData" : {
 		"nick" : {
-			"(Run2015D|selected|embedded|cleaned|mirrored)" : true,
+			"(Run2015D|selected|embedded|trackcleaned|cleaned|mirrored|random|mureco|musim|mufsr)" : true,
 			"default" :  false
 		}
 	},
@@ -16,8 +16,11 @@
 	"OutputPath" : "output.root",
 	"Processors" : {
 		"nick" : {
-			"(Run2015D|selected|embedded|cleaned|mirrored)" : [
+			"(Run2015D|selected|embedded|trackcleaned|cleaned|mirrored|random)" : [
 				"filter:JsonFilter",
+				"producer:NicknameProducer"
+			],
+			"(mureco|musim|mufsr)" :  [
 				"producer:NicknameProducer"
 			],
 			"default" :  [
@@ -29,9 +32,24 @@
 			] 
 		}
 	},
+	"NumberGeneratedEvents" :{
+		"nick" : {
+			"(selected|embedded|trackcleaned|cleaned|mirrored|random|mureco|musim|mufsr)" : 1
+		}
+	},
+	"CrossSection" :{
+		"nick" : {
+			"(selected|embedded|trackcleaned|cleaned|mirrored|random|mureco|musim|mufsr)" : 1
+		}
+	},
+	"GeneratorWeight" :{
+		"nick" : {
+			"(selected|embedded|trackcleaned|cleaned|mirrored|random|mureco|musim|mufsr)" : -999.0
+		}
+	},
 	"JsonFiles" : {
 		"nick" : {
-			"(Run2015D|selected|embedded|cleaned|mirrored)" : [
+			"(Run2015D|selected|embedded|trackcleaned|cleaned|mirrored|random)" : [
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt"
 			]
 		}
@@ -39,7 +57,7 @@
 	"PileupWeightFile" : {
 		"nick" : {
 			"default": "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeVFall15MiniAODv2_PromptReco_69mbMinBiasXS.root",
-			"(Run2015D|selected|embedded|cleaned|mirrored)" : "not needed"
+			"(Run2015D|selected|embedded|trackcleaned|cleaned|mirrored|mureco|musim|mufsr)" : "not needed"
 		}
 	}
 }

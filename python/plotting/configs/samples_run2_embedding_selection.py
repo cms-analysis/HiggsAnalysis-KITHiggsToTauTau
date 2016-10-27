@@ -53,7 +53,7 @@ class Samples(samples.Samples):
 				self.files_data(channel),
 				self.root_file_folder(channel),
 				1.0,
-				"eventWeight",
+				"eventWeight*(ZMass>50)",
 				"data",
 				nick_suffix=nick_suffix
 		)
@@ -65,7 +65,7 @@ class Samples(samples.Samples):
 	def files_zll(self, channel):
 		query = { "data" : False,
 				"campaign" : self.mc_campaign,
-				"generator" :  "madgraph\-pythia8",
+				"generator" :  "amcatnlo-pythia8",
 				"process" : "DYJetsToLLM50" }
 		artus_files = self.artus_file_names(query , 1)
 
@@ -86,7 +86,7 @@ class Samples(samples.Samples):
 					self.files_zll(channel),
 					self.root_file_folder(channel),
 					lumi,
-					"eventWeight",
+					"eventWeight*(ZMass>50)",
 					"zll",
 					nick_suffix=nick_suffix
 			)
@@ -108,7 +108,7 @@ class Samples(samples.Samples):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					"eventWeight",
+					"eventWeight*(ZMass>50)",
 					"ttj",
 					nick_suffix=nick_suffix
 			)
@@ -120,10 +120,11 @@ class Samples(samples.Samples):
 
 	### DiBoson settings
 	def files_vv(self, config):
-		return self.artus_file_names({ "process" : "(WWTo1L1Nu2Q|"
+		return self.artus_file_names({ "process" : "(STt-channelantitop4fleptonDecays|STt-channeltop4fleptonDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays|"
+												 + "WWTo1L1Nu2Q|"
 												 + "WZJToLLLNu|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|"
 												 + "ZZTo2L2Q|ZZTo4L|VVTo2L2Nu)",
-		                      "data" : False, "campaign" : self.mc_campaign}, 8)
+		                      "data" : False, "campaign" : self.mc_campaign}, 12)
 
 	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 
@@ -133,7 +134,7 @@ class Samples(samples.Samples):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
-					"eventWeight",
+					"eventWeight*(ZMass>50)",
 					"vv",
 					nick_suffix=nick_suffix
 			)
@@ -147,7 +148,7 @@ class Samples(samples.Samples):
 	def files_wj(self, channel):
 		query = { "data" : False,
 						"campaign" : self.mc_campaign,
-						"generator" : "madgraph-pythia8",
+						"generator" : "amcatnlo-pythia8",
 						"process" : "WJetsToLNu"}
 		artus_files = self.artus_file_names(query, 1)
 		return artus_files
@@ -160,7 +161,7 @@ class Samples(samples.Samples):
 					self.files_wj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					"eventWeight",
+					"eventWeight*(ZMass>50)",
 					"wj",
 					nick_suffix=nick_suffix
 			)

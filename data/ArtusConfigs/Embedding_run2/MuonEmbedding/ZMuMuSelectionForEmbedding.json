@@ -1,74 +1,154 @@
 {
     "zmumu_selection_for_embedding" : {
-        "Consumers" : [
-            "KappaLambdaNtupleConsumer",
-            "cutflow_histogram"
-        ],
-        "Quantities": [
-            "run",
-            "lumi",
-            "event",
+		"Consumers" : [
+			"KappaLambdaNtupleConsumer",
+			"cutflow_histogram"
+		],
+		"Quantities": [
+			"run",
+			"lumi",
+			"event",
 
-            "ZMass",
-            "leadingLeptonFromZPt",
-            "leadingLeptonFromZEta",
-            "leadingLeptonFromZPhi",
-            "trailingLeptonFromZPt",
-            "trailingLeptonFromZEta",
-            "trailingLeptonFromZPhi",
-            
-            {
-            	"include" : [
-            	"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/MuonEmbedding/weightQuantities.json"
-            	]
-            }
-        ],
-        "Processors" : {
-            "nick" : {
-                "default" : [
-                    "producer:HltProducer",
-                    "filter:HltFilter",
-                    "producer:ValidMuonsProducer",
-                    "filter:MinMuonsCountFilter",
-                    "producer:ZmmProducer",
-                    "filter:ZFilter",
-                    "producer:EventWeightProducer"
-                ]
-            }
-        },
-        "HltPaths" : {
-            "nick" : {
-                "default" : [
-                    "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
-                    "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
-                ]
-            }
-        },
+			"q_1",
+			"q_2",
+			"triggerweight_1",
+			"triggerweight_2",
 
-        "#ValidMuonsProducer": "Settings",
-        "MuonID" : "embedding",
-        "MuonIsoType" : "None",
-        "MuonIso" : "None",
-        "Year" : "2015",
-        "MuonDeltaBetaCorrectionFactor" : 0.5,
-	"MuonLowerPtCuts" : [
+			"ZMass",
+			"validZ",
+
+			"leadingLeptonFromZPt",
+			"leadingLeptonFromZEta",
+			"leadingLeptonFromZPhi",
+			"trailingLeptonFromZPt",
+			"trailingLeptonFromZEta",
+			"trailingLeptonFromZPhi",
+
+			{
+				"include" : [
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Embedding_run2/MuonEmbedding/weightQuantities.json"
+				]
+			}
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+				    "producer:HltProducer",
+				    "filter:HltFilter",
+				    "producer:MuonCorrectionsProducer",
+				    "producer:ValidMuonsProducer",
+				    "filter:MinMuonsCountFilter",
+				    "producer:ZmmProducer",
+				    "#filter:ZFilter",
+				    "producer:MuonTriggerMatchingProducer",
+				    "producer:ValidMMPairCandidatesProducer",
+				    "filter:ValidDiTauPairCandidatesFilter",
+				    "producer:Run2DecayChannelProducer",
+				    "producer:TriggerWeightProducer",
+				    "#producer:IdentificationWeightProducer",
+				    "producer:EventWeightProducer"
+				],
+				"Run2015D" : [
+				    "producer:HltProducer",
+				    "filter:HltFilter",
+				    "producer:MuonCorrectionsProducer",
+				    "producer:ValidMuonsProducer",
+				    "filter:MinMuonsCountFilter",
+				    "producer:ZmmProducer",
+				    "#filter:ZFilter",
+				    "#producer:MuonTriggerMatchingProducer",
+				    "producer:ValidMMPairCandidatesProducer",
+				    "filter:ValidDiTauPairCandidatesFilter",
+				    "producer:Run2DecayChannelProducer",
+				    "producer:EventWeightProducer"
+				]
+			}
+		},
+		"HltPaths" : {
+			"nick" : {
+				"default" : [
+				    "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
+				    "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
+				]
+			}
+		},
+
+		"#MuonCorrectionsProducer" : "Settings",
+		"MuonEnergyCorrection" : "rochcorr2015",
+		"MuonRochesterCorrectionsFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr/RoccoR_13tev_2015.txt",
+
+		"#ValidMuonsProducer": "Settings",
+		"MuonID" : "embedding",
+		"MuonIsoType" : "None",
+		"MuonIso" : "None",
+		"Year" : "2015",
+		"MuonDeltaBetaCorrectionFactor" : 0.5,
+		"MuonLowerPtCuts" : [
 		"8.0"
-	],
-	"MuonUpperAbsEtaCuts" : [
+		],
+		"MuonUpperAbsEtaCuts" : [
 		"2.5"
-	],
+		],
 
-        "#MuonsCountFilter" : "Settings",
-        "MinNMuons" : 2,
+		"#MuonsCountFilter" : "Settings",
+		"MinNMuons" : 2,
 
 
-        "#ZmmProducer" : "Settings",
-        "ZMassRange" : 10000.0,
-        "VetoMultipleZs" : false,
-        "LowerZMassCut" : 20.0,
-        "LeadingLeptonFromZLowerPtCut" : 17.0,
+		"#ZmmProducer" : "Settings",
+		"ZMassRange" : 10000.0,
+		"VetoMultipleZs" : false,
+		"LowerZMassCut" : 20.0,
+		"LeadingLeptonFromZLowerPtCut" : 17.0,
 
-        "EventWeight" : "eventWeight"
+
+		"#MuonTriggerMatchingProducer" : "Settings",
+		"DeltaRTriggerMatchingMuons" : 0.1,
+		"InvalidateNonMatchingMuons" : true,
+		"MuonTriggerFilterNames" :
+				[
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:hltDiMuonGlb17Glb8RelTrkIsoFiltered0p4DzFiltered0p2",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:hltDiMuonGlb17Trk8RelTrkIsoFiltered0p4DzFiltered0p2"
+				],
+
+
+		"#ValidMMPairCandidatesProducer" : "Settings",
+		"DiTauPairLepton2LowerPtCuts" : [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:8.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:8.0"
+				],
+		"DiTauPairLepton1LowerPtCuts" : [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:17.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:17.0"
+				],
+		"DiTauPairMinDeltaRCut" : -1.0,
+
+
+		"#TriggerWeightProducer" : "Settings",
+		"TriggerEfficiencyMode" : "correlate_triggers",
+		"TriggerEfficiencyMc" :  [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu8_fall15.root",
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu17_fall15.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu8_fall15.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu17_fall15.root"
+				],
+		"TriggerEfficiencyData" :  [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu8_fall15.root",
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu17_fall15.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu8_fall15.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu17_fall15.root"
+				],
+
+		"#IdentificationWeightProducer" : "Settings",
+		"IdentificationEfficiencyData" : [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p15_fall15.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p15_fall15.root"
+				],
+		"IdentificationEfficiencyMc" : [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_fall15.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_fall15.root"
+				],
+		"IdentificationEfficiencyMode" : "multiply_weights",
+		"EventWeight" : "eventWeight"
 
     }
 }

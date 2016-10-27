@@ -4,14 +4,7 @@
 	"Muons" : "muons",
 	"Taus" : "taus",
 	"TauMetadata" : "taus",
-	"TaggedJets" : {
-		"nick" : {
-			"8TeV" : "AK5PFTaggedJets",
-			"13TeV.*_AODSIM" : "AK5PFTaggedJets",
-			"Spring15.*_13TeV.*_MINIAOD": "ak5PFJets",
-			"(16Dec2015v1|Fall15)": "ak4PF"
-		}
-	},
+	"TaggedJets" : "ak4PF",
 	"PileupDensity" : {
 		"nick" : {
 			"8TeV" : "KT6Area",
@@ -30,14 +23,5 @@
 	"PuppiMet" : "metPuppi",
 	"JetMetadata" : "jetMetadata",
 	"TriggerInfos" : "triggerObjectMetadata",
-	"TriggerObjects" : "triggerObjects",
-	
-	"GenParticles" : {
-		"nick" : {
-			"default" : "",
-			"cleaning" : "genParticles",
-			"cleaningcalo" : "genParticles",
-			"fullcleaning" : "genParticles"
-		}
-	}
+	"TriggerObjects" : "triggerObjects"
 }
