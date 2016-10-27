@@ -16,6 +16,7 @@
 
 			"ZMass",
 			"validZ",
+			"nZCandidates",
 
 			"leadingLeptonFromZPt",
 			"leadingLeptonFromZEta",
