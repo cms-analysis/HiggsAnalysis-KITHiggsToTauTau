@@ -10,17 +10,9 @@ void AcceptanceEfficiencyConsumer::Init(setting_type const& settings)
 	acc_eff_hist = new TH2D("acc_eff_hist", "acc_eff_hist", 50,0.,200.,50,0.,200);
 	number_of_passed_hist = new TH2D("number_of_passed_hist", "number_of_passed_hist", 50,0.,200.,50,0.,200);
 	number_of_entries_hist = new TH2D("number_of_entries_hist", "number_of_entries_hist", 50,0.,200.,50,0.,200);
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("PtTauMinus",[](event_type const& event, product_type const& product)
-	{
-		return product.m_accEffTauMinus->p4.Pt();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("PtTauPlus",[](event_type const& event, product_type const& product)
-	{
-		return product.m_accEffTauPlus->p4.Pt();
-	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("accEfficiency",[](event_type const& event, product_type const& product)
 	{
-		//std::cout << event.m_genEventInfo->weight << std::endl;
 		return event.m_genEventInfo->weight;
 	});
 	LambdaNtupleConsumer<HttTypes>::Init(settings);
@@ -28,18 +20,24 @@ void AcceptanceEfficiencyConsumer::Init(setting_type const& settings)
 
 void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings)
 {
-	double PtMinus = product.m_accEffTauMinus->p4.Pt();
-	double PtPlus = product.m_accEffTauPlus->p4.Pt();
+	assert(event.m_genTaus->size() == 2);
+	KGenTau leadingTau = event.m_genTaus->at(0);
+	KGenTau trailingTau = event.m_genTaus->at(1);
+
+	double PtTau1 = leadingTau.p4.Pt();
+	double PtTau2 = trailingTau.p4.Pt();
 	double weight = event.m_genEventInfo->weight;
-	if ((PtMinus > 80 && PtPlus > 80) || weight > 0.7)
+
+	if(leadingTau.decayMode > trailingTau.decayMode)
 	{
-		//std::cout << "PtMinus = " << PtMinus << " PtPlus = " << PtPlus << " weight = " << weight << std::endl; 
+		PtTau1 = trailingTau.p4.Pt();
+		PtTau2 = leadingTau.p4.Pt();
 	}
-	//std::cout << "Attempts passed: " << int(weight*nAttempts) << std::endl;
+
 	for(unsigned int i = 0; i<nAttempts; ++i)
 	{
-		if (double(i)/double(nAttempts) < weight) number_of_passed_hist->Fill(PtMinus, PtPlus);
-		number_of_entries_hist->Fill(PtMinus, PtPlus);
+		if ((double(i)/double(nAttempts) < weight) && (weight <=1)) number_of_passed_hist->Fill(PtTau1, PtTau2);
+		number_of_entries_hist->Fill(PtTau1, PtTau2);
 	}
 	LambdaNtupleConsumer<HttTypes>::ProcessFilteredEvent(event, product, settings);
 }
