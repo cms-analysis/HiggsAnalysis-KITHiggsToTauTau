@@ -29,8 +29,8 @@ void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event,
 	double PtTau2 = trailingTau.p4.Pt();
 	double weight = event.m_genEventInfo->weight;
 
-	leadingTauDC = (leadingTau.decayMode != 1 || leadingTau.decayMode != 2) ? 3 : leadingTau.decayMode;
-	trailingTauDC = (trailingTau.decayMode != 1 || trailingTau.decayMode != 2) ? 3 : trailingTau.decayMode;
+	leadingTauDC = (leadingTau.decayMode != 1 && leadingTau.decayMode != 2) ? 3 : leadingTau.decayMode;
+	trailingTauDC = (trailingTau.decayMode != 1 && trailingTau.decayMode != 2) ? 3 : trailingTau.decayMode;
 
 	if(leadingTauDC > trailingTauDC)
 	{
