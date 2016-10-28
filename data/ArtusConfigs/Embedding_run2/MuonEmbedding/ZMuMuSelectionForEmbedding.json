@@ -11,8 +11,6 @@
 
 			"q_1",
 			"q_2",
-			"triggerweight_1",
-			"triggerweight_2",
 
 			"ZMass",
 			"validZ",
@@ -57,7 +55,7 @@
 				    "filter:MinMuonsCountFilter",
 				    "producer:ZmmProducer",
 				    "#filter:ZFilter",
-				    "#producer:MuonTriggerMatchingProducer",
+				    "producer:MuonTriggerMatchingProducer",
 				    "producer:ValidMMPairCandidatesProducer",
 				    "filter:ValidDiTauPairCandidatesFilter",
 				    "producer:Run2DecayChannelProducer",
