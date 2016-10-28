@@ -35,7 +35,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVATestMethodsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HHKinFitProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVAInputQuantitiesProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/AcceptanceEfficiencyProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TopPtReweightingProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZPtReweightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ScaleVariationProducer.h"
@@ -206,8 +205,6 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new HHKinFitProducer();
 	else if(id == MVAInputQuantitiesProducer().GetProducerId())
 		return new MVAInputQuantitiesProducer();
-	else if(id == AcceptanceEfficiencyProducer().GetProducerId())
-		return new AcceptanceEfficiencyProducer();
 	else if(id == TopPtReweightingProducer().GetProducerId())
 		return new TopPtReweightingProducer();
 	else if(id == ZPtReweightProducer().GetProducerId())
