@@ -15,6 +15,7 @@ void AcceptanceEfficiencyConsumer::Init(setting_type const& settings)
 	{
 		return event.m_genEventInfo->weight;
 	});
+
 	LambdaNtupleConsumer<HttTypes>::Init(settings);
 }
 
@@ -28,7 +29,10 @@ void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event,
 	double PtTau2 = trailingTau.p4.Pt();
 	double weight = event.m_genEventInfo->weight;
 
-	if(leadingTau.decayMode > trailingTau.decayMode)
+	leadingTauDC = (leadingTau.decayMode != 1 || leadingTau.decayMode != 2) ? 3 : leadingTau.decayMode;
+	trailingTauDC = (trailingTau.decayMode != 1 || trailingTau.decayMode != 2) ? 3 : trailingTau.decayMode;
+
+	if(leadingTauDC > trailingTauDC)
 	{
 		PtTau1 = trailingTau.p4.Pt();
 		PtTau2 = leadingTau.p4.Pt();
