@@ -42,8 +42,12 @@
 		"TauUseOldDMs" : true,
 		"ElectronLowerPtCuts" : {
 			"nick" : {
-				"default" : "26.0",
-				"(Fall15MiniAODv2|Run2015D)" : "24.0"
+				"default" : [
+					"26.0"
+				],
+				"(Fall15MiniAODv2|Run2015D)" : [
+					"24.0"
+				]
 			}
 		},
 		"ElectronUpperAbsEtaCuts" : [
