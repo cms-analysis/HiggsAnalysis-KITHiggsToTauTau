@@ -52,6 +52,8 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/sync_plots/",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("-k", "--keep-eventmatching-output", action="store_true", default=False,
+						help="Keep eventmatching.root. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -121,6 +123,6 @@ if __name__ == "__main__":
 			
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	
-	if os.path.exists(event_matching_output):
+	if os.path.exists(event_matching_output) and not args.keep_eventmatching_output:
 		os.remove(event_matching_output)
 
