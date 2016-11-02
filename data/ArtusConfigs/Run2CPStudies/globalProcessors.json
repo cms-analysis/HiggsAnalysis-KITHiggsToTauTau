@@ -56,7 +56,7 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"producer:ScaleVariationProducer"
+				"#producer:ScaleVariationProducer"
 			],
 			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : [
 				"#filter:RunLumiEventFilter",
