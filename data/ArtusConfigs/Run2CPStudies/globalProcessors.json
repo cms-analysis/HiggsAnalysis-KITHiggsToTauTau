@@ -84,10 +84,16 @@
 			"Embedding201" : [
 				"#filter:RunLumiEventFilter",
 				"filter:JsonFilter",
-				"producer:NicknameProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:ValidGenTausProducer",
+				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
+				"producer:GenTauDecayProducer",
+				"#producer:GenTauCPProducer",
+				"producer:TauSpinnerProducer",
 				"#producer:TaggedJetCorrectionsProducer",
+				"producer:NicknameProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"

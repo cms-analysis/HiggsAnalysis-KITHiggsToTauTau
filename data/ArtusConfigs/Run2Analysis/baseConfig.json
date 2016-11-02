@@ -18,7 +18,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL" : [
+			"DY.?JetsToLL|Embedding2016" : [
 				23
 			],
 			"^(GluGlu|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
