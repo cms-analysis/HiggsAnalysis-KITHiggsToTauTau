@@ -71,6 +71,12 @@
 			"Spring16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_ichep2016.root"
 		}
 	},
+	"MetCorrectionMethod" : {
+		"nick" : {
+			"(Fall15MiniAODv2|Run2015D)" : "quantileMapping",
+			"default" : "meanResolution"
+		}
+	},
 	"MetRecoilCorrectorFile" : {
 		"nick" : {
 			"(Fall15MiniAODv2|Run2015D)" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root",
