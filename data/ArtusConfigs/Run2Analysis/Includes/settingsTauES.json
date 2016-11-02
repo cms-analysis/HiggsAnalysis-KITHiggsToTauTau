@@ -1,7 +1,7 @@
 {
 	"TauEnergyCorrection" : {
 		"nick" : {
-			"HToTauTau|DY.?JetsToLL|Run2015" : "none"
+			"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|Run2015" : "none"
 		}
 	}
 }

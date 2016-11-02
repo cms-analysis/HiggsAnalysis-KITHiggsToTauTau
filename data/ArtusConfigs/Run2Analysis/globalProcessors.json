@@ -38,7 +38,7 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer"
 			],
-			"^(GluGlu|VBF|Wminus|Wplus|Z)HToTauTau" : [
+			"^(GluGlu|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:ValidGenTausProducer",

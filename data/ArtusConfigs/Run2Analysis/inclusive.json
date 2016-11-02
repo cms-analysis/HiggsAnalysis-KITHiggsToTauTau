@@ -18,7 +18,7 @@
 			"nick" : {
 				"default" : [
 				],
-			"HToTauTau" : [
+			"HToTauTau|H2JetsToTauTau" : [
 					"producer:GenBosonFromGenParticlesProducer"
 				]
 			}
@@ -27,7 +27,7 @@
 			"nick" : {
 				"default" : [
 				],
-			"HToTauTau" : [
+			"HToTauTau|H2JetsToTauTau" : [
 				"KappaLambdaNtupleConsumer"
 				]
 			}
