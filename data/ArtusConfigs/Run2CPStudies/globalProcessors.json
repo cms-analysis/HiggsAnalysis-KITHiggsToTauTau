@@ -80,6 +80,17 @@
 				"filter:JsonFilter",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer"
+			],
+			"Embedding201" : [
+				"#filter:RunLumiEventFilter",
+				"filter:JsonFilter",
+				"producer:NicknameProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer"
 			]
 		}
 	}
