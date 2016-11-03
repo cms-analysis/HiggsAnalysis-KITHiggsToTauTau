@@ -749,9 +749,42 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		}
 	}
 
+	// clean loose electrons/muons from signal electrons/muons
+	std::vector<KElectron*> looseElectrons;
+	for (std::vector<KElectron*>::iterator looseElectron = product.m_validLooseElectrons.begin();
+		 looseElectron != product.m_validLooseElectrons.end(); ++looseElectron)
+	{
+		bool looseElectronAlsoSignalElectron = false;
+		for (std::vector<KElectron*>::iterator electron = product.m_validElectrons.begin();
+			 electron != product.m_validElectrons.end(); ++electron)
+		{
+			if ((*looseElectron)->p4 == (*electron)->p4)
+			{
+				looseElectronAlsoSignalElectron = true;
+			}
+		}
+		if (!looseElectronAlsoSignalElectron)
+			looseElectrons.push_back(*looseElectron);
+	}
+	std::vector<KMuon*> looseMuons;
+	for (std::vector<KMuon*>::iterator looseMuon = product.m_validLooseMuons.begin();
+		 looseMuon != product.m_validLooseMuons.end(); ++looseMuon)
+	{
+		bool looseMuonAlsoSignalMuon = false;
+		for (std::vector<KMuon*>::iterator muon = product.m_validMuons.begin();
+			 muon != product.m_validMuons.end(); ++muon)
+		{
+			if ((*looseMuon)->p4 == (*muon)->p4)
+			{
+				looseMuonAlsoSignalMuon = true;
+			}
+		}
+		if (!looseMuonAlsoSignalMuon)
+			looseMuons.push_back(*looseMuon);
+	}
 	// set boolean veto variables
-	product.m_extraElecVeto = (product.m_validLooseElectrons.size() > product.m_validElectrons.size());
-	product.m_extraMuonVeto = (product.m_validLooseMuons.size() > product.m_validMuons.size());
+	product.m_extraElecVeto = (looseElectrons.size() > 0);
+	product.m_extraMuonVeto = (looseMuons.size() > 0);
 	if ((m_decayChannel == HttEnumTypes::DecayChannel::TT) || (m_decayChannel == HttEnumTypes::DecayChannel::ET))
 	{
 		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > 0);
