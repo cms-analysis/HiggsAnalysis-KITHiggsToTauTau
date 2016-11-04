@@ -1,5 +1,15 @@
 {
 	"property" : [
+		"thePVx",
+		"thePVy",
+		"thePVz",
+		"refitPVx",
+		"refitPVy",
+		"refitPVz",
+		"refitBSPVx",
+		"refitBSPVy",
+		"refitBSPVz",
+		
 		"recoPhiStarCP",
 		"#recoPhiStarCPrPV",
 		"#recoPhiStarCPrPVbs",

@@ -23,6 +23,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducers.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RefitVertexSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTmvaClassificationReaders.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidGenTausProducer.h"
@@ -153,6 +154,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new GenTauCPProducer();
 	else if(id == GenMatchedTauCPProducer().GetProducerId())
 		return new GenMatchedTauCPProducer();
+	else if(id == RefitVertexSelector().GetProducerId())
+		return new RefitVertexSelector();
 	else if(id == RecoTauCPProducer().GetProducerId())
 		return new RecoTauCPProducer();
 	else if(id == AntiTtbarDiscriminatorTmvaReader().GetProducerId())
