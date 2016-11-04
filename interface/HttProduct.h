@@ -173,7 +173,8 @@ public:
 	bool m_diTauSystemReconstructed = false;
 
 	
-	// filled by RefitVertexSelector
+	// filled by VertexSelector
+	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
 	KRefitVertex* m_refitBSPV = 0;
 
