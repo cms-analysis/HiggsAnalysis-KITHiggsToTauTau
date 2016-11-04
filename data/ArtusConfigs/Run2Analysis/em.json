@@ -86,6 +86,11 @@
 				"Spring16" : true
 			}
 		},
+		"LowerCutHardLepPt" : {
+			"nick" : {
+				"Spring16" : 24.0
+			}
+		},
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"RooWorkspaceWeightNames" : [
