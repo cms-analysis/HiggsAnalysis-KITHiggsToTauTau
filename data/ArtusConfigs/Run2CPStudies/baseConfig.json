@@ -13,6 +13,6 @@
 	"#EventWhitelist" : [
 		38756
 	],
-	"#RefitVertexSummary" : "refittedVerticesNoBSSummary",
-	"#RefitVertexBSSummary" : "refittedVerticesBSSummary"
+	"RefitVertices" : "AdvancedRefittedVerticesNoBS",
+	"RefitBSVertices" : "AdvancedRefittedVerticesBS"
 }
