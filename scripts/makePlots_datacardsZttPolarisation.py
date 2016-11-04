@@ -341,8 +341,8 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MultiDimFit --algo none -P pol --floatOtherPOIs 1 "+datacards.stable_options+" -n ",
-			split_stat_syst_uncs=True
+			"-M MultiDimFit --algo singles -P pol --floatOtherPOIs 1 "+datacards.stable_options+" -n ",
+			split_stat_syst_uncs=True,
 	)
 	
 	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "mt", "et", "tt"])}
@@ -369,10 +369,12 @@ if __name__ == "__main__":
 	# plot best fit values of parameter pol from physics model
 	plot_configs = []
 	for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
-	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json"]:
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_stat_unc.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_stat_unc.json"]:
 		
 		config = jsonTools.JsonDict(os.path.expandvars(template))
-		config["files"] = [" ".join([root_file for root_file in sorted(tools.flattenList(values_tree_files.values())) if "MaxLikelihoodFit" in root_file])]
+		config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values()))]))]
 		config["x_ticks"] = sorted(values_tree_files.keys())
 		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
 		config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]
