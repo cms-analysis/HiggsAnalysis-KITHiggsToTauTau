@@ -733,19 +733,20 @@ class Datacards(object):
 				for datacard, workspace in datacards_workspaces.iteritems():
 					datacards_workspaces[datacard] = glob.glob(os.path.join(os.path.dirname(workspace), "higgsCombine"+new_name+"."+method+".*.root"))[0]
 
-	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, *args):
+	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, values_tree_files=None, *args):
 		if value_replacements is None:
 			value_replacements = {}
 
 		commands = []
-		values_tree_files = {}
+		if values_tree_files is None:
+			values_tree_files = {}
 		for datacard, workspace in datacards_workspaces.iteritems():
 			search_result = re.search(value_regex, workspace)
 			if not search_result is None:
 				value = search_result.groups()[0]
 				float_value = float(value_replacements.get(value, value))
 				files = os.path.join(os.path.dirname(workspace), root_filename)
-				values_tree_files[float_value] = files
+				values_tree_files.setdefault(float_value, []).extend(glob.glob(files))
 
 				commands.append("annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
 						FILES=files,

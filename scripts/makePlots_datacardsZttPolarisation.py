@@ -347,22 +347,24 @@ if __name__ == "__main__":
 	
 	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "mt", "et", "tt"])}
 	values_tree_files = {}
-	values_tree_files.update(datacards.annotate_trees(
+	datacards.annotate_trees(
 			datacards_workspaces,
 			"higgsCombine*.*.mH*.root",
 			[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
 			annotation_replacements,
 			args.n_processes,
+			values_tree_files,
 			"-t limit -b channel"
-	))
-	values_tree_files.update(datacards.annotate_trees(
+	)
+	datacards.annotate_trees(
 			datacards_workspaces,
 			"higgsCombine*.*.mH*.root",
 			[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
 			annotation_replacements,
 			args.n_processes,
+			values_tree_files,
 			"-t limit -b channel"
-	))
+	)
 	
 	# plot best fit values of parameter pol from physics model
 	plot_configs = []
@@ -370,7 +372,7 @@ if __name__ == "__main__":
 	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json"]:
 		
 		config = jsonTools.JsonDict(os.path.expandvars(template))
-		config["files"] = [" ".join([values_tree_files[value] for value in sorted(values_tree_files.keys())])]
+		config["files"] = [" ".join([root_file for root_file in sorted(tools.flattenList(values_tree_files.values())) if "MaxLikelihoodFit" in root_file])]
 		config["x_ticks"] = sorted(values_tree_files.keys())
 		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
 		config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]
