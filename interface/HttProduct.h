@@ -172,6 +172,11 @@ public:
 	ROOT::Math::Boost m_boostToDiTauRestFrame;
 	bool m_diTauSystemReconstructed = false;
 
+	
+	// filled by RefitVertexSelector
+	KRefitVertex* m_refitPV = 0;
+	KRefitVertex* m_refitBSPV = 0;
+
 	// filled by GenTauCPProducer
 	double m_genZMinus  = DefaultValues::UndefinedDouble;
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
