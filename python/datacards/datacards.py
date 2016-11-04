@@ -223,6 +223,12 @@ class Datacards(object):
 			ch.SystMap("era", "process",)
 				(       ["13TeV"], ["ZLL", "ZL"], 2.00) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
+		self.zjFakeTau_syst_args = [
+			"CMS_$ANALYSIS_zjFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process",)
+				(       ["13TeV"], ["ZLL", "ZL"], 1.30) # From Yuta's polarisation analysis
+		]
 
 		self.zee_norm_syst_args = [
 			"CMS_$ANALYSIS_zeeNorm_$ERA",
@@ -318,6 +324,31 @@ class Datacards(object):
 			"shape",
 			ch.SystMap("era")
 			(["13TeV"], 1.0)
+		]
+		
+		self.boson_scale_met_syst_args = [
+			"CMS_$ANALYSIS_boson_scale_met",
+			"lnN",
+			ch.SystMap("channel")
+				(["mt"], 1.02)
+		]
+		self.boson_resolution_met_syst_args = [
+			"CMS_$ANALYSIS_boson_reso_met",
+			"lnN",
+			ch.SystMap("channel")
+				(["mt"], 1.02)
+		]
+		self.ewk_top_scale_met_syst_args = [
+			"CMS_$ANALYSIS_ewkTop_scale_met",
+			"lnN",
+			ch.SystMap("channel")
+				(["mt"], 1.03)
+		]
+		self.ewk_top_resolution_met_syst_args = [
+			"CMS_$ANALYSIS_ewkTop_reso_met",
+			"lnN",
+			ch.SystMap("channel")
+				(["mt"], 1.01)
 		]
 
 		self.met_resp_syst_args = [

@@ -29,21 +29,30 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			# efficiencies
 			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			
-			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			#self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			
+			# from Yuta
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_scale_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_resolution_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TT", "VV"]).AddSyst(self.cb, *self.ewk_top_scale_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TT", "VV"]).AddSyst(self.cb, *self.ewk_top_resolution_met_syst_args)
 
 			# extrapolation uncertainty
+			self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
 			self.cb.cp().channel(["mt"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZJ"]).AddSyst(self.cb, *self.zjFakeTau_syst_args)
 			
 			# Top pT reweight
-			self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
+			#self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
 		
 			# ======================================================================
 			# ET channel
@@ -60,21 +69,24 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			# efficiencies
 			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			
-			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			#self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
 			# extrapolation uncertainty
+			self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
 			self.cb.cp().channel(["et"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["et"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZJ"]).AddSyst(self.cb, *self.zjFakeTau_syst_args)
 			
 			# Top pT reweight
-			self.cb.cp().channel(["et"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
+			#self.cb.cp().channel(["et"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
 		
 			# ======================================================================
 			# TT channel
@@ -89,21 +101,24 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
-			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
+			#self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
 			# extrapolation uncertainty
+			self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
 			self.cb.cp().channel(["tt"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["tt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
-			self.cb.cp().channel(["tt"]).process(["ZL", "ZJ"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			self.cb.cp().channel(["tt"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
+			self.cb.cp().channel(["tt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			self.cb.cp().channel(["tt"]).process(["ZJ"]).AddSyst(self.cb, *self.zjFakeTau_syst_args)
 			
 			# Top pT reweight
-			self.cb.cp().channel(["tt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
+			#self.cb.cp().channel(["tt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
 
 			# ======================================================================
 			# All channels
@@ -123,7 +138,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			self.cb.cp().process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.ztt_qcd_scale_syst_args)
 
 			# QCD systematic
-			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
+			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_inclusive_args)
 		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
