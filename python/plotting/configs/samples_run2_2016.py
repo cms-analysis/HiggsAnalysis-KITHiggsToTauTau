@@ -92,7 +92,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "mm":
 			return "(gen_match_1 < 4 || gen_match_2 < 4)"
 		elif channel == "tt":
-			return "((gen_match_1 < 6 && gen_match_2 < 6 && !(gen_match_1 == 5 && gen_match_2 == 5)) || gen_match_2 == 6 || gen_match_1 == 6)*"
+			return "((gen_match_1 < 6 && gen_match_2 < 6 && !(gen_match_1 == 5 && gen_match_2 == 5)) || gen_match_2 == 6 || gen_match_1 == 6)"
 		else:
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -1561,7 +1561,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(mc_sample_weight=mc_sample_weight, zPt=True),
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(mc_sample_weight=mc_sample_weight, z_pt=True),
 							"noplot_ztt_mc_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1636,7 +1636,7 @@ class Samples(samples.SamplesBase):
 								self.files_ztt(channel),
 								self.root_file_folder(channel),
 								lumi,
-								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(mc_sample_weight=mc_selection_weights[key], zPt=True),
+								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(mc_sample_weight=mc_selection_weights[key], z_pt=True),
 								"noplot_ztt_"+key,
 								nick_suffix=nick_suffix
 						)
