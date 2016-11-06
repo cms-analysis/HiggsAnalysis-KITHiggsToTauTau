@@ -6,8 +6,6 @@
 		"generatorWeight",
 		"crossSectionPerEventWeight",
 		"numberGeneratedEventsWeight",
-		"eventWeight",
-		"triggerweight_1",
-		"triggerweight_2"
+		"eventWeight"
 	]
 }
