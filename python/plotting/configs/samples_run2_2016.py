@@ -143,31 +143,19 @@ class Samples(samples.SamplesBase):
 
 	def get_weights_ztt(self, channel, weight="(1.0)", mc_sample_weight="(1.0)", z_pt=False, **kwargs):
 		data_weight, mc_weight = self.projection(kwargs)
-		if z_pt:
-			if self.embedding:
-				if channel == "et":
-					return(self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight*(eventWeight<1.0)*0.886")
-				elif channel == "mt":
-					return(self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight*(eventWeight<1.0)*0.067") 
-				elif channel == "tt":
-					return(self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight*(eventWeight<1.0)*2.56")
-				elif channel == "em":
-					return(self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight*(eventWeight<1.0)*0.147")
-				else:
-					log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
-			else:
-				return self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight"
-		elif self.embedding:
+		if self.embedding:
 			if channel == "et":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.886*"+self.ztt_stitchingweight())
+				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.886")
 			elif channel == "mt":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.067*"+self.ztt_stitchingweight())
+				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*1.08")
 			elif channel == "tt":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*2.55*"+self.ztt_stitchingweight())
+				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.38")
 			elif channel == "em":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.08*"+self.ztt_stitchingweight())
+				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.642") #0.642
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
+		elif z_pt:
+			return self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight"
 		else:
 			return mc_weight+"*"+weight+"*eventWeight*"+self.ztt_stitchingweight()
 		
