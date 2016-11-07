@@ -156,12 +156,14 @@ public:
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
 	KMET* m_pfmetUncorr = 0;
+	KMET* m_mvametUncorr = 0;
 
 	// filled by the MetCorrectors
-	std::vector<float> m_metCorrections;
+	std::vector<float> m_mvametCorrections;
 	std::vector<float> m_pfmetCorrections;
 	KMET m_met;
 	KMET m_pfmet;
+	KMET m_mvamet;
 
 	// filled by the TauTauRestFrameProducer
 	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;

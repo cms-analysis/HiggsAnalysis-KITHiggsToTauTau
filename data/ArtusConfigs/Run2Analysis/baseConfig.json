@@ -99,6 +99,12 @@
 			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 		}
 	},
+	"ChooseMvaMet" : {
+		"nick" : {
+			"default" : false,
+			"(Fall15MiniAODv2|Run2015D)" : true
+		}
+	},
 	"JsonFiles" : {
 		"nick" : {
 			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],

@@ -191,6 +191,10 @@ public:
 				correctedMetY,
 				0.,
 				std::sqrt(metResolution * metResolution + correctedMetX * correctedMetX + correctedMetY * correctedMetY));
+			if (m_correctGlobalMet)
+			{
+				product.m_met = product.*m_metMemberCorrected;
+			}
 		}
 		
 		// Apply the correction to the MET object, if required (done for all the samples)
@@ -215,6 +219,10 @@ public:
 				correctedMetShiftY,
 				0.,
 				std::sqrt(metResolution * metResolution + correctedMetShiftX * correctedMetShiftX + correctedMetShiftY * correctedMetShiftY));
+                        if (m_correctGlobalMet)
+                        {
+                                product.m_met = product.*m_metMemberCorrected;
+                        }
 		}
 	}
 
@@ -232,6 +240,7 @@ protected:
 	bool m_isWJets;
 	bool m_doMetSys;
 	CorrectionMethod m_correctionMethod;
+	bool m_correctGlobalMet;
 };
 
 
