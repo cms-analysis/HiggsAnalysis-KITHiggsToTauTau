@@ -182,7 +182,8 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							higgs_masses=higgs_masses,
 							estimationMethod="new",
-							polarisation_bias_correction=True
+							polarisation_bias_correction=True,
+							cut_type="baseline_low_mvis"
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
