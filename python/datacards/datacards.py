@@ -643,6 +643,9 @@ class Datacards(object):
 		bin_by_bin_factory.MergeBinErrors(self.cb.cp().process(processes))
 		bin_by_bin_factory.AddBinByBin(self.cb.cp().process(processes), self.cb)
 		#ch.SetStandardBinNames(self.cb) # TODO: this line seems to mix up the categories
+		
+		self.cb.SetGroup("bbb", [".*_bin_\\d+"])
+		self.cb.SetGroup("syst_plus_bbb", [".*"])
 
 	def remove_systematics(self):
 		def remove(systematic):
