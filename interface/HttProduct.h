@@ -116,6 +116,7 @@ public:
 	std::map<KLepton*, double> m_a1CosBeta; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1CosGamma; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1SinGamma; // Keys are only of type KTau*
+	double m_tauPolarisationDiscriminator = DefaultValues::UndefinedDouble;
 
 	// filled by the MetprojectionProducer
 	TVector2 m_recoMetOnGenMetProjection;
