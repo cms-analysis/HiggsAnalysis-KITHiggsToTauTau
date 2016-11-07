@@ -392,7 +392,20 @@ class CutStringsDict:
 			cuts = CutStringsDict.tauescuts(channel, cut_type)
 		elif cut_type=="tauescuts2016":
 			cuts = CutStringsDict.tauescuts(channel, cut_type)
+		elif cut_type=="relaxedETauMuTauWJ":
+			cuts = CutStringsDict.relaxedETauMuTauWJ(channel, cut_type)
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
+			sys.exit(1)
+		return cuts
+
+	@staticmethod
+	def relaxedETauMuTauWJ(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["iso_1"] = "(iso_1 < 0.3)"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts

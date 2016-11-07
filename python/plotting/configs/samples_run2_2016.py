@@ -905,13 +905,23 @@ class Samples(samples.SamplesBase):
 						("noplot_" if not controlregions else "") + "wj_ss_highmt",
 						nick_suffix=nick_suffix
 				)
+				wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline"
+				Samples._add_input(
+						config,
+						self.files_wj(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type),
+						"wj",
+						nick_suffix=nick_suffix
+				)
 				Samples._add_input(
 						config,
 						self.files_wj(channel),
 						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-						"wj",
+						"noplot_wj_os_lowmt",
 						nick_suffix=nick_suffix
 				)
 				Samples._add_input(
@@ -944,7 +954,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("wj_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_os_mc_nicks", []).append("noplot_wj_mc_os_inclusive"+nick_suffix)
 					config.setdefault("wjets_os_highmt_mc_nicks", []).append("wj_os_highmt"+nick_suffix)
-					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj"+nick_suffix)
+					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj_os_lowmt"+nick_suffix)
 					for nick in ["ztt_os_highmt", "zll_os_highmt", "zl_os_highmt", "zj_os_highmt", "ttt_os_highmt", "ttjj_os_highmt", "ttj_os_highmt", "vvt_os_highmt", "vvj_os_highmt", "vv_os_highmt", "data_os_highmt", "wj_os_highmt", "ztt_ss_highmt", "zll_ss_highmt", "zl_ss_highmt", "zj_ss_highmt", "ttt_ss_highmt", "ttjj_ss_highmt", "ttj_ss_highmt", "vvt_ss_highmt", "vvj_ss_highmt", "vv_ss_highmt", "data_ss_highmt", "wj_ss_highmt"]:
 						if not kwargs.get("mssm", False):
 							Samples._add_bin_corrections(config, nick, nick_suffix)
@@ -959,7 +969,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("noplot_wj_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_os_mc_nicks", []).append("noplot_wj_mc_os_inclusive"+nick_suffix)
 					config.setdefault("wjets_os_highmt_mc_nicks", []).append("noplot_wj_os_highmt"+nick_suffix)
-					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj"+nick_suffix)
+					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("noplot_wj_os_lowmt"+nick_suffix)
 
 			if estimationMethod == "classic":
 				shape_weight = mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)
