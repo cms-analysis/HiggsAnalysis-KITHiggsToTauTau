@@ -647,14 +647,6 @@ class Datacards(object):
 		self.cb.SetGroup("bbb", [".*_bin_\\d+"])
 		self.cb.SetGroup("syst_plus_bbb", [".*"])
 
-	def remove_systematics(self):
-		def remove(systematic):
-			systematic.set_type("lnN")
-			systematic.set_value_u(0.0)
-			systematic.set_value_d(0.0)
-
-		self.cb.ForEachSyst(remove)
-
 	def scale_expectation(self, scale_factor, no_norm_rate_bkg=False, no_norm_rate_sig=False):
 		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_bkg else process.rate()) * scale_factor))
 		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_sig else process.rate()) * scale_factor))
