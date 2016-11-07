@@ -179,6 +179,8 @@ if __name__ == "__main__":
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
+	parser.add_argument("--controlregions", action="store_true", default=False,
+	                    help="Also create histograms for control regions. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
@@ -327,6 +329,7 @@ if __name__ == "__main__":
 						scale_mc_only=args.scale_mc_only,
 						estimationMethod=background_method,
 						mssm=args.mssm,
+						controlregions=args.controlregions,
 						cut_type="mssm2016" if (args.era == "2016" and args.mssm) else "mssm" if args.mssm else "baseline2016" if args.era == "2016" else "baseline"
 				)
 
