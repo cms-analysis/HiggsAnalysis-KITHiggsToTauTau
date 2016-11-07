@@ -1537,13 +1537,13 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
 				if channel == "em":
 					data_sample_weight = data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*emuQcdWeightNom"
-					mc_sample_weight = mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*emuQcdWeightNom"
+					mc_sample_weight = mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*emuQcdWeightNom"
 					Samples._add_input(
 							config,
 							self.files_wj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_sample_weight,
+							mc_sample_weight+"*"+self.wj_stitchingweight(),
 							"noplot_wj_ss",
 							nick_suffix=nick_suffix
 					)
