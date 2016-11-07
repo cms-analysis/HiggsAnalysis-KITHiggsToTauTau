@@ -276,8 +276,22 @@ if __name__ == "__main__":
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
 		
 	# use asimov dataset for s+b
+	asimov_options = ""
 	if args.use_asimov_dataset:
-		datacards.replace_observation_by_asimov_dataset("125")
+		#asimov_options = "--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"pol=-0.159,r=1\""
+		
+		pospol_signals = datacards.cb.cp().signals()
+		pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))
+		pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.0 - 0.159)))
+		
+		negpol_signals = datacards.cb.cp().signals()
+		negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
+		negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.0 + 0.159)))
+		
+		datacards.replace_observation_by_asimov_dataset()
+		
+		pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0 - 0.159)))
+		negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0 + 0.159)))
 
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
@@ -306,7 +320,7 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
+			"-M MaxLikelihoodFit --saveWorkspace --redefineSignalPOIs pol "+(asimov_options if args.use_asimov_dataset else "")+" "+datacards.stable_options+" -n \"\"",
 			split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 	)
 	
@@ -341,7 +355,7 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MultiDimFit --algo singles -P pol --floatOtherPOIs 1 "+datacards.stable_options+" -n ",
+			"-M MultiDimFit --algo singles -P pol --floatOtherPOIs 1 "+(asimov_options if args.use_asimov_dataset else "")+" "+datacards.stable_options+" -n ",
 			split_stat_syst_uncs=True,
 	)
 	
