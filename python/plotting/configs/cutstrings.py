@@ -48,6 +48,7 @@ class CutStringsDict:
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "tt":
+			cuts["pt_1"] = "(pt_1 > 50.0)" if "2016" in cut_type and not "mssm" in cut_type else "(1.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"

@@ -1620,15 +1620,19 @@ class Samples(samples.SamplesBase):
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0)
 					config.setdefault("qcd_subtract_shape", []).append(True)
 				if channel == "tt":
+					if cut_type == "baseline2016":
+						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))"
+					else:
+						isolationDefinition = "(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
 					data_selection_weights = {
-						"qcd_shape" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_1", "iso_2"], cut_type=cut_type)+"*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+						"qcd_shape" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_1", "iso_2"], cut_type=cut_type)+"*"+isolationDefinition,
 						"qcd_signal_ss" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
-						"qcd_relaxed_ss" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
+						"qcd_relaxed_ss" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+isolationDefinition
 						}
 					mc_selection_weights = {
-						"qcd_shape" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_1", "iso_2"], cut_type=cut_type)+"*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+						"qcd_shape" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_1", "iso_2"], cut_type=cut_type)+"*"+isolationDefinition,
 						"qcd_signal_ss" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
-						"qcd_relaxed_ss" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
+						"qcd_relaxed_ss" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+isolationDefinition
 						}
 					for key in mc_selection_weights:
 						Samples._add_input(
