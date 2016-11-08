@@ -21,7 +21,7 @@
 				"default" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
 				],
-				"Spring16" : [
+				"Spring16|Embedding2016" : [
 					"unavailable"
 				]
 			}
@@ -29,7 +29,8 @@
 		"NoHltFiltering" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true
+				"Spring16" : true,
+				"Embedding2016" : true
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
@@ -74,7 +75,7 @@
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"TauTriggerFilterNames" : {
 			"nick" : {
-				"(Fall15MiniAODv2|Run2015D|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D|Embedding2015|Embedding2016|Run2016)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
 				]
 			}
