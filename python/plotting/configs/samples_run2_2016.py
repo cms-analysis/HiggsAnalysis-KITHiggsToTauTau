@@ -161,7 +161,7 @@ class Samples(samples.SamplesBase):
 		
 	def files_data(self, channel):
 		query = {}
-		expect_n_results = 4 # adjust in if-statements if different depending on channel
+		expect_n_results = 3 # adjust in if-statements if different depending on channel
 		if channel == "mt":
 			query = { "process" : "SingleMuon" }
 		elif channel == "et":
@@ -176,7 +176,7 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 
 		query["data"] = True
-		query["campaign"] = "Run2016.*"
+		query["campaign"] = "Run2016(B|C|D)"
 		return self.artus_file_names(query, expect_n_results),
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
