@@ -50,7 +50,8 @@
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true
+				"Spring16" : true,
+				"Embedding2016" : true
 			}
 		},
 		"EventWeight" : "eventWeight",

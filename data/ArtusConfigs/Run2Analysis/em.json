@@ -90,7 +90,7 @@
 		},
 		"LowerCutHardLepPt" : {
 			"nick" : {
-				"Spring16" : 24.0
+				"Spring16|Embedding2016" : 24.0
 			}
 		},
 		"EventWeight" : "eventWeight",

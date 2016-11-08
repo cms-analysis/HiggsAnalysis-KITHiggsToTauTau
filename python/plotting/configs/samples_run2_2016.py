@@ -151,7 +151,7 @@ class Samples(samples.SamplesBase):
 			elif channel == "tt":
 				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.38")
 			elif channel == "em":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.642") #0.642
+				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.642")
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif z_pt:
