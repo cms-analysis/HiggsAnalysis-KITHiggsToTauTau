@@ -32,5 +32,6 @@ public:
 
 private:
 	std::map<std::string, std::vector<std::string> > genEventInfoMetadataMap;
-	std::map<size_t, std::string> weightIndicesMap;
+	std::vector<std::string> weightNames;
+
 };
