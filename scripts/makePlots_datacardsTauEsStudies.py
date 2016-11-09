@@ -187,7 +187,7 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	channel = "mt"
 	quantity = args.quantity
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, pt_bins)
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, pt_bins, args.era)
 	datacards.cb.channel([channel])
 	
 	for decayMode in args.decay_modes:

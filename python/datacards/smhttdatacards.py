@@ -9,7 +9,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
 class SMHttDatacards(datacards.Datacards):
-	def __init__(self, higgs_masses=["125"], useRateParam=False, cb=None):
+	def __init__(self, higgs_masses=["125"], useRateParam=False, year="", cb=None):
 		super(SMHttDatacards, self).__init__(cb)
 
 		if cb is None:
@@ -31,8 +31,13 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			# (hopefully) temporary fix
+			if year == "2016":
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, "CMS_eff_t_mt_13TeV", "lnN", ch.SystMap()(1.10))
+				self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, "CMS_eff_t_mt_13TeV", "lnN", ch.SystMap()(1.10))
+			else:
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+				self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
 			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
 
@@ -70,8 +75,13 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
 			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.electron_efficieny_syst_args)
 
-			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			# (hopefully) temporary fix
+			if year == "2016":
+				self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, "CMS_eff_t_et_13TeV", "lnN", ch.SystMap()(1.10))
+				self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, "CMS_eff_t_et_13TeV", "lnN", ch.SystMap()(1.10))
+			else:
+				self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+				self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
@@ -134,8 +144,13 @@ class SMHttDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			self.cb.cp().channel(["tt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
-			self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			# (hopefully) temporary fix
+			if year == "2016":
+				self.cb.cp().channel(["tt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, "CMS_eff_t_tt_13TeV", "lnN", ch.SystMap()(1.13))
+				self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, "CMS_eff_t_tt_13TeV", "lnN", ch.SystMap()(1.13))
+			else:
+				self.cb.cp().channel(["tt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+				self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficieny_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["tt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
@@ -171,9 +186,15 @@ class SMHttDatacards(datacards.Datacards):
 			# All channels
 
 			# lumi
-			self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
-			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
-			self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args) # automatically in other channels determined
+			# (hopefully) temporary fix
+			if year == "2016":
+				self.cb.cp().signals().AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.046))
+				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.046))
+				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.046)) # automatically in other channels determined
+			else:
+				self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
+				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
+				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args) # automatically in other channels determined
 
 			# jets
 			self.cb.cp().process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)

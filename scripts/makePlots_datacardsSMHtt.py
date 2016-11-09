@@ -115,9 +115,9 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam)
+	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
 	if args.for_dcsync:
-		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam)
+		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
