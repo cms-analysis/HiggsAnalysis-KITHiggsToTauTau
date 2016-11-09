@@ -6,11 +6,13 @@ std::string ScaleVariationProducer::GetProducerId() const
 	return "ScaleVariationProducer";
 }
 
-void ScaleVariationProducer::OnLumi(event_type const& event,
-	                 setting_type const& settings)
+void ScaleVariationProducer::Init(setting_type const& settings)
 {
-	Utility::ParseVectorToMap(settings.GetGenEventInfoMetadataNames());
-	std::map<std::string, std::vector<std::string>> genEventInfoMetadataMap = Utility::ParseVectorToMap(settings.GetGenEventInfoMetadataNames());
+	genEventInfoMetadataMap = Utility::ParseVectorToMap(settings.GetGenEventInfoMetadataNames());
+}
+
+void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const& settings)
+{
 	size_t index = 0;
 	for(auto weight_to_store: genEventInfoMetadataMap)
 	{
