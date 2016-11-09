@@ -160,7 +160,7 @@ class SMHttDatacards(datacards.Datacards):
 					mass=higgs_masses
 			)
 			
-			self.cb.cp().channel(["mm"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mm"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			self.cb.cp().channel(["mm"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 			
 			if useRateParam:
@@ -172,7 +172,8 @@ class SMHttDatacards(datacards.Datacards):
 
 			# lumi
 			self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
-			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "W", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
+			self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args) # automatically in other channels determined
 
 			# jets
 			self.cb.cp().process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
@@ -190,7 +191,7 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["TT"]).channel(["mt", "et", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args) # automatically in other channels determined
 			#self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
-			self.cb.cp().process(["W"]).channel(["em", "tt"]).AddSyst(self.cb, *self.wj_cross_section_syst_args) # automatically in other channels determined
+			self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.wj_cross_section_syst_args) # automatically in other channels determined
 			#self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
 
 			# signal

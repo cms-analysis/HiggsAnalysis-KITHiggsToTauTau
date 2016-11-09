@@ -323,8 +323,11 @@ class CutStringsDict:
 	def tauescuts(channel, cut_type):
 		if channel == "mt":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
-			cuts["bveto"] = "(nbtag == 0)"
+			if not "2016" in cut_type:
+				# the cuts below lead to W+jets being estimated to zero
+				# with new background estimation technique
+				cuts["pzeta"] = "(pZetaMissVis > -25.0)"
+				cuts["bveto"] = "(nbtag == 0)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
