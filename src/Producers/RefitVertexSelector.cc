@@ -26,15 +26,15 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	// refitted PV coordinates
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVx", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitPV ? (product.m_refitPV)->position.x() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPV != 0 ) ? (product.m_refitPV)->position.x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVy", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitPV ? (product.m_refitPV)->position.y() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPV != 0) ? (product.m_refitPV)->position.y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitPV ? (product.m_refitPV)->position.z() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPV != 0) ? (product.m_refitPV)->position.z() : DefaultValues::UndefinedFloat);
 	});
 	
 	// refitted (w/ BS constraint) PV coordinates
@@ -80,6 +80,7 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 		hash = 0;
 		for (auto lepton : leptons){
 			boost::hash_combine(hash, lepton->internalId);
+			//std::cout << "hash lep2-1 " << hash << std::endl;
 		}
 		hashes.push_back(hash);
 
@@ -89,24 +90,26 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 	// find the vertex among the refitted vertices
 	//bool foundRefitPV = false;
 
-	for (auto vertex : *(event.m_refitVertices)){
-		if ( std::find(hashes.begin(), hashes.end(), vertex.leptonSelectionHash) != hashes.end() ){
-			product.m_refitPV = &vertex;
+	for (std::vector<KRefitVertex>::iterator vertex = event.m_refitVertices->begin(); vertex != event.m_refitVertices->end(); ++vertex){
+		if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
+			product.m_refitPV = &(*vertex);
 			//foundRefitPV = true;
 			break;
 		}
 	} // loop over refitted vertices collection
 
+
 	
 	// find the vertex among the refitted vertices calculated w/ beamspot constraint
 	//bool foundRefitBSPV = false;
 
-	for (auto vertex : *(event.m_refitBSVertices)){
-		if ( std::find(hashes.begin(), hashes.end(), vertex.leptonSelectionHash) != hashes.end() ){
-			product.m_refitBSPV = &vertex;
+	for (std::vector<KRefitVertex>::iterator vertex = event.m_refitBSVertices->begin(); vertex != event.m_refitBSVertices->end(); ++vertex){
+		if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
+			product.m_refitBSPV = &(*vertex);
 			//foundRefitBSPV = true;
 			break;
 		}
+
 	} // loop over refitted vertices collection
 
 }
