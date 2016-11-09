@@ -48,6 +48,7 @@ class CutStringsDict:
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "tt":
+			cuts["pt_1"] = "(pt_1 > 50.0)" if "2016" in cut_type and not "mssm" in cut_type else "(1.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"
@@ -330,6 +331,23 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+	def relaxedETauMuTauWJ(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["iso_1"] = "(iso_1 < 0.3)"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+
+	@staticmethod
+	def baseline_low_mvis(channel, cut_type):
+		cuts = CutStringsDict.baseline(channel, cut_type)
+		cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 80.0))"
+		return cuts
+
+	@staticmethod
 	def _get_cutdict(channel, cut_type):
 		cuts = {}
 		if cut_type=="baseline":
@@ -391,7 +409,14 @@ class CutStringsDict:
 			cuts = CutStringsDict.tauescuts(channel, cut_type)
 		elif cut_type=="tauescuts2016":
 			cuts = CutStringsDict.tauescuts(channel, cut_type)
+		elif cut_type=="relaxedETauMuTauWJ":
+			cuts = CutStringsDict.relaxedETauMuTauWJ(channel, cut_type)
+		
+		elif cut_type=="baseline_low_mvis":
+			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
+		
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
 			sys.exit(1)
 		return cuts
+

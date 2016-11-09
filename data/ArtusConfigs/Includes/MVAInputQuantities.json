@@ -18,6 +18,22 @@
     "diJetSymEta_1",
     "diJetSymEta_2",
     "diJetDeltaR",
-    "diJetAbsDeltaPhi"
+    "diJetAbsDeltaPhi",
+    "nJets20",
+    "jccsv_1",
+    "jccsv_2",
+    "jccsv_3",
+    "jccsv_4",
+    "diCJetSymEta_1",
+    "diCJetSymEta_2",
+    "diCJetDeltaR",
+    "diCJetAbsDeltaPhi",
+    "diCJetDeltam",
+    "jcpt_1",
+    "jcpt_2",
+    "jcm_1",
+    "jcm_2",
+    "diCJetm",
+    "pVecSumCSVJets"
     ]
 }

@@ -18,10 +18,12 @@
 		"a1SinGamma_1",
 		"a1SinGamma_2",
 		
+		"rhoNeutralChargedAsymmetry_1",
+		"rhoNeutralChargedAsymmetry_2",
+		
 		"visibleOverFullEnergy_1",
 		"visibleOverFullEnergy_2",
 		
-		"rhoNeutralChargedAsymmetry_1",
-		"rhoNeutralChargedAsymmetry_2"
+		"tauPolarisationDiscriminator"
 	]
 }

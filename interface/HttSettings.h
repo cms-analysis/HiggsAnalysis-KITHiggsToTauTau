@@ -40,6 +40,7 @@ public:
 	IMPL_SETTING(std::string, MvaMetShiftCorrectorFile);
 	IMPL_SETTING_DEFAULT(std::string, MetCorrectionMethod, "quantileMapping");
 
+	IMPL_SETTING_DEFAULT(bool, ChooseMvaMet, true);
 	IMPL_SETTING_DEFAULT(int, MetSysType, 0);
 	IMPL_SETTING_DEFAULT(int, MetSysShift, 0);
 
@@ -201,7 +202,7 @@ public:
 	IMPL_SETTING(int, MaxNLooseElectrons);
 	IMPL_SETTING(int, MaxNLooseMuons);
 
-	IMPL_SETTING(float, LowerCutHardLepPt);
+	IMPL_SETTING_DEFAULT(float, LowerCutHardLepPt, -1.0);
 
 	IMPL_SETTING_DEFAULT(float, DiTauPairMinDeltaRCut, -1.0);
 	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton1LowerPtCuts, {});

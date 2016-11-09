@@ -116,6 +116,7 @@ public:
 	std::map<KLepton*, double> m_a1CosBeta; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1CosGamma; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1SinGamma; // Keys are only of type KTau*
+	double m_tauPolarisationDiscriminator = DefaultValues::UndefinedDouble;
 
 	// filled by the MetprojectionProducer
 	TVector2 m_recoMetOnGenMetProjection;
@@ -156,12 +157,14 @@ public:
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
 	KMET* m_pfmetUncorr = 0;
+	KMET* m_mvametUncorr = 0;
 
 	// filled by the MetCorrectors
-	std::vector<float> m_metCorrections;
+	std::vector<float> m_mvametCorrections;
 	std::vector<float> m_pfmetCorrections;
 	KMET m_met;
 	KMET m_pfmet;
+	KMET m_mvamet;
 
 	// filled by the TauTauRestFrameProducer
 	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;
@@ -253,6 +256,21 @@ public:
 	double m_diLepJet1DeltaR = -10;
 	double m_diLepDeltaR = -10;
 	double m_diJetDeltaMass = -10;
-	double m_diJetSymDeltaEta = 0;
+	double m_diJetSymDeltaEta = -30;
 	double m_diJetDeltaR = -1;
+	double m_diCJetDeltaMass = -10;
+	double m_diCJetSymDeltaEta = -30;
+	double m_diCJetDeltaR = -1;
+	double m_diCJetAbsDeltaPhi = -1;
+	double m_diCJetSymEta1 = -1;
+	double m_jccsv1 = -1;
+	double m_jccsv2 = -1;
+	double m_jccsv3 = -1;
+	double m_jccsv4 = -1;
+	double m_csv1JetPt = -10;
+	double m_csv2JetPt = -10;
+	double m_csv1JetMass = -10;
+	double m_csv2JetMass = -10;
+	double m_diCJetMass = -10;
+	double m_pVecSumCSVJets = -1;
 };

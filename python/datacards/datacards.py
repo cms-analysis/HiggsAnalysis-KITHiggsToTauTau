@@ -223,6 +223,12 @@ class Datacards(object):
 			ch.SystMap("era", "process",)
 				(       ["13TeV"], ["ZLL", "ZL"], 2.00) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
+		self.zjFakeTau_syst_args = [
+			"CMS_$ANALYSIS_zjFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process",)
+				(       ["13TeV"], ["ZLL", "ZL"], 1.30) # From Yuta's polarisation analysis
+		]
 
 		self.zee_norm_syst_args = [
 			"CMS_$ANALYSIS_zeeNorm_$ERA",
@@ -318,6 +324,31 @@ class Datacards(object):
 			"shape",
 			ch.SystMap("era")
 			(["13TeV"], 1.0)
+		]
+		
+		self.boson_scale_met_syst_args = [
+			"CMS_$ANALYSIS_boson_scale_met",
+			"lnN",
+			ch.SystMap("channel")
+				(["mt"], 1.02)
+		]
+		self.boson_resolution_met_syst_args = [
+			"CMS_$ANALYSIS_boson_reso_met",
+			"lnN",
+			ch.SystMap("channel")
+				(["mt"], 1.02)
+		]
+		self.ewk_top_scale_met_syst_args = [
+			"CMS_$ANALYSIS_ewkTop_scale_met",
+			"lnN",
+			ch.SystMap("channel")
+				(["mt"], 1.03)
+		]
+		self.ewk_top_resolution_met_syst_args = [
+			"CMS_$ANALYSIS_ewkTop_reso_met",
+			"lnN",
+			ch.SystMap("channel")
+				(["mt"], 1.01)
 		]
 
 		self.met_resp_syst_args = [
@@ -612,14 +643,9 @@ class Datacards(object):
 		bin_by_bin_factory.MergeBinErrors(self.cb.cp().process(processes))
 		bin_by_bin_factory.AddBinByBin(self.cb.cp().process(processes), self.cb)
 		#ch.SetStandardBinNames(self.cb) # TODO: this line seems to mix up the categories
-
-	def remove_systematics(self):
-		def remove(systematic):
-			systematic.set_type("lnN")
-			systematic.set_value_u(0.0)
-			systematic.set_value_d(0.0)
-
-		self.cb.ForEachSyst(remove)
+		
+		self.cb.SetGroup("bbb", [".*_bin_\\d+"])
+		self.cb.SetGroup("syst_plus_bbb", [".*"])
 
 	def scale_expectation(self, scale_factor, no_norm_rate_bkg=False, no_norm_rate_sig=False):
 		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_bkg else process.rate()) * scale_factor))
@@ -628,11 +654,13 @@ class Datacards(object):
 	def scale_processes(self, scale_factor, processes, no_norm_rate=False):
 		self.cb.cp().process(processes).ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate else process.rate()) * scale_factor))
 
-	def replace_observation_by_asimov_dataset(self, signal_mass):
+	def replace_observation_by_asimov_dataset(self, signal_mass=None):
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
-			observation.set_shape(cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape(), True)
-			observation.set_rate(cb.cp().backgrounds().GetRate() + cb.cp().signals().mass([signal_mass]).GetRate())
+			background = cb.cp().backgrounds()
+			signal = cb.cp().signals() if signal_mass is None else cb.cp().signals().mass([signal_mass])
+			observation.set_shape(background.GetShape() + signal.GetShape(), True)
+			observation.set_rate(background.GetRate() + signal.GetRate())
 
 		self.cb.cp().ForEachObs(_replace_observation_by_asimov_dataset)
 
@@ -703,7 +731,9 @@ class Datacards(object):
 				if name is None:
 					prepared_tmp_args = tmp_args + " -n " + new_name
 				else:
-					prepared_tmp_args = re.sub("(--floatOtherPOIs)([\s=\"\']*)(1)([\"\']?\s)", "\\1\\2 "+("\\3" if split_stat_syst_uncs_index == 0 else "0")+"\\4", re.sub("(-n|--name)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2"+new_name+"\\4", tmp_args))
+					prepared_tmp_args = copy.deepcopy(tmp_args)
+					#prepared_tmp_args = re.sub("(--floatOtherPOIs)([\s=\"\']*)(1)([\"\']?\s)", "\\1\\2 "+("\\3" if split_stat_syst_uncs_index == 0 else "0")+"\\4", prepared_tmp_args)
+					prepared_tmp_args = re.sub("(-n|--name)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2"+new_name+"\\4", prepared_tmp_args)
 			else:
 				prepared_tmp_args = tmp_args
 			
@@ -731,19 +761,20 @@ class Datacards(object):
 				for datacard, workspace in datacards_workspaces.iteritems():
 					datacards_workspaces[datacard] = glob.glob(os.path.join(os.path.dirname(workspace), "higgsCombine"+new_name+"."+method+".*.root"))[0]
 
-	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, *args):
+	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, values_tree_files=None, *args):
 		if value_replacements is None:
 			value_replacements = {}
 
 		commands = []
-		values_tree_files = {}
+		if values_tree_files is None:
+			values_tree_files = {}
 		for datacard, workspace in datacards_workspaces.iteritems():
 			search_result = re.search(value_regex, workspace)
 			if not search_result is None:
 				value = search_result.groups()[0]
 				float_value = float(value_replacements.get(value, value))
 				files = os.path.join(os.path.dirname(workspace), root_filename)
-				values_tree_files[float_value] = files
+				values_tree_files.setdefault(float_value, []).extend(glob.glob(files))
 
 				commands.append("annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
 						FILES=files,

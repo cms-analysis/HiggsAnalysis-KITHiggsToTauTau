@@ -174,7 +174,6 @@ public:
 				}
 				else // will hopefully become obsolete towards the end of 2016 when the trigger is included in simulation
 				{
-					// this only gives sensible results for single-lepton triggers. for double-lepton or cross triggers please apply cuts at plotting level
 					if (validDiTauPair)
 					{
 						// lepton 1
@@ -217,6 +216,8 @@ public:
 							}
 						}
 					}
+					// require at least one of the leptons to pass a higher pt threshold. this is needed for double-lepton or cross triggers
+					validDiTauPair = validDiTauPair && (diTauPair.first->p4.Pt() > settings.GetLowerCutHardLepPt() || diTauPair.second->p4.Pt() > settings.GetLowerCutHardLepPt());
 				}
 				
 				// check possible additional criteria from subclasses

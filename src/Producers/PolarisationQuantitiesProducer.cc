@@ -52,6 +52,10 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergy_2", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergy, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
 	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationDiscriminator", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(product.m_tauPolarisationDiscriminator);
+	});
 }
 
 void PolarisationQuantitiesProducer::Produce(
@@ -60,6 +64,8 @@ void PolarisationQuantitiesProducer::Produce(
 		setting_type const& settings
 ) const
 {
+	bool tauPolarisationDiscriminatorChosen = false;
+
 	// 3-prong method
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
@@ -105,16 +111,13 @@ void PolarisationQuantitiesProducer::Produce(
 			product.m_a1CosBeta[*tau] = pions[2]->Vect().Dot(pions[0]->Vect().Cross(pions[1]->Vect())) / ((*tau)->p4.Vect().R() * valueT);
 			product.m_a1CosGamma[*tau] = valuesA[2] / ((*tau)->p4.Vect().R()*std::sqrt(valuesB[2])*std::sin(std::acos(product.m_a1CosBeta[*tau])));
 			product.m_a1SinGamma[*tau] = (-product.m_a1CosGamma[*tau] / valueT) * ((valuesB[2]*valuesA[0]/valuesA[1]) - ((valuesB[1]-valuesB[0]-valuesB[2])/2.0));
-		}
-	}
-	
-	// 1-prong method
-	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
-	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
-	{
-		if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
-		{
-			product.m_visibleOverFullEnergy[*lepton] = (*lepton)->p4.E() / SafeMap::Get(product.m_hhKinFitTaus, *lepton).E();
+			
+			if (! tauPolarisationDiscriminatorChosen)
+			{
+				// TODO: choose final discriminator
+				// product.m_tauPolarisationDiscriminator = DefaultValues::UndefinedDouble;
+				// tauPolarisationDiscriminatorChosen = true;
+			}
 		}
 	}
 	
@@ -128,6 +131,28 @@ void PolarisationQuantitiesProducer::Produce(
 			double energyChargedPi = (*tau)->sumChargedHadronCandidates().E();
 			double energyNeutralPi = (*tau)->piZeroMomentum().E();
 			product.m_rhoNeutralChargedAsymmetry[*tau] = (((energyNeutralPi + energyChargedPi) != 0.0) ? (energyChargedPi - energyNeutralPi) / (energyChargedPi + energyNeutralPi) : 0.0);
+			
+			if (! tauPolarisationDiscriminatorChosen)
+			{
+				product.m_tauPolarisationDiscriminator = product.m_rhoNeutralChargedAsymmetry[*tau];
+				tauPolarisationDiscriminatorChosen = true;
+			}
+		}
+	}
+	
+	// 1-prong method
+	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
+	{
+		if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
+		{
+			product.m_visibleOverFullEnergy[*lepton] = (*lepton)->p4.E() / SafeMap::Get(product.m_hhKinFitTaus, *lepton).E();
+			
+			if (! tauPolarisationDiscriminatorChosen)
+			{
+				product.m_tauPolarisationDiscriminator = product.m_visibleOverFullEnergy[*lepton];
+				tauPolarisationDiscriminatorChosen = true;
+			}
 		}
 	}
 }

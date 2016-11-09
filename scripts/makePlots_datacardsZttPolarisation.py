@@ -182,7 +182,8 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							higgs_masses=higgs_masses,
 							estimationMethod="new",
-							polarisation_bias_correction=True
+							polarisation_bias_correction=True,
+							cut_type="baseline_low_mvis"
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -276,8 +277,22 @@ if __name__ == "__main__":
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
 		
 	# use asimov dataset for s+b
+	asimov_options = ""
 	if args.use_asimov_dataset:
-		datacards.replace_observation_by_asimov_dataset("125")
+		#asimov_options = "--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"pol=-0.159,r=1\""
+		
+		pospol_signals = datacards.cb.cp().signals()
+		pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))
+		pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.0 - 0.159)))
+		
+		negpol_signals = datacards.cb.cp().signals()
+		negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
+		negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.0 + 0.159)))
+		
+		datacards.replace_observation_by_asimov_dataset()
+		
+		pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0 - 0.159)))
+		negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0 + 0.159)))
 
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
@@ -306,7 +321,7 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
+			"-M MaxLikelihoodFit --saveWorkspace --redefineSignalPOIs pol "+(asimov_options if args.use_asimov_dataset else "")+" "+datacards.stable_options+" -n \"\"",
 			split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 	)
 	
@@ -326,11 +341,11 @@ if __name__ == "__main__":
 			signal_stacked_on_bkg=True
 	)
 	
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
 	datacards.pull_plots(
 			datacards_postfit_shapes,
 			s_fit_only=True,
-			plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"], "args" : args.args, "www" : args.www},
+			plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : args.www},
 			n_processes=args.n_processes
 	)
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
@@ -341,36 +356,40 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MultiDimFit --algo none -P pol --floatOtherPOIs 1 "+datacards.stable_options+" -n ",
-			split_stat_syst_uncs=True
+			"-M MultiDimFit --algo singles -P pol --floatOtherPOIs 1 "+(asimov_options if args.use_asimov_dataset else "")+" "+datacards.stable_options+" -n ",
+			split_stat_syst_uncs=True,
 	)
 	
 	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "mt", "et", "tt"])}
 	values_tree_files = {}
-	values_tree_files.update(datacards.annotate_trees(
+	datacards.annotate_trees(
 			datacards_workspaces,
 			"higgsCombine*.*.mH*.root",
 			[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
 			annotation_replacements,
 			args.n_processes,
+			values_tree_files,
 			"-t limit -b channel"
-	))
-	values_tree_files.update(datacards.annotate_trees(
+	)
+	datacards.annotate_trees(
 			datacards_workspaces,
 			"higgsCombine*.*.mH*.root",
 			[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
 			annotation_replacements,
 			args.n_processes,
+			values_tree_files,
 			"-t limit -b channel"
-	))
+	)
 	
 	# plot best fit values of parameter pol from physics model
 	plot_configs = []
 	for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
-	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json"]:
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_stat_unc.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_stat_unc.json"]:
 		
 		config = jsonTools.JsonDict(os.path.expandvars(template))
-		config["files"] = [" ".join([values_tree_files[value] for value in sorted(values_tree_files.keys())])]
+		config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values()))]))]
 		config["x_ticks"] = sorted(values_tree_files.keys())
 		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
 		config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]

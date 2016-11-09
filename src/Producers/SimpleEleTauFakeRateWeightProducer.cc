@@ -10,6 +10,8 @@ std::string SimpleEleTauFakeRateWeightProducer::GetProducerId() const
 void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, product_type& product,
                                                  setting_type const& settings) const
 {
+	// 04.11.2016: numbers taken from https://indico.cern.ch/event/563239/contributions/2279020/attachments/1325496/1989607/lepTauFR_tauIDmeeting_20160822.pdf
+	//             as recommended in https://twiki.cern.ch/twiki/bin/viewauth/CMS/SMTauTau2016#e_tau_fake_rate
 	
     float eTauFakeRateWeight = 1.0;
     if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET)
@@ -19,13 +21,13 @@ void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, produc
 
         if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU)))
         {
-            if(std::abs(lepton->p4.Eta()) < 1.5)
+            if(std::abs(lepton->p4.Eta()) < 1.460)
             {
-                eTauFakeRateWeight = 1.8;
+                eTauFakeRateWeight = 1.505;
             }
-            else
+            else if(std::abs(lepton->p4.Eta()) > 1.558)
             {
-                eTauFakeRateWeight = 1.3;
+                eTauFakeRateWeight = 1.994;
             }
         }
     }
@@ -36,13 +38,13 @@ void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, produc
 
         if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU)))
         {
-            if(std::abs(lepton->p4.Eta()) < 1.5)
+            if(std::abs(lepton->p4.Eta()) < 1.460)
             {
-                eTauFakeRateWeight = 1.02;
+                eTauFakeRateWeight = 1.292;
             }
-            else
+            else if(std::abs(lepton->p4.Eta()) > 1.558)
             {
-                eTauFakeRateWeight = 1.11;
+                eTauFakeRateWeight = 1.536;
             }
         }
     }
@@ -55,13 +57,13 @@ void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, produc
 
             if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU)))
             {
-                if(std::abs(lepton->p4.Eta()) < 1.5)
+                if(std::abs(lepton->p4.Eta()) < 1.460)
                 {
-                    eTauFakeRateWeight *= 1.02;
+                    eTauFakeRateWeight *= 1.292;
                 }
-                else
+                else if(std::abs(lepton->p4.Eta()) > 1.558)
                 {
-                    eTauFakeRateWeight *= 1.11;
+                    eTauFakeRateWeight *= 1.536;
                 }
             }
         }
