@@ -147,25 +147,25 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
-		return data_weight, mc_weight
+		return clean_multiplication(data_weight), clean_multiplication(mc_weight)
 
 	def get_weights_ztt(self, channel, weight="(1.0)", mc_sample_weight="(1.0)", z_pt=False, **kwargs):
 		data_weight, mc_weight = self.projection(kwargs)
 		if self.embedding:
 			if channel == "et":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.886")
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.886"])
 			elif channel == "mt":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*1.08")
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "1.08"])
 			elif channel == "tt":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.38")
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.38"])
 			elif channel == "em":
-				return(mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.642")
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.642"])
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif z_pt:
-			return self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight"+"*"+self.hadronic_scale_factor(channel)
+			return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight, "zPtReweightWeight", self.hadronic_scale_factor(channel)])
 		else:
-			return mc_weight+"*"+weight+"*eventWeight*"+self.ztt_stitchingweight()+"*"+self.hadronic_scale_factor(channel)
+			return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel)])
 		
 	def files_data(self, channel):
 		query = {}
@@ -203,7 +203,7 @@ class Samples(samples.SamplesBase):
 				self.files_data(channel),
 				self.root_file_folder(channel),
 				1.0,
-				data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+				make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)]),
 				"data",
 				nick_suffix=nick_suffix
 		)
