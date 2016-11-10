@@ -14,6 +14,7 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+from Artus.Utility.tools import make_multiplication, clean_multiplication
 
 
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick):
@@ -317,7 +318,7 @@ if __name__ == "__main__":
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
-						weight="({0})*({1})".format(json_config.pop("weights", ["1.0"])[0], args.weight),
+						weight=make_multiplication([clean_multiplication(json_config.pop("weights", ["1.0"])[0]), args.weight]),
 						lumi = args.lumi * 1000,
 						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", []),
 						blind_expression=channel+"_"+quantity,
