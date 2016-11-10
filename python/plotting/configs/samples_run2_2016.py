@@ -113,6 +113,14 @@ class Samples(samples.SamplesBase):
 
 	def wj_stitchingweight(self):
 		return "(((npartons == 0 || npartons >= 5)*2.1809966268e-3) + ((npartons == 1)*2.602609942e-4) + ((npartons == 2)*1.209708431e-4) + ((npartons == 3)*5.71488637e-5) + ((npartons == 4)*6.27792554e-5))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+	
+	def hadronic_scale_factor(self, channel):
+		if channel in ["mt", "et"]:
+			return "(0.9)"
+		elif channel in ["tt"]:
+			return "(0.81)"
+		else:
+			return "(1.0)"
 
 	def __init__(self,embedding=False):
 		super(Samples, self).__init__()
@@ -155,9 +163,9 @@ class Samples(samples.SamplesBase):
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif z_pt:
-			return self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight"
+			return self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight"+"*"+self.hadronic_scale_factor(channel)
 		else:
-			return mc_weight+"*"+weight+"*eventWeight*"+self.ztt_stitchingweight()
+			return mc_weight+"*"+weight+"*eventWeight*"+self.ztt_stitchingweight()+"*"+self.hadronic_scale_factor(channel)
 		
 	def files_data(self, channel):
 		query = {}
@@ -220,15 +228,6 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 
 		self.root_file_folder(channel),
-		if self.embedding:
-			hadronic_scale_factor= ""
-		else: 
-			if channel in ["mt", "et"]:
-				hadronic_scale_factor = "*(0.9)"
-			elif channel in ["tt"]:
-				hadronic_scale_factor = "*(0.81)"
-			else:
-				hadronic_scale_factor= ""
 			
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
@@ -236,7 +235,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type) + hadronic_scale_factor,
+					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
