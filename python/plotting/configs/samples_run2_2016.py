@@ -931,7 +931,10 @@ class Samples(samples.SamplesBase):
 						("noplot_" if not controlregions else "") + "wj_ss_highmt",
 						nick_suffix=nick_suffix
 				)
-				wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline"
+				if category != None:
+					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+				else:
+					wj_shape_cut_type = "baseline2016" if "2016" in cut_type else "baseline"
 				Samples._add_input(
 						config,
 						self.files_wj(channel),
