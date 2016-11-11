@@ -107,7 +107,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_lowmt_nick])()
 			if integral_shape != 0.0:
 				scale_factor = yield_qcd_control / integral_shape
-                                plotData.plotdict["root_objects"][qcd_ss_lowmt_nick].Scale(scale_factor.nominal_value)
+				plotData.plotdict["root_objects"][qcd_ss_lowmt_nick].Scale(scale_factor.nominal_value)
 
 			# estimate W+jets
 			yield_ss_control = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_data_nick])()
@@ -144,7 +144,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 				plotData.plotdict["root_objects"][wjets_ss_highmt_mc_nick].Scale(scale_factor.nominal_value)
 
 
-                        # estimate QCD for the highmT region
+			# estimate QCD for the highmT region
 			for nick in qcd_shape_highmt_substract_nick+[wjets_ss_highmt_mc_nick]:
 				plotData.plotdict["root_objects"][qcd_ss_highmt_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1)
 
@@ -159,4 +159,4 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_os_highmt_nick])()
 			if integral_shape != 0.0:
 				scale_factor = yield_qcd_ss_highmt * qcd_extrapolation_factor_ss_os / integral_shape
-                                plotData.plotdict["root_objects"][qcd_os_highmt_nick].Scale(scale_factor.nominal_value)
+				plotData.plotdict["root_objects"][qcd_os_highmt_nick].Scale(scale_factor.nominal_value)
