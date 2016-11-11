@@ -1010,24 +1010,6 @@ class Samples(samples.SamplesBase):
 						"noplot_wj_mc_ss_inclusive",
 						nick_suffix=nick_suffix
 				)
-				Samples._add_input(
-						config,
-						self.files_wj(channel),
-						self.root_file_folder(channel),
-						lumi,
-						mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
-						"noplot_wj_mc_ss_inclusive",
-						nick_suffix=nick_suffix
-				)
-				Samples._add_input(
-						config,
-						self.files_ewkw(channel),
-						self.root_file_folder(channel),
-						lumi,
-						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
-						"noplot_wj_mc_ss_inclusive",
-						nick_suffix=nick_suffix
-				)
 				if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
 				if controlregions:
