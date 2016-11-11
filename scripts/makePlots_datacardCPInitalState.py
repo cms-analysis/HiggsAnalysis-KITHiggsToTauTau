@@ -41,7 +41,7 @@ if __name__ == "__main__":
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantity", default="0",
+	parser.add_argument("-x", "--quantity", default="jdphi",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
@@ -49,8 +49,6 @@ if __name__ == "__main__":
 	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
-	parser.add_argument("--for-dcsync", action="store_true", default=False,
-	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--do-not-normalize-by-bin-width", default=False, action="store_true",
@@ -77,8 +75,6 @@ if __name__ == "__main__":
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
-	parser.add_argument("--remote", action="store_true", default=False,
-						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
@@ -115,9 +111,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
-	if args.for_dcsync:
-		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
+	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -128,8 +122,6 @@ if __name__ == "__main__":
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-	if args.for_dcsync:
-		output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
 	
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
@@ -164,14 +156,6 @@ if __name__ == "__main__":
 			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = args.exclude_cuts
-			if args.for_dcsync:
-				if category[3:] == 'inclusive':
-					exclude_cuts=["mt", "pzeta"]
-				elif category[3:] == 'inclusivemt40':
-					exclude_cuts=["pzeta"]
-				
-				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
-			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
@@ -253,36 +237,16 @@ if __name__ == "__main__":
 					if "legend_markers" in config:
 						config.pop("legend_markers")
 					
-					if args.for_dcsync:
-						config["ttbar_from_mc"] = True
-						config["wjets_from_mc"] = True
-					
 					plot_configs.append(config)
 			
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
-		if args.for_dcsync:
-			merged_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-mvis.root"
-			merged_output_file = os.path.join(args.output_dir, merged_input_root_filename_template.replace("$", "").format(
-					ANALYSIS="htt",
-					CHANNEL=channel,
-					ERA="13TeV"
-			))
-			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
-					DST=merged_output_file,
-					SRC=" ".join(output_files)
-			))
-			output_files = []
-			merged_output_files.append(merged_output_file)
 	
-	if args.for_dcsync:
-		input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-mvis.root"
-	
-	#if log.isEnabledFor(logging.DEBUG):
-	#	import pprint
-	#	pprint.pprint(plot_configs)
+	if log.isEnabledFor(logging.DEBUG):
+		import pprint
+		pprint.pprint(plot_configs)
 	
 	# delete existing output files
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
@@ -298,7 +262,7 @@ if __name__ == "__main__":
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	if args.debug_plots:
 		debug_plot_configs = []
-		for output_file in (output_files if not args.for_dcsync else merged_output_files):
+		for output_file in merged_output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
@@ -318,7 +282,6 @@ if __name__ == "__main__":
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
 	
-
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
@@ -354,7 +317,7 @@ if __name__ == "__main__":
 			else:
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 	
-	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
+	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes) # TODO: use JPC physics model
 	
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 	
@@ -390,9 +353,6 @@ if __name__ == "__main__":
 	#)
 	
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index)
-	if args.remote:
-		#os.system("tar cfv " + os.path.join(args.output_dir, "jobresult.tar") + " " + os.path.join(args.output_dir, "datacards") + " " + os.path.join(args.output_dir, "input"))
-		os.system("tar cfv jobresult.tar datacards/ input/")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"") # TODO: change to HybridNew
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
 
