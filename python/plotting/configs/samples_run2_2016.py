@@ -931,11 +931,9 @@ class Samples(samples.SamplesBase):
 						nick_suffix=nick_suffix
 				)
 				wj_shape_cut_type = cut_type
+				wj_shape_weight = weight
 				if category != None:
 					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
-					wj_shape_weight = weight   # replace only category part
-				else:
-					wj_shape_cut_type = "baseline2016" if "2016" in cut_type else "baseline"
 					if "1jet" in category:
 						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
 					elif "vbf" in category:
@@ -1490,7 +1488,7 @@ class Samples(samples.SamplesBase):
 					qcd_shape_weight = weight
 					qcd_shape_cut = cut_type
 					if category != None:
-						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline"
+						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 						if "1jet" in category:
 							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
 						elif "vbf" in category:
