@@ -139,6 +139,10 @@ class ZttPolarisationDatacards(datacards.Datacards):
 
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_inclusive_args)
+			
+			# ======================================================================
+			# Groups of systematics
+			self.cb.SetGroup("syst", [".*"])
 		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()

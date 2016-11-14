@@ -112,6 +112,8 @@ if __name__ == "__main__":
 						help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
 	parser.add_argument("--colors-dm-dependent", action="store_true", default=False,
 						help="Use different colors for each decay mode corresponding to m_tau in TAU-14-001. [Default: %(default)s]")
+	parser.add_argument("-b", "--background-method", default="classic",
+						help="Background estimation method to be used. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -185,7 +187,7 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	channel = "mt"
 	quantity = args.quantity
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, pt_bins)
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, pt_bins, args.era)
 	datacards.cb.channel([channel])
 	
 	for decayMode in args.decay_modes:
@@ -234,7 +236,8 @@ if __name__ == "__main__":
 						nick_suffix="_" + str(pt_index),
 						weight=pt_weights[pt_index],
 						lumi=args.lumi * 1000,
-						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts"
+						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
+						estimationMethod=args.background_method
 					)
 					
 					config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
@@ -263,7 +266,8 @@ if __name__ == "__main__":
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
 							weight=pt_weights[pt_index],
 							lumi=args.lumi * 1000,
-							cut_type="tauescuts2016" if args.era == "2016" else "tauescuts"
+							cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
+							estimationMethod=args.background_method
 						)
 						# shift also pt to account for acceptance effects
 						config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]
@@ -558,7 +562,7 @@ if __name__ == "__main__":
 				config["extra_text"] = "Preliminary"
 				config["year"] = args.era
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-				config["filename"] = level+"_"+category+"_"+quantity
+				config["filename"] = level+"_"+category+"_"+quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 				#config["formats"] = ["png", "pdf"]
 				
 				decayMode = category.split("_")[-2]
@@ -679,7 +683,7 @@ if __name__ == "__main__":
 			config["line_styles"] = [2]
 			config["colors"] = ["kBlack", "kBlue", "kBlue"]
 			config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-			config["filename"] = "parabola_" + category + "_" + quantity
+			config["filename"] = "parabola_" + category + "_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
 			config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[int(ptBin)], "1#sigma", "2#sigma"]
@@ -738,7 +742,7 @@ if __name__ == "__main__":
 	config["markers"] = ["P"]
 	config["legend"] = [0.2,0.78,0.6,0.9]
 	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
-	config["filename"] = "result_vs_pt_" + quantity
+	config["filename"] = "result_vs_pt_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 	config["x_expressions"] = xbins
 	config["x_errors"] = xerrs
 	config["x_errors_up"] = xerrs

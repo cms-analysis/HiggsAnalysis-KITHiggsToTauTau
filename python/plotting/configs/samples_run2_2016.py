@@ -9,7 +9,7 @@ import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 from Kappa.Skimming.registerDatasetHelper import get_nick_list
-
+from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
 energy = 13
 default_lumi = 12.9*1000.0
 
@@ -113,6 +113,14 @@ class Samples(samples.SamplesBase):
 
 	def wj_stitchingweight(self):
 		return "(((npartons == 0 || npartons >= 5)*2.1809966268e-3) + ((npartons == 1)*2.602609942e-4) + ((npartons == 2)*1.209708431e-4) + ((npartons == 3)*5.71488637e-5) + ((npartons == 4)*6.27792554e-5))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+	
+	def hadronic_scale_factor(self, channel):
+		if channel in ["mt", "et"]:
+			return "(0.9)"
+		elif channel in ["tt"]:
+			return "(0.81)"
+		else:
+			return "(1.0)"
 
 	def __init__(self,embedding=False):
 		super(Samples, self).__init__()
@@ -139,23 +147,29 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_cut})*".format(mc_cut=kwargs["cut_mc_only"]) + mc_weight
 		if kwargs.get("scale_mc_only", False):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
-		return data_weight, mc_weight
+		return clean_multiplication(data_weight), clean_multiplication(mc_weight)
 
-	def get_weights_ztt(self, weight="(1.0)", mc_sample_weight="(1.0)", z_pt=False, **kwargs):
+	def get_weights_ztt(self, channel, weight="(1.0)", mc_sample_weight="(1.0)", z_pt=False, **kwargs):
 		data_weight, mc_weight = self.projection(kwargs)
-		if z_pt:
-			if self.embedding:
-				return self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight*(eventWeight<1.0)*0.87"
+		if self.embedding:
+			if channel == "et":
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.886"])
+			elif channel == "mt":
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "1.08"])
+			elif channel == "tt":
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.38"])
+			elif channel == "em":
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.642"])
 			else:
-				return self.ztt_stitchingweight()+"*"+mc_sample_weight+"*zPtReweightWeight"
-		elif self.embedding:
-			return mc_weight+"*"+weight+"*eventWeight*(eventWeight<1.0)*0.87*" + self.ztt_stitchingweight()
+				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
+		elif z_pt:
+			return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight, "zPtReweightWeight", self.hadronic_scale_factor(channel)])
 		else:
-			return mc_weight+"*"+weight+"*eventWeight*"+self.ztt_stitchingweight()
+			return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel)])
 		
 	def files_data(self, channel):
 		query = {}
-		expect_n_results = 4 # adjust in if-statements if different depending on channel
+		expect_n_results = 3 # adjust in if-statements if different depending on channel
 		if channel == "mt":
 			query = { "process" : "SingleMuon" }
 		elif channel == "et":
@@ -170,7 +184,8 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 
 		query["data"] = True
-		query["campaign"] = "Run2016.*"
+		query["campaign"] = "Run2016(B|C|D)"
+		query["scenario"] = "PromptRecov2" # until ReReco samples are ready
 		return self.artus_file_names(query, expect_n_results),
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -189,7 +204,7 @@ class Samples(samples.SamplesBase):
 				self.files_data(channel),
 				self.root_file_folder(channel),
 				1.0,
-				data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+				make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)]),
 				"data",
 				nick_suffix=nick_suffix
 		)
@@ -202,7 +217,7 @@ class Samples(samples.SamplesBase):
 
 	def files_ztt(self, channel):
 		if self.embedding:
-			return self.artus_file_names({"process" : "Embedding2016(B|C|D)" , "campaign" : "(Mu|El)TauFinalState" }, 6)
+			return self.artus_file_names({"process" : "Embedding2016(B|C|D)" , "campaign" : "(Mu|El|Tau)TauFinalState|ElMuFinalState" }, 12)
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DYJetsToLLM150|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 7)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -214,15 +229,6 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 
 		self.root_file_folder(channel),
-		if self.embedding:
-			hadronic_scale_factor= ""
-		else: 
-			if channel in ["mt", "et"]:
-				hadronic_scale_factor = "*(0.85)"
-			elif channel in ["tt"]:
-				hadronic_scale_factor = "*(0.87)"
-			else:
-				hadronic_scale_factor= ""
 			
 		if channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
@@ -230,7 +236,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type) + hadronic_scale_factor,
+					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
@@ -485,7 +491,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
 					"noplot_ztt_mc_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -671,6 +677,14 @@ class Samples(samples.SamplesBase):
 		artus_files = artus_files + " " + self.artus_file_names(query, 1)
 		return artus_files
 
+	def files_ewkw(self, channel):
+		ewkw_query = { "data" : False,
+						"campaign" : self.mc_campaign + "2",
+						"generator" : "madgraph-pythia8",
+						"process" : "EWKW(Plus|Minus)2Jets_WToLNuM50"}
+		artus_files = self.artus_file_names(ewkw_query, 2)
+		return artus_files
+
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -688,7 +702,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "ztt_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -706,7 +720,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						self.get_weights_ztt(weight=weight)+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
+						self.get_weights_ztt(channel=channel,weight=weight)+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "zl_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -715,7 +729,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						self.get_weights_ztt(weight=weight)+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
+						self.get_weights_ztt(channel=channel,weight=weight)+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "zj_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -787,6 +801,15 @@ class Samples(samples.SamplesBase):
 						self.files_wj(channel),
 						self.root_file_folder(channel),
 						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
+						("noplot_" if not controlregions else "") + "wj_os_highmt",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_ewkw(channel),
+						self.root_file_folder(channel),
+						lumi,
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
 						("noplot_" if not controlregions else "") + "wj_os_highmt",
 						nick_suffix=nick_suffix
@@ -796,7 +819,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*(mt_1>70.0)*((q_1*q_2)>0.0)",
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*(mt_1>70.0)*((q_1*q_2)>0.0)",
 						("noplot_" if not controlregions else "") + "ztt_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -901,11 +924,55 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
+						self.files_ewkw(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(mt_1>70.0)",
+						("noplot_" if not controlregions else "") + "wj_ss_highmt",
+						nick_suffix=nick_suffix
+				)
+				wj_shape_cut_type = cut_type
+				wj_shape_weight = weight
+				if category != None:
+					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+					if "1jet" in category:
+						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
+					elif "vbf" in category:
+						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==2"])
+				Samples._add_input(
+						config,
+						self.files_wj(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type),
+						"wj",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_ewkw(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type),
+						"wj",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
 						self.files_wj(channel),
 						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-						"wj",
+						"noplot_wj_os_lowmt",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_ewkw(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						"noplot_wj_os_lowmt",
 						nick_suffix=nick_suffix
 				)
 				Samples._add_input(
@@ -919,10 +986,28 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
+						self.files_ewkw(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type),
+						"noplot_wj_mc_os_inclusive",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
 						self.files_wj(channel),
 						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+						"noplot_wj_mc_ss_inclusive",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_ewkw(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
 						"noplot_wj_mc_ss_inclusive",
 						nick_suffix=nick_suffix
 				)
@@ -938,7 +1023,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("wj_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_os_mc_nicks", []).append("noplot_wj_mc_os_inclusive"+nick_suffix)
 					config.setdefault("wjets_os_highmt_mc_nicks", []).append("wj_os_highmt"+nick_suffix)
-					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj"+nick_suffix)
+					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj_os_lowmt"+nick_suffix)
 					for nick in ["ztt_os_highmt", "zll_os_highmt", "zl_os_highmt", "zj_os_highmt", "ttt_os_highmt", "ttjj_os_highmt", "ttj_os_highmt", "vvt_os_highmt", "vvj_os_highmt", "vv_os_highmt", "data_os_highmt", "wj_os_highmt", "ztt_ss_highmt", "zll_ss_highmt", "zl_ss_highmt", "zj_ss_highmt", "ttt_ss_highmt", "ttjj_ss_highmt", "ttj_ss_highmt", "vvt_ss_highmt", "vvj_ss_highmt", "vv_ss_highmt", "data_ss_highmt", "wj_ss_highmt"]:
 						if not kwargs.get("mssm", False):
 							Samples._add_bin_corrections(config, nick, nick_suffix)
@@ -953,7 +1038,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("noplot_wj_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_os_mc_nicks", []).append("noplot_wj_mc_os_inclusive"+nick_suffix)
 					config.setdefault("wjets_os_highmt_mc_nicks", []).append("noplot_wj_os_highmt"+nick_suffix)
-					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj"+nick_suffix)
+					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("noplot_wj_os_lowmt"+nick_suffix)
 
 			if estimationMethod == "classic":
 				shape_weight = mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)
@@ -984,7 +1069,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*(mt_1>70.0)",
 						"noplot_ztt_mc_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -1060,6 +1145,15 @@ class Samples(samples.SamplesBase):
 					"wj",
 					nick_suffix=nick_suffix
 			)
+			Samples._add_input(
+					config,
+					self.files_ewkw(channel),
+					self.root_file_folder(channel),
+					lumi,
+					weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"wj",
+					nick_suffix=nick_suffix
+			)
 		else:
 			log.error("Sample config (WJets) currently not implemented for channel \"%s\"!" % channel)
 
@@ -1107,7 +1201,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(mt_1>70.0)",
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(mt_1>70.0)",
 							"noplot_ztt_ss_mc_wj_control",
 							nick_suffix=nick_suffix
 					)
@@ -1207,7 +1301,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
 						"noplot_ztt_mc_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1250,7 +1344,7 @@ class Samples(samples.SamplesBase):
 				elif channel == "et":
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0 + (0.0 if not "os" in exclude_cuts else 1.0))
 				elif channel == "mt":
-					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.17 + (0.0 if not "os" in exclude_cuts else 1.0))
+					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0 + (0.0 if not "os" in exclude_cuts else 1.0))
 				else:
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
 				config.setdefault("qcd_subtract_shape", []).append(True)
@@ -1262,7 +1356,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
 							("noplot_" if not controlregions else "") + "ztt_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1358,6 +1452,15 @@ class Samples(samples.SamplesBase):
 					)
 					Samples._add_input(
 							config,
+							self.files_ewkw(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+							("noplot_" if not controlregions else "") + "wj_ss_lowmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
 							self.files_data(channel),
 							self.root_file_folder(channel),
 							1.0,
@@ -1365,12 +1468,20 @@ class Samples(samples.SamplesBase):
 							("noplot_" if not controlregions else "") + "data_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
+					qcd_shape_weight = weight
+					qcd_shape_cut = cut_type
+					if category != None:
+						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+						if "1jet" in category:
+							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
+						elif "vbf" in category:
+							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==2"])
 					Samples._add_input(
 							config,
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							(Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=qcd_shape_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"noplot_ztt_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1379,7 +1490,7 @@ class Samples(samples.SamplesBase):
 							self.files_zll(channel),
 							self.root_file_folder(channel),
 							lumi,
-							(mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"noplot_zll_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1388,7 +1499,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							(mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)*topPtReweightWeight").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"noplot_ttj_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1397,7 +1508,7 @@ class Samples(samples.SamplesBase):
 							self.files_vv(channel),
 							self.root_file_folder(channel),
 							lumi,
-							(mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"noplot_vv_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1406,7 +1517,16 @@ class Samples(samples.SamplesBase):
 							self.files_wj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							(mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							"noplot_wj_shape_ss_qcd_control",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_ewkw(channel),
+							self.root_file_folder(channel),
+							lumi,
+							(mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"noplot_wj_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1424,7 +1544,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							(Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag", "nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(mt_1>70.0)").replace("nbtag", "nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"noplot_ztt_shape_ss_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -1478,7 +1598,7 @@ class Samples(samples.SamplesBase):
 							self.files_data(channel),
 							self.root_file_folder(channel),
 							1.0,
-							(data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(data_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"qcd",
 							nick_suffix=nick_suffix
 					)
@@ -1488,7 +1608,7 @@ class Samples(samples.SamplesBase):
 						elif channel == "et":
 							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0)
 						elif channel == "mt":
-							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.17)
+							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.00)
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_yield_nicks", []).append("data_ss_lowmt"+nick_suffix)
 						config.setdefault("qcd_yield_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_lowmt zll_ss_lowmt ttj_ss_lowmt vv_ss_lowmt wj_ss_lowmt".split()]))
@@ -1508,7 +1628,7 @@ class Samples(samples.SamplesBase):
 						elif channel == "et":
 							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0)
 						elif channel == "mt":
-							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.17)
+							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.00)
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_yield_nicks", []).append("noplot_data_ss_lowmt"+nick_suffix)
 						config.setdefault("qcd_yield_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_lowmt zll_ss_lowmt ttj_ss_lowmt vv_ss_lowmt wj_ss_lowmt".split()]))
@@ -1519,13 +1639,22 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
 				if channel == "em":
 					data_sample_weight = data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*emuQcdWeightNom"
-					mc_sample_weight = mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*emuQcdWeightNom"
+					mc_sample_weight = mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*emuQcdWeightNom"
 					Samples._add_input(
 							config,
 							self.files_wj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_sample_weight,
+							mc_sample_weight+"*"+self.wj_stitchingweight(),
+							"noplot_wj_ss",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_ewkw(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_sample_weight+"*"+self.wj_stitchingweight(),
 							"noplot_wj_ss",
 							nick_suffix=nick_suffix
 					)
@@ -1561,7 +1690,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(mc_sample_weight=mc_sample_weight, z_pt=True),
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,mc_sample_weight=mc_sample_weight, z_pt=True),
 							"noplot_ztt_mc_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1602,15 +1731,19 @@ class Samples(samples.SamplesBase):
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0)
 					config.setdefault("qcd_subtract_shape", []).append(True)
 				if channel == "tt":
+					if cut_type == "baseline2016":
+						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))"
+					else:
+						isolationDefinition = "(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
 					data_selection_weights = {
-						"qcd_shape" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_1", "iso_2"], cut_type=cut_type)+"*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+						"qcd_shape" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_1", "iso_2"], cut_type=cut_type)+"*"+isolationDefinition,
 						"qcd_signal_ss" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
-						"qcd_relaxed_ss" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
+						"qcd_relaxed_ss" : data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+isolationDefinition
 						}
 					mc_selection_weights = {
-						"qcd_shape" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_1", "iso_2"], cut_type=cut_type)+"*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+						"qcd_shape" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_1", "iso_2"], cut_type=cut_type)+"*"+isolationDefinition,
 						"qcd_signal_ss" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
-						"qcd_relaxed_ss" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
+						"qcd_relaxed_ss" : mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "iso_1", "iso_2"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+isolationDefinition
 						}
 					for key in mc_selection_weights:
 						Samples._add_input(
@@ -1619,6 +1752,15 @@ class Samples(samples.SamplesBase):
 								self.root_file_folder(channel),
 								lumi,
 								self.wj_stitchingweight()+"*"+mc_selection_weights[key],
+								"noplot_wj_"+key,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_ewkw(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_selection_weights[key],
 								"noplot_wj_"+key,
 								nick_suffix=nick_suffix
 						)
@@ -1636,7 +1778,7 @@ class Samples(samples.SamplesBase):
 								self.files_ztt(channel),
 								self.root_file_folder(channel),
 								lumi,
-								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(mc_sample_weight=mc_selection_weights[key], z_pt=True),
+								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,mc_sample_weight=mc_selection_weights[key], z_pt=True),
 								"noplot_ztt_"+key,
 								nick_suffix=nick_suffix
 						)

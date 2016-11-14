@@ -14,6 +14,7 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+from Artus.Utility.tools import make_multiplication, clean_multiplication
 
 
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick):
@@ -179,6 +180,8 @@ if __name__ == "__main__":
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
+	parser.add_argument("--controlregions", action="store_true", default=False,
+	                    help="Also create histograms for control regions. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
@@ -249,9 +252,6 @@ if __name__ == "__main__":
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	if args.emb:
-		if ("tt" in args.channels or "em" in args.channels or "mm" in args.channels):
-			log.critical("Plot will fail: Embedding --emb valid for mt and et channel. Remove --emb or select different channel.")
-			sys.exit(1)
 		if args.run1:
 			log.critical("Embedding --emb only valid for run2. Remove --emb or select run2 samples.")
 			sys.exit(1)
@@ -318,7 +318,7 @@ if __name__ == "__main__":
 						higgs_masses=args.higgs_masses,
 						normalise_signal_to_one_pb=False,
 						ztt_from_mc=args.ztt_from_mc,
-						weight="({0})*({1})".format(json_config.pop("weights", ["1.0"])[0], args.weight),
+						weight=make_multiplication([clean_multiplication(json_config.pop("weights", ["1.0"])[0]), args.weight]),
 						lumi = args.lumi * 1000,
 						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", []),
 						blind_expression=channel+"_"+quantity,
@@ -330,6 +330,7 @@ if __name__ == "__main__":
 						scale_mc_only=args.scale_mc_only,
 						estimationMethod=background_method,
 						mssm=args.mssm,
+						controlregions=args.controlregions,
 						cut_type="mssm2016" if (args.era == "2016" and args.mssm) else "mssm" if args.mssm else "baseline2016" if args.era == "2016" else "baseline"
 				)
 

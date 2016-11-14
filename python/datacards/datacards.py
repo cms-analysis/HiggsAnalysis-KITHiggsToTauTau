@@ -643,14 +643,9 @@ class Datacards(object):
 		bin_by_bin_factory.MergeBinErrors(self.cb.cp().process(processes))
 		bin_by_bin_factory.AddBinByBin(self.cb.cp().process(processes), self.cb)
 		#ch.SetStandardBinNames(self.cb) # TODO: this line seems to mix up the categories
-
-	def remove_systematics(self):
-		def remove(systematic):
-			systematic.set_type("lnN")
-			systematic.set_value_u(0.0)
-			systematic.set_value_d(0.0)
-
-		self.cb.ForEachSyst(remove)
+		
+		self.cb.SetGroup("bbb", [".*_bin_\\d+"])
+		self.cb.SetGroup("syst_plus_bbb", [".*"])
 
 	def scale_expectation(self, scale_factor, no_norm_rate_bkg=False, no_norm_rate_sig=False):
 		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_bkg else process.rate()) * scale_factor))
@@ -659,11 +654,13 @@ class Datacards(object):
 	def scale_processes(self, scale_factor, processes, no_norm_rate=False):
 		self.cb.cp().process(processes).ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate else process.rate()) * scale_factor))
 
-	def replace_observation_by_asimov_dataset(self, signal_mass):
+	def replace_observation_by_asimov_dataset(self, signal_mass=None):
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
-			observation.set_shape(cb.cp().backgrounds().GetShape() + cb.cp().signals().mass([signal_mass]).GetShape(), True)
-			observation.set_rate(cb.cp().backgrounds().GetRate() + cb.cp().signals().mass([signal_mass]).GetRate())
+			background = cb.cp().backgrounds()
+			signal = cb.cp().signals() if signal_mass is None else cb.cp().signals().mass([signal_mass])
+			observation.set_shape(background.GetShape() + signal.GetShape(), True)
+			observation.set_rate(background.GetRate() + signal.GetRate())
 
 		self.cb.cp().ForEachObs(_replace_observation_by_asimov_dataset)
 
