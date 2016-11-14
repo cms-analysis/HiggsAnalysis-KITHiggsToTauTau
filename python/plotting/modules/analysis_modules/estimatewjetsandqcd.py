@@ -65,10 +65,12 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 				help="Nicks for os highmt data histogram. [Default: %(default)s]")
 		self.estimate_wjets_and_qcd_options.add_argument("--wjets-shape-nicks", nargs="+", default=[""],
 				help="Nicks for W+jets signal region histogram. [Default: %(default)s]")
+		self.estimate_wjets_and_qcd_options.add_argument("--wjets-wj-final-selection", nargs="+", default=[""],
+				help="Nicks for W+jets in final category. [Default: %(default)s]")
 
 	def prepare_args(self, parser, plotData):
 		super(EstimateWjetsAndQCD, self).prepare_args(parser, plotData)
-		self._plotdict_keys = ["qcd_extrapolation_factors_ss_os", "qcd_shape_nicks", "qcd_ss_lowmt_nicks", "qcd_ss_highmt_shape_nicks", "qcd_os_highmt_nicks", "qcd_shape_highmt_substract_nicks", "qcd_yield_nicks", "qcd_shape_substract_nicks", "qcd_yield_substract_nicks", "wjets_ss_mc_nicks", "wjets_os_mc_nicks", "wjets_os_highmt_mc_nicks", "wjets_os_lowmt_mc_nicks", "wjets_ss_highmt_mc_nicks", "wjets_ss_substract_nicks", "wjets_ss_data_nicks", "wjets_os_substract_nicks", "wjets_os_data_nicks", "wjets_shape_nicks"]
+		self._plotdict_keys = ["qcd_extrapolation_factors_ss_os", "qcd_shape_nicks", "qcd_ss_lowmt_nicks", "qcd_ss_highmt_shape_nicks", "qcd_os_highmt_nicks", "qcd_shape_highmt_substract_nicks", "qcd_yield_nicks", "qcd_shape_substract_nicks", "qcd_yield_substract_nicks", "wjets_ss_mc_nicks", "wjets_os_mc_nicks", "wjets_os_highmt_mc_nicks", "wjets_os_lowmt_mc_nicks", "wjets_ss_highmt_mc_nicks", "wjets_ss_substract_nicks", "wjets_ss_data_nicks", "wjets_os_substract_nicks", "wjets_os_data_nicks", "wjets_shape_nicks", "wjets_wj_final_selection"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		for index in ["qcd_shape_substract_nicks", "qcd_yield_substract_nicks", "wjets_ss_substract_nicks", "wjets_os_substract_nicks","qcd_shape_highmt_substract_nicks"]:
 			plotData.plotdict[index] = [nicks.split() for nicks in plotData.plotdict[index]]
@@ -84,7 +86,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 	def run(self, plotData=None):
 		super(EstimateWjetsAndQCD, self).run(plotData)
 
-		for qcd_extrapolation_factor_ss_os, qcd_shape_nick, qcd_ss_lowmt_nick, qcd_ss_highmt_shape_nick, qcd_os_highmt_nick, qcd_shape_highmt_substract_nick, qcd_yield_nick, qcd_shape_substract_nick, qcd_yield_substract_nick, wjets_ss_mc_nick, wjets_os_mc_nick, wjets_os_highmt_mc_nick, wjets_os_lowmt_mc_nick, wjets_ss_highmt_mc_nick, wjets_ss_substract_nick, wjets_ss_data_nick, wjets_os_substract_nick, wjets_os_data_nick, wjets_shape_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+		for qcd_extrapolation_factor_ss_os, qcd_shape_nick, qcd_ss_lowmt_nick, qcd_ss_highmt_shape_nick, qcd_os_highmt_nick, qcd_shape_highmt_substract_nick, qcd_yield_nick, qcd_shape_substract_nick, qcd_yield_substract_nick, wjets_ss_mc_nick, wjets_os_mc_nick, wjets_os_highmt_mc_nick, wjets_os_lowmt_mc_nick, wjets_ss_highmt_mc_nick, wjets_ss_substract_nick, wjets_ss_data_nick, wjets_os_substract_nick, wjets_os_data_nick, wjets_shape_nick, wjets_final_selection in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			# estimate QCD for the lowmT
 			for nick in qcd_shape_substract_nick:
 				plotData.plotdict["root_objects"][qcd_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1)
@@ -123,6 +125,8 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			wjets_extrapolation_factor_mt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_lowmt_mc_nick])()/tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_highmt_mc_nick])()
 
 			wjets_yield = (yield_os_control-qcd_extrapolation_factor_ss_os*yield_ss_control)*wjets_extrapolation_factor_ss_os/(wjets_extrapolation_factor_ss_os-qcd_extrapolation_factor_ss_os)*wjets_extrapolation_factor_mt
+			# extrapolate to final selection
+			wjets_yield = wjets_yield * tools.PoissonYield(plotData.plotdict["root_objects"][wjets_final_selection])() / tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_lowmt_mc_nick])()
 
 			# scale signal region histograms
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_shape_nick])()
