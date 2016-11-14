@@ -562,7 +562,7 @@ if __name__ == "__main__":
 				config["extra_text"] = "Preliminary"
 				config["year"] = args.era
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-				config["filename"] = level+"_"+category+"_"+quantity
+				config["filename"] = level+"_"+category+"_"+quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 				#config["formats"] = ["png", "pdf"]
 				
 				decayMode = category.split("_")[-2]
@@ -683,7 +683,7 @@ if __name__ == "__main__":
 			config["line_styles"] = [2]
 			config["colors"] = ["kBlack", "kBlue", "kBlue"]
 			config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-			config["filename"] = "parabola_" + category + "_" + quantity
+			config["filename"] = "parabola_" + category + "_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
 			config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[int(ptBin)], "1#sigma", "2#sigma"]
@@ -742,7 +742,7 @@ if __name__ == "__main__":
 	config["markers"] = ["P"]
 	config["legend"] = [0.2,0.78,0.6,0.9]
 	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
-	config["filename"] = "result_vs_pt_" + quantity
+	config["filename"] = "result_vs_pt_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 	config["x_expressions"] = xbins
 	config["x_errors"] = xerrs
 	config["x_errors_up"] = xerrs
