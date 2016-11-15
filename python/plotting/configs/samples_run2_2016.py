@@ -939,7 +939,6 @@ class Samples(samples.SamplesBase):
 				wj_shape_cut_type = cut_type
 				# wj shape and highmt to lowmt extrapolation
 				wj_shape_weight = weight   # replace only category part
-				wj_shape_weight = weight
 				if category != None:
 					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 					if "1jet" in category:
