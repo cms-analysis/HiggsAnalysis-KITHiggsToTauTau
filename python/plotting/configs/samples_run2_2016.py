@@ -696,7 +696,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs) 
 
 		if channel in ["mt", "et"]:
-			if estimationMethod == "new":
+			if "new" in estimationMethod:
 				# wj shape and highmt to lowmt extrapolation
 				wj_categorized_weight = weight
 				wj_uncategorized_weight = split_multiplication(weight)[-1]
@@ -1067,7 +1067,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("noplot_wj_os_lowmt"+nick_suffix)
 					config.setdefault("wjets_wj_final_selection", []).append("noplot_wj_final_selection"+nick_suffix)
 
-			if estimationMethod == "classic":
+			if "classic" in estimationMethod:
 				shape_weight = mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)
 				#if (not category is None) and (category != ""):
 					## relaxed isolation
@@ -1201,7 +1201,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs) 
 
 		if channel in ["et", "mt", "em", "tt", "mm"]:
-			if estimationMethod == "classic":
+			if "classic" in estimationMethod:
 				# WJets for QCD estimate
 				Samples._add_input(
 						config,
@@ -1376,7 +1376,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
 				config.setdefault("qcd_subtract_shape", []).append(True)
 
-			if estimationMethod == "new":
+			if "new" in estimationMethod:
 				if channel in ["et","mt"]:
 					Samples._add_input(
 							config,
