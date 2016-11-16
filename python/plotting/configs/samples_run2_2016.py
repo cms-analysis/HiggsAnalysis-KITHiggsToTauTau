@@ -1507,6 +1507,7 @@ class Samples(samples.SamplesBase):
 							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
 						elif "vbf" in category:
 							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==2"])
+					qcd_shape_weight = weight
 					Samples._add_input(
 							config,
 							self.files_ztt(channel),
@@ -1669,98 +1670,102 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
 						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
 				if channel == "em":
-					data_sample_weight = data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*emuQcdWeightNom"
-					mc_sample_weight = mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*emuQcdWeightNom"
-					Samples._add_input(
-							config,
-							self.files_wj(channel),
-							self.root_file_folder(channel),
-							lumi,
-							mc_sample_weight+"*"+self.wj_stitchingweight(),
-							"noplot_wj_ss",
-							nick_suffix=nick_suffix
-					)
-					Samples._add_input(
-							config,
-							self.files_ewkw(channel),
-							self.root_file_folder(channel),
-							lumi,
-							mc_sample_weight+"*"+self.wj_stitchingweight(),
-							"noplot_wj_ss",
-							nick_suffix=nick_suffix
-					)
-					Samples._add_input(
-							config,
-							self.files_data(channel),
-							self.root_file_folder(channel),
-							1.0,
-							data_sample_weight,
-							"qcd",
-							nick_suffix=nick_suffix
-					)
-					Samples._add_input(
-							config,
-							self.files_data(channel),
-							self.root_file_folder(channel),
-							1.0,
-							data_sample_weight,
-							"noplot_data_qcd_yield",
-							nick_suffix=nick_suffix
-					)
-					Samples._add_input(
-							config,
-							self.files_data(channel),
-							self.root_file_folder(channel),
-							1.0,
-							data_sample_weight,
-							"noplot_data_qcd_control",
-							nick_suffix=nick_suffix
-					)
-					Samples._add_input(
-							config,
-							self.files_ztt(channel),
-							self.root_file_folder(channel),
-							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,mc_sample_weight=mc_sample_weight, z_pt=True),
-							"noplot_ztt_mc_qcd_control",
-							nick_suffix=nick_suffix
-					)
-					Samples._add_input(
-							config,
-							self.files_zll(channel),
-							self.root_file_folder(channel),
-							lumi,
-							self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+mc_sample_weight+"*zPtReweightWeight",
-							"noplot_zll_qcd_control",
-							nick_suffix=nick_suffix
-					)
-					Samples._add_input(
-							config,
-							self.files_ttj(channel),
-							self.root_file_folder(channel),
-							lumi,
-							mc_sample_weight+"*topPtReweightWeight",
-							"noplot_ttj_qcd_control",
-							nick_suffix=nick_suffix
-					)
-					Samples._add_input(
-							config,
-							self.files_vv(channel),
-							self.root_file_folder(channel),
-							lumi,
-							mc_sample_weight,
-							"noplot_vv_qcd_control",
-							nick_suffix=nick_suffix
-					)
-
+					for estimation_type in ["shape", "yield"]:
+						qcd_weight = weight
+						qcd_shape_cut = cut_type
+						qcd_exclude_cuts = exclude_cuts+["os"]
+						if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
+							qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+							qcd_exclude_cuts.append("pzeta")
+							if "1jet" in category:
+								qcd_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
+							elif "vbf" in category:
+								qcd_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
+						data_sample_weight = make_multiplication([data_weight, 
+											  qcd_weight,
+											  "eventWeight",
+											  self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=qcd_shape_cut),
+											  "((q_1*q_2)>0.0)",
+											  "emuQcdWeightNom"])
+						mc_sample_weight = make_multiplication([  mc_weight,
+											  qcd_weight,
+											  "eventWeight",
+											  self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=qcd_shape_cut),
+											  "((q_1*q_2)>0.0)",
+											  "emuQcdWeightNom"])
+						Samples._add_input(
+								config,
+								self.files_wj(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_sample_weight+"*"+self.wj_stitchingweight(),
+								"noplot_wj_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_ewkw(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_sample_weight+"*"+self.wj_stitchingweight(),
+								"noplot_wj_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_data(channel),
+								self.root_file_folder(channel),
+								1.0,
+								data_sample_weight,
+								("qcd" if estimation_type=="shape" else "noplot_qcd_"+estimation_type),
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_ztt(channel),
+								self.root_file_folder(channel),
+								lumi,
+								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,mc_sample_weight=mc_sample_weight, z_pt=True),
+								"noplot_ztt_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_zll(channel),
+								self.root_file_folder(channel),
+								lumi,
+								self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+mc_sample_weight+"*zPtReweightWeight",
+								"noplot_zll_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_ttj(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_sample_weight+"*topPtReweightWeight",
+								"noplot_ttj_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_vv(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_sample_weight,
+								"noplot_vv_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+					import pprint
+					pprint.pprint(config)
+					#sys.exit()
 					if not "EstimateQcd" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateQcd")
-					config.setdefault("qcd_data_shape_nicks", []).append("qcd"+nick_suffix)
-					config.setdefault("qcd_data_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
-					config.setdefault("qcd_data_control_nicks", []).append("noplot_data_qcd_control"+nick_suffix)
-					config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
+					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+					config.setdefault("qcd_yield_nicks", []).append("noplot_qcd_yield"+nick_suffix)
+					config.setdefault("qcd_yield_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_yield"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
+					config.setdefault("qcd_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_shape"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0)
-					config.setdefault("qcd_subtract_shape", []).append(True)
 				if channel == "tt":
 					if cut_type == "baseline2016":
 						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))"
