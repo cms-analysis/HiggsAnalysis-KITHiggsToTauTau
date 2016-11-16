@@ -1365,10 +1365,10 @@ class Samples(samples.SamplesBase):
 
 				if not "EstimateQcd" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("EstimateQcd")
-				config.setdefault("qcd_data_shape_nicks", []).append("qcd"+nick_suffix)
-				config.setdefault("qcd_data_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
-				config.setdefault("qcd_data_control_nicks", []).append("noplot_data_qcd_control"+nick_suffix)
-				config.setdefault("qcd_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
+				config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+				config.setdefault("qcd_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
+				config.setdefault("qcd_yield_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
+				config.setdefault("qcd_shape_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
 				if channel == "em":
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(2.0 + (0.0 if not "os" in exclude_cuts else 1.0))
 				elif channel == "et":
@@ -1756,9 +1756,6 @@ class Samples(samples.SamplesBase):
 								"noplot_vv_"+estimation_type,
 								nick_suffix=nick_suffix
 						)
-					import pprint
-					pprint.pprint(config)
-					#sys.exit()
 					if not "EstimateQcd" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateQcd")
 					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
