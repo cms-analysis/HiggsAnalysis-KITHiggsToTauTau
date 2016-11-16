@@ -10,7 +10,7 @@
 
 DiTauPair::DiTauPair(KLepton* lepton1, KLepton* lepton2) :
 	std::pair<KLepton*, KLepton*>(lepton1, lepton2)
-{
+{ 
 }
 
 bool DiTauPair::IsOppositelyCharged()
@@ -28,16 +28,17 @@ std::vector<std::string> DiTauPair::GetCommonHltPaths(
 		std::map<KLepton*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > const& detailedTriggerMatchedLeptons,
 		std::vector<std::string> const& hltPathsWithoutCommonMatchRequired
 ) {
+	hltPaths1_default.clear();
 	std::vector<std::string> hltPaths1 = TriggerMatchingProducerBase<KLepton>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
 			&(*first),
-			new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
+			&hltPaths1_default
 	));
-	
+	hltPaths2_default.clear();
 	std::vector<std::string> hltPaths2 = TriggerMatchingProducerBase<KLepton>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
 			&(*second),
-			new std::map<std::string, std::map<std::string, std::vector<KLV*> > >()
+			&hltPaths2_default
 	));
 	
 	std::vector<std::string> commonHltPaths = Utility::Intersection(hltPaths1, hltPaths2);
