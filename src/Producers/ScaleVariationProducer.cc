@@ -18,6 +18,11 @@ void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const&
 	for (std::string lheWeightName : event.m_genEventInfoMetadata->lheWeightNames)
 	{
 		std::string humanReadableWeightName = SafeMap::GetWithDefault(genEventInfoMetadataMap, lheWeightName, {lheWeightName}).at(0);
+		if (humanReadableWeightName.compare(lheWeightName) == 0)
+		{
+			LOG(DEBUG) << "ScaleVariationProducer::Init: Not found LHE weight " << lheWeightName << " (ommited)";
+			continue;
+		}
 		weightNames.push_back(humanReadableWeightName);
 		LOG(DEBUG) << "ScaleVariationProducer::Init: Found LHE weight " << lheWeightName << " (" << humanReadableWeightName << ")";
 	}
