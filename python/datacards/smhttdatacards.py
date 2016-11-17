@@ -188,9 +188,9 @@ class SMHttDatacards(datacards.Datacards):
 			# lumi
 			# (hopefully) temporary fix
 			if year == "2016":
-				self.cb.cp().signals().AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.046))
-				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.046))
-				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.046)) # automatically in other channels determined
+				self.cb.cp().signals().AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.062))
+				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.062))
+				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.062)) # automatically in other channels determined
 			else:
 				self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
 				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)

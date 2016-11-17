@@ -128,6 +128,137 @@ class CategoriesDict(object):
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}0jet_" + str(h_pt) +"_"+ str(pt_2) + "{discriminator}"])
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) +"{discriminator}"]["expressions"]["global"] = self.combine([self.invert(cut_string), jet0_string])
 				
+		self.categoriesDict["{analysis}{channel}ZeroJet2D{discriminator}"] = {
+				"channel": [
+					"mm_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":jet0_string,
+					"mt_":"(pt_2>30)",
+					"et_":"(pt_2>30)",
+					"em_":"(pt_2>15)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_pt_2": auto_rebin_binning,
+						"_m_vis": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning
+						},
+					"mt_" : {
+						"_pt_2" : " ".join([str(float(f)) for f in range(30, 55, 5)+range(55,301,245)]),
+						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+						},
+					"et_" : {
+						"_pt_2" : " ".join([str(float(f)) for f in range(30, 55, 5)+range(55,301,245)]),
+						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+						},
+					"em_" : {
+						"_pt_2" : " ".join([str(float(f)) for f in range(15, 35, 5)+range(35,301,265)]),
+						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+						},
+					"tt_" : {
+						"_m_sv" : " ".join([str(float(f)) for f in range(0, 301, 10)])
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Boosted2D{discriminator}"] = {
+				"channel":[
+					"mm_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
+					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
+					"em_":"(pt_2>15)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
+					"tt_":"((njetspt30==1)||(njetspt30>=2&&!(jdeta>2.5&&njetingap<1&&H_pt>100)))"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_H_pt": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning
+						},
+					"mt_": {
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,501,200)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						},
+					"et_": {
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,501,200)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						},
+					"em_": {
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,501,200)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						},
+					"tt_": {
+						"_H_pt":"0.0 100.0 170.0 300.0 1000.0", # this should actually go to infinity
+						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Vbf2D{discriminator}"] = {
+				"channel":[
+					"mm_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_":"(pt_2>30)*(njetspt30==2&&mjj>300)",
+					"et_":"(pt_2>30)*(njetspt30==2&&mjj>300)",
+					"em_":"(pt_2>15)*(pZetaMissVis>-10)*(njetspt30==2&&mjj>300)",
+					"tt_":"(njetspt30>=2&&jdeta>2.5&&njetingap<1&&H_pt>100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mjj": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning
+						},
+					"mt_": {
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,3001,1500)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+						},
+					"et_": {
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,3001,1500)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+						},
+					"em_": {
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,3001,1500)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+						},
+					"tt_": {
+						"_mjj":"0.0 300.0 500.0 800.0 10000.0", # this should actually go to infinity
+						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+						}
+					}
+				}
 		self.categoriesDict["{analysis}{channel}FT_InsteadQCuts{discriminator}"] = {
 				"channel": [
 					"mt_"

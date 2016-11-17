@@ -15,6 +15,10 @@ public:
 			std::map<KLepton*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > const& detailedTriggerMatchedLeptons,
 			std::vector<std::string> const& hltPathsWithoutCommonMatchRequired
 	);
+private:
+    std::map<std::string, std::map<std::string, std::vector<KLV*> > > hltPaths1_default; //fast workaround for very ugly code
+    std::map<std::string, std::map<std::string, std::vector<KLV*> > > hltPaths2_default; //if someone has time pleas fix 
+    
 };
 
 
