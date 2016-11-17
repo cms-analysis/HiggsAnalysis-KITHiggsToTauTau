@@ -946,7 +946,7 @@ class Samples(samples.SamplesBase):
 					if "1jet" in category:
 						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
 					elif "vbf" in category:
-						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==2"])
+						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
 				Samples._add_input(
 						config,
 						self.files_wj(channel),
@@ -1506,8 +1506,7 @@ class Samples(samples.SamplesBase):
 						if "1jet" in category:
 							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
 						elif "vbf" in category:
-							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==2"])
-					qcd_shape_weight = weight
+							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
 					Samples._add_input(
 							config,
 							self.files_ztt(channel),
@@ -1630,7 +1629,7 @@ class Samples(samples.SamplesBase):
 							self.files_data(channel),
 							self.root_file_folder(channel),
 							1.0,
-							(data_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(data_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"qcd",
 							nick_suffix=nick_suffix
 					)
