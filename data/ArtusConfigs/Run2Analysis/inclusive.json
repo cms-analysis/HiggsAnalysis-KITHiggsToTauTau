@@ -1,9 +1,11 @@
 {
 	"inclusive" : {
 		"EventWeight" : "eventWeight",
-		"Quantities" : [
+		"Quantities" : 
+		[
 			{
-				"include" : [
+				"include" : 
+				[
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/lheWeights.json"
 				]
 			},
@@ -14,21 +16,33 @@
 			"isZee",
 			"isZmm"
 		],
-		"Processors" : {
-			"nick" : {
-				"default" : [
+		"Processors" : 
+		{
+			"nick" : 
+			{
+				"default" : [],
+				"HToTauTau|H2JetsToTauTau" : 
+				[
+					"producer:GenBosonFromGenParticlesProducer"
 				],
-			"HToTauTau|H2JetsToTauTau" : [
+				"DY.?JetsToLLM(10to50|50|150)" : 
+				[
 					"producer:GenBosonFromGenParticlesProducer"
 				]
 			}
 		},
-		"Consumers" : {
-			"nick" : {
-				"default" : [
+		"Consumers" : 
+		{
+			"nick" : 
+			{
+				"default" :  [],
+				"HToTauTau|H2JetsToTauTau" : 
+				[
+					"KappaLambdaNtupleConsumer"
 				],
-			"HToTauTau|H2JetsToTauTau" : [
-				"KappaLambdaNtupleConsumer"
+				"DY.?JetsToLLM(10to50|50|150)" : 
+				[
+					"KappaLambdaNtupleConsumer"
 				]
 			}
 		}
