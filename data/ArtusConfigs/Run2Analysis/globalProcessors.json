@@ -36,7 +36,8 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer"
+				"producer:PUWeightProducer",
+				"producer:ScaleVariationProducer"
 			],
 			"^(GluGlu|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
 				"#filter:RunLumiEventFilter",
