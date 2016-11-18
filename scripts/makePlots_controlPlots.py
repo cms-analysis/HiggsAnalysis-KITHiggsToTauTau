@@ -492,9 +492,6 @@ if __name__ == "__main__":
 						category if len(args.categories) > 1 else ""
 				))
 				
-				if "qcd" in bkg_samples:
-					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
-				
 				if not args.www is None:
 					config["www"] = os.path.join(args.www, channel, "" if category is None else category)
 
