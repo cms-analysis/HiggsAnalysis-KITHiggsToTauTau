@@ -36,7 +36,7 @@ def mse(ivec, central = 0):
 	else:
 		return rms([ (value - central) for value in ivec])
 
-def count(file_name, pdfkeys, inclusive_weight, channel):
+def count(file_name, pdfkeys, inclusive_weight, channel, addpdfs = [], nevents = -1):
 	if not isinstance(pdfkeys, list): pdfkeys = [pdfkeys]
 	root_file = ROOT.TFile(file_name, "READ")
 	eventTree = ROOT.gDirectory.Get(channel)
@@ -46,7 +46,7 @@ def count(file_name, pdfkeys, inclusive_weight, channel):
 	weights = {}
 
 	for leave in list_of_leaves:
-		if any(c == "_".join(leave.GetTitle().split("_")[:-2]) for c in pdfkeys) or "muR" in leave.GetTitle():
+		if any(c == "_".join(leave.GetTitle().split("_")[:-2]) for c in pdfkeys) or "muR" in leave.GetTitle() or leave.GetTitle() in addpdfs:
 			if not any(c in leave.GetTitle() for c in ("muR0p5_muF0p5", "muR2p0_muF2p0")): 
 				weight_names.append(str(leave.GetTitle()))
 
@@ -73,6 +73,7 @@ def fill_histogram(unc, unctype):
 		elif unctype in key: 
 			print key, ":", value
 			new_unc[key] = value
+
 	if len(new_unc) == 0 : return
 	new_histo = ROOT.TH1F(unctype, "", len(new_unc), 0, len(new_unc))
 	print new_unc
@@ -133,6 +134,8 @@ def main():
 	parser.add_argument("--pdfkey", default="NNPDF30", help="PDF set  KEY Name [Default: %(default)s]")# Htt : NNPDF30
 	parser.add_argument("--addpdfs", default=["NNPDF30_nlo_as_0119_weight", "NNPDF30_nlo_as_0117_weight"], help="PDF set Name [Default: %(default)s]")# NNPDF30_nlo_as_0119_weight NNPDF30_nlo_as_0118_00_weight NNPDF30_nlo_as_0117_weight
 	parser.add_argument("--cut_type", default="baseline2016", help="Selection type [Default: %(default)s]")# By changes add: if "2016" in os.path.basename(input_file): cut_type = "baseline2016"
+	parser.add_argument("--nevents", default="-1", help="Number of events to process with count() [Default: %(default)s]")
+	parser.add_argument("--output", default="", help="output file name [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -142,6 +145,9 @@ def main():
 	pdfkey = args.pdfkey
 	addpdfs = args.addpdfs
 	cut_type = args.cut_type
+	nevents = args.nevents
+	output = args.output
+
 	if "2016" in os.path.basename(input_file): cut_type = "baseline2016"
 
 	categoty_key = "catHtt13TeV_"
@@ -160,29 +166,32 @@ def main():
 		#channels.append("mm") # Better way? 
 		print "CHANNEL mm OMMITED because of am error - need investigation"
 		categories = ["inclusive", "2jet_inclusive", "1jet_inclusive", "0jet_inclusive"]
-		pdfkey = "CT10nlo"
+		pdfkeys = ["CT10nlo"]
 		addpdfs = ["NNPDF30_lo_as_0130_0_weight", "NNPDF30_lo_as_0130_nf_4_0_weight"]
 		print "Automatic channels were assighned:", channels
 		print "Automatic categories were assighned:", categories
-		print "Automatic pdfkey is assighned:", pdfkey
-		pdfkeys = [pdfkey]
-		[pdfkeys.append( "_".join(c.split("_")[:-2])) for c in addpdfs]#pdfkeys = DYSets
+		print "Automatic pdfkey is assighned:", pdfkey[0]
+		#[pdfkeys.append( "_".join(c.split("_")[:-2])) for c in addpdfs] #to include all variations of additional pdfs
+
+	if output == "": output = "theory_uncertainties_" + process
+	elif output[-5:] == ".root": output = output[:-5]
+	print "Output file:", output + ".root"
 	print "pdfkeys:", pdfkeys
 		
 	full_dict = {}
-	n_events_total = count(input_file, pdfkeys, "1", Samples.root_file_folder("inclusive"))["muR1p0_muF1p0_weight"]
+	n_events_total = count(input_file, pdfkeys, "1", Samples.root_file_folder("inclusive"), addpdfs, nevents)["muR1p0_muF1p0_weight"]
 	print n_events_total
 
 	print "Inclusive assighnment"
 	for channel in channels:
 		full_dict[channel] = {}
-		full_dict[channel]["full"] = count(input_file, pdfkeys, "isZ" + channel + ">0.5", Samples.root_file_folder("inclusive")) #? isZ count total number of events by using inclusive pipeline
+		full_dict[channel]["full"] = count(input_file, pdfkeys, "isZ" + channel + ">0.5", Samples.root_file_folder("inclusive"), addpdfs, nevents) #? isZ count total number of events by using inclusive pipeline
 		weight_string = ""
 		cutstrings = CutStringsDict.baseline(channel, cut_type)
 		del cutstrings["blind"]
 		for cutstring in cutstrings.values():
 			weight_string += "*" + cutstring
-		full_dict[channel]["inclusive"] = count(input_file, pdfkeys, weight_string[1:], Samples.root_file_folder(channel)) 
+		full_dict[channel]["inclusive"] = count(input_file, pdfkeys, weight_string[1:], Samples.root_file_folder(channel), addpdfs, nevents) 
 
 	print "Out of", n_events_total, "simulated events:" 
 	for channel in channels:
@@ -205,11 +214,11 @@ def main():
 			for cutstring in cutstrings.values():
 				weight_string += "*" + cutstring
 			if channel=="tt": print "\tweight_string", weight_string
-			full_dict[channel][category] = count(input_file, pdfkeys, weight_string, Samples.root_file_folder(channel))
+			full_dict[channel][category] = count(input_file, pdfkeys, weight_string, Samples.root_file_folder(channel), addpdfs, nevents)
 
 	unc = {}
 	eff = {}
-	root_tree_file=ROOT.TFile("theory_uncertainties_" + process + ".root", "RECREATE")
+	root_tree_file=ROOT.TFile(output + ".root", "RECREATE")
 	print "######## calculate inclusive weights"
 	print "\tscale"
 	for channel in channels:
