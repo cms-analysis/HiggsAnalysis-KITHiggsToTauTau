@@ -13,6 +13,7 @@ class CategoriesDict(object):
 		vbf_medium_string = "(mjj>500&&jdeta>3.5)"
 		vbf_loose_string = "(mjj>200&&jdeta>2)"
 		jet2_string = "(njetspt30>1)"
+		jet2x_string = "(njetspt30==2)"
 		jet1_string = "(njetspt30==1)"
 		jet0_string = "(njetspt30==0)"
 		pt2_tight_string = "(pt_2>=45)"
@@ -56,6 +57,10 @@ class CategoriesDict(object):
 						}
 				self.categoriesDict["{analysis}{channel}ivbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"])
 				self.categoriesDict["{analysis}{channel}ivbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([self.invert(vbf_string), jet2_string])
+				self.categoriesDict["{analysis}{channel}xvbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"])
+				self.categoriesDict["{analysis}{channel}xvbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([vbf_string, jet2x_string])
+				self.categoriesDict["{analysis}{channel}ixvbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"])
+				self.categoriesDict["{analysis}{channel}ixvbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([self.invert(vbf_string), jet2x_string])
 
 
 		for h_pt in range(0,201,10):
