@@ -210,7 +210,7 @@ class CategoriesDict(object):
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
 						},
 					"tt_": {
-						"_H_pt":"0.0 100.0 170.0 300.0 1000.0", # this should actually go to infinity
+						"_H_pt":"0.0 100.0 170.0 300.0",
 						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
 						}
 					}
@@ -254,7 +254,7 @@ class CategoriesDict(object):
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
 						},
 					"tt_": {
-						"_mjj":"0.0 300.0 500.0 800.0 10000.0", # this should actually go to infinity
+						"_mjj":"0.0 300.0 500.0 800.0",
 						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
 						}
 					}
