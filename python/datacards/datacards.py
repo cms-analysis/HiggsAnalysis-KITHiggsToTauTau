@@ -88,7 +88,8 @@ class Datacards(object):
 			ch.SystMap("era", "channel")
 				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
 				(["7TeV", "8TeV"], ["tt"],       1.19)
-				(       ["13TeV"], ["mt", "et", "tt"], 1.05) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+				(       ["13TeV"], ["mt", "et"], 1.08) 
+				(       ["13TeV"], ["tt"], 1.16) # Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf 
 		]
 		self.tau_efficieny_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
@@ -96,7 +97,8 @@ class Datacards(object):
 			ch.SystMap("era", "channel")
 				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
 				(["7TeV", "8TeV"], ["tt"],       1.19)
-				(       ["13TeV"], ["mt", "et", "tt"], 1.03) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+				(       ["13TeV"], ["mt", "et"], 1.04) # Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf 
+				(       ["13TeV"], ["tt"], 1.10)# Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf  
 		]
 		self.btag_efficiency_syst_args = [
 			"CMS_eff_b_$ERA",
