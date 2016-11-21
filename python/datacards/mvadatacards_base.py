@@ -62,21 +62,21 @@ class Datacards(object):
 				(["7TeV", "8TeV"], 1.026)
 				(       ["13TeV"], 1.046)
 		]
-		self.electron_efficieny_syst_args = [
+		self.electron_efficiency_syst_args = [
 			"CMS_eff_e",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
 				(       ["13TeV"], 1.05) # copied from 8TeV
 		]
-		self.muon_efficieny_syst_args = [
+		self.muon_efficiency_syst_args = [
 			"CMS_eff_m",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
 				(       ["13TeV"], 1.05) # copied from 8TeV
 		]
-		self.tau_efficieny_corr_syst_args = [
+		self.tau_efficiency_corr_syst_args = [
 			"CMS_eff_t_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel")
@@ -84,7 +84,7 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["tt"],       1.19)
 				(       ["13TeV"], ["mt", "et", "tt"], 1.05) # copied from 8TeV
 		]
-		self.tau_efficieny_syst_args = [
+		self.tau_efficiency_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel")
@@ -92,7 +92,7 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["tt"],       1.19)
 				(       ["13TeV"], ["mt", "et", "tt"], 1.03) # copied from 8TeV
 		]
-		self.btag_efficieny_syst_args = [
+		self.btag_efficiency_syst_args = [
 			"CMS_eff_b_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel")

@@ -27,10 +27,10 @@ class ZttXsecDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 			if "taueff" not in model:
-				self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
-				self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 
 			# extrapolation uncertainty
 			self.cb.cp().channel(["mt"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
@@ -58,10 +58,10 @@ class ZttXsecDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
 			if "taueff" not in model:
-				self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
-				self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+				self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
+				self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 
 			# extrapolation uncertainty
 			self.cb.cp().channel(["et"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
@@ -89,8 +89,8 @@ class ZttXsecDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 
 			# extrapolation uncertainty
 			self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
@@ -145,7 +145,7 @@ class ZttEffDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 
 			# mu->tau fake ES
 			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_es_syst_args)
@@ -158,7 +158,7 @@ class ZttEffDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
 
 			# b-tag efficiency and mistag
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "TT"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
 			self.cb.cp().channel(["mt"]).process(["ZTT", "TT"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
 
 			# ======================================================================
@@ -174,7 +174,7 @@ class ZttEffDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
@@ -184,7 +184,7 @@ class ZttEffDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
 
 			# b-tag efficiency and mistag
-			self.cb.cp().channel(["et"]).process(["ZTT", "TT"]).AddSyst(self.cb, *self.btag_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "TT"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZTT", "TT"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
 
 			# ======================================================================
@@ -230,8 +230,8 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 			
 			# Tau ES
 			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
@@ -249,9 +249,9 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 
 			# Probe Tau ES
 			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.probetau_es_syst_args)
@@ -307,9 +307,9 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZTT"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZTT"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 
 			# extrapolation uncertainty
 			self.cb.cp().channel(["mt"]).process(["WJT", "WJL"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
@@ -349,9 +349,9 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZTT"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZTT"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "VVT", "WJT", "ZTT"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 			
 			# extrapolation uncertainty
 			self.cb.cp().channel(["et"]).process(["WJT", "WJL"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
