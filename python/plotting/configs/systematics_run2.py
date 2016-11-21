@@ -25,8 +25,8 @@ class SystematicsFactory(dict):
 		self["CMS_ztt_jetFakeTau_frac_w_Shape_13TeV"] = JetFakeTauFracWShapeSystematic
 		self["CMS_ztt_jetFakeTau_frac_tt_Shape_13TeV"] = JetFakeTauFracTTShapeSystematic
 		self["CMS_ztt_jetFakeTau_frac_dy_Shape_13TeV"] = JetFakeTauFracDYShapeSystematic
-#		self["CMS_eff_b_13TeV"] = BTagSystematic
-#		self["CMS_mistag_b_13TeV"] = BMistagSystematic
+		self["CMS_eff_b_13TeV"] = BTagSystematic
+		self["CMS_mistag_b_13TeV"] = BMistagSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
