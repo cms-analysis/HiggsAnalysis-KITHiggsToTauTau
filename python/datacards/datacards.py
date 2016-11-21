@@ -117,7 +117,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process")
 				(["13TeV"], ["ggH", "qqH", "WH", "ZH", "VH"], 0.98) # copied from 8TeV
-				(["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W"], 1.03) # copied from 8TeV
+				(["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TTJJ", "TTT", "TT", "VV", "WJ", "W"], 1.03) # copied from 8TeV
 		]
 		self.ztt_cross_section_syst_args = [
 			"CMS_$ANALYSIS_zttNorm_$ERA",
