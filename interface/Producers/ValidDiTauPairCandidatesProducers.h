@@ -152,7 +152,7 @@ public:
                         if (settings.GetRequireFirstTriggering())
                         {
                             bool hltFired = false;
-                            auto trigger = product.m_detailedTriggerMatchedLeptons[diTauPair.first];
+                            auto trigger = product.m_detailedTriggerMatchedLeptons[static_cast<KLepton*>(diTauPair.first)];
                             for (auto hltName : settings.GetHltPaths())
                             {
                                 for (auto hlts: (*trigger))
