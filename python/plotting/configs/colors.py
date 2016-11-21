@@ -83,6 +83,8 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["zj"]  = self.colors_dict["zll"]
 			self.colors_dict["ztt"] = self.colors_dict["kit_braun_1"]+" "+self.colors_dict["kit_braun_2"]
 			self.colors_dict["tt"] = self.colors_dict["kit_blau_1"]+" "+self.colors_dict["kit_blau_2"]
+			self.colors_dict["ttt"] = self.colors_dict["kit_blau_1"]+" "+self.colors_dict["kit_blau_2"]
+			self.colors_dict["ttjj"] = self.colors_dict["kit_blau_1"]+" "+self.colors_dict["kit_blau_2"]
 			self.colors_dict["ttj"] = self.colors_dict["tt"]
 			self.colors_dict["ttjt"] = self.colors_dict["kit_blau_1"]
 			self.colors_dict["ttjl"] = self.colors_dict["kit_blau_2"]
@@ -124,6 +126,8 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["zttpospol"] = "#000000 #FFEEBB"
 			self.colors_dict["zttnegpol"] = "#000000 #FFCC66"
 			self.colors_dict["tt"] = "#000000 #9999CC"
+			self.colors_dict["ttt"] = self.colors_dict["tt"]
+			self.colors_dict["ttjj"] = self.colors_dict["tt"]
 			self.colors_dict["ttj"] = self.colors_dict["tt"]
 			self.colors_dict["ttjt"] = self.colors_dict["kit_blau_1"]
 			self.colors_dict["ttjl"] = self.colors_dict["kit_blau_2"]
