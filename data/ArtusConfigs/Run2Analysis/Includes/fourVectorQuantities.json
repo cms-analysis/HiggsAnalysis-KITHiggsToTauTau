@@ -16,6 +16,14 @@
 		"genLep1Found",
 		"posGenLepFound",
 		
+		"leadingGenTauLV",
+		"GenTau1LV",
+		"posGenTauLV",
+		
+		"leadingGenTauFound",
+		"GenTau1Found",
+		"posGenTauFound",
+		
 		"trailingGenLepLV",
 		"genLep2LV",
 		"negGenLepLV",
@@ -23,6 +31,14 @@
 		"trailingGenLepFound",
 		"genLep2Found",
 		"negGenLepFound",
+		
+		"trailingGenTauLV",
+		"GenTau2LV",
+		"negGenTauLV",
+		
+		"trailingGenTauFound",
+		"GenTau2Found",
+		"negGenTauFound",
 		
 		"leadingJetLV",
 		"trailingJetLV",
