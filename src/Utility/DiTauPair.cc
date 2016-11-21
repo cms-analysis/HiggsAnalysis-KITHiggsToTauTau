@@ -28,17 +28,17 @@ std::vector<std::string> DiTauPair::GetCommonHltPaths(
 		std::map<KLepton*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > const& detailedTriggerMatchedLeptons,
 		std::vector<std::string> const& hltPathsWithoutCommonMatchRequired
 ) {
-	hltPaths1_default.clear();
+	std::map<std::string, std::map<std::string, std::vector<KLV*> > > defaultHltPaths1;
 	std::vector<std::string> hltPaths1 = TriggerMatchingProducerBase<KLepton>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
 			&(*first),
-			&hltPaths1_default
+			&defaultHltPaths1
 	));
-	hltPaths2_default.clear();
+	std::map<std::string, std::map<std::string, std::vector<KLV*> > > defaultHltPaths2;
 	std::vector<std::string> hltPaths2 = TriggerMatchingProducerBase<KLepton>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
 			&(*second),
-			&hltPaths2_default
+			&defaultHltPaths2
 	));
 	
 	std::vector<std::string> commonHltPaths = Utility::Intersection(hltPaths1, hltPaths2);
