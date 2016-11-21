@@ -67,7 +67,6 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.026)
-				(       ["13TeV"], 1.027) # CMS-PAS-LUM-15-001
 		]
 		self.electron_efficieny_syst_args = [
 			"CMS_eff_e",
