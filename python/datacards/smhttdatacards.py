@@ -53,11 +53,11 @@ class SMHttDatacards(datacards.Datacards):
 					self.cb.cp().channel(["mt"]).bin(["mt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# B-Tag
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
+			#self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
+			#self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
 
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
+			#self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
+			#self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
 
 			# ======================================================================
 			# ET channel
@@ -95,11 +95,11 @@ class SMHttDatacards(datacards.Datacards):
 					self.cb.cp().channel(["et"]).bin(["et_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# B-Tag
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
+			#self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
+			#self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
 
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
+			#self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
+			#self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
 
 			# ======================================================================
 			# EM channel
@@ -121,11 +121,11 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficieny_syst_args)
 
 			# B-Tag
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
-			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
+			#self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
+			#self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
 
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
-			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
+			#self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
+			#self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
 			
 			if useRateParam:
 				for category in Categories.CategoriesDict().getCategories(["em"], False)["em"]:
