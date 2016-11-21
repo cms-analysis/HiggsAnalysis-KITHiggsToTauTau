@@ -96,6 +96,21 @@ class Samples(samples.SamplesBase):
 		else:
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
+
+	@staticmethod
+	def get_jetbin(channel, category, weight):
+		addition = split_multiplication(weight)[1]
+		if("x") in category:
+			if "1jet" in category:
+				return ["(njetspt30==1)", addition]
+			if "vbf" in category:
+				return ["(njetspt30==1)", addition]
+		else:
+			if "1jet" in category:
+				return ["(njetspt30==1)", addition]
+			if "vbf" in category:
+				return ["(njetspt30>1)", addition]
+			return [weight]
 	
 	def ztt_stitchingweight(self):
 		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25449124172134e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.17272893569016e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.17926755938344e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.18242445124698e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16077776187804e-6)+"
@@ -459,7 +474,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttjj", nick_suffix)
 		return config
 
-	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -472,17 +487,21 @@ class Samples(samples.SamplesBase):
 				self.files_ttj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight",
+				make_multiplication([mc_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
 				"ttj",
 				nick_suffix=nick_suffix
 		)
-		if channel == "em": # handle later as result from other member function
+		if (channel == "em") and ("newKIT" in estimationMethod):
+			channel_weight = Samples.get_jetbin(channel, category, weight)
+			
+			ttbar_data_weight = make_multiplication(["(pZetaMissVis < -70.0)", channel_weight] )   # get data / mc factor from inclusive
+
 			Samples._add_input(
 					config,
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([data_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) ]),
 					"noplot_ttj_data_control",
 					nick_suffix=nick_suffix
 			)
@@ -491,7 +510,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([Samples.ztt_genmatch(channel), ttbar_data_weight, self.get_weights_ztt(channel=channel,weight=weight), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) ]),
 					"noplot_ztt_mc_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -500,7 +519,7 @@ class Samples(samples.SamplesBase):
 					self.files_zll(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self.zll_stitchingweight(), Samples.zll_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)]),
 					"noplot_zll_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -509,7 +528,7 @@ class Samples(samples.SamplesBase):
 					self.files_wj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)]),
 					"noplot_wj_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -518,7 +537,7 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)]),
 					"noplot_vv_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -527,7 +546,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight",
+					make_multiplication([mc_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
 					"noplot_ttj_mc_signal",
 					nick_suffix=nick_suffix
 			)
@@ -536,17 +555,15 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)*topPtReweightWeight",
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*topPtReweightWeight"]),
 					"noplot_ttj_mc_control",
 					nick_suffix=nick_suffix
 			)
-
 			if not "EstimateTtbar" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateTtbar")
-			config.setdefault("ttbar_from_mc", []).append(True)
 			config.setdefault("ttbar_shape_nicks", []).append("ttj"+nick_suffix)
 			config.setdefault("ttbar_data_control_nicks", []).append("noplot_ttj_data_control"+nick_suffix)
-			config.setdefault("ttbar_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
+			config.setdefault("ttbar_data_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
 			config.setdefault("ttbar_mc_signal_nicks", []).append("noplot_ttj_mc_signal"+nick_suffix)
 			config.setdefault("ttbar_mc_control_nicks", []).append("noplot_ttj_mc_control"+nick_suffix)
 		if channel not in ["em", "et", "mt", "tt", "mm"]:
@@ -943,10 +960,7 @@ class Samples(samples.SamplesBase):
 				if category != None:
 					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 				if "newKIT" in estimationMethod:
-					if "1jet" in category:
-						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
-					elif "vbf" in category:
-						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
+					wj_shape_weight = make_multiplication(Samples.get_jetbin(category, channel, weight))
 				Samples._add_input(
 						config,
 						self.files_wj(channel),
@@ -1377,7 +1391,6 @@ class Samples(samples.SamplesBase):
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0 + (0.0 if not "os" in exclude_cuts else 1.0))
 				else:
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
-				config.setdefault("qcd_subtract_shape", []).append(True)
 
 			if "new" in estimationMethod:
 				if channel in ["et","mt"]:
@@ -1503,10 +1516,7 @@ class Samples(samples.SamplesBase):
 					if category != None:
 						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 					if "newKIT" in estimationMethod:
-						if "1jet" in category:
-							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
-						elif "vbf" in category:
-							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
+						qcd_shape_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 					Samples._add_input(
 							config,
 							self.files_ztt(channel),
@@ -1676,10 +1686,7 @@ class Samples(samples.SamplesBase):
 						if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
 							qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 							qcd_exclude_cuts.append("pzeta")
-							if "1jet" in category:
-								qcd_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
-							elif "vbf" in category:
-								qcd_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
+							qcd_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 						data_sample_weight = make_multiplication([data_weight, 
 											  qcd_weight,
 											  "eventWeight",
