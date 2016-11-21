@@ -9,18 +9,13 @@
 
 
 DiTauPair::DiTauPair(KLepton* lepton1, KLepton* lepton2) :
-	std::pair<KLepton*, KLepton*>(lepton1, lepton2)
+	DiGenTauPair(lepton1, lepton2)
 { 
 }
 
 bool DiTauPair::IsOppositelyCharged()
 {
-	return (first->charge() * second->charge() < 0);
-}
-
-double DiTauPair::GetDeltaR()
-{
-	return ROOT::Math::VectorUtil::DeltaR(first->p4, second->p4);
+	return (static_cast<KLepton*>(first)->charge() * static_cast<KLepton*>(second)->charge() < 0);
 }
 
 // TODO: this function should probably get cached
@@ -31,13 +26,13 @@ std::vector<std::string> DiTauPair::GetCommonHltPaths(
 	std::map<std::string, std::map<std::string, std::vector<KLV*> > > defaultHltPaths1;
 	std::vector<std::string> hltPaths1 = TriggerMatchingProducerBase<KLepton>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
-			&(*first),
+			static_cast<KLepton*>(first),
 			&defaultHltPaths1
 	));
 	std::map<std::string, std::map<std::string, std::vector<KLV*> > > defaultHltPaths2;
 	std::vector<std::string> hltPaths2 = TriggerMatchingProducerBase<KLepton>::GetHltNamesWhereAllFiltersMatched(*SafeMap::GetWithDefault(
 			detailedTriggerMatchedLeptons,
-			&(*second),
+			static_cast<KLepton*>(second),
 			&defaultHltPaths2
 	));
 	
@@ -79,12 +74,12 @@ bool DiTauPairIsoPtComparator::operator() (DiTauPair const& diTauPair1, DiTauPai
 {
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Pair_Selection_Algorithm
 	
-	double isoPair1Lepton1 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair1.first, static_cast<double>(diTauPair1.first->pfIso()));
-	double isoPair2Lepton1 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair2.first, static_cast<double>(diTauPair1.first->pfIso()));
+	double isoPair1Lepton1 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, static_cast<KLepton*>(diTauPair1.first), static_cast<double>(static_cast<KLepton*>(diTauPair1.first)->pfIso()));
+	double isoPair2Lepton1 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, static_cast<KLepton*>(diTauPair2.first), static_cast<double>(static_cast<KLepton*>(diTauPair1.first)->pfIso()));
 
 	// for taus, do not divide the isolation by pT
 	// if MVA iso, revert the sign such that the < inequality still holds
-	if (diTauPair1.first->flavour() == KLeptonFlavour::TAU)
+	if (static_cast<KLepton*>(diTauPair1.first)->flavour() == KLeptonFlavour::TAU)
 	{
 		isoPair1Lepton1 *= diTauPair1.first->p4.Pt();
 		if (m_isTauIsoMVA)
@@ -92,7 +87,7 @@ bool DiTauPairIsoPtComparator::operator() (DiTauPair const& diTauPair1, DiTauPai
 			isoPair1Lepton1 = isoPair1Lepton1 * (-1.0);
 		}
 	}
-	if (diTauPair2.first->flavour() == KLeptonFlavour::TAU)
+	if (static_cast<KLepton*>(diTauPair2.first)->flavour() == KLeptonFlavour::TAU)
 	{
 		isoPair2Lepton1 *= diTauPair2.first->p4.Pt();
 		if (m_isTauIsoMVA)
@@ -113,11 +108,11 @@ bool DiTauPairIsoPtComparator::operator() (DiTauPair const& diTauPair1, DiTauPai
 		}
 		else
 		{
-			double isoPair1Lepton2 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair1.second, static_cast<double>(diTauPair1.second->pfIso()));
-			double isoPair2Lepton2 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, diTauPair2.second, static_cast<double>(diTauPair1.second->pfIso()));
+			double isoPair1Lepton2 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, static_cast<KLepton*>(diTauPair1.second), static_cast<double>(static_cast<KLepton*>(diTauPair1.second)->pfIso()));
+			double isoPair2Lepton2 = SafeMap::GetWithDefault(*m_leptonIsolationOverPt, static_cast<KLepton*>(diTauPair2.second), static_cast<double>(static_cast<KLepton*>(diTauPair1.second)->pfIso()));
 			// for taus, do not divide the isolation by pT
 			// if MVA iso, revert the sign such that the < inequality still holds
-			if (diTauPair1.second->flavour() == KLeptonFlavour::TAU)
+			if (static_cast<KLepton*>(diTauPair1.second)->flavour() == KLeptonFlavour::TAU)
 			{
 				isoPair1Lepton2 *= diTauPair1.second->p4.Pt();
 				if (m_isTauIsoMVA)
@@ -125,7 +120,7 @@ bool DiTauPairIsoPtComparator::operator() (DiTauPair const& diTauPair1, DiTauPai
 					isoPair1Lepton2 = isoPair1Lepton2 * (-1.0);
 				}
 			}
-			if (diTauPair2.second->flavour() == KLeptonFlavour::TAU)
+			if (static_cast<KLepton*>(diTauPair2.second)->flavour() == KLeptonFlavour::TAU)
 			{
 				isoPair2Lepton2 *= diTauPair2.second->p4.Pt();
 				if (m_isTauIsoMVA)

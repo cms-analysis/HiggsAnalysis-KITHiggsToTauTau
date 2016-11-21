@@ -658,8 +658,8 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 
 	// fill the lepton vectors
 	DiTauPair diTauPair = product.m_validDiTauPairCandidates.at(0);
-	KLepton* lepton1 = diTauPair.first;
-	KLepton* lepton2 = diTauPair.second;
+	KLepton* lepton1 = static_cast<KLepton*>(diTauPair.first);
+	KLepton* lepton2 = static_cast<KLepton*>(diTauPair.second);
 
 	// fill leptons ordered by pt (high pt first)
 	if (lepton1->p4.Pt() >= lepton2->p4.Pt())
