@@ -204,10 +204,6 @@ class SMHttDatacards(datacards.Datacards):
 			# MET
 			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)
 
-			# QCD systematic
-			self.cb.cp().process(["QCD"]).channel(["tt"]).AddSyst(self.cb, *self.qcd_syst_args) # automatically in other channels
-			#self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
-
 			# cross section
 			self.cb.cp().process(["ZTT", "ZL", "ZJ","ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			self.cb.cp().process(["TT"]).channel(["mt", "et", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args) # automatically in other channels determined
@@ -222,8 +218,8 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_ueps_syst_args)
 
 			# transform B-Tagging shape to lnN
-			self.cb.cp().syst_name(['CMS_eff_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
-			self.cb.cp().syst_name(['CMS_mistag_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
+			#self.cb.cp().syst_name(['CMS_eff_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
+			#self.cb.cp().syst_name(['CMS_mistag_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
 
 
 			if log.isEnabledFor(logging.DEBUG):
