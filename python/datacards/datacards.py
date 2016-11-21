@@ -230,6 +230,13 @@ class Datacards(object):
 				(       ["13TeV"], ["ZLL", "ZL"], 1.30) # From Yuta's polarisation analysis
 		]
 
+		self.jetFakeTau_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process",)
+				(       ["13TeV"], ["ZJ"], 1.20)
+		]
+
 		self.zee_norm_syst_args = [
 			"CMS_$ANALYSIS_zeeNorm_$ERA",
 			"lnN",
