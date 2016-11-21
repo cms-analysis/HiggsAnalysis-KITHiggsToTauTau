@@ -199,7 +199,8 @@ class SMHttDatacards(datacards.Datacards):
 			# jets
 			self.cb.cp().process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.jec_syst_args)
-
+			# fakes
+			self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 			# MET
 			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)
 
