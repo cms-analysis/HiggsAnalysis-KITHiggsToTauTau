@@ -67,9 +67,9 @@ class DatacardConfigs(object):
 				"mt_1jet_inclusive" : 31,
 				"mt_2jet_inclusive" : 32,
 				
-				"mt_x_a1" : 0,
-				"mt_x_rho" : 10,
-				"mt_x_oneprong" : 20,
+				"mt_a1" : 0,
+				"mt_rho" : 10,
+				"mt_oneprong" : 20,
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -96,9 +96,9 @@ class DatacardConfigs(object):
 				"et_1jet_inclusive" : 31,
 				"et_2jet_inclusive" : 32,
 				
-				"et_x_a1" : 0,
-				"et_x_rho" : 10,
-				"et_x_oneprong" : 20,
+				"et_a1" : 0,
+				"et_rho" : 10,
+				"et_oneprong" : 20,
 			},
 			"em" : {
 				"em_inclusive" : 0,
@@ -125,7 +125,7 @@ class DatacardConfigs(object):
 				"em_1jet_inclusive" : 31,
 				"em_2jet_inclusive" : 32,
 				
-				"em_x_oneprong" : 20,
+				"em_oneprong" : 20,
 			},
 			"tt" : {
 				"tt_inclusive" : 0,
@@ -152,11 +152,9 @@ class DatacardConfigs(object):
 				"tt_1jet_inclusive" : 31,
 				"tt_2jet_inclusive" : 32,
 				
-				"tt_a1_x" : 0,
-				"tt_rho_x" : 10,
-				"tt_oneprong_x" : 20,
-				"tt_x_a1" : 1,
-				"tt_x_rho" : 11,
+				"tt_a1" : 0,
+				"tt_rho" : 10,
+				"tt_oneprong" : 20,
 			},
 			"mm" : {
 				"mm_inclusive" : 0,
