@@ -141,6 +141,9 @@ void PolarisationQuantitiesProducer::Produce(
 	}
 	
 	// 1-prong method
+	bool tauFound = false;
+	bool muonFound = false;
+	bool electronFound = false;
 	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
 	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
@@ -148,11 +151,36 @@ void PolarisationQuantitiesProducer::Produce(
 		{
 			product.m_visibleOverFullEnergy[*lepton] = (*lepton)->p4.E() / SafeMap::Get(product.m_hhKinFitTaus, *lepton).E();
 			
+			// prefer hadronic taus first, then muons and then electrons for the event-based discriminator
 			if (! tauPolarisationDiscriminatorChosen)
 			{
-				product.m_tauPolarisationDiscriminator = product.m_visibleOverFullEnergy[*lepton];
-				tauPolarisationDiscriminatorChosen = true;
+				if (! tauFound)
+				{
+					if ((*lepton)->flavour() == KLeptonFlavour::TAU)
+					{
+						product.m_tauPolarisationDiscriminator = product.m_visibleOverFullEnergy[*lepton];
+						tauFound = true;
+					}
+					else
+					{
+						if (! muonFound)
+						{
+							if ((*lepton)->flavour() == KLeptonFlavour::MUON)
+							{
+								product.m_tauPolarisationDiscriminator = product.m_visibleOverFullEnergy[*lepton];
+								muonFound = true;
+							}
+							else if (! electronFound)
+							{
+								product.m_tauPolarisationDiscriminator = product.m_visibleOverFullEnergy[*lepton];
+								electronFound = true;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
+	tauPolarisationDiscriminatorChosen = (tauPolarisationDiscriminatorChosen || (product.m_flavourOrderedLeptons.size() > 0));
+	
 }
