@@ -22,7 +22,7 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genDiTauLV", [](event_type const& event, product_type const& product) {
 		return product.m_diTauGenSystem;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("genDiTauLVFound", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("genDiTauFound", [](event_type const& event, product_type const& product) {
 		return product.m_diTauGenSystemFound;
 	});
 	
