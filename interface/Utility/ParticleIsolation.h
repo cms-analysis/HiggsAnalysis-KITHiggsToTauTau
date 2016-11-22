@@ -18,7 +18,7 @@ class ParticleIsolation {
 
 public:
 
-	static double IsolationPtSum(RMFLV const& particle, HttEvent const& event,
+	static double IsolationPtSum(RMFLV const& particle, HttProduct const& product,
 	                             float const& isoSignalConeSize = 0.4,
 	                             float const& deltaBetaCorrectionFactor = 0.5,
 	                             float const& chargedIsoVetoConeSizeEB = -1.0,
@@ -32,7 +32,7 @@ public:
 	                             float const& photonIsoPtThreshold = 0.0,
 	                             float const& deltaBetaIsoPtThreshold = 0.0);
 
-	static double IsolationPtSumForParticleClass(RMFLV const& particle, KPFCandidates* pfCandidates,
+	static double IsolationPtSumForParticleClass(RMFLV const& particle, std::vector<const KPFCandidate*> pfCandidates,
 	                                             float const& isoSignalConeSize = 0.4,
 	                                             float const& isoVetoConeSizeEB = -1.0,
 	                                             float const& isoVetoConeSizeEE = -1.0,

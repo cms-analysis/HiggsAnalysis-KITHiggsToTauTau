@@ -4,21 +4,22 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/ParticleIsolation.h"
 
 
-double ParticleIsolation::IsolationPtSumForParticleClass(RMFLV const& particle, KPFCandidates* pfCandidates,
+double ParticleIsolation::IsolationPtSumForParticleClass(RMFLV const& particle,
+                                                         std::vector<const KPFCandidate*> pfCandidates,
                                                          float const& isoSignalConeSize,
                                                          float const& isoVetoConeSizeEB,
                                                          float const& isoVetoConeSizeEE,
                                                          float const& isoPtThreshold)
 {
 	double isolationPtSum = 0.0;
-	for (std::vector<KPFCandidate>::const_iterator pfCandidate = pfCandidates->begin();
-	     pfCandidate != pfCandidates->end(); ++pfCandidate)
+	for (std::vector<const KPFCandidate*>::iterator pfCandidate = pfCandidates.begin();
+	     pfCandidate != pfCandidates.end(); ++pfCandidate)
 	{
-		double deltaR = ROOT::Math::VectorUtil::DeltaR(particle, pfCandidate->p4);
+		double deltaR = ROOT::Math::VectorUtil::DeltaR(particle, (*pfCandidate)->p4);
 		if (
 			(deltaR < isoSignalConeSize)
 			&&
-			(pfCandidate->p4.Pt() > isoPtThreshold)
+			((*pfCandidate)->p4.Pt() > isoPtThreshold)
 			&&
 			(
 				(
@@ -31,14 +32,14 @@ double ParticleIsolation::IsolationPtSumForParticleClass(RMFLV const& particle, 
 			)
 		)
 		{
-			isolationPtSum += pfCandidate->p4.Pt();
+			isolationPtSum += (*pfCandidate)->p4.Pt();
 		}
 	}
 	return isolationPtSum;
 }
 
 
-double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttEvent const& event,
+double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttProduct const& product,
                                          float const& isoSignalConeSize,
                                          float const& deltaBetaCorrectionFactor,
                                          float const& chargedIsoVetoConeSizeEB,
@@ -52,14 +53,9 @@ double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttEvent const& 
                                          float const& photonIsoPtThreshold,
                                          float const& deltaBetaIsoPtThreshold)
 {
-	assert(event.m_pfChargedHadronsNoPileUp);
-	assert(event.m_pfNeutralHadronsNoPileUp);
-	assert(event.m_pfPhotonsNoPileUp);
-	assert(event.m_pfChargedHadronsPileUp);
-	
 	double chargedIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 			particle,
-			event.m_pfChargedHadronsNoPileUp,
+			product.m_pfChargedHadronsFromFirstPV,
 			isoSignalConeSize,
 			chargedIsoVetoConeSizeEB,
 			chargedIsoVetoConeSizeEE,
@@ -68,7 +64,7 @@ double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttEvent const& 
 
 	double neutralIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 			particle,
-			event.m_pfNeutralHadronsNoPileUp,
+			product.m_pfNeutralHadronsFromFirstPV,
 			isoSignalConeSize,
 			neutralIsoVetoConeSize,
 			neutralIsoVetoConeSize,
@@ -77,7 +73,7 @@ double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttEvent const& 
 
 	double photonIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 			particle,
-			event.m_pfPhotonsNoPileUp,
+			product.m_pfPhotonsFromFirstPV,
 			isoSignalConeSize,
 			photonIsoVetoConeSizeEB,
 			photonIsoVetoConeSizeEE,
@@ -86,7 +82,7 @@ double ParticleIsolation::IsolationPtSum(RMFLV const& particle, HttEvent const& 
 
 	double deltaBetaIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 			particle,
-			event.m_pfChargedHadronsPileUp,
+			product.m_pfChargedHadronsNotFromFirstPV,
 			isoSignalConeSize,
 			deltaBetaIsoVetoConeSize,
 			deltaBetaIsoVetoConeSize,
