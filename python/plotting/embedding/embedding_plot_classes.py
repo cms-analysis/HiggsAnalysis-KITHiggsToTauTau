@@ -41,7 +41,7 @@ class single_plotline:
 		self.scale_factor = scale_factor
 
 		# internally used nicknames
-		self.nick = num_file.replace("/","_").replace(".root","") + "_" + num_folder + "_" + num_tree
+		self.nick = num_file.replace("/","_").replace(".root","").replace("?","").replace("*","") + "_" + num_folder + "_" + num_tree
 		self.num_nick = "num" + self.nick
 		self.den_nick = "den" + self.nick
 		self.eff_nick = "eff" + self.nick
@@ -123,6 +123,7 @@ class single_plot:
 		     wwwfolder ="plots",
 		     y_label = "Events",
 		     y_log = False,
+		     z_log = False,
 		     weight = "1",
 		     normalized_to_nevents = False,
 		     normalized_to_unity = False,
@@ -136,8 +137,14 @@ class single_plot:
 		     plot_type = "efficiency",
 		     subplot_denominator = None,
 		     subplot_numerators = [],
-		     y_subplot_label = "ratio",
+		     y_subplot_label = "ratio ",
 		     y_subplot_lims =[0.5,2],
+		     export_root = None,
+		     print_infos = None,
+		     errorband_lines = [],
+		     horizontal_lines = [],
+		     vertical_lines = [],
+		     horizontal_subplot_lines = [],
 		     plotlines = []):
 
 		self.name = name
@@ -157,6 +164,7 @@ class single_plot:
 		self.wwwfolder = wwwfolder
 		self.y_label = y_label
 		self.y_log = y_log
+		self.z_log = z_log
 		self.weight = weight
 		self.normalized_to_nevents = normalized_to_nevents
 		self.normalized_to_unity = normalized_to_unity
@@ -172,7 +180,12 @@ class single_plot:
 		self.subplot_numerators = subplot_numerators
 		self.y_subplot_label = y_subplot_label
 		self.y_subplot_lims = y_subplot_lims
-
+		self.export_root = export_root
+		self.print_infos = print_infos
+		self.errorband_lines = errorband_lines
+		self.horizontal_lines = horizontal_lines
+		self.vertical_lines = vertical_lines		
+		self.horizontal_subplot_lines = horizontal_subplot_lines
 		self.plotlines = plotlines
 		self.out_json = jsonTools.JsonDict({})
 	def clone(self,
@@ -193,6 +206,7 @@ class single_plot:
 		     wwwfolder = None,
 		     y_label = None,
 		     y_log = None,
+		     z_log = None,
 		     weight = None,
 		     normalized_to_nevents = None,
 		     normalized_to_unity = None,
@@ -208,6 +222,12 @@ class single_plot:
 		     subplot_numerators = None,
 		     y_subplot_label = None,
 		     y_subplot_lims = None,
+		     export_root = None,
+		     print_infos = None,
+		     errorband_lines = None,
+		     horizontal_lines = None,
+		     vertical_lines = None,
+		     horizontal_subplot_lines = None,
 		     plotlines = None):
 	  
 		cloned_plot = single_plot(
@@ -228,6 +248,7 @@ class single_plot:
 		     wwwfolder = self.wwwfolder if wwwfolder is None else wwwfolder,
 		     y_label = self.y_label if y_label is None else y_label,
 		     y_log = self.y_log if y_log is None else y_log,
+		     z_log = self.z_log if z_log is None else z_log,
 		     weight = self.weight if weight is None else weight,
 		     normalized_to_nevents = self.normalized_to_nevents if normalized_to_nevents is None else normalized_to_nevents,
 		     normalized_to_unity = self.normalized_to_unity if normalized_to_unity is None else normalized_to_unity,
@@ -243,6 +264,12 @@ class single_plot:
 		     subplot_numerators = self.subplot_numerators if subplot_numerators is None else subplot_numerators,
 		     y_subplot_label = self.y_subplot_label if y_subplot_label is None else y_subplot_label,
 		     y_subplot_lims = self.y_subplot_lims if y_subplot_lims is None else y_subplot_lims,
+		     export_root = self.export_root if export_root is None else export_root,
+		     print_infos = self.print_infos if print_infos is None else print_infos,
+		     errorband_lines = self.errorband_lines if errorband_lines is None else errorband_lines,
+		     horizontal_lines = self.horizontal_lines if horizontal_lines is None else horizontal_lines,
+		     vertical_lines = self.vertical_lines if vertical_lines is None else vertical_lines,
+		     horizontal_subplot_lines = self.horizontal_subplot_lines if horizontal_subplot_lines is None else horizontal_subplot_lines,
 		     plotlines = self.plotlines if plotlines is None else plotlines
 		     )
 		
@@ -306,8 +333,8 @@ class single_plot:
 		self.out_json.setdefault("plot_modules", []).append("PlotRootHtt")
 		
 		self.out_json["fill_styles"] = 0
-		self.out_json["extra_text"] = "Work in Progress"
-		self.out_json["cms"] = True 
+		#self.out_json["extra_text"] = "Work in Progress"
+		#self.out_json["cms"] = True 
 		if self.profiled: self.out_json["tree_draw_options"] = "prof"
 		
 		self.out_json["filename"] = self.name + "_" + self.x_expression
@@ -327,6 +354,7 @@ class single_plot:
 		if self.wwwfolder != "": self.out_json["www"] = self.wwwfolder
 		self.out_json["y_label"] = self.y_label
 		self.out_json["y_log"] = self.y_log
+		self.out_json["z_log"] = self.z_log
 		self.out_json.setdefault("weights",[]).append(self.weight)
 
 		# making the plot out of available files both for efficiency and absolute plot type 
@@ -391,9 +419,23 @@ class single_plot:
 			else:
 				print "No proper plot type defined. Choose 'efficiency' or 'absolute'."
 				sys.exit()
-
+		for hline_y in self.horizontal_lines:
+			self.out_json.setdefault("lines",[]).append(hline_y)
+		for vline_x in self.vertical_lines:
+			self.out_json.setdefault("vertical_lines",[]).append(vline_x)
 		# making a subplot with ratios, when denominator and numerators are given, both for 'efficiency' and 'absolute' plot type
 		if self.subplot_denominator != None and len(self.subplot_numerators) != 0:
 			self.out_json["y_subplot_label"] = self.y_subplot_label
 			self.safe_append_modules(modulename="Divide", moduletype="analysis")
 			self.create_subplot()
+			for hline_y in self.horizontal_subplot_lines:
+				self.out_json.setdefault("subplot_lines",[]).append(hline_y)
+		if self.export_root == True: self.safe_append_modules(modulename="ExportRoot", moduletype="plot")
+		if self.print_infos == True: self.safe_append_modules(modulename="PrintInfos", moduletype="analysis")
+		if len(self.errorband_lines) == 3:
+			self.safe_append_modules(modulename="Errorband", moduletype="analysis")
+			nick_list = []
+			for index in self.errorband_lines:
+				nick_list.append(self.plotlines[index].num_nick)
+			self.out_json.setdefault("errorband_histogram_nicks",[]).append(" ".join(nick_list))
+			self.out_json.setdefault("errorband_result_nicks",[]).append("eb_"+self.plotlines[self.errorband_lines[0]].num_nick)
