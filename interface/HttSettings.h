@@ -252,7 +252,7 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
 
-    //MVATestMethodsProducer settings
+	//MVATestMethodsProducer settings
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsNames, {});
@@ -266,7 +266,7 @@ public:
 
 	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonTriggerFilterNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonTriggerFilterNames, {});
-	
+
 	// settings for RooWorkspaceWeightProducer
 	IMPL_SETTING_DEFAULT(std::string, RooWorkspace, "");
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceWeightNames, {});
@@ -291,6 +291,7 @@ public:
 	IMPL_SETTING_DEFAULT(int, IsoPtSumBinning, 200);
 	IMPL_SETTING_DEFAULT(float, IsoPtSumMaximum, 50);
 	IMPL_SETTING_DEFAULT(float, IsoPtSumOverPtMaximum, 0.4);
+	IMPL_SETTING_DEFAULT(bool, RandomMuon, false);
 
 	// setting for mass smearing applied in DiLeptonQuantitiesProducer
 	IMPL_SETTING_DEFAULT(float, MassSmearing, 0.10);
