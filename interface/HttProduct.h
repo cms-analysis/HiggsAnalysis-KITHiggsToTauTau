@@ -106,6 +106,9 @@ public:
 	RMFLV m_diLeptonSystem;
 	RMFLV m_diLeptonPlusMetSystem;
 	RMFLV m_diLeptonGenSystem;
+	bool m_diLeptonGenSystemFound = false;
+	RMFLV m_diTauGenSystem;
+	bool m_diTauGenSystemFound = false;
 
 	// filled by the TauSpinnerProducer
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;

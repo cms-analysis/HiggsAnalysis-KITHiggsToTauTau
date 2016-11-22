@@ -10,6 +10,22 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 	
 	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("diLepLV", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genDiLepLV", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonGenSystem;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("genDiLepFound", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonGenSystemFound;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genDiTauLV", [](event_type const& event, product_type const& product) {
+		return product.m_diTauGenSystem;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("genDiTauLVFound", [](event_type const& event, product_type const& product) {
+		return product.m_diTauGenSystemFound;
+	});
+	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepPt", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.Pt();
 	});
@@ -78,6 +94,8 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	product.m_diLeptonSystem = (product.m_flavourOrderedLeptons[0]->p4 + product.m_flavourOrderedLeptons[1]->p4);
 	product.m_diLeptonPlusMetSystem = (product.m_diLeptonSystem + product.m_met.p4);
 	
+	product.m_diLeptonGenSystemFound = true;
+	product.m_diTauGenSystemFound = true;
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
 		KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
@@ -85,6 +103,28 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 		{
 			product.m_diLeptonGenSystem += genParticle->p4;
 		}
+		else
+		{
+			product.m_diLeptonGenSystemFound = false;
+		}
+		
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_ptOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+		if (genTau)
+		{
+			product.m_diTauGenSystem += genTau->p4;
+		}
+		else
+		{
+			product.m_diTauGenSystemFound = false;
+		}
+	}
+	if (! product.m_diLeptonGenSystemFound)
+	{
+		product.m_diLeptonGenSystem = DefaultValues::UndefinedRMFLV;
+	}
+	if (! product.m_diTauGenSystemFound)
+	{
+		product.m_diTauGenSystem = DefaultValues::UndefinedRMFLV;
 	}
 	
 	// collinear approximation
