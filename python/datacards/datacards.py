@@ -69,6 +69,12 @@ class Datacards(object):
 				(["7TeV", "8TeV"], 1.026)
 				(       ["13TeV"], 1.027) # CMS-PAS-LUM-15-001
 		]
+		self.lumi2016_syst_args = [
+			"lumi_$ERA",
+			"lnN",
+			ch.SystMap("era")
+				(       ["13TeV"], 1.062)
+		]
 		self.electron_efficiency_syst_args = [
 			"CMS_eff_e",
 			"lnN",
@@ -184,6 +190,12 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["VV"], 1.15)
 				(       ["13TeV"], ["VV"], 1.10) # https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
+		self.vv_cross_section2016_syst_args = [
+			"CMS_$ANALYSIS_vvXsec_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["VV"], 1.05) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+		]
 		self.wj_cross_section_syst_args = [
 			"CMS_$ANALYSIS_wjXsec_$ERA",
 			"lnN",
@@ -243,11 +255,23 @@ class Datacards(object):
 			ch.SystMap("era", "process", "channel")
 				(       ["13TeV"], ["ZLL", "ZL"], ["et"], 1.30) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
+		self.eFakeTau2016_syst_args = [
+			"CMS_$ANALYSIS_eFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["ZLL", "ZL"], 1.12) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+		]
 		self.muFakeTau_syst_args = [
 			"CMS_$ANALYSIS_mFakeTau_$ERA",
 			"lnN",
 			ch.SystMap("era", "process",)
 				(       ["13TeV"], ["ZLL", "ZL"], 2.00) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+		]
+		self.muFakeTau2016_syst_args = [
+			"CMS_$ANALYSIS_mFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process",)
+				(       ["13TeV"], ["ZLL", "ZL"], 1.25) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
 		]
 		self.zjFakeTau_syst_args = [
 			"CMS_$ANALYSIS_zjFakeTau_$ERA",

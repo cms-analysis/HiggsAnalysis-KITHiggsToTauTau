@@ -45,7 +45,10 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			if year == "2016":
+				self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau2016_syst_args)
+			else:
+				self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
 			
 			if useRateParam:
 				for category in Categories.CategoriesDict().getCategories(["mt"], False)["mt"]:
@@ -88,7 +91,10 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
+			if year == "2016":
+				self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau2016_syst_args)
+			else:
+				self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
 			
 			if useRateParam:
 				for category in Categories.CategoriesDict().getCategories(["et"], False)["et"]:
@@ -203,9 +209,9 @@ class SMHttDatacards(datacards.Datacards):
 			# lumi
 			# (hopefully) temporary fix
 			if year == "2016":
-				self.cb.cp().signals().AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.062))
-				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VV"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.062))
-				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.062)) # automatically in other channels determined
+				self.cb.cp().signals().AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VV"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi2016_syst_args) # automatically in other channels determined
 			else:
 				self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
 				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
@@ -215,14 +221,20 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["ZTT", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.jec_syst_args)
 			# fakes
-			self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
+			if year == "2016":
+				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
+			else:
+				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 			# MET
 			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)
 
 			# cross section
 			self.cb.cp().process(["ZTT", "ZL", "ZJ","ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			self.cb.cp().process(["TTT", "TTJJ"]).channel(["mt", "et", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args) # automatically in other channels determined
-			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
+			if year == "2016":
+				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
+			else:
+				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.wj_cross_section_syst_args) # automatically in other channels determined
 
 			# tau efficiency
