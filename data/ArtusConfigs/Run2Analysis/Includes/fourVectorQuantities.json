@@ -40,6 +40,12 @@
 		"GenTau2Found",
 		"negGenTauFound",
 		
+		"diLepLV",
+		"genDiLepLV",
+		"genDiLepFound",
+		"genDiTauLV",
+		"genDiTauFound",
+		
 		"leadingJetLV",
 		"trailingJetLV",
 		"thirdJetLV",
