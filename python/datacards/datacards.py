@@ -74,14 +74,14 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
-				(       ["13TeV"], 1.02) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+				(       ["13TeV"], 1.04) # https://github.com/cms-analysis/CombineHarvester/blob/HIG15007/HIG15007/scripts/setupDatacards.py#L107-L110
 		]
 		self.muon_efficiency_syst_args = [
 			"CMS_eff_m",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
-				(       ["13TeV"], 1.02) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf 
+				(       ["13TeV"], 1.03) # https://github.com/cms-analysis/CombineHarvester/blob/HIG15007/HIG15007/scripts/setupDatacards.py#L101-L105
 		]
 		self.tau_efficiency_corr_syst_args = [
 			"CMS_eff_t_$ERA",
