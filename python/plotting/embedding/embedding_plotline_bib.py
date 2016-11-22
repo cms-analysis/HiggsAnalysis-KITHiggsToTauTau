@@ -1,445 +1,8 @@
 #!/usr/bin/env python
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plot_classes as pltcl
-
-
-
-### Default line difinition
-
-# Run 2 MC
-run2_MC_def = pltcl.single_plotline(
-	name="run2_MC_def",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/merged_files/MC.root",
-	num_folder = "gen_matched",
-	den_folder = "gen_matched",
-	num_tree = "ntuple",
-	label = "Z#rightarrow#mu#mu MC",
-	color = "kBlack")
-
-# Run 2 RH
-run2_RH_def = pltcl.single_plotline(
-	name="run2_RH_def",
-	num_file = "/nfs/dust/cms/user/swayand/DATA_NMSSM/merged_files/RH_Mirror.root",
-	num_folder = "gen_matched",
-	den_folder = "gen_matched",
-	num_tree = "ntuple",
-	label = "Z#rightarrow#mu#mu RH",
-	color = "kRed+2")
-
-
-### Lines for efficiencies in different pipelines
-
-# Run 2 MC
-run2_MC_full = run2_MC_def.clone(num_folder = "muon_full")
-run2_MC_id = run2_MC_def.clone(num_folder = "muon_medium")
-run2_MC_iso = run2_MC_def.clone(num_folder = "muon_iso")
-
-# Run 2 RH
-run2_RH_full = run2_RH_def.clone(num_folder = "muon_full")
-run2_RH_id = run2_RH_def.clone(num_folder = "muon_medium")
-run2_RH_iso = run2_RH_def.clone(num_folder = "muon_iso")
-
-
-### Lines for Pt-Flow in different pipelines
-
-run2_MC_PtFlow = run2_MC_def.clone(num_tree = "")
-run2_RH_PtFlow = run2_RH_def.clone(num_tree = "")
-
-
-### Lines for CMSSW Zmumu selection
-
-
-zmumu_genfilter_all = pltcl.single_plotline(
-        name="zmumu",
-        num_file = "/nfs/dust/cms/user/aakhmets/DATA_EMBEDDING/hist2_merged.root",
-        num_folder = "genfilter/all",
-        den_folder = "genfilter/all",
-        num_tree = "",
-        label = "gen. filter",
-        color = "kBlack")
-
-zmumu_genfilter_MC_matched = zmumu_genfilter_all.clone(num_folder = "genfilter/MC_matched",
-                                                       den_folder = "genfilter/MC_matched")
-zmumu_genfilter_not_MC_matched = zmumu_genfilter_all.clone(num_folder = "genfilter/not_MC_matched",
-                                                           den_folder = "genfilter/not_MC_matched")
-
-zmumu_baseline_all = zmumu_genfilter_all.clone(num_folder = "baseline/all",
-                                               color = "kRed",
-                                               label = "baseline sel.")
-zmumu_baseline_MC_matched = zmumu_genfilter_MC_matched.clone(num_folder = "baseline/MC_matched",
-                                                             color = "kRed",
-                                                             label = "baseline sel.")
-zmumu_baseline_not_MC_matched = zmumu_genfilter_not_MC_matched.clone(num_folder = "baseline/not_MC_matched",
-                                                                     color = "kRed",
-                                                                     label = "baseline sel.")
-
-zmumu_id_all = zmumu_genfilter_all.clone(num_folder = "id/all",
-                                         color = "kBlue",
-                                         label = "ID")
-zmumu_id_MC_matched = zmumu_genfilter_MC_matched.clone(num_folder = "id/MC_matched",
-                                                       color = "kBlue",
-                                                       label = "ID")
-zmumu_id_not_MC_matched = zmumu_genfilter_not_MC_matched.clone(num_folder = "id/not_MC_matched",
-                                                               color = "kBlue",
-                                                               label = "ID")
-
-zmumu_id_and_trigger_all = zmumu_genfilter_all.clone(num_folder = "id_and_trigger/all",
-                                                     color = "kGreen",
-                                                     label = "ID & Trigger")
-zmumu_id_and_trigger_MC_matched = zmumu_genfilter_MC_matched.clone(num_folder = "id_and_trigger/MC_matched",
-                                                                   color = "kGreen",
-                                                                   label = "ID & Trigger")
-zmumu_id_and_trigger_not_MC_matched = zmumu_genfilter_not_MC_matched.clone(num_folder = "id_and_trigger/not_MC_matched",
-                                                                           color = "kGreen",
-                                                                           label = "ID & Trigger")
-
-### Acceptance efficiency histograms
-
-eMinusmuPlus_pythia = pltcl.single_plotline(
-	name = "eMinusmuPlus",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_em_mup.root",
-	num_folder = "acc_eff",
-	den_folder = "acc_eff",
-	num_tree = "ntuple",
-	label = "pythia8",
-	color = "kRed")
-
-eMinusmuPlus_tauola = eMinusmuPlus_pythia.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_tauola_em_mup.root",
-	label = "tauola",
-	color = "kBlue")
-
-eMinusmuPlus_pythia_2D = eMinusmuPlus_pythia.clone(num_tree = "", marker = "COLZ", color = None)
-eMinusmuPlus_tauola_2D = eMinusmuPlus_tauola.clone(num_tree = "", marker = "COLZ", color = None)
-
-
-
-ePlusmuMinus_pythia = eMinusmuPlus_pythia.clone(
-	name = "ePlusmuMinus",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_ep_mum.root",
-	num_folder = "acc_eff",
-	den_folder = "acc_eff",
-	num_tree = "ntuple")
-
-ePlusmuMinus_tauola = ePlusmuMinus_pythia.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_tauola_ep_mum.root",
-	label = "tauola",
-	color = "kBlue")
-
-ePlusmuMinus_pythia_2D = ePlusmuMinus_pythia.clone(num_tree = "", marker = "COLZ", color = None)
-ePlusmuMinus_tauola_2D = ePlusmuMinus_tauola.clone(num_tree = "", marker = "COLZ", color = None)
-
-
-ePlusmuMinus_tauola_path1 = ePlusmuMinus_tauola.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_tauola_ep_mum_path1.root")
-
-
-### CP and Spin quantities
-
-# for eMinusmuPlus
-
-eMinusmuPlus_CP_spin_pythia = pltcl.single_plotline(
-	name = "eMinusmuPlus_CP_spin",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_normal.root",
-	num_folder = "acc_eff",
-	den_folder = "acc_eff",
-	num_tree = "ntuple",
-	label = "pythia8",
-	color = "kRed")
-
-eMinusmuPlus_CP_spin_tauola = eMinusmuPlus_CP_spin_pythia.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_tauola_normal.root",
-	label = "tauola",
-	color = "kBlue")
-
-eMinusmuPlus_CP_spin_pythia_2D = eMinusmuPlus_CP_spin_pythia.clone(marker = "COLZ", color = None)
-eMinusmuPlus_CP_spin_tauola_2D = eMinusmuPlus_CP_spin_tauola.clone(marker = "COLZ", color = None)
-
-# for eMinusmuPlus (no cut)
-
-eMinusmuPlus_CP_spin_pythia_nocut = pltcl.single_plotline(
-	name = "eMinusmuPlus_CP_spin_nocut",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_em_mup_nocut_polOn.root",
-	num_folder = "acc_eff",
-	den_folder = "acc_eff",
-	num_tree = "ntuple",
-	label = "pythia8",
-	color = "kRed")
-
-eMinusmuPlus_CP_spin_tauola_nocut = eMinusmuPlus_CP_spin_pythia_nocut.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_tauola_em_mup_nocut_polOn.root",
-	label = "tauola",
-	color = "kBlue")
-
-eMinusmuPlus_CP_spin_pythia_2D_nocut = eMinusmuPlus_CP_spin_pythia_nocut.clone(marker = "COLZ", color = None)
-eMinusmuPlus_CP_spin_tauola_2D_nocut = eMinusmuPlus_CP_spin_tauola_nocut.clone(marker = "COLZ", color = None)
-
-# for PiPlusPiMinus
-
-PiPlusPiMinus_CP_spin_pythia = pltcl.single_plotline(
-	name = "PiPlusPiMinus_CP_spin",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_pythia_pipi.root",
-	num_folder = "acc_eff",
-	den_folder = "acc_eff",
-	num_tree = "ntuple",
-	label = "pythia8",
-	color = "kRed")
-
-PiPlusPiMinus_CP_spin_tauola = PiPlusPiMinus_CP_spin_pythia.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_tauola_pipi.root",
-	label = "tauola",
-	color = "kBlue")
-
-PiPlusPiMinus_CP_spin_pythia_2D = PiPlusPiMinus_CP_spin_pythia.clone(marker = "COLZ", color = None)
-PiPlusPiMinus_CP_spin_tauola_2D = PiPlusPiMinus_CP_spin_tauola.clone(marker = "COLZ", color = None)
-
-# for PiPlusPiMinus (no cut)
-
-PiPlusPiMinus_CP_spin_pythia_nocut = pltcl.single_plotline(
-	name = "PiPlusPiMinus_CP_spin_nocut",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_pythia_pipi_nocut.root",
-	num_folder = "acc_eff",
-	den_folder = "acc_eff",
-	num_tree = "ntuple",
-	label = "pythia8",
-	color = "kRed")
-
-PiPlusPiMinus_CP_spin_tauola_nocut = PiPlusPiMinus_CP_spin_pythia.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_tauola_pipi_nocut_polOn.root",
-	label = "tauola",
-	color = "kBlue")
-
-PiPlusPiMinus_CP_spin_pythia_2D_nocut = PiPlusPiMinus_CP_spin_pythia_nocut.clone(marker = "COLZ", color = None)
-PiPlusPiMinus_CP_spin_tauola_2D_nocut = PiPlusPiMinus_CP_spin_tauola_nocut.clone(marker = "COLZ", color = None)
-
-# for PiPlusPiMinus (no cut) long
-
-PiPlusPiMinus_CP_spin_pythia_nocut_long = pltcl.single_plotline(
-	name = "PiPlusPiMinus_CP_spin_nocut_long",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_pythia_pipi_nocut_long.root",
-	num_folder = "acc_eff",
-	den_folder = "acc_eff",
-	num_tree = "ntuple",
-	label = "pythia8",
-	color = "kRed")
-
-PiPlusPiMinus_CP_spin_tauola_nocut_long = PiPlusPiMinus_CP_spin_pythia.clone(
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output1_tauola_pipi_nocut_long.root",
-	label = "tauola",
-	color = "kBlue")
-
-PiPlusPiMinus_CP_spin_pythia_2D_nocut_long = PiPlusPiMinus_CP_spin_pythia_nocut_long.clone(marker = "COLZ", color = None)
-PiPlusPiMinus_CP_spin_tauola_2D_nocut_long = PiPlusPiMinus_CP_spin_tauola_nocut_long.clone(marker = "COLZ", color = None)
-
-
-# bare vs. dressed (emu channel)
-
-Bare_pythia = pltcl.single_plotline(
-	name = "Bare_pythia",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_bare.root",
-	num_folder = "acc_eff",
-	den_folder = "acc_eff",
-	num_tree = "ntuple",
-	label = "bare",
-	color = "kRed")
-
-Dressed_pythia = Bare_pythia.clone(
-	name = "Dressed_pythia",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_dressed.root",
-	label = "dressed",
-	color = "kBlue")
-
-
-Normal_pythia = Bare_pythia.clone(
-	name = "Dressed_pythia",
-	num_file = "/nfs/dust/cms/user/aakhmets/for763/CMSSW_7_1_5/src/output_pythia_normal.root",
-	label = "usual reco",
-	color = "kBlack")
-
-
-### Full Z->TauTau MC
-
-
-# EM channel
-
-FSRstudies_EM = pltcl.single_plotline(
-	name = "FSRstudies_EM",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-39_analysis/merged/DYJetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/DYJetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8.root",
-	num_folder = "FSRstudies_EM_eleEsNom",
-	den_folder = "FSRstudies_EM_eleEsNom",
-	num_tree = "ntuple",
-	label = "Z#rightarrow#tau#tau sim.",
-	color = "kOrange+7")
-
-FSRstudies_EM_emb_afterFSR = FSRstudies_EM.clone(
-	name = "FSRstudies_EM_emb_afterFSR",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-17_analysis/merged/ZtoTauTauEmbedded_EM/ZtoTauTauEmbedded_EM.root",
-	num_folder = "FSRstudies_EM_eleEsNom",
-	den_folder = "FSRstudies_EM_eleEsNom",
-	label = "#mu#rightarrow#tau emb. #pm 2% e-ES",
-	color = "kBlue")
-
-FSRstudies_EM_emb_afterFSR_up = FSRstudies_EM_emb_afterFSR.clone(
-	name = "FSRstudies_EM_emb_afterFSR_up",
-	num_folder = "FSRstudies_EM_eleEsUp",
-	den_folder = "FSRstudies_EM_eleEsUp",
-	label = "",
-	color = "kCyan+1")
-
-FSRstudies_EM_emb_afterFSR_down = FSRstudies_EM_emb_afterFSR.clone(
-	name = "FSRstudies_EM_emb_afterFSR_down",
-	num_folder = "FSRstudies_EM_eleEsDown",
-	den_folder = "FSRstudies_EM_eleEsDown",
-	label = "",
-	color = "kCyan+2")
-
-
-FSRstudies_EM_higgs = FSRstudies_EM.clone(
-	name = "FSRstudies_EM_higgs",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-40_analysis/merged/GluGluHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_powheg-pythia8/GluGluHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_powheg-pythia8.root",
-	label = "H(125)",
-	color = "kBlack"
-	)
-
-
-# ET channel
-
-
-FSRstudies_ET = FSRstudies_EM.clone(
-	name = "FSRstudies_ET",
-	num_folder = "FSRstudies_ET_tauEsNom",
-	den_folder = "FSRstudies_ET_tauEsNom")
-
-FSRstudies_ET_emb_afterFSR = FSRstudies_EM_emb_afterFSR.clone(
-	name = "FSRstudies_ET_emb_afterFSR",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-13_analysis/merged/ZtoTauTauEmbedded_ET/ZtoTauTauEmbedded_ET.root",
-	num_folder = "FSRstudies_ET_tauEsNom",
-	den_folder = "FSRstudies_ET_tauEsNom",
-	label = "#mu#rightarrow#tau emb. #pm 3% #tau_{h}-ES")
-
-FSRstudies_ET_emb_afterFSR_up = FSRstudies_EM_emb_afterFSR_up.clone(
-	name = "FSRstudies_ET_emb_afterFSR_up",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-13_analysis/merged/ZtoTauTauEmbedded_ET/ZtoTauTauEmbedded_ET.root",
-	num_folder = "FSRstudies_ET_tauEsUp",
-	den_folder = "FSRstudies_ET_tauEsUp")
-
-FSRstudies_ET_emb_afterFSR_down = FSRstudies_EM_emb_afterFSR_down.clone(
-	name = "FSRstudies_ET_emb_afterFSR_down",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-13_analysis/merged/ZtoTauTauEmbedded_ET/ZtoTauTauEmbedded_ET.root",
-	num_folder = "FSRstudies_ET_tauEsDown",
-	den_folder = "FSRstudies_ET_tauEsDown")
-
-FSRstudies_ET_higgs = FSRstudies_EM_higgs.clone(
-	name = "FSRstudies_ET_higgs",
-	num_folder = "FSRstudies_ET_tauEsNom",
-	den_folder = "FSRstudies_ET_tauEsNom"
-	)
-
-# MT channel
-
-FSRstudies_MT = FSRstudies_EM.clone(
-	name = "FSRstudies_MT",
-	num_folder = "FSRstudies_MT_tauEsNom",
-	den_folder = "FSRstudies_MT_tauEsNom")
-
-FSRstudies_MT_emb_afterFSR = FSRstudies_EM_emb_afterFSR.clone(
-	name = "FSRstudies_MT_emb_afterFSR",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-03_analysis/merged/ZtoTauTauEmbedded_MT/ZtoTauTauEmbedded_MT.root",
-	num_folder = "FSRstudies_MT_tauEsNom",
-	den_folder = "FSRstudies_MT_tauEsNom",
-	label = "#mu#rightarrow#tau emb. #pm 3% #tau_{h}-ES")
-
-FSRstudies_MT_emb_afterFSR_up = FSRstudies_EM_emb_afterFSR_up.clone(
-	name = "FSRstudies_MT_emb_afterFSR_up",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-03_analysis/merged/ZtoTauTauEmbedded_MT/ZtoTauTauEmbedded_MT.root",
-	num_folder = "FSRstudies_MT_tauEsUp",
-	den_folder = "FSRstudies_MT_tauEsUp")
-
-FSRstudies_MT_emb_afterFSR_down = FSRstudies_EM_emb_afterFSR_down.clone(
-	name = "FSRstudies_MT_emb_afterFSR_down",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-03_analysis/merged/ZtoTauTauEmbedded_MT/ZtoTauTauEmbedded_MT.root",
-	num_folder = "FSRstudies_MT_tauEsDown",
-	den_folder = "FSRstudies_MT_tauEsDown")
-
-FSRstudies_MT_higgs = FSRstudies_EM_higgs.clone(
-	name = "FSRstudies_MT_higgs",
-	num_folder = "FSRstudies_MT_tauEsNom",
-	den_folder = "FSRstudies_MT_tauEsNom"
-	)
-
-# TT channel
-
-FSRstudies_TT = FSRstudies_EM.clone(
-	name = "FSRstudies_TT",
-	num_folder = "FSRstudies_TT_tauEsNom",
-	den_folder = "FSRstudies_TT_tauEsNom")
-
-FSRstudies_TT_emb_afterFSR = FSRstudies_EM_emb_afterFSR.clone(
-	name = "FSRstudies_TT_emb_afterFSR",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-16_analysis/merged/ZtoTauTauEmbedded_TT/ZtoTauTauEmbedded_TT.root",
-	num_folder = "FSRstudies_TT_tauEsNom",
-	den_folder = "FSRstudies_TT_tauEsNom",
-	label = "#mu#rightarrow#tau emb. #pm 3% #tau_{h}-ES")
-
-FSRstudies_TT_emb_afterFSR_up = FSRstudies_EM_emb_afterFSR_up.clone(
-	name = "FSRstudies_TT_emb_afterFSR_up",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-16_analysis/merged/ZtoTauTauEmbedded_TT/ZtoTauTauEmbedded_TT.root",
-	num_folder = "FSRstudies_TT_tauEsUp",
-	den_folder = "FSRstudies_TT_tauEsUp")
-
-FSRstudies_TT_emb_afterFSR_down = FSRstudies_EM_emb_afterFSR_down.clone(
-	name = "FSRstudies_TT_emb_afterFSR_down",
-	num_file = "/nfs/dust/cms/user/aakhmets/htautau/artus/2016-04-13_14-16_analysis/merged/ZtoTauTauEmbedded_TT/ZtoTauTauEmbedded_TT.root",
-	num_folder = "FSRstudies_TT_tauEsDown",
-	den_folder = "FSRstudies_TT_tauEsDown")
-
-FSRstudies_TT_higgs = FSRstudies_EM_higgs.clone(
-	name = "FSRstudies_TT_higgs",
-	num_folder = "FSRstudies_TT_tauEsNom",
-	den_folder = "FSRstudies_TT_tauEsNom"
-	)
-
-### Embedding Cleaning Check
-
-DoubleMuonMINIAOD = pltcl.single_plotline(
-	name = "DoubleMuonMINIAOD",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
-	num_folder = "",
-	den_folder = "",
-	num_tree = "common3",
-	label = "Run2015D",
-	color = "kBlack")
-
-DoubleMuonMINIAODonfly = DoubleMuonMINIAOD.clone(
-	name = "DoubleMuonMINIAODonfly",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
-	num_tree = "common2",
-	label = "private",
-	color = "kRed")
-
-DoubleMuonCleaned = DoubleMuonMINIAOD.clone(
-	name = "DoubleMuonCleaned",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
-	num_tree = "common1",
-	label = "track cleaning",
-	color = "kGreen+2")
-
-DoubleMuonCleanedCalo = DoubleMuonMINIAOD.clone(
-name = "DoubleMuonCleanedCalo",
-num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
-num_tree = "common4",
-label = "cleaned (w. calo)",
-color = "kOrange")
-
-DoubleMuonFullyCleaned = DoubleMuonMINIAOD.clone(
-name = "DoubleMuonFullyCleaned",
-num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_1_5/src/eventmatching.root",
-num_tree = "common4",
-label = "full cleaning",
-color = "kBlue")
-
-
-## vertex correction check for Muon Embedding
+ 
+## Vertex Refitting Check for Muon Embedding
 
 vtx_corrected_MM = pltcl.single_plotline(
 	name = "vtx_corrected_MM",
@@ -447,50 +10,446 @@ vtx_corrected_MM = pltcl.single_plotline(
 	num_folder = "histograms",
 	den_folder = "histograms",
 	num_tree = "",
-	color = "kBlack")
+	color = "kRed")
 
-## Merging Input Check for Muon Embedding
+## Embedding and Cleaning Input Check for Muon Embedding
 
 DoubleMuonSelected = pltcl.single_plotline(
 	name = "DoubleMuonSelected",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/selected.root",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-45_analysis/merged/selected/selected.root",
 	num_folder = "input_check",
 	den_folder = "input_check",
 	num_tree = "ntuple",
-	label = "Run2015D",
+	label = "data ",
 	color = "kBlack")
 
-DoubleMuonMerged = DoubleMuonSelected.clone(
-	name = "DoubleMuonMerged",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/merged.root",
-	label = "Embedded",
+DoubleMuonEmbedded = DoubleMuonSelected.clone(
+	name = "DoubleMuonEmbedded",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-36_analysis/merged/embedded/embedded.root",
+	label = "#mu#rightarrow#mu embedded",
 	color = "kRed")
 
 DoubleMuonCleaned = DoubleMuonSelected.clone(
 	name = "DoubleMuonCleaned",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/cleaned.root",
-	label = "Cleaned",
-	color = "kGreen")
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-47_analysis/merged/cleaned/cleaned.root",
+	label = "data (cleaned)",
+	color = "kSpring-9")
+
+DoubleMuonTrackcleaned = DoubleMuonSelected.clone(
+	name = "DoubleMuonTrackcleaned",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-48_analysis/merged/trackcleaned/trackcleaned.root",
+	label = "data (tracks cleaned)",
+	color = "kCyan+3")
+
+DoubleMuonMirrored= DoubleMuonSelected.clone(
+	name = "DoubleMuonMirrored",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-46_analysis/merged/mirrored/mirrored.root",
+	label = "#splitline{#mu#rightarrow#mu embedded}{w. mirroring}",
+	color = "kBlue")
 
 ## Z->mumu selection check for Muon Embedding
 
 DoubleMuonSelectedValidation = pltcl.single_plotline(
 	name = "DoubleMuonSelectedValidation",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/selected.root",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-45_analysis/merged/selected/selected.root",
 	num_folder = "zmumu_selection_for_embedding",
 	den_folder = "zmumu_selection_for_embedding",
 	num_tree = "ntuple",
-	label = "Run2015D",
+	label = "data ",
 	color = "kBlack")
 
-DoubleMuonMergedValidation = DoubleMuonSelectedValidation.clone(
-	name = "DoubleMuonMergedValidation",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/embedded.root",
+DoubleMuonEmbeddedValidation = DoubleMuonSelectedValidation.clone(
+	name = "DoubleMuonEmbeddedValidation",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-36_analysis/merged/embedded/embedded.root",
 	label = "#mu#rightarrow#mu embedded",
 	color = "kRed")
 
 DoubleMuonMirroredValidation = DoubleMuonSelectedValidation.clone(
 	name = "DoubleMuonMirroredValidation",
-	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/mirrored.root",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-46_analysis/merged/mirrored/mirrored.root",
 	label = "#splitline{#mu#rightarrow#mu embedded}{w. mirroring}",
 	color = "kBlue")
+
+DoubleMuonFSRrecoMuons = DoubleMuonSelectedValidation.clone(
+	name = "DoubleMuonFSRrecoMuons",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-42_analysis/merged/mureco/mureco.root",
+	label = "#mu_{reco}",
+	color = "kGray+2")
+
+DoubleMuonFSRsimMuons = DoubleMuonSelectedValidation.clone(
+	name = "DoubleMuonFSRsimMuons",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-44_analysis/merged/musim/musim.root",
+	label = "#mu_{sim}",
+	color = "kRed")
+
+DoubleMuonFSRfsrMuons = DoubleMuonSelectedValidation.clone(
+	name = "DoubleMuonFSRfsrMuons",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-43_analysis/merged/mufsr/mufsr.root",
+	label = "#mu_{FSR}",
+	color = "kBlue")	
+
+# corresponding pt flow histograms
+
+DoubleMuonSelectedPtFlowHistograms = pltcl.single_plotline(
+	name = "DoubleMuonSelectedPtFlowHistograms",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-45_analysis/merged/selected/selected.root",
+	num_folder = "zmumu_selection_for_embedding",
+	den_folder = "zmumu_selection_for_embedding",
+	num_tree = "",
+	label = "data ",
+	scale_factor = 1./2450930.,
+	color = "kBlack")
+
+DoubleMuonEmbeddedPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
+	name = "DoubleMuonEmbeddedPtFlowHistograms",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-36_analysis/merged/embedded/embedded.root",
+	label = "#mu#rightarrow#mu embedded",
+	scale_factor = 1./2408535.,
+	color = "kRed")
+
+DoubleMuonMirroredPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
+	name = "DoubleMuonMirroredPtFlowHistograms",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-46_analysis/merged/mirrored/mirrored.root",
+	label = "#splitline{#mu#rightarrow#mu embedded}{w. mirroring}",
+	scale_factor = 1./2424583.,
+	color = "kBlue")
+
+DoubleMuonRandomPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
+	name = "DoubleMuonMirroredPtFlowHistograms",
+	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-51_analysis/merged/random/random.root",
+	label = "random direction",
+	color = "kGray+2")
+
+
+## Tau Embedding Studies
+
+# Acceptance Efficiency 2D
+
+AccEfficiency2D = pltcl.single_plotline(
+	name = "AccEfficiency2D",
+	num_file = "AccEfficiency.root",
+	num_folder = "histograms",
+	den_folder = "histograms",
+	num_tree = "",
+	marker = "COLZ",
+	color = None)
+
+NEntries2DMuTau = pltcl.single_plotline(
+	name = "NEntries2DMuTau",
+	num_file = "MuTauEmbedding.root",
+	num_folder = "acc_eff",
+	den_folder = "acc_eff",
+	num_tree = "",
+	scale_factor = 0.001,
+	marker = "COLZ",
+	color = None)
+
+NEntries2DElTau = NEntries2DMuTau.clone(
+	name = "NEntries2DElTau",
+	num_file = "ElTauEmbedding.root")
+
+NEntries2DTauTau = NEntries2DMuTau.clone(
+	name = "NEntries2DTauTau",
+	num_file = "TauTauEmbedding.root")
+
+NEntries2DElMu = NEntries2DMuTau.clone(
+	name = "NEntries2DElMu",
+	num_file = "ElMuEmbedding.root")
+
+
+# Acceptance Efficiency distributions
+
+AccEfficiencyMuTauFile = pltcl.single_plotline(
+	name = "AccEfficiencyMuTauFile",
+	num_file = "MuTauEmbedding.root",
+	num_folder = "acc_eff",
+	den_folder = "acc_eff",
+	num_tree = "ntuple",
+	color = "kBlack")
+
+AccEfficiencyElTauFile = AccEfficiencyMuTauFile.clone(
+	name = "AccEfficiencyElTauFile",
+	num_file = "ElTauEmbedding.root")
+
+AccEfficiencyTauTauFile = AccEfficiencyMuTauFile.clone(
+	name = "AccEfficiencyTauTauFile",
+	num_file = "TauTauEmbedding.root")
+
+AccEfficiencyElMuFile = AccEfficiencyMuTauFile.clone(
+	name = "AccEfficiencyElMuFile",
+	num_file = "ElMuEmbedding.root")
+
+# visible Mass comparison
+
+# DYJets files
+DYFileMuTauFile = pltcl.single_plotline(
+	name = "DYFileMuTauFile",
+	scale_factor = 1./5.234,
+	num_file = "/storage/a/jbechtel/test/merged/merged/DY*/*.root",
+	num_folder = "mt_jecUncNom_tauEsNom",
+	den_folder = "mt_jecUncNom_tauEsNom",
+	num_tree = "ntuple",
+	label = "Z#rightarrow#tau#tau simulation",
+	color = "kRed")
+
+DYFileElTauFile = DYFileMuTauFile.clone(
+	name = "DYFileElTauFile",
+	scale_factor = 1./1.7122,
+	num_folder = "et_jecUncNom_tauEsNom",
+	den_folder = "et_jecUncNom_tauEsNom"
+)
+
+DYFileTauTauFile = DYFileMuTauFile.clone(
+	name = "DYFileTauTauFile",
+	num_file = "/storage/a/jbechtel/janek/DY*/*.root",
+	scale_factor = 1./0.273551,
+	num_folder = "tt_jecUncNom_tauEsNom",
+	den_folder = "tt_jecUncNom_tauEsNom"
+)
+
+DYFileElMuFile = DYFileMuTauFile.clone(
+	name = "DYFileElMuFile",
+	scale_factor = 1./0.887674,
+	num_file = "/storage/a/jbechtel/janek/DY*/*.root",
+	num_folder = "em_jecUncNom",
+	den_folder = "em_jecUncNom"
+)
+
+# HToTauTau samples
+
+HToTauTauMuTauFile = pltcl.single_plotline(
+	name = "HToTauTauMuTauFile",
+	scale_factor = 1./0.767714,
+	num_file = "/portal/ekpbms1/home/akhmet/htautau_signal/*HToTauTauM125*.root",
+	num_folder = "mt",
+	den_folder = "mt",
+	num_tree = "ntuple",
+	label = "H(125)",
+	color = "kBlack")
+
+HToTauTauElTauFile = HToTauTauMuTauFile.clone(
+	name = "HToTauTauElTauFile",
+	scale_factor = 1./0.356839,
+	num_folder = "et",
+	den_folder = "et"
+)
+
+HToTauTauTauTauFile = HToTauTauMuTauFile.clone(
+	name = "HToTauTauTauTauFile",
+	scale_factor = 1./0.25,
+	num_folder = "tt",
+	den_folder = "tt"
+)
+
+HToTauTauElMuFile = HToTauTauMuTauFile.clone(
+	name = "HToTauTauElMuFile",
+	scale_factor = 1./0.164191,
+	num_folder = "em",
+	den_folder = "em"
+)
+
+#Embedding files for MuTau
+
+EmbeddingMuTauFileNominal = DYFileMuTauFile.clone(
+	scale_factor = 1./4.32414,
+	name = "EmbeddingMuTauFileNominal",
+	num_file = "/storage/a/jbechtel/test/merged/merged/Embedding2016?_MuTau*/*.root",
+	label = "#mu#rightarrow#tau embedded",
+	color = "kBlue"
+)
+
+EmbeddingMuTauFileUp = EmbeddingMuTauFileNominal.clone(
+	name = "EmbeddingMuTauFileUp",
+	num_folder = "mt_jecUncNom_tauEsUp",
+	den_folder = "mt_jecUncNom_tauEsUp",
+	label = "w. #pm3% #tau_{h}-ES shifts",
+	color = "kCyan+2"
+)
+
+EmbeddingMuTauFileDown = EmbeddingMuTauFileNominal.clone(
+	name = "EmbeddingMuTauFileDown",
+	num_folder = "mt_jecUncNom_tauEsDown",
+	den_folder = "mt_jecUncNom_tauEsDown",
+	label = "",
+	color = "kCyan+2"
+)
+
+
+#Embedding files for ElTau
+
+EmbeddingElTauFileNominal = DYFileElTauFile.clone(
+	scale_factor = 1./1.90354,
+	name = "EmbeddingElTauFileNominal",
+	num_file = "/storage/a/jbechtel/test/merged/merged/Embedding2016?_ElTau*/*.root",
+	label = "#mu#rightarrow#tau embedded",
+	color = "kBlue"
+)
+
+EmbeddingElTauFileUp = EmbeddingElTauFileNominal.clone(
+	name = "EmbeddingElTauFileUp",
+	num_folder = "et_jecUncNom_tauEsUp",
+	den_folder = "et_jecUncNom_tauEsUp",
+	label = "w. #pm3% #tau_{h}-ES shifts",
+	color = "kCyan+2"
+)
+
+EmbeddingElTauFileDown = EmbeddingElTauFileNominal.clone(
+	name = "EmbeddingElTauFileDown",
+	num_folder = "et_jecUncNom_tauEsDown",
+	den_folder = "et_jecUncNom_tauEsDown",
+	label = "",
+	color = "kCyan+2"
+)
+
+#Embedding files for TauTau
+
+EmbeddingTauTauFileNominal = DYFileTauTauFile.clone(
+	scale_factor = 1./0.220103,
+	name = "EmbeddingTauTauFileNominal",
+	num_file = "/storage/a/jbechtel/janek/Embedding2016?_TauTau*/*.root",
+	label = "#mu#rightarrow#tau embedded",
+	color = "kBlue"
+)
+
+EmbeddingTauTauFileUp = EmbeddingTauTauFileNominal.clone(
+	name = "EmbeddingTauTauFileUp",
+	num_folder = "tt_jecUncNom_tauEsUp",
+	den_folder = "tt_jecUncNom_tauEsUp",
+	label = "w. #pm3% #tau_{h}-ES shifts",
+	color = "kCyan+2"
+)
+
+EmbeddingTauTauFileDown = EmbeddingTauTauFileNominal.clone(
+	name = "EmbeddingTauTauFileDown",
+	num_folder = "tt_jecUncNom_tauEsDown",
+	den_folder = "tt_jecUncNom_tauEsDown",
+	label = "",
+	color = "kCyan+2"
+)
+
+#Embedding files for ElMu
+
+EmbeddingElMuFileNominal = DYFileElMuFile.clone(
+	scale_factor = 1./1.58934,
+	name = "EmbeddingElMuFileNominal",
+	num_file = "/portal/ekpbms1/home/akhmet/elmuembedding/*.root",
+	num_folder = "em_eleEsNom",
+	den_folder = "em_eleEsNom",
+	label = "#mu#rightarrow#tau embedded",
+	color = "kBlue"
+)
+
+EmbeddingElMuFileUp = EmbeddingElMuFileNominal.clone(
+	name = "EmbeddingElMuFileUp",
+	num_folder = "em_eleEsUp",
+	den_folder = "em_eleEsUp",
+	label = "w. #pm2% e-ES shifts",
+	color = "kCyan+2"
+)
+
+EmbeddingElMuFileDown = EmbeddingElMuFileNominal.clone(
+	name = "EmbeddingElMuFileDown",
+	num_folder = "em_eleEsDown",
+	den_folder = "em_eleEsDown",
+	label = "",
+	color = "kCyan+2"
+)
+
+
+## Decay channel migration
+
+#MuTau -> X
+EmbeddingMuTauIntegralMuTauFile = pltcl.single_plotline(
+	name = "EmbeddingMuTauIntegralMuTauFile",
+	num_file = "/storage/a/jbechtel/test/merged/merged/Embedding2016?_MuTau*/*.root",
+	num_folder = "mt_jecUncNom_tauEsNom",
+	den_folder = "mt_jecUncNom_tauEsNom",
+	num_tree = "ntuple")
+	
+EmbeddingMuTauIntegralElTauFile = EmbeddingMuTauIntegralMuTauFile.clone(
+	name = "EmbeddingMuTauIntegralElTauFile",
+	num_folder = "et_jecUncNom_tauEsNom",
+	den_folder = "et_jecUncNom_tauEsNom")
+
+EmbeddingMuTauIntegralTauTauFile = EmbeddingMuTauIntegralMuTauFile.clone(
+	name = "EmbeddingMuTauIntegralTauTauFile",
+	num_folder = "tt_jecUncNom_tauEsNom",
+	den_folder = "tt_jecUncNom_tauEsNom")
+
+EmbeddingMuTauIntegralElMuFile = EmbeddingMuTauIntegralMuTauFile.clone(
+	name = "EmbeddingMuTauIntegralElMuFile",
+	num_folder = "em_jecUncNom",
+	den_folder = "em_jecUncNom")
+
+#ElTau -> X
+
+EmbeddingElTauIntegralElTauFile = pltcl.single_plotline(
+	name = "EmbeddingElTauIntegralElTauFile",
+	num_file = "/storage/a/jbechtel/test/merged/merged/Embedding2016?_ElTau*/*.root",
+	num_folder = "et_jecUncNom_tauEsNom",
+	den_folder = "et_jecUncNom_tauEsNom",
+	num_tree = "ntuple")
+
+EmbeddingElTauIntegralElMuFile = EmbeddingElTauIntegralElTauFile.clone(
+	name = "EmbeddingElTauIntegralElMuFile",
+	num_folder = "em_jecUncNom",
+	den_folder = "em_jecUncNom")
+
+EmbeddingElTauIntegralMuTauFile = EmbeddingElTauIntegralElTauFile.clone(
+	name = "EmbeddingElTauIntegralMuTauFile",
+	num_folder = "mt_jecUncNom_tauEsNom",
+	den_folder = "mt_jecUncNom_tauEsNom")
+
+EmbeddingElTauIntegralTauTauFile = EmbeddingElTauIntegralElTauFile.clone(
+	name = "EmbeddingElTauIntegralTauTauFile",
+	num_folder = "tt_jecUncNom_tauEsNom",
+	den_folder = "tt_jecUncNom_tauEsNom")
+	
+
+#TauTau -> X
+
+EmbeddingTauTauIntegralTauTauFile = pltcl.single_plotline(
+	name = "EmbeddingTauTauIntegralTauTauFile",
+	num_file = "/storage/a/jbechtel/test/merged/merged/Embedding2016?_TauTau*/*.root",
+	num_folder = "tt_jecUncNom_tauEsNom",
+	den_folder = "tt_jecUncNom_tauEsNom",
+	num_tree = "ntuple")
+
+EmbeddingTauTauIntegralMuTauFile = EmbeddingTauTauIntegralTauTauFile.clone(
+	name = "EmbeddingTauTauIntegralMuTauFile",
+	num_folder = "mt_jecUncNom_tauEsNom",
+	den_folder = "mt_jecUncNom_tauEsNom")
+
+EmbeddingTauTauIntegralElTauFile = EmbeddingTauTauIntegralTauTauFile.clone(
+	name = "EmbeddingTauTauIntegralElTauFile",
+	num_folder = "et_jecUncNom_tauEsNom",
+	den_folder = "et_jecUncNom_tauEsNom")
+
+EmbeddingTauTauIntegralElMuFile = EmbeddingTauTauIntegralTauTauFile.clone(
+	name = "EmbeddingTauTauIntegralElMuFile",
+	num_folder = "em_jecUncNom",
+	den_folder = "em_jecUncNom")
+
+#ElMu -> X
+
+EmbeddingElMuIntegralElMuFile = pltcl.single_plotline(
+	name = "EmbeddingElMuIntegralElMuFile",
+	num_file = "/storage/a/jbechtel/test/merged/merged/Embedding2016?_ElMu*/*.root",
+	num_folder = "em_jecUncNom",
+	den_folder = "em_jecUncNom",
+	num_tree = "ntuple")
+
+EmbeddingElMuIntegralMuTauFile = EmbeddingElMuIntegralElMuFile.clone(
+	name = "EmbeddingElMuIntegralMuTauFile",
+	num_folder = "mt_jecUncNom_tauEsNom",
+	den_folder = "mt_jecUncNom_tauEsNom")
+
+EmbeddingElMuIntegralElTauFile = EmbeddingElMuIntegralElMuFile.clone(
+	name = "EmbeddingElMuIntegralElTauFile",
+	num_folder = "et_jecUncNom_tauEsNom",
+	den_folder = "et_jecUncNom_tauEsNom")
+
+EmbeddingElMuIntegralTauTauFile = EmbeddingElMuIntegralElTauFile.clone(
+	name = "EmbeddingElMuIntegralTauTauFile",
+	num_folder = "tt_jecUncNom_tauEsNom",
+	den_folder = "tt_jecUncNom_tauEsNom")
