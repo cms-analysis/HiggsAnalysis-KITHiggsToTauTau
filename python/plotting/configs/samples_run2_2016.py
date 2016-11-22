@@ -99,6 +99,8 @@ class Samples(samples.SamplesBase):
 
 	@staticmethod
 	def get_jetbin(channel, category, weight):
+		if category == None:
+			return [weight]
 		addition = split_multiplication(weight)[1]
 		if("x") in category:
 			if "1jet" in category:
