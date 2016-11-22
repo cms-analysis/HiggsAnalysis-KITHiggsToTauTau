@@ -28,8 +28,10 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[channel+"_diLepDeltaR"] = "20,0,10"
 			self.binnings_dict[channel+"_diLepJet1DeltaR"] = "20,0,10"
 			
-			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "20,-1.0,1.00001"
-			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"] = "20,-1.0,1.00001"
+			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"] = "20,-1.00001,1.00001"
+			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "20,-1.00001,1.00001"
+			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"] = "20,-1.00001,1.00001"
+			self.binnings_dict[channel+"_visibleOverFullEnergy"] = "20,0.0,1.00001"
 			self.binnings_dict[channel+"_visibleOverFullEnergy_1"] = "20,0.0,1.00001"
 			self.binnings_dict[channel+"_visibleOverFullEnergy_2"] = "20,0.0,1.00001"
 			
@@ -446,21 +448,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt8TeV_"+"tt_2jet_vbf"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 		
 		# Z->tautau polarisation binnings
-		for channel in ["em"]:
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_x_oneprong"] = "visibleOverFullEnergy_2"
-			
-		for channel in ["mt", "et"]:
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_x_a1"] = self.binnings_dict[channel+"_visibleOverFullEnergy_2"] # TODO change to dedicated a1 variable
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_x_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"]
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_x_oneprong"] = self.binnings_dict[channel+"_visibleOverFullEnergy_2"]
+		for channel in ["mt", "et", "tt"]:
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_a1"] = self.binnings_dict[channel+"_visibleOverFullEnergy"] # TODO change to dedicated a1 variable
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"]
 		
-		for channel in ["tt"]:
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_a1_x"] = self.binnings_dict[channel+"_visibleOverFullEnergy_1"] # TODO change to dedicated a1 variable
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho_x"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_1"]
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_x"] = self.binnings_dict[channel+"_visibleOverFullEnergy_1"]
-			
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_x_a1"] = self.binnings_dict[channel+"_visibleOverFullEnergy_2"] # TODO change to dedicated a1 variable
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_x_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"]
+		for channel in ["mt", "et", "tt", "em"]:
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong"] = self.binnings_dict[channel+"_visibleOverFullEnergy"]
 		
 		# H->tautau binnings
 		for channel in ["mt", "et", "em", "tt", "mm"]:
