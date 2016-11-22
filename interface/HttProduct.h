@@ -218,7 +218,7 @@ public:
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
 
-    //MVATestMethods
+	//MVATestMethods
 	std::vector<double> m_MVATestMethodsDiscriminators;
 
 	// filled by HttValidGenTausProducer. Naming scheme like for the reco particles
@@ -240,7 +240,7 @@ public:
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonTauMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
 
-    // filled by MVAInputQuantitiesProducer
+	// filled by MVAInputQuantitiesProducer
 // 	int tsValue = 0;
 	double m_pVecSum = -1;
 	double m_pScalSum = -1;
@@ -270,4 +270,10 @@ public:
 	double m_csv2JetMass = -10;
 	double m_diCJetMass = -10;
 	double m_pVecSumCSVJets = -1;
+
+	// filled by EmbeddingGlobalQuantitiesProducer
+	double m_pfSumHt = 0.;
+	RMFLV m_pfSumP4;
+	double m_pfSumHtWithoutZMuMu = 0.;
+	RMFLV m_pfSumP4WithoutZMuMu;
 };
