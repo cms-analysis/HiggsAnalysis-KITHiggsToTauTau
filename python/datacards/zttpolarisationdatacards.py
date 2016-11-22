@@ -74,7 +74,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			#self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 
 			# extrapolation uncertainty
-			self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
+			self.cb.cp().channel(["et"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
 			self.cb.cp().channel(["et"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 
 			# Tau ES
