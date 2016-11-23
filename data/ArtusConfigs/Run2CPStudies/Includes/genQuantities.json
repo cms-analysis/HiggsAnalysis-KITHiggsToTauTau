@@ -5,12 +5,14 @@
 		"genTau1DecayMode",
 		"genTau1NProngs",
 		"genTau1NPi0s",
+		"genTau1VisibleLV",
 		
 		"genTau2LV",
 		"genTau2Charge",
 		"genTau2DecayMode",
 		"genTau2NProngs",
 		"genTau2NPi0s",
+		"genTau2VisibleLV",
 		
 		"genDiLeptonDecayMode",
 		"isZEE",
