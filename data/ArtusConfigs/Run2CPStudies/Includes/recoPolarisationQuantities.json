@@ -6,8 +6,11 @@
 		"hhKinFitTau1LV",
 		"hhKinFitTau2LV",
 		
+		"leadingTauDecayMode",
 		"leadingTauSumChargedHadronsLV",
 		"leadingTauSumNeutralHadronsLV",
+		
+		"trailingTauDecayMode",
 		"trailingTauSumChargedHadronsLV",
 		"trailingTauSumNeutralHadronsLV",
 		
