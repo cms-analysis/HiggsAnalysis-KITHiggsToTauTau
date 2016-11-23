@@ -16,14 +16,6 @@
 		"genMatchedLep1Found",
 		"posGenMatchedLepFound",
 		
-		"leadingGenMatchedTauLV",
-		"genMatchedTau1LV",
-		"posGenMatchedTauLV",
-		
-		"leadingGenMatchedTauFound",
-		"genMatchedTau1Found",
-		"posGenMatchedTauFound",
-		
 		"trailingGenMatchedLepLV",
 		"genMatchedLep2LV",
 		"negGenMatchedLepLV",
@@ -31,14 +23,6 @@
 		"trailingGenMatchedLepFound",
 		"genMatchedLep2Found",
 		"negGenMatchedLepFound",
-		
-		"trailingGenMatchedTauLV",
-		"genMatchedTau2LV",
-		"negGenMatchedTauLV",
-		
-		"trailingGenMatchedTauFound",
-		"genMatchedTau2Found",
-		"negGenMatchedTauFound",
 		
 		"diLepLV",
 		"genDiLepLV",

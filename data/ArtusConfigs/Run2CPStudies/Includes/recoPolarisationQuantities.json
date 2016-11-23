@@ -1,5 +1,25 @@
 {
 	"property" : [
+		"lep1SumChargedHadronsLV",
+		"lep1SumNeutralHadronsLV",
+		
+		"genMatchedTau1LV",
+		"genMatchedTau1Found",
+		"genMatchedTau1VisibleLV",
+		"genMatchedTau1DecayMode",
+		"genMatchedTau1NProngs",
+		"genMatchedTau1NPi0s",
+		
+		"lep2SumChargedHadronsLV",
+		"lep2SumNeutralHadronsLV",
+		
+		"genMatchedTau2LV",
+		"genMatchedTau2Found",
+		"genMatchedTau2VisibleLV",
+		"genMatchedTau2DecayMode",
+		"genMatchedTau2NProngs",
+		"genMatchedTau2NPi0s",
+		
 		"leadingTauLV",
 		"trailingTauLV",
 		
