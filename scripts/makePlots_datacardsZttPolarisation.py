@@ -396,12 +396,31 @@ if __name__ == "__main__":
 		
 		x_values = sorted([values[0] for values in values_tree_files.keys() if values[0] > -990.0])
 		config = jsonTools.JsonDict(os.path.expandvars(template))
-		config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values()))]))]
+		config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/channel" in root_file) or ("datacards/combined" in root_file)]))]
 		config["x_ticks"] = x_values
 		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key < 1000)}
 		config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)) for value in x_values]
 		#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
-		config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label + "" for label in config["x_tick_labels"]]
+		config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label for label in config["x_tick_labels"]]
+		config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
+		config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
+		if args.www:
+			config["www"] = os.path.join(args.www, "combined/plots")
+		
+		plot_configs.append(config)
+	
+	for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_stat_unc.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category.json",
+	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_stat_unc.json"]:
+		
+		x_values_raw = sorted([values[1] for values in values_tree_files.keys() if values[1] > -990.0])
+		x_values = [(((value-1000.0)/10.0-1.0) if value > 1000.0 else value) for value in x_values_raw]
+		config = jsonTools.JsonDict(os.path.expandvars(template))
+		config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/category" in root_file) or ("datacards/combined" in root_file)]))]
+		config["x_ticks"] = x_values
+		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key > 1000)}
+		config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)).replace("1020.0", "rho").replace("1030.0", "oneprong") for value in x_values_raw]
 		config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
 		config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
 		if args.www:
