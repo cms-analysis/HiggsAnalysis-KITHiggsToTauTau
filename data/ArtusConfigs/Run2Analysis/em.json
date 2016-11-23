@@ -214,6 +214,7 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:ElectronCorrectionsProducer",
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
@@ -254,6 +255,7 @@
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL.*(?=Spring16)" : [
+					"producer:ElectronCorrectionsProducer",
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

@@ -1,0 +1,97 @@
+{
+	"jecUncNom_eleEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016|Embedding2016" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"ElectronEnergyCorrectionShiftEB" : 1.0,
+		"ElectronEnergyCorrectionShiftEE" : 1.0,
+		"SvfitCacheFileFolder" : "jecUncNom_eleEsNom"
+	},
+	"jecUncNom_eleEsUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 1.01
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 1.025
+			}
+		},
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncNom_eleEsNom",
+		        "HToTauTau|DY.?JetsToLL" : "jecUncNom_eleEsUp"
+            }
+        }
+	},
+	"jecUncNom_eleEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 0.99
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 0.975
+			}
+		},
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncNom_eleEsNom",
+		        "HToTauTau|DY.?JetsToLL" : "jecUncNom_eleEsDown"
+            }
+        }
+	},
+	"jecUncUp_eleEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016" : 0.0,
+				"default" : 1.0
+			}
+		},
+		"ElectronEnergyCorrectionShiftEB" : 1.0,
+		"ElectronEnergyCorrectionShiftEE" : 1.0,
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncUp_eleEsNom",
+		        "Run201|Embedding2016" : "jecUncNom_eleEsNom"
+            }
+        }
+	},
+	"jecUncDown_eleEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016" : 0.0,
+				"default" : -1.0
+			}
+		},
+		"ElectronEnergyCorrectionShiftEB" : 1.0,
+		"ElectronEnergyCorrectionShiftEE" : 1.0,
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncDown_eleEsNom",
+		        "Run201|Embedding2016" : "jecUncNom_eleEsNom"
+            }
+        }
+	}
+}
