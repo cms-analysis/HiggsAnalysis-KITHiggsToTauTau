@@ -35,7 +35,7 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action = "append",
-	                    default=["et", "mt", "tt", "em"],
+	                    default=["mt", "et", "tt", "em"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
@@ -360,25 +360,31 @@ if __name__ == "__main__":
 			split_stat_syst_uncs=True,
 	)
 	
-	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "mt", "et", "tt"])}
+	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined"] + args.channel)}
+	annotation_replacements.update({binid : index+1 for (index, binid) in enumerate(sorted(list(set([datacards.configs.category2binid(category, channel=category[:2]) for category in tools.flattenList(args.categories)]))))})
 	values_tree_files = {}
 	datacards.annotate_trees(
 			datacards_workspaces,
 			"higgsCombine*.*.mH*.root",
-			[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
+			[
+					[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
+					[os.path.join(os.path.dirname(template.replace("${BINID}", "(\d*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "category" in template][0],
+			],
 			annotation_replacements,
 			args.n_processes,
 			values_tree_files,
-			"-t limit -b channel"
+			"-t limit -b channel category"
 	)
 	datacards.annotate_trees(
 			datacards_workspaces,
 			"higgsCombine*.*.mH*.root",
-			[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
+			[
+					[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
+			]*2,
 			annotation_replacements,
 			args.n_processes,
 			values_tree_files,
-			"-t limit -b channel"
+			"-t limit -b channel category"
 	)
 	
 	# plot best fit values of parameter pol from physics model
@@ -388,14 +394,15 @@ if __name__ == "__main__":
 	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json",
 	                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_stat_unc.json"]:
 		
+		x_values = sorted([values[0] for values in values_tree_files.keys() if values[0] > -990.0])
 		config = jsonTools.JsonDict(os.path.expandvars(template))
 		config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values()))]))]
-		config["x_ticks"] = sorted(values_tree_files.keys())
-		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems()}
-		config["x_tick_labels"] = [inv_annotation_replacements.get(int(value), value) for value in sorted(values_tree_files.keys())]
+		config["x_ticks"] = x_values
+		inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key < 1000)}
+		config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)) for value in x_values]
 		#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
 		config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label + "" for label in config["x_tick_labels"]]
-		config["x_lims"] = [min(values_tree_files.keys()) - 0.5, max(values_tree_files.keys()) + 0.5]
+		config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
 		config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
 		if args.www:
 			config["www"] = os.path.join(args.www, "combined/plots")
