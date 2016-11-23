@@ -14,7 +14,7 @@ import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
-	parser.add_argument("--era", default="2015",
+	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manualy set the binning. Default is taken from configuration files.")
@@ -320,7 +320,9 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-50.0, 50.0]
 			else:
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
-	cb.PrintAll()
+	#cb.PrintAll()
+
+	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes) # TODO: use JPC physics model
 	'''
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
