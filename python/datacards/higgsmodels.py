@@ -11,7 +11,7 @@ class HiggsCPInitialstate(PhysicsModel):
 
 
 	def doParametersOfInterest(self):
-		self.modelBuilder.doVar("x[0,0,1]")
+		self.modelBuilder.doVar("alpha[0,0,1]")
 		self.modelBuilder.factory_('expr::sm("(1-@0)", alpha)')
 		self.modelBuilder.factory_('expr::ps("@0", alpha)')
 
