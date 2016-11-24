@@ -36,23 +36,25 @@ def mse(ivec, central = 0):
 	else:
 		return rms([ (value - central) for value in ivec])
 
-def count(file_name, pdfkeys, inclusive_weight, channel, addpdfs = [], nevents = -1):
-	if not isinstance(pdfkeys, list): pdfkeys = [pdfkeys]
+def count(file_name, pdfkey, inclusive_weight, channel, addpdfs = [], nevents = -1):
+	#if not isinstance(pdfkey, list): pdfkey = [pdfkey]
 	root_file = ROOT.TFile(file_name, "READ")
 	eventTree = ROOT.gDirectory.Get(channel)
 	n_entries = eventTree.GetEntries()
+	#print "n_entries:", n_entries
 	list_of_leaves = eventTree.GetListOfLeaves()
 	weight_names = []
 	weights = {}
-
 	for leave in list_of_leaves:
-		if any(c == "_".join(leave.GetTitle().split("_")[:-2]) for c in pdfkeys) or "muR" in leave.GetTitle() or leave.GetTitle() in addpdfs:
-			if not any(c in leave.GetTitle() for c in ("muR0p5_muF0p5", "muR2p0_muF2p0")): 
+		if pdfkey == "_".join(leave.GetTitle().split("_")[:-2]) or "muR" in leave.GetTitle() or leave.GetTitle() in addpdfs:
+			if not any(c in leave.GetTitle() for c in ("muR0p5_muF2p0", "muR2p0_muF0p5")):
 				weight_names.append(str(leave.GetTitle()))
 
 	c = ROOT.TCanvas()
 	for name in weight_names:
-		eventTree.Draw("1>>htemp(1,0,2)", name + "*" +  inclusive_weight)
+		#print name
+		if nevents != -1 : eventTree.Draw("1>>htemp(1,0,2)", "(Entry$<" + str(nevents) + ")*" + name + "*" +  inclusive_weight)
+		else : eventTree.Draw("1>>htemp(1,0,2)", name + "*" +  inclusive_weight)
 		hist = ROOT.gPad.GetPrimitive("htemp") 
 		'''
 		if not "inclusive" in channel and index == 0: 
@@ -61,6 +63,7 @@ def count(file_name, pdfkeys, inclusive_weight, channel, addpdfs = [], nevents =
 		if index == 0: c.SaveAs(weight_names[index] + ".png")
 		'''
 		weights[name] = hist.Integral()
+		#print "ok"
 	root_file.Close()
 
 	return weights
@@ -76,9 +79,9 @@ def fill_histogram(unc, unctype):
 
 	if len(new_unc) == 0 : return
 	new_histo = ROOT.TH1F(unctype, "", len(new_unc), 0, len(new_unc))
-	print new_unc
-	print len(new_unc.iteritems())
-	print sorted(new_unc.iteritems())
+	#print new_unc
+	#print len(new_unc.iteritems())
+	#print sorted(new_unc.iteritems())
 	for i, key  in zip(xrange(len(new_unc.iteritems())), sorted(new_unc.iteritems())):
 		new_histo.SetBinContent(i + 1, new_unc.iteritems()[key])
 		new_histo.GetXaxis().SetBinLabel(i + 1, key)
@@ -91,7 +94,7 @@ residuals = { 	"ggH" : { "scale" : 0.081, "pdf" : 0.018 , "alphas" : 0.025 },
 				"qqH" : { "scale" : 0.004, "pdf" : 0.021 , "alphas" : 0.005 },
 				"WH" :  { "scale" : 0.007, "pdf" : 0.017 , "alphas" : 0.009 },
 				"ZH" :  { "scale" : 0.038, "pdf" : 0.016 , "alphas" : 0.009 },
-				"DY" : {"scale" : 0, "pdf" : 0, "alphas" : 0} 
+				"DY" :  {"scale" : 0, "pdf" : 0, "alphas" : 0}
 				}
 
 def print_uncertainty(unc, unctype, process):
@@ -161,37 +164,38 @@ def main():
 	print "process:", process
 
 	categories = ["inclusive"] + args.categories
-	pdfkeys = HttSets
+	pdfkey = HttSets[0]
 	if process == "DY" and categories[1] == "0jet_low":# Better way?
 		#channels.append("mm") # Better way? 
 		print "CHANNEL mm OMMITED because of am error - need investigation"
 		categories = ["inclusive", "2jet_inclusive", "1jet_inclusive", "0jet_inclusive"]
-		pdfkeys = ["CT10nlo"]
-		addpdfs = ["NNPDF30_lo_as_0130_0_weight", "NNPDF30_lo_as_0130_nf_4_0_weight"]
+		pdfkey = "NNPDF30_lo_as_0130"
+		addpdfs = ["NNPDF30_lo_as_0118_0_weight"]
 		print "Automatic channels were assighned:", channels
 		print "Automatic categories were assighned:", categories
-		print "Automatic pdfkey is assighned:", pdfkey[0]
-		#[pdfkeys.append( "_".join(c.split("_")[:-2])) for c in addpdfs] #to include all variations of additional pdfs
+		print "Automatic pdfkey is assighned:", pdfkey
+		#[pdfkey.append( "_".join(c.split("_")[:-2])) for c in addpdfs] #to include all variations of additional pdfs
 
 	if output == "": output = "theory_uncertainties_" + process
 	elif output[-5:] == ".root": output = output[:-5]
 	print "Output file:", output + ".root"
-	print "pdfkeys:", pdfkeys
+	print "pdfkey:", pdfkey
 		
 	full_dict = {}
-	n_events_total = count(input_file, pdfkeys, "1", Samples.root_file_folder("inclusive"), addpdfs, nevents)["muR1p0_muF1p0_weight"]
+	n_events_total = count(input_file, pdfkey, "1", Samples.root_file_folder("inclusive"), addpdfs)["muR1p0_muF1p0_weight"]
 	print n_events_total
 
 	print "Inclusive assighnment"
 	for channel in channels:
+		print "\t", channel
 		full_dict[channel] = {}
-		full_dict[channel]["full"] = count(input_file, pdfkeys, "isZ" + channel + ">0.5", Samples.root_file_folder("inclusive"), addpdfs, nevents) #? isZ count total number of events by using inclusive pipeline
+		full_dict[channel]["full"] = count(input_file, pdfkey, "isZ" + channel + ">0.5", Samples.root_file_folder("inclusive"), addpdfs) #? isZ count total number of events by using inclusive pipeline
 		weight_string = ""
 		cutstrings = CutStringsDict.baseline(channel, cut_type)
 		del cutstrings["blind"]
 		for cutstring in cutstrings.values():
 			weight_string += "*" + cutstring
-		full_dict[channel]["inclusive"] = count(input_file, pdfkeys, weight_string[1:], Samples.root_file_folder(channel), addpdfs, nevents) 
+		full_dict[channel]["inclusive"] = count(input_file, pdfkey, weight_string[1:], Samples.root_file_folder(channel), addpdfs)
 
 	print "Out of", n_events_total, "simulated events:" 
 	for channel in channels:
@@ -202,26 +206,27 @@ def main():
 		else: 
 			print "\t selection efficincy is ", full_dict[channel]["inclusive"]["muR1p0_muF1p0_weight"], "/", n_ev_passing_category_sel , "=", full_dict[channel]["inclusive"]["muR1p0_muF1p0_weight"] / n_ev_passing_category_sel * 100, "% "
 	
-	print "Categories: apply eventWeight"
 	print "\nCategories: apply eventWeight"
 	for channel in channels:
-		print "channel:", channel
+		print "\tchannel:", channel
 		for category in categories:
+			print "\t\category:", category
 			lookup_string = categoty_key + channel + "_" + category
 			weight_string = "(" + ExpressionsDict.static_get_expression(lookup_string) + ")"
 			cutstrings = CutStringsDict.baseline(channel, cut_type)
 			del cutstrings["blind"]
 			for cutstring in cutstrings.values():
 				weight_string += "*" + cutstring
-			if channel=="tt": print "\tweight_string", weight_string
-			full_dict[channel][category] = count(input_file, pdfkeys, weight_string, Samples.root_file_folder(channel), addpdfs, nevents)
+			#if channel == "tt": print "\tweight_string", weight_string
+			full_dict[channel][category] = count(input_file, pdfkey, weight_string, Samples.root_file_folder(channel), addpdfs)
 
 	unc = {}
 	eff = {}
 	root_tree_file=ROOT.TFile(output + ".root", "RECREATE")
-	print "######## calculate inclusive weights"
+	print "######## calculate Inclusive weights"
 	print "\tscale"
 	for channel in channels:
+		print "\t\tchannel:", channel
 		A = {}
 		for weight in [weight for weight in full_dict[channel]["full"] if "muR" in weight]:
 			A[weight] = full_dict[channel]["inclusive"][weight] / full_dict[channel]["full"][weight]
@@ -231,17 +236,19 @@ def main():
 
 	print "\tPDF Sets"
 	for channel in channels:
+		print "\t\tchannel:", channel
 		A = {}
 		for weight in full_dict[channel]["full"]:
-			if pdfkey in weight:
+			if pdfkey == "_".join(weight.split("_")[:-2]):
 				A[weight] = full_dict[channel]["inclusive"][weight] / full_dict[channel]["full"][weight]
 		unc["pdf_" + channel + "_inclusive"] =  mse(A.values(), A[pdfkey + "_0_weight"]) / A[pdfkey + "_0_weight"]
 		acceptance_to_tree(A, "pdf", channel)
 
 	print "\talpha_s"
 	for channel in channels:
+		print "\t\tchannel:", channel
 		A = {}
-		for weight in [ addpdfs[0], pdfkey + "_0_weight", addpdfs[1] ]:
+		for weight in [pdfkey + "_0_weight"] + addpdfs :
 			A[weight] = full_dict[channel]["inclusive"][weight] / full_dict[channel]["full"][weight]
 		unc["alphas_" + channel + "_inclusive"] = (max(A.values()) - min(A.values()))/2. / A[pdfkey + "_0_weight"]
 		acceptance_to_tree(A, "alphas", channel)
@@ -249,7 +256,7 @@ def main():
 	print "####### calculate category uncertainties"
 	print "\tscale"
 	for channel in channels:
-		print "\t\t", channel
+		print "\t\tchannel:", channel
 		for category in categories:
 			print "\t\t\t", category
 			A = {}
@@ -267,10 +274,12 @@ def main():
 
 	print "\tPDF Sets"
 	for channel in channels:
+		print "\t\tchannel:", channel
 		for category in categories:
+			print "\t\t\t", category
 			A = {}
 			for weight in full_dict[channel][category]:
-				if pdfkey in weight:
+				if pdfkey == "_".join(weight.split("_")[:-2]):
 					A[weight] = full_dict[channel][category][weight] / full_dict[channel]["inclusive"][weight]
 			if A[pdfkey + "_0_weight"] == 0: 
 				unc["pdf_" + channel + "_" + category] = float('nan')
@@ -280,14 +289,17 @@ def main():
 
 	print "\talpha_s"
 	for channel in channels:
+		print "\t\tchannel:", channel
 		for category in categories:
+			print "\t\t\t", category
 			A = {}
-			for weight in [addpdfs[0], pdfkey + "_0_weight", addpdfs[1] ]:
+			for weight in [pdfkey + "_0_weight"] + addpdfs :
 				A[weight] = full_dict[channel][category][weight] / full_dict[channel]["inclusive"][weight]
 			if A[pdfkey + "_0_weight"] == 0: 
 				unc["alphas_" + channel + "_" + category] = float('nan')
 			else: 
 				unc["alphas_" + channel + "_" + category] = (max(A.values()) - min(A.values()))/2. / A[pdfkey + "_0_weight"]
+			print "\t\t\t\t", "unc alphas_",channel,"_", category, ": max:", max(A.values()), "; min:", min(A.values()), "div by", A[pdfkey + "_0_weight"]
 			acceptance_to_tree(A, "alphas", channel, category)
 
 	print "uncertainties: "
