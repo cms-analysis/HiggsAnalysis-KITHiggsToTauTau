@@ -68,6 +68,6 @@ void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, produc
             }
         }
     }
-    product.m_optionalWeights["eleTauFakeRateWeight"] = eTauFakeRateWeight;
+    product.m_weights["eleTauFakeRateWeight"] = eTauFakeRateWeight;
 	
 }
