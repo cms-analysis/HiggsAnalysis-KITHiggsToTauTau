@@ -100,6 +100,6 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
             }
         }
     }
-	product.m_optionalWeights["muTauFakeRateWeight"] = muTauFakeRateWeight;
+	product.m_weights["muTauFakeRateWeight"] = muTauFakeRateWeight;
 	
 }
