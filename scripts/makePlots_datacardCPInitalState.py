@@ -9,6 +9,7 @@ import argparse
 import copy
 import os
 import sys
+import pprint
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
@@ -249,7 +250,6 @@ if __name__ == "__main__":
 			))
 	
 	if log.isEnabledFor(logging.DEBUG):
-		import pprint
 		pprint.pprint(plot_configs)
 	
 	# delete existing output files
@@ -334,7 +334,7 @@ if __name__ == "__main__":
 	) # TODO: use JPC physics model
 	
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
-	
+	"""
 	# Max. likelihood fit and postfit plots
 	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+"--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"alpha=0\"")
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
@@ -365,11 +365,33 @@ if __name__ == "__main__":
 			#None,
 			#"-t limit -b channel"
 	#)
-	
+	"""
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 40 -T 2000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 40 -T 5000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
 #-M HybridNew --testStat=TEV --generateExt=1 --generateNuis=0 fixedMu.root --singlePoint 1 --saveHybridResult --fork 40 -T 1000 -i 1 --clsAcc 0 --fullBToys
 
-	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
+
+	datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes)
+	print datacards_hypotestresult
+	pconfigs_plot=[]
+	for filename in datacards_hypotestresult.values():
+		print filename
+		pconfigs={}
+		pconfigs["files"]= [filename]
+		pconfigs["folders"]=["q"]
+		pconfigs["markers"]=["LINE"]
+		pconfigs["weights"]=["type<0","type>0"]
+		pconfigs["x_expressions"]=["q"]	
+		pconfigs[ "output_dir"]=str(os.path.dirname(filename))
+		
+		#pconfig["plot_modules"] = ["ExportRoot"]
+		pconfigs_plot.append(pconfigs)
+	pprint.pprint(pconfigs_plot)
+	higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
+
+	print args.n_plots[1]
+	
+
 	
 
