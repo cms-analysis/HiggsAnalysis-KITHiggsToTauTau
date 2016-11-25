@@ -9,6 +9,24 @@
 		"refitBSPVx",
 		"refitBSPVy",
 		"refitBSPVz",
+
+		"theBSx",
+		"theBSy",
+		"theBSz",
+
+		"refP1x",
+		"refP1y",
+		"refP1z",
+		"refP2x",
+		"refP2y",
+		"refP2z",
+
+		"track1p4x",
+		"track1p4y",
+		"track1p4z",
+		"track2p4x",
+		"track2p4y",
+		"track2p4z",
 		
 		"recoPhiStarCP",
 		"#recoPhiStarCPrPV",
