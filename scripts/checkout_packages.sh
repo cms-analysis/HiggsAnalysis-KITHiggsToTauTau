@@ -58,11 +58,7 @@ git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
 #### --change to the recommendation of Combind Twiki 
 ##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
 ##git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit
-git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
-cd HiggsAnalysis/CombinedLimit
-git fetch origin
-git checkout v6.2.1
-cd -
+git clone https://github.com/thomas-mueller/HiggsAnalysis-CombinedLimit -b 74x-root6 HiggsAnalysis/CombinedLimit
 
 
 # needed for error propagation e.g. in the background estimations
