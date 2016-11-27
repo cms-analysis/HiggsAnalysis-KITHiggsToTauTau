@@ -774,22 +774,29 @@ class Datacards(object):
 			split_stat_syst_uncs = False
 		
 		split_stat_syst_uncs_options = [""]
+		split_stat_syst_uncs_names = []
 		if split_stat_syst_uncs:
 			split_stat_syst_uncs_options = [
-				"--saveWorkspace",
-				"--snapshotName {method} -w w --freezeNuisances {uncs}".format(method=method, uncs="{uncs}"),
+				"--algo none --saveWorkspace",
+				"--algo singles --snapshotName {method} -w w".format(method=method),
+				"--algo singles --snapshotName {method} -w w --freezeNuisances {uncs}".format(method=method, uncs="{uncs}"),
 			]
-
-		for split_stat_syst_uncs_index, split_stat_syst_uncs_option in enumerate(split_stat_syst_uncs_options):
+			split_stat_syst_uncs_names = [
+				"Workspace",
+				"TotUnc",
+				"StatUnc",
+			]
+		
+		for split_stat_syst_uncs_index, (split_stat_syst_uncs_option, split_stat_syst_uncs_name) in enumerate(zip(split_stat_syst_uncs_options, split_stat_syst_uncs_names)):
 			prepared_tmp_args = None
 			new_name = None
 			if split_stat_syst_uncs:
-				new_name = ("" if name is None else name) + ("Tot" if split_stat_syst_uncs_index == 0 else "Stat") + "Unc"
+				new_name = ("" if name is None else name) + split_stat_syst_uncs_name
 				if name is None:
 					prepared_tmp_args = tmp_args + " -n " + new_name
 				else:
 					prepared_tmp_args = copy.deepcopy(tmp_args)
-					#prepared_tmp_args = re.sub("(--floatOtherPOIs)([\s=\"\']*)(1)([\"\']?\s)", "\\1\\2 "+("\\3" if split_stat_syst_uncs_index == 0 else "0")+"\\4", prepared_tmp_args)
+					prepared_tmp_args = re.sub("(--algo)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2 "+("none" if split_stat_syst_uncs_index == 0 else "\\3")+"\\4", prepared_tmp_args)
 					prepared_tmp_args = re.sub("(-n|--name)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2"+new_name+"\\4", prepared_tmp_args)
 			else:
 				prepared_tmp_args = tmp_args
@@ -805,7 +812,7 @@ class Datacards(object):
 										CHUNK_MIN=chunk_min,
 										CHUNK_MAX=chunk_max
 								),
-								SPLIT_STAT_SYST_UNCS=split_stat_syst_uncs_option.format(uncs=",".join(datacards_cbs[datacard].syst_name_set())),
+								SPLIT_STAT_SYST_UNCS=split_stat_syst_uncs_option.format(uncs=",".join(kwargs.get("additional_freeze_nuisances", [])+datacards_cbs[datacard].syst_name_set())),
 								WORKSPACE="-d "+workspace
 						).format(RMIN=datacards_poi_ranges.get(datacard, ["", ""])[0], RMAX=datacards_poi_ranges.get(datacard, ["", ""])[1]),
 						os.path.dirname(workspace)

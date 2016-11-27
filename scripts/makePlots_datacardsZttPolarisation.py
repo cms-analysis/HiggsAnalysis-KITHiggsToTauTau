@@ -356,8 +356,9 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MultiDimFit --algo singles -P pol --floatOtherPOIs 1 "+(asimov_options if args.use_asimov_dataset else "")+" "+datacards.stable_options+" -n ",
+			"-M MultiDimFit --algo singles -P pol --redefineSignalPOIs pol "+(asimov_options if args.use_asimov_dataset else "")+" "+datacards.stable_options+" -n ",
 			split_stat_syst_uncs=True,
+			additional_freeze_nuisances=["r"]
 	)
 	
 	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined"] + args.channel)}
