@@ -348,7 +348,7 @@ if __name__ == "__main__":
 			plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : args.www},
 			n_processes=args.n_processes
 	)
-	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
+	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "-P pol --redefineSignalPOIs pol")
 	
 	# split uncertainties
 	datacards.combine(
