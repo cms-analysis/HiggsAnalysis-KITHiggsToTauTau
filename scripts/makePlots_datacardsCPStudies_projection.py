@@ -230,8 +230,8 @@ if __name__ == "__main__":
 						log.debug("limits_list")
 						log.debug("quantile_expected_list")
 						log.debug("****************************************************")
-				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MultiDimFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, None, "-t limit -b lumi")
-				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine.Asymptotic.mH0.root", os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, None, "-t limit -b lumi")
+				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MultiDimFit")), [os.path.join(sub_dir_base, "(\d*)/.*.root")], None, args.n_processes, None, "-t limit -b lumi")
+				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine.Asymptotic.mH0.root", [os.path.join(sub_dir_base, "(\d*)/.*.root")], None, args.n_processes, None, "-t limit -b lumi")
 		
 		#os.path.splitext(datacard)[0]
 		file=os.path.join(os.path.splitext(datacard)[0],"projection/default/totUnc/*/higgsCombine.MultiDimFit.mH*.root")
