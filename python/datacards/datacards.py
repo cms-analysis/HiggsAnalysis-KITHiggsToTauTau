@@ -774,7 +774,7 @@ class Datacards(object):
 			split_stat_syst_uncs = False
 		
 		split_stat_syst_uncs_options = [""]
-		split_stat_syst_uncs_names = []
+		split_stat_syst_uncs_names = [""]
 		if split_stat_syst_uncs:
 			split_stat_syst_uncs_options = [
 				"--algo none --saveWorkspace",
