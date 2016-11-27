@@ -825,27 +825,36 @@ class Datacards(object):
 				for datacard, workspace in datacards_workspaces.iteritems():
 					datacards_workspaces[datacard] = glob.glob(os.path.join(os.path.dirname(workspace), "higgsCombine"+new_name+"."+method+".*.root"))[0]
 
-	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, values_tree_files=None, *args):
+	def annotate_trees(self, datacards_workspaces, root_filename, value_regex_list, value_replacements=None, n_processes=1, values_tree_files=None, *args):
 		if value_replacements is None:
 			value_replacements = {}
 
-		commands = []
 		if values_tree_files is None:
 			values_tree_files = {}
+		
+		commands = []
 		for datacard, workspace in datacards_workspaces.iteritems():
-			search_result = re.search(value_regex, workspace)
-			if not search_result is None:
-				value = search_result.groups()[0]
-				float_value = float(value_replacements.get(value, value))
+			float_values = []
+			found_match = False
+			for value_regex in value_regex_list:
+				search_result = re.search(value_regex, workspace)
+				if not search_result is None:
+					value = search_result.groups()[0]
+					float_values.append(float(value_replacements.get(value, value)))
+					found_match = True
+				else:
+					float_values.append(-999.0)
+			
+			if found_match:
 				files = os.path.join(os.path.dirname(workspace), root_filename)
-				values_tree_files.setdefault(float_value, []).extend(glob.glob(files))
+				values_tree_files.setdefault(tuple(float_values), []).extend(glob.glob(files))
 
-				commands.append("annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
+				commands.append("annotate-trees.py {FILES} --values {VALUES} {ARGS}".format(
 						FILES=files,
-						VALUE=float_value,
+						VALUES=" ".join([str(value) for value in float_values]),
 						ARGS=" ".join(args)
 				))
-
+		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 		return values_tree_files
 
@@ -1095,3 +1104,4 @@ class Datacards(object):
 		rebin.SetPerformRebin(True)
 		rebin.SetVerbosity(0)
 		rebin.Rebin(self.cb, self.cb)
+
