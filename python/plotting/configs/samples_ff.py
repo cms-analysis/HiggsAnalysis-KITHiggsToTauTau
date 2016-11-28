@@ -26,7 +26,7 @@ class Samples(samples.Samples):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIIFall15*_*_13TeV_*AOD_*/*.root WZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root ZZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root VV*_RunIIFall15*_*_13TeV_*AOD_*/*.root W*JetsToLNu_RunIIFall15*_*_13TeV_*AOD_*/*.root",
+					"TT_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*.root ST*_RunIIFall15*_*_13TeV_*AOD_powheg-pythia8/*root WW*_RunIIFall15*_*_13TeV_*AOD_*/*.root WZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root ZZ*_RunIIFall15*_*_13TeV_*AOD_*/*.root VV*_RunIIFall15*_*_13TeV_*AOD_*/*.root",
 					channel+"_jecUncNom_tauEsNom/ntuple",
 					lumi,
 					mc_weight+weight+"*eventWeight*" + Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),

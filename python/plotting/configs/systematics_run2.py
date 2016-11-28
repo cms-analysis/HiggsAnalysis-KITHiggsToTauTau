@@ -17,16 +17,17 @@ class SystematicsFactory(dict):
 		self["CMS_scale_t_13TeV"] = TauEsSystematic
 		self["CMS_ztt_scale_mFakeTau_13TeV"] = MuFakeTauEsSystematic
 		self["CMS_htt_ttbarShape_13TeV"] = TTBarShapeSystematic
-		self["CMS_ztt_jetFakeTau_qcd_Shape_13TeV"] = JetFakeTauQCDShapeSystematic
-		self["CMS_ztt_jetFakeTau_w_Shape_13TeV"] = JetFakeTauWShapeSystematic
-		self["CMS_ztt_jetFakeTau_tt_corr_Shape_13TeV"] = JetFakeTauTTcorrShapeSystematic
-		self["CMS_ztt_jetFakeTau_tt_stat_Shape_13TeV"] = JetFakeTauTTstatShapeSystematic
-		self["CMS_ztt_jetFakeTau_frac_qcd_Shape_13TeV"] = JetFakeTauFracQCDShapeSystematic
-		self["CMS_ztt_jetFakeTau_frac_w_Shape_13TeV"] = JetFakeTauFracWShapeSystematic
-		self["CMS_ztt_jetFakeTau_frac_tt_Shape_13TeV"] = JetFakeTauFracTTShapeSystematic
-		self["CMS_ztt_jetFakeTau_frac_dy_Shape_13TeV"] = JetFakeTauFracDYShapeSystematic
+		self["CMS_htt_dyShape_13TeV"] = DyShapeSystematic
 		self["CMS_eff_b_13TeV"] = BTagSystematic
 		self["CMS_mistag_b_13TeV"] = BMistagSystematic
+		
+		for category in ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"]:
+			self["CMS_ztt_jetFakeTau_mt_"+category+"_qcd_systShape_13TeV"] = JetFakeTauQCDsystShapeSystematic
+			self["CMS_ztt_jetFakeTau_mt_"+category+"_qcd_statShape_13TeV"] = JetFakeTauQCDstatShapeSystematic
+			self["CMS_ztt_jetFakeTau_mt_"+category+"_w_systShape_13TeV"] = JetFakeTauWsystShapeSystematic
+			self["CMS_ztt_jetFakeTau_mt_"+category+"_w_statShape_13TeV"] = JetFakeTauWstatShapeSystematic
+			self["CMS_ztt_jetFakeTau_mt_"+category+"_tt_systShape_13TeV"] = JetFakeTauTTsystShapeSystematic
+			self["CMS_ztt_jetFakeTau_mt_"+category+"_tt_statShape_13TeV"] = JetFakeTauTTstatShapeSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
@@ -105,125 +106,120 @@ class TTBarShapeSystematic(SystematicShiftBase):
 		
 		return plot_config
 
-
-class JetFakeTauQCDShapeSystematic(SystematicShiftBase):
+class DyShapeSystematic(SystematicShiftBase):
 	
 	def get_config(self, shift=0.0):
-		plot_config = super(JetFakeTauQCDShapeSystematic, self).get_config(shift=shift)
+		plot_config = super(DyShapeSystematic, self).get_config(shift=shift)
 		
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_qcd_up")
+					plot_config["weights"][index] = weight.replace("zReweightingWeight", "zReweightingWeight*zReweightingWeight")
 				elif shift < 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_qcd_down")
+					plot_config["weights"][index] = weight.replace("zReweightingWeight", "(1.0)")
 		
 		return plot_config
 
-
-class JetFakeTauWShapeSystematic(SystematicShiftBase):
+class JetFakeTauQCDsystShapeSystematic(SystematicShiftBase):
 	
 	def get_config(self, shift=0.0):
-		plot_config = super(JetFakeTauWShapeSystematic, self).get_config(shift=shift)
+		plot_config = super(JetFakeTauQCDsystShapeSystematic, self).get_config(shift=shift)
 		
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if not "data" in plot_config["nicks"][index]:
+				pieces = [e+'_comb' if not e.startswith("_") else e for e in weight.split('_comb')]
+				pieces_split = pieces[1].split("*",1)
 				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_w_up")
+					plot_config["weights"][index] = pieces[0] + pieces_split[0] + '_qcd_syst_up*' + pieces_split[1] 
 				elif shift < 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_w_down")
+					plot_config["weights"][index] = pieces[0] + pieces_split[0] + '_qcd_syst_down*' + pieces_split[1] 
 		
 		return plot_config
 
 
-class JetFakeTauTTcorrShapeSystematic(SystematicShiftBase):
+class JetFakeTauQCDstatShapeSystematic(SystematicShiftBase):
+
+        def get_config(self, shift=0.0):
+                plot_config = super(JetFakeTauQCDstatShapeSystematic, self).get_config(shift=shift)
+
+                for index, weight in enumerate(plot_config.get("weights", [])):
+                        if not "data" in plot_config["nicks"][index]:
+				pieces = [e+'_comb' if not e.startswith("_") else e for e in weight.split('_comb')]
+				pieces_split = pieces[1].split("*",1)
+                                if shift > 0.0:
+                                        plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_qcd_stat_up*' + pieces_split[1] 
+                                elif shift < 0.0:
+                                        plot_config["weights"][index] = pieces[0] + pieces_split[0] + '_qcd_stat_down*' + pieces_split[1] 
+
+                return plot_config
+
+
+class JetFakeTauWsystShapeSystematic(SystematicShiftBase):
 	
 	def get_config(self, shift=0.0):
-		plot_config = super(JetFakeTauTTcorrShapeSystematic, self).get_config(shift=shift)
+		plot_config = super(JetFakeTauWsystShapeSystematic, self).get_config(shift=shift)
 		
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if not "data" in plot_config["nicks"][index]:
+				pieces = [e+'_comb' if not e.startswith("_") else e for e in weight.split('_comb')]
+                                pieces_split = pieces[1].split("*",1)
 				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_tt_corr_up")
+					plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_w_syst_up*' + pieces_split[1]
 				elif shift < 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_tt_corr_down")
+					plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_w_syst_down*' + pieces_split[1]
 		
 		return plot_config
+
+
+class JetFakeTauWstatShapeSystematic(SystematicShiftBase):
+
+        def get_config(self, shift=0.0):
+                plot_config = super(JetFakeTauWstatShapeSystematic, self).get_config(shift=shift)
+
+                for index, weight in enumerate(plot_config.get("weights", [])):
+                        if not "data" in plot_config["nicks"][index]:
+                                pieces = [e+'_comb' if not e.startswith("_") else e for e in weight.split('_comb')]
+                                pieces_split = pieces[1].split("*",1)
+                                if shift > 0.0:
+                                        plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_w_stat_up*' + pieces_split[1]
+                                elif shift < 0.0:
+                                        plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_w_stat_down*' + pieces_split[1]
+
+                return plot_config
+
+
+class JetFakeTauTTsystShapeSystematic(SystematicShiftBase):
+
+        def get_config(self, shift=0.0):
+                plot_config = super(JetFakeTauTTsystShapeSystematic, self).get_config(shift=shift)
+
+                for index, weight in enumerate(plot_config.get("weights", [])):
+                        if not "data" in plot_config["nicks"][index]:
+                                pieces = [e+'_comb' if not e.startswith("_") else e for e in weight.split('_comb')]
+                                pieces_split = pieces[1].split("*",1)
+                                if shift > 0.0:
+                                        plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_tt_syst_up*' + pieces_split[1]
+                                elif shift < 0.0:
+                                        plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_tt_syst_down*' + pieces_split[1]
+
+                return plot_config
 
 
 class JetFakeTauTTstatShapeSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(JetFakeTauTTstatShapeSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if not "data" in plot_config["nicks"][index]:
-				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_tt_stat_up")
-				elif shift < 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_tt_stat_down")
-		
-		return plot_config
 
+        def get_config(self, shift=0.0):
+                plot_config = super(JetFakeTauTTstatShapeSystematic, self).get_config(shift=shift)
 
-class JetFakeTauFracQCDShapeSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(JetFakeTauFracQCDShapeSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if not "data" in plot_config["nicks"][index]:
-				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_qcd_up")
-				elif shift < 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_qcd_down")
-		
-		return plot_config
+                for index, weight in enumerate(plot_config.get("weights", [])):
+                        if not "data" in plot_config["nicks"][index]:
+                                pieces = [e+'_comb' if not e.startswith("_") else e for e in weight.split('_comb')]
+                                pieces_split = pieces[1].split("*",1)
+                                if shift > 0.0:
+                                        plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_tt_stat_up*' + pieces_split[1]
+                                elif shift < 0.0:
+                                        plot_config["weights"][index] =  pieces[0] + pieces_split[0] + '_tt_stat_down*' + pieces_split[1]
 
-
-class JetFakeTauFracWShapeSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(JetFakeTauFracWShapeSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if not "data" in plot_config["nicks"][index]:
-				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_w_up")
-				elif shift < 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_w_down")
-		
-		return plot_config
-
-
-class JetFakeTauFracTTShapeSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(JetFakeTauFracTTShapeSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if not "data" in plot_config["nicks"][index]:
-				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_tt_up")
-				elif shift < 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_tt_down")
-		
-		return plot_config
-
-
-class JetFakeTauFracDYShapeSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(JetFakeTauFracDYShapeSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if not "data" in plot_config["nicks"][index]:
-				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_dy_up")
-				elif shift < 0.0:
-					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_dy_down")
-		
-		return plot_config
+                return plot_config
 
 
 class MuFakeTauEsSystematic(SystematicShiftBase):

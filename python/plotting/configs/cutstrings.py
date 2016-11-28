@@ -14,6 +14,7 @@ class CutStringsDict:
 		cuts = {}
 		cuts["blind"] = "{blind}"
 		cuts["os"] = "((q_1*q_2)<0.0)"
+		#cuts["os"] = "((q_1*q_2)>0.0)"
 		
 		if channel == "mm":
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
@@ -36,8 +37,9 @@ class CutStringsDict:
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)" if "2016" in cut_type else "(iso_1 < 0.1)"
+			#cuts["iso_1"] = "(iso_1 < 0.15)" if "2016" in cut_type else "(iso_1>0.05)*(iso_1<0.15)"#*(iso_1>0.05)"
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
-			if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
+			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "et":
 			cuts["mt"] = "(mt_1<50.0)" if cut_type == "mssm2016" else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)"
@@ -46,7 +48,7 @@ class CutStringsDict:
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
-			if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
+			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "tt":
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"

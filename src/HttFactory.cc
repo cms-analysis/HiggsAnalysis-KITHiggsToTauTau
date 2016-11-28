@@ -38,6 +38,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/AcceptanceEfficiencyProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TopPtReweightingProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZPtReweightProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZReweightingProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/VLooseProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ScaleVariationProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleEleTauFakeRateWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/JetToTauFakesProducer.h"
@@ -211,6 +213,10 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TopPtReweightingProducer();
 	else if(id == ZPtReweightProducer().GetProducerId())
 		return new ZPtReweightProducer();
+	else if(id == ZReweightingProducer().GetProducerId())
+		return new ZReweightingProducer();
+	else if(id == VLooseProducer().GetProducerId())
+		return new VLooseProducer();
 	else if(id == SimpleEleTauFakeRateWeightProducer().GetProducerId())
 		return new SimpleEleTauFakeRateWeightProducer();
 	else if(id == JetToTauFakesProducer().GetProducerId())

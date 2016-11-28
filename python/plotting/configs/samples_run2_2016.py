@@ -184,6 +184,54 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 
+	def data_sr(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = 1.0
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
+		data_weight = "(1.0)*"
+		if kwargs.get("project_to_lumi", False):
+			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+
+		Samples._add_input(
+				config,
+				self.files_data(channel),
+				self.root_file_folder(channel),
+				1.0,
+				data_weight+weight+"*eventWeight*(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type),
+				"noplot_data_sr",
+				nick_suffix=nick_suffix
+		)
+
+		Samples._add_plot(config, "data_sr", "E", "ELP", "data_sr", nick_suffix)
+		return config
+
+	def data_cr(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = 1.0
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
+		data_weight = "(1.0)*"
+		if kwargs.get("project_to_lumi", False):
+			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+
+		Samples._add_input(
+				config,
+				self.files_data(channel),
+				self.root_file_folder(channel),
+				1.0,
+				data_weight+weight+"*eventWeight*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type),
+				"noplot_data_cr",
+				nick_suffix=nick_suffix
+		)
+
+		Samples._add_plot(config, "data_cr", "E", "ELP", "data_cr", nick_suffix)
+		return config
+
 	def files_dy_m50(self, channel):
 		return self.artus_file_names({"process" : "DYJetsToLLM50", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 1)
 
@@ -193,6 +241,14 @@ class Samples(samples.SamplesBase):
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
+
+		reweighting_scaleFactor = "*(1)"
+		if "2jet_vbf" in category:
+			reweighting_scaleFactor = "*(1.2)"
+		if "1bjet" in category:
+			reweighting_scaleFactor = "*(1.2)"
+		if "2bjet" in category:
+			reweighting_scaleFactor = "*(1.4)"
 
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
@@ -208,7 +264,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+weight+"*eventWeight*" + self.ztt_stitchingweight() + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+weight+reweighting_scaleFactor+"*eventWeight*zReweightingWeight*" + self.ztt_stitchingweight() + Samples.ztt_genmatch(channel) + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
@@ -1998,29 +2054,85 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		data_weight = "(1.0)*"
+		catString = category
+		if "inclusive" in category:
+			catString = category.replace("inclusive","incl")	
+		if "_low" in category:
+			catString = category.replace("_low","Z050")	
+		if "_medium" in category:
+			catString = category.replace("_medium","Z50100")	
+		if "_high" in category:
+			catString = category.replace("_high","Z100")	
+		if "_vbf" in category:
+			catString = category.replace("_vbf","VBF")	
+		if "1bjet" in category:
+			catString = category.replace("1bjet","anyb")	
+		if "2bjet" in category:
+			catString = category.replace("2bjet","anyb")	
+		print "catString: ", catString
+		print "category: ", category
+		print "jetToTauFakeWeight_comb_"+channel+"_"+catString.split('_'+channel+'_')[1]+"*"
 		
-		if channel == "mt":
+		
+		if channel in ["mt","et"]:
 			Samples._add_input(
 					config,
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+					data_weight+weight+"*eventWeight*" + "jetToTauFakeWeight_comb_"+channel+"_"+catString.split('_'+channel+'_')[1]+"*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVAWeight_2 > 0.5)",
+					#data_weight+weight+"*eventWeight*" + "jetToTauFakeWeight_comb_"+channel+"_"+category.split('_'+channel+'_')[1]+"*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
 					"ff",
 					nick_suffix=nick_suffix
 			)
-		elif channel == "et":
 			Samples._add_input(
 					config,
-					self.files_data(channel),
+					self.files_ztt(channel),
 					self.root_file_folder(channel),
-					1.0,
-					data_weight+weight+"*eventWeight*jetToTauFakeWeight_comb*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
-					"ff",
+					lumi,
+					weight+"*eventWeight*(gen_match_2 < 6)*"+ "jetToTauFakeWeight_comb_"+channel+"_"+catString.split('_'+channel+'_')[1]+"*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVAWeight_2 > 0.5)",
+					"noplot_dy_ff_control",
 					nick_suffix=nick_suffix
 			)
+			Samples._add_input(
+					config,
+					self.files_ttj(channel),
+					self.root_file_folder(channel),
+					lumi,
+					weight+"*eventWeight*(gen_match_2 < 6)*" + "jetToTauFakeWeight_comb_"+channel+"_"+catString.split('_'+channel+'_')[1]+"*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVAWeight_2 > 0.5)",
+					"noplot_tt_ff_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_vv(channel),
+					self.root_file_folder(channel),
+					lumi,
+					weight+"*eventWeight*(gen_match_2 < 6)*" + "jetToTauFakeWeight_comb_"+channel+"_"+catString.split('_'+channel+'_')[1]+"*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVAWeight_2 > 0.5)",
+					"noplot_vv_ff_control",
+					nick_suffix=nick_suffix
+			)
+
+			if not "EstimateFF" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateFF")
+			config.setdefault("ff_data_nicks", []).append("ff"+nick_suffix)
+			config.setdefault("ff_mc_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_dy_ff_control noplot_tt_ff_control noplot_vv_ff_control".split()]))
+
+
+		#elif channel == "et":
+		#	Samples._add_input(
+		#			config,
+		#			self.files_data(channel),
+		#			self.root_file_folder(channel),
+		#			1.0,
+		#			data_weight+weight+"*eventWeight*" + "jetToTauFakeWeight_comb_"+channel+"_"+category.split('_'+channel+'_')[1]+"*" + self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+		#			"ff",
+		#			nick_suffix=nick_suffix
+		#	)
 		else:
 			log.error("Sample config (FakeFactor) currently not implemented for channel \"%s\"!" % channel)
+
+
 		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
 		return config
 
@@ -2038,7 +2150,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					self.files_ttj(channel) + " " + self.files_wj(channel) + " " + self.files_vv(channel),
+					self.files_ttj(channel) + " " + self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+weight+"*eventWeight*" + self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),

@@ -106,7 +106,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttjl", "vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff", "ggh", "qqh", "bbh", "vh", "htt", "data"],
+	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttjl", "vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff", "ggh", "qqh", "bbh", "vh", "htt", "data", "data_sr", "data_cr"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -149,7 +149,7 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm"],
 	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", default=[None],
+	parser.add_argument("--categories", nargs="+", default=["inclusive"],
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantities", nargs="*",
 	                    default=["integral",
@@ -228,8 +228,8 @@ if __name__ == "__main__":
 			log.critical("Invalid era string selected: " + args.era)
 			sys.exit(1)
 
-	if args.fakefactor_method is not None:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
+	#if args.fakefactor_method is not None:
+	#	import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
 
 	if args.shapes:
 		args.ratio = False
@@ -386,12 +386,12 @@ if __name__ == "__main__":
 					config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio or args.integrated_sob or args.sbratio else 1.4]
 					config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio or args.integrated_sob or args.sbratio else [0.23, 0.73, 0.9, 0.89]
 					config["legend_cols"] = 3
-				if not args.shapes:
-					if not args.lumi is None:
-						config["lumis"] = [float("%.1f" % args.lumi)]
-					config["energies"] = [8] if args.run1 else [13]
-					if not args.run1:
-						config["year"] = args.era
+				#if not args.shapes:
+				#	if not args.lumi is None:
+				#		config["lumis"] = [float("%.1f" % args.lumi)]
+				#	config["energies"] = [8] if args.run1 else [13]
+				#	if not args.run1:
+				#		config["year"] = args.era
 
 				#add integrated s/sqrt(b) subplot
 				if(args.integrated_sob):

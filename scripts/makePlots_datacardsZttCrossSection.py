@@ -404,6 +404,7 @@ if __name__ == "__main__":
 				config["x_label"] = category[:2]+"_"+args.quantity
 				config["y_label"] = "Events / bin"
 				config["title"] = "channel_"+category[:2]
+				print "TITLE     :     ", config["title"]
 				config["energies"] = [13.0]
 				config["lumis"] = [float("%.1f" % args.lumi)]
 				config["cms"] = [True]
@@ -429,6 +430,11 @@ if __name__ == "__main__":
 					config["y_subplot_lims"] = [0.5, 1.5]
 					config["y_subplot_label"] = "Obs./Exp."
 					config["subplot_grid"] = True
+				#Test of Chi2 module
+				if not "Chi2Test" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("Chi2Test")
+				config.setdefault("chi2test_nicks", []).extend(["data_obs Total"])
+				config.setdefault("chi2test_compare", []).extend(["UW", "P"])
 					
 				config.update(json_config)
 				plot_configs.append(config)

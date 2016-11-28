@@ -78,9 +78,29 @@ if __name__ == "__main__":
 				config["legend_markers"] = ["L", "L", "ELP"]
 				config["labels"] = ["#plus 1#sigma shift", "#minus 1#sigma shift", "nominal"]
 				
+				uncString = uncertainty
+				if "_qcd_" in uncertainty and "syst" in uncertainty:
+					uncString = "Jet #rightarrow #tau Fakes Shape from QCD syst." 
+				if "_qcd_" in uncertainty and "stat" in uncertainty:
+					uncString = "Jet #rightarrow #tau Fakes Shape from QCD stat." 
+				if "_w_" in uncertainty and "syst" in uncertainty:
+					uncString = "Jet #rightarrow #tau Fakes Shape from W+Jets syst." 
+				if "_w_" in uncertainty and "stat" in uncertainty:
+					uncString = "Jet #rightarrow #tau Fakes Shape from W+Jets stat." 
+				if "_tt_" in uncertainty and "syst" in uncertainty:
+					uncString = "Jet #rightarrow #tau Fakes Shape from TT+Jets syst." 
+				if "_tt_" in uncertainty and "stat" in uncertainty:
+					uncString = "Jet #rightarrow #tau Fakes Shape from TT+Jets stat." 
+				if "ttbarShape" in uncertainty:
+					uncString = "Top p_T Reweighting Shape Uncertainty"
+				if "dyShape" in uncertainty:
+					uncString = "Z Reweighting Shape Uncertainty"
+				if "scale_t" in uncertainty:
+					uncString = "#tau Energy Scale Shape Uncertainty"
+
 				config["legend"] = [0.65, 0.7, 0.9, 0.88]
-				config["title"] = uncertainty+" ("+process+")"
-				config["x_label"] = ""
+				config["title"] = uncString+" ("+process+")"
+				config["x_label"] = "Visible di-tau Mass / GeV"
 				
 				if args.ratio:
 					if not "Ratio" in config.get("analysis_modules", []):
@@ -90,19 +110,26 @@ if __name__ == "__main__":
 					config.setdefault("ratio_result_nicks", []).extend(["ratio_up", "ratio_down"])
 					
 					config["colors"].extend(config["colors"][:2])
-					config["markers"].extend(config["markers"][:2])
+					#config["markers"].extend(config["markers"][:2])
+					config["markers"] = ["LINE E", "LINE E", "E", "LINE", "LINE"]
 					config["marker_styles"].extend(config["marker_styles"][:2])
 					config["legend_markers"].extend(config["legend_markers"][:2])
-					config["labels"].extend([""] * 2)
-					
-					config["legend"] = [0.65, 0.6, 0.95, 0.92]
-					config["y_subplot_lims"] = [0.0, 2.0]
+					config["labels"].extend([""] * 2)					
+
+					config["legend"] = [0.65, 0.65, 0.95, 0.85]
+					config["y_subplot_lims"] = [0.8, 1.2]
+					if "stat" in uncertainty:
+						config["y_subplot_lims"] = [0.9, 1.1]
+					if "_w_" in uncertainty:
+						config["y_subplot_lims"] = [0.95, 1.05]
+					if "_tt_" in uncertainty:
+						config["y_subplot_lims"] = [0.98, 1.02]
 				
 				output_dir = args.output_dir
 				if output_dir is None:
 					output_dir = os.path.join(os.path.splitext(input_file)[0], folder, uncertainty)
 				config["output_dir"] = output_dir
-				config["filename"] = process
+				config["filename"] = uncertainty+"_"+process
 				
 				plot_configs.append(config)
 	
