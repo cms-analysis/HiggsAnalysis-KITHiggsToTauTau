@@ -12,6 +12,30 @@
 			"(Run2015|Fall15MiniAODv2)" : "mvanontrigspring15tight"
 		}
 	},
+	"ElectronIDName" : {
+		"nick" : {
+			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+			"(Run2015|Fall15MiniAODv2)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
+		}
+	},
+	"ElectronMvaIDCutEB1" : {
+		"nick" : {
+			"default" : 0.941,
+			"(Run2015|Fall15MiniAODv2)" : 0.967083
+		}
+	},
+	"ElectronMvaIDCutEB2" : {
+		"nick" : {
+			"default" : 0.899,
+			"(Run2015|Fall15MiniAODv2)" : 0.929117
+		}
+	},
+	"ElectronMvaIDCutEE" : {
+		"nick" : {
+			"default" : 0.758,
+			"(Run2015|Fall15MiniAODv2)" : 0.726311
+		}
+	},
 	
 	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",

@@ -11,6 +11,10 @@
 			"(Spring15|Fall15|Spring16)" : "mvanontrigspring15tight"
 		}
 	},
+	"ElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
+	"ElectronMvaIDCutEB1" : 0.967083,
+	"ElectronMvaIDCutEB2" : 0.929117,
+	"ElectronMvaIDCutEE" : 0.726311,
 	
 	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",

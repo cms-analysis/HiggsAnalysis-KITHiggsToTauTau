@@ -12,6 +12,12 @@
 			"(Run2015|Fall15MiniAODv2)" : "spring15cutbasedveto"
 		}
 	},
+	"VetoElectronIDName" : {
+		"nick" : {
+			"default" : "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
+			"(Run2015|Fall15MiniAODv2)" : "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
+		}
+	},
 
 	"VetoElectronIsoType" : "user",
 	"VetoElectronIso" : "none",
