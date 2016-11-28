@@ -1,5 +1,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EmbeddingConsumer.h"
-
+#include <iostream>
+#include <stdlib.h>
 
 void EmbeddingConsumer::Init(setting_type const& settings)
 {
@@ -9,28 +10,32 @@ void EmbeddingConsumer::Init(setting_type const& settings)
 	nDeltaRBins = settings.GetDeltaRBinning();
 	DeltaRMax = settings.GetDeltaRMaximum();
 	randomMuon = settings.GetRandomMuon();
+	//nPtFlowBins = settings.GetPtFlowBins();
+	//PtMax = setting.GetIsoPtSumMaximum();
+	int nPtFlowBins = 50;
+	float PtMax = 5;
 	for(unsigned int i = 0;i<muonTypeVector.size();i++)
 	{
 		for(unsigned int j = 0; j < regionTypeVector.size();j++)
 		{
 			// PtFlow for charged hadrons (from first PV)
 			TString histname = muonTypeVector[i] + TString("Muon_ChargedFromFirstPVPtFlow_") +  regionTypeVector[j];
-			Muon_ChargedFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]] = new TH1F((const char*) histname, (const char*) histname, nDeltaRBins, 0., DeltaRMax);
+			Muon_ChargedFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]] = new TH1F((const char*) histname, (const char*) histname, nPtFlowBins, 0., PtMax);
 			histograms.push_back(Muon_ChargedFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]]);
 
 			// PtFlow for charged hadrons (not from first PV)
 			histname = muonTypeVector[i] + TString("Muon_ChargedNotFromFirstPVPtFlow_") +  regionTypeVector[j];
-			Muon_ChargedNotFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]] = new TH1F((const char*) histname, (const char*) histname, nDeltaRBins, 0., DeltaRMax);
+			Muon_ChargedNotFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]] = new TH1F((const char*) histname, (const char*) histname, nPtFlowBins, 0., PtMax);
 			histograms.push_back(Muon_ChargedNotFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]]);
 
 			// PtFlow for neutral hadrons (from first PV)
 			histname = muonTypeVector[i] + TString("Muon_NeutralFromFirstPVPtFlow_") +  regionTypeVector[j];
-			Muon_NeutralFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]] = new TH1F((const char*) histname, (const char*) histname, nDeltaRBins, 0., DeltaRMax);
+			Muon_NeutralFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]] = new TH1F((const char*) histname, (const char*) histname, nPtFlowBins, 0., PtMax);
 			histograms.push_back(Muon_NeutralFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]]);
 
 			// PtFlow for photons (from first PV)
 			histname = muonTypeVector[i] + TString("Muon_PhotonsFromFirstPVPtFlow_") +  regionTypeVector[j];
-			Muon_PhotonsFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]] = new TH1F((const char*) histname, (const char*) histname, nDeltaRBins, 0., DeltaRMax);
+			Muon_PhotonsFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]] = new TH1F((const char*) histname, (const char*) histname, nPtFlowBins, 0., PtMax);
 			histograms.push_back(Muon_PhotonsFromFirstPVPtFlow[(const char*) muonTypeVector[i]][(const char*) regionTypeVector[j]]);
 		}
 	}
@@ -57,7 +62,7 @@ void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_ty
 	rMuon->p4.SetM(1.);
 	rMuon->p4.SetPt(1.);
 	double theta = randomnumbergenerator->Uniform(0,TMath::Pi());
-	rMuon->p4.SetEta(-TMath::Log(TMath::Tan(theta/2)));
+	rMuon->p4.SetEta(-TMath::Log(TMath::Tan(theta/2))); //Maybe Eta uniform / second option
 	rMuon->p4.SetPhi(randomnumbergenerator->Uniform(-TMath::Pi(),TMath::Pi()));
 	// Filling histograms for all muons defined above
 	for(unsigned int i = 0;i<muonTypeVector.size();i++)
@@ -67,7 +72,10 @@ void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_ty
 
 		// Filling PtFlow histograms
 		EmbeddingConsumer::FillPtFlowHistogram(Muon_ChargedFromFirstPVPtFlow[muontype], product.m_pfChargedHadronsFromFirstPV, muon, "full");
-		if(product.m_z.p4.M() < 100 && product.m_z.p4.M() > 80) EmbeddingConsumer::FillPtFlowHistogram(Muon_ChargedFromFirstPVPtFlow[muontype], product.m_pfChargedHadronsFromFirstPV, muon, "peak");
+		if(product.m_z.p4.M() < 100 && product.m_z.p4.M() > 80)
+		 {
+			 EmbeddingConsumer::FillPtFlowHistogram(Muon_ChargedFromFirstPVPtFlow[muontype], product.m_pfChargedHadronsFromFirstPV, muon, "peak");
+		}
 		else EmbeddingConsumer::FillPtFlowHistogram(Muon_ChargedFromFirstPVPtFlow[muontype], product.m_pfChargedHadronsFromFirstPV, muon, "sideband");
 		
 		EmbeddingConsumer::FillPtFlowHistogram(Muon_ChargedNotFromFirstPVPtFlow[muontype], product.m_pfChargedHadronsNotFromFirstPV, muon, "full");
@@ -102,12 +110,20 @@ std::string EmbeddingConsumer::GetConsumerId() const
 
 void EmbeddingConsumer::FillPtFlowHistogram(std::map<std::string, TH1F*> histmap, std::vector<const KPFCandidate*> pf_collection, KMuon* muon, std::string region)
 {
+	//std::cout << sizeof(pf_collection) << std::endl;
+	double sumPt=0;
+	
+	
 	for (std::vector<const KPFCandidate*>::const_iterator pfCandidate = pf_collection.begin();pfCandidate != pf_collection.end();++pfCandidate)
 	{
+		
 		double deltaR = ROOT::Math::VectorUtil::DeltaR(muon->p4, (*pfCandidate)->p4);
-		if (deltaR < DeltaRMax)
+		if ((deltaR > 0.21) && (deltaR <= 0.22))
 		{
-			histmap[region]->Fill(deltaR,(*pfCandidate)->p4.Pt());
+			sumPt+=(*pfCandidate)->p4.Pt();
+			//histmap[region]->Fill((*pfCandidate)->p4.Pt());
 		}
+		
 	}
+	histmap[region]->Fill(sumPt);
 }
