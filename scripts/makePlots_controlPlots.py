@@ -281,22 +281,26 @@ if __name__ == "__main__":
 	for index in range(len(args.channels) - len(args.background_method)):
 		args.background_method.append(args.background_method[index])
 
+	# Category and Cut type assignment for respective studies
+	global_category_string = "catHtt13TeV"
+	global_cut_type = "baseline"
+	if args.mssm:
+		category_string = "catHttMSSM13TeV"
+		global_cut_type = "mssm"
+	elif args.mva: category_string = "catMVAStudies"
+	elif args.polarisation: category_string = "catZttPol13TeV"
+	if args.era == "2016": global_cut_type += "2016"
+
+	# Configs construction for HP
 	for channel, background_method in zip(args.channels, args.background_method):
 		for category in args.categories:
 			for quantity in args.quantities:
-				category_string = None
 				if category != None:
-					if(args.mssm):
-						category_string = "catHttMSSM13TeV"
-					elif args.mva:
-						category_string = "catMVAStudies"
-					elif args.polarisation:
-						category_string = "catZttPol13TeV"
-					else:
-						category_string = "catHtt13TeV"
-					category_string = (category_string + "_{channel}_{category}").format(channel=channel, category=category)
+					category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
+				else:
+					category_string = None
 				json_config = {}
-				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity+".json") for channel_dir in [channel, "default"]]
+				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
 				for json_filename in json_filenames:
 					json_filename = os.path.expandvars(json_filename)
 					if os.path.exists(json_filename):
@@ -304,26 +308,26 @@ if __name__ == "__main__":
 						break
 				quantity = json_config.pop("x_expressions", [quantity])[0]
 				config = sample_settings.get_config(
-						samples=list_of_samples,
-						channel=channel,
-						category=category_string,
-						higgs_masses=args.higgs_masses,
-						normalise_signal_to_one_pb=False,
-						ztt_from_mc=args.ztt_from_mc,
-						weight=make_multiplication([clean_multiplication(json_config.pop("weights", ["1.0"])[0]), args.weight]),
-						lumi = args.lumi * 1000,
-						exclude_cuts=args.exclude_cuts+json_config.pop("exclude_cuts", []),
-						blind_expression=channel+"_"+quantity,
-						fakefactor_method=args.fakefactor_method,
-						stack_signal=args.stack_signal,
-						scale_signal=args.scale_signal,
-						project_to_lumi=args.project_to_lumi,
-						cut_mc_only=args.cut_mc_only,
-						scale_mc_only=args.scale_mc_only,
-						estimationMethod=background_method,
-						mssm=args.mssm,
-						controlregions=args.controlregions,
-						cut_type="mssm2016" if (args.era == "2016" and args.mssm) else "mssm" if args.mssm else "baseline2016" if args.era == "2016" else "baseline"
+						samples = list_of_samples,
+						channel = channel,
+						category = category_string,
+						higgs_masses = args.higgs_masses,
+						normalise_signal_to_one_pb = False,
+						ztt_from_mc = args.ztt_from_mc,
+						weight = make_multiplication([clean_multiplication(json_config.pop("weights", ["1.0"])[0]), args.weight]),
+						lumi  =  args.lumi * 1000,
+						exclude_cuts = args.exclude_cuts + json_config.pop("exclude_cuts", []),
+						blind_expression = channel + "_" + quantity,
+						fakefactor_method = args.fakefactor_method,
+						stack_signal = args.stack_signal,
+						scale_signal = args.scale_signal,
+						project_to_lumi = args.project_to_lumi,
+						cut_mc_only = args.cut_mc_only,
+						scale_mc_only = args.scale_mc_only,
+						estimationMethod = background_method,
+						mssm = args.mssm,
+						controlregions = args.controlregions,
+						cut_type = global_cut_type
 				)
 
 				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
