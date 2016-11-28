@@ -285,10 +285,10 @@ if __name__ == "__main__":
 	global_category_string = "catHtt13TeV"
 	global_cut_type = "baseline"
 	if args.mssm:
-		category_string = "catHttMSSM13TeV"
+		global_category_string = "catHttMSSM13TeV"
 		global_cut_type = "mssm"
-	elif args.mva: category_string = "catMVAStudies"
-	elif args.polarisation: category_string = "catZttPol13TeV"
+	elif args.mva: global_category_string = "catMVAStudies"
+	elif args.polarisation: global_category_string = "catZttPol13TeV"
 	if args.era == "2016": global_cut_type += "2016"
 
 	# Configs construction for HP
