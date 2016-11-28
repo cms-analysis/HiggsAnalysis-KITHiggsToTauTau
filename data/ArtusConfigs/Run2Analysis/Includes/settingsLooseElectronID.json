@@ -6,7 +6,12 @@
 	"LooseElectronReco" : "mvanontrig",
 
 	"LooseElectronID" : "user",
-	"LooseElectronIDType" : "mvanontrigspring15loose",
+	"LooseElectronIDType" : {
+		"nick" : {
+			"default" : "mvageneralpurposespring16loose",
+			"(Run2015|Fall15MiniAODv2)" : "mvanontrigspring15loose"
+		}
+	},
 
 	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",
