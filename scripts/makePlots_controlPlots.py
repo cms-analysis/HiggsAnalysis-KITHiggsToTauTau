@@ -335,7 +335,7 @@ if __name__ == "__main__":
 				elif args.mva:
 					binning_string = "binningMVAStudies"
 				elif args.polarisation:
-					category_string = "binningZttPol13TeV"
+					binning_string = "binningZttPol13TeV"
 				else:
 					binning_string = "binningHtt13TeV"
 				
