@@ -11,6 +11,10 @@
    
    Required config tags in addtion to the ones of the base class:
    - ElectronIDType
+   - ElectronIDName (default given)
+   - ElectronMvaIDCutEB1 (default given)
+   - ElectronMvaIDCutEB2 (default given)
+   - ElectronMvaIDCutEE (default given)
    - ElectronChargedIsoVetoConeSizeEB (default given)
    - ElectronChargedIsoVetoConeSizeEE (default given)
    - ElectronNeutralIsoVetoConeSize (default given)
@@ -38,6 +42,7 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
+	// This is not really needed for 2015 and later any longer
 	enum class ElectronIDType : int
 	{
 		INVALID = -2,
@@ -95,7 +100,7 @@ public:
 		else if (electronIDType == "summer16cutbasedtight") return ElectronIDType::SUMMER16CUTBASEDTIGHT;
 		else if (electronIDType == "summer16cutbasedveto") return ElectronIDType::SUMMER16CUTBASEDVETO;
 		else if (electronIDType == "mvageneralpurposespring16loose") return ElectronIDType::MVAGENERALPURPOSESPRING16LOOSE;
-		else if (electronIDType == "mvageneralpusposespring16tight") return ElectronIDType::MVAGENERALPURPOSESPRING16TIGHT;
+		else if (electronIDType == "mvageneralpurposespring16tight") return ElectronIDType::MVAGENERALPURPOSESPRING16TIGHT;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else
 			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;
@@ -107,6 +112,10 @@ public:
 			std::vector<KElectron*> product_type::*invalidElectrons=&product_type::m_invalidElectrons,
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetElectronIDType,
+			std::string (setting_type::*GetElectronIDName)(void) const=&setting_type::GetElectronIDName,
+			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetElectronMvaIDCutEB1,
+			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetElectronMvaIDCutEB2,
+			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetElectronMvaIDCutEE,
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetElectronIsoType,
 			std::string (setting_type::*GetElectronIso)(void) const=&setting_type::GetElectronIso,
 			std::string (setting_type::*GetElectronReco)(void) const=&setting_type::GetElectronReco,
@@ -144,6 +153,10 @@ protected:
 
 private:
 	std::string (setting_type::*GetElectronIDType)(void) const;
+	std::string (setting_type::*GetElectronIDName)(void) const;
+	float (setting_type::*GetElectronMvaIDCutEB1)(void) const;
+	float (setting_type::*GetElectronMvaIDCutEB2)(void) const;
+	float (setting_type::*GetElectronMvaIDCutEE)(void) const;
 	float (setting_type::*GetElectronChargedIsoVetoConeSizeEB)(void) const;
 	float (setting_type::*GetElectronChargedIsoVetoConeSizeEE)(void) const;
 	float (setting_type::*GetElectronNeutralIsoVetoConeSize)(void) const;
@@ -165,16 +178,17 @@ private:
 
 	ElectronIDType electronIDType;
 	
+	mutable bool checkedElectronMetadata;
+
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const;
-	bool IsCutBasedSpring15(KElectron* electron, event_type const& event, WorkingPoint wp) const;
-	bool IsCutBasedSummer16(KElectron* electron, event_type const& event, WorkingPoint wp) const;
+	bool IsCutBased(KElectron* electron, event_type const& event, setting_type const& settings) const;
 	bool IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVANonTrigSpring15(KElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVAGeneralPurposeSpring16(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVABased(KElectron* electron, event_type const& event, setting_type const& settings) const;
 	std::string ChooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const;
 	std::string ChooseMvaNonTrigId(const KElectronMetadata *meta) const;
+	bool CheckElectronMetadata(const KElectronMetadata *meta, std::string idName, bool &checkedAlready) const;
 };
 
 
@@ -208,6 +222,10 @@ public:
 			std::vector<KElectron*> product_type::*invalidElectrons=&product_type::m_invalidLooseElectrons,
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetLooseElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetLooseElectronIDType,
+			std::string (setting_type::*GetElectronIDName)(void) const=&setting_type::GetLooseElectronIDName,
+			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetLooseElectronMvaIDCutEB1,
+			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetLooseElectronMvaIDCutEB2,
+			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetLooseElectronMvaIDCutEE,
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetLooseElectronIsoType,
 			std::string (setting_type::*GetElectronIso)(void) const=&setting_type::GetLooseElectronIso,
 			std::string (setting_type::*GetElectronReco)(void) const=&setting_type::GetLooseElectronReco,
@@ -266,6 +284,10 @@ public:
 			std::vector<KElectron*> product_type::*invalidElectrons=&product_type::m_invalidVetoElectrons,
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetVetoElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetVetoElectronIDType,
+			std::string (setting_type::*GetElectronIDName)(void) const=&setting_type::GetVetoElectronIDName,
+			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetVetoElectronMvaIDCutEB1,
+			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetVetoElectronMvaIDCutEB2,
+			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetVetoElectronMvaIDCutEE,
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetVetoElectronIsoType,
 			std::string (setting_type::*GetElectronIso)(void) const=&setting_type::GetVetoElectronIso,
 			std::string (setting_type::*GetElectronReco)(void) const=&setting_type::GetVetoElectronReco,

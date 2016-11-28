@@ -9,6 +9,10 @@ HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KElectron*> pro
                                                      std::vector<KElectron*> product_type::*invalidElectrons,
                                                      std::string (setting_type::*GetElectronID)(void) const,
                                                      std::string (setting_type::*GetElectronIDType)(void) const,
+                                                     std::string (setting_type::*GetElectronIDName)(void) const,
+                                                     float (setting_type::*GetElectronMvaIDCutEB1)(void) const,
+                                                     float (setting_type::*GetElectronMvaIDCutEB2)(void) const,
+                                                     float (setting_type::*GetElectronMvaIDCutEE)(void) const,
                                                      std::string (setting_type::*GetElectronIsoType)(void) const,
                                                      std::string (setting_type::*GetElectronIso)(void) const,
                                                      std::string (setting_type::*GetElectronReco)(void) const,
@@ -36,6 +40,10 @@ HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KElectron*> pro
 	                       GetElectronID, GetElectronIsoType, GetElectronIso, GetElectronReco,
 	                       GetLowerPtCuts, GetUpperAbsEtaCuts),
 	GetElectronIDType(GetElectronIDType),
+	GetElectronIDName(GetElectronIDName),
+	GetElectronMvaIDCutEB1(GetElectronMvaIDCutEB1),
+	GetElectronMvaIDCutEB2(GetElectronMvaIDCutEB2),
+	GetElectronMvaIDCutEE(GetElectronMvaIDCutEE),
 	GetElectronChargedIsoVetoConeSizeEB(GetElectronChargedIsoVetoConeSizeEB),
 	GetElectronChargedIsoVetoConeSizeEE(GetElectronChargedIsoVetoConeSizeEE),
 	GetElectronNeutralIsoVetoConeSize(GetElectronNeutralIsoVetoConeSize),
@@ -62,6 +70,8 @@ void HttValidElectronsProducer::Init(setting_type const& settings)
 	ValidElectronsProducer<HttTypes>::Init(settings);
 	
 	electronIDType = ToElectronIDType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetElectronIDType)())));
+
+	checkedElectronMetadata = false;
 
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("leadingEleIso", [this](event_type const& event, product_type const& product) {
@@ -152,51 +162,51 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		}
 		else if (electronIDType == ElectronIDType::SPRING15CUTBASEDLOOSE)
 		{
-			validElectron = validElectron && IsCutBasedSpring15(&(*electron), event, WorkingPoint::LOOSE);
+			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::SPRING15CUTBASEDMEDIUM)
 		{
-			validElectron = validElectron && IsCutBasedSpring15(&(*electron), event, WorkingPoint::MEDIUM);
+			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::SPRING15CUTBASEDTIGHT)
 		{
-			validElectron = validElectron && IsCutBasedSpring15(&(*electron), event, WorkingPoint::TIGHT);
+			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::SPRING15CUTBASEDVETO)
 		{
-			validElectron = validElectron && IsCutBasedSpring15(&(*electron), event, WorkingPoint::VETO);
+			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::MVANONTRIGSPRING15LOOSE)
 		{
-			validElectron = validElectron && IsMVANonTrigSpring15(&(*electron), event, false);
+			validElectron = validElectron && IsMVABased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::MVANONTRIGSPRING15TIGHT)
 		{
-			validElectron = validElectron && IsMVANonTrigSpring15(&(*electron), event, true);
+			validElectron = validElectron && IsMVABased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDLOOSE)
 		{
-			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::LOOSE);
+			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDMEDIUM)
 		{
-			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::MEDIUM);
+			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDTIGHT)
 		{
-			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::TIGHT);
+			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDVETO)
 		{
-			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::VETO);
+			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::MVAGENERALPURPOSESPRING16LOOSE)
 		{
-			validElectron = validElectron && IsMVAGeneralPurposeSpring16(&(*electron), event, false);
+			validElectron = validElectron && IsMVABased(&(*electron), event, settings);
 		}
 		else if (electronIDType == ElectronIDType::MVAGENERALPURPOSESPRING16TIGHT)
 		{
-			validElectron = validElectron && IsMVAGeneralPurposeSpring16(&(*electron), event, true);
+			validElectron = validElectron && IsMVABased(&(*electron), event, settings);
 		}
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
@@ -315,14 +325,15 @@ bool HttValidElectronsProducer::IsCutBasedPhys14(KElectron* electron, event_type
 	return electron->getId(ChooseCutBasedId(event.m_electronMetadata, wp), event.m_electronMetadata);
 }
 
-bool HttValidElectronsProducer::IsCutBasedSpring15(KElectron* electron, event_type const& event, WorkingPoint wp) const
+bool HttValidElectronsProducer::IsCutBased(KElectron* electron, event_type const& event, setting_type const& settings) const
 {
-	return electron->getId(ChooseCutBasedId(event.m_electronMetadata, wp), event.m_electronMetadata);
-}
+	bool validElectron = true;
 
-bool HttValidElectronsProducer::IsCutBasedSummer16(KElectron* electron, event_type const& event, WorkingPoint wp) const
-{
-	return electron->getId(ChooseCutBasedId(event.m_electronMetadata, wp), event.m_electronMetadata);
+	validElectron = validElectron
+			&& CheckElectronMetadata(event.m_electronMetadata, (settings.*GetElectronIDName)(), checkedElectronMetadata)
+			&& electron->getId((settings.*GetElectronIDName)(), event.m_electronMetadata);
+
+	return validElectron;
 }
 
 bool HttValidElectronsProducer::IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const
@@ -343,42 +354,34 @@ bool HttValidElectronsProducer::IsMVANonTrigPhys14(KElectron* electron, event_ty
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVANonTrigSpring15(KElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::IsMVABased(KElectron* electron, event_type const& event, setting_type const& settings) const
 {
 	bool validElectron = true;
 
-	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentificationRun2#Non_triggering_electron_MVA_AN1
+	validElectron = validElectron && CheckElectronMetadata(event.m_electronMetadata, (settings.*GetElectronIDName)(), checkedElectronMetadata);
+
+	// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
 	// pT always greater than 10 GeV
-	// TODO: cut-values should be made configurable via json file
 	validElectron = validElectron &&
-		( 
-			(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId(ChooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.967083 : 0.913286))
+		(
+			(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId((settings.*GetElectronIDName)(), event.m_electronMetadata) > (settings.*GetElectronMvaIDCutEB1)())
 			||
-			(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId(ChooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID? 0.929117 : 0.805013))
+			(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId((settings.*GetElectronIDName)(), event.m_electronMetadata) > (settings.*GetElectronMvaIDCutEB2)())
 			||
-			(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId(ChooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.726311 : 0.358969))
+			(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId((settings.*GetElectronIDName)(), event.m_electronMetadata) > (settings.*GetElectronMvaIDCutEE)())
 		);
 
 	return validElectron;
 }
 
-bool HttValidElectronsProducer::IsMVAGeneralPurposeSpring16(KElectron* electron, event_type const& event, bool tightID) const
+bool HttValidElectronsProducer::CheckElectronMetadata(const KElectronMetadata *meta, std::string idName, bool &checkedAlready) const
 {
-	bool validElectron = true;
+	if(!checkedAlready && !Utility::Contains(meta->idNames, idName))
+		LOG(FATAL) << "HttValidElectronsProducer::CheckElectronMetadata: could not find following Id in electron metadata. " << idName << std::endl;
 
-	// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
-	// pT always greater than 10 GeV
-	// TODO: cut-values should be made configurable via json file
-	validElectron = validElectron &&
-		(
-			(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values", event.m_electronMetadata) > (tightID ? 0.941 : 0.837))
-			||
-			(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values", event.m_electronMetadata) > (tightID ? 0.899 : 0.715))
-			||
-			(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values", event.m_electronMetadata) > (tightID ? 0.758 : 0.357))
-		);
+	checkedAlready = true;
 
-	return validElectron;
+	return checkedAlready;
 }
 
 std::string HttValidElectronsProducer::ChooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const
@@ -460,6 +463,8 @@ std::string HttValidElectronsProducer::ChooseMvaNonTrigId(const KElectronMetadat
 		stringID = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigValues";
 	else if (Utility::Contains(meta->idNames, std::string("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values")))
 		stringID = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values";
+	else if (Utility::Contains(meta->idNames, std::string("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values")))
+		stringID = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values";
 	else
 		LOG(FATAL) << "HttValidElectronsProducer::ChooseMvaNotTrigId: could not find any Id" << std::endl;
 
@@ -471,6 +476,10 @@ HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 		std::vector<KElectron*> product_type::*invalidElectrons,
 		std::string (setting_type::*GetElectronID)(void) const,
 		std::string (setting_type::*GetElectronIDType)(void) const,
+		std::string (setting_type::*GetElectronIDName)(void) const,
+		float (setting_type::*GetElectronMvaIDCutEB1)(void) const,
+		float (setting_type::*GetElectronMvaIDCutEB2)(void) const,
+		float (setting_type::*GetElectronMvaIDCutEE)(void) const,
 		std::string (setting_type::*GetElectronIsoType)(void) const,
 		std::string (setting_type::*GetElectronIso)(void) const,
 		std::string (setting_type::*GetElectronReco)(void) const,
@@ -499,6 +508,10 @@ HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 	                          invalidElectrons,
 	                          GetElectronID,
 	                          GetElectronIDType,
+	                          GetElectronIDName,
+	                          GetElectronMvaIDCutEB1,
+	                          GetElectronMvaIDCutEB2,
+	                          GetElectronMvaIDCutEE,
 	                          GetElectronIsoType,
 	                          GetElectronIso,
 	                          GetElectronReco,
@@ -532,6 +545,10 @@ HttValidVetoElectronsProducer::HttValidVetoElectronsProducer(
 		std::vector<KElectron*> product_type::*invalidElectrons,
 		std::string (setting_type::*GetElectronID)(void) const,
 		std::string (setting_type::*GetElectronIDType)(void) const,
+		std::string (setting_type::*GetElectronIDName)(void) const,
+		float (setting_type::*GetElectronMvaIDCutEB1)(void) const,
+		float (setting_type::*GetElectronMvaIDCutEB2)(void) const,
+		float (setting_type::*GetElectronMvaIDCutEE)(void) const,
 		std::string (setting_type::*GetElectronIsoType)(void) const,
 		std::string (setting_type::*GetElectronIso)(void) const,
 		std::string (setting_type::*GetElectronReco)(void) const,
@@ -560,6 +577,10 @@ HttValidVetoElectronsProducer::HttValidVetoElectronsProducer(
 	                          invalidElectrons,
 	                          GetElectronID,
 	                          GetElectronIDType,
+	                          GetElectronIDName,
+	                          GetElectronMvaIDCutEB1,
+	                          GetElectronMvaIDCutEB2,
+	                          GetElectronMvaIDCutEE,
 	                          GetElectronIsoType,
 	                          GetElectronIso,
 	                          GetElectronReco,
