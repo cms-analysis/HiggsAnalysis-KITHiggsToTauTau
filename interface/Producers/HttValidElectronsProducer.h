@@ -62,6 +62,8 @@ public:
 		SUMMER16CUTBASEDMEDIUM = 17,
 		SUMMER16CUTBASEDTIGHT = 18,
 		SUMMER16CUTBASEDVETO = 19,
+		MVAGENERALPURPOSESPRING16LOOSE = 20,
+		MVAGENERALPURPOSESPRING16TIGHT = 21
 	};
 	enum class WorkingPoint : int
 	{
@@ -92,6 +94,8 @@ public:
 		else if (electronIDType == "summer16cutbasedmedium") return ElectronIDType::SUMMER16CUTBASEDMEDIUM;
 		else if (electronIDType == "summer16cutbasedtight") return ElectronIDType::SUMMER16CUTBASEDTIGHT;
 		else if (electronIDType == "summer16cutbasedveto") return ElectronIDType::SUMMER16CUTBASEDVETO;
+		else if (electronIDType == "mvageneralpurposespring16loose") return ElectronIDType::MVAGENERALPURPOSESPRING16LOOSE;
+		else if (electronIDType == "mvageneralpusposespring16tight") return ElectronIDType::MVAGENERALPURPOSESPRING16TIGHT;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else
 			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;
@@ -168,6 +172,7 @@ private:
 	bool IsCutBasedSummer16(KElectron* electron, event_type const& event, WorkingPoint wp) const;
 	bool IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigSpring15(KElectron* electron, event_type const& event, bool tightID) const;
+	bool IsMVAGeneralPurposeSpring16(KElectron* electron, event_type const& event, bool tightID) const;
 	std::string ChooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const;
 	std::string ChooseMvaNonTrigId(const KElectronMetadata *meta) const;
 };

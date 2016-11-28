@@ -190,6 +190,14 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			validElectron = validElectron && IsCutBasedSummer16(&(*electron), event, WorkingPoint::VETO);
 		}
+		else if (electronIDType == ElectronIDType::MVAGENERALPURPOSESPRING16LOOSE)
+		{
+			validElectron = validElectron && IsMVAGeneralPurposeSpring16(&(*electron), event, false);
+		}
+		else if (electronIDType == ElectronIDType::MVAGENERALPURPOSESPRING16TIGHT)
+		{
+			validElectron = validElectron && IsMVAGeneralPurposeSpring16(&(*electron), event, true);
+		}
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
 	}
@@ -349,6 +357,25 @@ bool HttValidElectronsProducer::IsMVANonTrigSpring15(KElectron* electron, event_
 			(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId(ChooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID? 0.929117 : 0.805013))
 			||
 			(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId(ChooseMvaNonTrigId(event.m_electronMetadata), event.m_electronMetadata) > (tightID ? 0.726311 : 0.358969))
+		);
+
+	return validElectron;
+}
+
+bool HttValidElectronsProducer::IsMVAGeneralPurposeSpring16(KElectron* electron, event_type const& event, bool tightID) const
+{
+	bool validElectron = true;
+
+	// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
+	// pT always greater than 10 GeV
+	// TODO: cut-values should be made configurable via json file
+	validElectron = validElectron &&
+		(
+			(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values", event.m_electronMetadata) > (tightID ? 0.941 : 0.837))
+			||
+			(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values", event.m_electronMetadata) > (tightID ? 0.899 : 0.715))
+			||
+			(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values", event.m_electronMetadata) > (tightID ? 0.758 : 0.357))
 		);
 
 	return validElectron;
