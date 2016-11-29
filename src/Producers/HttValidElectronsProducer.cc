@@ -161,51 +161,11 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			validElectron = validElectron && IsMVANonTrigPhys14(&(*electron), event, true);
 		}
-		else if (electronIDType == ElectronIDType::SPRING15CUTBASEDLOOSE)
+		else if (electronIDType == ElectronIDType::CUTBASED2015ANDLATER)
 		{
 			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
 		}
-		else if (electronIDType == ElectronIDType::SPRING15CUTBASEDMEDIUM)
-		{
-			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::SPRING15CUTBASEDTIGHT)
-		{
-			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::SPRING15CUTBASEDVETO)
-		{
-			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::MVANONTRIGSPRING15LOOSE)
-		{
-			validElectron = validElectron && IsMVABased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::MVANONTRIGSPRING15TIGHT)
-		{
-			validElectron = validElectron && IsMVABased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDLOOSE)
-		{
-			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDMEDIUM)
-		{
-			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDTIGHT)
-		{
-			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::SUMMER16CUTBASEDVETO)
-		{
-			validElectron = validElectron && IsCutBased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::MVAGENERALPURPOSESPRING16LOOSE)
-		{
-			validElectron = validElectron && IsMVABased(&(*electron), event, settings);
-		}
-		else if (electronIDType == ElectronIDType::MVAGENERALPURPOSESPRING16TIGHT)
+		else if (electronIDType == ElectronIDType::MVABASED2015ANDLATER)
 		{
 			validElectron = validElectron && IsMVABased(&(*electron), event, settings);
 		}

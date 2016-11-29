@@ -8,7 +8,7 @@
 	"ElectronIDType" : {
 		"nick" : {
 			"default" : "none",
-			"(Spring15|Fall15|Spring16)" : "mvanontrigspring15tight"
+			"(Spring15|Fall15|Spring16)" : "mvabased2015andlater"
 		}
 	},
 	"ElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
