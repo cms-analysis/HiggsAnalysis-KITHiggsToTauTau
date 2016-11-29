@@ -1867,8 +1867,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 
-	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False,
-	        lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
+	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
 		
 		if exclude_cuts is None:
 			exclude_cuts = []
