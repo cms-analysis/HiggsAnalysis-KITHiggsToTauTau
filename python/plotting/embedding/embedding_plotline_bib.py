@@ -3,7 +3,6 @@
 import HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plot_classes as pltcl
  
 ## Vertex Refitting Check for Muon Embedding
-
 vtx_corrected_MM = pltcl.single_plotline(
 	name = "vtx_corrected_MM",
 	num_file = "/portal/ekpcms5/home/akhmet/CMSSW_7_4_7/src/EmbeddingVertexCorrection.root",
@@ -104,7 +103,6 @@ DoubleMuonEmbeddedPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 	name = "DoubleMuonEmbeddedPtFlowHistograms",
 	#num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-36_analysis/merged/embedded/embedded.root",
 	num_file = "embedded.root",
-
 	label = "#mu#rightarrow#mu embedded",
 	#scale_factor = 1./2408535.,
 	scale_factor = 1.,
@@ -114,7 +112,8 @@ DoubleMuonMirroredPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 	name = "DoubleMuonMirroredPtFlowHistograms",
 	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-46_analysis/merged/mirrored/mirrored.root",
 	label = "#splitline{#mu#rightarrow#mu embedded}{w. mirroring}",
-	scale_factor = 1./2424583.,
+	#scale_factor = 1./2424583.,
+	scale_factor = 1.,
 	color = "kBlue")
 
 DoubleMuonRandomPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(

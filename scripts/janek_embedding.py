@@ -57,7 +57,7 @@ if __name__ == "__main__":
 	selection_check_lMu_PPV_peak = selection_check_lMu_PPV.clone(
 		name = "selection_check_lMu_PPV_peak",
 		legend = data_embedded_mirrored_random_legend_upper_left,
-		title = "general selection & peak region"
+		title = "DeltaR 0.21-0.22 & peak region"
 		)
 	
 	configs.extend(selection_check_lMu_PPV_peak.return_json_with_changed_x_and_weight(
