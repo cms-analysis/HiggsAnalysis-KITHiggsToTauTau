@@ -14,6 +14,7 @@
 	"ElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
 	"ElectronMvaIDCutEB1" : 0.967083,
 	"ElectronMvaIDCutEB2" : 0.929117,
+	"ElectronMvaIDCutEE" : 0.726311,
 	"ElectronIDList" : [
 		"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
 		"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto",
