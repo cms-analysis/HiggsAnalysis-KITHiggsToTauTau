@@ -19,9 +19,9 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 from Artus.Utility.tools import make_multiplication, clean_multiplication
 
-def merge(p):
-	for i in range(len(p) - 1):
-			p[0] = sample_settings.merge_configs(p[0], p[i + 1])
+def merge(config_list):
+	for i in range(len(config_list) - 1):
+			config_list[0] = sample_settings.merge_configs(config_list[0], config_list[i + 1])
 
 if __name__ == "__main__":
 
@@ -144,7 +144,7 @@ if __name__ == "__main__":
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
+
 	lheweights_names = []
 	pdfkey = args.pdfkey
 	addpdfs = args.addpdfs
@@ -203,7 +203,7 @@ if __name__ == "__main__":
 
 
 	log.debug("used bkg + signal nicks")
-	log.debug(" ".join(bkg_samples+sig_samples))
+	log.debug(" ".join(bkg_samples + sig_samples))
 	binnings_settings = binnings.BinningsDict()
 
 
@@ -228,10 +228,13 @@ if __name__ == "__main__":
 		else:	category_string = None
 		config = sample_settings.get_config( samples = list_of_samples, channel = args.channels[0], category = category_string )
 		file_name = args.input_dir + config['files'][0].split()[6]
+		print "file_name", file_name
 		file_name = glob.glob(file_name)[0]
 		if log.isEnabledFor(logging.DEBUG): print "lheweight picked up from file: ", file_name
 		root_file = ROOT.TFile(file_name, "READ")
-		eventTree = ROOT.gDirectory.Get(sample_settings.root_file_folder("inclusive"))
+		#print dir(sample_settings)
+		#print help(sample_settings)
+		eventTree = ROOT.gDirectory.Get(sample_settings.root_file_folder("tt"))
 		n_entries = eventTree.GetEntries()
 		list_of_leaves = eventTree.GetListOfLeaves()
 
@@ -293,8 +296,8 @@ if __name__ == "__main__":
 							cut_type = global_cut_type,
 							nick_suffix = "_" + category + "_" + lheweight,
 					)
-
-					config['files'] = [config['files'][0].split()[6]] #temporary! for running only on one merged DYM50 sample
+					print config["files"][0]
+					if args.era == "2016": config["files"] = [config["files"][0].split()[6]] #temporary! for running only on one merged DYM50 sample
 					config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 					config["category"] = category
 
@@ -402,7 +405,7 @@ if __name__ == "__main__":
 					if "muF" in lheweight:
 						log.debug("\t\t\t\tplot_configs_scale_only")
 						plot_configs_scale_only[category].append(config)
-					
+	
 	if log.isEnabledFor(logging.DEBUG): pprint.pprint(plot_configs)
 
 	# Saving configuration into separate files
@@ -416,14 +419,17 @@ if __name__ == "__main__":
 		log.debug(category)
 		for (key, value) in configs_dict.items():
 			merge(value[category])
-			print args.quantities[0] + key + str(category)
-			value[category][0]["filename"] = args.samples + args.quantities[0] + key + str(category)
+			if category != 'inclusive' and 'inclusive' in args.categories: 
+				value[category][0] = sample_settings.merge_configs(value[category][0], value['inclusive'][0])
+			log.debug(args.quantities[0] + key + str(category))
+			value[category][0]["filename"] = args.samples[0] + args.quantities[0] + key + str(category)
 			
 			fout = open("merged" + key + str(category) + ".json", "w")
 			fout.write(pprint.pformat(value[category][0]).replace("u'D", "'D").replace("'", '"'))
 
 	if log.isEnabledFor(logging.DEBUG): print "Addititonal args for the configuration files:", [args.args]
 	# This is not working BECAUSE of the single quotes. 
-	higgsplot.HiggsPlotter(list_of_config_dicts=configs_dict.values(), list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	#pprint.pprint([configs_dict.values()[0][0]])
+	higgsplot.HiggsPlotter(list_of_config_dicts=[configs_dict["_all_"][args.categories[0]][0]], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs[args.categories[0]][0], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
