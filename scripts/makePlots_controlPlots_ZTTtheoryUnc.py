@@ -144,7 +144,7 @@ if __name__ == "__main__":
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
-
+	
 	lheweights_names = []
 	pdfkey = args.pdfkey
 	addpdfs = args.addpdfs
@@ -291,7 +291,7 @@ if __name__ == "__main__":
 							mssm = args.mssm,
 							controlregions = args.controlregions,
 							cut_type = global_cut_type,
-							nick_suffix = "_" + category + "_" + lheweight
+							nick_suffix = "_" + category + "_" + lheweight,
 					)
 
 					config['files'] = [config['files'][0].split()[6]] #temporary! for running only on one merged DYM50 sample
@@ -377,7 +377,7 @@ if __name__ == "__main__":
 							hmass_temp = int(args.higgs_masses[0])
 						sig_nick = "htt%i"%hmass_temp
 						bkg_samples_used.append(sig_nick)
-						config["full_integral_nicks"]=[" ".join(bkg_samples_used)]
+						config["full_integral_nicks"] = [" ".join(bkg_samples_used)]
 						config["analysis_modules"].append("FullIntegral")
 
 					config["output_dir"] = os.path.expandvars(os.path.join(
@@ -386,8 +386,7 @@ if __name__ == "__main__":
 							category if len(args.categories) > 1 else ""
 					))
 					
-					if not args.www is None:
-						config["www"] = os.path.join(args.www, channel, "" if category is None else category)
+					if args.www is not None: config["www"] = os.path.join(args.www, channel, "" if category is None else category)
 
 					config.update(json_config)
 
@@ -395,13 +394,13 @@ if __name__ == "__main__":
 					plot_configs[category].append(config)
 					if log.isEnabledFor(logging.DEBUG): print "\t\t\t", lheweight
 					if pdfkey == "_".join(lheweight.split("_")[:-2]):
-						if log.isEnabledFor(logging.DEBUG): print "\t\t\t\t", "plot_configs_pdf_only"
+						log.debug("\t\t\t\tplot_configs_pdf_only")
 						plot_configs_pdf_only[category].append(config)
 					if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs:
-						if log.isEnabledFor(logging.DEBUG): print "\t\t\t\t", "plot_configs_alphas_only"
+						log.debug("\t\t\t\tplot_configs_alphas_only")
 						plot_configs_alphas_only[category].append(config)
 					if "muF" in lheweight:
-						if log.isEnabledFor(logging.DEBUG): print "\t\t\t\t", "plot_configs_scale_only"
+						log.debug("\t\t\t\tplot_configs_scale_only")
 						plot_configs_scale_only[category].append(config)
 					
 	if log.isEnabledFor(logging.DEBUG): pprint.pprint(plot_configs)
@@ -414,13 +413,17 @@ if __name__ == "__main__":
 					"_scale_only_": plot_configs_scale_only
 					}
 	for category in args.categories:
-		if log.isEnabledFor(logging.DEBUG): print category
+		log.debug(category)
 		for (key, value) in configs_dict.items():
 			merge(value[category])
+			print args.quantities[0] + key + str(category)
+			value[category][0]["filename"] = args.samples + args.quantities[0] + key + str(category)
+			
 			fout = open("merged" + key + str(category) + ".json", "w")
 			fout.write(pprint.pformat(value[category][0]).replace("u'D", "'D").replace("'", '"'))
 
 	if log.isEnabledFor(logging.DEBUG): print "Addititonal args for the configuration files:", [args.args]
 	# This is not working BECAUSE of the single quotes. 
-	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs[0], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	higgsplot.HiggsPlotter(list_of_config_dicts=configs_dict.values(), list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs[args.categories[0]][0], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
