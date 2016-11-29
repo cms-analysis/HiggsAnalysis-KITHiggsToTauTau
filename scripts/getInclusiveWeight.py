@@ -134,7 +134,7 @@ def main():
 	parser.add_argument("--channels", default=["em", "et" ,"mt", "tt"], nargs="+", help="Channels. [Default: %(default)s]") # for the Z->ll : ["et", "mt", "tt", "em", "mm"]
 	parser.add_argument("--categories", default=["0jet_low", "0jet_high", "1jet_low", "1jet_high", "2jet_vbf"], nargs="+", help="Channels. [Default: %(default)s]") # for Htt
 	parser.add_argument("--process", default="", help="Process Name [Default: %(default)s]. Possible options: GluGlu, VBF, Wminus, Wplus, ZH, DY")
-	parser.add_argument("--pdfkey", default="NNPDF30", help="PDF set  KEY Name [Default: %(default)s]")# Htt : NNPDF30
+	parser.add_argument("--pdfkey", default="NNPDF30_nlo_as_0118", help="PDF set  KEY Name [Default: %(default)s]")# Htt : NNPDF30
 	parser.add_argument("--addpdfs", default=["NNPDF30_nlo_as_0119_weight", "NNPDF30_nlo_as_0117_weight"], help="PDF set Name [Default: %(default)s]")# NNPDF30_nlo_as_0119_weight NNPDF30_nlo_as_0118_00_weight NNPDF30_nlo_as_0117_weight
 	parser.add_argument("--cut_type", default="baseline2016", help="Selection type [Default: %(default)s]")# By changes add: if "2016" in os.path.basename(input_file): cut_type = "baseline2016"
 	parser.add_argument("--nevents", default="-1", help="Number of events to process with count() [Default: %(default)s]")
