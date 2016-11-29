@@ -117,7 +117,8 @@ public:
 			float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEB)(void) const=&setting_type::GetElectronIsoPtSumOverPtUpperThresholdEB,
 			float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const=&setting_type::GetElectronIsoPtSumOverPtUpperThresholdEE,
 			float (setting_type::*GetElectronTrackDxyCut)(void) const=&setting_type::GetElectronTrackDxyCut,
-			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetElectronTrackDzCut
+			float (setting_type::*GetElectronTrackDzCut)(void) const=&setting_type::GetElectronTrackDzCut,
+			std::vector<std::string>& (setting_type::*GetElectronIDList)(void) const=&setting_type::GetElectronIDList
 	);
 
 	virtual void Init(setting_type const& settings) override;
@@ -154,20 +155,30 @@ private:
 	float (setting_type::*GetElectronIsoPtSumOverPtUpperThresholdEE)(void) const;
 	float (setting_type::*GetElectronTrackDxyCut)(void) const;
 	float (setting_type::*GetElectronTrackDzCut)(void) const;
+	std::vector<std::string>& (setting_type::*GetElectronIDList)(void) const;
 
 	ElectronIDType electronIDType;
 	
-	mutable bool checkedElectronMetadata;
+	mutable bool electronIDListInMetadata;
+	mutable bool electronIDInMetadata;
+
+	std::string electronIDName;
+	std::vector<std::string> electronIDList;
+
+	float electronMvaIDCutEB1;
+	float electronMvaIDCutEB2;
+	float electronMvaIDCutEE;
 
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const;
-	bool IsCutBased(KElectron* electron, event_type const& event, setting_type const& settings) const;
+	bool IsCutBased(KElectron* electron, event_type const& event, const std::string &idName) const;
 	bool IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const;
-	bool IsMVABased(KElectron* electron, event_type const& event, setting_type const& settings) const;
+	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const;
 	std::string ChooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const;
 	std::string ChooseMvaNonTrigId(const KElectronMetadata *meta) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::string idName, bool &checkedAlready) const;
+	bool CheckElectronMetadata(const KElectronMetadata *meta, std::vector<std::string> idNames, bool &checkedAlready) const;
 };
 
 
