@@ -7,6 +7,10 @@
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : 0,
+		"MetSysShift": 0.0,
 		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
 	},
 	"jecUncNom_tauEsUp" : {
@@ -19,16 +23,19 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV|W.?JetsToLNu).*(?=Fall15)" : 1.03,
-				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)" : 1.015
+				"(HToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV).*(?=Fall15)" : 1.03
 			}
 		},
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : 0,
+		"MetSysShift": 0.0,
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncNom_tauEsNom",
-		        "HToTauTau|DY.?JetsToLL" : "jecUncNom_tauEsUp"
-            }
-        }
+		        "(HToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV).*(?=Fall15)" : "jecUncNom_tauEsUp"
+			}
+		}
 	},
 	"jecUncNom_tauEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -40,45 +47,230 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV|W.?JetsToLNu).*(?=Fall15)" : 0.97,
-				"(HToTauTau|DY.?JetsToLL).*(?=Spring16)" : 0.985
+				"(HToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV).*(?=Fall15)" : 0.97
 			}
 		},
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : 0,
+		"MetSysShift": 0.0,
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncNom_tauEsNom",
-		        "HToTauTau|DY.?JetsToLL" : "jecUncNom_tauEsDown"
-            }
-        }
+		        "(HToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV).*(?=Fall15)" : "jecUncNom_tauEsDown"
+			}
+		}
 	},
-	"jecUncUp_tauEsNom" : {
+	"jecUncNom_tauEsNom_eleEsUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 1.03
+			}
+		},
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : 0,
+		"MetSysShift": 0.0,
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncNom_tauEsNom",
+		        "DY.?JetsToLL" : "jecUncNom_tauEsNom_eleEsUp"
+			}
+		}
+	},
+	"jecUncNom_tauEsNom_eleEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 0.97
+			}
+		},
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : 0,
+		"MetSysShift": 0.0,
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncNom_tauEsNom",
+		        "DY.?JetsToLL" : "jecUncNom_tauEsNom_eleEsDown"
+			}
+		}
+	},
+	"jecUncNom_tauEsNom_muonEsUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 1.03
+			}
+		},
+		"MetSysType" : 0,
+		"MetSysShift": 0.0,
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncNom_tauEsNom",
+		        "DY.?JetsToLL" : "jecUncNom_tauEsNom_muonEsUp"
+			}
+		}
+	},
+	"jecUncNom_tauEsNom_muonEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"DY.?JetsToLL" : 0.97
+			}
+		},
+		"MetSysType" : 0,
+		"MetSysShift": 0.0,
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "default" : "jecUncNom_tauEsNom",
+		        "DY.?JetsToLL" : "jecUncNom_tauEsNom_muonEsDown"
+			}
+		}
+	},
+	"jecUncNom_tauEsNom_metResponseUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 1
+			}
+		},
+		"MetSysShift": {
+			"nick" : {
+				"Run201" : 0,
 				"default" : 1.0
 			}
 		},
-		"TauEnergyCorrectionShift" : 1.0,
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
-		        "default" : "jecUncUp_tauEsNom",
-		        "Run201" : "jecUncNom_tauEsNom"
-            }
-        }
+		        "Run201" : "jecUncNom_tauEsNom",
+		        "default" : "jecUncNom_tauEsNom_metResponseUp"
+			}
+		}
 	},
-	"jecUncDown_tauEsNom" : {
+	"jecUncNom_tauEsNom_metResponseDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201" : 0.0,
-				"default" : -1.0
+				"default" : 0.0
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 1
+			}
+		},
+		"MetSysShift": {
+			"nick" : {
+				"Run201" : 0,
+				"default" : -1.0
+			}
+		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
-		        "default" : "jecUncDown_tauEsNom",
-		        "Run201" : "jecUncNom_tauEsNom"
-            }
-        }
+		        "Run201" : "jecUncNom_tauEsNom",
+		        "default" : "jecUncNom_tauEsNom_metResponseDown"
+			}
+		}
+	},
+	"jecUncNom_tauEsNom_metResolutionUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 2
+			}
+		},
+		"MetSysShift": {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 1.0
+			}
+		},
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "Run201" : "jecUncNom_tauEsNom",
+		        "default" : "jecUncNom_tauEsNom_metResolutionUp"
+			}
+		}
+	},
+	"jecUncNom_tauEsNom_metResolutionDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"TauEnergyCorrectionShift" : 1.0,
+		"ElectronEnergyCorrectionShift" : 1.0,
+		"MuonEnergyCorrectionShift" : 1.0,
+		"MetSysType" : {
+			"nick" : {
+				"Run201" : 0,
+				"default" : 2
+			}
+		},
+		"MetSysShift": {
+			"nick" : {
+				"Run201" : 0,
+				"default" : -1.0
+			}
+		},
+		"SvfitCacheFileFolder" : {
+		    "nick" : {
+		        "Run201" : "jecUncNom_tauEsNom",
+		        "default" : "jecUncNom_tauEsNom_metResolutionDown"
+			}
+		}
 	}
 }
