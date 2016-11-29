@@ -118,7 +118,7 @@ void EmbeddingConsumer::FillPtFlowHistogram(std::map<std::string, TH1F*> histmap
 	{
 		
 		double deltaR = ROOT::Math::VectorUtil::DeltaR(muon->p4, (*pfCandidate)->p4);
-		if ((deltaR > 0.21) && (deltaR <= 0.22))
+		if ((deltaR > 0.01) && (deltaR <= 0.02))
 		{
 			sumPt+=(*pfCandidate)->p4.Pt();
 			//histmap[region]->Fill((*pfCandidate)->p4.Pt());
