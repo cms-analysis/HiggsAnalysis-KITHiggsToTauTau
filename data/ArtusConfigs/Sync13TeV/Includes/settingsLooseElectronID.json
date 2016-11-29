@@ -9,7 +9,7 @@
 	"LooseElectronIDType" : {
 		"nick" : {
 			"default" : "none",
-			"(Spring15|Fall15|Spring16)" : "mvanontrigspring15loose"
+			"(Spring15|Fall15|Spring16)" : "mvabased2015andlater"
 		}
 	},
 	"LooseElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",

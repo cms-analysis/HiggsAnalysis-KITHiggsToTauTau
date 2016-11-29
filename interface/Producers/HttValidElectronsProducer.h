@@ -42,7 +42,6 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 
-	// This is not really needed for 2015 and later any longer
 	enum class ElectronIDType : int
 	{
 		INVALID = -2,
@@ -57,18 +56,8 @@ public:
 		PHYS14CUTBASEDVETO = 7,
 		MVANONTRIGPHYS14LOOSE = 8,
 		MVANONTRIGPHYS14TIGHT = 9,
-		SPRING15CUTBASEDLOOSE = 10,
-		SPRING15CUTBASEDMEDIUM = 11,
-		SPRING15CUTBASEDTIGHT = 12,
-		SPRING15CUTBASEDVETO = 13,
-		MVANONTRIGSPRING15LOOSE = 14,
-		MVANONTRIGSPRING15TIGHT = 15,
-		SUMMER16CUTBASEDLOOSE = 16,
-		SUMMER16CUTBASEDMEDIUM = 17,
-		SUMMER16CUTBASEDTIGHT = 18,
-		SUMMER16CUTBASEDVETO = 19,
-		MVAGENERALPURPOSESPRING16LOOSE = 20,
-		MVAGENERALPURPOSESPRING16TIGHT = 21
+		CUTBASED2015ANDLATER = 10,
+		MVABASED2015ANDLATER = 11
 	};
 	enum class WorkingPoint : int
 	{
@@ -89,18 +78,8 @@ public:
 		else if (electronIDType == "phys14cutbasedveto") return ElectronIDType::PHYS14CUTBASEDVETO;
 		else if (electronIDType == "mvanontrigphys14loose") return ElectronIDType::MVANONTRIGPHYS14LOOSE;
 		else if (electronIDType == "mvanontrigphys14tight") return ElectronIDType::MVANONTRIGPHYS14TIGHT;
-		else if (electronIDType == "spring15cutbasedloose") return ElectronIDType::SPRING15CUTBASEDLOOSE;
-		else if (electronIDType == "spring15cutbasedmedium") return ElectronIDType::SPRING15CUTBASEDMEDIUM;
-		else if (electronIDType == "spring15cutbasedtight") return ElectronIDType::SPRING15CUTBASEDTIGHT;
-		else if (electronIDType == "spring15cutbasedveto") return ElectronIDType::SPRING15CUTBASEDVETO;
-		else if (electronIDType == "mvanontrigspring15loose") return ElectronIDType::MVANONTRIGSPRING15LOOSE;
-		else if (electronIDType == "mvanontrigspring15tight") return ElectronIDType::MVANONTRIGSPRING15TIGHT;
-		else if (electronIDType == "summer16cutbasedloose") return ElectronIDType::SUMMER16CUTBASEDLOOSE;
-		else if (electronIDType == "summer16cutbasedmedium") return ElectronIDType::SUMMER16CUTBASEDMEDIUM;
-		else if (electronIDType == "summer16cutbasedtight") return ElectronIDType::SUMMER16CUTBASEDTIGHT;
-		else if (electronIDType == "summer16cutbasedveto") return ElectronIDType::SUMMER16CUTBASEDVETO;
-		else if (electronIDType == "mvageneralpurposespring16loose") return ElectronIDType::MVAGENERALPURPOSESPRING16LOOSE;
-		else if (electronIDType == "mvageneralpurposespring16tight") return ElectronIDType::MVAGENERALPURPOSESPRING16TIGHT;
+		else if (electronIDType == "cutbased2015andlater") return ElectronIDType::CUTBASED2015ANDLATER;
+		else if (electronIDType == "mvabased2015andlater") return ElectronIDType::MVABASED2015ANDLATER;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else
 			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;

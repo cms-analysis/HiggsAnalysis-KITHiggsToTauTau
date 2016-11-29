@@ -6,12 +6,7 @@
 	"ElectronReco" : "mvanontrig",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : {
-		"nick" : {
-			"default" : "mvageneralpurposespring16tight",
-			"(Run2015|Fall15MiniAODv2)" : "mvanontrigspring15tight"
-		}
-	},
+	"ElectronIDType" : "mvabased2015andlater",
 	"ElectronIDName" : {
 		"nick" : {
 			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",

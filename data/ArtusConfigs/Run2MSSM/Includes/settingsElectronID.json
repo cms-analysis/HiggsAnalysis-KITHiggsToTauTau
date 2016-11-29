@@ -6,7 +6,7 @@
 	"ElectronReco" : "mvanontrig",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "mvanontrigspring15tight",
+	"ElectronIDType" : "mvabased2015andlater",
 	"ElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
 	"ElectronMvaIDCutEB1" : 0.967083,
 	"ElectronMvaIDCutEB2" : 0.929117,
