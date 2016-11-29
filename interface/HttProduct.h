@@ -177,6 +177,14 @@ public:
 	RMFLV m_diTauSystem;
 	ROOT::Math::Boost m_boostToDiTauRestFrame;
 	bool m_diTauSystemReconstructed = false;
+	
+	// filled by the BoostRestFrameProducer
+	std::map<KLepton*, RMFLV> m_leptonsBoostToDiLeptonSystem;
+	std::map<KLepton*, RMFLV> m_leptonsBoostToDiTauSystem;
+	std::map<RMFLV*, RMFLV> m_tausBoostToDiTauSystem;
+	std::map<KGenTau*, RMFLV> m_genVisTausBoostToGenDiLeptonSystem;
+	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiLeptonSystem;
+	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiTauSystem;
 
 	// filled by GenTauCPProducer
 	double m_genZMinus  = DefaultValues::UndefinedDouble;
