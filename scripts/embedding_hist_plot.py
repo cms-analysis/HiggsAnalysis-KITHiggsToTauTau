@@ -32,22 +32,23 @@ if __name__ == "__main__":
 	selection_check_lMu_PPV = pltcl.single_plot(
 		#num_file = args.input_file,
 		name = "selection_check_lMu_PPV",
-		title = "general selection",
+		#title = "DeltaR 0.21-0.22",
+		title = "#DeltaR in [0.21,0.22]; full region",
 		x_expression = "PtFlow",
 		x_bins = "40,0.,4.",
 		normalized_by_binwidth = False,
 		wwwfolder = "",
-		legend = data_embedded_mirrored_random_legend_lower_right,
+		legend = data_embedded_mirrored_random_legend_upper_right,
 		plot_type = "absolute",
-		y_lims = [5,3e6],
+		y_lims = [1,3e6],
 		subplot_denominator = 0,
 		subplot_numerators = [],
 		y_subplot_lims = [0.85,1.15],
 		y_subplot_label = "Ratio",
 		y_label = "Events",
-		x_label = "p_{T}-flow [GeV]",
+		x_label = "p_{T}-flow (photons) [GeV]",
 		y_log = True,
-		plotlines = [DoubleMuonEmbeddedPtFlowHistograms],
+		plotlines = [DoubleMuonSelectedPtFlowHistograms, DoubleMuonMirroredPtFlowHistograms, DoubleMuonRandomPtFlowHistograms, DoubleMuonEmbeddedPtFlowHistograms],
 		)
 	
 	configs.extend(selection_check_lMu_PPV.return_json_with_changed_x_and_weight(
@@ -56,8 +57,9 @@ if __name__ == "__main__":
 	
 	selection_check_lMu_PPV_peak = selection_check_lMu_PPV.clone(
 		name = "selection_check_lMu_PPV_peak",
-		legend = data_embedded_mirrored_random_legend_upper_left,
-		title = "DeltaR 0.21-0.22 & peak region"
+		legend = data_embedded_mirrored_random_legend_upper_right,
+		title = "#DeltaR in [0.21,0.22]; peak region (#pm 10 GeV)",
+		#title = "DeltaR 0.21-0.22 & peak region"
 		)
 	
 	configs.extend(selection_check_lMu_PPV_peak.return_json_with_changed_x_and_weight(
@@ -66,8 +68,9 @@ if __name__ == "__main__":
 	
 	selection_check_lMu_PPV_sideband = selection_check_lMu_PPV.clone(
 		name = "selection_check_lMu_PPV_sideband",
-		legend = data_embedded_mirrored_random_legend_upper_left,
-		title = "general selection & sideband region"
+		legend = data_embedded_mirrored_random_legend_upper_right,
+		title = "#DeltaR in [0.21,0.22]; sideband region (#pm 10 GeV)",
+		#title = "DeltaR 0.21-0.22 & sideband region"
 		)
 	
 	configs.extend(selection_check_lMu_PPV_sideband.return_json_with_changed_x_and_weight(

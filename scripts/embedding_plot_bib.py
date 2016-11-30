@@ -420,7 +420,7 @@ selection_check_ZMass = pltcl.single_plot(
 	y_subplot_label = "Ratio",
 	plotlines = [DoubleMuonSelectedValidation, DoubleMuonEmbeddedValidation, DoubleMuonMirroredValidation]
 )
-
+'''
 #configs.extend(selection_check_ZMass.return_json_with_changed_x_and_weight(x_expressions = ["ZMass"]))
 
 fsr_ZMass = selection_check_ZMass.clone(
@@ -965,6 +965,6 @@ ElMuIntegrals = MuTauIntegrals.clone(
 )
 
 #configs.extend(ElMuIntegrals.return_json_with_changed_x_and_weight(x_expressions = ["m_vis"]))
-
+'''
 
 higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=configs, list_of_args_strings=[""])

@@ -91,12 +91,12 @@ DoubleMuonFSRfsrMuons = DoubleMuonSelectedValidation.clone(
 
 DoubleMuonSelectedPtFlowHistograms = pltcl.single_plotline(
 	name = "DoubleMuonSelectedPtFlowHistograms",
-	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-45_analysis/merged/selected/selected.root",
+	num_file = "selected.root",
 	num_folder = "zmumu_selection_for_embedding",
 	den_folder = "zmumu_selection_for_embedding",
 	num_tree = "",
 	label = "data ",
-	scale_factor = 1./2450930.,
+	scale_factor = 1.,
 	color = "kBlack")
 
 DoubleMuonEmbeddedPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
@@ -110,7 +110,7 @@ DoubleMuonEmbeddedPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 
 DoubleMuonMirroredPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 	name = "DoubleMuonMirroredPtFlowHistograms",
-	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-46_analysis/merged/mirrored/mirrored.root",
+	num_file = "mirrored.root",
 	label = "#splitline{#mu#rightarrow#mu embedded}{w. mirroring}",
 	#scale_factor = 1./2424583.,
 	scale_factor = 1.,
@@ -118,8 +118,9 @@ DoubleMuonMirroredPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 
 DoubleMuonRandomPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 	name = "DoubleMuonMirroredPtFlowHistograms",
-	num_file = "/portal/ekpbms1/home/akhmet/2016-10-11_23-51_analysis/merged/random/random.root",
+	num_file = "random.root",
 	label = "random direction",
+	scale_factor = 1.,
 	color = "kGray+2")
 
 
