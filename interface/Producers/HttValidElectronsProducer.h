@@ -31,6 +31,7 @@
    - ElectronIsoPtSumOverPtLowerThresholdEE
    - ElectronIsoPtSumOverPtUpperThresholdEB
    - ElectronIsoPtSumOverPtUpperThresholdEE
+   - ElectronIDList (default given)
 */
 
 class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
@@ -50,21 +51,8 @@ public:
 		SUMMER2013TIGHT = 1,
 		SUMMER2013TTHTIGHT = 2,
 		SUMMER2013TTHLOOSE = 3,
-		PHYS14CUTBASEDLOOSE = 4,
-		PHYS14CUTBASEDMEDIUM = 5,
-		PHYS14CUTBASEDTIGHT = 6,
-		PHYS14CUTBASEDVETO = 7,
-		MVANONTRIGPHYS14LOOSE = 8,
-		MVANONTRIGPHYS14TIGHT = 9,
-		CUTBASED2015ANDLATER = 10,
-		MVABASED2015ANDLATER = 11
-	};
-	enum class WorkingPoint : int
-	{
-		LOOSE = 0,
-		MEDIUM = 1,
-		TIGHT = 2,
-		VETO = 3,
+		CUTBASED2015ANDLATER = 4,
+		MVABASED2015ANDLATER = 5
 	};
 	static ElectronIDType ToElectronIDType(std::string const& electronIDType)
 	{
@@ -72,12 +60,6 @@ public:
 		else if (electronIDType == "summer2013tight") return ElectronIDType::SUMMER2013TIGHT;
 		else if (electronIDType == "summer2013tthloose") return ElectronIDType::SUMMER2013TTHLOOSE;
 		else if (electronIDType == "summer2013tthtight") return ElectronIDType::SUMMER2013TTHTIGHT;
-		else if (electronIDType == "phys14cutbasedloose") return ElectronIDType::PHYS14CUTBASEDLOOSE;
-		else if (electronIDType == "phys14cutbasedmedium") return ElectronIDType::PHYS14CUTBASEDMEDIUM;
-		else if (electronIDType == "phys14cutbasedtight") return ElectronIDType::PHYS14CUTBASEDTIGHT;
-		else if (electronIDType == "phys14cutbasedveto") return ElectronIDType::PHYS14CUTBASEDVETO;
-		else if (electronIDType == "mvanontrigphys14loose") return ElectronIDType::MVANONTRIGPHYS14LOOSE;
-		else if (electronIDType == "mvanontrigphys14tight") return ElectronIDType::MVANONTRIGPHYS14TIGHT;
 		else if (electronIDType == "cutbased2015andlater") return ElectronIDType::CUTBASED2015ANDLATER;
 		else if (electronIDType == "mvabased2015andlater") return ElectronIDType::MVABASED2015ANDLATER;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
@@ -171,12 +153,8 @@ private:
 
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
-	bool IsCutBasedPhys14(KElectron* electron, event_type const& event, WorkingPoint wp) const;
 	bool IsCutBased(KElectron* electron, event_type const& event, const std::string &idName) const;
-	bool IsMVANonTrigPhys14(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const;
-	std::string ChooseCutBasedId(const KElectronMetadata *meta, WorkingPoint wp) const;
-	std::string ChooseMvaNonTrigId(const KElectronMetadata *meta) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::string idName, bool &checkedAlready) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::vector<std::string> idNames, bool &checkedAlready) const;
 };
