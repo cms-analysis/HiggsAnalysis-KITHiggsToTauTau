@@ -1,13 +1,5 @@
 {
 	"property" : [
-		"genBosonParticleFound",
-		"genBosonPt",
-		"genBosonEta",
-		"genBosonPhi",
-		"genBosonMass",
-		"genBosonLVFound",
-		
-
 		"1genBosonDaughterSize",
 
 		"1genBoson1DaughterPt",
