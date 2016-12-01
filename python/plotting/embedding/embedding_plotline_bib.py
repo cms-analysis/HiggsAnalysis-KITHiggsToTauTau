@@ -92,7 +92,7 @@ DoubleMuonFSRfsrMuons = DoubleMuonSelectedValidation.clone(
 
 DoubleMuonSelectedPtFlowHistograms = pltcl.single_plotline(
 	name = "DoubleMuonSelectedPtFlowHistograms",
-	num_file = "selected.root",
+	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_photon_finebinning_10GeV/selected.root",
 	num_folder = "zmumu_selection_for_embedding",
 	den_folder = "zmumu_selection_for_embedding",
 	num_tree = "",
@@ -102,30 +102,30 @@ DoubleMuonSelectedPtFlowHistograms = pltcl.single_plotline(
 
 DoubleMuonEmbeddedPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 	name = "DoubleMuonEmbeddedPtFlowHistograms",
-	num_file = "embedded.root",
+	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_photon_finebinning_10GeV/embedded.root",
 	label = "#mu#rightarrow#mu embedded",
 	scale_factor = 1./2408535.,
 	color = "kRed")
 
 DoubleMuonMirroredPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 	name = "DoubleMuonMirroredPtFlowHistograms",
-	num_file = "mirrored.root",
+	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_photon_finebinning_10GeV/mirrored.root",
 	label = "#splitline{#mu#rightarrow#mu embedded}{w. mirroring}",
 	scale_factor = 1./2424583.,
 	color = "kBlue")
 
 DoubleMuonRandomPtFlowHistograms = DoubleMuonSelectedPtFlowHistograms.clone(
 	name = "DoubleMuonMirroredPtFlowHistograms",
-	num_file = "random.root",
+	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_photon_finebinning_10GeV/random.root",
 	label = "random direction",
 	color = "kGray+2")
 
 
 DoubleMuonSelectedPtFlowDistribution = pltcl.single_plotline(
 	name = "DoubleMuonSelectedPtFlowDistribution",
-	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.01bin_10GeV/selected.root", #use for first DeltaR bin and broad peak region
-	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.01bin_5GeV/selected.root", #use for first DeltaR bin and narrow peak region
-	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.21bin_10GeV/selected.root", #use for second DeltaR bin and broad peak region
+	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_10GeV/selected.root", #use for first DeltaR bin and broad peak region
+	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_5GeV/selected.root", #use for first DeltaR bin and narrow peak region
+	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_midbin_10GeV/selected.root", #use for second DeltaR bin and broad peak region
 	num_folder = "zmumu_selection_for_embedding",
 	den_folder = "zmumu_selection_for_embedding",
 	num_tree = "",
@@ -135,9 +135,9 @@ DoubleMuonSelectedPtFlowDistribution = pltcl.single_plotline(
 
 DoubleMuonEmbeddedPtFlowDistribution = DoubleMuonSelectedPtFlowDistribution.clone(
 	name = "DoubleMuonEmbeddedPtFlowDistribution",
-	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.01bin_10GeV/embedded.root", #use for first DeltaR bin and broad peak region
-	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.01bin_5GeV/embedded.root", #use for first DeltaR bin and narrow peak region
-	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.21bin_10GeV/embedded.root", #use for second DeltaR bin and broad peak region
+	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_10GeV/embedded.root", #use for first DeltaR bin and broad peak region
+	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_5GeV/embedded.root", #use for first DeltaR bin and narrow peak region
+	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_midbin_10GeV/embedded.root", #use for second DeltaR bin and broad peak region
 	label = "#mu#rightarrow#mu embedded",
 	#scale_factor = 1./2408535.,
 	scale_factor = 1.,
@@ -145,9 +145,9 @@ DoubleMuonEmbeddedPtFlowDistribution = DoubleMuonSelectedPtFlowDistribution.clon
 
 DoubleMuonMirroredPtFlowDistribution = DoubleMuonSelectedPtFlowDistribution.clone(
 	name = "DoubleMuonMirroredPtFlowDistribution",
-	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.01bin_10GeV/mirrored.root", #use for first DeltaR bin and broad peak region
-	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.01bin_5GeV/mirrored.root", #use for first DeltaR bin and narrow peak region
-	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.21bin_10GeV/mirrored.root", #use for second DeltaR bin and broad peak region
+	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_10GeV/mirrored.root", #use for first DeltaR bin and broad peak region
+	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_5GeV/mirrored.root", #use for first DeltaR bin and narrow peak region
+	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_midbin_10GeV/mirrored.root", #use for second DeltaR bin and broad peak region
 	label = "#splitline{#mu#rightarrow#mu embedded}{w. mirroring}",
 	#scale_factor = 1./2424583.,
 	scale_factor = 1.,
@@ -155,9 +155,9 @@ DoubleMuonMirroredPtFlowDistribution = DoubleMuonSelectedPtFlowDistribution.clon
 
 DoubleMuonRandomPtFlowDistribution = DoubleMuonSelectedPtFlowDistribution.clone(
 	name = "DoubleMuonMirroredPtFlowDistribution",
-	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.01bin_10GeV/random.root", #use for first DeltaR bin and broad peak region
-	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.01bin_5GeV/random.root", #use for first DeltaR bin and narrow peak region
-	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_0.21bin_10GeV/random.root", #use for second DeltaR bin and broad peak region
+	num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_10GeV/random.root", #use for first DeltaR bin and broad peak region
+	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_5GeV/random.root", #use for first DeltaR bin and narrow peak region
+	#num_file = "/storage/a/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_midbin_10GeV/random.root", #use for second DeltaR bin and broad peak region
 	label = "random direction",
 	scale_factor = 1.,
 	color = "kGray+2")
