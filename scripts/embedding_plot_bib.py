@@ -11,6 +11,63 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plot_classes 
 from HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plotline_bib import *
 
 
+def ptflow_photon_histograms(binarea="[0.01,0.02]",peakwidth="10 GeV"):
+	
+	if binarea=="[0.01,0.02]":
+		if peakwidth=="10 GeV":
+			plotlines = [DoubleMuonSelectedPtFlowDistribution, DoubleMuonMirroredPtFlowDistribution, DoubleMuonRandomPtFlowDistribution, DoubleMuonEmbeddedPtFlowDistribution]
+		elif peakwidth=="5 GeV":
+			filepath="/portal/ekpbms2/home/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_firstbin_5GeV/"
+			plotlines = [DoubleMuonSelectedPtFlowDistribution5GeV, DoubleMuonMirroredPtFlowDistribution5GeV, DoubleMuonRandomPtFlowDistribution5GeV, DoubleMuonEmbeddedPtFlowDistribution5GeV]
+	elif binarea=="[0.21,0.22]":
+		filepath="/portal/ekpbms2/home/jbechtel/inputfiles_embeddingplots/ptflow_histogram_photon_midbin_10GeV/"
+		plotlines = [DoubleMuonSelectedPtFlowDistributionMid, DoubleMuonMirroredPtFlowDistributionMid, DoubleMuonRandomPtFlowDistributionMid, DoubleMuonEmbeddedPtFlowDistributionMid]
+	ptflow_check_lMu_PPV = pltcl.single_plot(
+	name = "ptflow_check_lMu_PPV",
+	title = "#DeltaR in "+binarea+"; full region",
+	x_expression = "PtFlow",
+	x_bins = "40,0.,4.",
+	normalized_by_binwidth = False,
+	wwwfolder = web_dir,
+	legend = data_embedded_mirrored_random_legend_upper_right,
+	plot_type = "absolute",
+	y_lims = [1,3e6],
+	output_dir = output_dir,
+	subplot_denominator = 0,
+	subplot_numerators = [],
+	y_subplot_lims = [0.85,1.15],
+	y_subplot_label = "Ratio",
+	y_label = "Events",
+	x_label = "p_{T}-flow (photons) [GeV]",
+	y_log = True,
+	plotlines = plotlines
+	)
+
+	configs.extend(ptflow_check_lMu_PPV.return_json_with_changed_x_and_weight(
+	x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_full"]
+	))
+
+	ptflow_check_lMu_PPV_peak = ptflow_check_lMu_PPV.clone(
+		name = "ptflow_check_lMu_PPV_peak",
+		legend = data_embedded_mirrored_random_legend_upper_right,
+		title = "#DeltaR in "+binarea+"; peak region #pm ("+peakwidth+")",
+		)
+
+	configs.extend(ptflow_check_lMu_PPV_peak.return_json_with_changed_x_and_weight(
+		x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_peak"]
+		))
+
+	ptflow_check_lMu_PPV_sideband = ptflow_check_lMu_PPV.clone(
+		name = "ptflow_check_lMu_PPV_sideband",
+		legend = data_embedded_mirrored_random_legend_upper_right,
+		title = "#DeltaR in "+binarea+"; sideband region ("+peakwidth+")",
+		)
+
+	configs.extend(ptflow_check_lMu_PPV_sideband.return_json_with_changed_x_and_weight(
+		x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_sideband"]
+		))
+
+
 parser = argparse.ArgumentParser(description="Make embedding plots.",
                                  parents=[logger.loggingParser])
 
@@ -20,7 +77,10 @@ parser.add_argument("-o", "--output-dir", required=False, default = "plots",
                     help="Output directory [Default: %(default)s]")
 parser.add_argument("--www", "--web-dir", required=False, default = "",
                     help="Set www directory [Default: False]")
-   
+parser.add_argument("-b","--binarea", required=False, default = "1",
+                    help="Toggle first (1) or middle (2) Delta R bin [Default: %(default)s]")
+parser.add_argument("-p","--peakwidth", required=False, default = "10",
+                    help="Toggle Z peak width between 10 and 5 GeV [Default: %(default)s]")
 args = parser.parse_args()
 logger.initLogger(args)
 configs = []
@@ -28,6 +88,12 @@ configs = []
 web_dir = args.www
 output_dir = args.output_dir
 input_dir = args.input_dir
+peakwidth = args.peakwidth+" GeV"
+if args.binarea == "1":
+	binarea="[0.01,0.02]"
+elif args.binarea == "2":
+	binarea="[0.21,0.22]"
+
 
 data_trackcleaned_cleaned_legend = [0.43,0.60,0.96,0.85] 
 data_trackcleaned_cleaned_noratio_legend = [0.43,0.75,0.94,0.90]
@@ -688,55 +754,9 @@ configs.extend(selection_check_lMu_PPV_sideband.return_json_with_changed_x_and_w
 	x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_sideband"]
 	))
 '''
-ptflow_check_lMu_PPV = pltcl.single_plot(
-	name = "ptflow_check_lMu_PPV",
-	title = "#DeltaR in [0.01,0.02]; full region", #use for first DeltaR bin
-	#title = "#DeltaR in [0.21,0.22]; full region", #use for second DeltaR bin
-	x_expression = "PtFlow",
-	x_bins = "40,0.,4.",
-	normalized_by_binwidth = False,
-	wwwfolder = web_dir,
-	legend = data_embedded_mirrored_random_legend_upper_right,
-	plot_type = "absolute",
-	y_lims = [1,3e6],
-	output_dir = output_dir,
-	subplot_denominator = 0,
-	subplot_numerators = [],
-	y_subplot_lims = [0.85,1.15],
-	y_subplot_label = "Ratio",
-	y_label = "Events",
-	x_label = "p_{T}-flow (photons) [GeV]",
-	y_log = True,
-	plotlines = [DoubleMuonSelectedPtFlowDistribution, DoubleMuonMirroredPtFlowDistribution, DoubleMuonRandomPtFlowDistribution, DoubleMuonEmbeddedPtFlowDistribution],
-	)
 
-configs.extend(ptflow_check_lMu_PPV.return_json_with_changed_x_and_weight(
-x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_full"]
-))
+ptflow_photon_histograms(binarea=binarea,peakwidth=peakwidth)
 
-ptflow_check_lMu_PPV_peak = ptflow_check_lMu_PPV.clone(
-	name = "ptflow_check_lMu_PPV_peak",
-	legend = data_embedded_mirrored_random_legend_upper_right,
-	title = "#DeltaR in [0.01,0.02]; peak region (#pm 10 GeV)", #use for first DeltaR bin and broad peak region
-	#title = "#DeltaR in [0.01,0.02]; peak region (#pm 10 GeV)", #use for first DeltaR bin and narrow peak region
-	#title = "#DeltaR in [0.21,0.22]; peak region (#pm 10 GeV)", #use for second DeltaR bin and broad peak region
-	)
-
-configs.extend(ptflow_check_lMu_PPV_peak.return_json_with_changed_x_and_weight(
-	x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_peak"]
-	))
-
-ptflow_check_lMu_PPV_sideband = ptflow_check_lMu_PPV.clone(
-	name = "ptflow_check_lMu_PPV_sideband",
-	legend = data_embedded_mirrored_random_legend_upper_right,
-	title = "#DeltaR in [0.01,0.02]; sideband region (#pm 10 GeV)", #use for first DeltaR bin and broad sideband region
-	#title = "#DeltaR in [0.01,0.02]; sideband region (#pm 10 GeV)", #use for first DeltaR bin and narrow sideband region
-	#title = "#DeltaR in [0.21,0.22]; sideband region (#pm 10 GeV)", #use for second DeltaR bin and broad sideband region
-	)
-
-configs.extend(ptflow_check_lMu_PPV_sideband.return_json_with_changed_x_and_weight(
-	x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_sideband"]
-	))
 '''
 
 ### Tau Embedding Studies
