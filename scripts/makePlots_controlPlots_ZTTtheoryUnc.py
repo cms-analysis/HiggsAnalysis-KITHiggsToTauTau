@@ -142,9 +142,6 @@ def AppendConfig(plot_configs_list, config, str_prefix= "", category= "", lhewei
 	log.debug(logdebug)
 	config["centralvalue"] = str_prefix + "_" + category + "_" + lheweight
 	plot_configs_list.append(copy.deepcopy(config))
-	# log.debug("\t\t\t\tplot_configs_pdf_only")
-	# config["centralvalue"] = config_temp["nicks"][0] + "_" + category + "_" + lheweight
-	# plot_configs_pdf_only[category].append(copy.deepcopy(config))
 
 if __name__ == "__main__":
 
@@ -394,7 +391,7 @@ if __name__ == "__main__":
 
 					config.update(json_config)
 
-					config["analysis_modules"].append("TheoryScaleVariation")
+					config["analysis_modules"].append("TheoryUncertainty")
 
 					# Saving produced configuration file in the appropriate list 
 					plot_configs[category].append(copy.deepcopy(config))
