@@ -121,6 +121,7 @@ class single_plot:
 		     legend = None,
 		     formats =["png","pdf"],
 		     wwwfolder ="plots",
+		     output_dir="plots",
 		     y_label = "Events",
 		     y_log = False,
 		     z_log = False,
@@ -162,6 +163,7 @@ class single_plot:
 		self.legend = legend
 		self.formats = formats
 		self.wwwfolder = wwwfolder
+		self.output_dir = output_dir
 		self.y_label = y_label
 		self.y_log = y_log
 		self.z_log = z_log
@@ -204,6 +206,7 @@ class single_plot:
 		     legend = None,
 		     formats = None,
 		     wwwfolder = None,
+		     output_dir = None,
 		     y_label = None,
 		     y_log = None,
 		     z_log = None,
@@ -246,6 +249,7 @@ class single_plot:
 		     legend = self.legend if legend is None else legend,
 		     formats = self.formats if formats is None else formats,
 		     wwwfolder = self.wwwfolder if wwwfolder is None else wwwfolder,
+		     output_dir = self.output_dir if output_dir is None else output_dir,
 		     y_label = self.y_label if y_label is None else y_label,
 		     y_log = self.y_log if y_log is None else y_log,
 		     z_log = self.z_log if z_log is None else z_log,
@@ -352,6 +356,7 @@ class single_plot:
 		if not self.legend is None: self.out_json["legend"] = self.legend
 		self.out_json["formats"] = self.formats
 		if self.wwwfolder != "": self.out_json["www"] = self.wwwfolder
+		self.out_json["output_dir"] = self.output_dir
 		self.out_json["y_label"] = self.y_label
 		self.out_json["y_log"] = self.y_log
 		self.out_json["z_log"] = self.z_log
