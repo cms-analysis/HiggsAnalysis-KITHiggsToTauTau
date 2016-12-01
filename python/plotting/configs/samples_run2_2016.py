@@ -185,25 +185,37 @@ class Samples(samples.SamplesBase):
 			return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel)])
 		
 	def files_data(self, channel):
-		query = {}
-		expect_n_results = 7 # adjust in if-statements if different depending on channel
+		query_rereco = {}
+		query_promptreco = {}
+		expect_n_results_rereco = 6 # adjust in if-statements if different depending on channel
+		expect_n_results_promptreco = 1
 		if channel == "mt":
-			query = { "process" : "SingleMuon" }
+			query_rereco = { "process" : "SingleMuon" }
+			query_promptreco = { "process" : "SingleMuon" }
 		elif channel == "et":
-			query = { "process" : "SingleElectron" }
+			query_rereco = { "process" : "SingleElectron" }
+			query_promptreco = { "process" : "SingleElectron" }
 		elif channel == "em":
-			query = { "process" : "MuonEG" }
+			query_rereco = { "process" : "MuonEG" }
+			query_promptreco = { "process" : "MuonEG" }
 		elif channel == "mm":
-			query = { "process" : "SingleMuon" }
+			query_rereco = { "process" : "SingleMuon" }
+			query_promptreco = { "process" : "SingleMuon" }
 		elif channel == "tt":
-			query = { "process" : "Tau" }
+			query_rereco = { "process" : "Tau" }
+			query_promptreco = { "process" : "Tau" }
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 
-		query["data"] = True
-		query["campaign"] = "Run2016(B|C|D|E|F|G|H)"
-		query["scenario"] = "23Sep2016v(1|3)|PromptRecov2"
-		return self.artus_file_names(query, expect_n_results),
+		query_rereco["data"] = True
+		query_rereco["campaign"] = "Run2016(B|C|D|E|F|G)"
+		query_rereco["scenario"] = "23Sep2016v(1|3)"
+		query_promptreco["data"] = True
+		query_promptreco["campaign"] = "Run2016H"
+		query_promptreco["scenario"] = "PromptRecov2"
+		rereco_files = self.artus_file_names(query_rereco, expect_n_results_rereco)
+		promptreco_files = self.artus_file_names(query_promptreco, expect_n_results_promptreco)
+		return rereco_files + " " + promptreco_files
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
