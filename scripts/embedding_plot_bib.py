@@ -1,11 +1,33 @@
 #!/usr/bin/env python
 
+import logging
+import Artus.Utility.logger as logger
+log = logging.getLogger(__name__)
+
+import argparse
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plot_classes as pltcl
 from HiggsAnalysis.KITHiggsToTauTau.plotting.embedding.embedding_plotline_bib import *
 
+
+parser = argparse.ArgumentParser(description="Make embedding plots.",
+                                 parents=[logger.loggingParser])
+
+parser.add_argument("-i", "--input-dir", required=False, default = ".",
+                    help="Input directory [Default: %(default)s]")
+parser.add_argument("-o", "--output-dir", required=False, default = "plots",
+                    help="Output directory [Default: %(default)s]")
+parser.add_argument("--www", "--web-dir", required=False, default = "",
+                    help="Set www directory [Default: False]")
+   
+args = parser.parse_args()
+logger.initLogger(args)
 configs = []
+
+web_dir = args.www
+output_dir = args.output_dir
+input_dir = args.input_dir
 
 data_trackcleaned_cleaned_legend = [0.43,0.60,0.96,0.85] 
 data_trackcleaned_cleaned_noratio_legend = [0.43,0.75,0.94,0.90]
@@ -23,7 +45,7 @@ vtx_check_dx_MM = pltcl.single_plot(
 	x_expression = "vtx_dx",
 	x_label = "#Deltax [cm]",
 	y_lims = [0,500000],
-	wwwfolder = "plots",
+	wwwfolder = web_dir
 	title = "",
 	plot_type = "absolute",
 	plotlines = [vtx_corrected_MM],
@@ -403,6 +425,7 @@ configs.extend(merging_check_sumHt_noMuMu.return_json_with_changed_x_and_weight(
         ))
 '''
 # Zmumu selection Check for Muon Embedding
+
 selection_check_ZMass = pltcl.single_plot(
 	name = "selection_check_ZMass",
 	title = "",
@@ -411,7 +434,7 @@ selection_check_ZMass = pltcl.single_plot(
 	normalized_by_binwidth = False,
 	x_label = "m(#mu#mu) [GeV]",
 	y_label = "Events",
-	wwwfolder = "plots",
+	wwwfolder = web_dir,
 	legend =[0.3,0.3,0.65,0.7],
 	plot_type = "absolute",
 	subplot_denominator = 0,
@@ -623,8 +646,9 @@ selection_check_lMu_NHPV_sideband = selection_check_lMu_NHPV.clone(
 configs.extend(selection_check_lMu_NHPV_sideband.return_json_with_changed_x_and_weight(
 	x_expressions = ["leadingMuon_NeutralFromFirstPVPtFlow_sideband"]
 	))
-
+'''
 # Photons
+'''
 selection_check_lMu_PPV = selection_check_ZMass.clone(
 	name = "selection_check_lMu_PPV",
 	title = "general selection",
@@ -663,6 +687,57 @@ selection_check_lMu_PPV_sideband = selection_check_lMu_PPV.clone(
 configs.extend(selection_check_lMu_PPV_sideband.return_json_with_changed_x_and_weight(
 	x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_sideband"]
 	))
+'''
+ptflow_check_lMu_PPV = pltcl.single_plot(
+	name = "ptflow_check_lMu_PPV",
+	title = "#DeltaR in [0.01,0.02]; full region", #use for first DeltaR bin
+	#title = "#DeltaR in [0.21,0.22]; full region", #use for second DeltaR bin
+	x_expression = "PtFlow",
+	x_bins = "40,0.,4.",
+	normalized_by_binwidth = False,
+	wwwfolder = web_dir,
+	legend = data_embedded_mirrored_random_legend_upper_right,
+	plot_type = "absolute",
+	y_lims = [1,3e6],
+	output_dir = output_dir,
+	subplot_denominator = 0,
+	subplot_numerators = [],
+	y_subplot_lims = [0.85,1.15],
+	y_subplot_label = "Ratio",
+	y_label = "Events",
+	x_label = "p_{T}-flow (photons) [GeV]",
+	y_log = True,
+	plotlines = [DoubleMuonSelectedPtFlowDistribution, DoubleMuonMirroredPtFlowDistribution, DoubleMuonRandomPtFlowDistribution, DoubleMuonEmbeddedPtFlowDistribution],
+	)
+
+configs.extend(ptflow_check_lMu_PPV.return_json_with_changed_x_and_weight(
+x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_full"]
+))
+
+ptflow_check_lMu_PPV_peak = ptflow_check_lMu_PPV.clone(
+	name = "ptflow_check_lMu_PPV_peak",
+	legend = data_embedded_mirrored_random_legend_upper_right,
+	title = "#DeltaR in [0.01,0.02]; peak region (#pm 10 GeV)", #use for first DeltaR bin and broad peak region
+	#title = "#DeltaR in [0.01,0.02]; peak region (#pm 10 GeV)", #use for first DeltaR bin and narrow peak region
+	#title = "#DeltaR in [0.21,0.22]; peak region (#pm 10 GeV)", #use for second DeltaR bin and broad peak region
+	)
+
+configs.extend(ptflow_check_lMu_PPV_peak.return_json_with_changed_x_and_weight(
+	x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_peak"]
+	))
+
+ptflow_check_lMu_PPV_sideband = ptflow_check_lMu_PPV.clone(
+	name = "ptflow_check_lMu_PPV_sideband",
+	legend = data_embedded_mirrored_random_legend_upper_right,
+	title = "#DeltaR in [0.01,0.02]; sideband region (#pm 10 GeV)", #use for first DeltaR bin and broad sideband region
+	#title = "#DeltaR in [0.01,0.02]; sideband region (#pm 10 GeV)", #use for first DeltaR bin and narrow sideband region
+	#title = "#DeltaR in [0.21,0.22]; sideband region (#pm 10 GeV)", #use for second DeltaR bin and broad sideband region
+	)
+
+configs.extend(ptflow_check_lMu_PPV_sideband.return_json_with_changed_x_and_weight(
+	x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_sideband"]
+	))
+'''
 
 ### Tau Embedding Studies
 
@@ -679,7 +754,7 @@ MuTauAccEfficiency2D = pltcl.single_plot(
 	z_label = "",
 	z_lims = [0,0.23],
 	plot_type = "absolute",
-	wwwfolder = "plots",
+	wwwfolder = web_dir
 	plotlines = [AccEfficiency2D])
 
 #configs.extend(MuTauAccEfficiency2D.return_json_with_changed_x_and_weight(x_expressions = ["MuTau_accEff"]))
