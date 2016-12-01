@@ -19,15 +19,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 from Artus.Utility.tools import make_multiplication, clean_multiplication
 
-def merge(config_list):
-	for i in range(len(config_list) - 1):
-			config_list[0] = sample_settings.merge_configs(config_list[0], config_list[i + 1])
-
-if __name__ == "__main__":
-
-	parser = argparse.ArgumentParser(description="Make Data-MC control plots.",
-	                                 parents=[logger.loggingParser])
-
+def addArguments(parser):
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs=1,
@@ -75,8 +67,8 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm"],
 	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", default=[None],
-	                    help="Categories. [Default: %(default)s]")
+	parser.add_argument("--categories", nargs="+", default=["inclusive"],
+	                    help="Categories. [Default: %(default)s]. inclusive is mandatory!")
 	parser.add_argument("-x", "--quantities", nargs="*",
 	                    default=["integral",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
@@ -141,6 +133,17 @@ if __name__ == "__main__":
 	                    help="Use embedded samples. [Default: %(default)s]")
 	parser.add_argument("--pdfkey", default="", help="PDF set  KEY Name [Default: %(default)s]")# Htt : NNPDF30
 	parser.add_argument("--addpdfs", default=[], help="PDF set Name [Default: %(default)s]")# NNPDF30_nlo_as_0119_weight NNPDF30_nlo_as_0118_00_weight NNPDF30_nlo_as_0117_weight
+	
+def merge(config_list):
+	for i in range(len(config_list) - 1):#
+		print "merged", i, "times"
+		config_list[0] = sample_settings.merge_configs(config_list[0], config_list[i + 1], additional_keys = ["denominator", "numerator"])
+
+if __name__ == "__main__":
+
+	parser = argparse.ArgumentParser(description="Make Data-MC control plots.",
+	                                 parents=[logger.loggingParser])
+	addArguments(parser)
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -208,6 +211,7 @@ if __name__ == "__main__":
 
 
 	args.categories = [None if category == "None" else category for category in args.categories]
+	if "inclusive" not in args.categories: args.categories = ["inclusive"] + args.categories
 
 	# fill in hp-style
 	for index in range(len(args.channels) - len(args.background_method)):
@@ -251,8 +255,10 @@ if __name__ == "__main__":
 	# Loop for producing configure files
 	for channel, background_method in zip(args.channels, args.background_method):
 		if log.isEnabledFor(logging.DEBUG): print "channel", channel, "background_method", background_method
+		print "channel", channel, "background_method", background_method
 		for category in args.categories:
 			if log.isEnabledFor(logging.DEBUG): print "\tcategory", category
+			print "\tcategory", category
 			plot_configs[category] = []
 			plot_configs_scale_only[category] = []
 			plot_configs_pdf_only[category] = []
@@ -296,7 +302,7 @@ if __name__ == "__main__":
 							cut_type = global_cut_type,
 							nick_suffix = "_" + category + "_" + lheweight,
 					)
-					print config["files"][0]
+					#print config["files"][0]
 					if args.era == "2016": config["files"] = [config["files"][0].split()[6]] #temporary! for running only on one merged DYM50 sample
 					config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 					config["category"] = category
@@ -394,17 +400,30 @@ if __name__ == "__main__":
 					config.update(json_config)
 
 					# Saving produced configuration file in the list 
+					#config["analysis_modules"].append("TheoryScaleVariation")
 					plot_configs[category].append(config)
 					if log.isEnabledFor(logging.DEBUG): print "\t\t\t", lheweight
+
+					if category == "inclusive": config["denominator"] = copy.deepcopy(config["nicks"])
+					else: config["numerator"] = copy.deepcopy(config["nicks"])
+
+					#print "\t\t"lheweight,
 					if pdfkey == "_".join(lheweight.split("_")[:-2]):
+						#print "<---pdf",
 						log.debug("\t\t\t\tplot_configs_pdf_only")
-						plot_configs_pdf_only[category].append(config)
+						plot_configs_pdf_only[category].append(copy.deepcopy(config))
 					if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs:
+						#print "<---alphas",
 						log.debug("\t\t\t\tplot_configs_alphas_only")
-						plot_configs_alphas_only[category].append(config)
+						plot_configs_alphas_only[category].append(copy.deepcopy(config))
 					if "muF" in lheweight:
+						#print "<---scale",
 						log.debug("\t\t\t\tplot_configs_scale_only")
-						plot_configs_scale_only[category].append(config)
+						plot_configs_scale_only[category].append(copy.deepcopy(config))
+					#print
+	# 		print plot_configs_scale_only[category][0]
+	# 		exit(1)
+	# exit(1)
 	
 	if log.isEnabledFor(logging.DEBUG): pprint.pprint(plot_configs)
 
@@ -417,19 +436,31 @@ if __name__ == "__main__":
 					}
 	for category in args.categories:
 		log.debug(category)
+		print "category", category
 		for (key, value) in configs_dict.items():
+			if key !=  "_scale_only_": continue
+			print "\tkey", key
+			print "before the merge of this:"
+			pprint.pprint(value[category][0])
+			print "with this:"
+			pprint.pprint(value[category][1])
+
 			merge(value[category])
-			if category != 'inclusive' and 'inclusive' in args.categories: 
-				value[category][0] = sample_settings.merge_configs(value[category][0], value['inclusive'][0])
+
+			if category != 'inclusive' : 
+				value[category][0] = sample_settings.merge_configs(value[category][0], value['inclusive'][0])				#analysis_modules
 			log.debug(args.quantities[0] + key + str(category))
 			value[category][0]["filename"] = args.samples[0] + args.quantities[0] + key + str(category)
 			
-			fout = open("merged" + key + str(category) + ".json", "w")
+			# print "after the merge"
+			# pprint.pprint(value[category][0])
+			fout = open("merged" + args.samples[0] + key + str(category) + ".json", "w")
 			fout.write(pprint.pformat(value[category][0]).replace("u'D", "'D").replace("'", '"'))
+			#exit(1)
 
 	if log.isEnabledFor(logging.DEBUG): print "Addititonal args for the configuration files:", [args.args]
 	# This is not working BECAUSE of the single quotes. 
 	#pprint.pprint([configs_dict.values()[0][0]])
-	higgsplot.HiggsPlotter(list_of_config_dicts=[configs_dict["_all_"][args.categories[0]][0]], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	#higgsplot.HiggsPlotter(list_of_config_dicts=[configs_dict["_all_"][args.categories[0]][0]], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs[args.categories[0]][0], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
