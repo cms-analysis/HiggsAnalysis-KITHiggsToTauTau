@@ -317,4 +317,12 @@ public:
 
 	// settings for the ScaleVariationProducer
 	IMPL_SETTING_STRINGLIST_DEFAULT(GenEventInfoMetadataNames, {});
+
+	// settings for SimpleMuTauFakeRateWeightProducer
+	IMPL_SETTING_FLOATLIST(SimpleMuTauFakeRateWeightLoose);
+	IMPL_SETTING_FLOATLIST(SimpleMuTauFakeRateWeightTight);
+
+	// settings for SimpleEleTauFakeRateWeightProducer
+	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightVLoose);
+	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightTight);
 };
