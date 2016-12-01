@@ -720,9 +720,9 @@ selection_check_lMu_PPV = selection_check_ZMass.clone(
 	title = "general selection",
 	x_expression = "leadingMuon_PhotonsFromFirstPVPtFlow_full",
 	legend = data_embedded_mirrored_random_legend_lower_right,
-	y_lims = [0,0.025],
+	y_lims = [0,0.062],
 	subplot_numerators = [],
-	x_bins = "100,0.0,0.4",
+	x_bins = "40,0.0,0.4",
 	plotlines = [DoubleMuonSelectedPtFlowHistograms, DoubleMuonEmbeddedPtFlowHistograms, DoubleMuonMirroredPtFlowHistograms, DoubleMuonRandomPtFlowHistograms],
 	y_label = "p_{T}-flow per bin width [GeV]",
 	x_label = "#DeltaR(leading #mu, photons)"
@@ -734,9 +734,9 @@ configs.extend(selection_check_lMu_PPV.return_json_with_changed_x_and_weight(
 
 selection_check_lMu_PPV_peak = selection_check_lMu_PPV.clone(
 	name = "selection_check_lMu_PPV_peak",
-	y_lims = [0,0.015],
+	y_lims = [0,0.04],
 	legend = data_embedded_mirrored_random_legend_upper_left,
-	title = "general selection & peak region"
+	title = "general selection & peak region (#pm 10 GeV)"
 )
 
 configs.extend(selection_check_lMu_PPV_peak.return_json_with_changed_x_and_weight(
@@ -745,14 +745,15 @@ configs.extend(selection_check_lMu_PPV_peak.return_json_with_changed_x_and_weigh
 
 selection_check_lMu_PPV_sideband = selection_check_lMu_PPV.clone(
 	name = "selection_check_lMu_PPV_sideband",
-	y_lims = [0,0.023],
+	y_lims = [0,0.06],
 	legend = data_embedded_mirrored_random_legend_upper_right,
-	title = "general selection & sideband region"
+	title = "general selection & sideband region (#pm 10 GeV)"
 )
 
 configs.extend(selection_check_lMu_PPV_sideband.return_json_with_changed_x_and_weight(
 	x_expressions = ["leadingMuon_PhotonsFromFirstPVPtFlow_sideband"]
 	))
+
 '''
 
 ptflow_photon_histograms(binarea=binarea,peakwidth=peakwidth)

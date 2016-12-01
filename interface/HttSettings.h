@@ -64,6 +64,11 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuonTauFakeRateHistograms, {});
 
 	IMPL_SETTING(std::string, ElectronIDType);
+	IMPL_SETTING_DEFAULT(std::string, ElectronIDName, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(ElectronIDList, {});
+	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEB1, -1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEB2, -1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEE, -1.0);
 
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
@@ -109,6 +114,10 @@ public:
 
 	IMPL_SETTING(std::string, LooseElectronID);
 	IMPL_SETTING(std::string, LooseElectronIDType);
+	IMPL_SETTING_DEFAULT(std::string, LooseElectronIDName, "");
+	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEB1, -1.0);
+	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEB2, -1.0);
+	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEE, -1.0);
 	IMPL_SETTING(std::string, LooseElectronReco);
 	IMPL_SETTING(std::string, LooseMuonID);
 
@@ -139,6 +148,10 @@ public:
 
 	IMPL_SETTING(std::string, VetoElectronID);
 	IMPL_SETTING(std::string, VetoElectronIDType);
+	IMPL_SETTING_DEFAULT(std::string, VetoElectronIDName, "");
+	IMPL_SETTING_DEFAULT(float, VetoElectronMvaIDCutEB1, -1.0);
+	IMPL_SETTING_DEFAULT(float, VetoElectronMvaIDCutEB2, -1.0);
+	IMPL_SETTING_DEFAULT(float, VetoElectronMvaIDCutEE, -1.0);
 	IMPL_SETTING(std::string, VetoElectronReco);
 	IMPL_SETTING(std::string, VetoMuonID);
 

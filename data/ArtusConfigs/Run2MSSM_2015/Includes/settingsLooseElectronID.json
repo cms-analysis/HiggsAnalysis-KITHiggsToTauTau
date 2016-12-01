@@ -6,7 +6,11 @@
 	"LooseElectronReco" : "mvanontrig",
 
 	"LooseElectronID" : "user",
-	"LooseElectronIDType" : "mvanontrigspring15loose",
+	"LooseElectronIDType" : "mvabased2015andlater",
+	"LooseElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
+	"LooseElectronMvaIDCutEB1" : 0.913286,
+	"LooseElectronMvaIDCutEB2" : 0.805013,
+	"LooseElectronMvaIDCutEE" : 0.358969,
 
 	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",
