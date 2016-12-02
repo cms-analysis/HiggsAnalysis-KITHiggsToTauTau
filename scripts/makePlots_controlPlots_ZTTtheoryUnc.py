@@ -19,15 +19,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 from Artus.Utility.tools import make_multiplication, clean_multiplication
 
-def merge(config_list):
-	for i in range(len(config_list) - 1):
-			config_list[0] = sample_settings.merge_configs(config_list[0], config_list[i + 1])
-
-if __name__ == "__main__":
-
-	parser = argparse.ArgumentParser(description="Make Data-MC control plots.",
-	                                 parents=[logger.loggingParser])
-
+def addArguments(parser):
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs=1,
@@ -75,8 +67,8 @@ if __name__ == "__main__":
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm"],
 	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", default=[None],
-	                    help="Categories. [Default: %(default)s]")
+	parser.add_argument("--categories", nargs="+", default=["inclusive"],
+	                    help="Categories. [Default: %(default)s]. inclusive is mandatory!")
 	parser.add_argument("-x", "--quantities", nargs="*",
 	                    default=["integral",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
@@ -142,6 +134,21 @@ if __name__ == "__main__":
 	parser.add_argument("--pdfkey", default="", help="PDF set  KEY Name [Default: %(default)s]")# Htt : NNPDF30
 	parser.add_argument("--addpdfs", default=[], help="PDF set Name [Default: %(default)s]")# NNPDF30_nlo_as_0119_weight NNPDF30_nlo_as_0118_00_weight NNPDF30_nlo_as_0117_weight
 	
+def merge(config_list):
+	for i in range(len(config_list) - 1):
+		config_list[0] = sample_settings.merge_configs(config_list[0], config_list[i + 1], additional_keys = ["denominator", "numerator"])
+
+def AppendConfig(plot_configs_list, config, str_prefix= "", category= "", lheweight= "", logdebug = ""):
+	log.debug(logdebug)
+	config["centralvalue"] = str_prefix + "_" + category + "_" + lheweight
+	plot_configs_list.append(copy.deepcopy(config))
+
+if __name__ == "__main__":
+
+	parser = argparse.ArgumentParser(description="Make Data-MC control plots.",
+	                                 parents=[logger.loggingParser])
+	addArguments(parser)
+	
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -155,10 +162,8 @@ if __name__ == "__main__":
 		pdfkey = "NNPDF30_nlo_as_0118"
 		addpdfs = ["NNPDF30_nlo_as_0119_weight", "NNPDF30_nlo_as_0117_weight"]
 
-	if args.run1:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
-	elif args.embedding_selection:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_embedding_selection as samples
+	if args.run1: import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
+	elif args.embedding_selection: import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_embedding_selection as samples
 	else:
 		if (args.era == "2015") or (args.era == "2015new"):
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
@@ -170,8 +175,7 @@ if __name__ == "__main__":
 			log.critical("Invalid era string selected: " + args.era)
 			sys.exit(1)
 
-	if args.fakefactor_method is not None:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
+	if args.fakefactor_method is not None: import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
 
 	if args.shapes: args.ratio = False
 
@@ -201,15 +205,14 @@ if __name__ == "__main__":
 		for sample in sig_samples_raw:
 			sig_samples.append(sample + "%s%s"%(mass, scale_str))
 
-
 	log.debug("used bkg + signal nicks")
 	log.debug(" ".join(bkg_samples + sig_samples))
 	binnings_settings = binnings.BinningsDict()
 
-
 	args.categories = [None if category == "None" else category for category in args.categories]
+	if "inclusive" not in args.categories: args.categories = ["inclusive"] + args.categories
 
-	# fill in hp-style
+	# Fill in hp-style
 	for index in range(len(args.channels) - len(args.background_method)):
 		args.background_method.append(args.background_method[index])
 
@@ -223,19 +226,16 @@ if __name__ == "__main__":
 	elif args.polarisation: global_category_string = "catZttPol13TeV"
 	if args.era == "2016": global_cut_type += "2016"
 
+	# Create a list of availabel lheWeights
 	if pdfkey != "" or len(addpdfs) != 0:
 		if args.categories[0] != None: category_string = (global_category_string + "_{channel}_{category}").format(channel = args.channels[0], category = args.categories[0])
 		else:	category_string = None
 		config = sample_settings.get_config( samples = list_of_samples, channel = args.channels[0], category = category_string )
 		file_name = args.input_dir + config['files'][0].split()[6]
-		print "file_name", file_name
 		file_name = glob.glob(file_name)[0]
 		if log.isEnabledFor(logging.DEBUG): print "lheweight picked up from file: ", file_name
 		root_file = ROOT.TFile(file_name, "READ")
-		#print dir(sample_settings)
-		#print help(sample_settings)
 		eventTree = ROOT.gDirectory.Get(sample_settings.root_file_folder("tt"))
-		n_entries = eventTree.GetEntries()
 		list_of_leaves = eventTree.GetListOfLeaves()
 
 		for leave in list_of_leaves:
@@ -296,7 +296,7 @@ if __name__ == "__main__":
 							cut_type = global_cut_type,
 							nick_suffix = "_" + category + "_" + lheweight,
 					)
-					print config["files"][0]
+
 					if args.era == "2016": config["files"] = [config["files"][0].split()[6]] #temporary! for running only on one merged DYM50 sample
 					config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 					config["category"] = category
@@ -367,11 +367,9 @@ if __name__ == "__main__":
 						config["legend_cols"] = 3
 
 					if not args.shapes:
-						if args.lumi is not None:
-							config["lumis"] = [float("%.1f" % args.lumi)]
+						if args.lumi is not None: config["lumis"] = [float("%.1f" % args.lumi)]
 						config["energies"] = [8] if args.run1 else [13]
-						if not args.run1:
-							config["year"] = args.era
+						if not args.run1: config["year"] = args.era
 
 					if(args.full_integral):
 						bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
@@ -393,18 +391,22 @@ if __name__ == "__main__":
 
 					config.update(json_config)
 
-					# Saving produced configuration file in the list 
-					plot_configs[category].append(config)
+					config["analysis_modules"].append("TheoryUncertainty")
+
+					# Saving produced configuration file in the appropriate list 
+					plot_configs[category].append(copy.deepcopy(config))
+
+					if category == "inclusive": config["denominator"] = copy.deepcopy(config["nicks"])
+					else: config["numerator"] = copy.deepcopy(config["nicks"])
+
+					config_temp = sample_settings.get_config( samples = list_of_samples, channel = args.channels[0], category = category_string)
 					if log.isEnabledFor(logging.DEBUG): print "\t\t\t", lheweight
 					if pdfkey == "_".join(lheweight.split("_")[:-2]):
-						log.debug("\t\t\t\tplot_configs_pdf_only")
-						plot_configs_pdf_only[category].append(config)
+						AppendConfig(plot_configs_pdf_only[category], config, config_temp["nicks"][0], category, lheweight, "\t\t\t\tplot_configs_pdf_only")
 					if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs:
-						log.debug("\t\t\t\tplot_configs_alphas_only")
-						plot_configs_alphas_only[category].append(config)
-					if "muF" in lheweight:
-						log.debug("\t\t\t\tplot_configs_scale_only")
-						plot_configs_scale_only[category].append(config)
+						AppendConfig(plot_configs_alphas_only[category], config, config_temp["nicks"][0], category, lheweight, "\t\t\t\tplot_configs_alphas_only")
+					elif "muF" in lheweight:
+						AppendConfig(plot_configs_scale_only[category], config, config_temp["nicks"][0], category, lheweight, "\t\t\t\tplot_configs_scale_only")
 	
 	if log.isEnabledFor(logging.DEBUG): pprint.pprint(plot_configs)
 
@@ -419,17 +421,14 @@ if __name__ == "__main__":
 		log.debug(category)
 		for (key, value) in configs_dict.items():
 			merge(value[category])
-			if category != 'inclusive' and 'inclusive' in args.categories: 
-				value[category][0] = sample_settings.merge_configs(value[category][0], value['inclusive'][0])
+
+			if category != 'inclusive': value[category][0] = sample_settings.merge_configs(value[category][0], value['inclusive'][0])
 			log.debug(args.quantities[0] + key + str(category))
 			value[category][0]["filename"] = args.samples[0] + args.quantities[0] + key + str(category)
-			
-			fout = open("merged" + key + str(category) + ".json", "w")
+			fout = open("merged" + args.samples[0] + key + str(category) + ".json", "w")
 			fout.write(pprint.pformat(value[category][0]).replace("u'D", "'D").replace("'", '"'))
 
 	if log.isEnabledFor(logging.DEBUG): print "Addititonal args for the configuration files:", [args.args]
-	# This is not working BECAUSE of the single quotes. 
-	#pprint.pprint([configs_dict.values()[0][0]])
-	higgsplot.HiggsPlotter(list_of_config_dicts=[configs_dict["_all_"][args.categories[0]][0]], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	#higgsplot.HiggsPlotter(list_of_config_dicts=[configs_dict["_all_"][args.categories[0]][0]], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs[args.categories[0]][0], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 

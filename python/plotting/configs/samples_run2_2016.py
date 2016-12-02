@@ -203,7 +203,7 @@ class Samples(samples.SamplesBase):
 		query["data"] = True
 		query["campaign"] = "Run2016(B|C|D)"
 		query["scenario"] = "PromptRecov2" # until ReReco samples are ready
-		return self.artus_file_names(query, expect_n_results),
+		return self.artus_file_names(query, expect_n_results)
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
