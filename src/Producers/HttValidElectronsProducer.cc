@@ -366,12 +366,16 @@ bool HttValidElectronsProducer::IsCutBased(KElectron* electron, event_type const
 	validElectron = validElectron &&
 	(
 		electron->full5x5_sigmaIetaIeta < full5x5_sigmaIetaIeta &&
-		(year == 2016 ? electron->dEtaInSeed < dEtaIn : electron->dEtaIn < dEtaIn) &&
 		electron->dPhiIn < dPhiIn &&
 		electron->hadronicOverEm < hOverE &&
 		electron->invEMinusInvP() < invEMinusInvP &&
 		electron->track.nInnerHits <= missingHits
 	);
+
+	if (year == 2016)
+		validElectron = validElectron && (electron->dEtaInSeed < dEtaIn_Seed);
+	else
+		validElectron = validElectron && (electron->dEtaIn < dEtaIn_Seed);
 
 	return validElectron;
 }
