@@ -11,7 +11,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 from Kappa.Skimming.registerDatasetHelper import get_nick_list
 from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
 energy = 13
-default_lumi = 12.9*1000.0
+default_lumi = 29.82*1000.0
 
 class Samples(samples.SamplesBase):
 
@@ -185,25 +185,37 @@ class Samples(samples.SamplesBase):
 			return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel)])
 		
 	def files_data(self, channel):
-		query = {}
-		expect_n_results = 3 # adjust in if-statements if different depending on channel
+		query_rereco = {}
+		query_promptreco = {}
+		expect_n_results_rereco = 6 # adjust in if-statements if different depending on channel
+		expect_n_results_promptreco = 1
 		if channel == "mt":
-			query = { "process" : "SingleMuon" }
+			query_rereco = { "process" : "SingleMuon" }
+			query_promptreco = { "process" : "SingleMuon" }
 		elif channel == "et":
-			query = { "process" : "SingleElectron" }
+			query_rereco = { "process" : "SingleElectron" }
+			query_promptreco = { "process" : "SingleElectron" }
 		elif channel == "em":
-			query = { "process" : "MuonEG" }
+			query_rereco = { "process" : "MuonEG" }
+			query_promptreco = { "process" : "MuonEG" }
 		elif channel == "mm":
-			query = { "process" : "SingleMuon" }
+			query_rereco = { "process" : "SingleMuon" }
+			query_promptreco = { "process" : "SingleMuon" }
 		elif channel == "tt":
-			query = { "process" : "Tau" }
+			query_rereco = { "process" : "Tau" }
+			query_promptreco = { "process" : "Tau" }
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 
-		query["data"] = True
-		query["campaign"] = "Run2016(B|C|D)"
-		query["scenario"] = "PromptRecov2" # until ReReco samples are ready
-		return self.artus_file_names(query, expect_n_results),
+		query_rereco["data"] = True
+		query_rereco["campaign"] = "Run2016(B|C|D|E|F|G)"
+		query_rereco["scenario"] = "23Sep2016v(1|3)"
+		query_promptreco["data"] = True
+		query_promptreco["campaign"] = "Run2016H"
+		query_promptreco["scenario"] = "PromptRecov2"
+		rereco_files = self.artus_file_names(query_rereco, expect_n_results_rereco)
+		promptreco_files = self.artus_file_names(query_promptreco, expect_n_results_promptreco)
+		return rereco_files + " " + promptreco_files
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -1867,8 +1879,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 
-	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False,
-	        lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
+	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
 		
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -1981,8 +1992,16 @@ class Samples(samples.SamplesBase):
 				)
 		return config
 
-	def files_ggh(self, channel, mass=125):
-		return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "reHLT"}, 1)
+	def files_ggh(self, channel, mass=125, **kwargs):
+		cp=kwargs.get("cp", None)
+		if cp=="sm":
+			return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_13TeV_MINIAOD_unspecified/*.root"
+		elif cp=="mm":
+			return "GluGluH2JetsToTauTauM125CPmixingmaxmixJHU_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_13TeV_MINIAOD_unspecified/*.root"
+		elif cp=="ps":
+			return "GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_13TeV_MINIAOD_unspecified/*.root"
+		else:
+			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "reHLT"}, 1)
 
 	def files_susy_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "SUSYGluGluToHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign+".*reHLT"}, 1)
@@ -2001,11 +2020,11 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						self.files_ggh(channel, mass) if not mssm else self.files_susy_ggh(channel, mass),
+						self.files_ggh(channel, mass, cp=kwargs.get("cp", None)) if not mssm else self.files_susy_ggh(channel, mass, cp=kwargs.get("cp", None)),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						"ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
 			else:
@@ -2015,22 +2034,36 @@ class Samples(samples.SamplesBase):
 				if not mssm:
 					Samples._add_bin_corrections(
 							config,
-							"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-							nick_suffix
+							"ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							str(kwargs.get("cp", ""))+nick_suffix
 					)
 				Samples._add_plot(
 						config,
-						"ggh",
+						kwargs.get("stacks", "ggh"),
 						"LINE",
 						"L",
-						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
+						"ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						str(kwargs.get("cp", ""))+nick_suffix
 				)
+		return config 
+
+	def gghsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="gghsm", **kwargs)
 		return config
+
+	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="gghmm", **kwargs)
+		return config
+
+	def gghps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="gghps", **kwargs)
+		return config
+
+
 
 	def files_qqh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "reHLT"}, 1)
-
+	
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []

@@ -102,6 +102,8 @@ std::string EmbeddingConsumer::GetConsumerId() const
 
 void EmbeddingConsumer::FillPtFlowHistogram(std::map<std::string, TH1F*> histmap, std::vector<const KPFCandidate*> pf_collection, KMuon* muon, std::string region)
 {
+	//double sumPt=0; //for PtFlow distribution
+
 	for (std::vector<const KPFCandidate*>::const_iterator pfCandidate = pf_collection.begin();pfCandidate != pf_collection.end();++pfCandidate)
 	{
 		double deltaR = ROOT::Math::VectorUtil::DeltaR(muon->p4, (*pfCandidate)->p4);
@@ -110,4 +112,6 @@ void EmbeddingConsumer::FillPtFlowHistogram(std::map<std::string, TH1F*> histmap
 			histmap[region]->Fill(deltaR,(*pfCandidate)->p4.Pt());
 		}
 	}
+	//histmap[region]->Fill(sumPt); //for PtFlow distribution
+
 }

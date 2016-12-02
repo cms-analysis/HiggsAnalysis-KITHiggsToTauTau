@@ -777,9 +777,9 @@ class Datacards(object):
 		split_stat_syst_uncs_names = [""]
 		if split_stat_syst_uncs:
 			split_stat_syst_uncs_options = [
-				"--algo none --saveWorkspace",
-				"--algo singles --snapshotName {method} -w w".format(method=method),
-				"--algo singles --snapshotName {method} -w w --freezeNuisances {uncs}".format(method=method, uncs="{uncs}"),
+				"--saveWorkspace",
+				"--snapshotName {method} -w w".format(method=method),
+				"--snapshotName {method} -w w --freezeNuisances {uncs}".format(method=method, uncs="{uncs}"),
 			]
 			split_stat_syst_uncs_names = [
 				"Workspace",
