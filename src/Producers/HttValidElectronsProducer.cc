@@ -158,6 +158,78 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 			assert(CheckElectronMetadata(event.m_electronMetadata, electronIDList, electronIDListInMetadata));
 			validElectron = validElectron && IsMVABased(&(*electron), event, electronIDName);
 		}
+		else if (electronIDType == ElectronIDType::CUTBASED2015NOISOANDIPCUTSVETO)
+		{
+			validElectron = validElectron &&
+			(
+					std::abs(electron->superclusterPosition.Eta()) <= DefaultValues::EtaBorderEB ?
+					IsCutBased(&(*electron), event, 0.0114, 0.0152, 0.216, 0.181, 0.207, 2) :
+					IsCutBased(&(*electron),event, 0.0352, 0.0113, 0.237, 0.116, 0.174, 3)
+			);
+		}
+		else if (electronIDType == ElectronIDType::CUTBASED2015NOISOANDIPCUTSLOOSE)
+		{
+			validElectron = validElectron &&
+			(
+					std::abs(electron->superclusterPosition.Eta()) <= DefaultValues::EtaBorderEB ?
+					IsCutBased(&(*electron), event, 0.0103, 0.0105, 0.115, 0.104, 0.102, 2) :
+					IsCutBased(&(*electron),event, 0.0301, 0.00814, 0.182, 0.0897, 0.126, 1)
+			);
+		}
+		else if (electronIDType == ElectronIDType::CUTBASED2015NOISOANDIPCUTSMEDIUM)
+		{
+			validElectron = validElectron &&
+			(
+					std::abs(electron->superclusterPosition.Eta()) <= DefaultValues::EtaBorderEB ?
+					IsCutBased(&(*electron), event, 0.0101, 0.0103, 0.0366, 0.0876, 0.0174, 2) :
+					IsCutBased(&(*electron),event, 0.0283, 0.00733, 0.114, 0.0678, 0.0898, 1)
+			);
+		}
+		else if (electronIDType == ElectronIDType::CUTBASED2015NOISOANDIPCUTSTIGHT)
+		{
+			validElectron = validElectron &&
+			(
+					std::abs(electron->superclusterPosition.Eta()) <= DefaultValues::EtaBorderEB ?
+					IsCutBased(&(*electron), event, 0.0101, 0.00926, 0.0336, 0.0597, 0.012, 2) :
+					IsCutBased(&(*electron),event, 0.0279, 0.00724, 0.0918, 0.0615, 0.00999, 1)
+			);
+		}
+		else if (electronIDType == ElectronIDType::CUTBASED2016NOISOCUTSVETO)
+		{
+			validElectron = validElectron &&
+			(
+					std::abs(electron->superclusterPosition.Eta()) <= DefaultValues::EtaBorderEB ?
+					IsCutBased(&(*electron), event, 0.0115, 0.00749, 0.228, 0.356, 0.299, 2, 2016) :
+					IsCutBased(&(*electron),event, 0.037, 0.00895, 0.213, 0.211, 0.15, 3, 2016)
+			);
+		}
+		else if (electronIDType == ElectronIDType::CUTBASED2016NOISOCUTSLOOSE)
+		{
+			validElectron = validElectron &&
+			(
+					std::abs(electron->superclusterPosition.Eta()) <= DefaultValues::EtaBorderEB ?
+					IsCutBased(&(*electron), event, 0.011, 0.00477, 0.222, 0.298, 0.241, 1, 2016) :
+					IsCutBased(&(*electron),event, 0.0314, 0.00868, 0.213, 0.101, 0.14, 1, 2016)
+			);
+		}
+		else if (electronIDType == ElectronIDType::CUTBASED2016NOISOCUTSMEDIUM)
+		{
+			validElectron = validElectron &&
+			(
+					std::abs(electron->superclusterPosition.Eta()) <= DefaultValues::EtaBorderEB ?
+					IsCutBased(&(*electron), event, 0.00998, 0.00311, 0.103, 0.253, 0.134, 1, 2016) :
+					IsCutBased(&(*electron),event, 0.0298, 0.00609, 0.045, 0.0878, 0.13, 1, 2016)
+			);
+		}
+		else if (electronIDType == ElectronIDType::CUTBASED2016NOISOCUTSTIGHT)
+		{
+			validElectron = validElectron &&
+			(
+					std::abs(electron->superclusterPosition.Eta()) <= DefaultValues::EtaBorderEB ?
+					IsCutBased(&(*electron), event, 0.00998, 0.00308, 0.0816, 0.0414, 0.0129, 1, 2016) :
+					IsCutBased(&(*electron),event, 0.0292, 0.00605, 0.0394, 0.0641, 0.0129, 1, 2016)
+			);
+		}
 		else if (electronIDType != ElectronIDType::NONE)
 			LOG(FATAL) << "Electron ID type of type " << Utility::ToUnderlyingValue(electronIDType) << " not yet implemented!";
 	}
@@ -276,6 +348,30 @@ bool HttValidElectronsProducer::IsCutBased(KElectron* electron, event_type const
 
 	validElectron = validElectron
 			&& electron->getId(idName, event.m_electronMetadata);
+
+	return validElectron;
+}
+
+// This function uses the same criteria as the one above with the exception of
+// isolation (and impact parameters for 2015 Id). Cut values are taken from
+// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+bool HttValidElectronsProducer::IsCutBased(KElectron* electron, event_type const& event,
+			float full5x5_sigmaIetaIeta, float dEtaIn_Seed, float dPhiIn,
+			float hOverE, float invEMinusInvP, int missingHits, int year) const
+{
+	bool validElectron = true;
+
+	validElectron = validElectron && (! (electron->electronType & (1 << KElectronType::hasConversionMatch)));
+
+	validElectron = validElectron &&
+	(
+		electron->full5x5_sigmaIetaIeta < full5x5_sigmaIetaIeta &&
+		(year == 2016 ? electron->dEtaInSeed < dEtaIn : electron->dEtaIn < dEtaIn) &&
+		electron->dPhiIn < dPhiIn &&
+		electron->hadronicOverEm < hOverE &&
+		electron->invEMinusInvP() < invEMinusInvP &&
+		electron->track.nInnerHits <= missingHits
+	);
 
 	return validElectron;
 }
