@@ -58,7 +58,7 @@ if __name__ == "__main__":
 		if not ".root" in path:
 			continue
 		json_config = {}
-		base_dict = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "BDT_overtraining.json")
+		base_dict = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/mva/BDT_overtraining.json")
 		json_config = jsonTools.JsonDict(base_dict).doIncludes(
 			).doComments()
 		json_config["files"] = path
