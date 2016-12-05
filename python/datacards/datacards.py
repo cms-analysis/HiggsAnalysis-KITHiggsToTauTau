@@ -858,6 +858,31 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 		return values_tree_files
 
+	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="alpha"):
+		commands = []
+		hypotestresulttree = {}
+		
+
+		#for fit_type in fit_type_list:
+		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\", \\\"{OUTPUT}\\\", {MASS}, {RVALUE}, \\\"{POINAME}\"\\)\"".format(
+				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH125.root"),
+				OUTPUT=os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH125_qmu.root"),
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+				RVALUE= str(rvalue),
+				POINAME=str(poiname)
+				
+				#ARGS=", ".join(args)
+			) for datacard, cb in datacards_cbs.iteritems()])
+
+			#datacards_postfit_shapes.setdefault(fit_type, {}).update({
+			#		datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
+			#for datacard, cb in datacards_cbs.iteritems()})
+
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
+
+		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH125_qmu.root") for datacard in datacards_cbs.keys()}
+
+
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, *args):
 		commands = []
 		datacards_postfit_shapes = {}
