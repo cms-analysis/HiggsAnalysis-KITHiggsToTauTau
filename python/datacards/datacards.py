@@ -273,94 +273,112 @@ class Datacards(object):
 			ch.SystMap("era")
 			(["13TeV"], 1.0)
 		]
-		chan = "mt_"
-		self.jetFakeTau_qcd_syst_args = [
-                        "CMS_$ANALYSIS_jetFakeTau_$BIN_qcd_systShape_$ERA",
+
+		self.ff_qcd_syst_category_args = [
+                        "CMS_$ANALYSIS_ff_qcd_syst_$CHANNEL_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "bin")
-                        (["13TeV"],  [chan+"inclusive"], 1.0)
-                        (["13TeV"], [chan+"0jet"], 1.0)
-                        (["13TeV"], [chan+"1jet_low"], 1.0)
-                        (["13TeV"], [chan+"1jet_medium"], 1.0)
-                        (["13TeV"], [chan+"1jet_high"], 1.0)
-                        (["13TeV"], [chan+"2jet_vbf"], 1.0)
-                        (["13TeV"], [chan+"1bjet"], 1.0)
-                        (["13TeV"], [chan+"2bjet"], 1.0)
+                        ch.SystMap("era", "channel", "bin")
+                        (["13TeV"],  ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
                 ]
-		self.jetFakeTau_qcd_stat_args = [
-                        "CMS_$ANALYSIS_jetFakeTau_$BIN_qcd_statShape_$ERA",
+		self.ff_qcd_syst_args = [
+                        "CMS_$ANALYSIS_ff_qcd_syst_$CHANNEL_$ERA",
                         "shape",
-                        ch.SystMap("era", "bin")
-                        (["13TeV"], [chan+"inclusive"], 1.0)
-                        (["13TeV"], [chan+"0jet"], 1.0)
-                        (["13TeV"], [chan+"1jet_low"], 1.0)
-                        (["13TeV"], [chan+"1jet_medium"], 1.0)
-                        (["13TeV"], [chan+"1jet_high"], 1.0)
-                        (["13TeV"], [chan+"2jet_vbf"], 1.0)
-                        (["13TeV"], [chan+"1bjet"], 1.0)
-                        (["13TeV"], [chan+"2bjet"], 1.0)
+                        ch.SystMap("era", "channel")
+                        (["13TeV"],  ["et", "mt"], 1.0)
                 ]
-		self.jetFakeTau_w_syst_args = [
-                        "CMS_$ANALYSIS_jetFakeTau_$BIN_w_systShape_$ERA",
+		self.ff_qcd_stat_category_args = [
+                        "CMS_$ANALYSIS_ff_qcd_stat_$CHANNEL_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "bin")
-                        (["13TeV"], [chan+"inclusive"], 1.0)
-                        (["13TeV"], [chan+"0jet"], 1.0)
-                        (["13TeV"], [chan+"1jet_low"], 1.0)
-                        (["13TeV"], [chan+"1jet_medium"], 1.0)
-                        (["13TeV"], [chan+"1jet_high"], 1.0)
-                        (["13TeV"], [chan+"2jet_vbf"], 1.0)
-                        (["13TeV"], [chan+"1bjet"], 1.0)
-                        (["13TeV"], [chan+"2bjet"], 1.0)
+                        ch.SystMap("era", "channel", "bin")
+                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
                 ]
-		self.jetFakeTau_w_stat_args = [
-                        "CMS_$ANALYSIS_jetFakeTau_$BIN_w_statShape_$ERA",
+		self.ff_qcd_stat_args = [
+                        "CMS_$ANALYSIS_ff_qcd_stat_$CHANNEL_$ERA",
                         "shape",
-                        ch.SystMap("era", "bin")
-                        (["13TeV"], [chan+"inclusive"], 1.0)
-                        (["13TeV"], [chan+"0jet"], 1.0)
-                        (["13TeV"], [chan+"1jet_low"], 1.0)
-                        (["13TeV"], [chan+"1jet_medium"], 1.0)
-                        (["13TeV"], [chan+"1jet_high"], 1.0)
-                        (["13TeV"], [chan+"2jet_vbf"], 1.0)
-                        (["13TeV"], [chan+"1bjet"], 1.0)
-                        (["13TeV"], [chan+"2bjet"], 1.0)
+                        ch.SystMap("era", "channel")
+                        (["13TeV"], ["et", "mt"], 1.0)
                 ]
-		self.jetFakeTau_tt_syst_args = [
-                        "CMS_$ANALYSIS_jetFakeTau_$BIN_tt_systShape_$ERA",
+		self.ff_w_syst_category_args = [
+                        "CMS_$ANALYSIS_ff_w_syst_$CHANNEL_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "bin")
-                        (["13TeV"], [chan+"inclusive"], 1.0)
-                        (["13TeV"], [chan+"0jet"], 1.0)
-                        (["13TeV"], [chan+"1jet_low"], 1.0)
-                        (["13TeV"], [chan+"1jet_medium"], 1.0)
-                        (["13TeV"], [chan+"1jet_high"], 1.0)
-                        (["13TeV"], [chan+"2jet_vbf"], 1.0)
-                        (["13TeV"], [chan+"1bjet"], 1.0)
-                        (["13TeV"], [chan+"2bjet"], 1.0)
+                        ch.SystMap("era", "channel", "bin")
+                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
                 ]
-		self.jetFakeTau_tt_stat_args = [
-                        "CMS_$ANALYSIS_jetFakeTau_$BIN_tt_statShape_$ERA",
+		self.ff_w_syst_args = [
+                        "CMS_$ANALYSIS_ff_w_syst_$CHANNEL_$ERA",
                         "shape",
-                        ch.SystMap("era", "bin")
-                        (["13TeV"], [chan+"inclusive"], 1.0)
-                        (["13TeV"], [chan+"0jet"], 1.0)
-                        (["13TeV"], [chan+"1jet_low"], 1.0)
-                        (["13TeV"], [chan+"1jet_medium"], 1.0)
-                        (["13TeV"], [chan+"1jet_high"], 1.0)
-                        (["13TeV"], [chan+"2jet_vbf"], 1.0)
-                        (["13TeV"], [chan+"1bjet"], 1.0)
-                        (["13TeV"], [chan+"2bjet"], 1.0)
+                        ch.SystMap("era", "channel")
+                        (["13TeV"], ["et", "mt"], 1.0)
+                ]
+		self.ff_w_stat_category_args = [
+                        "CMS_$ANALYSIS_ff_w_stat_$CHANNEL_$BIN_$ERA",
+                        "shape",
+                        ch.SystMap("era", "channel", "bin")
+                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                ]
+		self.ff_w_stat_args = [
+                        "CMS_$ANALYSIS_ff_w_stat_$CHANNEL_$ERA",
+                        "shape",
+                        ch.SystMap("era", "channel")
+                        (["13TeV"], ["et", "mt"], 1.0)
+                ]
+		self.ff_tt_syst_category_args = [
+                        "CMS_$ANALYSIS_ff_tt_syst_$CHANNEL_$BIN_$ERA",
+                        "shape",
+                        ch.SystMap("era", "channel", "bin")
+                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                ]
+		self.ff_tt_syst_args = [
+                        "CMS_$ANALYSIS_ff_tt_syst_$CHANNEL_$ERA",
+                        "shape",
+                        ch.SystMap("era", "channel")
+                        (["13TeV"], ["et", "mt"], 1.0)
+                ]
+		self.ff_tt_stat_category_args = [
+                        "CMS_$ANALYSIS_ff_tt_stat_$CHANNEL_$BIN_$ERA",
+                        "shape",
+                        ch.SystMap("era", "channel", "bin")
+                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                ]
+		self.ff_tt_stat_args = [
+                        "CMS_$ANALYSIS_ff_tt_stat_$CHANNEL_$ERA",
+                        "shape",
+                        ch.SystMap("era", "channel")
+                        (["13TeV"], ["et", "mt"], 1.0)
                 ]
 
-		self.met_resp_syst_args = [
-			"CMS_scale_met_$CHANNEL_$ERA",
+		self.met_resp_channel_syst_args = [
+			"CMS_scale_met_corr_$CHANNEL_$ERA",
 			"shape",
 			ch.SystMap("era", "channel")
 				(["13TeV"], ["em"], 1.0)
 				(["13TeV"], ["et"], 1.0)
 				(["13TeV"], ["mt"], 1.0)
 				(["13TeV"], ["tt"], 1.0)
+		]
+
+		self.met_resp_syst_args = [
+			"CMS_scale_met_corr_$ERA",
+			"shape",
+			ch.SystMap("era")
+				(["13TeV"], 1.0)
+		]
+
+		self.met_resol_channel_syst_args = [
+			"CMS_res_met_corr_$CHANNEL_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["em"], 1.0)
+				(["13TeV"], ["et"], 1.0)
+				(["13TeV"], ["mt"], 1.0)
+				(["13TeV"], ["tt"], 1.0)
+		]
+
+		self.met_resol_syst_args = [
+			"CMS_res_met_corr_$ERA",
+			"shape",
+			ch.SystMap("era")
+				(["13TeV"], 1.0)
 		]
 
 		self.probetau_es_syst_args = [

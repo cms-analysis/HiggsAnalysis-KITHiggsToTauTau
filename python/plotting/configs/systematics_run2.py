@@ -21,13 +21,22 @@ class SystematicsFactory(dict):
 		self["CMS_eff_b_13TeV"] = BTagSystematic
 		self["CMS_mistag_b_13TeV"] = BMistagSystematic
 		
-		for category in ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"]:
-			self["CMS_ztt_jetFakeTau_mt_"+category+"_qcd_systShape_13TeV"] = JetFakeTauQCDsystShapeSystematic
-			self["CMS_ztt_jetFakeTau_mt_"+category+"_qcd_statShape_13TeV"] = JetFakeTauQCDstatShapeSystematic
-			self["CMS_ztt_jetFakeTau_mt_"+category+"_w_systShape_13TeV"] = JetFakeTauWsystShapeSystematic
-			self["CMS_ztt_jetFakeTau_mt_"+category+"_w_statShape_13TeV"] = JetFakeTauWstatShapeSystematic
-			self["CMS_ztt_jetFakeTau_mt_"+category+"_tt_systShape_13TeV"] = JetFakeTauTTsystShapeSystematic
-			self["CMS_ztt_jetFakeTau_mt_"+category+"_tt_statShape_13TeV"] = JetFakeTauTTstatShapeSystematic
+		for channel in ["et", "mt"]:
+			self["CMS_ztt_ff_qcd_syst_"+channel+"_13TeV"] = JetFakeTauQCDsystShapeSystematic
+			self["CMS_ztt_ff_qcd_stat_"+channel+"_13TeV"] = JetFakeTauQCDstatShapeSystematic
+			self["CMS_ztt_ff_w_syst_"+channel+"_13TeV"] = JetFakeTauWsystShapeSystematic
+			self["CMS_ztt_ff_w_stat_"+channel+"_13TeV"] = JetFakeTauWstatShapeSystematic
+			self["CMS_ztt_ff_tt_syst_"+channel+"_13TeV"] = JetFakeTauTTsystShapeSystematic
+			self["CMS_ztt_ff_tt_stat_"+channel+"_13TeV"] = JetFakeTauTTstatShapeSystematic
+			
+			# exact copies of the above
+			for category in ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"]:
+				self["CMS_ztt_ff_qcd_syst_"+channel+"_"+category+"_13TeV"] = JetFakeTauQCDsystShapeSystematic
+				self["CMS_ztt_ff_qcd_stat_"+channel+"_"+category+"_13TeV"] = JetFakeTauQCDstatShapeSystematic
+				self["CMS_ztt_ff_w_syst_"+channel+"_"+category+"_13TeV"] = JetFakeTauWsystShapeSystematic
+				self["CMS_ztt_ff_w_stat_"+channel+"_"+category+"_13TeV"] = JetFakeTauWstatShapeSystematic
+				self["CMS_ztt_ff_tt_syst_"+channel+"_"+category+"_13TeV"] = JetFakeTauTTsystShapeSystematic
+				self["CMS_ztt_ff_tt_stat_"+channel+"_"+category+"_13TeV"] = JetFakeTauTTstatShapeSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
@@ -39,7 +48,16 @@ class SystematicsFactory(dict):
 			self["CMS_scale_m_"+channel+"_13TeV"] = MuonEsSystematic
 		
 		for channel in ["em", "et", "mt", "tt"]:
-			self["CMS_scale_met_"+channel+"_13TeV"] = MetResponseSystematic
+			self["CMS_scale_met_corr_"+channel+"_13TeV"] = MetResponseSystematic
+		
+		for channel in ["em", "et", "mt", "tt"]:
+			self["CMS_scale_met_corr_13TeV"] = MetResponseSystematic # exact copy of the above
+		
+		for channel in ["em", "et", "mt", "tt"]:
+			self["CMS_res_met_corr_"+channel+"_13TeV"] = MetResolutionSystematic
+		
+		for channel in ["em", "et", "mt", "tt"]:
+			self["CMS_res_met_corr_13TeV"] = MetResolutionSystematic # exact copy of the above
 		
 		for channel in ["et"]:
 			self["CMS_scale_probetau_"+channel+"_13TeV"] = ProbeTauEsSystematic
@@ -260,9 +278,9 @@ class EleEsSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsUp")
+					plot_config["folders"][index] = folder.split("/")[0] + "_eleEsUp/ntuple"
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsDown")
+					plot_config["folders"][index] = folder.split("/")[0] + "_eleEsDown/ntuple"
 		
 		return plot_config
 
@@ -275,9 +293,9 @@ class MuonEsSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("muonEsNom", "muonEsUp")
+					plot_config["folders"][index] = folder.split("/")[0] + "_muonEsUp/ntuple"
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("muonEsNom", "muonEsDown")
+					plot_config["folders"][index] = folder.split("/")[0] + "_muonEsDown/ntuple"
 		
 		return plot_config
 
@@ -293,6 +311,21 @@ class MetResponseSystematic(SystematicShiftBase):
 					plot_config["folders"][index] = folder.split("/")[0] + "_metResponseUp/ntuple"
 				elif shift < 0.0:
 					plot_config["folders"][index] = folder.split("/")[0] + "_metResponseDown/ntuple"
+		
+		return plot_config
+
+
+class MetResolutionSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(MetResolutionSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.split("/")[0] + "_metResolutionUp/ntuple"
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.split("/")[0] + "_metResolutionDown/ntuple"
 		
 		return plot_config
 
