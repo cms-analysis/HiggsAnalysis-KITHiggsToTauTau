@@ -351,7 +351,7 @@ if __name__ == "__main__":
 			args.n_processes,
 			"-P {MODEL} {MODEL_PARAMETERS}".format(
 				MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-				MODEL_PARAMETERS="" # "--PO=muFloating"
+				MODEL_PARAMETERS="--PO=muFloating"
 			)
 	) # TODO: use JPC physics model
 	
@@ -397,7 +397,7 @@ if __name__ == "__main__":
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
 
 	datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
-	#print datacards_hypotestresult
+	print datacards_hypotestresult
 	pconfigs_plot=[]
 	for filename in datacards_hypotestresult.values():
 		print filename
