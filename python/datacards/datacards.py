@@ -864,7 +864,7 @@ class Datacards(object):
 		
 
 		#for fit_type in fit_type_list:
-		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\",\\\"{OUTPUT}\\\",{MASS},{RVALUE},\\\"{POINAME}\\\")\"".format(
+		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\", \\\"{OUTPUT}\\\", {MASS}, {RVALUE}, \\\"{POINAME}\"\\)\"".format(
 				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH125.root"),
 				OUTPUT=os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH125_qmu.root"),
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
