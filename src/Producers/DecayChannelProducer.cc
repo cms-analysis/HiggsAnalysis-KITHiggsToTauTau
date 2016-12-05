@@ -576,6 +576,8 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	tauDiscriminators.push_back("decayModeFindingNewDMs");
 	tauDiscriminators.push_back("neutralIsoPtSum");
 	tauDiscriminators.push_back("puCorrPtSum");
+	tauDiscriminators.push_back("footprintCorrection");
+	tauDiscriminators.push_back("photonPtSumOutsideSignalCone");
 
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
