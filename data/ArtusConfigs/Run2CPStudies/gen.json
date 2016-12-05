@@ -1,6 +1,10 @@
 {
 	"gen" : {
-		"Channel" : "gen",
+		"include" : [
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json"
+		],
 		"EventWeight" : "eventWeight",
 		"Quantities" : {
 			"nick" : {
@@ -11,7 +15,7 @@
 						]
 					}
 				],
-				"DY.?JetsToLLM|HToTauTau|H2JetsToTauTau" : [
+				"DY.?JetsToLLM" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
@@ -20,6 +24,25 @@
 						]
 					},
 					"tauSpinnerPolarisation"
+				],
+				"HToTauTau|H2JetsToTauTau" : [
+					{
+						"include" : [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json"
+						]
+					},
+					"tauSpinnerPolarisation",
+					"nJets",
+					"nJets30",
+					"leadingJetLV",
+					"trailingJetLV",
+					"thirdJetLV",
+					"fourthJetLV",
+					"fifthJetLV",
+					"sixthJetLV",
+					"diJetDeltaPhi"
 				],
 				"Embedding2016" : [
 					{
@@ -32,7 +55,18 @@
 				]
 			}
 		},
-		"Processors" : [],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+				],
+				"HToTauTau|H2JetsToTauTau" : [
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"#producer:ValidBTaggedJetsProducer",
+					"producer:DiJetQuantitiesProducer"
+				]
+			}
+		},
 		"Consumers" : [
 			"cutflow_histogram",
 			"KappaLambdaNtupleConsumer",

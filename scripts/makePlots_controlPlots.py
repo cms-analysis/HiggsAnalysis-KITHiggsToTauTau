@@ -107,7 +107,8 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff", "ggh", "qqh", "bbh", "vh", "htt", "data"],
+	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff",
+	                             "ggh", "gghsm", "gghmm", "gghps", "qqh", "bbh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
