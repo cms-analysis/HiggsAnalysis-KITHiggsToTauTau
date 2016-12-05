@@ -55,11 +55,10 @@ git clone https://github.com/CMSAachen3B/SimpleFits.git -b artus_master
 
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
-#### --change to the recommendation of Combind Twiki 
-##https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
-##git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git -b slc6-root5.34.17 HiggsAnalysis/CombinedLimit
-git clone https://github.com/thomas-mueller/HiggsAnalysis-CombinedLimit -b 74x-root6 HiggsAnalysis/CombinedLimit
-
+git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b 74x-root6
+cd HiggsAnalysis/CombinedLimit
+git checkout 3cb65246555d094734a81e20181e399714d22c7e
+cd -
 
 # needed for error propagation e.g. in the background estimations
 git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
