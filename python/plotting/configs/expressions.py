@@ -28,11 +28,19 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 		# Z->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
+
 			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive"] = "1.0"
 			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_0jet_inclusive"] = "(njetspt30<1)"
 
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_low"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt<50)") + ("*(nbtag<1)")
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_medium"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt>50)*(H_pt<100)") + ("*(nbtag<1)")
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_high"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt>100)") + ("*(nbtag<1)")
+			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] + "*(mjj>500.0)*(jdeta>3.5)"
+
+			self.expressions_dict["catZtt13TeV_"+channel+"_1bjet"] = "(njets==1)*(nbtag>=1)"
+			self.expressions_dict["catZtt13TeV_"+channel+"_2bjet"] = "(njets==2)*(nbtag>=2)"
 		# Z->tautau polarisation categories
 		for channel in ["em"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(1.0)"
@@ -62,7 +70,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"
-			pt_cut = "35.0" if channel in ["mt", "et", "tt"] else "35.0"
+			pt_cut = "35.0"
 			#CP-studies
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_mt"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.55)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_et"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.55)"
