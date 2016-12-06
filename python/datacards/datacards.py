@@ -275,10 +275,10 @@ class Datacards(object):
 		]
 
 		self.ff_qcd_syst_category_args = [
-                        "CMS_$ANALYSIS_ff_qcd_syst_$CHANNEL_$BIN_$ERA",
+                        "CMS_$ANALYSIS_ff_qcd_syst_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "channel", "bin")
-                        (["13TeV"],  ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                        ch.SystMap("era", "bin")
+                        (["13TeV"],  ["et_inclusive", "et_0jet", "et_1jet_low", "et_1jet_medium", "et_1jet_high", "et_2jet_vbf", "et_1bjet", "et_2bjet", "mt_inclusive", "mt_0jet", "mt_1jet_low", "mt_1jet_medium", "mt_1jet_high", "mt_2jet_vbf", "mt_1bjet", "mt_2bjet"], 1.0)
                 ]
 		self.ff_qcd_syst_args = [
                         "CMS_$ANALYSIS_ff_qcd_syst_$CHANNEL_$ERA",
@@ -287,10 +287,10 @@ class Datacards(object):
                         (["13TeV"],  ["et", "mt"], 1.0)
                 ]
 		self.ff_qcd_stat_category_args = [
-                        "CMS_$ANALYSIS_ff_qcd_stat_$CHANNEL_$BIN_$ERA",
+                        "CMS_$ANALYSIS_ff_qcd_stat_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "channel", "bin")
-                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                        ch.SystMap("era", "bin")
+                        (["13TeV"], ["et_inclusive", "et_0jet", "et_1jet_low", "et_1jet_medium", "et_1jet_high", "et_2jet_vbf", "et_1bjet", "et_2bjet", "mt_inclusive", "mt_0jet", "mt_1jet_low", "mt_1jet_medium", "mt_1jet_high", "mt_2jet_vbf", "mt_1bjet", "mt_2bjet"], 1.0)
                 ]
 		self.ff_qcd_stat_args = [
                         "CMS_$ANALYSIS_ff_qcd_stat_$CHANNEL_$ERA",
@@ -299,10 +299,10 @@ class Datacards(object):
                         (["13TeV"], ["et", "mt"], 1.0)
                 ]
 		self.ff_w_syst_category_args = [
-                        "CMS_$ANALYSIS_ff_w_syst_$CHANNEL_$BIN_$ERA",
+                        "CMS_$ANALYSIS_ff_w_syst_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "channel", "bin")
-                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                        ch.SystMap("era", "bin")
+                        (["13TeV"], ["et_inclusive", "et_0jet", "et_1jet_low", "et_1jet_medium", "et_1jet_high", "et_2jet_vbf", "et_1bjet", "et_2bjet", "mt_inclusive", "mt_0jet", "mt_1jet_low", "mt_1jet_medium", "mt_1jet_high", "mt_2jet_vbf", "mt_1bjet", "mt_2bjet"], 1.0)
                 ]
 		self.ff_w_syst_args = [
                         "CMS_$ANALYSIS_ff_w_syst_$CHANNEL_$ERA",
@@ -311,10 +311,10 @@ class Datacards(object):
                         (["13TeV"], ["et", "mt"], 1.0)
                 ]
 		self.ff_w_stat_category_args = [
-                        "CMS_$ANALYSIS_ff_w_stat_$CHANNEL_$BIN_$ERA",
+                        "CMS_$ANALYSIS_ff_w_stat_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "channel", "bin")
-                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                        ch.SystMap("era", "bin")
+                        (["13TeV"], ["et_inclusive", "et_0jet", "et_1jet_low", "et_1jet_medium", "et_1jet_high", "et_2jet_vbf", "et_1bjet", "et_2bjet", "mt_inclusive", "mt_0jet", "mt_1jet_low", "mt_1jet_medium", "mt_1jet_high", "mt_2jet_vbf", "mt_1bjet", "mt_2bjet"], 1.0)
                 ]
 		self.ff_w_stat_args = [
                         "CMS_$ANALYSIS_ff_w_stat_$CHANNEL_$ERA",
@@ -323,10 +323,10 @@ class Datacards(object):
                         (["13TeV"], ["et", "mt"], 1.0)
                 ]
 		self.ff_tt_syst_category_args = [
-                        "CMS_$ANALYSIS_ff_tt_syst_$CHANNEL_$BIN_$ERA",
+                        "CMS_$ANALYSIS_ff_tt_syst_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "channel", "bin")
-                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                        ch.SystMap("era", "bin")
+                        (["13TeV"], ["et_inclusive", "et_0jet", "et_1jet_low", "et_1jet_medium", "et_1jet_high", "et_2jet_vbf", "et_1bjet", "et_2bjet", "mt_inclusive", "mt_0jet", "mt_1jet_low", "mt_1jet_medium", "mt_1jet_high", "mt_2jet_vbf", "mt_1bjet", "mt_2bjet"], 1.0)
                 ]
 		self.ff_tt_syst_args = [
                         "CMS_$ANALYSIS_ff_tt_syst_$CHANNEL_$ERA",
@@ -335,10 +335,10 @@ class Datacards(object):
                         (["13TeV"], ["et", "mt"], 1.0)
                 ]
 		self.ff_tt_stat_category_args = [
-                        "CMS_$ANALYSIS_ff_tt_stat_$CHANNEL_$BIN_$ERA",
+                        "CMS_$ANALYSIS_ff_tt_stat_$BIN_$ERA",
                         "shape",
-                        ch.SystMap("era", "channel", "bin")
-                        (["13TeV"], ["et", "mt"], ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"], 1.0)
+                        ch.SystMap("era", "bin")
+                        (["13TeV"], ["et_inclusive", "et_0jet", "et_1jet_low", "et_1jet_medium", "et_1jet_high", "et_2jet_vbf", "et_1bjet", "et_2bjet", "mt_inclusive", "mt_0jet", "mt_1jet_low", "mt_1jet_medium", "mt_1jet_high", "mt_2jet_vbf", "mt_1bjet", "mt_2bjet"], 1.0)
                 ]
 		self.ff_tt_stat_args = [
                         "CMS_$ANALYSIS_ff_tt_stat_$CHANNEL_$ERA",

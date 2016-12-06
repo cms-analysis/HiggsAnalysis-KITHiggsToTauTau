@@ -30,7 +30,7 @@ class DatacardConfigs(object):
 			"WJL" : "wjl",
 			"QCD" : "qcd",
 			"EWK" : "ewk",
-			"FF" : "ff",
+			"jetFakes" : "ff",
 			"ggH" : "ggh",
 			"qqH" : "qqh",
 			"VH" : "vh",

@@ -303,10 +303,9 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category for category in ["inclusive"]],
-					#categories=["mt_"+category for category in ["inclusive","0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
-					#categories=["mt_"+category for category in ["0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
-					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "FF"],
+					#categories=["mt_"+category for category in ["inclusive"]],
+					categories=["mt_"+category for category in ["inclusive","0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
+					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "jetFakes"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],
@@ -326,7 +325,6 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 
 			# Tau ES
 			self.cb.cp().channel(["mt"]).process(["TTJT", "VVT", "ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
-			#self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# MET scale
 			self.cb.cp().channel(["mt"]).process(["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZTT"]).AddSyst(self.cb, *self.met_resp_channel_syst_args)
@@ -345,18 +343,18 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			
 			# Fake-Factor (Jets faking Taus)
 			#new
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_qcd_syst_category_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_qcd_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_qcd_stat_category_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_qcd_stat_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_w_syst_category_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_w_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_w_stat_category_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_w_stat_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_tt_syst_category_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_tt_syst_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_tt_stat_category_args)
-			self.cb.cp().channel(["mt"]).process(["FF"]).AddSyst(self.cb, *self.ff_tt_stat_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_qcd_syst_category_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_qcd_syst_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_qcd_stat_category_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_qcd_stat_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_w_syst_category_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_w_syst_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_w_stat_category_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_w_stat_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_tt_syst_category_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_tt_syst_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_tt_stat_category_args)
+			self.cb.cp().channel(["mt"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_tt_stat_args)
 
 
 			# ======================================================================
@@ -365,8 +363,7 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 					channel="et",
 					#categories=["et_"+category for category in ["inclusive"]],
 					categories=["et_"+category for category in ["inclusive","0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
-					#categories=["et_"+category for category in ["0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
-					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "FF"],
+					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "jetFakes"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],
@@ -386,7 +383,6 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			
 			# Tau ES
 			self.cb.cp().channel(["et"]).process(["TTJT", "VVT", "ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
-			#self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 
 			# MET scale
 			self.cb.cp().channel(["et"]).process(["ZL", "TTJT", "TTJL", "VVT", "VVL", "WJT", "WJL", "ZTT"]).AddSyst(self.cb, *self.met_resp_channel_syst_args)
@@ -405,18 +401,18 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 
 			# Fake-Factor (Jets faking Taus)
 			#new
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_qcd_syst_category_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_qcd_syst_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_qcd_stat_category_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_qcd_stat_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_w_syst_category_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_w_syst_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_w_stat_category_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_w_stat_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_tt_syst_category_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_tt_syst_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_tt_stat_category_args)
-			self.cb.cp().channel(["et"]).process(["FF"]).AddSyst(self.cb, *self.ff_tt_stat_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_qcd_syst_category_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_qcd_syst_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_qcd_stat_category_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_qcd_stat_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_w_syst_category_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_w_syst_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_w_stat_category_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_w_stat_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_tt_syst_category_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_tt_syst_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_tt_stat_category_args)
+			self.cb.cp().channel(["et"]).process(["jetFakes"]).AddSyst(self.cb, *self.ff_tt_stat_args)
 			
 			
 			# ======================================================================
