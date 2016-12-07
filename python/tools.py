@@ -41,5 +41,5 @@ def find_common_httpipename(s1, s2):
 		if pattern[0] > 0:
 			string += pattern[1] if pattern[1][-2:] != "_z" else pattern[1][:-2]
 		else:
-			string += "Nom" if pattern[1] in ["Up","Down","Nom"] else ""
+			string += "Nom" if pattern[1].split("_")[0] in ["Up","Down","Nom"] else ""
 	return string
