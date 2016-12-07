@@ -58,6 +58,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
     // Initiate FaceFactor object
     // For now only ff_comb to be used, individual factors saved for later
     FakeFactor* ff_comb_et_incl = (FakeFactor*)ff_file_et_incl->Get("ff_comb");
+    FakeFactor* ff_comb_et_incl_SS = (FakeFactor*)ff_file_et_incl_SS->Get("ff_comb");
     FakeFactor* ff_comb_et_0jet = (FakeFactor*)ff_file_et_0jet->Get("ff_comb");
     FakeFactor* ff_comb_et_1jet = (FakeFactor*)ff_file_et_1jet->Get("ff_comb");
     FakeFactor* ff_comb_et_1jetZ050 = (FakeFactor*)ff_file_et_1jetZ050->Get("ff_comb");
@@ -83,6 +84,22 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
     product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_tt_syst_down"] = ff_comb_et_incl->value(inputs, "ff_tt_syst_down");
     product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_tt_stat_up"] = ff_comb_et_incl->value(inputs, "ff_tt_stat_up");
     product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_tt_stat_down"] = ff_comb_et_incl->value(inputs, "ff_tt_stat_down");
+    
+    //ET channel weights (incl same-sign)
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS"] = ff_comb_et_incl_SS->value(inputs);
+    //Retrieve uncertainties (incl same-sign)
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_qcd_syst_up"] = ff_comb_et_incl_SS->value(inputs, "ff_qcd_syst_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_qcd_syst_down"] = ff_comb_et_incl_SS->value(inputs, "ff_qcd_syst_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_qcd_stat_up"] = ff_comb_et_incl_SS->value(inputs, "ff_qcd_stat_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_qcd_stat_down"] = ff_comb_et_incl_SS->value(inputs, "ff_qcd_stat_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_w_syst_up"] = ff_comb_et_incl_SS->value(inputs, "ff_w_syst_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_w_syst_down"] = ff_comb_et_incl_SS->value(inputs, "ff_w_syst_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_w_stat_up"] = ff_comb_et_incl_SS->value(inputs, "ff_w_stat_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_w_stat_down"] = ff_comb_et_incl_SS->value(inputs, "ff_w_stat_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_tt_syst_up"] = ff_comb_et_incl_SS->value(inputs, "ff_tt_syst_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_tt_syst_down"] = ff_comb_et_incl_SS->value(inputs, "ff_tt_syst_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_tt_stat_up"] = ff_comb_et_incl_SS->value(inputs, "ff_tt_stat_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_et_incl_SS_tt_stat_down"] = ff_comb_et_incl_SS->value(inputs, "ff_tt_stat_down");
     
     //ET channel weights (0jet)
     product.m_optionalWeights["jetToTauFakeWeight_comb_et_0jet"] = ff_comb_et_0jet->value(inputs);
@@ -215,6 +232,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 
     //delete ET objects
     delete ff_comb_et_incl;
+    delete ff_comb_et_incl_SS;
     delete ff_comb_et_0jet;
     delete ff_comb_et_1jet;
     delete ff_comb_et_1jetZ050;
@@ -232,6 +250,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 	if(m_isMT)
 	{
     FakeFactor* ff_comb_mt_incl = (FakeFactor*)ff_file_mt_incl->Get("ff_comb");
+    FakeFactor* ff_comb_mt_incl_SS = (FakeFactor*)ff_file_mt_incl_SS->Get("ff_comb");
     FakeFactor* ff_comb_mt_0jet = (FakeFactor*)ff_file_mt_0jet->Get("ff_comb");
     FakeFactor* ff_comb_mt_1jet = (FakeFactor*)ff_file_mt_1jet->Get("ff_comb");
     FakeFactor* ff_comb_mt_1jetZ050 = (FakeFactor*)ff_file_mt_1jetZ050->Get("ff_comb");
@@ -257,6 +276,22 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
     product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_tt_syst_down"] = ff_comb_mt_incl->value(inputs, "ff_tt_syst_down");
     product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_tt_stat_up"] = ff_comb_mt_incl->value(inputs, "ff_tt_stat_up");
     product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_tt_stat_down"] = ff_comb_mt_incl->value(inputs, "ff_tt_stat_down");
+    
+    //MT channel weights (incl same-sign)
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS"] = ff_comb_mt_incl_SS->value(inputs);
+    //Retrieve uncertainties (incl same-sign)
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_qcd_syst_up"] = ff_comb_mt_incl_SS->value(inputs, "ff_qcd_syst_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_qcd_syst_down"] = ff_comb_mt_incl_SS->value(inputs, "ff_qcd_syst_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_qcd_stat_up"] = ff_comb_mt_incl_SS->value(inputs, "ff_qcd_stat_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_qcd_stat_down"] = ff_comb_mt_incl_SS->value(inputs, "ff_qcd_stat_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_w_syst_up"] = ff_comb_mt_incl_SS->value(inputs, "ff_w_syst_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_w_syst_down"] = ff_comb_mt_incl_SS->value(inputs, "ff_w_syst_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_w_stat_up"] = ff_comb_mt_incl_SS->value(inputs, "ff_w_stat_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_w_stat_down"] = ff_comb_mt_incl_SS->value(inputs, "ff_w_stat_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_tt_syst_up"] = ff_comb_mt_incl_SS->value(inputs, "ff_tt_syst_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_tt_syst_down"] = ff_comb_mt_incl_SS->value(inputs, "ff_tt_syst_down");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_tt_stat_up"] = ff_comb_mt_incl_SS->value(inputs, "ff_tt_stat_up");
+    product.m_optionalWeights["jetToTauFakeWeight_comb_mt_incl_SS_tt_stat_down"] = ff_comb_mt_incl_SS->value(inputs, "ff_tt_stat_down");
     
     //MT channel weights (0jet)
     product.m_optionalWeights["jetToTauFakeWeight_comb_mt_0jet"] = ff_comb_mt_0jet->value(inputs);
@@ -389,6 +424,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 
     //delete MT objects
     delete ff_comb_mt_incl;
+    delete ff_comb_mt_incl_SS;
     delete ff_comb_mt_0jet;
     delete ff_comb_mt_1jet;
     delete ff_comb_mt_1jetZ050;
@@ -398,18 +434,5 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
     delete ff_comb_mt_2jetVBF;
     delete ff_comb_mt_anyb;
 	}
-
-
-    /*   //TT channel
-    FakeFactor* ff_comb_tt_incl = (FakeFactor*)ff_file_tt_incl->Get("ff_comb");
-    FakeFactor* ff_comb_tt_0jet = (FakeFactor*)ff_file_tt_0jet->Get("ff_comb");
-    FakeFactor* ff_comb_tt_1jet = (FakeFactor*)ff_file_tt_1jet->Get("ff_comb");
-    FakeFactor* ff_comb_tt_1jetZ050 = (FakeFactor*)ff_file_tt_1jetZ050->Get("ff_comb");
-    FakeFactor* ff_comb_tt_1jetZ50100 = (FakeFactor*)ff_file_tt_1jetZ50100->Get("ff_comb");
-    FakeFactor* ff_comb_tt_1jetZ100 = (FakeFactor*)ff_file_tt_1jetZ100->Get("ff_comb");
-    FakeFactor* ff_comb_tt_2jet = (FakeFactor*)ff_file_tt_2jet->Get("ff_comb");
-    FakeFactor* ff_comb_tt_2jetVBF = (FakeFactor*)ff_file_tt_2jetVBF->Get("ff_comb");
-    FakeFactor* ff_comb_tt_anyb = (FakeFactor*)ff_file_tt_anyb->Get("ff_comb");
-    */
     }
 }
