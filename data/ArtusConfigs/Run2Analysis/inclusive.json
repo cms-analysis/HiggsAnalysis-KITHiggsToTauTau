@@ -27,7 +27,7 @@
 				],
 				"DY.?JetsToLLM(10to50|50|150)" : 
 				[
-					"producer:GenBosonFromGenParticlesProducer"
+					"#producer:GenBosonFromGenParticlesProducer"
 				]
 			}
 		},
@@ -42,7 +42,7 @@
 				],
 				"DY.?JetsToLLM(10to50|50|150)" : 
 				[
-					"KappaLambdaNtupleConsumer"
+					"#KappaLambdaNtupleConsumer"
 				]
 			}
 		}

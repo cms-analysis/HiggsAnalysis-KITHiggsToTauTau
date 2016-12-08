@@ -1,5 +1,5 @@
 
-void hypoTestResultTree(TString fInName, TString fOutName, double mass, double rValue=1.0, const char *poiName="r") {
+void hypoTestResultTree(TString fInName, TString fOutName, double mass, double rValue=1.0, const char *poiName="alpha") {
     TFile *fIn=new TFile(fInName, "OPEN"); //TODO: vector so more datasamples can be read in
 
 

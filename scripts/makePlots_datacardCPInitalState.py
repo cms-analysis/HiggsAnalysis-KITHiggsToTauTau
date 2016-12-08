@@ -113,7 +113,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -292,7 +292,20 @@ if __name__ == "__main__":
 		
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
+		gghsm_signals = datacards.cb.cp().signals()
+		gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process().lower()))
+		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
+		
+		gghps_signals = datacards.cb.cp().signals()
+		gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process().lower()))
+		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00001)))
+		
 		datacards.replace_observation_by_asimov_dataset("125")
+		
+		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
+		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.00001)))
+		
+		
 
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
@@ -323,7 +336,7 @@ if __name__ == "__main__":
 	#cb.PrintAll()
 
 	
-	
+	'''
 	datacards_workspaces = datacards.text2workspace(
 			datacards_cbs,
 			args.n_processes,
@@ -332,11 +345,22 @@ if __name__ == "__main__":
 				MODEL_PARAMETERS=""
 			)
 	) # TODO: use JPC physics model
+	'''
+	datacards_workspaces = datacards.text2workspace(
+			datacards_cbs,
+			args.n_processes,
+			"-P {MODEL} {MODEL_PARAMETERS}".format(
+				MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+				MODEL_PARAMETERS="--PO=muFloating"
+			)
+	) # TODO: use JPC physics model
+	
+
 	
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
-	"""
+	
 	# Max. likelihood fit and postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+"--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"alpha=0\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+" --expectSignal 1.0 -t -1 --setPhysicsModelParameters \"alpha=0\"")
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 
@@ -365,32 +389,46 @@ if __name__ == "__main__":
 			#None,
 			#"-t limit -b channel"
 	#)
-	"""
+	
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 40 -T 5000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 10000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
 #-M HybridNew --testStat=TEV --generateExt=1 --generateNuis=0 fixedMu.root --singlePoint 1 --saveHybridResult --fork 40 -T 1000 -i 1 --clsAcc 0 --fullBToys
 
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
 
-	datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes)
+	datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
 	print datacards_hypotestresult
 	pconfigs_plot=[]
 	for filename in datacards_hypotestresult.values():
 		print filename
 		pconfigs={}
 		pconfigs["files"]= [filename]
+		pconfigs["nicks"]= ["noplot","alternative_hyptothesis","null_hypothesis", "q_obs"]
+		pconfigs["tree_draw_options"]=["","","","TGraph"]
+		#pconfigs[ "marker_sizes"]=[5]
+		#pconfigs["marker_styles"]=[34]
+		pconfigs[ "markers"]=["line","line","line"]
+		pconfigs["x_bins"]=["100"]
+		pconfigs["y_expressions"]=["None","None","None","0"]
 		pconfigs["folders"]=["q"]
-		pconfigs["markers"]=["LINE"]
-		pconfigs["weights"]=["type<0","type>0"]
+		pconfigs["weights"]=["1","type<0","type>0","type==0"]
 		pconfigs["x_expressions"]=["q"]	
 		pconfigs[ "output_dir"]=str(os.path.dirname(filename))
+		#pconfigs["x_bins"]=["30,-15,15"]
 		
+		#pconfigs["scale_factors"]=[1,1,1,900]
 		#pconfig["plot_modules"] = ["ExportRoot"]
+
+		pconfigs["analysis_modules"]=["PValue"]
+		pconfigs["p_value_alternative_hypothesis_nicks"]=["alternative_hyptothesis"]
+		pconfigs["p_value_null_hypothesis_nicks"]=["null_hypothesis"]
+		pconfigs["p_value_observed_nicks"]=["q_obs"]
+
 		pconfigs_plot.append(pconfigs)
-	pprint.pprint(pconfigs_plot)
+	#pprint.pprint(pconfigs_plot)
 	higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
 
-	print args.n_plots[1]
+	#print args.n_plots[1]
 	
 
 	

@@ -67,7 +67,13 @@ def addArguments(parser):
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["tt", "mt", "et", "em", "mm"],
 	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", default=["inclusive"],
+	parser.add_argument("--categories", nargs="+",
+						default=["inclusive"],
+						choices=["inclusive",
+								 "2jet_inclusive", "1jet_inclusive", "0jet_inclusive",
+								 "1jet_low", "1jet_medium", "1jet_high",
+								 "2jet_vbf",
+								 "1bjet", "2bjet"],
 	                    help="Categories. [Default: %(default)s]. inclusive is mandatory!")
 	parser.add_argument("-x", "--quantities", nargs="*",
 	                    default=["integral",
@@ -136,17 +142,27 @@ def addArguments(parser):
 	
 def merge(config_list):
 	for i in range(len(config_list) - 1):
-		config_list[0] = sample_settings.merge_configs(config_list[0], config_list[i + 1], additional_keys = ["denominator", "numerator"])
+		config_list[0] = sample_settings.merge_configs(config_list[0], config_list[i + 1], additional_keys = ["theoryuncertainty_denominator", "theoryuncertainty_numerator", "nicks_blacklist", "ratio_denominator_nicks", "ratio_numerator_nicks"])
 
-def AppendConfig(plot_configs_list, config, str_prefix= "", category= "", lheweight= "", logdebug = ""):
+colors = ['#000080', '#FF0000', '#800000', '#FFFF00', '#800080', '#000080', '#008000', '#0000FF', '#008080']
+def AppendConfig(plot_configs_list, config, str_prefix= "", channel = "", category= "", lheweight= "", logdebug = "", whitelist = False, printednumber = 0, numerator = False):
 	log.debug(logdebug)
-	config["centralvalue"] = str_prefix + "_" + category + "_" + lheweight
+	config["theoryuncertainty_centralvalue"] = str_prefix + "_" + channel + "_" + category + "_" + lheweight
+	if whitelist:
+		config["ratio_denominator_nicks"] = copy.deepcopy(config["nicks"])
+		#config["nicks_whitelist"] = copy.deepcopy(config["nicks"])
+		#config["colors"]  = [colors[printednumber]]
+		printednumber += 1
+	else:
+		if log.isEnabledFor(logging.DEBUG): print 'black:', config["nicks"]
+		config["nicks_blacklist"] = [copy.deepcopy(config["nicks"][0])]
+	if numerator: config["ratio_numerator_nicks"] = copy.deepcopy(config["nicks"])
 	plot_configs_list.append(copy.deepcopy(config))
+	return printednumber
 
 if __name__ == "__main__":
 
-	parser = argparse.ArgumentParser(description="Make Data-MC control plots.",
-	                                 parents=[logger.loggingParser])
+	parser = argparse.ArgumentParser(description = "Make Data-MC control plots.", parents = [logger.loggingParser])
 	addArguments(parser)
 	
 	args = parser.parse_args()
@@ -189,7 +205,7 @@ if __name__ == "__main__":
 			log.critical("Embedding --emb only valid for run2. Remove --emb or select run2 samples.")
 			sys.exit(1)
 		sample_settings = samples.Samples(embedding=True)
-	else: 
+	else:
 		sample_settings = samples.Samples()
 
 	if args.mssm:
@@ -218,6 +234,8 @@ if __name__ == "__main__":
 
 	# Category and Cut type assignment for respective studies
 	global_category_string = "catHtt13TeV"
+	if args.samples[0] == "ztt":
+		global_category_string = "catZtt13TeV"
 	global_cut_type = "baseline"
 	if args.mssm:
 		global_category_string = "catHttMSSM13TeV"
@@ -227,6 +245,7 @@ if __name__ == "__main__":
 	if args.era == "2016": global_cut_type += "2016"
 
 	# Create a list of availabel lheWeights
+	whitelistbylhe = 1
 	if pdfkey != "" or len(addpdfs) != 0:
 		if args.categories[0] != None: category_string = (global_category_string + "_{channel}_{category}").format(channel = args.channels[0], category = args.categories[0])
 		else:	category_string = None
@@ -240,9 +259,12 @@ if __name__ == "__main__":
 
 		for leave in list_of_leaves:
 			if pdfkey == "_".join(leave.GetTitle().split("_")[:-2]) or "muR" in leave.GetTitle() or leave.GetTitle() in addpdfs:
-				if not any(c in leave.GetTitle() for c in ("muR0p5_muF2p0", "muR2p0_muF0p5")): 
+				if not any(c in leave.GetTitle() for c in ("muR0p5_muF2p0", "muR2p0_muF0p5")):
 					lheweights_names.append(str(leave.GetTitle()))
 		if log.isEnabledFor(logging.DEBUG): print "lheweights_names:", lheweights_names
+		if len(lheweights_names) / 9 > 2: whitelistbylhe = int(len(lheweights_names) / 9)
+		elif len(lheweights_names) / 9 > 1: whitelistbylhe = 2
+	if log.isEnabledFor(logging.DEBUG): print "for pdf only each", whitelistbylhe, "will be plotted"
 
 	plot_configs = {}
 	plot_configs_scale_only = {}
@@ -258,6 +280,9 @@ if __name__ == "__main__":
 			plot_configs_pdf_only[category] = []
 			plot_configs_alphas_only[category] = []
 			for quantity in args.quantities:
+				printedpdf = 0
+				printedalphas = 0
+				printedscale = 0
 				if log.isEnabledFor(logging.DEBUG): print "\t\tquantity", quantity
 				if category != None:
 					category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
@@ -271,8 +296,8 @@ if __name__ == "__main__":
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
 				quantity = json_config.pop("x_expressions", [quantity])[0]
-					
-				for lheweight in lheweights_names:
+				
+				for lheweight_index, lheweight in enumerate(sorted(lheweights_names)):
 					config = sample_settings.get_config(
 							samples = list_of_samples,
 							channel = channel,
@@ -294,9 +319,11 @@ if __name__ == "__main__":
 							mssm = args.mssm,
 							controlregions = args.controlregions,
 							cut_type = global_cut_type,
-							nick_suffix = "_" + category + "_" + lheweight,
+							nick_suffix =  "_" + channel +  "_" + category + "_" + lheweight,
 					)
-
+					config.pop("stacks")
+					config.pop("colors")
+					config["nicks_blacklist"].append("inclusive")
 					if args.era == "2016": config["files"] = [config["files"][0].split()[6]] #temporary! for running only on one merged DYM50 sample
 					config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 					config["category"] = category
@@ -310,7 +337,7 @@ if __name__ == "__main__":
 					binnings_key = None
 					if binnings_key in binnings_settings.binnings_dict:
 						binnings_key = (binning_string + "_{channel}_{category}").format(channel=channel, category=category)
-					elif channel + "_" + quantity in binnings_settings.binnings_dict: 
+					elif channel + "_" + quantity in binnings_settings.binnings_dict:
 						binnings_key = channel + "_" + quantity
 					
 					if binnings_key is not None:
@@ -332,6 +359,7 @@ if __name__ == "__main__":
 						config["legend_markers"] = "L"
 						config["line_widths"] = 3
 
+					config["labels"] = [lheweight]
 					if args.ratio:
 						bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 						if "Ratio" not in config.get("analysis_modules", []):
@@ -392,27 +420,34 @@ if __name__ == "__main__":
 					config.update(json_config)
 
 					config["analysis_modules"].append("TheoryUncertainty")
+					config["analysis_modules"].append("Ratio")
 
-					# Saving produced configuration file in the appropriate list 
+					# Saving produced configuration file in the appropriate list
 					plot_configs[category].append(copy.deepcopy(config))
 
-					if category == "inclusive": config["denominator"] = copy.deepcopy(config["nicks"])
-					else: config["numerator"] = copy.deepcopy(config["nicks"])
+					if category == "inclusive":
+						config["theoryuncertainty_denominator"] = copy.deepcopy(config["nicks"])
+					else:
+						config["theoryuncertainty_numerator"] = copy.deepcopy(config["nicks"])
 
 					config_temp = sample_settings.get_config( samples = list_of_samples, channel = args.channels[0], category = category_string)
 					if log.isEnabledFor(logging.DEBUG): print "\t\t\t", lheweight
-					if pdfkey == "_".join(lheweight.split("_")[:-2]):
-						AppendConfig(plot_configs_pdf_only[category], config, config_temp["nicks"][0], category, lheweight, "\t\t\t\tplot_configs_pdf_only")
+					if pdfkey == "_".join(lheweight.split("_")[:-2]):# and lheweight_index<len(colors)
+						if ((lheweight_index - 1)  % whitelistbylhe == 0): print lheweight_index, "OK"
+						else: print lheweight_index, lheweight, "NO"
+						printedpdf = AppendConfig(plot_configs_pdf_only[category], config, config_temp["nicks"][0], channel, category,
+							lheweight, "\t\t\t\tplot_configs_pdf_only", whitelist = ((lheweight_index - 1) % whitelistbylhe == 0) , printednumber = printedpdf, numerator = (lheweight == pdfkey + "_0_weight")) #((lheweight_index - 1) % whitelistbylhe == 0)
 					if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs:
-						AppendConfig(plot_configs_alphas_only[category], config, config_temp["nicks"][0], category, lheweight, "\t\t\t\tplot_configs_alphas_only")
+						printedalphas = AppendConfig(plot_configs_alphas_only[category], config, config_temp["nicks"][0], channel, category, lheweight, "\t\t\t\tplot_configs_alphas_only", whitelist = True, printednumber = printedalphas, numerator = (lheweight == pdfkey + "_0_weight"))
 					elif "muF" in lheweight:
-						AppendConfig(plot_configs_scale_only[category], config, config_temp["nicks"][0], category, lheweight, "\t\t\t\tplot_configs_scale_only")
+						printedscale = AppendConfig(plot_configs_scale_only[category], config, config_temp["nicks"][0], channel, category, lheweight, "\t\t\t\tplot_configs_scale_only", whitelist = True, printednumber = printedscale, numerator = (lheweight == "muR1p0_muF1p0_weight"))
+
 	
 	if log.isEnabledFor(logging.DEBUG): pprint.pprint(plot_configs)
 
 	# Saving configuration into separate files
 	print "Saving configuration into separate files"
-	configs_dict = {"_all_": plot_configs, 
+	configs_dict = {"_all_": plot_configs,
 					"_pdf_only_": plot_configs_pdf_only,
 					"_alphas_only_": plot_configs_alphas_only,
 					"_scale_only_": plot_configs_scale_only
@@ -424,9 +459,12 @@ if __name__ == "__main__":
 
 			if category != 'inclusive': value[category][0] = sample_settings.merge_configs(value[category][0], value['inclusive'][0])
 			log.debug(args.quantities[0] + key + str(category))
-			value[category][0]["filename"] = args.samples[0] + args.quantities[0] + key + str(category)
-			fout = open("merged" + args.samples[0] + key + str(category) + ".json", "w")
-			fout.write(pprint.pformat(value[category][0]).replace("u'D", "'D").replace("'", '"'))
+			value[category][0]["filename"] = "merged_" + args.samples[0] + "_" + channel + "_"  + args.quantities[0] + key + str(category)
+
+			#print value[category][0]["nicks_blacklist"]
+			if category != 'inclusive':
+				fout = open("merged_" + args.samples[0] + "_" + channel + key + str(category) + ".json", "w")
+				fout.write(pprint.pformat(value[category][0]).replace("u'D", "'D").replace("'", '"'))
 
 	if log.isEnabledFor(logging.DEBUG): print "Addititonal args for the configuration files:", [args.args]
 	#higgsplot.HiggsPlotter(list_of_config_dicts=[configs_dict["_all_"][args.categories[0]][0]], list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
