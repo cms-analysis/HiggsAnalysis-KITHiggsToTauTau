@@ -6,7 +6,8 @@
 	"VetoElectronReco" : "none",
 
 	"VetoElectronID" : "user",
-	"VetoElectronIDType" : "spring15cutbasedveto",
+	"VetoElectronIDType" : "cutbased2015andlater",
+	"VetoElectronIDName" : "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto",
 
 	"VetoElectronIsoType" : "user",
 	"VetoElectronIso" : "none",

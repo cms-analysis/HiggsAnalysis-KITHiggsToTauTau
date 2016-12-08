@@ -106,12 +106,20 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])()
 			if integral_shape != 0.0:
 				scale_factor = yield_qcd_control * qcd_extrapolation_factor_ss_os / integral_shape
+				final_qcd_yield = yield_qcd_control * qcd_extrapolation_factor_ss_os
 				plotData.plotdict["root_objects"][qcd_shape_nick].Scale(scale_factor.nominal_value)
 
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_lowmt_nick])()
 			if integral_shape != 0.0:
 				scale_factor = yield_qcd_control / integral_shape
 				plotData.plotdict["root_objects"][qcd_ss_lowmt_nick].Scale(scale_factor.nominal_value)
+
+			# write relative uncertainties to metadata to pick them up with combine
+			plotData.metadata[qcd_shape_nick] = {
+				"yield" : final_qcd_yield.nominal_value,
+				"yield_unc" : final_qcd_yield.std_dev,
+				"yield_unc_rel" : abs(final_qcd_yield.std_dev/final_qcd_yield.nominal_value if final_qcd_yield.nominal_value != 0.0 else 0.0),
+			}
 
 			# estimate W+jets
 			yield_ss_control = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_data_nick])()
@@ -131,8 +139,24 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			if wjets_final_selection != None:
 				wjets_yield = wjets_yield * tools.PoissonYield(plotData.plotdict["root_objects"][wjets_final_selection])() / tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_lowmt_mc_nick])()
 
+
+
+			#print "scale factor inclusive to categorized"
+			#print str(tools.PoissonYield(plotData.plotdict["root_objects"][wjets_final_selection])() / tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_lowmt_mc_nick])())
+			#print "final selection " + str(tools.PoissonYield(plotData.plotdict["root_objects"][wjets_final_selection])())
+			#print "inclusive " + str(tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_lowmt_mc_nick])())
 			# scale signal region histograms
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_shape_nick])()
+			#print "QCD/WJets estimation summary"
+			#print "Extrapolation factors"
+			#print "\t QCD OS/SS: " + str(qcd_extrapolation_factor_ss_os)
+			#print "\t WJets OS/SS: " + str(wjets_extrapolation_factor_ss_os)
+			#print "\t WJets high-low mT: " + str(wjets_extrapolation_factor_mt)
+			#print "WJets yield"
+			#print "\t before: " + str(integral_shape)
+			#print "\t after: " + str(wjets_yield)
+			#print "Scale factor: " + str(wjets_yield / integral_shape)
+
 			if integral_shape != 0.0:
 				scale_factor = wjets_yield / integral_shape
 				log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_shape_nick, scale_factor=scale_factor))
@@ -167,3 +191,9 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			if integral_shape != 0.0:
 				scale_factor = yield_qcd_ss_highmt * qcd_extrapolation_factor_ss_os / integral_shape
 				plotData.plotdict["root_objects"][qcd_os_highmt_nick].Scale(scale_factor.nominal_value)
+
+			plotData.metadata[wjets_shape_nick] = {
+				"yield" : wjets_yield.nominal_value,
+				"yield_unc" : wjets_yield.std_dev,
+				"yield_unc_rel" : abs(wjets_yield.std_dev/wjets_yield.nominal_value if wjets_yield.nominal_value != 0.0 else 0.0),
+			}

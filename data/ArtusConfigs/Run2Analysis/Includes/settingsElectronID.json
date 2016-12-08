@@ -6,7 +6,49 @@
 	"ElectronReco" : "mvanontrig",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "mvanontrigspring15tight",
+	"ElectronIDType" : "mvabased2015andlater",
+	"ElectronIDName" : {
+		"nick" : {
+			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+			"(Run2016|Spring16|Run2015|Fall15MiniAODv2)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
+		}
+	},
+	"ElectronMvaIDCutEB1" : {
+		"nick" : {
+			"default" : 0.941,
+			"(Run2016|Spring16|Run2015|Fall15MiniAODv2)" : 0.967083
+		}
+	},
+	"ElectronMvaIDCutEB2" : {
+		"nick" : {
+			"default" : 0.899,
+			"(Run2016|Spring16|Run2015|Fall15MiniAODv2)" : 0.929117
+		}
+	},
+	"ElectronMvaIDCutEE" : {
+		"nick" : {
+			"default" : 0.758,
+			"(Run2016|Spring16|Run2015|Fall15MiniAODv2)" : 0.726311
+		}
+	},
+	"ElectronIDList" : {
+		"nick" : {
+			"default" : [
+				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
+				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
+				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
+				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
+			],
+			"(Run2016|Spring16|Run2015|Fall15MiniAODv2)" : [
+				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
+				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto",
+				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose",
+				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium",
+				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"
+			]
+		}
+	},
 	
 	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",

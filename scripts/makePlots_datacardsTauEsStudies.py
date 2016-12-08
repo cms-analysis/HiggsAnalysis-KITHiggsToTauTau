@@ -373,7 +373,7 @@ if __name__ == "__main__":
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 			processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
-			add_threshold=0.1, merge_threshold=0.5, fix_norm=True
+			add_threshold=0.1, merge_threshold=0.5, fix_norm=False
 		)
 	
 	# write datacards
@@ -643,17 +643,29 @@ if __name__ == "__main__":
 				if (mes_list[index] <= min_shift):
 					if (nll <= 4.0 and not found2sigmaLow): #crossing 2-sigma line from the left
 						found2sigmaLow = True
-						err2sigmaLow = abs((mes_list[index-1]+mes_list[index])/2.0 - min_shift)
+						if index > 0:
+							err2sigmaLow = abs((mes_list[index-1]+mes_list[index])/2.0 - min_shift)
+						else:
+							err2sigmaLow = abs(mes_list[index] - min_shift)
 					if (nll <= 1.0 and not found1sigmaLow): #crossing 1-sigma line from the left
 						found1sigmaLow = True
-						err1sigmaLow = abs((mes_list[index-1]+mes_list[index])/2.0 - min_shift)
+						if index > 0:
+							err1sigmaLow = abs((mes_list[index-1]+mes_list[index])/2.0 - min_shift)
+						else:
+							err1sigmaLow = abs(mes_list[index] - min_shift)
 				else:
 					if (nll >= 1.0 and not found1sigmaHi): #crossing 1-sigma line again
 						found1sigmaHi = True
-						err1sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
+						if index < len(mes_list) - 1:
+							err1sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
+						else:
+							err1sigmaHi = abs(mes_list[index] - min_shift)
 					if (nll >= 4.0 and not found2sigmaHi): #crossing 2-sigma line again
 						found2sigmaHi = True
-						err2sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
+						if index < len(mes_list) - 1:
+							err2sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
+						else:
+							err2sigmaHi = abs(mes_list[index] - min_shift)
 			
 			#values for parabola plot
 			xvalues = ""

@@ -106,6 +106,9 @@ public:
 	RMFLV m_diLeptonSystem;
 	RMFLV m_diLeptonPlusMetSystem;
 	RMFLV m_diLeptonGenSystem;
+	bool m_diLeptonGenSystemFound = false;
+	RMFLV m_diTauGenSystem;
+	bool m_diTauGenSystemFound = false;
 
 	// filled by the TauSpinnerProducer
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
@@ -174,6 +177,14 @@ public:
 	RMFLV m_diTauSystem;
 	ROOT::Math::Boost m_boostToDiTauRestFrame;
 	bool m_diTauSystemReconstructed = false;
+	
+	// filled by the BoostRestFrameProducer
+	std::map<KLepton*, RMFLV> m_leptonsBoostToDiLeptonSystem;
+	std::map<KLepton*, RMFLV> m_leptonsBoostToDiTauSystem;
+	std::map<RMFLV*, RMFLV> m_tausBoostToDiTauSystem;
+	std::map<KGenTau*, RMFLV> m_genVisTausBoostToGenDiLeptonSystem;
+	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiLeptonSystem;
+	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiTauSystem;
 
 	
 	// filled by VertexSelector
@@ -227,7 +238,7 @@ public:
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
 
-    //MVATestMethods
+	//MVATestMethods
 	std::vector<double> m_MVATestMethodsDiscriminators;
 
 	// filled by HttValidGenTausProducer. Naming scheme like for the reco particles
@@ -249,7 +260,7 @@ public:
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonTauMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
 
-    // filled by MVAInputQuantitiesProducer
+	// filled by MVAInputQuantitiesProducer
 // 	int tsValue = 0;
 	double m_pVecSum = -1;
 	double m_pScalSum = -1;
@@ -279,4 +290,10 @@ public:
 	double m_csv2JetMass = -10;
 	double m_diCJetMass = -10;
 	double m_pVecSumCSVJets = -1;
+
+	// filled by EmbeddingGlobalQuantitiesProducer
+	double m_pfSumHt = 0.;
+	RMFLV m_pfSumP4;
+	double m_pfSumHtWithoutZMuMu = 0.;
+	RMFLV m_pfSumP4WithoutZMuMu;
 };

@@ -6,7 +6,18 @@
 	"ElectronReco" : "mvanontrig",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "mvanontrigspring15tight",
+	"ElectronIDType" : "mvabased2015andlater",
+	"ElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
+	"ElectronMvaIDCutEB1" : 0.967083,
+	"ElectronMvaIDCutEB2" : 0.929117,
+	"ElectronMvaIDCutEE" : 0.726311,
+	"ElectronIDList" : [
+		"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
+		"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto",
+		"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose",
+		"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium",
+		"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"
+	],
 	
 	"ElectronIsoType" : "user",
 	"ElectronIso" : "none",

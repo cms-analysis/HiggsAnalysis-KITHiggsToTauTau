@@ -11,7 +11,7 @@
 			"13TeV" : "pileupDensity"
 		}
 	},
-	"#PackedPFCandidates":"packedPFCandidates",
+	"PackedPFCandidates":"packedPFCandidates",
 	"BeamSpot" : "offlineBeamSpot",
 	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
 	"EventMetadata" : "eventInfo",

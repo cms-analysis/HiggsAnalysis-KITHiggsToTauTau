@@ -1,0 +1,52 @@
+{
+	"property" : [
+		"lep1SumChargedHadronsLV",
+		"lep1SumNeutralHadronsLV",
+		
+		"genMatchedTau1LV",
+		"genMatchedTau1Found",
+		"genMatchedTau1VisibleLV",
+		"genMatchedTau1DecayMode",
+		"genMatchedTau1NProngs",
+		"genMatchedTau1NPi0s",
+		
+		"lep2SumChargedHadronsLV",
+		"lep2SumNeutralHadronsLV",
+		
+		"genMatchedTau2LV",
+		"genMatchedTau2Found",
+		"genMatchedTau2VisibleLV",
+		"genMatchedTau2DecayMode",
+		"genMatchedTau2NProngs",
+		"genMatchedTau2NPi0s",
+		
+		"leadingTauLV",
+		"trailingTauLV",
+		
+		"hhKinFitTau1LV",
+		"hhKinFitTau2LV",
+		
+		"leadingTauDecayMode",
+		"leadingTauSumChargedHadronsLV",
+		"leadingTauSumNeutralHadronsLV",
+		
+		"trailingTauDecayMode",
+		"trailingTauSumChargedHadronsLV",
+		"trailingTauSumNeutralHadronsLV",
+		
+		"a1CosBeta_1",
+		"a1CosBeta_2",
+		"a1CosGamma_1",
+		"a1CosGamma_2",
+		"a1SinGamma_1",
+		"a1SinGamma_2",
+		
+		"rhoNeutralChargedAsymmetry_1",
+		"rhoNeutralChargedAsymmetry_2",
+		
+		"visibleOverFullEnergy_1",
+		"visibleOverFullEnergy_2",
+		
+		"tauPolarisationDiscriminator"
+	]
+}

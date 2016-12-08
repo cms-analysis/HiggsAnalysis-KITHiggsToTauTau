@@ -3,21 +3,19 @@
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiGenTauPair.h"
 
-class DiTauPair : public std::pair<KLepton*, KLepton*>
+
+class DiTauPair : public DiGenTauPair
 {
 public:
 	DiTauPair(KLepton* lepton1, KLepton* lepton2);
 	
 	bool IsOppositelyCharged();
-	double GetDeltaR();
 	std::vector<std::string> GetCommonHltPaths(
 			std::map<KLepton*, std::map<std::string, std::map<std::string, std::vector<KLV*> > >* > const& detailedTriggerMatchedLeptons,
 			std::vector<std::string> const& hltPathsWithoutCommonMatchRequired
 	);
-private:
-    std::map<std::string, std::map<std::string, std::vector<KLV*> > > hltPaths1_default; //fast workaround for very ugly code
-    std::map<std::string, std::map<std::string, std::vector<KLV*> > > hltPaths2_default; //if someone has time pleas fix 
     
 };
 

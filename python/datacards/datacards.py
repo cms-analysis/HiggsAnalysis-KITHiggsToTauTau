@@ -69,21 +69,39 @@ class Datacards(object):
 				(["7TeV", "8TeV"], 1.026)
 				(       ["13TeV"], 1.027) # CMS-PAS-LUM-15-001
 		]
-		self.electron_efficieny_syst_args = [
+		self.lumi2016_syst_args = [
+			"lumi_$ERA",
+			"lnN",
+			ch.SystMap("era")
+				(       ["13TeV"], 1.062)
+		]
+		self.electron_efficiency_syst_args = [
 			"CMS_eff_e",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
 				(       ["13TeV"], 1.04) # https://github.com/cms-analysis/CombineHarvester/blob/HIG15007/HIG15007/scripts/setupDatacards.py#L107-L110
 		]
-		self.muon_efficieny_syst_args = [
+		self.electron_efficiency2016_syst_args = [
+			"CMS_eff_e",
+			"lnN",
+			ch.SystMap("era")
+				(       ["13TeV"], 1.02) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+		]
+		self.muon_efficiency_syst_args = [
 			"CMS_eff_m",
 			"lnN",
 			ch.SystMap("era")
 				(["7TeV", "8TeV"], 1.02)
 				(       ["13TeV"], 1.03) # https://github.com/cms-analysis/CombineHarvester/blob/HIG15007/HIG15007/scripts/setupDatacards.py#L101-L105
 		]
-		self.tau_efficieny_corr_syst_args = [
+		self.muon_efficiency2016_syst_args = [
+			"CMS_eff_m",
+			"lnN",
+			ch.SystMap("era")
+				(       ["13TeV"], 1.02) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+		]
+		self.tau_efficiency_corr_syst_args = [
 			"CMS_eff_t_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel")
@@ -91,13 +109,27 @@ class Datacards(object):
 				(["7TeV", "8TeV"], ["tt"],       1.19)
 				(       ["13TeV"], ["mt", "et", "tt"], 1.05) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
-		self.tau_efficieny_syst_args = [
+		self.tau_efficiency_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel")
 				(["7TeV", "8TeV"], ["mt", "et"], 1.08)
 				(["7TeV", "8TeV"], ["tt"],       1.19)
 				(       ["13TeV"], ["mt", "et", "tt"], 1.03) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+		]
+		self.tau_efficiency2016_corr_syst_args = [
+			"CMS_eff_t_$ERA",
+			"lnN",
+			ch.SystMap("era", "channel")
+				(       ["13TeV"], ["mt", "et"], 1.08) 
+				(       ["13TeV"], ["tt"], 1.16) # Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf 
+		]
+		self.tau_efficiency2016_syst_args = [
+			"CMS_eff_t_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("era", "channel")
+				(       ["13TeV"], ["mt", "et"], 1.04) # Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf 
+				(       ["13TeV"], ["tt"], 1.10)# Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf  
 		]
 		self.btag_efficiency_syst_args = [
 			"CMS_eff_b_$ERA",
@@ -116,7 +148,7 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process")
 				(["13TeV"], ["ggH", "qqH", "WH", "ZH", "VH"], 0.98) # copied from 8TeV
-				(["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W"], 1.03) # copied from 8TeV
+				(["13TeV"], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TTJJ", "TTT", "TT", "VV", "WJ", "W"], 1.03) # copied from 8TeV
 		]
 		self.ztt_cross_section_syst_args = [
 			"CMS_$ANALYSIS_zttNorm_$ERA",
@@ -157,6 +189,12 @@ class Datacards(object):
 			ch.SystMap("era", "process")
 				(["7TeV", "8TeV"], ["VV"], 1.15)
 				(       ["13TeV"], ["VV"], 1.10) # https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+		]
+		self.vv_cross_section2016_syst_args = [
+			"CMS_$ANALYSIS_vvXsec_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["VV"], 1.05) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
 		]
 		self.wj_cross_section_syst_args = [
 			"CMS_$ANALYSIS_wjXsec_$ERA",
@@ -217,17 +255,36 @@ class Datacards(object):
 			ch.SystMap("era", "process", "channel")
 				(       ["13TeV"], ["ZLL", "ZL"], ["et"], 1.30) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
+		self.eFakeTau2016_syst_args = [
+			"CMS_$ANALYSIS_eFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["ZLL", "ZL"], 1.12) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+		]
 		self.muFakeTau_syst_args = [
 			"CMS_$ANALYSIS_mFakeTau_$ERA",
 			"lnN",
 			ch.SystMap("era", "process",)
 				(       ["13TeV"], ["ZLL", "ZL"], 2.00) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
+		self.muFakeTau2016_syst_args = [
+			"CMS_$ANALYSIS_mFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process",)
+				(       ["13TeV"], ["ZLL", "ZL"], 1.25) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+		]
 		self.zjFakeTau_syst_args = [
 			"CMS_$ANALYSIS_zjFakeTau_$ERA",
 			"lnN",
 			ch.SystMap("era", "process",)
 				(       ["13TeV"], ["ZLL", "ZL"], 1.30) # From Yuta's polarisation analysis
+		]
+
+		self.jetFakeTau_syst_args = [
+			"CMS_$ANALYSIS_jetFakeTau_$ERA",
+			"lnN",
+			ch.SystMap("era", "process",)
+				(       ["13TeV"], ["ZJ"], 1.20)
 		]
 
 		self.zee_norm_syst_args = [
@@ -717,22 +774,29 @@ class Datacards(object):
 			split_stat_syst_uncs = False
 		
 		split_stat_syst_uncs_options = [""]
+		split_stat_syst_uncs_names = [""]
 		if split_stat_syst_uncs:
 			split_stat_syst_uncs_options = [
 				"--saveWorkspace",
+				"--snapshotName {method} -w w".format(method=method),
 				"--snapshotName {method} -w w --freezeNuisances {uncs}".format(method=method, uncs="{uncs}"),
 			]
-
-		for split_stat_syst_uncs_index, split_stat_syst_uncs_option in enumerate(split_stat_syst_uncs_options):
+			split_stat_syst_uncs_names = [
+				"Workspace",
+				"TotUnc",
+				"StatUnc",
+			]
+		
+		for split_stat_syst_uncs_index, (split_stat_syst_uncs_option, split_stat_syst_uncs_name) in enumerate(zip(split_stat_syst_uncs_options, split_stat_syst_uncs_names)):
 			prepared_tmp_args = None
 			new_name = None
 			if split_stat_syst_uncs:
-				new_name = ("" if name is None else name) + ("Tot" if split_stat_syst_uncs_index == 0 else "Stat") + "Unc"
+				new_name = ("" if name is None else name) + split_stat_syst_uncs_name
 				if name is None:
 					prepared_tmp_args = tmp_args + " -n " + new_name
 				else:
 					prepared_tmp_args = copy.deepcopy(tmp_args)
-					#prepared_tmp_args = re.sub("(--floatOtherPOIs)([\s=\"\']*)(1)([\"\']?\s)", "\\1\\2 "+("\\3" if split_stat_syst_uncs_index == 0 else "0")+"\\4", prepared_tmp_args)
+					prepared_tmp_args = re.sub("(--algo)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2 "+("none" if split_stat_syst_uncs_index == 0 else "\\3")+"\\4", prepared_tmp_args)
 					prepared_tmp_args = re.sub("(-n|--name)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2"+new_name+"\\4", prepared_tmp_args)
 			else:
 				prepared_tmp_args = tmp_args
@@ -748,7 +812,7 @@ class Datacards(object):
 										CHUNK_MIN=chunk_min,
 										CHUNK_MAX=chunk_max
 								),
-								SPLIT_STAT_SYST_UNCS=split_stat_syst_uncs_option.format(uncs=",".join(datacards_cbs[datacard].syst_name_set())),
+								SPLIT_STAT_SYST_UNCS=split_stat_syst_uncs_option.format(uncs=",".join(kwargs.get("additional_freeze_nuisances", [])+datacards_cbs[datacard].syst_name_set())),
 								WORKSPACE="-d "+workspace
 						).format(RMIN=datacards_poi_ranges.get(datacard, ["", ""])[0], RMAX=datacards_poi_ranges.get(datacard, ["", ""])[1]),
 						os.path.dirname(workspace)
@@ -761,29 +825,63 @@ class Datacards(object):
 				for datacard, workspace in datacards_workspaces.iteritems():
 					datacards_workspaces[datacard] = glob.glob(os.path.join(os.path.dirname(workspace), "higgsCombine"+new_name+"."+method+".*.root"))[0]
 
-	def annotate_trees(self, datacards_workspaces, root_filename, value_regex, value_replacements=None, n_processes=1, values_tree_files=None, *args):
+	def annotate_trees(self, datacards_workspaces, root_filename, value_regex_list, value_replacements=None, n_processes=1, values_tree_files=None, *args):
 		if value_replacements is None:
 			value_replacements = {}
 
-		commands = []
 		if values_tree_files is None:
 			values_tree_files = {}
+		
+		commands = []
 		for datacard, workspace in datacards_workspaces.iteritems():
-			search_result = re.search(value_regex, workspace)
-			if not search_result is None:
-				value = search_result.groups()[0]
-				float_value = float(value_replacements.get(value, value))
+			float_values = []
+			found_match = False
+			for value_regex in value_regex_list:
+				search_result = re.search(value_regex, workspace)
+				if not search_result is None:
+					value = search_result.groups()[0]
+					float_values.append(float(value_replacements.get(value, value)))
+					found_match = True
+				else:
+					float_values.append(-999.0)
+			
+			if found_match:
 				files = os.path.join(os.path.dirname(workspace), root_filename)
-				values_tree_files.setdefault(float_value, []).extend(glob.glob(files))
+				values_tree_files.setdefault(tuple(float_values), []).extend(glob.glob(files))
 
-				commands.append("annotate-trees.py {FILES} --values {VALUE} {ARGS}".format(
+				commands.append("annotate-trees.py {FILES} --values {VALUES} {ARGS}".format(
 						FILES=files,
-						VALUE=float_value,
+						VALUES=" ".join([str(value) for value in float_values]),
 						ARGS=" ".join(args)
 				))
-
+		
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 		return values_tree_files
+
+	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="alpha"):
+		commands = []
+		hypotestresulttree = {}
+		
+
+		#for fit_type in fit_type_list:
+		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\",\\\"{OUTPUT}\\\",{MASS},{RVALUE},\\\"{POINAME}\\\")\"".format(
+				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH125.root"),
+				OUTPUT=os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH125_qmu.root"),
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+				RVALUE= str(rvalue),
+				POINAME=str(poiname)
+				
+				#ARGS=", ".join(args)
+			) for datacard, cb in datacards_cbs.iteritems()])
+
+			#datacards_postfit_shapes.setdefault(fit_type, {}).update({
+			#		datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
+			#for datacard, cb in datacards_cbs.iteritems()})
+
+		tools.parallelize(_call_command, commands, n_processes=n_processes)
+
+		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH125_qmu.root") for datacard in datacards_cbs.keys()}
+
 
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, *args):
 		commands = []
@@ -1019,10 +1117,10 @@ class Datacards(object):
 				os.path.dirname(workspace)
 		] for datacard, workspace in datacards_workspaces.iteritems()])
 
-		tools.parallelize(_call_command, commandsInitialFit, n_processes=1)
-		tools.parallelize(_call_command, commandsFits, n_processes=n_processes)
-		tools.parallelize(_call_command, commandsOutput, n_processes=n_processes)
-		tools.parallelize(_call_command, commandsPlot, n_processes=1)
+		tools.parallelize(_call_command, commandsInitialFit, n_processes=n_processes)
+		tools.parallelize(_call_command, commandsFits, n_processes=1)
+		tools.parallelize(_call_command, commandsOutput, n_processes=1)
+		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes)
 
 	def auto_rebin(self, bin_threshold = 1.0, rebin_mode = 0):
 		rebin = ch.AutoRebin()
@@ -1031,3 +1129,4 @@ class Datacards(object):
 		rebin.SetPerformRebin(True)
 		rebin.SetVerbosity(0)
 		rebin.Rebin(self.cb, self.cb)
+

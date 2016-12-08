@@ -167,7 +167,7 @@ if __name__ == "__main__":
 			
 			config["x_expressions"] = "testZttPol13TeV_"+channel+"_"+category
 			config["x_bins"] = "binningZttPol13TeV_"+channel+"_"+category
-			config["x_label"] = channel+"_rhoNeutralChargedAsymmetry"
+			config["x_label"] = channel+"_tauPolarisationDiscriminator"
 			
 			config["y_rel_lims"] = [0.0, 1.6]
 			config["y_label"] = "arb. u."

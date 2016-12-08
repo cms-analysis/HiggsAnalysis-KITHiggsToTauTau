@@ -48,6 +48,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RooWorkspaceWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MuMuTriggerScaleFactorProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmbeddingGlobalQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/BoostRestFrameProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -224,18 +226,22 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new SimpleFitProducer();
 	else if(id == ScaleVariationProducer().GetProducerId())
 		return new ScaleVariationProducer();
-    else if(id == EmuQcdWeightProducer().GetProducerId())
-        return new EmuQcdWeightProducer();
-    else if(id == RooWorkspaceWeightProducer().GetProducerId())
-        return new RooWorkspaceWeightProducer();
-    else if(id == TauTauTriggerScaleFactorProducer().GetProducerId())
-        return new TauTauTriggerScaleFactorProducer();
-    else if(id == MuMuTriggerScaleFactorProducer().GetProducerId())
-        return new MuMuTriggerScaleFactorProducer();
-    else if(id == MuMuTriggerWeightProducer().GetProducerId())
-    	return new MuMuTriggerWeightProducer();
-    else if(id == TauTauTriggerWeightProducer().GetProducerId())
-    	return new TauTauTriggerWeightProducer();
+	else if(id == EmuQcdWeightProducer().GetProducerId())
+		return new EmuQcdWeightProducer();
+	else if(id == RooWorkspaceWeightProducer().GetProducerId())
+		return new RooWorkspaceWeightProducer();
+	else if(id == TauTauTriggerScaleFactorProducer().GetProducerId())
+		return new TauTauTriggerScaleFactorProducer();
+	else if(id == MuMuTriggerScaleFactorProducer().GetProducerId())
+		return new MuMuTriggerScaleFactorProducer();
+	else if(id == MuMuTriggerWeightProducer().GetProducerId())
+		return new MuMuTriggerWeightProducer();
+	else if(id == TauTauTriggerWeightProducer().GetProducerId())
+		return new TauTauTriggerWeightProducer();
+	else if(id == EmbeddingGlobalQuantitiesProducer().GetProducerId())
+		return new EmbeddingGlobalQuantitiesProducer();
+	else if(id == BoostRestFrameProducer().GetProducerId())
+		return new BoostRestFrameProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

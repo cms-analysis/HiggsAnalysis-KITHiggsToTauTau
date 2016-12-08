@@ -28,6 +28,12 @@ private:
 	TH2D* acc_eff_hist;
 	TH2D* number_of_passed_hist;
 	TH2D* number_of_entries_hist;
+	
+	TH1D* PtTau1_hist;
+	TH1D* PtVis1_hist;
+	
+	TH1D* PtTau2_hist;
+	TH1D* PtVis2_hist;	
 
 	unsigned int leadingTauDC = 0;
 	unsigned int trailingTauDC = 0;

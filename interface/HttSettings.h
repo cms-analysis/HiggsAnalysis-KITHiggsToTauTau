@@ -64,6 +64,11 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuonTauFakeRateHistograms, {});
 
 	IMPL_SETTING(std::string, ElectronIDType);
+	IMPL_SETTING_DEFAULT(std::string, ElectronIDName, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(ElectronIDList, {});
+	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEB1, -1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEB2, -1.0);
+	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEE, -1.0);
 
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
@@ -109,6 +114,10 @@ public:
 
 	IMPL_SETTING(std::string, LooseElectronID);
 	IMPL_SETTING(std::string, LooseElectronIDType);
+	IMPL_SETTING_DEFAULT(std::string, LooseElectronIDName, "");
+	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEB1, -1.0);
+	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEB2, -1.0);
+	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEE, -1.0);
 	IMPL_SETTING(std::string, LooseElectronReco);
 	IMPL_SETTING(std::string, LooseMuonID);
 
@@ -139,6 +148,10 @@ public:
 
 	IMPL_SETTING(std::string, VetoElectronID);
 	IMPL_SETTING(std::string, VetoElectronIDType);
+	IMPL_SETTING_DEFAULT(std::string, VetoElectronIDName, "");
+	IMPL_SETTING_DEFAULT(float, VetoElectronMvaIDCutEB1, -1.0);
+	IMPL_SETTING_DEFAULT(float, VetoElectronMvaIDCutEB2, -1.0);
+	IMPL_SETTING_DEFAULT(float, VetoElectronMvaIDCutEE, -1.0);
 	IMPL_SETTING(std::string, VetoElectronReco);
 	IMPL_SETTING(std::string, VetoMuonID);
 
@@ -252,7 +265,7 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
 
-    //MVATestMethodsProducer settings
+	//MVATestMethodsProducer settings
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsNames, {});
@@ -266,7 +279,7 @@ public:
 
 	IMPL_SETTING_STRINGLIST_DEFAULT(TagLeptonTriggerFilterNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonTriggerFilterNames, {});
-	
+
 	// settings for RooWorkspaceWeightProducer
 	IMPL_SETTING_DEFAULT(std::string, RooWorkspace, "");
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceWeightNames, {});
@@ -291,6 +304,7 @@ public:
 	IMPL_SETTING_DEFAULT(int, IsoPtSumBinning, 200);
 	IMPL_SETTING_DEFAULT(float, IsoPtSumMaximum, 50);
 	IMPL_SETTING_DEFAULT(float, IsoPtSumOverPtMaximum, 0.4);
+	IMPL_SETTING_DEFAULT(bool, RandomMuon, false);
 
 	// setting for mass smearing applied in DiLeptonQuantitiesProducer
 	IMPL_SETTING_DEFAULT(float, MassSmearing, 0.10);
@@ -303,4 +317,12 @@ public:
 
 	// settings for the ScaleVariationProducer
 	IMPL_SETTING_STRINGLIST_DEFAULT(GenEventInfoMetadataNames, {});
+
+	// settings for SimpleMuTauFakeRateWeightProducer
+	IMPL_SETTING_FLOATLIST(SimpleMuTauFakeRateWeightLoose);
+	IMPL_SETTING_FLOATLIST(SimpleMuTauFakeRateWeightTight);
+
+	// settings for SimpleEleTauFakeRateWeightProducer
+	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightVLoose);
+	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightTight);
 };

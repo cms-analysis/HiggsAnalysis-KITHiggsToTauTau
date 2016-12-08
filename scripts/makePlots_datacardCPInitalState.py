@@ -9,15 +9,17 @@ import argparse
 import copy
 import os
 import sys
+import pprint
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
+import HiggsAnalysis.KITHiggsToTauTau.datacards.initialstatecpstudiesdatacards as initialstatecpstudiesdatacards
 
 
 
@@ -34,7 +36,7 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action = "append",
-	                    default=["et", "mt", "tt", "em", "mm"],
+	                    default=["et", "mt", "tt", "em"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
 	                    default=[["inclusive"]],
@@ -75,7 +77,7 @@ if __name__ == "__main__":
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
-	parser.add_argument("--era", default="2015",
+	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manualy set the binning. Default is taken from configuration files.")
@@ -111,7 +113,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -153,7 +155,7 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = args.exclude_cuts
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
@@ -214,12 +216,15 @@ if __name__ == "__main__":
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
+					#print config["labels"]
+					#print
+					#print 'after'					
 					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample),
+							PROCESS=datacards.configs.sample2process(sample.replace("qqh125", "qqh").replace("wh125", "wh").replace("zh125", "zh")),
 							BIN=category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
-					
+					print config["labels"]
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="htt",
 							CHANNEL=channel,
@@ -245,7 +250,6 @@ if __name__ == "__main__":
 			))
 	
 	if log.isEnabledFor(logging.DEBUG):
-		import pprint
 		pprint.pprint(plot_configs)
 	
 	# delete existing output files
@@ -288,11 +292,24 @@ if __name__ == "__main__":
 		
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
+		gghsm_signals = datacards.cb.cp().signals()
+		gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process().lower()))
+		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
+		
+		gghps_signals = datacards.cb.cp().signals()
+		gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process().lower()))
+		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00001)))
+		
 		datacards.replace_observation_by_asimov_dataset("125")
+		
+		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
+		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.00001)))
+		
+		
 
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-
+	datacards.cb.PrintAll()
 	# write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
@@ -316,13 +333,34 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-50.0, 50.0]
 			else:
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
+	#cb.PrintAll()
+
 	
-	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes) # TODO: use JPC physics model
+	'''
+	datacards_workspaces = datacards.text2workspace(
+			datacards_cbs,
+			args.n_processes,
+			"-P {MODEL} {MODEL_PARAMETERS}".format(
+				MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.higgsmodels:HiggsCPI",
+				MODEL_PARAMETERS=""
+			)
+	) # TODO: use JPC physics model
+	'''
+	datacards_workspaces = datacards.text2workspace(
+			datacards_cbs,
+			args.n_processes,
+			"-P {MODEL} {MODEL_PARAMETERS}".format(
+				MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+				MODEL_PARAMETERS="--PO=muFloating"
+			)
+	) # TODO: use JPC physics model
+	
+
 	
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 	
 	# Max. likelihood fit and postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+" --expectSignal 1.0 -t -1 --setPhysicsModelParameters \"alpha=0\"")
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 
@@ -330,13 +368,13 @@ if __name__ == "__main__":
 	if args.quantity == "m_sv" and not(args.do_not_normalize_by_bin_width):
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes)
+	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r") )
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
+			#[[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]],
 			#annotation_replacements,
 			#args.n_processes,
 			#None,
@@ -345,7 +383,7 @@ if __name__ == "__main__":
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
+			#[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]],
 			#annotation_replacements,
 			#args.n_processes,
 			#None,
@@ -353,6 +391,45 @@ if __name__ == "__main__":
 	#)
 	
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"") # TODO: change to HybridNew
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 10000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
+#-M HybridNew --testStat=TEV --generateExt=1 --generateNuis=0 fixedMu.root --singlePoint 1 --saveHybridResult --fork 40 -T 1000 -i 1 --clsAcc 0 --fullBToys
+
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
+
+	datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
+	print datacards_hypotestresult
+	pconfigs_plot=[]
+	for filename in datacards_hypotestresult.values():
+		print filename
+		pconfigs={}
+		pconfigs["files"]= [filename]
+		pconfigs["nicks"]= ["noplot","alternative_hyptothesis","null_hypothesis", "q_obs"]
+		pconfigs["tree_draw_options"]=["","","","TGraph"]
+		#pconfigs[ "marker_sizes"]=[5]
+		#pconfigs["marker_styles"]=[34]
+		pconfigs[ "markers"]=["line","line","line"]
+		pconfigs["x_bins"]=["100"]
+		pconfigs["y_expressions"]=["None","None","None","0"]
+		pconfigs["folders"]=["q"]
+		pconfigs["weights"]=["1","type<0","type>0","type==0"]
+		pconfigs["x_expressions"]=["q"]	
+		pconfigs[ "output_dir"]=str(os.path.dirname(filename))
+		#pconfigs["x_bins"]=["30,-15,15"]
+		
+		#pconfigs["scale_factors"]=[1,1,1,900]
+		#pconfig["plot_modules"] = ["ExportRoot"]
+
+		pconfigs["analysis_modules"]=["PValue"]
+		pconfigs["p_value_alternative_hypothesis_nicks"]=["alternative_hyptothesis"]
+		pconfigs["p_value_null_hypothesis_nicks"]=["null_hypothesis"]
+		pconfigs["p_value_observed_nicks"]=["q_obs"]
+
+		pconfigs_plot.append(pconfigs)
+	#pprint.pprint(pconfigs_plot)
+	higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
+
+	#print args.n_plots[1]
+	
+
+	
 

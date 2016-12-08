@@ -205,7 +205,7 @@ if __name__ == "__main__":
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="baseline2016" if args.era == "2016" else "baseline",
-							estimationMethod=args.background_method if channel in ["tt"] else "classic"
+							estimationMethod=args.background_method
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -312,7 +312,7 @@ if __name__ == "__main__":
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
-				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
+				add_threshold=0.1, merge_threshold=0.5, fix_norm=False
 		)
 	
 
@@ -370,7 +370,7 @@ if __name__ == "__main__":
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0],
+			#[[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]],
 			#annotation_replacements,
 			#args.n_processes,
 			#None,
@@ -379,7 +379,7 @@ if __name__ == "__main__":
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0],
+			#[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]],
 			#annotation_replacements,
 			#args.n_processes,
 			#None,

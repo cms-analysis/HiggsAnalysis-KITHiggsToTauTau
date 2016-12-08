@@ -384,7 +384,7 @@ if __name__ == "__main__":
 						datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 						datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 					
-				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MaxLikelihoodFit")), os.path.join(sub_dir_base, "(\d*)/.*.root"), None, args.n_processes, None, "-t limit -b lumi")
+				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MaxLikelihoodFit")), [os.path.join(sub_dir_base, "(\d*)/.*.root")], None, args.n_processes, None, "-t limit -b lumi")
 				
 				json_configs.extend(model_settings.get("fit_plots", []))
 				json_configs = [jsonTools.JsonDict(os.path.expandvars(json_config_file)).doIncludes().doComments() for json_config_file in json_configs]

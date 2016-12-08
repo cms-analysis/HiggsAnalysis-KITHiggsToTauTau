@@ -11,7 +11,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 from Kappa.Skimming.registerDatasetHelper import get_nick_list
 from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
 energy = 13
-default_lumi = 12.9*1000.0
+default_lumi = 36.46*1000.0
 
 class Samples(samples.SamplesBase):
 
@@ -96,6 +96,23 @@ class Samples(samples.SamplesBase):
 		else:
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
+
+	@staticmethod
+	def get_jetbin(channel, category, weight):
+		if category == None:
+			return [weight]
+		addition = split_multiplication(weight)[1]
+		if("x") in category:
+			if "1jet" in category:
+				return ["(njetspt30==1)", addition]
+			if "vbf" in category:
+				return ["(njetspt30==1)", addition]
+		else:
+			if "1jet" in category:
+				return ["(njetspt30==1)", addition]
+			if "vbf" in category:
+				return ["(njetspt30>1)", addition]
+			return [weight]
 	
 	def ztt_stitchingweight(self):
 		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25449124172134e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.17272893569016e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.17926755938344e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.18242445124698e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16077776187804e-6)+"
@@ -168,25 +185,37 @@ class Samples(samples.SamplesBase):
 			return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel)])
 		
 	def files_data(self, channel):
-		query = {}
-		expect_n_results = 3 # adjust in if-statements if different depending on channel
+		query_rereco = {}
+		query_promptreco = {}
+		expect_n_results_rereco = 6 # adjust in if-statements if different depending on channel
+		expect_n_results_promptreco = 1
 		if channel == "mt":
-			query = { "process" : "SingleMuon" }
+			query_rereco = { "process" : "SingleMuon" }
+			query_promptreco = { "process" : "SingleMuon" }
 		elif channel == "et":
-			query = { "process" : "SingleElectron" }
+			query_rereco = { "process" : "SingleElectron" }
+			query_promptreco = { "process" : "SingleElectron" }
 		elif channel == "em":
-			query = { "process" : "MuonEG" }
+			query_rereco = { "process" : "MuonEG" }
+			query_promptreco = { "process" : "MuonEG" }
 		elif channel == "mm":
-			query = { "process" : "SingleMuon" }
+			query_rereco = { "process" : "SingleMuon" }
+			query_promptreco = { "process" : "SingleMuon" }
 		elif channel == "tt":
-			query = { "process" : "Tau" }
+			query_rereco = { "process" : "Tau" }
+			query_promptreco = { "process" : "Tau" }
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 
-		query["data"] = True
-		query["campaign"] = "Run2016(B|C|D)"
-		query["scenario"] = "PromptRecov2" # until ReReco samples are ready
-		return self.artus_file_names(query, expect_n_results),
+		query_rereco["data"] = True
+		query_rereco["campaign"] = "Run2016(B|C|D|E|F|G)"
+		query_rereco["scenario"] = "23Sep2016v(1|3)"
+		query_promptreco["data"] = True
+		query_promptreco["campaign"] = "Run2016H"
+		query_promptreco["scenario"] = "PromptRecov2"
+		rereco_files = self.artus_file_names(query_rereco, expect_n_results_rereco)
+		promptreco_files = self.artus_file_names(query_promptreco, expect_n_results_promptreco)
+		return rereco_files + " " + promptreco_files
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -459,7 +488,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttjj", nick_suffix)
 		return config
 
-	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -472,17 +501,21 @@ class Samples(samples.SamplesBase):
 				self.files_ttj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight",
+				make_multiplication([mc_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
 				"ttj",
 				nick_suffix=nick_suffix
 		)
-		if channel == "em": # handle later as result from other member function
+		if (channel == "em") and ("newKIT" in estimationMethod):
+			channel_weight = Samples.get_jetbin(channel, category, weight)
+			
+			ttbar_data_weight = make_multiplication(["(pZetaMissVis < -70.0)", channel_weight] )   # get data / mc factor from inclusive
+
 			Samples._add_input(
 					config,
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([data_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) ]),
 					"noplot_ttj_data_control",
 					nick_suffix=nick_suffix
 			)
@@ -491,7 +524,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([Samples.ztt_genmatch(channel), ttbar_data_weight, self.get_weights_ztt(channel=channel,weight=weight), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) ]),
 					"noplot_ztt_mc_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -500,7 +533,7 @@ class Samples(samples.SamplesBase):
 					self.files_zll(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self.zll_stitchingweight(), Samples.zll_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)]),
 					"noplot_zll_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -509,7 +542,7 @@ class Samples(samples.SamplesBase):
 					self.files_wj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)]),
 					"noplot_wj_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -518,7 +551,7 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)",
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)]),
 					"noplot_vv_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -527,7 +560,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight",
+					make_multiplication([mc_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
 					"noplot_ttj_mc_signal",
 					nick_suffix=nick_suffix
 			)
@@ -536,17 +569,15 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*(pZetaMissVis < -20.0)*topPtReweightWeight",
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*topPtReweightWeight"]),
 					"noplot_ttj_mc_control",
 					nick_suffix=nick_suffix
 			)
-
 			if not "EstimateTtbar" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateTtbar")
-			config.setdefault("ttbar_from_mc", []).append(True)
 			config.setdefault("ttbar_shape_nicks", []).append("ttj"+nick_suffix)
 			config.setdefault("ttbar_data_control_nicks", []).append("noplot_ttj_data_control"+nick_suffix)
-			config.setdefault("ttbar_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
+			config.setdefault("ttbar_data_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
 			config.setdefault("ttbar_mc_signal_nicks", []).append("noplot_ttj_mc_signal"+nick_suffix)
 			config.setdefault("ttbar_mc_control_nicks", []).append("noplot_ttj_mc_control"+nick_suffix)
 		if channel not in ["em", "et", "mt", "tt", "mm"]:
@@ -943,10 +974,7 @@ class Samples(samples.SamplesBase):
 				if category != None:
 					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 				if "newKIT" in estimationMethod:
-					if "1jet" in category:
-						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
-					elif "vbf" in category:
-						wj_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
+					wj_shape_weight = make_multiplication(Samples.get_jetbin(category, channel, weight))
 				Samples._add_input(
 						config,
 						self.files_wj(channel),
@@ -1377,7 +1405,6 @@ class Samples(samples.SamplesBase):
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0 + (0.0 if not "os" in exclude_cuts else 1.0))
 				else:
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
-				config.setdefault("qcd_subtract_shape", []).append(True)
 
 			if "new" in estimationMethod:
 				if channel in ["et","mt"]:
@@ -1503,10 +1530,7 @@ class Samples(samples.SamplesBase):
 					if category != None:
 						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 					if "newKIT" in estimationMethod:
-						if "1jet" in category:
-							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
-						elif "vbf" in category:
-							qcd_shape_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
+						qcd_shape_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 					Samples._add_input(
 							config,
 							self.files_ztt(channel),
@@ -1676,10 +1700,7 @@ class Samples(samples.SamplesBase):
 						if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
 							qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 							qcd_exclude_cuts.append("pzeta")
-							if "1jet" in category:
-								qcd_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30==1"])
-							elif "vbf" in category:
-								qcd_weight = make_multiplication([split_multiplication(weight)[1], "njetspt30>1"])
+							qcd_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 						data_sample_weight = make_multiplication([data_weight, 
 											  qcd_weight,
 											  "eventWeight",
@@ -1858,8 +1879,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "qcd", nick_suffix)
 		return config
 
-	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False,
-	        lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
+	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
 		
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -1972,8 +1992,16 @@ class Samples(samples.SamplesBase):
 				)
 		return config
 
-	def files_ggh(self, channel, mass=125):
-		return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "reHLT"}, 1)
+	def files_ggh(self, channel, mass=125, **kwargs):
+		cp=kwargs.get("cp", None)
+		if cp=="sm":
+			return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_13TeV_MINIAOD_unspecified/*.root"
+		elif cp=="mm":
+			return "GluGluH2JetsToTauTauM125CPmixingmaxmixJHU_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_13TeV_MINIAOD_unspecified/*.root"
+		elif cp=="ps":
+			return "GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_13TeV_MINIAOD_unspecified/*.root"
+		else:
+			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "reHLT"}, 1)
 
 	def files_susy_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "SUSYGluGluToHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign+".*reHLT"}, 1)
@@ -1992,11 +2020,11 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm"]:
 				Samples._add_input(
 						config,
-						self.files_ggh(channel, mass) if not mssm else self.files_susy_ggh(channel, mass),
+						self.files_ggh(channel, mass, cp=kwargs.get("cp", None)) if not mssm else self.files_susy_ggh(channel, mass),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						"ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
 			else:
@@ -2006,22 +2034,36 @@ class Samples(samples.SamplesBase):
 				if not mssm:
 					Samples._add_bin_corrections(
 							config,
-							"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-							nick_suffix
+							"ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							str(kwargs.get("cp", ""))+nick_suffix
 					)
 				Samples._add_plot(
 						config,
-						"ggh",
+						kwargs.get("stacks", "ggh"),
 						"LINE",
 						"L",
-						"ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
+						"ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						str(kwargs.get("cp", ""))+nick_suffix
 				)
+		return config 
+
+	def gghsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="gghsm", **kwargs)
 		return config
+
+	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="gghmm", **kwargs)
+		return config
+
+	def gghps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="gghps", **kwargs)
+		return config
+
+
 
 	def files_qqh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "reHLT"}, 1)
-
+	
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []

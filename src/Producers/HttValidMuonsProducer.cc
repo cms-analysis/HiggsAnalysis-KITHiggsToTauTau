@@ -89,7 +89,7 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 	{
 		chargedIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 				muon->p4,
-				event.m_pfChargedHadronsNoPileUp,
+				product.m_pfChargedHadronsFromFirstPV,
 				(settings.*GetMuonIsoSignalConeSize)(),
 				(settings.*GetMuonChargedIsoVetoConeSize)(),
 				(settings.*GetMuonChargedIsoVetoConeSize)(),
@@ -97,7 +97,7 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 		);
 		neutralIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 				muon->p4,
-				event.m_pfNeutralHadronsNoPileUp,
+				product.m_pfNeutralHadronsFromFirstPV,
 				(settings.*GetMuonIsoSignalConeSize)(),
 				(settings.*GetMuonNeutralIsoVetoConeSize)(),
 				(settings.*GetMuonNeutralIsoVetoConeSize)(),
@@ -105,7 +105,7 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 		);
 		photonIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 				muon->p4,
-				event.m_pfPhotonsNoPileUp,
+				product.m_pfPhotonsFromFirstPV,
 				(settings.*GetMuonIsoSignalConeSize)(),
 				(settings.*GetMuonPhotonIsoVetoConeSize)(),
 				(settings.*GetMuonPhotonIsoVetoConeSize)(),
@@ -113,7 +113,7 @@ bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
 		);
 		deltaBetaIsolationPtSum = ParticleIsolation::IsolationPtSumForParticleClass(
 				muon->p4,
-				event.m_pfChargedHadronsPileUp,
+				product.m_pfChargedHadronsNotFromFirstPV,
 				(settings.*GetMuonIsoSignalConeSize)(),
 				(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),
 				(settings.*GetMuonDeltaBetaIsoVetoConeSize)(),

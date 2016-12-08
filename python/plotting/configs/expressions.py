@@ -28,49 +28,49 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 		# Z->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
+
 			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive"] = "1.0"
 			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_0jet_inclusive"] = "(njetspt30<1)"
 
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_low"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt<50)") + ("*(nbtag<1)")
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_medium"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt>50)*(H_pt<100)") + ("*(nbtag<1)")
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_high"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt>100)") + ("*(nbtag<1)")
+			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] + "*(mjj>500.0)*(jdeta>3.5)"
+
+			self.expressions_dict["catZtt13TeV_"+channel+"_1bjet"] = "(njets==1)*(nbtag>=1)"
+			self.expressions_dict["catZtt13TeV_"+channel+"_2bjet"] = "(njets==2)*(nbtag>=2)"
 		# Z->tautau polarisation categories
 		for channel in ["em"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_x_oneprong"] = "(1.0)"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(1.0)"
 			
 		for channel in ["mt", "et"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_x_a1"] = "(decayMode_2 == 10)"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_x_rho"] = "(decayMode_2 == 1)"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_x_oneprong"] = "(decayMode_2 == 0)"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "(decayMode_2 == 10)"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(decayMode_2 != 1)"
 		
 		for channel in ["tt"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_x"] = "((decayMode_1 == 10))"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_x"] = "((decayMode_1 == 1) * (decayMode_2 != 10))"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong_x"] = "((decayMode_1 == 0) * (decayMode_2 != 10) * (decayMode_2 != 1))"
-			
-			self.expressions_dict["catZttPol13TeV_"+channel+"_x_a1"] = "((decayMode_2 == 10) * (decayMode_1 != 10))"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_x_rho"] = "((decayMode_2 == 1) * (decayMode_1 != 10) * (decayMode_1 != 1))"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "((decayMode_1 == 10) || (decayMode_2 == 10))"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 != 10) * (decayMode_2 != 10)) * ((decayMode_1 == 1) || (decayMode_2 == 1)))"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 10) * (decayMode_2 != 10) * (decayMode_1 != 1) * (decayMode_2 != 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "((decayMode_1 == 1) || (decayMode_2 == 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 1) * (decayMode_2 != 1))"
 
 		# Z->tautau polarisation test statistics
-		for channel in ["em"]:
-			self.expressions_dict["testZttPol13TeV_"+channel+"_x_oneprong"] = "visibleOverFullEnergy_2"
+		for channel in ["mt", "et", "tt"]:
+			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "tauPolarisationDiscriminator"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_rho"] = "tauPolarisationDiscriminator"
 			
-		for channel in ["mt", "et"]:
-			self.expressions_dict["testZttPol13TeV_"+channel+"_x_a1"] = "visibleOverFullEnergy_2" # TODO change to dedicated a1 variable
-			self.expressions_dict["testZttPol13TeV_"+channel+"_x_rho"] = "rhoNeutralChargedAsymmetry_2"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_x_oneprong"] = "visibleOverFullEnergy_2"
-		
-		for channel in ["tt"]:
-			self.expressions_dict["testZttPol13TeV_"+channel+"_a1_x"] = "visibleOverFullEnergy_1" # TODO change to dedicated a1 variable
-			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_x"] = "rhoNeutralChargedAsymmetry_1"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong_x"] = "visibleOverFullEnergy_1"
-			
-			self.expressions_dict["testZttPol13TeV_"+channel+"_x_a1"] = "visibleOverFullEnergy_2" # TODO change to dedicated a1 variable
-			self.expressions_dict["testZttPol13TeV_"+channel+"_x_rho"] = "rhoNeutralChargedAsymmetry_2"
+		for channel in ["mt", "et", "tt", "em"]:
+			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "tauPolarisationDiscriminator"
 
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"
-			pt_cut = "35.0" if channel in ["mt", "et", "tt"] else "35.0"
+			pt_cut = "35.0"
 			#CP-studies
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_mt"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.55)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_et"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.55)"

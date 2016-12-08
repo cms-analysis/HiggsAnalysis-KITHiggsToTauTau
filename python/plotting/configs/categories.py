@@ -13,13 +13,14 @@ class CategoriesDict(object):
 		vbf_medium_string = "(mjj>500&&jdeta>3.5)"
 		vbf_loose_string = "(mjj>200&&jdeta>2)"
 		jet2_string = "(njetspt30>1)"
+		jet2x_string = "(njetspt30==2)"
 		jet1_string = "(njetspt30==1)"
 		jet0_string = "(njetspt30==0)"
 		pt2_tight_string = "(pt_2>=45)"
 		pt2_medium_string = "(pt_2>=35)"
 		pt2_loose_string = "(pt_2>=25)"
 		eta_hard_string = "jdeta>4.0"
-		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,40,10)+range(50, 150, 5)+range(150,251,10)])
+		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,251,10)])
 		self.pp = pprint.PrettyPrinter(indent=4)
 		self.categoriesDict = {}
 		for mjj in range(0,1001,100):
@@ -56,6 +57,10 @@ class CategoriesDict(object):
 						}
 				self.categoriesDict["{analysis}{channel}ivbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"])
 				self.categoriesDict["{analysis}{channel}ivbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([self.invert(vbf_string), jet2_string])
+				self.categoriesDict["{analysis}{channel}xvbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"])
+				self.categoriesDict["{analysis}{channel}xvbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([vbf_string, jet2x_string])
+				self.categoriesDict["{analysis}{channel}ixvbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}vbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"])
+				self.categoriesDict["{analysis}{channel}ixvbf_" + str(mjj) + "_" + str(jdeta) + "{discriminator}"]["expressions"]["global"] = self.combine([self.invert(vbf_string), jet2x_string])
 
 
 		for h_pt in range(0,201,10):
@@ -210,7 +215,7 @@ class CategoriesDict(object):
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
 						},
 					"tt_": {
-						"_H_pt":"0.0 100.0 170.0 300.0 1000.0", # this should actually go to infinity
+						"_H_pt":"0.0 100.0 170.0 300.0",
 						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
 						}
 					}
@@ -254,7 +259,7 @@ class CategoriesDict(object):
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
 						},
 					"tt_": {
-						"_mjj":"0.0 300.0 500.0 800.0 10000.0", # this should actually go to infinity
+						"_mjj":"0.0 300.0 500.0 800.0",
 						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
 						}
 					}
@@ -375,7 +380,7 @@ class CategoriesDict(object):
 						"binningMVAStudies_"
 						],
 					"global":{
-						"_m_sv":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)]),
+						"_m_sv":" ".join([str(float(f)) for f in range(0,250,10)]),
 						"_disc_1": "-1.0 "+" ".join([str(x/100.0) for x in range(-90,100,5)]) + " 1.0",
 						"_m_vis":" ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 						}

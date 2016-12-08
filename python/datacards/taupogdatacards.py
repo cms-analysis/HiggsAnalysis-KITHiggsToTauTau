@@ -27,13 +27,14 @@ class TauEsDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
-			# (hopefully) temporary fix
-			if year == "2016":
-				self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, "CMS_eff_t_mt_13TeV", "lnN", ch.SystMap()(1.10))
+			if year == "2016": #TODO: what about tau_efficiency_corr???
+				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTTT", "TTJJ", "VV"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "TTJJ", "VV"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
 			else:
-				self.cb.cp().channel(["mt"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTTT", "TTJJ", "VV"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 
 			# extrapolation uncertainty
 			#self.cb.cp().channel(["mt"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
@@ -42,8 +43,12 @@ class TauEsDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.muFakeTau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+			if year == "2016":
+				self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.muFakeTau2016_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZJ", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
+			else:
+				self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
 
 			# b-tag efficiency and mistag
 			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
@@ -56,13 +61,16 @@ class TauEsDatacards(datacards.Datacards):
 			# lumi
 			# (hopefully) temporary fix
 			if year == "2016":
-				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, "lumi_13TeV", "lnN", ch.SystMap()(1.062))
+				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 			else:
 				self.cb.cp().process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 
 			# cross section
 			self.cb.cp().process(["ZLL"]).AddSyst(self.cb, *self.zll_cross_section_syst_args)
-			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
+			if year == "2016":
+				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
+			else:
+				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			#self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
 

@@ -18,7 +18,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category for category in ["x_a1", "x_rho", "x_oneprong"]],
+					categories=["mt_"+category for category in ["rho", "oneprong"]], # "a1"
 					bkg_processes=["ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZTTPOSPOL", "ZTTNEGPOL"],
 					analysis=["ztt"],
@@ -27,11 +27,11 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficieny_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 			
-			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
-			#self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			#self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 			
 			# from Yuta
 			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_scale_met_syst_args)
@@ -58,7 +58,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+category for category in ["x_a1", "x_rho", "x_oneprong"]],
+					categories=["et_"+category for category in ["rho", "oneprong"]], # "a1"
 					bkg_processes=["ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZTTPOSPOL", "ZTTNEGPOL"],
 					analysis=["ztt"],
@@ -67,14 +67,20 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficieny_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
 			
-			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
-			#self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			#self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
+			
+			# from Yuta
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_scale_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_resolution_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TT", "VV"]).AddSyst(self.cb, *self.ewk_top_scale_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TT", "VV"]).AddSyst(self.cb, *self.ewk_top_resolution_met_syst_args)
 
 			# extrapolation uncertainty
-			self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
+			self.cb.cp().channel(["et"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
 			self.cb.cp().channel(["et"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 
 			# Tau ES
@@ -92,7 +98,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in ["a1_x", "rho_x", "oneprong_x", "x_a1", "x_rho"]],
+					categories=["tt_"+category for category in ["rho", "oneprong"]], # "a1"
 					bkg_processes=["ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZTTPOSPOL", "ZTTNEGPOL"],
 					analysis=["ztt"],
@@ -101,9 +107,15 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_corr_syst_args)
+			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_es_syst_args)
-			#self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficieny_syst_args)
+			#self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
+			
+			# from Yuta
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_scale_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_resolution_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TT", "VV"]).AddSyst(self.cb, *self.ewk_top_scale_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TT", "VV"]).AddSyst(self.cb, *self.ewk_top_resolution_met_syst_args)
 
 			# extrapolation uncertainty
 			self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
@@ -119,6 +131,35 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["tt"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
+		
+			# ======================================================================
+			# EM channel
+			self.add_processes(
+					channel="em",
+					categories=["em_"+category for category in ["oneprong"]],
+					bkg_processes=["ZL", "ZJ", "TT", "VV", "W", "QCD"],
+					sig_processes=["ZTTPOSPOL", "ZTTNEGPOL"],
+					analysis=["ztt"],
+					era=["13TeV"],
+					mass=["0"]
+			)
+		
+			# efficiencies
+			self.cb.cp().channel(["em"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
+			
+			# from Yuta
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_scale_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZL", "ZJ", "W"]).AddSyst(self.cb, *self.boson_resolution_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TT", "VV"]).AddSyst(self.cb, *self.ewk_top_scale_met_syst_args)
+			self.cb.cp().channel(["mt"]).process(["TT", "VV"]).AddSyst(self.cb, *self.ewk_top_resolution_met_syst_args)
+
+			# extrapolation uncertainty
+			self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *self.ttj_extrapol_syst_args)
+			self.cb.cp().channel(["em"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
+			
+			# Top pT reweight
+			#self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
 
 			# ======================================================================
 			# All channels
