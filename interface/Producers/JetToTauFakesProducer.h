@@ -43,35 +43,37 @@ public:
 	 m_isET = boost::regex_search(settings.GetRootFileFolder(), boost::regex("et_jecUncNom_tauEsNom", boost::regex::icase | boost::regex::extended));
 	 m_isMT = boost::regex_search(settings.GetRootFileFolder(), boost::regex("mt_jecUncNom_tauEsNom", boost::regex::icase | boost::regex::extended));
 
+	 TFile::SetCacheFileDir(("/tmp/" + settings.GetUser() +"/").c_str());
+
 	//ET files
 	if(m_isSample && m_isET)
 	{
-	 ff_file_et_incl = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/incl/fakeFactors_201610_test.root");
-	 ff_file_et_incl_SS = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/incl_SS/fakeFactors_201610_test.root");
-	 ff_file_et_0jet = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_0jet/fakeFactors_201610_test.root");
-	 ff_file_et_1jet = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jet/fakeFactors_201610_test.root");
-	 ff_file_et_1jetZ050 = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ050/fakeFactors_201610_test.root");
-	 ff_file_et_1jetZ50100 = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ50100/fakeFactors_201610_test.root");
-	 ff_file_et_1jetZ100 = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ100/fakeFactors_201610_test.root");
-	 ff_file_et_2jet = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_2jet/fakeFactors_201610_test.root");
-	 ff_file_et_2jetVBF = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_2jetVBF/fakeFactors_201610_test.root");
-	 ff_file_et_anyb = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_anyb/fakeFactors_201610_test.root");
+	 ff_file_et_incl = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/incl/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/incl/fakeFactors_201610_test.root");
+	 ff_file_et_incl_SS = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/incl_SS/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/incl_SS/fakeFactors_201610_test.root");
+	 ff_file_et_0jet = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_0jet/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_0jet/fakeFactors_201610_test.root");
+	 ff_file_et_1jet = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jet/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jet/fakeFactors_201610_test.root");
+	 ff_file_et_1jetZ050 = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ050/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ050/fakeFactors_201610_test.root");
+	 ff_file_et_1jetZ50100 = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ50100/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ50100/fakeFactors_201610_test.root");
+	 ff_file_et_1jetZ100 = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ100/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_1jetZ100/fakeFactors_201610_test.root");
+	 ff_file_et_2jet = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_2jet/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_2jet/fakeFactors_201610_test.root");
+	 ff_file_et_2jetVBF = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_2jetVBF/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_2jetVBF/fakeFactors_201610_test.root");
+	 ff_file_et_anyb = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_anyb/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/et/_anyb/fakeFactors_201610_test.root");
 	 m_applyFakeFactors = true;
 	}
 
 	 // MT files
 	if(m_isSample && m_isMT)
 	{
-	 ff_file_mt_incl = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/incl/fakeFactors_201610_test.root");
-	 ff_file_mt_incl_SS = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/incl_SS/fakeFactors_201610_test.root");
-	 ff_file_mt_0jet = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_0jet/fakeFactors_201610_test.root");
-	 ff_file_mt_1jet = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jet/fakeFactors_201610_test.root");
-	 ff_file_mt_1jetZ050 = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ050/fakeFactors_201610_test.root");
-	 ff_file_mt_1jetZ50100 = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ50100/fakeFactors_201610_test.root");
-	 ff_file_mt_1jetZ100 = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ100/fakeFactors_201610_test.root");
-	 ff_file_mt_2jet = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_2jet/fakeFactors_201610_test.root");
-	 ff_file_mt_2jetVBF = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_2jetVBF/fakeFactors_201610_test.root");
-	 ff_file_mt_anyb = new TFile("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_anyb/fakeFactors_201610_test.root");
+	 ff_file_mt_incl = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/incl/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/incl/fakeFactors_201610_test.root");
+	 ff_file_mt_incl_SS = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/incl_SS/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/incl_SS/fakeFactors_201610_test.root");
+	 ff_file_mt_0jet = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_0jet/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_0jet/fakeFactors_201610_test.root");
+	 ff_file_mt_1jet = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jet/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jet/fakeFactors_201610_test.root");
+	 ff_file_mt_1jetZ050 = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ050/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ050/fakeFactors_201610_test.root");
+	 ff_file_mt_1jetZ50100 = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ50100/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ50100/fakeFactors_201610_test.root");
+	 ff_file_mt_1jetZ100 = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ100/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_1jetZ100/fakeFactors_201610_test.root");
+	 ff_file_mt_2jet = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_2jet/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_2jet/fakeFactors_201610_test.root");
+	 ff_file_mt_2jetVBF = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_2jetVBF/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_2jetVBF/fakeFactors_201610_test.root");
+	 ff_file_mt_anyb = TFile::Open("dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_anyb/fakeFactors_201610_test.root", "CACHEREAD", "dcap://dcache-cms-dcap.desy.de//pnfs/desy.de/cms/tier2/store/user/fcolombo/higgs-kit/artus/fakeFactorWeights/mt/_anyb/fakeFactors_201610_test.root");
 	 m_applyFakeFactors = true;
 	}
 
