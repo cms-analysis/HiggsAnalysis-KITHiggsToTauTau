@@ -146,9 +146,9 @@ def merge(config_list):
 		config_list[0] = sample_settings.merge_configs(config_list[0], config_list[i + 1], additional_keys = ["theoryuncertainty_denominator", "theoryuncertainty_numerator", "nicks_blacklist", "ratio_denominator_nicks", "ratio_numerator_nicks"])
 
 colors = ['#000080', '#FF0000', '#800000', '#FFFF00', '#800080', '#000080', '#008000', '#0000FF', '#008080']
-def AppendConfig(plot_configs_list, config, str_prefix= "", channel = "", category= "", lheweight= "", logdebug = "", whitelist = False, printednumber = 0, numerator = False):
+def AppendConfig(plot_configs_list, config, centralvalue = "", logdebug = "", whitelist = False, printednumber = 0, numerator = False):
 	log.debug(logdebug)
-	config["theoryuncertainty_centralvalue"] = str_prefix + "_" + channel + "_" + category + "_" + lheweight
+	config["theoryuncertainty_centralvalue"] = centralvalue
 	if whitelist:
 		config["ratio_denominator_nicks"] = copy.deepcopy(config["nicks"])
 		#config["nicks_whitelist"] = copy.deepcopy(config["nicks"])
@@ -438,15 +438,39 @@ if __name__ == "__main__":
 
 					config_temp = sample_settings.get_config( samples = list_of_samples, channel = args.channels[0], category = category_string)
 					if log.isEnabledFor(logging.DEBUG): print "\t\t\t", lheweight
-					if pdfkey == "_".join(lheweight.split("_")[:-2]):# and lheweight_index<len(colors)
-						if ((lheweight_index - 1)  % whitelistbylhe == 0): print lheweight_index, "OK"
-						else: print lheweight_index, lheweight, "NO"
-						printedpdf = AppendConfig(plot_configs_pdf_only[category], config, config_temp["nicks"][0], channel, category,
-							lheweight, "\t\t\t\tplot_configs_pdf_only", whitelist = ((lheweight_index - 1) % whitelistbylhe == 0) , printednumber = printedpdf, numerator = (lheweight == pdfkey + "_0_weight")) #((lheweight_index - 1) % whitelistbylhe == 0)
-					if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs:
-						printedalphas = AppendConfig(plot_configs_alphas_only[category], config, config_temp["nicks"][0], channel, category, lheweight, "\t\t\t\tplot_configs_alphas_only", whitelist = True, printednumber = printedalphas, numerator = (lheweight == pdfkey + "_0_weight"))
-					elif "muF" in lheweight:
-						printedscale = AppendConfig(plot_configs_scale_only[category], config, config_temp["nicks"][0], channel, category, lheweight, "\t\t\t\tplot_configs_scale_only", whitelist = True, printednumber = printedscale, numerator = (lheweight == "muR1p0_muF1p0_weight"))
+					if pdfkey == "_".join(lheweight.split("_")[:-2]): # PDF unc
+						if log.isEnabledFor(logging.DEBUG): 
+							if ((lheweight_index - 1)  % whitelistbylhe == 0): print lheweight_index, "OK"
+							else: print lheweight_index, lheweight, "NO"
+						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + pdfkey + "_0_weight"
+						if log.isEnabledFor(logging.DEBUG): print "PDF unc central", centralvalue
+						printedpdf = AppendConfig(plot_configs_list = plot_configs_pdf_only[category],
+													config = config,
+													centralvalue = centralvalue,
+													logdebug = "\t\t\t\tplot_configs_pdf_only",
+													whitelist = ((lheweight_index - 1) % whitelistbylhe == 0),
+													printednumber = printedpdf,
+													numerator = (lheweight == pdfkey + "_0_weight")) #((lheweight_index - 1) % whitelistbylhe == 0)
+					if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs: # Alpha_s unc
+						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + pdfkey + "_0_weight"
+						if log.isEnabledFor(logging.DEBUG): print "Alpha_s unc central", centralvalue
+						printedalphas = AppendConfig(plot_configs_list = plot_configs_alphas_only[category],
+														config = config,
+														centralvalue = centralvalue,
+														logdebug = "\t\t\t\tplot_configs_alphas_only",
+														whitelist = True,
+														printednumber = printedalphas,
+														numerator = (lheweight == pdfkey + "_0_weight"))
+					elif "muF" in lheweight: # Scales unc
+						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + "muR1p0_muF1p0_weight"
+						if log.isEnabledFor(logging.DEBUG): print "Scales unc central", centralvalue
+						printedscale = AppendConfig(plot_configs_list = plot_configs_scale_only[category],
+													config = config,
+													centralvalue = centralvalue,
+													logdebug = "\t\t\t\tplot_configs_scale_only",
+													whitelist = True,
+													printednumber = printedscale,
+													numerator = (lheweight == "muR1p0_muF1p0_weight"))
 
 	
 	if log.isEnabledFor(logging.DEBUG): pprint.pprint(plot_configs)
