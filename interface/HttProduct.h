@@ -157,6 +157,10 @@ public:
 	int m_nCentralJets20 = 0;
 	int m_nCentralJets30 = 0;
 
+	// filled by the DiGenJetQuantitiesProducer
+	RMDLV m_diGenJetSystem;
+	bool m_diGenJetSystemAvailable = false;
+
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
 	KMET* m_pfmetUncorr = 0;
