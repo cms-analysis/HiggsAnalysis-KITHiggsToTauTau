@@ -718,7 +718,7 @@ class Samples(samples.SamplesBase):
 	
 	def files_ewkz(self, channel):
 		ewkz_query = { "data" : False,
-						"campaign" : sefl.mc_campaign + "2",
+						"campaign" : self.mc_campaign + "2",
 						"generator" : "madgraph-pythia8",
 						"process" : "EWKZ2Jets"}
 		artus_files = self.artus_file_names(ewkz_query, 2)
