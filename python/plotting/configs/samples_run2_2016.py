@@ -839,10 +839,10 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 						config,
-						self.files_ztt(channel),
+						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						self.get_weights_ztt(channel=channel,weight=wj_weight)+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
 						("noplot_" if not controlregions else "") + "zl_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -851,16 +851,16 @@ class Samples(samples.SamplesBase):
 						self.files_ewkz(channel),
 						self.root_file_folder(channel),
 						lumi,
-						self.get_weights_ztt(channel=channel,weight=wj_weight,doStitching=False)+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
 						("noplot_" if not controlregions else "") + "zl_os_highmt",
 						nick_suffix=nick_suffix
 				)
 				Samples._add_input(
 						config,
-						self.files_ztt(channel),
+						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						self.get_weights_ztt(channel=channel,weight=wj_weight)+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
 						("noplot_" if not controlregions else "") + "zj_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -869,7 +869,7 @@ class Samples(samples.SamplesBase):
 						self.files_ewkz(channel),
 						self.root_file_folder(channel),
 						lumi,
-						self.get_weights_ztt(channel=channel,weight=wj_weight,doStitching=False)+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
 						("noplot_" if not controlregions else "") + "zj_os_highmt",
 						nick_suffix=nick_suffix
 				)
