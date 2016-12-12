@@ -87,7 +87,7 @@ void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& pro
 		}
 	}
 
-	if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 20.0) >= 2)
+	if (product.m_validJets.size() >= 2)
 	{
 		product.m_diJetSystem = (product.m_validJets[0]->p4 + product.m_validJets[1]->p4);
 		product.m_diJetSystemAvailable = true;
