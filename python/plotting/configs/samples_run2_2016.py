@@ -715,6 +715,14 @@ class Samples(samples.SamplesBase):
 						"process" : "EWKW(Plus|Minus)2Jets_WToLNuM50"}
 		artus_files = self.artus_file_names(ewkw_query, 2)
 		return artus_files
+	
+	def files_ewkz(self, channel):
+		ewkz_query = { "data" : False,
+						"campaign" : sefl.mc_campaign + "2",
+						"generator" : "madgraph-pythia8",
+						"process" : "EWKZ2Jets"}
+		artus_files = self.artus_file_names(ewkz_query, 2)
+		return artus_files
 
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
