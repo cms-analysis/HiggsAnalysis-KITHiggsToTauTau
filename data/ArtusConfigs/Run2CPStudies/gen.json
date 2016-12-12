@@ -6,6 +6,12 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json"
 		],
 		"EventWeight" : "eventWeight",
+		"GenJetLowerPtCuts" : [
+			30.0
+		],
+		"GenJetUpperAbsEtaCuts" : [
+			4.7
+		],
 		"Quantities" : {
 			"nick" : {
 				"default" : [
@@ -42,7 +48,20 @@
 					"fourthJetLV",
 					"fifthJetLV",
 					"sixthJetLV",
-					"diJetDeltaPhi"
+					"diJetDeltaPhi",
+					"diJetAbsDeltaEta",
+					"diJetMass",
+					"nGenJets",
+					"nGenJets30",
+					"leadingGenJetLV",
+					"trailingGenJetLV",
+					"thirdGenJetLV",
+					"fourthGenJetLV",
+					"fifthGenJetLV",
+					"sixthGenJetLV",
+					"diGenJetDeltaPhi",
+					"diGenJetAbsDeltaEta",
+					"diGenJetMass"
 				],
 				"Embedding2016" : [
 					{
@@ -62,6 +81,8 @@
 				"HToTauTau|H2JetsToTauTau" : [
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
+					"producer:ValidGenJetsProducer",
+					"producer:DiGenJetQuantitiesProducer",
 					"#producer:ValidBTaggedJetsProducer",
 					"producer:DiJetQuantitiesProducer"
 				]

@@ -4,6 +4,11 @@
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSampleStitchingWeights.json"
 	],
+	"GenJets" : {
+		"nick" : {
+			"HToTauTau|H2JetsToTauTau" : "genJets"
+		}
+	},
 	"#RunWhitelist" : [
 		1
 	],
