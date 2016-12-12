@@ -16,21 +16,27 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetMass", [this](event_type const& event, product_type const& product) {
-		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
-	{
-		return diJetSystem.mass(); });
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetPt", [this](event_type const& event, product_type const& product) {
 		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
 	{
 		return diJetSystem.Pt(); });
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetEta", [this](event_type const& event, product_type const& product) {
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
+	{
+		return diJetSystem.Eta(); });
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetPhi", [this](event_type const& event, product_type const& product) {
 		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
 	{
 		return diJetSystem.Phi(); });
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetMass", [this](event_type const& event, product_type const& product) {
+		return DiJetQuantitiesProducer::GetDiJetQuantity(product, [](RMDLV diJetSystem) -> double
+	{
+		return diJetSystem.mass(); });
+	});
+	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetDeltaPhi", [](event_type const& event, product_type const& product) {
 		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
 		                                        DefaultValues::UndefinedDouble;
