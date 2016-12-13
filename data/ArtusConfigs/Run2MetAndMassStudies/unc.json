@@ -17,7 +17,7 @@
 		"MetSysShift": {
 			"nick" : {
 				"Run201" : 0,
-				"default" : 1.0
+				"default" : 1
 			}
 		}
 	},
@@ -31,7 +31,7 @@
 		"MetSysShift": {
 			"nick" : {
 				"Run201" : 0,
-				"default" : -1.0
+				"default" : -1
 			}
 		}
 	},
@@ -45,7 +45,7 @@
 		"MetSysShift": {
 			"nick" : {
 				"Run201" : 0,
-				"default" : 1.0
+				"default" : 1
 			}
 		}
 	},
@@ -59,7 +59,7 @@
 		"MetSysShift": {
 			"nick" : {
 				"Run201" : 0,
-				"default" : -1.0
+				"default" : -1
 			}
 		}
 	}

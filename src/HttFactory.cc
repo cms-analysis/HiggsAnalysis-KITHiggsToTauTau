@@ -49,6 +49,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MuMuTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmbeddingGlobalQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/BoostRestFrameProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -239,6 +240,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new EmbeddingGlobalQuantitiesProducer();
 	else if(id == BoostRestFrameProducer().GetProducerId())
 		return new BoostRestFrameProducer();
+	else if(id == DiGenJetQuantitiesProducer().GetProducerId())
+		return new DiGenJetQuantitiesProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

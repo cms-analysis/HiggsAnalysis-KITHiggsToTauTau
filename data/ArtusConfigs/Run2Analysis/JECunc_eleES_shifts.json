@@ -20,19 +20,19 @@
 		"ElectronEnergyCorrectionShiftEB" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 1.01
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding2016" : 1.01
 			}
 		},
 		"ElectronEnergyCorrectionShiftEE" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 1.025
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding2016" : 1.025
 			}
 		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncNom_eleEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL" : "jecUncNom_eleEsUp"
+		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets" : "jecUncNom_eleEsUp"
             }
         }
 	},
@@ -46,19 +46,19 @@
 		"ElectronEnergyCorrectionShiftEB" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 0.99
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding2016" : 0.99
 			}
 		},
 		"ElectronEnergyCorrectionShiftEE" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 0.975
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding2016" : 0.975
 			}
 		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncNom_eleEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL" : "jecUncNom_eleEsDown"
+		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets" : "jecUncNom_eleEsDown"
             }
         }
 	},
