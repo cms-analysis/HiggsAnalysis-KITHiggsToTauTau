@@ -285,12 +285,16 @@ if __name__ == "__main__":
 	# Category and Cut type assignment for respective studies
 	global_category_string = "catHtt13TeV"
 	global_cut_type = "baseline"
+	if args.era == "2016":
+		global_cut_type += "2016"
 	if args.mssm:
 		global_category_string = "catHttMSSM13TeV"
 		global_cut_type = "mssm"
-	elif args.mva: global_category_string = "catMVAStudies"
-	elif args.polarisation: global_category_string = "catZttPol13TeV"
-	if args.era == "2016": global_cut_type += "2016"
+	elif args.mva:
+		global_category_string = "catMVAStudies"
+	elif args.polarisation:
+		global_category_string = "catZttPol13TeV"
+		global_cut_type = "baseline_low_mvis"
 
 	# Configs construction for HP
 	for channel, background_method in zip(args.channels, args.background_method):
