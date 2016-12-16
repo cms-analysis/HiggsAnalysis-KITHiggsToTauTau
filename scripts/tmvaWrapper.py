@@ -1064,18 +1064,253 @@ if __name__ == "__main__":
 			copy_cargs["era"] = "2016"
 			#copy_cargs["higgs_masses"] = ["120"]
 			masses = ["120", "600", "2000"]#n=3
-			ntrees = [10, 20, 30, 50, 100, 200, 400, 700, 1000, 1500]#n=10
+			ntrees = [10, 30, 50, 100, 200, 400, 700, 1000, 1500, 2000]#n=10
 			for channel in copy_cargs["channels"]:
 				for mass in masses:
 					copy_cargs["higgs_masses"] = [mass]
 					for entry in ntrees:
 						copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
 						#bbh to background
-						copy_cargs["quantities"] = ["njets;I", "nbtag;I", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jeta_1;F;-3.1;3.1", "jeta_2;F;-3.1;3.1", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0", "jcsv_3;F;0.0;1.0", "jcsv_4;F;0.0;1.0"]
+						copy_cargs["quantities"] = ["njets;I", "nbtag;I", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jeta_1;F;-6.2;6.2", "jeta_2;F;-6.2;6.2", "(jcsv_1*(jcsv_1>=0.0))", "(jcsv_2*(jcsv_2>=0.0))", "(jcsv_3*(jcsv_3>=0.0))", "(jcsv_4*(jcsv_4>=0.0))"]
 						copy_cargs["signal_samples"] = ["bbh"]
 						copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
 						copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees%i_bbh_vs_bkg"%(channel, mass, entry))
 						config_list.append(copy.deepcopy(copy_cargs))
+		if 19 in cargs.modification: #n=15
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			#copy_cargs["higgs_masses"] = ["120"]
+			masses = ["120", "600", "2000"]#n=3
+			#ntrees = [10, 20, 30, 50, 100, 200, 400, 700, 1000, 1500]#n=10
+			ntrees = [500, 750, 1000, 1250, 1500]
+			for channel in copy_cargs["channels"]:
+				for mass in masses:
+					copy_cargs["higgs_masses"] = [mass]
+					for entry in ntrees:
+						copy_cargs["methods"] = ["BDT;nCuts=%i:NTrees=1200:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+						#bbh to background
+						copy_cargs["quantities"] = ["njets;I", "nbtag;I", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jeta_1;F;-6.2;6.2", "jeta_2;F;-6.2;6.2", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0", "jcsv_3;F;0.0;1.0", "jcsv_4;F;0.0;1.0"]
+						copy_cargs["signal_samples"] = ["bbh"]
+						copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NCuts%i_bbh_vs_bkg"%(channel, mass, entry))
+						config_list.append(copy.deepcopy(copy_cargs))
+		if 20 in cargs.modification: #n=18
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			#copy_cargs["higgs_masses"] = ["120"]
+			masses = ["120", "600", "2000"]#n=3
+			ntrees = [750, 1000, 1250, 1500, 1750, 2000]#n=6
+			for channel in copy_cargs["channels"]:
+				for mass in masses:
+					copy_cargs["higgs_masses"] = [mass]
+					for entry in ntrees:
+						copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+						#bbh to background
+						copy_cargs["quantities"] = ["njets;I", "nbtag;I", "nbtag/njets", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jeta_1;F;-6.2;6.2", "jeta_2;F;-6.2;6.2", "(jcsv_1*(jcsv_1>=0.0))", "(jcsv_2*(jcsv_2>=0.0))", "(jcsv_3*(jcsv_3>=0.0))", "(jcsv_4*(jcsv_4>=0.0))"]
+						copy_cargs["signal_samples"] = ["bbh"]
+						copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees%i_bbh_vs_bkg"%(channel, mass, entry))
+						config_list.append(copy.deepcopy(copy_cargs))
+		if 21 in cargs.modification: #n=91*4=364    RunA
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			copy_cargs["signal_samples"] = ["bbh"]
+			copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+			copy_cargs["quantities"] = ["njets;I", "nbtag;I", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jeta_1;F;-6.2;6.2", "jeta_2;F;-6.2;6.2", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0", "jcsv_3;F;0.0;1.0", "jcsv_4;F;0.0;1.0"]
+			masses = ["80", "90", "100", "110", "120", "130", "140", "160", "180", "200", "250", "300", "350", "400", "450", "500", "600", "700", "800", "900", "1000", "1200", "1400", "1500", "1600", "1800", "2000", "2300", "2600", "2900", "3200"]#n=31
+			nmasses = [1, 5, 11, 21, 31]#=>n=31+27+21+14+1=91
+			ntrees = [1000, 1500, 2000, 3000]#n=4
+			for channel in copy_cargs["channels"]:
+				for entry in ntrees:
+					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+					for n in nmasses:
+						for i in range(31-n+1):
+							copy_cargs["higgs_masses"] = []
+							for j in range(n):
+								copy_cargs["higgs_masses"].append(masses[i+j])
+							copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_X%i_NTrees%i_bbh_vs_bkg"%(channel, masses[i+n/2], n, entry))
+							config_list.append(copy.deepcopy(copy_cargs))
+		if 22 in cargs.modification: #n=16; like 21 but bypassing njets=0 and reduced sample   RunA
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			copy_cargs["weight"] = "(njets>0)"
+			copy_cargs["signal_samples"] = ["bbh"]
+			copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+			copy_cargs["quantities"] = ["njets;I", "nbtag;I", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jeta_1;F;-6.2;6.2", "jeta_2;F;-6.2;6.2", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0", "jcsv_3;F;0.0;1.0", "jcsv_4;F;0.0;1.0"]
+			masses = ["250", "500", "1000"]#n=3+1=4
+			ntrees = [1000, 1500, 2000, 3000]#n=4
+			for channel in copy_cargs["channels"]:
+				for entry in ntrees:
+					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+					for mass in masses: #
+						copy_cargs["higgs_masses"] = [mass]
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_X1_NTrees%i_bbh_vs_bkg"%(channel, mass, entry))
+						config_list.append(copy.deepcopy(copy_cargs))
+					copy_cargs["higgs_masses"] = ["80", "90", "100", "110", "120", "130", "140", "160", "180", "200", "250", "300", "350", "400", "450", "500", "600", "700", "800", "900", "1000", "1200", "1400", "1500", "1600", "1800", "2000", "2300", "2600", "2900", "3200"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M500_X31_NTrees%i_bbh_vs_bkg"%(channel, entry))
+					config_list.append(copy.deepcopy(copy_cargs))
+		if 23 in cargs.modification: #n=72*5=360  RunB
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			#copy_cargs["weight"] = "(njets>0)"
+			copy_cargs["signal_samples"] = ["bbh"]
+			copy_cargs["bkg_samples"] = ["ggh","ztt", "zll", "ttj", "vv", "wj"]
+			copy_cargs["quantities"] = ["njets;I", "nbtag;I", "mjj", "dmjj", "jm_1;F;0.0;200.0", "jm_2;F;0.0;200.0", "diJetSymEta_1", "diJetSymEta_2", "diJetAbsDeltaPhi", "diJetDeltaR", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0", "jcsv_3;F;0.0;1.0", "jcsv_4;F;0.0;1.0"]
+			masses = ["90", "100", "110", "120", "130", "140", "160", "180", "200", "250", "300", "350", "400", "450", "500", "700", "800", "900", "1000", "1200", "1400", "1500", "1600", "1800", "2000", "2300", "2600", "2900", "3200"]#n=29
+			nmasses = [1, 5, 13, 29]#=>n=29+25+17+1=72
+			ntrees = [700, 1000, 1500, 2000, 3000]#n=5
+			for channel in copy_cargs["channels"]:
+				for entry in ntrees:
+					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+					for n in nmasses:
+						for i in range(29-n+1):
+							copy_cargs["higgs_masses"] = []
+							for j in range(n):
+								copy_cargs["higgs_masses"].append(masses[i+j])
+							copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_X%i_NTrees%i_bbh_vs_bkg"%(channel, masses[i+n/2], n, entry))
+							config_list.append(copy.deepcopy(copy_cargs))
+		if 24 in cargs.modification: #n=17*5=85  RunB
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			copy_cargs["weight"] = "(nbtag>0)"
+			copy_cargs["signal_samples"] = ["bbh"]
+			copy_cargs["bkg_samples"] = ["ggh","ztt", "zll", "ttj", "vv", "wj"]
+			copy_cargs["quantities"] = ["njets;I", "nbtag;I", "mjj", "dmjj", "jm_1;F;0.0;200.0", "jm_2;F;0.0;200.0", "diJetSymEta_1", "diJetSymEta_2", "diJetAbsDeltaPhi", "diJetDeltaR", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0", "jcsv_3;F;0.0;1.0", "jcsv_4;F;0.0;1.0"]
+			masses = ["90", "100", "110", "120", "130", "140", "160", "180", "200", "250", "300", "350", "400", "450", "500", "700", "800", "900", "1000", "1200", "1400", "1500", "1600", "1800", "2000", "2300", "2600", "2900", "3200"]#n=29
+			M = ["500"]#["120", "250", "500", "1000", "1600", "2000"]#6+6+4+1=17
+			nmasses = [29]#[1, 5, 13, 29]#=>n=29+25+17+1=72
+			ntrees = [1500]#[700, 1000, 1500, 2000, 3000]#n=5
+			for channel in copy_cargs["channels"]:
+				for entry in ntrees:
+					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+					for n in nmasses:
+						for i in range(29-n+1):
+							if masses[i+n/2] in M:
+								copy_cargs["higgs_masses"] = []
+								for j in range(n):
+									copy_cargs["higgs_masses"].append(masses[i+j])
+								copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_X%i_NTrees%i_bbh_vs_bkg"%(channel, masses[i+n/2], n, entry))
+								config_list.append(copy.deepcopy(copy_cargs))
+		if 25 in cargs.modification: #RunC n=5+81=86
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			#copy_cargs["weight"] = ""
+			for channel in copy_cargs["channels"]:
+				#Production side n=5
+				copy_cargs["higgs_masses"] = ["90", "100", "110", "120", "130", "140", "160", "180", "200", "250", "350", "400", "450", "500", "700", "800", "900", "1000", "1200", "1400", "1600", "1800", "2000", "2300", "2600", "2900", "3200"]#n=27
+				copy_cargs["signal_samples"] = ["bbh"]
+				copy_cargs["bkg_samples"] = ["ggh", "ztt", "zll", "ttj", "vv", "wj"]
+				ntrees = [1500]#[700, 1000, 1500, 2000, 3000]
+				for entry in ntrees:
+					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+					#Version1
+					copy_cargs["quantities"] = ["njets;I", "nbtag;I", "mjj", "dmjj", "jm_1;F;0.0;200.0", "jm_2;F;0.0;200.0", "diJetSymEta_1", "diJetSymEta_2", "diJetAbsDeltaPhi", "diJetDeltaR", "jpt_1;F;0.0;1000.0", "jpt_2;F;0.0;1000.0", "jcsv_1;F;0.0;1.0", "jcsv_2;F;0.0;1.0", "jcsv_3;F;0.0;1.0", "jcsv_4;F;0.0;1.0"]
+					copy_cargs["exclude_cuts"] = ["mt"]
+					copy_cargs["weight"] = "(nbtag>0)"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_V1_NTrees%i_bbh_vs_bkg"%(channel, entry))
+					config_list.append(copy.deepcopy(copy_cargs))
+					#Version2
+					copy_cargs["quantities"] = ["nJets20;I", "nbtag;I", "diCJetm", "diCJetDeltam", "jcm_1", "jcm_2", "diCJetSymEta_1", "diCJetSymEta_2", "diCJetAbsDeltaPhi", "diCJetDeltaR", "jcpt_1", "jcpt_2", "jccsv_1", "jccsv_2", "jccsv_3", "jccsv_4"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_V2_NTrees%i_bbh_vs_bkg"%(channel, entry))
+					config_list.append(copy.deepcopy(copy_cargs))
+					#Version3
+					copy_cargs["weight"] = "1.0"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_V3_NTrees%i_bbh_vs_bkg"%(channel, entry))
+					config_list.append(copy.deepcopy(copy_cargs))
+					#Version4
+					copy_cargs["exclude_cuts"] = []
+					copy_cargs["weight"] = "(nbtag>0)"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_V4_NTrees%i_bbh_vs_bkg"%(channel, entry))
+					config_list.append(copy.deepcopy(copy_cargs))
+					#Version5
+					copy_cargs["weight"] = "1.0"
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_V5_NTrees%i_bbh_vs_bkg"%(channel, entry))
+					config_list.append(copy.deepcopy(copy_cargs))
+				#Decay Side n=81
+				masses = ["90", "100", "110", "120", "130", "140", "160", "180", "200", "250", "350", "400", "450", "500", "700", "800", "900", "1000", "1200", "1400", "1600", "1800", "2000", "2300", "2600", "2900", "3200"]#n=27
+				copy_cargs["signal_samples"] = ["bbh", "ggh"]
+				copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+				copy_cargs["quantities"] = ["pt_1", "pt_2", "mt_1", "mt_2", "diLepDeltaR", "mt_tot", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+				copy_cargs["exclude_cuts"] = ["mt"]
+				ntrees = [1000, 1500, 2000]#n=3
+				for entry in ntrees:
+					copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=%i:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"%(entry)]
+					for mass in masses:
+						copy_cargs["higgs_masses"] = [mass]
+						copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees%i_htt_vs_bkg"%(channel, mass, entry))
+						config_list.append(copy.deepcopy(copy_cargs))
+		if 26 in cargs.modification:	#DataMC agreement check
+			copy_cargs = copy.deepcopy(cargs_values)
+			copy_path = copy_cargs["output_file"]
+			copy_cargs["mssm"] = True
+			copy_cargs["era"] = "2016"
+			copy_cargs["methods"] = ["BDT;nCuts=1000:NTrees=1500:MinNodeSize=2.5:BoostType=Grad:Shrinkage=0.2:MaxDepth=3"]
+			copy_cargs["signal_samples"] = ["bbh", "ggh"]
+			copy_cargs["bkg_samples"] = ["ztt", "zll", "ttj", "vv", "wj"]
+			copy_cargs["exclude_cuts"] = ["mt"]
+			masses = ["200", "1000"]
+			for channel in copy_cargs["channels"]:
+				for mass in masses:
+					copy_cargs["higgs_masses"] = [mass]
+					
+					copy_cargs["quantities"] = ["pt_2", "mt_1", "mt_2", "diLepDeltaR", "mt_tot", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nopt1"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "mt_1", "mt_2", "diLepDeltaR", "mt_tot", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nopt2"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["mt_1", "mt_2", "diLepDeltaR", "mt_tot", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nopt"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "pt_2", "mt_2", "diLepDeltaR", "mt_tot", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nomt1"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "pt_2", "mt_1", "diLepDeltaR", "mt_tot", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nomt2"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "pt_2", "diLepDeltaR", "mt_tot", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nomt"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "pt_2", "mt_1", "mt_2", "mt_tot", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nodiLepDeltaR"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "pt_2", "mt_1", "mt_2", "diLepDeltaR", "m_vis", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nomttot"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "pt_2", "mt_1", "mt_2", "diLepDeltaR", "mt_tot", "pzetamiss", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nomvis"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "pt_2", "mt_1", "mt_2", "diLepDeltaR", "mt_tot", "m_vis", "pVecSumCSVJets"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nopzetamiss"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+					
+					copy_cargs["quantities"] = ["pt_1", "pt_2", "mt_1", "mt_2", "diLepDeltaR", "mt_tot", "m_vis", "pzetamiss"]
+					copy_cargs["output_file"] = os.path.join(copy_path,"%s_M%s_NTrees1500_htt_vs_bkg_nopVecSumCSVJets"%(channel, mass))
+					config_list.append(copy.deepcopy(copy_cargs))
+				
 		if cargs.batch_system:
 			log.info("Start training of BDT config number %i"%cargs.config_number)
 			if cargs.dry_run and cargs.config_step < 1:
