@@ -74,10 +74,10 @@ if __name__ == "__main__":
 	parser.add_argument("--quantity", default="m_2", choices=["m_2","m_vis"],
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--shift-ranges", nargs="*", type=float,
-                        default=[0.94,1.06],
-                        help="Provide minimum and maximum energy scale shift. [Default: %(default)s]")
+	                    default=[0.94,1.06],
+	                    help="Provide minimum and maximum energy scale shift. [Default: %(default)s]")
 	parser.add_argument("--shift-binning", type=float, default=0.001,
-						help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
+	                    help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
 	parser.add_argument("--pt-ranges", nargs="*",
 	                    default=[],
 	                    help="Enter the lower bin edges for the pt ranges."	)
@@ -101,19 +101,17 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--combine-verbosity", default="1", choices=["-1","0","1","2"],
-						help="Control output amount of combine. [Default: %(default)s]")
+	                    help="Control output amount of combine. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="",
-						help="Publish plots. [Default: %(default)s]")
+	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--tighten-mass-window", action="store_true", default=False,
-						help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
+	                    help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
 	parser.add_argument("--plot-with-shift", type=float, default=0.0,
-						help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
-	parser.add_argument("--colors-dm-dependent", action="store_true", default=False,
-						help="Use different colors for each decay mode corresponding to m_tau in TAU-14-001. [Default: %(default)s]")
+	                    help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
 	parser.add_argument("-b", "--background-method", default="classic",
-						help="Background estimation method to be used. [Default: %(default)s]")
+	                    help="Background estimation method to be used. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -517,13 +515,6 @@ if __name__ == "__main__":
 				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
 				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
-				if args.colors_dm_dependent:
-					if "OneProng" in category and not "OneProngPiZeros" in category:
-						config["colors"] = [color.replace("ztt", "#000000 #FF6633") for color in config["colors"]]
-					elif "OneProngPiZeros" in category:
-						config["colors"] = [color.replace("ztt", "#000000 kOrange-4") for color in config["colors"]]
-					elif "ThreeProng" in category:
-						config["colors"] = [color.replace("ztt", "#000000 #FFFFCC") for color in config["colors"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
 				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
 				
