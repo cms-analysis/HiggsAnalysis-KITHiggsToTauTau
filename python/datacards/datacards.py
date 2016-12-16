@@ -858,7 +858,7 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 		return values_tree_files
 
-	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="alpha"):
+	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="x"):
 		commands = []
 		hypotestresulttree = {}
 		
