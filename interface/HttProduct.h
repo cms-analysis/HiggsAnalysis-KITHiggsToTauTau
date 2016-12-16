@@ -288,4 +288,7 @@ public:
 	RMFLV m_pfSumP4;
 	double m_pfSumHtWithoutZMuMu = 0.;
 	RMFLV m_pfSumP4WithoutZMuMu;
+	
+	//filled by TagAndProbeMuonPairProducer
+	std::vector<std::pair<KMuon*,KMuon*>> m_TagAndProbeMuonPairs;
 };

@@ -50,6 +50,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmbeddingGlobalQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/BoostRestFrameProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -73,6 +74,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EmbeddingConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/BTagEffConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/AcceptanceEfficiencyConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TagAndProbePairConsumer.h"
 
 ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 {
@@ -242,6 +244,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new BoostRestFrameProducer();
 	else if(id == DiGenJetQuantitiesProducer().GetProducerId())
 		return new DiGenJetQuantitiesProducer();
+	else if(id == TagAndProbeMuonPairProducer().GetProducerId())
+		return new TagAndProbeMuonPairProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
@@ -308,6 +312,8 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new BTagEffConsumer();
 	else if (id == AcceptanceEfficiencyConsumer().GetConsumerId())
 		return new AcceptanceEfficiencyConsumer();
+	else if(id == TagAndProbeMuonPairConsumer<HttTypes>().GetConsumerId())
+		return new TagAndProbeMuonPairConsumer<HttTypes>();
 	else
 		return KappaFactory::createConsumer( id );
 }
