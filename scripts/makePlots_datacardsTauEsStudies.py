@@ -80,7 +80,9 @@ if __name__ == "__main__":
 	                    help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
 	parser.add_argument("--pt-ranges", nargs="*",
 	                    default=[],
-	                    help="Enter the lower bin edges for the pt ranges."	)
+	                    help="Enter the lower bin edges for the pt ranges.")
+	parser.add_argument("--eta-binning", action="store_true", default=False,
+	                    help="Perform measurement in bins of eta instead of pt. [Default: %(default)s]")
 	parser.add_argument("--decay-modes", nargs="+",
 	                    default=["OneProngPiZeros"],
 	                    choices=["AllDMs","OneProng","OneProngPiZeros","ThreeProng"],
@@ -157,6 +159,20 @@ if __name__ == "__main__":
 				pt_strings.append("p_{T}^{#tau_{h}} > "+pt_ranges[pt_index]+" GeV")
 		pt_bins.append(str(pt_index))
 	
+	# produce eta-bins (first one is always inclusive)
+	# for the moment only barrel and endcap considered
+	eta_ranges = ["0.0","1.479","2.3"]
+	eta_weights = ["(abs(eta_2)<2.3)","(abs(eta_2)<1.479)","(abs(eta_2)>1.479)*(abs(eta_2)<2.3)"]
+	eta_strings = ["|#eta_{#tau_{h}}| < 2.3","|#eta_{#tau_{h}}| < 1.479","1.479 < |#eta_{#tau_{h}}| < 2.3"]
+	eta_bins = ["0","1","2"]
+	
+	# do measurement as function of pt or eta?
+	weight_type = ("eta" if args.eta_binning else "pt")
+	weight_ranges = (eta_ranges if args.eta_binning else pt_ranges)
+	extra_weights = (eta_weights if args.eta_binning else pt_weights)
+	weight_strings = (eta_strings if args.eta_binning else pt_strings)
+	weight_bins = (eta_bins if args.eta_binning else pt_bins)
+	
 	# initialisations for plotting
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
@@ -167,7 +183,7 @@ if __name__ == "__main__":
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
 	www_output_dirs_postfit = []
-	www_output_dirs_ptbin = []
+	www_output_dirs_weightbin = []
 	www_output_dirs_parabola = []
 	
 	# initialise datacards
@@ -185,13 +201,13 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	channel = "mt"
 	quantity = args.quantity
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, pt_bins, args.era)
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, weight_bins, weight_type, args.era)
 	datacards.cb.channel([channel])
 	
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(pt_ranges):
+		for weight_index, (weight_bin) in enumerate(weight_bins):
 			
-			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
@@ -231,8 +247,8 @@ if __name__ == "__main__":
 						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample != "ztt"],
 						channel=channel,
 						category=catForConfig,
-						nick_suffix="_" + str(pt_index),
-						weight=pt_weights[pt_index],
+						nick_suffix="_" + str(weight_index),
+						weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else ""),
 						lumi=args.lumi * 1000,
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 						estimationMethod=args.background_method
@@ -252,7 +268,7 @@ if __name__ == "__main__":
 					# merge configs
 					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
 					
-					#one ztt nick config for each es shift
+					# one ztt nick config for each es shift
 					for shift in es_shifts:
 						if "ztt" not in list_of_samples:
 							continue
@@ -261,8 +277,8 @@ if __name__ == "__main__":
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "ztt"],
 							channel=channel,
 							category=catForConfig,
-							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
-							weight=pt_weights[pt_index],
+							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(weight_index),
+							weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else ""),
 							lumi=args.lumi * 1000,
 							cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 							estimationMethod=args.background_method
@@ -357,8 +373,8 @@ if __name__ == "__main__":
 	mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 	
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(pt_ranges):
-			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+		for weight_index, (weight_bin) in enumerate(weight_bins):
+			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
 	
 	# For some reason the default arguments are not working in the python wrapper
@@ -377,8 +393,8 @@ if __name__ == "__main__":
 	# write datacards
 	datacards_cbs = {}
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(pt_ranges):
-			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+		for weight_index, (weight_bin) in enumerate(weight_bins):
+			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
 							ANALYSIS="ztt",
 							CHANNEL=channel,
@@ -557,8 +573,8 @@ if __name__ == "__main__":
 				#config["formats"] = ["png", "pdf"]
 				
 				decayMode = category.split("_")[-2]
-				ptBin = int(category.split("_")[-1].split("ptbin")[-1])
-				config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[ptBin]]
+				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
+				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin]]
 				config["texts_x"] = [0.52, 0.52]
 				config["texts_y"] = [0.81, 0.74]
 				config["texts_size"] = [0.055]
@@ -575,16 +591,16 @@ if __name__ == "__main__":
 	output_dict_scan_mu, output_dict_scan_errHi, output_dict_scan_errLo = {}, {}, {}
 	
 	for decayMode in decay_modes:
-		for ptBin in pt_bins:
-			output_dict_mu.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_errHi.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_errLo.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_scan_mu.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_scan_errHi.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_scan_errLo.setdefault(decayMode, {})[ptBin] = 0
+		for weightBin in weight_bins:
+			output_dict_mu.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_errHi.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_errLo.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_mu.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_errHi.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_errLo.setdefault(decayMode, {})[weightBin] = 0
 	
 	parabola_plot_configs = []
-	ptbin_plot_configs = []
+	weightbin_plot_configs = []
 	for datacard, cb in datacards_cbs.iteritems():
 		filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
 		if "combined" in filename:
@@ -600,7 +616,7 @@ if __name__ == "__main__":
 				continue
 			
 			decayMode = category.split("_")[-2]
-			ptBin = category.split("_")[-1].split("ptbin")[-1]
+			weightBin = category.split("_")[-1].split(weight_type+"bin")[-1]
 			
 			file = ROOT.TFile(filename)
 			tree = file.Get("limit")
@@ -665,12 +681,12 @@ if __name__ == "__main__":
 				xvalues += str((mes_list[index]-1.0)*100) + " "
 				yvalues += str(nll) + " "
 		
-			output_dict_mu[decayMode][ptBin] = (resultstree.mu-1.0)*100
-			output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr*100
-			output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr*100
-			output_dict_scan_mu[decayMode][ptBin] = (min_shift-1.0)*100
-			output_dict_scan_errHi[decayMode][ptBin] = err1sigmaHi*100
-			output_dict_scan_errLo[decayMode][ptBin] = err1sigmaLow*100
+			output_dict_mu[decayMode][weightBin] = (resultstree.mu-1.0)*100
+			output_dict_errHi[decayMode][weightBin] = resultstree.muHiErr*100
+			output_dict_errLo[decayMode][weightBin] = resultstree.muLoErr*100
+			output_dict_scan_mu[decayMode][weightBin] = (min_shift-1.0)*100
+			output_dict_scan_errHi[decayMode][weightBin] = err1sigmaHi*100
+			output_dict_scan_errLo[decayMode][weightBin] = err1sigmaLow*100
 			
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
@@ -689,7 +705,7 @@ if __name__ == "__main__":
 			config["filename"] = "parabola_" + category + "_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
-			config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[int(ptBin)], "1#sigma", "2#sigma"]
+			config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[int(weightBin)], "1#sigma", "2#sigma"]
 			config["texts_x"] = [0.52, 0.52, 0.98, 0.98]
 			config["texts_y"] = [0.81, 0.74, 0.23, 0.46]
 			config["texts_size"] = [0.035]
@@ -706,25 +722,37 @@ if __name__ == "__main__":
 	#plot parabolas
 	higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
-	# plot best fit result as function of pt bins
+	# plot best fit result as function of pt/eta bins
 	config = {}
 	xbins, xerrs, ybins, yerrslo, yerrshi = [], [], [], [], []
 	for decayMode in decay_modes:
 		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
-		for index, ptBin in enumerate(pt_bins[1:]):
-			yval += str(output_dict_scan_mu[decayMode][ptBin])+" "
-			yerrsloval += str(output_dict_scan_errLo[decayMode][ptBin])+" "
-			yerrshival += str(output_dict_scan_errHi[decayMode][ptBin])+" "
-			if index < (len(pt_bins[1:])-1):
-				xval += str((float(pt_ranges[index+1])+float(pt_ranges[index+2]))/2.0)+" "
-				xerrsval += str((float(pt_ranges[index+2])-float(pt_ranges[index+1]))/2.0)+" "
+		for index, weightBin in enumerate(weight_bins[1:]):
+			yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
+			yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
+			yerrshival += str(output_dict_scan_errHi[decayMode][weightBin])+" "
+			if index < (len(weight_bins[1:])-1):
+				if args.eta_binning:
+					xval += str((float(weight_ranges[index])+float(weight_ranges[index+1]))/2.0)+" "
+					xerrsval += str((float(weight_ranges[index+1])-float(weight_ranges[index]))/2.0)+" "
+				else:
+					xval += str((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)+" "
+					xerrsval += str((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)+" "
 		
-		if len(pt_bins[1:]) > 0:
-			xval += str((float(pt_ranges[index+1])+200.0)/2.0)
-			xerrsval += str((200.0 - float(pt_ranges[index+1]))/2.0)
-		else: # no pt ranges were given - plot only inclusive result
-			xval += "110.0 "
-			xerrsval += "90.0 "
+		if len(weight_bins[1:]) > 0:
+			if args.eta_binning:
+				xval += str((float(weight_ranges[index+1])+2.3)/2.0)
+				xerrsval += str((2.3 - float(weight_ranges[index+1]))/2.0)
+			else:
+				xval += str((float(weight_ranges[index+1])+200.0)/2.0)
+				xerrsval += str((200.0 - float(weight_ranges[index+1]))/2.0)
+		else: # no pt/eta ranges were given - plot only inclusive result
+			if args.eta_binning:
+				xval += "1.15 "
+				xerrsval += "1.15 "
+			else:
+				xval += "110.0 "
+				xerrsval += "90.0 "
 			yval += str(output_dict_scan_mu[decayMode]["0"])+" "
 			yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
 			yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
@@ -738,14 +766,14 @@ if __name__ == "__main__":
 		config.setdefault("labels", []).append(decayMode_dict[decayMode]["label"].split(" decay")[0])
 	
 	config["input_modules"] = ["InputInteractive"]
-	config["x_lims"] = [0.0, 200.0]
+	config["x_lims"] = ([0.0, 2.3] if args.eta_binning else [0.0, 200.0])
 	config["y_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
-	config["x_label"] = "p^{#tau_{h}}_{T} [GeV]"
+	config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} [GeV]")
 	config["y_label"] = "#tau_{h}-ES [%]"
 	config["markers"] = ["P"]
 	config["legend"] = [0.2,0.78,0.6,0.9]
 	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
-	config["filename"] = "result_vs_pt_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
+	config["filename"] = ("result_vs_eta_" if args.eta_binning else "result_vs_pt_") + quantity + ("_tightenedMassWindow" if args.tighten_mass_window else "")
 	config["x_expressions"] = xbins
 	config["x_errors"] = xerrs
 	config["x_errors_up"] = xerrs
@@ -753,40 +781,40 @@ if __name__ == "__main__":
 	config["y_errors"] = yerrslo
 	config["y_errors_up"] = yerrshi
 	
-	if not (config["output_dir"] in www_output_dirs_ptbin):
-		www_output_dirs_ptbin.append(config["output_dir"])
+	if not (config["output_dir"] in www_output_dirs_weightbin):
+		www_output_dirs_weightbin.append(config["output_dir"])
 	
-	ptbin_plot_configs.append(config)
+	weightbin_plot_configs.append(config)
 	
-	higgsplot.HiggsPlotter(list_of_config_dicts=ptbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	higgsplot.HiggsPlotter(list_of_config_dicts=weightbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# print output table to shell
 	print "################### Fit results table (in parentheses numbers from logL scan) ###################"
 	row_format = "{:^20}" * (len(decay_modes) + 1)
 	print row_format.format("", *decay_modes)
 	print
-	for ptBin in pt_bins:
-		if ptBin == "0":
+	for weightBin in weight_bins:
+		if weightBin == "0":
 			print "{:^20}".format("Inclusive"),
 		else:
-			print "{:^20}".format("Pt bin "+ptBin),
+			print ("{:^20}".format("Eta bin "+weightBin) if args.eta_binning else "{:^20}".format("Pt bin "+weightBin)),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin]),
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin])
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin])
 		print "{:^20}".format("+ 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin]),
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin])
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin])
 		print "{:^20}".format("- 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin]),
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin])
+				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin])
 		print
 
 	# it's not pretty but it works :)
@@ -804,10 +832,10 @@ if __name__ == "__main__":
 						export_json = False,
 						output_filenames = output_filenames
 						)
-		for output_dir in www_output_dirs_ptbin:
+		for output_dir in www_output_dirs_weightbin:
 			subpath = os.path.normpath(output_dir).split("/")[-1]
 			output_filenames = []
-			for config in ptbin_plot_configs:
+			for config in weightbin_plot_configs:
 				if(output_dir in config["output_dir"] and not config["filename"] in output_filenames):
 					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
 			PlotData.webplotting(
