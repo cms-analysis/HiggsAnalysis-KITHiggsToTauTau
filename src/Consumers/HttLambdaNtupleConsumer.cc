@@ -192,14 +192,11 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitTransverseMass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("met_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitMet"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddBoolQuantity("NUP", [](KappaEvent const& event, KappaProduct const& product)
-	{
-		return product.m_genNPartons;
-	});
 	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("npartons", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return event.m_genEventInfo ? event.m_genEventInfo->lheNOutPartons : DefaultValues::UndefinedInt;
 	});
+	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("NUP", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["npartons"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("genbosonmass", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities().count("genDiLeptonBosonMass") >= 1 ? LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["genDiLeptonBosonMass"](event, product) : DefaultValues::UndefinedFloat;
