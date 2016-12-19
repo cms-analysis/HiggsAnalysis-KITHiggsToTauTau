@@ -11,16 +11,6 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer"
 			],
-			"W.?JetsToLNu" : [
-				"#filter:RunLumiEventFilter",
-				"producer:GenParticleProducer",
-				"#producer:TaggedJetCorrectionsProducer",
-				"producer:NicknameProducer",
-				"producer:CrossSectionWeightProducer",
-				"producer:GeneratorWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer"
-			],
 			"DY.?JetsToLLM(10to50|50|150)" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
