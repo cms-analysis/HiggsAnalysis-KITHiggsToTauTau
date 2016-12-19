@@ -2055,24 +2055,20 @@ class Samples(samples.SamplesBase):
 
 		data_weight = "(1.0)*"
 		catString = category
-		if "inclusive" in category:
-			catString = category.replace("inclusive","incl")	
+		if "inclusive" in category or "inclusive_SS" in category:
+			catString = category.replace("inclusive","incl")
 		if "_low" in category:
-			catString = category.replace("_low","Z050")	
+			catString = category.replace("_low","Z050")
 		if "_medium" in category:
-			catString = category.replace("_medium","Z50100")	
+			catString = category.replace("_medium","Z50100")
 		if "_high" in category:
-			catString = category.replace("_high","Z100")	
+			catString = category.replace("_high","Z100")
 		if "_vbf" in category:
-			catString = category.replace("_vbf","VBF")	
+			catString = category.replace("_vbf","VBF")
 		if "1bjet" in category:
-			catString = category.replace("1bjet","anyb")	
+			catString = category.replace("1bjet","anyb")
 		if "2bjet" in category:
-			catString = category.replace("2bjet","anyb")	
-		print "catString: ", catString
-		print "category: ", category
-		print "jetToTauFakeWeight_comb_"+channel+"_"+catString.split('_'+channel+'_')[1]+"*"
-		
+			catString = category.replace("2bjet","anyb")
 		
 		if channel in ["mt","et"]:
 			Samples._add_input(

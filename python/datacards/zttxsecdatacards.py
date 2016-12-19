@@ -304,8 +304,8 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="mt",
 					#categories=["mt_"+category for category in ["inclusive"]],
-					categories=["mt_"+category for category in ["inclusive","0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
-					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "jetFakes"],
+					categories=["mt_"+category for category in ["inclusive","inclusive_SS","0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
+					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "jetFakes", "ggH", "qqH"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],
@@ -362,8 +362,8 @@ class ZttJetTauFakeFactorDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="et",
 					#categories=["et_"+category for category in ["inclusive"]],
-					categories=["et_"+category for category in ["inclusive","0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
-					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "jetFakes"],
+					categories=["et_"+category for category in ["inclusive","inclusive_SS","0jet","1jet_low","1jet_medium","1jet_high","2jet_vbf","1bjet","2bjet"]],
+					bkg_processes=["ZL", "TTJT", "TTJL", "VVT", "VVL", "jetFakes", "ggH", "qqH"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],

@@ -32,6 +32,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_0jet_inclusive"] = "(njetspt30<1)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive"] = "(1.0)"
+			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive_SS"] = "((q_1*q_2)>0.0)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_0jet"] = "(njetspt30<1)*(nbtag<1)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet"] = "(njetspt30>0)*(njetspt30<2)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_low"] = "(pt_tt<50)*(nbtag<1)*((njetspt30==1)|| (njetspt30>1 && (!(mjj>500 && jdeta>3.5)) ) )"

@@ -30,7 +30,7 @@ class SystematicsFactory(dict):
 			self["CMS_ztt_ff_tt_stat_"+channel+"_13TeV"] = JetFakeTauTTstatShapeSystematic
 			
 			# exact copies of the above
-			for category in ["inclusive", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"]:
+			for category in ["inclusive", "inclusive_SS", "0jet", "1jet_low", "1jet_medium", "1jet_high", "2jet_vbf", "1bjet", "2bjet"]:
 				self["CMS_ztt_ff_qcd_syst_"+channel+"_"+category+"_13TeV"] = JetFakeTauQCDsystShapeSystematic
 				self["CMS_ztt_ff_qcd_stat_"+channel+"_"+category+"_13TeV"] = JetFakeTauQCDstatShapeSystematic
 				self["CMS_ztt_ff_w_syst_"+channel+"_"+category+"_13TeV"] = JetFakeTauWsystShapeSystematic
