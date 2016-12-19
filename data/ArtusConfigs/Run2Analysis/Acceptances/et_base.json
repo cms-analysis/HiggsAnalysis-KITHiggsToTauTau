@@ -24,7 +24,7 @@
 			"genMuonPt",
 			"genMuonEta",
 			"genDiLeptonDecayMode",
-			"genDiLeptonBosonMass",
+			"genbosonmass",
 			"nGenDiTauPairCandidates",
 			"genDiTauPairMass"
 		],
