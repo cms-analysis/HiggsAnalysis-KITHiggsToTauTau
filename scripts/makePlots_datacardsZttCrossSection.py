@@ -203,8 +203,10 @@ if __name__ == "__main__":
 							channel=channel,
 							category="catZtt13TeV_"+category,
 							weight=args.weight,
+							higgs_masses=[125],
 							fakefactor_method=args.fakefactor_method,
-							lumi = args.lumi * 1000
+							lumi = args.lumi * 1000,
+							exclude_cuts=(["os"] if "_SS" in category else None)
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -261,6 +263,7 @@ if __name__ == "__main__":
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
+	'''
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
 			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
@@ -441,3 +444,4 @@ if __name__ == "__main__":
 
 	# create plots using HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	'''
