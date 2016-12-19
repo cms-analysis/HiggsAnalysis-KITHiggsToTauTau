@@ -19,7 +19,7 @@ class TauEsDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="mt",
 					categories=["mt_"+category+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for category in ["inclusive"] for decaymode in decaymodes for weight_bin in weight_bins],
-					bkg_processes=["ZLL", "TT", "VV", "W", "QCD"],
+					bkg_processes=["ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],

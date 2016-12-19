@@ -494,7 +494,7 @@ if __name__ == "__main__":
 	
 	#plot postfit
 	postfit_plot_configs = [] #reset list containing the plot configs
-	bkg_plotting_order = ["ZTT", "ZLL", "TT", "VV", "W", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
 	
 	for level in ["prefit", "postfit"]:
 		for datacard in datacards_cbs.keys():
@@ -517,8 +517,12 @@ if __name__ == "__main__":
 				config.setdefault("sum_result_nicks", []).append("Total")
 				
 				processes_to_plot = list(processes)
-				processes = [p.replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+				processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
 				processes_to_plot = [p for p in processes if not "noplot" in p]
+				processes_to_plot.insert(2, "ZLL")
+				config["sum_nicks"].append("ZL_noplot ZJ_noplot")
+				config["sum_scale_factors"].append("1.0 1.0")
+				config["sum_result_nicks"].append("ZLL")
 				processes_to_plot.insert(3, "EWK")
 				config["sum_nicks"].append("VV_noplot W_noplot")
 				config["sum_scale_factors"].append("1.0 1.0")
@@ -732,30 +736,22 @@ if __name__ == "__main__":
 			yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
 			yerrshival += str(output_dict_scan_errHi[decayMode][weightBin])+" "
 			if index < (len(weight_bins[1:])-1):
-				if args.eta_binning:
-					xval += str((float(weight_ranges[index])+float(weight_ranges[index+1]))/2.0)+" "
-					xerrsval += str((float(weight_ranges[index+1])-float(weight_ranges[index]))/2.0)+" "
-				else:
-					xval += str((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)+" "
-					xerrsval += str((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)+" "
+				xval += str((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)+" "
+				xerrsval += str((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)+" "
 		
 		if len(weight_bins[1:]) > 0:
-			if args.eta_binning:
-				xval += str((float(weight_ranges[index+1])+2.3)/2.0)
-				xerrsval += str((2.3 - float(weight_ranges[index+1]))/2.0)
-			else:
-				xval += str((float(weight_ranges[index+1])+200.0)/2.0)
-				xerrsval += str((200.0 - float(weight_ranges[index+1]))/2.0)
-		else: # no pt/eta ranges were given - plot only inclusive result
-			if args.eta_binning:
-				xval += "1.15 "
-				xerrsval += "1.15 "
-			else:
-				xval += "110.0 "
-				xerrsval += "90.0 "
+			xval += str((float(weight_ranges[index+1])+200.0)/2.0)
+			xerrsval += str((200.0 - float(weight_ranges[index+1]))/2.0)
+		else: # no pt ranges were given - plot only inclusive result
+			xval += "110.0 "
+			xerrsval += "90.0 "
 			yval += str(output_dict_scan_mu[decayMode]["0"])+" "
 			yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
 			yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
+		
+		if args.eta_binning:
+			xval = "0.7395 2.2185"
+			xerrsval = "0.7395 0.7395"
 		
 		xbins.append(xval)
 		xerrs.append(xerrsval)
