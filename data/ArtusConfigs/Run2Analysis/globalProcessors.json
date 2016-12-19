@@ -28,7 +28,7 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"producer:ScaleVariationProducer"
+				"#producer:ScaleVariationProducer"
 			],
 			"^(GluGlu|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" :
 			[
