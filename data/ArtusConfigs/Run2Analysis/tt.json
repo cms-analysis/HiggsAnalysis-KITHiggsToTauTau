@@ -176,7 +176,6 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:EleTauFakeRateWeightProducer",
 					"producer:TauTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],

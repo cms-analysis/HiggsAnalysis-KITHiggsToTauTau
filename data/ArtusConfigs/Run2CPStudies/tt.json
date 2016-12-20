@@ -217,7 +217,6 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:EleTauFakeRateWeightProducer",
 					"producer:TauTauTriggerWeightProducer",
 					"producer:GenMatchedTauCPProducer",
 					"producer:RecoTauCPProducer",
