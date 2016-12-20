@@ -126,7 +126,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer"
 				],
 				"TT_RunIIFall15MiniAODv2" : [
@@ -156,7 +155,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -189,7 +187,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
@@ -221,7 +218,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run201" : [
@@ -247,7 +243,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer"
 				]
 			}

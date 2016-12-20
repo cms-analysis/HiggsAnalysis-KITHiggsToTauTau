@@ -115,7 +115,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:AntiTtbarDiscriminatorTmvaReader",
@@ -148,7 +147,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"#producer:AntiTtbarDiscriminatorTmvaReader",
-					"producer:EventCategoryProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]
