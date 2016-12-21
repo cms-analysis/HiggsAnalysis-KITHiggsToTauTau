@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-#-# Copyright (c) 2015 - All Rights Reserved
-#-# Fabio Colombo <Fabio.Colombo@cern.ch>
 
 import optparse
 import os
