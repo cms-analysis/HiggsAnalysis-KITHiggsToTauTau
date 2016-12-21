@@ -4,6 +4,8 @@
 #include <Math/VectorUtil.h>
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include <assert.h>
+#include <boost/regex.hpp>
+
 
 void TagAndProbeMuonPairProducer::Init(setting_type const& settings)
 {
