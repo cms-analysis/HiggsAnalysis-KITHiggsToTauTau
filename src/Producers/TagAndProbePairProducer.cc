@@ -4,8 +4,6 @@
 #include <Math/VectorUtil.h>
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include <assert.h>
-#include <boost/regex.hpp>
-
 
 void TagAndProbeMuonPairProducer::Init(setting_type const& settings)
 {
@@ -422,7 +420,7 @@ void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type&
 		//probe filter
 		if (
 			(*muon)->p4.Pt() > 10.0 &&
-			(*muon)->p4.Eta() < 2.4 &&
+			std::abs((*muon)->p4.Eta()) < 2.4 &&
 			(*muon)->isTrackerMuon()
 		){
 			ProbeMembers.push_back(*muon);
@@ -437,7 +435,7 @@ void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type&
 		//tag filter
 		if (
 			(*muon)->p4.Pt() > 23.0 &&
-			(*muon)->p4.Eta() < 2.4 &&
+			std::abs((*muon)->p4.Eta()) < 2.4 &&
 			std::abs((*muon)->dxy) < 0.045 &&
 			std::abs((*muon)->dz) < 0.2 &&
 			IsMediumMuon2016ShortTerm(*muon, event, product) &&
