@@ -85,8 +85,7 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/metQuantities.json"
 				]
 			},
-			"decayChannelIndex",
-			"exclusiveEventCategoryIndex"
+			"decayChannelIndex"
 		],
 		"Processors" : {
 			"nick" : {

@@ -14,7 +14,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetCorrectors.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTHTauPairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventCategoryProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DataMcScaleFactorProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
@@ -60,7 +59,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DiLeptonChargeFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/MinimalPlotlevelFilter.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ZBosonVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/HttObjectsCutFilters.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ValidDiTauPairCandidatesFilter.h"
@@ -130,10 +128,6 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TTHDecayChannelProducer();
 	else if(id == Run2DecayChannelProducer().GetProducerId())
 		return new Run2DecayChannelProducer();
-	else if(id == EventCategoryProducer().GetProducerId())
-		return new EventCategoryProducer();
-	else if(id == TTHEventCategoryProducer().GetProducerId())
-		return new TTHEventCategoryProducer();
 	else if(id == TriggerWeightProducer().GetProducerId())
 		return new TriggerWeightProducer();
 	else if(id == IdentificationWeightProducer().GetProducerId())
@@ -272,8 +266,6 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new DiLeptonChargeFilter();
 	else if(id == MinimalPlotlevelFilter().GetFilterId())
 		return new MinimalPlotlevelFilter();
-	else if(id == EventCategoryFilter().GetFilterId())
-		return new EventCategoryFilter();
 	else if(id == ZBosonVetoFilter().GetFilterId())
 		return new ZBosonVetoFilter();
 	else if(id == MetLowerPtCutsFilter().GetFilterId())

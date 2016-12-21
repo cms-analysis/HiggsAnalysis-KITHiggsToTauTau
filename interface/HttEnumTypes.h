@@ -38,66 +38,6 @@ public:
 		return DecayChannel::NONE;
 	}
 	
-	enum class EventCategory : int
-	{
-		NONE                        = -1,
-		
-		INCLUSIVE                   = 0,
-		ZERO_JET                    = 1,
-		ONE_JET                     = 2,
-		TWO_JET                     = 3,
-		
-		ZERO_JET_LOW_PT             = 11,
-		ZERO_JET_MEDIUM_PT          = 12,
-		ZERO_JET_HIGH_PT            = 13,
-		
-		ONE_JET_LOW_PT              = 21,
-		ONE_JET_MEDIUM_PT           = 22,
-		ONE_JET_HIGH_PT             = 23,
-		ONE_JET_HIGH_PT_BOOST       = 24,
-		ONE_JET_HIGH_PT_LARGE_BOOST = 25,
-		
-		TWO_JET_VBF                 = 31,
-		TWO_JET_VBF_LOOSE           = 32,
-		TWO_JET_VBF_TIGHT           = 33,
-
-		TTH_1TAG_2JETS              = 41,
-		TTH_1TAG_3JETS              = 42,
-		TTH_1TAG_4JETS              = 43,
-		TTH_2TAG_2JETS              = 44,
-		TTH_2TAG_3JETS              = 45,
-		TTH_2TAG_4JETS              = 46,
-	};
-	static EventCategory ToEventCategory(std::string const& eventCategory)
-	{
-		if (eventCategory == "inclusive") return EventCategory::INCLUSIVE;
-		else if (eventCategory == "zero_jet") return EventCategory::ZERO_JET;
-		else if (eventCategory == "one_jet") return EventCategory::ONE_JET;
-		else if (eventCategory == "two_jet") return EventCategory::TWO_JET;
-		
-		else if (eventCategory == "zero_jet_low_pt") return EventCategory::ZERO_JET_LOW_PT;
-		else if (eventCategory == "zero_jet_medium_pt") return EventCategory::ZERO_JET_MEDIUM_PT;
-		else if (eventCategory == "zero_jet_high_pt") return EventCategory::ZERO_JET_HIGH_PT;
-		
-		else if (eventCategory == "one_jet_low_pt") return EventCategory::ONE_JET_LOW_PT;
-		else if (eventCategory == "one_jet_medium_pt") return EventCategory::ONE_JET_MEDIUM_PT;
-		else if (eventCategory == "one_jet_high_pt") return EventCategory::ONE_JET_HIGH_PT;
-		else if (eventCategory == "one_jet_high_pt_boost") return EventCategory::ONE_JET_HIGH_PT_BOOST;
-		else if (eventCategory == "one_jet_high_pt_large_boost") return EventCategory::ONE_JET_HIGH_PT_LARGE_BOOST;
-		
-		else if (eventCategory == "two_jet_vbf") return EventCategory::TWO_JET_VBF;
-		else if (eventCategory == "two_jet_vbf_loose") return EventCategory::TWO_JET_VBF_LOOSE;
-		else if (eventCategory == "two_jet_vbf_tight") return EventCategory::TWO_JET_VBF_TIGHT;
-		
-		else if (eventCategory == "tth_1tag_2jets") return EventCategory::TTH_1TAG_2JETS;
-		else if (eventCategory == "tth_1tag_3jets") return EventCategory::TTH_1TAG_3JETS;
-		else if (eventCategory == "tth_1tag_4jets") return EventCategory::TTH_1TAG_4JETS;
-		else if (eventCategory == "tth_2tag_2jets") return EventCategory::TTH_2TAG_2JETS;
-		else if (eventCategory == "tth_2tag_3jets") return EventCategory::TTH_2TAG_3JETS;
-		else if (eventCategory == "tth_2tag_4jets") return EventCategory::TTH_2TAG_4JETS;
-		return EventCategory::NONE;
-	}
-	
 	enum class TauTauRestFrameReco : int
 	{
 		NONE  = -1,
