@@ -192,20 +192,10 @@ public:
 	double m_genZs  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiCP  = DefaultValues::UndefinedDouble;
-	double m_genOCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
-	double m_genOStarCP  = DefaultValues::UndefinedDouble;
 	double m_genPhi  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
-	double m_genTauMinusDirX  = DefaultValues::UndefinedDouble;
-	double m_genTauMinusDirY  = DefaultValues::UndefinedDouble;
-	double m_genTauMinusDirZ  = DefaultValues::UndefinedDouble;
-	double m_genPiMinusDirX  = DefaultValues::UndefinedDouble;
-	double m_genPiMinusDirY  = DefaultValues::UndefinedDouble;
-	double m_genPiMinusDirZ  = DefaultValues::UndefinedDouble;
 	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
-	double m_genThetaNuHadron  = DefaultValues::UndefinedDouble;
-	double m_genAlphaTauNeutrinos  = DefaultValues::UndefinedDouble;
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
 
