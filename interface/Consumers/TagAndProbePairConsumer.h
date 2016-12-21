@@ -116,7 +116,11 @@ public:
 				}else if(*quantity=="id_t"){
 					BoolQuantities["id_t"]=TagAndProbePair->first->idMedium();
 				}else if(*quantity=="iso_t"){
-					FloatQuantities["iso_t"]=TagAndProbePair->first->pfIso();
+					double chargedIsolationPtSum = TagAndProbePair->first->sumChargedHadronPtR04;
+					double neutralIsolationPtSum = TagAndProbePair->first->sumNeutralHadronEtR04;
+					double photonIsolationPtSum = TagAndProbePair->first->sumPhotonEtR04;
+					double deltaBetaIsolationPtSum = TagAndProbePair->first->sumPUPtR04;
+					FloatQuantities["iso_t"]=(chargedIsolationPtSum + std::max(0.0,neutralIsolationPtSum + photonIsolationPtSum - 0.5 * deltaBetaIsolationPtSum))/TagAndProbePair->first->p4.Pt();
 				}else if(*quantity=="muon_p"){
 					BoolQuantities["muon_p"]=true;
 				}else if(*quantity=="trk_p"){
@@ -130,7 +134,11 @@ public:
 				}else if(*quantity=="id_p"){
 					BoolQuantities["id_p"]=TagAndProbePair->second->idMedium();
 				}else if(*quantity=="iso_p"){
-					FloatQuantities["iso_p"]=TagAndProbePair->second->pfIso();
+					double chargedIsolationPtSum = TagAndProbePair->second->sumChargedHadronPtR04;
+					double neutralIsolationPtSum = TagAndProbePair->second->sumNeutralHadronEtR04;
+					double photonIsolationPtSum = TagAndProbePair->second->sumPhotonEtR04;
+					double deltaBetaIsolationPtSum = TagAndProbePair->second->sumPUPtR04;
+					FloatQuantities["iso_p"]=(chargedIsolationPtSum + std::max(0.0,neutralIsolationPtSum + photonIsolationPtSum - 0.5 * deltaBetaIsolationPtSum))/TagAndProbePair->second->p4.Pt();
 				}else if(*quantity=="m_ll"){
 					FloatQuantities["m_ll"]=(TagAndProbePair->first->p4 + TagAndProbePair->second->p4).M();
 				}else if(*quantity=="trg_t_IsoMu22"){

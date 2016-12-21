@@ -422,7 +422,8 @@ void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type&
 		//probe filter
 		if (
 			(*muon)->p4.Pt() > 10.0 &&
-			(*muon)->p4.Eta() < 2.4
+			(*muon)->p4.Eta() < 2.4 &&
+			(*muon)->isTrackerMuon()
 		){
 			ProbeMembers.push_back(*muon);
 			//std::cout << std::endl <<"IsProbe! ";
@@ -435,7 +436,7 @@ void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type&
 		double isolationPtSum = (chargedIsolationPtSum + std::max(0.0,neutralIsolationPtSum + photonIsolationPtSum - 0.5 * deltaBetaIsolationPtSum))/(*muon)->p4.Pt();
 		//tag filter
 		if (
-			(*muon)->p4.Pt() > 10.0 &&
+			(*muon)->p4.Pt() > 23.0 &&
 			(*muon)->p4.Eta() < 2.4 &&
 			std::abs((*muon)->dxy) < 0.045 &&
 			std::abs((*muon)->dz) < 0.2 &&
