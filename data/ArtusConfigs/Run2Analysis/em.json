@@ -216,8 +216,8 @@
 				"default" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:ElectronCorrectionsProducer",
 					"producer:MetSelector",
+					"producer:ElectronCorrectionsProducer",
 					"producer:ValidElectronsProducer",
 					"filter:ValidElectronsFilter",
 					"producer:ElectronTriggerMatchingProducer",
@@ -253,8 +253,8 @@
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:ElectronCorrectionsProducer",
 					"producer:MetSelector",
+					"producer:ElectronCorrectionsProducer",
 					"producer:ValidElectronsProducer",
 					"filter:ValidElectronsFilter",
 					"producer:ElectronTriggerMatchingProducer",

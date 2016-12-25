@@ -218,8 +218,8 @@
 				"default" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MuonCorrectionsProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -253,8 +253,8 @@
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MuonCorrectionsProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -288,8 +288,8 @@
 				"^((?!(DY.?JetsToLL|EWKZ2Jets)).)*Fall15" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MuonCorrectionsProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -320,8 +320,8 @@
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MuonCorrectionsProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -353,8 +353,8 @@
 				"Run2016" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MuonCorrectionsProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -381,8 +381,8 @@
 				"Run2015" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
-					"producer:MuonCorrectionsProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
