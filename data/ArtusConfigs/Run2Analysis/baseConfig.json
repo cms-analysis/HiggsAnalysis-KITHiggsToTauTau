@@ -48,6 +48,12 @@
 	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
+	"RecoElectronMatchingGenParticleMatchAllElectrons" : "true",
+	"RecoMuonMatchingGenParticleMatchAllMuons" : "true",
+	"RecoTauMatchingGenParticleMatchAllTaus" : "true",
+	"MatchAllElectronsGenTau" : "true",
+	"MatchAllMuonsGenTau" : "true",
+	"MatchAllTausGenTau" : "true",
 	"#EventWhitelist" : [
 	],
 	"OutputPath" : "output.root",
