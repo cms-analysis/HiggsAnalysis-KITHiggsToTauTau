@@ -6,6 +6,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse
+import array
 import copy
 import os
 import sys
@@ -634,6 +635,8 @@ if __name__ == "__main__":
 				mes_list.append(tree.mes)
 				deltaNLL_list.append(2*tree.deltaNLL)
 			
+			file.Close()
+			
 			#find minimum
 			for index, (nll) in enumerate(deltaNLL_list):
 				if index == 0:
@@ -649,9 +652,14 @@ if __name__ == "__main__":
 			
 			found2sigmaLow, found1sigmaLow, found1sigmaHi, found2sigmaHi = False, False, False, False
 			err2sigmaLow,err1sigmaLow, err1sigmaHi, err2sigmaHi = 0.0, 0.0, 0.0, 0.0
+			mes_list_nll_below10 = []
+			nll_below10 = []
 			
 			for index, (nll) in enumerate(deltaNLLshifted_list):
 				if (mes_list[index] <= min_shift):
+					if (nll <= 10.0):
+						mes_list_nll_below10.append(mes_list[index])
+						nll_below10.append(nll)
 					if (nll <= 4.0 and not found2sigmaLow): #crossing 2-sigma line from the left
 						found2sigmaLow = True
 						if index > 0:
@@ -677,13 +685,47 @@ if __name__ == "__main__":
 							err2sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
 						else:
 							err2sigmaHi = abs(mes_list[index] - min_shift)
+					if (nll <= 10.0):
+						mes_list_nll_below10.append(mes_list[index])
+						nll_below10.append(nll)
 			
 			#values for parabola plot
+			xvaluesF = []
 			xvalues = ""
 			yvalues = ""
 			for index, (nll) in enumerate(deltaNLLshifted_list):
+				xvaluesF.append((mes_list[index]-1.0)*100)
 				xvalues += str((mes_list[index]-1.0)*100) + " "
 				yvalues += str(nll) + " "
+			
+			# values for fit
+			xvaluesF_below10 = []
+			for index, (nll) in enumerate(nll_below10):
+				xvaluesF_below10.append((mes_list_nll_below10[index]-1.0)*100)
+			
+			# Fill TGraphErrors for parabola fit
+			RooFitGraph = ROOT.TGraphErrors(
+				len(xvaluesF),
+				array.array("d", xvaluesF),
+				array.array("d", deltaNLLshifted_list),
+				array.array("d", [0.1]*len(xvaluesF)),
+				array.array("d", [1.0]*len(xvaluesF))
+			)
+			
+			# Fit function
+			fitf = ROOT.TF1("f1","pol2",min(xvaluesF_below10),max(xvaluesF_below10))
+			RooFitGraph.Fit("f1","R")
+			minimum = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
+			minimumY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
+			sigma = abs(fitf.GetX(minimumY+1)-minimum)
+			print str(minimum)+" +/- "+str(sigma)
+			print "Chi2/ndf = "+str(fitf.GetChisquare())+"/"+str(fitf.GetNDF())
+			
+			RooFitGraph.GetYaxis().SetRangeUser(0,10)
+			graphfilename = os.path.join(os.path.dirname(datacard), "parabola_"+quantity+".root")
+			graphfile = ROOT.TFile(graphfilename, "RECREATE")
+			RooFitGraph.Write()
+			graphfile.Close()
 		
 			output_dict_mu[decayMode][weightBin] = (resultstree.mu-1.0)*100
 			output_dict_errHi[decayMode][weightBin] = resultstree.muHiErr*100
