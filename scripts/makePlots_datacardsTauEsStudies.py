@@ -115,6 +115,8 @@ if __name__ == "__main__":
 	                    help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
 	parser.add_argument("-b", "--background-method", default="classic",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
+	parser.add_argument("--use-scan-without-fit", action="store_true", default=False,
+	                    help="Obtain result from likelihood scan without fitting the parabola but instead finding the minimum and the first points crossing 1 on either side. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -594,6 +596,7 @@ if __name__ == "__main__":
 	# compute parabola from NLL scan and from here extract the best fit value and the uncertainties
 	output_dict_mu, output_dict_errHi, output_dict_errLo = {}, {}, {}
 	output_dict_scan_mu, output_dict_scan_errHi, output_dict_scan_errLo = {}, {}, {}
+	output_dict_scan_fit_mu, output_dict_scan_fit_err = {}, {}
 	
 	for decayMode in decay_modes:
 		for weightBin in weight_bins:
@@ -603,6 +606,8 @@ if __name__ == "__main__":
 			output_dict_scan_mu.setdefault(decayMode, {})[weightBin] = 0
 			output_dict_scan_errHi.setdefault(decayMode, {})[weightBin] = 0
 			output_dict_scan_errLo.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_fit_mu.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_fit_err.setdefault(decayMode, {})[weightBin] = 0
 	
 	parabola_plot_configs = []
 	weightbin_plot_configs = []
@@ -715,10 +720,10 @@ if __name__ == "__main__":
 			# Fit function
 			fitf = ROOT.TF1("f1","pol2",min(xvaluesF_below10),max(xvaluesF_below10))
 			RooFitGraph.Fit("f1","R")
-			minimum = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
-			minimumY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
-			sigma = abs(fitf.GetX(minimumY+1)-minimum)
-			print str(minimum)+" +/- "+str(sigma)
+			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
+			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
+			sigmaScanFit = abs(fitf.GetX(minimumScanFitY+1)-minimumScanFit)
+			print str(minimumScanFit)+" +/- "+str(sigmaScanFit)
 			print "Chi2/ndf = "+str(fitf.GetChisquare())+"/"+str(fitf.GetNDF())
 			
 			RooFitGraph.GetYaxis().SetRangeUser(0,10)
@@ -733,6 +738,8 @@ if __name__ == "__main__":
 			output_dict_scan_mu[decayMode][weightBin] = (min_shift-1.0)*100
 			output_dict_scan_errHi[decayMode][weightBin] = err1sigmaHi*100
 			output_dict_scan_errLo[decayMode][weightBin] = err1sigmaLow*100
+			output_dict_scan_fit_mu[decayMode][weightBin] = minimumScanFit
+			output_dict_scan_fit_err[decayMode][weightBin] = sigmaScanFit
 			
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
@@ -774,9 +781,14 @@ if __name__ == "__main__":
 	for decayMode in decay_modes:
 		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
 		for index, weightBin in enumerate(weight_bins[1:]):
-			yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
-			yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
-			yerrshival += str(output_dict_scan_errHi[decayMode][weightBin])+" "
+			if args.use_scan_without_fit:
+				yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
+				yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
+				yerrshival += str(output_dict_scan_errHi[decayMode][weightBin])+" "
+			else:
+				yval += str(output_dict_scan_fit_mu[decayMode][weightBin])+" "
+				yerrsloval += str(output_dict_scan_fit_err[decayMode][weightBin])+" "
+				yerrshival += str(output_dict_scan_fit_err[decayMode][weightBin])+" "
 			if index < (len(weight_bins[1:])-1):
 				xval += str((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)+" "
 				xerrsval += str((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)+" "
@@ -787,9 +799,15 @@ if __name__ == "__main__":
 		else: # no pt ranges were given - plot only inclusive result
 			xval += "110.0 "
 			xerrsval += "90.0 "
-			yval += str(output_dict_scan_mu[decayMode]["0"])+" "
-			yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
-			yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
+			if args.use_scan_without_fit:
+				yval += str(output_dict_scan_mu[decayMode]["0"])+" "
+				yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
+				yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
+			else:
+				yval += str(output_dict_scan_fit_mu[decayMode]["0"])+" "
+				yerrsloval += str(output_dict_scan_fit_err[decayMode]["0"])+" "
+				yerrshival += str(output_dict_scan_fit_err[decayMode]["0"])+" "
+				
 		
 		if args.eta_binning:
 			xval = "0.7395 2.2185"
@@ -827,8 +845,8 @@ if __name__ == "__main__":
 	higgsplot.HiggsPlotter(list_of_config_dicts=weightbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# print output table to shell
-	print "################### Fit results table (in parentheses numbers from logL scan) ###################"
-	row_format = "{:^20}" * (len(decay_modes) + 1)
+	print "################### Fit results table: ML fit | MultiDim parabola fit | MultiDim parabola ###################"
+	row_format = "{:^22}" * (len(decay_modes) + 1)
 	print row_format.format("", *decay_modes)
 	print
 	for weightBin in weight_bins:
@@ -838,21 +856,21 @@ if __name__ == "__main__":
 			print ("{:^20}".format("Eta bin "+weightBin) if args.eta_binning else "{:^20}".format("Pt bin "+weightBin)),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin]),
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_fit_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin])
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_fit_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin])
 		print "{:^20}".format("+ 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin]),
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin])
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin])
 		print "{:^20}".format("- 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin]),
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin])
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin])
 		print
 
 	# it's not pretty but it works :)
