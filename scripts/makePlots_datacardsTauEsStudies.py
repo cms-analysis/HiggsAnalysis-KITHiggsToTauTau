@@ -709,7 +709,7 @@ if __name__ == "__main__":
 				xvaluesF_below10.append((mes_list_nll_below10[index]-1.0)*100)
 			
 			# Fill TGraphErrors for parabola fit
-			RooFitGraph = ROOT.TGraphErrors(
+			RooFitGraph_Parabola = ROOT.TGraphErrors(
 				len(xvaluesF),
 				array.array("d", xvaluesF),
 				array.array("d", deltaNLLshifted_list),
@@ -719,17 +719,20 @@ if __name__ == "__main__":
 			
 			# Fit function
 			fitf = ROOT.TF1("f1","pol2",min(xvaluesF_below10),max(xvaluesF_below10))
-			RooFitGraph.Fit("f1","R")
+			RooFitGraph_Parabola.Fit("f1","R")
 			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
 			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
 			sigmaScanFit = abs(fitf.GetX(minimumScanFitY+1)-minimumScanFit)
-			print str(minimumScanFit)+" +/- "+str(sigmaScanFit)
-			print "Chi2/ndf = "+str(fitf.GetChisquare())+"/"+str(fitf.GetNDF())
+			print "######### Parabola fit result for pt/eta bin "+str(weightBin)+" #########"
+			print "Minimum (%) = "+str(minimumScanFit)+" +/- "+str(sigmaScanFit)
+			print "Chi2/ndf = "+str(fitf.GetChisquare())+" / "+str(fitf.GetNDF())
+			print "#######################################################"
 			
-			RooFitGraph.GetYaxis().SetRangeUser(0,10)
+			# Write parabola with fit result into file
+			RooFitGraph_Parabola.GetYaxis().SetRangeUser(0,10)
 			graphfilename = os.path.join(os.path.dirname(datacard), "parabola_"+quantity+".root")
 			graphfile = ROOT.TFile(graphfilename, "RECREATE")
-			RooFitGraph.Write()
+			RooFitGraph_Parabola.Write()
 			graphfile.Close()
 		
 			output_dict_mu[decayMode][weightBin] = (resultstree.mu-1.0)*100
@@ -778,6 +781,7 @@ if __name__ == "__main__":
 	# plot best fit result as function of pt/eta bins
 	config = {}
 	xbins, xerrs, ybins, yerrslo, yerrshi = [], [], [], [], []
+	xbinsF, xerrsF, ybinsF, yerrsloF, yerrshiF = [], [], [], [], []
 	for decayMode in decay_modes:
 		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
 		for index, weightBin in enumerate(weight_bins[1:]):
@@ -785,33 +789,93 @@ if __name__ == "__main__":
 				yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
 				yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
 				yerrshival += str(output_dict_scan_errHi[decayMode][weightBin])+" "
+				ybinsF.append(output_dict_scan_mu[decayMode][weightBin])
+				yerrsloF.append(output_dict_scan_errLo[decayMode][weightBin])
+				yerrshiF.append(output_dict_scan_errHi[decayMode][weightBin])
 			else:
 				yval += str(output_dict_scan_fit_mu[decayMode][weightBin])+" "
 				yerrsloval += str(output_dict_scan_fit_err[decayMode][weightBin])+" "
 				yerrshival += str(output_dict_scan_fit_err[decayMode][weightBin])+" "
+				ybinsF.append(output_dict_scan_fit_mu[decayMode][weightBin])
+				yerrsloF.append(output_dict_scan_fit_err[decayMode][weightBin])
+				yerrshiF.append(output_dict_scan_fit_err[decayMode][weightBin])
 			if index < (len(weight_bins[1:])-1):
 				xval += str((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)+" "
 				xerrsval += str((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)+" "
+				xbinsF.append((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)
+				xerrsF.append((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)
 		
 		if len(weight_bins[1:]) > 0:
 			xval += str((float(weight_ranges[index+1])+200.0)/2.0)
 			xerrsval += str((200.0 - float(weight_ranges[index+1]))/2.0)
+			xbinsF.append((float(weight_ranges[index+1])+200.0)/2.0)
+			xerrsF.append((200.0 - float(weight_ranges[index+1]))/2.0)
 		else: # no pt ranges were given - plot only inclusive result
 			xval += "110.0 "
 			xerrsval += "90.0 "
+			xbinsF.append(110.0)
+			xerrsF.append(90.0)
 			if args.use_scan_without_fit:
 				yval += str(output_dict_scan_mu[decayMode]["0"])+" "
 				yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
 				yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
+				ybinsF.append(output_dict_scan_mu[decayMode]["0"])
+				yerrsloF.append(output_dict_scan_errLo[decayMode]["0"])
+				yerrshiF.append(output_dict_scan_errHi[decayMode]["0"])
 			else:
 				yval += str(output_dict_scan_fit_mu[decayMode]["0"])+" "
 				yerrsloval += str(output_dict_scan_fit_err[decayMode]["0"])+" "
 				yerrshival += str(output_dict_scan_fit_err[decayMode]["0"])+" "
+				ybinsF.append(output_dict_scan_fit_mu[decayMode]["0"])
+				yerrsloF.append(output_dict_scan_fit_err[decayMode]["0"])
+				yerrshiF.append(output_dict_scan_fit_err[decayMode]["0"])
 				
 		
 		if args.eta_binning:
 			xval = "0.7395 2.2185"
 			xerrsval = "0.7395 0.7395"
+			xbinsF = [0.7395, 2.2185]
+			xerrsF = [0.7395, 0.7395]
+		
+		# Fill TGraphErrors for fit
+		RooFitGraph_Linear = ROOT.TGraphAsymmErrors(
+			len(xbinsF),
+			array.array("d", xbinsF),
+			array.array("d", ybinsF),
+			array.array("d", xerrsF),
+			array.array("d", xerrsF),
+			array.array("d", yerrsloF),
+			array.array("d", yerrshiF)
+		)
+		
+		# Pol0 and Pol1 fit functions
+		fit_polZero = ROOT.TF1("f2","pol0",min(xbinsF),max(xbinsF))
+		fit_polOne = ROOT.TF1("f3","pol1",min(xbinsF),max(xbinsF))
+		
+		# Fit Pol0
+		RooFitGraph_Linear.Fit("f2","R")
+		print "######### Pol0 fit result #########"
+		print "p0 = "+str(fit_polZero.GetParameter(0))+" +/- "+str(fit_polZero.GetParError(0))
+		print "Chi2/ndf = "+str(fit_polZero.GetChisquare())+" / "+str(fit_polZero.GetNDF())
+		print "###################################"
+		
+		polZero_filename = os.path.join(os.path.dirname(datacard), "result_fit_pol0_"+decayMode+"_"+quantity+".root")
+		polZero_file = ROOT.TFile(polZero_filename, "RECREATE")
+		RooFitGraph_Linear.Write()
+		polZero_file.Close()
+		
+		# Fit Pol1
+		RooFitGraph_Linear.Fit("f3","R")
+		print "######### Pol1 fit result #########"
+		print "p0 = "+str(fit_polOne.GetParameter(0))+" +/- "+str(fit_polOne.GetParError(0))
+		print "p1 = "+str(fit_polOne.GetParameter(1))+" +/- "+str(fit_polOne.GetParError(1))
+		print "Chi2/ndf = "+str(fit_polOne.GetChisquare())+" / "+str(fit_polOne.GetNDF())
+		print "###################################"
+		
+		polOne_filename = os.path.join(os.path.dirname(datacard), "result_fit_pol1_"+decayMode+"_"+quantity+".root")
+		polOne_file = ROOT.TFile(polOne_filename, "RECREATE")
+		RooFitGraph_Linear.Write()
+		polOne_file.Close()
 		
 		xbins.append(xval)
 		xerrs.append(xerrsval)
