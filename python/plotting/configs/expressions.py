@@ -28,7 +28,6 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 		# Z->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
-
 			self.expressions_dict["catZtt13TeV_"+channel+"_inclusive"] = "1.0"
 			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] = "(njetspt30>1)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] = "(njetspt30>0)*(njetspt30<2)"
@@ -37,11 +36,21 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_low"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt<50)") + ("*(nbtag<1)")
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_medium"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt>50)*(H_pt<100)") + ("*(nbtag<1)")
 			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_high"] = self.expressions_dict["catZtt13TeV_"+channel+"_1jet_inclusive"] + ("*(H_pt>100)") + ("*(nbtag<1)")
+
 			self.expressions_dict["catZtt13TeV_"+channel+"_2jet_vbf"] = self.expressions_dict["catZtt13TeV_"+channel+"_2jet_inclusive"] + "*(mjj>500.0)*(jdeta>3.5)"
+
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_exclusive"] = "(njetspt30>0)"
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_low_exclusive"] = "(!(" + self.expressions_dict["catZtt13TeV_"+channel+"_2jet_vbf"] + "))*" + self.expressions_dict["catZtt13TeV_" + channel + "_1jet_exclusive"] + ("*(H_pt<50)") + ("*(nbtag<1)")
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_medium_exclusive"] = "(!(" + self.expressions_dict["catZtt13TeV_"+channel+"_2jet_vbf"] + "))*" + self.expressions_dict["catZtt13TeV_" + channel + "_1jet_exclusive"] + ("*(H_pt>50)*(H_pt<100)") + ("*(nbtag<1)")
+			self.expressions_dict["catZtt13TeV_"+channel+"_1jet_high_exclusive"] = "(!(" + self.expressions_dict["catZtt13TeV_"+channel+"_2jet_vbf"] + "))*" + self.expressions_dict["catZtt13TeV_" + channel + "_1jet_exclusive"] + ("*(H_pt>100)") + ("*(nbtag<1)")
 
 			self.expressions_dict["catZtt13TeV_"+channel+"_1bjet"] = "(njets==1)*(nbtag>=1)"
 			self.expressions_dict["catZtt13TeV_"+channel+"_2bjet"] = "(njets==2)*(nbtag>=2)"
+
 		# Z->tautau polarisation categories
+		for channel in ["mt", "et", "tt", "em"]:
+			self.expressions_dict["catZttPol13TeV_"+channel+"_inclusive"] = "(1.0)"
+		
 		for channel in ["em"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(1.0)"
 			

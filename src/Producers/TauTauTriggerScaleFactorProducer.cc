@@ -1,7 +1,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
- #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
+ #include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
 std::string TauTauTriggerScaleFactorProducer::GetProducerId() const
 {
@@ -16,7 +16,7 @@ void TauTauTriggerScaleFactorProducer::Produce( event_type const& event, product
         double WeightTau = 1.0;
         auto args = std::vector<double>{product.m_flavourOrderedLeptons[index]->p4.Pt()};
         KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(index);
-        if (genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
+        if (genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
         {  
             WeightTau = m_functorTau1->eval(args.data());
         }

@@ -4,6 +4,7 @@
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 #include "Artus/Core/interface/ProducerBase.h"
+#include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
@@ -34,14 +35,16 @@ public:
 			 TMet product_type::*metMemberCorrected,
 			 std::vector<float> product_type::*metCorrections,
 			 std::string (setting_type::*GetRecoilCorrectorFile)(void) const,
-			 std::string (setting_type::*GetMetShiftCorrectorFile)(void) const
+			 std::string (setting_type::*GetMetShiftCorrectorFile)(void) const,
+			 bool (setting_type::*GetUpdateMetWithCorrectedLeptons)(void) const
 	) :
 		ProducerBase<HttTypes>(),
 		m_metMemberUncorrected(metMemberUncorrected),
 		m_metMemberCorrected(metMemberCorrected),
 		m_metCorrections(metCorrections),
 		GetRecoilCorrectorFile(GetRecoilCorrectorFile),
-		GetMetShiftCorrectorFile(GetMetShiftCorrectorFile)
+		GetMetShiftCorrectorFile(GetMetShiftCorrectorFile),
+		GetUpdateMetWithCorrectedLeptons(GetUpdateMetWithCorrectedLeptons)
 	{
 	}
 
@@ -112,6 +115,63 @@ public:
 	{
 		assert(m_metMemberUncorrected != nullptr);
 		
+		// Recalculate MET if lepton energies have been corrected:
+		// MetX' = MetX + Px - Px'
+		// MetY' = MetY + Py - Py'
+		// MET' = sqrt(MetX' * MetX' + MetY' * MetY')
+		if ((settings.*GetUpdateMetWithCorrectedLeptons)())
+		{
+			float metX = (product.*m_metMemberUncorrected)->p4.Px();
+			float metY = (product.*m_metMemberUncorrected)->p4.Py();
+
+			// Electrons
+			for (std::vector<std::shared_ptr<KElectron> >::iterator electron = product.m_correctedElectrons.begin();
+				 electron != product.m_correctedElectrons.end(); ++electron)
+			{
+				// Only update MET if there actually was a correction applied
+				if (Utility::ApproxEqual(electron->get()->p4, const_cast<KLepton*>(product.m_originalLeptons[electron->get()])->p4))
+					continue;
+
+				float eX = electron->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[electron->get()])->p4.Px();
+				float eY = electron->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[electron->get()])->p4.Py();
+
+				metX -= eX;
+				metY -= eY;
+			}
+
+			// Muons
+			for (std::vector<std::shared_ptr<KMuon> >::iterator muon = product.m_correctedMuons.begin();
+				 muon != product.m_correctedMuons.end(); ++muon)
+			{
+				// Only update MET if there actually was a correction applied
+				if (Utility::ApproxEqual(muon->get()->p4, const_cast<KLepton*>(product.m_originalLeptons[muon->get()])->p4))
+					continue;
+
+				float eX = muon->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[muon->get()])->p4.Px();
+				float eY = muon->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[muon->get()])->p4.Py();
+
+				metX -= eX;
+				metY -= eY;
+			}
+
+			// Taus
+			for (std::vector<std::shared_ptr<KTau> >::iterator tau = product.m_correctedTaus.begin();
+				 tau != product.m_correctedTaus.end(); ++tau)
+			{
+				// Only update MET if there actually was a correction applied
+				if (Utility::ApproxEqual(tau->get()->p4, const_cast<KLepton*>(product.m_originalLeptons[tau->get()])->p4))
+					continue;
+
+				float eX = tau->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[tau->get()])->p4.Px();
+				float eY = tau->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[tau->get()])->p4.Py();
+
+				metX -= eX;
+				metY -= eY;
+			}
+
+			(product.*m_metMemberUncorrected)->p4.SetPxPyPzE(metX, metY, 0., std::sqrt(metX * metX + metY * metY));
+		}
+
 		// Retrieve the needed informations from the event content
 		float metX = (product.*m_metMemberUncorrected)->p4.Px();
 		float metY = (product.*m_metMemberUncorrected)->p4.Py();
@@ -134,7 +194,7 @@ public:
 		for (KGenParticles::const_iterator genParticle = event.m_genParticles->begin();
 		 genParticle != event.m_genParticles->end(); ++genParticle)
 		{
-			int pdgId = std::abs(genParticle->pdgId);     
+			int pdgId = std::abs(genParticle->pdgId);
 			
 			if ( (pdgId >= DefaultValues::pdgIdElectron && pdgId <= DefaultValues::pdgIdNuTau && genParticle->fromHardProcessFinalState()) ||
 			     (genParticle->isDirectHardProcessTauDecayProduct()) )
@@ -219,10 +279,10 @@ public:
 				correctedMetShiftY,
 				0.,
 				std::sqrt(metResolution * metResolution + correctedMetShiftX * correctedMetShiftX + correctedMetShiftY * correctedMetShiftY));
-                        if (m_correctGlobalMet)
-                        {
-                                product.m_met = product.*m_metMemberCorrected;
-                        }
+			if (m_correctGlobalMet)
+			{
+				product.m_met = product.*m_metMemberCorrected;
+			}
 		}
 	}
 
@@ -241,6 +301,7 @@ protected:
 	bool m_doMetSys;
 	CorrectionMethod m_correctionMethod;
 	bool m_correctGlobalMet;
+	bool (setting_type::*GetUpdateMetWithCorrectedLeptons)(void) const;
 };
 
 

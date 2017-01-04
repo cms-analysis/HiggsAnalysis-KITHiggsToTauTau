@@ -17,21 +17,15 @@ class CPQuantities
 {
 public:
 	double CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2);
-	double CalculateOStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(KVertex pv , KTrack track1, KTrack track2, RMFLV chargPart1,RMFLV chargPart2);
 	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
-	double CalculateOCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng);
 	double CalculateChargedProngEnergyApprox(RMFLV tau, RMFLV chargedProng);
-	double CalculateThetaNuHadron(RMFLV tau, RMFLV nuTau, RMFLV hadron);
-	double CalculateAlphaTauNeutrinos(RMFLV tauM, RMFLV nuTauM, RMFLV tauP, RMFLV nuTauP);
 	double CalculateTrackReferenceError(KTrack track);
 	double CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart);
 	double CalculateZs(double zPlus, double zMinus);
 	double PhiTransform(double phi);
-	std::vector<float> CalculateTauMinusDirection(RMFLV boson, RMFLV tau1);
-	std::vector<float> CalculatePiMinusDirection(RMFLV tau1, RMFLV chargPart1);
 	inline double GetGenPhiStar()
 	{
 		return genPhiStar;

@@ -155,7 +155,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"producer:EventWeightProducer"
 				],
@@ -193,7 +192,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"producer:EventWeightProducer"
 				],
@@ -234,7 +232,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:GenTauDecayProducer",
 					"producer:EventWeightProducer"
 				],
@@ -268,7 +265,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer"
 				]
 			}

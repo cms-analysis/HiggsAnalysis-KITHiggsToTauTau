@@ -6,6 +6,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse
+import array
 import copy
 import os
 import sys
@@ -74,13 +75,15 @@ if __name__ == "__main__":
 	parser.add_argument("--quantity", default="m_2", choices=["m_2","m_vis"],
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--shift-ranges", nargs="*", type=float,
-                        default=[0.94,1.06],
-                        help="Provide minimum and maximum energy scale shift. [Default: %(default)s]")
+	                    default=[0.94,1.06],
+	                    help="Provide minimum and maximum energy scale shift. [Default: %(default)s]")
 	parser.add_argument("--shift-binning", type=float, default=0.001,
-						help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
+	                    help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
 	parser.add_argument("--pt-ranges", nargs="*",
 	                    default=[],
-	                    help="Enter the lower bin edges for the pt ranges."	)
+	                    help="Enter the lower bin edges for the pt ranges.")
+	parser.add_argument("--eta-binning", action="store_true", default=False,
+	                    help="Perform measurement in bins of eta instead of pt. [Default: %(default)s]")
 	parser.add_argument("--decay-modes", nargs="+",
 	                    default=["OneProngPiZeros"],
 	                    choices=["AllDMs","OneProng","OneProngPiZeros","ThreeProng"],
@@ -101,19 +104,19 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--combine-verbosity", default="1", choices=["-1","0","1","2"],
-						help="Control output amount of combine. [Default: %(default)s]")
+	                    help="Control output amount of combine. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="",
-						help="Publish plots. [Default: %(default)s]")
+	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--tighten-mass-window", action="store_true", default=False,
-						help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
+	                    help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
 	parser.add_argument("--plot-with-shift", type=float, default=0.0,
-						help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
-	parser.add_argument("--colors-dm-dependent", action="store_true", default=False,
-						help="Use different colors for each decay mode corresponding to m_tau in TAU-14-001. [Default: %(default)s]")
+	                    help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
 	parser.add_argument("-b", "--background-method", default="classic",
-						help="Background estimation method to be used. [Default: %(default)s]")
+	                    help="Background estimation method to be used. [Default: %(default)s]")
+	parser.add_argument("--use-scan-without-fit", action="store_true", default=False,
+	                    help="Obtain result from likelihood scan without fitting the parabola but instead finding the minimum and the first points crossing 1 on either side. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -159,6 +162,20 @@ if __name__ == "__main__":
 				pt_strings.append("p_{T}^{#tau_{h}} > "+pt_ranges[pt_index]+" GeV")
 		pt_bins.append(str(pt_index))
 	
+	# produce eta-bins (first one is always inclusive)
+	# for the moment only barrel and endcap considered
+	eta_ranges = ["0.0","1.479","2.3"]
+	eta_weights = ["(abs(eta_2)<2.3)","(abs(eta_2)<1.479)","(abs(eta_2)>1.479)*(abs(eta_2)<2.3)"]
+	eta_strings = ["|#eta_{#tau_{h}}| < 2.3","|#eta_{#tau_{h}}| < 1.479","1.479 < |#eta_{#tau_{h}}| < 2.3"]
+	eta_bins = ["0","1","2"]
+	
+	# do measurement as function of pt or eta?
+	weight_type = ("eta" if args.eta_binning else "pt")
+	weight_ranges = (eta_ranges if args.eta_binning else pt_ranges)
+	extra_weights = (eta_weights if args.eta_binning else pt_weights)
+	weight_strings = (eta_strings if args.eta_binning else pt_strings)
+	weight_bins = (eta_bins if args.eta_binning else pt_bins)
+	
 	# initialisations for plotting
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
@@ -169,7 +186,7 @@ if __name__ == "__main__":
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
 	www_output_dirs_postfit = []
-	www_output_dirs_ptbin = []
+	www_output_dirs_weightbin = []
 	www_output_dirs_parabola = []
 	
 	# initialise datacards
@@ -187,13 +204,13 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	channel = "mt"
 	quantity = args.quantity
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, pt_bins, args.era)
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, weight_bins, weight_type, args.era)
 	datacards.cb.channel([channel])
 	
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(pt_ranges):
+		for weight_index, (weight_bin) in enumerate(weight_bins):
 			
-			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
@@ -233,8 +250,8 @@ if __name__ == "__main__":
 						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample != "ztt"],
 						channel=channel,
 						category=catForConfig,
-						nick_suffix="_" + str(pt_index),
-						weight=pt_weights[pt_index],
+						nick_suffix="_" + str(weight_index),
+						weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else ""),
 						lumi=args.lumi * 1000,
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 						estimationMethod=args.background_method
@@ -254,7 +271,7 @@ if __name__ == "__main__":
 					# merge configs
 					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
 					
-					#one ztt nick config for each es shift
+					# one ztt nick config for each es shift
 					for shift in es_shifts:
 						if "ztt" not in list_of_samples:
 							continue
@@ -263,8 +280,8 @@ if __name__ == "__main__":
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "ztt"],
 							channel=channel,
 							category=catForConfig,
-							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(pt_index),
-							weight=pt_weights[pt_index],
+							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(weight_index),
+							weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else ""),
 							lumi=args.lumi * 1000,
 							cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 							estimationMethod=args.background_method
@@ -359,8 +376,8 @@ if __name__ == "__main__":
 	mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 	
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(pt_ranges):
-			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+		for weight_index, (weight_bin) in enumerate(weight_bins):
+			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
 	
 	# For some reason the default arguments are not working in the python wrapper
@@ -379,8 +396,8 @@ if __name__ == "__main__":
 	# write datacards
 	datacards_cbs = {}
 	for decayMode in args.decay_modes:
-		for pt_index, (pt_range) in enumerate(pt_ranges):
-			category = "mt_inclusive_"+decayMode+"_ptbin"+pt_bins[pt_index]
+		for weight_index, (weight_bin) in enumerate(weight_bins):
+			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
 							ANALYSIS="ztt",
 							CHANNEL=channel,
@@ -480,7 +497,7 @@ if __name__ == "__main__":
 	
 	#plot postfit
 	postfit_plot_configs = [] #reset list containing the plot configs
-	bkg_plotting_order = ["ZTT", "ZLL", "TT", "VV", "W", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
 	
 	for level in ["prefit", "postfit"]:
 		for datacard in datacards_cbs.keys():
@@ -503,8 +520,12 @@ if __name__ == "__main__":
 				config.setdefault("sum_result_nicks", []).append("Total")
 				
 				processes_to_plot = list(processes)
-				processes = [p.replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+				processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
 				processes_to_plot = [p for p in processes if not "noplot" in p]
+				processes_to_plot.insert(2, "ZLL")
+				config["sum_nicks"].append("ZL_noplot ZJ_noplot")
+				config["sum_scale_factors"].append("1.0 1.0")
+				config["sum_result_nicks"].append("ZLL")
 				processes_to_plot.insert(3, "EWK")
 				config["sum_nicks"].append("VV_noplot W_noplot")
 				config["sum_scale_factors"].append("1.0 1.0")
@@ -517,13 +538,6 @@ if __name__ == "__main__":
 				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
 				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
 				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
-				if args.colors_dm_dependent:
-					if "OneProng" in category and not "OneProngPiZeros" in category:
-						config["colors"] = [color.replace("ztt", "#000000 #FF6633") for color in config["colors"]]
-					elif "OneProngPiZeros" in category:
-						config["colors"] = [color.replace("ztt", "#000000 kOrange-4") for color in config["colors"]]
-					elif "ThreeProng" in category:
-						config["colors"] = [color.replace("ztt", "#000000 #FFFFCC") for color in config["colors"]]
 				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
 				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
 				
@@ -566,8 +580,8 @@ if __name__ == "__main__":
 				#config["formats"] = ["png", "pdf"]
 				
 				decayMode = category.split("_")[-2]
-				ptBin = int(category.split("_")[-1].split("ptbin")[-1])
-				config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[ptBin]]
+				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
+				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin]]
 				config["texts_x"] = [0.52, 0.52]
 				config["texts_y"] = [0.81, 0.74]
 				config["texts_size"] = [0.055]
@@ -582,18 +596,21 @@ if __name__ == "__main__":
 	# compute parabola from NLL scan and from here extract the best fit value and the uncertainties
 	output_dict_mu, output_dict_errHi, output_dict_errLo = {}, {}, {}
 	output_dict_scan_mu, output_dict_scan_errHi, output_dict_scan_errLo = {}, {}, {}
+	output_dict_scan_fit_mu, output_dict_scan_fit_err = {}, {}
 	
 	for decayMode in decay_modes:
-		for ptBin in pt_bins:
-			output_dict_mu.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_errHi.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_errLo.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_scan_mu.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_scan_errHi.setdefault(decayMode, {})[ptBin] = 0
-			output_dict_scan_errLo.setdefault(decayMode, {})[ptBin] = 0
+		for weightBin in weight_bins:
+			output_dict_mu.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_errHi.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_errLo.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_mu.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_errHi.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_errLo.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_fit_mu.setdefault(decayMode, {})[weightBin] = 0
+			output_dict_scan_fit_err.setdefault(decayMode, {})[weightBin] = 0
 	
 	parabola_plot_configs = []
-	ptbin_plot_configs = []
+	weightbin_plot_configs = []
 	for datacard, cb in datacards_cbs.iteritems():
 		filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
 		if "combined" in filename:
@@ -609,7 +626,7 @@ if __name__ == "__main__":
 				continue
 			
 			decayMode = category.split("_")[-2]
-			ptBin = category.split("_")[-1].split("ptbin")[-1]
+			weightBin = category.split("_")[-1].split(weight_type+"bin")[-1]
 			
 			file = ROOT.TFile(filename)
 			tree = file.Get("limit")
@@ -622,6 +639,8 @@ if __name__ == "__main__":
 				tree.GetEntry(entry)
 				mes_list.append(tree.mes)
 				deltaNLL_list.append(2*tree.deltaNLL)
+			
+			file.Close()
 			
 			#find minimum
 			for index, (nll) in enumerate(deltaNLL_list):
@@ -638,9 +657,14 @@ if __name__ == "__main__":
 			
 			found2sigmaLow, found1sigmaLow, found1sigmaHi, found2sigmaHi = False, False, False, False
 			err2sigmaLow,err1sigmaLow, err1sigmaHi, err2sigmaHi = 0.0, 0.0, 0.0, 0.0
+			mes_list_nll_below10 = []
+			nll_below10 = []
 			
 			for index, (nll) in enumerate(deltaNLLshifted_list):
 				if (mes_list[index] <= min_shift):
+					if (nll <= 10.0):
+						mes_list_nll_below10.append(mes_list[index])
+						nll_below10.append(nll)
 					if (nll <= 4.0 and not found2sigmaLow): #crossing 2-sigma line from the left
 						found2sigmaLow = True
 						if index > 0:
@@ -666,20 +690,56 @@ if __name__ == "__main__":
 							err2sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
 						else:
 							err2sigmaHi = abs(mes_list[index] - min_shift)
+					if (nll <= 10.0):
+						mes_list_nll_below10.append(mes_list[index])
+						nll_below10.append(nll)
 			
 			#values for parabola plot
+			xvaluesF = []
 			xvalues = ""
 			yvalues = ""
 			for index, (nll) in enumerate(deltaNLLshifted_list):
+				xvaluesF.append((mes_list[index]-1.0)*100)
 				xvalues += str((mes_list[index]-1.0)*100) + " "
 				yvalues += str(nll) + " "
+			
+			# values for fit
+			xvaluesF_below10 = []
+			for index, (nll) in enumerate(nll_below10):
+				xvaluesF_below10.append((mes_list_nll_below10[index]-1.0)*100)
+			
+			# Fill TGraphErrors for parabola fit
+			RooFitGraph = ROOT.TGraphErrors(
+				len(xvaluesF),
+				array.array("d", xvaluesF),
+				array.array("d", deltaNLLshifted_list),
+				array.array("d", [0.1]*len(xvaluesF)),
+				array.array("d", [1.0]*len(xvaluesF))
+			)
+			
+			# Fit function
+			fitf = ROOT.TF1("f1","pol2",min(xvaluesF_below10),max(xvaluesF_below10))
+			RooFitGraph.Fit("f1","R")
+			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
+			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
+			sigmaScanFit = abs(fitf.GetX(minimumScanFitY+1)-minimumScanFit)
+			print str(minimumScanFit)+" +/- "+str(sigmaScanFit)
+			print "Chi2/ndf = "+str(fitf.GetChisquare())+"/"+str(fitf.GetNDF())
+			
+			RooFitGraph.GetYaxis().SetRangeUser(0,10)
+			graphfilename = os.path.join(os.path.dirname(datacard), "parabola_"+quantity+".root")
+			graphfile = ROOT.TFile(graphfilename, "RECREATE")
+			RooFitGraph.Write()
+			graphfile.Close()
 		
-			output_dict_mu[decayMode][ptBin] = (resultstree.mu-1.0)*100
-			output_dict_errHi[decayMode][ptBin] = resultstree.muHiErr*100
-			output_dict_errLo[decayMode][ptBin] = resultstree.muLoErr*100
-			output_dict_scan_mu[decayMode][ptBin] = (min_shift-1.0)*100
-			output_dict_scan_errHi[decayMode][ptBin] = err1sigmaHi*100
-			output_dict_scan_errLo[decayMode][ptBin] = err1sigmaLow*100
+			output_dict_mu[decayMode][weightBin] = (resultstree.mu-1.0)*100
+			output_dict_errHi[decayMode][weightBin] = resultstree.muHiErr*100
+			output_dict_errLo[decayMode][weightBin] = resultstree.muLoErr*100
+			output_dict_scan_mu[decayMode][weightBin] = (min_shift-1.0)*100
+			output_dict_scan_errHi[decayMode][weightBin] = err1sigmaHi*100
+			output_dict_scan_errLo[decayMode][weightBin] = err1sigmaLow*100
+			output_dict_scan_fit_mu[decayMode][weightBin] = minimumScanFit
+			output_dict_scan_fit_err[decayMode][weightBin] = sigmaScanFit
 			
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
@@ -698,7 +758,7 @@ if __name__ == "__main__":
 			config["filename"] = "parabola_" + category + "_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
-			config["texts"] = [decayMode_dict[decayMode]["label"], pt_strings[int(ptBin)], "1#sigma", "2#sigma"]
+			config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[int(weightBin)], "1#sigma", "2#sigma"]
 			config["texts_x"] = [0.52, 0.52, 0.98, 0.98]
 			config["texts_y"] = [0.81, 0.74, 0.23, 0.46]
 			config["texts_size"] = [0.035]
@@ -715,28 +775,43 @@ if __name__ == "__main__":
 	#plot parabolas
 	higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
-	# plot best fit result as function of pt bins
+	# plot best fit result as function of pt/eta bins
 	config = {}
 	xbins, xerrs, ybins, yerrslo, yerrshi = [], [], [], [], []
 	for decayMode in decay_modes:
 		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
-		for index, ptBin in enumerate(pt_bins[1:]):
-			yval += str(output_dict_scan_mu[decayMode][ptBin])+" "
-			yerrsloval += str(output_dict_scan_errLo[decayMode][ptBin])+" "
-			yerrshival += str(output_dict_scan_errHi[decayMode][ptBin])+" "
-			if index < (len(pt_bins[1:])-1):
-				xval += str((float(pt_ranges[index+1])+float(pt_ranges[index+2]))/2.0)+" "
-				xerrsval += str((float(pt_ranges[index+2])-float(pt_ranges[index+1]))/2.0)+" "
+		for index, weightBin in enumerate(weight_bins[1:]):
+			if args.use_scan_without_fit:
+				yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
+				yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
+				yerrshival += str(output_dict_scan_errHi[decayMode][weightBin])+" "
+			else:
+				yval += str(output_dict_scan_fit_mu[decayMode][weightBin])+" "
+				yerrsloval += str(output_dict_scan_fit_err[decayMode][weightBin])+" "
+				yerrshival += str(output_dict_scan_fit_err[decayMode][weightBin])+" "
+			if index < (len(weight_bins[1:])-1):
+				xval += str((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)+" "
+				xerrsval += str((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)+" "
 		
-		if len(pt_bins[1:]) > 0:
-			xval += str((float(pt_ranges[index+1])+200.0)/2.0)
-			xerrsval += str((200.0 - float(pt_ranges[index+1]))/2.0)
+		if len(weight_bins[1:]) > 0:
+			xval += str((float(weight_ranges[index+1])+200.0)/2.0)
+			xerrsval += str((200.0 - float(weight_ranges[index+1]))/2.0)
 		else: # no pt ranges were given - plot only inclusive result
 			xval += "110.0 "
 			xerrsval += "90.0 "
-			yval += str(output_dict_scan_mu[decayMode]["0"])+" "
-			yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
-			yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
+			if args.use_scan_without_fit:
+				yval += str(output_dict_scan_mu[decayMode]["0"])+" "
+				yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
+				yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
+			else:
+				yval += str(output_dict_scan_fit_mu[decayMode]["0"])+" "
+				yerrsloval += str(output_dict_scan_fit_err[decayMode]["0"])+" "
+				yerrshival += str(output_dict_scan_fit_err[decayMode]["0"])+" "
+				
+		
+		if args.eta_binning:
+			xval = "0.7395 2.2185"
+			xerrsval = "0.7395 0.7395"
 		
 		xbins.append(xval)
 		xerrs.append(xerrsval)
@@ -747,14 +822,14 @@ if __name__ == "__main__":
 		config.setdefault("labels", []).append(decayMode_dict[decayMode]["label"].split(" decay")[0])
 	
 	config["input_modules"] = ["InputInteractive"]
-	config["x_lims"] = [0.0, 200.0]
+	config["x_lims"] = ([0.0, 2.3] if args.eta_binning else [0.0, 200.0])
 	config["y_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
-	config["x_label"] = "p^{#tau_{h}}_{T} [GeV]"
+	config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} [GeV]")
 	config["y_label"] = "#tau_{h}-ES [%]"
 	config["markers"] = ["P"]
 	config["legend"] = [0.2,0.78,0.6,0.9]
 	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
-	config["filename"] = "result_vs_pt_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
+	config["filename"] = ("result_vs_eta_" if args.eta_binning else "result_vs_pt_") + quantity + ("_tightenedMassWindow" if args.tighten_mass_window else "")
 	config["x_expressions"] = xbins
 	config["x_errors"] = xerrs
 	config["x_errors_up"] = xerrs
@@ -762,40 +837,40 @@ if __name__ == "__main__":
 	config["y_errors"] = yerrslo
 	config["y_errors_up"] = yerrshi
 	
-	if not (config["output_dir"] in www_output_dirs_ptbin):
-		www_output_dirs_ptbin.append(config["output_dir"])
+	if not (config["output_dir"] in www_output_dirs_weightbin):
+		www_output_dirs_weightbin.append(config["output_dir"])
 	
-	ptbin_plot_configs.append(config)
+	weightbin_plot_configs.append(config)
 	
-	higgsplot.HiggsPlotter(list_of_config_dicts=ptbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	higgsplot.HiggsPlotter(list_of_config_dicts=weightbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# print output table to shell
-	print "################### Fit results table (in parentheses numbers from logL scan) ###################"
-	row_format = "{:^20}" * (len(decay_modes) + 1)
+	print "################### Fit results table: ML fit | MultiDim parabola fit | MultiDim parabola ###################"
+	row_format = "{:^22}" * (len(decay_modes) + 1)
 	print row_format.format("", *decay_modes)
 	print
-	for ptBin in pt_bins:
-		if ptBin == "0":
+	for weightBin in weight_bins:
+		if weightBin == "0":
 			print "{:^20}".format("Inclusive"),
 		else:
-			print "{:^20}".format("Pt bin "+ptBin),
+			print ("{:^20}".format("Eta bin "+weightBin) if args.eta_binning else "{:^20}".format("Pt bin "+weightBin)),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin]),
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_fit_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_mu[decayMode][ptBin],output_dict_scan_mu[decayMode][ptBin])
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_fit_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin])
 		print "{:^20}".format("+ 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin]),
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errHi[decayMode][ptBin],output_dict_scan_errHi[decayMode][ptBin])
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin])
 		print "{:^20}".format("- 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin]),
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin]),
 			else:
-				print "{:<10.2f}({:<3.2f})%\t".format(output_dict_errLo[decayMode][ptBin],output_dict_scan_errLo[decayMode][ptBin])
+				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin])
 		print
 
 	# it's not pretty but it works :)
@@ -813,10 +888,10 @@ if __name__ == "__main__":
 						export_json = False,
 						output_filenames = output_filenames
 						)
-		for output_dir in www_output_dirs_ptbin:
+		for output_dir in www_output_dirs_weightbin:
 			subpath = os.path.normpath(output_dir).split("/")[-1]
 			output_filenames = []
-			for config in ptbin_plot_configs:
+			for config in weightbin_plot_configs:
 				if(output_dir in config["output_dir"] and not config["filename"] in output_filenames):
 					output_filenames.append(os.path.join(output_dir, config["filename"]+".png"))
 			PlotData.webplotting(

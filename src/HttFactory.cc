@@ -14,7 +14,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetCorrectors.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTHTauPairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EventCategoryProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DataMcScaleFactorProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
@@ -49,6 +48,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MuMuTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmbeddingGlobalQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/BoostRestFrameProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -58,7 +59,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DecayChannelFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/DiLeptonChargeFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/MinimalPlotlevelFilter.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/EventCategoryFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ZBosonVetoFilter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/HttObjectsCutFilters.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ValidDiTauPairCandidatesFilter.h"
@@ -72,6 +72,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EmbeddingConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/BTagEffConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/AcceptanceEfficiencyConsumer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TagAndProbePairConsumer.h"
 
 ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 {
@@ -127,10 +128,6 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TTHDecayChannelProducer();
 	else if(id == Run2DecayChannelProducer().GetProducerId())
 		return new Run2DecayChannelProducer();
-	else if(id == EventCategoryProducer().GetProducerId())
-		return new EventCategoryProducer();
-	else if(id == TTHEventCategoryProducer().GetProducerId())
-		return new TTHEventCategoryProducer();
 	else if(id == TriggerWeightProducer().GetProducerId())
 		return new TriggerWeightProducer();
 	else if(id == IdentificationWeightProducer().GetProducerId())
@@ -239,6 +236,10 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new EmbeddingGlobalQuantitiesProducer();
 	else if(id == BoostRestFrameProducer().GetProducerId())
 		return new BoostRestFrameProducer();
+	else if(id == DiGenJetQuantitiesProducer().GetProducerId())
+		return new DiGenJetQuantitiesProducer();
+	else if(id == TagAndProbeMuonPairProducer().GetProducerId())
+		return new TagAndProbeMuonPairProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
@@ -265,8 +266,6 @@ FilterBaseUntemplated * HttFactory::createFilter(std::string const& id)
 		return new DiLeptonChargeFilter();
 	else if(id == MinimalPlotlevelFilter().GetFilterId())
 		return new MinimalPlotlevelFilter();
-	else if(id == EventCategoryFilter().GetFilterId())
-		return new EventCategoryFilter();
 	else if(id == ZBosonVetoFilter().GetFilterId())
 		return new ZBosonVetoFilter();
 	else if(id == MetLowerPtCutsFilter().GetFilterId())
@@ -305,6 +304,8 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new BTagEffConsumer();
 	else if (id == AcceptanceEfficiencyConsumer().GetConsumerId())
 		return new AcceptanceEfficiencyConsumer();
+	else if(id == TagAndProbeMuonPairConsumer<HttTypes>().GetConsumerId())
+		return new TagAndProbeMuonPairConsumer<HttTypes>();
 	else
 		return KappaFactory::createConsumer( id );
 }

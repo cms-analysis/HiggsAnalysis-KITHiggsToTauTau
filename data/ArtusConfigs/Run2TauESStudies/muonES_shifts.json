@@ -18,7 +18,7 @@
 		"MuonEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 1.05
+				"DY.?JetsToLL|EWKZ2Jets" : 1.05
 			}
 		}
 	},
@@ -32,7 +32,7 @@
 		"MuonEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 0.95
+				"DY.?JetsToLL|EWKZ2Jets" : 0.95
 			}
 		}
 	}

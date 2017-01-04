@@ -28,11 +28,18 @@ if __name__ == "__main__":
 	                    help="Number of plots. [Default: all]")
 	parser.add_argument("-o", "--output-dir", default="plots",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--www", nargs="?", default=None, const="runtimes",
+	                    help="Publish plots. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	plot_configs = plotconfigs.PlotConfigs().all_runtimes(args.input, plot_config_template={"output_dir" : os.path.expandvars(args.output_dir)})
+	plot_config_template = {}
+	plot_config_template["output_dir"] = os.path.expandvars(args.output_dir)
+	if args.www:
+		plot_config_template["www"] = os.path.expandvars(args.www)
+	
+	plot_configs = plotconfigs.PlotConfigs().all_runtimes(args.input, plot_config_template=plot_config_template)
 	
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
