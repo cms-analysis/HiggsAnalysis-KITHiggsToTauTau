@@ -723,10 +723,12 @@ if __name__ == "__main__":
 			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
 			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
 			sigmaScanFit = abs(fitf.GetX(minimumScanFitY+1)-minimumScanFit)
-			print "######### Parabola fit result for pt/eta bin "+str(weightBin)+" #########"
+			print
+			print "######### Parabola fit result for "+decayMode+" in pt/eta bin "+str(weightBin)+" #########"
 			print "Minimum (%) = "+str(minimumScanFit)+" +/- "+str(sigmaScanFit)
 			print "Chi2/ndf = "+str(fitf.GetChisquare())+" / "+str(fitf.GetNDF())
-			print "#######################################################"
+			print "####################################################################"
+			print
 			
 			# Write parabola with fit result into file
 			RooFitGraph_Parabola.GetYaxis().SetRangeUser(0,10)
@@ -781,9 +783,9 @@ if __name__ == "__main__":
 	# plot best fit result as function of pt/eta bins
 	config = {}
 	xbins, xerrs, ybins, yerrslo, yerrshi = [], [], [], [], []
-	xbinsF, xerrsF, ybinsF, yerrsloF, yerrshiF = [], [], [], [], []
 	for decayMode in decay_modes:
 		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
+		xbinsF, xerrsF, ybinsF, yerrsloF, yerrshiF = [], [], [], [], []
 		for index, weightBin in enumerate(weight_bins[1:]):
 			if args.use_scan_without_fit:
 				yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
@@ -854,25 +856,30 @@ if __name__ == "__main__":
 		
 		# Fit Pol0
 		RooFitGraph_Linear.Fit("f2","R")
-		print "######### Pol0 fit result #########"
+		print
+		print "######### Pol0 fit result for "+decayMode+" #########"
 		print "p0 = "+str(fit_polZero.GetParameter(0))+" +/- "+str(fit_polZero.GetParError(0))
 		print "Chi2/ndf = "+str(fit_polZero.GetChisquare())+" / "+str(fit_polZero.GetNDF())
-		print "###################################"
+		print "##################################################"
+		print
 		
-		polZero_filename = os.path.join(os.path.dirname(datacard), "result_fit_pol0_"+decayMode+"_"+quantity+".root")
+		polZero_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol0_"+decayMode+"_"+quantity+".root")
 		polZero_file = ROOT.TFile(polZero_filename, "RECREATE")
 		RooFitGraph_Linear.Write()
 		polZero_file.Close()
 		
 		# Fit Pol1
 		RooFitGraph_Linear.Fit("f3","R")
-		print "######### Pol1 fit result #########"
+		print
+		print "######### Pol1 fit result for "+decayMode+" #########"
 		print "p0 = "+str(fit_polOne.GetParameter(0))+" +/- "+str(fit_polOne.GetParError(0))
 		print "p1 = "+str(fit_polOne.GetParameter(1))+" +/- "+str(fit_polOne.GetParError(1))
 		print "Chi2/ndf = "+str(fit_polOne.GetChisquare())+" / "+str(fit_polOne.GetNDF())
-		print "###################################"
+		print "##################################################"
+		print
+		print os.path.dirname(datacard)
 		
-		polOne_filename = os.path.join(os.path.dirname(datacard), "result_fit_pol1_"+decayMode+"_"+quantity+".root")
+		polOne_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol1_"+decayMode+"_"+quantity+".root")
 		polOne_file = ROOT.TFile(polOne_filename, "RECREATE")
 		RooFitGraph_Linear.Write()
 		polOne_file.Close()
