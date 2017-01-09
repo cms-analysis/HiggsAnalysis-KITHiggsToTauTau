@@ -780,9 +780,14 @@ if __name__ == "__main__":
 	#plot parabolas
 	higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
-	# plot best fit result as function of pt/eta bins
+	# plot best fit result as function of pt/eta bins and fit with polynomials of orders 0 and 1
 	config = {}
 	xbins, xerrs, ybins, yerrslo, yerrshi = [], [], [], [], []
+	
+	# dicts for table
+	polZero_dict_p0, polZero_dict_p0err, polZero_dict_chi2, polZero_dict_ndf = {}, {}, {}, {}
+	polOne_dict_p0, polOne_dict_p0err,polOne_dict_p1, polOne_dict_p1err, polOne_dict_chi2, polOne_dict_ndf = {}, {}, {}, {}, {}, {}
+	
 	for decayMode in decay_modes:
 		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
 		xbinsF, xerrsF, ybinsF, yerrsloF, yerrshiF = [], [], [], [], []
@@ -862,6 +867,10 @@ if __name__ == "__main__":
 		print "Chi2/ndf = "+str(fit_polZero.GetChisquare())+" / "+str(fit_polZero.GetNDF())
 		print "##################################################"
 		print
+		polZero_dict_p0[decayMode] = fit_polZero.GetParameter(0)
+		polZero_dict_p0err[decayMode] = fit_polZero.GetParError(0)
+		polZero_dict_chi2[decayMode] = fit_polZero.GetChisquare()
+		polZero_dict_ndf[decayMode] = fit_polZero.GetNDF()
 		
 		polZero_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol0_"+decayMode+"_"+quantity+".root")
 		polZero_file = ROOT.TFile(polZero_filename, "RECREATE")
@@ -877,7 +886,12 @@ if __name__ == "__main__":
 		print "Chi2/ndf = "+str(fit_polOne.GetChisquare())+" / "+str(fit_polOne.GetNDF())
 		print "##################################################"
 		print
-		print os.path.dirname(datacard)
+		polOne_dict_p0[decayMode] = fit_polOne.GetParameter(0)
+		polOne_dict_p0err[decayMode] = fit_polOne.GetParError(0)
+		polOne_dict_p1[decayMode] = fit_polOne.GetParameter(1)
+		polOne_dict_p1err[decayMode] = fit_polOne.GetParError(1)
+		polOne_dict_chi2[decayMode] = fit_polOne.GetChisquare()
+		polOne_dict_ndf[decayMode] = fit_polOne.GetNDF()
 		
 		polOne_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol1_"+decayMode+"_"+quantity+".root")
 		polOne_file = ROOT.TFile(polOne_filename, "RECREATE")
@@ -915,7 +929,7 @@ if __name__ == "__main__":
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=weightbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
-	# print output table to shell
+	# print output tables to shell
 	print "################### Fit results table: ML fit | MultiDim parabola fit | MultiDim parabola ###################"
 	row_format = "{:^22}" * (len(decay_modes) + 1)
 	print row_format.format("", *decay_modes)
@@ -943,6 +957,57 @@ if __name__ == "__main__":
 			else:
 				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin])
 		print
+	print "################### Fit results table: polynomial fits to tau energy scale vs. "+("eta" if args.eta_binning else "pt")+" ###################"
+	row_format = "{:^22}" * (len(decay_modes) + 1)
+	print row_format.format("", *decay_modes)
+	print
+	print "{:^20}".format("p0"),
+	for decayMode in decay_modes:
+		polZero_string1 = "%1.2f"%polZero_dict_p0[decayMode]
+		polZero_string2 = "%1.2f"%polZero_dict_p0err[decayMode]
+		polZero_string = polZero_string1 + " +/- " + polZero_string2
+		if decayMode != decay_modes[-1]:
+			print "{:^20}".format(polZero_string),
+		else:
+			print "{:^20}".format(polZero_string)
+	print "{:^20}".format("chi2/ndf"),
+	for decayMode in decay_modes:
+		polZero_string1 = "%1.2f"%polZero_dict_chi2[decayMode]
+		polZero_string2 = "1.2f"%polZero_dict_ndf[decayMode]
+		polZero_string = polZero_string1 + " / " + polZero_string2
+		if decayMode != decay_modes[-1]:
+			print "{:^20}".format(polZero_string),
+		else:
+			print "{:^20}".format(polZero_string)
+	print
+	print "{:^20}".format("p0"),
+	for decayMode in decay_modes:
+		polOne_string1 = "%1.2f"%polOne_dict_p0[decayMode]
+		polOne_string2 = "%1.2f"%polOne_dict_p0err[decayMode]
+		polOne_string = polOne_string1 + " +/- " + polOne_string2
+		if decayMode != decay_modes[-1]:
+			print "{:^20}".format(polOne_string),
+		else:
+			print "{:^20}".format(polOne_string)
+	print "{:^20}".format("p1"),
+	for decayMode in decay_modes:
+		polOne_string1 = "%1.2f"%polOne_dict_p1[decayMode]
+		polOne_string2 = "%1.2f"%polOne_dict_p1err[decayMode]
+		polOne_string = polOne_string1 + " +/- " + polOne_string2
+		if decayMode != decay_modes[-1]:
+			print "{:^20}".format(polOne_string),
+		else:
+			print "{:^20}".format(polOne_string)
+	print "{:^20}".format("chi2/ndf"),
+	for decayMode in decay_modes:
+		polOne_string1 = "%1.2f"%polOne_dict_chi2[decayMode]
+		polOne_string2 = "%1.2f"%polOne_dict_ndf[decayMode]
+		polOne_string = polOne_string1 + " / " + polOne_string2
+		if decayMode != decay_modes[-1]:
+			print "{:^20}".format(polOne_string),
+		else:
+			print "{:^20}".format(polOne_string)
+	print
 
 	# it's not pretty but it works :)
 	if not args.www is None:
