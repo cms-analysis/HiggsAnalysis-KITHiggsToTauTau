@@ -123,14 +123,11 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
-	assert(product.m_genBosonTree.m_daughters.size() > 1);
 	assert(product.m_genBosonLVFound);
+	assert(product.m_genBosonTree.m_daughters.size() > 1);
 	
-	//GenParticleDecayTree* selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
-	//GenParticleDecayTree* selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
 	GenParticleDecayTree* selectedTau1;
 	GenParticleDecayTree* selectedTau2;
-	//std::cout << "charge[0] " << product.m_genBosonTree.m_daughters[0].m_genParticle->charge() << " and charge[1] " << product.m_genBosonTree.m_daughters[1].m_genParticle->charge() << std::endl;
 	if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
 		selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
 		selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
@@ -145,8 +142,10 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	selectedTau2->CreateFinalStateProngs(selectedTau2);
 	std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
 	std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
+
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
+	
 	//Selection of the right channel for phi, phi* and psi*CP
 	if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
 	    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
@@ -230,8 +229,8 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
-	assert(product.m_genBosonTree.m_daughters.size() > 1);
 	assert(product.m_genBosonLVFound);
+	assert(product.m_genBosonTree.m_daughters.size() > 1);
 	
 	// find the correct gen taus (i.e. the genBoson daughters)
 	if (product.m_genBosonTree.m_daughters[0].m_genParticle->status() != 2|| product.m_genBosonTree.m_daughters[1].m_genParticle->status() != 2){
