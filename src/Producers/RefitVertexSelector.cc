@@ -128,7 +128,6 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 										setting_type const& settings) const
 {
 	
-	//assert(product.m_ptOrderedLeptons.size() > 0);
 	assert(product.m_flavourOrderedLeptons.size() > 0);
 
 	// save thePV and the BS

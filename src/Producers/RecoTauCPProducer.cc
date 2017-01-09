@@ -41,6 +41,10 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_recoChargedHadronEnergies.second;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoImpactParameter1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoIP1;

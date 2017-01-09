@@ -34,7 +34,11 @@
 		"recoPhiStar",
 		"recoChargedHadron1HiggsFrameEnergy",
 		"recoChargedHadron2HiggsFrameEnergy",
+
+		"d0_refitPV_1",
+		"recoImpactParameter1",
 		"recoImpactParameter2",
+
 		"recoTrackRefError1",
 		"recoTrackRefError2"
 	]
