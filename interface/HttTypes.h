@@ -5,8 +5,6 @@
 #include "Artus/Core/interface/Pipeline.h"
 #include "Artus/Core/interface/PipelineRunner.h"
 
-#include "Artus/KappaAnalysis/interface/KappaPipelineInitializer.h"
-
 #include "HttEvent.h"
 #include "HttProduct.h"
 #include "HttSettings.h"
@@ -40,5 +38,5 @@ public:
 
 typedef Pipeline<HttTypes> HttPipeline;
 typedef PipelineRunner<HttPipeline, HttTypes> HttPipelineRunner;
-typedef KappaPipelineInitializer<HttTypes> HttPipelineInitializer;
+typedef PipelineInitilizerBase<HttTypes> HttPipelineInitializer;
 

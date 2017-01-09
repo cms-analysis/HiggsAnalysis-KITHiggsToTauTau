@@ -1,6 +1,6 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleMuTauFakeRateWeightProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
+#include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
 SimpleMuTauFakeRateWeightProducer::SimpleMuTauFakeRateWeightProducer(
 		std::vector<float>& (setting_type::*GetSimpleMuTauFakeRateWeightLoose)(void) const,
@@ -43,7 +43,7 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[1];
 		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
-		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
+		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
 		{
 			if(std::abs(lepton->p4.Eta()) < 0.4)
 			{
@@ -71,7 +71,7 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[1];
 		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
-		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
+		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
 		{
 			if(std::abs(lepton->p4.Eta()) < 0.4)
 			{
@@ -101,7 +101,7 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 		{
 			KLepton* lepton = product.m_flavourOrderedLeptons[index];
 			KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
-			if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
+			if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
 			{
 				if(std::abs(lepton->p4.Eta()) < 0.4)
 				{

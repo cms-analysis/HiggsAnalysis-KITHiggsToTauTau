@@ -70,6 +70,10 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry_2"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 				self.labels_dict[channel+"_visibleOverFullEnergy"] = "E_{vis} / E_{#tau}"
 				self.labels_dict[channel+"_tauPolarisationDiscriminator"] = "Polarisation Discriminator"
+				self.labels_dict[channel+"_lep1SumChargedHadronsLV.Pt()"] = "E_{#pi^{#pm}} / GeV"
+				self.labels_dict[channel+"_lep2SumChargedHadronsLV.Pt()"] = "E_{#pi^{#pm}} / GeV"
+				self.labels_dict[channel+"_lep1SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
+				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"

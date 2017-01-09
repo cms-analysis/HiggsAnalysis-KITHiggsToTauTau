@@ -19,14 +19,14 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL).*(?=Fall15)" : 1.03,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 1.03
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding2016" : 1.03
 			}
 		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncNom_tauEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL" : "jecUncNom_tauEsUp"
+		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets" : "jecUncNom_tauEsUp"
             }
         }
 	},
@@ -40,14 +40,14 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL).*(?=Fall15)" : 0.97,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL).*(?=Spring16)|Embedding2016" : 0.97
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding2016" : 0.97
 			}
 		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncNom_tauEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL" : "jecUncNom_tauEsDown"
+		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets" : "jecUncNom_tauEsDown"
             }
         }
 	},

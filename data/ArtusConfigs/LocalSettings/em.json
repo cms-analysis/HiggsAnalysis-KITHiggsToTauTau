@@ -152,7 +152,6 @@
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
-					"producer:EventCategoryProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -195,7 +194,6 @@
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
-					"producer:EventCategoryProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -241,7 +239,6 @@
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
-					"producer:EventCategoryProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -275,7 +272,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
-					"producer:EventCategoryProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				],
@@ -316,7 +312,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:AntiTtbarDiscriminatorTmvaReader",
-					"producer:EventCategoryProducer",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]

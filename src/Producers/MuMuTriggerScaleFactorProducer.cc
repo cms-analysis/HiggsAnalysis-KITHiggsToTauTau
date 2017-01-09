@@ -1,7 +1,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MuMuTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
- #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
+ #include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
 std::string MuMuTriggerScaleFactorProducer::GetProducerId() const
 {

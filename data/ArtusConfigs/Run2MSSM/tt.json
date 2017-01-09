@@ -23,7 +23,7 @@
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
 				],
 				"Spring16" : [
-					"unavailable"
+					""
 				]
 			}
 		},
@@ -127,7 +127,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -159,7 +158,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
-					"producer:EventCategoryProducer",
 					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -194,7 +192,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -228,7 +225,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -256,7 +252,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				]

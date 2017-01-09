@@ -126,26 +126,12 @@
 
 
 		"genPhiStarCP",
-		"genOStarCP",
-
 		"genPhiCP",
-		"genOCP",
-
 		"genPhiStar",
 		"genPhi",
 
-		"genTauMinusDirX",
-		"genTauMinusDirY",
-		"genTauMinusDirZ",
-		"genPiMinusDirX",
-		"genPiMinusDirY",
-		"genPiMinusDirZ",
-
 		"TauMProngEnergy",
 		"TauPProngEnergy",
-
-		"ThetaNuHadron",
-		"AlphaTauNeutrinos",
 
 		"Tau1OneProngsSize",
 		"Tau2OneProngsSize",

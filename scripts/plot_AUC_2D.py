@@ -26,10 +26,10 @@ if __name__ == "__main__":
 						default="mt",
 						choices=["tt", "mt", "et", "em", "mm", "ee"],
 						help="Channels. [Default: %(default)s]")
-	parser.add_argument("-N", "--NTrees", nargs="+",
+	parser.add_argument("-N", "--NTrees", type=int, nargs="+",
 						default=[700, 1000, 1500, 2000, 3000],
 						help="NTrees in BDT trainings. [Default: %(default)s]")
-	parser.add_argument("-x", "--X", nargs="+",
+	parser.add_argument("-x", "--X", type=int, nargs="+",
 						default=[1, 5, 13, 29],
 						help="Xmasses in BDT trainings. [Default: %(default)s]")
 	parser.add_argument("-s", "--score-name",
@@ -56,13 +56,9 @@ if __name__ == "__main__":
 	Output = open(os.path.join(outputfolder, outputname.replace("$N$", "_N_").replace("$X$", "_X_") + ".txt"),"w")
 	fig2 = plt.figure()
 	ax2 = fig2.add_subplot(111, xlabel='number of trees', ylabel='integral over ROC curve', xlim=[1.1*min(args.NTrees)-0.1*max(args.NTrees),1.1*max(args.NTrees)-0.1*min(args.NTrees)])
-	col={}
-	col["1"]="r"
-	col["5"]="b"
-	col["13"]="g"
-	col["29"]="y"
+	colors=["r", "b", "g", "y"]
 	
-	for X in args.X:
+	for iX, X in enumerate(args.X):
 		keys = []
 		for entry in args.NTrees:
 		  	filename = args.channel + "_" + args.score_name.replace("$N$", str(entry)).replace("$X$", str(X))+"T1.root"
@@ -150,8 +146,8 @@ if __name__ == "__main__":
 			x_values.append(int(key))
 			
 		
-		ax2.plot(x_values, y_values, color=col[str(X)], label='X%i Test set'%X, linestyle='None', marker='v')
-		ax2.plot(x_values, yT_values, color=col[str(X)], label='X%i Training set'%X, linestyle='None', marker='^')
+		ax2.plot(x_values, y_values, color=colors[iX], label='X%i Test set'%X, linestyle='None', marker='v')
+		ax2.plot(x_values, yT_values, color=colors[iX], label='X%i Training set'%X, linestyle='None', marker='^')
 		ax2.legend(loc='center right')
 		
 	Output.close()
