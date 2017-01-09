@@ -138,6 +138,8 @@ if __name__ == "__main__":
 	                    help="Postfix for the datacard root files. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
+	parser.add_argument("--mass-dependent", action="store_true", default=False,
+	                    help="Create mass dependent plots (one seperate rootfile per mass). Use {mass} in --quantity and/or --categories as wildcard for the mass. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -171,12 +173,12 @@ if __name__ == "__main__":
 	hadd_commands = []
 	
 	# initialise datacards
-	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
+	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}{MASS}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}{MASS}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
+	#sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
+	#sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	if args.for_dcsync:
 		output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
@@ -184,112 +186,121 @@ if __name__ == "__main__":
 	# args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 	if args.higgs_masses[0] == "all":
 		args.higgs_masses = ["90","100","110","120","130","140","160","180","200","250","350","400","450","500","700","800","900","1000","1200","1400","1600","1800","2000","2300","2600","2900","3200"]
-	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-		tmp_output_files = []
-		output_file = os.path.join(args.output_dir, "htt_%s.inputs-mssm-13TeV%s.root"%(channel,args.postfix))
-		output_files.append(output_file)
-		
-		for category in categories:
+	looplist = [""]
+	prefix = ""
+	if args.mass_dependent:
+		looplist = args.higgs_masses
+		prefix = "_M"
+	for mass in looplist:
+		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
+			tmp_output_files = []
+			output_file = os.path.join(args.output_dir, "htt_%s%s%s.inputs-mssm-13TeV%s.root"%(channel,prefix,mass,args.postfix))
+			output_files.append(output_file)
 			
-			exclude_cuts = []
-			if args.for_dcsync:
-				if category[3:] == 'inclusive':
-					exclude_cuts=["mt", "pzeta"]
-				elif category[3:] == 'inclusivenotwoprong':
-					exclude_cuts=["pzeta"]
-			
-			for shape_systematic, list_of_samples in samples_dict[channel]:
-				nominal = (shape_systematic == "nominal")
-				list_of_samples = (["data"] if nominal else []) + list_of_samples
-				if args.samples:
-					list_of_samples = args.samples
+			for categorytemplate in categories:
+				category = categorytemplate.format(mass=mass) if args.mass_dependent else categorytemplate
+				exclude_cuts = []
+				if args.for_dcsync:
+					if category[3:] == 'inclusive':
+						exclude_cuts=["mt", "pzeta"]
+					elif category[3:] == 'inclusivenotwoprong':
+						exclude_cuts=["pzeta"]
 				
-				for shift_up in ([True] if nominal else [True, False]):
-					systematic = "nominal" if nominal else (shapes[shape_systematic].format(CHANNEL = channel) + ("Up" if shift_up else "Down"))
+				for shape_systematic, list_of_samples in samples_dict[channel]:
+					nominal = (shape_systematic == "nominal")
+					#if not nominal:
+					#	continue
+					list_of_samples = (["data"] if nominal else []) + list_of_samples
+					if args.samples:
+						list_of_samples = args.samples
 					
-					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
-							samples="\", \"".join(list_of_samples),
-							channel=channel,
-							category=category,
-							systematic=systematic
-					))
-					# modify weight for toppt, taupt
-					additional_weight = shapes_weight_dict[shape_systematic][1] if shift_up else shapes_weight_dict[shape_systematic][0]
-					if channel == "et":
-						additional_weight += "*eleTauFakeRateWeight"
-
-					# prepare plotting configs for retrieving the input histograms
-					config = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
-							channel=channel,
-							category="catHttMSSM13TeV_"+category,
-							weight=args.weight+"*"+additional_weight,
-							lumi = args.lumi * 1000,
-							exclude_cuts=args.exclude_cuts,
-							higgs_masses=args.higgs_masses,
-							mssm=True,
-							estimationMethod=args.background_method,
-							controlregions=args.controlregions,
-							cut_type="mssm" if args.era == "2015" else "mssm2016"
-					)
-					
-					# systematics_settings = systematics_factory.get(shape_systematic)(config)
-					# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					
-					if args.workingpoint:
-						for index, folder in enumerate(config["weights"]):
-							config["weights"][index] = config["weights"][index].replace("nbtag","n"+args.workingpoint+"btag")
-					# modify folder for taues
-					if shape_systematic == "taues":
-						replacestring = "jecUncNom_tauEsUp" if shift_up else "jecUncNom_tauEsDown"
-						for index, folder in enumerate(config["folders"]):
-					   		if any([(proc in config["nicks"][index]) for proc in ["ggh","bbh","ztt"]]):
-								# hack to only substitute the folder for those where it is needed
-								config["folders"][index] = config["folders"][index].replace("jecUncNom_tauEsNom", replacestring)
-
-					config["x_expressions"] = [args.quantity]
-					
-					binnings_key = "binningHttMSSM13TeV_"+category+"_"+args.quantity
-					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [binnings_key]
-					else:
-						config["x_bins"] = ["35,0.0,350.0"]
-					
-					config["directories"] = [args.input_dir]
-					
-					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=sample2process(re.sub("_(os|ss)_(low|high)mt","",sample)),
-							BIN = getcategory(category,sample),
-							SYSTEMATIC=systematic
-					) for sample in config["labels"]]
-					
-					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
-							ANALYSIS="htt",
-							CHANNEL=channel,
-							BIN=category,
-							SYSTEMATIC=systematic,
-							ERA="13TeV"
-					))
-					tmp_output_files.append(tmp_output_file)
-					config["output_dir"] = os.path.dirname(tmp_output_file)
-					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
-				
-					config["plot_modules"] = ["ExportRoot"]
-					config["file_mode"] = "UPDATE"
-			
-					if "legend_markers" in config:
-						config.pop("legend_markers")
-					if args.for_dcsync:
-						config["wjets_from_mc"] = [True,True]
-			
-					plot_configs.append(config)
-			
-		hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
-				DST=output_file,
-				SRC=" ".join(tmp_output_files)
-		))
+					for shift_up in ([True] if nominal else [True, False]):
+						systematic = "nominal" if nominal else (shapes[shape_systematic].format(CHANNEL = channel) + ("Up" if shift_up else "Down"))
+						
+						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+								samples="\", \"".join(list_of_samples),
+								channel=channel,
+								category=category,
+								systematic=systematic
+						))
+						# modify weight for toppt, taupt
+						additional_weight = shapes_weight_dict[shape_systematic][1] if shift_up else shapes_weight_dict[shape_systematic][0]
+						if channel == "et":
+							additional_weight += "*eleTauFakeRateWeight"
 	
+						# prepare plotting configs for retrieving the input histograms
+						config = sample_settings.get_config(
+								samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
+								channel=channel,
+								category="catHttMSSM13TeV_"+category,
+								weight=args.weight+"*"+additional_weight,
+								lumi = args.lumi * 1000,
+								exclude_cuts=args.exclude_cuts,
+								higgs_masses=args.higgs_masses,
+								mssm=True,
+								estimationMethod=args.background_method,
+								controlregions=args.controlregions,
+								cut_type="mssm" if args.era == "2015" else "mssm2016"
+						)
+						
+						# systematics_settings = systematics_factory.get(shape_systematic)(config)
+						# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+						
+						if args.workingpoint:
+							for index, folder in enumerate(config["weights"]):
+								config["weights"][index] = config["weights"][index].replace("nbtag","n"+args.workingpoint+"btag")
+						# modify folder for taues
+						if shape_systematic == "taues":
+							replacestring = "jecUncNom_tauEsUp" if shift_up else "jecUncNom_tauEsDown"
+							for index, folder in enumerate(config["folders"]):
+						   		if any([(proc in config["nicks"][index]) for proc in ["ggh","bbh","ztt"]]):
+									# hack to only substitute the folder for those where it is needed
+									config["folders"][index] = config["folders"][index].replace("jecUncNom_tauEsNom", replacestring)
+
+						config["x_expressions"] = [args.quantity.format(mass=mass)] if args.mass_dependent else [args.quantity]
+						
+						binnings_key = "binningHttMSSM13TeV_"+category+"_"+(args.quantity.format(mass=mass) if args.mass_dependent else args.quantity)
+						if binnings_key in binnings_settings.binnings_dict:
+							config["x_bins"] = [binnings_key]
+						else:
+							config["x_bins"] = ["35,0.0,350.0"]
+						
+						config["directories"] = [args.input_dir]
+						
+						histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
+						config["labels"] = [histogram_name_template.replace("$", "").format(
+								PROCESS=sample2process(re.sub("_(os|ss)_(low|high)mt","",sample)),
+								BIN = getcategory(category,sample),
+								SYSTEMATIC=systematic
+						) for sample in config["labels"]]
+						
+						tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
+								ANALYSIS="htt",
+								CHANNEL=channel,
+								BIN=category,
+								SYSTEMATIC=systematic,
+								ERA="13TeV",
+								MASS=prefix+mass
+						))
+						tmp_output_files.append(tmp_output_file)
+						config["output_dir"] = os.path.dirname(tmp_output_file)
+						config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
+					
+						config["plot_modules"] = ["ExportRoot"]
+						config["file_mode"] = "UPDATE"
+				
+						if "legend_markers" in config:
+							config.pop("legend_markers")
+						if args.for_dcsync:
+							config["wjets_from_mc"] = [True,True]
+				
+						plot_configs.append(config)
+				
+			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
+					DST=output_file,
+					SRC=" ".join(tmp_output_files)
+			))
+		
 	#if log.isEnabledFor(logging.DEBUG):
 	#	import pprint
 	#	pprint.pprint(plot_configs)

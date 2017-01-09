@@ -18,7 +18,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL|Embedding2016" : [
+			"DY.?JetsToLL|EWKZ2Jets|Embedding2016" : [
 				23
 			],
 			"^(GluGlu|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
@@ -48,6 +48,12 @@
 	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
+	"RecoElectronMatchingGenParticleMatchAllElectrons" : "true",
+	"RecoMuonMatchingGenParticleMatchAllMuons" : "true",
+	"RecoTauMatchingGenParticleMatchAllTaus" : "true",
+	"MatchAllElectronsGenTau" : "true",
+	"MatchAllMuonsGenTau" : "true",
+	"MatchAllTausGenTau" : "true",
 	"#EventWhitelist" : [
 	],
 	"OutputPath" : "output.root",
