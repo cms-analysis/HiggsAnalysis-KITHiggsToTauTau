@@ -36,6 +36,9 @@
 		"recoChargedHadron2HiggsFrameEnergy",
 
 		"d0_refitPV_1",
+		"d0_refitBSPV_1",
+		"d0_refitPV_2",
+		"d0_refitBSPV_2",
 		"recoImpactParameter1",
 		"recoImpactParameter2",
 
