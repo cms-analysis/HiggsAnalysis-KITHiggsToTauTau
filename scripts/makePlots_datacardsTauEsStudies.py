@@ -723,12 +723,6 @@ if __name__ == "__main__":
 			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
 			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
 			sigmaScanFit = abs(fitf.GetX(minimumScanFitY+1)-minimumScanFit)
-			print
-			print "######### Parabola fit result for "+decayMode+" in pt/eta bin "+str(weightBin)+" #########"
-			print "Minimum (%) = "+str(minimumScanFit)+" +/- "+str(sigmaScanFit)
-			print "Chi2/ndf = "+str(fitf.GetChisquare())+" / "+str(fitf.GetNDF())
-			print "####################################################################"
-			print
 			
 			# Write parabola with fit result into file
 			RooFitGraph_Parabola.GetYaxis().SetRangeUser(0,10)
@@ -861,12 +855,6 @@ if __name__ == "__main__":
 		
 		# Fit Pol0
 		RooFitGraph_Linear.Fit("f2","R")
-		print
-		print "######### Pol0 fit result for "+decayMode+" #########"
-		print "p0 = "+str(fit_polZero.GetParameter(0))+" +/- "+str(fit_polZero.GetParError(0))
-		print "Chi2/ndf = "+str(fit_polZero.GetChisquare())+" / "+str(fit_polZero.GetNDF())
-		print "##################################################"
-		print
 		polZero_dict_p0[decayMode] = fit_polZero.GetParameter(0)
 		polZero_dict_p0err[decayMode] = fit_polZero.GetParError(0)
 		polZero_dict_chi2[decayMode] = fit_polZero.GetChisquare()
@@ -879,13 +867,6 @@ if __name__ == "__main__":
 		
 		# Fit Pol1
 		RooFitGraph_Linear.Fit("f3","R")
-		print
-		print "######### Pol1 fit result for "+decayMode+" #########"
-		print "p0 = "+str(fit_polOne.GetParameter(0))+" +/- "+str(fit_polOne.GetParError(0))
-		print "p1 = "+str(fit_polOne.GetParameter(1))+" +/- "+str(fit_polOne.GetParError(1))
-		print "Chi2/ndf = "+str(fit_polOne.GetChisquare())+" / "+str(fit_polOne.GetNDF())
-		print "##################################################"
-		print
 		polOne_dict_p0[decayMode] = fit_polOne.GetParameter(0)
 		polOne_dict_p0err[decayMode] = fit_polOne.GetParError(0)
 		polOne_dict_p1[decayMode] = fit_polOne.GetParameter(1)
@@ -936,21 +917,21 @@ if __name__ == "__main__":
 	print
 	for weightBin in weight_bins:
 		if weightBin == "0":
-			print "{:^20}".format("Inclusive"),
+			print "{:^22}".format("Inclusive"),
 		else:
-			print ("{:^20}".format("Eta bin "+weightBin) if args.eta_binning else "{:^20}".format("Pt bin "+weightBin)),
+			print ("{:^22}".format("Eta bin "+weightBin) if args.eta_binning else "{:^22}".format("Pt bin "+weightBin)),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
 				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_fit_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin]),
 			else:
 				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_fit_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin])
-		print "{:^20}".format("+ 1sigma "),
+		print "{:^22}".format("+ 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
 				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin]),
 			else:
 				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin])
-		print "{:^20}".format("- 1sigma "),
+		print "{:^22}".format("- 1sigma "),
 		for decayMode in decay_modes:
 			if decayMode != decay_modes[-1]:
 				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin]),
@@ -961,52 +942,47 @@ if __name__ == "__main__":
 	row_format = "{:^22}" * (len(decay_modes) + 1)
 	print row_format.format("", *decay_modes)
 	print
-	print "{:^20}".format("p0"),
+	print "{:^22}".format("p0"),
 	for decayMode in decay_modes:
 		polZero_string1 = "%1.2f"%polZero_dict_p0[decayMode]
 		polZero_string2 = "%1.2f"%polZero_dict_p0err[decayMode]
-		polZero_string = polZero_string1 + " +/- " + polZero_string2
 		if decayMode != decay_modes[-1]:
-			print "{:^20}".format(polZero_string),
+			print "{:^22}".format(polZero_string1 + " +/- " + polZero_string2),
 		else:
-			print "{:^20}".format(polZero_string)
-	print "{:^20}".format("chi2/ndf"),
+			print "{:^22}".format(polZero_string1 + " +/- " + polZero_string2)
+	print "{:^22}".format("chi2/ndf"),
 	for decayMode in decay_modes:
 		polZero_string1 = "%1.2f"%polZero_dict_chi2[decayMode]
-		polZero_string2 = "1.2f"%polZero_dict_ndf[decayMode]
-		polZero_string = polZero_string1 + " / " + polZero_string2
+		polZero_string2 = "%1.2f"%polZero_dict_ndf[decayMode]
 		if decayMode != decay_modes[-1]:
-			print "{:^20}".format(polZero_string),
+			print "{:^22}".format(polZero_string1 + " / " + polZero_string2),
 		else:
-			print "{:^20}".format(polZero_string)
+			print "{:^22}".format(polZero_string1 + " / " + polZero_string2)
 	print
-	print "{:^20}".format("p0"),
+	print "{:^22}".format("p0"),
 	for decayMode in decay_modes:
 		polOne_string1 = "%1.2f"%polOne_dict_p0[decayMode]
 		polOne_string2 = "%1.2f"%polOne_dict_p0err[decayMode]
-		polOne_string = polOne_string1 + " +/- " + polOne_string2
 		if decayMode != decay_modes[-1]:
-			print "{:^20}".format(polOne_string),
+			print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2),
 		else:
-			print "{:^20}".format(polOne_string)
-	print "{:^20}".format("p1"),
+			print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2)
+	print "{:^22}".format("p1"),
 	for decayMode in decay_modes:
 		polOne_string1 = "%1.2f"%polOne_dict_p1[decayMode]
 		polOne_string2 = "%1.2f"%polOne_dict_p1err[decayMode]
-		polOne_string = polOne_string1 + " +/- " + polOne_string2
 		if decayMode != decay_modes[-1]:
-			print "{:^20}".format(polOne_string),
+			print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2),
 		else:
-			print "{:^20}".format(polOne_string)
-	print "{:^20}".format("chi2/ndf"),
+			print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2)
+	print "{:^22}".format("chi2/ndf"),
 	for decayMode in decay_modes:
 		polOne_string1 = "%1.2f"%polOne_dict_chi2[decayMode]
 		polOne_string2 = "%1.2f"%polOne_dict_ndf[decayMode]
-		polOne_string = polOne_string1 + " / " + polOne_string2
 		if decayMode != decay_modes[-1]:
-			print "{:^20}".format(polOne_string),
+			print "{:^22}".format(polOne_string1 + " / " + polOne_string2),
 		else:
-			print "{:^20}".format(polOne_string)
+			print "{:^22}".format(polOne_string1 + " / " + polOne_string2)
 	print
 
 	# it's not pretty but it works :)
