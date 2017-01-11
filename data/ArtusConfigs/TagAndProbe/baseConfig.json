@@ -4,15 +4,6 @@
 		"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJEC.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSampleStitchingWeights.json"
 	],
-	"RunWhitelist" : [
-            "274338"
-        ],
-        "LumiWhitelist" : [
-            "101"
-        ],
-        "EventWhitelist" : [
-            "179182237"
-        ],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
 	"InputIsData" : {
