@@ -27,7 +27,7 @@
 					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
 					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
 				],
-				"Spring16|Embedding2016" : [
+				"Spring16|Embedding(2016|MC)" : [
 					""
 				]
 			}
@@ -36,9 +36,9 @@
 			"nick" : {
 				"default" : false,
 				"Spring16" : true,
-				"Embedding2016" : true
-			}
-		},
+				"Embedding(2016|MC)" : true
+				}
+			},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : false,
 		"MuonLowerPtCuts" : [

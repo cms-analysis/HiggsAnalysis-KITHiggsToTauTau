@@ -60,9 +60,15 @@ public:
 		FloatQuantities["iso_p"]=0.0;
 		FloatQuantities["m_ll"]=0.0;
 		BoolQuantities["trg_t_IsoMu22"]=false;
+		BoolQuantities["trg_t_IsoMu22_eta2p1"]=false;
+		BoolQuantities["trg_t_IsoMu24"]=false;
 		BoolQuantities["trg_t_IsoMu19Tau"]=false;
 		BoolQuantities["trg_p_IsoMu22"]=false;
 		BoolQuantities["trg_p_IsoTkMu22"]=false;
+		BoolQuantities["trg_p_IsoMu22_eta2p1"]=false;
+		BoolQuantities["trg_p_IsoTkMu22_eta2p1"]=false;
+		BoolQuantities["trg_p_IsoMu24"]=false;
+		BoolQuantities["trg_p_IsoTkMu24"]=false;
 		BoolQuantities["trg_p_PFTau120"]=false;
 		BoolQuantities["trg_p_IsoMu19TauL1"]=false;
 		BoolQuantities["trg_p_IsoMu19Tau"]=false;
@@ -114,7 +120,7 @@ public:
 				}else if(*quantity=="phi_t"){
 					FloatQuantities["phi_t"]=TagAndProbePair->first->p4.Phi();
 				}else if(*quantity=="id_t"){
-					BoolQuantities["id_t"]=TagAndProbePair->first->idMedium();
+					BoolQuantities["id_t"]=IsMediumMuon2016ShortTerm(TagAndProbePair->first) && std::abs(TagAndProbePair->first->dxy) < 0.045 && std::abs(TagAndProbePair->first->dz) < 0.2;
 				}else if(*quantity=="iso_t"){
 					double chargedIsolationPtSum = TagAndProbePair->first->sumChargedHadronPtR04;
 					double neutralIsolationPtSum = TagAndProbePair->first->sumNeutralHadronEtR04;
@@ -132,7 +138,7 @@ public:
 				}else if(*quantity=="phi_p"){
 					FloatQuantities["phi_p"]=TagAndProbePair->second->p4.Phi();
 				}else if(*quantity=="id_p"){
-					BoolQuantities["id_p"]=TagAndProbePair->second->idMedium();
+					BoolQuantities["id_p"]=IsMediumMuon2016ShortTerm(TagAndProbePair->second) && std::abs(TagAndProbePair->second->dxy) < 0.045 && std::abs(TagAndProbePair->second->dz) < 0.2;
 				}else if(*quantity=="iso_p"){
 					double chargedIsolationPtSum = TagAndProbePair->second->sumChargedHadronPtR04;
 					double neutralIsolationPtSum = TagAndProbePair->second->sumNeutralHadronEtR04;
@@ -165,6 +171,54 @@ public:
 						}
 					}
 					if (!IsData) BoolQuantities["trg_t_IsoMu22"]=true;
+				}else if(*quantity=="trg_t_IsoMu22_eta2p1"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_t_IsoMu22_eta2p1"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedMuons.at(TagAndProbePair->first);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu22_eta2p1_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (IsData && hlts.second["hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_t_IsoMu22_eta2p1"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_t_IsoMu22_eta2p1"]=false;
+						}
+					}
+					if (!IsData) BoolQuantities["trg_t_IsoMu22_eta2p1"]=true;
+				}else if(*quantity=="trg_t_IsoMu24"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_t_IsoMu24"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedMuons.at(TagAndProbePair->first);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu24_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (IsData && hlts.second["hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_t_IsoMu24"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_t_IsoMu24"]=false;
+						}
+					}
+					if (!IsData) BoolQuantities["trg_t_IsoMu24"]=true;
 				}else if(*quantity=="trg_t_IsoMu19Tau"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -237,6 +291,102 @@ public:
 						}
 					}
 					if (!IsData) BoolQuantities["trg_p_IsoTkMu22"]=true;
+				}else if(*quantity=="trg_p_IsoMu22_eta2p1"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_p_IsoMu22_eta2p1"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedMuons.at(TagAndProbePair->second);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu22_eta2p1_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (IsData && hlts.second["hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_p_IsoMu22_eta2p1"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_p_IsoMu22_eta2p1"]=false;
+						}
+					}
+					if (!IsData) BoolQuantities["trg_p_IsoMu22_eta2p1"]=true;
+				}else if(*quantity=="trg_p_IsoTkMu22_eta2p1"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_p_IsoTkMu22_eta2p1"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedMuons.at(TagAndProbePair->second);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoTkMu22_eta2p1_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (IsData && hlts.second["hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_p_IsoTkMu22_eta2p1"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_p_IsoTkMu22_eta2p1"]=false;
+						}
+					}
+					if (!IsData) BoolQuantities["trg_p_IsoTkMu22_eta2p1"]=true;
+				}else if(*quantity=="trg_p_IsoMu24"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_p_IsoMu24"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedMuons.at(TagAndProbePair->second);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu24_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (IsData && hlts.second["hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_p_IsoMu24"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_p_IsoMu24"]=false;
+						}
+					}
+					if (!IsData) BoolQuantities["trg_p_IsoMu24"]=true;
+				}else if(*quantity=="trg_p_IsoTkMu24"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_p_IsoTkMu24"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedMuons.at(TagAndProbePair->second);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoTkMu24_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (IsData && hlts.second["hltL3fL1sMu22L1f0Tkf24QL3trkIsoFiltered0p09"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_p_IsoTkMu24"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_p_IsoTkMu24"]=false;
+						}
+					}
+					if (!IsData) BoolQuantities["trg_p_IsoTkMu24"]=true;
 				}else if(*quantity=="trg_p_PFTau120"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -330,5 +480,17 @@ private:
 	std::map <std::string, bool> BoolQuantities;
 	std::map <std::string, int> IntQuantities;
 	std::map <std::string, float> FloatQuantities;
+	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Short_Term_Medium_Muon_Definitio
+	bool IsMediumMuon2016ShortTerm(KMuon* muon) const
+	{
+	        bool goodGlob = muon->isGlobalMuon()
+	                                        && muon->normalizedChiSquare < 3
+	                                        && muon->chiSquareLocalPos < 12
+        	                                && muon->trkKink < 20;
+        	bool isMedium = muon->idLoose()
+        	                               	&& muon->validFractionOfTrkHits > 0.49
+        	                                && muon->segmentCompatibility > (goodGlob ? 0.303 : 0.451);
+        	return isMedium;
+	}
 };
 

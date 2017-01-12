@@ -62,6 +62,22 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"
+			],
+			"EmbeddingMC" :
+			[
+				"#filter:RunLumiEventFilter",
+				"#filter:JsonFilter",
+				"producer:NicknameProducer",
+				"producer:GenParticleProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer"
 			]
 		}
 	}

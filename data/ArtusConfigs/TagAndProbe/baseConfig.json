@@ -4,15 +4,6 @@
 		"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJEC.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSampleStitchingWeights.json"
 	],
-	"RunWhitelist" : [
-            "274338"
-        ],
-        "LumiWhitelist" : [
-            "101"
-        ],
-        "EventWhitelist" : [
-            "179182237"
-        ],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
 	"InputIsData" : {
@@ -115,7 +106,7 @@
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt"
 			],
 			"Run2016" : [
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt"
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
 			]
 		}
 	}
