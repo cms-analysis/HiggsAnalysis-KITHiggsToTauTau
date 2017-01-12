@@ -18,7 +18,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL|EWKZ2Jets|Embedding2016" : [
+			"DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)" : [
 				23
 			],
 			"^(GluGlu|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
@@ -62,7 +62,7 @@
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeVFall15MiniAODv2_PromptReco_69mbMinBiasXS.root",
 			"Spring16" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVSpring16_23Sep2016ReReco_69p2mbMinBiasXS.root",
 			"Run201" : "not needed",
-			"Embedding201" : "not needed"
+			"Embedding(2016|MC)" : "not needed"
 		}
 	},
 	"BTagScaleFactorFile" : {

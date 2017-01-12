@@ -28,7 +28,7 @@
 					"HLT_IsoMu22",
 					"HLT_IsoTkMu22"
 				],
-				"Spring16|Embedding2016" : [
+				"Spring16|Embedding(2016|MC)" : [
 					""
 				]
 			}
@@ -37,8 +37,8 @@
 			"nick" : {
 				"default" : false,
 				"Spring16" : true,
-				"Embedding2016": true
-			}
+				"Embedding(2016|MC)": true
+					}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
@@ -91,7 +91,7 @@
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_IsoMu18_v"
 				],
-				"Run2016|Embedding2016" : [
+				"Run2016|Embedding(2016|MC)" : [
 					"HLT_IsoMu22_v",
 					"HLT_IsoTkMu22_v"
 				]
@@ -101,7 +101,7 @@
 			"nick" : {
 				"default" : false,
 				"Spring16" : true,
-				"Embedding2016": true
+				"Embedding(2016|MC)": true
 			}
 		},
 		"EventWeight" : "eventWeight",
@@ -153,7 +153,7 @@
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
 				],
-				"Run2016|Embedding2016" : [
+				"Run2016|Embedding(2016|MC)" : [
 					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
 					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09"
 				]

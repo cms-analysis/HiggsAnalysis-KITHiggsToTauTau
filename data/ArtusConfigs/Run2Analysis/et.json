@@ -27,7 +27,7 @@
 				"Run2016" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf"
 				],
-				"Spring16|Embedding2016" : [
+				"Spring16|Embedding(2016|MC)" : [
 					""
 				]
 			}
@@ -36,8 +36,8 @@
 			"nick" : {
 				"default" : false,
 				"Spring16" : true,
-				"Embedding2016" : true
-			}
+				"Embedding(2016|MC)" : true
+				}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
@@ -82,7 +82,7 @@
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Ele23_WPLoose_Gsf_v"
 				],
-				"Run2016|Embedding2016" : [
+				"Run2016|Embedding(2016|MC)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v"
 				]
 			}
@@ -91,7 +91,7 @@
 			"nick" : {
 				"default" : false,
 				"Spring16" : true,
-				"Embedding2016" : true
+				"Embedding(2016|MC)" : true
 			}
 		},
 		"EventWeight" : "eventWeight",
@@ -145,7 +145,7 @@
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
 				],
-				"Run2016|Embedding2016" : [
+				"Run2016|Embedding(2016|MC)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
 				]
 			}
