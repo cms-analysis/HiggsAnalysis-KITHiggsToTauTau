@@ -24,7 +24,9 @@ def addArguments(parser):
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs=1,
 	                    default=["ztt"],
-	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff", "ggh", "qqh", "bbh", "vh", "htt", "data"],
+	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj",
+	                    		"ttj", "ttjt", "ttt", "ttjj", "ttjl",
+	                    		"vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff", "ggh", "qqh", "bbh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -70,9 +72,9 @@ def addArguments(parser):
 	parser.add_argument("--categories", nargs="+",
 						default=["inclusive"],
 						choices=["inclusive",
-								 "2jet_inclusive", "1jet_inclusive", "0jet_inclusive", "1jet_exclusive", 
+								 "2jet_inclusive", "1jet_inclusive", "0jet_inclusive", "1jet_exclusive",
 								 "1jet_low", "1jet_medium", "1jet_high",
-								 "1jet_low_exclusive", "1jet_medium_exclusive", "1jet_high_exclusive", 
+								 "1jet_low_exclusive", "1jet_medium_exclusive", "1jet_high_exclusive",
 								 "2jet_vbf",
 								 "1bjet", "2bjet"],
 	                    help="Categories. [Default: %(default)s]. inclusive is mandatory!")
@@ -139,7 +141,8 @@ def addArguments(parser):
 	parser.add_argument("--emb", default=False, action="store_true",
 	                    help="Use embedded samples. [Default: %(default)s]")
 	parser.add_argument("--pdfkey", default="", help="PDF set  KEY Name [Default: %(default)s]")# Htt : NNPDF30
-	parser.add_argument("--addpdfs", default=[], help="PDF set Name [Default: %(default)s]")# NNPDF30_nlo_as_0119_weight NNPDF30_nlo_as_0118_00_weight NNPDF30_nlo_as_0117_weight
+	parser.add_argument("--addpdfs", default=[], nargs="*", help="PDF set Name [Default: %(default)s]")# NNPDF30_nlo_as_0119_weight NNPDF30_nlo_as_0118_00_weight NNPDF30_nlo_as_0117_weight
+	parser.add_argument("--datasets", default=[], nargs="*", help="datasets [Default: %(default)s]")#u'DYJetsToLLM150_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/*.root DY4JetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM10to50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root', u'EWKZ2JetsZToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/*.root EWKZ2JetsZToNuNu_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8/*.root'
 	
 def merge(config_list):
 	for i in range(len(config_list) - 1):
@@ -172,12 +175,14 @@ if __name__ == "__main__":
 	lheweights_names = []
 	pdfkey = args.pdfkey
 	addpdfs = args.addpdfs
-	if args.samples[0] == "ztt" or args.samples[0] == "zll" :
-		pdfkey = "NNPDF30_lo_as_0130"
-		addpdfs = ["NNPDF30_lo_as_0118_0_weight"]
-	elif args.samples[0] == "htt":
-		pdfkey = "NNPDF30_nlo_as_0118"
-		addpdfs = ["NNPDF30_nlo_as_0119_weight", "NNPDF30_nlo_as_0117_weight"]
+
+	if not pdfkey:
+		if args.samples[0] == "ztt" or args.samples[0] == "zll": pdfkey = "NNPDF30_lo_as_0130"
+		elif args.samples[0] == "htt": pdfkey = "NNPDF30_nlo_as_0118"
+
+	if not addpdfs:
+		if args.samples[0] == "ztt" or args.samples[0] == "zll": addpdfs = ["NNPDF30_lo_as_0118_0_weight"]
+		elif args.samples[0] == "htt": addpdfs = ["NNPDF30_nlo_as_0119_weight", "NNPDF30_nlo_as_0117_weight"]
 
 	if args.run1: import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 	elif args.embedding_selection: import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_embedding_selection as samples
@@ -246,15 +251,24 @@ if __name__ == "__main__":
 	if args.era == "2016": global_cut_type += "2016"
 
 	# Create a list of availabel lheWeights
-	whitelistbylhe = 1
-	if pdfkey != "" or len(addpdfs) != 0:
+	whitelistbylhe = 1 # each whitelistbylhe will be plotted
+	if pdfkey != "" or addpdfs:#len(addpdfs) != 0
 		if args.categories[0] != None: category_string = (global_category_string + "_{channel}_{category}").format(channel = args.channels[0], category = args.categories[0])
 		else:	category_string = None
-		config = sample_settings.get_config( samples = list_of_samples, channel = args.channels[0], category = category_string )
-		for i in range(len(config['files'][0].split())):
-			if log.isEnabledFor(logging.DEBUG): print config['files'][0].split()[i]
-		file_name = args.input_dir + config['files'][0].split()[len(config['files'][0].split()) - 1]
+
+		#Retriev the path to one of the root files to get the lheweights branch
+		file_name = ""
+		if not args.datasets:
+			config = sample_settings.get_config( samples = list_of_samples, channel = args.channels[0], category = category_string )
+			for i in range(len(config['files'][0].split())):
+				if log.isEnabledFor(logging.DEBUG): print config['files'][0].split()[i]
+			print "here", config['files']
+			file_name = args.input_dir + config['files'][0].split()[len(config['files'][0].split()) - 1]
+		else:
+			file_name =  args.input_dir  + args.datasets[0] + '/*.root'
+		print file_name
 		file_name = glob.glob(file_name)[0]
+
 		if log.isEnabledFor(logging.DEBUG): print "lheweight picked up from file: ", file_name
 		root_file = ROOT.TFile(file_name, "READ")
 		eventTree = ROOT.gDirectory.Get(sample_settings.root_file_folder(args.channels[0]))
@@ -323,16 +337,33 @@ if __name__ == "__main__":
 							cut_type = global_cut_type,
 							nick_suffix =  "_" + channel +  "_" + category + "_" + lheweight,
 					)
-					# if category in ["0jet_inclusive", "1jet_inclusive", "2jet_inclusive"]: 
+					# if category in ["0jet_inclusive", "1jet_inclusive", "2jet_inclusive"]:
 					# 	print "OLD VALUE OF NICK:", config["nicks"]
 					# 	config["nicks"] = ['_'.join(config["nicks"][0].split('_')[:3] + config["nicks"][0].split('_')[4:])]
 					# 	print "NEW VALUE OF NICK:", config["nicks"]
 					config.pop("stacks")
 					config.pop("colors")
 					config["nicks_blacklist"].append(channel + "_inclusive")
-					if args.era == "2016": config["files"] = [config["files"][0].split()[6]] #temporary! for running only on one merged DYM50 sample
+
+					'''
+					Here one should be carefull while treating EWK too
+					'''
+					if not args.datasets:
+						if args.era == "2016": config["files"] = [config["files"][0].split()[6]] #temporary! for running only on one merged DYM50 sample
+						else:
+							print "bef:",config["files"]
+							config["files"] = [unicode(' '.join(config["files"][0].split()[:-1]))] #no DYJetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8
+							print "aft:",config["files"]
+					else:
+						# print "thats right"
+						config["files"] = [str(' '.join(config["files"][0].split()[:-1]))] # -1 because I do not need EWKZ2JetsZToNuNu
+						#config["files"] = [' '.join(map(lambda s: s + '/*.root', args.datasets))] this is not so simple - because of the different selection of EWK
+
 					config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 					config["category"] = category
+					# print "here:"
+					# print config["files"]
+					# exit(1)
 
 					binning_string = None
 					if args.mssm: 			binning_string = "binningHttMSSM13TeV"
@@ -439,7 +470,7 @@ if __name__ == "__main__":
 					config_temp = sample_settings.get_config( samples = list_of_samples, channel = args.channels[0], category = category_string)
 					if log.isEnabledFor(logging.DEBUG): print "\t\t\t", lheweight
 					if pdfkey == "_".join(lheweight.split("_")[:-2]): # PDF unc
-						if log.isEnabledFor(logging.DEBUG): 
+						if log.isEnabledFor(logging.DEBUG):
 							if ((lheweight_index - 1)  % whitelistbylhe == 0): print lheweight_index, "OK"
 							else: print lheweight_index, lheweight, "NO"
 						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + pdfkey + "_0_weight"
@@ -453,7 +484,7 @@ if __name__ == "__main__":
 													numerator = (lheweight == pdfkey + "_0_weight")) #((lheweight_index - 1) % whitelistbylhe == 0)
 					if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs: # Alpha_s unc
 						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + pdfkey + "_0_weight"
-						if log.isEnabledFor(logging.DEBUG): print "Alpha_s unc central", centralvalue
+						if True or log.isEnabledFor(logging.DEBUG): print "Alpha_s unc central", centralvalue
 						printedalphas = AppendConfig(plot_configs_list = plot_configs_alphas_only[category],
 														config = config,
 														centralvalue = centralvalue,
@@ -461,6 +492,7 @@ if __name__ == "__main__":
 														whitelist = True,
 														printednumber = printedalphas,
 														numerator = (lheweight == pdfkey + "_0_weight"))
+						print printedalphas
 					elif "muF" in lheweight: # Scales unc
 						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + "muR1p0_muF1p0_weight"
 						if log.isEnabledFor(logging.DEBUG): print "Scales unc central", centralvalue
@@ -472,7 +504,7 @@ if __name__ == "__main__":
 													printednumber = printedscale,
 													numerator = (lheweight == "muR1p0_muF1p0_weight"))
 
-	
+	# exit()
 	if log.isEnabledFor(logging.DEBUG): pprint.pprint(plot_configs)
 
 	# Saving configuration into separate files
@@ -482,7 +514,7 @@ if __name__ == "__main__":
 					"_alphas_only_": plot_configs_alphas_only,
 					"_scale_only_": plot_configs_scale_only
 					}
-	# TODO: finish it so multiple channels at once could be processed 
+	# TODO: finish it so multiple channels at once could be processed
 	for category in args.categories:
 		log.debug(category)
 		for (key, value) in configs_dict.items():
@@ -490,6 +522,7 @@ if __name__ == "__main__":
 
 			if category != 'inclusive': value[category][0] = sample_settings.merge_configs(value[category][0], value['inclusive'][0])
 			log.debug(args.quantities[0] + key + str(category))
+			# print "NOW", config["files"]
 			value[category][0]["filename"] = "merged_" + args.samples[0] + "_" + channel + "_"  + args.quantities[0] + key + str(category)
 
 			#print value[category][0]["nicks_blacklist"]
