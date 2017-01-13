@@ -8,6 +8,20 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 
 	// add possible quantities for the lambda ntuples consumers
+
+	// gen-truth PV coordinates
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPVx", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genPV != 0) ? (product.m_genPV)->x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPVy", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genPV != 0) ? (product.m_genPV)->y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPVz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genPV != 0) ? (product.m_genPV)->z() : DefaultValues::UndefinedFloat);
+	});
 	
 	// thePV coordinates
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVx", [](event_type const& event, product_type const& product)
@@ -40,7 +54,7 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	// refitted PV coordinates
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVx", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_refitPV != 0 ) ? (product.m_refitPV)->position.x() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPV != 0) ? (product.m_refitPV)->position.x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVy", [](event_type const& event, product_type const& product)
 	{
@@ -129,6 +143,16 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 {
 	
 	assert(product.m_flavourOrderedLeptons.size() > 0);
+
+	// save gen-truth PV
+	if (event.m_genParticles){
+		for (unsigned int i=0; i<event.m_genParticles->size(); ++i){
+			if (event.m_genParticles->at(i).pdgId == 23 || event.m_genParticles->at(i).pdgId == 25 || event.m_genParticles->at(i).pdgId == 36){
+				product.m_genPV = &event.m_genParticles->at(i).vertex;
+			}
+		}
+	}
+
 
 	// save thePV and the BS
 	product.m_thePV = &event.m_vertexSummary->pv;
