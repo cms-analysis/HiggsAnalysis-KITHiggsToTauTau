@@ -277,4 +277,6 @@ public:
 	
 	//filled by TagAndProbeMuonPairProducer
 	std::vector<std::pair<KMuon*,KMuon*>> m_TagAndProbeMuonPairs;
+	//filled by TagAndProbeElectronPairProducer
+	std::vector<std::pair<KElectron*,KElectron*>> m_TagAndProbeElectronPairs;
 };

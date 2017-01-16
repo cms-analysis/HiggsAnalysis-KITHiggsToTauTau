@@ -240,6 +240,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new DiGenJetQuantitiesProducer();
 	else if(id == TagAndProbeMuonPairProducer().GetProducerId())
 		return new TagAndProbeMuonPairProducer();
+	else if(id == TagAndProbeElectronPairProducer().GetProducerId())
+		return new TagAndProbeElectronPairProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
@@ -306,6 +308,8 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new AcceptanceEfficiencyConsumer();
 	else if(id == TagAndProbeMuonPairConsumer<HttTypes>().GetConsumerId())
 		return new TagAndProbeMuonPairConsumer<HttTypes>();
+	else if(id == TagAndProbeElectronPairConsumer<HttTypes>().GetConsumerId())
+		return new TagAndProbeElectronPairConsumer<HttTypes>();
 	else
 		return KappaFactory::createConsumer( id );
 }

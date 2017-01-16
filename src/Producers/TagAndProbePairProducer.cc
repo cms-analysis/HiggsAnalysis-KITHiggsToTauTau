@@ -417,7 +417,7 @@ void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type&
 	//loop over muons
 	for (std::vector<KMuon*>::iterator muon = muons.begin(); muon != muons.end(); ++muon)
 	{
-		product.m_validMuons.push_back(*muon);
+		product.m_validMuons.push_back(*muon);  //needed for ValidMuonsFilter
 		
 		//probe filter
 		if (
@@ -474,4 +474,99 @@ bool TagAndProbeMuonPairProducer::IsMediumMuon2016ShortTerm(KMuon* muon, event_t
                                        	&& muon->validFractionOfTrkHits > 0.49
                                         && muon->segmentCompatibility > (goodGlob ? 0.303 : 0.451);
         return isMedium;
+}
+
+void TagAndProbeElectronPairProducer::Init(setting_type const& settings)
+{
+	ProducerBase<HttTypes>::Init(settings);
+	validElectronsInput = ToValidElectronsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidElectronsInput())));
+	electronIDName = settings.GetElectronIDName();
+	electronMvaIDCutEB1 = settings.GetElectronMvaIDCutEB1();
+	electronMvaIDCutEB2 = settings.GetElectronMvaIDCutEB2();
+	electronMvaIDCutEE = settings.GetElectronMvaIDCutEE();
+}
+
+void TagAndProbeElectronPairProducer::Produce(event_type const& event, product_type& product,
+					setting_type const& settings) const
+{
+	assert(event.m_electrons);
+	// select input source
+	std::vector<KElectron*> electrons;
+	std::vector<KElectron*> ProbeMembers;
+	std::vector<KElectron*> TagMembers;
+	if ((validElectronsInput == ValidElectronsInput::AUTO && (product.m_correctedElectrons.size() > 0)) || (validElectronsInput == ValidElectronsInput::CORRECTED))
+	{
+		electrons.resize(product.m_correctedElectrons.size());
+		size_t electronIndex = 0;
+		for (std::vector<std::shared_ptr<KElectron> >::iterator electron = product.m_correctedElectrons.begin();
+		     electron != product.m_correctedElectrons.end(); ++electron)
+		{
+			electrons[electronIndex] = electron->get();
+			++electronIndex;
+		}
+	}
+	else
+	{
+		electrons.resize(event.m_electrons->size());
+		size_t electronIndex = 0;
+		for (KElectrons::iterator electron = event.m_electrons->begin(); electron != event.m_electrons->end(); ++electron)
+		{
+			electrons[electronIndex] = &(*electron);
+			++electronIndex;
+		}
+	}
+	//loop over electrons
+	for (std::vector<KElectron*>::iterator electron = electrons.begin(); electron != electrons.end(); ++electron)
+	{
+		product.m_validElectrons.push_back(*electron); //needed for ValidElectronsFilter
+		
+		//probe filter
+		if (
+			(*electron)->p4.Pt() > 10.0 &&
+			std::abs((*electron)->p4.Eta()) < 2.5
+		){
+			ProbeMembers.push_back(*electron);
+		}
+		//tag filter
+		if (
+			(*electron)->p4.Pt() > 26.0 &&
+			std::abs((*electron)->p4.Eta()) < 2.1 &&
+			std::abs((*electron)->track.getDxy(&event.m_vertexSummary->pv)) < 0.045 &&
+			std::abs((*electron)->track.getDz(&event.m_vertexSummary->pv)) < 0.2 &&
+			IsMVABased(*electron, event, electronIDName) &&
+			(*electron)->pfIso(settings.GetElectronDeltaBetaCorrectionFactor())/(*electron)->p4.Pt() < 0.2
+		){
+			TagMembers.push_back(*electron);
+		}
+	}
+	//erzeuge Paare
+	for (std::vector<KElectron*>::iterator TagMember = TagMembers.begin(); TagMember != TagMembers.end(); ++TagMember)
+	{
+		for (std::vector<KElectron*>::iterator ProbeMember = ProbeMembers.begin(); ProbeMember != ProbeMembers.end(); ++ProbeMember)
+		{
+			if (
+				ROOT::Math::VectorUtil::DeltaR((*TagMember)->p4, (*ProbeMember)->p4) > 0.5
+			){
+				product.m_TagAndProbeElectronPairs.push_back(std::make_pair(*TagMember, *ProbeMember));
+			}
+		}
+	}
+}
+
+bool TagAndProbeElectronPairProducer::IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const
+{
+	bool validElectron = true;
+
+	// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
+	// pT always greater than 10 GeV
+	validElectron = validElectron &&
+		(
+			(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId(idName, event.m_electronMetadata) > electronMvaIDCutEB1)
+			||
+			(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId(idName, event.m_electronMetadata) > electronMvaIDCutEB2)
+			||
+			(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId(idName, event.m_electronMetadata) > electronMvaIDCutEE)
+		);
+
+	return validElectron;
 }
