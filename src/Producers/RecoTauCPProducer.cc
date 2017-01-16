@@ -41,6 +41,10 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_recoChargedHadronEnergies.second;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0genPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_genPV) : DefaultValues::UndefinedDouble;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0refitPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
@@ -48,6 +52,10 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0refitPVBS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzgenPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_genPV) : DefaultValues::UndefinedDouble;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzrefitPV", [](event_type const& event, product_type const& product)
 	{
@@ -57,6 +65,10 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0genPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_genPV) : DefaultValues::UndefinedDouble;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0refitPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
@@ -64,6 +76,10 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0refitPVBS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzgenPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPV ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_genPV) : DefaultValues::UndefinedDouble;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzrefitPV", [](event_type const& event, product_type const& product)
 	{
