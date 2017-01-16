@@ -66,17 +66,17 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	});
 	
 	// refitted (w/ BS constraint) PV coordinates
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitBSPVx", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSx", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitBSPV ? (product.m_refitBSPV)->position.x() : DefaultValues::UndefinedFloat);
+		return (product.m_refitPVBS ? (product.m_refitPVBS)->position.x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitBSPVy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSy", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitBSPV ? (product.m_refitBSPV)->position.y() : DefaultValues::UndefinedFloat);
+		return (product.m_refitPVBS ? (product.m_refitPVBS)->position.y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitBSPVz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitBSPV ? (product.m_refitBSPV)->position.z(): DefaultValues::UndefinedFloat);
+		return (product.m_refitPVBS ? (product.m_refitPVBS)->position.z(): DefaultValues::UndefinedFloat);
 	});
 
 	// track ref point coordinates
@@ -207,7 +207,7 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 
 	for (std::vector<KRefitVertex>::iterator vertex = event.m_refitBSVertices->begin(); vertex != event.m_refitBSVertices->end(); ++vertex){
 		if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
-			product.m_refitBSPV = &(*vertex);
+			product.m_refitPVBS = &(*vertex);
 			//foundRefitBSPV = true;
 			break;
 		}

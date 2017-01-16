@@ -190,7 +190,7 @@ public:
 	// filled by VertexSelector
 	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
-	KRefitVertex* m_refitBSPV = 0;
+	KRefitVertex* m_refitPVBS = 0;
 	RMPoint* m_genPV = 0;
 	RMPoint* m_theBS = 0;
 	RMPoint* m_refP1 = 0;
