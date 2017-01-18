@@ -224,6 +224,34 @@ if __name__ == "__main__":
 						for key in binnings_settings.binnings_dict:
 							print key
 						sys.exit()
+					
+					# Use 2d plots for 2d categories
+					if "ZeroJet2D" in category:
+						config["x_expressions"] = ["m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						if channel != "tt":
+							config["y_expressions"] = ["pt_2"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
+					elif "Boosted2D" in category:
+						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["y_expressions"] = ["H_pt"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
+					elif "Vbf2D" in category:
+						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["y_expressions"] = ["mjj"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
+					
+					# Unroll 2d distribution to 1d in order for combine to fit it
+					if "2D" in category:
+						two_d_inputs = []
+						for mass in higgs_masses:
+							two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggh",'qqh'] else "") for sample in list_of_samples])
+						if not "UnrollTwoDHistogram" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UnrollTwoDHistogram")
+						config.setdefault("two_d_input_nicks", two_d_inputs)
+						config.setdefault("unrolled_hist_nicks", two_d_inputs)
 						
 					config["directories"] = [args.input_dir]
 					
