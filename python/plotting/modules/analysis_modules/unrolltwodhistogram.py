@@ -22,25 +22,25 @@ class UnrollTwoDHistogram(analysisbase.AnalysisBase):
 				help="Nick names of two dimensional input histograms. [Default: %(default)s]")
 		self.unroll_twod_histogram_options.add_argument("--unroll-along-y", action="store_true", default=False,
 				help="Unroll histogram along y instead of x axis. [Default: %(default)s]")
-		self.unroll_twod_histogram_options.add_argument("--res-hist-nicks", nargs="+", default=[""],
+		self.unroll_twod_histogram_options.add_argument("--unrolled-hist-nicks", nargs="+", default=[""],
 				help="Nick names of resulting one dimensional histograms. [Default: %(default)s]")
 		
 	def prepare_args(self, parser, plotData):
 		super(UnrollTwoDHistogram, self).prepare_args(parser, plotData)
-		self._plotdict_keys = ["two_d_input_nicks", "res_hist_nicks"]
+		self._plotdict_keys = ["two_d_input_nicks", "unrolled_hist_nicks"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		
-		for two_d_input_nick, res_hist_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			if not res_hist_nick in plotData.plotdict["nicks"]:
+		for two_d_input_nick, unrolled_hist_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+			if not unrolled_hist_nick in plotData.plotdict["nicks"]:
 				plotData.plotdict["nicks"].insert(
 					plotData.plotdict["nicks"].index(two_d_input_nick),
-					res_hist_nick
+					unrolled_hist_nick
 				)
 	
 	def run(self, plotData=None):
 		super(UnrollTwoDHistogram, self).run(plotData)
 		
-		for two_d_input_nick, res_hist_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+		for two_d_input_nick, unrolled_hist_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			
 			input_number_bins_x = plotData.plotdict["root_objects"][two_d_input_nick].GetNbinsX()
 			input_number_bins_y = plotData.plotdict["root_objects"][two_d_input_nick].GetNbinsY()
@@ -61,6 +61,6 @@ class UnrollTwoDHistogram(analysisbase.AnalysisBase):
 						unrolledHistogram.SetBinContent(bin_x,plotData.plotdict["root_objects"][two_d_input_nick].GetBinContent(x,y))
 						bin_x += 1
 			
-			plotData.plotdict.setdefault("root_objects", {})[res_hist_nick] = unrolledHistogram
-			plotData.plotdict["root_objects"][res_hist_nick].SetName(res_hist_nick)
-			plotData.plotdict["root_objects"][res_hist_nick].SetTitle("")
+			plotData.plotdict.setdefault("root_objects", {})[unrolled_hist_nick] = unrolledHistogram
+			plotData.plotdict["root_objects"][unrolled_hist_nick].SetName(unrolled_hist_nick)
+			plotData.plotdict["root_objects"][unrolled_hist_nick].SetTitle("")
