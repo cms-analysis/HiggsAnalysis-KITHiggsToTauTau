@@ -5,6 +5,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import ROOT
+import hashlib
 
 import Artus.HarryPlotter.analysisbase as analysisbase
 
@@ -46,7 +47,7 @@ class UnrollTwoDHistogram(analysisbase.AnalysisBase):
 			input_number_bins_y = plotData.plotdict["root_objects"][two_d_input_nick].GetNbinsY()
 			result_number_of_bins = input_number_bins_x * input_number_bins_y
 			
-			unrolledHistogram = ROOT.TH1D("","",result_number_of_bins,0,result_number_of_bins)
+			unrolledHistogram = ROOT.TH1D("histogram_" + hashlib.md5("_".join([two_d_input_nick, unrolled_hist_nick])).hexdigest(),"",result_number_of_bins,0,result_number_of_bins)
 			
 			if plotData.plotdict["unroll_along_y"]:
 				bin_y = 1
