@@ -121,6 +121,7 @@ private:
 class SvfitResults {
 
 public:
+	std::vector<RMFLV>* fittedTaus = 0;
 	RMFLV* momentum = 0;
 	RMFLV* momentumUncertainty = 0;
 	RMDataV* fittedMET = 0;
@@ -128,11 +129,11 @@ public:
 	double*  transverseMassUnc = 0;
 	
 	SvfitResults() {};
-	SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
+	SvfitResults(std::vector<RMFLV> const& fittedTaus, RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	~SvfitResults();
 	
-	void Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
+	void Set(std::vector<RMFLV> const& fittedTaus, RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
 	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	void fromRecalculation(){ recalculated = true; }
 	void fromCache(){ recalculated = false; }
@@ -147,6 +148,7 @@ public:
 	bool recalculated;
 
 private:
+	std::vector<RMFLV> GetFittedTaus(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMFLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMFLV GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMDataV GetFittedMET(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;

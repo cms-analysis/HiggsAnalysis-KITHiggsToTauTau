@@ -320,10 +320,10 @@ TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 	return metCovarianceMatrix;
 }
 
-SvfitResults::SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass) :
+SvfitResults::SvfitResults(std::vector<RMFLV> const& fittedTaus, RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass) :
 	SvfitResults()
 {
-	Set(momentum, momentumUncertainty, fittedMET, transverseMass);
+	Set(fittedTaus, momentum, momentumUncertainty, fittedMET, transverseMass);
 	recalculated = false;
 }
 
@@ -347,7 +347,7 @@ SvfitResults::~SvfitResults()
 	*/
 }
 
-void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass)
+void SvfitResults::Set(std::vector<RMFLV> const& fittedTaus, RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass)
 {
 	if (! this->momentum)
 	{
@@ -379,7 +379,8 @@ void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, 
 
 void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
-	Set(GetMomentum(svfitStandaloneAlgorithm),
+	Set(GetFittedTaus(svfitStandaloneAlgorithm),
+	    GetMomentum(svfitStandaloneAlgorithm),
 	    GetMomentumUncertainty(svfitStandaloneAlgorithm),
 	    GetFittedMET(svfitStandaloneAlgorithm),
 	    GetFittedTransverseMass(svfitStandaloneAlgorithm));
@@ -387,6 +388,7 @@ void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 
 void SvfitResults::CreateBranches(TTree* tree)
 {
+	tree->Branch("svfitTaus", &fittedTaus);
 	tree->Branch("svfitMomentum", &momentum);
 	//tree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
 	//tree->Branch("svfitMet", &fittedMET);
@@ -400,6 +402,7 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 	{
 		transverseMass = new double;
 	}
+	tree->SetBranchAddress("svfitTaus", &fittedTaus);
 	tree->SetBranchAddress("svfitMomentum", &momentum);
 	//tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
 	//tree->SetBranchAddress("svfitMet", &fittedMET);
@@ -410,6 +413,7 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 
 void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 {
+	tree->SetBranchStatus("svfitTaus", activate);
 	tree->SetBranchStatus("svfitMomentum", activate);
 	//tree->SetBranchStatus("svfitMomentumUncertainty", activate);
 	//tree->SetBranchStatus("svfitMet", activate);
@@ -419,6 +423,18 @@ void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
 {
+	if (fittedTaus->size() != rhs.fittedTaus->size())
+	{
+		return false;
+	}
+	for (size_t fittedTauIndex = 0; fittedTauIndex < fittedTaus->size(); ++fittedTauIndex)
+	{
+		if (! Utility::ApproxEqual(fittedTaus->at(fittedTauIndex), rhs.fittedTaus->at(fittedTauIndex)))
+		{
+			return false;
+		}
+	}
+	// return true;
 	return (Utility::ApproxEqual(*momentum, *(rhs.momentum)) &&
 	        Utility::ApproxEqual(*momentumUncertainty, *(rhs.momentumUncertainty)));
 }
@@ -426,6 +442,18 @@ bool SvfitResults::operator==(SvfitResults const& rhs) const
 bool SvfitResults::operator!=(SvfitResults const& rhs) const
 {
 	return (! (*this == rhs));
+}
+
+std::vector<RMFLV> SvfitResults::GetFittedTaus(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+{
+	std::vector<RMFLV> fittedTaus;
+	std::vector<LorentzVector> svfitFittedTaus = svfitStandaloneAlgorithm.fittedTauLeptons();
+	for (std::vector<LorentzVector>::iterator svfitFittedTau = svfitFittedTaus.begin();
+	     svfitFittedTau != svfitFittedTaus.end(); ++svfitFittedTau)
+	{
+		fittedTaus.push_back(RMFLV(svfitFittedTau->Pt(), svfitFittedTau->Eta(), svfitFittedTau->Phi(), svfitFittedTau->mass()));
+	}
+	return fittedTaus;
 }
 
 RMFLV SvfitResults::GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
