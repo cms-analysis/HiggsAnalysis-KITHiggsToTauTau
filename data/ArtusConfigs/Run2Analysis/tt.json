@@ -76,7 +76,7 @@
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"TauTriggerFilterNames" : {
 			"nick" : {
-				"(Fall15MiniAODv2|Run2015D|Embedding2015|Embedding(2016|MC)|Run2016)" : [
+				"(Fall15MiniAODv2|Run2015D|Embedding2015|Embedding(2016|MC)|Run2016|Summer16)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
 				]
 			}
@@ -139,7 +139,7 @@
 					"producer:TauTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)" : [
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",

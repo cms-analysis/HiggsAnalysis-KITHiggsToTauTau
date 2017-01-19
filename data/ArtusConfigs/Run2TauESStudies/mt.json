@@ -24,7 +24,7 @@
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18"
 				],
-				"Run2016" : [
+				"Run2016|Summer16" : [
 					"HLT_IsoMu22",
 					"HLT_IsoTkMu22"
 				],
@@ -90,7 +90,7 @@
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v"
 				],
-				"Run2016" : [
+				"Run2016|Summer16" : [
 					"HLT_IsoMu22_v",
 					"HLT_IsoTkMu22_v"
 				]
@@ -124,20 +124,20 @@
 		},
 		"TriggerEfficiencyMc" : {
 			"nick" : {
-				"default" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"],
 				"(Fall15MiniAODv2|Run2015D)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"]
 			}
 		},
 		"TriggerEfficiencyMode" : "multiply_weights",
 		"IdentificationEfficiencyData" : {
 			"nick" : {
-				"default" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso0p15_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso0p15_eff.root"],
 				"(Fall15MiniAODv2|Run2015D)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p1_fall15.root"]
 			}
 		},
 		"IdentificationEfficiencyMc" : {
 			"nick" : {
-				"default" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_eff.root"],
 				"(Fall15MiniAODv2|Run2015D)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p1_fall15.root"]
 			}
 		},
@@ -151,7 +151,7 @@
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
 				],
-				"Run2016" : [
+				"Run2016|Summer16" : [
 					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
 					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09"
 				]
@@ -222,7 +222,7 @@
 					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)" : [
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
