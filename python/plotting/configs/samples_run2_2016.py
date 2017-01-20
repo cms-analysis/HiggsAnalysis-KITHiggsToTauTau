@@ -115,21 +115,21 @@ class Samples(samples.SamplesBase):
 			return [weight]
 	
 	def ztt_stitchingweight(self):
-		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25449124172134e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.17272893569016e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.17926755938344e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.18242445124698e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16077776187804e-6)+"
-		mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*1.15592e-4) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.5569730365e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.68069486078868e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.74717616341537e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.3697397756176e-5)+"
+		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.2546913e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.1729038e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.1784574e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.1813954e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.34420499e-6)+"
+		mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*1.173158037e-4) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.5600606e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.6643878e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.72497439e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.34420499e-5)+"
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		return "("+highmass+mediummass+lowmass+")"+normalization
 
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays
 	def zll_stitchingweight(self):
-		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*1.15592e-4) + ((genbosonmass >= 50.0 && npartons == 1)*1.55697303655665e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.68069486078868e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.74717616341537e-5) + ((genbosonmass >= 50.0 && npartons == 4)*1.3697397756176e-5)+"
+		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*1.173158037e-4) + ((genbosonmass >= 50.0 && npartons == 1)*1.5600606e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.6643878e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.72497439e-5) + ((genbosonmass >= 50.0 && npartons == 4)*1.34420499e-5)+"
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		return "("+mediummass+lowmass+")"+normalization
 
 	def wj_stitchingweight(self):
-		return "(((npartons == 0 || npartons >= 5)*2.1809966268e-3) + ((npartons == 1)*2.602609942e-4) + ((npartons == 2)*1.209708431e-4) + ((npartons == 3)*5.71488637e-5) + ((npartons == 4)*6.27792554e-5))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+		return "(((npartons == 0 || npartons >= 5)*7.093902783e-4) + ((npartons == 1)*2.002737459e-4) + ((npartons == 2)*1.087610368e-4) + ((npartons == 3)*5.4213902e-5) + ((npartons == 4)*1.92354802e-5))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 	
 	def hadronic_scale_factor(self, channel):
 		if channel in ["mt", "et"]:
