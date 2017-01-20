@@ -66,6 +66,11 @@ class UnrollTwoDHistogram(analysisbase.AnalysisBase):
 						unrolled_histogram.SetBinError(bin_x, two_d_histogram.GetBinError(x,y))
 						bin_x += 1
 			
+			unrolled_histogram.SetEntries(two_d_histogram.GetEntries())
+			#import array
+			#print two_d_histogram.GetEntries(), two_d_histogram.GetEffectiveEntries(), array.array("d", two_d_histogram.GetSumw2())
+			#print unrolled_histogram.GetEntries(), unrolled_histogram.GetEffectiveEntries(), array.array("d", unrolled_histogram.GetSumw2())
+			
 			plotData.plotdict.setdefault("root_objects", {})[unrolled_hist_nick] = unrolled_histogram
 			plotData.plotdict["root_objects"][unrolled_hist_nick].SetName(unrolled_hist_nick)
 			plotData.plotdict["root_objects"][unrolled_hist_nick].SetTitle("")
