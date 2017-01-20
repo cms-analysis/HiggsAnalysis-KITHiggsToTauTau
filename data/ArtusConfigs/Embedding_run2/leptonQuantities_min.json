@@ -1,0 +1,16 @@
+{
+	"property" : [
+		"nMuons",
+		"leadingLepPt",
+		"leadingLepEta",
+		"leadingLepIso",
+		"leadingLepIsoOverPt",
+		"trailingLepPt",
+		"trailingLepEta",
+		"trailingLepIso",
+		"trailingLepIsoOverPt",
+		"leadingMuonFSR",
+		"leadingMuonIso",
+		"leadingMuonIsoOverPt"
+	]
+}
