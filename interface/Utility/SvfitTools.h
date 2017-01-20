@@ -138,6 +138,10 @@ public:
 	void fromRecalculation(){ recalculated = true; }
 	void fromCache(){ recalculated = false; }
 	
+	std::vector<RMFLV> GetFittedTaus() const;
+	RMFLV GetFittedMomentum() const;
+	RMDataV GetFittedMET(SvfitInputs const& svfitInputs) const;
+	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);

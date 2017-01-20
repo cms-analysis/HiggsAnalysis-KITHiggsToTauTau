@@ -349,6 +349,10 @@ SvfitResults::~SvfitResults()
 
 void SvfitResults::Set(std::vector<RMFLV> const& fittedTaus, RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass)
 {
+	if (! this->fittedTaus)
+	{
+		this->fittedTaus = new std::vector<RMFLV>();
+	}
 	if (! this->momentum)
 	{
 		this->momentum = new RMFLV();
@@ -370,6 +374,7 @@ void SvfitResults::Set(std::vector<RMFLV> const& fittedTaus, RMFLV const& moment
 		this->transverseMassUnc = new double;
 	}
 	
+	*(this->fittedTaus) = fittedTaus;
 	*(this->momentum) = momentum;
 	*(this->momentumUncertainty) = momentumUncertainty;
 	*(this->fittedMET) = fittedMET;
@@ -486,6 +491,43 @@ std::pair<double, double> SvfitResults::GetFittedTransverseMass(SVfitStandaloneA
 {
 	return std::make_pair(svfitStandaloneAlgorithm.transverseMass(), svfitStandaloneAlgorithm.transverseMassUncert());
 }
+
+std::vector<RMFLV> SvfitResults::GetFittedTaus() const
+{
+	return *fittedTaus;
+}
+
+RMFLV SvfitResults::GetFittedMomentum() const
+{
+	RMFLV fittedMomentum;
+	LOG(WARNING) << "0";
+	if (fittedTaus)
+	{
+		LOG(WARNING) << "1";
+		for (std::vector<RMFLV>::iterator fittedTau = fittedTaus->begin();
+		     fittedTau != fittedTaus->end(); ++fittedTau)
+		{
+			LOG(WARNING) << "2";
+			fittedMomentum += (*fittedTau);
+		}
+	}
+	return fittedMomentum;
+}
+
+RMDataV SvfitResults::GetFittedMET(SvfitInputs const& svfitInputs) const
+{
+	RMDataV fittedMET = GetFittedMomentum().Vect();
+	if (svfitInputs.leptonMomentum1)
+	{
+		fittedMET -= svfitInputs.leptonMomentum1->Vect();
+	}
+	if (svfitInputs.leptonMomentum2)
+	{
+		fittedMET -= svfitInputs.leptonMomentum2->Vect();
+	}
+	return fittedMET;
+}
+
 
 std::map<std::string, TTree*> SvfitTools::svfitCacheInputTree;
 std::map<std::string, TFile*> SvfitTools::svfitCacheInputFile;

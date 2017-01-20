@@ -50,19 +50,19 @@ void SvfitProducer::Init(setting_type const& settings)
 	svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitAvailable", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.momentum ? true : false);
+		return (product.m_svfitResults.fittedTaus ? true : false);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitPt", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->Pt() : DefaultValues::UndefinedFloat);
+		return (product.m_svfitResults.fittedTaus ? product.m_svfitResults.GetFittedMomentum().Pt() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitEta", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->Eta() : DefaultValues::UndefinedFloat);
+		return (product.m_svfitResults.fittedTaus ? product.m_svfitResults.GetFittedMomentum().Eta() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitPhi", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->Phi() : DefaultValues::UndefinedFloat);
+		return (product.m_svfitResults.fittedTaus ? product.m_svfitResults.GetFittedMomentum().Phi() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitMass", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.momentum ? product.m_svfitResults.momentum->mass() : DefaultValues::UndefinedFloat);
+		return (product.m_svfitResults.fittedTaus ? product.m_svfitResults.GetFittedMomentum().mass() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitMet", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedMET ? product.m_svfitResults.fittedMET->Rho() : DefaultValues::UndefinedFloat);
