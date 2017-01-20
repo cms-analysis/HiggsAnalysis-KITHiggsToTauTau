@@ -46,6 +46,7 @@ int main(int argc, const char *argv[])
     ULong64_t hash;
 
     // Svfit Inputs
+    std::vector<RMFLV>* fittedTaus = new std::vector<RMFLV>();
     RMFLV* leptonMomentum1 = new RMFLV();
     RMFLV* leptonMomentum2 = new RMFLV();
     RMDataV* metMomentum = new RMDataV();
@@ -116,7 +117,7 @@ int main(int argc, const char *argv[])
     outputtree->Branch("decayType2", &outdecayType2);
     outputtree->Branch("hash", &outhash, "hash/l");
 
-
+    outputtree->Branch("svfitFittedTaus", &fittedTaus);
     outputtree->Branch("svfitMomentum", &momentum);
     outputtree->Branch("svfitTransverseMass", &transverseMass, "svfitTransverseMass/D");
 
@@ -197,6 +198,14 @@ int main(int argc, const char *argv[])
         }
 
         // retrieve results
+        fittedTaus->clear();
+		std::vector<LorentzVector> svfitFittedTaus = svfitStandaloneAlgorithm.fittedTauLeptons();
+		for (std::vector<LorentzVector>::iterator svfitFittedTau = svfitFittedTaus.begin();
+			 svfitFittedTau != svfitFittedTaus.end(); ++svfitFittedTau)
+		{
+			fittedTaus->push_back(RMFLV(svfitFittedTau->Pt(), svfitFittedTau->Eta(), svfitFittedTau->Phi(), svfitFittedTau->mass()));
+		}
+        
         momentum.SetPt(svfitStandaloneAlgorithm.pt());
         momentum.SetEta(svfitStandaloneAlgorithm.eta());
         momentum.SetPhi(svfitStandaloneAlgorithm.phi());
