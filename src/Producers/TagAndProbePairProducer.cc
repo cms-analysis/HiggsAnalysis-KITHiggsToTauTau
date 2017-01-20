@@ -534,7 +534,7 @@ void TagAndProbeElectronPairProducer::Produce(event_type const& event, product_t
 			std::abs((*electron)->track.getDxy(&event.m_vertexSummary->pv)) < 0.045 &&
 			std::abs((*electron)->track.getDz(&event.m_vertexSummary->pv)) < 0.2 &&
 			IsMVABased(*electron, event, electronIDName) &&
-			(*electron)->pfIso(settings.GetElectronDeltaBetaCorrectionFactor())/(*electron)->p4.Pt() < 0.2
+			(*electron)->pfIso(settings.GetElectronDeltaBetaCorrectionFactor())/(*electron)->p4.Pt() < 0.1
 		){
 			TagMembers.push_back(*electron);
 		}
