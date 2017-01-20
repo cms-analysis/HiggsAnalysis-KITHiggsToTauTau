@@ -54,12 +54,14 @@ class UnrollTwoDHistogram(analysisbase.AnalysisBase):
 				for x in range(1,input_number_bins_x+1):
 					for y in range(1,input_number_bins_y+1):
 						unrolledHistogram.SetBinContent(bin_y,plotData.plotdict["root_objects"][two_d_input_nick].GetBinContent(x,y))
+						unrolledHistogram.SetBinError(bin_y,plotData.plotdict["root_objects"][two_d_input_nick].GetBinError(x,y))
 						bin_y += 1
 			else:
 				bin_x = 1
 				for y in range(1,input_number_bins_y+1):
 					for x in range(1,input_number_bins_x+1):
 						unrolledHistogram.SetBinContent(bin_x,plotData.plotdict["root_objects"][two_d_input_nick].GetBinContent(x,y))
+						unrolledHistogram.SetBinError(bin_x,plotData.plotdict["root_objects"][two_d_input_nick].GetBinError(x,y))
 						bin_x += 1
 			
 			plotData.plotdict.setdefault("root_objects", {})[unrolled_hist_nick] = unrolledHistogram
