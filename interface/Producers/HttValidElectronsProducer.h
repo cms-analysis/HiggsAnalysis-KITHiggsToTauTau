@@ -52,7 +52,15 @@ public:
 		SUMMER2013TTHTIGHT = 2,
 		SUMMER2013TTHLOOSE = 3,
 		CUTBASED2015ANDLATER = 4,
-		MVABASED2015ANDLATER = 5
+		MVABASED2015ANDLATER = 5,
+		CUTBASED2015NOISOANDIPCUTSVETO = 6,
+		CUTBASED2015NOISOANDIPCUTSLOOSE = 7,
+		CUTBASED2015NOISOANDIPCUTSMEDIUM = 8,
+		CUTBASED2015NOISOANDIPCUTSTIGHT = 9,
+		CUTBASED2016NOISOCUTSVETO = 10,
+		CUTBASED2016NOISOCUTSLOOSE = 11,
+		CUTBASED2016NOISOCUTSMEDIUM = 12,
+		CUTBASED2016NOISOCUTSTIGHT = 13
 	};
 	static ElectronIDType ToElectronIDType(std::string const& electronIDType)
 	{
@@ -62,6 +70,14 @@ public:
 		else if (electronIDType == "summer2013tthtight") return ElectronIDType::SUMMER2013TTHTIGHT;
 		else if (electronIDType == "cutbased2015andlater") return ElectronIDType::CUTBASED2015ANDLATER;
 		else if (electronIDType == "mvabased2015andlater") return ElectronIDType::MVABASED2015ANDLATER;
+		else if (electronIDType == "cutbased2015noisoandipcutsveto") return ElectronIDType::CUTBASED2015NOISOANDIPCUTSVETO;
+		else if (electronIDType == "cutbased2015noisoandipcutsloose") return ElectronIDType::CUTBASED2015NOISOANDIPCUTSLOOSE;
+		else if (electronIDType == "cutbased2015noisoandipcutsmedium") return ElectronIDType::CUTBASED2015NOISOANDIPCUTSMEDIUM;
+		else if (electronIDType == "cutbased2015noisocutstight") return ElectronIDType::CUTBASED2015NOISOANDIPCUTSTIGHT;
+		else if (electronIDType == "cutbased2016noisocutsveto") return ElectronIDType::CUTBASED2016NOISOCUTSVETO;
+		else if (electronIDType == "cutbased2016noisocutsloose") return ElectronIDType::CUTBASED2016NOISOCUTSLOOSE;
+		else if (electronIDType == "cutbased2016noisocutsmedium") return ElectronIDType::CUTBASED2016NOISOCUTSMEDIUM;
+		else if (electronIDType == "cutbased2016noisocutstight") return ElectronIDType::CUTBASED2016NOISOCUTSTIGHT;
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else
 			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;
@@ -154,6 +170,12 @@ private:
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsCutBased(KElectron* electron, event_type const& event, const std::string &idName) const;
+	// This function uses the same criteria as the one above with the exception of
+	// isolation (and impact parameters for 2015 Id). Cut values are taken from
+	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+	bool IsCutBased(KElectron* electron, event_type const& event,
+			float full5x5_sigmaIetaIeta, float dEtaIn_Seed, float dPhiIn,
+			float hOverE, float invEMinusInvP, int missingHits, int year=2015) const;
 	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::string idName, bool &checkedAlready) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::vector<std::string> idNames, bool &checkedAlready) const;

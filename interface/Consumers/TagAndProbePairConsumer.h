@@ -515,6 +515,7 @@ public:
 		FloatQuantities["iso_t"]=0.0;
 		FloatQuantities["pt_p"]=0.0;
 		FloatQuantities["eta_p"]=0.0;
+		FloatQuantities["sc_eta_p"]=0.0;
 		FloatQuantities["phi_p"]=0.0;
 		BoolQuantities["id_p"]=false;
 		FloatQuantities["iso_p"]=0.0;
@@ -581,6 +582,8 @@ public:
 					FloatQuantities["pt_p"]=TagAndProbePair->second->p4.Pt();
 				}else if(*quantity=="eta_p"){
 					FloatQuantities["eta_p"]=TagAndProbePair->second->p4.Eta();
+				}else if(*quantity=="sc_eta_p"){
+					FloatQuantities["sc_eta_p"]=TagAndProbePair->second->superclusterPosition.Eta();
 				}else if(*quantity=="phi_p"){
 					FloatQuantities["phi_p"]=TagAndProbePair->second->p4.Phi();
 				}else if(*quantity=="id_p"){
