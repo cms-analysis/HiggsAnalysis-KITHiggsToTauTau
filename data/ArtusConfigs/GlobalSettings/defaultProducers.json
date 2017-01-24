@@ -114,10 +114,10 @@
 			"W.?JetsToLN" : [
 				24
 			],
-			"SUSY(BB|GluGluTo)HToTauTau" : [
+			"SUSY(BB|GluGlu|GluGluTo)HToTauTau" : [
 				36
 			],
-			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : [
+			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau" : [
 				25
 			]
 		}
