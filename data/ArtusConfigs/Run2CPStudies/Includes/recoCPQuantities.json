@@ -10,12 +10,19 @@
 		"refitPVBSy",
 		"refitPVBSz",
 
-		"genPVx",
-		"genPVy",
-		"genPVz",
 		"theBSx",
 		"theBSy",
 		"theBSz",
+
+		"genPVx",
+		"genPVy",
+		"genPVz",
+		"genSV1x",
+		"genSV1y",
+		"genSV1z",
+		"genSV2x",
+		"genSV2y",
+		"genSV2z",
 
 		"refP1x",
 		"refP1y",

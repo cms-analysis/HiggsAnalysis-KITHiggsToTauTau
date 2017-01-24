@@ -23,6 +23,34 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 		return ((product.m_genPV != 0) ? (product.m_genPV)->z() : DefaultValues::UndefinedFloat);
 	});
 	
+	// gen-truth SV vertex, obtained by tau daughter 1
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1x", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genSV1 != 0) ? (product.m_genSV1)->x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1y", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genSV1 != 0) ? (product.m_genSV1)->y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1z", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genSV1 != 0) ? (product.m_genSV1)->z() : DefaultValues::UndefinedFloat);
+	});
+	
+	// gen-truth SV vertex, obtained by tau daughter 2
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2x", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genSV2 != 0) ? (product.m_genSV2)->x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2y", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genSV2 != 0) ? (product.m_genSV2)->y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2z", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genSV2 != 0) ? (product.m_genSV2)->z() : DefaultValues::UndefinedFloat);
+	});
+
 	// thePV coordinates
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVx", [](event_type const& event, product_type const& product)
 	{
@@ -153,8 +181,15 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 		}
 	}
 
+	// save gen-truth SV (from daughter1 and daughter2: they should be equal, if coming from the same tau!)
+	if (product.m_flavourOrderedGenLeptons.size() > 0){
+		if (product.m_flavourOrderedGenLeptons.at(0) && product.m_flavourOrderedGenLeptons.at(1)){
+			product.m_genSV1 = &product.m_flavourOrderedGenLeptons.at(0)->vertex;
+			product.m_genSV2 = &product.m_flavourOrderedGenLeptons.at(1)->vertex;
+		}
+	}
 
-	// save thePV and the BS
+	// save the PV and the BS
 	product.m_thePV = &event.m_vertexSummary->pv;
 	product.m_theBS = &event.m_beamSpot->position;
 

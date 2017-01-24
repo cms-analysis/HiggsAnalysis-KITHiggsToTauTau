@@ -192,6 +192,8 @@ public:
 	KRefitVertex* m_refitPV = 0;
 	KRefitVertex* m_refitPVBS = 0;
 	RMPoint* m_genPV = 0;
+	RMPoint* m_genSV1 = 0; // vertex of production of tau daughter 1
+	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 	RMPoint* m_theBS = 0;
 	RMPoint* m_refP1 = 0;
 	RMPoint* m_refP2 = 0;
