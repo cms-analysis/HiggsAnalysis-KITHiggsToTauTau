@@ -16,7 +16,7 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer"
 			],
-			"DY.?JetsToLLM(10to50|50|150)" : [
+			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets" : [
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:ValidGenTausProducer",
