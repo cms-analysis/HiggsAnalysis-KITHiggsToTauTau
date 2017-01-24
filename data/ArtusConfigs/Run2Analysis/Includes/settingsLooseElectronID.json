@@ -10,25 +10,25 @@
 	"LooseElectronIDName" : {
 		"nick" : {
 			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
-			"(Run2015|Fall15MiniAODv2)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
+			"(Run2015|Fall15MiniAODv2|Spring16)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 		}
 	},
 	"LooseElectronMvaIDCutEB1" : {
 		"nick" : {
 			"default" : 0.837,
-			"(Run2015|Fall15MiniAODv2)" : 0.913286
+			"(Run2015|Fall15MiniAODv2|Spring16)" : 0.913286
 		}
 	},
 	"LooseElectronMvaIDCutEB2" : {
 		"nick" : {
 			"default" : 0.715,
-			"(Run2015|Fall15MiniAODv2)" : 0.805013
+			"(Run2015|Fall15MiniAODv2|Spring16)" : 0.805013
 		}
 	},
 	"LooseElectronMvaIDCutEE" : {
 		"nick" : {
 			"default" : 0.357,
-			"(Run2015|Fall15MiniAODv2)" : 0.358969
+			"(Run2015|Fall15MiniAODv2|Spring16)" : 0.358969
 		}
 	},
 

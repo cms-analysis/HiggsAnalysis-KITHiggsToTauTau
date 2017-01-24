@@ -9,13 +9,13 @@
 	"VetoElectronIDType" : {
 		"nick" : {
 			"default" : "cutbased2016noisocutsveto",
-			"(Run2015|Fall15MiniAODv2)" : "cutbased2015noisoandipcutsveto"
+			"(Run2015|Fall15MiniAODv2|Spring16)" : "cutbased2015noisoandipcutsveto"
 		}
 	},
 	"VetoElectronIDName" : {
 		"nick" : {
 			"default" : "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
-			"(Run2015|Fall15MiniAODv2)" : "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
+			"(Run2015|Fall15MiniAODv2|Spring16)" : "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
 		}
 	},
 
