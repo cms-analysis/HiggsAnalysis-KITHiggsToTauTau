@@ -121,6 +121,15 @@
 
 		"#1genBoson2Daughter2GranddaughterGrandGranddaughterSize",
 
+		"genPVx",
+		"genPVy",
+		"genPVz",
+		"genSV1x",
+		"genSV1y",
+		"genSV1z",
+		"genSV2x",
+		"genSV2y",
+		"genSV2z",
 
 		"genPhiStarCP",
 		"genPhiCP",
