@@ -26,7 +26,7 @@
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf"
 				],
-				"Run2016|Embedding2016" : [
+				"(Run2016|Embedding2016|Summer16)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf"
 				],
 				"Spring16" : [
@@ -73,7 +73,7 @@
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v"
 				],
-				"Run2016" : [
+				"(Run2016|Embedding2016|Summer16)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v"
 				]
 			}
@@ -145,7 +145,7 @@
 				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
 				],
-				"Run2016" : [
+				"(Run2016|Embedding2016|Summer16)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
 				]
 			}

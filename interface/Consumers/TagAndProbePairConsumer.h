@@ -96,7 +96,7 @@ public:
 		ConsumerBase<TTypes>::ProcessFilteredEvent(event, product, settings);
 
 		// calculate values
-		bool IsData = settings.GetInputIsData();
+		//bool IsData = settings.GetInputIsData();
 		for (std::vector<std::pair<KMuon*, KMuon*>>::const_iterator TagAndProbePair = product.m_TagAndProbeMuonPairs.begin();
 				TagAndProbePair != product.m_TagAndProbeMuonPairs.end(); ++TagAndProbePair)
 		{
@@ -158,7 +158,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu22_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_t_IsoMu22"]=true;
@@ -170,7 +170,6 @@ public:
 							BoolQuantities["trg_t_IsoMu22"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_t_IsoMu22"]=true;
 				}else if(*quantity=="trg_t_IsoMu22_eta2p1"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -182,7 +181,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu22_eta2p1_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_t_IsoMu22_eta2p1"]=true;
@@ -194,7 +193,6 @@ public:
 							BoolQuantities["trg_t_IsoMu22_eta2p1"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_t_IsoMu22_eta2p1"]=true;
 				}else if(*quantity=="trg_t_IsoMu24"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -206,7 +204,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu24_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_t_IsoMu24"]=true;
@@ -218,7 +216,6 @@ public:
 							BoolQuantities["trg_t_IsoMu24"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_t_IsoMu24"]=true;
 				}else if(*quantity=="trg_t_IsoMu19Tau"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -230,7 +227,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sMu18erTauJet20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sMu18erTauJet20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_t_IsoMu19Tau"]=true;
@@ -242,7 +239,6 @@ public:
 							BoolQuantities["trg_t_IsoMu19Tau"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_t_IsoMu19Tau"]=true;
 				}else if(*quantity=="trg_p_IsoMu22"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -254,7 +250,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu22_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_IsoMu22"]=true;
@@ -266,7 +262,6 @@ public:
 							BoolQuantities["trg_p_IsoMu22"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_IsoMu22"]=true;
 				}else if(*quantity=="trg_p_IsoTkMu22"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -278,7 +273,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoTkMu22_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_IsoTkMu22"]=true;
@@ -290,8 +285,6 @@ public:
 							BoolQuantities["trg_p_IsoTkMu22"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_IsoTkMu22"]=true;
-				}else if(*quantity=="trg_p_IsoMu22_eta2p1"){
 					if (product.m_selectedHltNames.empty())
 					{
 						BoolQuantities["trg_p_IsoMu22_eta2p1"]=false;
@@ -302,7 +295,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu22_eta2p1_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_IsoMu22_eta2p1"]=true;
@@ -314,7 +307,6 @@ public:
 							BoolQuantities["trg_p_IsoMu22_eta2p1"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_IsoMu22_eta2p1"]=true;
 				}else if(*quantity=="trg_p_IsoTkMu22_eta2p1"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -326,7 +318,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoTkMu22_eta2p1_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_IsoTkMu22_eta2p1"]=true;
@@ -338,7 +330,6 @@ public:
 							BoolQuantities["trg_p_IsoTkMu22_eta2p1"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_IsoTkMu22_eta2p1"]=true;
 				}else if(*quantity=="trg_p_IsoMu24"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -350,7 +341,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu24_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_IsoMu24"]=true;
@@ -362,7 +353,6 @@ public:
 							BoolQuantities["trg_p_IsoMu24"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_IsoMu24"]=true;
 				}else if(*quantity=="trg_p_IsoTkMu24"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -374,7 +364,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoTkMu24_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3fL1sMu22L1f0Tkf24QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3fL1sMu22L1f0Tkf24QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_IsoTkMu24"]=true;
@@ -386,7 +376,6 @@ public:
 							BoolQuantities["trg_p_IsoTkMu24"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_IsoTkMu24"]=true;
 				}else if(*quantity=="trg_p_PFTau120"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -398,7 +387,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_VLooseIsoPFTau120_Trk50_eta2p1_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"].size() > 0)
+								if (hlts.second["hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_PFTau120"]=true;
@@ -410,7 +399,6 @@ public:
 							BoolQuantities["trg_p_PFTau120"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_PFTau120"]=true;
 				}else if(*quantity=="trg_p_IsoMu19TauL1"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -422,7 +410,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_IsoMu19TauL1"]=true;
@@ -434,7 +422,6 @@ public:
 							BoolQuantities["trg_p_IsoMu19TauL1"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_IsoMu19TauL1"]=true;
 				}else if(*quantity=="trg_p_IsoMu19Tau"){
 					if (product.m_selectedHltNames.empty())
 					{
@@ -446,7 +433,7 @@ public:
 						{
 							if (boost::regex_search(hlts.first, boost::regex("HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v", boost::regex::icase | boost::regex::extended)))
 							{
-								if (IsData && hlts.second["hltL3crIsoL1sMu18erTauJet20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09"].size() > 0)
+								if (hlts.second["hltL3crIsoL1sMu18erTauJet20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09"].size() > 0)
 								{
 									Hltfired = true;
 									BoolQuantities["trg_p_IsoMu19Tau"]=true;
@@ -458,7 +445,6 @@ public:
 							BoolQuantities["trg_p_IsoMu19Tau"]=false;
 						}
 					}
-					if (!IsData) BoolQuantities["trg_p_IsoMu19Tau"]=true;
 				}
 			}
 			
@@ -491,6 +477,323 @@ private:
         	                               	&& muon->validFractionOfTrkHits > 0.49
         	                                && muon->segmentCompatibility > (goodGlob ? 0.303 : 0.451);
         	return isMedium;
+	}
+};
+
+template<class TTypes>
+class TagAndProbeElectronPairConsumer: public ConsumerBase<TTypes> {
+
+public:
+	typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > RMFLV;
+
+	typedef typename TTypes::event_type event_type;
+	typedef typename TTypes::product_type product_type;
+	typedef typename TTypes::setting_type setting_type;
+	
+	std::string GetConsumerId() const override
+	{
+		return "TagAndProbeElectronPairConsumer";
+	}
+	
+	void Init(setting_type const& settings) override {
+		ConsumerBase<TTypes>::Init(settings);
+		electronIDName = settings.GetElectronIDName();
+		electronMvaIDCutEB1 = settings.GetElectronMvaIDCutEB1();
+		electronMvaIDCutEB2 = settings.GetElectronMvaIDCutEB2();
+		electronMvaIDCutEE = settings.GetElectronMvaIDCutEE();
+		
+		//fill quantity maps
+		FloatQuantities["wt"]=0.0;
+		IntQuantities["n_vtx"]=0;
+		IntQuantities["run"]=0;
+		IntQuantities["lumi"]=0;
+		IntQuantities["evt"]=0;
+		FloatQuantities["pt_t"]=0.0;
+		FloatQuantities["eta_t"]=0.0;
+		FloatQuantities["phi_t"]=0.0;
+		BoolQuantities["id_t"]=false;
+		FloatQuantities["iso_t"]=0.0;
+		FloatQuantities["pt_p"]=0.0;
+		FloatQuantities["eta_p"]=0.0;
+		FloatQuantities["sc_eta_p"]=0.0;
+		FloatQuantities["phi_p"]=0.0;
+		BoolQuantities["id_p"]=false;
+		FloatQuantities["iso_p"]=0.0;
+		FloatQuantities["m_ll"]=0.0;
+		BoolQuantities["trg_t_Ele25eta2p1WPTight"]=false;
+		BoolQuantities["trg_t_Ele27eta2p1WPTight"]=false;
+		BoolQuantities["trg_t_Ele27eta2p1WPLoose"]=false;
+		BoolQuantities["trg_p_Ele25eta2p1WPTight"]=false;
+		BoolQuantities["trg_p_Ele27eta2p1WPTight"]=false;
+		BoolQuantities["trg_p_Ele27eta2p1WPLoose"]=false;
+		BoolQuantities["trg_p_PFTau120"]=false;
+
+		// create tree
+		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
+		m_tree = new TTree("ZeeTP", ("Tree for Pipeline \"" + settings.GetName() + "\"").c_str());
+
+		// create branches
+		for (std::vector<std::string>::iterator quantity = settings.GetQuantities().begin();
+		     quantity != settings.GetQuantities().end(); ++quantity)
+		{
+			if(BoolQuantities.find(*quantity) != BoolQuantities.end()){
+				m_tree->Branch(quantity->c_str(), &(BoolQuantities[*quantity]), (*quantity + "/O").c_str());
+			}else if(IntQuantities.find(*quantity) != IntQuantities.end()){
+				m_tree->Branch(quantity->c_str(), &(IntQuantities[*quantity]), (*quantity + "/I").c_str());
+			}else if(FloatQuantities.find(*quantity) != FloatQuantities.end()){
+				m_tree->Branch(quantity->c_str(), &(FloatQuantities[*quantity]), (*quantity + "/F").c_str());
+			}
+		}
+	}
+
+	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings ) override
+	{
+		ConsumerBase<TTypes>::ProcessFilteredEvent(event, product, settings);
+
+		// calculate values
+		//bool IsData = settings.GetInputIsData();
+		for (std::vector<std::pair<KElectron*, KElectron*>>::const_iterator TagAndProbePair = product.m_TagAndProbeElectronPairs.begin();
+				TagAndProbePair != product.m_TagAndProbeElectronPairs.end(); ++TagAndProbePair)
+		{
+			for (std::vector<std::string>::iterator quantity = settings.GetQuantities().begin();
+					quantity != settings.GetQuantities().end(); ++quantity)
+			{
+				if(*quantity=="wt"){
+					FloatQuantities["wt"]=product.m_weights.at(settings.GetEventWeight());
+				}else if(*quantity=="n_vtx"){
+					IntQuantities["n_vtx"]=event.m_vertexSummary->nVertices;
+				}else if(*quantity=="run"){
+					IntQuantities["run"]=event.m_eventInfo->nRun;
+				}else if(*quantity=="lumi"){
+					IntQuantities["lumi"]=event.m_eventInfo->nLumi;
+				}else if(*quantity=="evt"){
+					IntQuantities["evt"]=event.m_eventInfo->nEvent;
+				}else if(*quantity=="pt_t"){
+					FloatQuantities["pt_t"]=TagAndProbePair->first->p4.Pt();
+				}else if(*quantity=="eta_t"){
+					FloatQuantities["eta_t"]=TagAndProbePair->first->p4.Eta();
+				}else if(*quantity=="phi_t"){
+					FloatQuantities["phi_t"]=TagAndProbePair->first->p4.Phi();
+				}else if(*quantity=="id_t"){
+					BoolQuantities["id_t"]=IsMVABased(TagAndProbePair->first, event, electronIDName) && std::abs(TagAndProbePair->first->track.getDxy(&event.m_vertexSummary->pv)) < 0.045 && std::abs(TagAndProbePair->first->track.getDz(&event.m_vertexSummary->pv)) < 0.2;
+				}else if(*quantity=="iso_t"){
+					FloatQuantities["iso_t"]=TagAndProbePair->first->pfIso(settings.GetElectronDeltaBetaCorrectionFactor())/TagAndProbePair->first->p4.Pt();
+				}else if(*quantity=="pt_p"){
+					FloatQuantities["pt_p"]=TagAndProbePair->second->p4.Pt();
+				}else if(*quantity=="eta_p"){
+					FloatQuantities["eta_p"]=TagAndProbePair->second->p4.Eta();
+				}else if(*quantity=="sc_eta_p"){
+					FloatQuantities["sc_eta_p"]=TagAndProbePair->second->superclusterPosition.Eta();
+				}else if(*quantity=="phi_p"){
+					FloatQuantities["phi_p"]=TagAndProbePair->second->p4.Phi();
+				}else if(*quantity=="id_p"){
+					BoolQuantities["id_p"]=IsMVABased(TagAndProbePair->second, event, electronIDName) && std::abs(TagAndProbePair->second->track.getDxy(&event.m_vertexSummary->pv)) < 0.045 && std::abs(TagAndProbePair->second->track.getDz(&event.m_vertexSummary->pv)) < 0.2;
+				}else if(*quantity=="iso_p"){
+					FloatQuantities["iso_p"]=TagAndProbePair->second->pfIso(settings.GetElectronDeltaBetaCorrectionFactor())/TagAndProbePair->second->p4.Pt();
+				}else if(*quantity=="m_ll"){
+					FloatQuantities["m_ll"]=(TagAndProbePair->first->p4 + TagAndProbePair->second->p4).M();
+				}else if(*quantity=="trg_t_Ele25eta2p1WPTight"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_t_Ele25eta2p1WPTight"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedElectrons.at(TagAndProbePair->first);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_Ele25_eta2p1_WPTight_Gsf_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (hlts.second["hltEle25erWPTightGsfTrackIsoFilter"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_t_Ele25eta2p1WPTight"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_t_Ele25eta2p1WPTight"]=false;
+						}
+					}
+				}else if(*quantity=="trg_t_Ele27eta2p1WPTight"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_t_Ele27eta2p1WPTight"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedElectrons.at(TagAndProbePair->first);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_Ele27_eta2p1_WPTight_Gsf_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (hlts.second["hltEle27erWPTightGsfTrackIsoFilter"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_t_Ele27eta2p1WPTight"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_t_Ele27eta2p1WPTight"]=false;
+						}
+					}
+				}else if(*quantity=="trg_t_Ele27eta2p1WPLoose"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_t_Ele27eta2p1WPLoose"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedElectrons.at(TagAndProbePair->first);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_Ele27_eta2p1_WPLoose_Gsf_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (hlts.second["hltEle27erWPLooseGsfTrackIsoFilter"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_t_Ele27eta2p1WPLoose"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_t_Ele27eta2p1WPLoose"]=false;
+						}
+					}
+				}else if(*quantity=="trg_p_Ele25eta2p1WPTight"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_p_Ele25eta2p1WPTight"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedElectrons.at(TagAndProbePair->second);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_Ele25_eta2p1_WPTight_Gsf_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (hlts.second["hltEle25erWPTightGsfTrackIsoFilter"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_p_Ele25eta2p1WPTight"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_p_Ele25eta2p1WPTight"]=false;
+						}
+					}
+				}else if(*quantity=="trg_p_Ele27eta2p1WPTight"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_p_Ele27eta2p1WPTight"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedElectrons.at(TagAndProbePair->second);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_Ele27_eta2p1_WPTight_Gsf_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (hlts.second["hltEle27erWPTightGsfTrackIsoFilter"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_p_Ele27eta2p1WPTight"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_p_Ele27eta2p1WPTight"]=false;
+						}
+					}
+				}else if(*quantity=="trg_p_Ele27eta2p1WPLoose"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_p_Ele27eta2p1WPLoose"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedElectrons.at(TagAndProbePair->second);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_Ele27_eta2p1_WPLoose_Gsf_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (hlts.second["hltEle27erWPLooseGsfTrackIsoFilter"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_p_Ele27eta2p1WPLoose"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_p_Ele27eta2p1WPLoose"]=false;
+						}
+					}
+				}else if(*quantity=="trg_p_PFTau120"){
+					if (product.m_selectedHltNames.empty())
+					{
+						BoolQuantities["trg_p_PFTau120"]=false;
+					}else{
+						auto trigger = product.m_detailedTriggerMatchedElectrons.at(TagAndProbePair->second);
+						bool Hltfired = false;
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_VLooseIsoPFTau120_Trk50_eta2p1_v", boost::regex::icase | boost::regex::extended)))
+							{
+								if (hlts.second["hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"].size() > 0)
+								{
+									Hltfired = true;
+									BoolQuantities["trg_p_PFTau120"]=true;
+								}
+							}
+						}
+						if (!Hltfired)
+						{
+							BoolQuantities["trg_p_PFTau120"]=false;
+						}
+					}
+				}
+			}
+			
+			// fill tree
+			this->m_tree->Fill();
+		}
+				
+	}
+
+	void Finish(setting_type const& settings) override
+	{
+		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
+		m_tree->Write(m_tree->GetName());
+	}
+
+
+private:
+	TTree* m_tree = nullptr;
+	std::map <std::string, bool> BoolQuantities;
+	std::map <std::string, int> IntQuantities;
+	std::map <std::string, float> FloatQuantities;
+	std::string electronIDName;
+	double electronMvaIDCutEB1;
+	double electronMvaIDCutEB2;
+	double electronMvaIDCutEE;
+	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const
+	{
+		bool validElectron = true;
+	
+		// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
+		// pT always greater than 10 GeV
+		validElectron = validElectron &&
+			(
+				(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId(idName, event.m_electronMetadata) > electronMvaIDCutEB1)
+				||
+				(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId(idName, event.m_electronMetadata) > electronMvaIDCutEB2)
+				||
+				(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId(idName, event.m_electronMetadata) > electronMvaIDCutEE)
+			);
+	
+		return validElectron;
 	}
 };
 

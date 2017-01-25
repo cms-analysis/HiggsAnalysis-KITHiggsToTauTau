@@ -9,7 +9,12 @@
 			"(Spring16|Run2016)" : 2016
 		}
 	},
-	"MuonID" : "medium",
+	"MuonID" : {
+		"nick" : {
+			"default" : "medium",
+			"Run2016(B|C|D|E|F)|Spring16" : "medium2016"
+		}
+	},
 	
 	"MuonIsoType" : "user",
 	"MuonIso" : "none",
