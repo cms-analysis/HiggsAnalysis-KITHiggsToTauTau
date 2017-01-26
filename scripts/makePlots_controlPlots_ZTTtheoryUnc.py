@@ -181,8 +181,8 @@ if __name__ == "__main__":
 		elif args.samples[0] == "htt": pdfkey = "NNPDF30_nlo_as_0118"
 
 	if not addpdfs:
-		if args.samples[0] == "ztt" or args.samples[0] == "zll": addpdfs = ["NNPDF30_lo_as_0118_0_weight"]
-		elif args.samples[0] == "htt": addpdfs = ["NNPDF30_nlo_as_0119_weight", "NNPDF30_nlo_as_0117_weight"]
+		if args.samples[0] == "ztt" or args.samples[0] == "zll": addpdfs = ["NNPDF30_lo_as_0130_0_weight", "NNPDF30_lo_as_0118_0_weight"]
+		elif args.samples[0] == "htt": addpdfs = ["NNPDF30_nlo_as_0118_weight", "NNPDF30_nlo_as_0119_weight", "NNPDF30_nlo_as_0117_weight"]
 
 	if args.run1: import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
 	elif args.embedding_selection: import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_embedding_selection as samples
@@ -242,10 +242,12 @@ if __name__ == "__main__":
 	global_category_string = "catHtt13TeV"
 	if args.samples[0] == "ztt" or  args.samples[0] == "zll":
 		global_category_string = "catZtt13TeV"
-	global_cut_type = "baseline"
+	#global_cut_type = "baseline"
+	global_cut_type = "ztt2015cs"
 	if args.mssm:
 		global_category_string = "catHttMSSM13TeV"
 		global_cut_type = "mssm"
+
 	elif args.mva: 			global_category_string = "catMVAStudies"
 	elif args.polarisation: global_category_string = "catZttPol13TeV"
 	if args.era == "2016": global_cut_type += "2016"
@@ -253,7 +255,10 @@ if __name__ == "__main__":
 	# Create a list of availabel lheWeights
 	whitelistbylhe = 1 # each whitelistbylhe will be plotted
 	if pdfkey != "" or addpdfs:#len(addpdfs) != 0
-		if args.categories[0] != None: category_string = (global_category_string + "_{channel}_{category}").format(channel = args.channels[0], category = args.categories[0])
+		if args.categories[0] != None: 
+			print "args.channels[0]", args.channels[0]
+			print "args.categories[0]", args.categories[0]
+			category_string = (global_category_string + "_{channel}_{category}").format(channel = args.channels[0], category = args.categories[0])
 		else:	category_string = None
 
 		#Retriev the path to one of the root files to get the lheweights branch
@@ -351,14 +356,14 @@ if __name__ == "__main__":
 					if not args.datasets:
 						if args.era == "2016": config["files"] = [config["files"][0].split()[6]] #temporary! for running only on one merged DYM50 sample
 						else:
-							print "bef:",config["files"]
+							# print "bef:",config["files"]
 							config["files"] = [unicode(' '.join(config["files"][0].split()[:-1]))] #no DYJetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8
-							print "aft:",config["files"]
+							# print "aft:",config["files"]
 					else:
-						# print "thats right"
-						config["files"] = [str(' '.join(config["files"][0].split()[:-1]))] # -1 because I do not need EWKZ2JetsZToNuNu
-						#config["files"] = [' '.join(map(lambda s: s + '/*.root', args.datasets))] this is not so simple - because of the different selection of EWK
-
+						# print "thats right config[files]", config["files"]
+						#EWK config["files"] = [str(' '.join(config["files"][0].split()))] # .split()[:-1] because I do not need EWKZ2JetsZToNuNu
+						config["files"] = [' '.join(map(lambda s: s + '/*.root', args.datasets))] #this is not so simple - because of the different selection of EWK
+						# print "filename: ", config["files"]
 					config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 					config["category"] = category
 					# print "here:"
@@ -473,7 +478,7 @@ if __name__ == "__main__":
 						if log.isEnabledFor(logging.DEBUG):
 							if ((lheweight_index - 1)  % whitelistbylhe == 0): print lheweight_index, "OK"
 							else: print lheweight_index, lheweight, "NO"
-						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + pdfkey + "_0_weight"
+						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + pdfkey + "_1_weight"#"_0_weight"
 						if log.isEnabledFor(logging.DEBUG): print "PDF unc central", centralvalue
 						printedpdf = AppendConfig(plot_configs_list = plot_configs_pdf_only[category],
 													config = config,
@@ -481,9 +486,9 @@ if __name__ == "__main__":
 													logdebug = "\t\t\t\tplot_configs_pdf_only",
 													whitelist = ((lheweight_index - 1) % whitelistbylhe == 0),
 													printednumber = printedpdf,
-													numerator = (lheweight == pdfkey + "_0_weight")) #((lheweight_index - 1) % whitelistbylhe == 0)
-					if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs: # Alpha_s unc
-						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + pdfkey + "_0_weight"
+													numerator = (lheweight == pdfkey + "_1_weight")) #"_0_weight" ((lheweight_index - 1) % whitelistbylhe == 0)
+					if  lheweight in addpdfs: # Alpha_s unc - from 2017 will be only additionalpdfs considered #if pdfkey + "_0_weight" == lheweight or lheweight in addpdfs:
+						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + addpdfs[0] # the first in addpdfs is central config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + pdfkey + "_0_weight"
 						if True or log.isEnabledFor(logging.DEBUG): print "Alpha_s unc central", centralvalue
 						printedalphas = AppendConfig(plot_configs_list = plot_configs_alphas_only[category],
 														config = config,
@@ -491,7 +496,7 @@ if __name__ == "__main__":
 														logdebug = "\t\t\t\tplot_configs_alphas_only",
 														whitelist = True,
 														printednumber = printedalphas,
-														numerator = (lheweight == pdfkey + "_0_weight"))
+														numerator = (lheweight == addpdfs[0]))#pdfkey + "_0_weight"
 						print printedalphas
 					elif "muF" in lheweight: # Scales unc
 						centralvalue = config_temp["nicks"][0] + "_" + channel + "_" + category + "_" + "muR1p0_muF1p0_weight"
@@ -509,20 +514,24 @@ if __name__ == "__main__":
 
 	# Saving configuration into separate files
 	print "Saving configuration into separate files"
-	configs_dict = {"_all_": plot_configs,
+	configs_dict = {#"_all_": plot_configs,
 					"_pdf_only_": plot_configs_pdf_only,
-					"_alphas_only_": plot_configs_alphas_only,
+					#"_alphas_only_": plot_configs_alphas_only,
 					"_scale_only_": plot_configs_scale_only
 					}
 	# TODO: finish it so multiple channels at once could be processed
 	for category in args.categories:
-		log.debug(category)
+		log.debug("category: " + category)
 		for (key, value) in configs_dict.items():
 			merge(value[category])
 
 			if category != 'inclusive': value[category][0] = sample_settings.merge_configs(value[category][0], value['inclusive'][0])
 			log.debug(args.quantities[0] + key + str(category))
 			# print "NOW", config["files"]
+			# print "\t\targs.samples[0] ", args.samples[0] 
+			# print "\t\targs.quantities[0] ", args.quantities[0] 
+			# print "\t\tvalue[category]", value[category]
+			# print "\t\tlen(value[category])", len(value[category])
 			value[category][0]["filename"] = "merged_" + args.samples[0] + "_" + channel + "_"  + args.quantities[0] + key + str(category)
 
 			#print value[category][0]["nicks_blacklist"]
