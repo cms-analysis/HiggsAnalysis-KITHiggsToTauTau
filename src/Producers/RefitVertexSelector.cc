@@ -9,48 +9,6 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 
 	// add possible quantities for the lambda ntuples consumers
 
-	// gen-truth PV coordinates
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPVx", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genPV != 0) ? (product.m_genPV)->x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPVy", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genPV != 0) ? (product.m_genPV)->y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPVz", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genPV != 0) ? (product.m_genPV)->z() : DefaultValues::UndefinedFloat);
-	});
-	
-	// gen-truth SV vertex, obtained by tau daughter 1
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1x", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV1 != 0) ? (product.m_genSV1)->x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1y", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV1 != 0) ? (product.m_genSV1)->y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1z", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV1 != 0) ? (product.m_genSV1)->z() : DefaultValues::UndefinedFloat);
-	});
-	
-	// gen-truth SV vertex, obtained by tau daughter 2
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2x", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV2 != 0) ? (product.m_genSV2)->x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2y", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV2 != 0) ? (product.m_genSV2)->y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2z", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV2 != 0) ? (product.m_genSV2)->z() : DefaultValues::UndefinedFloat);
-	});
-
 	// thePV coordinates
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVx", [](event_type const& event, product_type const& product)
 	{
@@ -82,85 +40,85 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	// refitted PV coordinates
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVx", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_refitPV != 0) ? (product.m_refitPV)->position.x() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position.x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVy", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_refitPV != 0) ? (product.m_refitPV)->position.y() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position.y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVz", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_refitPV != 0) ? (product.m_refitPV)->position.z() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position.z() : DefaultValues::UndefinedFloat);
 	});
 	
 	// refitted (w/ BS constraint) PV coordinates
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSx", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitPVBS ? (product.m_refitPVBS)->position.x() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSy", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitPVBS ? (product.m_refitPVBS)->position.y() : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refitPVBS ? (product.m_refitPVBS)->position.z(): DefaultValues::UndefinedFloat);
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.z(): DefaultValues::UndefinedFloat);
 	});
 
 	// track ref point coordinates
 	// lepton1
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refP1x", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refP1 ? (product.m_refP1)->x() : DefaultValues::UndefinedFloat);
+		return ((product.m_refP1 != nullptr) ? (product.m_refP1)->x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refP1y", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refP1 ? (product.m_refP1)->y() : DefaultValues::UndefinedFloat);
+		return ((product.m_refP1 != nullptr) ? (product.m_refP1)->y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refP1z", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refP1 ? (product.m_refP1)->z() : DefaultValues::UndefinedFloat);
+		return ((product.m_refP1 != nullptr) ? (product.m_refP1)->z() : DefaultValues::UndefinedFloat);
 	});
 	// lepton2
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refP2x", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refP2 ? (product.m_refP2)->x() : DefaultValues::UndefinedFloat);
+		return ((product.m_refP2 != nullptr) ? (product.m_refP2)->x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refP2y", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refP2 ? (product.m_refP2)->y() : DefaultValues::UndefinedFloat);
+		return ((product.m_refP2 != nullptr) ? (product.m_refP2)->y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refP2z", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_refP2 ? (product.m_refP2)->z() : DefaultValues::UndefinedFloat);
+		return ((product.m_refP2 != nullptr) ? (product.m_refP2)->z() : DefaultValues::UndefinedFloat);
 	});
 
 	// track momentum coordinates
 	// lepton1
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("track1p4x", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_track1p4 ? (product.m_track1p4)->x() : DefaultValues::UndefinedFloat);
+		return ((product.m_track1p4 != nullptr) ? (product.m_track1p4)->x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("track1p4y", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_track1p4 ? (product.m_track1p4)->y() : DefaultValues::UndefinedFloat);
+		return ((product.m_track1p4 != nullptr) ? (product.m_track1p4)->y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("track1p4z", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_track1p4 ? (product.m_track1p4)->z() : DefaultValues::UndefinedFloat);
+		return ((product.m_track1p4 != nullptr) ? (product.m_track1p4)->z() : DefaultValues::UndefinedFloat);
 	});
 	// lepton2
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("track2p4x", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_track2p4 ? (product.m_track2p4)->x() : DefaultValues::UndefinedFloat);
+		return ((product.m_track2p4 != nullptr) ? (product.m_track2p4)->x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("track2p4y", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_track2p4 ? (product.m_track2p4)->y() : DefaultValues::UndefinedFloat);
+		return ((product.m_track2p4 != nullptr) ? (product.m_track2p4)->y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("track2p4z", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_track2p4 ? (product.m_track2p4)->z() : DefaultValues::UndefinedFloat);
+		return ((product.m_track2p4 != nullptr) ? (product.m_track2p4)->z() : DefaultValues::UndefinedFloat);
 	});
 	
 }
@@ -171,23 +129,6 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 {
 	
 	assert(product.m_flavourOrderedLeptons.size() > 0);
-
-	// save gen-truth PV
-	if (event.m_genParticles){
-		for (unsigned int i=0; i<event.m_genParticles->size(); ++i){
-			if (event.m_genParticles->at(i).pdgId == 23 || event.m_genParticles->at(i).pdgId == 25 || event.m_genParticles->at(i).pdgId == 36){
-				product.m_genPV = &event.m_genParticles->at(i).vertex;
-			}
-		}
-	}
-
-	// save gen-truth SV (from daughter1 and daughter2: they should be equal, if coming from the same tau!)
-	if (product.m_flavourOrderedGenLeptons.size() > 0){
-		if (product.m_flavourOrderedGenLeptons.at(0) && product.m_flavourOrderedGenLeptons.at(1)){
-			product.m_genSV1 = &product.m_flavourOrderedGenLeptons.at(0)->vertex;
-			product.m_genSV2 = &product.m_flavourOrderedGenLeptons.at(1)->vertex;
-		}
-	}
 
 	// save the PV and the BS
 	product.m_thePV = &event.m_vertexSummary->pv;
@@ -226,30 +167,22 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 
 
 	// find the vertex among the refitted vertices
-	//bool foundRefitPV = false;
-
 	for (std::vector<KRefitVertex>::iterator vertex = event.m_refitVertices->begin(); vertex != event.m_refitVertices->end(); ++vertex){
 		if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
 			product.m_refitPV = &(*vertex);
-			//foundRefitPV = true;
 			break;
 		}
 	} // loop over refitted vertices collection
 
 
 	// find the vertex among the refitted vertices calculated w/ beamspot constraint
-	//bool foundRefitBSPV = false;
-
 	for (std::vector<KRefitVertex>::iterator vertex = event.m_refitBSVertices->begin(); vertex != event.m_refitBSVertices->end(); ++vertex){
 		if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
 			product.m_refitPVBS = &(*vertex);
-			//foundRefitBSPV = true;
 			break;
 		}
 
 	} // loop over refitted vertices collection
-
-
 
 }
 

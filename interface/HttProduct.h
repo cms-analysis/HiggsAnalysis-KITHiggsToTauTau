@@ -12,6 +12,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiTauPair.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiGenTauPair.h"
 #include "TVector2.h"
+#include "TVector3.h"
 
 class HttProduct : public KappaProduct
 {
@@ -187,21 +188,24 @@ public:
 	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiTauSystem;
 
 	
-	// filled by VertexSelector
+	// filled by RefitVertexSelector
 	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
 	KRefitVertex* m_refitPVBS = 0;
-	RMPoint* m_genPV = 0;
-	RMPoint* m_genSV1 = 0; // vertex of production of tau daughter 1
-	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 	RMPoint* m_theBS = 0;
 	RMPoint* m_refP1 = 0;
 	RMPoint* m_refP2 = 0;
 	RMFLV* m_track1p4 = 0;
 	RMFLV* m_track2p4 = 0;
 
+	// filled by GenVertexProducer
+	RMPoint* m_genPV = 0;
+	RMPoint* m_genSV1 = 0; // vertex of production of tau daughter 1
+	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 
 	// filled by GenTauCPProducer
+	TVector3 m_genIP1;
+	TVector3 m_genIP2;
 	double m_genZMinus  = DefaultValues::UndefinedDouble;
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
 	double m_genZs  = DefaultValues::UndefinedDouble;
