@@ -222,3 +222,40 @@ double CPQuantities::PhiTransform(double phi)
 	phi = 	fmod((phi + ROOT::Math::Pi()),(2 * ROOT::Math::Pi()));
 	return phi;
 }
+
+
+// calculate the gen IP vector
+TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv){
+	TVector3 k, p, IP;
+	k.SetXYZ(genParticle->vertex.x() - pv->x(), genParticle->vertex.y() - pv->y(), genParticle->vertex.z() - pv->z());
+	p.SetXYZ(genParticle->p4.Px(), genParticle->p4.Py(), genParticle->p4.Pz());
+	IP = k - (p.Dot(k) / p.Mag()) * p;
+	return IP;
+
+}
+
+
+// calculate the reco IP vector (3D method)
+TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv){
+	
+	TVector3 k, p, IP;
+	k.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), recoParticle->track.ref.z() - pv->position.z());
+	p.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), recoParticle->p4.Pz());
+	IP = k - (p.Dot(k) / p.Mag()) * p;
+	return IP;
+
+}
+
+
+// calculate the reco IP vector (using d0 and dz)
+TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv, float lepDz){
+
+	TVector3 pt, d, d0, dz, IP;
+	pt.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), 0);
+	d.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), 0);
+	d0 = d - (pt.Dot(d) / pt.Mag()) * pt;
+	dz.SetXYZ(0, 0, lepDz);
+	IP = d0 + dz;
+	return IP;
+
+}

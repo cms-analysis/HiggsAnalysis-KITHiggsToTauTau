@@ -6,6 +6,9 @@
 #include "Kappa/DataFormats/interface/Kappa.h"
 #include "Artus/Utility/interface/ArtusLogging.h"
 
+#include "TVector3.h"
+
+
 /**
    \brief Place to collect functions calculating CP quantities
    -Phi* : this is a variable, with which one can say, whether the considered boson is a CP even state or a CP odd state
@@ -26,6 +29,9 @@ public:
 	double CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart);
 	double CalculateZs(double zPlus, double zMinus);
 	double PhiTransform(double phi);
+	TVector3 CalculateIPVector(KGenParticle* genParticle, RMPoint* pv);
+	TVector3 CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv);
+	TVector3 CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv, float lepDz);
 	inline double GetGenPhiStar()
 	{
 		return genPhiStar;
