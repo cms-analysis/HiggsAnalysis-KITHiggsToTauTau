@@ -107,7 +107,8 @@
 		"ElectronTriggerFilterNames" : {
 			"nick" : {
 				"(Run2016|Embedding2016|Summer16)" : [
-					"HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
+					"HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter",
+					"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v:hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"
 				]
 			}
 		},
