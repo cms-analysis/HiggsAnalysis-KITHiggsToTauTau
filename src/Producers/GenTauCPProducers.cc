@@ -278,27 +278,27 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 	// MC-truth IP vectors
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1x", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genIP1 != 0) ? (product.m_genIP1)->x() : DefaultValues::UndefinedFloat);
+		return ((product.m_genIP1 != nullptr) ? (product.m_genIP1)->x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1y", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genIP1->y()) ? (product.m_genIP1)->y() : DefaultValues::UndefinedFloat);
+		return ((product.m_genIP1 != nullptr) ? (product.m_genIP1)->y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1z", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genIP1->z()) ? (product.m_genIP1)->z() : DefaultValues::UndefinedFloat);
+		return ((product.m_genIP1 != nullptr) ? (product.m_genIP1)->z() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2x", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genIP2->x()) ? (product.m_genIP2)->x() : DefaultValues::UndefinedFloat);
+		return ((product.m_genIP2 != nullptr) ? (product.m_genIP2)->x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2y", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genIP2->y()) ? (product.m_genIP2)->y() : DefaultValues::UndefinedFloat);
+		return ((product.m_genIP2 != nullptr) ? (product.m_genIP2)->y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2z", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genIP2->z()) ? (product.m_genIP2)->z() : DefaultValues::UndefinedFloat);
+		return ((product.m_genIP2 != nullptr) ? (product.m_genIP2)->z() : DefaultValues::UndefinedFloat);
 	});
 	
 
