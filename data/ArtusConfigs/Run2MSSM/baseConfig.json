@@ -93,6 +93,21 @@
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
 				"#producer:TaggedJetCorrectionsProducer"
+			],
+			"Embedding201" :
+			[
+				"#filter:RunLumiEventFilter",
+				"filter:JsonFilter",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenDiLeptonDecayModeProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GeneratorWeightProducer",
+				"#producer:TaggedJetCorrectionsProducer"
 			]
 		}
 	},
