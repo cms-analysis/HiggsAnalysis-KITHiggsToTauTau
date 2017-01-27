@@ -277,7 +277,7 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 
 	// MC-truth IP vectors
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1x", [](event_type const& event, product_type const& product)
-		{
+	{
 		return ((product.m_genIP1 != 0) ? (product.m_genIP1)->x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1y", [](event_type const& event, product_type const& product)
