@@ -226,6 +226,7 @@ double CPQuantities::PhiTransform(double phi)
 
 // calculate the gen IP vector
 TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv){
+
 	TVector3 k, p, IP;
 	k.SetXYZ(genParticle->vertex.x() - pv->x(), genParticle->vertex.y() - pv->y(), genParticle->vertex.z() - pv->z());
 	p.SetXYZ(genParticle->p4.Px(), genParticle->p4.Py(), genParticle->p4.Pz());

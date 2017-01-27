@@ -140,7 +140,6 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	// and the decay tree is built by the GenTauDecayProducer
 	assert(product.m_genBosonLVFound);
 	assert(product.m_genBosonTree.m_daughters.size() > 1);
-	
 
 	// save MC-truth PV
 	for (unsigned int i=0; i<event.m_genParticles->size(); ++i){
@@ -276,30 +275,31 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 		return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->z() : DefaultValues::UndefinedFloat);
 	});
 
-//	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1x", [](event_type const& event, product_type const& product)
-//	{
-//		return ((&product.m_genIP1 != 0) ? (product.m_genIP1).x() : DefaultValues::UndefinedFloat);
-//	});
-//	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1y", [](event_type const& event, product_type const& product)
-//	{
-//		return ((product.m_genIP1->y()) ? (product.m_genIP1)->y() : DefaultValues::UndefinedFloat);
-//	});
-//	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1z", [](event_type const& event, product_type const& product)
-//	{
-//		return ((product.m_genIP1->z()) ? (product.m_genIP1)->z() : DefaultValues::UndefinedFloat);
-//	});
-//	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2x", [](event_type const& event, product_type const& product)
-//	{
-//		return ((product.m_genIP2->x()) ? (product.m_genIP2)->x() : DefaultValues::UndefinedFloat);
-//	});
-//	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2y", [](event_type const& event, product_type const& product)
-//	{
-//		return ((product.m_genIP2->y()) ? (product.m_genIP2)->y() : DefaultValues::UndefinedFloat);
-//	});
-//	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2z", [](event_type const& event, product_type const& product)
-//	{
-//		return ((product.m_genIP2->z()) ? (product.m_genIP2)->z() : DefaultValues::UndefinedFloat);
-//	});
+	// MC-truth IP vectors
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1x", [](event_type const& event, product_type const& product)
+		{
+		return ((product.m_genIP1 != 0) ? (product.m_genIP1)->x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1y", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genIP1->y()) ? (product.m_genIP1)->y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1z", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genIP1->z()) ? (product.m_genIP1)->z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2x", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genIP2->x()) ? (product.m_genIP2)->x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2y", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genIP2->y()) ? (product.m_genIP2)->y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2z", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_genIP2->z()) ? (product.m_genIP2)->z() : DefaultValues::UndefinedFloat);
+	});
 	
 
 }
@@ -307,14 +307,10 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& product,
                                       setting_type const& settings) const
 {
-	std::cout << "GenMatchedTauCPProducer" << std::endl;
-	// A generator level boson and its decay products must exist
-	// The boson is searched for by a GenBosonProducer
-	// and the decay tree is built by the GenTauDecayProducer
+
 	assert(product.m_genBosonLVFound);
 	assert(product.m_genBosonTree.m_daughters.size() > 1);
-	
-	// get the taus: the tau1 is always the positevely charged tau
+
 	GenParticleDecayTree* selectedTau1;
 	GenParticleDecayTree* selectedTau2;
 	if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
@@ -326,77 +322,75 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 		selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
 	}
 
-	// Calculate the CP observables only if matchedLep components are non-null
-	// and the match between selectedTaus and matchedLeptons was found
-//	if ( matchedLep[0] && matchedLep[1] && tau1Match && tau2Match ){
-		selectedTau1->CreateFinalStateProngs(selectedTau1);
-		selectedTau2->CreateFinalStateProngs(selectedTau2);
-		std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
-		std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
+
+	if (product.m_chargeOrderedGenLeptons.at(0) and product.m_chargeOrderedGenLeptons.at(1)){
+		
+		KGenParticle* genParticle1 = product.m_chargeOrderedGenLeptons.at(0);
+		KGenParticle* genParticle2 = product.m_chargeOrderedGenLeptons.at(1);
+		TVector3 genIP1;
+		TVector3 genIP2;
 
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;
 
-		// Selection of the right channel for phi, phi* and psi*CP
-		if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
-		    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
-		    (selectedTau1OneProngs.size() != 0) &&
-		    (selectedTau2OneProngs.size() != 0))
-		{
-			//Initialization of charged particles
-			KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->m_genParticle;
-			KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->m_genParticle;
+		// if the GenLepton is a hadronic tau, we want to take its hadronic daughter
+		// for the calculation of the IP vector
+		if (std::abs(genParticle1->pdgId) == DefaultValues::pdgIdTau){
+			
+			selectedTau1->CreateFinalStateProngs(selectedTau1);
+			std::vector<GenParticleDecayTree*> prongs = selectedTau1->m_finalStates;
 
-			for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
-			{
-				if (abs(selectedTau1OneProngs[i]->GetCharge()) == 1) chargedPart1 = selectedTau1OneProngs[i]->m_genParticle;
-			}
-			for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
-			{
-				if (abs(selectedTau2OneProngs[i]->GetCharge()) == 1) chargedPart2 = selectedTau2OneProngs[i]->m_genParticle;
-			}
+			selectedTau1->DetermineDecayMode(selectedTau1);
+			int decaymode = (int)selectedTau1->m_decayMode;
 
-			// Saving the charged particles for analysis
-			product.m_genOneProngCharged1 = chargedPart1;
-			product.m_genOneProngCharged2 = chargedPart2;
+			if (decaymode == 4 or decaymode == 7){
+				for (unsigned int i=0; i<prongs.size(); ++i){
+					if (std::abs(prongs.at(i)->GetCharge()) == 1){
+						genParticle1 = prongs.at(i)->m_genParticle;
+						break;
+					}
+				} // loop over the prongs
+			} // if decaymode = 1-prong
 
-			// Saving energies of charged particles in tau rest frames
-			product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->m_genParticle->p4, chargedPart1->p4);
-			product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->m_genParticle->p4, chargedPart2->p4);
+			// if (decaymode == 10) {}    // need a definition in case of 3-prongs
 
-			// save MC-truth SV (from daughter1 and daughter2: they should be equal, if coming from the same tau!)
-			std::cout << "calculate SV" << std::endl;
-			product.m_genSV1 = &(selectedTau1->m_genParticle->vertex);
-			product.m_genSV2 = &(selectedTau2->m_genParticle->vertex);
+		} // if genParticle1 == tau
 
-			// Calculation of gen IP vectors
-			product.m_genIP1 = cpq.CalculateIPVector(selectedTau1->m_genParticle, product.m_genPV);
-			product.m_genIP2 = cpq.CalculateIPVector(selectedTau2->m_genParticle, product.m_genPV);
 
-			// Calculation of Phi* and Phi*CP
-			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
-			product.m_genPhiStar = cpq.GetGenPhiStar();
+		if (std::abs(genParticle2->pdgId) == DefaultValues::pdgIdTau){
+			
+			selectedTau2->CreateFinalStateProngs(selectedTau2);
+			std::vector<GenParticleDecayTree*> prongs = selectedTau2->m_finalStates;
 
-			// Calculation of Phi and PhiCP
-			double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
-			product.m_genPhi = cpq.GetGenPhi();
-	
-			// CPTransformation for semileptonic case
-			if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId == DefaultValues::pdgIdElectron || chargedPart1->pdgId == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId == 211)) || ((chargedPart2->pdgId == -DefaultValues::pdgIdElectron || chargedPart2->pdgId == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId == -211))))
-			{	
-				product.m_genPhiStarCP = cpq.PhiTransform(genPhiStarCP);
-				product.m_genPhiCP = cpq.PhiTransform(genPhiCP);
-			}
-			else
-			{
-				product.m_genPhiStarCP = genPhiStarCP;
-				product.m_genPhiCP = genPhiCP;
-			}
+			selectedTau2->DetermineDecayMode(selectedTau2);
+			int decaymode = (int)selectedTau2->m_decayMode;
 
-			//ZPlusMinus calculation
-			product.m_genZPlus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart1->p4);
-			product.m_genZMinus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart2->p4);
-			product.m_genZs = cpq.CalculateZs(product.m_genZPlus, product.m_genZMinus);
-		} // if (selection of the right channel)
+			if (decaymode == 4 or decaymode == 7){
+				for (unsigned int i=0; i<prongs.size(); ++i){
+					if (std::abs(prongs.at(i)->GetCharge()) == 1){
+						genParticle2 = prongs.at(i)->m_genParticle;
+						break;
+					}
+				} // loop over the prongs
+			} // if decaymode = 1-prong
+
+			// if (decaymode == 10) {}    // need a definition in case of 3-prongs
+
+		} // if genParticle2 == tau
+
+		product.m_genSV1 = &genParticle1->vertex;
+		product.m_genSV2 = &genParticle2->vertex;
+
+		genIP1 = cpq.CalculateIPVector(genParticle1, product.m_genPV);
+		genIP2 = cpq.CalculateIPVector(genParticle2, product.m_genPV);
+
+		product.m_genIP1 = &genIP1;
+		product.m_genIP2 = &genIP2;
+
+		// need to add the calculation of phi*CP
+
+
+	} // if chargeOrderedGenLeptons is a non-empty vector
+
 
 }

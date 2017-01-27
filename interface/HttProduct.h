@@ -204,8 +204,8 @@ public:
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 
 	// filled by GenTauCPProducer
-	TVector3 m_genIP1;
-	TVector3 m_genIP2;
+	TVector3* m_genIP1;
+	TVector3* m_genIP2;
 	double m_genZMinus  = DefaultValues::UndefinedDouble;
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
 	double m_genZs  = DefaultValues::UndefinedDouble;
