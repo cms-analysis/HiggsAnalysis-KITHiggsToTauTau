@@ -65,32 +65,35 @@ public:
 			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(hltNames.first, [hltNames, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName](event_type const& event, product_type const& product)
 			{
 				bool diTauPairFiredTrigger = false;
-				auto trigger = product.m_detailedTriggerMatchedLeptons.at(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).first));
-				for (auto hltName: hltNames.second)
+				if(product.m_detailedTriggerMatchedLeptons.size() > 0)
 				{
-					bool hltFired = false;
-					for (auto hlts: (*trigger))
+					auto trigger = product.m_detailedTriggerMatchedLeptons.at(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).first));	
+					for (auto hltName: hltNames.second)
 					{
-						if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
+						bool hltFired = false;
+						for (auto hlts: (*trigger))
 						{
-							for (auto matchedObjects: hlts.second)
+							if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
 							{
-								if (matchedObjects.second.size() > 0) hltFired = true;
+								for (auto matchedObjects: hlts.second)
+								{
+									if (matchedObjects.second.size() > 0) hltFired = true;
+								}
 							}
 						}
+						// passing kinematic cuts for trigger 
+						if (lepton1LowerPtCutsByHltName.find(hltName) != lepton1LowerPtCutsByHltName.end())
+						{
+							hltFired = hltFired &&
+									(product.m_validDiTauPairCandidates.at(0).first->p4.Pt() <= *std::max_element(lepton1LowerPtCutsByHltName.at(hltName).begin(), lepton1LowerPtCutsByHltName.at(hltName).end()));
+						}
+						if (lepton2LowerPtCutsByHltName.find(hltName) != lepton2LowerPtCutsByHltName.end())
+						{
+							hltFired = hltFired &&
+								(product.m_validDiTauPairCandidates.at(0).second->p4.Pt() <= *std::max_element(lepton2LowerPtCutsByHltName.at(hltName).begin(), lepton2LowerPtCutsByHltName.at(hltName).end()));
+						}
+						diTauPairFiredTrigger = diTauPairFiredTrigger || hltFired;
 					}
-					// passing kinematic cuts for trigger
-					if (lepton1LowerPtCutsByHltName.find(hltName) != lepton1LowerPtCutsByHltName.end())
-					{
-						hltFired = hltFired &&
-								(product.m_validDiTauPairCandidates.at(0).first->p4.Pt() <= *std::max_element(lepton1LowerPtCutsByHltName.at(hltName).begin(), lepton1LowerPtCutsByHltName.at(hltName).end()));
-					}
-					if (lepton2LowerPtCutsByHltName.find(hltName) != lepton2LowerPtCutsByHltName.end())
-					{
-						hltFired = hltFired &&
-							(product.m_validDiTauPairCandidates.at(0).second->p4.Pt() <= *std::max_element(lepton2LowerPtCutsByHltName.at(hltName).begin(), lepton2LowerPtCutsByHltName.at(hltName).end()));
-					}
-					diTauPairFiredTrigger = diTauPairFiredTrigger || hltFired;
 				}
 				return diTauPairFiredTrigger;
 			});
@@ -121,7 +124,7 @@ public:
 				validDiTauPair = validDiTauPair && ((settings.GetDiTauPairMinDeltaRCut() < 0.0) || (diTauPair.GetDeltaR() > static_cast<double>(settings.GetDiTauPairMinDeltaRCut())));
 
 				// require matchings with the same triggers
-				if (!settings.GetDiTauPairNoHLT() || !settings.GetDiTauPairHLTLast())
+				if (!settings.GetDiTauPairNoHLT() && !settings.GetDiTauPairHLTLast())
 				{
 					std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons, settings.GetDiTauPairHltPathsWithoutCommonMatchRequired());
 					validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);
@@ -143,7 +146,7 @@ public:
 									hltValidDiTauPair.at(hltPathNumber) = false;
 								}
 							}
-						
+
 							// lepton 1
 							for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton1LowerPtCutsByHltName.begin();
 								lowerPtCutByHltName != m_lepton1LowerPtCutsByHltName.end() && hltValidDiTauPair.at(hltPathNumber); ++lowerPtCutByHltName)
@@ -154,7 +157,7 @@ public:
 									hltValidDiTauPair.at(hltPathNumber) = false;
 								}
 							}
-						
+
 							// lepton 2
 							for (std::map<size_t, std::vector<float> >::const_iterator lowerPtCutByIndex = m_lepton2LowerPtCutsByIndex.begin();
 								lowerPtCutByIndex != m_lepton2LowerPtCutsByIndex.end() && hltValidDiTauPair.at(hltPathNumber); ++lowerPtCutByIndex)
@@ -165,7 +168,7 @@ public:
 									hltValidDiTauPair.at(hltPathNumber) = false;
 								}
 							}
-				
+
 							// lepton 2
 							for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCutByHltName = m_lepton2LowerPtCutsByHltName.begin();
 							lowerPtCutByHltName != m_lepton2LowerPtCutsByHltName.end() && hltValidDiTauPair.at(hltPathNumber); ++lowerPtCutByHltName)
@@ -207,7 +210,6 @@ public:
 							validDiTauPair = validDiTauPair && hltFired;
 							validDiTauPair = validDiTauPair && (diTauPair.first->p4.Pt() >= diTauPair.second->p4.Pt());
 						}
-
 					}
 				}
 				else if(!settings.GetDiTauPairHLTLast())// will hopefully become obsolete towards the end of 2016 when the trigger is included in simulation
@@ -257,10 +259,8 @@ public:
 					// require at least one of the leptons to pass a higher pt threshold. this is needed for double-lepton or cross triggers
 					validDiTauPair = validDiTauPair && (diTauPair.first->p4.Pt() > settings.GetLowerCutHardLepPt() || diTauPair.second->p4.Pt() > settings.GetLowerCutHardLepPt());
 				}
-				
 				// check possible additional criteria from subclasses
 				validDiTauPair = validDiTauPair && AdditionalCriteria(diTauPair, event, product, settings);
-			
 				if (validDiTauPair)
 				{
 					product.m_validDiTauPairCandidates.push_back(diTauPair);
@@ -271,14 +271,13 @@ public:
 				}
 			}
 		}
-		
 		// sort pairs
 		std::sort(product.m_validDiTauPairCandidates.begin(), product.m_validDiTauPairCandidates.end(),
 		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt), settings.GetDiTauPairIsTauIsoMVA()));
 		std::sort(product.m_invalidDiTauPairCandidates.begin(), product.m_invalidDiTauPairCandidates.end(),
 		          DiTauPairIsoPtComparator(&(product.m_leptonIsolationOverPt), settings.GetDiTauPairIsTauIsoMVA()));
 	}
-	
+
 
 protected:
 	// Can be overwritten for special use cases
