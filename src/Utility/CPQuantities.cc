@@ -230,7 +230,10 @@ TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv)
 	TVector3 k, p, IP;
 	k.SetXYZ(genParticle->vertex.x() - pv->x(), genParticle->vertex.y() - pv->y(), genParticle->vertex.z() - pv->z());
 	p.SetXYZ(genParticle->p4.Px(), genParticle->p4.Py(), genParticle->p4.Pz());
-	IP = k - (p.Dot(k) / p.Mag()) * p;
+	
+	if (p.Mag() != 0) IP = k - (p.Dot(k) / p.Mag()) * p;
+	else IP.SetXYZ(-999, -999, -999);
+
 	return IP;
 
 }
@@ -242,7 +245,10 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv
 	TVector3 k, p, IP;
 	k.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), recoParticle->track.ref.z() - pv->position.z());
 	p.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), recoParticle->p4.Pz());
-	IP = k - (p.Dot(k) / p.Mag()) * p;
+
+	if (p.Mag() != 0) IP = k - (p.Dot(k) / p.Mag()) * p;
+	else IP.SetXYZ(-999, -999, -999);
+
 	return IP;
 
 }
@@ -254,9 +260,13 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv
 	TVector3 pt, d, d0, dz, IP;
 	pt.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), 0);
 	d.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), 0);
-	d0 = d - (pt.Dot(d) / pt.Mag()) * pt;
+
+	if (pt.Mag() != 0) d0 = d - (pt.Dot(d) / pt.Mag()) * pt;
+	else d0.SetXYZ(-999, -999, 0);
+
 	dz.SetXYZ(0, 0, lepDz);
 	IP = d0 + dz;
+
 	return IP;
 
 }
