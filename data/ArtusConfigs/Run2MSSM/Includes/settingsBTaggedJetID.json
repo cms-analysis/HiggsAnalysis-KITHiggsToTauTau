@@ -1,6 +1,6 @@
 {
 	"BTaggedJetID_documentation" : [
-		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#b_tagging"
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2016#b_tagging"
 	],
 
 	"BTaggedJetCombinedSecondaryVertexName" : "pfCombinedInclusiveSecondaryVertexV2BJetTags",
