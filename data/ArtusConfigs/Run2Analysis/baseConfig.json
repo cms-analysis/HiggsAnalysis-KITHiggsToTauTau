@@ -24,7 +24,7 @@
 			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
 				25
 			],
-			"W.?JetsToLN" : [
+			"W.?JetsToLN|EWKW" : [
 				24
 			],
 			"SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" : [
