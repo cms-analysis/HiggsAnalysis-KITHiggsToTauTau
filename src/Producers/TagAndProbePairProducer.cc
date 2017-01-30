@@ -13,6 +13,7 @@ void TagAndProbeMuonPairProducer::Init(setting_type const& settings)
 	validMuonsInput = ToValidMuonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidMuonsInput())));
 	//muonID = ToMuonID(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetMuonID)())));
 	std::string weightName = settings.GetEventWeight();
+	MuonIDshortTerm = (settings.GetMuonID() == "medium2016");
 	bool IsData = settings.GetInputIsData();
 	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("wt", [weightName](event_type const& event, product_type const& product){
 		std::vector<float> weight;
@@ -440,7 +441,7 @@ void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type&
 			std::abs((*muon)->p4.Eta()) < 2.4 &&
 			std::abs((*muon)->dxy) < 0.045 &&
 			std::abs((*muon)->dz) < 0.2 &&
-			IsMediumMuon2016ShortTerm(*muon, event, product) &&
+			( MuonIDshortTerm ? IsMediumMuon2016ShortTerm(*muon, event, product) : IsMediumMuon2016(*muon, event, product) ) &&
 			isolationPtSum < 0.2
 		){
 			TagMembers.push_back(*muon);
@@ -472,6 +473,17 @@ bool TagAndProbeMuonPairProducer::IsMediumMuon2016ShortTerm(KMuon* muon, event_t
                                         && muon->trkKink < 20;
         bool isMedium = muon->idLoose()
                                        	&& muon->validFractionOfTrkHits > 0.49
+                                        && muon->segmentCompatibility > (goodGlob ? 0.303 : 0.451);
+        return isMedium;
+}
+bool TagAndProbeMuonPairProducer::IsMediumMuon2016(KMuon* muon, event_type const& event, product_type& product) const
+{
+        bool goodGlob = muon->isGlobalMuon()
+                                        && muon->normalizedChiSquare < 3
+                                        && muon->chiSquareLocalPos < 12
+                                        && muon->trkKink < 20;
+        bool isMedium = muon->idLoose()
+                                       	&& muon->validFractionOfTrkHits > 0.8
                                         && muon->segmentCompatibility > (goodGlob ? 0.303 : 0.451);
         return isMedium;
 }

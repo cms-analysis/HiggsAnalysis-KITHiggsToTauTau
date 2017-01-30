@@ -6,6 +6,7 @@
     "lumi",
     "evt",
     "pt_t",
+    "pt_t_25eta2p1TightL1",
     "eta_t",
     "phi_t",
     "id_t",
