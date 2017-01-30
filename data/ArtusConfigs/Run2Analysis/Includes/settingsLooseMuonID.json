@@ -6,7 +6,7 @@
 	"Year" : {
 		"nick" : {
 			"default" : 2015,
-			"(Spring16|Run2016|Embedding2016)" : 2016
+			"(Summer16|Spring16|Run2016|Embedding2016)" : 2016
 		}
 	},
 	"LooseMuonID" : {
