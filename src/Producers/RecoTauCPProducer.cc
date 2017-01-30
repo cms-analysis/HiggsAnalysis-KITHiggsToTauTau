@@ -94,56 +94,56 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	// IP vectors (3D method)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1x", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP1 != nullptr) ? (product.m_recoIP1)->x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1y", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP1 != nullptr) ? (product.m_recoIP1)->y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1z", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP1 != nullptr) ? (product.m_recoIP1)->z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).z() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2x", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP2 != nullptr) ? (product.m_recoIP2)->x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2y", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP2 != nullptr) ? (product.m_recoIP2)->y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2z", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP2 != nullptr) ? (product.m_recoIP2)->z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
 	
 	// IP vectors (using d0 and dz)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2x", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2)->x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2y", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2)->y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2z", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2)->z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).z() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2method2x", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2)->x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2).x() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2method2y", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2)->y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2).y() : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2method2z", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2)->z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2).z() : DefaultValues::UndefinedFloat);
 	});
 
-	// deltaR between IP vectors0
+	// deltaR between IP vectors
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_deltaRgenIPrecoIP1;
@@ -151,6 +151,14 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_deltaRgenIPrecoIP2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP1met2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRgenIPrecoIP1met2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP2met2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRgenIPrecoIP2met2;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRrecoIP1s", [](event_type const& event, product_type const& product)
 	{
@@ -167,7 +175,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 {
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
-std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 
 	KLepton* recoParticle1 = product.m_chargeOrderedLeptons.at(0);
 	KLepton* recoParticle2 = product.m_chargeOrderedLeptons.at(1);
@@ -201,54 +208,43 @@ std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	if (product.m_refitPV != nullptr){
 		recoIP1 = cpq.CalculateIPVector(recoParticle1, product.m_refitPV);
 		recoIP2 = cpq.CalculateIPVector(recoParticle2, product.m_refitPV);
-		
-		product.m_recoIP1 = &recoIP1;
-		product.m_recoIP2 = &recoIP2;
-
-		std::cout << "recoIP1 " << recoIP1.x() << " " << recoIP1.y() << " " << recoIP1.z() << std::endl;
-		std::cout << "recoIP2 " << recoIP2.x() << " " << recoIP2.y() << " " << recoIP2.z() << std::endl;
+		product.m_recoIP1 = recoIP1;
+		product.m_recoIP2 = recoIP2;
 
 		double dz1 = product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPV);
 		double dz2 = product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPV);
-
 		recoIP1method2 = cpq.CalculateIPVector(recoParticle1, product.m_refitPV, dz1);
 		recoIP2method2 = cpq.CalculateIPVector(recoParticle2, product.m_refitPV, dz2);
+		product.m_recoIP1method2 = recoIP1method2;
+		product.m_recoIP2method2 = recoIP2method2;
 
-		product.m_recoIP1method2 = &recoIP1method2;
-		product.m_recoIP2method2 = &recoIP2method2;
-
-		std::cout << "recoIP1method2 " << recoIP1method2.x() << " " << recoIP1method2.y() << " " << recoIP1method2.z() << std::endl;
-		std::cout << "recoIP2method2 " << recoIP2method2.x() << " " << recoIP2method2.y() << " " << recoIP2method2.z() << std::endl;
-		
-		std::cout << "transverse components" << std::endl;
-		std::cout << "recoParticle1 " << recoIP1.Perp() << " " << recoIP1method2.Perp() << std::endl;
-		std::cout << "recoParticle2 " << recoIP2.Perp() << " " << recoIP2method2.Perp() << std::endl;
-
-		double deltaRgenIPrecoIP1 = recoIP1.DeltaR(recoIP1method2);
-		double deltaRgenIPrecoIP2 = recoIP2.DeltaR(recoIP2method2);
-  
-		product.m_deltaRgenIPrecoIP1 = deltaRgenIPrecoIP1;
-		product.m_deltaRgenIPrecoIP2 = deltaRgenIPrecoIP2;
+		double deltaRrecoIP1s = recoIP1.DeltaR(recoIP1method2);
+		double deltaRrecoIP2s = recoIP2.DeltaR(recoIP2method2);
+		product.m_deltaRrecoIP1s = deltaRrecoIP1s;
+		product.m_deltaRrecoIP2s = deltaRrecoIP2s;
 
 
 		if (!m_isData){
 
-			if(product.m_genIP1 != nullptr){
-				TVector3 genIP1 = *product.m_genIP1;
-				double deltaRrecoIP1s = recoIP1.DeltaR(genIP1);
-				product.m_deltaRrecoIP1s = deltaRrecoIP1s;
+			if(&product.m_genIP1 != nullptr){
+				double deltaRgenIPrecoIP1 = recoIP1.DeltaR(product.m_genIP1);
+				product.m_deltaRgenIPrecoIP1 = deltaRgenIPrecoIP1;
+
+				double deltaRgenIPrecoIP1met2 = recoIP1method2.DeltaR(product.m_genIP1);
+				product.m_deltaRgenIPrecoIP1met2 = deltaRgenIPrecoIP1met2;
 			} // if genIP1 exists
 
-			if(product.m_genIP2 != nullptr){
-				TVector3 genIP2 = *product.m_genIP2;
-				double deltaRrecoIP2s = recoIP2.DeltaR(genIP2);
-				product.m_deltaRrecoIP2s = deltaRrecoIP2s;
+			if(&product.m_genIP2 != nullptr){
+				double deltaRgenIPrecoIP2 = recoIP2.DeltaR(product.m_genIP2);
+				product.m_deltaRgenIPrecoIP2 = deltaRgenIPrecoIP2;
+
+				double deltaRgenIPrecoIP2met2 = recoIP2method2.DeltaR(product.m_genIP2);
+				product.m_deltaRgenIPrecoIP2met2 = deltaRgenIPrecoIP2met2;
 			} // if genIP2 exists
 
 		} // if MC sample
 
 	} // if the refitPV exists
 
-std::cout << "=====================================================================" << std::endl;
 
 }

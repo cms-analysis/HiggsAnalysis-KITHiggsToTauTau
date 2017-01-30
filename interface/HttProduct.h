@@ -217,18 +217,20 @@ public:
 	// filled by GenMatchedTauCPProducer
 	RMPoint* m_genSV1 = 0; // vertex of production of tau daughter 1
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
-	TVector3* m_genIP1;
-	TVector3* m_genIP2;
+	TVector3 m_genIP1;
+	TVector3 m_genIP2;
 	
 
 	// filled by RecoTauCPProducer
-	TVector3* m_recoIP1;
-	TVector3* m_recoIP2;
-	TVector3* m_recoIP1method2;
-	TVector3* m_recoIP2method2;
+	TVector3 m_recoIP1;
+	TVector3 m_recoIP2;
+	TVector3 m_recoIP1method2;
+	TVector3 m_recoIP2method2;
 
 	double m_deltaRgenIPrecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaRgenIPrecoIP2  = DefaultValues::UndefinedDouble;
+	double m_deltaRgenIPrecoIP1met2  = DefaultValues::UndefinedDouble;
+	double m_deltaRgenIPrecoIP2met2  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
 
