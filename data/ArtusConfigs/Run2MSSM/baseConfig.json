@@ -17,16 +17,18 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL" : [
+			"DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)" : [
 				23
 			],
-			"^(GluGlu|GluGluTo|VBF)HToTauTau" : [
+			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
 				25
 			],
-			"W.?JetsToLN" : [
+			"W.?JetsToLN|EWKW" : [
 				24
 			],
 			"SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" : [
+				25,
+				35,
 				36
 			]
 		}
@@ -45,7 +47,7 @@
 	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
-	"#EventWhitelist" : [
+	"EventWhitelist" : [22,144,205,216,256,275
 	],
 	"OutputPath" : "output.root",
 	"Processors" : {
