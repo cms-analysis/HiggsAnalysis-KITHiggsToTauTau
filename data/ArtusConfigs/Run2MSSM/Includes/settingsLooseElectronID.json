@@ -7,10 +7,10 @@
 
 	"LooseElectronID" : "user",
 	"LooseElectronIDType" : "mvabased2015andlater",
-	"LooseElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
-	"LooseElectronMvaIDCutEB1" : 0.913286,
-	"LooseElectronMvaIDCutEB2" : 0.805013,
-	"LooseElectronMvaIDCutEE" : 0.358969,
+	"LooseElectronIDName" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+	"LooseElectronMvaIDCutEB1" : 0.837,
+	"LooseElectronMvaIDCutEB2" : 0.715,
+	"LooseElectronMvaIDCutEE" : 0.357,
 
 	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",
