@@ -49,11 +49,35 @@
 	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
 	"EventWhitelist" : [22,144,205,216,256,275
 	],
+	"MetFilter" : {
+		"nick" : {
+			"default" : [
+				"Flag_HBHENoiseFilter",
+				"Flag_HBHENoiseIsoFilter",
+				"Flag_EcalDeadCellTriggerPrimitiveFilter",
+				"Flag_goodVertices",
+				"Flag_eeBadScFilter",
+				"Flag_globalTightHalo2016Filter",
+				"Flag_BadPFMuonFilter",
+				"Flag_BadChargedCandidateFilter"
+			],
+			"Run201" : [
+				"Flag_HBHENoiseFilter",
+				"Flag_HBHENoiseIsoFilter",
+				"Flag_EcalDeadCellTriggerPrimitiveFilter",
+				"Flag_goodVertices",
+				"Flag_globalTightHalo2016Filter",
+				"Flag_BadPFMuonFilter",
+				"Flag_BadChargedCandidateFilter"
+			]
+		}
+	},
 	"OutputPath" : "output.root",
 	"Processors" : {
 		"nick" : {
 			"default" : [
 				"#filter:RunLumiEventFilter",
+				"#filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
@@ -65,6 +89,7 @@
 			],
 			"W.?JetsToLNu" : [
 				"#filter:RunLumiEventFilter",
+				"#filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
@@ -78,6 +103,7 @@
 			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
+				"#filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
@@ -92,6 +118,7 @@
 			],
 			"Run201" : [
 				"#filter:RunLumiEventFilter",
+				"#filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
 				"#producer:TaggedJetCorrectionsProducer"
@@ -99,6 +126,7 @@
 			"Embedding201" :
 			[
 				"#filter:RunLumiEventFilter",
+				"#filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
