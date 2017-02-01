@@ -30,6 +30,7 @@ class CutStringsDict:
 			cuts["iso_2"] = "(iso_2 < 0.2)" if "2016" in cut_type else "(iso_2 < 0.15)"
 			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "mt":
+			cuts["trg"] = "(trg_singlemuon == 1)"
 			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016" else "(mt_1<30.0)" if cut_type == "mssm" else "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
@@ -39,6 +40,7 @@ class CutStringsDict:
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "et":
+			cuts["trg"] = "(trg_singleelectron == 1)"
 			cuts["mt"] = "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_2 > 0.5)"

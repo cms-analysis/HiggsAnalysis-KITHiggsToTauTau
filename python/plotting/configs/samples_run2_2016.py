@@ -18,7 +18,7 @@ class Samples(samples.SamplesBase):
 	
 	# constants for all plots
 	data_format = "MINIAOD"
-	mc_campaign = "RunIISpring16MiniAODv.*"
+	mc_campaign = "RunIISummer16MiniAODv.*"
 
 	@staticmethod 
 	def root_file_folder(channel):
@@ -120,6 +120,7 @@ class Samples(samples.SamplesBase):
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		return "("+highmass+mediummass+lowmass+")"+normalization
+		#return "1.0"
 
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays
 	def zll_stitchingweight(self):
@@ -127,13 +128,16 @@ class Samples(samples.SamplesBase):
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		return "("+mediummass+lowmass+")"+normalization
+		#return "1.0"
 
 	def wj_stitchingweight(self):
 		return "(((npartons == 0 || npartons >= 5)*7.093902783e-4) + ((npartons == 1)*2.002737459e-4) + ((npartons == 2)*1.087610368e-4) + ((npartons == 3)*5.4213902e-5) + ((npartons == 4)*1.92354802e-5))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+		#return "1.0"
+
 	
 	def hadronic_scale_factor(self, channel):
 		if channel in ["mt", "et"]:
-			return "(0.9)"
+			return "(0.981)"
 		elif channel in ["tt"]:
 			return "(0.81)"
 		else:
@@ -172,7 +176,7 @@ class Samples(samples.SamplesBase):
 			if channel == "et":
 				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.886"])
 			elif channel == "mt":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "1.08"])
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.4635"])
 			elif channel == "tt":
 				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.38"])
 			elif channel == "em":
@@ -252,8 +256,8 @@ class Samples(samples.SamplesBase):
 
 	def files_ztt(self, channel):
 		if self.embedding:
-			return self.artus_file_names({"process" : "Embedding2016(B|C|D)" , "campaign" : "(Mu|El|Tau)TauFinalState|ElMuFinalState" }, 12)
-		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DYJetsToLLM150|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 7)
+			return self.artus_file_names({"process" : "Embedding2016(B|C|D|E|F|G)" , "campaign" : "MuTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv1" }, 6)
+		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 6)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -654,11 +658,22 @@ class Samples(samples.SamplesBase):
 	def files_vv(self, config):
 		artus_files = self.artus_file_names({ "process" : 
 		                                      "(WWTo1L1Nu2Q|"
-		                                    + "WZJets|WZTo1L1Nu2Q|WZTo1L3Nu|WZTo2L2Q|" 
-		                                    + "ZZTo2L2Q|ZZTo4L|VVTo2L2Nu)",
+		                                    + "WZTo1L1Nu2Q|"
+		                                    + "WZTo1L3Nu|"
+		                                    + "WZTo2L2Q|" 
+		                                    + "VVTo2L2Nu|"
+		                                    + "ZZTo2L2Q"
+		                                    +  ")",
+		                      "extension" : "",
 		                      "data" : False, "campaign" : self.mc_campaign + "2", "generator" : "amcatnlo-pythia8"}, 6)
 
-		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4fleptonDecays|STt-channeltop4fleptonDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
+		artus_files = artus_files + " " + self.artus_file_names({ "process" : "ZZTo4L", "extension" : "ext1",
+		                      "data" : False, "campaign" : self.mc_campaign + "2", "generator" : "amcatnlo-pythia8"}, 1)
+
+		artus_files = artus_files + " " + self.artus_file_names({ "process" : "WZJToLLLNu",
+		                      "data" : False, "campaign" : self.mc_campaign + "2", "generator" : "pythia8"}, 1)
+
+		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4finclusiveDecays|STt-channeltop4finclusiveDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
 		                      "data" : False, "campaign" : self.mc_campaign + "2" }, 4)
 		return artus_files
 
@@ -756,20 +771,25 @@ class Samples(samples.SamplesBase):
 		query = { "data" : False,
 						"campaign" : self.mc_campaign + "2",
 						"generator" : "madgraph-pythia8",
+						"extension" : "",
 						"process" : "(W1JetsToLNu|W2JetsToLNu|W3JetsToLNu|W4JetsToLNu)"}
+#						"process" : "(W1JetsToLNu|W2JetsToLNu|W4JetsToLNu)"}
 		artus_files = self.artus_file_names(query, 4)
 		# inclusive W+jets sample from MiniAODv1
 		query["process"] = "WJetsToLNu"
 		query["generator"] = "madgraph"
-		#query["ext"] = "ext1"
+		#query["extension"] = "ext1"
 		#query["campaign"] = self.mc_campaign + "2reHLT"
 		artus_files = artus_files + " " + self.artus_file_names(query, 1)
+#		artus_files = self.artus_file_names(query, 1)
+
 		return artus_files
 
 	def files_ewkw(self, channel):
 		ewkw_query = { "data" : False,
 						"campaign" : self.mc_campaign + "2",
 						"generator" : "madgraph-pythia8",
+						"extension" : "",
 						"process" : "EWKW(Plus|Minus)2Jets_WToLNuM50"}
 		artus_files = self.artus_file_names(ewkw_query, 2)
 		return artus_files
@@ -778,6 +798,7 @@ class Samples(samples.SamplesBase):
 		ewkz_query = { "data" : False,
 						"campaign" : self.mc_campaign + "2",
 						"generator" : "madgraph-pythia8",
+						"extension" : "",
 						"process" : "EWKZ2Jets.*"}
 		artus_files = self.artus_file_names(ewkz_query, 2)
 		return artus_files
