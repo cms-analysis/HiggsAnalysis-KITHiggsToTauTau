@@ -40,6 +40,7 @@
 			]
 		}
 	},
+	"ChooseMvaMet" : false,
 	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,
 	"DeltaRMatchingRecoMuonGenParticle" : 0.2,
 	"DeltaRMatchingRecoTauGenParticle" : 0.2,
@@ -84,8 +85,7 @@
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
-				"producer:GeneratorWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:GeneratorWeightProducer"
 			],
 			"W.?JetsToLNu" : [
 				"#filter:RunLumiEventFilter",
@@ -98,8 +98,7 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GeneratorWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:GeneratorWeightProducer"
 			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
@@ -113,15 +112,13 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GeneratorWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:GeneratorWeightProducer"
 			],
 			"Run201" : [
 				"#filter:RunLumiEventFilter",
 				"#filter:MetFilter",
 				"filter:JsonFilter",
-				"producer:NicknameProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:NicknameProducer"
 			],
 			"Embedding201" :
 			[
@@ -136,8 +133,7 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GeneratorWeightProducer",
-				"#producer:TaggedJetCorrectionsProducer"
+				"producer:GeneratorWeightProducer"
 			]
 		}
 	},
@@ -150,26 +146,10 @@
 			"Embedding" : "not needed"
 		}
 	},
-	"BTagScaleFactorFile" : {
-		"nick" : {
-			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv"
-		}
-	},
-	"BTagEfficiencyFile" : {
-	    "nick" : {
-	        "default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root"
-        }
-    },
-	"MetRecoilCorrectorFile" : {
-		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root"
-		}
-	},
-	"MvaMetRecoilCorrectorFile" : {
-		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
-		}
-	},
+	"MetRecoilCorrectorFile" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/PFMET_MG_2016BCD_RooT_5.2.root",
+	"MvaMetRecoilCorrectorFile" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_MG_2016BCD_RooT_5.2.root",
+	"BTagScaleFactorFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv",
+	"BTagEfficiencyFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_ichep2016.root",
 	"JsonFiles" : {
 		"nick" : {
 			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],
