@@ -4,21 +4,14 @@
 	],
 
 	"BTaggedJetCombinedSecondaryVertexName" : "pfCombinedInclusiveSecondaryVertexV2BJetTags",
-	"BTaggedJetCombinedSecondaryVertexMediumWP" : 0.8,
 	"BTaggerWorkingPoints" : [
-		"tight:0.935",
-		"medium:0.800",
-		"loose:0.460"
+		"tight:0.9535",
+		"medium:0.8484",
+		"loose:0.5426"
 	],
 	"BTaggedJetAbsEtaCut" : 2.4,
-	"ApplyBTagSF" : false,
+	"ApplyBTagSF" : true,
 	"BTagSFMethod" : "PromotionDemotion",
 	"BTagShift" : 0,
-	"BMistagShift" : 0,
-	"BTagScaleFactorFile" : {
-		"nick" : {
-			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",
-			"(Spring16|Summer16)" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_ichep.csv"
-		}
-    }
+	"BMistagShift" : 0
 }
