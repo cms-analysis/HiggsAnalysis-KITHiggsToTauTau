@@ -297,8 +297,8 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 	
 	// (tighter) cut on impact parameters of track
 	validElectron = validElectron
-	                && ((settings.*GetElectronTrackDxyCut)() <= 0.0 || std::abs(electron->track.getDxy(&event.m_vertexSummary->pv)) < (settings.*GetElectronTrackDxyCut)())
-	                && ((settings.*GetElectronTrackDzCut)() <= 0.0 || std::abs(electron->track.getDz(&event.m_vertexSummary->pv)) < (settings.*GetElectronTrackDzCut)());
+	                && ((settings.*GetElectronTrackDxyCut)() <= 0.0 || std::abs(electron->dxy) < (settings.*GetElectronTrackDxyCut)())
+	                && ((settings.*GetElectronTrackDzCut)() <= 0.0 || std::abs(electron->dz) < (settings.*GetElectronTrackDzCut)());
 
 	return validElectron;
 }
