@@ -12,8 +12,8 @@
 	"MuonID" : {
 		"nick" : {
 			"default" : "medium",
-			"Run2016(B|C|D|E|F)|Spring16|Summer16" : "medium2016",
-			"Run2016(G|H)" : "mediumLate2016"
+			"Run2016(B|C|D|E|F)|Spring16" : "medium2016",
+			"Run2016(G|H)|Summer16" : "mediumLate2016"
 		}
 	},
 	
