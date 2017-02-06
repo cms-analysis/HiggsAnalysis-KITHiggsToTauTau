@@ -36,14 +36,14 @@
 				]
 			}
 		},
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"RooWorkspace" : "/nfs/dust/cms/user/swozniew/CMSSW_8_0_12/src/CorrectionsWorkspace/htt_scalefactors_v16_2.root",
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"0:isoweight",
 			"0:idweight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:m_trgOR_binned_data",
+			"0:m_trgOR4_binned_ratio",
 			"0:m_iso_binned_ratio",
 			"0:m_id_ratio"
 		],
