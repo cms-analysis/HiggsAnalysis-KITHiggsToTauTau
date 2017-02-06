@@ -268,6 +268,10 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
 
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaInputQuantities, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaMethods, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaWeights, {});
+
 	//MVATestMethodsProducer settings
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
