@@ -819,6 +819,8 @@ private:
 	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const
 	{
 		bool validElectron = true;
+		validElectron = validElectron && (electron->track.nInnerHits <= 1);
+		validElectron = validElectron && (! (electron->electronType & (1 << KElectronType::hasConversionMatch)));
 	
 		// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
 		// pT always greater than 10 GeV
