@@ -1,7 +1,7 @@
 # This file defines samples used for the Fake Factor datacards
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
-default_lumi = 2.301*1000.0
+default_lumi = 2.258*1000.0
 
 class Samples(samples.Samples):
 
