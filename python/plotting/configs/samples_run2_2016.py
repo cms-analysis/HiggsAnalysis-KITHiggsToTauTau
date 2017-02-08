@@ -137,9 +137,9 @@ class Samples(samples.SamplesBase):
 	
 	def hadronic_scale_factor(self, channel):
 		if channel in ["mt", "et"]:
-			return "(1.0)"
+			return "(0.97)"
 		elif channel in ["tt"]:
-			return "(0.81)"
+			return "(0.95)"
 		else:
 			return "(1.0)"
 
@@ -256,7 +256,7 @@ class Samples(samples.SamplesBase):
 
 	def files_ztt(self, channel):
 		if self.embedding:
-			return self.artus_file_names({"process" : "Embedding2016(B|C|D|E|F|G)" , "campaign" : "MuTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv1" }, 6)
+			return self.artus_file_names({"process" : "Embedding2016(B|C|D|E|F|G)" , "campaign" : "(Mu|El)TauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv1" }, 12)
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign + "2", "generator" : "madgraph\-pythia8"}, 6)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
