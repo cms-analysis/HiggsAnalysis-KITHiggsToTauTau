@@ -137,7 +137,7 @@ class Samples(samples.SamplesBase):
 	
 	def hadronic_scale_factor(self, channel):
 		if channel in ["mt", "et"]:
-			return "(0.981)"
+			return "(1.0)"
 		elif channel in ["tt"]:
 			return "(0.81)"
 		else:
