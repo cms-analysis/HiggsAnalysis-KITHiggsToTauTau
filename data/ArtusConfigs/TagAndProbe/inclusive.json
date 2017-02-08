@@ -67,6 +67,9 @@
 		"Processors" : [
 				"producer:HltProducer",
 				"producer:TagAndProbeMuonPairProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenBosonFromGenParticlesProducer",
 				"filter:ValidMuonsFilter",
 				"producer:MuonTriggerMatchingProducer",
 				"producer:EventWeightProducer"
