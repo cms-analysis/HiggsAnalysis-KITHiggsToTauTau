@@ -12,7 +12,7 @@
 	"MuonID" : {
 		"nick" : {
 			"default" : "medium",
-			"Run2016(B|C|D|E|F)|Spring16" : "medium2016"
+			"Run2016(B|C|D|E|F)|Spring16" : "mediumHIPsafe2016"
 		}
 	},
 	

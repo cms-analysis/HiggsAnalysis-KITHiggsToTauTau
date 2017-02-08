@@ -61,6 +61,8 @@ public:
 		FloatQuantities["phi_p"]=0.0;
 		BoolQuantities["id_p"]=false;
 		FloatQuantities["iso_p"]=0.0;
+		BoolQuantities["gen_p"]=true;
+		BoolQuantities["genZ_p"]=true;
 		FloatQuantities["m_ll"]=0.0;
 		BoolQuantities["trg_t_IsoMu22"]=false;
 		BoolQuantities["trg_t_IsoMu22_eta2p1"]=false;
@@ -150,6 +152,14 @@ public:
 					double photonIsolationPtSum = TagAndProbePair->second->sumPhotonEtR04;
 					double deltaBetaIsolationPtSum = TagAndProbePair->second->sumPUPtR04;
 					FloatQuantities["iso_p"]=(chargedIsolationPtSum + std::max(0.0,neutralIsolationPtSum + photonIsolationPtSum - 0.5 * deltaBetaIsolationPtSum))/TagAndProbePair->second->p4.Pt();
+				}else if(*quantity=="gen_p"){
+					BoolQuantities["gen_p"]=(product.m_genParticleMatchedLeptons.find(static_cast <KLepton*>(TagAndProbePair->second)) != product.m_genParticleMatchedLeptons.end());
+				}else if(*quantity=="genZ_p"){
+					if (product.m_genParticleMatchedLeptons.find(static_cast <KLepton*>(TagAndProbePair->second)) != product.m_genParticleMatchedLeptons.end()){
+						BoolQuantities["genZ_p"]=(std::find(product.m_genLeptonsFromBosonDecay.begin(), product.m_genLeptonsFromBosonDecay.end(), product.m_genParticleMatchedLeptons.at(TagAndProbePair->second)) != product.m_genLeptonsFromBosonDecay.end());
+					}else{
+						BoolQuantities["genZ_p"]=false;
+					}
 				}else if(*quantity=="m_ll"){
 					FloatQuantities["m_ll"]=(TagAndProbePair->first->p4 + TagAndProbePair->second->p4).M();
 				}else if(*quantity=="trg_t_IsoMu22"){
@@ -537,6 +547,8 @@ public:
 		FloatQuantities["phi_p"]=0.0;
 		BoolQuantities["id_p"]=false;
 		FloatQuantities["iso_p"]=0.0;
+		BoolQuantities["gen_p"]=true;
+		BoolQuantities["genZ_p"]=true;
 		FloatQuantities["m_ll"]=0.0;
 		BoolQuantities["trg_t_Ele25eta2p1WPTight"]=false;
 		BoolQuantities["trg_t_Ele27eta2p1WPTight"]=false;
@@ -628,6 +640,14 @@ public:
 					BoolQuantities["id_p"]=IsMVABased(TagAndProbePair->second, event, electronIDName) && std::abs(TagAndProbePair->second->track.getDxy(&event.m_vertexSummary->pv)) < 0.045 && std::abs(TagAndProbePair->second->track.getDz(&event.m_vertexSummary->pv)) < 0.2;
 				}else if(*quantity=="iso_p"){
 					FloatQuantities["iso_p"]=TagAndProbePair->second->pfIso(settings.GetElectronDeltaBetaCorrectionFactor())/TagAndProbePair->second->p4.Pt();
+				}else if(*quantity=="gen_p"){
+					BoolQuantities["gen_p"]=(product.m_genParticleMatchedLeptons.find(static_cast <KLepton*>(TagAndProbePair->second)) != product.m_genParticleMatchedLeptons.end());
+				}else if(*quantity=="genZ_p"){
+					if (product.m_genParticleMatchedLeptons.find(static_cast <KLepton*>(TagAndProbePair->second)) != product.m_genParticleMatchedLeptons.end()){
+						BoolQuantities["genZ_p"]=(std::find(product.m_genLeptonsFromBosonDecay.begin(), product.m_genLeptonsFromBosonDecay.end(), product.m_genParticleMatchedLeptons.at(TagAndProbePair->second)) != product.m_genLeptonsFromBosonDecay.end());
+					}else{
+						BoolQuantities["genZ_p"]=false;
+					}
 				}else if(*quantity=="m_ll"){
 					FloatQuantities["m_ll"]=(TagAndProbePair->first->p4 + TagAndProbePair->second->p4).M();
 				}else if(*quantity=="trg_t_Ele25eta2p1WPTight"){
@@ -793,7 +813,6 @@ public:
 					}
 				}
 			}
-			
 			// fill tree
 			this->m_tree->Fill();
 		}
@@ -819,6 +838,8 @@ private:
 	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const
 	{
 		bool validElectron = true;
+		validElectron = validElectron && (electron->track.nInnerHits <= 1);
+		validElectron = validElectron && (! (electron->electronType & (1 << KElectronType::hasConversionMatch)));
 	
 		// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
 		// pT always greater than 10 GeV

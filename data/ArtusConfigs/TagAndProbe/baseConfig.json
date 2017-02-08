@@ -42,8 +42,8 @@
 	"DeltaRMatchingRecoMuonGenParticle" : 0.2,
 	"DeltaRMatchingRecoTauGenParticle" : 0.2,
 	"DeltaRMatchingRecoTauGenTau" : 0.2,
-	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
-	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
+	"RecoElectronMatchingGenParticlePdgIds" : [ 11 ],
+	"RecoMuonMatchingGenParticlePdgIds" : [ 13 ],
 	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
 	"#EventWhitelist" : [
 	],

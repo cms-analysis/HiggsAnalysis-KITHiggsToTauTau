@@ -5,6 +5,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include <assert.h>
 #include <boost/regex.hpp>
+#include "Kappa/DataFormats/interface/Kappa.h"
 
 
 void TagAndProbeMuonPairProducer::Init(setting_type const& settings)
@@ -442,7 +443,7 @@ void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type&
 			std::abs((*muon)->dxy) < 0.045 &&
 			std::abs((*muon)->dz) < 0.2 &&
 			( MuonIDshortTerm ? IsMediumMuon2016ShortTerm(*muon, event, product) : IsMediumMuon2016(*muon, event, product) ) &&
-			isolationPtSum < 0.2
+			isolationPtSum < 0.15
 		){
 			TagMembers.push_back(*muon);
 			//std::cout << "IsTag! ";
@@ -456,7 +457,7 @@ void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type&
 		for (std::vector<KMuon*>::iterator ProbeMember = ProbeMembers.begin(); ProbeMember != ProbeMembers.end(); ++ProbeMember)
 		{
 			if (
-				ROOT::Math::VectorUtil::DeltaR((*TagMember)->p4, (*ProbeMember)->p4) > 0.5
+				((*TagMember)->charge()+(*ProbeMember)->charge() == 0) && (ROOT::Math::VectorUtil::DeltaR((*TagMember)->p4, (*ProbeMember)->p4) > 0.5)
 			){
 				product.m_TagAndProbeMuonPairs.push_back(std::make_pair(*TagMember, *ProbeMember));
 			}
@@ -557,7 +558,7 @@ void TagAndProbeElectronPairProducer::Produce(event_type const& event, product_t
 		for (std::vector<KElectron*>::iterator ProbeMember = ProbeMembers.begin(); ProbeMember != ProbeMembers.end(); ++ProbeMember)
 		{
 			if (
-				ROOT::Math::VectorUtil::DeltaR((*TagMember)->p4, (*ProbeMember)->p4) > 0.5
+				((*TagMember)->charge()+(*ProbeMember)->charge() == 0) && (ROOT::Math::VectorUtil::DeltaR((*TagMember)->p4, (*ProbeMember)->p4) > 0.5)
 			){
 				product.m_TagAndProbeElectronPairs.push_back(std::make_pair(*TagMember, *ProbeMember));
 			}
@@ -568,6 +569,9 @@ void TagAndProbeElectronPairProducer::Produce(event_type const& event, product_t
 bool TagAndProbeElectronPairProducer::IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const
 {
 	bool validElectron = true;
+	validElectron = validElectron && (electron->track.nInnerHits <= 1);
+	validElectron = validElectron && (! (electron->electronType & (1 << KElectronType::hasConversionMatch)));
+
 
 	// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
 	// pT always greater than 10 GeV
