@@ -58,7 +58,6 @@
 				"Flag_HBHENoiseIsoFilter",
 				"Flag_EcalDeadCellTriggerPrimitiveFilter",
 				"Flag_goodVertices",
-				"Flag_eeBadScFilter",
 				"Flag_globalTightHalo2016Filter",
 				"Flag_BadPFMuonFilter",
 				"Flag_BadChargedCandidateFilter"
@@ -69,6 +68,7 @@
 				"Flag_EcalDeadCellTriggerPrimitiveFilter",
 				"Flag_goodVertices",
 				"Flag_globalTightHalo2016Filter",
+				"Flag_eeBadScFilter",
 				"Flag_BadPFMuonFilter",
 				"Flag_BadChargedCandidateFilter"
 			]
