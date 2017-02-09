@@ -153,10 +153,10 @@ public:
 					double deltaBetaIsolationPtSum = TagAndProbePair->second->sumPUPtR04;
 					FloatQuantities["iso_p"]=(chargedIsolationPtSum + std::max(0.0,neutralIsolationPtSum + photonIsolationPtSum - 0.5 * deltaBetaIsolationPtSum))/TagAndProbePair->second->p4.Pt();
 				}else if(*quantity=="gen_p"){
-					BoolQuantities["gen_p"]=(product.m_genParticleMatchedLeptons.find(static_cast <KLepton*>(TagAndProbePair->second)) != product.m_genParticleMatchedLeptons.end());
+					BoolQuantities["gen_p"]=(product.m_genParticleMatchedMuons.find(TagAndProbePair->second) != product.m_genParticleMatchedMuons.end());
 				}else if(*quantity=="genZ_p"){
-					if (product.m_genParticleMatchedLeptons.find(static_cast <KLepton*>(TagAndProbePair->second)) != product.m_genParticleMatchedLeptons.end()){
-						BoolQuantities["genZ_p"]=(std::find(product.m_genLeptonsFromBosonDecay.begin(), product.m_genLeptonsFromBosonDecay.end(), product.m_genParticleMatchedLeptons.at(TagAndProbePair->second)) != product.m_genLeptonsFromBosonDecay.end());
+					if (product.m_genParticleMatchedMuons.find(TagAndProbePair->second) != product.m_genParticleMatchedMuons.end()){
+						BoolQuantities["genZ_p"]=(std::find(product.m_genLeptonsFromBosonDecay.begin(), product.m_genLeptonsFromBosonDecay.end(), product.m_genParticleMatchedMuons.at(TagAndProbePair->second)) != product.m_genLeptonsFromBosonDecay.end());
 					}else{
 						BoolQuantities["genZ_p"]=false;
 					}
@@ -612,9 +612,6 @@ public:
 								for (auto L1object: hlts.second["hltEle25erWPTightGsfTrackIsoFilter"])
 								{
 									if (L1object->p4.Pt() > pt_L1object) pt_L1object = L1object->p4.Pt();
-									std::cout << L1object->p4 << std::endl;
-									std::cout << L1object->p4.pt() << std::endl;
-									std::cout << L1object << std::endl;
 								}
 							}
 						}
@@ -641,10 +638,10 @@ public:
 				}else if(*quantity=="iso_p"){
 					FloatQuantities["iso_p"]=TagAndProbePair->second->pfIso(settings.GetElectronDeltaBetaCorrectionFactor())/TagAndProbePair->second->p4.Pt();
 				}else if(*quantity=="gen_p"){
-					BoolQuantities["gen_p"]=(product.m_genParticleMatchedLeptons.find(static_cast <KLepton*>(TagAndProbePair->second)) != product.m_genParticleMatchedLeptons.end());
+					BoolQuantities["gen_p"]=(product.m_genParticleMatchedElectrons.find(TagAndProbePair->second) != product.m_genParticleMatchedElectrons.end());
 				}else if(*quantity=="genZ_p"){
-					if (product.m_genParticleMatchedLeptons.find(static_cast <KLepton*>(TagAndProbePair->second)) != product.m_genParticleMatchedLeptons.end()){
-						BoolQuantities["genZ_p"]=(std::find(product.m_genLeptonsFromBosonDecay.begin(), product.m_genLeptonsFromBosonDecay.end(), product.m_genParticleMatchedLeptons.at(TagAndProbePair->second)) != product.m_genLeptonsFromBosonDecay.end());
+					if (product.m_genParticleMatchedElectrons.find(TagAndProbePair->second) != product.m_genParticleMatchedElectrons.end()){
+						BoolQuantities["genZ_p"]=(std::find(product.m_genLeptonsFromBosonDecay.begin(), product.m_genLeptonsFromBosonDecay.end(), product.m_genParticleMatchedElectrons.at(TagAndProbePair->second)) != product.m_genLeptonsFromBosonDecay.end());
 					}else{
 						BoolQuantities["genZ_p"]=false;
 					}
