@@ -116,7 +116,8 @@
 		},
 		"TriggerEfficiencyMc" : {
 			"nick" : {
-				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root" ],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele25_eta2p1_WPTight_eff.root" ],
+				"Spring16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root" ],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"]
 			}
 		},
