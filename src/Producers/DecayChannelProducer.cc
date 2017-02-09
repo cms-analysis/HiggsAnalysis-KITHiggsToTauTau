@@ -769,7 +769,7 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
 	{
 		product.m_ptOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_ptOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_ptOrderedGenLeptons.back()));
 	}
@@ -779,7 +779,7 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
 		product.m_flavourOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_flavourOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_flavourOrderedGenLeptons.back()));
 	}
@@ -789,7 +789,7 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	     lepton != product.m_chargeOrderedLeptons.end(); ++lepton)
 	{
 		product.m_chargeOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_chargeOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_chargeOrderedGenLeptons.back()));
 	}
