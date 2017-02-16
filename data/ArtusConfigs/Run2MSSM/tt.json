@@ -67,7 +67,7 @@
 			"nick" : {
 				"default" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg",
-					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:fgg"
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"
 				]
 			}
 		},
