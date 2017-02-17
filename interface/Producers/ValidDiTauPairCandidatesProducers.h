@@ -58,41 +58,87 @@ public:
 		{
 			return static_cast<int>(product.m_validDiTauPairCandidates.size()+product.m_invalidDiTauPairCandidates.size());
 		});
+		std::vector<std::string> hltPathsWithoutCommonMatch = settings.GetDiTauPairHltPathsWithoutCommonMatchRequired();
 		for(auto hltNames: m_hltFiredBranchNames)
 		{
 			std::map<std::string, std::vector<float>> lepton1LowerPtCutsByHltName = m_lepton1LowerPtCutsByHltName;
 			std::map<std::string, std::vector<float>> lepton2LowerPtCutsByHltName = m_lepton2LowerPtCutsByHltName;
-			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(hltNames.first, [hltNames, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName](event_type const& event, product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(hltNames.first, [hltNames, hltPathsWithoutCommonMatch, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName](event_type const& event, product_type const& product)
 			{
 				bool diTauPairFiredTrigger = false;
 				if(product.m_detailedTriggerMatchedLeptons.size() > 0)
 				{
-					auto trigger = product.m_detailedTriggerMatchedLeptons.at(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).first));	
 					for (auto hltName: hltNames.second)
 					{
-						bool hltFired = false;
-						for (auto hlts: (*trigger))
+						if(std::find(hltPathsWithoutCommonMatch.begin(), hltPathsWithoutCommonMatch.end(), hltName) != hltPathsWithoutCommonMatch.end())
 						{
-							if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
+							// we do require a common match, check both.
+							auto trigger1 = product.m_detailedTriggerMatchedLeptons.at(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).first));	
+							auto trigger2 = product.m_detailedTriggerMatchedLeptons.at(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).second));	
+							bool hltFired1 = false;
+							bool hltFired2 = false;
+							for (auto hlts: (*trigger1))
 							{
-								for (auto matchedObjects: hlts.second)
+								if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
 								{
-									if (matchedObjects.second.size() > 0) hltFired = true;
+									for (auto matchedObjects: hlts.second)
+									{
+										if (matchedObjects.second.size() > 0) hltFired1 = true;
+									}
 								}
 							}
+							for (auto hlts: (*trigger2))
+							{
+								if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
+								{
+									for (auto matchedObjects: hlts.second)
+									{
+										if (matchedObjects.second.size() > 0) hltFired2 = true;
+									}
+								}
+							}
+							bool hltFired = hltFired1 && hltFired2;
+							// passing kinematic cuts for trigger 
+							if (lepton1LowerPtCutsByHltName.find(hltName) != lepton1LowerPtCutsByHltName.end())
+							{
+								hltFired = hltFired &&
+										(product.m_validDiTauPairCandidates.at(0).first->p4.Pt() <= *std::max_element(lepton1LowerPtCutsByHltName.at(hltName).begin(), lepton1LowerPtCutsByHltName.at(hltName).end()));
+							}
+							if (lepton2LowerPtCutsByHltName.find(hltName) != lepton2LowerPtCutsByHltName.end())
+							{
+								hltFired = hltFired &&
+									(product.m_validDiTauPairCandidates.at(0).second->p4.Pt() <= *std::max_element(lepton2LowerPtCutsByHltName.at(hltName).begin(), lepton2LowerPtCutsByHltName.at(hltName).end()));
+							}
+							diTauPairFiredTrigger = diTauPairFiredTrigger || hltFired;
 						}
-						// passing kinematic cuts for trigger 
-						if (lepton1LowerPtCutsByHltName.find(hltName) != lepton1LowerPtCutsByHltName.end())
+						else
 						{
-							hltFired = hltFired &&
-									(product.m_validDiTauPairCandidates.at(0).first->p4.Pt() <= *std::max_element(lepton1LowerPtCutsByHltName.at(hltName).begin(), lepton1LowerPtCutsByHltName.at(hltName).end()));
+							// we do not require a common match, check only first.
+							auto trigger = product.m_detailedTriggerMatchedLeptons.at(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).first));	
+							bool hltFired = false;
+							for (auto hlts: (*trigger))
+							{
+								if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
+								{
+									for (auto matchedObjects: hlts.second)
+									{
+										if (matchedObjects.second.size() > 0) hltFired = true;
+									}
+								}
+							}
+							// passing kinematic cuts for trigger 
+							if (lepton1LowerPtCutsByHltName.find(hltName) != lepton1LowerPtCutsByHltName.end())
+							{
+								hltFired = hltFired &&
+										(product.m_validDiTauPairCandidates.at(0).first->p4.Pt() <= *std::max_element(lepton1LowerPtCutsByHltName.at(hltName).begin(), lepton1LowerPtCutsByHltName.at(hltName).end()));
+							}
+							if (lepton2LowerPtCutsByHltName.find(hltName) != lepton2LowerPtCutsByHltName.end())
+							{
+								hltFired = hltFired &&
+									(product.m_validDiTauPairCandidates.at(0).second->p4.Pt() <= *std::max_element(lepton2LowerPtCutsByHltName.at(hltName).begin(), lepton2LowerPtCutsByHltName.at(hltName).end()));
+							}
+							diTauPairFiredTrigger = diTauPairFiredTrigger || hltFired;
 						}
-						if (lepton2LowerPtCutsByHltName.find(hltName) != lepton2LowerPtCutsByHltName.end())
-						{
-							hltFired = hltFired &&
-								(product.m_validDiTauPairCandidates.at(0).second->p4.Pt() <= *std::max_element(lepton2LowerPtCutsByHltName.at(hltName).begin(), lepton2LowerPtCutsByHltName.at(hltName).end()));
-						}
-						diTauPairFiredTrigger = diTauPairFiredTrigger || hltFired;
 					}
 				}
 				return diTauPairFiredTrigger;

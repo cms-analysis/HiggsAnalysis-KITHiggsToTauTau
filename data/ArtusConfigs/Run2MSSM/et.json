@@ -59,13 +59,6 @@
 		"DiTauPairLepton1LowerPtCuts" : [
 			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
 		],
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
-			"nick": {
-				"(Run2016|Embedding2016|Summer16)" : [
-					"HLT_Ele25_eta2p1_WPTight_Gsf_v"
-				]
-			}
-		},
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
@@ -84,6 +77,14 @@
 			"trg_doubletau:HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v",
 			"trg_muonelectron:HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v",
 			"trg_muonelectron:HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v"
+		],
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
+			"HLT_IsoMu22_v",
+			"HLT_IsoTkMu22_v",
+			"HLT_IsoMu22_eta2p1_v",
+			"HLT_IsoTkMu22_eta2p1_v",
+			"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v",
+			"HLT_Ele25_eta2p1_WPTight_Gsf_v"
 		],
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_2.root",
 		"RooWorkspaceWeightNames" : [
