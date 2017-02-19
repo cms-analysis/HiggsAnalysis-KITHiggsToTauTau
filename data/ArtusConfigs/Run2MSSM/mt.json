@@ -40,17 +40,20 @@
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"0:isoweight",
-			"0:idweight"
+			"0:idweight",
+			"0:trackWeight"
 		],
 		"RooWorkspaceObjectNames" : [
 			"0:m_trgOR4_binned_ratio",
 			"0:m_iso_binned_ratio",
-			"0:m_id_ratio"
+			"0:m_id_ratio",
+			"0:m_trk_ratio"
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta,m_iso",
-			"0:m_pt,m_eta"
+			"0:m_pt,m_eta",
+			"0:m_eta"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
@@ -172,14 +175,14 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
-					"filter:MinimalPlotlevelFilter",
+					"#filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
-				"TT_RunII(Fall15|Summer16)MiniAODv2" : [
+				"TT_RunIISummer16MiniAODv2" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

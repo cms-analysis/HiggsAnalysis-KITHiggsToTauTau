@@ -45,7 +45,6 @@
 			"2.4"
 		],
 		"DiTauPairMinDeltaRCut" : 0.3,
-		"DeltaRTriggerMatchingMuons" : 0.1,
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
 				"(Run2016|Embedding2016|Summer16)" : [
@@ -80,7 +79,7 @@
 				]
 			}
 		},
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_2.root",
 		"RooWorkspaceWeightNames" : [
 			"0:isoweight",
 			"0:idweight",
@@ -139,18 +138,8 @@
             "muR0p5_muF0p5_weight"
 		],
 		"OSChargeLeptons" : true,
-		"MuonEnergyCorrection" : {
-			"nick": {
-				"default" : "rochcorr2016",
-				"(Fall15MiniAODv2|Run2015)" : "rochcorr2015"
-			}
-		},
-		"MuonRochesterCorrectionsFile" : {
-			"nick": {
-				"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr/RoccoR_13tev_2016.txt",
-				"(Fall15MiniAODv2|Run2015)" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr/RoccoR_13tev_2015.txt"
-			}
-		},
+		"MuonEnergyCorrection" : "rochcorr2016",
+		"MuonRochesterCorrectionsFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr/RoccoR_13tev_2016.txt",
 		"Processors" : {
 			"nick" : {
 				"default" : [
@@ -189,7 +178,7 @@
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
-				"TT_RunIIFall15MiniAODv2" : [
+				"TT_RunIISummer16MiniAODv2" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

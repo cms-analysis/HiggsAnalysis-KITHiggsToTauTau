@@ -90,17 +90,20 @@
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"0:idweight",
-			"0:isoweight"
+			"0:isoweight",
+			"0:trackWeight"
 		],
 		"RooWorkspaceObjectNames" : [
 			"0:e_trg_binned_ratio",
 			"0:e_iso_binned_ratio",
-			"0:e_id_ratio"
+			"0:e_id_ratio",
+			"0:e_trk_ratio"
 
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:e_pt,e_eta,e_iso",
 			"0:e_pt,e_eta,e_iso",
+			"0:e_pt,e_eta",
 			"0:e_pt,e_eta"
 		],
 		"EventWeight" : "eventWeight",
@@ -185,7 +188,7 @@
 					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"TT_RunII(Fall15|Summer16)MiniAODv2" : [
+				"TT_RunIISummer16MiniAODv2" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
