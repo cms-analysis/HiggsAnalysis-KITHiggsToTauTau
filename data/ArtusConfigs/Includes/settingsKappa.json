@@ -24,7 +24,7 @@
 			"default" : "genmetTrue"
 		}
 	},
-	"GenJets" : "genJets",
+	"GenJets" : "",
 	"Electrons" : "electrons",
 	"ElectronMetadata" : "electronMetadata",
 	"Muons" : "muons",
