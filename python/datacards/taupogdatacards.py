@@ -66,12 +66,12 @@ class TauEsDatacards(datacards.Datacards):
 				self.cb.cp().process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 
 			# cross section
-			self.cb.cp().process(["ZLL", "ZL", "ZJ"]).AddSyst(self.cb, *self.zll_cross_section_syst_args)
+			self.cb.cp().process(["ZTT", "ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			if year == "2016":
 				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
 			else:
 				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
-			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
+			self.cb.cp().process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			#self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
 
 			# signal acceptance/efficiency
