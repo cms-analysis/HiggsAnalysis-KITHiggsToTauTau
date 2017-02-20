@@ -224,6 +224,42 @@ if __name__ == "__main__":
 						for key in binnings_settings.binnings_dict:
 							print key
 						sys.exit()
+					
+					# Use 2d plots for 2d categories
+					config["texts"] = []
+					config["texts_x"] = []
+					if "ZeroJet2D" in category:
+						config["x_expressions"] = ["m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						if channel != "tt":
+							config["y_expressions"] = ["pt_2"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
+							config["texts"] = list((("p_{T}^{#mu} < " if channel == "em" else "p_{T}^{#tau} < ") + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+							config["texts_x"] = [0.25, 0.37, 0.50, 0.64, 0.77, 0.89]
+					elif "Boosted2D" in category:
+						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["y_expressions"] = ["H_pt"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
+						config["texts"] = list(("p_{T}^{#tau#tau} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+						config["texts_x"] = ([0.25, 0.45, 0.65, 0.85] if channel == "tt" else [0.25, 0.37, 0.50, 0.64, 0.77, 0.89])
+					elif "Vbf2D" in category:
+						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["y_expressions"] = ["mjj"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
+						config["texts"] = list(("m_{jj} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+						config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
+					
+					# Unroll 2d distribution to 1d in order for combine to fit it
+					if "2D" in category:
+						two_d_inputs = []
+						for mass in higgs_masses:
+							two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggh",'qqh'] else "") for sample in list_of_samples])
+						if not "UnrollTwoDHistogram" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UnrollTwoDHistogram")
+						config.setdefault("two_d_input_nicks", two_d_inputs)
+						config.setdefault("unrolled_hist_nicks", two_d_inputs)
 						
 					config["directories"] = [args.input_dir]
 					
@@ -364,7 +400,7 @@ if __name__ == "__main__":
 	if args.quantity == "m_sv" and not(args.do_not_normalize_by_bin_width):
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes)
+	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era, "unrolled" : ("2D" in category), "texts" : config["texts"], "texts_x" : config["texts_x"]}, n_processes=args.n_processes)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 	#datacards.annotate_trees(

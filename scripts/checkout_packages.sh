@@ -36,7 +36,7 @@ git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.gi
 # Svfit and HHKinFit
 git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone
 cd TauAnalysis/SVfitStandalone
-git checkout dd7cf43e3f930040959f7d700cef976307d7cec3 -b current
+git checkout HIG-16-006
 cd $CMSSW_BASE/src
 echo '<use   name="rootrflx"/>'>> TauAnalysis/SVfitStandalone/BuildFile.xml
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus

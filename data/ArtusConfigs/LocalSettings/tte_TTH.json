@@ -61,8 +61,7 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/ttHQuantities.json"
 				]
 			},
-			"decayChannelIndex",
-			"exclusiveEventCategoryIndex"
+			"decayChannelIndex"
 		],
 		"Processors" : {
 			"nick" : {
@@ -89,8 +88,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
-					"producer:TTHEventCategoryProducer",
-					"filter:EventCategoryFilter",
 					"#producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
 				]

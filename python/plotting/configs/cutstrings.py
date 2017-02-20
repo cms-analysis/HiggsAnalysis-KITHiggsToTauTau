@@ -355,6 +355,58 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+	def ztt2015cs(channel, cut_type):
+		cuts = {}
+		cuts["blind"] = "{blind}"
+		cuts["os"] = "((q_1*q_2)<0.0)"
+		
+		if channel == "mm":
+			cuts["trigger_threshold"] = "(pt_1 > 20.0 || pt_2 > 20.0)" #new
+			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
+			cuts["iso_1"] = "(iso_1 < 0.15)"
+			cuts["iso_2"] = "(iso_2 < 0.15)"
+			#cuts["m_vis"] = "(m_vis > 60.0)*(m_vis < 120.0)"
+		elif channel == "ee":
+			pass
+		elif channel == "em":
+			cuts["trigger_threshold"] = "(pt_1 > 24.0 || pt_2 > 24.0)" if "2016" in cut_type else "(1.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -20.0)"
+			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"#?
+			cuts["iso_1"] = "(iso_1 < 0.15)"
+			cuts["iso_2"] = "(iso_2 < 0.15)"
+		elif channel == "mt":
+			cuts["mt"] = "(mt_1<30.0)"#changed
+			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
+			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
+			cuts["extra_muon_veto"] = "(extramuon_veto < 0.5)"#?is this the same? no extra electron veto
+			cuts["iso_1"] = "(iso_1 < 0.1)"
+
+			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"# shouldnt be there
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"# shouldnt be there
+			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
+		elif channel == "et":
+			cuts["iso_1"] = "(iso_1 < 0.1)"
+			cuts["mt"] = "(mt_1<30.0)"#changed
+			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)"#strange in paper
+			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_2 > 0.5)"
+
+			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)"# was "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)" shouldnt be there
+
+			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"# shouldnt be there
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"# shouldnt be there
+		elif channel == "tt":
+			cuts["iso_1"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
+			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"
+			
+			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"# shouldnt be there
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+
+	@staticmethod
 	def _get_cutdict(channel, cut_type):
 		cuts = {}
 		if cut_type=="baseline":
@@ -422,6 +474,9 @@ class CutStringsDict:
 		elif cut_type=="baseline_low_mvis":
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
 		
+		elif cut_type=="ztt2015cs":
+			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
+
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
 			sys.exit(1)

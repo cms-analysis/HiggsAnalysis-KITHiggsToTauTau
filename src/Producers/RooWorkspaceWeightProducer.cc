@@ -3,7 +3,7 @@
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/SafeMap.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
+#include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
 RooWorkspaceWeightProducer::RooWorkspaceWeightProducer(
 		std::string (setting_type::*GetRooWorkspace)(void) const,
@@ -195,7 +195,7 @@ void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type
 					args.push_back(lepton->p4.Pt());
 				}
 			}
-			if(genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
+			if(genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
 			{
 				tauTrigWeight = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}

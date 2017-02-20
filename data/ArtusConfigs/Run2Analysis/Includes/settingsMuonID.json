@@ -6,17 +6,22 @@
 	"Year" : {
 		"nick" : {
 			"default" : 2015,
-			"(Spring16|Run2016|Embedding2016)" : 2016
+			"(Summer16|Spring16|Run2016|Embedding2016)" : 2016
 		}
 	},
-	"MuonID" : "medium",
+	"MuonID" : {
+		"nick" : {
+			"default" : "medium",
+			"Run2016(B|C|D|E|F)|Spring16" : "mediumHIPsafe2016"
+		}
+	},
 	
 	"MuonIsoType" : "user",
 	"MuonIso" : "none",
 	"MuonIsoTypeUserMode" : {
 		"nick" : {
 			"default" : "fromcmssw",
-			"(Spring16|Run2016|Embedding2016)" : "fromcmsswr04"
+			"(Summer16|Spring16|Run2016|Embedding2016)" : "fromcmsswr04"
 		}
 	},
 	

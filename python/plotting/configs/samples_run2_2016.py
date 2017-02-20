@@ -11,7 +11,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 from Kappa.Skimming.registerDatasetHelper import get_nick_list
 from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
 energy = 13
-default_lumi = 36.46*1000.0
+default_lumi = 36.814*1000.0
 
 class Samples(samples.SamplesBase):
 
@@ -1100,7 +1100,7 @@ class Samples(samples.SamplesBase):
 				# wj shape and highmt to lowmt extrapolation
 				wj_shape_weight = weight   # replace only category part
 				if category != None:
-					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 				if "newKIT" in estimationMethod:
 					wj_shape_weight = make_multiplication(Samples.get_jetbin(category, channel, weight))
 				Samples._add_input(
@@ -1748,7 +1748,7 @@ class Samples(samples.SamplesBase):
 					qcd_shape_weight = weight
 					qcd_shape_cut = cut_type
 					if category != None:
-						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 					if "newKIT" in estimationMethod:
 						qcd_shape_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 					Samples._add_input(
@@ -1819,7 +1819,7 @@ class Samples(samples.SamplesBase):
 							self.files_ewkw(channel),
 							self.root_file_folder(channel),
 							lumi,
-							(mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
+							(mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)").replace("nbtag","nloosebtag" if (category and "_btag" in category) else "nbtag"),
 							"noplot_wj_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1913,13 +1913,19 @@ class Samples(samples.SamplesBase):
 							"qcd",
 							nick_suffix=nick_suffix
 					)
+					ss_os_factor = 1.0
+					if category != None:
+						if channel == "et":
+							ss_os_factor = 1.15 if "Boosted2D" in category else 1.2 if "Vbf2D" in category else 1.0
+						elif channel == "mt":
+							ss_os_factor = 1.15 if "Boosted2D" in category else 1.2 if "Vbf2D" in category else 1.0
 					if controlregions:
 						if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
 						elif channel == "et":
-							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0)
+							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 						elif channel == "mt":
-							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.00)
+							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_yield_nicks", []).append("data_ss_lowmt"+nick_suffix)
 						config.setdefault("qcd_yield_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_lowmt zll_ss_lowmt ttj_ss_lowmt vv_ss_lowmt wj_ss_lowmt".split()]))
@@ -1937,9 +1943,9 @@ class Samples(samples.SamplesBase):
 						if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
 						elif channel == "et":
-							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0)
+							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 						elif channel == "mt":
-							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.00)
+							config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_yield_nicks", []).append("noplot_data_ss_lowmt"+nick_suffix)
 						config.setdefault("qcd_yield_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_lowmt zll_ss_lowmt ttj_ss_lowmt vv_ss_lowmt wj_ss_lowmt".split()]))
@@ -1954,7 +1960,7 @@ class Samples(samples.SamplesBase):
 						qcd_shape_cut = cut_type
 						qcd_exclude_cuts = exclude_cuts+["os"]
 						if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
-							qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+							qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else "baseline"
 							qcd_exclude_cuts.append("pzeta")
 							qcd_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 						data_sample_weight = make_multiplication([data_weight, 
@@ -1983,7 +1989,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkw(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_sample_weight+"*"+self.wj_stitchingweight(),
+								mc_sample_weight,
 								"noplot_wj_"+estimation_type,
 								nick_suffix=nick_suffix
 						)
@@ -2056,7 +2062,10 @@ class Samples(samples.SamplesBase):
 					config.setdefault("qcd_yield_nicks", []).append("noplot_qcd_yield"+nick_suffix)
 					config.setdefault("qcd_yield_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_yield"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
 					config.setdefault("qcd_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_shape"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
-					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0)
+					ss_os_factor = 1.0
+					if category != None:
+						ss_os_factor = 1.8 if "ZeroJet2D" in category else 1.89 if "Boosted2D" in category else 1.74 if "Vbf2D" in category else 1.0
+					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 				if channel == "tt":
 					if cut_type == "baseline2016":
 						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))"

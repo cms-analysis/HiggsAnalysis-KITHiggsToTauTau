@@ -84,7 +84,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ff", "ggh", "qqh", "vh", "htt", "data"],
+	                    choices=["ztt", "zll", "zl", "zj", "ttj", "vv", "wj", "qcd", "ff", "ggh", "qqh", "bbh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--scale-signal", type=int, default=1,
 	                    help="Scale signal (htt). Allowed values are 1, 10, 25, 100 and 250. [Default: %(default)s]")
@@ -133,8 +133,29 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
 	parser.add_argument("--mva", default=False, action="store_true",
 	                    help="Produce plots for the mva studies. [Default: %(default)s]")
+	parser.add_argument("--era", default="2015",
+	                    help="Era of samples to be used. [Default: %(default)s]")
+	parser.add_argument("--run1", default=False, action="store_true",
+	                    help="Use Run1 samples. [Default: %(default)s]")
+	parser.add_argument("--embedding-selection", default=False, action="store_true",
+	                    help="Use samples to consider selection for embedding. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
+	
+	if args.run1:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run1 as samples
+	elif args.embedding_selection:
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_embedding_selection as samples
+	else:
+		if (args.era == "2015") or (args.era == "2015new"):
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+		elif args.era == "2016":
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+			if args.lumi == parser.get_default("lumi"):
+				args.lumi = samples.default_lumi/1000.0
+		else:
+			log.critical("Invalid era string selected: " + args.era)
+			sys.exit(1)
 
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
@@ -146,8 +167,12 @@ if __name__ == "__main__":
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
-	bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
-	sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "qqh", "vh"]]
+	if args.mssm:
+		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "bbh"]] #, "ggh"]]
+		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "bbh"]] #, "ggh"]]
+	else:
+		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
+		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "qqh", "vh"]]
 	sig_samples = []
 	for mass in args.higgs_masses:
 		scale_str = "_%i"%args.scale_signal
@@ -158,6 +183,10 @@ if __name__ == "__main__":
 				sig_samples.append(sample+"%s"%(mass))
 			else:
 				sig_samples.append(sample+"%s%s"%(mass, scale_str))
+		if "ggh" in bkg_samples:
+			bkg_samples.append("ggh%s%s"%(mass, scale_str))
+	if "ggh" in bkg_samples:
+		bkg_samples.remove("ggh")
 	binnings_settings = binnings.BinningsDict()
 
 	category_string = None
@@ -183,7 +212,9 @@ if __name__ == "__main__":
 			scale_signal=args.scale_signal,
 			project_to_lumi=args.project_to_lumi,
 			cut_mc_only=args.cut_mc_only,
-			scale_mc_only=args.scale_mc_only
+			scale_mc_only=args.scale_mc_only,
+			mssm=args.mssm,
+			cut_type="mssm2016" if (args.era == "2016" and args.mssm) else "mssm" if args.mssm else "baseline2016" if args.era == "2016" else "baseline"
 	)
 	config["directories"] = [args.input_dir]
 	config["output_dir"] = os.path.expandvars(args.output_dir)
@@ -245,10 +276,10 @@ if __name__ == "__main__":
 				config["z_bins"] = [" ".join([str(x/100.0) for x in z_bins])]
 				print config["z_bins"]
 			higgsplot.HiggsPlotter(list_of_config_dicts=[config])
-
+		
 		tfile = ROOT.TFile(os.path.expandvars(os.path.join(args.output_dir, "CutOptimizerStorage.root")), "READ")
 		hist_list = [tfile.Get(name) for name in bkg_samples]
-		htt = tfile.Get("htt125")
+		htt = tfile.Get(sig_samples[0]) #"htt125")
 		bkg_hist = hist_list.pop(0)
 		for hist in hist_list:
 			bkg_hist.Add(bkg_hist, hist)

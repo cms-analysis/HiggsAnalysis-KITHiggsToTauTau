@@ -18,16 +18,16 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL|Embedding2016" : [
+			"DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)" : [
 				23
 			],
-			"^(GluGlu|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
+			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
 				25
 			],
-			"W.?JetsToLN" : [
+			"W.?JetsToLN|EWKW" : [
 				24
 			],
-			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : [
+			"SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" : [
 				25,
 				35,
 				36
@@ -48,6 +48,12 @@
 	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13, 15 ],
 	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
+	"RecoElectronMatchingGenParticleMatchAllElectrons" : "true",
+	"RecoMuonMatchingGenParticleMatchAllMuons" : "true",
+	"RecoTauMatchingGenParticleMatchAllTaus" : "true",
+	"MatchAllElectronsGenTau" : "true",
+	"MatchAllMuonsGenTau" : "true",
+	"MatchAllTausGenTau" : "true",
 	"#EventWhitelist" : [
 	],
 	"OutputPath" : "output.root",
@@ -55,20 +61,21 @@
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeVFall15MiniAODv2_PromptReco_69mbMinBiasXS.root",
 			"Spring16" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVSpring16_23Sep2016ReReco_69p2mbMinBiasXS.root",
+			"Summer16" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVMoriond17_23Sep2016ReReco_69p2mbMinBiasXS.root",
 			"Run201" : "not needed",
-			"Embedding201" : "not needed"
+			"Embedding" : "not needed"
 		}
 	},
 	"BTagScaleFactorFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",
-			"Spring16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_ichep.csv"
+			"Spring16|Summer16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_ichep.csv"
 		}
 	},
 	"BTagEfficiencyFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root",
-			"Spring16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_ichep2016.root"
+			"Spring16|Summer16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_ichep2016.root"
 		}
 	},
 	"MetCorrectionMethod" : {
@@ -80,7 +87,7 @@
 	"MetRecoilCorrectorFile" : {
 		"nick" : {
 			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root",
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeIPFMET_2016BCD.root"
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
 		}
 	},
 	"MvaMetRecoilCorrectorFile" : {

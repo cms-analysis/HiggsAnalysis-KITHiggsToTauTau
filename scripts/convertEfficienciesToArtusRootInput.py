@@ -24,6 +24,7 @@ eta_string_to_float = {
 	"Eta1p48to2p1" : 2.0,
 	"EtaGt2p1"     : 2.2,
 	"EtaLt0p9"     : 0.5,
+	"EtaGt0p9"     : 1.0,
 	"Eta0p9to1p2"  : 1.0,
 	"EtaGt1p2"     : 2.0,
 	"Eta1p2to2p1"  : 1.5,
@@ -83,8 +84,6 @@ if __name__ == "__main__":
 			eta_bins = array.array("d", yBinslist)
 			
 			for datatype in ["Data","MC"]:
-				if not "IdIso" in file_name and datatype == "MC":
-					continue
 				typelabel = "Run2016" if datatype == "Data" else "MC"
 				effHistoName = "identificationEfficiency" if ("IdIso" in file_name) else "triggerEfficiency"
 				outFileName = effHistoName+'_'+typelabel+'_'+file_name

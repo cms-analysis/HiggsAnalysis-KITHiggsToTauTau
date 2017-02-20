@@ -9,7 +9,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DecayChannelProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/GeneratorInfo.h"
+#include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
 
 void DecayChannelProducer::Init(setting_type const& settings)
@@ -573,6 +573,19 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	tauDiscriminators.push_back("puCorrPtSum");
 	tauDiscriminators.push_back("footprintCorrection");
 	tauDiscriminators.push_back("photonPtSumOutsideSignalCone");
+	tauDiscriminators.push_back("decayDistX");
+	tauDiscriminators.push_back("decayDistY");
+	tauDiscriminators.push_back("decayDistZ");
+	tauDiscriminators.push_back("decayDistM");
+	tauDiscriminators.push_back("nPhoton");
+	tauDiscriminators.push_back("ptWeightedDetaStrip");
+	tauDiscriminators.push_back("ptWeightedDphiStrip");
+	tauDiscriminators.push_back("ptWeightedDrSignal");
+	tauDiscriminators.push_back("ptWeightedDrIsolation");
+	tauDiscriminators.push_back("leadingTrackChi2");
+	tauDiscriminators.push_back("eRatio");
+	
+	
 
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
@@ -617,7 +630,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			}
 			else
 			{
-				return Utility::ToUnderlyingValue(HttEnumTypes::GenMatchingCode::IS_FAKE);
+				return Utility::ToUnderlyingValue(KappaEnumTypes::GenMatchingCode::IS_FAKE);
 			}
 		});
 		
@@ -627,7 +640,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
 
 			// Return pT in case it matches a hadronic tau
-			if (genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == HttEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
+			if (genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
 			{
 				return genParticle->p4.Pt();
 			}
@@ -756,7 +769,7 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
 	{
 		product.m_ptOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				&(*(*lepton)), product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
 		));
 		product.m_ptOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_ptOrderedGenLeptons.back()));
 	}

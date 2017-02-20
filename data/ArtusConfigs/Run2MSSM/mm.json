@@ -18,12 +18,15 @@
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : { 
 			"nick": {
-				"Run2016|Embedding2016" : [
+				"(Run2016|Embedding2016|Summer16)": [
 					"HLT_IsoMu22",
-					"HLT_IsoTkMu22"
+					"HLT_IsoTkMu22",
+					"HLT_IsoMu22_eta2p1",
+					"HLT_IsoTkMu22_eta2p1",
+					"HLT_VLooseIsoPFTau120_Trk50_eta2p1"
 				],
 				"Spring16" : [
-					"unavailable"
+					""
 				]
 			}
 		},
@@ -45,9 +48,12 @@
 		"DeltaRTriggerMatchingMuons" : 0.1,
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
-				"Run2016" : [
+				"(Run2016|Embedding2016|Summer16)" : [
 					"HLT_IsoMu22_v",
-					"HLT_IsoTkMu22_v"
+					"HLT_IsoTkMu22_v",
+					"HLT_IsoMu22_eta2p1_v",
+					"HLT_IsoTkMu22_eta2p1_v",
+					"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v"
 				]
 			}
 		},
@@ -65,9 +71,12 @@
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"MuonTriggerFilterNames" : {
 			"nick" : {
-				"Run2016" : [
+				"(Run2016|Embedding2016|Summer16)" : [
 					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
-					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09"
+					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09",
+					"HLT_IsoMu22_eta2p1_v:hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+					"HLT_IsoTkMu22_eta2p1_v:hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09",
+					"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v:hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"
 				]
 			}
 		},
@@ -173,7 +182,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -211,7 +219,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
-					"producer:EventCategoryProducer",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -252,7 +259,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:ZPtReweightProducer",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
@@ -294,7 +300,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -328,7 +333,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				]

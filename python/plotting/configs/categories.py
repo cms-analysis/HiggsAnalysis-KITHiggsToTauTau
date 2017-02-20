@@ -168,7 +168,7 @@ class CategoriesDict(object):
 						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
 						},
 					"em_" : {
-						"_pt_2" : " ".join([str(float(f)) for f in range(15, 35, 5)+range(35,301,265)]),
+						"_pt_2" : " ".join([str(float(f)) for f in range(15, 40, 5)+range(40,301,260)]),
 						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
 						},
 					"tt_" : {
@@ -203,19 +203,19 @@ class CategoriesDict(object):
 						"_m_sv": auto_rebin_binning
 						},
 					"mt_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,501,200)]),
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,5001,4700)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
 						},
 					"et_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,501,200)]),
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,5001,4700)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
 						},
 					"em_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,501,200)]),
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,5001,4700)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
 						},
 					"tt_": {
-						"_H_pt":"0.0 100.0 170.0 300.0",
+						"_H_pt":"0.0 100.0 170.0 300.0 1000.0",
 						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
 						}
 					}
@@ -247,19 +247,19 @@ class CategoriesDict(object):
 						"_m_sv": auto_rebin_binning
 						},
 					"mt_": {
-						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,3001,1500)]),
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
 						},
 					"et_": {
-						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,3001,1500)]),
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
 						},
 					"em_": {
-						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,3001,1500)]),
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
 						},
 					"tt_": {
-						"_mjj":"0.0 300.0 500.0 800.0",
+						"_mjj":"0.0 300.0 500.0 800.0 10000.0",
 						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
 						}
 					}

@@ -10,7 +10,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
 class TauEsDatacards(datacards.Datacards):
-	def __init__(self, shifts=[], decaymodes=[], pt_bins=[], year="", cb=None):
+	def __init__(self, shifts=[], decaymodes=[], weight_bins=[], weight_type="pt", year="", cb=None):
 		super(TauEsDatacards, self).__init__(cb)
 		
 		if cb is None:
@@ -18,8 +18,8 @@ class TauEsDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category+"_"+decaymode+"_ptbin"+pt_bin for category in ["inclusive"] for decaymode in decaymodes for pt_bin in pt_bins],
-					bkg_processes=["ZLL", "TT", "VV", "W", "QCD"],
+					categories=["mt_"+category+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for category in ["inclusive"] for decaymode in decaymodes for weight_bin in weight_bins],
+					bkg_processes=["ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZTT"],
 					analysis=["ztt"],
 					era=["13TeV"],
@@ -40,11 +40,11 @@ class TauEsDatacards(datacards.Datacards):
 			#self.cb.cp().channel(["mt"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 
 			# mu->tau fake ES
-			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.muFakeTau_es_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZLL", "ZL", "ZJ"]).AddSyst(self.cb, *self.muFakeTau_es_syst_args)
 
 			# fake-rate
 			if year == "2016":
-				self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.muFakeTau2016_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZLL", "ZL", "ZJ"]).AddSyst(self.cb, *self.muFakeTau2016_syst_args)
 				self.cb.cp().channel(["mt"]).process(["ZJ", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 			else:
 				self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
@@ -61,12 +61,12 @@ class TauEsDatacards(datacards.Datacards):
 			# lumi
 			# (hopefully) temporary fix
 			if year == "2016":
-				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 			else:
 				self.cb.cp().process(["ZTT", "ZLL", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
 
 			# cross section
-			self.cb.cp().process(["ZLL"]).AddSyst(self.cb, *self.zll_cross_section_syst_args)
+			self.cb.cp().process(["ZLL", "ZL", "ZJ"]).AddSyst(self.cb, *self.zll_cross_section_syst_args)
 			if year == "2016":
 				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
 			else:

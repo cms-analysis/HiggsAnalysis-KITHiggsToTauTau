@@ -175,6 +175,11 @@
 		"decayMode_1",
 		"decayMode_2",
 		"npartons",
-		"genbosonmass"
+		"genbosonmass",
+		"trg_singleelectron",
+		"trg_singlemuon",
+		"trg_doubletau",
+		"trg_singletau",
+		"trg_muonelectron"
 	]
 }

@@ -17,20 +17,20 @@
 		"HltPaths" : { 
 			"nick": {
 				"default" : [
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg"
-				],
-				"(Fall15MiniAODv2|Run2015D|Run2016|Embedding2016)" : [
-					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
+					"HLT_IsoMu22",
+					"HLT_IsoTkMu22",
+					"HLT_IsoMu22_eta2p1",
+					"HLT_IsoTkMu22_eta2p1",
+					"HLT_VLooseIsoPFTau120_Trk50_eta2p1",
+					"HLT_Ele25_eta2p1_WPTight_Gsf",
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg",
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg",
+					"HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",
+					"HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL"
 				],
 				"Spring16" : [
-					"unavailable"
+					""
 				]
-			}
-		},
-		"NoHltFiltering" : {
-			"nick" : {
-				"default" : false,
-				"Spring16" : true
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
@@ -38,9 +38,6 @@
 		"TauLowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"45.0"
-				],
-				"(Fall15MiniAODv2|Run2015D|Run2016|Spring16)" : [
 					"40.0"
 				]
 			}
@@ -50,26 +47,27 @@
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairIsTauIsoMVA": true,
-		"DiTauPairNoHLT" : {
-			"nick" : {
-				"default" : false,
-				"Spring16" : true
-			}
-		},
+		"DiTauPairHLTLast" : true,
+		"HLTBranchNames" : [
+			"trg_singlemuon:HLT_IsoMu22_v",
+			"trg_singlemuon:HLT_IsoTkMu22_v",
+			"trg_singlemuon:HLT_IsoMu22_eta2p1_v",
+			"trg_singlemuon:HLT_IsoTkMu22_eta2p1_v",
+			"trg_singletau:HLT_VLooseIsoPFTau120_Trk50_eta2p1_v",
+			"trg_singleelectron:HLT_Ele25_eta2p1_WPTight_Gsf_v",
+			"trg_doubletau:HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v",
+			"trg_doubletau:HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v",
+			"trg_muonelectron:HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v",
+			"trg_muonelectron:HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v"
+		],
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"TauTriggerFilterNames" : {
 			"nick" : {
 				"default" : [
-					"HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumIsolationDz02Reg"
-				],
-				"(Fall15MiniAODv2|Run2015D)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg",
-					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:l1extratauccolltection"
-				],
-				"Run2016": [
-					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:fgg"
 				]
 			}
 		},
@@ -105,7 +103,6 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
-					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
@@ -127,7 +124,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -136,7 +132,6 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
-					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
@@ -159,7 +154,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
-					"producer:EventCategoryProducer",
 					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -168,7 +162,6 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
-					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
@@ -194,7 +187,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -203,7 +195,6 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
-					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
@@ -228,7 +219,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:TauTauTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -237,7 +227,6 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
-					"filter:HltFilter",
 					"producer:MetSelector",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
@@ -256,7 +245,6 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:EventCategoryProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				]

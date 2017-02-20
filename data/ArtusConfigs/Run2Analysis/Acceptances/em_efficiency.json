@@ -96,7 +96,7 @@
 			"genMuonPt",
 			"genMuonEta",
 			"genDiLeptonDecayMode",
-			"genDiLeptonBosonMass",
+			"genbosonmass",
 			"nGenDiTauPairCandidates",
 			"nGenDiTauPairsInAcceptance",
 			"genDiTauPairMass",
