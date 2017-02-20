@@ -26,6 +26,7 @@ eta_string_to_float = {
 	"EtaLt0p9"     : 0.5,
 	"EtaGt0p9"     : 1.0,
 	"Eta0p9to1p2"  : 1.0,
+	"Eta0p9to2p1"  : 1.0,
 	"EtaGt1p2"     : 2.0,
 	"Eta1p2to2p1"  : 1.5,
 	"EtaGt2p1"     : 2.2
