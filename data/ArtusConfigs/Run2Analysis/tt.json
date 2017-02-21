@@ -19,6 +19,10 @@
 		"HltPaths" : { 
 			"nick": {
 				"default" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg",
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"
+				],
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
 				],
 				"Spring16|Embedding(2016|MC)" : [
@@ -55,19 +59,19 @@
 			}
 		},
 		"EventWeight" : "eventWeight",
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
-		"TauTauTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_trigger.root",
+		"TauTauTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_trigger.root",
 		"TauTauTriggerWeightWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"1:triggerWeight"
 		],
 		"TauTauTriggerWeightWorkspaceObjectNames" : [
-			"0:t_trgTightIso_data,t_trgTightIsoSS_data",
-			"1:t_trgTightIso_data,t_trgTightIsoSS_data"
+			"0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio",
+			"1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"
 		],
 		"TauTauTriggerWeightWorkspaceObjectArguments" : [
-			"0:t_pt",
-			"1:t_pt"
+			"0:t_pt,t_dm",
+			"1:t_pt,t_dm"
 		],
 		"EleTauFakeRateWeightFile" : [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
@@ -76,7 +80,11 @@
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"TauTriggerFilterNames" : {
 			"nick" : {
-				"(Fall15MiniAODv2|Run2015D|Embedding2015|Embedding(2016|MC)|Run2016|Summer16)" : [
+				"default" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg",
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"
+				],
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
 				]
 			}
