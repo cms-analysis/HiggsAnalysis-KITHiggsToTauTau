@@ -35,7 +35,7 @@ git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.gi
 
 # Svfit and HHKinFit
 git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
-echo '<use   name="rootrflx"/>' >> TauAnalysis/SVfitStandalone/BuildFile.xml
+# git clone https://github.com/CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 
 # Jet2Tau Fakes
