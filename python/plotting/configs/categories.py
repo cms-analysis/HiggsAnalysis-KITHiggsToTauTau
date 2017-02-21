@@ -34,7 +34,8 @@ class CategoriesDict(object):
 							"et_",
 							"tt_",
 							"em_",
-							"mm_"
+							"mm_",
+							"ee_"
 							],
 						"expressions":{
 							"global":self.combine([vbf_string, jet2_string]),
@@ -74,7 +75,8 @@ class CategoriesDict(object):
 							"et_",
 							"tt_",
 							"em_",
-							"mm_"
+							"mm_",
+							"ee_"
 							],
 						"expressions":{
 							"global":self.combine([cut_string, jet1_string]),
@@ -109,7 +111,8 @@ class CategoriesDict(object):
 							"et_",
 							"tt_",
 							"em_",
-							"mm_"
+							"mm_",
+							"ee_"
 							],
 						"expressions":{
 							"global":self.combine([cut_string, jet0_string]),
@@ -136,6 +139,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}ZeroJet2D{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"em_",
@@ -179,6 +183,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}Boosted2D{discriminator}"] = {
 				"channel":[
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"em_",
@@ -223,6 +228,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}Vbf2D{discriminator}"] = {
 				"channel":[
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"em_",
@@ -362,6 +368,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}vbf{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -389,6 +396,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}ZeroJet30{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -416,6 +424,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}ZeroJet20{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -443,6 +452,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}OneJet30{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -470,6 +480,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}OneJet20{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -497,6 +508,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}TwoJet30{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -524,6 +536,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}TwoJet20{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -551,6 +564,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}NoTwoJet20{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -578,6 +592,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}NoTwoJet30{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -605,6 +620,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}1jet_boosted{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -632,6 +648,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}1jet_highpt2{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -659,6 +676,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}1jet_lowpt2{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -686,6 +704,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}0jet_highpt2{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -713,6 +732,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}0jet_lowpt2{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -740,6 +760,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}vbf_tag{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -767,6 +788,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}2jet_untagged{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -929,6 +951,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}inclusive{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -956,6 +979,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}0jet_high{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -964,6 +988,7 @@ class CategoriesDict(object):
 				"expressions":{
 					"global":"(njetspt30==0)",
 					"mm_":"(pt_2>35.0)",
+					"ee_":"(pt_2>35.0)",
 					"mt_":"(pt_2>35.0)",
 					"et_":"(pt_2>35.0)",
 					"tt_":"(pt_1>35.0)",
@@ -988,6 +1013,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}0jet_low{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -996,6 +1022,7 @@ class CategoriesDict(object):
 				"expressions":{
 					"global":"(njetspt30==0)",
 					"mm_":"(pt_2<=35.0)",
+					"ee_":"(pt_2<=35.0)",
 					"mt_":"(pt_2<=35.0)",
 					"et_":"(pt_2<=35.0)",
 					"tt_":"(pt_1<=35.0)",
@@ -1020,6 +1047,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}1jet_high{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -1028,6 +1056,7 @@ class CategoriesDict(object):
 				"expressions":{
 					"global":"(njetspt30>0)*(!((mjj>200.0)*(jdeta>2.0)))",
 					"mm_":"(pt_2>35.0)",
+					"ee_":"(pt_2>35.0)",
 					"mt_":"(pt_2>35.0)",
 					"et_":"(pt_2>35.0)",
 					"tt_":"(pt_1>35.0)",
@@ -1052,6 +1081,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}1jet_low{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -1060,6 +1090,7 @@ class CategoriesDict(object):
 				"expressions":{
 					"global":"(njetspt30>0)*(!((mjj>200.0)*(jdeta>2.0)))",
 					"mm_":"(pt_2<=35.0)",
+					"ee_":"(pt_2<=35.0)",
 					"mt_":"(pt_2<=35.0)",
 					"et_":"(pt_2<=35.0)",
 					"tt_":"(pt_1<=35.0)",
@@ -1084,6 +1115,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}2jet_vbf{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -1111,6 +1143,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}0jet_sig{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -1119,6 +1152,7 @@ class CategoriesDict(object):
 				"expressions":{
 					"global":"(!((0.3<=ttj_1)*(0.45<=ztt_1)*(0.8<=vbf_1)))*(njetspt30==0)",
 					"mm_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
+					"ee_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
 					"mt_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
 					"et_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
 					"tt_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
@@ -1143,6 +1177,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}0jet_bkg{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -1151,6 +1186,7 @@ class CategoriesDict(object):
 				"expressions":{
 					"global":"(!((0.3<=ttj_1)*(0.45<=ztt_1)*(0.8<=vbf_1)))*(njetspt30==0)",
 					"mm_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
+					"ee_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
 					"mt_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
 					"et_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
 					"tt_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
@@ -1175,6 +1211,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}1jet_sig{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -1183,6 +1220,7 @@ class CategoriesDict(object):
 				"expressions":{
 					"global":"(njetspt30>0)*(!((0.3<=ttj_1)*(0.45<=ztt_1)*(0.8<=vbf_1)))",
 					"mm_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
+					"ee_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
 					"mt_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
 					"et_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
 					"tt_":"((0.4<=ttj_1)*(0.4<=ztt_1))",
@@ -1207,6 +1245,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}1jet_bkg{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
@@ -1215,6 +1254,7 @@ class CategoriesDict(object):
 				"expressions":{
 					"global":"(njetspt30>0)*(!((0.3<=ttj_1)*(0.45<=ztt_1)*(0.8<=vbf_1)))",
 					"mm_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
+					"ee_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
 					"mt_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
 					"et_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
 					"tt_":"(!((0.4<=ttj_1)*(0.4<=ztt_1)))",
@@ -1239,6 +1279,7 @@ class CategoriesDict(object):
 		self.categoriesDict["{analysis}{channel}2jet_vbf_bdt{discriminator}"] = {
 				"channel": [
 					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"tt_",
