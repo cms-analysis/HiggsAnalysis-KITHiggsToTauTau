@@ -279,36 +279,101 @@ AccEfficiencyElMuFile = AccEfficiencyMuTauFile.clone(
 # DYJets files
 DYFileMuTauFile = pltcl.single_plotline(
 	name = "DYFileMuTauFile",
-	scale_factor = 1./5.234,
-	num_file = "/storage/a/jbechtel/test/merged/merged/DY*/*.root",
+	#scale_factor = 1./5.234,
+	num_file = "/home/jbechtel/plotting/EmbeddingMC/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified.root",
 	num_folder = "mt_jecUncNom_tauEsNom",
 	den_folder = "mt_jecUncNom_tauEsNom",
 	num_tree = "ntuple",
 	label = "Z#rightarrow#tau#tau simulation",
-	color = "kRed")
+	color = "kRed",
+	marker = "PE")
 
 DYFileElTauFile = DYFileMuTauFile.clone(
 	name = "DYFileElTauFile",
-	scale_factor = 1./1.7122,
+	#scale_factor = 1./1.7122,
 	num_folder = "et_jecUncNom_tauEsNom",
 	den_folder = "et_jecUncNom_tauEsNom"
 )
 
 DYFileTauTauFile = DYFileMuTauFile.clone(
 	name = "DYFileTauTauFile",
-	num_file = "/storage/a/jbechtel/janek/DY*/*.root",
-	scale_factor = 1./0.273551,
+	#scale_factor = 1./0.273551,
 	num_folder = "tt_jecUncNom_tauEsNom",
 	den_folder = "tt_jecUncNom_tauEsNom"
 )
 
 DYFileElMuFile = DYFileMuTauFile.clone(
 	name = "DYFileElMuFile",
-	scale_factor = 1./0.887674,
-	num_file = "/storage/a/jbechtel/janek/DY*/*.root",
+	#scale_factor = 1./0.887674,
 	num_folder = "em_jecUncNom",
 	den_folder = "em_jecUncNom"
 )
+# DYISOJets files ISO
+DYISOFileMuTauFile = pltcl.single_plotline(
+	name = "DYFileMuTauFile",
+	#scale_factor = 1./5.234,
+	num_file = "/home/jbechtel/MVAcheck/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified.root",
+	num_folder = "mt_jecUncNom_tauEsNom",
+	den_folder = "mt_jecUncNom_tauEsNom",
+	num_tree = "ntuple",
+	label = "Z#rightarrow#tau#tau simulation",
+	color = "kRed",
+	marker = "PE")
+
+DYISOFileElTauFile = DYFileMuTauFile.clone(
+	name = "DYFileElTauFile",
+	#scale_factor = 1./1.7122,
+	num_folder = "et_jecUncNom_tauEsNom",
+	den_folder = "et_jecUncNom_tauEsNom"
+)
+
+DYISOFileTauTauFile = DYFileMuTauFile.clone(
+	name = "DYFileTauTauFile",
+	#scale_factor = 1./0.273551,
+	num_folder = "tt_jecUncNom_tauEsNom",
+	den_folder = "tt_jecUncNom_tauEsNom"
+)
+
+DYISOFileElMuFile = DYFileMuTauFile.clone(
+	name = "DYFileElMuFile",
+	#scale_factor = 1./0.887674,
+	num_folder = "em_jecUncNom",
+	den_folder = "em_jecUncNom"
+)
+
+# DiBoson files
+VVFileMuTauFile = pltcl.single_plotline(
+	name = "VVFileMuTauFile",
+	#scale_factor = 1./5.234,
+	num_file = "/home/jbechtel/MVAcheck/VVTo2L2Nu_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8/VVTo2L2Nu_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8.root",
+	num_folder = "mt_jecUncNom_tauEsNom",
+	den_folder = "mt_jecUncNom_tauEsNom",
+	num_tree = "ntuple",
+	label = "VV #rightarrow ll simulation",
+	color = "kGreen",
+	marker = "PE")
+
+VVFileElTauFile = VVFileMuTauFile.clone(
+	name = "VVFileElTauFile",
+	#scale_factor = 1./1.7122,
+	num_folder = "et_jecUncNom_tauEsNom",
+	den_folder = "et_jecUncNom_tauEsNom"
+)
+
+VVFileTauTauFile = VVFileMuTauFile.clone(
+	name = "VVFileTauTauFile",
+	#scale_factor = 1./0.273551,
+	num_folder = "tt_jecUncNom_tauEsNom",
+	den_folder = "tt_jecUncNom_tauEsNom"
+)
+
+VVFileElMuFile = VVFileMuTauFile.clone(
+	name = "VVFileElMuFile",
+	#scale_factor = 1./0.887674,
+	num_folder = "em_jecUncNom",
+	den_folder = "em_jecUncNom"
+)
+
 
 # HToTauTau samples
 
@@ -346,9 +411,8 @@ HToTauTauElMuFile = HToTauTauMuTauFile.clone(
 #Embedding files for MuTau
 
 EmbeddingMuTauFileNominal = DYFileMuTauFile.clone(
-	scale_factor = 1./4.32414,
 	name = "EmbeddingMuTauFileNominal",
-	num_file = "/storage/a/jbechtel/test/merged/merged/Embedding2016?_MuTau*/*.root",
+	num_file = "/home/jbechtel/plotting/EmbeddingMC/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",
 	label = "#mu#rightarrow#tau embedded",
 	color = "kBlue"
 )
@@ -358,7 +422,8 @@ EmbeddingMuTauFileUp = EmbeddingMuTauFileNominal.clone(
 	num_folder = "mt_jecUncNom_tauEsUp",
 	den_folder = "mt_jecUncNom_tauEsUp",
 	label = "w. #pm3% #tau_{h}-ES shifts",
-	color = "kCyan+2"
+	color = "kCyan+2",
+	marker = "HISTO"
 )
 
 EmbeddingMuTauFileDown = EmbeddingMuTauFileNominal.clone(
@@ -366,16 +431,16 @@ EmbeddingMuTauFileDown = EmbeddingMuTauFileNominal.clone(
 	num_folder = "mt_jecUncNom_tauEsDown",
 	den_folder = "mt_jecUncNom_tauEsDown",
 	label = "",
-	color = "kCyan+2"
+	color = "kCyan+2",
+	marker = "HISTO"
 )
 
 
 #Embedding files for ElTau
 
 EmbeddingElTauFileNominal = DYFileElTauFile.clone(
-	scale_factor = 1./1.90354,
 	name = "EmbeddingElTauFileNominal",
-	num_file = "/storage/a/jbechtel/test/merged/merged/Embedding2016?_ElTau*/*.root",
+	num_file = "/home/jbechtel/plotting/EmbeddingMC/EmbeddingMCRunIISummer16DR80_ElTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_ElTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",
 	label = "#mu#rightarrow#tau embedded",
 	color = "kBlue"
 )
@@ -425,7 +490,6 @@ EmbeddingTauTauFileDown = EmbeddingTauTauFileNominal.clone(
 #Embedding files for ElMu
 
 EmbeddingElMuFileNominal = DYFileElMuFile.clone(
-	scale_factor = 1./1.58934,
 	name = "EmbeddingElMuFileNominal",
 	num_file = "/portal/ekpbms1/home/akhmet/elmuembedding/*.root",
 	num_folder = "em_eleEsNom",
@@ -444,6 +508,112 @@ EmbeddingElMuFileUp = EmbeddingElMuFileNominal.clone(
 
 EmbeddingElMuFileDown = EmbeddingElMuFileNominal.clone(
 	name = "EmbeddingElMuFileDown",
+	num_folder = "em_eleEsDown",
+	den_folder = "em_eleEsDown",
+	label = "",
+	color = "kCyan+2"
+)
+
+#EmbeddingISO files for MuTau including Iso_2 MVA Variables
+
+EmbeddingISOMuTauFileNominal = DYFileMuTauFile.clone(
+	#scale_factor = 1./4.32414,
+	name = "EmbeddingMuTauFileNominal",
+	num_file = "/home/jbechtel/MVAcheck/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",
+	label = "#mu#rightarrow#tau embedded",
+	color = "kBlue"
+)
+
+EmbeddingISOMuTauFileUp = EmbeddingMuTauFileNominal.clone(
+	name = "EmbeddingMuTauFileUp",
+	num_folder = "mt_jecUncNom_tauEsUp",
+	den_folder = "mt_jecUncNom_tauEsUp",
+	label = "w. #pm3% #tau_{h}-ES shifts",
+	color = "kCyan+2"
+)
+
+EmbeddingISOMuTauFileDown = EmbeddingMuTauFileNominal.clone(
+	name = "EmbeddingMuTauFileDown",
+	num_folder = "mt_jecUncNom_tauEsDown",
+	den_folder = "mt_jecUncNom_tauEsDown",
+	label = "",
+	color = "kCyan+2"
+)
+
+
+#EmbeddingISO files for ElTau including Iso_2 MVA Variables
+
+EmbeddingISOElTauFileNominal = DYFileElTauFile.clone(
+	name = "EmbeddingISOElTauFileNominal",
+	num_file = "/storage/a/jbechtel/test/merged/merged/EmbeddingISO2016?_ElTau*/*.root",
+	label = "#mu#rightarrow#tau embedded",
+	color = "kBlue"
+)
+
+EmbeddingISOElTauFileUp = EmbeddingISOElTauFileNominal.clone(
+	name = "EmbeddingISOElTauFileUp",
+	num_folder = "et_jecUncNom_tauEsUp",
+	den_folder = "et_jecUncNom_tauEsUp",
+	label = "w. #pm3% #tau_{h}-ES shifts",
+	color = "kCyan+2"
+)
+
+EmbeddingISOElTauFileDown = EmbeddingISOElTauFileNominal.clone(
+	name = "EmbeddingISOElTauFileDown",
+	num_folder = "et_jecUncNom_tauEsDown",
+	den_folder = "et_jecUncNom_tauEsDown",
+	label = "",
+	color = "kCyan+2"
+)
+
+#EmbeddingISO files for TauTau including Iso_2 MVA Variables
+
+EmbeddingISOTauTauFileNominal = DYFileTauTauFile.clone(
+	scale_factor = 1./0.220103,
+	name = "EmbeddingISOTauTauFileNominal",
+	num_file = "/storage/a/jbechtel/janek/EmbeddingISO2016?_TauTau*/*.root",
+	label = "#mu#rightarrow#tau embedded",
+	color = "kBlue"
+)
+
+EmbeddingISOTauTauFileUp = EmbeddingISOTauTauFileNominal.clone(
+	name = "EmbeddingISOTauTauFileUp",
+	num_folder = "tt_jecUncNom_tauEsUp",
+	den_folder = "tt_jecUncNom_tauEsUp",
+	label = "w. #pm3% #tau_{h}-ES shifts",
+	color = "kCyan+2"
+)
+
+EmbeddingISOTauTauFileDown = EmbeddingISOTauTauFileNominal.clone(
+	name = "EmbeddingISOTauTauFileDown",
+	num_folder = "tt_jecUncNom_tauEsDown",
+	den_folder = "tt_jecUncNom_tauEsDown",
+	label = "",
+	color = "kCyan+2"
+)
+
+#EmbeddingISO files for ElMu including Iso_2 MVA Variables
+
+EmbeddingISOElMuFileNominal = DYFileElMuFile.clone(
+	scale_factor = 1./1.58934,
+	name = "EmbeddingISOElMuFileNominal",
+	num_file = "/portal/ekpbms1/home/akhmet/elmuEmbeddingISO/*.root",
+	num_folder = "em_eleEsNom",
+	den_folder = "em_eleEsNom",
+	label = "#mu#rightarrow#tau embedded",
+	color = "kBlue"
+)
+
+EmbeddingISOElMuFileUp = EmbeddingISOElMuFileNominal.clone(
+	name = "EmbeddingISOElMuFileUp",
+	num_folder = "em_eleEsUp",
+	den_folder = "em_eleEsUp",
+	label = "w. #pm2% e-ES shifts",
+	color = "kCyan+2"
+)
+
+EmbeddingISOElMuFileDown = EmbeddingISOElMuFileNominal.clone(
+	name = "EmbeddingISOElMuFileDown",
 	num_folder = "em_eleEsDown",
 	den_folder = "em_eleEsDown",
 	label = "",

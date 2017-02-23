@@ -21,7 +21,7 @@ class single_plotline:
 		label = None,
 		marker = "HISTO",
 		color = "kBlack",
-		legend_marker="L",
+		legend_marker="P",
 		scale_factor=1):
 
 		self.name = name

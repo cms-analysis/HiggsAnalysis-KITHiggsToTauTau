@@ -20,13 +20,13 @@
 			"DY.?JetsToLL" : [
 				23
 			],
-			"^(GluGlu|VBF)HToTauTau" : [
+			"^(GluGlu|GluGluTo|VBF)HToTauTau" : [
 				25
 			],
 			"W.?JetsToLN" : [
 				24
 			],
-			"SUSY(BB|GluGluTo)(BB)?HToTauTau" : [
+			"SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" : [
 				36
 			]
 		}

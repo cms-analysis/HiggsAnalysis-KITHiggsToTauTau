@@ -58,7 +58,9 @@ protected:
 private:
         ValidMuonsInput validMuonsInput;
 	float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const;
+	bool MuonIDshortTerm = false;
         bool IsMediumMuon2016ShortTerm(KMuon* muon, event_type const& event, product_type& product) const;
+	bool IsMediumMuon2016(KMuon* muon, event_type const& event, product_type& product) const;
 };
 
 class TagAndProbeElectronPairProducer: public ProducerBase<HttTypes> {

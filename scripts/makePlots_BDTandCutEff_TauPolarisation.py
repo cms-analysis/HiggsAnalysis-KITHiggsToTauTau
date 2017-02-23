@@ -34,7 +34,10 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 	logger.initLogger(args)
+
+	#The input names has to be: "tmvaClassification/BDT_(name).root" (IMPORTANT for your BDT output name)
 	names=args.input
+
 	#CutEff PLOT
 	plot_configs = []
 		
@@ -42,42 +45,19 @@ if __name__ == "__main__":
     	"analysis_modules": [
 		"CutEfficiency"
     	], 
-    	"cut_efficiency_bkg_nicks": [
-		"H+tt",
-		"H+et",
-		"H+mt"
-    	], 
-    	"cut_efficiency_nicks": [
-    		"roc_tt",
-		"roc_et",
-		"roc_mt"
-    	], 
-    	"cut_efficiency_sig_nicks": [
-		"H-tt",
-		"H-et",
-		"H-mt"
-    	], 
-    	"filename": "ROC_all", 
-	"files": ["tmvaClassification/BDT_tt.root","tmvaClassification/BDT_tt.root", "tmvaClassification/BDT_et.root","tmvaClassification/BDT_et.root", "tmvaClassification/BDT_mt.root","tmvaClassification/BDT_mt.root"],
+    	"cut_efficiency_bkg_nicks": ["H+"+name for name in names], 
+    	"cut_efficiency_nicks": ["roc_"+name for name in names],
+    	"cut_efficiency_sig_nicks": ["H-"+name for name in names],
+    	"filename": "ROC_"+("_".join(names)), 
+	"files": ["tmvaClassification/BDT_"+name+".root" for name in names for _ in range(2)],
     	"folders": [
 		"TrainTree"
     	], 
     	"markers": [
 		"LP"
     	], 
-    	"nicks": [
-		"H-tt",
-		"H+tt",
-		"H-et",
-		"H+et",
-		"H-mt",
-		"H+mt"
-	], 
-    	"nicks_whitelist": [
-		"roc_tt",
-		"roc_et",
-		"roc_mt"
-    	], 
+    	"nicks": [item for pair in zip(["H-"+name for name in names], ["H+"+name for name in names] + [0]) for item in pair],
+    	"nicks_whitelist": ["roc_"+name for name in names],
     	"weights": [
 		"classID<0.5", 
 		"classID>0.5"
@@ -87,14 +67,18 @@ if __name__ == "__main__":
 		"BDT"
     	], 
     	"x_label": "bkg_rej", 
-    	"y_label": "sig_eff"
+    	"y_label": "sig_eff",
+	"legend": [0.25, 0.25, 0.5, 0.5],
+	"legend_cols": 1,
+	"legend_markers": ["LP"],
+	"labels" :[name for name in names]
 	}
 
 	plot_configs.append(config_CutEff)
 	
 	# BDT PLOT
 	
-	for i in range(len(names)):
+	for name in names:
 		config_BDT = {
 	    	"analysis_modules": [
 			"NormalizeToUnity"
@@ -105,8 +89,8 @@ if __name__ == "__main__":
 			"1", 
 			"2"
 	    	], 
-	    	"filename": "BDT_"+names[i], 
-		"files": "tmvaClassification/BDT_"+names[i]+".root",
+	    	"filename": "BDT_"+name, 
+		"files": "tmvaClassification/BDT_"+name+".root",
 	    	"folders": [
 			"TrainTree", 
 			"TrainTree", 
@@ -127,7 +111,12 @@ if __name__ == "__main__":
 	    	], 
 	       	"x_expressions": [
 	    	    "BDT"
-		]	
+		],
+		"legend": [0.7, 0.7, 0.9, 0.9],
+		"legend_cols": 1,
+		"legend_markers": ["L","L","LP","LP"],
+		"labels" :["H=-1 Training", "H=+1 Training","H=-1 Testing", "H=+1 Testing"],
+		"x_label": "BDT" + " " + name	
 		}
 		plot_configs.append(config_BDT)
 	

@@ -6,11 +6,16 @@
 	"VetoElectronReco" : "none",
 
 	"VetoElectronID" : "user",
-	"VetoElectronIDType" : "cutbased2015andlater",
+	"VetoElectronIDType" : {
+		"nick" : {
+			"default" : "cutbased2016noisocutsveto",
+			"(Run2015|Fall15MiniAODv2)" : "cutbased2015noisoandipcutsveto"
+		}
+	},
 	"VetoElectronIDName" : {
 		"nick" : {
 			"default" : "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
-			"(Run2016|Spring16|Run2015|Fall15MiniAODv2)" : "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
+			"(Run2015|Fall15MiniAODv2)" : "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
 		}
 	},
 

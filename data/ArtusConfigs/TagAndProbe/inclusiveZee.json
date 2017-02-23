@@ -49,6 +49,9 @@
 		"Processors" : [
 				"producer:HltProducer",
 				"producer:TagAndProbeElectronPairProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenBosonFromGenParticlesProducer",
 				"filter:ValidElectronsFilter",
 				"producer:ElectronTriggerMatchingProducer",
 				"producer:EventWeightProducer"

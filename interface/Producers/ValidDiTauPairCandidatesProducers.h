@@ -47,6 +47,7 @@ public:
 		m_lepton2LowerPtCutsByIndex = Utility::ParseMapTypes<size_t, float>(
 				Utility::ParseVectorToMap(settings.GetDiTauPairLepton2LowerPtCuts()), m_lepton2LowerPtCutsByHltName
 		);
+		m_hltFiredBranchNames = Utility::ParseVectorToMap(settings.GetHLTBranchNames());
 		
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiTauPairCandidates", [](event_type const& event, product_type const& product)
@@ -57,6 +58,43 @@ public:
 		{
 			return static_cast<int>(product.m_validDiTauPairCandidates.size()+product.m_invalidDiTauPairCandidates.size());
 		});
+		for(auto hltNames: m_hltFiredBranchNames)
+		{
+			std::map<std::string, std::vector<float>> lepton1LowerPtCutsByHltName = m_lepton1LowerPtCutsByHltName;
+			std::map<std::string, std::vector<float>> lepton2LowerPtCutsByHltName = m_lepton2LowerPtCutsByHltName;
+			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(hltNames.first, [hltNames, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName](event_type const& event, product_type const& product)
+			{
+				bool diTauPairFiredTrigger = false;
+				auto trigger = product.m_detailedTriggerMatchedLeptons.at(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).first));
+				for (auto hltName: hltNames.second)
+				{
+					bool hltFired = false;
+					for (auto hlts: (*trigger))
+					{
+						if (boost::regex_search(hlts.first, boost::regex(hltName, boost::regex::icase | boost::regex::extended)))
+						{
+							for (auto matchedObjects: hlts.second)
+							{
+								if (matchedObjects.second.size() > 0) hltFired = true;
+							}
+						}
+					}
+					// passing kinematic cuts for trigger
+					if (lepton1LowerPtCutsByHltName.find(hltName) != lepton1LowerPtCutsByHltName.end())
+					{
+						hltFired = hltFired &&
+								(product.m_validDiTauPairCandidates.at(0).first->p4.Pt() <= *std::max_element(lepton1LowerPtCutsByHltName.at(hltName).begin(), lepton1LowerPtCutsByHltName.at(hltName).end()));
+					}
+					if (lepton2LowerPtCutsByHltName.find(hltName) != lepton2LowerPtCutsByHltName.end())
+					{
+						hltFired = hltFired &&
+							(product.m_validDiTauPairCandidates.at(0).second->p4.Pt() <= *std::max_element(lepton2LowerPtCutsByHltName.at(hltName).begin(), lepton2LowerPtCutsByHltName.at(hltName).end()));
+					}
+					diTauPairFiredTrigger = diTauPairFiredTrigger || hltFired;
+				}
+				return diTauPairFiredTrigger;
+			});
+		}
 	}
 	
 	virtual void Produce(event_type const& event, product_type & product, 
@@ -83,7 +121,7 @@ public:
 				validDiTauPair = validDiTauPair && ((settings.GetDiTauPairMinDeltaRCut() < 0.0) || (diTauPair.GetDeltaR() > static_cast<double>(settings.GetDiTauPairMinDeltaRCut())));
 
 				// require matchings with the same triggers
-				if (!settings.GetDiTauPairNoHLT())
+				if (!settings.GetDiTauPairNoHLT() || !settings.GetDiTauPairHLTLast())
 				{
 					std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons, settings.GetDiTauPairHltPathsWithoutCommonMatchRequired());
 					validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);
@@ -172,7 +210,7 @@ public:
 
 					}
 				}
-				else // will hopefully become obsolete towards the end of 2016 when the trigger is included in simulation
+				else if(!settings.GetDiTauPairHLTLast())// will hopefully become obsolete towards the end of 2016 when the trigger is included in simulation
 				{
 					if (validDiTauPair)
 					{
@@ -260,6 +298,7 @@ private:
 	std::map<std::string, std::vector<float> > m_lepton1LowerPtCutsByHltName;
 	std::map<size_t, std::vector<float> > m_lepton2LowerPtCutsByIndex;
 	std::map<std::string, std::vector<float> > m_lepton2LowerPtCutsByHltName;
+	std::map<std::string, std::vector<std::string> > m_hltFiredBranchNames;
 
 };
 

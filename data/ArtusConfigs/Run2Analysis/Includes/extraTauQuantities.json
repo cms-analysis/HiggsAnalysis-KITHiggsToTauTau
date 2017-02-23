@@ -1,0 +1,26 @@
+{
+	"property" : [
+		"decayDistX_1",
+		"decayDistX_2",
+		"decayDistY_1",
+		"decayDistY_2",
+		"decayDistZ_1",
+		"decayDistZ_2",
+		"decayDistM_1",
+		"decayDistM_2",
+		"nPhoton_1",
+		"nPhoton_2",
+		"ptWeightedDetaStrip_1",
+		"ptWeightedDetaStrip_2",
+		"ptWeightedDphiStrip_1",
+		"ptWeightedDphiStrip_2",
+		"ptWeightedDrSignal_1",
+		"ptWeightedDrSignal_2",
+		"ptWeightedDrIsolation_1",
+		"ptWeightedDrIsolation_2",
+		"leadingTrackChi2_1",
+		"leadingTrackChi2_2",
+		"eRatio_1",
+		"eRatio_2"
+	]
+}

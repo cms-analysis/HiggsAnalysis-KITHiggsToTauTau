@@ -573,6 +573,19 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	tauDiscriminators.push_back("puCorrPtSum");
 	tauDiscriminators.push_back("footprintCorrection");
 	tauDiscriminators.push_back("photonPtSumOutsideSignalCone");
+	tauDiscriminators.push_back("decayDistX");
+	tauDiscriminators.push_back("decayDistY");
+	tauDiscriminators.push_back("decayDistZ");
+	tauDiscriminators.push_back("decayDistM");
+	tauDiscriminators.push_back("nPhoton");
+	tauDiscriminators.push_back("ptWeightedDetaStrip");
+	tauDiscriminators.push_back("ptWeightedDphiStrip");
+	tauDiscriminators.push_back("ptWeightedDrSignal");
+	tauDiscriminators.push_back("ptWeightedDrIsolation");
+	tauDiscriminators.push_back("leadingTrackChi2");
+	tauDiscriminators.push_back("eRatio");
+	
+	
 
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{

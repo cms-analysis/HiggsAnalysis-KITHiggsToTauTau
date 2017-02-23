@@ -80,3 +80,56 @@ void AntiTtbarDiscriminatorTmvaReader::Produce(spec_event_type const& event,
 	TmvaClassificationReaderBase<HttTypes>::Produce(event, product, settings);
 }
 
+
+// Tau polarisation MVA class:
+
+TauPolarisationTmvaReader::TauPolarisationTmvaReader() :
+	TmvaClassificationReaderBase<HttTypes>(&spec_setting_type::GetTauPolarisationTmvaInputQuantities,
+	                                       &spec_setting_type::GetTauPolarisationTmvaMethods,
+	                                       &spec_setting_type::GetTauPolarisationTmvaWeights,
+	                                       &spec_product_type::m_tauPolarisationDiscriminators)
+{
+}
+
+void TauPolarisationTmvaReader::Init(spec_setting_type const& settings)
+{
+	// register variables needed for the MVA evaluation
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationMva", [](spec_event_type const& event, spec_product_type const& product)
+	{
+		return ((product.m_tauPolarisationDiscriminators.size() > 0) ? product.m_tauPolarisationDiscriminators[0] : DefaultValues::UndefinedFloat);
+	});
+	
+	// has to be called at the end of the subclass function
+	TmvaClassificationReaderBase<HttTypes>::Init(settings);
+}
+
+void TauPolarisationTmvaReader::Produce(spec_event_type const& event,
+                                               spec_product_type& product,
+                                               spec_setting_type const& settings) const
+{
+	assert(product.m_flavourOrderedLeptons.size() >= 2);
+	assert(event.m_tjets);
+	assert(event.m_jetMetadata);
+	assert(product.m_metUncorr);
+	
+	// has to be called at the end of the subclass function
+	TmvaClassificationReaderBase<HttTypes>::Produce(event, product, settings);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
