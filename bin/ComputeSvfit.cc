@@ -38,6 +38,11 @@ int main(int argc, const char *argv[])
 	boost::program_options::variables_map vm;
 	boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(args).run(), vm);
 	boost::program_options::notify(vm);
+	
+	if (vm.count("help")) {
+		std::cout << "ComputeSvfit -i|--inputfile <INPUT.root> -o|--outputfile <OUTPUT.root>" << std::endl;
+		return 1;
+	}
 
 	// Svfit Eventkey
 	ULong64_t runLumiEvent;
@@ -141,7 +146,7 @@ int main(int argc, const char *argv[])
 	unsigned int nEntries = inputtree->GetEntries();
 	for(unsigned int entry = 0; entry < nEntries; entry++)
 	{
-		std::cout << "Entry: " << entry << " / " << nEntries << std::endl;
+		std::cout << "Entry: " << entry+1 << " / " << nEntries << std::endl;
 		inputtree->GetEntry(entry);
 
 		outrunLumiEvent = runLumiEvent;
