@@ -1,10 +1,146 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
-#include "Artus/Utility/interface/Utility.h"
+#include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/CutRange.h"
+#include "Artus/Utility/interface/Utility.h"
 
 #include "Kappa/DataFormats/interface/Hash.h"
+
+
+MCTauTauQuantitiesAdapter::MCTauTauQuantitiesAdapter() :
+	MCQuantitiesAdapter({
+			new svFitStandalone::SVfitQuantity(
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramHiggsPt", 1., 1.e+3, 1.025),
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramHiggsPt_density", 1., 1.e+3, 1.025),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return (fittedTauLeptons.at(0) + fittedTauLeptons.at(1)).pt();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					new TH1D("SVfitStandaloneAlgorithm_histogramHiggsEta", "SVfitStandaloneAlgorithm_histogramHiggsEta", 198, -9.9, +9.9),
+					new TH1D("SVfitStandaloneAlgorithm_histogramHiggsEta_density", "SVfitStandaloneAlgorithm_histogramHiggsEta_density", 198, -9.9, +9.9),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return (fittedTauLeptons.at(0) + fittedTauLeptons.at(1)).eta();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					new TH1D("SVfitStandaloneAlgorithm_histogramHiggsPhi", "SVfitStandaloneAlgorithm_histogramHiggsPhi", 180, -TMath::Pi(), +TMath::Pi()),
+					new TH1D("SVfitStandaloneAlgorithm_histogramHiggsPhi_density", "SVfitStandaloneAlgorithm_histogramHiggsPhi_density", 180, -TMath::Pi(), +TMath::Pi()),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return (fittedTauLeptons.at(0) + fittedTauLeptons.at(1)).phi();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1E", 1., 1.e+3, 1.025),
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1E_density", 1., 1.e+3, 1.025),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return fittedTauLeptons.at(0).pt();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1Pt", 1., 1.e+3, 1.025),
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1Pt_density", 1., 1.e+3, 1.025),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return fittedTauLeptons.at(0).pt();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					new TH1D("SVfitStandaloneAlgorithm_histogramTau1Eta", "SVfitStandaloneAlgorithm_histogramTau1Eta", 198, -9.9, +9.9),
+					new TH1D("SVfitStandaloneAlgorithm_histogramTau1Eta_density", "SVfitStandaloneAlgorithm_histogramTau1Eta_density", 198, -9.9, +9.9),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return fittedTauLeptons.at(0).eta();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					new TH1D("SVfitStandaloneAlgorithm_histogramTau1Phi", "SVfitStandaloneAlgorithm_histogramTau1Phi", 180, -TMath::Pi(), +TMath::Pi()),
+					new TH1D("SVfitStandaloneAlgorithm_histogramTau1Phi_density", "SVfitStandaloneAlgorithm_histogramTau1Phi_density", 180, -TMath::Pi(), +TMath::Pi()),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return fittedTauLeptons.at(0).phi();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2E", 1., 1.e+3, 1.025),
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2E_density", 1., 1.e+3, 1.025),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return fittedTauLeptons.at(1).pt();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2Pt", 1., 1.e+3, 1.025),
+					svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2Pt_density", 1., 1.e+3, 1.025),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return fittedTauLeptons.at(1).pt();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					new TH1D("SVfitStandaloneAlgorithm_histogramTau2Eta", "SVfitStandaloneAlgorithm_histogramTau2Eta", 198, -9.9, +9.9),
+					new TH1D("SVfitStandaloneAlgorithm_histogramTau2Eta_density", "SVfitStandaloneAlgorithm_histogramTau2Eta_density", 198, -9.9, +9.9),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return fittedTauLeptons.at(1).eta();
+					}
+			),
+			new svFitStandalone::SVfitQuantity(
+					new TH1D("SVfitStandaloneAlgorithm_histogramTau2Phi", "SVfitStandaloneAlgorithm_histogramTau2Phi", 180, -TMath::Pi(), +TMath::Pi()),
+					new TH1D("SVfitStandaloneAlgorithm_histogramTau2Phi_density", "SVfitStandaloneAlgorithm_histogramTau2Phi_density", 180, -TMath::Pi(), +TMath::Pi()),
+					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons) -> double
+					{
+						return fittedTauLeptons.at(1).phi();
+					}
+			),
+	})
+{
+}
+
+RMFLV MCTauTauQuantitiesAdapter::GetFittedHiggsLV() const
+{
+	RMFLV momentum;
+	momentum.SetPt(ExtractValue(0));
+	momentum.SetEta(ExtractValue(1));
+	momentum.SetPhi(ExtractValue(2));
+	momentum.SetM(ExtractValue(GetNQuantities()-2));
+	return momentum;
+}
+
+float MCTauTauQuantitiesAdapter::GetFittedTau1E() const
+{
+	return ExtractValue(3);
+}
+
+RMFLV MCTauTauQuantitiesAdapter::GetFittedTau1LV() const
+{
+	RMFLV momentum;
+	momentum.SetPt(ExtractValue(4));
+	momentum.SetEta(ExtractValue(5));
+	momentum.SetPhi(ExtractValue(6));
+	momentum.SetM(DefaultValues::TauMassGeV);
+	return momentum;
+}
+
+float MCTauTauQuantitiesAdapter::GetFittedTau2E() const
+{
+	return ExtractValue(7);
+}
+
+RMFLV MCTauTauQuantitiesAdapter::GetFittedTau2LV() const
+{
+	RMFLV momentum;
+	momentum.SetPt(ExtractValue(8));
+	momentum.SetEta(ExtractValue(9));
+	momentum.SetPhi(ExtractValue(10));
+	momentum.SetM(DefaultValues::TauMassGeV);
+	return momentum;
+}
 
 
 SvfitEventKey::SvfitEventKey(ULong64_t const& runLumiEvent,
@@ -273,6 +409,7 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey 
 	                                                                             GetMetCovarianceMatrix(),
 	                                                                             verbosity);
 	svfitStandaloneAlgorithm.addLogM(addLogM);
+	svfitStandaloneAlgorithm.setMCQuantitiesAdapter(new MCTauTauQuantitiesAdapter());
 	return svfitStandaloneAlgorithm;
 }
 
@@ -320,10 +457,10 @@ TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 	return metCovarianceMatrix;
 }
 
-SvfitResults::SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass) :
+SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV) :
 	SvfitResults()
 {
-	Set(momentum, momentumUncertainty, fittedMET, transverseMass);
+	Set(fittedTransverseMass, fittedHiggsLV, fittedTau1E, fittedTau1LV, fittedTau2E, fittedTau2LV);
 	recalculated = false;
 }
 
@@ -336,91 +473,117 @@ SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgori
 SvfitResults::~SvfitResults()
 {
 	/* TODO: freeing memory here creates segmentation faults
-	if (momentum)
+	if (fittedTransverseMass)
 	{
-		delete momentum;
+		delete fittedTransverseMass;
 	}
-	if (momentumUncertainty)
+	if (fittedHiggsLV)
 	{
-		delete momentumUncertainty;
+		delete fittedHiggsLV;
+	}
+	if (fittedTau1E)
+	{
+		delete fittedTau1E;
+	}
+	if (fittedTau1LV)
+	{
+		delete fittedTau1LV;
+	}
+	if (fittedTau2E)
+	{
+		delete fittedTau2E;
+	}
+	if (fittedTau2LV)
+	{
+		delete fittedTau2LV;
 	}
 	*/
 }
 
-void SvfitResults::Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass)
+void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV)
 {
-	if (! this->momentum)
+	if (! this->fittedTransverseMass)
 	{
-		this->momentum = new RMFLV();
+		this->fittedTransverseMass = new double;
 	}
-	if (! this->momentumUncertainty)
+	if (! this->fittedHiggsLV)
 	{
-		this->momentumUncertainty = new RMFLV();
+		this->fittedHiggsLV = new RMFLV();
 	}
-	if (! this->fittedMET)
+	if (! this->fittedTau1E)
 	{
-		this->fittedMET = new RMDataV();
+		this->fittedTau1E = new float;
 	}
-	if(! this->transverseMass)
+	if (! this->fittedTau1LV)
 	{
-		this->transverseMass = new double;
+		this->fittedTau1LV = new RMFLV();
 	}
-	if(! this->transverseMassUnc)
+	if (! this->fittedTau2E)
 	{
-		this->transverseMassUnc = new double;
+		this->fittedTau2E = new float;
+	}
+	if (! this->fittedTau2LV)
+	{
+		this->fittedTau2LV = new RMFLV();
 	}
 	
-	*(this->momentum) = momentum;
-	*(this->momentumUncertainty) = momentumUncertainty;
-	*(this->fittedMET) = fittedMET;
-	*(this->transverseMass) = transverseMass.first;
-	*(this->transverseMassUnc) = transverseMass.second;
+	*(this->fittedTransverseMass) = fittedTransverseMass;
+	*(this->fittedHiggsLV) = fittedHiggsLV;
+	*(this->fittedTau1E) = fittedTau1E;
+	*(this->fittedTau1LV) = fittedTau1LV;
+	*(this->fittedTau2E) = fittedTau2E;
+	*(this->fittedTau2LV) = fittedTau2LV;
 }
 
 void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
-	Set(GetMomentum(svfitStandaloneAlgorithm),
-	    GetMomentumUncertainty(svfitStandaloneAlgorithm),
-	    GetFittedMET(svfitStandaloneAlgorithm),
-	    GetFittedTransverseMass(svfitStandaloneAlgorithm));
+	Set(GetFittedTransverseMass(svfitStandaloneAlgorithm),
+	    GetFittedHiggsLV(svfitStandaloneAlgorithm),
+	    GetFittedTau1E(svfitStandaloneAlgorithm),
+	    GetFittedTau1LV(svfitStandaloneAlgorithm),
+	    GetFittedTau2E(svfitStandaloneAlgorithm),
+	    GetFittedTau2LV(svfitStandaloneAlgorithm));
 }
 
 void SvfitResults::CreateBranches(TTree* tree)
 {
-	tree->Branch("svfitMomentum", &momentum);
-	//tree->Branch("svfitMomentumUncertainty", &momentumUncertainty);
-	//tree->Branch("svfitMet", &fittedMET);
-	tree->Branch("svfitTransverseMass", transverseMass, "svfitTransverseMass/D");
-	//tree->Branch("svfitTransverseMassUnc", transverseMassUnc, "svfitTransverseMassUnc/D");
+	tree->Branch("svfitTransverseMass", fittedTransverseMass, "svfitTransverseMass/D");
+	tree->Branch("svfitHiggsLV", &fittedHiggsLV);
+	tree->Branch("svfitTau1E", fittedTau1E, "svfitTau1E/F");
+	tree->Branch("svfitTau1LV", &fittedTau1LV);
+	tree->Branch("svfitTau2E", fittedTau2E, "svfitTau2E/F");
+	tree->Branch("svfitTau2LV", &fittedTau2LV);
 }
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
 {
-	if(! transverseMass)
-	{
-		transverseMass = new double;
-	}
-	tree->SetBranchAddress("svfitMomentum", &momentum);
-	//tree->SetBranchAddress("svfitMomentumUncertainty", &momentumUncertainty);
-	//tree->SetBranchAddress("svfitMet", &fittedMET);
-	tree->SetBranchAddress("svfitTransverseMass", transverseMass);
-	//tree->SetBranchAddress("svfitTransverseMassUnc", transverseMassUnc);
+	tree->SetBranchAddress("svfitTransverseMass", fittedTransverseMass);
+	tree->SetBranchAddress("svfitHiggsLV", &fittedHiggsLV);
+	tree->SetBranchAddress("svfitTau1E", fittedTau1E);
+	tree->SetBranchAddress("svfitTau1LV", &fittedTau1LV);
+	tree->SetBranchAddress("svfitTau2E", fittedTau2E);
+	tree->SetBranchAddress("svfitTau2LV", &fittedTau2LV);
 	ActivateBranches(tree, true);
 }
 
 void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 {
-	tree->SetBranchStatus("svfitMomentum", activate);
-	//tree->SetBranchStatus("svfitMomentumUncertainty", activate);
-	//tree->SetBranchStatus("svfitMet", activate);
 	tree->SetBranchStatus("svfitTransverseMass", activate);
-	//tree->SetBranchStatus("svfitTransverseMassUnc", activate);
+	tree->SetBranchStatus("svfitHiggsLV", activate);
+	tree->SetBranchStatus("svfitTau1E", activate);
+	tree->SetBranchStatus("svfitTau1LV", activate);
+	tree->SetBranchStatus("svfitTau2E", activate);
+	tree->SetBranchStatus("svfitTau2LV", activate);
 }
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
 {
-	return (Utility::ApproxEqual(*momentum, *(rhs.momentum)) &&
-	        Utility::ApproxEqual(*momentumUncertainty, *(rhs.momentumUncertainty)));
+	return (Utility::ApproxEqual(*fittedTransverseMass, *(rhs.fittedTransverseMass)) &&
+	        Utility::ApproxEqual(*fittedHiggsLV, *(rhs.fittedHiggsLV)) &&
+	        Utility::ApproxEqual(*fittedTau1E, *(rhs.fittedTau1E)) &&
+	        Utility::ApproxEqual(*fittedTau1LV, *(rhs.fittedTau1LV)) &&
+	        Utility::ApproxEqual(*fittedTau2E, *(rhs.fittedTau2E)) &&
+	        Utility::ApproxEqual(*fittedTau2LV, *(rhs.fittedTau2LV)));
 }
 
 bool SvfitResults::operator!=(SvfitResults const& rhs) const
@@ -428,36 +591,31 @@ bool SvfitResults::operator!=(SvfitResults const& rhs) const
 	return (! (*this == rhs));
 }
 
-RMFLV SvfitResults::GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+double SvfitResults::GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
 {
-	RMFLV momentum;
-	momentum.SetPt(svfitStandaloneAlgorithm.pt());
-	momentum.SetEta(svfitStandaloneAlgorithm.eta());
-	momentum.SetPhi(svfitStandaloneAlgorithm.phi());
-	momentum.SetM(svfitStandaloneAlgorithm.mass());
-	return momentum;
+	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->getTransverseMass();
+}
+RMFLV SvfitResults::GetFittedHiggsLV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+{
+	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedHiggsLV();
+}
+float SvfitResults::GetFittedTau1E(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+{
+	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau1E();
+}
+RMFLV SvfitResults::GetFittedTau1LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+{
+	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau1LV();
+}
+float SvfitResults::GetFittedTau2E(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+{
+	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau2E();
+}
+RMFLV SvfitResults::GetFittedTau2LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+{
+	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau2LV();
 }
 
-RMFLV SvfitResults::GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
-{
-	RMFLV momentumUncertainty;
-	momentumUncertainty.SetPt(svfitStandaloneAlgorithm.ptUncert());
-	momentumUncertainty.SetEta(svfitStandaloneAlgorithm.etaUncert());
-	momentumUncertainty.SetPhi(svfitStandaloneAlgorithm.phiUncert());
-	momentumUncertainty.SetM(svfitStandaloneAlgorithm.massUncert());
-	return momentumUncertainty;
-}
-
-RMDataV SvfitResults::GetFittedMET(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
-{
-	RMDataV fittedMET(svfitStandaloneAlgorithm.fittedMET());
-	return fittedMET;
-}
-
-std::pair<double, double> SvfitResults::GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
-{
-	return std::make_pair(svfitStandaloneAlgorithm.transverseMass(), svfitStandaloneAlgorithm.transverseMassUncert());
-}
 
 std::map<std::string, TTree*> SvfitTools::svfitCacheInputTree;
 std::map<std::string, TFile*> SvfitTools::svfitCacheInputFile;

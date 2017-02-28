@@ -18,6 +18,22 @@
 typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
 typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 
+
+class MCTauTauQuantitiesAdapter : public svFitStandalone::MCQuantitiesAdapter
+{
+
+public:
+	MCTauTauQuantitiesAdapter();
+
+	RMFLV GetFittedHiggsLV() const;
+	
+	float GetFittedTau1E() const;
+	RMFLV GetFittedTau1LV() const;
+	
+	float GetFittedTau2E() const;
+	RMFLV GetFittedTau2LV() const;
+};
+
 /**
  */
 class SvfitEventKey {
@@ -121,18 +137,19 @@ private:
 class SvfitResults {
 
 public:
-	RMFLV* momentum = 0;
-	RMFLV* momentumUncertainty = 0;
-	RMDataV* fittedMET = 0;
-	double*  transverseMass = 0;
-	double*  transverseMassUnc = 0;
+	double* fittedTransverseMass = nullptr;
+	RMFLV* fittedHiggsLV = nullptr;
+	float* fittedTau1E = nullptr;
+	RMFLV* fittedTau1LV = nullptr;
+	float* fittedTau2E = nullptr;
+	RMFLV* fittedTau2LV = nullptr;
 	
 	SvfitResults() {};
-	SvfitResults(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
+	SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV);
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	~SvfitResults();
 	
-	void Set(RMFLV const& momentum, RMFLV const& momentumUncertainty, RMDataV const& fittedMET, std::pair<double, double> transverseMass);
+	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV);
 	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	void fromRecalculation(){ recalculated = true; }
 	void fromCache(){ recalculated = false; }
@@ -147,10 +164,12 @@ public:
 	bool recalculated;
 
 private:
-	RMFLV GetMomentum(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
-	RMFLV GetMomentumUncertainty(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
-	RMDataV GetFittedMET(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
-	std::pair<double, double> GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	double GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	RMFLV GetFittedHiggsLV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	float GetFittedTau1E(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	RMFLV GetFittedTau1LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	float GetFittedTau2E(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	RMFLV GetFittedTau2LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 };
 
 

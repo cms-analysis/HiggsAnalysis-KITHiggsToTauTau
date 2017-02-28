@@ -30,6 +30,8 @@
 	<use name="boost_filesystem"/>
 	<use name="TauAnalysis/SVfitStandalone" />
 	<use name="Kappa/DataFormats" />
+	<use name="Artus/Utility" />
+	<use name="HiggsAnalysis/KITHiggsToTauTau" />
 </bin>
 
 <bin name="ExampleTreeProcessing" file="ExampleTreeProcessing.cc">
