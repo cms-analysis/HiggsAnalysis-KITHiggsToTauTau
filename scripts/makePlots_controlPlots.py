@@ -15,7 +15,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 from Artus.Utility.tools import make_multiplication, clean_multiplication
-
+import Artus.Utility.scaleembedding as scaleembedding
 
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick):
 	if not "scale_nicks" in config.keys():
@@ -106,9 +106,9 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
+	                    default=["ztt", "zll","tttautau", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff",
-	                             "ggh", "gghsm", "gghmm", "gghps", "qqh", "bbh", "vh", "htt", "data"],
+	                             "ggh", "gghsm", "gghmm", "gghps", "qqh", "bbh", "vh", "htt", "data","tttautau"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -215,7 +215,8 @@ if __name__ == "__main__":
 	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("--emb", default=False, action="store_true",
 	                    help="Use embedded samples. [Default: %(default)s]")
-
+	parser.add_argument("--embedded-weights", default=['1.0','1.0','1.0','1.0'], nargs='*',
+	                    help="Custom Embedding weights for mt, et, em, tt (in this order). [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -244,11 +245,12 @@ if __name__ == "__main__":
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
+	
 	if args.emb:
 		if args.run1:
 			log.critical("Embedding --emb only valid for run2. Remove --emb or select run2 samples.")
 			sys.exit(1)
-		sample_settings= samples.Samples(embedding=True)
+		sample_settings= samples.Samples(embedding=True,embedding_weight=args.embedded_weights)
 	else: 
 		sample_settings= samples.Samples()
 	if args.mssm:
@@ -465,19 +467,16 @@ if __name__ == "__main__":
 					log.debug(scale_nicks)
 					log.debug(bkg_samples_used)
 					log.debug(sig_samples_used)
-					#sys.exit()
 					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_samples_used)
-
+				
 				#add FullIntegral
 				if(args.full_integral):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					hmass_temp = 125
-					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
-						hmass_temp = int(args.higgs_masses[0])
-					sig_nick = "htt%i"%hmass_temp
-					bkg_samples_used.append(sig_nick)
+					bkg_samples_used.append('data')
+					if args.emb:
+						config["full_integral_outputs"]='./IntegralValues_Embedded.txt'
 					config["full_integral_nicks"]=[" ".join(bkg_samples_used)]
-					config["analysis_modules"].append("FullIntegral")
+					config["analysis_modules"].append("FullIntegral")		
 
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):
@@ -510,6 +509,6 @@ if __name__ == "__main__":
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-
+		
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
