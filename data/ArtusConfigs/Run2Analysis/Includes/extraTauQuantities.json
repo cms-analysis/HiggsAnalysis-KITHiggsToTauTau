@@ -21,6 +21,22 @@
 		"leadingTrackChi2_1",
 		"leadingTrackChi2_2",
 		"eRatio_1",
-		"eRatio_2"
+		"eRatio_2",
+		"MVAdxy_sign_1",
+		"MVAdxy_sign_2",
+		"MVAdxy_abs_1",	 
+		"MVAdxy_abs_2",
+		"MVAdxy_signal_1",
+		"MVAdxy_signal_2",
+		"MVAdxy_ip3d_sign_1",
+		"MVAdxy_ip3d_sign_2",
+		"MVAdxy_ip3d_abs_1",
+		"MVAdxy_ip3d_abs_2",
+		"MVAdxy_ip3d_signal_1",
+		"MVAdxy_ip3d_signal_2",
+		"hasSecondaryVertex_1",
+		"hasSecondaryVertex_2",
+		"flightLengthSig_1",
+		"flightLengthSig_2"
 	]
 }

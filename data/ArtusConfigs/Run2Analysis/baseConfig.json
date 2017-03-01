@@ -87,7 +87,7 @@
 	"MetRecoilCorrectorFile" : {
 		"nick" : {
 			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root",
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeIPFMET_2016BCD.root"
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
 		}
 	},
 	"MvaMetRecoilCorrectorFile" : {

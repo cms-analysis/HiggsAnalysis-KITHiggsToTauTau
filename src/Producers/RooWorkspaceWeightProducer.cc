@@ -194,6 +194,15 @@ void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type
 				{
 					args.push_back(lepton->p4.Pt());
 				}
+				if(arg=="t_eta")
+				{
+					args.push_back(lepton->p4.Eta());
+				}
+				if(arg=="t_dm")
+				{
+					KTau* tau = static_cast<KTau*>(lepton);
+					args.push_back(tau->decayMode);
+				}
 			}
 			if(genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
 			{

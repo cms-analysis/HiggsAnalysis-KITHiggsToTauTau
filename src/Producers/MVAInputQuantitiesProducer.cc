@@ -227,13 +227,13 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
 		product.m_diCJetMass = (product.m_validJets[csvleading]->p4 + product.m_validJets[csvtrailing]->p4).mass();
 		product.m_pVecSumCSVJets = (product.m_met.p4 + product.m_diLeptonSystem + product.m_validJets[csvleading]->p4 + product.m_validJets[csvtrailing]->p4).M();
 	}
-	if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 30.0) >=1 and product.m_svfitResults.momentum)
+	if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 30.0) >=1 and product.m_svfitResults.fittedHiggsLV)
 	{
 		double jet1_eta = product.m_validJets[0]->p4.Eta();
 		double jet1_phi = product.m_validJets[0]->p4.Phi();
-		double svfit_eta = product.m_svfitResults.momentum->Eta();
-		double svfit_phi = product.m_svfitResults.momentum->Phi();
-// 		double svfit_pt = product.m_svfitResults.momentum->Pt();
+		double svfit_eta = product.m_svfitResults.fittedHiggsLV->Eta();
+		double svfit_phi = product.m_svfitResults.fittedHiggsLV->Phi();
+// 		double svfit_pt = product.m_svfitResults.fittedHiggsLV->Pt();
 		product.m_diLepJet1DeltaR = TMath::Sqrt((svfit_eta-jet1_eta)*(svfit_eta-jet1_eta)+(svfit_phi-jet1_phi)*(svfit_phi-jet1_phi));
 	}
 	if (product.m_validJets.size() >= 1)
@@ -257,11 +257,11 @@ void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& 
 	{
 		product.m_jccsv4 = static_cast<KJet*>(product.m_validJets.at(csv4))->getTag(settings.GetBTaggedJetCombinedSecondaryVertexName(), event.m_jetMetadata);
 	}
-	if (product.m_svfitResults.momentum)
+	if (product.m_svfitResults.fittedHiggsLV)
 	{
-		double svfit_eta = product.m_svfitResults.momentum->Eta();
-// 		double svfit_phi = product.m_svfitResults.momentum->Phi();
-		double svfit_pt = product.m_svfitResults.momentum->Pt();
+		double svfit_eta = product.m_svfitResults.fittedHiggsLV->Eta();
+// 		double svfit_phi = product.m_svfitResults.fittedHiggsLV->Phi();
+		double svfit_pt = product.m_svfitResults.fittedHiggsLV->Pt();
 		product.m_diLepBoost = svfit_pt*TMath::CosH(svfit_eta);
 	}
 

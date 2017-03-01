@@ -146,8 +146,18 @@
             "muR0p5_muF0p5_weight"
 		],
 		"OSChargeLeptons" : true,
-		"MuonEnergyCorrection" : "rochcorr2016",
-		"MuonRochesterCorrectionsFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr/RoccoR_13tev_2016.txt",
+		"MuonEnergyCorrection" : {
+			"nick": {
+				"default" : "rochcorr2016",
+				"(Fall15MiniAODv2|Run2015)" : "rochcorr2015"
+			}
+		},
+		"MuonRochesterCorrectionsFile" : {
+			"nick": {
+				"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr2016",
+				"(Fall15MiniAODv2|Run2015)" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr/RoccoR_13tev_2015.txt"
+			}
+		},
 		"Processors" : {
 			"nick" : {
 				"default" : [

@@ -19,7 +19,7 @@ import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.taupogdatacards as taupogdatacards
 
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 	                    help="Control output amount of combine. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="",
 	                    help="Publish plots. [Default: %(default)s]")
-	parser.add_argument("--era", default="2015",
+	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--tighten-mass-window", action="store_true", default=False,
 	                    help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
