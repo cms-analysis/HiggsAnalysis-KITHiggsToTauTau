@@ -586,3 +586,60 @@ bool TagAndProbeElectronPairProducer::IsMVABased(KElectron* electron, event_type
 
 	return validElectron;
 }
+
+
+/*
+TagAndProbeGenElectronProducer::TagAndProbeGenElectronProducer() :
+	TagAndProbeGenLeptonProducer<KElectron>(&event_type::m_electrons,
+						  &product_type::m_correctedElectrons,
+						  &product_type::m_validElectrons,
+						  &product_type::m_TagAndProbeGenElectrons)
+{
+}
+void TagAndProbeGenElectronProducer::Init(setting_type const& settings)
+{
+	TagAndProbeGenLeptonProducer<KElectron>::Init(settings);
+	
+	validLeptonsInput = ToValidLeptonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidElectronsInput())));
+}
+std::string TagAndProbeGenElectronProducer::GetProducerId() const
+{
+	return "TagAndProbeGenElectronProducer";
+}
+
+TagAndProbeGenMuonProducer::TagAndProbeGenMuonProducer() :
+	TagAndProbeGenLeptonProducer<KMuon>(&event_type::m_muons,
+						  &product_type::m_correctedMuons,
+						  &product_type::m_validMuons,
+						  &product_type::m_TagAndProbeGenMuons)
+{
+}
+void TagAndProbeGenMuonProducer::Init(setting_type const& settings)
+{
+	TagAndProbeGenLeptonProducer<KMuon>::Init(settings);
+	
+	validLeptonsInput = ToValidLeptonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidMuonsInput())));
+}
+std::string TagAndProbeGenMuonProducer::GetProducerId() const
+{
+	return "TagAndProbeGenMuonProducer";
+}
+
+TagAndProbeGenTauProducer::TagAndProbeGenTauProducer() :
+	TagAndProbeGenLeptonProducer<KTau>(&event_type::m_taus,
+						  &product_type::m_correctedTaus,
+						  &product_type::m_validTaus,
+						  &product_type::m_TagAndProbeGenTaus)
+{
+}
+void TagAndProbeGenTauProducer::Init(setting_type const& settings)
+{
+	TagAndProbeGenLeptonProducer<KTau>::Init(settings);
+	
+	validLeptonsInput = ToValidLeptonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidTausInput())));
+}
+std::string TagAndProbeGenTauProducer::GetProducerId() const
+{
+	return "TagAndProbeGenTauProducer";
+}
+*/

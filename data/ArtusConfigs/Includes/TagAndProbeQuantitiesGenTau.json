@@ -1,0 +1,19 @@
+{
+    "property" : [
+    "wt",
+    "n_vtx",
+    "run",
+    "lumi",
+    "evt",
+    "pt_p",
+    "eta_p",
+    "phi_p",
+    "id_p",
+    "isoMedium_p",
+    "isoTight_p",
+    "gen_p",
+    "m_ll",
+    "trg_p_PFTau120",
+    "trg_p_PFTau140"
+    ]
+}

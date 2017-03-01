@@ -244,6 +244,12 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TagAndProbeMuonPairProducer();
 	else if(id == TagAndProbeElectronPairProducer().GetProducerId())
 		return new TagAndProbeElectronPairProducer();
+	else if(id == TagAndProbeGenTauProducer().GetProducerId())
+		return new TagAndProbeGenTauProducer();
+	else if(id == TagAndProbeGenMuonProducer().GetProducerId())
+		return new TagAndProbeGenMuonProducer();
+	else if(id == TagAndProbeGenElectronProducer().GetProducerId())
+		return new TagAndProbeGenElectronProducer();
 	else
 		return KappaFactory::createProducer( id );
 }
@@ -312,6 +318,12 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new TagAndProbeMuonPairConsumer<HttTypes>();
 	else if(id == TagAndProbeElectronPairConsumer<HttTypes>().GetConsumerId())
 		return new TagAndProbeElectronPairConsumer<HttTypes>();
+	else if(id == TagAndProbeGenTauConsumer<HttTypes>().GetConsumerId())
+		return new TagAndProbeGenTauConsumer<HttTypes>();
+	else if(id == TagAndProbeGenMuonConsumer<HttTypes>().GetConsumerId())
+		return new TagAndProbeGenMuonConsumer<HttTypes>();
+	else if(id == TagAndProbeGenElectronConsumer<HttTypes>().GetConsumerId())
+		return new TagAndProbeGenElectronConsumer<HttTypes>();
 	else
 		return KappaFactory::createConsumer( id );
 }
