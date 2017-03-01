@@ -332,4 +332,7 @@ public:
 	// settings for SimpleEleTauFakeRateWeightProducer
 	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightVLoose);
 	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightTight);
+
+	// settings for ZPtReweightProducer
+	IMPL_SETTING_DEFAULT(std::string, ZptReweightProducerWeights, "");
 };
