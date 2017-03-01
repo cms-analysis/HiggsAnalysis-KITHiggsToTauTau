@@ -73,7 +73,7 @@ class Datacards(object):
 			"lumi_$ERA",
 			"lnN",
 			ch.SystMap("era")
-				(       ["13TeV"], 1.062)
+				(       ["13TeV"], 1.026)
 		]
 		self.electron_efficiency_syst_args = [
 			"CMS_eff_e",
