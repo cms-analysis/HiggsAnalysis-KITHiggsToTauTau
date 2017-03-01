@@ -225,6 +225,8 @@ public:
 	IMPL_SETTING_DEFAULT(bool, DiTauPairIsTauIsoMVA, false);
 	IMPL_SETTING_DEFAULT(bool, DiTauPairNoHLT, false);
 	IMPL_SETTING_DEFAULT(bool, RequireFirstTriggering, false);
+	IMPL_SETTING_STRINGLIST_DEFAULT(HLTBranchNames, {});
+	IMPL_SETTING_DEFAULT(bool, DiTauPairHLTLast, false);
 
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
@@ -265,6 +267,10 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaInputQuantities, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
+
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaInputQuantities, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaMethods, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaWeights, {});
 
 	//MVATestMethodsProducer settings
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});

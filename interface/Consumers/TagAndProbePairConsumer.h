@@ -40,12 +40,15 @@ public:
 	void Init(setting_type const& settings) override {
 		ConsumerBase<TTypes>::Init(settings);
 		
+		usedMuonIDshortTerm = (settings.GetMuonID() == "medium2016");
+		
 		//fill quantity maps
 		FloatQuantities["wt"]=0.0;
 		IntQuantities["n_vtx"]=0;
 		IntQuantities["run"]=0;
 		IntQuantities["lumi"]=0;
 		IntQuantities["evt"]=0;
+		BoolQuantities["usedMuonIDshortTerm"]=usedMuonIDshortTerm;
 		FloatQuantities["pt_t"]=0.0;
 		FloatQuantities["eta_t"]=0.0;
 		FloatQuantities["phi_t"]=0.0;
@@ -58,6 +61,8 @@ public:
 		FloatQuantities["phi_p"]=0.0;
 		BoolQuantities["id_p"]=false;
 		FloatQuantities["iso_p"]=0.0;
+		BoolQuantities["gen_p"]=true;
+		BoolQuantities["genZ_p"]=true;
 		FloatQuantities["m_ll"]=0.0;
 		BoolQuantities["trg_t_IsoMu22"]=false;
 		BoolQuantities["trg_t_IsoMu22_eta2p1"]=false;
@@ -113,6 +118,8 @@ public:
 					IntQuantities["lumi"]=event.m_eventInfo->nLumi;
 				}else if(*quantity=="evt"){
 					IntQuantities["evt"]=event.m_eventInfo->nEvent;
+				}else if(*quantity=="usedMuonIDshortTerm"){
+					BoolQuantities["usedMuonIDshortTerm"]=usedMuonIDshortTerm;
 				}else if(*quantity=="pt_t"){
 					FloatQuantities["pt_t"]=TagAndProbePair->first->p4.Pt();
 				}else if(*quantity=="eta_t"){
@@ -120,7 +127,7 @@ public:
 				}else if(*quantity=="phi_t"){
 					FloatQuantities["phi_t"]=TagAndProbePair->first->p4.Phi();
 				}else if(*quantity=="id_t"){
-					BoolQuantities["id_t"]=IsMediumMuon2016ShortTerm(TagAndProbePair->first) && std::abs(TagAndProbePair->first->dxy) < 0.045 && std::abs(TagAndProbePair->first->dz) < 0.2;
+					BoolQuantities["id_t"]=( usedMuonIDshortTerm ? IsMediumMuon2016ShortTerm(TagAndProbePair->first) : IsMediumMuon2016(TagAndProbePair->first) ) && std::abs(TagAndProbePair->first->dxy) < 0.045 && std::abs(TagAndProbePair->first->dz) < 0.2;
 				}else if(*quantity=="iso_t"){
 					double chargedIsolationPtSum = TagAndProbePair->first->sumChargedHadronPtR04;
 					double neutralIsolationPtSum = TagAndProbePair->first->sumNeutralHadronEtR04;
@@ -138,13 +145,21 @@ public:
 				}else if(*quantity=="phi_p"){
 					FloatQuantities["phi_p"]=TagAndProbePair->second->p4.Phi();
 				}else if(*quantity=="id_p"){
-					BoolQuantities["id_p"]=IsMediumMuon2016ShortTerm(TagAndProbePair->second) && std::abs(TagAndProbePair->second->dxy) < 0.045 && std::abs(TagAndProbePair->second->dz) < 0.2;
+					BoolQuantities["id_p"]=( usedMuonIDshortTerm ? IsMediumMuon2016ShortTerm(TagAndProbePair->second) : IsMediumMuon2016(TagAndProbePair->second) ) && std::abs(TagAndProbePair->second->dxy) < 0.045 && std::abs(TagAndProbePair->second->dz) < 0.2;
 				}else if(*quantity=="iso_p"){
 					double chargedIsolationPtSum = TagAndProbePair->second->sumChargedHadronPtR04;
 					double neutralIsolationPtSum = TagAndProbePair->second->sumNeutralHadronEtR04;
 					double photonIsolationPtSum = TagAndProbePair->second->sumPhotonEtR04;
 					double deltaBetaIsolationPtSum = TagAndProbePair->second->sumPUPtR04;
 					FloatQuantities["iso_p"]=(chargedIsolationPtSum + std::max(0.0,neutralIsolationPtSum + photonIsolationPtSum - 0.5 * deltaBetaIsolationPtSum))/TagAndProbePair->second->p4.Pt();
+				}else if(*quantity=="gen_p"){
+					BoolQuantities["gen_p"]=(product.m_genParticleMatchedMuons.find(TagAndProbePair->second) != product.m_genParticleMatchedMuons.end());
+				}else if(*quantity=="genZ_p"){
+					if (product.m_genParticleMatchedMuons.find(TagAndProbePair->second) != product.m_genParticleMatchedMuons.end()){
+						BoolQuantities["genZ_p"]=(std::find(product.m_genLeptonsFromBosonDecay.begin(), product.m_genLeptonsFromBosonDecay.end(), product.m_genParticleMatchedMuons.at(TagAndProbePair->second)) != product.m_genLeptonsFromBosonDecay.end());
+					}else{
+						BoolQuantities["genZ_p"]=false;
+					}
 				}else if(*quantity=="m_ll"){
 					FloatQuantities["m_ll"]=(TagAndProbePair->first->p4 + TagAndProbePair->second->p4).M();
 				}else if(*quantity=="trg_t_IsoMu22"){
@@ -466,6 +481,7 @@ private:
 	std::map <std::string, bool> BoolQuantities;
 	std::map <std::string, int> IntQuantities;
 	std::map <std::string, float> FloatQuantities;
+	bool usedMuonIDshortTerm = false;
 	// https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Short_Term_Medium_Muon_Definitio
 	bool IsMediumMuon2016ShortTerm(KMuon* muon) const
 	{
@@ -475,6 +491,17 @@ private:
         	                                && muon->trkKink < 20;
         	bool isMedium = muon->idLoose()
         	                               	&& muon->validFractionOfTrkHits > 0.49
+        	                                && muon->segmentCompatibility > (goodGlob ? 0.303 : 0.451);
+        	return isMedium;
+	}
+	bool IsMediumMuon2016(KMuon* muon) const
+	{
+	        bool goodGlob = muon->isGlobalMuon()
+	                                        && muon->normalizedChiSquare < 3
+	                                        && muon->chiSquareLocalPos < 12
+        	                                && muon->trkKink < 20;
+        	bool isMedium = muon->idLoose()
+        	                               	&& muon->validFractionOfTrkHits > 0.8
         	                                && muon->segmentCompatibility > (goodGlob ? 0.303 : 0.451);
         	return isMedium;
 	}
@@ -509,6 +536,7 @@ public:
 		IntQuantities["lumi"]=0;
 		IntQuantities["evt"]=0;
 		FloatQuantities["pt_t"]=0.0;
+		FloatQuantities["pt_t_25eta2p1TightL1"]=0.0;
 		FloatQuantities["eta_t"]=0.0;
 		FloatQuantities["phi_t"]=0.0;
 		BoolQuantities["id_t"]=false;
@@ -519,6 +547,8 @@ public:
 		FloatQuantities["phi_p"]=0.0;
 		BoolQuantities["id_p"]=false;
 		FloatQuantities["iso_p"]=0.0;
+		BoolQuantities["gen_p"]=true;
+		BoolQuantities["genZ_p"]=true;
 		FloatQuantities["m_ll"]=0.0;
 		BoolQuantities["trg_t_Ele25eta2p1WPTight"]=false;
 		BoolQuantities["trg_t_Ele27eta2p1WPTight"]=false;
@@ -570,6 +600,23 @@ public:
 					IntQuantities["evt"]=event.m_eventInfo->nEvent;
 				}else if(*quantity=="pt_t"){
 					FloatQuantities["pt_t"]=TagAndProbePair->first->p4.Pt();
+				}else if(*quantity=="pt_t_25eta2p1TightL1"){
+					double pt_L1object = 0.0;
+					if (!product.m_selectedHltNames.empty())
+					{
+						auto trigger = product.m_detailedTriggerMatchedElectrons.at(TagAndProbePair->first);
+						for (auto hlts: trigger)         
+						{
+							if (boost::regex_search(hlts.first, boost::regex("HLT_Ele25_eta2p1_WPTight_Gsf_v", boost::regex::icase | boost::regex::extended)))
+							{
+								for (auto L1object: hlts.second["hltEle25erWPTightGsfTrackIsoFilter"])
+								{
+									if (L1object->p4.Pt() > pt_L1object) pt_L1object = L1object->p4.Pt();
+								}
+							}
+						}
+					}
+					FloatQuantities["pt_t_25eta2p1TightL1"]=pt_L1object;
 				}else if(*quantity=="eta_t"){
 					FloatQuantities["eta_t"]=TagAndProbePair->first->p4.Eta();
 				}else if(*quantity=="phi_t"){
@@ -590,6 +637,14 @@ public:
 					BoolQuantities["id_p"]=IsMVABased(TagAndProbePair->second, event, electronIDName) && std::abs(TagAndProbePair->second->track.getDxy(&event.m_vertexSummary->pv)) < 0.045 && std::abs(TagAndProbePair->second->track.getDz(&event.m_vertexSummary->pv)) < 0.2;
 				}else if(*quantity=="iso_p"){
 					FloatQuantities["iso_p"]=TagAndProbePair->second->pfIso(settings.GetElectronDeltaBetaCorrectionFactor())/TagAndProbePair->second->p4.Pt();
+				}else if(*quantity=="gen_p"){
+					BoolQuantities["gen_p"]=(product.m_genParticleMatchedElectrons.find(TagAndProbePair->second) != product.m_genParticleMatchedElectrons.end());
+				}else if(*quantity=="genZ_p"){
+					if (product.m_genParticleMatchedElectrons.find(TagAndProbePair->second) != product.m_genParticleMatchedElectrons.end()){
+						BoolQuantities["genZ_p"]=(std::find(product.m_genLeptonsFromBosonDecay.begin(), product.m_genLeptonsFromBosonDecay.end(), product.m_genParticleMatchedElectrons.at(TagAndProbePair->second)) != product.m_genLeptonsFromBosonDecay.end());
+					}else{
+						BoolQuantities["genZ_p"]=false;
+					}
 				}else if(*quantity=="m_ll"){
 					FloatQuantities["m_ll"]=(TagAndProbePair->first->p4 + TagAndProbePair->second->p4).M();
 				}else if(*quantity=="trg_t_Ele25eta2p1WPTight"){
@@ -755,7 +810,6 @@ public:
 					}
 				}
 			}
-			
 			// fill tree
 			this->m_tree->Fill();
 		}
@@ -781,6 +835,8 @@ private:
 	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const
 	{
 		bool validElectron = true;
+		validElectron = validElectron && (electron->track.nInnerHits <= 1);
+		validElectron = validElectron && (! (electron->electronType & (1 << KElectronType::hasConversionMatch)));
 	
 		// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
 		// pT always greater than 10 GeV

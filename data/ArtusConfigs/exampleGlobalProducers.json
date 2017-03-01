@@ -31,7 +31,7 @@
 			"default" : [
 				0
 			],
-			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGluTo)HToTauTau" : [
+			"(^SM_|^)(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau" : [
 				25
 			]
 		}

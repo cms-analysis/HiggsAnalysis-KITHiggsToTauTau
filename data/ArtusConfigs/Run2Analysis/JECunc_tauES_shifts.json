@@ -2,7 +2,7 @@
 	"jecUncNom_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201|Embedding2016|Embedding2016" : 0.0,
+				"Run201|Embedding" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -12,7 +12,7 @@
 	"jecUncNom_tauEsUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201|Embedding2016" : 0.0,
+				"Run201|Embedding" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -20,7 +20,7 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding2016" : 1.03
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding" : 1.03
 			}
 		},
 		"SvfitCacheFileFolder" : {
@@ -33,7 +33,7 @@
 	"jecUncNom_tauEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201|Embedding2016" : 0.0,
+				"Run201|Embedding" : 0.0,
 				"default" : 0.0
 			}
 		},
@@ -41,7 +41,7 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding2016" : 0.97
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding" : 0.97
 			}
 		},
 		"SvfitCacheFileFolder" : {
@@ -54,7 +54,7 @@
 	"jecUncUp_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201|Embedding2016" : 0.0,
+				"Run201|Embedding" : 0.0,
 				"default" : 1.0
 			}
 		},
@@ -62,14 +62,14 @@
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncUp_tauEsNom",
-		        "Run201|Embedding2016" : "jecUncNom_tauEsNom"
+		        "Run201|Embedding" : "jecUncNom_tauEsNom"
             }
         }
 	},
 	"jecUncDown_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201|Embedding2016" : 0.0,
+				"Run201|Embedding" : 0.0,
 				"default" : -1.0
 			}
 		},
@@ -77,7 +77,7 @@
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncDown_tauEsNom",
-		        "Run201|Embedding2016" : "jecUncNom_tauEsNom"
+		        "Run201|Embedding" : "jecUncNom_tauEsNom"
             }
         }
 	}

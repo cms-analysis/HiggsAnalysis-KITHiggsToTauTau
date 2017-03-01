@@ -73,7 +73,7 @@ class Datacards(object):
 			"lumi_$ERA",
 			"lnN",
 			ch.SystMap("era")
-				(       ["13TeV"], 1.062)
+				(       ["13TeV"], 1.026)
 		]
 		self.electron_efficiency_syst_args = [
 			"CMS_eff_e",
@@ -858,7 +858,7 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes)
 		return values_tree_files
 
-	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="alpha"):
+	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="x"):
 		commands = []
 		hypotestresulttree = {}
 		

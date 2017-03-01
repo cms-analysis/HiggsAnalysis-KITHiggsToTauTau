@@ -6,13 +6,13 @@
 	"Year" : {
 		"nick" : {
 			"default" : 2015,
-			"(Spring16|Run2016)" : 2016
+			"(Spring16|Summer16|Run2016|Embedding2016)" : 2016
 		}
 	},
 	"LooseMuonID" : {
 		"nick" : {
 			"default" : "medium",
-			"Run2016(B|C|D|E|F)|Spring16" : "medium2016"
+			"Run2016(B|C|D|E|F)|Spring16" : "mediumHIPsafe2016"
 		}
 	},
 

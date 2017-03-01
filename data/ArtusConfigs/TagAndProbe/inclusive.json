@@ -14,7 +14,12 @@
 			"#isZee",
 			"#isZmm"
 		],
-		"MuonID" : "none",
+		"MuonID" : {
+			"nick" : {
+				"default" : "mediumLate2016",
+				"Run2016(B|C|D|E|F)|Spring16" : "medium2016"
+			}
+		},
 		"MuonIsoType" : "none",
 		"MuonIso" : "none",
 		"MuonDeltaBetaCorrectionFactor" : 0.5,
@@ -62,6 +67,9 @@
 		"Processors" : [
 				"producer:HltProducer",
 				"producer:TagAndProbeMuonPairProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenBosonFromGenParticlesProducer",
 				"filter:ValidMuonsFilter",
 				"producer:MuonTriggerMatchingProducer",
 				"producer:EventWeightProducer"
