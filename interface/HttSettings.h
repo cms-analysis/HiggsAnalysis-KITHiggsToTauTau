@@ -268,10 +268,6 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
 
-	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaInputQuantities, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaMethods, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaWeights, {});
-
 	//MVATestMethodsProducer settings
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
@@ -332,4 +328,7 @@ public:
 	// settings for SimpleEleTauFakeRateWeightProducer
 	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightVLoose);
 	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightTight);
+
+	// settings for ZPtReweightProducer
+	IMPL_SETTING_DEFAULT(std::string, ZptReweightProducerWeights, "");
 };

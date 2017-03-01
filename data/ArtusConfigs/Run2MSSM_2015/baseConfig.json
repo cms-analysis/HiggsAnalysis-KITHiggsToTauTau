@@ -134,6 +134,11 @@
 			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
 		}
 	},
+	"ZptReweightProducerWeights" : {
+		"nick" : {
+			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
+		}
+	},
 	"JsonFiles" : {
 		"nick" : {
 			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],

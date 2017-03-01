@@ -249,7 +249,6 @@ public:
 
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
-	std::vector<double> m_tauPolarisationDiscriminators;
 
 	//MVATestMethods
 	std::vector<double> m_MVATestMethodsDiscriminators;
@@ -314,4 +313,8 @@ public:
 	std::vector<std::pair<KMuon*,KMuon*>> m_TagAndProbeMuonPairs;
 	//filled by TagAndProbeElectronPairProducer
 	std::vector<std::pair<KElectron*,KElectron*>> m_TagAndProbeElectronPairs;
+	//filled by TagAndProbeGenLeptonProducer
+	std::vector<KElectron*> m_TagAndProbeGenElectrons;
+	std::vector<KMuon*> m_TagAndProbeGenMuons;
+	std::vector<KTau*> m_TagAndProbeGenTaus;
 };
