@@ -570,7 +570,8 @@
 			"#KappaTausConsumer",
 			"#KappaTaggedJetsConsumer",
 			"#RunTimeConsumer",
-			"#PrintEventsConsumer"
+			"#PrintEventsConsumer",
+			"#PrintGenParticleDecayTreeConsumer"
 		]
 	}
 }

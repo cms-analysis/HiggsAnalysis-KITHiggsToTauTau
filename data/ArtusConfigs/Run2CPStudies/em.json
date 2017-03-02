@@ -585,7 +585,8 @@
 			"#KappaMuonsConsumer",
 			"#KappaTaggedJetsConsumer",
 			"#RunTimeConsumer",
-			"#PrintEventsConsumer"
+			"#PrintEventsConsumer",
+			"#PrintGenParticleDecayTreeConsumer"
 		]
 	}
 }
