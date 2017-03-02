@@ -39,6 +39,7 @@
 			],
 			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
 				"#filter:RunLumiEventFilter",
+				"producer:GenBosonProductionProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:ValidGenTausProducer",
 				"producer:GenDiLeptonDecayModeProducer",
@@ -62,6 +63,7 @@
 			],
 			"SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" : [
 				"#filter:RunLumiEventFilter",
+				"producer:GenBosonProductionProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:ValidGenTausProducer",
 				"producer:GenDiLeptonDecayModeProducer",
