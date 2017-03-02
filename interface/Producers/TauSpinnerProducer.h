@@ -1,12 +1,10 @@
 
 #pragma once
 
-#include "Artus/Utility/interface/Utility.h"
-
 #include "TauSpinner/SimpleParticle.h"
 #include "TauSpinner/tau_reweight_lib.h"
 
-#include "../HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 /**
    \brief GlobalProducer, for tau decays on generator level. Following quantities are calculated:

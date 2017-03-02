@@ -9,48 +9,45 @@
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
 
-#define NO_BOSON_FOUND -555
-#define NO_HIGGS_FOUND -666
-#define WEIGHT_NAN -777
 
-TauSpinnerProducer::~TauSpinnerProducer()
+MadGraphReweightingProducer::~MadGraphReweightingProducer()
 {
-	if (numberOfNanWeights > 0)
+	// clean up
+	if (m_initialised)
 	{
-		LOG(WARNING) << "Found " << numberOfNanWeights << " events with a 'NaN' TauSpinner weight in the pipeline \"" << pipelineName << "\"! "
-		             << "The weight is set to zero in order to avoid considering such events in any plots.";
+		Py_DECREF(m_functionMadGraphWeightGGH);
+		Py_Finalize();
 	}
 }
 
-void TauSpinnerProducer::Init(setting_type const& settings)
+std::string MadGraphReweightingProducer::GetProducerId() const
+{
+	return "MadGraphReweightingProducer";
+}
+
+void MadGraphReweightingProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 	
-	pipelineName = settings.GetName();
+	// initialise access to python code
+	// https://www.codeproject.com/Articles/11805/Embedding-Python-in-C-C-Part-I
+	Py_Initialize();
+	PyObject* modulePath = PyString_FromString("HiggsAnalysis.KITHiggsToTauTau.madgraph.reweighting");
+	PyObject* module = PyImport_Import(modulePath);
+	PyObject* moduleDict = PyModule_GetDict(module);
 	
-	// interface to TauSpinner
-	// see the print out of this function or tau_reweight_lib.cxx for explanation of paramesters
-	// $CMSSW_RELEASE_BASE/../../../external/tauolapp/1.1.5-cms2/include/TauSpinner/tau_reweight_lib.h
-	// http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html
-	// http://tauolapp.web.cern.ch/tauolapp/namespaceTauSpinner.html
-	// https://arxiv.org/pdf/1402.2068v1.pdf
-	Tauolapp::Tauola::initialize();
-	LHAPDF::initPDFSetByName(settings.GetTauSpinnerSettingsPDF());
+	m_functionMadGraphWeightGGH = PyDict_GetItemString(moduleDict, "madgraph_weight_ggh");
 	
-	TauSpinner::initialize_spinner(settings.GetTauSpinnerSettingsIpp(),
-	                               settings.GetTauSpinnerSettingsIpol(),
-	                               settings.GetTauSpinnerSettingsNonSM2(),
-	                               settings.GetTauSpinnerSettingsNonSMN(),
-	                               settings.GetTauSpinnerSettingsCmsEnergy());
+	Py_DECREF(modulePath);
+	Py_DECREF(module);
+	Py_DECREF(moduleDict);
+	assert(PyCallable_Check(m_functionMadGraphWeightGGH));
 	
+	m_initialised = true;
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauSpinnerPolarisation", [](event_type const& event, product_type const& product)
-	{
-		return product.m_tauSpinnerPolarisation;
-	});
-	
+	// quantities for LambdaNtupleConsumer
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
 	     ++mixingAngleOverPiHalfIt)
@@ -63,7 +60,6 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 		});
 	}
 	
-	
 	if (settings.GetTauSpinnerMixingAnglesOverPiHalfSample() >= 0.0)
 	{
 		float mixingAngleOverPiHalfSample = settings.GetTauSpinnerMixingAnglesOverPiHalfSample();
@@ -72,11 +68,11 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 		assert(Utility::Contains(settings.GetTauSpinnerMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
 		
 		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauSpinnerWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("madGraphWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("madGraphWeightInvSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			double weight = SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
 			//return std::min(((weight > 0.0) ? (1.0 / weight) : 0.0), 10.0);   // no physics reason for this
@@ -86,11 +82,54 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 }
 
 
-void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
-								 setting_type const& settings) const
+void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
+								          setting_type const& settings) const
 {
 	assert(event.m_eventInfo);
 	
+	float mixingAngleOverPiHalf = 0.0; // TODO
+	RMFLV gluon1LV; // TODO
+	RMFLV gluon2LV; // TODO
+	RMFLV higgsLV; // TODO
+	
+	PyObject* arguments = PyTuple_Pack(4,
+			PyFloat_FromDouble(mixingAngleOverPiHalf),
+			PyTuple_Pack(4,
+				PyFloat_FromDouble(gluon1LV.Px()),
+				PyFloat_FromDouble(gluon1LV.Py()),
+				PyFloat_FromDouble(gluon1LV.Pz()),
+				PyFloat_FromDouble(gluon1LV.E())
+			),
+			PyTuple_Pack(4,
+				PyFloat_FromDouble(gluon2LV.Px()),
+				PyFloat_FromDouble(gluon2LV.Py()),
+				PyFloat_FromDouble(gluon2LV.Pz()),
+				PyFloat_FromDouble(gluon2LV.E())
+			),
+			PyTuple_Pack(4,
+				PyFloat_FromDouble(higgsLV.Px()),
+				PyFloat_FromDouble(higgsLV.Py()),
+				PyFloat_FromDouble(higgsLV.Pz()),
+				PyFloat_FromDouble(higgsLV.E())
+			)
+	);
+	
+	PyObject* resultGGH = PyObject_CallObject(m_functionMadGraphWeightGGH, arguments);
+	if (resultGGH)
+	{
+		//int result = PyInt_AsLong(resultGGH);
+		//LOG(ERROR) << result;
+	}
+	else
+	{
+		PyErr_Print();
+	}
+	
+	// clean up
+	Py_DECREF(arguments);
+	Py_DECREF(resultGGH);
+	
+	/*
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
@@ -122,8 +161,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 		if ((tauFinalStates1.size() == 0) || (tauFinalStates2.size() == 0))
 		{
-			LOG_N_TIMES(20, WARNING) << "TauSpinnerProducer could not find enogh genParticles for the TauSpinner Algorithm" << std::endl;
-			// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
+			LOG_N_TIMES(20, WARNING) << "MadGraphReweightingProducer could not find enogh genParticles for the TauSpinner Algorithm" << std::endl;
+			// product.m_madGraphWeight = DefaultValues::UndefinedDouble; // TODO
 			return;
 		}
 		
@@ -139,18 +178,18 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),
 			                                 -sin(twoTimesMixingAngleRadSample), -sin(twoTimesMixingAngleRadSample));
 			
-			product.m_optionalWeights["tauSpinnerWeight"] = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+			product.m_optionalWeights["madGraphWeight"] = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 			product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 		}
 		else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdZ)))
 		{
 			// call same function as for Higgs: http://tauolapp.web.cern.ch/tauolapp/namespaceTauSpinner.html#a33de132eef40cedcf39222fee0449d79
-			product.m_optionalWeights["tauSpinnerWeight"] = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+			product.m_optionalWeights["madGraphWeight"] = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 			product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 		}
 		else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdW)))
 		{
-			product.m_optionalWeights["tauSpinnerWeight"] = calculateWeightFromParticlesWorHpn(boson, tau1, tau2, tauFinalStates1);
+			product.m_optionalWeights["madGraphWeight"] = calculateWeightFromParticlesWorHpn(boson, tau1, tau2, tauFinalStates1);
 			product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 		}
 		
@@ -161,7 +200,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		{
 			float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
 
-			double tauSpinnerWeight = 1.0;
+			double madGraphWeight = 1.0;
 			if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)) ||
 			    Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdHCPOdd)) ||
 			    Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdACPOdd)))
@@ -172,93 +211,19 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRad), cos(twoTimesMixingAngleRad),
 				                                 -sin(twoTimesMixingAngleRad), -sin(twoTimesMixingAngleRad));
 				
-				tauSpinnerWeight = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+				madGraphWeight = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 			}
 			else {
-				tauSpinnerWeight = 0.0; // no Higgs boson;
-			}
-
-			// check for nan values // TODO: check inputs
-			if (tauSpinnerWeight != tauSpinnerWeight)
-			{
-				tauSpinnerWeight = 0.0; // WEIGHT_NAN;
-				++numberOfNanWeights;
-				LOG_N_TIMES(20, DEBUG) << "Found a 'NaN' TauSpinner weight in (run, lumi, event) = ("
-					       << event.m_eventInfo->nRun << ", " << event.m_eventInfo->nLumi << ", "
-					       << event.m_eventInfo->nEvent << ") in the pipeline \"" << pipelineName << "\".";
+				madGraphWeight = 0.0; // no Higgs boson;
 			}
 		
-			product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = tauSpinnerWeight;
+			product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = madGraphWeight;
 		}
-	}
+	}*/
 }
 
-TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const
+std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngleOverPiHalf) const
 {
-	return TauSpinner::SimpleParticle(particleLV.Px(), particleLV.Py(), particleLV.Pz(), particleLV.E(), particlePdgId);
+	return ("madGraphWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
 
-// recursive function to create a vector of final states particles in the way TauSpinner expects it
-std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
-		GenParticleDecayTree& mother,
-		std::vector<TauSpinner::SimpleParticle>& resultVector) const
-{
-	for (unsigned int i = 0; i < mother.m_daughters.size(); ++i)
-	{
-		// this if-condition has to define what particles go into TauSpinner
-		int pdgId = abs(mother.m_daughters[i].m_genParticle->pdgId);
-		if (pdgId == DefaultValues::pdgIdGamma ||
-			pdgId == DefaultValues::pdgIdPiZero ||
-			pdgId == DefaultValues::pdgIdPiPlus ||
-			pdgId == DefaultValues::pdgIdKPlus ||
-			pdgId == DefaultValues::pdgIdKLong ||
-			pdgId == DefaultValues::pdgIdKShort ||
-			pdgId == DefaultValues::pdgIdElectron ||
-			pdgId == DefaultValues::pdgIdNuE ||
-			pdgId == DefaultValues::pdgIdMuon ||
-			pdgId == DefaultValues::pdgIdNuMu ||
-			pdgId == DefaultValues::pdgIdNuTau)
-		{
-			resultVector.push_back(GetSimpleParticle(mother.m_daughters[i].m_genParticle->p4, mother.m_daughters[i].m_genParticle->pdgId));
-		}
-		else
-		{
-			/*
-			if (mother.m_daughters[i].m_finalState)
-			{
-				LOG(FATAL) << "Could not find a proper final state that can be handled by TauSpinner. Found particle with PDG ID " << mother.m_daughters[i].m_genParticle->pdgId << "." << std::endl;
-			}
-			*/
-			LOG_N_TIMES(20, DEBUG) << "Recursion, pdgId " << pdgId << " is not considered being a final states" << std::endl;
-			GetFinalStates(mother.m_daughters[i], resultVector);
-		}
-	}
-	return resultVector;
-}
-
-
-std::string TauSpinnerProducer::GetLabelForWeightsMap(float mixingAngleOverPiHalf) const
-{
-	return ("tauSpinnerWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
-}
-
-
-std::string std::to_string(TauSpinner::SimpleParticle& particle)
-{
-	return std::string("PdgId=" + std::to_string(particle.pdgid()) + "\t|"
-			             "Px=" + std::to_string(particle.px()) + "\t|" +
-			             "Py=" + std::to_string(particle.py()) + "\t|" +
-			             "Pz=" + std::to_string(particle.pz()) + "\t|" +
-			             "E="  + std::to_string(particle.e()) + "\t|" +
-			             "Mass=" + std::to_string(pow(particle.e(), 2) - pow(particle.px(), 2) - pow(particle.py(), 2) - pow(particle.pz(), 2)) + "\t|");
-}
-
-std::string std::to_string(std::vector<TauSpinner::SimpleParticle>& particleVector)
-{
-	std::string result = "";
-	for(size_t i = 0; i < particleVector.size(); i++)
-	{
-		result += ("\n\t" + std::to_string(i) + ") " + std::to_string(particleVector[i]));
-	}
-	return result;
-}
