@@ -1,16 +1,13 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZPtReweightProducer.h"
 
-ZPtReweightProducer::ZPtReweightProducer(
-		std::string (setting_type::*GetZptReweightProducerWeights)(void) const
-):
-	GetZptReweightProducerWeights(GetZptReweightProducerWeights)
-{
-}
 
-ZPtReweightProducer::ZPtReweightProducer():
-		ZPtReweightProducer(&setting_type::GetZptReweightProducerWeights)
+ZPtReweightProducer::~ZPtReweightProducer()
 {
+	if (m_zPtHist != nullptr)
+	{
+		delete m_zPtHist;
+	}
 }
 
 std::string ZPtReweightProducer::GetProducerId() const
@@ -21,12 +18,12 @@ std::string ZPtReweightProducer::GetProducerId() const
 void ZPtReweightProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
-	TDirectory *savedir(gDirectory);
-	TFile *savefile(gFile);
-	TFile * zPtFile = new TFile((settings.*GetZptReweightProducerWeights)().c_str());
-	m_zPtHist = (TH2D*)zPtFile->Get("zptmass_histo");
-	gDirectory = savedir;
-	gFile = savefile;
+	
+	TFile zPtFile(settings.GetZptReweightProducerWeights().c_str(), "READ");
+	m_zPtHist = (TH2D*)zPtFile.Get("zptmass_histo");
+	m_zPtHist->SetDirectory(nullptr);
+	zPtFile.Close();
+	
 	m_applyReweighting = boost::regex_search(settings.GetNickname(), boost::regex("DY.?JetsToLLM(50|150)", boost::regex::icase | boost::regex::extended));
 }
 

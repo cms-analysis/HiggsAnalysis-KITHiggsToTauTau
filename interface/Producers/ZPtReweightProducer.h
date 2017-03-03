@@ -19,9 +19,8 @@ public:
 	typedef typename HttTypes::event_type event_type;
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
-
-	ZPtReweightProducer();
-	ZPtReweightProducer(std::string (setting_type::*GetZptReweightProducerWeights)(void) const);
+	
+	virtual ~ZPtReweightProducer();
 
 	std::string GetProducerId() const;
 
@@ -30,7 +29,6 @@ public:
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override;
 private:
-	TH2D* m_zPtHist = 0;
+	TH2D* m_zPtHist = nullptr;
 	bool m_applyReweighting;
-	std::string (setting_type::*GetZptReweightProducerWeights)(void) const;
 };

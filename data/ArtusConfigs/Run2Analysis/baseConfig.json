@@ -112,6 +112,7 @@
 			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
 		}
 	},
+	"JetToTauFakeFactorsFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/fakeFactors_20160809.root",
 	"ChooseMvaMet" : {
 		"nick" : {
 			"default" : false,

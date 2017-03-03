@@ -330,5 +330,8 @@ public:
 	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightTight);
 
 	// settings for ZPtReweightProducer
-	IMPL_SETTING_DEFAULT(std::string, ZptReweightProducerWeights, "");
+	IMPL_SETTING(std::string, ZptReweightProducerWeights);
+
+	// settings for JetToTauFakesProducer
+	IMPL_SETTING(std::string, JetToTauFakeFactorsFile);
 };

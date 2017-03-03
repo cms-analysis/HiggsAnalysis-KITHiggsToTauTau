@@ -20,30 +20,23 @@
 class JetToTauFakesProducer : public ProducerBase<HttTypes> {
 public:
 
-    typedef typename HttTypes::event_type event_type;
-    typedef typename HttTypes::product_type product_type;
-    typedef typename HttTypes::setting_type setting_type;
-    
-    std::string GetProducerId() const override;
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
+	
+	virtual ~JetToTauFakesProducer();
+	
+	virtual std::string GetProducerId() const override;
 
-    virtual void Init(setting_type const& settings) override
- 	{
-         #if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
-         gROOT->ProcessLine("#include <map>");
-         #endif
+	virtual void Init(setting_type const& settings) override;
 
-         ProducerBase<HttTypes>::Init(settings);
-         TDirectory *savedir(gDirectory);
-         TFile *savefile(gFile);
-         TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-         ff_file = new TFile(cmsswBase+"/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/fakeFactors_20160809.root");
-         gDirectory = savedir;
-         gFile = savefile;
- 	}
-
-    void Produce(event_type const& event, product_type& product,
+	void Produce(event_type const& event, product_type& product,
                  setting_type const& settings) const override;
 private:
 
-    TFile* ff_file;
+	FakeFactor* ff_comb = nullptr;
+	FakeFactor* ff_qcd_ss = nullptr;
+	FakeFactor* ff_qcd_os = nullptr;
+	FakeFactor* ff_w = nullptr;
+	FakeFactor* ff_tt = nullptr;
 };
