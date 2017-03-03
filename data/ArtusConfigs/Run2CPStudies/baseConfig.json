@@ -13,6 +13,16 @@
 	"#EventWhitelist" : [
 		38756
 	],
-	"#RefitVertexSummary" : "refittedVerticesNoBSSummary",
-	"#RefitVertexBSSummary" : "refittedVerticesBSSummary"
+	"RefitVertices" : {
+		"nick": {
+			"default": "AdvancedRefittedVerticesNoBS",
+			"Fall15MiniAODv2": "",
+		}
+	},
+	"RefitBSVertices" : {
+		"nick": {
+			"default": "AdvancedRefittedVerticesBS"
+			"Fall15MiniAODv2": "",
+		}
+	},
 }
