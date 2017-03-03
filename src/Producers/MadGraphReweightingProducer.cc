@@ -100,22 +100,22 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		PyObject* arguments = PyTuple_Pack(4,
 				PyFloat_FromDouble(settings.GetTauSpinnerMixingAnglesOverPiHalfSample()),
 				PyTuple_Pack(4,
+					PyFloat_FromDouble(gluon1LV.E()),
 					PyFloat_FromDouble(gluon1LV.Px()),
 					PyFloat_FromDouble(gluon1LV.Py()),
-					PyFloat_FromDouble(gluon1LV.Pz()),
-					PyFloat_FromDouble(gluon1LV.E())
+					PyFloat_FromDouble(gluon1LV.Pz())
 				),
 				PyTuple_Pack(4,
+					PyFloat_FromDouble(gluon2LV.E()),
 					PyFloat_FromDouble(gluon2LV.Px()),
 					PyFloat_FromDouble(gluon2LV.Py()),
-					PyFloat_FromDouble(gluon2LV.Pz()),
-					PyFloat_FromDouble(gluon2LV.E())
+					PyFloat_FromDouble(gluon2LV.Pz())
 				),
 				PyTuple_Pack(4,
+					PyFloat_FromDouble(higgsLV.E()),
 					PyFloat_FromDouble(higgsLV.Px()),
 					PyFloat_FromDouble(higgsLV.Py()),
-					PyFloat_FromDouble(higgsLV.Pz()),
-					PyFloat_FromDouble(higgsLV.E())
+					PyFloat_FromDouble(higgsLV.Pz())
 				)
 		);
 		
