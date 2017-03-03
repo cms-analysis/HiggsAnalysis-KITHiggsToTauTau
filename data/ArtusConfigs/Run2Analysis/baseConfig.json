@@ -86,24 +86,24 @@
 	},
 	"MetRecoilCorrectorFile" : {
 		"nick" : {
-			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root",
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
+			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root",
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
 		}
 	},
 	"MvaMetRecoilCorrectorFile" : {
 		"nick" : {
-			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root",
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root"
+			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root",
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root"
 		}
 	},
 	"MetShiftCorrectorFile" : {
 		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 		}
 	},
 	"MvaMetShiftCorrectorFile" : {
 		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 		}
 	},
 	"ZptReweightProducerWeights" : {

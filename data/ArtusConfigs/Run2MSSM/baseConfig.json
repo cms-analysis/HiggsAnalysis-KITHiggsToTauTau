@@ -116,12 +116,12 @@
     },
 	"MetRecoilCorrectorFile" : {
 		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root"
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root"
 		}
 	},
 	"MvaMetRecoilCorrectorFile" : {
 		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
 		}
 	},
 	"ZptReweightProducerWeights" : {
