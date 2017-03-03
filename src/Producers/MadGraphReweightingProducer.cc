@@ -97,7 +97,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		RMFLV gluon2LV = product.m_genParticlesProducingBoson.at(1)->p4;
 		RMFLV higgsLV = product.m_genBosonParticle->p4;
 	
-		PyObject* arguments = PyTuple_Pack(4,
+		PyObject* arguments = PyTuple_Pack(6,
 				PyFloat_FromDouble(settings.GetTauSpinnerMixingAnglesOverPiHalfSample()),
 				PyTuple_Pack(4,
 					PyFloat_FromDouble(gluon1LV.E()),
@@ -116,7 +116,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 					PyFloat_FromDouble(higgsLV.Px()),
 					PyFloat_FromDouble(higgsLV.Py()),
 					PyFloat_FromDouble(higgsLV.Pz())
-				)
+				),
+				PyString_FromString(settings.GetMadGraphParamCard().c_str()),
+				PyString_FromString(settings.GetMadGraphProcessDirectory().c_str())
 		);
 		
 		PyObject* matrixElement2GGHSample = PyObject_CallObject(m_functionMadGraphWeightGGH, arguments);

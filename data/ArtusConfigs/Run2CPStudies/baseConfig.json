@@ -24,5 +24,7 @@
 			"default": "AdvancedRefittedVerticesBS",
 			"Fall15MiniAODv2": ""
 		}
-	}
+	},
+	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/param_card.dat",
+	"MadGraphProcessDirectory" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/ggH"
 }

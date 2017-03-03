@@ -334,4 +334,8 @@ public:
 
 	// settings for JetToTauFakesProducer
 	IMPL_SETTING(std::string, JetToTauFakeFactorsFile);
+
+	// settings for MadGraphReweightingProducer
+	IMPL_SETTING(std::string, MadGraphParamCard);
+	IMPL_SETTING(std::string, MadGraphProcessDirectory);
 };
