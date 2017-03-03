@@ -117,6 +117,8 @@ if __name__ == "__main__":
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("--use-scan-without-fit", action="store_true", default=False,
 	                    help="Obtain result from likelihood scan without fitting the parabola but instead finding the minimum and the first points crossing 1 on either side. [Default: %(default)s]")
+	parser.add_argument("-w", "--weight", default="(1.0)",
+	                    help="Additional weight used for both background and all signal templates. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -251,7 +253,7 @@ if __name__ == "__main__":
 						channel=channel,
 						category=catForConfig,
 						nick_suffix="_" + str(weight_index),
-						weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else ""),
+						weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else "") + "*" + args.weight,
 						lumi=args.lumi * 1000,
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 						estimationMethod=args.background_method
@@ -281,7 +283,7 @@ if __name__ == "__main__":
 							channel=channel,
 							category=catForConfig,
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(weight_index),
-							weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else ""),
+							weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else "") + "*" + args.weight,
 							lumi=args.lumi * 1000,
 							cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 							estimationMethod=args.background_method
@@ -581,9 +583,9 @@ if __name__ == "__main__":
 				
 				decayMode = category.split("_")[-2]
 				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
-				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin]]
-				config["texts_x"] = [0.52, 0.52]
-				config["texts_y"] = [0.81, 0.74]
+				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin], ("tau ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%") if args.plot_with_shift != 0 else ""]
+				config["texts_x"] = [0.52, 0.52, 0.52]
+				config["texts_y"] = [0.81, 0.74, 0.67]
 				config["texts_size"] = [0.055]
 				
 				if not (config["output_dir"] in www_output_dirs_postfit):
