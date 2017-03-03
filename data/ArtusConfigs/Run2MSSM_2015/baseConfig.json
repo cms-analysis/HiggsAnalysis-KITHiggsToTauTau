@@ -136,7 +136,7 @@
 	},
 	"ZptReweightProducerWeights" : {
 		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
 		}
 	},
 	"JsonFiles" : {

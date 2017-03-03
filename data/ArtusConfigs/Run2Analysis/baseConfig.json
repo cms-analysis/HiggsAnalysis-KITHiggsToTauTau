@@ -108,8 +108,8 @@
 	},
 	"ZptReweightProducerWeights" : {
 		"nick" : {
-			"default" : "HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
-			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
+			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
 		}
 	},
 	"ChooseMvaMet" : {
