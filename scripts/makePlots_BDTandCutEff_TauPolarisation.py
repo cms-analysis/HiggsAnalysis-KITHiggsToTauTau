@@ -34,10 +34,7 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 	logger.initLogger(args)
-
-	#The input names has to be: "tmvaClassification/BDT_(name).root" (IMPORTANT for your BDT output name)
 	names=args.input
-
 	#CutEff PLOT
 	plot_configs = []
 		
@@ -68,7 +65,7 @@ if __name__ == "__main__":
     	], 
     	"x_label": "bkg_rej", 
     	"y_label": "sig_eff",
-	"legend": [0.25, 0.25, 0.5, 0.5],
+	"legend": [0.25, 0.25, 0.45, 0.45],
 	"legend_cols": 1,
 	"legend_markers": ["LP"],
 	"labels" :[name for name in names]
@@ -112,10 +109,6 @@ if __name__ == "__main__":
 	       	"x_expressions": [
 	    	    "BDT"
 		],
-		"legend": [0.7, 0.7, 0.9, 0.9],
-		"legend_cols": 1,
-		"legend_markers": ["L","L","LP","LP"],
-		"labels" :["H=-1 Training", "H=+1 Training","H=-1 Testing", "H=+1 Testing"],
 		"x_label": "BDT" + " " + name	
 		}
 		plot_configs.append(config_BDT)

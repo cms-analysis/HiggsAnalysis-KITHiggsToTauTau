@@ -268,10 +268,6 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaMethods, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(AntiTtbarTmvaWeights, {});
 
-	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaInputQuantities, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaMethods, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(TauPolarisationTmvaWeights, {});
-
 	//MVATestMethodsProducer settings
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsInputQuantities, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MVATestMethodsMethods, {});
@@ -335,4 +331,10 @@ public:
 
 	// settings for MetFilter
 	IMPL_SETTING_STRINGLIST_DEFAULT(MetFilter, {});
+
+	// settings for ZPtReweightProducer
+	IMPL_SETTING(std::string, ZptReweightProducerWeights);
+
+	// settings for JetToTauFakesProducer
+	IMPL_SETTING(std::string, JetToTauFakeFactorsFile);
 };

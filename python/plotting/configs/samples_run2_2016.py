@@ -12,7 +12,6 @@ from Kappa.Skimming.registerDatasetHelper import get_nick_list
 from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
 energy = 13
 default_lumi = 35.87*1000.0
-
 class Samples(samples.SamplesBase):
 
 	
@@ -143,11 +142,12 @@ class Samples(samples.SamplesBase):
 		else:
 			return "(1.0)"
 
-	def __init__(self,embedding=False):
+	def __init__(self,embedding=False,embedding_weight="(1.0)"):
 		super(Samples, self).__init__()
 		self.exclude_cuts = ["blind"]
 		self.period = "run2"
 		self.embedding=embedding
+		self.embedding_weight=embedding_weight
 
 	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
 		config = super(Samples, self).get_config(samples, channel, category, nick_suffix=nick_suffix, postfit_scales=postfit_scales, **kwargs)
@@ -174,13 +174,13 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		if self.embedding:
 			if channel == "et":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.886"])
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[1]])
 			elif channel == "mt":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.4635"])
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[0]])
 			elif channel == "tt":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.38"])
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[3]])
 			elif channel == "em":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)", "0.642"])
+				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[2]])
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif z_pt:
@@ -477,7 +477,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_bin_corrections(config, "zj", nick_suffix)
 		Samples._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
 		return config
-
+		
 	def files_ttj(self, channel):
 		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : self.mc_campaign}, 1)
 
