@@ -15,16 +15,14 @@
 	],
 	"RefitVertices" : {
 		"nick": {
-			"default": "",
+			"default": "AdvancedRefittedVerticesNoBS",
 			"Fall15MiniAODv2": "",
-			"Summer16": "AdvancedRefittedVerticesNoBS",
 		}
 	},
 	"RefitBSVertices" : {
 		"nick": {
-			"default": "",
+			"default": "AdvancedRefittedVerticesBS"
 			"Fall15MiniAODv2": "",
-			"Summer16": "AdvancedRefittedVerticesBS"
 		}
 	},
 }
