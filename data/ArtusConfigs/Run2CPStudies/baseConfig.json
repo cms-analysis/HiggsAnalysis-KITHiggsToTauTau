@@ -21,7 +21,7 @@
 	},
 	"RefitBSVertices" : {
 		"nick": {
-			"default": "AdvancedRefittedVerticesBS"
+			"default": "AdvancedRefittedVerticesBS",
 			"Fall15MiniAODv2": ""
 		}
 	}
