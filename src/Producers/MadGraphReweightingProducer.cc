@@ -97,26 +97,28 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		RMFLV gluon2LV = product.m_genParticlesProducingBoson.at(1)->p4;
 		RMFLV higgsLV = product.m_genBosonParticle->p4;
 	
-		PyObject* arguments = PyTuple_Pack(4,
+		PyObject* arguments = PyTuple_Pack(6,
 				PyFloat_FromDouble(settings.GetTauSpinnerMixingAnglesOverPiHalfSample()),
 				PyTuple_Pack(4,
+					PyFloat_FromDouble(gluon1LV.E()),
 					PyFloat_FromDouble(gluon1LV.Px()),
 					PyFloat_FromDouble(gluon1LV.Py()),
-					PyFloat_FromDouble(gluon1LV.Pz()),
-					PyFloat_FromDouble(gluon1LV.E())
+					PyFloat_FromDouble(gluon1LV.Pz())
 				),
 				PyTuple_Pack(4,
+					PyFloat_FromDouble(gluon2LV.E()),
 					PyFloat_FromDouble(gluon2LV.Px()),
 					PyFloat_FromDouble(gluon2LV.Py()),
-					PyFloat_FromDouble(gluon2LV.Pz()),
-					PyFloat_FromDouble(gluon2LV.E())
+					PyFloat_FromDouble(gluon2LV.Pz())
 				),
 				PyTuple_Pack(4,
+					PyFloat_FromDouble(higgsLV.E()),
 					PyFloat_FromDouble(higgsLV.Px()),
 					PyFloat_FromDouble(higgsLV.Py()),
-					PyFloat_FromDouble(higgsLV.Pz()),
-					PyFloat_FromDouble(higgsLV.E())
-				)
+					PyFloat_FromDouble(higgsLV.Pz())
+				),
+				PyString_FromString(settings.GetMadGraphParamCard().c_str()),
+				PyString_FromString(settings.GetMadGraphProcessDirectory().c_str())
 		);
 		
 		PyObject* matrixElement2GGHSample = PyObject_CallObject(m_functionMadGraphWeightGGH, arguments);

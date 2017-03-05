@@ -12,6 +12,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiTauPair.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiGenTauPair.h"
 #include "TVector2.h"
+#include "TVector3.h"
 
 class HttProduct : public KappaProduct
 {
@@ -186,7 +187,20 @@ public:
 	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiLeptonSystem;
 	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiTauSystem;
 
+	
+	// filled by RefitVertexSelector
+	KVertex* m_thePV = 0;
+	KRefitVertex* m_refitPV = 0;
+	KRefitVertex* m_refitPVBS = 0;
+	RMPoint* m_theBS = 0;
+	RMPoint* m_refP1 = 0;
+	RMPoint* m_refP2 = 0;
+	RMFLV* m_track1p4 = 0;
+	RMFLV* m_track2p4 = 0;
+
+
 	// filled by GenTauCPProducer
+	RMPoint* m_genPV = 0;
 	double m_genZMinus  = DefaultValues::UndefinedDouble;
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
 	double m_genZs  = DefaultValues::UndefinedDouble;
@@ -199,7 +213,27 @@ public:
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
 
+
+	// filled by GenMatchedTauCPProducer
+	RMPoint* m_genSV1 = 0; // vertex of production of tau daughter 1
+	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
+	TVector3 m_genIP1;
+	TVector3 m_genIP2;
+	
+
 	// filled by RecoTauCPProducer
+	TVector3 m_recoIP1;
+	TVector3 m_recoIP2;
+	TVector3 m_recoIP1method2;
+	TVector3 m_recoIP2method2;
+
+	double m_deltaRgenIPrecoIP1  = DefaultValues::UndefinedDouble;
+	double m_deltaRgenIPrecoIP2  = DefaultValues::UndefinedDouble;
+	double m_deltaRgenIPrecoIP1met2  = DefaultValues::UndefinedDouble;
+	double m_deltaRgenIPrecoIP2met2  = DefaultValues::UndefinedDouble;
+	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
+	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
+
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
@@ -208,8 +242,8 @@ public:
 	KGenParticle* m_recoChargedParticle1 = 0;
 	KGenParticle* m_recoChargedParitcle2 = 0;
 	std::pair <double,double> m_recoChargedHadronEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
-	double m_recoIP1 = DefaultValues::UndefinedDouble;
-	double m_recoIP2 = DefaultValues::UndefinedDouble;
+	//double m_recoIP1 = DefaultValues::UndefinedDouble;
+	//double m_recoIP2 = DefaultValues::UndefinedDouble;
 	double m_recoTrackRefError1 = DefaultValues::UndefinedDouble;
 	double m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
 

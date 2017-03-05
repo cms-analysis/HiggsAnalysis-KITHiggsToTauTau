@@ -13,6 +13,18 @@
 	"#EventWhitelist" : [
 		38756
 	],
-	"#RefitVertexSummary" : "refittedVerticesNoBSSummary",
-	"#RefitVertexBSSummary" : "refittedVerticesBSSummary"
+	"RefitVertices" : {
+		"nick": {
+			"default": "AdvancedRefittedVerticesNoBS",
+			"Fall15MiniAODv2": ""
+		}
+	},
+	"RefitBSVertices" : {
+		"nick": {
+			"default": "AdvancedRefittedVerticesBS",
+			"Fall15MiniAODv2": ""
+		}
+	},
+	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/param_card.dat",
+	"MadGraphProcessDirectory" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/ggH"
 }
