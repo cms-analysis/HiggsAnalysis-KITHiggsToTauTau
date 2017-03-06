@@ -1,13 +1,12 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os,sys
-import argparse
-import numpy as np
-import matrix2py as ME
 import math
+import os
 import string
 import tempfile
+
+import matrix2py as ME
 
 
 def madgraph_weight_ggh(mixing_angle_over_pi_half, gluon1_lv, gluon2_lv, higgs_lv, madgraph_param_card, madgraph_process_directory):
@@ -55,7 +54,7 @@ def madgraph_weight_ggh(mixing_angle_over_pi_half, gluon1_lv, gluon2_lv, higgs_l
 	# clean up
 	os.remove(tmp_param_card_filename)
 	
-	print matrix_element_squared, cos_mixing_angle
+	#print matrix_element_squared, cos_mixing_angle
 	return matrix_element_squared
 
 	'''
@@ -69,5 +68,6 @@ def madgraph_weight_ggh(mixing_angle_over_pi_half, gluon1_lv, gluon2_lv, higgs_l
 	# write squared ME to output file
 	outfile = open(outfile,'w')
 	outfile.write(str(me2)+"\n")
-	outfile.close()	'''
+	outfile.close()
+	'''
 
