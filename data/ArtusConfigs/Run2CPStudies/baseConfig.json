@@ -26,5 +26,5 @@
 		}
 	},
 	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/param_card.dat",
-	"MadGraphProcessDirectory" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/ggH"
+	"MadGraphProcessDirectory" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_x0_13tev_standalone/SubProcesses/P1_gg_x0"
 }
