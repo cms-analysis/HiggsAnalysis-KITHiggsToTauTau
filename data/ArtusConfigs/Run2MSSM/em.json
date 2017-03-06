@@ -79,25 +79,56 @@
 			"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v",
 			"HLT_Ele25_eta2p1_WPTight_Gsf_v"
 		],
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_3.root",
-		"RooWorkspaceWeightNames" : [
-			"0:isoweight",
-			"0:idweight",
-			"1:isoweight",
-			"1:idweight"
-		],
-		"RooWorkspaceObjectNames" : [
-			"0:e_iso_binned_ratio",
-			"0:e_id_ratio",
-			"1:m_iso_binned_ratio",
-			"1:m_id_ratio"
-		],
-		"RooWorkspaceObjectArguments" : [
-			"0:e_pt,e_eta,e_iso",
-			"0:e_pt,e_eta",
-			"1:m_pt,m_eta,m_iso",
-			"1:m_pt,m_eta"
-		],
+		"TriggerEfficiencyData" : {
+			"nick" : {
+				"Summer16" : [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele12leg_eff.root",
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele23leg_eff.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu8leg_2016BtoH_eff.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu23leg_2016BtoH_eff.root"
+				],
+				"Run2016" : [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root",
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"
+				]
+			}
+		},
+		"TriggerEfficiencyMc" : {
+			"nick" : {
+				"Summer16" : [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele12leg_eff.root",
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23leg_eff.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu8leg_2016BtoH_eff.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu23leg_2016BtoH_eff.root"
+				],
+				"Run2016" : [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root",
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"
+				]
+			}
+		},
+		"TriggerEfficiencyMode" : "correlate_triggers",
+		"IdentificationEfficiencyData" : {
+			"nick" : {
+				"Summer16" : [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p15_eff.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso_IsoLt0p2_2016BtoH_eff.root"
+				]
+			}
+		},
+		"IdentificationEfficiencyMc" : {
+			"nick" : {
+				"Summer16" : [
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p15_eff.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso_IsoLt0p2_2016BtoH_eff.root"
+				]
+			}
+		},
+		"IdentificationEfficiencyMode" : "multiply_weights",
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
@@ -110,7 +141,7 @@
 		},
 		"MuonTriggerFilterNames" : {
 			"nick" : {
-				"(Run2017|Embedding2016|Summer16)" : [
+				"(Run2016|Embedding2016|Summer16)" : [
 					"HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v:hltMu23TrkIsoVVLEle12CaloIdLTrackIdLIsoVLMuonlegL3IsoFiltered23",
 					"HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v:hltMu8TrkIsoVVLEle23CaloIdLTrackIdLIsoVLMuonlegL3IsoFiltered8"
 				]
@@ -175,9 +206,9 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:MVAInputQuantitiesProducer",
-					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"#producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -214,9 +245,9 @@
 					"producer:TopPtReweightingProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:MVAInputQuantitiesProducer",
-					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"#producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -255,9 +286,9 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:MVAInputQuantitiesProducer",
-					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"#producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -295,9 +326,9 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:MVAInputQuantitiesProducer",
-					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"#producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
