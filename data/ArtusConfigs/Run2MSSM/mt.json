@@ -36,7 +36,7 @@
 				]
 			}
 		},
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_2.root",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_3.root",
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"0:isoweight",

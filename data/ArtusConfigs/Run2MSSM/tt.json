@@ -69,7 +69,19 @@
 			"HLT_Ele25_eta2p1_WPTight_Gsf_v"
 		],
 		"EventWeight" : "eventWeight",
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_2.root",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_3.root",
+		"RooWorkspaceWeightNames" : [
+			"0:triggerWeight",
+			"1:triggerWeight"
+		],
+		"RooWorkspaceObjectNames" : [
+			"0:t_genuine_LooseIso_tt_ratio",
+			"1:t_genuine_LooseIso_tt_ratio"
+		],
+		"RooWorkspaceObjectArguments" : [
+			"0:t_pt,t_dm",
+			"1:t_pt,t_dm"
+		],
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"TauTriggerFilterNames" : {
 			"nick" : {
@@ -132,7 +144,7 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
+					"producer:TauTauTriggerWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -162,7 +174,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
+					"producer:TauTauTriggerWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -195,7 +207,7 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
+					"producer:TauTauTriggerWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -227,7 +239,7 @@
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"producer:TauTauTriggerScaleFactorProducer",
+					"producer:TauTauTriggerWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],

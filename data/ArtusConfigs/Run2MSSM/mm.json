@@ -97,7 +97,7 @@
 				]
 			}
 		},
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_2.root",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_3.root",
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"0:isoweight",
@@ -191,8 +191,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
-					"#producer:MuMuTriggerScaleFactorProducer",
+					"producer:MuMuTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -228,8 +227,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
-					"#producer:MuMuTriggerScaleFactorProducer",
+					"producer:MuMuTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -269,8 +267,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
-					"#producer:MuMuTriggerScaleFactorProducer",
+					"producer:MuMuTriggerScaleFactorProducer",
 					"producer:ScaleVariationProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -309,8 +306,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
-					"#producer:MuMuTriggerScaleFactorProducer",
+					"producer:MuMuTriggerScaleFactorProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],

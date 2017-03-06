@@ -86,7 +86,7 @@
 			"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v",
 			"HLT_Ele25_eta2p1_WPTight_Gsf_v"
 		],
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_2.root",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_3.root",
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"0:idweight",
