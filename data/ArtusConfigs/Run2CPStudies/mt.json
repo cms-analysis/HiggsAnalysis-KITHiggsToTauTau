@@ -13,8 +13,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_mt.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json"
 		],
 		"Channel" : "MT",
 		"MinNMuons" : 1,
@@ -176,14 +175,13 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationMva",
 					"nVetoMuons",
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates"
 				],
-				"DY.?JetsToLLM|HToTauTau|H2JetsToTauTau" : [
+				"DY.?JetsToLLM" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
@@ -195,7 +193,26 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationMva",
+					"nVetoMuons",
+					"nLooseElectrons",
+					"nLooseMuons",
+					"nDiTauPairCandidates",
+					"nAllDiTauPairCandidates",
+					"tauSpinnerPolarisation"
+				],
+				"HToTauTau|H2JetsToTauTau" : [
+					{
+						"include" : [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantitiesHiggs.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
+						]
+					},
 					"nVetoMuons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -214,7 +231,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationMva",
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
@@ -266,9 +282,9 @@
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RooWorkspaceWeightProducer",
+					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
@@ -312,9 +328,9 @@
 					"producer:IdentificationWeightProducer",
 					"#producer:RooWorkspaceWeightProducer",
 					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
@@ -358,9 +374,9 @@
 					"#producer:RooWorkspaceWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|EWKZ2Jets|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
@@ -400,9 +416,9 @@
 					"producer:HHKinFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
+					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : [
@@ -444,9 +460,9 @@
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=Fall15)" : [
@@ -487,9 +503,9 @@
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"Run2016" : [
@@ -524,9 +540,9 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
+					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -561,9 +577,9 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
+					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				]
 			}
@@ -582,7 +598,8 @@
 			"#KappaTausConsumer",
 			"#KappaTaggedJetsConsumer",
 			"#RunTimeConsumer",
-			"#PrintEventsConsumer"
+			"#PrintEventsConsumer",
+			"#PrintGenParticleDecayTreeConsumer"
 		]
 	}
 }

@@ -1,11 +1,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
 
-RecoilCorrector::RecoilCorrector(TString fileName) {
+RecoilCorrector::RecoilCorrector(TString fileName) : _fileName(fileName) {
 
-  TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-  TString baseDir = cmsswBase + "/src";
-
-  _fileName = baseDir+"/"+fileName;
+  _fileName = fileName;
   TFile * file = new TFile(_fileName);
   if (file->IsZombie()) {
     std::cout << "file " << _fileName << " is not found...   quitting " << std::endl;
@@ -120,7 +117,7 @@ void RecoilCorrector::InitMEtWeights(TFile * _fileMet,
 
   // checking files
   //  if (_fileMet->IsZombie()) {
-  //    std::cout << "File " << _fileName << " is not found in directory " << _baseDir << std::endl;
+  //    std::cout << "File " << _fileName << " is not found" << std::endl;
   //    std::cout << "quitting program..." << std::endl;
   //    exit(-1);
   //  }

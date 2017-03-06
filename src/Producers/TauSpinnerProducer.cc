@@ -4,13 +4,12 @@
 
 #include <boost/format.hpp>
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
-#include "Artus/KappaAnalysis/interface/KappaProduct.h"
-
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 
 #define NO_BOSON_FOUND -555
 #define NO_HIGGS_FOUND -666
@@ -70,9 +69,7 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 		float mixingAngleOverPiHalfSample = settings.GetTauSpinnerMixingAnglesOverPiHalfSample();
 	
 		// if mixing angle for curent sample is defined, it has to be in the list TauSpinnerMixingAnglesOverPiHalf
-		assert(std::find(settings.GetTauSpinnerMixingAnglesOverPiHalf().begin(),
-		                 settings.GetTauSpinnerMixingAnglesOverPiHalf().end(),
-		                 mixingAngleOverPiHalfSample) != settings.GetTauSpinnerMixingAnglesOverPiHalf().end());
+		assert(Utility::Contains(settings.GetTauSpinnerMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
 		
 		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauSpinnerWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)

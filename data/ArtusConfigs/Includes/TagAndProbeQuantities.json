@@ -18,6 +18,8 @@
     "phi_p",
     "id_p",
     "iso_p",
+    "dxy_p",
+    "dz_p",
     "gen_p",
     "genZ_p",
     "m_ll",

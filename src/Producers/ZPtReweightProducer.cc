@@ -1,9 +1,30 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZPtReweightProducer.h"
 
+
+ZPtReweightProducer::~ZPtReweightProducer()
+{
+	if (m_zPtHist != nullptr)
+	{
+		delete m_zPtHist;
+	}
+}
+
 std::string ZPtReweightProducer::GetProducerId() const
 {
 	return "ZPtReweightProducer";
+}
+
+void ZPtReweightProducer::Init(setting_type const& settings)
+{
+	ProducerBase<HttTypes>::Init(settings);
+	
+	TFile zPtFile(settings.GetZptReweightProducerWeights().c_str(), "READ");
+	m_zPtHist = (TH2D*)zPtFile.Get("zptmass_histo");
+	m_zPtHist->SetDirectory(nullptr);
+	zPtFile.Close();
+	
+	m_applyReweighting = boost::regex_search(settings.GetNickname(), boost::regex("DY.?JetsToLLM(50|150)", boost::regex::icase | boost::regex::extended));
 }
 
 void ZPtReweightProducer::Produce( event_type const& event, product_type & product, 

@@ -1,12 +1,72 @@
 {
 	"property" : [
+		"thePVx",
+		"thePVy",
+		"thePVz",
+		"refitPVx",
+		"refitPVy",
+		"refitPVz",
+		"refitPVBSx",
+		"refitPVBSy",
+		"refitPVBSz",
+
+		"theBSx",
+		"theBSy",
+		"theBSz",
+
+		"refP1x",
+		"refP1y",
+		"refP1z",
+		"refP2x",
+		"refP2y",
+		"refP2z",
+
+		"track1p4x",
+		"track1p4y",
+		"track1p4z",
+		"track2p4x",
+		"track2p4y",
+		"track2p4z",
+		
+		"recoIP1x",
+		"recoIP1y",
+		"recoIP1z",
+		"recoIP2x",
+		"recoIP2y",
+		"recoIP2z",
+
+		"recoIP1method2x",
+		"recoIP1method2y",
+		"recoIP1method2z",
+		"recoIP2method2x",
+		"recoIP2method2y",
+		"recoIP2method2z",
+
+		"deltaRgenIPrecoIP1",
+		"deltaRgenIPrecoIP2",
+		"deltaRgenIPrecoIP1met2",
+		"deltaRgenIPrecoIP2met2",
+		"deltaRrecoIP1s",
+		"deltaRrecoIP2s",
+
 		"recoPhiStarCP",
 		"#recoPhiStarCPrPV",
 		"#recoPhiStarCPrPVbs",
 		"recoPhiStar",
 		"recoChargedHadron1HiggsFrameEnergy",
 		"recoChargedHadron2HiggsFrameEnergy",
-		"recoImpactParameter2",
+
+		"d0_refitPV_1",
+		"d0_refitPVBS_1",
+		"dZ_refitPV_1",
+		"dZ_refitPVBS_1",
+		"d0_refitPV_2",
+		"d0_refitPVBS_2",
+		"dZ_refitPV_2",
+		"dZ_refitPVBS_2",
+		"#recoImpactParameter1",
+		"#recoImpactParameter2",
+
 		"recoTrackRefError1",
 		"recoTrackRefError2"
 	]

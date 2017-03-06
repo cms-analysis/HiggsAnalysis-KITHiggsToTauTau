@@ -1,8 +1,0 @@
-{
-    "PlotlevelFilterExpressionQuantities" : [
-		"extraelec_veto",
-		"extramuon_veto",
-		"nDiMuonVetoPairsOS"
-    ],
-    "PlotlevelFilterExpression" : "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
-}

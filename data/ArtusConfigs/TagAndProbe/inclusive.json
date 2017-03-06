@@ -64,16 +64,27 @@
 				]
 			}
 		},
-		"Processors" : [
-				"producer:HltProducer",
-				"producer:TagAndProbeMuonPairProducer",
-				"producer:RecoMuonGenParticleMatchingProducer",
-				"producer:GenBosonDiLeptonDecayModeProducer",
-				"producer:GenBosonFromGenParticlesProducer",
-				"filter:ValidMuonsFilter",
-				"producer:MuonTriggerMatchingProducer",
-				"producer:EventWeightProducer"
-		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:HltProducer",
+					"producer:TagAndProbeMuonPairProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"producer:EventWeightProducer"
+				],
+				"Summer16" : [
+					"producer:HltProducer",
+					"producer:TagAndProbeMuonPairProducer",
+					"producer:RecoMuonGenParticleMatchingProducer",
+					"producer:GenBosonDiLeptonDecayModeProducer",
+					"producer:GenBosonFromGenParticlesProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"producer:EventWeightProducer"
+				]
+			}
+		},
 		"Consumers" : [
 				"TagAndProbeMuonPairConsumer",
 				"cutflow_histogram"

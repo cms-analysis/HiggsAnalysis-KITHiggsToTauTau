@@ -147,6 +147,7 @@
 			"Embedding" : "not needed"
 		}
 	},
+	"ZptReweightProducerWeights" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
 	"MetRecoilCorrectorFile" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeIPFMET_2016BCD.root",
 	"MvaMetRecoilCorrectorFile" : "HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root",
 	"BTagScaleFactorFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv",
