@@ -191,7 +191,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
-					"producer:MuMuTriggerScaleFactorProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -227,7 +227,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
-					"producer:MuMuTriggerScaleFactorProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -267,7 +267,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
-					"producer:MuMuTriggerScaleFactorProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:ScaleVariationProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
@@ -306,7 +306,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
-					"producer:MuMuTriggerScaleFactorProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
