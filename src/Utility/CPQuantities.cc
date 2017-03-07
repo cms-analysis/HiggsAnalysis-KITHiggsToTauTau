@@ -228,10 +228,15 @@ double CPQuantities::PhiTransform(double phi)
 TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv){
 
 	TVector3 k, p, IP;
-	k.SetXYZ(genParticle->vertex.x() - pv->x(), genParticle->vertex.y() - pv->y(), genParticle->vertex.z() - pv->z());
+	if(genParticle->vertex.x() != 0 && genParticle->vertex.y() != 0 && genParticle->vertex.z() != 0) {
+		k.SetXYZ(genParticle->vertex.x() - pv->x(), genParticle->vertex.y() - pv->y(), genParticle->vertex.z() - pv->z());
+	}
+	else k.SetXYZ(-999, -999, -999);
 	p.SetXYZ(genParticle->p4.Px(), genParticle->p4.Py(), genParticle->p4.Pz());
 	
-	if (p.Mag() != 0) IP = k - (p.Dot(k) / p.Mag()) * p;
+	if ( p.Mag() != 0 && k.x() != -999 && (k.x()!=0 && k.y()!=0 && k.z()!=0) ) {
+		IP = k - (p.Dot(k) / p.Mag()) * p;
+	}
 	else IP.SetXYZ(-999, -999, -999);
 
 	return IP;
