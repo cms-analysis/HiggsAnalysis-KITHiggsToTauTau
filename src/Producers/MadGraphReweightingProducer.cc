@@ -17,7 +17,7 @@ MadGraphReweightingProducer::~MadGraphReweightingProducer()
 	// clean up
 	if (m_initialised)
 	{
-		Py_DECREF(m_functionMadGraphWeightGGH);
+		Py_DECREF(m_madGraphMatrixElementTools);
 		Py_Finalize();
 	}
 }
@@ -37,13 +37,26 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	PyObject* modulePath = PyString_FromString("HiggsAnalysis.KITHiggsToTauTau.madgraph.reweighting");
 	PyObject* module = PyImport_Import(modulePath);
 	PyObject* moduleDict = PyModule_GetDict(module);
+	PyObject* madGraphMatrixElementToolsClass = PyDict_GetItemString(moduleDict, "MadGraphMatrixElementTools");
 	
-	m_functionMadGraphWeightGGH = PyDict_GetItemString(moduleDict, "madgraph_weight_ggh");
+	PyObject* mixingAngles = PyTuple_New(settings.GetTauSpinnerMixingAnglesOverPiHalf().size());
+	for (unsigned int indexMixingAngle = 0; indexMixingAngle < settings.GetTauSpinnerMixingAnglesOverPiHalf().size(); ++indexMixingAngle)
+	{
+		PyTuple_SetItem(mixingAngles, indexMixingAngle, PyFloat_FromDouble(settings.GetTauSpinnerMixingAnglesOverPiHalf()[indexMixingAngle]));
+	}
+	PyObject* arguments = PyTuple_Pack(3,
+			mixingAngles,
+			PyString_FromString(settings.GetMadGraphParamCard().c_str()),
+			PyString_FromString(settings.GetMadGraphProcessDirectory().c_str())
+	);
+	
+	m_madGraphMatrixElementTools = PyObject_CallObject(madGraphMatrixElementToolsClass, arguments);
 	
 	Py_DECREF(modulePath);
 	Py_DECREF(module);
 	Py_DECREF(moduleDict);
-	assert(PyCallable_Check(m_functionMadGraphWeightGGH));
+	Py_DECREF(mixingAngles);
+	Py_DECREF(arguments);
 	
 	m_initialised = true;
 	
@@ -96,32 +109,31 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		RMFLV gluon1LV = product.m_genParticlesProducingBoson.at(0)->p4;
 		RMFLV gluon2LV = product.m_genParticlesProducingBoson.at(1)->p4;
 		RMFLV higgsLV = product.m_genBosonParticle->p4;
-	
-		PyObject* arguments = PyTuple_Pack(6,
-				PyFloat_FromDouble(settings.GetTauSpinnerMixingAnglesOverPiHalfSample()),
-				PyTuple_Pack(4,
-					PyFloat_FromDouble(gluon1LV.E()),
-					PyFloat_FromDouble(gluon1LV.Px()),
-					PyFloat_FromDouble(gluon1LV.Py()),
-					PyFloat_FromDouble(gluon1LV.Pz())
-				),
-				PyTuple_Pack(4,
-					PyFloat_FromDouble(gluon2LV.E()),
-					PyFloat_FromDouble(gluon2LV.Px()),
-					PyFloat_FromDouble(gluon2LV.Py()),
-					PyFloat_FromDouble(gluon2LV.Pz())
-				),
-				PyTuple_Pack(4,
-					PyFloat_FromDouble(higgsLV.E()),
-					PyFloat_FromDouble(higgsLV.Px()),
-					PyFloat_FromDouble(higgsLV.Py()),
-					PyFloat_FromDouble(higgsLV.Pz())
-				),
-				PyString_FromString(settings.GetMadGraphParamCard().c_str()),
-				PyString_FromString(settings.GetMadGraphProcessDirectory().c_str())
+		
+		PyObject* function = PyString_FromString("matrix_element_squared");
+		
+		PyObject* mixingAngle = PyFloat_FromDouble(settings.GetTauSpinnerMixingAnglesOverPiHalfSample());
+		PyObject* processDirectory = PyString_FromString(settings.GetMadGraphProcessDirectory().c_str());
+		PyObject* gluon1Momentum = PyTuple_Pack(4,
+				PyFloat_FromDouble(gluon1LV.E()),
+				PyFloat_FromDouble(gluon1LV.Px()),
+				PyFloat_FromDouble(gluon1LV.Py()),
+				PyFloat_FromDouble(gluon1LV.Pz())
+		);
+		PyObject* gluon2Momentum = PyTuple_Pack(4,
+				PyFloat_FromDouble(gluon2LV.E()),
+				PyFloat_FromDouble(gluon2LV.Px()),
+				PyFloat_FromDouble(gluon2LV.Py()),
+				PyFloat_FromDouble(gluon2LV.Pz())
+		);
+		PyObject* higgsMomentum = PyTuple_Pack(4,
+				PyFloat_FromDouble(higgsLV.E()),
+				PyFloat_FromDouble(higgsLV.Px()),
+				PyFloat_FromDouble(higgsLV.Py()),
+				PyFloat_FromDouble(higgsLV.Pz())
 		);
 		
-		PyObject* matrixElement2GGHSample = PyObject_CallObject(m_functionMadGraphWeightGGH, arguments);
+		PyObject* matrixElement2GGHSample = PyObject_CallMethodObjArgs(m_madGraphMatrixElementTools, function, mixingAngle, processDirectory, gluon1Momentum, gluon2Momentum, higgsMomentum, NULL);
 		if (matrixElement2GGHSample != nullptr)
 		{
 			product.m_optionalWeights["madGraphWeight"] = PyFloat_AsDouble(matrixElement2GGHSample);
@@ -130,7 +142,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		{
 			PyErr_Print();
 		}
-		Py_DECREF(matrixElement2GGHSample); // clean up
+		// clean up
+		Py_DECREF(mixingAngle);
+		Py_DECREF(matrixElement2GGHSample);
 		
 		// calculate the weights for different mixing angles
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
@@ -138,8 +152,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			 ++mixingAngleOverPiHalfIt)
 		{
 			float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
-			PyTuple_SetItem(arguments, 0, PyFloat_FromDouble(mixingAngleOverPiHalf));
-			PyObject* matrixElement2GGH = PyObject_CallObject(m_functionMadGraphWeightGGH, arguments);
+			mixingAngle = PyFloat_FromDouble(mixingAngleOverPiHalf);
+			PyObject* matrixElement2GGH = PyObject_CallMethodObjArgs(m_madGraphMatrixElementTools, function, mixingAngle, processDirectory, gluon1Momentum, gluon2Momentum, higgsMomentum, NULL);
 			if (matrixElement2GGH != nullptr)
 			{
 				product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = PyFloat_AsDouble(matrixElement2GGH);
@@ -151,7 +165,13 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			Py_DECREF(matrixElement2GGH); // clean up
 		}
 		
-		Py_DECREF(arguments); // clean up
+		// clean up
+		Py_DECREF(function);
+		Py_DECREF(mixingAngle);
+		Py_DECREF(processDirectory);
+		Py_DECREF(gluon1Momentum);
+		Py_DECREF(gluon2Momentum);
+		Py_DECREF(higgsMomentum);
 	}
 }
 

@@ -27,9 +27,7 @@ public:
 private:
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
 	
-	std::vector<float> mixingAnglesOverPiHalf;
-	
-	PyObject *m_functionMadGraphWeightGGH = nullptr;
+	PyObject *m_madGraphMatrixElementTools = nullptr;
 	bool m_initialised = false;
 };
 
