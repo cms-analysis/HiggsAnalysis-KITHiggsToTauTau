@@ -148,7 +148,7 @@
 		}
 	},
 	"ZptReweightProducerWeights" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
-	"MetRecoilCorrectorFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeIPFMET_2016BCD.root",
+	"MetRecoilCorrectorFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root",
 	"MvaMetRecoilCorrectorFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root",
 	"BTagScaleFactorFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv",
 	"BTagEfficiencyFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_ichep2016.root",
