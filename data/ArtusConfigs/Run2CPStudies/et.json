@@ -406,7 +406,7 @@
 					"producer:HHKinFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"producer:RefitVertexSelector",
+					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"producer:EventWeightProducer"
@@ -450,7 +450,7 @@
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:GenMatchedTauCPProducer",
-					"producer:RefitVertexSelector",
+					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"producer:EventWeightProducer"
@@ -492,7 +492,7 @@
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:GenMatchedTauCPProducer",
-					"producer:RefitVertexSelector",
+					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"producer:EventWeightProducer"
@@ -566,7 +566,7 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:RefitVertexSelector",
+					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"producer:EventWeightProducer"
