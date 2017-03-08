@@ -25,7 +25,7 @@
 			"Fall15MiniAODv2": ""
 		}
 	},
-	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/param_card.dat",
+	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/Cards/param_card.dat",
 	"MadGraphProcessDirectories" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/SubProcesses/P1_gg_x0"
 	]
