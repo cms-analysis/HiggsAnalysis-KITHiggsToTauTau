@@ -2,10 +2,27 @@
 # -*- coding: utf-8 -*-
 
 import math
+import multiprocessing
 import os
 import string
 import sys
 import tempfile
+
+
+def me2(args):
+	cartesian_four_momenta = args[0]
+	madgraph_process_directory = args[1]
+	madgraph_param_card = args[2]
+	alpha_s = args[3]
+	
+	os.chdir(madgraph_process_directory)
+
+	sys.path.insert(0, madgraph_process_directory)
+	import matrix2py
+	sys.path.pop(0)
+
+	matrix2py.initialise(madgraph_param_card)
+	return matrix2py.get_me(zip(*cartesian_four_momenta), alpha_s, 0)
 
 
 class MadGraphTools(object):
@@ -23,22 +40,11 @@ class MadGraphTools(object):
 		with tempfile.NamedTemporaryFile(prefix="param_card_", suffix=os.path.splitext(madgraph_param_card)[-1], delete=False) as param_card_file:
 			self.madgraph_param_card = param_card_file.name
 			param_card_file.write(string.Template(madgraph_param_card_content).safe_substitute(cosa=str(cos_mixing_angle)))
-		
-		sys.path.insert(0, self.madgraph_process_directory)
-		self.matrix2py = __import__("matrix2py")
-		#sys.path.pop(0)
-		
-		#os.chdir(self.madgraph_process_directory)
-		#self.matrix2py.initialise(self.madgraph_param_card)
 	
 	def __del__(self):
 		os.remove(self.madgraph_param_card)
 	
 	def matrix_element_squared(self, cartesian_four_momenta):
-		os.chdir(self.madgraph_process_directory)
-		#sys.path.insert(0, self.madgraph_process_directory)
-		#self.matrix2py = reload(self.matrix2py)
-		#sys.path.pop(0)
-		self.matrix2py.initialise(self.madgraph_param_card)
-		return self.matrix2py.get_me(zip(*cartesian_four_momenta), self.alpha_s, 0) # if not loop else self.matrix2py.get_me(zip(*cartesian_four_momenta), self.alpha_s, mu, -1)[0]
-
+		arguments = [cartesian_four_momenta, self.madgraph_process_directory, self.madgraph_param_card, self.alpha_s]
+		pool = multiprocessing.Pool(processes=1)
+		return pool.apply(me2, [arguments])
