@@ -19,7 +19,7 @@ Block ckmblock
 ###################################
 Block frblock 
     1 1.000000e+03 # Lambda 
-    2 1.000000e+00 # ca 
+    2 $cosa # ca 
     3 1.000000e+00 # kSM 
     4 1.000000e+00 # kHtt 
     5 1.000000e+00 # kAtt 
