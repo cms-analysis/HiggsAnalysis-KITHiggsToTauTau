@@ -337,5 +337,5 @@ public:
 
 	// settings for MadGraphReweightingProducer
 	IMPL_SETTING(std::string, MadGraphParamCard);
-	IMPL_SETTING(std::string, MadGraphProcessDirectory);
+	IMPL_SETTING_STRINGLIST_DEFAULT(MadGraphProcessDirectories, {});
 };
