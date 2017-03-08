@@ -21,14 +21,22 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 	
-	m_madGraphTools[settings.GetMadGraphProcessDirectory()] = std::map<int, MadGraphTools*>();
-	for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
-	     mixingAngleOverPiHalf != settings.GetTauSpinnerMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+	//m_madGraphTools[settings.GetMadGraphProcessDirectories()] = std::map<int, MadGraphTools*>();
+
+	//loop over directories		
+
+	for (std::vector<std::string>::const_iterator processDirectory = settings.GetMadGraphProcessDirectories().begin();
+	     processDirectory != settings.GetMadGraphProcessDirectories().end(); ++processDirectory)
 	{
-		MadGraphTools* madGraphTools = new MadGraphTools(*mixingAngleOverPiHalf, settings.GetMadGraphProcessDirectory(), settings.GetMadGraphParamCard(), 0.118);
-		m_madGraphTools[settings.GetMadGraphProcessDirectory()][GetMixingAngleKey(*mixingAngleOverPiHalf)] = madGraphTools;
+		m_madGraphTools[*processDirectory] = std::map<int, MadGraphTools*>();
+		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
+		     mixingAngleOverPiHalf != settings.GetTauSpinnerMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+		{
+			MadGraphTools* madGraphTools = new MadGraphTools(*mixingAngleOverPiHalf, *processDirectory, settings.GetMadGraphParamCard(), 0.118);
+			m_madGraphTools[*processDirectory][GetMixingAngleKey(*mixingAngleOverPiHalf)] = madGraphTools;
+		}
 	}
-	
+
 	// quantities for LambdaNtupleConsumer
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
@@ -79,13 +87,13 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		particleFourMomenta.push_back(&(product.m_genBosonParticle->p4)); // Higgs
 		
 		// process ggH
-		std::string madGraphProcessDirectory = settings.GetMadGraphProcessDirectory();
+		std::string madGraphProcessDirectory = settings.GetMadGraphProcessDirectories()[0]; //dunno if this is right
 		std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
 		
 		// calculate the matrix element for current sample
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(settings.GetTauSpinnerMixingAnglesOverPiHalfSample()));
 		product.m_optionalWeights["madGraphWeight"] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-		//LOG(DEBUG) << product.m_optionalWeights["madGraphWeight"];
+		LOG(DEBUG) << product.m_optionalWeights["madGraphWeight"];
 		
 		// calculate the matrix elements for different mixing angles
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
@@ -93,7 +101,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		{
 			tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
 			product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-			//LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
+			LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
 		}
 	}
 }
