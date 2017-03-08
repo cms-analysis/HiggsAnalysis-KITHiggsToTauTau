@@ -85,7 +85,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		// calculate the matrix element for current sample
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(settings.GetTauSpinnerMixingAnglesOverPiHalfSample()));
 		product.m_optionalWeights["madGraphWeight"] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-		LOG(INFO) << product.m_optionalWeights["madGraphWeight"];
+		//LOG(DEBUG) << product.m_optionalWeights["madGraphWeight"];
 		
 		// calculate the matrix elements for different mixing angles
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
@@ -93,7 +93,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		{
 			tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
 			product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-			LOG(WARNING) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
+			//LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
 		}
 	}
 }
