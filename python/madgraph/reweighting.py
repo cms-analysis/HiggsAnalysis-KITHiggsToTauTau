@@ -15,6 +15,7 @@ def me2(args):
 	madgraph_param_card = args[2]
 	alpha_s = args[3]
 	
+	cwd = os.getcwd()
 	os.chdir(madgraph_process_directory)
 
 	sys.path.insert(0, madgraph_process_directory)
@@ -22,7 +23,11 @@ def me2(args):
 	sys.path.pop(0)
 
 	matrix2py.initialise(madgraph_param_card)
-	return matrix2py.get_me(zip(*cartesian_four_momenta), alpha_s, 0)
+	result = matrix2py.get_me(zip(*cartesian_four_momenta), alpha_s, 0)
+	
+	os.chdir(cwd)
+	
+	return result
 
 
 class MadGraphTools(object):
