@@ -25,17 +25,17 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	     processDirectory != settings.GetMadGraphProcessDirectories().end(); ++processDirectory)
 	{
 		m_madGraphTools[*processDirectory] = std::map<int, MadGraphTools*>();
-		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
-		     mixingAngleOverPiHalf != settings.GetTauSpinnerMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
+		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
 			MadGraphTools* madGraphTools = new MadGraphTools(*mixingAngleOverPiHalf, *processDirectory, settings.GetMadGraphParamCard(), 0.118);
 			m_madGraphTools[*processDirectory][GetMixingAngleKey(*mixingAngleOverPiHalf)] = madGraphTools;
 		}
 	}
-
+	
 	// quantities for LambdaNtupleConsumer
-	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
-	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
+	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
+	     mixingAngleOverPiHalfIt != settings.GetMadGraphMixingAnglesOverPiHalf().end();
 	     ++mixingAngleOverPiHalfIt)
 	{
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
@@ -46,12 +46,12 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 		});
 	}
 	
-	if (settings.GetTauSpinnerMixingAnglesOverPiHalfSample() >= 0.0)
+	if (settings.GetMadGraphMixingAnglesOverPiHalfSample() >= 0.0)
 	{
-		float mixingAngleOverPiHalfSample = settings.GetTauSpinnerMixingAnglesOverPiHalfSample();
-	
-		// if mixing angle for curent sample is defined, it has to be in the list TauSpinnerMixingAnglesOverPiHalf
-		assert(Utility::Contains(settings.GetTauSpinnerMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
+		float mixingAngleOverPiHalfSample = settings.GetMadGraphMixingAnglesOverPiHalfSample();
+		
+		// if mixing angle for curent sample is defined, it has to be in the list MadGraphMixingAnglesOverPiHalf
+		assert(Utility::Contains(settings.GetMadGraphMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
 		
 		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("madGraphWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
@@ -69,7 +69,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 
 
 void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
-								          setting_type const& settings) const
+                                          setting_type const& settings) const
 {
 	// TODO: should this be an assertion (including a filter to run before this producer)?
 	if ((product.m_genBosonParticle != nullptr) &&
@@ -87,12 +87,12 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
 		
 		// calculate the matrix elements for different mixing angles
-		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
-			 mixingAngleOverPiHalf != settings.GetTauSpinnerMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
+		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
-			tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
+			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
 			product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-			LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
+			//LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
 		}
 	}
 }
