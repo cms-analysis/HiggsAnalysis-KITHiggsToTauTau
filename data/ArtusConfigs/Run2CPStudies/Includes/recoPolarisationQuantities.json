@@ -44,9 +44,12 @@
 		"rhoNeutralChargedAsymmetry_1",
 		"rhoNeutralChargedAsymmetry_2",
 		
-		"visibleOverFullEnergy_1",
-		"visibleOverFullEnergy_2",
+		"visibleOverFullEnergyHHKinFit_1",
+		"visibleOverFullEnergyHHKinFit_2",
+		"visibleOverFullEnergySvfit_1",
+		"visibleOverFullEnergySvfit_2",
 		
-		"tauPolarisationDiscriminator"
+		"tauPolarisationDiscriminatorHHKinFit",
+		"tauPolarisationDiscriminatorSvfit"
 	]
 }
