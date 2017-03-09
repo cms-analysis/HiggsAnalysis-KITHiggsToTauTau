@@ -1,9 +1,8 @@
 
 #pragma once
 
-#include <Python.h>
-
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MadGraphTools.h"
 
 
 class MadGraphReweightingProducer: public ProducerBase<HttTypes>
@@ -14,8 +13,6 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	virtual ~MadGraphReweightingProducer();
-	
 	virtual std::string GetProducerId() const override;
 
 	virtual void Init(setting_type const& settings) override;
@@ -25,11 +22,9 @@ public:
 
 
 private:
+	int GetMixingAngleKey(float mixingAngleOverPiHalf) const;
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
 	
-	std::vector<float> mixingAnglesOverPiHalf;
-	
-	PyObject *m_functionMadGraphWeightGGH = nullptr;
-	bool m_initialised = false;
+	std::map<std::string, std::map<int, MadGraphTools*> > m_madGraphTools;
 };
 

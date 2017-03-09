@@ -339,6 +339,8 @@ public:
 	IMPL_SETTING(std::string, JetToTauFakeFactorsFile);
 
 	// settings for MadGraphReweightingProducer
+	IMPL_SETTING_FLOATLIST_DEFAULT(MadGraphMixingAnglesOverPiHalf, {});
+	IMPL_SETTING_DEFAULT(float, MadGraphMixingAnglesOverPiHalfSample, -1.0);
 	IMPL_SETTING(std::string, MadGraphParamCard);
-	IMPL_SETTING(std::string, MadGraphProcessDirectory);
+	IMPL_SETTING_STRINGLIST_DEFAULT(MadGraphProcessDirectories, {});
 };

@@ -1,0 +1,6 @@
+import HC_UFO
+define j = g u c d s u~ c~ d~ s~ b b~
+generate g g > X0
+
+output standalone $MADGRAPH_DIR/gg_X0
+quit

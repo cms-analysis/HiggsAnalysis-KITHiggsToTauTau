@@ -1,0 +1,133 @@
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+c      written by the UFO converter
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+ckmblock 1 mdl_cabi
+
+sminputs 1 aEWM1
+
+sminputs 2 mdl_Gf
+
+sminputs 3 aS
+
+yukawa 5 mdl_ymb
+
+yukawa 6 mdl_ymt
+
+yukawa 15 mdl_ymtau
+
+frblock 1 mdl_Lambda
+
+frblock 2 mdl_ca
+
+frblock 3 mdl_kSM
+
+frblock 4 mdl_kHtt
+
+frblock 5 mdl_kAtt
+
+frblock 6 mdl_kHbb
+
+frblock 7 mdl_kAbb
+
+frblock 8 mdl_kHll
+
+frblock 9 mdl_kAll
+
+frblock 10 mdl_kHaa
+
+frblock 11 mdl_kAaa
+
+frblock 12 mdl_kHza
+
+frblock 13 mdl_kAza
+
+frblock 14 mdl_kHgg
+
+frblock 15 mdl_kAgg
+
+frblock 16 mdl_kHzz
+
+frblock 17 mdl_kAzz
+
+frblock 18 mdl_kHww
+
+frblock 19 mdl_kAww
+
+frblock 20 mdl_kHda
+
+frblock 21 mdl_kHdz
+
+frblock 22 mdl_kHdwR
+
+frblock 23 mdl_kHdwI
+
+frblock 24 mdl_kHHgg
+
+frblock 25 mdl_kAAgg
+
+frblock 26 mdl_kqa
+
+frblock 27 mdl_kqb
+
+frblock 28 mdl_kla
+
+frblock 29 mdl_klb
+
+frblock 30 mdl_kw1
+
+frblock 31 mdl_kw2
+
+frblock 32 mdl_kw3
+
+frblock 33 mdl_kw4
+
+frblock 34 mdl_kw5
+
+frblock 35 mdl_kz1
+
+frblock 36 mdl_kz3
+
+frblock 37 mdl_kz5
+
+frblock 38 mdl_kq
+
+frblock 39 mdl_kq3
+
+frblock 40 mdl_kl
+
+frblock 41 mdl_kg
+
+frblock 42 mdl_ka
+
+frblock 43 mdl_kz
+
+frblock 44 mdl_kw
+
+frblock 45 mdl_kza
+
+mass 23 mdl_MZ
+
+mass 15 mdl_MTA
+
+mass 6 mdl_MT
+
+mass 5 mdl_MB
+
+mass 5000000 mdl_MX0
+
+mass 5000001 mdl_MX1
+
+mass 5000002 mdl_MX2
+
+decay 23 mdl_WZ
+
+decay 24 mdl_WW
+
+decay 6 mdl_WT
+
+decay 5000000 mdl_WX0
+
+decay 5000001 mdl_WX1
+
+decay 5000002 mdl_WX2

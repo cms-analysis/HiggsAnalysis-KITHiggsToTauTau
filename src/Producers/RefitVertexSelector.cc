@@ -138,18 +138,18 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 	std::vector<KLepton*> leptons = product.m_flavourOrderedLeptons;
 	std::vector<size_t> hashes;
 
-	// get reference point of the track
-	product.m_refP1 = &((leptons[0])->track.ref);
-	product.m_refP2 = &((leptons[1])->track.ref);
-
-	// get momentum of the track
-	product.m_track1p4 = &((leptons[0])->track.p4);
-	product.m_track2p4 = &((leptons[1])->track.p4);
-
 
 	if (leptons.size() == 2 && event.m_refitVertices && event.m_refitBSVertices){
 		
 		size_t hash = 0;
+
+		// get reference point of the track
+		product.m_refP1 = &((leptons.at(0))->track.ref);
+		product.m_refP2 = &((leptons.at(1))->track.ref);
+
+		// get momentum of the track
+		product.m_track1p4 = &((leptons.at(0))->track.p4);
+		product.m_track2p4 = &((leptons.at(1))->track.p4);
 
 		for (auto lepton : leptons){
 			boost::hash_combine(hash, lepton->internalId);
@@ -162,6 +162,7 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 			boost::hash_combine(hash, lepton->internalId);
 		}
 		hashes.push_back(hash);
+
 
 	} // if leptons.size==2
 

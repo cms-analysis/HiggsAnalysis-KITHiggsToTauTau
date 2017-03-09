@@ -8,6 +8,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
 
+#include <Math/VectorUtil.h>
 
 
 std::string PolarisationQuantitiesProducer::GetProducerId() const
@@ -46,15 +47,37 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_rhoNeutralChargedAsymmetry, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergy_1", [](event_type const& event, product_type const& product) {
-		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergy, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergyHHKinFit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergyHHKinFit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergy_2", [](event_type const& event, product_type const& product) {
-		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergy, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergyHHKinFit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergyHHKinFit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergySvfit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergySvfit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergySvfit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergySvfit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationDiscriminator", [](event_type const& event, product_type const& product) {
-		return static_cast<float>(product.m_tauPolarisationDiscriminator);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleHHKinFit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleHHKinFit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleHHKinFit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleHHKinFit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleSvfit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleSvfit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleSvfit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleSvfit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationDiscriminatorHHKinFit", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(product.m_tauPolarisationDiscriminatorHHKinFit);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationDiscriminatorSvfit", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(product.m_tauPolarisationDiscriminatorSvfit);
 	});
 }
 
@@ -66,6 +89,30 @@ void PolarisationQuantitiesProducer::Produce(
 {
 	bool tauPolarisationDiscriminatorChosen = false;
 
+	// all numbers of prongs
+	size_t indexLepton = 0;
+	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
+	{
+		// HHKinFit version
+		if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
+		{
+			RMFLV* fittedTauHHKinFit = &(SafeMap::Get(product.m_hhKinFitTaus, *lepton));
+			product.m_visibleOverFullEnergyHHKinFit[*lepton] = (*lepton)->p4.E() / fittedTauHHKinFit->E();
+			product.m_visibleToFullAngleHHKinFit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauHHKinFit);
+		}
+		
+		// SVfit version
+		RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
+		if (fittedTauSvfit != nullptr)
+		{
+			product.m_visibleOverFullEnergySvfit[*lepton] = (*lepton)->p4.E() / fittedTauSvfit->E();
+			product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
+		}
+		
+		++indexLepton;
+	}
+	
 	// 3-prong method
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
@@ -115,7 +162,7 @@ void PolarisationQuantitiesProducer::Produce(
 			if (! tauPolarisationDiscriminatorChosen)
 			{
 				// TODO: choose final discriminator
-				// product.m_tauPolarisationDiscriminator = DefaultValues::UndefinedDouble;
+				// product.m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
 				// tauPolarisationDiscriminatorChosen = true;
 			}
 		}
@@ -134,7 +181,8 @@ void PolarisationQuantitiesProducer::Produce(
 			
 			if (! tauPolarisationDiscriminatorChosen)
 			{
-				product.m_tauPolarisationDiscriminator = product.m_rhoNeutralChargedAsymmetry[*tau];
+				product.m_tauPolarisationDiscriminatorHHKinFit = SafeMap::Get(product.m_rhoNeutralChargedAsymmetry, static_cast<KLepton*>(*tau));
+				product.m_tauPolarisationDiscriminatorSvfit = product.m_tauPolarisationDiscriminatorHHKinFit;
 				tauPolarisationDiscriminatorChosen = true;
 			}
 		}
@@ -147,34 +195,32 @@ void PolarisationQuantitiesProducer::Produce(
 	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
 	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
-		if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
+		// prefer hadronic taus first, then muons and then electrons for the event-based discriminator
+		if (! tauPolarisationDiscriminatorChosen)
 		{
-			product.m_visibleOverFullEnergy[*lepton] = (*lepton)->p4.E() / SafeMap::Get(product.m_hhKinFitTaus, *lepton).E();
-			
-			// prefer hadronic taus first, then muons and then electrons for the event-based discriminator
-			if (! tauPolarisationDiscriminatorChosen)
+			if (! tauFound)
 			{
-				if (! tauFound)
+				if ((*lepton)->flavour() == KLeptonFlavour::TAU)
 				{
-					if ((*lepton)->flavour() == KLeptonFlavour::TAU)
+					product.m_tauPolarisationDiscriminatorHHKinFit = SafeMap::GetWithDefault(product.m_visibleOverFullEnergyHHKinFit, *lepton, DefaultValues::UndefinedDouble);
+					product.m_tauPolarisationDiscriminatorSvfit = SafeMap::GetWithDefault(product.m_visibleOverFullEnergySvfit, *lepton, DefaultValues::UndefinedDouble);
+					tauFound = true;
+				}
+				else
+				{
+					if (! muonFound)
 					{
-						product.m_tauPolarisationDiscriminator = product.m_visibleOverFullEnergy[*lepton];
-						tauFound = true;
-					}
-					else
-					{
-						if (! muonFound)
+						if ((*lepton)->flavour() == KLeptonFlavour::MUON)
 						{
-							if ((*lepton)->flavour() == KLeptonFlavour::MUON)
-							{
-								product.m_tauPolarisationDiscriminator = product.m_visibleOverFullEnergy[*lepton];
-								muonFound = true;
-							}
-							else if (! electronFound)
-							{
-								product.m_tauPolarisationDiscriminator = product.m_visibleOverFullEnergy[*lepton];
-								electronFound = true;
-							}
+							product.m_tauPolarisationDiscriminatorHHKinFit = SafeMap::GetWithDefault(product.m_visibleOverFullEnergyHHKinFit, *lepton, DefaultValues::UndefinedDouble);
+							product.m_tauPolarisationDiscriminatorSvfit = SafeMap::GetWithDefault(product.m_visibleOverFullEnergySvfit, *lepton, DefaultValues::UndefinedDouble);
+							muonFound = true;
+						}
+						else if (! electronFound)
+						{
+							product.m_tauPolarisationDiscriminatorHHKinFit = SafeMap::GetWithDefault(product.m_visibleOverFullEnergyHHKinFit, *lepton, DefaultValues::UndefinedDouble);
+							product.m_tauPolarisationDiscriminatorSvfit = SafeMap::GetWithDefault(product.m_visibleOverFullEnergySvfit, *lepton, DefaultValues::UndefinedDouble);
+							electronFound = true;
 						}
 					}
 				}
