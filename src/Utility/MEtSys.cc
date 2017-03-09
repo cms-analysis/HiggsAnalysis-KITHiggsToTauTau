@@ -5,9 +5,7 @@ MEtSys::MEtSys(TString fileName) {
   TDirectory *savedir(gDirectory);
   TFile *savefile(gFile);
 
-  TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-  TString baseDir = cmsswBase + "/src";
-  TString _fileName = baseDir+"/"+fileName;
+  TString _fileName = fileName;
   TFile * file = new TFile(_fileName);
   if (file->IsZombie()) {
     std::cout << "file " << _fileName << " is not found...   quitting " << std::endl;
