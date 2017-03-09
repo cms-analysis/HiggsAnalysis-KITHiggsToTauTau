@@ -70,15 +70,16 @@
 		],
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_3.root",
-		"RooWorkspaceWeightNames" : [
+		"TauTauTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_3.root",
+		"TauTauTriggerWeightWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"1:triggerWeight"
 		],
-		"RooWorkspaceObjectNames" : [
-			"0:t_genuine_LooseIso_tt_ratio",
-			"1:t_genuine_LooseIso_tt_ratio"
+		"TauTauTriggerWeightWorkspaceObjectNames" : [
+			"0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio",
+			"1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"
 		],
-		"RooWorkspaceObjectArguments" : [
+		"TauTauTriggerWeightWorkspaceObjectArguments" : [
 			"0:t_pt,t_dm",
 			"1:t_pt,t_dm"
 		],

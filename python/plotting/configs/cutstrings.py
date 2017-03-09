@@ -16,16 +16,19 @@ class CutStringsDict:
 		cuts["os"] = "((q_1*q_2)<0.0)"
 		
 		if channel == "mm":
+			cuts["trg"] = "(trg_singlemuon == 1)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
 			cuts["m_vis"] = "(m_vis > 60.0)*(m_vis < 120.0)"
 		elif channel == "ee":
+			cuts["trg"] = "(trg_singleelectron == 1)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(iso_2 < 0.1)"
 			cuts["m_vis"] = "(m_vis > 60.0)*(m_vis < 120.0)"
 		elif channel == "em":
+			cuts["trg"] = "(trg_muonelectron == 1)"
 			cuts["trigger_threshold"] = "(pt_1 > 24.0 || pt_2 > 24.0)" if "2016" in cut_type else "(1.0)"
 			cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -20.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
@@ -53,6 +56,7 @@ class CutStringsDict:
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "tt":
+			cuts["trg"] = "(trg_doubletau == 1)"
 			cuts["pt_1"] = "(pt_1 > 50.0)" if "2016" in cut_type and not "mssm" in cut_type else "(1.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
