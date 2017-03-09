@@ -49,6 +49,11 @@
 		"visibleOverFullEnergySvfit_1",
 		"visibleOverFullEnergySvfit_2",
 		
+		"visibleToFullAngleHHKinFit_1",
+		"visibleToFullAngleHHKinFit_2",
+		"visibleToFullAngleSvfit_1",
+		"visibleToFullAngleSvfit_2",
+		
 		"tauPolarisationDiscriminatorHHKinFit",
 		"tauPolarisationDiscriminatorSvfit"
 	]

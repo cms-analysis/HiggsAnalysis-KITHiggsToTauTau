@@ -113,6 +113,8 @@ public:
 	// filled by the PolarisationQuantitiesProducer
 	std::map<KLepton*, double> m_visibleOverFullEnergyHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_visibleOverFullEnergySvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_visibleToFullAngleHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_visibleToFullAngleSvfit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1CosBeta; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1CosGamma; // Keys are only of type KTau*

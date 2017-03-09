@@ -8,6 +8,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
 
+#include <Math/VectorUtil.h>
 
 
 std::string PolarisationQuantitiesProducer::GetProducerId() const
@@ -59,6 +60,19 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergySvfit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
 	});
 	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleHHKinFit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleHHKinFit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleHHKinFit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleHHKinFit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleSvfit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleSvfit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleSvfit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleSvfit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	});
+	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationDiscriminatorHHKinFit", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(product.m_tauPolarisationDiscriminatorHHKinFit);
 	});
@@ -75,6 +89,30 @@ void PolarisationQuantitiesProducer::Produce(
 {
 	bool tauPolarisationDiscriminatorChosen = false;
 
+	// all numbers of prongs
+	size_t indexLepton = 0;
+	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
+	{
+		// HHKinFit version
+		if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
+		{
+			RMFLV* fittedTauHHKinFit = &(SafeMap::Get(product.m_hhKinFitTaus, *lepton));
+			product.m_visibleOverFullEnergyHHKinFit[*lepton] = (*lepton)->p4.E() / fittedTauHHKinFit->E();
+			product.m_visibleToFullAngleHHKinFit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauHHKinFit);
+		}
+		
+		// SVfit version
+		RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
+		if (fittedTauSvfit != nullptr)
+		{
+			product.m_visibleOverFullEnergySvfit[*lepton] = (*lepton)->p4.E() / fittedTauSvfit->E();
+			product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
+		}
+		
+		++indexLepton;
+	}
+	
 	// 3-prong method
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
@@ -154,23 +192,9 @@ void PolarisationQuantitiesProducer::Produce(
 	bool tauFound = false;
 	bool muonFound = false;
 	bool electronFound = false;
-	size_t indexLepton = 0;
 	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
 	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
-		// HHKinFit version
-		if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
-		{
-			product.m_visibleOverFullEnergyHHKinFit[*lepton] = (*lepton)->p4.E() / SafeMap::Get(product.m_hhKinFitTaus, *lepton).E();
-		}
-		
-		// SVfit version
-		RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
-		if (fittedTauSvfit != nullptr)
-		{
-			product.m_visibleOverFullEnergySvfit[*lepton] = (*lepton)->p4.E() / fittedTauSvfit->E();
-		}
-			
 		// prefer hadronic taus first, then muons and then electrons for the event-based discriminator
 		if (! tauPolarisationDiscriminatorChosen)
 		{
@@ -202,8 +226,6 @@ void PolarisationQuantitiesProducer::Produce(
 				}
 			}
 		}
-		
-		++indexLepton;
 	}
 	tauPolarisationDiscriminatorChosen = (tauPolarisationDiscriminatorChosen || (product.m_flavourOrderedLeptons.size() > 0));
 	
