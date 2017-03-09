@@ -1,7 +1,10 @@
 {
-	"Processors" : {
-		"nick" : {
-			"default" : [
+	"Processors" :
+	{
+		"nick" :
+		{
+			"default" :
+			[
 				"#filter:RunLumiEventFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
@@ -14,9 +17,11 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer"
+				"producer:PUWeightProducer",
+				"#producer:ScaleVariationProducer"
 			],
-			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets" : [
+			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets" :
+			[
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:ValidGenTausProducer",
@@ -35,7 +40,47 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer"
+				"producer:PUWeightProducer",
+				"#producer:ScaleVariationProducer"
+			],
+			"Run201" :
+			[
+				"#filter:RunLumiEventFilter",
+				"filter:JsonFilter",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:NicknameProducer"
+			],
+			"Embedding201" :
+			[
+				"#filter:RunLumiEventFilter",
+				"filter:JsonFilter",
+				"producer:NicknameProducer",
+				"producer:GenParticleProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer"
+			],
+			"EmbeddingMC" :
+			[
+				"#filter:RunLumiEventFilter",
+				"#filter:JsonFilter",
+				"producer:NicknameProducer",
+				"producer:GenParticleProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer"
 			],
 			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
 				"#filter:RunLumiEventFilter",
@@ -81,33 +126,6 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer"
-			],
-			"Run201" : [
-				"#filter:RunLumiEventFilter",
-				"filter:JsonFilter",
-				"#producer:TaggedJetCorrectionsProducer",
-				"producer:NicknameProducer"
-			],
-			"Embedding201" : [
-				"#filter:RunLumiEventFilter",
-				"filter:JsonFilter",
-				"producer:GenBosonDiLeptonDecayModeProducer",
-				"producer:ValidGenTausProducer",
-				"producer:GenDiLeptonDecayModeProducer",
-				"producer:GenParticleProducer",
-				"producer:RecoElectronGenParticleMatchingProducer",
-				"producer:RecoMuonGenParticleMatchingProducer",
-				"producer:RecoTauGenParticleMatchingProducer",
-				"producer:RecoTauGenTauMatchingProducer",
-				"producer:MatchedLeptonsProducer",
-				"#producer:GenTauDecayProducer",
-				"#producer:GenTauCPProducer",
-				"producer:TauSpinnerProducer",
-				"#producer:TaggedJetCorrectionsProducer",
-				"producer:NicknameProducer",
-				"producer:CrossSectionWeightProducer",
-				"producer:GeneratorWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer"
 			]
 		}
 	}
