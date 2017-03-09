@@ -21,14 +21,14 @@
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : { 
 			"nick": {
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_IsoMu18"
 				],
 				"Run2016|Summer16|Embedding2016" : [
 					"HLT_IsoMu24",
 					"HLT_IsoTkMu24"
 				],
-				"Spring16" : [
+				"Spring16|Embedding(2016|MC)" : [
 					""
 				]
 			}
@@ -36,8 +36,9 @@
 		"NoHltFiltering" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true
-			}
+				"Spring16" : true,
+				"Embedding(2016|MC)": true
+					}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
@@ -46,7 +47,7 @@
 				"default" : [
 					"25.0"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"19.0"
 				]
 			}
@@ -56,7 +57,7 @@
 				"default" : [
 					"2.4"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"2.1"
 				]
 			}
@@ -80,17 +81,17 @@
 					"HLT_IsoMu24_v:25.0",
 					"HLT_IsoTkMu24_v:25.0"
 				],
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_IsoMu18_v:19.0"
 				]
 			}
 		},
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_IsoMu18_v"
 				],
-				"Run2016|Summer16|Embedding2016" : [
+				"Run2016|Summer16|Embedding(2016|MC)" : [
 					"HLT_IsoMu24_v",
 					"HLT_IsoTkMu24_v"
 				]
@@ -99,7 +100,8 @@
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true
+				"Spring16" : true,
+				"Embedding(2016|MC)": true
 			}
 		},
 		"EventWeight" : "eventWeight",
@@ -149,10 +151,10 @@
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"MuonTriggerFilterNames" : {
 			"nick" : {
-				"(Fall15MiniAODv2|Run2015D)" : [
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
 				],
-				"Run2016|Summer16|Embedding2016" : [
+				"Run2016|Summer16|Embedding(2016|MC)" : [
 					"HLT_IsoMu24_v:hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09",
 					"HLT_IsoTkMu24_v:hltL3fL1sMu22L1f0Tkf24QL3trkIsoFiltered0p09"
 				]
@@ -186,6 +188,7 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json",
@@ -313,13 +316,13 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:Run2DecayChannelProducer",
-					"#producer:MvaMetSelector",
+					"producer:MvaMetSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:MetCorrector",
-					"#producer:MvaMetCorrector",
+					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -328,7 +331,7 @@
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:HHKinFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -358,13 +361,13 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:Run2DecayChannelProducer",
-					"#producer:MvaMetSelector",
+					"producer:MvaMetSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:MetCorrector",
-					"#producer:MvaMetCorrector",
+					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -373,7 +376,7 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:HHKinFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -382,53 +385,6 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:EventWeightProducer"
-				],
-				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"#producer:MvaMetSelector",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:MetCorrector",
-					"#producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:HHKinFitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
-					"producer:EleTauFakeRateWeightProducer",
-					"producer:GenMatchedTauCPProducer",
-					"producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
-					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|EWKZ2Jets|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
@@ -517,50 +473,6 @@
 					"producer:PolarisationQuantitiesProducer",
 					"producer:EventWeightProducer"
 				],
-				"(HToTauTau|H2JetsToTauTau).*(?=Fall15)" : [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:HHKinFitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"producer:EleTauFakeRateWeightProducer",
-					"producer:GenMatchedTauCPProducer",
-					"#producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
-					"#producer:MadGraphReweightingProducer",
-					"producer:EventWeightProducer"
-				],
 				"Run2016" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
@@ -580,7 +492,7 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:Run2DecayChannelProducer",
-					"#producer:MvaMetSelector",
+					"producer:MvaMetSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
@@ -591,7 +503,7 @@
 					"producer:JetToTauFakesProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"producer:HHKinFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
@@ -630,6 +542,137 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
+					"#producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesProducer",
+					"producer:EventWeightProducer"
+				],
+				"Embedding201" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidMTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidVetoMuonsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetSelector",
+					"producer:DiVetoMuonVetoProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"#producer:MetCorrector",
+					"#producer:MvaMetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"filter:MinimalPlotlevelFilter",
+					"#producer:MVATestMethodsProducer",
+					"#producer:SvfitProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
+					"producer:HHKinFitProducer",
+					"#producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesProducer",
+					"producer:EventWeightProducer"
+				],
+				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidMTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidVetoMuonsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetSelector",
+					"producer:DiVetoMuonVetoProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:MetCorrector",
+					"producer:MvaMetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
+					"producer:TopPtReweightingProducer",
+					"filter:MinimalPlotlevelFilter",
+					"#producer:MVATestMethodsProducer",
+					"#producer:SvfitProducer",
+					"producer:HHKinFitProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"#producer:RooWorkspaceWeightProducer",
+					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesProducer",
+					"producer:EventWeightProducer"
+				],
+				"(HToTauTau|H2JetsToTauTau).*(?=Fall15)" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidMTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidVetoMuonsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetSelector",
+					"producer:DiVetoMuonVetoProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:MetCorrector",
+					"producer:MvaMetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:TopPtReweightingProducer",
+					"filter:MinimalPlotlevelFilter",
+					"#producer:MVATestMethodsProducer",
+					"#producer:SvfitProducer",
+					"producer:HHKinFitProducer",
+					"producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"producer:GenMatchedTauCPProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
