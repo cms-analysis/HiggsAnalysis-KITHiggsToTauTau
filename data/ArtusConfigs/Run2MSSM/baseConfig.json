@@ -151,7 +151,7 @@
 	"MetRecoilCorrectorFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root",
 	"MvaMetRecoilCorrectorFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root",
 	"BTagScaleFactorFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv",
-	"BTagEfficiencyFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_ichep2016.root",
+	"BTagEfficiencyFile" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root",
 	"JsonFiles" : {
 		"nick" : {
 			"JsonFiles_comment" : ["using this path because /afs not mounted on ekp batch nodes"],
