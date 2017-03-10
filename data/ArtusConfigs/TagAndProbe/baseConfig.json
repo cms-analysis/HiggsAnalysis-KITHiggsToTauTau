@@ -38,8 +38,8 @@
 			]
 		}
 	},
-	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,
-	"DeltaRMatchingRecoMuonGenParticle" : 0.2,
+	"DeltaRMatchingRecoElectronsGenParticle" : 0.1,
+	"DeltaRMatchingRecoMuonGenParticle" : 0.05,
 	"DeltaRMatchingRecoTauGenParticle" : 0.2,
 	"DeltaRMatchingRecoTauGenTau" : 0.2,
 	"RecoElectronMatchingGenParticlePdgIds" : [ 11 ],
