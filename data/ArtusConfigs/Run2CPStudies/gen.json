@@ -15,7 +15,7 @@
 						]
 					}
 				],
-				"DY.?JetsToLLM" : [
+				"DY.?JetsToLL|EWKZ2Jets" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",

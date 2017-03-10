@@ -931,7 +931,7 @@ public:
 		ConsumerBase<TTypes>::ProcessFilteredEvent(event, product, settings);
 
 		// calculate values
-		//bool IsData = settings.GetInputIsData();
+		bool IsData = settings.GetInputIsData();
 		for (std::vector<KTau*>::const_iterator tau = product.m_TagAndProbeGenTaus.begin();
 				tau != product.m_TagAndProbeGenTaus.end(); ++tau)
 		{
@@ -962,7 +962,8 @@ public:
 				}else if(*quantity=="isoTight_p"){
 					FloatQuantities["isoTight_p"]=(*tau)->getDiscriminator("byTightIsolationMVArun2v1DBoldDMwLT", event.m_tauMetadata);
 				}else if(*quantity=="gen_p"){
-					if(product.m_genTauMatchedTaus.find(*tau) != product.m_genTauMatchedTaus.end() && product.m_genTauMatchedTaus.at(*tau)->isHadronicDecay()) BoolQuantities["gen_p"]=true;
+					if(IsData) BoolQuantities["gen_p"]=false;
+					else if(product.m_genTauMatchedTaus.find(*tau) != product.m_genTauMatchedTaus.end() && product.m_genTauMatchedTaus.at(*tau)->isHadronicDecay() && std::abs((*tau)->p4.Pt()-product.m_genTauMatchedTaus.at(*tau)->p4.Pt()) < 5.0) BoolQuantities["gen_p"]=true;
 					else BoolQuantities["gen_p"]=false;
 				}else if(*quantity=="trg_p_PFTau120"){
 					if (product.m_selectedHltNames.empty())
@@ -1092,6 +1093,7 @@ public:
 		FloatQuantities["dxy_p"]=0.0;
 		FloatQuantities["dz_p"]=0.0;
 		BoolQuantities["gen_p"]=false;
+		FloatQuantities["pt_gen"]=0.0;
 		BoolQuantities["genZ_p"]=false;
 		BoolQuantities["trg_p_IsoMu22"]=false;
 		BoolQuantities["trg_p_IsoTkMu22"]=false;
@@ -1170,6 +1172,10 @@ public:
 				}else if(*quantity=="gen_p"){
 					if(IsData) BoolQuantities["gen_p"]=false;
 					else BoolQuantities["gen_p"]=(product.m_genParticleMatchedMuons.find(*muon) != product.m_genParticleMatchedMuons.end());
+					if(BoolQuantities["gen_p"] && std::abs((*muon)->p4.Pt()-product.m_genParticleMatchedMuons.at(*muon)->p4.Pt()) > 5.0) BoolQuantities["gen_p"] = false;
+				}else if(*quantity=="pt_gen"){
+					if(!IsData && (product.m_genParticleMatchedMuons.find(*muon) != product.m_genParticleMatchedMuons.end())) FloatQuantities["pt_gen"]=product.m_genParticleMatchedMuons.at(*muon)->p4.Pt();
+					else FloatQuantities["pt_gen"]=0.0;
 				}else if(*quantity=="genZ_p"){
 					if(IsData) BoolQuantities["genZ_p"]=false;
 					else if(product.m_genParticleMatchedMuons.find(*muon) != product.m_genParticleMatchedMuons.end()){
@@ -1465,6 +1471,7 @@ public:
 		BoolQuantities["id_p"]=false;
 		FloatQuantities["iso_p"]=0.0;
 		BoolQuantities["gen_p"]=false;
+		FloatQuantities["pt_gen"]=0.0;
 		BoolQuantities["genZ_p"]=false;
 		BoolQuantities["trg_p_Ele25eta2p1WPTight"]=false;
 		BoolQuantities["trg_p_Ele27eta2p1WPTight"]=false;
@@ -1526,6 +1533,10 @@ public:
 				}else if(*quantity=="gen_p"){
 					if(IsData) BoolQuantities["gen_p"]=false;
 					else BoolQuantities["gen_p"]=(product.m_genParticleMatchedElectrons.find(*electron) != product.m_genParticleMatchedElectrons.end());
+					if(BoolQuantities["gen_p"] && std::abs((*electron)->p4.Pt()-product.m_genParticleMatchedElectrons.at(*electron)->p4.Pt()) > 5.0) BoolQuantities["gen_p"] = false;
+				}else if(*quantity=="pt_gen"){
+					if(!IsData && (product.m_genParticleMatchedElectrons.find(*electron) != product.m_genParticleMatchedElectrons.end())) FloatQuantities["pt_gen"]=product.m_genParticleMatchedElectrons.at(*electron)->p4.Pt();
+					else FloatQuantities["pt_gen"]=0.0;
 				}else if(*quantity=="genZ_p"){
 					if(IsData) BoolQuantities["genZ_p"]=false;
 					else if(product.m_genParticleMatchedElectrons.find(*electron) != product.m_genParticleMatchedElectrons.end()){
