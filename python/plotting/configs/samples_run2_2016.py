@@ -118,15 +118,15 @@ class Samples(samples.SamplesBase):
 			return [weight]
 	
 	def ztt_stitchingweight(self):
-		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.17315803668195e-4) + ((genbosonmass >= 150.0 && npartons == 1)*1.621414441741e-5) + ((genbosonmass >= 150.0 && npartons == 2)*1.6643877999447e-5) + ((genbosonmass >= 150.0 && npartons == 3)*1.7249743875469e-5) + ((genbosonmass >= 150.0 && npartons == 4)*1.3442049896748e-5)+"
-		mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*1.17315803668195e-4) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.621414441741e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.6643877999447e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.7249743875469e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.3442049896748e-5)+"
+		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 150.0 && npartons == 4)*1.09698723e-5)+"
+		mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 150.0 && genbosonmass < 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.09698723e-5)+"
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		return "("+highmass+mediummass+lowmass+")"+normalization
 
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays
 	def zll_stitchingweight(self):
-		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*1.17315803668195e-4) + ((genbosonmass >= 50.0 && npartons == 1)*1.621414441741e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.6643877999447e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.7249743875469e-5) + ((genbosonmass >= 50.0 && npartons == 4)*1.3442049896748e-5)+"
+		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 50.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 50.0 && npartons == 4)*1.09698723e-5)+"
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		return "("+mediummass+lowmass+")"+normalization
