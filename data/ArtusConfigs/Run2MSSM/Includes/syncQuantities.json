@@ -184,9 +184,9 @@
 		"trg_singletau",
 		"trg_muonelectron",
 		"uncorrmet",
-		"genpX",
-		"genpY",
-		"vispX",
-		"vispY"
+		"#genpX",
+		"#genpY",
+		"#vispX",
+		"#vispY"
 	]
 }
