@@ -19,6 +19,10 @@
 	},
 	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/Cards/param_card.dat",
 	"MadGraphProcessDirectories" : [
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/SubProcesses/P1_gg_x0"
+		"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/SubProcesses/P1_gg_x0",
+		"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0J/SubProcesses/P1_gg_x0g",
+		"2:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0gg",
+		"3:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0bbx",
+		"4:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0uux"
 	]
 }

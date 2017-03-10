@@ -26,5 +26,7 @@ private:
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
 	
 	std::map<std::string, std::map<int, MadGraphTools*> > m_madGraphTools;
+	std::map<int, std::vector<std::string> > m_madGraphProcessDirectoriesByIndex;
+	std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
 };
 
