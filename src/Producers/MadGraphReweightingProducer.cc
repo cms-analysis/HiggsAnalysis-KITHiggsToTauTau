@@ -91,7 +91,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//std::cout << "new vector" << std::endl;
 		for (unsigned int particleIndex=0; particleIndex < event.m_lheParticles->size(); particleIndex++)
 		{
-			if (particleIndex < 3)
+			if (particleIndex < 5)
 			{
 				particleFourMomenta.push_back(&event.m_lheParticles->at(particleIndex).p4);
 			}
