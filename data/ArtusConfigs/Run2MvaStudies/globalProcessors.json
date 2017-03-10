@@ -26,6 +26,7 @@
 			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
+				"producer:GenBosonFromGenParticlesProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
@@ -41,6 +42,7 @@
 			],
 			"HToTauTau" : [
 				"#filter:RunLumiEventFilter",
+				"producer:GenBosonFromGenParticlesProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",

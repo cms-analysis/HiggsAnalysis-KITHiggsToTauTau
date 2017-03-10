@@ -58,8 +58,8 @@
 					"producer:HltProducer",
 					"producer:TagAndProbeGenTauProducer",
 					"producer:RecoTauGenTauMatchingProducer",
-					"#producer:GenBosonDiLeptonDecayModeProducer",
 					"#producer:GenBosonFromGenParticlesProducer",
+					"#producer:GenBosonDiLeptonDecayModeProducer",
 					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
 					"producer:EventWeightProducer"
