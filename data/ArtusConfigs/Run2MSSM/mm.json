@@ -35,68 +35,6 @@
 				]
 			}
 		},
-		"NoHltFiltering" : {
-			"nick" : {
-				"default" : false,
-				"Spring16" : true
-			}
-		},
-		"TauID" : "TauIDRecommendation13TeV",
-		"TauUseOldDMs" : true,
-		"MuonLowerPtCuts" : [
-			"10.0"
-		],
-		"MuonUpperAbsEtaCuts" : [
-			"2.4"
-		],
-		"DiTauPairMinDeltaRCut" : 0.3,
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
-			"nick": {
-				"(Run2016|Embedding2016|Summer16)" : [
-					"HLT_IsoMu22_v",
-					"HLT_IsoTkMu22_v",
-					"HLT_IsoMu22_eta2p1_v",
-					"HLT_IsoTkMu22_eta2p1_v",
-					"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v"
-				]
-			}
-		},
-		"DiTauPairHLTLast" : true,
-		"HLTBranchNames" : [
-			"trg_singlemuon:HLT_IsoMu22_v",
-			"trg_singlemuon:HLT_IsoTkMu22_v",
-			"trg_singlemuon:HLT_IsoMu22_eta2p1_v",
-			"trg_singlemuon:HLT_IsoTkMu22_eta2p1_v",
-			"trg_singletau:HLT_VLooseIsoPFTau120_Trk50_eta2p1_v",
-			"trg_singleelectron:HLT_Ele25_eta2p1_WPTight_Gsf_v",
-			"trg_doubletau:HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v",
-			"trg_doubletau:HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v",
-			"trg_muonelectron:HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v",
-			"trg_muonelectron:HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v"
-		],
-		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_IsoMu22_v:23.0",
-			"HLT_IsoTkMu22_v:23.0"
-		],
-		"DiTauPairNoHLT" : {
-			"nick" : {
-				"default" : false,
-				"Spring16" : true
-			}
-		},
-		"EventWeight" : "eventWeight",
-		"TauTauRestFrameReco" : "collinear_approximation",
-		"MuonTriggerFilterNames" : {
-			"nick" : {
-				"(Run2016|Embedding2016|Summer16)" : [
-					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
-					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09",
-					"HLT_IsoMu22_eta2p1_v:hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09",
-					"HLT_IsoTkMu22_eta2p1_v:hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09",
-					"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v:hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"
-				]
-			}
-		},
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_4.root",
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
@@ -116,6 +54,56 @@
 			"0:m_pt,m_eta",
 			"0:m_eta"
 		],
+		"TauID" : "TauIDRecommendation13TeV",
+		"TauUseOldDMs" : true,
+		"MuonLowerPtCuts" : [
+			"10.0"
+		],
+		"MuonUpperAbsEtaCuts" : [
+			"2.4"
+		],
+		"DiTauPairMinDeltaRCut" : 0.3,
+		"DiTauPairIsTauIsoMVA": true,
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : [
+			"HLT_IsoMu22_v",
+			"HLT_IsoTkMu22_v",
+			"HLT_IsoMu22_eta2p1_v",
+			"HLT_IsoTkMu22_eta2p1_v",
+			"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v",
+			"HLT_Ele25_eta2p1_WPTight_Gsf_v"
+		],
+		"DiTauPairHLTLast" : true,
+		"HLTBranchNames" : [
+			"trg_singlemuon:HLT_IsoMu22_v",
+			"trg_singlemuon:HLT_IsoTkMu22_v",
+			"trg_singlemuon:HLT_IsoMu22_eta2p1_v",
+			"trg_singlemuon:HLT_IsoTkMu22_eta2p1_v",
+			"trg_singletau:HLT_VLooseIsoPFTau120_Trk50_eta2p1_v",
+			"trg_singleelectron:HLT_Ele25_eta2p1_WPTight_Gsf_v",
+			"trg_doubletau:HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v",
+			"trg_doubletau:HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v",
+			"trg_muonelectron:HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v",
+			"trg_muonelectron:HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v"
+		],
+		"DiTauPairLepton1LowerPtCuts" : [
+			"HLT_IsoMu22_v:23.0",
+			"HLT_IsoTkMu22_v:23.0",
+			"HLT_IsoMu22_eta2p1_v:23.0",
+			"HLT_IsoTkMu22_eta2p1_v:23.0"
+		],
+		"EventWeight" : "eventWeight",
+		"TauTauRestFrameReco" : "collinear_approximation",
+		"MuonTriggerFilterNames" : {
+			"nick" : {
+				"(Run2016|Embedding2016|Summer16)" : [
+					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09",
+					"HLT_IsoMu22_eta2p1_v:hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+					"HLT_IsoTkMu22_eta2p1_v:hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09",
+					"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v:hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"
+				]
+			}
+		},
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : true,
 		"InvalidateNonMatchingTaus" : true,
@@ -135,15 +123,15 @@
 			"nmediumbtag",
 			"had_gen_match_pT_1",
 			"had_gen_match_pT_2",
-            "muR1p0_muF1p0_weight",
-            "muR1p0_muF2p0_weight",
-            "muR1p0_muF0p5_weight",
-            "muR2p0_muF1p0_weight",
-            "muR2p0_muF2p0_weight",
-            "muR2p0_muF0p5_weight",
-            "muR0p5_muF1p0_weight",
-            "muR0p5_muF2p0_weight",
-            "muR0p5_muF0p5_weight"
+			"muR1p0_muF1p0_weight",
+			"muR1p0_muF2p0_weight",
+			"muR1p0_muF0p5_weight",
+			"muR2p0_muF1p0_weight",
+			"muR2p0_muF2p0_weight",
+			"muR2p0_muF0p5_weight",
+			"muR0p5_muF1p0_weight",
+			"muR0p5_muF2p0_weight",
+			"muR0p5_muF0p5_weight"
 		],
 		"OSChargeLeptons" : true,
 		"MuonEnergyCorrection" : {
@@ -170,6 +158,7 @@
 					"producer:MuonTriggerMatchingProducer",
 					"filter:MinMuonsCountFilter",
 					"producer:RecoMuonGenParticleMatchingProducer",
+					"producer:RecoMuonGenTauMatchingProducer",
 					"producer:HttValidVetoMuonsProducer",
 					"producer:ValidElectronsProducer",
 					"producer:ValidTausProducer",
@@ -205,6 +194,7 @@
 					"producer:MuonTriggerMatchingProducer",
 					"filter:MinMuonsCountFilter",
 					"producer:RecoMuonGenParticleMatchingProducer",
+					"producer:RecoMuonGenTauMatchingProducer",
 					"producer:HttValidVetoMuonsProducer",
 					"producer:ValidElectronsProducer",
 					"producer:ValidTausProducer",
@@ -242,6 +232,7 @@
 					"producer:MuonTriggerMatchingProducer",
 					"filter:MinMuonsCountFilter",
 					"producer:RecoMuonGenParticleMatchingProducer",
+					"producer:RecoMuonGenTauMatchingProducer",
 					"producer:HttValidVetoMuonsProducer",
 					"producer:ValidElectronsProducer",
 					"producer:TauCorrectionsProducer",
@@ -282,6 +273,7 @@
 					"producer:MuonTriggerMatchingProducer",
 					"filter:MinMuonsCountFilter",
 					"producer:RecoMuonGenParticleMatchingProducer",
+					"producer:RecoMuonGenTauMatchingProducer",
 					"producer:HttValidVetoMuonsProducer",
 					"producer:ValidElectronsProducer",
 					"producer:TauCorrectionsProducer",
