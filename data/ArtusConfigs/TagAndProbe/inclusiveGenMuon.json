@@ -77,8 +77,8 @@
 					"producer:HltProducer",
 					"producer:TagAndProbeGenMuonProducer",
 					"producer:RecoMuonGenParticleMatchingProducer",
-					"producer:GenBosonDiLeptonDecayModeProducer",
 					"producer:GenBosonFromGenParticlesProducer",
+					"producer:GenBosonDiLeptonDecayModeProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
 					"producer:EventWeightProducer"

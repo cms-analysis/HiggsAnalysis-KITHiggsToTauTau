@@ -106,6 +106,7 @@
 					"producer:GeneratorWeightProducer",
 					"producer:CrossSectionWeightProducer",
 					"producer:NumberGeneratedEventsWeightProducer",
+					"producer:GenBosonFromGenParticlesProducer",
 					"producer:GenBosonDiLeptonDecayModeProducer",
 					"producer:GenDiLeptonDecayModeProducer",
 					"filter:GenDiLeptonDecayModeFilter",

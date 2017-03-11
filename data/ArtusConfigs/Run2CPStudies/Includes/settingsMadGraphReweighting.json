@@ -1,0 +1,28 @@
+{
+	"MadGraphMixingAnglesOverPiHalf" : {
+		"nick" : {
+			"default" : [
+			],
+			"HToTauTau|H2JetsToTauTau" : [
+				0.00,
+				1.00
+			]
+		}
+	},
+	"MadGraphMixingAnglesOverPiHalfSample" : {
+		"nick" : {
+			"default" : -1.0,
+			"SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau" : 0.0,
+			"^(W(minus|plus)|Z|VBF|GluGlu|GluGluTo)HToTauTau" : 0.0,
+			"SUSY(BB|GluGlu|GluGluTo)HToTauTau" : 1.0
+		}
+	},
+	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/Cards/param_card.dat",
+	"MadGraphProcessDirectories" : [
+		"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/SubProcesses/P1_gg_x0",
+		"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0J/SubProcesses/P1_gg_x0g",
+		"2:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0gg",
+		"3:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0bbx",
+		"4:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0uux"
+	]
+}

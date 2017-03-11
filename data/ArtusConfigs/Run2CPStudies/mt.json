@@ -676,6 +676,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
+					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]
 			}

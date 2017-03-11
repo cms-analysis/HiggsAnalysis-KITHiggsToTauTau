@@ -59,8 +59,8 @@
 					"producer:HltProducer",
 					"producer:TagAndProbeGenElectronProducer",
 					"producer:RecoElectronGenParticleMatchingProducer",
-					"producer:GenBosonDiLeptonDecayModeProducer",
 					"producer:GenBosonFromGenParticlesProducer",
+					"producer:GenBosonDiLeptonDecayModeProducer",
 					"filter:ValidElectronsFilter",
 					"producer:ElectronTriggerMatchingProducer",
 					"producer:EventWeightProducer"

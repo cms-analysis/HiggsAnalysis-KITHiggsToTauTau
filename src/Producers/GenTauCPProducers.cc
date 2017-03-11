@@ -138,83 +138,84 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
-	assert(product.m_genBosonLVFound);
-	assert(product.m_genBosonTree.m_daughters.size() > 1);
-
-	// save MC-truth PV
-	for (unsigned int i=0; i<event.m_genParticles->size(); ++i){
-		if (event.m_genParticles->at(i).pdgId == 23 || event.m_genParticles->at(i).pdgId == 25 || event.m_genParticles->at(i).pdgId == 36){
-			product.m_genPV = &event.m_genParticles->at(i).vertex;
-		}
-	}
-
-	GenParticleDecayTree* selectedTau1;
-	GenParticleDecayTree* selectedTau2;
-	if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
-		selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
-		selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
-	}
-	else {
-		selectedTau1 = &(product.m_genBosonTree.m_daughters[1]);
-		selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
-	}
-
-
-	selectedTau1->CreateFinalStateProngs(selectedTau1);
-	selectedTau2->CreateFinalStateProngs(selectedTau2);
-	std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
-	std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
-
-	// Defining CPQuantities object to use variables and functions of this class
-	CPQuantities cpq;
-	
-	//Selection of the right channel for phi, phi* and psi*CP
-	if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
-	    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
-	    (selectedTau1OneProngs.size() != 0) &&
-	    (selectedTau2OneProngs.size() != 0))
+	if (product.m_genBosonLVFound && (product.m_genBosonTree.m_daughters.size() > 1))
 	{
-		//Initialization of charged particles
-		KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->m_genParticle;
-		KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->m_genParticle;
-		for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
-		{
-			if (abs(selectedTau1OneProngs[i]->GetCharge()) == 1) chargedPart1 = selectedTau1OneProngs[i]->m_genParticle;
-		}
-		for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
-		{
-			if (abs(selectedTau2OneProngs[i]->GetCharge()) == 1) chargedPart2 = selectedTau2OneProngs[i]->m_genParticle;
-		}
-		// Saving the charged particles for  analysis
-		product.m_genOneProngCharged1 = chargedPart1;
-		product.m_genOneProngCharged2 = chargedPart2;
-		// Saving Energies of charged particles in tau rest frames
-		product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->m_genParticle->p4, chargedPart1->p4);
-		product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->m_genParticle->p4, chargedPart2->p4);
 
-		// Calculation of Phi* and Phi*CP itself
-		double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
-		product.m_genPhiStar = cpq.GetGenPhiStar();
-		// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
-		// decay planes 
-		double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
-		product.m_genPhi = cpq.GetGenPhi();
+		// save MC-truth PV
+		for (unsigned int i=0; i<event.m_genParticles->size(); ++i){
+			if (event.m_genParticles->at(i).pdgId == 23 || event.m_genParticles->at(i).pdgId == 25 || event.m_genParticles->at(i).pdgId == 36){
+				product.m_genPV = &event.m_genParticles->at(i).vertex;
+			}
+		}
 
-		//CPTransformation for semileptonic case
-		if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId == DefaultValues::pdgIdElectron || chargedPart1->pdgId == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId == 211)) || ((chargedPart2->pdgId == -DefaultValues::pdgIdElectron || chargedPart2->pdgId == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId == -211))))
-		{	
-			product.m_genPhiStarCP = cpq.PhiTransform(genPhiStarCP);
-			product.m_genPhiCP = cpq.PhiTransform(genPhiCP);
+		GenParticleDecayTree* selectedTau1;
+		GenParticleDecayTree* selectedTau2;
+		if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
+			selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
+			selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
 		}
-		else
+		else {
+			selectedTau1 = &(product.m_genBosonTree.m_daughters[1]);
+			selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
+		}
+
+
+		selectedTau1->CreateFinalStateProngs(selectedTau1);
+		selectedTau2->CreateFinalStateProngs(selectedTau2);
+		std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
+		std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
+
+		// Defining CPQuantities object to use variables and functions of this class
+		CPQuantities cpq;
+	
+		//Selection of the right channel for phi, phi* and psi*CP
+		if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+			(std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+			(selectedTau1OneProngs.size() != 0) &&
+			(selectedTau2OneProngs.size() != 0))
 		{
-			product.m_genPhiStarCP = genPhiStarCP;
-			product.m_genPhiCP = genPhiCP;
+			//Initialization of charged particles
+			KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->m_genParticle;
+			KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->m_genParticle;
+			for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
+			{
+				if (abs(selectedTau1OneProngs[i]->GetCharge()) == 1) chargedPart1 = selectedTau1OneProngs[i]->m_genParticle;
+			}
+			for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
+			{
+				if (abs(selectedTau2OneProngs[i]->GetCharge()) == 1) chargedPart2 = selectedTau2OneProngs[i]->m_genParticle;
+			}
+			// Saving the charged particles for  analysis
+			product.m_genOneProngCharged1 = chargedPart1;
+			product.m_genOneProngCharged2 = chargedPart2;
+			// Saving Energies of charged particles in tau rest frames
+			product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->m_genParticle->p4, chargedPart1->p4);
+			product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->m_genParticle->p4, chargedPart2->p4);
+
+			// Calculation of Phi* and Phi*CP itself
+			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+			product.m_genPhiStar = cpq.GetGenPhiStar();
+			// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
+			// decay planes 
+			double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+			product.m_genPhi = cpq.GetGenPhi();
+
+			//CPTransformation for semileptonic case
+			if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId == DefaultValues::pdgIdElectron || chargedPart1->pdgId == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId == 211)) || ((chargedPart2->pdgId == -DefaultValues::pdgIdElectron || chargedPart2->pdgId == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId == -211))))
+			{	
+				product.m_genPhiStarCP = cpq.PhiTransform(genPhiStarCP);
+				product.m_genPhiCP = cpq.PhiTransform(genPhiCP);
+			}
+			else
+			{
+				product.m_genPhiStarCP = genPhiStarCP;
+				product.m_genPhiCP = genPhiCP;
+			}
+			//ZPlusMinus calculation
+			product.m_genZPlus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart1->p4);
+			product.m_genZMinus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart2->p4);
+			product.m_genZs = cpq.CalculateZs(product.m_genZPlus, product.m_genZMinus);
 		}
-		//ZPlusMinus calculation
-		product.m_genZPlus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart1->p4);
-		product.m_genZMinus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart2->p4);
-		product.m_genZs = cpq.CalculateZs(product.m_genZPlus, product.m_genZMinus);
 	}
 }
 

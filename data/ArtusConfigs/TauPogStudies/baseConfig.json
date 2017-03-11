@@ -31,6 +31,7 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NicknameProducer",
+				"producer:GenBosonFromGenParticlesProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"filter:GenDiLeptonDecayModeFilter",

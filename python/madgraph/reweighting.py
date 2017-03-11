@@ -52,4 +52,7 @@ class MadGraphTools(object):
 	def matrix_element_squared(self, cartesian_four_momenta):
 		arguments = [cartesian_four_momenta, self.madgraph_process_directory, self.madgraph_param_card, self.alpha_s]
 		pool = multiprocessing.Pool(processes=1)
-		return pool.apply(me2, [arguments])
+		pool.daemon = True
+		result = pool.apply(me2, [arguments])
+		pool.terminate()
+		return result
