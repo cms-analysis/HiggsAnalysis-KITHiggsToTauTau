@@ -83,28 +83,23 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		int numberBottomQuarks=0;
 		int numberOtherQuarks=0;
 
-
-		std::vector<RMFLV*> particleFourMomenta;
-		//std::cout << "new vector" << std::endl;
-		for (unsigned int particleIndex=0; particleIndex < event.m_lheParticles->size(); particleIndex++)
+		std::vector<const RMFLV*> particleFourMomenta;
+		for (KGenParticles::const_iterator lheParticle = event.m_lheParticles->begin(); lheParticle != event.m_lheParticles->end(); ++lheParticle)
 		{
-			if (particleIndex < 5)
+			if (particleFourMomenta.size() < 5)
 			{
-				particleFourMomenta.push_back(&event.m_lheParticles->at(particleIndex).p4);
+				particleFourMomenta.push_back(&(lheParticle->p4));
 			}
 		
-			if (event.m_lheParticles->at(particleIndex).pdgId == DefaultValues::pdgIdGluon)
+			if (lheParticle->pdgId == DefaultValues::pdgIdGluon)
 			{
 				++numberGluons;
 			}
-			if (std::abs(event.m_lheParticles->at(particleIndex).pdgId) == 5)
+			if (std::abs(lheParticle->pdgId) == 5)
 			{
 				++numberBottomQuarks;
 			}
-			if (std::abs(event.m_lheParticles->at(particleIndex).pdgId) == 1 || 
-			    std::abs(event.m_lheParticles->at(particleIndex).pdgId) == 2 || 
-			    std::abs(event.m_lheParticles->at(particleIndex).pdgId) == 3 ||
-			    std::abs(event.m_lheParticles->at(particleIndex).pdgId) == 4  )
+			if (std::abs(lheParticle->pdgId) < 5)
 			{
 				++numberOtherQuarks;
 			}		
