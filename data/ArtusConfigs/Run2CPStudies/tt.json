@@ -51,6 +51,12 @@
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairIsTauIsoMVA": true,
+		"DiTauPairHLTLast" : {
+			"nick" : {
+				"default" : false,
+				"GluGluH2JetsToTauTauM125CPmixing.*JHU" : true
+			}
+		},
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
