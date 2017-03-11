@@ -75,11 +75,8 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
                                           setting_type const& settings) const
 {
-	// TODO: should this be an assertion (including a filter to run before this producer)?
-	if ((product.m_genBosonParticle != nullptr) &&
-	    (product.m_genParticlesProducingBoson.size() > 1) &&
-	    (product.m_genParticlesProducingBoson.at(0)->pdgId == DefaultValues::pdgIdGluon) &&
-	    (product.m_genParticlesProducingBoson.at(1)->pdgId == DefaultValues::pdgIdGluon))
+	// TODO: should this be an assertion?
+	if (event.m_lheParticles != nullptr)
 	{
 		int productionMode=0;
 		int numberGluons=0;
@@ -95,8 +92,6 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			{
 				particleFourMomenta.push_back(&event.m_lheParticles->at(particleIndex).p4);
 			}
-			//std::cout << particleIndex << std::endl;
-			//std::cout << event.m_lheParticles->at(particleIndex).pdgId << std::endl;
 		
 			if (event.m_lheParticles->at(particleIndex).pdgId == DefaultValues::pdgIdGluon)
 			{
@@ -114,8 +109,6 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 				++numberOtherQuarks;
 			}		
 		}
-
-		//std::cout << "end vector" << std::endl;
 	
 		if ((numberGluons==2) &&
 		    (numberBottomQuarks==0)&&
@@ -148,13 +141,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		{
 			productionMode=4;
 		}
-		//std::cout << productionMode << std::endl;		
-
-		//particleFourMomenta.push_back(&(product.m_genParticlesProducingBoson.at(0)->p4)); // gluon 1
-		//particleFourMomenta.push_back(&(product.m_genParticlesProducingBoson.at(1)->p4)); // gluon 2
-		//particleFourMomenta.push_back(&(product.m_genBosonParticle->p4)); // Higgs
 		
-		// process ggH
 		std::string madGraphProcessDirectory = SafeMap::Get(m_madGraphProcessDirectoriesByIndex, productionMode)[0];
 		std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
 		
