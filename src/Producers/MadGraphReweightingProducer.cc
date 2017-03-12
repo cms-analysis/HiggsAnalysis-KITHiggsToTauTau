@@ -86,6 +86,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		std::vector<const RMFLV*> particleFourMomenta;
 		for (KGenParticles::const_iterator lheParticle = event.m_lheParticles->begin(); lheParticle != event.m_lheParticles->end(); ++lheParticle)
 		{
+			//LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << lheParticle->particleinfo << ", " << lheParticle->status();
 			if (particleFourMomenta.size() < 5)
 			{
 				particleFourMomenta.push_back(&(lheParticle->p4));
@@ -104,6 +105,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 				++numberOtherQuarks;
 			}		
 		}
+		//LOG(WARNING) << event.m_lheParticles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks;
 	
 		if ((numberGluons==2) &&
 		    (numberBottomQuarks==0)&&
