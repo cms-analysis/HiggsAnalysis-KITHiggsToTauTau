@@ -56,9 +56,6 @@
 		],
 		"DiTauPairMinDeltaRCut" : 0.5,
 		"DiTauPairIsTauIsoMVA": true,
-		"DiTauPairLepton1LowerPtCuts" : [
-			"HLT_Ele32_eta2p1_WPTight_Gsf_v:33.0"
-		],
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
