@@ -149,10 +149,11 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -185,10 +186,11 @@
 					"producer:MVAInputQuantitiesProducer"
 				],
 				"TT_RunIISummer16MiniAODv2" : [
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -222,11 +224,11 @@
 					"producer:MVAInputQuantitiesProducer"
 				],
 				"DY.?JetsToLL" : [
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
 					"producer:MuonCorrectionsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -264,10 +266,11 @@
 					"producer:MVAInputQuantitiesProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
+					"producer:MuonCorrectionsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
@@ -303,11 +306,11 @@
 					"producer:MVAInputQuantitiesProducer"
 				],
 				"Run201" : [
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
 					"producer:MuonCorrectionsProducer",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",

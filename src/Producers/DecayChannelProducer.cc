@@ -996,8 +996,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		for (std::vector<KElectron*>::iterator electron = product.m_validElectrons.begin();
 			 electron != product.m_validElectrons.end(); ++electron)
 		{
-			//Use only direction to match loose electrons to the signal electron, since the Pt and mass of signal electrons might be corrected.
-			if (Utility::ApproxEqual((*looseElectron)->p4.Eta(),(*electron)->p4.Eta()) && Utility::ApproxEqual((*looseElectron)->p4.Phi(),(*electron)->p4.Phi()))
+			if ((*looseElectron)->p4 == (*electron)->p4)
 			{
 				looseElectronAlsoSignalElectron = true;
 			}
@@ -1013,8 +1012,7 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 		for (std::vector<KMuon*>::iterator muon = product.m_validMuons.begin();
 			 muon != product.m_validMuons.end(); ++muon)
 		{
-			//Use only direction to match loose muons to the signal muon, since the Pt and mass of signal muons might be corrected (rochester corrections).
-			if (Utility::ApproxEqual((*looseMuon)->p4.Eta(),(*muon)->p4.Eta()) && Utility::ApproxEqual((*looseMuon)->p4.Phi(),(*muon)->p4.Phi()))
+			if ((*looseMuon)->p4 == (*muon)->p4)
 			{
 				looseMuonAlsoSignalMuon = true;
 			}
