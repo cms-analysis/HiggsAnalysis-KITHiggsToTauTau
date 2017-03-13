@@ -185,14 +185,14 @@ class Samples(samples.SamplesBase):
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif z_pt:
 			if doStitching:
-				return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight, "zPtReweightWeight"])
+				return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight, "zPtReweightWeight", self.hadronic_scale_factor(channel)])
 			else:
-				return make_multiplication([mc_sample_weight, "zPtReweightWeight"])
+				return make_multiplication([mc_sample_weight, "zPtReweightWeight", self.hadronic_scale_factor(channel)])
 		else:
 			if doStitching:
-				return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight()])
+				return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel)])
 			else:
-				return make_multiplication([mc_weight, weight, "eventWeight"])
+				return make_multiplication([mc_weight, weight, "eventWeight", self.hadronic_scale_factor(channel)])
 		
 	def files_data(self, channel):
 		query_rereco = {}
