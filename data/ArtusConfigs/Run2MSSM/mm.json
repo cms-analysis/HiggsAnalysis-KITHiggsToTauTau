@@ -40,19 +40,28 @@
 			"0:triggerWeight",
 			"0:isoweight",
 			"0:idweight",
-			"0:trackWeight"
+			"0:trackWeight",
+			"1:isoweight",
+			"1:idweight",
+			"1:trackWeight"
 		],
 		"RooWorkspaceObjectNames" : [
 			"0:m_trgOR4_binned_ratio",
 			"0:m_iso_binned_ratio",
 			"0:m_id_ratio",
-			"0:m_trk_ratio"
+			"0:m_trk_ratio",
+			"1:m_iso_binned_ratio",
+			"1:m_id_ratio",
+			"1:m_trk_ratio"
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta,m_iso",
 			"0:m_pt,m_eta",
-			"0:m_eta"
+			"0:m_eta",
+			"1:m_pt,m_eta,m_iso",
+			"1:m_pt,m_eta",
+			"1:m_eta"
 		],
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
