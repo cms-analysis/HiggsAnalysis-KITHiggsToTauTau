@@ -22,8 +22,8 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 
 
-	m_madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>( Utility::ParseVectorToMap(settings.GetMadGraphProcessDirectories()),
-		                                                          			m_madGraphProcessDirectoriesByName);
+	m_madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>(Utility::ParseVectorToMap(settings.GetMadGraphProcessDirectories()),
+	                                                                               m_madGraphProcessDirectoriesByName);
 	
 	for (std::map<int, std::vector<std::string> >::const_iterator processDirectories = m_madGraphProcessDirectoriesByIndex.begin();
 	     processDirectories != m_madGraphProcessDirectoriesByIndex.end(); ++processDirectories)
@@ -82,30 +82,120 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		int numberGluons=0;
 		int numberBottomQuarks=0;
 		int numberOtherQuarks=0;
-
+		
+		/*std::vector<const KGenParticle*> selectedLheParticles;
+		for (KGenParticles::const_iterator lheParticle1 = event.m_lheParticles->begin(); lheParticle1 != event.m_lheParticles->end(); ++lheParticle1)
+		{
+			if (std::abs(lheParticle1->pdgId) <= 6) // lheParticle1 is a quark
+			{
+				for (KGenParticles::const_iterator lheParticle2 = event.m_lheParticles->begin(); lheParticle2 != event.m_lheParticles->end(); ++lheParticle2)
+				{
+					if ((std::abs(lheParticle2->pdgId) <= 6) && (lheParticle1 != lheParticle2)) // lheParticle2 is a quark and different from lheParticle1
+					{
+						for (KGenParticles::const_iterator lheParticle3 = event.m_lheParticles->begin(); lheParticle3 != event.m_lheParticles->end(); ++lheParticle3)
+						{
+							if (std::abs(lheParticle3->pdgId) == DefaultValues::pdgIdGluon) // lheParticle3 is a gluon
+							{
+								if ((Utility::ApproxEqual(lheParticle1->p4 + lheParticle2->p4, lheParticle3->p4)) ||
+								    (Utility::ApproxEqual(lheParticle1->p4 - lheParticle2->p4, lheParticle3->p4)) ||
+								    (Utility::ApproxEqual(lheParticle2->p4 - lheParticle1->p4, lheParticle3->p4)))
+								{
+									LOG(ERROR) << lheParticle3->p4.mass();
+								}
+							}
+						}
+					}
+				}
+			}
+		}*/
+		
+		struct ParticlesGroup
+		{
+			std::vector<const KGenParticle*> momenta;
+			int nLightQuarks = 0;
+			int nHeavyQuarks = 0;
+			int nGluons = 0;
+			int nHiggsBosons = 0;
+		} initialParticles, higgsParticles, jetParticles;
+		
 		std::vector<const RMFLV*> particleFourMomenta;
 		for (KGenParticles::const_iterator lheParticle = event.m_lheParticles->begin(); lheParticle != event.m_lheParticles->end(); ++lheParticle)
 		{
+			ParticlesGroup* selectedParticles = nullptr;
+			if (lheParticle->status() == 127)
+			{
+				selectedParticles = &initialParticles;
+			}
+			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(lheParticle->pdgId)))
+			{
+				selectedParticles = &higgsParticles;
+				selectedParticles->nHiggsBosons += 1;
+			}
+			else
+			{
+				selectedParticles = &jetParticles;
+			}
+			
+			selectedParticles->momenta.push_back(&(*lheParticle));
+		
+			if (lheParticle->pdgId == DefaultValues::pdgIdGluon)
+			{
+				selectedParticles->nGluons += 1;
+				++numberGluons;
+			}
+			else if (std::abs(lheParticle->pdgId) == 5)
+			{
+				selectedParticles->nHeavyQuarks += 1;
+				++numberBottomQuarks;
+			}
+			else if (std::abs(lheParticle->pdgId) < 5)
+			{
+				selectedParticles->nLightQuarks += 1;
+				++numberOtherQuarks;
+			}
+			
 			//LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << lheParticle->particleinfo << ", " << lheParticle->status();
 			if (particleFourMomenta.size() < 5)
 			{
 				particleFourMomenta.push_back(&(lheParticle->p4));
 			}
-		
-			if (lheParticle->pdgId == DefaultValues::pdgIdGluon)
-			{
-				++numberGluons;
-			}
-			if (std::abs(lheParticle->pdgId) == 5)
-			{
-				++numberBottomQuarks;
-			}
-			if (std::abs(lheParticle->pdgId) < 5)
-			{
-				++numberOtherQuarks;
-			}		
 		}
 		//LOG(WARNING) << event.m_lheParticles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks;
+		
+		// checks and corrections for Higgs bosons
+		if (higgsParticles.momenta.size() > 1)
+		{
+			LOG(ERROR) << "Found " << higgsParticles.momenta.size() << " Higgs bosons, but expected 1! Take the first one.";
+			higgsParticles.momenta.resize(1);
+			higgsParticles.nHiggsBosons = 1;
+		}
+		else if (higgsParticles.momenta.size() > 1)
+		{
+			LOG(FATAL) << "Found no Higgs bosons, but expected 1!";
+		}
+		
+		// checks and corrections for jets
+		/*
+		if (jetParticles.momenta.size() > 2)
+		{
+			for (std::vector<const KGenParticle*>::const_iterator jet1 = jetParticles.momenta.begin(); jet1 != jetParticles.momenta.end(); ++jet1)
+			{
+				for (std::vector<const KGenParticle*>::const_iterator jet2 = jetParticles.momenta.begin(); jet2 != jetParticles.momenta.end(); ++jet2)
+				{
+					if (*jet1 != *jet2)
+					{
+						for (std::vector<const KGenParticle*>::const_iterator jet3 = jetParticles.momenta.begin(); jet3 != jetParticles.momenta.end(); ++jet3)
+						{
+							if ((*jet1 != *jet3) && (*jet2 != *jet3) && (Utility::ApproxEqual(((*jet1)->p4 + (*jet2)->p4), (*jet3)->p4)))
+							{
+								LOG(ERROR) << (*jet3)->p4.mass();
+							}
+						}
+					}
+				}
+			}
+		}
+		*/
 	
 		if ((numberGluons==2) &&
 		    (numberBottomQuarks==0)&&
