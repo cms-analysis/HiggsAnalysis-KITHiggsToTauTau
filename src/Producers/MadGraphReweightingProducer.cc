@@ -21,12 +21,26 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 
-
-	m_madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>(Utility::ParseVectorToMap(settings.GetMadGraphProcessDirectories()),
-	                                                                               m_madGraphProcessDirectoriesByName);
+	// parsing settings
+	std::map<std::string, std::vector<std::string> > madGraphProcessDirectoriesByName;
+	std::map<int, std::vector<std::string> > madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>(
+			Utility::ParseVectorToMap(settings.GetMadGraphProcessDirectories()),
+			madGraphProcessDirectoriesByName
+	);
+	for (std::map<int, std::vector<std::string> >::const_iterator processDirectories = madGraphProcessDirectoriesByIndex.begin();
+	     processDirectories != madGraphProcessDirectoriesByIndex.end(); ++processDirectories)
+	{
+		m_madGraphProcessDirectories[static_cast<HttEnumTypes::MadGraphProductionModeGGH>(processDirectories->first)] = processDirectories->second;
+	}
+	for (std::map<std::string, std::vector<std::string> >::const_iterator processDirectories = madGraphProcessDirectoriesByName.begin();
+	     processDirectories != madGraphProcessDirectoriesByName.end(); ++processDirectories)
+	{
+		m_madGraphProcessDirectories[HttEnumTypes::ToMadGraphProductionModeGGH(processDirectories->first)] = processDirectories->second;
+	}
 	
-	for (std::map<int, std::vector<std::string> >::const_iterator processDirectories = m_madGraphProcessDirectoriesByIndex.begin();
-	     processDirectories != m_madGraphProcessDirectoriesByIndex.end(); ++processDirectories)
+	// preparations of MadGraphTools objects
+	for (std::map<HttEnumTypes::MadGraphProductionModeGGH, std::vector<std::string> >::const_iterator processDirectories = m_madGraphProcessDirectories.begin();
+	     processDirectories != m_madGraphProcessDirectories.end(); ++processDirectories)
 	{
 		m_madGraphTools[processDirectories->second.at(0)] = std::map<int, MadGraphTools*>();
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
@@ -78,7 +92,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	// TODO: should this be an assertion?
 	if (event.m_lheParticles != nullptr)
 	{
-		int productionMode=0;
+		HttEnumTypes::MadGraphProductionModeGGH productionMode = HttEnumTypes::MadGraphProductionModeGGH::NONE;
 		int numberGluons=0;
 		int numberBottomQuarks=0;
 		int numberOtherQuarks=0;
@@ -201,44 +215,51 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		    (numberBottomQuarks==0)&&
 		    (numberOtherQuarks==0))
 		{
-			productionMode=0;
+			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0;
 		}
 		else if ((numberGluons==3) &&
 		         (numberBottomQuarks==0)&&
 		         (numberOtherQuarks==0))
 		{
-			productionMode=1;
+			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0g;
 		}
 		else if ((numberGluons>3) &&
 		         (numberBottomQuarks==0)&&
 		         (numberOtherQuarks==0))
 		{
-			productionMode=2;
+			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0gg;
 		}
 
 		else if ((numberGluons>1) &&
 		         (numberBottomQuarks>1)&&
 		         (numberOtherQuarks==0))
 		{
-			productionMode=3;
+			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0bbx;
 		}
 		else if ((numberGluons>1) &&
 		         (numberBottomQuarks==0)&&
 		         (numberOtherQuarks>1))
 		{
-			productionMode=4;
+			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0uux;
 		}
 		
-		std::string madGraphProcessDirectory = SafeMap::Get(m_madGraphProcessDirectoriesByIndex, productionMode)[0];
-		std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
-		
-		// calculate the matrix elements for different mixing angles
-		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
-		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+		if (Utility::Contains(m_madGraphProcessDirectories, productionMode))
 		{
-			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
-			product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-			//LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
+			std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
+			std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
+		
+			// calculate the matrix elements for different mixing angles
+			for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
+				 mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+			{
+				MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
+				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
+				//LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
+			}
+		}
+		else
+		{
+			LOG(ERROR) << "Process directory for production mode " << Utility::ToUnderlyingValue(productionMode) << " not found in settings with tag \"MadGraphProcessDirectories\"!";
 		}
 	}
 }

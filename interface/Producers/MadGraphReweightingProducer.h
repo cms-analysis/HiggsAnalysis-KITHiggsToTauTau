@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MadGraphTools.h"
 
@@ -20,13 +21,12 @@ public:
 	virtual void Produce(event_type const& event, product_type& product,
 						 setting_type const& settings) const override;
 
-
 private:
 	int GetMixingAngleKey(float mixingAngleOverPiHalf) const;
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
 	
+	std::map<HttEnumTypes::MadGraphProductionModeGGH, std::vector<std::string> > m_madGraphProcessDirectories;
 	std::map<std::string, std::map<int, MadGraphTools*> > m_madGraphTools;
-	std::map<int, std::vector<std::string> > m_madGraphProcessDirectoriesByIndex;
-	std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
+
 };
 
