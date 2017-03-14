@@ -710,6 +710,12 @@ if __name__ == "__main__":
 			for index, (nll) in enumerate(nll_below10):
 				xvaluesF_below10.append((mes_list_nll_below10[index]-1.0)*100)
 			
+			if len(xvaluesF_below10) == 0:
+				for nll in deltaNLLshifted_list:
+					print str(nll)
+				print decayMode
+				print weightBin
+			
 			# Fill TGraphErrors for parabola fit
 			RooFitGraph_Parabola = ROOT.TGraphErrors(
 				len(xvaluesF),
