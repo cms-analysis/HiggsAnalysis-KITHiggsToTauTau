@@ -322,12 +322,17 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 		selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
 	}
 
+	// initialization of TVector3 objects
+	product.m_genIP1.SetXYZ(-999,-999,-999);
+	product.m_genIP2.SetXYZ(-999,-999,-999);
+
+
 	if (product.m_chargeOrderedGenLeptons.at(0) and product.m_chargeOrderedGenLeptons.at(1)){
 		
 		KGenParticle* genParticle1 = product.m_chargeOrderedGenLeptons.at(0);
 		KGenParticle* genParticle2 = product.m_chargeOrderedGenLeptons.at(1);
-		TVector3 genIP1;
-		TVector3 genIP2;
+		TVector3 genIP1(-999,-999,-999);
+		TVector3 genIP2(-999,-999,-999);
 
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;

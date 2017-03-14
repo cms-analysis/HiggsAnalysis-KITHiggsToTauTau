@@ -194,12 +194,19 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 
+	// initialization of TVector3 objects
+	product.m_recoIP1.SetXYZ(-999,-999,-999);
+	product.m_recoIP2.SetXYZ(-999,-999,-999);
+	product.m_recoIP1method2.SetXYZ(-999,-999,-999);
+	product.m_recoIP2method2.SetXYZ(-999,-999,-999);
+
+	TVector3 recoIP1(-999,-999,-999);
+	TVector3 recoIP2(-999,-999,-999);
+	TVector3 recoIP1method2(-999,-999,-999);
+	TVector3 recoIP2method2(-999,-999,-999);
+
 	KLepton* recoParticle1 = product.m_chargeOrderedLeptons.at(0);
 	KLepton* recoParticle2 = product.m_chargeOrderedLeptons.at(1);
-	TVector3 recoIP1;
-	TVector3 recoIP2;
-	TVector3 recoIP1method2;
-	TVector3 recoIP2method2;
 
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
