@@ -119,6 +119,8 @@ if __name__ == "__main__":
 	                    help="Obtain result from likelihood scan without fitting the parabola but instead finding the minimum and the first points crossing 1 on either side. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="(1.0)",
 	                    help="Additional weight used for both background and all signal templates. [Default: %(default)s]")
+	parser.add_argument("-c", "--channel", default="mt", choices=["mt","et"],
+	                    help="Select final state for measurement. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -204,7 +206,7 @@ if __name__ == "__main__":
 	output_root_combined_template = "datacards/combined/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
 	
 	# restrict CombineHarvester to configured channels:
-	channel = "mt"
+	channel = args.channel
 	quantity = args.quantity
 	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, weight_bins, weight_type, args.era)
 	datacards.cb.channel([channel])
@@ -212,7 +214,7 @@ if __name__ == "__main__":
 	for decayMode in args.decay_modes:
 		for weight_index, (weight_bin) in enumerate(weight_bins):
 			
-			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
+			category = channel+"_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
@@ -379,7 +381,7 @@ if __name__ == "__main__":
 	
 	for decayMode in args.decay_modes:
 		for weight_index, (weight_bin) in enumerate(weight_bins):
-			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
+			category = channel+"_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
 	
 	# For some reason the default arguments are not working in the python wrapper
@@ -399,7 +401,7 @@ if __name__ == "__main__":
 	datacards_cbs = {}
 	for decayMode in args.decay_modes:
 		for weight_index, (weight_bin) in enumerate(weight_bins):
-			category = "mt_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
+			category = channel+"_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
 							ANALYSIS="ztt",
 							CHANNEL=channel,
