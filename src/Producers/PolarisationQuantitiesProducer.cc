@@ -158,6 +158,13 @@ void PolarisationQuantitiesProducer::Produce(
 			double valueLambda = std::pow(valuesB[0], 2) + std::pow(valuesB[1], 2) + std::pow(valuesB[2], 2) - 2.0 * ((valuesB[0]*valuesB[1]) + (valuesB[0]*valuesB[2]) + (valuesB[1]*valuesB[2]));
 			double valueT = std::sqrt(-valueLambda) / 2.0;
 			
+			std::vector<double> valuesS;
+			valuesS.push_back(((*pions[1])+(*pions[2])).M2());
+			valuesS.push_back(((*pions[2])+(*pions[0])).M2());
+			valuesS.push_back(((*pions[0])+(*pions[1])).M2());
+			double valueQ = (*tau)->p4.M2();
+			valueQ *= 1.0;
+			
 			// calculate angles
 			product.m_a1CosBeta[*tau] = pions[2]->Vect().Dot(pions[0]->Vect().Cross(pions[1]->Vect())) / ((*tau)->p4.Vect().R() * valueT);
 			product.m_a1CosGamma[*tau] = valuesA[2] / ((*tau)->p4.Vect().R()*std::sqrt(valuesB[2])*std::sin(std::acos(product.m_a1CosBeta[*tau])));
