@@ -16,6 +16,7 @@ class SystematicsFactory(dict):
 		self["CMS_scale_j_13TeV"] = JecUncSystematic
 		self["CMS_scale_t_13TeV"] = TauEsSystematic
 		self["CMS_ztt_scale_mFakeTau_13TeV"] = MuFakeTauEsSystematic
+		self["CMS_ztt_scale_eFakeTau_13TeV"] = EleFakeTauEsSystematic
 		self["CMS_htt_ttbarShape_13TeV"] = TTBarShapeSystematic
 		self["CMS_ztt_jetFakeTau_qcd_Shape_13TeV"] = JetFakeTauQCDShapeSystematic
 		self["CMS_ztt_jetFakeTau_w_Shape_13TeV"] = JetFakeTauWShapeSystematic
@@ -237,6 +238,20 @@ class MuFakeTauEsSystematic(SystematicShiftBase):
 					plot_config["folders"][index] = folder.split("/")[0] + "_muonEsUp/ntuple"
 				elif shift < 0.0:
 					plot_config["folders"][index] = folder.split("/")[0] + "_muonEsDown/ntuple"
+		
+		return plot_config
+
+class EleFakeTauEsSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(EleFakeTauEsSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.split("/")[0] + "_eleEsUp/ntuple"
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.split("/")[0] + "_eleEsDown/ntuple"
 		
 		return plot_config
 

@@ -34,9 +34,6 @@ class TauEsDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTTT", "TTJJ", "VV"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 
-			# extrapolation uncertainty
-			#self.cb.cp().channel(["mt"]).process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
-
 			# mu->tau fake ES
 			self.cb.cp().channel(["mt"]).process(["ZLL", "ZL", "ZJ"]).AddSyst(self.cb, *self.muFakeTau_es_syst_args)
 
@@ -61,17 +58,15 @@ class TauEsDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VV"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
 			else:
 				self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VV"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
 				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
-
-			# Tau ES
-			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+			
+			# e->tau fake ES
+			self.cb.cp().channel(["et"]).process(["ZLL", "ZL", "ZJ"]).AddSyst(self.cb, *self.eleFakeTau_es_syst_args)
 
 			# fake-rate
 			if year == "2016":
