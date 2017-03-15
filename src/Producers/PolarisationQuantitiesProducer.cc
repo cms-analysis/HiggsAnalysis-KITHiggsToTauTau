@@ -103,10 +103,13 @@ void PolarisationQuantitiesProducer::Produce(
 		}
 		
 		// SVfit version
+		float* fittedTauE = (indexLepton == 0 ? product.m_svfitResults.fittedTau1E : product.m_svfitResults.fittedTau2E);
+		if (fittedTauE != nullptr)
+		{
+			product.m_visibleOverFullEnergySvfit[*lepton] = (*fittedTauE != 0.0 ? (*lepton)->p4.E() / *fittedTauE : DefaultValues::UndefinedDouble);
+		}
 		RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
 		if (fittedTauSvfit != nullptr)
-		{
-			product.m_visibleOverFullEnergySvfit[*lepton] = (*lepton)->p4.E() / fittedTauSvfit->E();
 			product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
 		}
 		
