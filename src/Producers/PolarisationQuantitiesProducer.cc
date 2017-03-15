@@ -110,6 +110,7 @@ void PolarisationQuantitiesProducer::Produce(
 		}
 		RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
 		if (fittedTauSvfit != nullptr)
+		{
 			product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
 		}
 		
@@ -166,6 +167,7 @@ void PolarisationQuantitiesProducer::Produce(
 			{
 				// TODO: choose final discriminator
 				// product.m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
+				// product.m_tauPolarisationDiscriminatorSvfit = product.m_tauPolarisationDiscriminatorHHKinFit;
 				// tauPolarisationDiscriminatorChosen = true;
 			}
 		}
