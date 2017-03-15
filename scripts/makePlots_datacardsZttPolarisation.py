@@ -344,7 +344,7 @@ if __name__ == "__main__":
 	datacards.prefit_postfit_plots(
 			datacards_cbs,
 			datacards_postfit_shapes,
-			plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "tauPolarisationDiscriminator", "era" : "2015", "www" : args.www},
+			plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "tauPolarisationDiscriminatorSvfit", "era" : "2015", "www" : args.www},
 			n_processes=args.n_processes,
 			signal_stacked_on_bkg=True
 	)

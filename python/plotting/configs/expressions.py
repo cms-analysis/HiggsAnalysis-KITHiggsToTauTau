@@ -70,11 +70,11 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 		# Z->tautau polarisation test statistics
 		for channel in ["mt", "et", "tt"]:
-			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "tauPolarisationDiscriminator"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_rho"] = "tauPolarisationDiscriminator"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "tauPolarisationDiscriminatorSvfit"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_rho"] = "tauPolarisationDiscriminatorSvfit"
 			
 		for channel in ["mt", "et", "tt", "em"]:
-			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "tauPolarisationDiscriminator"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "tauPolarisationDiscriminatorSvfit"
 
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
