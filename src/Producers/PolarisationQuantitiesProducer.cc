@@ -117,9 +117,9 @@ void PolarisationQuantitiesProducer::Produce(
 		++indexLepton;
 	}
 	
-	// 3-prong method
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
+		// 3-prong method
 		if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 		    ((*tau)->chargedHadronCandidates.size() > 2))
 		{
@@ -171,11 +171,8 @@ void PolarisationQuantitiesProducer::Produce(
 				// tauPolarisationDiscriminatorChosen = true;
 			}
 		}
-	}
-	
-	// 1-prong + pi0 method
-	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
-	{
+		
+		// 1-prong + pi0 method
 		if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero) &&
 		    ((*tau)->chargedHadronCandidates.size() > 0) &&
 		    (((*tau)->piZeroCandidates.size() > 0) || ((*tau)->gammaCandidates.size() > 0)))
@@ -193,7 +190,7 @@ void PolarisationQuantitiesProducer::Produce(
 		}
 	}
 	
-	// 1-prong method
+	// combination
 	bool tauFound = false;
 	bool muonFound = false;
 	bool electronFound = false;
