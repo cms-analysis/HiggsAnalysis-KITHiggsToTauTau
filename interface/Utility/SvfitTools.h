@@ -137,11 +137,11 @@ private:
 class SvfitResults {
 
 public:
-	double* fittedTransverseMass = nullptr;
+	double fittedTransverseMass;
 	RMFLV* fittedHiggsLV = nullptr;
-	float* fittedTau1E = nullptr;
+	float fittedTau1E;
 	RMFLV* fittedTau1LV = nullptr;
-	float* fittedTau2E = nullptr;
+	float fittedTau2E;
 	RMFLV* fittedTau2LV = nullptr;
 	
 	SvfitResults() {};

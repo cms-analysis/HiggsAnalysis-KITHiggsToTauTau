@@ -502,36 +502,24 @@ SvfitResults::~SvfitResults()
 
 void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV)
 {
-	if (! this->fittedTransverseMass)
-	{
-		this->fittedTransverseMass = new double;
-	}
 	if (! this->fittedHiggsLV)
 	{
 		this->fittedHiggsLV = new RMFLV();
 	}
-	if (! this->fittedTau1E)
-	{
-		this->fittedTau1E = new float;
-	}
 	if (! this->fittedTau1LV)
 	{
 		this->fittedTau1LV = new RMFLV();
-	}
-	if (! this->fittedTau2E)
-	{
-		this->fittedTau2E = new float;
 	}
 	if (! this->fittedTau2LV)
 	{
 		this->fittedTau2LV = new RMFLV();
 	}
 	
-	*(this->fittedTransverseMass) = fittedTransverseMass;
+	this->fittedTransverseMass = fittedTransverseMass;
 	*(this->fittedHiggsLV) = fittedHiggsLV;
-	*(this->fittedTau1E) = fittedTau1E;
+	this->fittedTau1E = fittedTau1E;
 	*(this->fittedTau1LV) = fittedTau1LV;
-	*(this->fittedTau2E) = fittedTau2E;
+	this->fittedTau2E = fittedTau2E;
 	*(this->fittedTau2LV) = fittedTau2LV;
 }
 
@@ -547,21 +535,21 @@ void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 
 void SvfitResults::CreateBranches(TTree* tree)
 {
-	tree->Branch("svfitTransverseMass", fittedTransverseMass, "svfitTransverseMass/D");
+	tree->Branch("svfitTransverseMass", &fittedTransverseMass, "svfitTransverseMass/D");
 	tree->Branch("svfitHiggsLV", &fittedHiggsLV);
-	tree->Branch("svfitTau1E", fittedTau1E, "svfitTau1E/F");
+	tree->Branch("svfitTau1E", &fittedTau1E, "svfitTau1E/F");
 	tree->Branch("svfitTau1LV", &fittedTau1LV);
-	tree->Branch("svfitTau2E", fittedTau2E, "svfitTau2E/F");
+	tree->Branch("svfitTau2E", &fittedTau2E, "svfitTau2E/F");
 	tree->Branch("svfitTau2LV", &fittedTau2LV);
 }
 
 void SvfitResults::SetBranchAddresses(TTree* tree)
 {
-	tree->SetBranchAddress("svfitTransverseMass", fittedTransverseMass);
+	tree->SetBranchAddress("svfitTransverseMass", &fittedTransverseMass);
 	tree->SetBranchAddress("svfitHiggsLV", &fittedHiggsLV);
-	tree->SetBranchAddress("svfitTau1E", fittedTau1E);
+	tree->SetBranchAddress("svfitTau1E", &fittedTau1E);
 	tree->SetBranchAddress("svfitTau1LV", &fittedTau1LV);
-	tree->SetBranchAddress("svfitTau2E", fittedTau2E);
+	tree->SetBranchAddress("svfitTau2E", &fittedTau2E);
 	tree->SetBranchAddress("svfitTau2LV", &fittedTau2LV);
 	ActivateBranches(tree, true);
 }
@@ -578,11 +566,11 @@ void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 
 bool SvfitResults::operator==(SvfitResults const& rhs) const
 {
-	return (Utility::ApproxEqual(*fittedTransverseMass, *(rhs.fittedTransverseMass)) &&
+	return (Utility::ApproxEqual(fittedTransverseMass, rhs.fittedTransverseMass) &&
 	        Utility::ApproxEqual(*fittedHiggsLV, *(rhs.fittedHiggsLV)) &&
-	        Utility::ApproxEqual(*fittedTau1E, *(rhs.fittedTau1E)) &&
+	        Utility::ApproxEqual(fittedTau1E, rhs.fittedTau1E) &&
 	        Utility::ApproxEqual(*fittedTau1LV, *(rhs.fittedTau1LV)) &&
-	        Utility::ApproxEqual(*fittedTau2E, *(rhs.fittedTau2E)) &&
+	        Utility::ApproxEqual(fittedTau2E, rhs.fittedTau2E) &&
 	        Utility::ApproxEqual(*fittedTau2LV, *(rhs.fittedTau2LV)));
 }
 

@@ -90,32 +90,31 @@ void PolarisationQuantitiesProducer::Produce(
 	bool tauPolarisationDiscriminatorChosen = false;
 
 	// all numbers of prongs
-	size_t indexLepton = 0;
-	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
-	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
-		// HHKinFit version
-		if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
+		size_t indexLepton = 0;
+		for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+			 lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 		{
-			RMFLV* fittedTauHHKinFit = &(SafeMap::Get(product.m_hhKinFitTaus, *lepton));
-			product.m_visibleOverFullEnergyHHKinFit[*lepton] = (*lepton)->p4.E() / fittedTauHHKinFit->E();
-			product.m_visibleToFullAngleHHKinFit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauHHKinFit);
-		}
+			// HHKinFit version
+			if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
+			{
+				RMFLV* fittedTauHHKinFit = &(SafeMap::Get(product.m_hhKinFitTaus, *lepton));
+				product.m_visibleOverFullEnergyHHKinFit[*lepton] = (fittedTauHHKinFit->E() != 0.0 ? (*lepton)->p4.E() / fittedTauHHKinFit->E() : DefaultValues::UndefinedDouble);
+				product.m_visibleToFullAngleHHKinFit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauHHKinFit);
+			}
 		
-		// SVfit version
-		float* fittedTauE = (indexLepton == 0 ? product.m_svfitResults.fittedTau1E : product.m_svfitResults.fittedTau2E);
-		if (fittedTauE != nullptr)
-		{
-			product.m_visibleOverFullEnergySvfit[*lepton] = (*fittedTauE != 0.0 ? (*lepton)->p4.E() / *fittedTauE : DefaultValues::UndefinedDouble);
-		}
-		RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
-		if (fittedTauSvfit != nullptr)
-		{
-			product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
-		}
+			// SVfit version
+			RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
+			if (fittedTauSvfit != nullptr)
+			{
+				float fittedTauE = (indexLepton == 0 ? product.m_svfitResults.fittedTau1E : product.m_svfitResults.fittedTau2E);
+				product.m_visibleOverFullEnergySvfit[*lepton] = (fittedTauE != 0.0 ? (*lepton)->p4.E() / fittedTauE : DefaultValues::UndefinedDouble);
+				product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
+			}
 		
-		++indexLepton;
-	}
+			++indexLepton;
+		}
+	} // limit scope of indexLepton
 	
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
