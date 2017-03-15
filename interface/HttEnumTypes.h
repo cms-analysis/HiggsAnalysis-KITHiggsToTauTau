@@ -81,13 +81,31 @@ public:
 		undefined  = 1,
 		recalculate = 2
 	};
-
 	static SvfitCacheMissBehaviour ToSvfitCacheMissBehaviour(std::string const& configstring)
 	{
 		if (configstring == "undefined") return SvfitCacheMissBehaviour::undefined;
 		else if (configstring == "recalculate") return SvfitCacheMissBehaviour::recalculate;
 
 		return SvfitCacheMissBehaviour::assert;
+	};
+	
+	enum class MadGraphProductionModeGGH : int
+	{
+		NONE  = -1,
+		gg_x0 = 0,
+		gg_x0g = 1,
+		gg_x0gg = 2,
+		gg_x0bbx = 3,
+		gg_x0uux = 4,
+	};
+	static MadGraphProductionModeGGH ToMadGraphProductionModeGGH(std::string const& madGraphProductionModeGGH)
+	{
+		if (madGraphProductionModeGGH == "gg_x0") return MadGraphProductionModeGGH::gg_x0;
+		else if (madGraphProductionModeGGH == "gg_x0g") return MadGraphProductionModeGGH::gg_x0g;
+		else if (madGraphProductionModeGGH == "gg_x0gg") return MadGraphProductionModeGGH::gg_x0gg;
+		else if (madGraphProductionModeGGH == "gg_x0bbx") return MadGraphProductionModeGGH::gg_x0bbx;
+		else if (madGraphProductionModeGGH == "gg_x0uux") return MadGraphProductionModeGGH::gg_x0uux;
+		else return MadGraphProductionModeGGH::NONE;
 	};
 };
 
