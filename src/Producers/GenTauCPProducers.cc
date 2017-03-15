@@ -329,8 +329,10 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 
 	if (product.m_chargeOrderedGenLeptons.at(0) and product.m_chargeOrderedGenLeptons.at(1)){
 		
-		KGenParticle* genParticle1 = product.m_chargeOrderedGenLeptons.at(0);
-		KGenParticle* genParticle2 = product.m_chargeOrderedGenLeptons.at(1);
+		//KGenParticle* genParticle1 = product.m_chargeOrderedGenLeptons.at(0);
+		//KGenParticle* genParticle2 = product.m_chargeOrderedGenLeptons.at(1);
+		KGenParticle* genParticle1 = product.m_flavourOrderedGenLeptons.at(0);
+		KGenParticle* genParticle2 = product.m_flavourOrderedGenLeptons.at(1);
 		TVector3 genIP1(-999,-999,-999);
 		TVector3 genIP2(-999,-999,-999);
 
