@@ -227,8 +227,6 @@ if __name__ == "__main__":
 						))
 						# modify weight for toppt, taupt
 						additional_weight = shapes_weight_dict[shape_systematic][1] if shift_up else shapes_weight_dict[shape_systematic][0]
-						if channel == "et":
-							additional_weight += "*eleTauFakeRateWeight"
 	
 						# prepare plotting configs for retrieving the input histograms
 						config = sample_settings.get_config(
