@@ -4,9 +4,9 @@
 		"visibleOverFullEnergySvfit_1:=TMath::Range(0,1,visibleOverFullEnergySvfit_1)",
 		"rhoNeutralChargedAsymmetry_2:=TMath::Range(-1,1,rhoNeutralChargedAsymmetry_2)",
 		"decayMode_2:=TMath::Range(0,1,decayMode_2)",
-		"q_2:=q_2",
-		"visibleToFullAngleSvfit_1=TMath::Range(0,10,visibleToFullAngleSvfit_1)",
-		"visibleToFullAngleSvfit_2=TMath::Range(0,10,visibleToFullAngleSvfit_2)"
+		"visibleToFullAngleSvfit_1:=TMath::Range(0,10,visibleToFullAngleSvfit_1)",
+		"visibleToFullAngleSvfit_2:=TMath::Range(0,10,visibleToFullAngleSvfit_2)",
+		"q_2:=q_2"
 	],
 	"TauPolarisationTmvaMethods" : [
 		"BDT"
