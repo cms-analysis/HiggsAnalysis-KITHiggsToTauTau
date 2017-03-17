@@ -174,7 +174,7 @@ class Samples(samples.SamplesBase):
 			mc_weight = "({mc_scale})*".format(mc_scale=kwargs["scale_mc_only"]) + mc_weight
 		return clean_multiplication(data_weight), clean_multiplication(mc_weight)
 
-	def get_weights_ztt(self,channel, cut_type, weight="(1.0)", mc_sample_weight="(1.0)", z_pt=False, doStitching=True,**kwargs):
+	def get_weights_ztt(self,channel, cut_type, weight="(1.0)", mc_sample_weight="(1.0)", doStitching=True,**kwargs):
 		data_weight, mc_weight = self.projection(kwargs)
 		if self.embedding:
 			if channel == "et":
@@ -187,11 +187,11 @@ class Samples(samples.SamplesBase):
 				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[2]])
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
-		elif z_pt:
+		elif mc_sample_weight != "(1.0)":
 			if doStitching:
-				return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight, "zPtReweightWeight", self.hadronic_scale_factor(channel, cut_type)])
+				return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight, self.hadronic_scale_factor(channel, cut_type)])
 			else:
-				return make_multiplication([mc_sample_weight, "zPtReweightWeight", self.hadronic_scale_factor(channel, cut_type)])
+				return make_multiplication([mc_sample_weight, self.hadronic_scale_factor(channel, cut_type)])
 		else:
 			if doStitching:
 				return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel, cut_type)])
@@ -295,7 +295,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*zPtReweightWeight",
 					"ztt",
 					nick_suffix=nick_suffix
 			)
@@ -396,7 +396,7 @@ class Samples(samples.SamplesBase):
 					self.files_zll(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*zPtReweightWeight",
 					"zll",
 					nick_suffix=nick_suffix
 			)
@@ -439,7 +439,7 @@ class Samples(samples.SamplesBase):
 					self.files_zll(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*zPtReweightWeight",
 					"zl",
 					nick_suffix=nick_suffix
 			)
@@ -478,7 +478,7 @@ class Samples(samples.SamplesBase):
 					self.files_zll(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type),
+					mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*zPtReweightWeight",
 					"zj",
 					nick_suffix=nick_suffix
 			)
@@ -594,7 +594,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					make_multiplication([Samples.ztt_genmatch(channel), ttbar_data_weight, self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) ]),
+					make_multiplication([Samples.ztt_genmatch(channel), ttbar_data_weight, self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) ],"zPtReweightWeight"),
 					"noplot_ztt_mc_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -613,7 +613,7 @@ class Samples(samples.SamplesBase):
 					self.files_zll(channel),
 					self.root_file_folder(channel),
 					lumi,
-					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self.zll_stitchingweight(), Samples.zll_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)]),
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self.zll_stitchingweight(), Samples.zll_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)],"zPtReweightWeight"),
 					"noplot_zll_ttj_control",
 					nick_suffix=nick_suffix
 			)
@@ -839,7 +839,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=wj_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=wj_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut+"*zPtReweightWeight",
 						("noplot_" if not controlregions else "") + "ztt_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -858,7 +858,7 @@ class Samples(samples.SamplesBase):
 						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut+"*zPtReweightWeight",
 						("noplot_" if not controlregions else "") + "zll_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -877,7 +877,7 @@ class Samples(samples.SamplesBase):
 						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut+"*zPtReweightWeight",
 						("noplot_" if not controlregions else "") + "zl_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -896,7 +896,7 @@ class Samples(samples.SamplesBase):
 						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut+"*zPtReweightWeight",
 						("noplot_" if not controlregions else "") + "zj_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -998,7 +998,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=wj_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*"+high_mt_cut+"*((q_1*q_2)>0.0)",
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=wj_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*"+high_mt_cut+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 						("noplot_" if not controlregions else "") + "ztt_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1017,7 +1017,7 @@ class Samples(samples.SamplesBase):
 						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*"+high_mt_cut+"*((q_1*q_2)>0.0)",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*"+high_mt_cut+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 						("noplot_" if not controlregions else "") + "zll_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1036,7 +1036,7 @@ class Samples(samples.SamplesBase):
 						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*"+high_mt_cut+"*((q_1*q_2)>0.0)",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*"+high_mt_cut+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 						("noplot_" if not controlregions else "") + "zl_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1055,7 +1055,7 @@ class Samples(samples.SamplesBase):
 						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*"+high_mt_cut+"*((q_1*q_2)>0.0)",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt", "os"], cut_type=cut_type)+"*"+high_mt_cut+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 						("noplot_" if not controlregions else "") + "zj_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1315,7 +1315,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut+"*zPtReweightWeight",
 						"noplot_ztt_mc_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -1334,7 +1334,7 @@ class Samples(samples.SamplesBase):
 						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut,
+						mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["mt"], cut_type=cut_type)+"*"+high_mt_cut+"*zPtReweightWeight",
 						"noplot_zll_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -1470,7 +1470,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*"+high_mt_cut,
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*"+high_mt_cut+"*zPtReweightWeight",
 							"noplot_ztt_ss_mc_wj_control",
 							nick_suffix=nick_suffix
 					)
@@ -1489,7 +1489,7 @@ class Samples(samples.SamplesBase):
 							self.files_zll(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*"+high_mt_cut,
+							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*"+high_mt_cut+"*zPtReweightWeight",
 							"noplot_zll_ss_wj_control",
 							nick_suffix=nick_suffix
 					)
@@ -1590,7 +1590,7 @@ class Samples(samples.SamplesBase):
 						self.files_ztt(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 						"noplot_ztt_mc_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1609,7 +1609,7 @@ class Samples(samples.SamplesBase):
 						self.files_zll(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+						mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 						"noplot_zll_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1664,7 +1664,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 							("noplot_" if not controlregions else "") + "ztt_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1683,7 +1683,7 @@ class Samples(samples.SamplesBase):
 							self.files_zll(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 							("noplot_" if not controlregions else "") + "zll_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1702,7 +1702,7 @@ class Samples(samples.SamplesBase):
 							self.files_zll(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 							("noplot_" if not controlregions else "") + "zl_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1721,7 +1721,7 @@ class Samples(samples.SamplesBase):
 							self.files_zll(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 							("noplot_" if not controlregions else "") + "zj_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1828,7 +1828,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=qcd_shape_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=qcd_shape_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 							"noplot_ztt_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1847,7 +1847,7 @@ class Samples(samples.SamplesBase):
 							self.files_zll(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
+							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight",
 							"noplot_zll_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -1912,7 +1912,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*"+high_mt_cut,
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*"+high_mt_cut+"*zPtReweightWeight",
 							"noplot_ztt_shape_ss_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -1931,7 +1931,7 @@ class Samples(samples.SamplesBase):
 							self.files_zll(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*"+high_mt_cut,
+							mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os", "mt"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*"+high_mt_cut+"*zPtReweightWeight",
 							"noplot_zll_shape_ss_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -2085,7 +2085,7 @@ class Samples(samples.SamplesBase):
 								self.files_ztt(channel),
 								self.root_file_folder(channel),
 								lumi,
-								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight, z_pt=True),
+								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight)+"*zPtReweightWeight",
 								"noplot_ztt_"+estimation_type,
 								nick_suffix=nick_suffix
 						)
@@ -2095,7 +2095,7 @@ class Samples(samples.SamplesBase):
 									self.files_ewkz(channel),
 									self.root_file_folder(channel),
 									lumi,
-									Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight, z_pt=True, doStitching=False),
+									Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight, doStitching=False),
 									"noplot_ztt_"+estimation_type,
 									nick_suffix=nick_suffix
 							)
@@ -2114,7 +2114,7 @@ class Samples(samples.SamplesBase):
 									self.files_ewkz(channel),
 									self.root_file_folder(channel),
 									lumi,
-									Samples.zll_genmatch(channel)+"*"+mc_sample_weight+"*zPtReweightWeight",
+									Samples.zll_genmatch(channel)+"*"+mc_sample_weight,
 									"noplot_zll_"+estimation_type,
 									nick_suffix=nick_suffix
 							)
@@ -2195,7 +2195,7 @@ class Samples(samples.SamplesBase):
 								self.files_ztt(channel),
 								self.root_file_folder(channel),
 								lumi,
-								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key], z_pt=True),
+								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key])+"*zPtReweightWeight",
 								"noplot_ztt_"+key,
 								nick_suffix=nick_suffix
 						)
@@ -2205,7 +2205,7 @@ class Samples(samples.SamplesBase):
 									self.files_ewkz(channel),
 									self.root_file_folder(channel),
 									lumi,
-									Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key], z_pt=True, doStitching=False),
+									Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key], doStitching=False),
 									"noplot_ztt_"+key,
 									nick_suffix=nick_suffix
 							)
@@ -2224,7 +2224,7 @@ class Samples(samples.SamplesBase):
 									self.files_ewkz(channel),
 									self.root_file_folder(channel),
 									lumi,
-									mc_selection_weights[key]+"*"+Samples.zll_genmatch(channel)+"*"+"zPtReweightWeight",
+									mc_selection_weights[key]+"*"+Samples.zll_genmatch(channel),
 									"noplot_zll_"+key,
 									nick_suffix=nick_suffix
 							)
