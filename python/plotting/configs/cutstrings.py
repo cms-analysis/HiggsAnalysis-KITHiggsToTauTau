@@ -75,6 +75,20 @@ class CutStringsDict:
 		return cuts
 	
 	@staticmethod
+	def mssm2016(channel, cut_type):
+		cuts = CutStringsDict.baseline(channel, cut_type)
+		if channel == "mt":
+			cuts["mt"] = "(mt_1<70.0)" if cut_type == "mssm2016looseiso" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<40.0)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if not cut_type == "mssm2016looseiso" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		elif channel == "et":
+			cuts["mt"] = "(mt_1<70.0)" if cut_type == "mssm2016looseiso" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<40.0)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if not cut_type == "mssm2016looseiso" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
 	def antievloosepass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
@@ -432,6 +446,12 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="mssm2016":
 			cuts = CutStringsDict.baseline(channel, cut_type)
+		elif cut_type=="mssm2016full":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016loosemt":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016looseiso":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
 		elif cut_type=="antievloosepass":
 			cuts = CutStringsDict.antievloosepass(channel, cut_type)
 		elif cut_type=="antievloosefail":
