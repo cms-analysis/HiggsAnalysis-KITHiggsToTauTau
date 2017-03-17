@@ -7,7 +7,6 @@
 		"q_2:=q_2",
 		"visibleToFullAngleSvfit_1=TMath::Range(0,10,visibleToFullAngleSvfit_1)",
 		"visibleToFullAngleSvfit_2=TMath::Range(0,10,visibleToFullAngleSvfit_2)"
-		
 	],
 	"TauPolarisationTmvaMethods" : [
 		"BDT"
