@@ -312,6 +312,7 @@ if __name__ == "__main__":
 					if os.path.exists(json_filename):
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
+				
 				quantity = json_config.pop("x_expressions", [quantity])[0]
 				config = sample_settings.get_config(
 						samples = list_of_samples,
