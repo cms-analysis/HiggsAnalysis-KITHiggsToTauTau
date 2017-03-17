@@ -161,7 +161,7 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 	else if(id == AntiTtbarDiscriminatorTmvaReader().GetProducerId())
 		return new AntiTtbarDiscriminatorTmvaReader();
 	else if(id == TauPolarisationTmvaReader().GetProducerId())
-		return new TauPolarisationTmvaReader()
+		return new TauPolarisationTmvaReader();
 	else if(id == HttValidGenTausProducer().GetProducerId())
 		return new HttValidGenTausProducer();
 	else if(id == HttTriggerSettingsProducer().GetProducerId())
