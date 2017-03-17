@@ -201,26 +201,35 @@ class Samples(samples.SamplesBase):
 	def files_data(self, channel):
 		query_rereco = {}
 		query_promptreco = {}
+		query_reminiaod = {}
 		expect_n_results_rereco = 6 # adjust in if-statements if different depending on channel
 		expect_n_results_promptreco = 2
+		expect_n_results_reminiaod = 8
 		if channel == "mt":
 			query_rereco = { "process" : "SingleMuon" }
 			query_promptreco = { "process" : "SingleMuon" }
+			query_reminiaod = { "process" : "SingleMuon" }
 		elif channel == "et":
 			query_rereco = { "process" : "SingleElectron" }
 			query_promptreco = { "process" : "SingleElectron" }
+			query_reminiaod = { "process" : "SingleElectron" }
 		elif channel == "em":
 			query_rereco = { "process" : "MuonEG" }
 			query_promptreco = { "process" : "MuonEG" }
+			query_reminiaod = { "process" : "MuonEG" }
 		elif channel == "mm":
 			query_rereco = { "process" : "SingleMuon" }
 			query_promptreco = { "process" : "SingleMuon" }
+			query_reminiaod = { "process" : "SingleMuon" }
 		elif channel == "ee":
 			query_rereco = { "process" : "SingleElectron" }
 			query_promptreco = { "process" : "SingleElectron" }
+			query_promptreco = { "process" : "SingleElectron" }
+			query_reminiaod = { "process" : "SingleElectron" }
 		elif channel == "tt":
 			query_rereco = { "process" : "Tau" }
 			query_promptreco = { "process" : "Tau" }
+			query_reminiaod = { "process" : "Tau" }
 		else:
 			log.error("Sample config (Data) currently not implemented for channel \"%s\"!" % channel)
 
@@ -230,9 +239,15 @@ class Samples(samples.SamplesBase):
 		query_promptreco["data"] = True
 		query_promptreco["campaign"] = "Run2016H"
 		query_promptreco["scenario"] = "PromptRecov(2|3)"
+		query_reminiaod["data"] = True
+		query_reminiaod["campaign"] = "Run2016(B|C|D|E|F|G|H)"
+		query_reminiaod["scenario"] = "03Feb2017.*"
+
 		rereco_files = self.artus_file_names(query_rereco, expect_n_results_rereco)
 		promptreco_files = self.artus_file_names(query_promptreco, expect_n_results_promptreco)
-		return rereco_files + " " + promptreco_files
+		reminiaod_files = self.artus_file_names(query_reminiaod, expect_n_results_reminiaod)
+		#return rereco_files + " " + promptreco_files
+		return reminiaod_files
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -1168,7 +1183,7 @@ class Samples(samples.SamplesBase):
 						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-						("noplot_" if not controlregions else "") + "wj_os_lowmt",
+						"noplot_wj_os_lowmt",
 						nick_suffix=nick_suffix
 				)
 				if not "mssm2016" in cut_type:
@@ -1178,7 +1193,7 @@ class Samples(samples.SamplesBase):
 							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-							("noplot_" if not controlregions else "") + "wj_os_lowmt",
+							"noplot_wj_os_lowmt",
 							nick_suffix=nick_suffix
 					)
 				Samples._add_input(
@@ -1252,7 +1267,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("wj_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_os_mc_nicks", []).append("noplot_wj_mc_os_inclusive"+nick_suffix)
 					config.setdefault("wjets_os_highmt_mc_nicks", []).append("wj_os_highmt"+nick_suffix)
-					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj_os_lowmt"+nick_suffix)
+					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("noplot_wj_os_lowmt"+nick_suffix)
 					config.setdefault("wjets_wj_final_selection", []).append(("noplot_wj_final_selection"+nick_suffix) if "newKIT" in estimationMethod else None)
 					for nick in ["ztt_os_highmt", "zll_os_highmt", "zl_os_highmt", "zj_os_highmt", "ttt_os_highmt", "ttjj_os_highmt", "ttj_os_highmt", "vvt_os_highmt", "vvj_os_highmt", "vv_os_highmt", "data_os_highmt", "wj_os_highmt", "ztt_ss_highmt", "zll_ss_highmt", "zl_ss_highmt", "zj_ss_highmt", "ttt_ss_highmt", "ttjj_ss_highmt", "ttj_ss_highmt", "vvt_ss_highmt", "vvj_ss_highmt", "vv_ss_highmt", "data_ss_highmt", "wj_ss_highmt"]:
 						if not kwargs.get("mssm", False):
