@@ -13,8 +13,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_et.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json"#,
-			#"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"
 		],
 		"Channel" : "ET",
 		"MinNElectrons" : 1,
@@ -175,7 +175,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					#"tauPolarisationMva",
 					"nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -210,7 +209,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					#"tauPolarisationMva",
 					"nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -300,7 +298,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					#"tauPolarisationMva",
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
@@ -355,7 +352,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					#"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
@@ -402,7 +399,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					#"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|EWKZ2Jets|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
@@ -445,7 +442,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					#"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : [
@@ -490,7 +487,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					#"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"Run2016" : [
@@ -528,7 +525,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					#"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -566,7 +563,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					#"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
@@ -613,7 +610,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					#"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
@@ -658,6 +655,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]
