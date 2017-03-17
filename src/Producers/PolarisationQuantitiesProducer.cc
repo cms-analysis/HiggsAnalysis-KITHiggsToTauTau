@@ -90,32 +90,35 @@ void PolarisationQuantitiesProducer::Produce(
 	bool tauPolarisationDiscriminatorChosen = false;
 
 	// all numbers of prongs
-	size_t indexLepton = 0;
-	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
-	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
-		// HHKinFit version
-		if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
+		size_t indexLepton = 0;
+		for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+			 lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 		{
-			RMFLV* fittedTauHHKinFit = &(SafeMap::Get(product.m_hhKinFitTaus, *lepton));
-			product.m_visibleOverFullEnergyHHKinFit[*lepton] = (*lepton)->p4.E() / fittedTauHHKinFit->E();
-			product.m_visibleToFullAngleHHKinFit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauHHKinFit);
-		}
+			// HHKinFit version
+			if (Utility::Contains(product.m_hhKinFitTaus, *lepton))
+			{
+				RMFLV* fittedTauHHKinFit = &(SafeMap::Get(product.m_hhKinFitTaus, *lepton));
+				product.m_visibleOverFullEnergyHHKinFit[*lepton] = (fittedTauHHKinFit->E() != 0.0 ? (*lepton)->p4.E() / fittedTauHHKinFit->E() : DefaultValues::UndefinedDouble);
+				product.m_visibleToFullAngleHHKinFit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauHHKinFit);
+			}
 		
-		// SVfit version
-		RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
-		if (fittedTauSvfit != nullptr)
-		{
-			product.m_visibleOverFullEnergySvfit[*lepton] = (*lepton)->p4.E() / fittedTauSvfit->E();
-			product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
-		}
+			// SVfit version
+			RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
+			if (fittedTauSvfit != nullptr)
+			{
+				float fittedTauE = fittedTauSvfit->E(); // (indexLepton == 0 ? product.m_svfitResults.fittedTau1E : product.m_svfitResults.fittedTau2E);
+				product.m_visibleOverFullEnergySvfit[*lepton] = (fittedTauE != 0.0 ? (*lepton)->p4.E() / fittedTauE : DefaultValues::UndefinedDouble);
+				product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
+			}
 		
-		++indexLepton;
-	}
+			++indexLepton;
+		}
+	} // limit scope of indexLepton
 	
-	// 3-prong method
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
+		// 3-prong method
 		if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 		    ((*tau)->chargedHadronCandidates.size() > 2))
 		{
@@ -154,6 +157,13 @@ void PolarisationQuantitiesProducer::Produce(
 			double valueLambda = std::pow(valuesB[0], 2) + std::pow(valuesB[1], 2) + std::pow(valuesB[2], 2) - 2.0 * ((valuesB[0]*valuesB[1]) + (valuesB[0]*valuesB[2]) + (valuesB[1]*valuesB[2]));
 			double valueT = std::sqrt(-valueLambda) / 2.0;
 			
+			std::vector<double> valuesS;
+			valuesS.push_back(((*pions[1])+(*pions[2])).M2());
+			valuesS.push_back(((*pions[2])+(*pions[0])).M2());
+			valuesS.push_back(((*pions[0])+(*pions[1])).M2());
+			double valueQ = (*tau)->p4.M2();
+			valueQ *= 1.0;
+			
 			// calculate angles
 			product.m_a1CosBeta[*tau] = pions[2]->Vect().Dot(pions[0]->Vect().Cross(pions[1]->Vect())) / ((*tau)->p4.Vect().R() * valueT);
 			product.m_a1CosGamma[*tau] = valuesA[2] / ((*tau)->p4.Vect().R()*std::sqrt(valuesB[2])*std::sin(std::acos(product.m_a1CosBeta[*tau])));
@@ -163,14 +173,12 @@ void PolarisationQuantitiesProducer::Produce(
 			{
 				// TODO: choose final discriminator
 				// product.m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
+				// product.m_tauPolarisationDiscriminatorSvfit = product.m_tauPolarisationDiscriminatorHHKinFit;
 				// tauPolarisationDiscriminatorChosen = true;
 			}
 		}
-	}
-	
-	// 1-prong + pi0 method
-	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
-	{
+		
+		// 1-prong + pi0 method
 		if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero) &&
 		    ((*tau)->chargedHadronCandidates.size() > 0) &&
 		    (((*tau)->piZeroCandidates.size() > 0) || ((*tau)->gammaCandidates.size() > 0)))
@@ -188,7 +196,7 @@ void PolarisationQuantitiesProducer::Produce(
 		}
 	}
 	
-	// 1-prong method
+	// combination
 	bool tauFound = false;
 	bool muonFound = false;
 	bool electronFound = false;

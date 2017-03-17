@@ -350,7 +350,7 @@ class CutStringsDict:
 	
 	@staticmethod
 	def tauescuts(channel, cut_type):
-		if channel == "mt":
+		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			if not "2016" in cut_type:
 				# the cuts below lead to W+jets being estimated to zero

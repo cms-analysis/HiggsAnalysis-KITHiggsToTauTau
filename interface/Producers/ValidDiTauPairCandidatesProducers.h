@@ -205,7 +205,7 @@ public:
 				validDiTauPair = validDiTauPair && ((settings.GetDiTauPairMinDeltaRCut() < 0.0) || (diTauPair.GetDeltaR() > static_cast<double>(settings.GetDiTauPairMinDeltaRCut())));
 
 				// require matchings with the same triggers
-				if (!settings.GetDiTauPairNoHLT() && !settings.GetDiTauPairHLTLast())
+				if ((! settings.GetDiTauPairNoHLT()) && (! settings.GetDiTauPairHLTLast()))
 				{
 					std::vector<std::string> commonHltPaths = diTauPair.GetCommonHltPaths(product.m_detailedTriggerMatchedLeptons, settings.GetDiTauPairHltPathsWithoutCommonMatchRequired());
 					validDiTauPair = validDiTauPair && (commonHltPaths.size() > 0);

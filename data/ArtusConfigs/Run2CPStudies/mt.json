@@ -97,6 +97,12 @@
 				]
 			}
 		},
+		"DiTauPairHLTLast" : {
+			"nick" : {
+				"default" : false,
+				"GluGluH2JetsToTauTauM125CPmixing.*JHU" : true
+			}
+		},
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
@@ -633,6 +639,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
+					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=Fall15)" : [
@@ -676,7 +683,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"#producer:MadGraphReweightingProducer",
+					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]
 			}

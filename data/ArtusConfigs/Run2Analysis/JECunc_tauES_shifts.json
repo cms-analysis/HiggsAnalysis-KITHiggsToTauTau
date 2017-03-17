@@ -20,7 +20,7 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding" : 1.03
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16|Summer16|Embedding2016)" : 1.03
 			}
 		},
 		"SvfitCacheFileFolder" : {
@@ -41,7 +41,7 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16)|Embedding" : 0.97
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16|Summer16|Embedding2016)" : 0.97
 			}
 		},
 		"SvfitCacheFileFolder" : {

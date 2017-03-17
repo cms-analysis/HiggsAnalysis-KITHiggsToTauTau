@@ -9,7 +9,8 @@ import sys
 import tempfile
 
 
-def me2(args):
+def me2(connection):
+	args = connection.recv()
 	cartesian_four_momenta = args[0]
 	madgraph_process_directory = args[1]
 	madgraph_param_card = args[2]
@@ -20,13 +21,13 @@ def me2(args):
 
 	sys.path.insert(0, madgraph_process_directory)
 	import matrix2py
-	sys.path.pop(0)
 
 	matrix2py.initialise(madgraph_param_card)
 	result = matrix2py.get_me(zip(*cartesian_four_momenta), alpha_s, 0)
 	
+	sys.path.pop(0)
 	os.chdir(cwd)
-	
+	connection.send([result])
 	return result
 
 
@@ -51,8 +52,17 @@ class MadGraphTools(object):
 	
 	def matrix_element_squared(self, cartesian_four_momenta):
 		arguments = [cartesian_four_momenta, self.madgraph_process_directory, self.madgraph_param_card, self.alpha_s]
-		pool = multiprocessing.Pool(processes=1)
-		pool.daemon = True
-		result = pool.apply(me2, [arguments])
-		pool.terminate()
+		parent_connection, child_connection = multiprocessing.Pipe()
+		parent_connection.send(arguments)
+		
+		process = multiprocessing.Process(target=me2, args=(child_connection,))
+		process.start()
+		
+		timeout = 5 # in seconds
+		process.join(timeout)
+		result = -999.0
+		if parent_connection.poll(timeout):
+			result = parent_connection.recv()[0]
+		
+		process.terminate()
 		return result

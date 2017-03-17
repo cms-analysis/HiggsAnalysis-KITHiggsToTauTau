@@ -1,0 +1,52 @@
+{
+	"jecUncNom_tauEsNom" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2015" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"ElectronEnergyCorrectionShiftEB" : 1.0,
+		"ElectronEnergyCorrectionShiftEE" : 1.0
+	},
+	"jecUncNom_tauEsNom_eleEsUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2015" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"(DY.?JetsToLL|EWKZ2Jets)" : 1.01
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"(DY.?JetsToLL|EWKZ2Jets)" : 1.025
+			}
+		}
+	},
+	"jecUncNom_tauEsNom_eleEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run2015" : 0.0,
+				"default" : 0.0
+			}
+		},
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"(DY.?JetsToLL|EWKZ2Jets)" : 0.99
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"(DY.?JetsToLL|EWKZ2Jets)" : 0.975
+			}
+		}
+	}
+}
