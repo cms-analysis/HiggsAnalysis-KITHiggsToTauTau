@@ -216,6 +216,8 @@ if __name__ == "__main__":
 	                    help="Use embedded samples. [Default: %(default)s]")
 	parser.add_argument("--embedded-weights", default=['1.0','1.0','1.0','1.0'], nargs='*',
 	                    help="Custom Embedding weights for mt, et, em, tt (in this order). [Default: %(default)s]")
+	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -334,7 +336,8 @@ if __name__ == "__main__":
 						estimationMethod = background_method,
 						mssm = args.mssm,
 						controlregions = args.controlregions,
-						cut_type = global_cut_type
+						cut_type = global_cut_type,
+						no_ewkz_as_dy = args.no_ewkz_as_dy
 				)
 
 				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]

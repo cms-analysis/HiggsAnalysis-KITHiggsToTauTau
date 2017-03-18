@@ -76,8 +76,8 @@ if __name__ == "__main__":
                         help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
-	#parser.add_argument("--use-rate-parameter", action="store_true", default=False,
-	#					help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
+	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="datacards",
@@ -192,7 +192,8 @@ if __name__ == "__main__":
 							higgs_masses=higgs_masses,
 							estimationMethod="new",
 							polarisation_bias_correction=True,
-							cut_type="baseline_low_mvis"
+							cut_type="baseline_low_mvis",
+							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
