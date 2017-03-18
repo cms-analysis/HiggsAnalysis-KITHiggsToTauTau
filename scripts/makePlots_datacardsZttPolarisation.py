@@ -27,6 +27,23 @@ def _call_command(command):
 	logger.subprocessCall(command, shell=True)
 
 
+def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
+	# asimov_options = "--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"pol=-0.159,r=1\""
+	
+	pospol_signals = datacards.cb.cp().signals()
+	pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * r * (1.0 + pol)))
+	
+	negpol_signals = datacards.cb.cp().signals()
+	negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * r * (1.0 - pol)))
+	
+	datacards.replace_observation_by_asimov_dataset()
+	
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / r * (1.0 + pol)))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / r * (1.0 - pol)))
+
+
 if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for ZTT polarisation analysis.",
@@ -72,10 +89,12 @@ if __name__ == "__main__":
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
-	parser.add_argument("--scale-lumi", default=False,
-                        help="Scale datacard to luminosity specified. [Default: %(default)s]")
+	parser.add_argument("--lumi-projection", type=float, nargs="+", default=[],
+                        help="Specify luminosity values in fb^(-1) for a projection. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	parser.add_argument("--check-linearity", type=float, nargs="+", default=[],
+						help="Specify the polarisation values for which to check the linearity of the discriminator. [Default: %(default)s]")
 	parser.add_argument("--no-ewk-samples", default=False, action="store_true",
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
@@ -284,162 +303,164 @@ if __name__ == "__main__":
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
 	
-
-	# scale
-	if(args.scale_lumi):
-		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
-		
-	# use asimov dataset for s+b
-	if args.use_asimov_dataset:
-		# asimov_options = "--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"pol=-0.159,r=1\""
-		
-		pospol_signals = datacards.cb.cp().signals()
-		pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))
-		pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.0 - 0.159)))
-		
-		negpol_signals = datacards.cb.cp().signals()
-		negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
-		negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.0 + 0.159)))
-		
-		datacards.replace_observation_by_asimov_dataset()
-		
-		pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0 - 0.159)))
-		negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0 + 0.159)))
-
-	if args.auto_rebin:
-		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-
-	# write datacards and call text2workspace
-	datacards_cbs = {}
-	for datacard_filename_template in datacard_filename_templates:
-		datacards_cbs.update(datacards.write_datacards(
-				datacard_filename_template.replace("{", "").replace("}", ""),
-				output_root_filename_template.replace("{", "").replace("}", ""),
-				args.output_dir
-		))
-	
-	datacards_workspaces = datacards.text2workspace(
-			datacards_cbs,
-			args.n_processes,
-			"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_pol",
-					MODEL_PARAMETERS=""
-			)
-	)
-	
-	# Max. likelihood fit and postfit plots
-	datacards.combine(
-			datacards_cbs,
-			datacards_workspaces,
-			None,
-			args.n_processes,
-			"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
-			split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
-	)
-	
-	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(
-			datacards_cbs,
-			datacards_workspaces,
-			False,
-			args.n_processes,
-			"--sampling" + (" --print" if args.n_processes <= 1 else "")
-	)
-	
-	datacards.prefit_postfit_plots(
-			datacards_cbs,
-			datacards_postfit_shapes,
-			plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "tauPolarisationDiscriminatorSvfit", "era" : "2015", "www" : args.www},
-			n_processes=args.n_processes,
-			signal_stacked_on_bkg=True
-	)
-	
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
-	datacards.pull_plots(
-			datacards_postfit_shapes,
-			s_fit_only=True,
-			plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : args.www},
-			n_processes=args.n_processes
-	)
-	if args.nuisance_impacts:
-		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "-P pol --redefineSignalPOIs pol")
-	
-	# split uncertainties
-	datacards.combine(
-			datacards_cbs,
-			datacards_workspaces,
-			None,
-			args.n_processes,
-			"-M MultiDimFit --algo singles -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n ",
-			split_stat_syst_uncs=True,
-			additional_freeze_nuisances=["r"]
-	)
-	
-	annotation_replacements = {channel : index for (index, channel) in enumerate(["combined"] + args.channel)}
-	annotation_replacements.update({binid : index+1 for (index, binid) in enumerate(sorted(list(set([datacards.configs.category2binid(category, channel=category[:2]) for category in tools.flattenList(args.categories)]))))})
-	values_tree_files = {}
-	if ("channel" in args.combinations) or ("category" in args.combinations):
-		datacards.annotate_trees(
-				datacards_workspaces,
-				"higgsCombine*.*.mH*.root",
-				([[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]] if "channel" in args.combinations else [])+
-				([[os.path.join(os.path.dirname(template.replace("${BINID}", "(\d*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "category" in template][0]] if "category" in args.combinations else []),
-				annotation_replacements,
-				args.n_processes,
-				values_tree_files,
-				"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "")
-		)
-		datacards.annotate_trees(
-				datacards_workspaces,
-				"higgsCombine*.*.mH*.root",
-				[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]]*(2 if ("channel" in args.combinations) and ("category" in args.combinations) else 1),
-				annotation_replacements,
-				args.n_processes,
-				values_tree_files,
-				"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "")
-		)
-	
-	# plot best fit values of parameter pol from physics model
 	plot_configs = []
-	if "channel" in args.combinations:
-		for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
-		                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_stat_unc.json",
-		                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json",
-		                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_stat_unc.json"]:
-		
-			x_values = sorted([values[0] for values in values_tree_files.keys() if values[0] > -990.0])
-			config = jsonTools.JsonDict(os.path.expandvars(template))
-			config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/channel" in root_file) or ("datacards/combined" in root_file)]))]
-			config["x_ticks"] = x_values
-			inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key < 1000)}
-			config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)) for value in x_values]
-			#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
-			config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label for label in config["x_tick_labels"]]
-			config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
-			config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
-			if args.www:
-				config["www"] = os.path.join(args.www, "combined/plots")
-		
-			plot_configs.append(config)
 	
-	if "category" in args.combinations:
-		for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category.json",
-		                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_stat_unc.json",
-		                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category.json",
-		                 "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_stat_unc.json"]:
+	# lumi scale
+	for scaled_lumi in [None]+args.lumi_projection:
+		tmp_output_dir = os.path.join(args.output_dir, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
+		tmp_www = os.path.join(args.www, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
 		
-			x_values_raw = sorted([values[1] for values in values_tree_files.keys() if values[1] > -990.0])
-			x_values = [(((value-1000.0)/10.0-1.0) if value > 1000.0 else value) for value in x_values_raw]
-			config = jsonTools.JsonDict(os.path.expandvars(template))
-			config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/category" in root_file) or ("datacards/combined" in root_file)]))]
-			config["x_ticks"] = x_values
-			inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key > 1000)}
-			config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)).replace("1020.0", "rho").replace("1030.0", "oneprong") for value in x_values_raw]
-			config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
-			config["output_dir"] = os.path.join(args.output_dir, "datacards/combined/plots")
-			if args.www:
-				config["www"] = os.path.join(args.www, "combined/plots")
+		if not scaled_lumi is None:
+			datacards.scale_expectation(scaled_lumi / args.lumi)
 		
-			plot_configs.append(config)
+		# linearity
+		for asimov_polarisation in [None]+(args.check_linearity if scaled_lumi is None else []):
+			output_dir = os.path.join(tmp_output_dir, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
+			www = os.path.join(tmp_www, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
+			
+			if not asimov_polarisation is None:
+				replace_observation_by_asimov_dataset(datacards, asimov_polarisation, 1.0)
+			elif args.use_asimov_dataset:
+				replace_observation_by_asimov_dataset(datacards, -0.159, 1.0)
+
+			if args.auto_rebin:
+				datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
+
+			# write datacards and call text2workspace
+			datacards_cbs = {}
+			for datacard_filename_template in datacard_filename_templates:
+				datacards_cbs.update(datacards.write_datacards(
+						datacard_filename_template.replace("{", "").replace("}", ""),
+						output_root_filename_template.replace("{", "").replace("}", ""),
+						output_dir
+				))
+	
+			datacards_workspaces = datacards.text2workspace(
+					datacards_cbs,
+					args.n_processes,
+					"-P {MODEL} {MODEL_PARAMETERS}".format(
+							MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_pol",
+							MODEL_PARAMETERS=""
+					)
+			)
+	
+			# Max. likelihood fit and postfit plots
+			datacards.combine(
+					datacards_cbs,
+					datacards_workspaces,
+					None,
+					args.n_processes,
+					"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
+					split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
+			)
+			
+			if (scaled_lumi is None) and (asimov_polarisation is None):
+				datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(
+						datacards_cbs,
+						datacards_workspaces,
+						False,
+						args.n_processes,
+						"--sampling" + (" --print" if args.n_processes <= 1 else "")
+				)
+	
+				datacards.prefit_postfit_plots(
+						datacards_cbs,
+						datacards_postfit_shapes,
+						plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "tauPolarisationDiscriminatorSvfit", "era" : "2015", "www" : www},
+						n_processes=args.n_processes,
+						signal_stacked_on_bkg=True
+				)
+	
+				datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
+				datacards.pull_plots(
+						datacards_postfit_shapes,
+						s_fit_only=True,
+						plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
+						n_processes=args.n_processes
+				)
+				if args.nuisance_impacts:
+					datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "-P pol --redefineSignalPOIs pol")
+	
+				# split uncertainties
+				datacards.combine(
+						datacards_cbs,
+						datacards_workspaces,
+						None,
+						args.n_processes,
+						"-M MultiDimFit --algo singles -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n ",
+						split_stat_syst_uncs=True,
+						additional_freeze_nuisances=["r"]
+				)
+	
+			annotation_replacements = {channel : index for (index, channel) in enumerate(["combined"] + args.channel)}
+			annotation_replacements.update({binid : index+1 for (index, binid) in enumerate(sorted(list(set([datacards.configs.category2binid(category, channel=category[:2]) for category in tools.flattenList(args.categories)]))))})
+			values_tree_files = {}
+			if ("channel" in args.combinations) or ("category" in args.combinations):
+				datacards.annotate_trees(
+						datacards_workspaces,
+						"higgsCombine*.*.mH*.root",
+						([[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]] if "channel" in args.combinations else [])+
+						([[os.path.join(os.path.dirname(template.replace("${BINID}", "(\d*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "category" in template][0]] if "category" in args.combinations else []),
+						annotation_replacements,
+						args.n_processes,
+						values_tree_files,
+						"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "")
+				)
+				datacards.annotate_trees(
+						datacards_workspaces,
+						"higgsCombine*.*.mH*.root",
+						[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]]*(2 if ("channel" in args.combinations) and ("category" in args.combinations) else 1),
+						annotation_replacements,
+						args.n_processes,
+						values_tree_files,
+						"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "")
+				)
+	
+			# plot best fit values of parameter pol from physics model
+			if "channel" in args.combinations:
+				for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
+						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json"] + (
+						        ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_stat_unc.json",
+						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_stat_unc.json"] if (scaled_lumi is None) and (asimov_polarisation is None) else []):
+		
+					x_values = sorted([values[0] for values in values_tree_files.keys() if values[0] > -990.0])
+					config = jsonTools.JsonDict(os.path.expandvars(template))
+					config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/channel" in root_file) or ("datacards/combined" in root_file)]))]
+					config["x_ticks"] = x_values
+					inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key < 1000)}
+					config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)) for value in x_values]
+					#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
+					config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label for label in config["x_tick_labels"]]
+					config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
+					config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
+					if args.www:
+						config["www"] = os.path.join(www, "combined/plots")
+		
+					plot_configs.append(config)
+	
+			if "category" in args.combinations:
+				for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category.json",
+						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category.json"] + (
+						        ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_stat_unc.json",
+						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_stat_unc.json"] if (scaled_lumi is None) and (asimov_polarisation is None) else []):
+		
+					x_values_raw = sorted([values[1] for values in values_tree_files.keys() if values[1] > -990.0])
+					x_values = [(((value-1000.0)/10.0-1.0) if value > 1000.0 else value) for value in x_values_raw]
+					config = jsonTools.JsonDict(os.path.expandvars(template))
+					config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/category" in root_file) or ("datacards/combined" in root_file)]))]
+					config["x_ticks"] = x_values
+					inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key > 1000)}
+					config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)).replace("1020.0", "rho").replace("1030.0", "oneprong") for value in x_values_raw]
+					config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
+					config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
+					if args.www:
+						config["www"] = os.path.join(www, "combined/plots")
+		
+					plot_configs.append(config)
+		
+		# scale back to preserve initial state
+		if not scaled_lumi is None:
+			datacards.scale_expectation(args.lumi / scaled_lumi)
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
