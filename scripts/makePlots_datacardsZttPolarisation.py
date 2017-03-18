@@ -76,6 +76,8 @@ if __name__ == "__main__":
                         help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	parser.add_argument("--no-ewk-samples", default=False, action="store_true",
+	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--era", default="2015",
@@ -193,6 +195,7 @@ if __name__ == "__main__":
 							estimationMethod="new",
 							polarisation_bias_correction=True,
 							cut_type="baseline_low_mvis",
+							no_ewk_samples = args.no_ewk_samples,
 							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
 					
