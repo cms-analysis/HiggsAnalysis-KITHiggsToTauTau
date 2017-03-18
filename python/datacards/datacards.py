@@ -747,7 +747,7 @@ class Datacards(object):
 				OUTPUT=os.path.splitext(datacard)[0]+".root"
 		) for datacard, cb in datacards_cbs.iteritems()]
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="text2workspace.py")
 
 		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_cbs.keys()}
 
@@ -824,7 +824,7 @@ class Datacards(object):
 						os.path.dirname(workspace)
 				] for datacard, workspace in datacards_workspaces.iteritems()])
 
-			tools.parallelize(_call_command, commands, n_processes=n_processes)
+			tools.parallelize(_call_command, commands, n_processes=n_processes, description="combine")
 			
 			if split_stat_syst_uncs and (split_stat_syst_uncs_index == 0):
 				# replace workspaces by saved versions from the first fit including the postfit nuisance parameter values
@@ -861,7 +861,7 @@ class Datacards(object):
 						ARGS=" ".join(args)
 				))
 		
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="annotate-trees.py")
 		return values_tree_files
 
 	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="x"):
@@ -884,7 +884,7 @@ class Datacards(object):
 			#		datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
 			#for datacard, cb in datacards_cbs.iteritems()})
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="hypoTestResultTree.cxx")
 
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH125_qmu.root") for datacard in datacards_cbs.keys()}
 
@@ -909,7 +909,7 @@ class Datacards(object):
 					datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
 			for datacard, cb in datacards_cbs.iteritems()})
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="PostFitShapes")
 
 		return datacards_postfit_shapes
 
@@ -934,7 +934,7 @@ class Datacards(object):
 					datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
 			for datacard, cb in datacards_cbs.iteritems()})
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="PostFitShapesFromWorkspace")
 
 		return datacards_postfit_shapes
 
@@ -1039,7 +1039,7 @@ class Datacards(object):
 						os.path.dirname(datacard)
 				] for datacard in datacards_cbs.keys()])
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="diffNuisances.py")
 
 	def pull_plots(self, datacards_postfit_shapes, s_fit_only=False, plotting_args=None, n_processes=1, *args):
 		if plotting_args is None:
@@ -1129,10 +1129,10 @@ class Datacards(object):
 				os.path.dirname(workspace)
 		] for datacard, workspace in datacards_workspaces.iteritems()])
 
-		tools.parallelize(_call_command, commandsInitialFit, n_processes=n_processes)
-		tools.parallelize(_call_command, commandsFits, n_processes=1)
-		tools.parallelize(_call_command, commandsOutput, n_processes=1)
-		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes)
+		tools.parallelize(_call_command, commandsInitialFit, n_processes=n_processes, description="combineTool.py (initial fits)")
+		tools.parallelize(_call_command, commandsFits, n_processes=1, description="combineTool.py (fits)")
+		tools.parallelize(_call_command, commandsOutput, n_processes=1, description="combineTool.py (outputs)")
+		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes, description="combineTool.py (plots)")
 
 	def auto_rebin(self, bin_threshold = 1.0, rebin_mode = 0):
 		rebin = ch.AutoRebin()
