@@ -107,6 +107,14 @@ class Samples(samples.Samples):
 				"process" : "DYJetsToLLM10to50"}
 		artus_files = artus_files + " " + self.artus_file_names(query , 1)
 		return artus_files
+	
+	def files_ewkz(self, channel):
+		ewkz_query = { "data" : False,
+						"campaign" : self.mc_campaign,
+						"generator" : "madgraph-pythia8",
+						"process" : "EWKZ2Jets.*"}
+		artus_files = self.artus_file_names(ewkz_query, 2)
+		return artus_files
 
 
 	def files_ttj(self, channel):
