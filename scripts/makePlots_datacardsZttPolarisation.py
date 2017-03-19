@@ -32,16 +32,17 @@ def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
 	
 	pospol_signals = datacards.cb.cp().signals()
 	pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * r * (1.0 + pol)))
 	
 	negpol_signals = datacards.cb.cp().signals()
 	negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * r * (1.0 - pol)))
+	
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 + pol))))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 - pol))))
 	
 	datacards.replace_observation_by_asimov_dataset()
 	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / r * (1.0 + pol)))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / r * (1.0 - pol)))
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 + pol))))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 - pol))))
 
 
 if __name__ == "__main__":
