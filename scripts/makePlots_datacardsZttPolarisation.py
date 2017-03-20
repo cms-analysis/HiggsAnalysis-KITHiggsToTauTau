@@ -309,15 +309,20 @@ if __name__ == "__main__":
 	# lumi scale
 	for scaled_lumi in [None]+args.lumi_projection:
 		tmp_output_dir = os.path.join(args.output_dir, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
-		tmp_www = os.path.join(args.www, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
+		tmp_www = None
+		if args.www:
+			tmp_www = os.path.join(args.www, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
 		
 		if not scaled_lumi is None:
 			datacards.scale_expectation(scaled_lumi / args.lumi)
 		
 		# linearity
+		polarisation_values_tree_files = {}
 		for asimov_polarisation in [None]+(args.check_linearity if scaled_lumi is None else []):
 			output_dir = os.path.join(tmp_output_dir, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
-			www = os.path.join(tmp_www, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
+			www = None
+			if args.www:
+				www = os.path.join(tmp_www, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
 			
 			if not asimov_polarisation is None:
 				replace_observation_by_asimov_dataset(datacards, asimov_polarisation, 1.0)
@@ -396,27 +401,33 @@ if __name__ == "__main__":
 	
 			annotation_replacements = {channel : index for (index, channel) in enumerate(["combined"] + args.channel)}
 			annotation_replacements.update({binid : index+1 for (index, binid) in enumerate(sorted(list(set([datacards.configs.category2binid(category, channel=category[:2]) for category in tools.flattenList(args.categories)]))))})
+			if not asimov_polarisation is None:
+				annotation_replacements.update({"pol{:04}".format(int(asimov_polarisation*1000)) : asimov_polarisation})
 			values_tree_files = {}
 			if ("channel" in args.combinations) or ("category" in args.combinations):
 				datacards.annotate_trees(
 						datacards_workspaces,
 						"higgsCombine*.*.mH*.root",
 						([[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]] if "channel" in args.combinations else [])+
-						([[os.path.join(os.path.dirname(template.replace("${BINID}", "(\d*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "category" in template][0]] if "category" in args.combinations else []),
+						([[os.path.join(os.path.dirname(template.replace("${BINID}", "(\d*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "category" in template][0]] if "category" in args.combinations else [])+
+						([os.path.join("/(pol-?\d*)", ".*.root")] if not asimov_polarisation is None else []),
 						annotation_replacements,
 						args.n_processes,
 						values_tree_files,
-						"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "")
+						"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "") + (" polarisation" if not asimov_polarisation is None else "")
 				)
 				datacards.annotate_trees(
 						datacards_workspaces,
 						"higgsCombine*.*.mH*.root",
-						[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]]*(2 if ("channel" in args.combinations) and ("category" in args.combinations) else 1),
+						[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]]*(2 if ("channel" in args.combinations) and ("category" in args.combinations) else 1)+
+						([os.path.join("/(pol-?\d*)", ".*.root")] if not asimov_polarisation is None else []),
 						annotation_replacements,
 						args.n_processes,
 						values_tree_files,
-						"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "")
+						"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "") + (" polarisation" if not asimov_polarisation is None else "")
 				)
+			if not asimov_polarisation is None:
+				polarisation_values_tree_files.update(values_tree_files)
 	
 			# plot best fit values of parameter pol from physics model
 			if "channel" in args.combinations:
@@ -467,6 +478,21 @@ if __name__ == "__main__":
 						config["www"] = os.path.join(www, "combined/plots")
 		
 					plot_configs.append(config)
+		
+		if len(args.check_linearity) > 0:
+			for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation.json"] + (
+					        ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_tot_stat_unc.json",
+					         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_tot_unc.json",
+					         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_stat_unc.json"]):# if (scaled_lumi is None) and (asimov_polarisation is None) else []):
+	
+				config = jsonTools.JsonDict(os.path.expandvars(template))
+				config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(polarisation_values_tree_files.values())) if "datacards/combined" in root_file])).replace("/pol{:04}/".format(int(args.check_linearity[-1]*1000)), "/*/")]
+				config["x_rel_lims"] = [0.95, 1.05]
+				config["output_dir"] = os.path.join(args.output_dir, "pol/datacards/combined/plots")
+				if args.www:
+					config["www"] = os.path.join(args.www, "pol/combined/plots")
+				
+				plot_configs.append(config)
 		
 		# scale back to preserve initial state
 		if not scaled_lumi is None:
