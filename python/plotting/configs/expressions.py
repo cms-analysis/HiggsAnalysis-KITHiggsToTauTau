@@ -55,18 +55,18 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(1.0)"
 			
 		for channel in ["mt", "et"]:
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "(decayMode_2 == 10)"
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "(decayMode_2 == 10)"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(decayMode_2 != 1)"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(decayMode_2 != 1)"
 		
 		for channel in ["tt"]:
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "((decayMode_1 == 10) || (decayMode_2 == 10))"
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 != 10) * (decayMode_2 != 10)) * ((decayMode_1 == 1) || (decayMode_2 == 1)))"
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 10) * (decayMode_2 != 10) * (decayMode_1 != 1) * (decayMode_2 != 1))"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "((decayMode_1 == 1) || (decayMode_2 == 1))"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 1) * (decayMode_2 != 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "((decayMode_1 == 10) || (decayMode_2 == 10))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 != 10) * (decayMode_2 != 10)) * ((decayMode_1 == 1) || (decayMode_2 == 1)))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 10) * (decayMode_2 != 10) * (decayMode_1 != 1) * (decayMode_2 != 1))"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "((decayMode_1 == 1) || (decayMode_2 == 1))"
+			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 1) * (decayMode_2 != 1))"
 
 		# Z->tautau polarisation test statistics
 		for channel in ["mt", "et", "tt"]:
