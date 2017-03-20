@@ -48,6 +48,8 @@
 		"deltaPhiGenRecoIP2",
 		"deltaRGenRecoIP1",
 		"deltaRGenRecoIP2",
+		"deltaGenRecoIP1",
+		"deltaGenRecoIP2",
 
 		"deltaRgenIPrecoIP1met2",
 		"deltaRgenIPrecoIP2met2",
@@ -55,7 +57,7 @@
 		"deltaRrecoIP2s",
 
 		"recoPhiStarCP",
-		"#recoPhiStarCPrPV",
+		"recoPhiStarCPrPV",
 		"#recoPhiStarCPrPVbs",
 		"recoPhiStar",
 		"recoChargedHadron1HiggsFrameEnergy",

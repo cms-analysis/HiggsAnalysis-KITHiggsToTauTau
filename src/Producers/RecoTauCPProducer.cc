@@ -143,7 +143,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return ((&product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2).z() : DefaultValues::UndefinedFloat);
 	});
 
-	// deltaEta, deltaPhi and deltaR between IP vectors
+	// deltaEta, deltaPhi, deltaR and angle delta between IP vectors
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaEtaGenRecoIP1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_deltaEtaGenRecoIP1;
@@ -167,6 +167,14 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRGenRecoIP2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_deltaRGenRecoIP2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaGenRecoIP1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaGenRecoIP2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP2;
 	});
 
 	// probably to be deleted in the near future
@@ -218,8 +226,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	RMFLV momentumM = ((product.m_chargeOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[1])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[1]->p4);
 	
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
-	//product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(event.m_refitVertexSummary->pv, trackP, trackM, momentumP, momentumM);
-	//product.m_recoPhiStarCPrPVbs = cpq.CalculatePhiStarCP(event.m_refitVertexBSSummary->pv, trackP, trackM, momentumP, momentumM);
 	
 	//product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	//product.m_recoIP1 = cpq.GetRecoIP1();
@@ -250,6 +256,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_deltaRrecoIP1s = deltaRrecoIP1s;
 		product.m_deltaRrecoIP2s = deltaRrecoIP2s;
 
+		// calculate PhiStarCP using the refitted PV
+		product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(product.m_refitPV, trackP, trackM, momentumP, momentumM);
 
 		if (!m_isData){
 			// FIXME delete all temporary variable of type double
@@ -257,11 +265,14 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				double deltaEtaGenRecoIP1 = recoIP1.Eta() - product.m_genIP1.Eta();
 				product.m_deltaEtaGenRecoIP1 = deltaEtaGenRecoIP1;
 
-				double deltaPhiGenRecoIP1 = recoIP1.Phi() - product.m_genIP1.Phi();
+				double deltaPhiGenRecoIP1 = recoIP1.DeltaPhi(product.m_genIP1);
 				product.m_deltaPhiGenRecoIP1 = deltaPhiGenRecoIP1;
 
 				double deltaRGenRecoIP1 = recoIP1.DeltaR(product.m_genIP1);
 				product.m_deltaRGenRecoIP1 = deltaRGenRecoIP1;
+
+				double deltaGenRecoIP1 = recoIP1.Angle(product.m_genIP1);
+				product.m_deltaGenRecoIP1 = deltaGenRecoIP1;
 
 				// FIXME delete following two lines
 				double deltaRgenIPrecoIP1met2 = recoIP1method2.DeltaR(product.m_genIP1);
@@ -272,11 +283,14 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				double deltaEtaGenRecoIP2 = recoIP2.Eta() - product.m_genIP2.Eta();
 				product.m_deltaEtaGenRecoIP2 = deltaEtaGenRecoIP2;
 
-				double deltaPhiGenRecoIP2 = recoIP2.Phi() - product.m_genIP2.Phi();
+				double deltaPhiGenRecoIP2 = recoIP2.DeltaPhi(product.m_genIP2);
 				product.m_deltaPhiGenRecoIP2 = deltaPhiGenRecoIP2;
 
 				double deltaRGenRecoIP2 = recoIP2.DeltaR(product.m_genIP2);
 				product.m_deltaRGenRecoIP2 = deltaRGenRecoIP2;
+
+				double deltaGenRecoIP2 = recoIP2.Angle(product.m_genIP2);
+				product.m_deltaGenRecoIP2 = deltaGenRecoIP2;
 
 				// FIXME delete following two lines
 				double deltaRgenIPrecoIP2met2 = recoIP2method2.DeltaR(product.m_genIP2);
@@ -284,6 +298,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			} // if genIP2 exists
 
 		} // if MC sample
+	
 
 	} // if the refitPV exists
 

@@ -33,6 +33,27 @@ double CPQuantities::CalculatePhiStarCP(KVertex pv, KTrack track1, KTrack track2
 }
 
 
+// this version uses track and refitted vertex to calculate the decay planes (useful for RecoTauCPProducer)
+double CPQuantities::CalculatePhiStarCP(KRefitVertex* pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
+{
+	//Primary vertex
+	RMFLV::BetaVector pvpos;
+	pvpos.SetXYZ((pv->position).X(), (pv->position).Y(), (pv->position).Z());
+
+	//Points on tau tracks
+	RMFLV::BetaVector track1pos, track2pos;
+	track1pos.SetXYZ((track1.ref).X(), (track1.ref).Y(), (track1.ref).Z());
+	track2pos.SetXYZ((track2.ref).X(), (track2.ref).Y(), (track2.ref).Z());
+
+	//Flight direction of taus determined from pv and trackpos
+	RMFLV::BetaVector k1, k2;
+	k1 = track1pos - pvpos;
+	k2 = track2pos - pvpos;
+	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "reco");
+
+}
+
+
 // calculation of variables Phi* and Phi*CP
 double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level)
 {
@@ -52,11 +73,13 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	RMFLV::BetaVector n1 = k1 - ((k1.Dot(p1)) / (p1.Dot(p1))) * p1;
 	RMFLV::BetaVector n2 = k2 - ((k2.Dot(p2)) / (p2.Dot(p2))) * p2;
 	
-	if(level=="reco")
-	{
-		this->SetRecoIP1(n1.R());
-		this->SetRecoIP2(n2.R());
-	}
+	// FIXME: need to remove this block
+	//if(level=="reco")
+	//{
+	//	this->SetRecoIP1(n1.R());
+	//	this->SetRecoIP2(n2.R());
+	//}
+	
 	//Normalized n1, n2
 	n1 = n1.Unit();
 	n2 = n2.Unit();
