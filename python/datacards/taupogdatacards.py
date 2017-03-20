@@ -40,7 +40,6 @@ class TauEsDatacards(datacards.Datacards):
 			# fake-rate
 			if year == "2016":
 				self.cb.cp().channel(["mt"]).process(["ZLL", "ZL", "ZJ"]).AddSyst(self.cb, *self.muFakeTau2016_syst_args)
-				self.cb.cp().channel(["mt"]).process(["ZJ", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 			else:
 				self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
 				self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
@@ -105,6 +104,12 @@ class TauEsDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
 			else:
 				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
+			
+			# fakes
+			if year == "2016":
+				self.cb.cp().channel(["mt", "et"]).process(["ZJ", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
+			else:
+				self.cb.cp().channel(["mt", "et"]).process(["ZJ", "W", "TTJJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 
 			# b-tag efficiency and mistag
 			self.cb.cp().channel(["mt", "et"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
