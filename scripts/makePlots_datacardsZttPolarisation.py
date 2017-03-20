@@ -309,7 +309,9 @@ if __name__ == "__main__":
 	# lumi scale
 	for scaled_lumi in [None]+args.lumi_projection:
 		tmp_output_dir = os.path.join(args.output_dir, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
-		tmp_www = os.path.join(args.www, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
+		tmp_www = None
+		if args.www:
+			tmp_www = os.path.join(args.www, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
 		
 		if not scaled_lumi is None:
 			datacards.scale_expectation(scaled_lumi / args.lumi)
@@ -317,7 +319,9 @@ if __name__ == "__main__":
 		# linearity
 		for asimov_polarisation in [None]+(args.check_linearity if scaled_lumi is None else []):
 			output_dir = os.path.join(tmp_output_dir, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
-			www = os.path.join(tmp_www, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
+			www = None
+			if args.www:
+				www = os.path.join(tmp_www, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
 			
 			if not asimov_polarisation is None:
 				replace_observation_by_asimov_dataset(datacards, asimov_polarisation, 1.0)
