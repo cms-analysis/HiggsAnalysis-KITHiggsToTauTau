@@ -251,7 +251,7 @@ if __name__ == "__main__":
 					if (decayMode == "AllDMs" and quantity == "m_2"):
 						catForConfig = "catAllDMsNotOneProng_" + channel
 					config_rest = sample_settings.get_config(
-						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample != "ztt"],
+						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample not in ["ztt", "ttt", "vvt"]],
 						channel=channel,
 						category=catForConfig,
 						nick_suffix="_" + str(weight_index),
@@ -281,7 +281,7 @@ if __name__ == "__main__":
 							continue
 						
 						config_ztt = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "ztt"],
+							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample in ["ztt", "ttt", "vvt"]],
 							channel=channel,
 							category=catForConfig,
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(weight_index),
@@ -383,6 +383,8 @@ if __name__ == "__main__":
 		for weight_index, (weight_bin) in enumerate(weight_bins):
 			category = channel+"_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
+			morphing.BuildRooMorphing(ws,datacards.cb,category,"TTT",mes,"norm",True,True)
+			morphing.BuildRooMorphing(ws,datacards.cb,category,"VVT",mes,"norm",True,True)
 	
 	# For some reason the default arguments are not working in the python wrapper
 	# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
@@ -501,7 +503,7 @@ if __name__ == "__main__":
 	
 	#plot postfit
 	postfit_plot_configs = [] #reset list containing the plot configs
-	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT","TTJJ", "VVT", "VVJ", "W", "QCD"]
 	
 	for level in ["prefit", "postfit"]:
 		for datacard in datacards_cbs.keys():
@@ -524,15 +526,19 @@ if __name__ == "__main__":
 				config.setdefault("sum_result_nicks", []).append("Total")
 				
 				processes_to_plot = list(processes)
-				processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+				processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("TTT", "TTT_noplot").replace("TTJJ", "TTJJ_noplot").replace("VVT", "VVT_noplot").replace("VVJ", "VVJ_noplot").replace("W", "W_noplot") for p in processes]
 				processes_to_plot = [p for p in processes if not "noplot" in p]
+				processes_to_plot.insert(1, "TT")
+				config["sum_nicks"].append("TTT_noplot TTJJ_noplot")
+				config["sum_scale_factors"].append("1.0 1.0")
+				config["sum_result_nicks"].append("TT")
 				processes_to_plot.insert(2, "ZLL")
 				config["sum_nicks"].append("ZL_noplot ZJ_noplot")
 				config["sum_scale_factors"].append("1.0 1.0")
 				config["sum_result_nicks"].append("ZLL")
 				processes_to_plot.insert(3, "EWK")
-				config["sum_nicks"].append("VV_noplot W_noplot")
-				config["sum_scale_factors"].append("1.0 1.0")
+				config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot")
+				config["sum_scale_factors"].append("1.0 1.0 1.0")
 				config["sum_result_nicks"].append("EWK")
 				
 				config["files"] = [postfit_shapes]
