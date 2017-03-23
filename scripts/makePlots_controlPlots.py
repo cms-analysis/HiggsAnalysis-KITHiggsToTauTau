@@ -185,7 +185,7 @@ if __name__ == "__main__":
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
-	parser.add_argument("-b", "--background-method", default=["classic"], nargs="+",
+	parser.add_argument("-b", "--background-method", default=["new"], nargs="+",
 	                    help="Background estimation method to be used, channel dependent. [Default: %(default)s]")
 	parser.add_argument("--mssm", default=False, action="store_true",
 	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
@@ -195,7 +195,7 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the polarisation analysis. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
-	parser.add_argument("--era", default="2015",
+	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")

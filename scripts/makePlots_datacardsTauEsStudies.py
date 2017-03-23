@@ -113,7 +113,7 @@ if __name__ == "__main__":
 	                    help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
 	parser.add_argument("--plot-with-shift", type=float, default=0.0,
 	                    help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
-	parser.add_argument("-b", "--background-method", default="classic",
+	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("--use-scan-without-fit", action="store_true", default=False,
 	                    help="Obtain result from likelihood scan without fitting the parabola but instead finding the minimum and the first points crossing 1 on either side. [Default: %(default)s]")
