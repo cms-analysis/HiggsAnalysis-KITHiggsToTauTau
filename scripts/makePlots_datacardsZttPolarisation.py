@@ -62,12 +62,12 @@ if __name__ == "__main__":
 	                    default=["individual", "channel", "category", "combined"],
 	                    choices=["individual", "channel", "category", "combined"],
 	                    help="Combinations to perform. [Default: %(default)s]")
-	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
-	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
-	parser.add_argument("--nuisance-impacts", action="store_true", default=False,
-	                    help="Determine nuisance impacts [Default: %(default)s]")
+	parser.add_argument("--steps", nargs="+",
+	                    default=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls"],
+	                    choices=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls", "nuisanceimpacts"],
+	                    help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
 	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
@@ -80,7 +80,6 @@ if __name__ == "__main__":
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
-	#parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
@@ -100,7 +99,7 @@ if __name__ == "__main__":
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
-	parser.add_argument("--era", default="2015",
+	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="datacards",
 	                    help="Publish plots. [Default: %(default)s]")
@@ -349,45 +348,50 @@ if __name__ == "__main__":
 							MODEL_PARAMETERS=""
 					)
 			)
-	
-			# Max. likelihood fit and postfit plots
-			datacards.combine(
-					datacards_cbs,
-					datacards_workspaces,
-					None,
-					args.n_processes,
-					"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
-					split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
-			)
 			
-			if (scaled_lumi is None) and (asimov_polarisation is None):
-				datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(
+			if "maxlikelihoodfit" in args.steps:
+				datacards.combine(
 						datacards_cbs,
 						datacards_workspaces,
-						False,
+						None,
 						args.n_processes,
-						"--sampling" + (" --print" if args.n_processes <= 1 else "")
+						"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
+						split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 				)
+			
+			if (scaled_lumi is None) and (asimov_polarisation is None):
+				if "prefitpostfitplots" in args.steps:
+					datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(
+							datacards_cbs,
+							datacards_workspaces,
+							False,
+							args.n_processes,
+							"--sampling" + (" --print" if args.n_processes <= 1 else ""),
+							#fit_type_list=["fit_mdf"],
+							#fit_result="multidimfit.root"
+					)
 	
-				datacards.prefit_postfit_plots(
-						datacards_cbs,
-						datacards_postfit_shapes,
-						plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "tauPolarisationDiscriminatorSvfit", "era" : "2015", "www" : www},
-						n_processes=args.n_processes,
-						signal_stacked_on_bkg=True
-				)
-	
-				datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
-				datacards.pull_plots(
-						datacards_postfit_shapes,
-						s_fit_only=True,
-						plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
-						n_processes=args.n_processes
-				)
-				if args.nuisance_impacts:
+					datacards.prefit_postfit_plots(
+							datacards_cbs,
+							datacards_postfit_shapes,
+							plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "tauPolarisationDiscriminatorSvfit", "era" : "2015", "www" : www},
+							n_processes=args.n_processes,
+							signal_stacked_on_bkg=True
+					)
+				
+				if "prefitpostfitplots" in args.steps:
+					datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
+					datacards.pull_plots(
+							datacards_postfit_shapes,
+							s_fit_only=True,
+							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
+							n_processes=args.n_processes
+					)
+				
+				if "nuisanceimpacts" in args.steps:
 					datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "-P pol --redefineSignalPOIs pol")
 	
-			if True: # (scaled_lumi is None) and (asimov_polarisation is None):
+			if "totstatuncs" in args.steps: # (scaled_lumi is None) and (asimov_polarisation is None):
 				# split uncertainties
 				datacards.combine(
 						datacards_cbs,
@@ -431,15 +435,18 @@ if __name__ == "__main__":
 	
 			# plot best fit values of parameter pol from physics model
 			if "channel" in args.combinations:
-				for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json"] + (
-						        ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_stat_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_stat_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_stat_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_stat_unc.json"]):# if (scaled_lumi is None) and (asimov_polarisation is None) else []):
-		
+				for template in ([
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json",
+				] if "maxlikelihoodfit" in args.steps else []) + ([
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_stat_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_stat_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_stat_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_stat_unc.json",
+				] if "totstatuncs" in args.steps else []): # if (scaled_lumi is None) and (asimov_polarisation is None) else []):
+					
 					x_values = sorted([values[0] for values in values_tree_files.keys() if values[0] > -990.0])
 					config = jsonTools.JsonDict(os.path.expandvars(template))
 					config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/channel" in root_file) or ("datacards/combined" in root_file)]))]
@@ -456,15 +463,18 @@ if __name__ == "__main__":
 					plot_configs.append(config)
 	
 			if "category" in args.combinations:
-				for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category.json"] + (
-						        ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_stat_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_stat_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_stat_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_unc.json",
-						         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_stat_unc.json"]):# if (scaled_lumi is None) and (asimov_polarisation is None) else []):
-		
+				for template in ([
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category.json",
+				] if "maxlikelihoodfit" in args.steps else []) + ([
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_stat_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_stat_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_stat_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_unc.json",
+						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_stat_unc.json",
+				] if "totstatuncs" in args.steps else []): # if (scaled_lumi is None) and (asimov_polarisation is None) else []):
+					
 					x_values_raw = sorted([values[1] for values in values_tree_files.keys() if values[1] > -990.0])
 					x_values = [(((value-1000.0)/10.0-1.0) if value > 1000.0 else value) for value in x_values_raw]
 					config = jsonTools.JsonDict(os.path.expandvars(template))
@@ -480,11 +490,14 @@ if __name__ == "__main__":
 					plot_configs.append(config)
 		
 		if len(args.check_linearity) > 0:
-			for template in ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation.json"] + (
-					        ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_tot_stat_unc.json",
-					         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_tot_unc.json",
-					         "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_stat_unc.json"]):# if (scaled_lumi is None) and (asimov_polarisation is None) else []):
-	
+			for template in ([
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation.json",
+			] if "maxlikelihoodfit" in args.steps else []) + ([
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_tot_stat_unc.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_tot_unc.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_stat_unc.json",
+			] if "totstatuncs" in args.steps else []): # if (scaled_lumi is None) and (asimov_polarisation is None) else []): (scaled_lumi is None) and (asimov_polarisation is None) else []):
+				
 				config = jsonTools.JsonDict(os.path.expandvars(template))
 				config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(polarisation_values_tree_files.values())) if "datacards/combined" in root_file])).replace("/pol{:04}/".format(int(args.check_linearity[-1]*1000)), "/*/")]
 				config["x_rel_lims"] = [0.95, 1.05]
