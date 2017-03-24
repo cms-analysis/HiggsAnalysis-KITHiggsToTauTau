@@ -379,7 +379,7 @@ if __name__ == "__main__":
 							signal_stacked_on_bkg=True
 					)
 				
-				if "prefitpostfitplots" in args.steps:
+				if "pulls" in args.steps:
 					datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
 					datacards.pull_plots(
 							datacards_postfit_shapes,
