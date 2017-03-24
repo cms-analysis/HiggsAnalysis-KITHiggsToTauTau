@@ -121,6 +121,8 @@ if __name__ == "__main__":
 	                    help="Additional weight used for both background and all signal templates. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", default="mt", choices=["mt","et"],
 	                    help="Select final state for measurement. [Default: %(default)s]")
+	parser.add_argument("--cms", action="store_true", default=False,
+	                    help="Display CMS Preliminary on plot. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -582,8 +584,9 @@ if __name__ == "__main__":
 				
 				config["energies"] = [13.0]
 				config["lumis"] = [float("%.1f" % args.lumi)]
-				config["cms"] = True
-				config["extra_text"] = "Preliminary"
+				if args.cms:
+					config["cms"] = True
+					config["extra_text"] = "Preliminary"
 				config["year"] = args.era
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category+"_"+quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
@@ -777,8 +780,9 @@ if __name__ == "__main__":
 			config["texts_x"] = [0.52, 0.52, 0.98, 0.98]
 			config["texts_y"] = [0.81, 0.74, 0.23, 0.46]
 			config["texts_size"] = [0.035]
-			config["cms"] = True
-			config["extra_text"] = "Preliminary"
+			if args.cms:
+				config["cms"] = True
+				config["extra_text"] = "Preliminary"
 			config["year"] = args.era
 			
 			if not (config["output_dir"] in www_output_dirs_parabola):
