@@ -66,7 +66,7 @@ if __name__ == "__main__":
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--steps", nargs="+",
 	                    default=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls"],
-	                    choices=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls", "nuisanceimpacts"],
+	                    choices=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls", "deltanll", "nuisanceimpacts"],
 	                    help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
 	                    help="Do auto rebinning [Default: %(default)s]")
@@ -390,9 +390,17 @@ if __name__ == "__main__":
 				
 				if "nuisanceimpacts" in args.steps:
 					datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "-P pol --redefineSignalPOIs pol")
+				
+				if "deltanll" in args.steps:
+					datacards.combine(
+							datacards_cbs,
+							datacards_workspaces,
+							None,
+							args.n_processes,
+							"-M MultiDimFit --algo grid --points 200 -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n Scan "
+					)
 	
 			if "totstatuncs" in args.steps: # (scaled_lumi is None) and (asimov_polarisation is None):
-				# split uncertainties
 				datacards.combine(
 						datacards_cbs,
 						datacards_workspaces,
@@ -459,8 +467,20 @@ if __name__ == "__main__":
 					config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
 					if args.www:
 						config["www"] = os.path.join(www, "combined/plots")
-		
 					plot_configs.append(config)
+				
+				if ("deltanll" in args.steps) and (scaled_lumi is None) and (asimov_polarisation is None):
+					for template in [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_over_pol.json",
+					]:
+						config = jsonTools.JsonDict(os.path.expandvars(template))
+						config["directories"] = list(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/channel" in root_file) or ("datacards/combined" in root_file)]))
+						config["labels"] = [""]
+						config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
+						config["filename"] += "_per_channel"
+						if args.www:
+							config["www"] = os.path.join(www, "combined/plots")
+						plot_configs.append(config)
 	
 			if "category" in args.combinations:
 				for template in ([
@@ -486,8 +506,33 @@ if __name__ == "__main__":
 					config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
 					if args.www:
 						config["www"] = os.path.join(www, "combined/plots")
-		
 					plot_configs.append(config)
+				
+				if ("deltanll" in args.steps) and (scaled_lumi is None) and (asimov_polarisation is None):
+					for template in [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_over_pol.json",
+					]:
+						config = jsonTools.JsonDict(os.path.expandvars(template))
+						config["directories"] = list(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/category" in root_file) or ("datacards/combined" in root_file)]))
+						config["labels"] = [""]
+						config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
+						config["filename"] += "_per_category"
+						if args.www:
+							config["www"] = os.path.join(www, "combined/plots")
+						plot_configs.append(config)
+			
+			if ("deltanll" in args.steps) and (scaled_lumi is None) and (asimov_polarisation is None):
+				for directory in set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if "higgsCombineScan.MultiDimFit" in root_file]):
+					for template in [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_over_pol.json",
+					]:
+						config = jsonTools.JsonDict(os.path.expandvars(template))
+						config["directories"] = [directory]
+						config["labels"] = [""]
+						config["output_dir"] = os.path.join(directory, "plots")
+						if args.www:
+							config["www"] = os.path.join(www, os.path.join(directory).replace(os.path.join(output_dir, "datacards"), "").strip("/"), "plots")
+						plot_configs.append(config)
 		
 		if len(args.check_linearity) > 0:
 			for template in ([
@@ -504,7 +549,6 @@ if __name__ == "__main__":
 				config["output_dir"] = os.path.join(args.output_dir, "pol/datacards/combined/plots")
 				if args.www:
 					config["www"] = os.path.join(args.www, "pol/combined/plots")
-				
 				plot_configs.append(config)
 		
 		# scale back to preserve initial state

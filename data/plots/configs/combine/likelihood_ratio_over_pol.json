@@ -1,7 +1,7 @@
 {
-	"filename": "likelihood_ratio_alphatau",
+	"filename": "likelihood_ratio_over_pol",
 	"files": [
-		"higgsCombine.MultiDimFit.mH*.root"
+		"higgsCombineScan.MultiDimFit.mH*.root"
 	],
 	"folders": [
 		"limit"
@@ -24,9 +24,9 @@
 		"(deltaNLL<20)*(Entry$>0)"
 	],
 	"x_expressions": [
-		"cpmixing*TMath::Pi()/2"
+		"pol"
 	],
-	"x_label": "#alpha_{#tau}",
+	"x_label": "Average Polarisation #LT P_{#tau} #GT",
 	"y_expressions": [
 		"deltaNLL"
 	],
