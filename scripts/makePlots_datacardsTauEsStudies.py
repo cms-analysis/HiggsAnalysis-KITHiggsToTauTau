@@ -123,6 +123,8 @@ if __name__ == "__main__":
 	                    help="Select final state for measurement. [Default: %(default)s]")
 	parser.add_argument("--cms", action="store_true", default=False,
 	                    help="Display CMS Preliminary on plot. [Default: %(default)s]")
+	parser.add_argument("--pdf", action="store_true", default=False,
+	                    help="Produce pdf versions of all plots. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -158,21 +160,21 @@ if __name__ == "__main__":
 	for pt_index, (pt_range) in enumerate(pt_ranges):
 		if pt_range == "0.0":
 			pt_weights.append("(pt_2>20)")
-			pt_strings.append("p_{T}^{#tau_{h}} > 20 GeV")
+			pt_strings.append("p_{T}(#tau_{h}) > 20 GeV")
 		else:
 			if len(pt_ranges) > pt_index+1:
 				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")*(pt_2<"+str(pt_ranges[pt_index+1])+")")
-				pt_strings.append(pt_ranges[pt_index]+" < p_{T}^{#tau_{h}} < "+pt_ranges[pt_index+1]+ " GeV")
+				pt_strings.append(pt_ranges[pt_index]+" < p_{T}(#tau_{h}) < "+pt_ranges[pt_index+1]+ " GeV")
 			else:
 				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")")
-				pt_strings.append("p_{T}^{#tau_{h}} > "+pt_ranges[pt_index]+" GeV")
+				pt_strings.append("p_{T}(#tau_{h}) > "+pt_ranges[pt_index]+" GeV")
 		pt_bins.append(str(pt_index))
 	
 	# produce eta-bins (first one is always inclusive)
 	# for the moment only barrel and endcap considered
 	eta_ranges = ["0.0","1.479","2.3"]
 	eta_weights = ["(abs(eta_2)<2.3)","(abs(eta_2)<1.479)","(abs(eta_2)>1.479)*(abs(eta_2)<2.3)"]
-	eta_strings = ["|#eta_{#tau_{h}}| < 2.3","|#eta_{#tau_{h}}| < 1.479","1.479 < |#eta_{#tau_{h}}| < 2.3"]
+	eta_strings = ["|#eta(#tau_{h})| < 2.3","|#eta(#tau_{h})| < 1.479","1.479 < |#eta(#tau_{h})| < 2.3"]
 	eta_bins = ["0","1","2"]
 	
 	# do measurement as function of pt or eta?
@@ -555,16 +557,16 @@ if __name__ == "__main__":
 				
 				config["y_label"] = "Events / bin"
 				if "OneProngPiZeros" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["x_lims"] = [0.2,1.4]
 				elif "ThreeProng" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["x_lims"] = [0.8,1.5]
 				elif "AllDMs" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["x_lims"] = [0.2,1.8]
 				elif "OneProng" in category or quantity == "m_vis":
-					config["x_label"] = "m_{vis}(#mu#tau_{h}) [GeV]"
+					config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
 					config["x_lims"] = [20,200]
 				
 				config.setdefault("analysis_modules", []).append("Ratio")
@@ -590,11 +592,12 @@ if __name__ == "__main__":
 				config["year"] = args.era
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category+"_"+quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
-				#config["formats"] = ["png", "pdf"]
+				if args.pdf:
+					config["formats"] = ["png", "pdf"]
 				
 				decayMode = category.split("_")[-2]
 				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
-				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin], ("tau ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%") if args.plot_with_shift != 0 else ""]
+				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin], ("#tau_{h} ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%") if args.plot_with_shift != 0 else ""]
 				config["texts_x"] = [0.52, 0.52, 0.52]
 				config["texts_y"] = [0.81, 0.74, 0.67]
 				config["texts_size"] = [0.055]
@@ -762,14 +765,14 @@ if __name__ == "__main__":
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
 			config["analysis_modules"] = ["AddLine"]
-			config["x_label"] = "#tau_{h}-ES [%]"
-			config["y_label"] = "-2 \\\mathrm{\\\Delta ln} \\\mathscr{L}"
+			config["x_label"] = "#tau_{h} ES (%)"
+			config["y_label"] = "-2 \\\mathrm{ln} \\\mathscr{L}"
 			config["x_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
 			config["y_lims"] = [0.0, 10.0]
 			config["x_lines"] = ["-6 6"]
 			config["y_lines"] = ["1 1", "4 4"]
 			config["markers"] = ["P", "L", "L"]
-			config["marker_styles"] = [5]
+			config["marker_styles"] = [20]
 			config["line_styles"] = [2]
 			config["colors"] = ["kBlack", "kBlue", "kBlue"]
 			config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
@@ -777,13 +780,18 @@ if __name__ == "__main__":
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
 			config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[int(weightBin)], "1#sigma", "2#sigma"]
-			config["texts_x"] = [0.52, 0.52, 0.98, 0.98]
-			config["texts_y"] = [0.81, 0.74, 0.23, 0.46]
+			config["texts_x"] = [0.38, 0.38, 0.98, 0.98]
+			config["texts_y"] = [0.86, 0.79, 0.23, 0.46]
 			config["texts_size"] = [0.035]
 			if args.cms:
 				config["cms"] = True
 				config["extra_text"] = "Preliminary"
 			config["year"] = args.era
+			if args.pdf:
+				# eps file needs to be converted manually because luminosity symbol
+				# is not displayed when saving file directly as pdf
+				log.warning("Only eps file created due to problem with calligraphic L. Please use epstopdf to convert the file manually.")
+				config["formats"] = ["png", "eps"]
 			
 			if not (config["output_dir"] in www_output_dirs_parabola):
 				www_output_dirs_parabola.append(config["output_dir"])
@@ -910,8 +918,8 @@ if __name__ == "__main__":
 	config["input_modules"] = ["InputInteractive"]
 	config["x_lims"] = ([0.0, 2.3] if args.eta_binning else [0.0, 200.0])
 	config["y_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
-	config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} [GeV]")
-	config["y_label"] = "#tau_{h}-ES [%]"
+	config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} (GeV)")
+	config["y_label"] = "#tau_{h} ES (%)"
 	config["markers"] = ["P"]
 	config["legend"] = [0.2,0.78,0.6,0.9]
 	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
@@ -922,6 +930,8 @@ if __name__ == "__main__":
 	config["y_expressions"] = ybins
 	config["y_errors"] = yerrslo
 	config["y_errors_up"] = yerrshi
+	if args.pdf:
+		config["formats"] = ["png", "pdf"]
 	
 	if not (config["output_dir"] in www_output_dirs_weightbin):
 		www_output_dirs_weightbin.append(config["output_dir"])
