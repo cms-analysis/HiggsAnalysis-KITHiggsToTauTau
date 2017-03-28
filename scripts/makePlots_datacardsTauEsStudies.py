@@ -125,6 +125,8 @@ if __name__ == "__main__":
 	                    help="Display CMS Preliminary on plot. [Default: %(default)s]")
 	parser.add_argument("--pdf", action="store_true", default=False,
 	                    help="Produce pdf versions of all plots. [Default: %(default)s]")
+	parser.add_argument("--no-inclusive", action="store_true", default=False,
+	                    help="Do not produce inclusive results if pt or eta ranges are given. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -176,6 +178,15 @@ if __name__ == "__main__":
 	eta_weights = ["(abs(eta_2)<2.3)","(abs(eta_2)<1.479)","(abs(eta_2)>1.479)*(abs(eta_2)<2.3)"]
 	eta_strings = ["|#eta(#tau_{h})| < 2.3","|#eta(#tau_{h})| < 1.479","1.479 < |#eta(#tau_{h})| < 2.3"]
 	eta_bins = ["0","1","2"]
+	
+	if args.no_inclusive and len(args.pt_ranges) > 0:
+		pt_ranges.pop(0)
+		pt_weights.pop(0)
+		pt_bins.pop(0)
+	if args.no_inclusive and args.eta_binning:
+		eta_ranges.pop(0)
+		eta_weights.pop(0)
+		eta_bins.pop(0)
 	
 	# do measurement as function of pt or eta?
 	weight_type = ("eta" if args.eta_binning else "pt")
@@ -822,7 +833,9 @@ if __name__ == "__main__":
 	for decayMode in decay_modes:
 		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
 		xbinsF, xerrsF, ybinsF, yerrsloF, yerrshiF = [], [], [], [], []
-		for index, weightBin in enumerate(weight_bins[1:]):
+		weight_bins_loop = weight_bins if args.no_inclusive else weight_bins[1:]
+		weight_ranges_loop = weight_ranges if args.no_inclusive else weight_ranges[1:]
+		for index, weightBin in enumerate(weight_bins_loop):
 			if args.use_scan_without_fit:
 				yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
 				yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
@@ -837,17 +850,17 @@ if __name__ == "__main__":
 				ybinsF.append(output_dict_scan_fit_mu[decayMode][weightBin])
 				yerrsloF.append(output_dict_scan_fit_err[decayMode][weightBin])
 				yerrshiF.append(output_dict_scan_fit_err[decayMode][weightBin])
-			if index < (len(weight_bins[1:])-1):
-				xval += str((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)+" "
-				xerrsval += str((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)+" "
-				xbinsF.append((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)
-				xerrsF.append((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)
+			if index < (len(weight_bins_loop)-1):
+				xval += str((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)+" "
+				xerrsval += str((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)+" "
+				xbinsF.append((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)
+				xerrsF.append((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)
 		
-		if len(weight_bins[1:]) > 0:
-			xval += str((float(weight_ranges[index+1])+200.0)/2.0)
-			xerrsval += str((200.0 - float(weight_ranges[index+1]))/2.0)
-			xbinsF.append((float(weight_ranges[index+1])+200.0)/2.0)
-			xerrsF.append((200.0 - float(weight_ranges[index+1]))/2.0)
+		if len(weight_bins_loop) > 0:
+			xval += str((float(weight_ranges_loop[index])+200.0)/2.0)
+			xerrsval += str((200.0 - float(weight_ranges_loop[index]))/2.0)
+			xbinsF.append((float(weight_ranges_loop[index])+200.0)/2.0)
+			xerrsF.append((200.0 - float(weight_ranges_loop[index]))/2.0)
 		else: # no pt ranges were given - plot only inclusive result
 			xval += "110.0 "
 			xerrsval += "90.0 "
