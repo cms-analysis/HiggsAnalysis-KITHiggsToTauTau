@@ -601,6 +601,7 @@ if __name__ == "__main__":
 				config["texts_x"] = [0.52, 0.52, 0.52]
 				config["texts_y"] = [0.81, 0.74, 0.67]
 				config["texts_size"] = [0.055]
+				config["title"] = "channel_"+channel
 				
 				if not (config["output_dir"] in www_output_dirs_postfit):
 					www_output_dirs_postfit.append(config["output_dir"])
@@ -673,14 +674,24 @@ if __name__ == "__main__":
 			
 			found2sigmaLow, found1sigmaLow, found1sigmaHi, found2sigmaHi = False, False, False, False
 			err2sigmaLow,err1sigmaLow, err1sigmaHi, err2sigmaHi = 0.0, 0.0, 0.0, 0.0
-			mes_list_nll_below10 = []
-			nll_below10 = []
+			mes_list_nll_belowX = []
+			nll_belowX = []
+			
+			# Gradually increase range of nll if less than 10 points are captured but stop at 100.
+			# This is mostly interesting for very narrow parabolas like in the case of m_2 for 3-prongs
+			nllMax = 10
+			while (len(mes_list_nll_belowX) < 10 and nllMax < 100):
+				for index, (nll) in enumerate(deltaNLLshifted_list):
+					if (nll <= nllMax and mes_list[index] not in mes_list_nll_belowX and nll not in nll_belowX):
+						mes_list_nll_belowX.append(mes_list[index])
+						nll_belowX.append(nll)
+				if (len(mes_list_nll_belowX) < 10):
+					nllMax += 1
+			if nllMax > 10:
+				log.warning("nllMax > 10: check position of 1 and 2 sigma texts in parabola plot!")
 			
 			for index, (nll) in enumerate(deltaNLLshifted_list):
 				if (mes_list[index] <= min_shift):
-					if (nll <= 10.0):
-						mes_list_nll_below10.append(mes_list[index])
-						nll_below10.append(nll)
 					if (nll <= 4.0 and not found2sigmaLow): #crossing 2-sigma line from the left
 						found2sigmaLow = True
 						if index > 0:
@@ -706,9 +717,6 @@ if __name__ == "__main__":
 							err2sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
 						else:
 							err2sigmaHi = abs(mes_list[index] - min_shift)
-					if (nll <= 10.0):
-						mes_list_nll_below10.append(mes_list[index])
-						nll_below10.append(nll)
 			
 			#values for parabola plot
 			xvaluesF = []
@@ -720,11 +728,11 @@ if __name__ == "__main__":
 				yvalues += str(nll) + " "
 			
 			# values for fit
-			xvaluesF_below10 = []
-			for index, (nll) in enumerate(nll_below10):
-				xvaluesF_below10.append((mes_list_nll_below10[index]-1.0)*100)
+			xvaluesF_belowX = []
+			for index, (nll) in enumerate(nll_belowX):
+				xvaluesF_belowX.append((mes_list_nll_belowX[index]-1.0)*100)
 			
-			if len(xvaluesF_below10) == 0:
+			if len(xvaluesF_belowX) == 0:
 				for nll in deltaNLLshifted_list:
 					print str(nll)
 				print decayMode
@@ -736,18 +744,18 @@ if __name__ == "__main__":
 				array.array("d", xvaluesF),
 				array.array("d", deltaNLLshifted_list),
 				array.array("d", [0.1]*len(xvaluesF)),
-				array.array("d", [1.0]*len(xvaluesF))
+				array.array("d", [1.0*nllMax/10.0]*len(xvaluesF)) # this is an arbitrary value in order to be able to fit also not so smooth parabolas
 			)
 			
 			# Fit function
-			fitf = ROOT.TF1("f1","pol2",min(xvaluesF_below10),max(xvaluesF_below10))
+			fitf = ROOT.TF1("f1","pol2",min(xvaluesF_belowX),max(xvaluesF_belowX))
 			RooFitGraph_Parabola.Fit("f1","R")
-			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
-			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
+			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_belowX),max(xvaluesF_belowX))
+			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_belowX),max(xvaluesF_belowX))
 			sigmaScanFit = abs(fitf.GetX(minimumScanFitY+1)-minimumScanFit)
 			
 			# Write parabola with fit result into file
-			RooFitGraph_Parabola.GetYaxis().SetRangeUser(0,10)
+			RooFitGraph_Parabola.GetYaxis().SetRangeUser(0,nllMax)
 			graphfilename = os.path.join(os.path.dirname(datacard), "parabola_"+quantity+".root")
 			graphfile = ROOT.TFile(graphfilename, "RECREATE")
 			RooFitGraph_Parabola.Write()
@@ -768,7 +776,7 @@ if __name__ == "__main__":
 			config["x_label"] = "#tau_{h} ES (%)"
 			config["y_label"] = "-2 \\\mathrm{ln} \\\mathscr{L}"
 			config["x_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
-			config["y_lims"] = [0.0, 10.0]
+			config["y_lims"] = [0.0, nllMax]
 			config["x_lines"] = ["-6 6"]
 			config["y_lines"] = ["1 1", "4 4"]
 			config["markers"] = ["P", "L", "L"]
@@ -783,6 +791,7 @@ if __name__ == "__main__":
 			config["texts_x"] = [0.38, 0.38, 0.98, 0.98]
 			config["texts_y"] = [0.86, 0.79, 0.23, 0.46]
 			config["texts_size"] = [0.035]
+			config["title"] = "channel_"+channel
 			if args.cms:
 				config["cms"] = True
 				config["extra_text"] = "Preliminary"
