@@ -113,7 +113,7 @@ if __name__ == "__main__":
 	                    help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
 	parser.add_argument("--plot-with-shift", type=float, default=0.0,
 	                    help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
-	parser.add_argument("-b", "--background-method", default="classic",
+	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("--use-scan-without-fit", action="store_true", default=False,
 	                    help="Obtain result from likelihood scan without fitting the parabola but instead finding the minimum and the first points crossing 1 on either side. [Default: %(default)s]")
@@ -121,6 +121,12 @@ if __name__ == "__main__":
 	                    help="Additional weight used for both background and all signal templates. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", default="mt", choices=["mt","et"],
 	                    help="Select final state for measurement. [Default: %(default)s]")
+	parser.add_argument("--cms", action="store_true", default=False,
+	                    help="Display CMS Preliminary on plot. [Default: %(default)s]")
+	parser.add_argument("--pdf", action="store_true", default=False,
+	                    help="Produce pdf versions of all plots. [Default: %(default)s]")
+	parser.add_argument("--no-inclusive", action="store_true", default=False,
+	                    help="Do not produce inclusive results if pt or eta ranges are given. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -156,22 +162,31 @@ if __name__ == "__main__":
 	for pt_index, (pt_range) in enumerate(pt_ranges):
 		if pt_range == "0.0":
 			pt_weights.append("(pt_2>20)")
-			pt_strings.append("p_{T}^{#tau_{h}} > 20 GeV")
+			pt_strings.append("p_{T}(#tau_{h}) > 20 GeV")
 		else:
 			if len(pt_ranges) > pt_index+1:
 				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")*(pt_2<"+str(pt_ranges[pt_index+1])+")")
-				pt_strings.append(pt_ranges[pt_index]+" < p_{T}^{#tau_{h}} < "+pt_ranges[pt_index+1]+ " GeV")
+				pt_strings.append(pt_ranges[pt_index]+" < p_{T}(#tau_{h}) < "+pt_ranges[pt_index+1]+ " GeV")
 			else:
 				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")")
-				pt_strings.append("p_{T}^{#tau_{h}} > "+pt_ranges[pt_index]+" GeV")
+				pt_strings.append("p_{T}(#tau_{h}) > "+pt_ranges[pt_index]+" GeV")
 		pt_bins.append(str(pt_index))
 	
 	# produce eta-bins (first one is always inclusive)
 	# for the moment only barrel and endcap considered
 	eta_ranges = ["0.0","1.479","2.3"]
 	eta_weights = ["(abs(eta_2)<2.3)","(abs(eta_2)<1.479)","(abs(eta_2)>1.479)*(abs(eta_2)<2.3)"]
-	eta_strings = ["|#eta_{#tau_{h}}| < 2.3","|#eta_{#tau_{h}}| < 1.479","1.479 < |#eta_{#tau_{h}}| < 2.3"]
+	eta_strings = ["|#eta(#tau_{h})| < 2.3","|#eta(#tau_{h})| < 1.479","1.479 < |#eta(#tau_{h})| < 2.3"]
 	eta_bins = ["0","1","2"]
+	
+	if args.no_inclusive and len(args.pt_ranges) > 0:
+		pt_ranges.pop(0)
+		pt_weights.pop(0)
+		pt_bins.pop(0)
+	if args.no_inclusive and args.eta_binning:
+		eta_ranges.pop(0)
+		eta_weights.pop(0)
+		eta_bins.pop(0)
 	
 	# do measurement as function of pt or eta?
 	weight_type = ("eta" if args.eta_binning else "pt")
@@ -251,7 +266,7 @@ if __name__ == "__main__":
 					if (decayMode == "AllDMs" and quantity == "m_2"):
 						catForConfig = "catAllDMsNotOneProng_" + channel
 					config_rest = sample_settings.get_config(
-						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample != "ztt"],
+						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample not in ["ztt", "ttt", "vvt"]],
 						channel=channel,
 						category=catForConfig,
 						nick_suffix="_" + str(weight_index),
@@ -281,7 +296,7 @@ if __name__ == "__main__":
 							continue
 						
 						config_ztt = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample == "ztt"],
+							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample in ["ztt", "ttt", "vvt"]],
 							channel=channel,
 							category=catForConfig,
 							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(weight_index),
@@ -383,6 +398,8 @@ if __name__ == "__main__":
 		for weight_index, (weight_bin) in enumerate(weight_bins):
 			category = channel+"_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
+			morphing.BuildRooMorphing(ws,datacards.cb,category,"TTT",mes,"norm",True,True)
+			morphing.BuildRooMorphing(ws,datacards.cb,category,"VVT",mes,"norm",True,True)
 	
 	# For some reason the default arguments are not working in the python wrapper
 	# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
@@ -501,7 +518,7 @@ if __name__ == "__main__":
 	
 	#plot postfit
 	postfit_plot_configs = [] #reset list containing the plot configs
-	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
+	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT","TTJJ", "VVT", "VVJ", "W", "QCD"]
 	
 	for level in ["prefit", "postfit"]:
 		for datacard in datacards_cbs.keys():
@@ -524,15 +541,19 @@ if __name__ == "__main__":
 				config.setdefault("sum_result_nicks", []).append("Total")
 				
 				processes_to_plot = list(processes)
-				processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+				processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("TTT", "TTT_noplot").replace("TTJJ", "TTJJ_noplot").replace("VVT", "VVT_noplot").replace("VVJ", "VVJ_noplot").replace("W", "W_noplot") for p in processes]
 				processes_to_plot = [p for p in processes if not "noplot" in p]
+				processes_to_plot.insert(1, "TT")
+				config["sum_nicks"].append("TTT_noplot TTJJ_noplot")
+				config["sum_scale_factors"].append("1.0 1.0")
+				config["sum_result_nicks"].append("TT")
 				processes_to_plot.insert(2, "ZLL")
 				config["sum_nicks"].append("ZL_noplot ZJ_noplot")
 				config["sum_scale_factors"].append("1.0 1.0")
 				config["sum_result_nicks"].append("ZLL")
 				processes_to_plot.insert(3, "EWK")
-				config["sum_nicks"].append("VV_noplot W_noplot")
-				config["sum_scale_factors"].append("1.0 1.0")
+				config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot")
+				config["sum_scale_factors"].append("1.0 1.0 1.0")
 				config["sum_result_nicks"].append("EWK")
 				
 				config["files"] = [postfit_shapes]
@@ -547,16 +568,16 @@ if __name__ == "__main__":
 				
 				config["y_label"] = "Events / bin"
 				if "OneProngPiZeros" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["x_lims"] = [0.2,1.4]
 				elif "ThreeProng" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["x_lims"] = [0.8,1.5]
 				elif "AllDMs" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} [GeV]"
+					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["x_lims"] = [0.2,1.8]
 				elif "OneProng" in category or quantity == "m_vis":
-					config["x_label"] = "m_{vis}(#mu#tau_{h}) [GeV]"
+					config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
 					config["x_lims"] = [20,200]
 				
 				config.setdefault("analysis_modules", []).append("Ratio")
@@ -576,19 +597,22 @@ if __name__ == "__main__":
 				
 				config["energies"] = [13.0]
 				config["lumis"] = [float("%.1f" % args.lumi)]
-				config["cms"] = True
-				config["extra_text"] = "Preliminary"
+				if args.cms:
+					config["cms"] = True
+					config["extra_text"] = "Preliminary"
 				config["year"] = args.era
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category+"_"+quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
-				#config["formats"] = ["png", "pdf"]
+				if args.pdf:
+					config["formats"] = ["png", "pdf"]
 				
 				decayMode = category.split("_")[-2]
 				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
-				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin], ("tau ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%") if args.plot_with_shift != 0 else ""]
+				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin], ("#tau_{h} ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%") if args.plot_with_shift != 0 else ""]
 				config["texts_x"] = [0.52, 0.52, 0.52]
 				config["texts_y"] = [0.81, 0.74, 0.67]
 				config["texts_size"] = [0.055]
+				config["title"] = "channel_"+channel
 				
 				if not (config["output_dir"] in www_output_dirs_postfit):
 					www_output_dirs_postfit.append(config["output_dir"])
@@ -661,14 +685,24 @@ if __name__ == "__main__":
 			
 			found2sigmaLow, found1sigmaLow, found1sigmaHi, found2sigmaHi = False, False, False, False
 			err2sigmaLow,err1sigmaLow, err1sigmaHi, err2sigmaHi = 0.0, 0.0, 0.0, 0.0
-			mes_list_nll_below10 = []
-			nll_below10 = []
+			mes_list_nll_belowX = []
+			nll_belowX = []
+			
+			# Gradually increase range of nll if less than 10 points are captured but stop at 100.
+			# This is mostly interesting for very narrow parabolas like in the case of m_2 for 3-prongs
+			nllMax = 10
+			while (len(mes_list_nll_belowX) < 10 and nllMax < 100):
+				for index, (nll) in enumerate(deltaNLLshifted_list):
+					if (nll <= nllMax and mes_list[index] not in mes_list_nll_belowX and nll not in nll_belowX):
+						mes_list_nll_belowX.append(mes_list[index])
+						nll_belowX.append(nll)
+				if (len(mes_list_nll_belowX) < 10):
+					nllMax += 1
+			if nllMax > 10:
+				log.warning("nllMax > 10: check position of 1 and 2 sigma texts in parabola plot!")
 			
 			for index, (nll) in enumerate(deltaNLLshifted_list):
 				if (mes_list[index] <= min_shift):
-					if (nll <= 10.0):
-						mes_list_nll_below10.append(mes_list[index])
-						nll_below10.append(nll)
 					if (nll <= 4.0 and not found2sigmaLow): #crossing 2-sigma line from the left
 						found2sigmaLow = True
 						if index > 0:
@@ -694,9 +728,6 @@ if __name__ == "__main__":
 							err2sigmaHi = abs((mes_list[index]+mes_list[index+1])/2.0 - min_shift)
 						else:
 							err2sigmaHi = abs(mes_list[index] - min_shift)
-					if (nll <= 10.0):
-						mes_list_nll_below10.append(mes_list[index])
-						nll_below10.append(nll)
 			
 			#values for parabola plot
 			xvaluesF = []
@@ -708,11 +739,11 @@ if __name__ == "__main__":
 				yvalues += str(nll) + " "
 			
 			# values for fit
-			xvaluesF_below10 = []
-			for index, (nll) in enumerate(nll_below10):
-				xvaluesF_below10.append((mes_list_nll_below10[index]-1.0)*100)
+			xvaluesF_belowX = []
+			for index, (nll) in enumerate(nll_belowX):
+				xvaluesF_belowX.append((mes_list_nll_belowX[index]-1.0)*100)
 			
-			if len(xvaluesF_below10) == 0:
+			if len(xvaluesF_belowX) == 0:
 				for nll in deltaNLLshifted_list:
 					print str(nll)
 				print decayMode
@@ -724,18 +755,18 @@ if __name__ == "__main__":
 				array.array("d", xvaluesF),
 				array.array("d", deltaNLLshifted_list),
 				array.array("d", [0.1]*len(xvaluesF)),
-				array.array("d", [1.0]*len(xvaluesF))
+				array.array("d", [1.0*nllMax/10.0]*len(xvaluesF)) # this is an arbitrary value in order to be able to fit also not so smooth parabolas
 			)
 			
 			# Fit function
-			fitf = ROOT.TF1("f1","pol2",min(xvaluesF_below10),max(xvaluesF_below10))
+			fitf = ROOT.TF1("f1","pol2",min(xvaluesF_belowX),max(xvaluesF_belowX))
 			RooFitGraph_Parabola.Fit("f1","R")
-			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_below10),max(xvaluesF_below10))
-			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_below10),max(xvaluesF_below10))
+			minimumScanFit = fitf.GetMinimumX(min(xvaluesF_belowX),max(xvaluesF_belowX))
+			minimumScanFitY = fitf.GetMinimum(min(xvaluesF_belowX),max(xvaluesF_belowX))
 			sigmaScanFit = abs(fitf.GetX(minimumScanFitY+1)-minimumScanFit)
 			
 			# Write parabola with fit result into file
-			RooFitGraph_Parabola.GetYaxis().SetRangeUser(0,10)
+			RooFitGraph_Parabola.GetYaxis().SetRangeUser(0,nllMax)
 			graphfilename = os.path.join(os.path.dirname(datacard), "parabola_"+quantity+".root")
 			graphfile = ROOT.TFile(graphfilename, "RECREATE")
 			RooFitGraph_Parabola.Write()
@@ -753,14 +784,14 @@ if __name__ == "__main__":
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
 			config["analysis_modules"] = ["AddLine"]
-			config["x_label"] = "#tau_{h}-ES [%]"
-			config["y_label"] = "-2 \\\mathrm{\\\Delta ln} \\\mathscr{L}"
+			config["x_label"] = "#tau_{h} ES (%)"
+			config["y_label"] = "-2 \\\mathrm{ln} \\\mathscr{L}"
 			config["x_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
-			config["y_lims"] = [0.0, 10.0]
+			config["y_lims"] = [0.0, nllMax]
 			config["x_lines"] = ["-6 6"]
 			config["y_lines"] = ["1 1", "4 4"]
 			config["markers"] = ["P", "L", "L"]
-			config["marker_styles"] = [5]
+			config["marker_styles"] = [20]
 			config["line_styles"] = [2]
 			config["colors"] = ["kBlack", "kBlue", "kBlue"]
 			config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
@@ -768,12 +799,19 @@ if __name__ == "__main__":
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
 			config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[int(weightBin)], "1#sigma", "2#sigma"]
-			config["texts_x"] = [0.52, 0.52, 0.98, 0.98]
-			config["texts_y"] = [0.81, 0.74, 0.23, 0.46]
+			config["texts_x"] = [0.38, 0.38, 0.98, 0.98]
+			config["texts_y"] = [0.86, 0.79, 0.23, 0.46]
 			config["texts_size"] = [0.035]
-			config["cms"] = True
-			config["extra_text"] = "Preliminary"
+			config["title"] = "channel_"+channel
+			if args.cms:
+				config["cms"] = True
+				config["extra_text"] = "Preliminary"
 			config["year"] = args.era
+			if args.pdf:
+				# eps file needs to be converted manually because luminosity symbol
+				# is not displayed when saving file directly as pdf
+				log.warning("Only eps file created due to problem with calligraphic L. Please use epstopdf to convert the file manually.")
+				config["formats"] = ["png", "eps"]
 			
 			if not (config["output_dir"] in www_output_dirs_parabola):
 				www_output_dirs_parabola.append(config["output_dir"])
@@ -795,7 +833,9 @@ if __name__ == "__main__":
 	for decayMode in decay_modes:
 		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
 		xbinsF, xerrsF, ybinsF, yerrsloF, yerrshiF = [], [], [], [], []
-		for index, weightBin in enumerate(weight_bins[1:]):
+		weight_bins_loop = weight_bins if args.no_inclusive else weight_bins[1:]
+		weight_ranges_loop = weight_ranges if args.no_inclusive else weight_ranges[1:]
+		for index, weightBin in enumerate(weight_bins_loop):
 			if args.use_scan_without_fit:
 				yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
 				yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
@@ -810,17 +850,17 @@ if __name__ == "__main__":
 				ybinsF.append(output_dict_scan_fit_mu[decayMode][weightBin])
 				yerrsloF.append(output_dict_scan_fit_err[decayMode][weightBin])
 				yerrshiF.append(output_dict_scan_fit_err[decayMode][weightBin])
-			if index < (len(weight_bins[1:])-1):
-				xval += str((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)+" "
-				xerrsval += str((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)+" "
-				xbinsF.append((float(weight_ranges[index+1])+float(weight_ranges[index+2]))/2.0)
-				xerrsF.append((float(weight_ranges[index+2])-float(weight_ranges[index+1]))/2.0)
+			if index < (len(weight_bins_loop)-1):
+				xval += str((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)+" "
+				xerrsval += str((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)+" "
+				xbinsF.append((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)
+				xerrsF.append((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)
 		
-		if len(weight_bins[1:]) > 0:
-			xval += str((float(weight_ranges[index+1])+200.0)/2.0)
-			xerrsval += str((200.0 - float(weight_ranges[index+1]))/2.0)
-			xbinsF.append((float(weight_ranges[index+1])+200.0)/2.0)
-			xerrsF.append((200.0 - float(weight_ranges[index+1]))/2.0)
+		if len(weight_bins_loop) > 0:
+			xval += str((float(weight_ranges_loop[index])+200.0)/2.0)
+			xerrsval += str((200.0 - float(weight_ranges_loop[index]))/2.0)
+			xbinsF.append((float(weight_ranges_loop[index])+200.0)/2.0)
+			xerrsF.append((200.0 - float(weight_ranges_loop[index]))/2.0)
 		else: # no pt ranges were given - plot only inclusive result
 			xval += "110.0 "
 			xerrsval += "90.0 "
@@ -900,8 +940,8 @@ if __name__ == "__main__":
 	config["input_modules"] = ["InputInteractive"]
 	config["x_lims"] = ([0.0, 2.3] if args.eta_binning else [0.0, 200.0])
 	config["y_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
-	config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} [GeV]")
-	config["y_label"] = "#tau_{h}-ES [%]"
+	config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} (GeV)")
+	config["y_label"] = "#tau_{h} ES (%)"
 	config["markers"] = ["P"]
 	config["legend"] = [0.2,0.78,0.6,0.9]
 	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
@@ -912,6 +952,8 @@ if __name__ == "__main__":
 	config["y_expressions"] = ybins
 	config["y_errors"] = yerrslo
 	config["y_errors_up"] = yerrshi
+	if args.pdf:
+		config["formats"] = ["png", "pdf"]
 	
 	if not (config["output_dir"] in www_output_dirs_weightbin):
 		www_output_dirs_weightbin.append(config["output_dir"])

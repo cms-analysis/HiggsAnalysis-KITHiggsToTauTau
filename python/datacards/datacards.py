@@ -892,7 +892,7 @@ class Datacards(object):
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, *args):
 		commands = []
 		datacards_postfit_shapes = {}
-		fit_type_list = ["fit_s", "fit_b"]
+		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
 		if s_fit_only:
 			fit_type_list.remove("fit_b")
 
@@ -901,7 +901,7 @@ class Datacards(object):
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
 					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
-					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
 
@@ -913,10 +913,10 @@ class Datacards(object):
 
 		return datacards_postfit_shapes
 
-	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args):
+	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args, **kwargs):
 		commands = []
 		datacards_postfit_shapes = {}
-		fit_type_list = ["fit_s", "fit_b"]
+		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
 		if s_fit_only:
 			fit_type_list.remove("fit_b")
 
@@ -926,7 +926,7 @@ class Datacards(object):
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
 					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
-					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
 
@@ -1023,7 +1023,7 @@ class Datacards(object):
 		# create result plots HarryPlotter
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
-	def print_pulls(self, datacards_cbs, n_processes=1, *args):
+	def print_pulls(self, datacards_cbs, n_processes=1, *args, **kwargs):
 		commands = []
 		for pulls_format, file_format in zip(["latex", "text"], ["tex", "txt"]):
 			for all_nuissances in [False, True]:
@@ -1033,7 +1033,7 @@ class Datacards(object):
 								ALL=("-a" if all_nuissances else ""),
 								PLOT="-g "+("" if all_nuissances else "largest_")+"pulls.root",
 								ARGS=" ".join(args),
-								FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root"),
+								FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")),
 								LOG_FILE=("" if all_nuissances else "largest_")+"pulls."+file_format
 						),
 						os.path.dirname(datacard)
