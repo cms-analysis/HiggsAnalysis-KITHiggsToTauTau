@@ -12,8 +12,11 @@ class CutStringsDict:
 	@staticmethod
 	def baseline(channel, cut_type):
 		cuts = {}
-		cuts["blind"] = "{blind}"
-		cuts["os"] = "((q_1*q_2)<0.0)"
+		if channel == "gen":
+			cuts ={}
+		else:
+			cuts["blind"] = "{blind}"
+			cuts["os"] = "((q_1*q_2)<0.0)"
 		
 		if channel == "mm":
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
@@ -350,8 +353,12 @@ class CutStringsDict:
 
 	@staticmethod
 	def baseline_low_mvis(channel, cut_type):
-		cuts = CutStringsDict.baseline(channel, cut_type)
-		cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 80.0))"
+		if channel== "gen":
+			cuts = {}
+		else:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 80.0))"
+
 		return cuts
 
 	@staticmethod

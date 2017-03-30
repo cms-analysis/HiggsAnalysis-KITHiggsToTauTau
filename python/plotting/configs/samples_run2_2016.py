@@ -23,6 +23,8 @@ class Samples(samples.SamplesBase):
 	def root_file_folder(channel):
 		if channel == "inclusive":
 			return "inclusive/ntuple"
+		elif channel == "gen":
+			return "gen/ntuple"
 		elif channel in ["mt", "et", "tt"]:
 			return channel+"_jecUncNom_tauEsNom/ntuple"
 		elif channel in ["em"]:
@@ -51,7 +53,32 @@ class Samples(samples.SamplesBase):
 	@staticmethod
 	def ttj_genmatch(channel):
 		return "!"+Samples.ttt_genmatch(channel)
-	
+
+
+
+	# In order to specify the channels in gen-level info, one also needs the category as a parameter of the matching function!
+		#(In the so-called "gen" channel, the categories are considered as tt,mt,et... channels for now,
+		# it will be adapted later considering the decay products of tau's)
+	@staticmethod
+	def ztt_genchannelmatch(channel, category):
+		category = category.split("_")[-1]
+		if channel in ["gen"]:
+			if category == "tt":
+				return "genTauTauDecayMode == 1"
+			elif category == "mt":
+				return "genTauTauDecayMode == 2"
+			elif category == "et":
+				return "genTauTauDecayMode == 3"
+			elif category == "mm":
+				return "genTauTauDecayMode == 4"
+			elif category == "em":
+				return "genTauTauDecayMode == 5"
+			elif category == "ee":
+				return "genTauTauDecayMode == 6"
+		else:
+			log.fatal("No ZTT selection implemented for channel \"%s\"!" % channel)
+			sys.exit(1)
+
 	@staticmethod
 	def ztt_genmatch(channel):
 		if channel in ["mt", "et"]:
@@ -190,9 +217,15 @@ class Samples(samples.SamplesBase):
 				return make_multiplication([mc_sample_weight, "zPtReweightWeight", self.hadronic_scale_factor(channel)])
 		else:
 			if doStitching:
-				return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel)])
+				if channel == "gen":
+					return  make_multiplication([mc_weight])  # TODO this needs to be studied further!
+				else:
+					return  make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel)])
 			else:
-				return make_multiplication([mc_weight, weight, "eventWeight", self.hadronic_scale_factor(channel)])
+				if channel == "gen":
+					return  make_multiplication([mc_weight])  # TODO this needs to be studied further!
+				else:
+					return  make_multiplication([mc_weight, weight, "eventWeight", self.hadronic_scale_factor(channel)])
 		
 	def files_data(self, channel):
 		query_rereco = {}
@@ -267,7 +300,17 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 			
-		if channel in ["mt", "et", "tt", "em", "mm"]:
+		if channel in ['gen']:
+			Samples._add_input(
+					config,
+					self.files_ztt(channel),
+					self.root_file_folder(channel),
+					lumi,
+					Samples.ztt_genchannelmatch(channel, category)+"*"+self.get_weights_ztt(channel=channel,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"ztt",
+					nick_suffix=nick_suffix
+		)
+		elif channel in ["mt", "et", "tt", "em", "mm"]:
 			Samples._add_input(
 					config,
 					self.files_ztt(channel),
@@ -277,6 +320,8 @@ class Samples(samples.SamplesBase):
 					"ztt",
 					nick_suffix=nick_suffix
 			)
+			if channel== 'gen':
+				print "self.get_weights_ztt(channel=channel,weight=weight)", self.get_weights_ztt(channel=channel,weight=weight)
 			if (not kwargs.get("no_ewk_samples", False)) and (not kwargs.get("no_ewkz_as_dy", False)):
 				Samples._add_input(
 						config,

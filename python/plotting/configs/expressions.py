@@ -68,6 +68,13 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "((decayMode_1 == 1) || (decayMode_2 == 1))"
 			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 1) * (decayMode_2 != 1))"
 
+		# In the so-called "gen" channel, the categories are considered as tt,mt,et... for now,
+		# it will be adapted later considering the decay products of tau's
+		for channel in ["gen"]:
+			self.expressions_dict["catZttPol13TeV_"+channel+"_tt"] = "genTauTauDecayMode==1"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_mt"] = "genTauTauDecayMode==2"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_et"] = "genTauTauDecayMode==3"
+
 		# Z->tautau polarisation test statistics
 		for channel in ["mt", "et", "tt"]:
 			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "tauPolarisationDiscriminatorSvfit"
