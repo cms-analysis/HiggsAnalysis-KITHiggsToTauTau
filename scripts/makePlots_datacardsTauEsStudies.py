@@ -35,11 +35,11 @@ decayMode_dict = {
 	},
 	"OneProngPiZeros" : {
 		"color" : "4",
-		"label" : "h^{#pm}(#geq 1 #pi^{0}) decay mode"
+		"label" : "h^{#pm}#pi^{0} decay mode"
 	},
 	"ThreeProng" : {
 		"color" : "6",
-		"label" : "h^{#pm}h^{#mp}h^{#pm} decay mode"
+		"label" : "h^{#pm}h^{#pm}h^{#mp} decay mode"
 	}
 }
 
@@ -352,14 +352,14 @@ if __name__ == "__main__":
 					# set proper binnings of the distributions
 					if decayMode == "OneProngPiZeros" and quantity == "m_2":
 						if args.tighten_mass_window:
-							merged_config["weights"] = [weight+"*(m_2 >= 0.212)*(m_2 < 1.316)" for weight in merged_config["weights"]]
-						merged_config.setdefault("x_bins", []).append(["12,0.2,1.4"])
+							merged_config["weights"] = [weight+"*(m_2 >= 0.318)*(m_2 < 1.41)" for weight in merged_config["weights"]]
+						merged_config.setdefault("x_bins", []).append(["12,0.3,1.5"])
 					elif decayMode == "ThreeProng" and quantity == "m_2":
 						if args.tighten_mass_window:
 							merged_config["weights"] = [weight+"*(m_2 >= 0.848)*(m_2 < 1.41)" for weight in merged_config["weights"]]
-						merged_config.setdefault("x_bins", []).append(["9,0.7,1.6"])
+						merged_config.setdefault("x_bins", []).append(["7,0.8,1.5"])
 					elif decayMode == "AllDMs" and quantity != "m_vis":
-						merged_config.setdefault("x_bins", []).append(["14,0.2,1.6"])
+						merged_config.setdefault("x_bins", []).append(["12,0.3,1.5"])
 					elif decayMode == "OneProng" or quantity == "m_vis":
 						merged_config.setdefault("x_bins", []).append(["40,0.0,200.0"])
 						merged_config.setdefault("custom_rebin", []).append([40,45,50,55,60,65,70,75,80,85])
@@ -569,13 +569,13 @@ if __name__ == "__main__":
 				config["y_label"] = "Events / bin"
 				if "OneProngPiZeros" in category and quantity == "m_2":
 					config["x_label"] = "m_{#tau_{h}} (GeV)"
-					config["x_lims"] = [0.2,1.4]
+					config["x_lims"] = [0.3,1.5]
 				elif "ThreeProng" in category and quantity == "m_2":
 					config["x_label"] = "m_{#tau_{h}} (GeV)"
 					config["x_lims"] = [0.8,1.5]
 				elif "AllDMs" in category and quantity == "m_2":
 					config["x_label"] = "m_{#tau_{h}} (GeV)"
-					config["x_lims"] = [0.2,1.8]
+					config["x_lims"] = [0.3,1.5]
 				elif "OneProng" in category or quantity == "m_vis":
 					config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
 					config["x_lims"] = [20,200]
