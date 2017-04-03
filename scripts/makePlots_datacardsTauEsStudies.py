@@ -608,9 +608,20 @@ if __name__ == "__main__":
 				
 				decayMode = category.split("_")[-2]
 				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
-				config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[weightBin], ("#tau_{h} ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%") if args.plot_with_shift != 0 else ""]
-				config["texts_x"] = [0.52, 0.52, 0.52]
-				config["texts_y"] = [0.81, 0.74, 0.67]
+				config["texts"] = [decayMode_dict[decayMode]["label"]]
+				config["texts_x"] = [0.52]
+				config["texts_y"] = [0.81]
+				if len(weight_strings) > 1:
+					config["texts"].append(weight_strings[weightBin])
+					config["texts_x"].append(0.52)
+					config["texts_y"].append(0.74)
+				if args.plot_with_shift:
+					config["texts"].append("#tau_{h} ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%")
+					config["texts_x"].append(0.52)
+					if len(weight_strings) > 1:
+						config["texts_y"].append(0.67)
+					else:
+						config["texts_y"].append(0.74)
 				config["texts_size"] = [0.055]
 				config["title"] = "channel_"+channel
 				
@@ -798,9 +809,13 @@ if __name__ == "__main__":
 			config["filename"] = "parabola_" + category + "_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
-			config["texts"] = [decayMode_dict[decayMode]["label"], weight_strings[int(weightBin)], "1#sigma", "2#sigma"]
-			config["texts_x"] = [0.38, 0.38, 0.98, 0.98]
-			config["texts_y"] = [0.86, 0.79, 0.23, 0.46]
+			config["texts"] = [decayMode_dict[decayMode]["label"], "1#sigma", "2#sigma"]
+			config["texts_x"] = [0.38, 0.98, 0.98]
+			config["texts_y"] = [0.86, 0.23, 0.46]
+			if (len(weight_strings)) > 1:
+				config["texts"].append(weight_strings[int(weightBin)])
+				config["texts_x"].append(0.38)
+				config["texts_y"].append(0.79)
 			config["texts_size"] = [0.035]
 			config["title"] = "channel_"+channel
 			if args.cms:

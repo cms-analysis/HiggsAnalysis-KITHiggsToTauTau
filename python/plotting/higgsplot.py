@@ -19,7 +19,8 @@ class HiggsPlotter(harry.HarryPlotter):
 		                                   n_processes=n_processes,
 		                                   n_plots=n_plots)
 	
-	def plot(self, harry_args):
+	def plot(self, plot_index):
+		harry_args = self.harry_args[plot_index]
 		parser = higgsparser.HiggsParser()
 		harry_core = harrycore.HarryCore(args_from_script=harry_args, parser=parser)
 		if not harry_args is None:
