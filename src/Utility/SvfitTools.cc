@@ -657,7 +657,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
                                     HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour)
 {
 	neededRecalculation = true;
-	if((cacheFileName != NULL) &&( SvfitTools::svfitCacheInputTreeIndices.find(cacheFileName) != SvfitTools::svfitCacheInputTreeIndices.end() ))
+	if ((cacheFileName != NULL) &&( SvfitTools::svfitCacheInputTreeIndices.find(cacheFileName) != SvfitTools::svfitCacheInputTreeIndices.end() ))
 	{
 		auto svfitCacheInputTreeIndicesItem = SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).find(svfitEventKey);
 		if (svfitCacheInputTreeIndicesItem != SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).end())
@@ -667,7 +667,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 			neededRecalculation = false;
 		}
 	}
-	if(neededRecalculation)
+	if (neededRecalculation)
 	{
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
 		{
@@ -684,12 +684,9 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 			svfitResults.at(cacheFileName).fromRecalculation();
 			return svfitResults.at(cacheFileName);
 		}
-	}
-	
-	if (neededRecalculation)
-	{
+		
 		// construct algorithm
-		if(! m_inputFile_visPtResolution)
+		if (! m_inputFile_visPtResolution)
 		{
 			TDirectory *savedir(gDirectory);
 			TFile *savefile(gFile);
