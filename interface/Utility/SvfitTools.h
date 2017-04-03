@@ -9,6 +9,7 @@
 #include <TMemFile.h>
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
+#include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneQuantities.h"
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 
