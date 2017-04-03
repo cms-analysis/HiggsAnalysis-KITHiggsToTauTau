@@ -44,13 +44,13 @@ class CutStringsDict:
 		elif channel == "mt":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
-			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016" else "(mt_1<30.0)" if cut_type == "mssm" else "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
+			cuts["mt"] = "(mt_1<40.0)" if "mssm2016" in cut_type else "(mt_1<30.0)" if "mssm" in cut_type else "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)" if "2016" in cut_type else "(iso_1 < 0.1)"
-			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "et":
 			if "mssm" in cut_type:
@@ -61,7 +61,7 @@ class CutStringsDict:
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
-			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "tt":
 			if "mssm" in cut_type:
@@ -81,11 +81,11 @@ class CutStringsDict:
 	def mssm2016(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		if channel == "mt":
-			cuts["mt"] = "(mt_1<70.0)" if cut_type == "mssm2016looseiso" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<40.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if not cut_type == "mssm2016looseiso" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["mt"] = "(mt_1<70.0)" if "mssm2016looseiso" in cut_type else "(mt_1>40.0)*(mt_1<70.0)" if "mssm2016loosemt" in cut_type else "(mt_1<40.0)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if not "mssm2016looseiso" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "et":
-			cuts["mt"] = "(mt_1<70.0)" if cut_type == "mssm2016looseiso" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<40.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if not cut_type == "mssm2016looseiso" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["mt"] = "(mt_1<70.0)" if "mssm2016looseiso" in cut_type else "(mt_1>40.0)*(mt_1<70.0)" if "mssm2016loosemt" in cut_type else "(mt_1<40.0)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if not "mssm2016looseiso" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)

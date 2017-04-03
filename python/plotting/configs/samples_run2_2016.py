@@ -872,6 +872,8 @@ class Samples(samples.SamplesBase):
 			high_mt_ss_cut_type = cut_type + "highMtSSControlRegionWJ"
 			exclude_cuts_high_mt = [cut for cut in exclude_cuts if cut not in ["mt"]]
 			exclude_cuts_high_mt_ss = copy.deepcopy(exclude_cuts_high_mt)+["os"]
+			exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)
+			exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts)+["os"]
 			
 			if "new" in estimationMethod:
 				wj_weight = weight
@@ -1246,7 +1248,7 @@ class Samples(samples.SamplesBase):
 						self.files_wj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type),
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive, cut_type=high_mt_cut_type),
 						"noplot_wj_mc_os_inclusive",
 						nick_suffix=nick_suffix
 				)
@@ -1256,7 +1258,7 @@ class Samples(samples.SamplesBase):
 							self.files_ewkw(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive, cut_type=high_mt_cut_type),
 							"noplot_wj_mc_os_inclusive",
 							nick_suffix=nick_suffix
 					)
@@ -1265,7 +1267,7 @@ class Samples(samples.SamplesBase):
 						self.files_wj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive_ss, cut_type=high_mt_ss_cut_type),
 						"noplot_wj_mc_ss_inclusive",
 						nick_suffix=nick_suffix
 				)
@@ -1275,7 +1277,7 @@ class Samples(samples.SamplesBase):
 							self.files_ewkw(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive_ss, cut_type=high_mt_ss_cut_type),
 							"noplot_wj_mc_ss_inclusive",
 							nick_suffix=nick_suffix
 					)
