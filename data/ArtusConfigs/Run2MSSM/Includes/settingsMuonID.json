@@ -12,7 +12,7 @@
 	"MuonID" : {
 		"nick" : {
 			"default" : "medium",
-			"Run2016(B|C|D|E|F)|Spring16" : "mediumHIPsafe2016"
+			"(Run|Embedding)2016(B|C|D|E|F)|Spring16" : "mediumHIPsafe2016"
 		}
 	},
 	
@@ -21,7 +21,7 @@
 	"MuonIsoTypeUserMode" : {
 		"nick" : {
 			"default" : "fromcmssw",
-			"(Spring16|Summer16|Run2016)" : "fromcmsswr04"
+			"(Spring16|Summer16|Run2016|Embedding2016)" : "fromcmsswr04"
 		}
 	},
 	
