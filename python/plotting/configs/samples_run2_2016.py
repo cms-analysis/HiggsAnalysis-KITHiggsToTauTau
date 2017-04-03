@@ -872,8 +872,8 @@ class Samples(samples.SamplesBase):
 			high_mt_ss_cut_type = cut_type + "highMtSSControlRegionWJ"
 			exclude_cuts_high_mt = [cut for cut in exclude_cuts if cut not in ["mt"]]
 			exclude_cuts_high_mt_ss = copy.deepcopy(exclude_cuts_high_mt)+["os"]
-			exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)
-			exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts)+["os"]
+			exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
+			exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
 			
 			if "new" in estimationMethod:
 				wj_weight = weight
