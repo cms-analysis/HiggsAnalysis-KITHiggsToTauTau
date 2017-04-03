@@ -79,7 +79,7 @@
 		"nick" : {
 			"default" : [
 				"#filter:RunLumiEventFilter",
-				"#filter:MetFilter",
+				"filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
@@ -90,7 +90,7 @@
 			],
 			"W.?JetsToLNu" : [
 				"#filter:RunLumiEventFilter",
-				"#filter:MetFilter",
+				"filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
@@ -104,7 +104,7 @@
 			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
-				"#filter:MetFilter",
+				"filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer",
@@ -119,14 +119,14 @@
 			],
 			"Run201" : [
 				"#filter:RunLumiEventFilter",
-				"#filter:MetFilter",
+				"filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:NicknameProducer"
 			],
 			"Embedding201" :
 			[
 				"#filter:RunLumiEventFilter",
-				"#filter:MetFilter",
+				"filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
