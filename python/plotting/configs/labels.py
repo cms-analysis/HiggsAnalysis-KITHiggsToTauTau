@@ -16,6 +16,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["totalbkg"] = "Exp. unc."
 			self.labels_dict["data"] = "Data"
 			self.labels_dict["zll"] = "Z #rightarrow ll"
+			self.labels_dict["zl"] = "Z #rightarrow ll (l #rightarrow #tau)"
+			self.labels_dict["zj"] = "Z #rightarrow ll (jet/pu #rightarrow #tau)"
 			self.labels_dict["zmm"] = "Z #rightarrow #mu#mu"
 			self.labels_dict["zee"] = "Z #rightarrow ee"
 			self.labels_dict["ztt"] = "Z #rightarrow #tau#tau"
@@ -1139,8 +1141,6 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["bbh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["bbh"]+" (\\times {scale:d})".format(scale=scale)
 
 		self.labels_dict["data_obs"] = "Observed"
-		self.labels_dict["zl"] = self.labels_dict["zll"]
-		self.labels_dict["zj"] = self.labels_dict["zll"]
 		self.labels_dict["ttj"] = self.labels_dict["tt"]
 		self.labels_dict["ttbar"] = self.labels_dict["tt"]
 		self.labels_dict["wjets"]  = self.labels_dict["wj"]
