@@ -17,13 +17,13 @@
 	"RefitVertices" : {
 		"nick": {
 			"default": "AdvancedRefittedVerticesNoBS",
-			"Fall15MiniAODv2": ""
+			"(Fall15MiniAODv2|Run2015)": ""
 		}
 	},
 	"RefitBSVertices" : {
 		"nick": {
 			"default": "AdvancedRefittedVerticesBS",
-			"Fall15MiniAODv2": ""
+			"(Fall15MiniAODv2|Run2015)": ""
 		}
 	},
 	"LheParticles" : {

@@ -1,0 +1,17 @@
+{
+	"TauPolarisationTmvaInputQuantities" : [
+		"visibleOverFullEnergySvfit_2:=TMath::Range(0,1,visibleOverFullEnergySvfit_2)",
+		"visibleOverFullEnergySvfit_1:=TMath::Range(0,1,visibleOverFullEnergySvfit_1)",
+		"rhoNeutralChargedAsymmetry_2:=TMath::Range(-1,1,rhoNeutralChargedAsymmetry_2)",
+		"decayMode_2:=TMath::Range(0,1,decayMode_2)",
+		"visibleToFullAngleSvfit_1:=TMath::Range(0,10,visibleToFullAngleSvfit_1)",
+		"visibleToFullAngleSvfit_2:=TMath::Range(0,10,visibleToFullAngleSvfit_2)",
+		"q_2:=q_2"
+	],
+	"TauPolarisationTmvaMethods" : [
+		"BDT"
+	],
+	"TauPolarisationTmvaWeights" : [
+		"/afs/cern.ch/user/m/mfackeld/public/mva_weights/thomas_outputs2017-03-10_23-21/training_BDT.weights.xml"
+	]
+}

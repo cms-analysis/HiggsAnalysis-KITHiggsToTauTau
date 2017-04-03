@@ -12,8 +12,11 @@ class CutStringsDict:
 	@staticmethod
 	def baseline(channel, cut_type):
 		cuts = {}
-		cuts["blind"] = "{blind}"
-		cuts["os"] = "((q_1*q_2)<0.0)"
+		if channel == "gen":
+			cuts ={}
+		else:
+			cuts["blind"] = "{blind}"
+			cuts["os"] = "((q_1*q_2)<0.0)"
 		
 		if channel == "mm":
 			if "mssm" in cut_type:
@@ -352,6 +355,9 @@ class CutStringsDict:
 	def tauescuts(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
+			if "2016" in cut_type:
+				cuts["mt"] = "(mt_1<30.0)"
+				cuts["iso_2"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			if not "2016" in cut_type:
 				# the cuts below lead to W+jets being estimated to zero
 				# with new background estimation technique
@@ -376,11 +382,35 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
+	
+	@staticmethod
+	def highMtControlRegionWJ(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1>70.0)" if "mssm" in cut_type or "2016" not in cut_type else "(mt_1>80.0)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
+	def highMtSSControlRegionWJ(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.highMtControlRegionWJ(channel, cut_type)
+			cuts["ss"] = "((q_1*q_2)>0.0)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
 
 	@staticmethod
 	def baseline_low_mvis(channel, cut_type):
-		cuts = CutStringsDict.baseline(channel, cut_type)
-		cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 80.0))"
+		if channel== "gen":
+			cuts = {}
+		else:
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 80.0))"
+
 		return cuts
 
 	@staticmethod
@@ -503,8 +533,12 @@ class CutStringsDict:
 			cuts = CutStringsDict.tauescuts(channel, cut_type)
 		elif cut_type=="tauescuts2016":
 			cuts = CutStringsDict.tauescuts(channel, cut_type)
-		elif cut_type=="relaxedETauMuTauWJ":
+		elif "relaxedETauMuTauWJ" in cut_type:
 			cuts = CutStringsDict.relaxedETauMuTauWJ(channel, cut_type)
+		elif "highMtControlRegionWJ" in cut_type:
+			cuts = CutStringsDict.highMtControlRegionWJ(channel, cut_type)
+		elif "highMtSSControlRegionWJ" in cut_type:
+			cuts = CutStringsDict.highMtSSControlRegionWJ(channel, cut_type)
 		
 		elif cut_type=="baseline_low_mvis":
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)

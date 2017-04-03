@@ -31,9 +31,17 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"] = "20,-1.00001,1.00001"
 			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "20,-1.00001,1.00001"
 			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_2"] = "20,-1.00001,1.00001"
-			self.binnings_dict[channel+"_visibleOverFullEnergy"] = "20,0.0,1.00001"
-			self.binnings_dict[channel+"_visibleOverFullEnergy_1"] = "20,0.0,1.00001"
-			self.binnings_dict[channel+"_visibleOverFullEnergy_2"] = "20,0.0,1.00001"
+			
+			for suffix in ["", "Svfit", "HHKinFit"]:
+				self.binnings_dict[channel+"_visibleOverFullEnergy"+suffix] = "20,0.0,1.00001"
+				self.binnings_dict[channel+"_visibleOverFullEnergy"+suffix+"_1"] = "20,0.0,1.00001"
+				self.binnings_dict[channel+"_visibleOverFullEnergy"+suffix+"_2"] = "20,0.0,1.00001"
+				
+				self.binnings_dict[channel+"_visibleToFullAngleSvfit"+suffix] = "20,0.0,0.1"
+				self.binnings_dict[channel+"_visibleToFullAngleSvfit"+suffix+"_1"] = "20,0.0,0.1"
+				self.binnings_dict[channel+"_visibleToFullAngleSvfit"+suffix+"_2"] = "20,0.0,0.1"
+				
+				self.binnings_dict[channel+"tauPolarisationDiscriminator"+suffix] = "20,-1.00001,1.00001"
 			
 			for i in range(16):
 				self.binnings_dict[channel+"_MVATestMethod_%i"%i] = "-1.0 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.75 1"
@@ -448,11 +456,9 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt8TeV_"+"tt_2jet_vbf"] = "0.0 20.0 40.0 60.0 80.0 100.0 120.0 140.0 160.0 180.0 200.0 250.0 300.0 350.0"
 		
 		# Z->tautau polarisation binnings
-		for channel in ["mt", "et", "tt"]:
+		for channel in ["mt", "et", "tt", "em"]:
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_a1"] = self.binnings_dict[channel+"_visibleOverFullEnergy"] # TODO change to dedicated a1 variable
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"]
-		
-		for channel in ["mt", "et", "tt", "em"]:
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong"] = self.binnings_dict[channel+"_visibleOverFullEnergy"]
 		
 		# H->tautau binnings

@@ -26,6 +26,7 @@ class DatacardConfigs(object):
 			"TTJL" : "ttjl",
 			"VV" : "vv",
 			"VVT" : "vvt",
+			"VVJ" : "vvj",
 			"VVL" : "vvl",
 			"W" : "wj",
 			"WJT" : "wjt",

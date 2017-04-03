@@ -747,7 +747,7 @@ class Datacards(object):
 				OUTPUT=os.path.splitext(datacard)[0]+".root"
 		) for datacard, cb in datacards_cbs.iteritems()]
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="text2workspace.py")
 
 		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_cbs.keys()}
 
@@ -824,7 +824,7 @@ class Datacards(object):
 						os.path.dirname(workspace)
 				] for datacard, workspace in datacards_workspaces.iteritems()])
 
-			tools.parallelize(_call_command, commands, n_processes=n_processes)
+			tools.parallelize(_call_command, commands, n_processes=n_processes, description="combine")
 			
 			if split_stat_syst_uncs and (split_stat_syst_uncs_index == 0):
 				# replace workspaces by saved versions from the first fit including the postfit nuisance parameter values
@@ -861,7 +861,7 @@ class Datacards(object):
 						ARGS=" ".join(args)
 				))
 		
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="annotate-trees.py")
 		return values_tree_files
 
 	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="x"):
@@ -884,7 +884,7 @@ class Datacards(object):
 			#		datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
 			#for datacard, cb in datacards_cbs.iteritems()})
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="hypoTestResultTree.cxx")
 
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH125_qmu.root") for datacard in datacards_cbs.keys()}
 
@@ -892,7 +892,7 @@ class Datacards(object):
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, *args):
 		commands = []
 		datacards_postfit_shapes = {}
-		fit_type_list = ["fit_s", "fit_b"]
+		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
 		if s_fit_only:
 			fit_type_list.remove("fit_b")
 
@@ -901,7 +901,7 @@ class Datacards(object):
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
 					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
-					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
 
@@ -909,14 +909,14 @@ class Datacards(object):
 					datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
 			for datacard, cb in datacards_cbs.iteritems()})
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="PostFitShapes")
 
 		return datacards_postfit_shapes
 
-	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args):
+	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args, **kwargs):
 		commands = []
 		datacards_postfit_shapes = {}
-		fit_type_list = ["fit_s", "fit_b"]
+		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
 		if s_fit_only:
 			fit_type_list.remove("fit_b")
 
@@ -926,7 +926,7 @@ class Datacards(object):
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
 					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
-					FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:"+fit_type),
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
 
@@ -934,7 +934,7 @@ class Datacards(object):
 					datacard : os.path.splitext(datacard)[0]+"_"+fit_type+".root"
 			for datacard, cb in datacards_cbs.iteritems()})
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="PostFitShapesFromWorkspace")
 
 		return datacards_postfit_shapes
 
@@ -962,19 +962,17 @@ class Datacards(object):
 							config["folders"] = [category+"_"+level]
 							config["x_expressions"] = [p.strip("_noplot") for p in stacked_processes] + ["TotalSig"] + ["data_obs", "TotalBkg"]
 							config["nicks"] = stacked_processes + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
-							config["stacks"] = (["stack"]*len(stacked_processes)) + ([] if signal_stacked_on_bkg else ["sig"]) + ["data", "bkg_unc"]
+							config["stacks"] = (["stack"]*len(stacked_processes)) + (["data"] if signal_stacked_on_bkg else ["sig", "data", "bkg_unc"])
 
-							config["labels"] = [label.lower() for label in stacked_processes + ([] if signal_stacked_on_bkg else ["TotalSig"]) + ["data_obs", "TotalBkg"]]
-							config["colors"] = [color.lower() for color in stacked_processes + ([] if signal_stacked_on_bkg else ["TotalSig"]) + ["data_obs", "TotalBkg"]]
-							config["markers"] = (["HIST"]*len(stacked_processes)) + ([] if signal_stacked_on_bkg else ["LINE"]) + ["E", "E2"]
-							config["legend_markers"] = (["F"]*len(stacked_processes)) + ([] if signal_stacked_on_bkg else ["L"]) + ["ELP", "F"]
+							config["labels"] = [label.lower() for label in stacked_processes + (["data_obs"] if signal_stacked_on_bkg else ["TotalSig", "data_obs", "TotalBkg"])]
+							config["colors"] = [color.lower() for color in stacked_processes + (["data_obs"] if signal_stacked_on_bkg else ["TotalSig", "data_obs", "TotalBkg"])]
+							config["markers"] = (["HIST"]*len(stacked_processes)) + (["E"] if signal_stacked_on_bkg else ["LINE", "E", "E2"])
+							config["legend_markers"] = (["F"]*len(stacked_processes)) + (["ELP"] if signal_stacked_on_bkg else ["L", "ELP", "F"])
 
 							config["x_label"] = category.split("_")[0]+"_"+plotting_args.get("x_expressions", None)
 							config["title"] = "channel_"+category.split("_")[0]
 							config["energies"] = [13.0]
 							config["lumis"] = [float("%.1f" % plotting_args.get("lumi", 1.0))]
-							config["cms"] = [True]
-							config["extra_text"] = "Preliminary"
 							if plotting_args.get("era", False):
 								config["year"] = plotting_args.get("era")
 							config["legend"] = [0.7, 0.6, 0.9, 0.88]
@@ -1025,7 +1023,7 @@ class Datacards(object):
 		# create result plots HarryPlotter
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
-	def print_pulls(self, datacards_cbs, n_processes=1, *args):
+	def print_pulls(self, datacards_cbs, n_processes=1, *args, **kwargs):
 		commands = []
 		for pulls_format, file_format in zip(["latex", "text"], ["tex", "txt"]):
 			for all_nuissances in [False, True]:
@@ -1035,13 +1033,13 @@ class Datacards(object):
 								ALL=("-a" if all_nuissances else ""),
 								PLOT="-g "+("" if all_nuissances else "largest_")+"pulls.root",
 								ARGS=" ".join(args),
-								FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root"),
+								FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")),
 								LOG_FILE=("" if all_nuissances else "largest_")+"pulls."+file_format
 						),
 						os.path.dirname(datacard)
 				] for datacard in datacards_cbs.keys()])
 
-		tools.parallelize(_call_command, commands, n_processes=n_processes)
+		tools.parallelize(_call_command, commands, n_processes=n_processes, description="diffNuisances.py")
 
 	def pull_plots(self, datacards_postfit_shapes, s_fit_only=False, plotting_args=None, n_processes=1, *args):
 		if plotting_args is None:
@@ -1131,10 +1129,10 @@ class Datacards(object):
 				os.path.dirname(workspace)
 		] for datacard, workspace in datacards_workspaces.iteritems()])
 
-		tools.parallelize(_call_command, commandsInitialFit, n_processes=n_processes)
-		tools.parallelize(_call_command, commandsFits, n_processes=1)
-		tools.parallelize(_call_command, commandsOutput, n_processes=1)
-		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes)
+		tools.parallelize(_call_command, commandsInitialFit, n_processes=n_processes, description="combineTool.py (initial fits)")
+		tools.parallelize(_call_command, commandsFits, n_processes=1, description="combineTool.py (fits)")
+		tools.parallelize(_call_command, commandsOutput, n_processes=1, description="combineTool.py (outputs)")
+		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes, description="combineTool.py (plots)")
 
 	def auto_rebin(self, bin_threshold = 1.0, rebin_mode = 0):
 		rebin = ch.AutoRebin()
