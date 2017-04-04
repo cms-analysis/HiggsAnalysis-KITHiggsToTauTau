@@ -190,10 +190,10 @@ class CategoriesDict(object):
 						"catHtt13TeV_"
 						],
 					"global":"(1.0)",
-					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
-					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
-					"em_":"(pt_2>15)*(nbtag==0)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
-					"tt_":"((njetspt30==1)||(njetspt30>=2&&!(jdeta>2.5&&njetingap<1&&H_pt>100)))"
+					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&pt_2<=40)||(njetspt30>1&&H_pt<=50))",
+					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&H_pt<=50))",
+					"em_":"(pt_2>15)*(nbtag==0)*((njetspt30==1)||(njetspt30>1&&mjj<300))",
+					"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&njetingap<1&&H_pt>100)))"
 					},
 				"binnings":{
 					"analysis": [
@@ -234,10 +234,10 @@ class CategoriesDict(object):
 						"catHtt13TeV_"
 						],
 					"global":"(1.0)",
-					"mt_":"(pt_2>30)*(njetspt30==2&&mjj>300)",
-					"et_":"(pt_2>30)*(njetspt30==2&&mjj>300)",
-					"em_":"(pt_2>15)*(nbtag==0)*(pZetaMissVis>-10)*(njetspt30==2&&mjj>300)",
-					"tt_":"(njetspt30>=2&&jdeta>2.5&&njetingap<1&&H_pt>100)"
+					"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
+					"et_":"(pt_2>30)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
+					"em_":"(pt_2>15)*(nbtag==0)*(pZetaMissVis>-10)*(njetspt30>1)*(mjj>=300)",
+					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>100)"
 					},
 				"binnings":{
 					"analysis": [
