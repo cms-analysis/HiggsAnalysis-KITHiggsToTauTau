@@ -146,6 +146,12 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusivemt40"] = "(1.0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_nobtag"] = "(nbtag==0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"] = "(njets<=1)*(nbtag>=1)"
+		for channel in ["et","mt"]:
+			for cat in ["_nobtag","_btag"]:
+				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_tight"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
+				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_loosemt"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
+				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_looseiso"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
+
 		for channel in ["et","mt","tt"]:
 			pt_var = "pt_2" if channel in ["mt", "et"] else "pt_1"
 			pt_cut_nobtag_high = "60.0" if channel in ["mt", "et"] else "80.0"

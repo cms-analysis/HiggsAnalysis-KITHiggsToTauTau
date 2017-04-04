@@ -44,7 +44,7 @@ void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, produc
 	if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[1];
-		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
+		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
 
 		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU)))
 		{
@@ -61,7 +61,7 @@ void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, produc
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[1];
-		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
+		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
 
 		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU)))
 		{
@@ -80,7 +80,7 @@ void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, produc
 		for (int index = 0; index < 2; index++)
 		{
 			KLepton* lepton = product.m_flavourOrderedLeptons[index];
-			KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus);
+			KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
 
 			if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU)))
 			{

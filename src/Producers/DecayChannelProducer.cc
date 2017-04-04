@@ -280,11 +280,11 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Dz", [](event_type const& event, product_type const& product)
 	{
-		return product.m_flavourOrderedLeptons.at(0)->track.getDz(&event.m_vertexSummary->pv);
+		return product.m_flavourOrderedLeptons.at(0)->dz;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0", [](event_type const& event, product_type const& product)
 	{
-		return product.m_flavourOrderedLeptons.at(0)->track.getDxy(&event.m_vertexSummary->pv);
+		return product.m_flavourOrderedLeptons.at(0)->dxy;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Pt", [](event_type const& event, product_type const& product)
 	{
@@ -436,11 +436,11 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Dz", [](event_type const& event, product_type const& product)
 	{
-		return product.m_flavourOrderedLeptons.at(1)->track.getDz(&event.m_vertexSummary->pv);
+		return product.m_flavourOrderedLeptons.at(1)->dz;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0", [](event_type const& event, product_type const& product)
 	{
-		return product.m_flavourOrderedLeptons.at(1)->track.getDxy(&event.m_vertexSummary->pv);
+		return product.m_flavourOrderedLeptons.at(1)->dxy;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Pt", [](event_type const& event, product_type const& product)
 	{
@@ -562,10 +562,19 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	tauDiscriminators.push_back("againstMuonLoose3");
 	tauDiscriminators.push_back("againstMuonTight3");
 	tauDiscriminators.push_back("byIsolationMVArun2v1DBoldDMwLTraw");
+	tauDiscriminators.push_back("byVLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byMediumIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byTightIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byVTightIsolationMVArun2v1DBoldDMwLT");
+	tauDiscriminators.push_back("byVVTightIsolationMVArun2v1DBoldDMwLT");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1raw");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Loose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Medium");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Tight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
 	tauDiscriminators.push_back("chargedIsoPtSum");
 	tauDiscriminators.push_back("decayModeFinding");
 	tauDiscriminators.push_back("decayModeFindingNewDMs");
@@ -769,7 +778,7 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
 	{
 		product.m_ptOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_ptOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_ptOrderedGenLeptons.back()));
 	}
@@ -779,7 +788,7 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
 		product.m_flavourOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_flavourOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_flavourOrderedGenLeptons.back()));
 	}
@@ -789,7 +798,7 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	     lepton != product.m_chargeOrderedLeptons.end(); ++lepton)
 	{
 		product.m_chargeOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedTaus
+				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_chargeOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_chargeOrderedGenLeptons.back()));
 	}
@@ -878,22 +887,12 @@ void Run2DecayChannelProducer::Init(setting_type const& settings)
 	// For taus in Run2 we use dz saved in the KTau
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Dz", [](event_type const& event, product_type const& product)
 	{
-		if(product.m_flavourOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU)
-		{
-			KTau* tau = dynamic_cast<KTau*>(product.m_flavourOrderedLeptons.at(0));
-			return tau->dz;
-		}
-		return product.m_flavourOrderedLeptons.at(0)->track.getDz(&event.m_vertexSummary->pv);
+		return product.m_flavourOrderedLeptons.at(0)->dz;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2Dz", [](event_type const& event, product_type const& product)
 	{
-		if(product.m_flavourOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU)
-		{
-			KTau* tau = dynamic_cast<KTau*>(product.m_flavourOrderedLeptons.at(1));
-			return tau->dz;
-		}
-		return product.m_flavourOrderedLeptons.at(1)->track.getDz(&event.m_vertexSummary->pv);
+		return product.m_flavourOrderedLeptons.at(1)->dz;
 	});
 }
 
@@ -1033,14 +1032,13 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	// set boolean veto variables
 	product.m_extraElecVeto = (looseElectrons.size() > 0);
 	product.m_extraMuonVeto = (looseMuons.size() > 0);
-	if ((m_decayChannel == HttEnumTypes::DecayChannel::TT) || (m_decayChannel == HttEnumTypes::DecayChannel::ET))
+	if ((m_decayChannel == HttEnumTypes::DecayChannel::TT) || (m_decayChannel == HttEnumTypes::DecayChannel::ET) || (m_decayChannel == HttEnumTypes::DecayChannel::EE))
 	{
 		product.m_extraMuonVeto = (product.m_validLooseMuons.size() > 0);
 	}
-	if ((m_decayChannel == HttEnumTypes::DecayChannel::TT) || (m_decayChannel == HttEnumTypes::DecayChannel::MT))
+	if ((m_decayChannel == HttEnumTypes::DecayChannel::TT) || (m_decayChannel == HttEnumTypes::DecayChannel::MT) || (m_decayChannel == HttEnumTypes::DecayChannel::MM))
 	{
 		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > 0);
 	}
-	
 	FillGenLeptonCollections(product);
 }

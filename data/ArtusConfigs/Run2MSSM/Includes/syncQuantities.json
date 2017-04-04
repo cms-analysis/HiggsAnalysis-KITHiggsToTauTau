@@ -132,6 +132,7 @@
 		"#mva_gf",
 		"#mva_vbf",
 		"trigweight_1",
+		"idisoweight_1",
 		"chargedIsoPtSum_1",
 		"neutralIsoPtSum_1",
 		"puCorrPtSum_1",
@@ -144,6 +145,7 @@
 		"byMediumIsolationMVArun2v1DBoldDMwLT_1", "byTightIsolationMVArun2v1DBoldDMwLT_1", "byVTightIsolationMVArun2v1DBoldDMwLT_1",
 		"decayModeFinding_1", "decayModeFindingNewDMs_1",
 		"trigweight_2",
+		"idisoweight_2",
 		"chargedIsoPtSum_2",
 		"neutralIsoPtSum_2",
 		"puCorrPtSum_2",
@@ -180,6 +182,11 @@
 		"trg_singlemuon",
 		"trg_doubletau",
 		"trg_singletau",
-		"trg_muonelectron"
+		"trg_muonelectron",
+		"#uncorrmet",
+		"#genpX",
+		"#genpY",
+		"#vispX",
+		"#vispY"
 	]
 }

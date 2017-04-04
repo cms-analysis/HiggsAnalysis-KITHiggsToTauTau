@@ -1,1 +1,1 @@
-DCAP_sample_SingleElectron_Run2016H_PromptRecov2_13TeV_MINIAOD_2016-11-23.txt
+2017/HiggsToTauTau_Data_Summer16JEC_version_20_02_2017/SingleElectron_Run2016H_PromptRecov2_13TeV_MINIAOD.txt

@@ -24,7 +24,7 @@ class HiggsPlotter(harry.HarryPlotter):
 		parser = higgsparser.HiggsParser()
 		harry_core = harrycore.HarryCore(args_from_script=harry_args, parser=parser)
 		if not harry_args is None:
-			log.debug("higgsplot.py " + harry_args)
+			log.debug("higgsplot.py " + str(harry_args))
 		
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/input_modules")
 		harry_core.register_modules_dir("$CMSSW_BASE/python/HiggsAnalysis/KITHiggsToTauTau/plotting/modules/analysis_modules")

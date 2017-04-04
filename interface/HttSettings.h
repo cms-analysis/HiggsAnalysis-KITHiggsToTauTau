@@ -333,6 +333,9 @@ public:
 	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightVLoose);
 	IMPL_SETTING_FLOATLIST(SimpleEleTauFakeRateWeightTight);
 
+	// settings for MetFilter
+	IMPL_SETTING_STRINGLIST_DEFAULT(MetFilter, {});
+
 	// settings for ZPtReweightProducer
 	IMPL_SETTING(std::string, ZptReweightProducerWeights);
 

@@ -12,7 +12,7 @@
 	"LooseMuonID" : {
 		"nick" : {
 			"default" : "medium",
-			"Run2016(B|C|D|E|F)|Spring16" : "mediumHIPsafe2016"
+			"(Run|Embedding)2016(B|C|D|E|F)|Spring16" : "mediumHIPsafe2016"
 		}
 	},
 
