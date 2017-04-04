@@ -20,6 +20,7 @@
 	"VetoElectronUpperAbsEtaCuts" : [
 		"2.5"
 	],
+	"DiVetoElectronMinDeltaRCut" : "0.15",
 	"DiVetoElectronVetoMode" : "veto_os_keep_ss",
 	"DirectIso" : true
 }

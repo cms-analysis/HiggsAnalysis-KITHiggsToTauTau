@@ -126,7 +126,7 @@
 			"Embedding201" :
 			[
 				"#filter:RunLumiEventFilter",
-				"filter:MetFilter",
+				"#filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
