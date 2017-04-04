@@ -60,7 +60,7 @@ if __name__ == "__main__":
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
-	parser.add_argument("-b", "--background-method", default="classic",
+	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
@@ -231,10 +231,15 @@ if __name__ == "__main__":
 					if "ZeroJet2D" in category:
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
-						if channel != "tt":
+						if channel in ["mt", "et"]:
+							config["y_expressions"] = ["decayMode_2"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
+							config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
+							config["texts_x"] = [0.25, 0.5, 0.7]
+						elif channel == "em":
 							config["y_expressions"] = ["pt_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
-							config["texts"] = list((("p_{T}^{#mu} < " if channel == "em" else "p_{T}^{#tau} < ") + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+							config["texts"] = list(("p_{T}^{#mu} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
 							config["texts_x"] = [0.25, 0.37, 0.50, 0.64, 0.77, 0.89]
 					elif "Boosted2D" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]

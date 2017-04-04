@@ -157,14 +157,15 @@ class CategoriesDict(object):
 					"global": {
 						"_pt_2": auto_rebin_binning,
 						"_m_vis": auto_rebin_binning,
-						"_m_sv": auto_rebin_binning
+						"_m_sv": auto_rebin_binning,
+						"_decayMode_2": auto_rebin_binning
 						},
 					"mt_" : {
-						"_pt_2" : " ".join([str(float(f)) for f in range(30, 55, 5)+range(55,301,245)]),
+						"_decayMode_2" : "0 1 10",
 						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
 						},
 					"et_" : {
-						"_pt_2" : " ".join([str(float(f)) for f in range(30, 55, 5)+range(55,301,245)]),
+						"_decayMode_2" : "0 1 10",
 						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
 						},
 					"em_" : {
