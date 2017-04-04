@@ -611,14 +611,14 @@ if __name__ == "__main__":
 				config["texts"] = [decayMode_dict[decayMode]["label"]]
 				config["texts_x"] = [0.52]
 				config["texts_y"] = [0.81]
-				if len(weight_strings) > 1:
+				if weightBin > 0:
 					config["texts"].append(weight_strings[weightBin])
 					config["texts_x"].append(0.52)
 					config["texts_y"].append(0.74)
 				if args.plot_with_shift:
 					config["texts"].append("#tau_{h} ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%")
 					config["texts_x"].append(0.52)
-					if len(weight_strings) > 1:
+					if weightBin > 0:
 						config["texts_y"].append(0.67)
 					else:
 						config["texts_y"].append(0.74)
@@ -812,7 +812,7 @@ if __name__ == "__main__":
 			config["texts"] = [decayMode_dict[decayMode]["label"], "1#sigma", "2#sigma"]
 			config["texts_x"] = [0.38, 0.98, 0.98]
 			config["texts_y"] = [0.86, 0.23, 0.46]
-			if (len(weight_strings)) > 1:
+			if int(weightBin) > 0:
 				config["texts"].append(weight_strings[int(weightBin)])
 				config["texts_x"].append(0.38)
 				config["texts_y"].append(0.79)
