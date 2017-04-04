@@ -24,7 +24,7 @@ class CutStringsDict:
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
-			cuts["m_vis"] = "(m_vis > 60.0)*(m_vis < 120.0)"
+			cuts["m_vis"] = "(m_vis > 70.0)*(m_vis < 110.0)"
 		elif channel == "ee":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singleelectron == 1)"
@@ -377,7 +377,7 @@ class CutStringsDict:
 		elif channel in ["em"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["iso_1"] = "(iso_1 < 0.3)"
-			cuts["iso_2"] = "(iso_1 < 0.3)"
+			cuts["iso_2"] = "(iso_2 < 0.3)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
