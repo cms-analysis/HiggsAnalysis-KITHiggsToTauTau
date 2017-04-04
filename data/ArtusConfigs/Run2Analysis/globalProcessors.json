@@ -6,6 +6,7 @@
 			"default" :
 			[
 				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
@@ -23,6 +24,7 @@
 			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets|^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)|SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" :
 			[
 				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
 				"producer:GenBosonFromGenParticlesProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:ValidGenTausProducer",
@@ -44,6 +46,7 @@
 			"Run201" :
 			[
 				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
 				"filter:JsonFilter",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer"
@@ -51,6 +54,7 @@
 			"Embedding201" :
 			[
 				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
@@ -67,6 +71,7 @@
 			"EmbeddingMC" :
 			[
 				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
 				"#filter:JsonFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
