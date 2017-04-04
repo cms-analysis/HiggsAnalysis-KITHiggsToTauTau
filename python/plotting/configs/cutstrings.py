@@ -44,6 +44,8 @@ class CutStringsDict:
 		elif channel == "mt":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
+			elif "smhtt2016" in cut_type:
+				cuts["trg"] = "((trg_mutaucross == 1)*(pt_1 > 20)*(pt_2 <= 23)+(trg_singlemuon == 1)*(pt_1 > 23))"
 			cuts["mt"] = "(mt_1<40.0)" if "mssm2016" in cut_type else "(mt_1<30.0)" if "mssm" in cut_type else "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
@@ -471,6 +473,8 @@ class CutStringsDict:
 		if cut_type=="baseline":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="baseline2016":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+		elif cut_type=="smhtt2016":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type)

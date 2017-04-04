@@ -25,8 +25,12 @@
 					"HLT_IsoMu18"
 				],
 				"Run2016|Summer16" : [
-					"HLT_IsoMu24",
-					"HLT_IsoTkMu24"
+					"HLT_IsoMu22",
+					"HLT_IsoTkMu22",
+					"HLT_IsoMu22_eta2p1",
+					"HLT_IsoTkMu22_eta2p1",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1"
 				],
 				"Spring16|Embedding(2016|MC)" : [
 					""
@@ -45,25 +49,18 @@
 		"MuonLowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"25.0"
+					"20.0"
 				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"19.0"
 				]
 			}
 		},
-		"MuonUpperAbsEtaCuts" : {
-			"nick" : {
-				"default" : [
-					"2.4"
-				],
-				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
-					"2.1"
-				]
-			}
-		},
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
 		"TauLowerPtCuts" : [
-			"20.0"
+			"30.0"
 		],
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
@@ -92,8 +89,12 @@
 					"HLT_IsoMu18_v"
 				],
 				"Run2016|Summer16|Embedding(2016|MC)" : [
-					"HLT_IsoMu24_v",
-					"HLT_IsoTkMu24_v"
+					"HLT_IsoMu22_v",
+					"HLT_IsoTkMu22_v",
+					"HLT_IsoMu22_eta2p1_v",
+					"HLT_IsoTkMu22_eta2p1_v",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
 				]
 			}
 		},
@@ -102,6 +103,51 @@
 				"default" : false,
 				"Spring16" : true,
 				"Embedding(2016|MC)": true
+			}
+		},
+		"DiTauPairHLTLast" : {
+			"nick" : {
+				"default" : false,
+				"Run2016|Summer16|Embedding(2016|MC)" : true
+			}
+		},
+		"HLTBranchNames" : {
+			"nick" : {
+				"Run2016|Summer16|Embedding(2016|MC)" : [
+					"trg_singlemuon:HLT_IsoMu22_v",
+					"trg_singlemuon:HLT_IsoTkMu22_v",
+					"trg_singlemuon:HLT_IsoMu22_eta2p1_v",
+					"trg_singlemuon:HLT_IsoTkMu22_eta2p1_v",
+					"trg_mutaucross:HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
+					"trg_mutaucross:HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
+				]
+			}
+		},
+		"MuonTriggerFilterNames" : {
+			"nick" : {
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
+					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
+				],
+				"Run2016|Summer16|Embedding(2016|MC)" : [
+					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09",
+					"HLT_IsoMu22_eta2p1_v:hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+					"HLT_IsoTkMu22_eta2p1_v:hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu18erTauJet20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+				]
+			}
+		},
+		"TauTriggerFilterNames" : {
+			"nick" : {
+				"Run2016|Summer16|Embedding(2016|MC)" : [
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltPFTau20TrackLooseIsoAgainstMuon",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+				]
 			}
 		},
 		"EventWeight" : "eventWeight",
@@ -120,13 +166,13 @@
 		],
 		"TriggerEfficiencyData" : {
 			"nick" : { 
-				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_IsoMu24_OR_TkIsoMu24_2016BtoH_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu22OR_eta2p1_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
 			}
 		},
 		"TriggerEfficiencyMc" : {
 			"nick" : {
-				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu24_OR_TkIsoMu24_2016BtoH_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu22OR_eta2p1_eff.root"],
 				"Spring16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"]
 			}
@@ -149,17 +195,6 @@
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
 		],
 		"TauTauRestFrameReco" : "collinear_approximation",
-		"MuonTriggerFilterNames" : {
-			"nick" : {
-				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
-					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
-				],
-				"Run2016|Summer16|Embedding(2016|MC)" : [
-					"HLT_IsoMu24_v:hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09",
-					"HLT_IsoTkMu24_v:hltL3fL1sMu22L1f0Tkf24QL3trkIsoFiltered0p09"
-				]
-			}
-		},
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : true,
 		"InvalidateNonMatchingTaus" : true,
@@ -180,7 +215,9 @@
 			"nLooseElectrons",
 			"nLooseMuons",
 			"nDiTauPairCandidates",
-			"nAllDiTauPairCandidates"
+			"nAllDiTauPairCandidates",
+			"trg_singlemuon",
+			"trg_mutaucross"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {

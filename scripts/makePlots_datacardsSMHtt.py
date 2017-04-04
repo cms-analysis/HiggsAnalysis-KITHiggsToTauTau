@@ -204,7 +204,7 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="baseline2016" if args.era == "2016" else "baseline",
+							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method
 					)
 					
