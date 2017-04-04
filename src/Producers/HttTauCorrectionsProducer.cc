@@ -46,7 +46,22 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	}
 	else if (tauEnergyCorrection == TauEnergyCorrection::NEWTAUID)
 	{
-	        tau->p4 = tau->p4 * (1.01);
+		tau->p4 = tau->p4 * (1.01);
+	}
+	else if (tauEnergyCorrection == TauEnergyCorrection::SMHTT2016)
+	{
+		if (tau->decayMode == 0)
+		{
+			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProng();
+		}
+		else if (tau->decayMode == 1 || tau->decayMode == 2)
+		{
+			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
+		}
+		else if (tau->decayMode == 10)
+		{
+			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
+		}
 	}
 	else if (tauEnergyCorrection != TauEnergyCorrection::NONE)
 	{

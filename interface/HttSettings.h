@@ -187,6 +187,9 @@ public:
 	IMPL_SETTING_DEFAULT(float, MuonEnergyCorrectionShift, 1.0);
 	IMPL_SETTING_DEFAULT(std::string, TauEnergyCorrection, "none");
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProng, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngPiZeros, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionThreeProng, 1.0);
 
 	IMPL_SETTING(float, RecoMuonInElectronConeLowerPtCut);
 	IMPL_SETTING(float, RecoMuonInElectronConeUpperAbsEtaCut);

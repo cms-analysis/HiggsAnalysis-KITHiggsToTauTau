@@ -20,13 +20,14 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV|W.?JetsToLNu).*(?=Fall15)" : 1.03,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16|Summer16|Embedding2016)" : 1.03
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16|Embedding2016)" : 1.03,
+				"Summer16" : 1.012
 			}
 		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncNom_tauEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets" : "jecUncNom_tauEsUp"
+		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16" : "jecUncNom_tauEsUp"
             }
         }
 	},
@@ -41,13 +42,14 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV|W.?JetsToLNu).*(?=Fall15)" : 0.97,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16|Summer16|Embedding2016)" : 0.97
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Spring16|Embedding2016)" : 0.97,
+				"Summer16" : 0.988
 			}
 		},
 		"SvfitCacheFileFolder" : {
 		    "nick" : {
 		        "default" : "jecUncNom_tauEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets" : "jecUncNom_tauEsDown"
+		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16" : "jecUncNom_tauEsDown"
             }
         }
 	},

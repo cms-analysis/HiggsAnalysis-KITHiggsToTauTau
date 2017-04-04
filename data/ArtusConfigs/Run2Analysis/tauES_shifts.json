@@ -6,7 +6,8 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Embedding2016" : 1.03
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Embedding2016" : 1.03,
+				"Summer16" : 1.012
 			}
 		}
 	},
@@ -14,7 +15,8 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Embedding2016" : 0.97
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Embedding2016" : 0.97,
+				"Summer16" : 0.988
 			}
 		}
 	}

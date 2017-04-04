@@ -1,7 +1,11 @@
 {
 	"TauEnergyCorrection" : {
 		"nick" : {
-			"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|Run2015" : "none"
+			"default" : "none",
+			"Summer16" : "smhtt2016"
 		}
-	}
+	},
+	"TauEnergyCorrectionOneProng" : 0.982,
+	"TauEnergyCorrectionOneProngPiZeros" : 1.01,
+	"TauEnergyCorrectionThreeProng" : 1.004
 }
