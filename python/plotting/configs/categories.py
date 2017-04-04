@@ -148,7 +148,7 @@ class CategoriesDict(object):
 					"global":jet0_string,
 					"mt_":"(pt_2>30)",
 					"et_":"(pt_2>30)",
-					"em_":"(pt_2>15)"
+					"em_":"(pt_2>15)*(nbtag==0)"
 					},
 				"binnings":{
 					"analysis": [
@@ -192,7 +192,7 @@ class CategoriesDict(object):
 					"global":"(1.0)",
 					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
 					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
-					"em_":"(pt_2>15)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
+					"em_":"(pt_2>15)*(nbtag==0)*((njetspt30==1)||(njetspt30==2&&mjj<300)||(njetspt30>2))",
 					"tt_":"((njetspt30==1)||(njetspt30>=2&&!(jdeta>2.5&&njetingap<1&&H_pt>100)))"
 					},
 				"binnings":{
@@ -236,7 +236,7 @@ class CategoriesDict(object):
 					"global":"(1.0)",
 					"mt_":"(pt_2>30)*(njetspt30==2&&mjj>300)",
 					"et_":"(pt_2>30)*(njetspt30==2&&mjj>300)",
-					"em_":"(pt_2>15)*(pZetaMissVis>-10)*(njetspt30==2&&mjj>300)",
+					"em_":"(pt_2>15)*(nbtag==0)*(pZetaMissVis>-10)*(njetspt30==2&&mjj>300)",
 					"tt_":"(njetspt30>=2&&jdeta>2.5&&njetingap<1&&H_pt>100)"
 					},
 				"binnings":{
