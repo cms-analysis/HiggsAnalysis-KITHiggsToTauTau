@@ -25,7 +25,8 @@ public:
 	typedef typename HttTypes::setting_type setting_type;
 
 	RooWorkspaceWeightProducer();
-	RooWorkspaceWeightProducer(std::string (setting_type::*GetRooWorkspace)(void) const,
+	RooWorkspaceWeightProducer(bool (setting_type::*GetSaveRooWorkspaceTriggerWeightAsOptionalOnly)(void) const,
+							   std::string (setting_type::*GetRooWorkspace)(void) const,
 							   std::vector<std::string>& (setting_type::*GetRooWorkspaceWeightNames)(void) const,
 							   std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectNames)(void) const,
 							   std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectArguments)(void) const);
@@ -39,16 +40,18 @@ public:
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override;
 private:
+	bool (setting_type::*GetSaveRooWorkspaceTriggerWeightAsOptionalOnly)(void) const;
 	std::string (setting_type::*GetRooWorkspace)(void) const;
 	std::vector<std::string>& (setting_type::*GetRooWorkspaceWeightNames)(void) const;
 	std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectNames)(void) const;
 	std::vector<std::string>& (setting_type::*GetRooWorkspaceObjectArguments)(void) const;
 
 protected:
-    std::map<int,std::vector<std::string>> m_weightNames;
-    std::map<int,std::vector<std::string>> m_functorArgs;
-    std::map<int,std::vector<RooFunctor*>> m_functors;
-    RooWorkspace *m_workspace;
+	bool m_saveTriggerWeightAsOptionalOnly;
+	std::map<int,std::vector<std::string>> m_weightNames;
+	std::map<int,std::vector<std::string>> m_functorArgs;
+	std::map<int,std::vector<RooFunctor*>> m_functors;
+	RooWorkspace *m_workspace;
 
 };
 
@@ -61,7 +64,7 @@ public:
 	}
 
 	virtual void Produce(event_type const& event, product_type & product,
-	                     setting_type const& settings) const override;
+						 setting_type const& settings) const override;
 };
 
 class TauTauTriggerWeightProducer: public RooWorkspaceWeightProducer {
@@ -70,6 +73,18 @@ public:
 
 	virtual std::string GetProducerId() const override {
 		return "TauTauTriggerWeightProducer";
+	}
+
+	virtual void Produce(event_type const& event, product_type & product,
+						 setting_type const& settings) const override;
+};
+
+class MuTauTriggerWeightProducer: public RooWorkspaceWeightProducer {
+public:
+	MuTauTriggerWeightProducer();
+
+	virtual std::string GetProducerId() const override {
+		return "MuTauTriggerWeightProducer";
 	}
 
 	virtual void Produce(event_type const& event, product_type & product,

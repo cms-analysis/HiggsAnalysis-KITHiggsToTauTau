@@ -291,22 +291,32 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(ProbeLeptonTriggerFilterNames, {});
 
 	// settings for RooWorkspaceWeightProducer
+	IMPL_SETTING_DEFAULT(bool, SaveRooWorkspaceTriggerWeightAsOptionalOnly, false);
 	IMPL_SETTING_DEFAULT(std::string, RooWorkspace, "");
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceWeightNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceObjectArguments, {});
 
 	// settings for MuMuTriggerWeightProducer
+	IMPL_SETTING_DEFAULT(bool, SaveMuMuTriggerWeightAsOptionalOnly, false);
 	IMPL_SETTING_DEFAULT(std::string, MuMuTriggerWeightWorkspace, "");
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuMuTriggerWeightWorkspaceWeightNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuMuTriggerWeightWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuMuTriggerWeightWorkspaceObjectArguments, {});
 
 	// settings for TauTauTriggerWeightProducer
+	IMPL_SETTING_DEFAULT(bool, SaveTauTauTriggerWeightAsOptionalOnly, false);
 	IMPL_SETTING_DEFAULT(std::string, TauTauTriggerWeightWorkspace, "");
 	IMPL_SETTING_STRINGLIST_DEFAULT(TauTauTriggerWeightWorkspaceWeightNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(TauTauTriggerWeightWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(TauTauTriggerWeightWorkspaceObjectArguments, {});
+
+	// settings for MuTauTriggerWeightProducer
+	IMPL_SETTING_DEFAULT(bool, SaveMuTauTriggerWeightAsOptionalOnly, false);
+	IMPL_SETTING_DEFAULT(std::string, MuTauTriggerWeightWorkspace, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(MuTauTriggerWeightWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(MuTauTriggerWeightWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(MuTauTriggerWeightWorkspaceObjectArguments, {});
 
 	// settings for the EmbeddingConsumer
 	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
