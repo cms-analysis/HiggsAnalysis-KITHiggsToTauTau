@@ -151,18 +151,34 @@
 			}
 		},
 		"EventWeight" : "eventWeight",
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"SaveRooWorkspaceTriggerWeightAsOptionalOnly" : "true",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
 		"RooWorkspaceWeightNames" : [
-			"0:triggerWeight",
+			"0:triggerWeight_singleMu",
 			"0:idIsoWeight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:m_trgIsoMu22orTkIsoMu22_desy_data",
+			"0:m_trgMu22OR_eta2p1_desy_ratio",
 			"0:m_idiso0p15_desy_ratio"
+
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:m_pt,m_eta",
 			"0:m_pt,m_eta"
+		],
+		"SaveMuTauTriggerWeightAsOptionalOnly" : "true",
+		"MuTauTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
+		"MuTauTriggerWeightWorkspaceWeightNames" : [
+			"0:triggerWeight_muTauCross",
+			"1:triggerWeight_muTauCross"
+		],
+		"MuTauTriggerWeightWorkspaceObjectNames" : [
+			"0:m_trgMu19leg_eta2p1_desy_ratio",
+			"1:t_genuine_TightIso_mt_ratio,t_fake_TightIso_mt_ratio"
+		],
+		"MuTauTriggerWeightWorkspaceObjectArguments" : [
+			"0:m_pt,m_eta",
+			"1:t_pt,t_eta"
 		],
 		"TriggerEfficiencyData" : {
 			"nick" : { 
@@ -217,7 +233,10 @@
 			"nDiTauPairCandidates",
 			"nAllDiTauPairCandidates",
 			"trg_singlemuon",
-			"trg_mutaucross"
+			"trg_mutaucross",
+			"triggerWeight_singleMu_1",
+			"triggerWeight_muTauCross_1",
+			"triggerWeight_muTauCross_2"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
@@ -258,9 +277,10 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
+					"producer:MuTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
@@ -299,9 +319,10 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"#producer:TriggerWeightProducer",
+					"#producer:IdentificationWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
+					"producer:MuTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|EWKZ2Jets)).)*Fall15" : [
