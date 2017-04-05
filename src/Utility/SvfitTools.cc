@@ -63,7 +63,7 @@ MCTauTauQuantitiesAdapter::MCTauTauQuantitiesAdapter() :
 					},
 					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
 					{
-						return fittedTauLeptons.at(0).pt();
+						return fittedTauLeptons.at(0).E();
 					}
 			),
 			new svFitStandalone::SVfitQuantity(
@@ -119,7 +119,7 @@ MCTauTauQuantitiesAdapter::MCTauTauQuantitiesAdapter() :
 					},
 					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
 					{
-						return fittedTauLeptons.at(1).pt();
+						return fittedTauLeptons.at(1).E();
 					}
 			),
 			new svFitStandalone::SVfitQuantity(
