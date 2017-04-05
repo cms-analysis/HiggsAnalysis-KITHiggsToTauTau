@@ -361,6 +361,8 @@ class CutStringsDict:
 			if "2016" in cut_type:
 				cuts["mt"] = "(mt_1<30.0)"
 				cuts["iso_2"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+				if channel == "mt":
+					cuts["trg"] = "((trg_singlemuon22 == 1)*(triggerWeight_singleMu22_1)*(pt_1 > 23)*(abs(eta_1) < 2.1) + (trg_singlemuon24 == 1)*(triggerWeight_singleMu24_1)*(pt_1 > 25)*(abs(eta_1) > 2.1))"
 			if not "2016" in cut_type:
 				# the cuts below lead to W+jets being estimated to zero
 				# with new background estimation technique
