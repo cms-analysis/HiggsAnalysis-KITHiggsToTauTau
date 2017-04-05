@@ -54,6 +54,7 @@
 	"MatchAllElectronsGenTau" : "true",
 	"MatchAllMuonsGenTau" : "true",
 	"MatchAllTausGenTau" : "true",
+	"UpdateMetWithCorrectedLeptons" : "true",
 	"#EventWhitelist" : [
 	],
 	"MetFilter" : {
@@ -158,25 +159,25 @@
 	},
 	"SimpleMuTauFakeRateWeightLoose" : {
 		"nick" : {
-			"default" : [1.15, 1.15, 1.18, 1.2, 1.3],
+			"default" : [1.01, 1.01, 0.87, 1.2, 2.3],
 			"Fall15MiniAODv2" : [1.0, 1.0, 1.0, 1.0, 1.0]
 		}
 	},
 	"SimpleMuTauFakeRateWeightTight" : {
 		"nick" : {
-			"default" : [1.5, 1.4, 1.21, 2.6, 2.1],
+			"default" : [1.26, 1.36, 0.85, 1.7, 2.3],
 			"Fall15MiniAODv2" : [1.0, 1.0, 1.0, 1.0, 1.0]
 		}
 	},
 	"SimpleEleTauFakeRateWeightVLoose" : {
 		"nick" : {
-			"default" : [1.292, 1.536],
+			"default" : [1.21, 1.38],
 			"Fall15MiniAODv2" : [1.02, 1.11]
 		}
 	},
 	"SimpleEleTauFakeRateWeightTight" : {
 		"nick" : {
-			"default" : [1.505, 1.994],
+			"default" : [1.40, 1.90],
 			"Fall15MiniAODv2" : [1.80, 1.30]
 		}
 	}
