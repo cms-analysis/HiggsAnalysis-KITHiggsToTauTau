@@ -103,8 +103,8 @@
 			"1:triggerWeight"
 		],
 		"MuMuTriggerWeightWorkspaceObjectNames" : [
-			"0:m_trgIsoMu22orTkIsoMu22_desy_data",
-			"1:m_trgIsoMu22orTkIsoMu22_desy_data"
+			"0:m_trgIsoMu24orTkIsoMu24_desy_ratio",
+			"1:m_trgIsoMu24orTkIsoMu24_desy_ratio"
 		],
 		"MuMuTriggerWeightWorkspaceObjectArguments" : [
 			"0:m_pt,m_eta",

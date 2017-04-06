@@ -59,7 +59,7 @@
 			}
 		},
 		"DiTauPairMinDeltaRCut" : 0.3,
-                "DeltaRTriggerMatchingElectrons" : 0.1,
+		"DeltaRTriggerMatchingElectrons" : 0.1,
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"default" : [
@@ -90,17 +90,30 @@
 		"EventWeight" : "eventWeight",
 		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
 		"RooWorkspaceWeightNames" : [
-			"0:triggerWeight",
-			"0:idIsoWeight"
+			"0:idIsoWeight",
+			"1:idIsoWeight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:e_trgEle25eta2p1WPTight_desy_data",
-			"0:e_idiso0p10_desy_ratio"
+			"0:e_idiso0p1_desy_ratio",
+			"1:e_idiso0p1_desy_ratio"
 
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:e_pt,e_eta",
-			"0:e_pt,e_eta"
+			"1:e_pt,e_eta"
+		],
+		"EETriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
+		"EETriggerWeightWorkspaceWeightNames" : [
+			"0:triggerWeight",
+			"1:triggerWeight"
+		],
+		"EETriggerWeightWorkspaceObjectNames" : [
+			"0:e_trgEle25eta2p1WPTight_desy_ratio",
+			"1:e_trgEle25eta2p1WPTight_desy_ratio"
+		],
+		"EETriggerWeightWorkspaceObjectArguments" : [
+			"0:e_pt,e_eta",
+			"1:e_pt,e_eta"
 		],
 		"TriggerEfficiencyData" : {
 			"nick": {
@@ -195,6 +208,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:EETriggerWeightProducer",
 					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
@@ -230,6 +244,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:EETriggerWeightProducer",
 					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
