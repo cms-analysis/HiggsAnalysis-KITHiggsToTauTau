@@ -20,6 +20,49 @@ typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Ma
 typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 
 
+class TauSVfitQuantity : public svFitStandalone::SVfitQuantity
+{
+
+public:
+	TauSVfitQuantity(size_t tauIndex);
+
+protected:
+	size_t m_tauIndex;
+	std::string m_tauLabel;
+};
+
+class TauESVfitQuantity : public TauSVfitQuantity
+{
+public:
+	TauESVfitQuantity(size_t tauIndex);
+	virtual TH1* CreateHistogram(std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+	virtual double FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+};
+
+class TauPtSVfitQuantity : public TauSVfitQuantity
+{
+public:
+	TauPtSVfitQuantity(size_t tauIndex);
+	virtual TH1* CreateHistogram(std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+	virtual double FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+};
+
+class TauEtaSVfitQuantity : public TauSVfitQuantity
+{
+public:
+	TauEtaSVfitQuantity(size_t tauIndex);
+	virtual TH1* CreateHistogram(std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+	virtual double FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+};
+
+class TauPhiSVfitQuantity : public TauSVfitQuantity
+{
+public:
+	TauPhiSVfitQuantity(size_t tauIndex);
+	virtual TH1* CreateHistogram(std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+	virtual double FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+};
+
 class MCTauTauQuantitiesAdapter : public svFitStandalone::MCPtEtaPhiMassAdapter
 {
 
