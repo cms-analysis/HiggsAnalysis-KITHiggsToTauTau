@@ -26,7 +26,7 @@
 				"Run2016|Summer16" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf"
 				],
-				"Spring16|Embedding(2016|MC)" : [
+				"Embedding(2016|MC)" : [
 					""
 				]
 			}
@@ -34,7 +34,6 @@
 		"NoHltFiltering" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true,
 				"Embedding(2016|MC)" : true
 				}
 		},
@@ -83,7 +82,6 @@
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true,
 				"Embedding(2016|MC)" : true
 			}
 		},
@@ -212,7 +210,7 @@
 					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
