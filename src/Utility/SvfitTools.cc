@@ -8,202 +8,158 @@
 #include "Kappa/DataFormats/interface/Hash.h"
 
 
-MCTauTauQuantitiesAdapter::MCTauTauQuantitiesAdapter() :
-	MCQuantitiesAdapter({
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramHiggsPt", 1., 1.e+3, 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramHiggsPt_density", 1., 1.e+3, 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return (fittedTauLeptons.at(0) + fittedTauLeptons.at(1)).pt();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramHiggsEta", "SVfitStandaloneAlgorithm_histogramHiggsEta", 198, -9.9, +9.9);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramHiggsEta_density", "SVfitStandaloneAlgorithm_histogramHiggsEta_density", 198, -9.9, +9.9);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return (fittedTauLeptons.at(0) + fittedTauLeptons.at(1)).eta();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramHiggsPhi", "SVfitStandaloneAlgorithm_histogramHiggsPhi", 180, -TMath::Pi(), +TMath::Pi());
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramHiggsPhi_density", "SVfitStandaloneAlgorithm_histogramHiggsPhi_density", 180, -TMath::Pi(), +TMath::Pi());
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return (fittedTauLeptons.at(0) + fittedTauLeptons.at(1)).phi();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1E", measuredTauLeptons.at(0).E()/1.025, TMath::Max(1.e+3, 1.e+1*measuredTauLeptons.at(0).E()/1.025), 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1E_density", measuredTauLeptons.at(0).E()/1.025, TMath::Max(1.e+3, 1.e+1*measuredTauLeptons.at(0).E()/1.025), 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return fittedTauLeptons.at(0).E();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1Pt", 1., 1.e+3, 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1Pt_density", 1., 1.e+3, 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return fittedTauLeptons.at(0).pt();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramTau1Eta", "SVfitStandaloneAlgorithm_histogramTau1Eta", 198, -9.9, +9.9);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramTau1Eta_density", "SVfitStandaloneAlgorithm_histogramTau1Eta_density", 198, -9.9, +9.9);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return fittedTauLeptons.at(0).eta();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramTau1Phi", "SVfitStandaloneAlgorithm_histogramTau1Phi", 180, -TMath::Pi(), +TMath::Pi());
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramTau1Phi_density", "SVfitStandaloneAlgorithm_histogramTau1Phi_density", 180, -TMath::Pi(), +TMath::Pi());
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return fittedTauLeptons.at(0).phi();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2E", measuredTauLeptons.at(1).E()/1.025, TMath::Max(1.e+3, 1.e+1*measuredTauLeptons.at(1).E()/1.025), 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2E_density", measuredTauLeptons.at(1).E()/1.025, TMath::Max(1.e+3, 1.e+1*measuredTauLeptons.at(1).E()/1.025), 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return fittedTauLeptons.at(1).E();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2Pt", 1., 1.e+3, 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2Pt_density", 1., 1.e+3, 1.025);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return fittedTauLeptons.at(1).pt();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramTau2Eta", "SVfitStandaloneAlgorithm_histogramTau2Eta", 198, -9.9, +9.9);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramTau2Eta_density", "SVfitStandaloneAlgorithm_histogramTau2Eta_density", 198, -9.9, +9.9);
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return fittedTauLeptons.at(1).eta();
-					}
-			),
-			new svFitStandalone::SVfitQuantity(
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramTau2Phi", "SVfitStandaloneAlgorithm_histogramTau2Phi", 180, -TMath::Pi(), +TMath::Pi());
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
-					{
-						return new TH1D("SVfitStandaloneAlgorithm_histogramTau2Phi_density", "SVfitStandaloneAlgorithm_histogramTau2Phi_density", 180, -TMath::Pi(), +TMath::Pi());
-					},
-					[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
-					{
-						return fittedTauLeptons.at(1).phi();
-					}
-			),
-	})
+MCTauTauQuantitiesAdapter::MCTauTauQuantitiesAdapter() : MCPtEtaPhiMassAdapter()
 {
+	quantities_.push_back(new svFitStandalone::SVfitQuantity(
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1E", measuredTauLeptons.at(0).E()/1.025, TMath::Max(1.e+3, 1.e+1*measuredTauLeptons.at(0).E()/1.025), 1.025);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1E_density", measuredTauLeptons.at(0).E()/1.025, TMath::Max(1.e+3, 1.e+1*measuredTauLeptons.at(0).E()/1.025), 1.025);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
+			{
+				return fittedTauLeptons.at(0).E();
+			}
+	));
+	quantities_.push_back(new svFitStandalone::SVfitQuantity(
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1Pt", 1., 1.e+3, 1.025);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau1Pt_density", 1., 1.e+3, 1.025);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
+			{
+				return fittedTauLeptons.at(0).pt();
+			}
+	));
+	quantities_.push_back(new svFitStandalone::SVfitQuantity(
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return new TH1D("SVfitStandaloneAlgorithm_histogramTau1Eta", "SVfitStandaloneAlgorithm_histogramTau1Eta", 198, -9.9, +9.9);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return new TH1D("SVfitStandaloneAlgorithm_histogramTau1Eta_density", "SVfitStandaloneAlgorithm_histogramTau1Eta_density", 198, -9.9, +9.9);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
+			{
+				return fittedTauLeptons.at(0).eta();
+			}
+	));
+	quantities_.push_back(new svFitStandalone::SVfitQuantity(
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return new TH1D("SVfitStandaloneAlgorithm_histogramTau1Phi", "SVfitStandaloneAlgorithm_histogramTau1Phi", 180, -TMath::Pi(), +TMath::Pi());
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return new TH1D("SVfitStandaloneAlgorithm_histogramTau1Phi_density", "SVfitStandaloneAlgorithm_histogramTau1Phi_density", 180, -TMath::Pi(), +TMath::Pi());
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
+			{
+				return fittedTauLeptons.at(0).phi();
+			}
+	));
+	quantities_.push_back(new svFitStandalone::SVfitQuantity(
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2E", measuredTauLeptons.at(1).E()/1.025, TMath::Max(1.e+3, 1.e+1*measuredTauLeptons.at(1).E()/1.025), 1.025);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2E_density", measuredTauLeptons.at(1).E()/1.025, TMath::Max(1.e+3, 1.e+1*measuredTauLeptons.at(1).E()/1.025), 1.025);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
+			{
+				return fittedTauLeptons.at(1).E();
+			}
+	));
+	quantities_.push_back(new svFitStandalone::SVfitQuantity(
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2Pt", 1., 1.e+3, 1.025);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return svFitStandalone::makeHistogram("SVfitStandaloneAlgorithm_histogramTau2Pt_density", 1., 1.e+3, 1.025);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
+			{
+				return fittedTauLeptons.at(1).pt();
+			}
+	));
+	quantities_.push_back(new svFitStandalone::SVfitQuantity(
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return new TH1D("SVfitStandaloneAlgorithm_histogramTau2Eta", "SVfitStandaloneAlgorithm_histogramTau2Eta", 198, -9.9, +9.9);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return new TH1D("SVfitStandaloneAlgorithm_histogramTau2Eta_density", "SVfitStandaloneAlgorithm_histogramTau2Eta_density", 198, -9.9, +9.9);
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
+			{
+				return fittedTauLeptons.at(1).eta();
+			}
+	));
+	quantities_.push_back(new svFitStandalone::SVfitQuantity(
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return new TH1D("SVfitStandaloneAlgorithm_histogramTau2Phi", "SVfitStandaloneAlgorithm_histogramTau2Phi", 180, -TMath::Pi(), +TMath::Pi());
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> TH1*
+			{
+				return new TH1D("SVfitStandaloneAlgorithm_histogramTau2Phi_density", "SVfitStandaloneAlgorithm_histogramTau2Phi_density", 180, -TMath::Pi(), +TMath::Pi());
+			},
+			[](std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) -> double
+			{
+				return fittedTauLeptons.at(1).phi();
+			}
+	));
 }
 
 RMFLV MCTauTauQuantitiesAdapter::GetFittedHiggsLV() const
 {
 	RMFLV momentum;
-	momentum.SetPt(ExtractValue(0));
-	momentum.SetEta(ExtractValue(1));
-	momentum.SetPhi(ExtractValue(2));
-	momentum.SetM(ExtractValue(GetNQuantities()-2));
+	momentum.SetPt(getPt());
+	momentum.SetEta(getEta());
+	momentum.SetPhi(getPhi());
+	momentum.SetM(getMass());
 	return momentum;
 }
 
 float MCTauTauQuantitiesAdapter::GetFittedTau1E() const
 {
-	return ExtractValue(3);
+	return ExtractValue(5);
 }
 
 RMFLV MCTauTauQuantitiesAdapter::GetFittedTau1LV() const
 {
 	RMFLV momentum;
-	momentum.SetPt(ExtractValue(4));
-	momentum.SetEta(ExtractValue(5));
-	momentum.SetPhi(ExtractValue(6));
+	momentum.SetPt(ExtractValue(6));
+	momentum.SetEta(ExtractValue(7));
+	momentum.SetPhi(ExtractValue(8));
 	momentum.SetM(DefaultValues::TauMassGeV);
 	return momentum;
 }
 
 float MCTauTauQuantitiesAdapter::GetFittedTau2E() const
 {
-	return ExtractValue(7);
+	return ExtractValue(9);
 }
 
 RMFLV MCTauTauQuantitiesAdapter::GetFittedTau2LV() const
 {
 	RMFLV momentum;
-	momentum.SetPt(ExtractValue(8));
-	momentum.SetEta(ExtractValue(9));
-	momentum.SetPhi(ExtractValue(10));
+	momentum.SetPt(ExtractValue(10));
+	momentum.SetEta(ExtractValue(11));
+	momentum.SetPhi(ExtractValue(12));
 	momentum.SetM(DefaultValues::TauMassGeV);
 	return momentum;
 }

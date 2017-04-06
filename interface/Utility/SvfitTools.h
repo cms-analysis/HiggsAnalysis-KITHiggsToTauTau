@@ -20,7 +20,7 @@ typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Ma
 typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 
 
-class MCTauTauQuantitiesAdapter : public svFitStandalone::MCQuantitiesAdapter
+class MCTauTauQuantitiesAdapter : public svFitStandalone::MCPtEtaPhiMassAdapter
 {
 
 public:
