@@ -117,7 +117,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
 	
-	// IP vectors (using d0 and dz)
+	// FIXME: IP vectors (using d0 and dz)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2x", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).x() : DefaultValues::UndefinedFloat);
