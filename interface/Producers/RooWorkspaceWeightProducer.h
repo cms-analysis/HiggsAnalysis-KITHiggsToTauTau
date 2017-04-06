@@ -55,6 +55,18 @@ protected:
 
 };
 
+class EETriggerWeightProducer: public RooWorkspaceWeightProducer {
+public:
+	EETriggerWeightProducer();
+
+	virtual std::string GetProducerId() const override {
+		return "EETriggerWeightProducer";
+	}
+
+	virtual void Produce(event_type const& event, product_type & product,
+						 setting_type const& settings) const override;
+};
+
 class MuMuTriggerWeightProducer: public RooWorkspaceWeightProducer {
 public:
 	MuMuTriggerWeightProducer();

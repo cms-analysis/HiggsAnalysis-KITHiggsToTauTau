@@ -297,6 +297,13 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(RooWorkspaceObjectArguments, {});
 
+	// settings for EETriggerWeightProducer
+	IMPL_SETTING_DEFAULT(bool, SaveEETriggerWeightAsOptionalOnly, false);
+	IMPL_SETTING_DEFAULT(std::string, EETriggerWeightWorkspace, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(EETriggerWeightWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(EETriggerWeightWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(EETriggerWeightWorkspaceObjectArguments, {});
+
 	// settings for MuMuTriggerWeightProducer
 	IMPL_SETTING_DEFAULT(bool, SaveMuMuTriggerWeightAsOptionalOnly, false);
 	IMPL_SETTING_DEFAULT(std::string, MuMuTriggerWeightWorkspace, "");

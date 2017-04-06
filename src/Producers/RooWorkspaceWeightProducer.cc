@@ -129,6 +129,56 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 
 // ==========================================================================================
 
+EETriggerWeightProducer::EETriggerWeightProducer() :
+		RooWorkspaceWeightProducer(&setting_type::GetSaveEETriggerWeightAsOptionalOnly,
+								   &setting_type::GetEETriggerWeightWorkspace,
+								   &setting_type::GetEETriggerWeightWorkspaceWeightNames,
+								   &setting_type::GetEETriggerWeightWorkspaceObjectNames,
+								   &setting_type::GetEETriggerWeightWorkspaceObjectArguments)
+{
+}
+
+void EETriggerWeightProducer::Produce( event_type const& event, product_type & product,
+						   setting_type const& settings) const
+{
+	double eTrigWeight = 1.0;
+
+	for(auto weightNames:m_weightNames)
+	{
+		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		for(size_t index = 0; index < weightNames.second.size(); index++)
+		{
+			if(weightNames.second.at(index).find("triggerWeight") == std::string::npos)
+				continue;
+			auto args = std::vector<double>{};
+			std::vector<std::string> arguments;
+			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
+			for(auto arg:arguments)
+			{
+				if(arg=="e_pt")
+				{
+					args.push_back(lepton->p4.Pt());
+				}
+				if(arg=="e_eta")
+				{
+					KElectron* electron = static_cast<KElectron*>(lepton);
+					args.push_back(electron->superclusterPosition.Eta());
+				}
+				eTrigWeight *= (1.0 - m_functors.at(weightNames.first).at(index)->eval(args.data()));
+			}
+		}
+	}
+	if(m_saveTriggerWeightAsOptionalOnly)
+	{
+		product.m_optionalWeights["triggerWeight_1"] = 1-eTrigWeight;
+	}
+	else{
+		product.m_weights["triggerWeight_1"] = 1-eTrigWeight;
+	}
+}
+
+// ==========================================================================================
+
 MuMuTriggerWeightProducer::MuMuTriggerWeightProducer() :
 		RooWorkspaceWeightProducer(&setting_type::GetSaveMuMuTriggerWeightAsOptionalOnly,
 								   &setting_type::GetMuMuTriggerWeightWorkspace,
@@ -139,7 +189,7 @@ MuMuTriggerWeightProducer::MuMuTriggerWeightProducer() :
 }
 
 void MuMuTriggerWeightProducer::Produce( event_type const& event, product_type & product,
-	                     setting_type const& settings) const
+						   setting_type const& settings) const
 {
 	double muTrigWeight = 1.0;
 
@@ -167,7 +217,6 @@ void MuMuTriggerWeightProducer::Produce( event_type const& event, product_type &
 			muTrigWeight *= (1.0 - m_functors.at(weightNames.first).at(index)->eval(args.data()));
 		}
 	}
-
 	if(m_saveTriggerWeightAsOptionalOnly)
 	{
 		product.m_optionalWeights["triggerWeight_1"] = 1-muTrigWeight;
