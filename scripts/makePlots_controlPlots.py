@@ -193,6 +193,10 @@ if __name__ == "__main__":
 	                    help="Produce plots for the mva studies. [Default: %(default)s]")
 	parser.add_argument("--polarisation", default=False, action="store_true",
 	                    help="Produce the plots for the polarisation analysis. [Default: %(default)s]")
+	parser.add_argument("--smhtt", default=False, action="store_true",
+	                    help="Produce the plots for the SM HTT analysis. [Default: %(default)s]")
+	parser.add_argument("--taues", default=False, action="store_true",
+	                    help="Produce the plots for the tau energy scale analysis. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
@@ -298,7 +302,11 @@ if __name__ == "__main__":
 	elif args.polarisation:
 		global_category_string = "catZttPol13TeV"
 		global_cut_type = "baseline_low_mvis"
+	elif args.taues:
+		global_cut_type = "tauescuts"
 	if args.era == "2016":
+		if args.smhtt:
+			global_cut_type = "smhtt"
 		global_cut_type += "2016"
 
 
