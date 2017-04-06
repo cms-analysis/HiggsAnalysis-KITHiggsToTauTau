@@ -92,13 +92,13 @@
 	"BTagScaleFactorFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",
-			"Summer16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_ichep.csv"
+			"Summer16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
 		}
 	},
 	"BTagEfficiencyFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root",
-			"Summer16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_ichep2016.root"
+			"Summer16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
 		}
 	},
 	"MetCorrectionMethod" : {
