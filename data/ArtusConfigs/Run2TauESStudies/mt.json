@@ -30,16 +30,12 @@
 					"HLT_IsoTkMu22_eta2p1",
 					"HLT_IsoMu24",
 					"HLT_IsoTkMu24"
-				],
-				"Spring16" : [
-					""
 				]
 			}
 		},
 		"NoHltFiltering" : {
 			"nick" : {
-				"default" : false,
-				"Spring16" : true
+				"default" : false
 			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
@@ -105,8 +101,7 @@
 		},
 		"DiTauPairNoHLT" : {
 			"nick" : {
-				"default" : false,
-				"Spring16" : true
+				"default" : false
 			}
 		},
 		"DiTauPairHLTLast" : {
@@ -169,7 +164,6 @@
 		"TriggerEfficiencyMc" : {
 			"nick" : {
 				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu24_OR_TkIsoMu24_2016BtoH_eff.root"],
-				"Spring16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"]
 			}
 		},
@@ -260,7 +254,7 @@
 					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",

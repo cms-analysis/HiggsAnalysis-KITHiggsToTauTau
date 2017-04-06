@@ -32,7 +32,7 @@
 					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20",
 					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1"
 				],
-				"Spring16|Embedding(2016|MC)" : [
+				"Embedding(2016|MC)" : [
 					""
 				]
 			}
@@ -40,7 +40,6 @@
 		"NoHltFiltering" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true,
 				"Embedding(2016|MC)": true
 			}
 		},
@@ -101,7 +100,6 @@
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true,
 				"Embedding(2016|MC)": true
 			}
 		},
@@ -189,7 +187,6 @@
 		"TriggerEfficiencyMc" : {
 			"nick" : {
 				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu22OR_eta2p1_eff.root"],
-				"Spring16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"]
 			}
 		},
@@ -283,7 +280,7 @@
 					"producer:MuTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
