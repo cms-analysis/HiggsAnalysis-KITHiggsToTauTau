@@ -88,6 +88,18 @@
 				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer"
 			],
+			"TT(To|_)" : [
+				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer",
+				"producer:PUWeightProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:TTbarGenDecayModeProducer"
+			],
 			"W.?JetsToLNu" : [
 				"#filter:RunLumiEventFilter",
 				"filter:MetFilter",

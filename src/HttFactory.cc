@@ -52,6 +52,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -261,6 +262,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TagAndProbeGenElectronProducer();
 	else if(id == MadGraphReweightingProducer().GetProducerId())
 		return new MadGraphReweightingProducer();
+	else if(id == TTbarGenDecayModeProducer().GetProducerId())
+		return new TTbarGenDecayModeProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

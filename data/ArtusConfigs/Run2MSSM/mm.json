@@ -194,7 +194,7 @@
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
-				"TT_RunIISummer16MiniAODv2" : [
+				"TT(To|_)" : [
 					"producer:HltProducer",
 					"producer:MetSelector",
 					"producer:MuonCorrectionsProducer",

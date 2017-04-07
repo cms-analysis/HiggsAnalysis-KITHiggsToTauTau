@@ -187,6 +187,7 @@
 		"#genpX",
 		"#genpY",
 		"#vispX",
-		"#vispY"
+		"#vispY",
+		"TTbarGenDecayMode"
 	]
 }

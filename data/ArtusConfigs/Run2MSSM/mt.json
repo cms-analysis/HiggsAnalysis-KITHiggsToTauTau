@@ -183,7 +183,7 @@
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
-				"TT_RunIISummer16MiniAODv2" : [
+				"TT(To|_)" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

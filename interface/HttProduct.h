@@ -322,4 +322,7 @@ public:
 	std::vector<KElectron*> m_TagAndProbeGenElectrons;
 	std::vector<KMuon*> m_TagAndProbeGenMuons;
 	std::vector<KTau*> m_TagAndProbeGenTaus;
+	
+	//filled by TTbarGenDecayModeProducer
+	unsigned int m_TTbarGenDecayMode = 0;
 };
