@@ -121,15 +121,27 @@ class Datacards(object):
 			"CMS_eff_t_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel")
-				(       ["13TeV"], ["mt", "et"], 1.08) 
-				(       ["13TeV"], ["tt"], 1.16) # Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf 
+				(       ["13TeV"], ["mt", "et"], 1.045) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+		]
+		self.tau_efficiency2016_tt_corr_syst_args = [
+			"CMS_eff_t_$ERA",
+			"lnN",
+			ch.SystMap("era", "channel", "process")
+				(       ["13TeV"], ["tt"], ["ZTT", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.12) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+				(       ["13TeV"], ["tt"], ["ZJ", "VVJ", "TTJJ", "W"], 1.06) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 		]
 		self.tau_efficiency2016_syst_args = [
 			"CMS_eff_t_$CHANNEL_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel")
-				(       ["13TeV"], ["mt", "et"], 1.04) # Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf 
-				(       ["13TeV"], ["tt"], 1.10)# Cecile https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf  
+				(       ["13TeV"], ["mt", "et"], 1.02) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+		]
+		self.tau_efficiency2016_tt_syst_args = [
+			"CMS_eff_t_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("era", "channel", "process")
+				(       ["13TeV"], ["tt"], ["ZTT", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.04) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+				(       ["13TeV"], ["tt"], ["ZJ", "VVJ", "TTJJ", "W"], 1.02) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 		]
 		self.btag_efficiency_syst_args = [
 			"CMS_eff_b_$ERA",
