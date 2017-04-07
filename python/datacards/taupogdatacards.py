@@ -110,12 +110,12 @@ class TauEsDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt", "et"]).process(["ZJ", "TTJJ", "VVJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 
 			# b-tag efficiency and mistag
-			self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
-			self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
+			#self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
+			#self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
 			
 			# transform B-Tagging shape to lnN
-			self.cb.cp().syst_name(['CMS_eff_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
-			self.cb.cp().syst_name(['CMS_mistag_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
+			#self.cb.cp().syst_name(['CMS_eff_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
+			#self.cb.cp().syst_name(['CMS_mistag_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
 		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
