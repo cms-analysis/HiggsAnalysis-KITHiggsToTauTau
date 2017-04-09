@@ -9,6 +9,7 @@ import argparse
 import os
 import re
 import shutil
+import sys
 
 import ROOT
 ROOT.gROOT.SetBatch(True)
@@ -25,8 +26,9 @@ import tempfile
 
 def _call_command(command):
 	log.debug(command)
-	if logger.subprocessCall(command.split())!=0:
-		raise Exception()
+	if logger.subprocessCall(command.split()) != 0:
+		log.critical("Could not execute command \""+command+"\"! Exit program!".)
+		sys.exit(1)
 
 def nick_from_dir(directory):
 	directory = directory.rstrip("/")
@@ -56,6 +58,8 @@ def main():
 	                    help="Read&Write from and to desy dcache[Default: %(default)s]")
 	parser.add_argument("--no-run", default=False, action="store_true",
 	                    help="Do not run but only print dict  [Default: %(default)s]")
+	parser.add_argument("-n", "--n-processes", type=int, default=1,
+	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	
 	merge_commands = []
 	copy_commands = []
@@ -66,7 +70,7 @@ def main():
 	retCode = logger.subprocessCall(ls_command.split())
 	if(retCode != 0):
 		mkdir_command = "gfal-mkdir %s" %(srm(args.output))
-		print "Creating " + srm(args.output)
+		log.info("Creating " + srm(args.output))
 		logger.subprocessCall(mkdir_command.split())
 	tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp") #dir=os.getcwd())
 	if not args.dcache:
@@ -108,10 +112,10 @@ def main():
 					else:
 						merge_commands.append("hadd -f -f6 %s %s"%(current, previous))
 				for index in range(len(merge_commands)):
-					tools.parallelize(_call_command, [merge_commands[index]], 1)
+					tools.parallelize(_call_command, [merge_commands[index]], args.n_processes)
 			# move to output-directory
 			copy_commands = ["gfal-copy -r file:///%s %s" % (output, srm(args.output) )]
-			tools.parallelize(_call_command, [copy_commands[0]], 1)
+			tools.parallelize(_call_command, [copy_commands[0]], args.n_processes)
 		# print c&p summary
 		current_caches = glob.glob(args.output + "*/*.root")
 		nicknames = list(set([ os.path.basename(cache).split(".")[0].replace("svfitCache_", "") for cache in current_caches ]))
@@ -122,7 +126,7 @@ def main():
 		untar_commands = ["tar xvf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
 		if not args.no_run:
 			for index in range(len(untar_commands)):
-				tools.parallelize(_call_command, [untar_commands[index]], 1)
+				tools.parallelize(_call_command, [untar_commands[index]], args.n_processes)
 		regex=re.compile(".*/(.*)_job_[0-9]+_SvfitCache.._(.*?)[0-9]+.root")
 		matches = [(regex.match(file).groups(),file) for file in glob.glob(tmpdir+"/*.root")]
 		dirs = {}
@@ -149,12 +153,12 @@ def main():
 			config_file.append('"%s" : "%s",' % (sample, dcap(args.output) + "/svfitCache_" + sample + ".root"))
 		if not args.no_run:
 			for index in range(len(merge_commands)):
-				tools.parallelize(_call_command, [merge_commands[index]], 1)
-				tools.parallelize(_call_command, [copy_commands[index]], 1)
+				tools.parallelize(_call_command, [merge_commands[index]], args.n_processes)
+				tools.parallelize(_call_command, [copy_commands[index]], args.n_processes)
 	shutil.rmtree(tmpdir)
-	print "done. Artus SvfitCacheFile settings: "
+	log.info("done. Artus SvfitCacheFile settings: ")
 	for entry in config_file: 
-		print entry
+		log.info(entry)
 
 if __name__ == "__main__":
 	main()
