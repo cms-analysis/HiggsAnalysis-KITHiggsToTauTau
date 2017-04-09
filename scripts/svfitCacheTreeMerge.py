@@ -27,7 +27,7 @@ import tempfile
 def _call_command(command):
 	log.debug(command)
 	if logger.subprocessCall(command.split()) != 0:
-		log.critical("Could not execute command \""+command+"\"! Exit program!".)
+		log.critical("Could not execute command \""+command+"\"! Exit program!")
 		sys.exit(1)
 
 def nick_from_dir(directory):
