@@ -17,7 +17,6 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 ROOT.gErrorIgnoreLevel = ROOT.kError
 
 import HiggsAnalysis.KITHiggsToTauTau.treemerge as treemerge
-import Artus.Utility.progressiterator as pi
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 
@@ -61,11 +60,13 @@ def main():
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	
+	args = parser.parse_args()
+	logger.initLogger(args)
+	
 	merge_commands = []
 	copy_commands = []
 	config_file = []
-	args = parser.parse_args()
-	logger.initLogger(args)
+	
 	ls_command = "gfal-ls %s" %(srm(args.output))
 	retCode = logger.subprocessCall(ls_command.split())
 	if(retCode != 0):
@@ -73,6 +74,7 @@ def main():
 		log.info("Creating " + srm(args.output))
 		logger.subprocessCall(mkdir_command.split())
 	tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp") #dir=os.getcwd())
+	
 	if not args.dcache:
 		if not args.no_run:
 			for input in glob.glob(args.input + "/*/*.root"):
@@ -97,6 +99,7 @@ def main():
 							match_input_tree_names=True
 					)
 					log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
+			
 			if args.previous_cache: # check for all available files in previous_cache
 				previous_caches = glob.glob(args.previous_cache + "*/*.root")
 				previous_cachefiles = [ "/".join(cache.split("/")[-2:]) for cache in previous_caches ]
@@ -111,16 +114,18 @@ def main():
 						merge_commands.append("rm %s_tmp.root "%(current))
 					else:
 						merge_commands.append("hadd -f -f6 %s %s"%(current, previous))
-				for index in range(len(merge_commands)):
-					tools.parallelize(_call_command, [merge_commands[index]], args.n_processes)
+				tools.parallelize(_call_command, merge_commands, args.n_processes, description="merging")
+			
 			# move to output-directory
-			copy_commands = ["gfal-copy -r file:///%s %s" % (output, srm(args.output) )]
-			tools.parallelize(_call_command, [copy_commands[0]], args.n_processes)
+			copy_command = "gfal-copy -r file:///%s %s" % (output, srm(args.output) )
+			logger.subprocessCall(copy_command.split())
+		
 		# print c&p summary
 		current_caches = glob.glob(args.output + "*/*.root")
 		nicknames = list(set([ os.path.basename(cache).split(".")[0].replace("svfitCache_", "") for cache in current_caches ]))
 		for nick in sorted(nicknames):
 			config_file.append('\t\t\t"%s" : "%s",' % (nick, dcap(args.output) + "/svfitCache_" + nick + ".root"))
+	
 	else:
 		input_dirs = glob.glob(args.input + "/*/*/*")
 		untar_commands = ["tar xf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
@@ -129,6 +134,7 @@ def main():
 		regex=re.compile(".*/(.*)_job_[0-9]+_SvfitCache.._(.*?)[0-9]+.root")
 		matches = [(regex.match(file).groups(),file) for file in glob.glob(tmpdir+"/*.root")]
 		dirs = {}
+		
 		# go through matches and create nested dict {'sample' : {'Pipeline' : [files]}}
 		for match in matches:
 			if match[0][0] not in dirs:
@@ -136,6 +142,7 @@ def main():
 			if match[0][1] not in dirs[match[0][0]]:
 				dirs[match[0][0]][match[0][1]] = []
 			dirs[match[0][0]][match[0][1]].append(match[1])
+		
 		for sample in dirs:
 			for pipeline in dirs[sample]:
 				# create folders as needed
@@ -150,11 +157,14 @@ def main():
 				merge_commands.append("hadd -f %s %s %s"%(tmp_filename, " ".join(dirs[sample][pipeline]), previous_cache_file))
 				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, srm(out_filename) ))
 			config_file.append('"%s" : "%s",' % (sample, dcap(args.output) + "/svfitCache_" + sample + ".root"))
+		
 		if not args.no_run:
 			tools.parallelize(_call_command, merge_commands, args.n_processes, description="merging")
 			tools.parallelize(_call_command, copy_commands, args.n_processes, description="copying")
+	
 	shutil.rmtree(tmpdir)
 	log.info("done. Artus SvfitCacheFile settings: ")
+	
 	for entry in config_file: 
 		log.info(entry)
 
