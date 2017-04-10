@@ -123,10 +123,9 @@ def main():
 			config_file.append('\t\t\t"%s" : "%s",' % (nick, dcap(args.output) + "/svfitCache_" + nick + ".root"))
 	else:
 		input_dirs = glob.glob(args.input + "/*/*/*")
-		untar_commands = ["tar xvf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
+		untar_commands = ["tar xf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
 		if not args.no_run:
-			for index in range(len(untar_commands)):
-				tools.parallelize(_call_command, [untar_commands[index]], args.n_processes)
+			tools.parallelize(_call_command, untar_commands, args.n_processes, description="unpacking")
 		regex=re.compile(".*/(.*)_job_[0-9]+_SvfitCache.._(.*?)[0-9]+.root")
 		matches = [(regex.match(file).groups(),file) for file in glob.glob(tmpdir+"/*.root")]
 		dirs = {}
@@ -152,9 +151,8 @@ def main():
 				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, srm(out_filename) ))
 			config_file.append('"%s" : "%s",' % (sample, dcap(args.output) + "/svfitCache_" + sample + ".root"))
 		if not args.no_run:
-			for index in range(len(merge_commands)):
-				tools.parallelize(_call_command, [merge_commands[index]], args.n_processes)
-				tools.parallelize(_call_command, [copy_commands[index]], args.n_processes)
+			tools.parallelize(_call_command, merge_commands, args.n_processes, description="merging")
+			tools.parallelize(_call_command, copy_commands, args.n_processes, description="copying")
 	shutil.rmtree(tmpdir)
 	log.info("done. Artus SvfitCacheFile settings: ")
 	for entry in config_file: 
