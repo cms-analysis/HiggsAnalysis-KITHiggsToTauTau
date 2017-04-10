@@ -270,7 +270,6 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:ScaleVariationProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
