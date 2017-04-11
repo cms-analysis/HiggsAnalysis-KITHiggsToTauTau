@@ -549,6 +549,8 @@ class CutStringsDict:
 		
 		elif cut_type=="baseline_low_mvis":
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
+		elif cut_type=="baseline_low_mvis2016":
+			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
 		
 		elif cut_type=="ztt2015cs":
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
