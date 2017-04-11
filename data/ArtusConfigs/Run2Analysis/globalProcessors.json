@@ -5,8 +5,6 @@
 		{
 			"default" :
 			[
-				"#filter:RunLumiEventFilter",
-				"filter:MetFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
@@ -19,12 +17,12 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"#producer:ScaleVariationProducer"
+				"#producer:ScaleVariationProducer",
+				"#filter:RunLumiEventFilter",
+				"filter:MetFilter"
 			],
 			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets|^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)|SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" :
 			[
-				"#filter:RunLumiEventFilter",
-				"filter:MetFilter",
 				"producer:GenBosonFromGenParticlesProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:ValidGenTausProducer",
@@ -41,7 +39,9 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"#producer:ScaleVariationProducer"
+				"#producer:ScaleVariationProducer",
+				"#filter:RunLumiEventFilter",
+				"filter:MetFilter"
 			],
 			"Run201" :
 			[
