@@ -29,6 +29,9 @@ samples_dict = {
 		# 'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll", "zj", "zl"])]
 	}
 shapes = {
+	"btag" : "CMS_eff_b_13TeV",
+	"mistag" :"CMS_fake_b_13TeV",
+	"jec" : "CMS_scale_j_13TeV",
 	"toppt" : "CMS_htt_ttbarShape_13TeV",
 	"taupt" : "CMS_eff_t_mssmHigh_{CHANNEL}_13TeV",
 	"taues" : "CMS_scale_t_{CHANNEL}_13TeV",
@@ -38,11 +41,14 @@ shapes = {
 	"ff_w" : "CMS_htt_jetFakeTau_w_Shape_13TeV"
 	}
 shapes_weight_dict = {
+		"btag" : ("1.0", "1.0"),
+		"mistag" : ("1.0", "1.0"),
+		"jec" : ("1.0", "1.0"),
 		"toppt" : ("1.0/topPtReweightWeight","topPtReweightWeight"),
 		"zpt" : ("1.0/zPtReweightWeight","zPtReweightWeight"),
 		"taupt" : ("(1-0.0002*had_gen_match_pT_1)*(1-0.0002*had_gen_match_pT_2)", "(1+0.0002*had_gen_match_pT_1)*(1+0.0002*had_gen_match_pT_2)"),
 		"taues" : ("1.0", "1.0"),
-		"wfake" : ("((gen_match_1 != 6) + (gen_match_1 == 6)*(1-0.2*pt_1))*((gen_match_2 != 6) + (gen_match_2 == 6)*(1-0.2*pt_2))", "((gen_match_1 != 6) + (gen_match_1 == 6)*(1+0.2*pt_1))*((gen_match_2 != 6) + (gen_match_2 == 6)*(1+0.2*pt_2))"),
+		"wfake" : ("((gen_match_1 != 6) + (gen_match_1 == 6)*(1-0.002*pt_1))*((gen_match_2 != 6) + (gen_match_2 == 6)*(1-0.002*pt_2))", "((gen_match_1 != 6) + (gen_match_1 == 6)*(1+0.002*pt_1))*((gen_match_2 != 6) + (gen_match_2 == 6)*(1+0.002*pt_2))"),
 		"ff_qcd" : ("jetToTauFakeWeight_qcd_up/jetToTauFakeWeight_comb","jetToTauFakeWeight_qcd_down/jetToTauFakeWeight_comb"),
 		"ff_w" : ("jetToTauFakeWeight_w_up/jetToTauFakeWeight_comb","jetToTauFakeWeight_w_down/jetToTauFakeWeight_comb"),
 		"nominal" : ("1.0", "1.0")
@@ -207,6 +213,21 @@ if __name__ == "__main__":
 						exclude_cuts=["mt", "pzeta"]
 					elif category[3:] == 'inclusivenotwoprong':
 						exclude_cuts=["pzeta"]
+
+				#determine cut_type based on category and era
+				cut_type = "mssm2016"
+				if args.era == "2015":
+					cut_type = "mssm"
+				elif args.era == "2016":
+					cut_type = "mssm2016"
+				elif "looseiso" in category:
+					cut_type = "mssm2016looseiso"
+				elif "loosemt" in category
+					cut_type = "mssm2016loosemt"
+				elif "tight" in category:
+					cut_type = "mssm2016tight"
+				else:
+					cut_type = "mssm2016full"
 				
 				for shape_systematic, list_of_samples in samples_dict[channel]:
 					nominal = (shape_systematic == "nominal")
@@ -233,18 +254,24 @@ if __name__ == "__main__":
 								samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 								channel=channel,
 								category="catHttMSSM13TeV_"+category,
-								weight=args.weight+"*"+additional_weight,
+								weight=args.weight,
 								lumi = args.lumi * 1000,
 								exclude_cuts=args.exclude_cuts,
 								higgs_masses=args.higgs_masses,
 								mssm=True,
 								estimationMethod=args.background_method,
 								controlregions=args.controlregions,
-								cut_type="mssm" if args.era == "2015" else "mssm2016" if args.era == "2016" else "mssm2016looseiso" if "looseiso" in category else "mssm2016loosemt" if "loosemt" in category else "mssm2016full"
+								cut_type=cut_type,
+								no_ewk_samples = True,
+								no_ewkz_as_dy = True
 						)
 						
 						# systematics_settings = systematics_factory.get(shape_systematic)(config)
 						# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+						# modify cut strings for shape uncertainties. Do not apply weights to data 
+						for index,value in enumerate(config["weights"]):
+							if not "Run201" in config["files"][index]:
+								config["weights"][index] += "*"+additional_weight
 						
 						if args.workingpoint:
 							for index, folder in enumerate(config["weights"]):

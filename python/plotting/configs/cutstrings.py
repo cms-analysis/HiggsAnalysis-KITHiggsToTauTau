@@ -84,11 +84,11 @@ class CutStringsDict:
 	def mssm2016(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		if channel == "mt":
-			cuts["mt"] = "(mt_1<70.0)" if "mssm2016looseiso" in cut_type else "(mt_1>40.0)*(mt_1<70.0)" if "mssm2016loosemt" in cut_type else "(mt_1<40.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if not "mssm2016looseiso" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016tight" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<70.0)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016looseiso" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type in ["mssm2016loosemt", "mssm2016tight"] else "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "et":
-			cuts["mt"] = "(mt_1<70.0)" if "mssm2016looseiso" in cut_type else "(mt_1>40.0)*(mt_1<70.0)" if "mssm2016loosemt" in cut_type else "(mt_1<40.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if not "mssm2016looseiso" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016tight" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<70.0)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type == "mssm2016looseiso" else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)" if cut_type in ["mssm2016loosemt", "mssm2016tight"] else "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -484,6 +484,8 @@ class CutStringsDict:
 		elif cut_type=="mssm2016":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="mssm2016full":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016tight":
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
 		elif cut_type=="mssm2016loosemt":
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
