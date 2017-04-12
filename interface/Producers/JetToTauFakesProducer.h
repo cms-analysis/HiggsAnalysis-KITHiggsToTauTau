@@ -4,6 +4,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "Artus/KappaAnalysis/interface/KappaProducerBase.h"
 #include "HTTutilities/Jet2TauFakes/interface/FakeFactor.h"
+#include <boost/regex.hpp>
+
 
 #if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
 #include <TROOT.h>
@@ -34,9 +36,6 @@ public:
                  setting_type const& settings) const override;
 private:
 
-	FakeFactor* ff_comb = nullptr;
-	FakeFactor* ff_qcd_ss = nullptr;
-	FakeFactor* ff_qcd_os = nullptr;
-	FakeFactor* ff_w = nullptr;
-	FakeFactor* ff_tt = nullptr;
+	std::map<std::string,FakeFactor*> m_ffComb;
+	bool m_applyFakeFactors;
 };

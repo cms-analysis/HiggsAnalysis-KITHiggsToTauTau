@@ -55,6 +55,14 @@
 			"0:m_pt,m_eta",
 			"0:m_eta"
 		],
+		"FakeFaktorFiles" : [
+			"nobtag_tight:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/nobtag_tight/fakeFactors_20170330_tight.root",
+			"nobtag_loosemt:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/nobtag_loosemt/fakeFactors_20170330_tight.root",
+			"nobtag_looseiso:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/nobtag_looseiso/fakeFactors_20170330_tight.root",
+			"btag_tight:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/btag_tight/fakeFactors_20170330_tight.root",
+			"btag_loosemt:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/btag_loosemt/fakeFactors_20170330_tight.root",
+			"btag_looseiso:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/btag_looseiso/fakeFactors_20170330_tight.root"
+		]
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"MuonLowerPtCuts" : {
@@ -132,7 +140,8 @@
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/fakeFactorWeightQuantities.json"
 				]
 			},
 			"nmediumbtag",
@@ -180,6 +189,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -222,6 +232,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -266,6 +277,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -309,6 +321,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
@@ -341,6 +354,7 @@
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
 					"filter:MinimalPlotlevelFilter",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],

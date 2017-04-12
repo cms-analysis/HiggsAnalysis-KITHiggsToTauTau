@@ -103,6 +103,14 @@
 			"0:e_pt,e_eta",
 			"0:e_pt,e_eta"
 		],
+		"FakeFaktorFiles" : [
+			"nobtag_tight:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/nobtag_tight/fakeFactors_20170330_tight.root",
+			"nobtag_loosemt:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/nobtag_loosemt/fakeFactors_20170330_tight.root",
+			"nobtag_looseiso:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/nobtag_looseiso/fakeFactors_20170330_tight.root",
+			"btag_tight:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/btag_tight/fakeFactors_20170330_tight.root",
+			"btag_loosemt:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/btag_loosemt/fakeFactors_20170330_tight.root",
+			"btag_looseiso:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFacotors/tight/et/btag_looseiso/fakeFactors_20170330_tight.root"
+		]
 		"EventWeight" : "eventWeight",
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
@@ -134,7 +142,8 @@
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/fakeFactorWeightQuantities.json"
 				]
 			},
 			"nmediumbtag",
@@ -183,6 +192,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer"
 				],
 				"TT(To|_)" : [
@@ -225,6 +235,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
@@ -270,6 +281,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
@@ -314,6 +326,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run201" : [
@@ -347,6 +360,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:MVAInputQuantitiesProducer",
+					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer"
 				]
 			}

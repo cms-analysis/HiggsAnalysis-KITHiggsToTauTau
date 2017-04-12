@@ -360,7 +360,7 @@ public:
 	IMPL_SETTING(std::string, ZptReweightProducerWeights);
 
 	// settings for JetToTauFakesProducer
-	IMPL_SETTING(std::string, JetToTauFakeFactorsFile);
+	IMPL_SETTING_STRINGLIST_DEFAULT(FakeFaktorFiles, {});
 
 	// settings for MadGraphReweightingProducer
 	IMPL_SETTING_FLOATLIST_DEFAULT(MadGraphMixingAnglesOverPiHalf, {});
