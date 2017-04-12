@@ -36,8 +36,7 @@ void SvfitProducer::Init(setting_type const& settings)
 			inputFilePath /= inputFileName;
 			svfitCacheFile = inputFilePath.string();
 		}
-		svfitTools.Init(std::vector<std::string>(1, svfitCacheFile),
-		                               settings.GetSvfitCacheTree());
+		svfitTools.Init(std::vector<std::string>(1, svfitCacheFile), settings.GetSvfitCacheTree());
 	}
 	else if ( ! settings.GetSvfitCacheFilePrefix().empty())
 	{
