@@ -38,7 +38,10 @@ def srm(in_path):
 	return "srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN=/%s"%(in_path)
 
 def dcap(in_path):
-	return "dcap://dcache-cms-dcap.desy.de%s"%(in_path)
+	return "dcap://dcache-cms-dcap.desy.de%s" % (in_path)
+
+def xrd(in_path):
+	return "root://dcache-cms-xrootd.desy.de:1094/%s" % (in_path.replace("/pnfs/desy.de/cms/tier2", ""))
 
 def main():
 	parser = argparse.ArgumentParser(description="Collect matching trees from input files into one output tree",
@@ -125,7 +128,7 @@ def main():
 		current_caches = glob.glob(args.output + "*/*.root")
 		nicknames = list(set([ os.path.basename(cache).split(".")[0].replace("svfitCache_", "") for cache in current_caches ]))
 		for nick in sorted(nicknames):
-			config_file.append('\t\t\t"%s" : "%s",' % (nick, dcap(args.output) + "/svfitCache_" + nick + ".root"))
+			config_file.append('\t\t\t"%s" : "%s",' % (nick, xrd(args.output) + "/svfitCache_" + nick + ".root"))
 	
 	else:
 		input_dirs = glob.glob(args.input + "/*/*/*")
@@ -157,7 +160,7 @@ def main():
 				out_filename = args.output + "/" + pipeline + "/svfitCache_" + sample + ".root"
 				merge_commands.append("hadd -f %s %s %s"%(tmp_filename, " ".join(dirs[sample][pipeline]), previous_cache_file))
 				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, srm(out_filename) ))
-			config_file.append('"%s" : "%s",' % (sample, dcap(args.output) + "/svfitCache_" + sample + ".root"))
+			config_file.append('"%s" : "%s",' % (sample, xrd(args.output) + "/svfitCache_" + sample + ".root"))
 		
 		if not args.no_run:
 			tools.parallelize(_call_command, merge_commands, args.n_processes, description="merging")
