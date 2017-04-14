@@ -1,3 +1,0 @@
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_collection_DYJetsToLL_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8_recent.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_collection_SM_Run2Analysis_Fall15_HToTauTauM120-130.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_collection_SM_Run2Analysis_Fall15_SUSY_HToTauTauM120-130.txt

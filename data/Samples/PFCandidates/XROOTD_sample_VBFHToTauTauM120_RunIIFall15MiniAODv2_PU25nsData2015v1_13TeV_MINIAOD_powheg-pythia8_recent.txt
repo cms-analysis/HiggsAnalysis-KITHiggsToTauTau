@@ -1,0 +1,1 @@
+XROOTD_sample_VBFHToTauTauM120_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_powheg-pythia8_2016-07-08.txt

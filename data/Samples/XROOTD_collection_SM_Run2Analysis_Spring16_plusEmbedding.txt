@@ -1,0 +1,2 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_Run2Analysis_Spring16.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_Run2Analysis_Spring16_Embedding.txt

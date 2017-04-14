@@ -1,2 +1,0 @@
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_collection_SM_Run2Analysis_Fall15.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/DCAP_collection_SM_Run2Analysis_Fall15_HToTauTauM120-130.txt

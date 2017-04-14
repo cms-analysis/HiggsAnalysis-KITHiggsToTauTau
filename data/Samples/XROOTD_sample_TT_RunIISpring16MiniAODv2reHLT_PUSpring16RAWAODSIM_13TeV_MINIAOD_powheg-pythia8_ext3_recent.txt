@@ -1,0 +1,1 @@
+XROOTD_sample_TT_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_powheg-pythia8_ext3_2016-10-13.txt

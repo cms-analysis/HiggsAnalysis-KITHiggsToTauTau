@@ -1,1 +1,0 @@
-DCAP_sample_WZTo1L3Nu_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8_2016-07-08.txt
