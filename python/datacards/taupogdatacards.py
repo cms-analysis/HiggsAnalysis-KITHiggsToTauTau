@@ -27,7 +27,7 @@ class TauEsDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			if year == "2016": #TODO: what about tau_efficiency_corr???
+			if year == "2016":
 				self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
 			else:

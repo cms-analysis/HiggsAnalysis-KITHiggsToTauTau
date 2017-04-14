@@ -181,7 +181,7 @@ class Datacards(object):
 			ch.SystMap("era", "process")
 				( ["7TeV"], ["TTJ"], 1.08)
 				( ["8TeV"], ["TTJ"], 1.1)
-				(["13TeV"], ["TTJ", "TT"], 1.06) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+				(["13TeV"], ["TTJ", "TT", "TTT", "TTJJ"], 1.06) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.ttj_extrapol_syst_args = [
 			"CMS_$ANALYSIS_ttjExtrapol_$ERA",
@@ -200,13 +200,13 @@ class Datacards(object):
 			"lnN",
 			ch.SystMap("era", "process")
 				(["7TeV", "8TeV"], ["VV"], 1.15)
-				(       ["13TeV"], ["VV"], 1.10) # https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+				(       ["13TeV"], ["VV", "VVT", "VVJ"], 1.10) # https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
 		self.vv_cross_section2016_syst_args = [
 			"CMS_$ANALYSIS_vvXsec_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(       ["13TeV"], ["VV"], 1.05) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+				(       ["13TeV"], ["VV", "VVT", "VVJ"], 1.05) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
 		]
 		self.wj_cross_section_syst_args = [
 			"CMS_$ANALYSIS_wjXsec_$ERA",
@@ -296,7 +296,7 @@ class Datacards(object):
 			"CMS_$ANALYSIS_jetFakeTau_$ERA",
 			"lnN",
 			ch.SystMap("era", "process",)
-				(       ["13TeV"], ["ZJ"], 1.20)
+				(       ["13TeV"], ["ZJ", "TTJJ", "VVJ"], 1.20)
 		]
 
 		self.zee_norm_syst_args = [
