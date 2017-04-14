@@ -29,14 +29,16 @@ void JetToTauFakesProducer::Init(setting_type const& settings)
 	gROOT->ProcessLine("#include <map>");
 	#endif
 
+    
 	for(auto ffFile: ffFiles)
 	{
-		TFile ffTFile(ffFile.second.at(0).c_str(), "READ");
-		
-		m_ffComb[ffFile.first] = (FakeFactor*)ffTFile.Get("ff_comb");
-		
-		ffTFile.Close();
+		TFile* ffTFile = new TFile(ffFile.second.at(0).c_str(), "READ");
+		FakeFactor* ff = (FakeFactor*)ffTFile->Get("ff_comb");
+		m_ffComb[ffFile.first] = std::shared_ptr<FakeFactor>(ff);
+		ffTFile->Close();
+		delete ffTFile;
 	}
+	
 	gDirectory = savedir;
 	gFile = savefile;
 }

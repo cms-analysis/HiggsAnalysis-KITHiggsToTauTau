@@ -36,6 +36,6 @@ public:
                  setting_type const& settings) const override;
 private:
 
-	std::map<std::string,FakeFactor*> m_ffComb;
+	std::map<std::string,std::shared_ptr<FakeFactor>> m_ffComb;
 	bool m_applyFakeFactors;
 };
