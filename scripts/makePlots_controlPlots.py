@@ -536,12 +536,16 @@ if __name__ == "__main__":
 
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
-						channel if len(args.channels) > 1 else "",
+						channel if (len(args.channels) > 1 and (not args.channel_comparison)) else "",
 						category if len(args.categories) > 1 else ""
 				))
 				
 				if not args.www is None:
-					config["www"] = os.path.join(args.www, channel, "" if category is None else category)
+					config["www"] = os.path.join(
+							args.www,
+							channel if (len(args.channels) > 1 and (not args.channel_comparison)) else "",
+							"" if category is None else category
+					)
 
 				config.update(json_config)
 				
