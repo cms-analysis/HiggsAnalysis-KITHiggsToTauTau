@@ -207,6 +207,8 @@ if __name__ == "__main__":
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("--shapes", default=False, action="store_true",
 	                    help="Show shape comparisons. [Default: %(default)s]")
+	parser.add_argument("--channel-comparison", default=False, action="store_true",
+	                    help="Show channel comparisons. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int,
@@ -311,9 +313,14 @@ if __name__ == "__main__":
 
 
 	# Configs construction for HP
-	for channel, background_method in zip(args.channels, args.background_method):
-		for category in args.categories:
-			for quantity in args.quantities:
+	for category in args.categories:
+		for quantity in args.quantities:
+			
+			channels_background_methods = zip(args.channels, args.background_method)
+			channel_config = {}
+			for index, (channel, background_method) in enumerate(channels_background_methods):
+				last_loop = (index == len(channels_background_methods) - 1)
+				
 				if category != None:
 					category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
 				else:
@@ -349,8 +356,13 @@ if __name__ == "__main__":
 						controlregions = args.controlregions,
 						cut_type = global_cut_type,
 						no_ewk_samples = args.no_ewk_samples,
-						no_ewkz_as_dy = args.no_ewkz_as_dy
+						no_ewkz_as_dy = args.no_ewkz_as_dy,
+						nick_suffix = (channel if args.channel_comparison else "")
 				)
+				if (args.channel_comparison):
+					channel_config = samples.Samples.merge_configs(channel_config, config)
+					if last_loop:
+						config = channel_config
 
 				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 				config["category"] = category
@@ -376,9 +388,22 @@ if __name__ == "__main__":
 
 				config["x_label"] = json_config.pop("x_label", channel+"_"+quantity)
 
-				config["title"] = "channel_"+channel
+				if args.channel_comparison:
+					config["labels"] = ["channel_"+channel for channel in args.channels]
+					config["title"] = ", ".join(args.samples)
+				else:
+					config["title"] = "channel_"+channel
 
 				config["directories"] = [args.input_dir]
+				
+				if args.channel_comparison:
+					if "stacks" in config:
+						config.pop("stacks")
+					if "colors" in config:
+						config.pop("colors")
+					config["markers"] = "LINE"
+					config["legend_markers"] = "L"
+					config["line_widths"] = 3
 
 				if args.shapes:
 					if "stacks" in config:
@@ -519,7 +544,9 @@ if __name__ == "__main__":
 					config["www"] = os.path.join(args.www, channel, "" if category is None else category)
 
 				config.update(json_config)
-				plot_configs.append(config)
+				
+				if (not args.channel_comparison) or last_loop:
+					plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
