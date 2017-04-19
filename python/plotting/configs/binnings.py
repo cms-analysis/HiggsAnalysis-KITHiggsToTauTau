@@ -189,7 +189,9 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_metProjectionPar"] = "21,-20.0,200.0"
 		self.binnings_dict["mt_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["mt_metProjectionPhi"] = "20,-3.141,3.141"
-		
+		self.binnings_dict["mt_gen_match_1"] = "7,0,7"
+		self.binnings_dict["mt_gen_match_2"] = "7,0,7"
+
 		self.binnings_dict["et_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["et_eta_1"] = "30,-3,3"
 		self.binnings_dict["et_eta_2"] = "30,-3,3"
@@ -253,9 +255,10 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["et_metProjectionPar"] = "21,-20.0,200.0"
 		self.binnings_dict["et_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["et_metProjectionPhi"] = "20,-3.141,3.141"
-		
 		self.binnings_dict["em_eta_1"] = "30,-3,3"
 		self.binnings_dict["em_eta_2"] = "30,-3,3"
+		self.binnings_dict["et_gen_match_1"] = "7,0,7"
+		self.binnings_dict["et_gen_match_2"] = "7,0,7"
 		self.binnings_dict["em_eta_ll"] = "25,-5.0,5.0"
 		self.binnings_dict["em_eta_llmet"] = "25,-5.0,5.0"
 		self.binnings_dict["em_eta_sv"] = "25,-5.0,5.0"

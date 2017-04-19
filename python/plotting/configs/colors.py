@@ -74,9 +74,9 @@ class ColorsDict(colors.ColorsDict):
 
 		self.colors_dict["data"] = "#000000"
 		self.colors_dict["data_obs"] = self.colors_dict["data"]
-
+		self.colors_dict["tttautau"] = "#000000 #00FF00"
 		if color_scheme.lower() == "kit":
-			self.colors_dict["zll"] = self.colors_dict["kit_gruen_1"]+" "+self.colors_dict["kit_gruen_2"]
+			self.colors_dict["zll"] = self.colors_dict["kit_gruen_2"]+" "+self.colors_dict["kit_gruen_2"]
 			self.colors_dict["zmm"] = self.colors_dict["zll"]
 			self.colors_dict["zee"] = self.colors_dict["zll"]
 			self.colors_dict["zl"]  = self.colors_dict["zll"]

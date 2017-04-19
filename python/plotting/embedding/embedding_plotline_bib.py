@@ -276,11 +276,29 @@ AccEfficiencyElMuFile = AccEfficiencyMuTauFile.clone(
 
 # visible Mass comparison
 
+# TTbar files
+TTFileMuTauFile = pltcl.single_plotline(
+	name = "TTFileMuTauFile",
+	scale_factor = 831.76/77229341.*12891.,
+	num_file ="/portal/ekpbms1/home/jbechtel/plotting/2017-03-10_01-34_analysis/merged/TT_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_powheg-pythia8/TT_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_powheg-pythia8.root",	#'/storage/a/akhmet/htautau/artus/2017-02-09_00-10_analysis/merged/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1.root',	
+	num_folder = "mt_jecUncNom_tauEsNom",
+	den_folder = "mt_jecUncNom_tauEsNom",
+	num_tree = "ntuple",
+	label = "t#bar{t} simulation",
+	color = "kMagenta-1",
+	marker = "PE")
+TTFileTauTauFile = TTFileMuTauFile.clone(
+	name = "TTFileMuTauFile",
+	num_folder = "tt_jecUncNom_tauEsNom",
+	den_folder = "tt_jecUncNom_tauEsNom")
 # DYJets files
 DYFileMuTauFile = pltcl.single_plotline(
 	name = "DYFileMuTauFile",
 	#scale_factor = 1./5.234,
-	num_file = "/home/jbechtel/plotting/EmbeddingMC/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified.root",
+	num_file ="/home/jbechtel/plotting/DYElTau/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified.root",	#'/storage/a/akhmet/htautau/artus/2017-02-09_00-10_analysis/merged/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1.root',
+	
+	
+	
 	num_folder = "mt_jecUncNom_tauEsNom",
 	den_folder = "mt_jecUncNom_tauEsNom",
 	num_tree = "ntuple",
@@ -412,7 +430,9 @@ HToTauTauElMuFile = HToTauTauMuTauFile.clone(
 
 EmbeddingMuTauFileNominal = DYFileMuTauFile.clone(
 	name = "EmbeddingMuTauFileNominal",
-	num_file = "/home/jbechtel/plotting/EmbeddingMC/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",
+	scale_factor = 1.62724193802,
+	num_file = '/portal/ekpbms1/home/jbechtel/plotting/2017-03-10_01-34_analysis/merged/Embedding2016*MuTauFinalState_imputSep16DoubleMumirrorminiAODv2_13TeV_USER/*.root',
+	#num_file = "/home/jbechtel/plotting/0226/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",
 	label = "#mu#rightarrow#tau embedded",
 	color = "kBlue"
 )
@@ -440,7 +460,8 @@ EmbeddingMuTauFileDown = EmbeddingMuTauFileNominal.clone(
 
 EmbeddingElTauFileNominal = DYFileElTauFile.clone(
 	name = "EmbeddingElTauFileNominal",
-	num_file = "/home/jbechtel/plotting/EmbeddingMC/EmbeddingMCRunIISummer16DR80_ElTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_ElTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",
+	num_file ="/home/jbechtel/plotting/DYElTau/EmbeddingMCRunIISummer16DR80_ElTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_ElTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",	#'/storage/a/akhmet/htautau/artus/2017-02-09_00-10_analysis/merged/Embedding2016B_ElTauFinalState_imputSep16DoubleMumirrorminiAODv1_13TeV_USER/Embedding2016B_ElTauFinalState_imputSep16DoubleMumirrorminiAODv1_13TeV_USER.root',
+	#num_file = "/home/jbechtel/plotting/output.root",
 	label = "#mu#rightarrow#tau embedded",
 	color = "kBlue"
 )
@@ -464,9 +485,9 @@ EmbeddingElTauFileDown = EmbeddingElTauFileNominal.clone(
 #Embedding files for TauTau
 
 EmbeddingTauTauFileNominal = DYFileTauTauFile.clone(
-	scale_factor = 1./0.220103,
+	scale_factor = 1./0.33,
 	name = "EmbeddingTauTauFileNominal",
-	num_file = "/storage/a/jbechtel/janek/Embedding2016?_TauTau*/*.root",
+	num_file = "/home/jbechtel/plotting/tautau_controlplots/EmbeddingBCD.root",
 	label = "#mu#rightarrow#tau embedded",
 	color = "kBlue"
 )

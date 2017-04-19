@@ -24,11 +24,11 @@ def plot_root_variable(channel=['mt'],variable='pt_1',x_bins = "30,0,120",decay_
 		isocut="(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*"
 	else:
 		isocut=""
-	#stitching_weight = "(((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25449124172134e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.17272893569016e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.17926755938344e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.18242445124698e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16077776187804e-6)+((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*1.15592e-4) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.5569730365e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.68069486078868e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.74717616341537e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.3697397756176e-5)+((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+	#~ stitching_weight = "(((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25449124172134e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.17272893569016e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.17926755938344e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.18242445124698e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16077776187804e-6)+((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*1.15592e-4) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.5569730365e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.68069486078868e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.74717616341537e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.3697397756176e-5)+((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 	#(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*
 	stitching_weight = "(1.0)"
 	#(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*
-	selection_weight_mt = decay_weight+isocut+"(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(dilepton_veto < 0.5)*(mt_1<40.0)*(iso_1 < 0.15)*((q_1*q_2)<0.0)"
+	selection_weight_mt = decay_weight+isocut+"(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(dilepton_veto < 0.5)*(iso_1 < 0.15)*((q_1*q_2)<0.0)"
 
 	selection_weight_et = decay_weight+isocut+"(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(dilepton_veto < 0.5)*(againstElectronTightMVA6_2 > 0.5)*(mt_1<40.0)*(iso_1 < 0.1)*((q_1*q_2)<0.0)"
 
@@ -55,7 +55,7 @@ def plot_root_variable(channel=['mt'],variable='pt_1',x_bins = "30,0,120",decay_
 		y_label = "Events per bin width",
 		#y_lims = [0,0.058],
 		plot_type = "absolute",
-		legend = [0.23,0.44,0.62,0.88],
+		legend = [0.53,0.44,0.92,0.88],
 		subplot_denominator = 0,
 		subplot_numerators = [1],
 		output_dir=output_dir+'/mt/decayMode'+decay_mode,
@@ -67,17 +67,19 @@ def plot_root_variable(channel=['mt'],variable='pt_1',x_bins = "30,0,120",decay_
 	)
 	if 'mt' in channel:
 		configs.extend(visibleMassMuTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
-
+	if variable=='pt_1':
+		xlabel='Electron p_{T} / GeV'
 	visibleMassElTau = visibleMassMuTau.clone(
 		name = variable+"visibleMassElTau "+decay_mode,
+		x_label = xlabel,
 		output_dir=output_dir+'/et/decayMode'+decay_mode,
 		title = "e#tau_{h}: shape comparison  decayMode "+decay_mode,
 		weight = stitching_weight + genmatching_weight_xt + "*generatorWeight*(generatorWeight<=1)*" + selection_weight_et,
 		plotlines = [EmbeddingElTauFileNominal, DYFileElTauFile]
 	)
 	if 'et' in channel:
+		print 'ok'
 		configs.extend(visibleMassElTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
-
 	visibleMassTauTau = visibleMassMuTau.clone(
 		name = variable+"visibleMassTauTau "+decay_mode,
 		title = "#tau_{h}#tau_{h}: shape comparison}  decayMode "+decay_mode,
@@ -86,7 +88,7 @@ def plot_root_variable(channel=['mt'],variable='pt_1',x_bins = "30,0,120",decay_
 	#	x_bins = "1,0,13000",
 		normalized_by_binwidth = True,
 	#	normalized_by_binwidth = False,
-		weight = stitching_weight + "*eventWeight*(eventWeight<=1)*" + selection_weight_tt,
+		weight = stitching_weight + "*generatorWeight*(generatorWeight<=1)*" + selection_weight_tt,
 		plotlines = [EmbeddingTauTauFileNominal, EmbeddingTauTauFileUp, EmbeddingTauTauFileDown, DYFileTauTauFile]
 	)
 
@@ -244,16 +246,16 @@ def default_plot_root_variable(channel=['mt'],variable='pt_1'):
 		plotlines = [EmbeddingMuTauFileNominal, DYFileMuTauFile]
 	)
 
-	configs.extend(visibleMassMuTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
+	#configs.extend(visibleMassMuTau.return_json_with_changed_x_and_weight(x_expressions = [variable,'pt_1']))
 
 	visibleMassElTau = visibleMassMuTau.clone(
-		name = "visibleMassElTau",
-		title = "#scale[1.3]{e#tau_{h}: shape comparison}",
+		name = "PT1 comparison",
+		title = "e#tau_{h}: PT comparison",
 		weight = stitching_weight + genmatching_weight_xt + "*eventWeight*(eventWeight<=1)*" + selection_weight_et,
-		plotlines = [EmbeddingElTauFileNominal, EmbeddingElTauFileUp, EmbeddingElTauFileDown, DYFileElTauFile, HToTauTauElTauFile]
+		plotlines = [EmbeddingElTauFileNominal, DYFileElTauFile]
 	)
 
-	#configs.extend(visibleMassElTau.return_json_with_changed_x_and_weight(x_expressions = ["m_vis"]))
+	configs.extend(visibleMassElTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
 
 	visibleMassTauTau = visibleMassMuTau.clone(
 		name = "visibleMassTauTau",
@@ -454,7 +456,8 @@ if __name__ == '__main__':
 	parser.add_argument("--no-iso-cut", required=False, action="store_true", default=False, help = "Set to remove Tau isolation cut (byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)")
 	parser.add_argument("-n","--n-processes",required=False, default=1, help="Number of parallel processes. [Default: %(default)s]")
 	parser.add_argument("-x","--quantities", required=False, default = None, nargs="*", help="Select quantities to plot. [Default: %(default)s]")
-	
+	parser.add_argument("--default", required=False, action="store_true", default=False, help = "Set to let HiggsPlotter take care of binning and skip custom configs.")
+
 	args = parser.parse_args()
 	logger.initLogger(args)
 	configs = []
@@ -1451,9 +1454,12 @@ if __name__ == '__main__':
 			"jpt_2", "jeta_2", "jphi_2",
 			"njetspt30", "mjj", "jdeta", "njetingap20", "njetingap",
 			"trigweight_1", "trigweight_2", "puweight",
-			"npv", "npu", "rho","nbtag"
+			"npv", "npu", "rho","nbtag",'genMatchedLep1LV.fCoordinates.fPt','genMatchedLep2LV.fCoordinates.fPt','genMatchedLep2LV.fCoordinates.fEta','genMatchedLep1LV.fCoordinates.fEta','genMatchedLep2LV.fCoordinates.fPhi','genMatchedLep1LV.fCoordinates.fPhi','triggerWeight_1','identificationWeight_1','trigweight_1'
 	]
 	iso_variables = [
+	"againstElectronLooseMVA6_1",
+		"againstElectronLooseMVA6_2",
+
 		"iso_1",
 		"iso_2",
 		"decayDistX_1",
@@ -1501,15 +1507,18 @@ if __name__ == '__main__':
 		plotting_dict.setdefault(v,[])
 		plotting_dict[v]={}
 		plotting_dict[v].setdefault("x_label",v)
-		if 'eta' in v:
+		if 'eta' in v or 'Eta' in v:
 			plotting_dict[v].setdefault("x_bins","25,-2.5,2.5")
-		if 'phi' in v:
+		if 'phi' in v or 'Phi' in v:
 			plotting_dict[v].setdefault("x_bins","30,-3.2,3.2")
 		if 'njet' in v:
 			plotting_dict[v].setdefault("x_bins","7,0,7")	
+		if 'Weight' in v or 'weight' in v:
+			plotting_dict[v].setdefault("x_bins","24,0,1.2")
 		
-		plotting_dict[v].setdefault("x_bins","25,0,100")
-	
+		plotting_dict[v].setdefault("x_bins","50,0,100")
+	plotting_dict['genMatchedLep1LV.fCoordinates.fPt']["x_bins"]="50,0,100"
+
 	plotting_dict["integral"]["x_bins"]="1,0,1"
 	plotting_dict["m_1"]["x_bins"]="10,0,0.5"
 	plotting_dict["m_1"]["x_label"]="Muon Mass / GeV"
@@ -1551,7 +1560,7 @@ if __name__ == '__main__':
 	plotting_dict["hasSecondaryVertex_2"]["x_bins"]="10,-0.5,1.5"
 	#plotting_dict["MVAdxy_abs_2"]["x_bins"]="30,0,0.3"
 	#plotting_dict["MVAdxy_abs_2"]["x_bins"]="30,0,0.3"
-	
+	plotting_dict["againstElectronLooseMVA6_2"]["x_bins"]="2,-0.5,1.5"
 	plotting_dict["MVAdxy_ip3d_abs_2"]["x_bins"]="30,0,0.3"
 	plotting_dict["decayDistM_2"]["x_bins"]="15,0,3"
 	plotting_dict["byCombinedIsolationDeltaBetaCorrRaw3Hits_2"]["x_bins"]="20,0,10"
@@ -1570,16 +1579,18 @@ if __name__ == '__main__':
 	#variables_to_plot = ["MVAdxy_abs_2","MVAdxy_ip3d_abs_2"]
 
 #	variables_to_plot=["flightLengthSig_2"]
-	variables_to_plot=default_variables+tau_iso_variables
-#	variables_to_plot=["iso_2"]
+	variables_to_plot=default_variables
 	if args.quantities is not None:
 		variables_to_plot=args.quantities
 	for v in variables_to_plot:
-		if decay_mode=="split":
-			for dm in ["0","1","10","all"]:
-				if True:
-					plot_root_variable(variable=v,xlabel=plotting_dict[v]["x_label"],x_bins=plotting_dict[v]["x_bins"],decay_mode=dm, isocut=isocut,channel=args.channel)
+		if not args.default:
+			if decay_mode=="split":
+				for dm in ["0","1","10","all"]:
+					if True:
+						
+						plot_root_variable(variable=v,xlabel=plotting_dict[v]["x_label"],x_bins=plotting_dict[v]["x_bins"],decay_mode=dm, isocut=isocut,channel=args.channel)
+			else:
+				plot_root_variable(variable=v,xlabel=plotting_dict[v]["x_label"],x_bins=plotting_dict[v]["x_bins"],decay_mode=decay_mode,isocut=isocut,channel=args.channel)
 		else:
-			plot_root_variable(variable=v,xlabel=plotting_dict[v]["x_label"],x_bins=plotting_dict[v]["x_bins"],decay_mode=decay_mode,isocut=isocut)
-		#default_plot_root_variable(variable=v)
+			default_plot_root_variable(variable=v)
 	higgs_plotter = higgsplot.HiggsPlotter(list_of_config_dicts=configs, list_of_args_strings=[""],n_processes=args.n_processes)
