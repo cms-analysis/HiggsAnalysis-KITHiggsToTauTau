@@ -838,6 +838,11 @@ class Samples(samples.SamplesBase):
 	def files_wj(self, channel):
 		artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 10)
 		return artus_files
+	
+	def files_wgamma(self, channel):
+		artus_files = self.artus_file_names({"process" : "WGToLNuG", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 1)
+		aruts_files = artus_files + " " + self.artus_file_names({"process" : "WGstarToLNuEE|WGstarToLNuMuMu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph"}, 2)
+		return artus_files
 
 	def files_ewkw(self, channel):
 		ewkw_query = { "data" : False,
@@ -1462,6 +1467,16 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						self.files_ewkw(channel),
+						self.root_file_folder(channel),
+						lumi,
+						weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						"wj",
+						nick_suffix=nick_suffix
+				)
+			if channel == "em":
+				Samples._add_input(
+						config,
+						self.files_wgamma(channel),
 						self.root_file_folder(channel),
 						lumi,
 						weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
