@@ -2141,6 +2141,15 @@ class Samples(samples.SamplesBase):
 							)
 						Samples._add_input(
 								config,
+								self.files_wgamma(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_sample_weight,
+								"noplot_wj_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
 								self.files_data(channel),
 								self.root_file_folder(channel),
 								1.0,
