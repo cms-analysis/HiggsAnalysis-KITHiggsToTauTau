@@ -10,7 +10,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
 class TauEsDatacards(datacards.Datacards):
-	def __init__(self, shifts=[], decaymodes=[], weight_bins=[], weight_type="pt", year="", cb=None):
+	def __init__(self, shifts=[], decaymodes=[], quantity="m_2", weight_bins=[], weight_type="pt", year="", cb=None):
 		super(TauEsDatacards, self).__init__(cb)
 		
 		if cb is None:
@@ -18,7 +18,7 @@ class TauEsDatacards(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for category in ["inclusive"] for decaymode in decaymodes for weight_bin in weight_bins],
+					categories=["mt_"+quantity+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for decaymode in decaymodes for weight_bin in weight_bins],
 					bkg_processes=["ZL", "ZJ", "TTJJ", "VVJ", "W", "QCD"],
 					sig_processes=["ZTT", "TTT", "VVT"],
 					analysis=["ztt"],
@@ -48,7 +48,7 @@ class TauEsDatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+category+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for category in ["inclusive"] for decaymode in decaymodes for weight_bin in weight_bins],
+					categories=["et_"+quantity+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for decaymode in decaymodes for weight_bin in weight_bins],
 					bkg_processes=["ZL", "ZJ", "TTJJ", "VVJ", "W", "QCD"],
 					sig_processes=["ZTT", "TTT", "VVT"],
 					analysis=["ztt"],

@@ -223,13 +223,13 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	channel = args.channel
 	quantity = args.quantity
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, weight_bins, weight_type, args.era)
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era)
 	datacards.cb.channel([channel])
 	
 	for decayMode in args.decay_modes:
 		for weight_index, (weight_bin) in enumerate(weight_bins):
 			
-			category = channel+"_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
+			category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
@@ -396,7 +396,7 @@ if __name__ == "__main__":
 	
 	for decayMode in args.decay_modes:
 		for weight_index, (weight_bin) in enumerate(weight_bins):
-			category = channel+"_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
+			category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"TTT",mes,"norm",True,True)
 			morphing.BuildRooMorphing(ws,datacards.cb,category,"VVT",mes,"norm",True,True)
@@ -418,7 +418,7 @@ if __name__ == "__main__":
 	datacards_cbs = {}
 	for decayMode in args.decay_modes:
 		for weight_index, (weight_bin) in enumerate(weight_bins):
-			category = channel+"_inclusive_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
+			category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 			dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
 							ANALYSIS="ztt",
 							CHANNEL=channel,
@@ -602,7 +602,7 @@ if __name__ == "__main__":
 					config["extra_text"] = "Preliminary"
 				config["year"] = args.era
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-				config["filename"] = level+"_"+category+"_"+quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
+				config["filename"] = level+"_"+category+("_tightenedMassWindow" if args.tighten_mass_window else "")
 				if args.pdf:
 					config["formats"] = ["png", "pdf"]
 				
@@ -778,7 +778,7 @@ if __name__ == "__main__":
 			
 			# Write parabola with fit result into file
 			RooFitGraph_Parabola.GetYaxis().SetRangeUser(0,nllMax)
-			graphfilename = os.path.join(os.path.dirname(datacard), "parabola_"+quantity+".root")
+			graphfilename = os.path.join(os.path.dirname(datacard), "parabola_" + category + ("_tightenedMassWindow" if args.tighten_mass_window else "")+".root")
 			graphfile = ROOT.TFile(graphfilename, "RECREATE")
 			RooFitGraph_Parabola.Write()
 			graphfile.Close()
@@ -806,7 +806,7 @@ if __name__ == "__main__":
 			config["line_styles"] = [2]
 			config["colors"] = ["kBlack", "kBlue", "kBlue"]
 			config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-			config["filename"] = "parabola_" + category + "_" + quantity+("_tightenedMassWindow" if args.tighten_mass_window else "")
+			config["filename"] = "parabola_" + category + ("_tightenedMassWindow" if args.tighten_mass_window else "")
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
 			config["texts"] = [decayMode_dict[decayMode]["label"], "1#sigma", "2#sigma"]
