@@ -391,7 +391,7 @@ class CutStringsDict:
 	@staticmethod
 	def highMtControlRegionWJ(channel, cut_type):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ",""))
 			cuts["mt"] = "(mt_1>70.0)" if "mssm" in cut_type or "2016" not in cut_type else "(mt_1>80.0)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))

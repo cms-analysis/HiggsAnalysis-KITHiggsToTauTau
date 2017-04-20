@@ -222,7 +222,7 @@ if __name__ == "__main__":
 					cut_type = "mssm2016"
 				elif "looseiso" in category:
 					cut_type = "mssm2016looseiso"
-				elif "loosemt" in category
+				elif "loosemt" in category:
 					cut_type = "mssm2016loosemt"
 				elif "tight" in category:
 					cut_type = "mssm2016tight"

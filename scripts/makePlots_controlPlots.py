@@ -319,6 +319,17 @@ if __name__ == "__main__":
 			channels_background_methods = zip(args.channels, args.background_method)
 			channel_config = {}
 			for index, (channel, background_method) in enumerate(channels_background_methods):
+				if args.mssm:
+					if args.era == "2016":
+						cut_type = "mssm2016"
+					elif "looseiso" in category:
+						cut_type = "mssm2016looseiso"
+					elif "loosemt" in category:
+						cut_type = "mssm2016loosemt"
+					elif "tight" in category:
+						cut_type = "mssm2016tight"
+					else:
+						cut_type = "mssm2016full"
 				last_loop = (index == len(channels_background_methods) - 1)
 				
 				if category != None:
