@@ -651,7 +651,8 @@ void DecayChannelProducer::Init(setting_type const& settings)
 			// Return pT in case it matches a hadronic tau
 			if (genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
 			{
-				return genParticle->p4.Pt();
+				KGenTau* genTau = static_cast<KGenTau*>(genParticle);
+				return genTau->visible.p4.Pt();
 			}
 			else
 			{
