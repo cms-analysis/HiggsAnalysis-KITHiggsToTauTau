@@ -183,7 +183,16 @@
 			"ntightbtag",
 			"nmediumbtag",
 			"had_gen_match_pT_1",
-			"had_gen_match_pT_2"
+			"had_gen_match_pT_2",
+			"muR1p0_muF1p0_weight",
+			"muR1p0_muF2p0_weight",
+			"muR1p0_muF0p5_weight",
+			"muR2p0_muF1p0_weight",
+			"muR2p0_muF2p0_weight",
+			"muR2p0_muF0p5_weight",
+			"muR0p5_muF1p0_weight",
+			"muR0p5_muF2p0_weight",
+			"muR0p5_muF0p5_weight"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
@@ -222,7 +231,7 @@
 					"producer:MVAInputQuantitiesProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -261,7 +270,7 @@
 					"producer:MVAInputQuantitiesProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -302,7 +311,7 @@
 					"producer:MVAInputQuantitiesProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -342,7 +351,7 @@
 					"producer:MVAInputQuantitiesProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 				],
@@ -408,7 +417,7 @@
 					"producer:DiJetQuantitiesProducer",
 					"#producer:MVATestMethodsProducer",
 					"producer:MVAInputQuantitiesProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EmuQcdWeightProducer",
 					"producer:EventWeightProducer"
 
