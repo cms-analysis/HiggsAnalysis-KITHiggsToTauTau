@@ -353,7 +353,7 @@ if __name__ == "__main__":
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
-				add_threshold=0.1, merge_threshold=0.5, fix_norm=False
+				add_threshold=0.05, merge_threshold=0.8, fix_norm=False
 		)
 	
 
