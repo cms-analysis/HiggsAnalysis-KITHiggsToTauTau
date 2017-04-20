@@ -215,10 +215,10 @@ if __name__ == "__main__":
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_template = "datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.txt"
-	datacard_combined_template = "datacards/combined/${ANALYSIS}_${CHANNEL}_${ERA}.txt"
-	output_root_template = "datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}.input_${ERA}.root"
-	output_root_combined_template = "datacards/combined/${ANALYSIS}_${CHANNEL}.input_${ERA}.root"
+	datacard_filename_templates = [
+		"datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.txt"
+	]
+	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
 	# restrict CombineHarvester to configured channels:
 	channel = args.channel
@@ -387,25 +387,11 @@ if __name__ == "__main__":
 		os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
 		bkg_histogram_name_template, sig_histogram_name_template,
 		bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
-		update_systematics=False
+		update_systematics=True
 	)
 	
 	# create morphing
-	ws = ROOT.RooWorkspace("w","w")
-	mes = ROOT.RooRealVar("mes","", 1.0, args.shift_ranges[0], args.shift_ranges[1])
-	
-	for decayMode in args.decay_modes:
-		for weight_index, (weight_bin) in enumerate(weight_bins):
-			category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
-			morphing.BuildRooMorphing(ws,datacards.cb,category,"ZTT",mes,"norm",True,True)
-			morphing.BuildRooMorphing(ws,datacards.cb,category,"TTT",mes,"norm",True,True)
-			morphing.BuildRooMorphing(ws,datacards.cb,category,"VVT",mes,"norm",True,True)
-	
-	# For some reason the default arguments are not working in the python wrapper
-	# of AddWorkspace and ExtractPdfs. Hence, the last argument in either function
-	# is set by hand to their default values
-	datacards.cb.AddWorkspace(ws, False)
-	datacards.cb.cp().signals().ExtractPdfs(datacards.cb, "w", "$BIN_$PROCESS_morph","")
+	datacards.create_morphing_signals("mes", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 	
 	# add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
@@ -414,104 +400,51 @@ if __name__ == "__main__":
 			add_threshold=0.1, merge_threshold=0.5, fix_norm=False
 		)
 	
-	# write datacards
+	# write datacards and call text2workspace
 	datacards_cbs = {}
-	for decayMode in args.decay_modes:
-		for weight_index, (weight_bin) in enumerate(weight_bins):
-			category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
-			dcname = os.path.join(args.output_dir, datacard_template.replace("$", "").format(
-							ANALYSIS="ztt",
-							CHANNEL=channel,
-							BIN=category,
-							ERA="13TeV"))
-			output = os.path.join(args.output_dir, output_root_template.replace("$", "").format(
-							ANALYSIS="ztt",
-							CHANNEL=channel,
-							BIN=category,
-							ERA="13TeV"))
-			
-			if not os.path.exists(os.path.dirname(dcname)):
-				os.makedirs(os.path.dirname(dcname))
-			if not os.path.exists(os.path.dirname(output)):
-				os.makedirs(os.path.dirname(output))
-			datacards.cb.cp().channel([channel]).bin([category]).mass(["*"]).WriteDatacard(dcname, output)
-			datacards_cbs[dcname] = datacards.cb
-	# write combined datacard
-	dcname = os.path.join(args.output_dir, datacard_combined_template.replace("$", "").format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					ERA="13TeV"))
-	output = os.path.join(args.output_dir, output_root_combined_template.replace("$", "").format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					ERA="13TeV"))
+	for datacard_filename_template in datacard_filename_templates:
+		datacards_cbs.update(datacards.write_datacards(
+				datacard_filename_template.replace("{", "").replace("}", ""),
+				output_root_filename_template.replace("{", "").replace("}", ""),
+				args.output_dir
+		))
 	
-	if not os.path.exists(os.path.dirname(dcname)):
-		os.makedirs(os.path.dirname(dcname))
-	if not os.path.exists(os.path.dirname(output)):
-		os.makedirs(os.path.dirname(output))
-	datacards.cb.cp().channel([channel]).mass(["*"]).WriteDatacard(dcname, output)
-	datacards_cbs[dcname] = datacards.cb
-
-	#text2workspace call
-	datacards_workspaces = {}
-	commands = []
-	for datacard, cb in datacards_cbs.iteritems():
-		commands.append("text2workspace.py {DATACARD} -o {OUTPUT}".format(
-			DATACARD=datacard,
-			OUTPUT=os.path.splitext(datacard)[0]+".root"))
-		datacards_workspaces[datacard] = os.path.splitext(datacard)[0]+".root"
-	
-	tools.parallelize(_call_command, commands, n_processes=1)
+	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
 	#combine call
 	#important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
-	commands = []
-	commands.extend([[
-		"combine -M MaxLikelihoodFit -m 1.0 --redefineSignalPOIs mes -v {VERBOSITY} {STABLE} {WORKSPACE}".format(
-			VERBOSITY=args.combine_verbosity,
-			STABLE=datacards.stable_options,
-			WORKSPACE=os.path.splitext(datacard)[0]+".root",
-		),
-		os.path.dirname(datacard)
-	] for datacard, cb in datacards_cbs.iteritems()])
-	
-	tools.parallelize(_call_command, commands, n_processes=1)
+	datacards.combine(
+			datacards_cbs,
+			datacards_workspaces,
+			None,
+			args.n_processes,
+			"-M MaxLikelihoodFit --redefineSignalPOIs mes -v {VERBOSITY} {STABLE}".format(
+				VERBOSITY=args.combine_verbosity,
+				STABLE=datacards.stable_options
+			)
+	)
 	
 	#2nd combine call to get deltaNLL distribution
 	#(always done, since the bestfit value and uncertainties are taken from this scan)
-	commands = []
-	commands.extend([[
-		"combine -M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY}  {STABLE} {WORKSPACE}".format(
-			BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
-			RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
-			VERBOSITY=args.combine_verbosity,
-			STABLE=datacards.stable_options,
-			WORKSPACE=os.path.splitext(datacard)[0]+".root",
-		),
-		os.path.dirname(datacard)
-	] for datacard, cb in datacards_cbs.iteritems()])
-	
-	tools.parallelize(_call_command, commands, n_processes=1)
+	datacards.combine(
+			datacards_cbs,
+			datacards_workspaces,
+			None,
+			args.n_processes,
+			"-M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY}  {STABLE}".format(
+				BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
+				RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
+				VERBOSITY=args.combine_verbosity,
+				STABLE=datacards.stable_options
+			)
+	)
 	
 	#plot nuisance impacts
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="mes"))
 	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
 	
 	#postfitshapes call
-	datacards_postfit_shapes = {}
-	commands = []
-	commands.extend(["PostFitShapesFromWorkspace --postfit -w {WORKSPACE} -d {DATACARD} -o {OUTPUT} -f {FIT_RESULT}".format(
-			WORKSPACE=datacards_workspaces[datacard],
-			DATACARD=datacard,
-			OUTPUT=os.path.splitext(datacard)[0]+"_fit_s.root",
-			FIT_RESULT=os.path.join(os.path.dirname(datacard), "mlfit.root:fit_s"),
-	) for datacard, cb in datacards_cbs.iteritems()])
-	datacards_postfit_shapes.setdefault("fit_s", {}).update({
-			datacard : os.path.splitext(datacard)[0]+"_fit_s.root"
-	for datacard, cb in datacards_cbs.iteritems()})
-	
-	tools.parallelize(_call_command, commands, n_processes=args.n_processes)
+	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	
 	#pull plots
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
@@ -651,7 +584,7 @@ if __name__ == "__main__":
 	parabola_plot_configs = []
 	weightbin_plot_configs = []
 	for datacard, cb in datacards_cbs.iteritems():
-		filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH120.root")
+		filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH0.root")
 		if "combined" in filename:
 			continue
 		

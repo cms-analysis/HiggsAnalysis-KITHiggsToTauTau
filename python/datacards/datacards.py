@@ -681,9 +681,9 @@ class Datacards(object):
 		if log.isEnabledFor(logging.DEBUG):
 			self.cb.PrintAll()
 	
-	def create_morphing_signals(self, mophing_variable_name, nominal_value, min_value, max_value):
+	def create_morphing_signals(self, morphing_variable_name, nominal_value, min_value, max_value):
 		self.workspace = ROOT.RooWorkspace("workspace", "workspace")
-		self.morphing_variable = ROOT.RooRealVar(mophing_variable_name, mophing_variable_name, nominal_value, min_value, max_value)
+		self.morphing_variable = ROOT.RooRealVar(morphing_variable_name, morphing_variable_name, nominal_value, min_value, max_value)
 		
 		cb_signals = self.cb.cp().signals()
 		for category in cb_signals.bin_set():
