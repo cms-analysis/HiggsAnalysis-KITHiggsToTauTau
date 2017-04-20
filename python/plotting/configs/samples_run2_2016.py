@@ -167,7 +167,14 @@ class Samples(samples.SamplesBase):
 
 	def hadronic_scale_factor(self, channel, cut_type):
 		if channel in ["mt", "et"]:
-			return "(0.97)" if "mssm2016" == cut_type else "(0.95)"
+			if cut_type == "mssm2016":
+				scale_factor = "(0.97)"
+			elif "mssm2016" in cut_type:
+				# scale factor is in cut dict
+				scale_factor = "(1.0)"
+			else:
+				scale_factor = "(0.95)"
+			return scale_factor
 		elif channel in ["tt"]:
 			return "(0.9025)"
 		else:
