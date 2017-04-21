@@ -119,8 +119,8 @@ if __name__ == "__main__":
 	                    help="Obtain result from likelihood scan without fitting the parabola but instead finding the minimum and the first points crossing 1 on either side. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="(1.0)",
 	                    help="Additional weight used for both background and all signal templates. [Default: %(default)s]")
-	parser.add_argument("-c", "--channel", default="mt", choices=["mt","et"],
-	                    help="Select final state for measurement. [Default: %(default)s]")
+	parser.add_argument("-c", "--channels", nargs="*", default=["mt","et"],
+	                    help="Select final state(s) for measurement. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--cms", action="store_true", default=False,
 	                    help="Display CMS Preliminary on plot. [Default: %(default)s]")
 	parser.add_argument("--pdf", action="store_true", default=False,
@@ -221,167 +221,180 @@ if __name__ == "__main__":
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
 	# restrict CombineHarvester to configured channels:
-	channel = args.channel
 	quantity = args.quantity
 	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era)
-	datacards.cb.channel([channel])
+	datacards.cb.channel(args.channels)
 	
-	for decayMode in args.decay_modes:
-		for weight_index, (weight_bin) in enumerate(weight_bins):
-			
-			category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
-			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					BIN=category,
-					ERA="13TeV"
-			))
-			
-			input_plot_configs = []
-			hadd_commands = []
-			
-			datacards_per_channel_category = taupogdatacards.TauEsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+	# build categories and bin id's for CombineHarvester
+	categories = []
+	for channel in args.channels:
+		bin_id = 2000 if not args.eta_binning else 3000
+		for decayMode in args.decay_modes:
+			bin_id = bin_id + 1
+			for weight_index, (weight_bin) in enumerate(weight_bins):
+				bin_id = bin_id + 1
+				category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
+				datacards.configs._mapping_category2binid[channel][category] = bin_id
+				categories.append(category)
 	
-			tmp_output_files = []
+	for category in categories:
+		channel = category.split("_")[0]
+		decayMode = category.split("_")[-2]
+		weight_index = int(category.split("_")[-1].split(weight_type+"bin")[-1])
 
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
-				nominal = (shape_systematic == "nominal")
-				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
+				ANALYSIS="ztt",
+				CHANNEL=channel,
+				BIN=category,
+				ERA="13TeV"
+		))
 		
-				for shift_up in ([True] if nominal else [True, False]):
-					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
-			
-					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
-						samples="\", \"".join(list_of_samples),
-						channel=channel,
-						category=category,
-						systematic=systematic
-					))
+		input_plot_configs = []
+		hadd_commands = []
+		
+		datacards_per_channel_category = taupogdatacards.TauEsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+		datacards_per_channel_category.configs._mapping_category2binid[channel][category] = datacards.configs._mapping_category2binid[channel][category]
 
-					merged_config={}
+		tmp_output_files = []
+
+		for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+			nominal = (shape_systematic == "nominal")
+			list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+	
+			for shift_up in ([True] if nominal else [True, False]):
+				systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
+		
+				log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+					samples="\", \"".join(list_of_samples),
+					channel=channel,
+					category=category,
+					systematic=systematic
+				))
+
+				merged_config={}
+				
+				# config for rest for each pt range
+				# need to get "rest" first in order for corrections of negative bin contents to have an effect
+				catForConfig = "cat" + decayMode + "_" + channel
+				if (decayMode == "AllDMs" and quantity == "m_2"):
+					catForConfig = "catAllDMsNotOneProng_" + channel
+				config_rest = sample_settings.get_config(
+					samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample not in ["ztt", "ttt", "vvt"]],
+					channel=channel,
+					category=catForConfig,
+					nick_suffix="_" + str(weight_index),
+					weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else "") + "*" + args.weight,
+					lumi=args.lumi * 1000,
+					cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
+					estimationMethod=args.background_method
+				)
+				
+				config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
+				histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
+				config_rest["labels"] = [histogram_name_template.replace("$", "").format(
+					PROCESS=datacards.configs.sample2process(sample),
+					BIN=category,
+					SYSTEMATIC=systematic
+				) for sample in config_rest["labels"]]
+				
+				systematics_settings = systematics_factory.get(shape_systematic)(config_rest)
+				config_rest = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+				
+				# merge configs
+				merged_config = samples.Samples.merge_configs(merged_config, config_rest)
+				
+				# one ztt nick config for each es shift
+				for shift in es_shifts:
+					if "ztt" not in list_of_samples:
+						continue
 					
-					# config for rest for each pt range
-					# need to get "rest" first in order for corrections of negative bin contents to have an effect
-					catForConfig = "cat" + decayMode + "_" + channel
-					if (decayMode == "AllDMs" and quantity == "m_2"):
-						catForConfig = "catAllDMsNotOneProng_" + channel
-					config_rest = sample_settings.get_config(
-						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample not in ["ztt", "ttt", "vvt"]],
+					config_ztt = sample_settings.get_config(
+						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample in ["ztt", "ttt", "vvt"]],
 						channel=channel,
 						category=catForConfig,
-						nick_suffix="_" + str(weight_index),
+						nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(weight_index),
 						weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else "") + "*" + args.weight,
 						lumi=args.lumi * 1000,
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 						estimationMethod=args.background_method
 					)
+					# shift also pt to account for acceptance effects
+					config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]
 					
-					config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
-					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-					config_rest["labels"] = [histogram_name_template.replace("$", "").format(
+					if decayMode == "OneProng" and quantity == "m_2":
+						log.error("Tau mass (m_2) fit not possible in 1prong decay mode")
+						sys.exit(1)
+					if quantity == "m_2":
+						config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
+					elif quantity == "m_vis":
+						config_ztt["x_expressions"] = [quantity + "*sqrt(" + str(shift) + ")"] * len(config_ztt["nicks"])
+					
+					systematics_settings = systematics_factory.get(shape_systematic)(config_ztt)
+					config_ztt = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+					
+					histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
+					config_ztt["labels"] = [histogram_name_template.replace("$", "").format(
 						PROCESS=datacards.configs.sample2process(sample),
 						BIN=category,
+						MASS=str(shift),
 						SYSTEMATIC=systematic
-					) for sample in config_rest["labels"]]
-					
-					systematics_settings = systematics_factory.get(shape_systematic)(config_rest)
-					config_rest = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+					) for sample in config_ztt["labels"]]
 					
 					# merge configs
-					merged_config = samples.Samples.merge_configs(merged_config, config_rest)
-					
-					# one ztt nick config for each es shift
-					for shift in es_shifts:
-						if "ztt" not in list_of_samples:
-							continue
-						
-						config_ztt = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample in ["ztt", "ttt", "vvt"]],
-							channel=channel,
-							category=catForConfig,
-							nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(weight_index),
-							weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else "") + "*" + args.weight,
-							lumi=args.lumi * 1000,
-							cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
-							estimationMethod=args.background_method
-						)
-						# shift also pt to account for acceptance effects
-						config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]
-						
-						if decayMode == "OneProng" and quantity == "m_2":
-							log.error("Tau mass (m_2) fit not possible in 1prong decay mode")
-							sys.exit(1)
-						if quantity == "m_2":
-							config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
-						elif quantity == "m_vis":
-							config_ztt["x_expressions"] = [quantity + "*sqrt(" + str(shift) + ")"] * len(config_ztt["nicks"])
-						
-						systematics_settings = systematics_factory.get(shape_systematic)(config_ztt)
-						config_ztt = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-						
-						histogram_name_template = sig_histogram_name_template if nominal else sig_syst_histogram_name_template
-						config_ztt["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample),
-							BIN=category,
-							MASS=str(shift),
-							SYSTEMATIC=systematic
-						) for sample in config_ztt["labels"]]
-						
-						# merge configs
-						merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
-			
-					merged_config["directories"] = [args.input_dir]
-					merged_config["qcd_subtract_shape"] = [False]
-			
-					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-			
-					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
-						ANALYSIS="ztt",
-						CHANNEL=channel,
-						BIN=category,
-						SYSTEMATIC=systematic,
-						ERA="13TeV"
-					))
-					tmp_output_files.append(tmp_output_file)
-					merged_config["output_dir"] = os.path.dirname(tmp_output_file)
-					merged_config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
+					merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
 		
-					merged_config["plot_modules"] = ["ExportRoot"]
-					merged_config["file_mode"] = "UPDATE"
-						
-					# set proper binnings of the distributions
-					if decayMode == "OneProngPiZeros" and quantity == "m_2":
-						if args.tighten_mass_window:
-							merged_config["weights"] = [weight+"*(m_2 >= 0.318)*(m_2 < 1.41)" for weight in merged_config["weights"]]
-						merged_config.setdefault("x_bins", []).append(["12,0.3,1.5"])
-					elif decayMode == "ThreeProng" and quantity == "m_2":
-						if args.tighten_mass_window:
-							merged_config["weights"] = [weight+"*(m_2 >= 0.848)*(m_2 < 1.41)" for weight in merged_config["weights"]]
-						merged_config.setdefault("x_bins", []).append(["7,0.8,1.5"])
-					elif decayMode == "AllDMs" and quantity != "m_vis":
-						merged_config.setdefault("x_bins", []).append(["12,0.3,1.5"])
-					elif decayMode == "OneProng" or quantity == "m_vis":
-						merged_config.setdefault("x_bins", []).append(["40,0.0,200.0"])
-						merged_config.setdefault("custom_rebin", []).append([40,45,50,55,60,65,70,75,80,85])
-					
-					input_plot_configs.append(merged_config)
-			
-			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
-				DST=output_file,
-				SRC=" ".join(tmp_output_files)
-			))
-
-			# delete existing output files
-			output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in input_plot_configs[:args.n_plots[0]]]))
-			for output_file in output_files:
-				if os.path.exists(output_file):
-					os.remove(output_file)
-					log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+				merged_config["directories"] = [args.input_dir]
+				merged_config["qcd_subtract_shape"] = [False]
+		
+				histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
+		
+				tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					BIN=category,
+					SYSTEMATIC=systematic,
+					ERA="13TeV"
+				))
+				tmp_output_files.append(tmp_output_file)
+				merged_config["output_dir"] = os.path.dirname(tmp_output_file)
+				merged_config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
 	
-			# create input histograms with HarryPlotter
-			higgsplot.HiggsPlotter(list_of_config_dicts=input_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
-			if args.n_plots[0] != 0:
-				tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+				merged_config["plot_modules"] = ["ExportRoot"]
+				merged_config["file_mode"] = "UPDATE"
+					
+				# set proper binnings of the distributions
+				if decayMode == "OneProngPiZeros" and quantity == "m_2":
+					if args.tighten_mass_window:
+						merged_config["weights"] = [weight+"*(m_2 >= 0.318)*(m_2 < 1.41)" for weight in merged_config["weights"]]
+					merged_config.setdefault("x_bins", []).append(["12,0.3,1.5"])
+				elif decayMode == "ThreeProng" and quantity == "m_2":
+					if args.tighten_mass_window:
+						merged_config["weights"] = [weight+"*(m_2 >= 0.848)*(m_2 < 1.41)" for weight in merged_config["weights"]]
+					merged_config.setdefault("x_bins", []).append(["7,0.8,1.5"])
+				elif decayMode == "AllDMs" and quantity != "m_vis":
+					merged_config.setdefault("x_bins", []).append(["12,0.3,1.5"])
+				elif decayMode == "OneProng" or quantity == "m_vis":
+					merged_config.setdefault("x_bins", []).append(["40,0.0,200.0"])
+					merged_config.setdefault("custom_rebin", []).append([40,45,50,55,60,65,70,75,80,85])
+				
+				input_plot_configs.append(merged_config)
+		
+		hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
+			DST=output_file,
+			SRC=" ".join(tmp_output_files)
+		))
+
+		# delete existing output files
+		output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in input_plot_configs[:args.n_plots[0]]]))
+		for output_file in output_files:
+			if os.path.exists(output_file):
+				os.remove(output_file)
+				log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	
+		# create input histograms with HarryPlotter
+		higgsplot.HiggsPlotter(list_of_config_dicts=input_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
+		if args.n_plots[0] != 0:
+			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -459,7 +472,7 @@ if __name__ == "__main__":
 			postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
 			for category in datacards_cbs[datacard].cp().bin_set():
 
-				if (("combined" not in datacard) and (category not in datacard)):
+				if category not in datacard:
 					continue
 				
 				bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
@@ -540,6 +553,7 @@ if __name__ == "__main__":
 				if args.pdf:
 					config["formats"] = ["png", "pdf"]
 				
+				channel = category.split("_")[0]
 				decayMode = category.split("_")[-2]
 				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
 				config["texts"] = [decayMode_dict[decayMode]["label"]]
@@ -571,49 +585,47 @@ if __name__ == "__main__":
 	output_dict_scan_mu, output_dict_scan_errHi, output_dict_scan_errLo = {}, {}, {}
 	output_dict_scan_fit_mu, output_dict_scan_fit_err = {}, {}
 	
-	for decayMode in decay_modes:
-		for weightBin in weight_bins:
-			output_dict_mu.setdefault(decayMode, {})[weightBin] = 0
-			output_dict_errHi.setdefault(decayMode, {})[weightBin] = 0
-			output_dict_errLo.setdefault(decayMode, {})[weightBin] = 0
-			output_dict_scan_mu.setdefault(decayMode, {})[weightBin] = 0
-			output_dict_scan_errHi.setdefault(decayMode, {})[weightBin] = 0
-			output_dict_scan_errLo.setdefault(decayMode, {})[weightBin] = 0
-			output_dict_scan_fit_mu.setdefault(decayMode, {})[weightBin] = 0
-			output_dict_scan_fit_err.setdefault(decayMode, {})[weightBin] = 0
-	
 	parabola_plot_configs = []
 	weightbin_plot_configs = []
 	for datacard, cb in datacards_cbs.iteritems():
-		filename = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH0.root")
-		if "combined" in filename:
-			continue
 		
-		resultsfilename = os.path.join(os.path.dirname(datacard), "mlfit.root")
-		resultsfile = ROOT.TFile(resultsfilename)
-		resultstree = resultsfile.Get("tree_fit_sb")
-		resultstree.GetEntry(0)
+		filename_mlfit = os.path.join(os.path.dirname(datacard), "mlfit.root")
+		file_mlfit = ROOT.TFile(filename_mlfit)
+		tree_mlfit = file_mlfit.Get("tree_fit_sb")
+		tree_mlfit.GetEntry(0)
+		
+		filename_multidimfit = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH0.root")
 		
 		for category in datacards_cbs[datacard].cp().bin_set():
-			if category not in filename:
+			if category not in filename_multidimfit:
 				continue
 			
+			channel = category.split("_")[0]
 			decayMode = category.split("_")[-2]
 			weightBin = category.split("_")[-1].split(weight_type+"bin")[-1]
 			
-			file = ROOT.TFile(filename)
-			tree = file.Get("limit")
+			output_dict_mu.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			output_dict_errHi.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			output_dict_errLo.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			output_dict_scan_mu.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			output_dict_scan_errHi.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			output_dict_scan_errLo.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			output_dict_scan_fit_mu.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			output_dict_scan_fit_err.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			
+			file_multidimfit = ROOT.TFile(filename_multidimfit)
+			tree_multidimfit = file_multidimfit.Get("limit")
 			mes_list = []
 			deltaNLL_list = []
 			deltaNLLshifted_list = []
 			
 			# the entry '0' contains the best shift and deltaNLL=0 --> start from 1
-			for entry in range(1, tree.GetEntries()):
-				tree.GetEntry(entry)
-				mes_list.append(tree.mes)
-				deltaNLL_list.append(2*tree.deltaNLL)
+			for entry in range(1, tree_multidimfit.GetEntries()):
+				tree_multidimfit.GetEntry(entry)
+				mes_list.append(tree_multidimfit.mes)
+				deltaNLL_list.append(2*tree_multidimfit.deltaNLL)
 			
-			file.Close()
+			file_multidimfit.Close()
 			
 			#find minimum
 			for index, (nll) in enumerate(deltaNLL_list):
@@ -717,14 +729,14 @@ if __name__ == "__main__":
 			RooFitGraph_Parabola.Write()
 			graphfile.Close()
 		
-			output_dict_mu[decayMode][weightBin] = (resultstree.mu-1.0)*100
-			output_dict_errHi[decayMode][weightBin] = resultstree.muHiErr*100
-			output_dict_errLo[decayMode][weightBin] = resultstree.muLoErr*100
-			output_dict_scan_mu[decayMode][weightBin] = (min_shift-1.0)*100
-			output_dict_scan_errHi[decayMode][weightBin] = err1sigmaHi*100
-			output_dict_scan_errLo[decayMode][weightBin] = err1sigmaLow*100
-			output_dict_scan_fit_mu[decayMode][weightBin] = minimumScanFit
-			output_dict_scan_fit_err[decayMode][weightBin] = sigmaScanFit
+			output_dict_mu[channel+"_"+decayMode][weightBin] = (tree_mlfit.mu-1.0)*100
+			output_dict_errHi[channel+"_"+decayMode][weightBin] = tree_mlfit.muHiErr*100
+			output_dict_errLo[channel+"_"+decayMode][weightBin] = tree_mlfit.muLoErr*100
+			output_dict_scan_mu[channel+"_"+decayMode][weightBin] = (min_shift-1.0)*100
+			output_dict_scan_errHi[channel+"_"+decayMode][weightBin] = err1sigmaHi*100
+			output_dict_scan_errLo[channel+"_"+decayMode][weightBin] = err1sigmaLow*100
+			output_dict_scan_fit_mu[channel+"_"+decayMode][weightBin] = minimumScanFit
+			output_dict_scan_fit_err[channel+"_"+decayMode][weightBin] = sigmaScanFit
 			
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
@@ -766,7 +778,7 @@ if __name__ == "__main__":
 				www_output_dirs_parabola.append(config["output_dir"])
 			
 			parabola_plot_configs.append(config)
-		resultsfile.Close()
+		file_mlfit.Close()
 
 	#plot parabolas
 	higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
@@ -779,212 +791,220 @@ if __name__ == "__main__":
 	polZero_dict_p0, polZero_dict_p0err, polZero_dict_chi2, polZero_dict_ndf = {}, {}, {}, {}
 	polOne_dict_p0, polOne_dict_p0err,polOne_dict_p1, polOne_dict_p1err, polOne_dict_chi2, polOne_dict_ndf = {}, {}, {}, {}, {}, {}
 	
-	for decayMode in decay_modes:
-		xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
-		xbinsF, xerrsF, ybinsF, yerrsloF, yerrshiF = [], [], [], [], []
-		weight_bins_loop = weight_bins if args.no_inclusive else weight_bins[1:]
-		weight_ranges_loop = weight_ranges if args.no_inclusive else weight_ranges[1:]
-		for index, weightBin in enumerate(weight_bins_loop):
-			if args.use_scan_without_fit:
-				yval += str(output_dict_scan_mu[decayMode][weightBin])+" "
-				yerrsloval += str(output_dict_scan_errLo[decayMode][weightBin])+" "
-				yerrshival += str(output_dict_scan_errHi[decayMode][weightBin])+" "
-				ybinsF.append(output_dict_scan_mu[decayMode][weightBin])
-				yerrsloF.append(output_dict_scan_errLo[decayMode][weightBin])
-				yerrshiF.append(output_dict_scan_errHi[decayMode][weightBin])
-			else:
-				yval += str(output_dict_scan_fit_mu[decayMode][weightBin])+" "
-				yerrsloval += str(output_dict_scan_fit_err[decayMode][weightBin])+" "
-				yerrshival += str(output_dict_scan_fit_err[decayMode][weightBin])+" "
-				ybinsF.append(output_dict_scan_fit_mu[decayMode][weightBin])
-				yerrsloF.append(output_dict_scan_fit_err[decayMode][weightBin])
-				yerrshiF.append(output_dict_scan_fit_err[decayMode][weightBin])
-			if index < (len(weight_bins_loop)-1):
-				xval += str((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)+" "
-				xerrsval += str((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)+" "
-				xbinsF.append((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)
-				xerrsF.append((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)
-		
-		if len(weight_bins_loop) > 0:
-			xval += str((float(weight_ranges_loop[index])+200.0)/2.0)
-			xerrsval += str((200.0 - float(weight_ranges_loop[index]))/2.0)
-			xbinsF.append((float(weight_ranges_loop[index])+200.0)/2.0)
-			xerrsF.append((200.0 - float(weight_ranges_loop[index]))/2.0)
-		else: # no pt ranges were given - plot only inclusive result
-			xval += "110.0 "
-			xerrsval += "90.0 "
-			xbinsF.append(110.0)
-			xerrsF.append(90.0)
-			if args.use_scan_without_fit:
-				yval += str(output_dict_scan_mu[decayMode]["0"])+" "
-				yerrsloval += str(output_dict_scan_errLo[decayMode]["0"])+" "
-				yerrshival += str(output_dict_scan_errHi[decayMode]["0"])+" "
-				ybinsF.append(output_dict_scan_mu[decayMode]["0"])
-				yerrsloF.append(output_dict_scan_errLo[decayMode]["0"])
-				yerrshiF.append(output_dict_scan_errHi[decayMode]["0"])
-			else:
-				yval += str(output_dict_scan_fit_mu[decayMode]["0"])+" "
-				yerrsloval += str(output_dict_scan_fit_err[decayMode]["0"])+" "
-				yerrshival += str(output_dict_scan_fit_err[decayMode]["0"])+" "
-				ybinsF.append(output_dict_scan_fit_mu[decayMode]["0"])
-				yerrsloF.append(output_dict_scan_fit_err[decayMode]["0"])
-				yerrshiF.append(output_dict_scan_fit_err[decayMode]["0"])
-				
-		
-		if args.eta_binning:
-			xval = "0.7395 2.2185"
-			xerrsval = "0.7395 0.7395"
-			xbinsF = [0.7395, 2.2185]
-			xerrsF = [0.7395, 0.7395]
-		
-		# Fill TGraphErrors for fit
-		RooFitGraph_Linear = ROOT.TGraphAsymmErrors(
-			len(xbinsF),
-			array.array("d", xbinsF),
-			array.array("d", ybinsF),
-			array.array("d", xerrsF),
-			array.array("d", xerrsF),
-			array.array("d", yerrsloF),
-			array.array("d", yerrshiF)
-		)
-		
-		# Pol0 and Pol1 fit functions
-		fit_polZero = ROOT.TF1("f2","pol0",min(xbinsF),max(xbinsF))
-		fit_polOne = ROOT.TF1("f3","pol1",min(xbinsF),max(xbinsF))
-		
-		# Fit Pol0
-		RooFitGraph_Linear.Fit("f2","R")
-		polZero_dict_p0[decayMode] = fit_polZero.GetParameter(0)
-		polZero_dict_p0err[decayMode] = fit_polZero.GetParError(0)
-		polZero_dict_chi2[decayMode] = fit_polZero.GetChisquare()
-		polZero_dict_ndf[decayMode] = fit_polZero.GetNDF()
-		
-		polZero_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol0_"+decayMode+"_"+quantity+".root")
-		polZero_file = ROOT.TFile(polZero_filename, "RECREATE")
-		RooFitGraph_Linear.Write()
-		polZero_file.Close()
-		
-		# Fit Pol1
-		RooFitGraph_Linear.Fit("f3","R")
-		polOne_dict_p0[decayMode] = fit_polOne.GetParameter(0)
-		polOne_dict_p0err[decayMode] = fit_polOne.GetParError(0)
-		polOne_dict_p1[decayMode] = fit_polOne.GetParameter(1)
-		polOne_dict_p1err[decayMode] = fit_polOne.GetParError(1)
-		polOne_dict_chi2[decayMode] = fit_polOne.GetChisquare()
-		polOne_dict_ndf[decayMode] = fit_polOne.GetNDF()
-		
-		polOne_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol1_"+decayMode+"_"+quantity+".root")
-		polOne_file = ROOT.TFile(polOne_filename, "RECREATE")
-		RooFitGraph_Linear.Write()
-		polOne_file.Close()
-		
-		xbins.append(xval)
-		xerrs.append(xerrsval)
-		ybins.append(yval)
-		yerrslo.append(yerrsloval)
-		yerrshi.append(yerrshival)
-		config.setdefault("colors", []).append(decayMode_dict[decayMode]["color"])
-		config.setdefault("labels", []).append(decayMode_dict[decayMode]["label"].split(" decay")[0])
+	for datacard, cb in datacards_cbs.iteritems():
+		for category in datacards_cbs[datacard].cp().bin_set():
+			
+			channel = category.split("_")[0]
+			decayMode = category.split("_")[-2]
+			
+			xval, xerrsval, yval, yerrsloval, yerrshival = "", "", "", "", ""
+			xbinsF, xerrsF, ybinsF, yerrsloF, yerrshiF = [], [], [], [], []
+			weight_bins_loop = weight_bins if args.no_inclusive else weight_bins[1:]
+			weight_ranges_loop = weight_ranges if args.no_inclusive else weight_ranges[1:]
+			for index, weightBin in enumerate(weight_bins_loop):
+				if args.use_scan_without_fit:
+					yval += str(output_dict_scan_mu[channel+"_"+decayMode][weightBin])+" "
+					yerrsloval += str(output_dict_scan_errLo[channel+"_"+decayMode][weightBin])+" "
+					yerrshival += str(output_dict_scan_errHi[channel+"_"+decayMode][weightBin])+" "
+					ybinsF.append(output_dict_scan_mu[channel+"_"+decayMode][weightBin])
+					yerrsloF.append(output_dict_scan_errLo[channel+"_"+decayMode][weightBin])
+					yerrshiF.append(output_dict_scan_errHi[channel+"_"+decayMode][weightBin])
+				else:
+					yval += str(output_dict_scan_fit_mu[channel+"_"+decayMode][weightBin])+" "
+					yerrsloval += str(output_dict_scan_fit_err[channel+"_"+decayMode][weightBin])+" "
+					yerrshival += str(output_dict_scan_fit_err[channel+"_"+decayMode][weightBin])+" "
+					ybinsF.append(output_dict_scan_fit_mu[channel+"_"+decayMode][weightBin])
+					yerrsloF.append(output_dict_scan_fit_err[channel+"_"+decayMode][weightBin])
+					yerrshiF.append(output_dict_scan_fit_err[channel+"_"+decayMode][weightBin])
+				if index < (len(weight_bins_loop)-1):
+					xval += str((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)+" "
+					xerrsval += str((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)+" "
+					xbinsF.append((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)
+					xerrsF.append((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)
+			
+			if len(weight_bins_loop) > 0:
+				xval += str((float(weight_ranges_loop[index])+200.0)/2.0)
+				xerrsval += str((200.0 - float(weight_ranges_loop[index]))/2.0)
+				xbinsF.append((float(weight_ranges_loop[index])+200.0)/2.0)
+				xerrsF.append((200.0 - float(weight_ranges_loop[index]))/2.0)
+			else: # no pt ranges were given - plot only inclusive result
+				xval += "110.0 "
+				xerrsval += "90.0 "
+				xbinsF.append(110.0)
+				xerrsF.append(90.0)
+				if args.use_scan_without_fit:
+					yval += str(output_dict_scan_mu[channel+"_"+decayMode]["0"])+" "
+					yerrsloval += str(output_dict_scan_errLo[channel+"_"+decayMode]["0"])+" "
+					yerrshival += str(output_dict_scan_errHi[channel+"_"+decayMode]["0"])+" "
+					ybinsF.append(output_dict_scan_mu[channel+"_"+decayMode]["0"])
+					yerrsloF.append(output_dict_scan_errLo[channel+"_"+decayMode]["0"])
+					yerrshiF.append(output_dict_scan_errHi[channel+"_"+decayMode]["0"])
+				else:
+					yval += str(output_dict_scan_fit_mu[channel+"_"+decayMode]["0"])+" "
+					yerrsloval += str(output_dict_scan_fit_err[channel+"_"+decayMode]["0"])+" "
+					yerrshival += str(output_dict_scan_fit_err[channel+"_"+decayMode]["0"])+" "
+					ybinsF.append(output_dict_scan_fit_mu[channel+"_"+decayMode]["0"])
+					yerrsloF.append(output_dict_scan_fit_err[channel+"_"+decayMode]["0"])
+					yerrshiF.append(output_dict_scan_fit_err[channel+"_"+decayMode]["0"])
+					
+			
+			if args.eta_binning:
+				xval = "0.7395 2.2185"
+				xerrsval = "0.7395 0.7395"
+				xbinsF = [0.7395, 2.2185]
+				xerrsF = [0.7395, 0.7395]
+			
+			# Fill TGraphErrors for fit
+			RooFitGraph_Linear = ROOT.TGraphAsymmErrors(
+				len(xbinsF),
+				array.array("d", xbinsF),
+				array.array("d", ybinsF),
+				array.array("d", xerrsF),
+				array.array("d", xerrsF),
+				array.array("d", yerrsloF),
+				array.array("d", yerrshiF)
+			)
+			
+			# Pol0 and Pol1 fit functions
+			fit_polZero = ROOT.TF1("f2","pol0",min(xbinsF),max(xbinsF))
+			fit_polOne = ROOT.TF1("f3","pol1",min(xbinsF),max(xbinsF))
+			
+			# Fit Pol0
+			RooFitGraph_Linear.Fit("f2","R")
+			polZero_dict_p0[channel+"_"+decayMode] = fit_polZero.GetParameter(0)
+			polZero_dict_p0err[channel+"_"+decayMode] = fit_polZero.GetParError(0)
+			polZero_dict_chi2[channel+"_"+decayMode] = fit_polZero.GetChisquare()
+			polZero_dict_ndf[channel+"_"+decayMode] = fit_polZero.GetNDF()
+			
+			polZero_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol0_"+decayMode+"_"+quantity+".root")
+			polZero_file = ROOT.TFile(polZero_filename, "RECREATE")
+			RooFitGraph_Linear.Write()
+			polZero_file.Close()
+			
+			# Fit Pol1
+			RooFitGraph_Linear.Fit("f3","R")
+			polOne_dict_p0[channel+"_"+decayMode] = fit_polOne.GetParameter(0)
+			polOne_dict_p0err[channel+"_"+decayMode] = fit_polOne.GetParError(0)
+			polOne_dict_p1[channel+"_"+decayMode] = fit_polOne.GetParameter(1)
+			polOne_dict_p1err[channel+"_"+decayMode] = fit_polOne.GetParError(1)
+			polOne_dict_chi2[channel+"_"+decayMode] = fit_polOne.GetChisquare()
+			polOne_dict_ndf[channel+"_"+decayMode] = fit_polOne.GetNDF()
+			
+			polOne_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol1_"+decayMode+"_"+quantity+".root")
+			polOne_file = ROOT.TFile(polOne_filename, "RECREATE")
+			RooFitGraph_Linear.Write()
+			polOne_file.Close()
+			
+			xbins.append(xval)
+			xerrs.append(xerrsval)
+			ybins.append(yval)
+			yerrslo.append(yerrsloval)
+			yerrshi.append(yerrshival)
+			config.setdefault("colors", []).append(decayMode_dict[decayMode]["color"])
+			config.setdefault("labels", []).append(decayMode_dict[decayMode]["label"].split(" decay")[0])
 	
-	config["input_modules"] = ["InputInteractive"]
-	config["x_lims"] = ([0.0, 2.3] if args.eta_binning else [0.0, 200.0])
-	config["y_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
-	config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} (GeV)")
-	config["y_label"] = "#tau_{h} ES (%)"
-	config["markers"] = ["P"]
-	config["legend"] = [0.2,0.78,0.6,0.9]
-	config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
-	config["filename"] = ("result_vs_eta_" if args.eta_binning else "result_vs_pt_") + quantity + ("_tightenedMassWindow" if args.tighten_mass_window else "")
-	config["x_expressions"] = xbins
-	config["x_errors"] = xerrs
-	config["x_errors_up"] = xerrs
-	config["y_expressions"] = ybins
-	config["y_errors"] = yerrslo
-	config["y_errors_up"] = yerrshi
-	if args.pdf:
-		config["formats"] = ["png", "pdf"]
+		config["input_modules"] = ["InputInteractive"]
+		config["x_lims"] = ([0.0, 2.3] if args.eta_binning else [0.0, 200.0])
+		config["y_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
+		config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} (GeV)")
+		config["y_label"] = "#tau_{h} ES (%)"
+		config["markers"] = ["P"]
+		config["legend"] = [0.2,0.78,0.6,0.9]
+		config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
+		config["filename"] = ("result_vs_eta_" if args.eta_binning else "result_vs_pt_") + quantity + ("_tightenedMassWindow" if args.tighten_mass_window else "")
+		config["x_expressions"] = xbins
+		config["x_errors"] = xerrs
+		config["x_errors_up"] = xerrs
+		config["y_expressions"] = ybins
+		config["y_errors"] = yerrslo
+		config["y_errors_up"] = yerrshi
+		if args.pdf:
+			config["formats"] = ["png", "pdf"]
 	
-	if not (config["output_dir"] in www_output_dirs_weightbin):
-		www_output_dirs_weightbin.append(config["output_dir"])
+		if not (config["output_dir"] in www_output_dirs_weightbin):
+			www_output_dirs_weightbin.append(config["output_dir"])
 	
-	weightbin_plot_configs.append(config)
+		weightbin_plot_configs.append(config)
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=weightbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# print output tables to shell
-	print "################### Fit results table: ML fit | MultiDim parabola fit | MultiDim parabola ###################"
-	row_format = "{:^22}" * (len(decay_modes) + 1)
-	print row_format.format("", *decay_modes)
-	print
-	for weightBin in weight_bins:
-		if weightBin == "0":
-			print "{:^22}".format("Inclusive"),
-		else:
-			print ("{:^22}".format("Eta bin "+weightBin) if args.eta_binning else "{:^22}".format("Pt bin "+weightBin)),
-		for decayMode in decay_modes:
-			if decayMode != decay_modes[-1]:
-				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_fit_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin]),
-			else:
-				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[decayMode][weightBin],output_dict_scan_fit_mu[decayMode][weightBin],output_dict_scan_mu[decayMode][weightBin])
-		print "{:^22}".format("+ 1sigma "),
-		for decayMode in decay_modes:
-			if decayMode != decay_modes[-1]:
-				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin]),
-			else:
-				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errHi[decayMode][weightBin])
-		print "{:^22}".format("- 1sigma "),
-		for decayMode in decay_modes:
-			if decayMode != decay_modes[-1]:
-				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin]),
-			else:
-				print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[decayMode][weightBin],output_dict_scan_fit_err[decayMode][weightBin],output_dict_scan_errLo[decayMode][weightBin])
+	for channel in args.channels:
+		print "################### Output summary for channel: "+channel+" ###################"
+		
+		print "################### Fit results table: ML fit | MultiDim parabola fit | MultiDim parabola ###################"
+		row_format = "{:^22}" * (len(decay_modes) + 1)
+		print row_format.format("", *decay_modes)
 		print
-	print "################### Fit results table: polynomial fits to tau energy scale vs. "+("eta" if args.eta_binning else "pt")+" ###################"
-	row_format = "{:^22}" * (len(decay_modes) + 1)
-	print row_format.format("", *decay_modes)
-	print
-	print "{:^22}".format("p0"),
-	for decayMode in decay_modes:
-		polZero_string1 = "%1.2f"%polZero_dict_p0[decayMode]
-		polZero_string2 = "%1.2f"%polZero_dict_p0err[decayMode]
-		if decayMode != decay_modes[-1]:
-			print "{:^22}".format(polZero_string1 + " +/- " + polZero_string2),
-		else:
-			print "{:^22}".format(polZero_string1 + " +/- " + polZero_string2)
-	print "{:^22}".format("chi2/ndf"),
-	for decayMode in decay_modes:
-		polZero_string1 = "%1.2f"%polZero_dict_chi2[decayMode]
-		polZero_string2 = "%1.2f"%polZero_dict_ndf[decayMode]
-		if decayMode != decay_modes[-1]:
-			print "{:^22}".format(polZero_string1 + " / " + polZero_string2),
-		else:
-			print "{:^22}".format(polZero_string1 + " / " + polZero_string2)
-	print
-	print "{:^22}".format("p0"),
-	for decayMode in decay_modes:
-		polOne_string1 = "%1.2f"%polOne_dict_p0[decayMode]
-		polOne_string2 = "%1.2f"%polOne_dict_p0err[decayMode]
-		if decayMode != decay_modes[-1]:
-			print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2),
-		else:
-			print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2)
-	print "{:^22}".format("p1"),
-	for decayMode in decay_modes:
-		polOne_string1 = "%1.2f"%polOne_dict_p1[decayMode]
-		polOne_string2 = "%1.2f"%polOne_dict_p1err[decayMode]
-		if decayMode != decay_modes[-1]:
-			print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2),
-		else:
-			print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2)
-	print "{:^22}".format("chi2/ndf"),
-	for decayMode in decay_modes:
-		polOne_string1 = "%1.2f"%polOne_dict_chi2[decayMode]
-		polOne_string2 = "%1.2f"%polOne_dict_ndf[decayMode]
-		if decayMode != decay_modes[-1]:
-			print "{:^22}".format(polOne_string1 + " / " + polOne_string2),
-		else:
-			print "{:^22}".format(polOne_string1 + " / " + polOne_string2)
-	print
+		for weightBin in weight_bins:
+			if weightBin == "0":
+				print "{:^22}".format("Inclusive"),
+			else:
+				print ("{:^22}".format("Eta bin "+weightBin) if args.eta_binning else "{:^22}".format("Pt bin "+weightBin)),
+			for decayMode in decay_modes:
+				if decayMode != decay_modes[-1]:
+					print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[channel+"_"+decayMode][weightBin],output_dict_scan_fit_mu[channel+"_"+decayMode][weightBin],output_dict_scan_mu[channel+"_"+decayMode][weightBin]),
+				else:
+					print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_mu[channel+"_"+decayMode][weightBin],output_dict_scan_fit_mu[channel+"_"+decayMode][weightBin],output_dict_scan_mu[channel+"_"+decayMode][weightBin])
+			print "{:^22}".format("+ 1sigma "),
+			for decayMode in decay_modes:
+				if decayMode != decay_modes[-1]:
+					print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[channel+"_"+decayMode][weightBin],output_dict_scan_fit_err[channel+"_"+decayMode][weightBin],output_dict_scan_errHi[channel+"_"+decayMode][weightBin]),
+				else:
+					print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errHi[channel+"_"+decayMode][weightBin],output_dict_scan_fit_err[channel+"_"+decayMode][weightBin],output_dict_scan_errHi[channel+"_"+decayMode][weightBin])
+			print "{:^22}".format("- 1sigma "),
+			for decayMode in decay_modes:
+				if decayMode != decay_modes[-1]:
+					print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[channel+"_"+decayMode][weightBin],output_dict_scan_fit_err[channel+"_"+decayMode][weightBin],output_dict_scan_errLo[channel+"_"+decayMode][weightBin]),
+				else:
+					print "{:<3.2f}% | {:<3.2f}% | {:<3.2f}%\t".format(output_dict_errLo[channel+"_"+decayMode][weightBin],output_dict_scan_fit_err[channel+"_"+decayMode][weightBin],output_dict_scan_errLo[channel+"_"+decayMode][weightBin])
+			print
+		print "################### Fit results table: polynomial fits to tau energy scale vs. "+("eta" if args.eta_binning else "pt")+" ###################"
+		row_format = "{:^22}" * (len(decay_modes) + 1)
+		print row_format.format("", *decay_modes)
+		print
+		print "{:^22}".format("p0"),
+		for decayMode in decay_modes:
+			polZero_string1 = "%1.2f"%polZero_dict_p0[channel+"_"+decayMode]
+			polZero_string2 = "%1.2f"%polZero_dict_p0err[channel+"_"+decayMode]
+			if decayMode != decay_modes[-1]:
+				print "{:^22}".format(polZero_string1 + " +/- " + polZero_string2),
+			else:
+				print "{:^22}".format(polZero_string1 + " +/- " + polZero_string2)
+		print "{:^22}".format("chi2/ndf"),
+		for decayMode in decay_modes:
+			polZero_string1 = "%1.2f"%polZero_dict_chi2[channel+"_"+decayMode]
+			polZero_string2 = "%1.2f"%polZero_dict_ndf[channel+"_"+decayMode]
+			if decayMode != decay_modes[-1]:
+				print "{:^22}".format(polZero_string1 + " / " + polZero_string2),
+			else:
+				print "{:^22}".format(polZero_string1 + " / " + polZero_string2)
+		print
+		print "{:^22}".format("p0"),
+		for decayMode in decay_modes:
+			polOne_string1 = "%1.2f"%polOne_dict_p0[channel+"_"+decayMode]
+			polOne_string2 = "%1.2f"%polOne_dict_p0err[channel+"_"+decayMode]
+			if decayMode != decay_modes[-1]:
+				print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2),
+			else:
+				print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2)
+		print "{:^22}".format("p1"),
+		for decayMode in decay_modes:
+			polOne_string1 = "%1.2f"%polOne_dict_p1[channel+"_"+decayMode]
+			polOne_string2 = "%1.2f"%polOne_dict_p1err[channel+"_"+decayMode]
+			if decayMode != decay_modes[-1]:
+				print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2),
+			else:
+				print "{:^22}".format(polOne_string1 + " +/- " + polOne_string2)
+		print "{:^22}".format("chi2/ndf"),
+		for decayMode in decay_modes:
+			polOne_string1 = "%1.2f"%polOne_dict_chi2[channel+"_"+decayMode]
+			polOne_string2 = "%1.2f"%polOne_dict_ndf[channel+"_"+decayMode]
+			if decayMode != decay_modes[-1]:
+				print "{:^22}".format(polOne_string1 + " / " + polOne_string2),
+			else:
+				print "{:^22}".format(polOne_string1 + " / " + polOne_string2)
+		print
 
 	# it's not pretty but it works :)
 	if not args.www is None:
