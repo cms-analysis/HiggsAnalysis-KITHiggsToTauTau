@@ -228,7 +228,9 @@ if __name__ == "__main__":
 	mapping_category2binid = {}
 	for channel in args.channels:
 		mapping_category2binid.setdefault(channel, {})
-		bin_id = 2000 if not args.eta_binning else 3000
+		bin_id = 2000 if quantity == "m_2" else 3000
+		if args.eta_binning:
+			bin_id = bin_id + 2000
 		for decayMode in args.decay_modes:
 			bin_id = bin_id + 1
 			for weight_index, (weight_bin) in enumerate(weight_bins):
