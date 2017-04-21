@@ -215,10 +215,9 @@ if __name__ == "__main__":
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = [
-		"datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.txt",
-		"datacards/decaymode/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt"
-	]
+	datacard_filename_templates = ["datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.txt"]
+	if len(args.channels) > 1:
+		datacard_filename_templates.append("datacards/decaymode/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
 	quantity = args.quantity
