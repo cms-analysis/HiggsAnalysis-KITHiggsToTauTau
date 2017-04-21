@@ -323,7 +323,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_dy_m50(self, channel):
-		return self.artus_file_names({"process" : "DYJetsToLLM50", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 1)
+		return self.artus_file_names({"process" : "DYJetsToLLM50", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 2)
 
 	def files_ztt(self, channel):
 		if self.embedding:
