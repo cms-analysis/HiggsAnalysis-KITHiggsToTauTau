@@ -11,7 +11,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 from Kappa.Skimming.registerDatasetHelper import get_nick_list
 from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
 energy = 13
-default_lumi = 35.87*1000.0
+default_lumi =  35.87*1000.0
 class Samples(samples.SamplesBase):
 
 
@@ -155,6 +155,17 @@ class Samples(samples.SamplesBase):
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		return "("+highmass+mediummass+lowmass+")"+normalization
 
+	def embedding_stitchingweight(self):
+		runB = "((run >= 272007) && (run < 275657))*3768958.+"
+		runC = "((run >= 275657) && (run < 276315))*1583897.+"
+		runD = "((run >= 276315) && (run < 276831))*2570815.+"
+		runE = "((run >= 276831) && (run < 277772))*2514506.+"
+		runF = "((run >= 277772) && (run < 278820))*1879819.+"
+		runG = "((run >= 278820) && (run < 280919))*5008746.+"
+		runH = "((run >= 280919) && (run < 284045))*6325743."
+		totalevents = "3768958.+1583897.+2570815.+2514506.+1879819.+5008746.+6325743."
+		return "("+runB+runC+runD+runE+runF+runG+runH+")/("+totalevents+")"
+
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays
 	def zll_stitchingweight(self):
 		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 50.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 50.0 && npartons == 4)*1.09698723e-5)+"
@@ -211,13 +222,13 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		if self.embedding:
 			if channel == "et":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[1]])
+				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[1]])
 			elif channel == "mt":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[0]])
+				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[0]])
 			elif channel == "tt":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[3]])
+				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[3]])
 			elif channel == "em":
-				return make_multiplication([mc_weight, weight, "eventWeight", "(eventWeight<1.0)",self.embedding_weight[2]])
+				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[2]])
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif mc_sample_weight != "(1.0)":
@@ -263,7 +274,6 @@ class Samples(samples.SamplesBase):
 		elif channel == "ee":
 			query_rereco = { "process" : "SingleElectron" }
 			query_promptreco = { "process" : "SingleElectron" }
-			query_promptreco = { "process" : "SingleElectron" }
 			query_reminiaod = { "process" : "SingleElectron" }
 		elif channel == "tt":
 			query_rereco = { "process" : "Tau" }
@@ -285,7 +295,7 @@ class Samples(samples.SamplesBase):
 		rereco_files = self.artus_file_names(query_rereco, expect_n_results_rereco)
 		promptreco_files = self.artus_file_names(query_promptreco, expect_n_results_promptreco)
 		reminiaod_files = self.artus_file_names(query_reminiaod, expect_n_results_reminiaod)
-		#return rereco_files + " " + promptreco_files
+		#~ return rereco_files + " " + promptreco_files
 		return reminiaod_files
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -317,7 +327,7 @@ class Samples(samples.SamplesBase):
 
 	def files_ztt(self, channel):
 		if self.embedding:
-			return self.artus_file_names({"process" : "Embedding2016(B|C|D|E|F|G)" , "campaign" : "(Mu|El)TauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv1" }, 12)
+			return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "MuTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 7)
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -327,7 +337,6 @@ class Samples(samples.SamplesBase):
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
-			
 		if channel in ['gen']:
 			Samples._add_input(
 					config,
@@ -615,12 +624,19 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		data_weight, mc_weight = self.projection(kwargs)
+		if self.embedding:
+			if channel == "mt":
+				ttbar_gen_match_weight="!((gen_match_1 == 4) && (gen_match_2 == 5))"
+			else:
+				ttbar_gen_match_weight="(1.0)"
+		else:
+			ttbar_gen_match_weight="(1.0)"
 		Samples._add_input(
 				config,
 				self.files_ttj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				make_multiplication([mc_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
+				make_multiplication([mc_weight, weight, "eventWeight", ttbar_gen_match_weight, self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
 				"ttj",
 				nick_suffix=nick_suffix
 		)
