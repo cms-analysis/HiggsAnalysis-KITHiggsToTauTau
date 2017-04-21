@@ -10,8 +10,11 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 
 
 class TauEsDatacards(datacards.Datacards):
-	def __init__(self, shifts=[], decaymodes=[], quantity="m_2", weight_bins=[], weight_type="pt", year="", cb=None):
+	def __init__(self, shifts=[], decaymodes=[], quantity="m_2", weight_bins=[], weight_type="pt", year="", mapping_category2binid=None, cb=None):
 		super(TauEsDatacards, self).__init__(cb)
+		
+		if mapping_category2binid is not None:
+			self.configs._mapping_category2binid.update(mapping_category2binid)
 		
 		if cb is None:
 			# ======================================================================

@@ -216,26 +216,30 @@ if __name__ == "__main__":
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
-		"datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.txt"
+		"datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.txt",
+		"datacards/decaymode/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt"
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
-	# restrict CombineHarvester to configured channels:
 	quantity = args.quantity
-	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era)
-	datacards.cb.channel(args.channels)
 	
 	# build categories and bin id's for CombineHarvester
 	categories = []
+	mapping_category2binid = {}
 	for channel in args.channels:
+		mapping_category2binid.setdefault(channel, {})
 		bin_id = 2000 if not args.eta_binning else 3000
 		for decayMode in args.decay_modes:
 			bin_id = bin_id + 1
 			for weight_index, (weight_bin) in enumerate(weight_bins):
 				bin_id = bin_id + 1
 				category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
-				datacards.configs._mapping_category2binid[channel][category] = bin_id
+				mapping_category2binid[channel][category] = bin_id
 				categories.append(category)
+	
+	# restrict CombineHarvester to configured channels:
+	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era, mapping_category2binid)
+	datacards.cb.channel(args.channels)
 	
 	for category in categories:
 		channel = category.split("_")[0]
@@ -252,8 +256,7 @@ if __name__ == "__main__":
 		input_plot_configs = []
 		hadd_commands = []
 		
-		datacards_per_channel_category = taupogdatacards.TauEsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
-		datacards_per_channel_category.configs._mapping_category2binid[channel][category] = datacards.configs._mapping_category2binid[channel][category]
+		datacards_per_channel_category = taupogdatacards.TauEsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
 
 		tmp_output_files = []
 
@@ -470,7 +473,13 @@ if __name__ == "__main__":
 	for level in ["prefit", "postfit"]:
 		for datacard in datacards_cbs.keys():
 			postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
+			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
+				continue
 			for category in datacards_cbs[datacard].cp().bin_set():
+				
+				channel = category.split("_")[0]
+				decayMode = category.split("_")[-2]
+				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
 
 				if category not in datacard:
 					continue
@@ -553,9 +562,6 @@ if __name__ == "__main__":
 				if args.pdf:
 					config["formats"] = ["png", "pdf"]
 				
-				channel = category.split("_")[0]
-				decayMode = category.split("_")[-2]
-				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
 				config["texts"] = [decayMode_dict[decayMode]["label"]]
 				config["texts_x"] = [0.52]
 				config["texts_y"] = [0.81]
@@ -596,8 +602,15 @@ if __name__ == "__main__":
 		
 		filename_multidimfit = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH0.root")
 		
-		for category in datacards_cbs[datacard].cp().bin_set():
-			if category not in filename_multidimfit:
+		# the if statement in the loop is a workaround for the combination of channels
+		# if you know of a better way, feel free to try it :)
+		for category_or_bin_id in (datacards_cbs[datacard].cp().bin_set() if len(datacards_cbs[datacard].cp().bin_set()) == 1 else datacards_cbs[datacard].cp().bin_id_set()):
+			
+			category = datacards_cbs[datacard].cp().bin_set()[0]
+			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
+				category = category.replace(category.split("_")[0], "combined")
+			
+			if str(category_or_bin_id) not in filename_multidimfit:
 				continue
 			
 			channel = category.split("_")[0]
@@ -763,7 +776,7 @@ if __name__ == "__main__":
 				config["texts_x"].append(0.38)
 				config["texts_y"].append(0.79)
 			config["texts_size"] = [0.035]
-			config["title"] = "channel_"+channel
+			config["title"] = "combined" if channel == "combined" else "channel_"+channel
 			if args.cms:
 				config["cms"] = True
 				config["extra_text"] = "Preliminary"
@@ -792,7 +805,12 @@ if __name__ == "__main__":
 	polOne_dict_p0, polOne_dict_p0err,polOne_dict_p1, polOne_dict_p1err, polOne_dict_chi2, polOne_dict_ndf = {}, {}, {}, {}, {}, {}
 	
 	for datacard, cb in datacards_cbs.iteritems():
-		for category in datacards_cbs[datacard].cp().bin_set():
+		# the if statement in the loop is a workaround for the combination of channels
+		# if you know of a better way, feel free to try it :)
+		for category_or_bin_id in (datacards_cbs[datacard].cp().bin_set() if len(datacards_cbs[datacard].cp().bin_set()) == 1 else datacards_cbs[datacard].cp().bin_id_set()):
+			category = datacards_cbs[datacard].cp().bin_set()[0]
+			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
+				category = category.replace(category.split("_")[0], "combined")
 			
 			channel = category.split("_")[0]
 			decayMode = category.split("_")[-2]
@@ -929,8 +947,8 @@ if __name__ == "__main__":
 	higgsplot.HiggsPlotter(list_of_config_dicts=weightbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 	# print output tables to shell
-	for channel in args.channels:
-		print "################### Output summary for channel: "+channel+" ###################"
+	for channel in args.channels+(["combined"] if len(args.channels) > 1 else []):
+		print ">>>>>>>>>>>>>>>>>>> Output summary for channel: "+channel+" <<<<<<<<<<<<<<<<<<<"
 		
 		print "################### Fit results table: ML fit | MultiDim parabola fit | MultiDim parabola ###################"
 		row_format = "{:^22}" * (len(decay_modes) + 1)
