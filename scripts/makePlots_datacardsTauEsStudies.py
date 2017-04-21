@@ -380,7 +380,8 @@ if __name__ == "__main__":
 	
 			# create input histograms with HarryPlotter
 			higgsplot.HiggsPlotter(list_of_config_dicts=input_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
-			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+			if args.n_plots[0] != 0:
+				tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
