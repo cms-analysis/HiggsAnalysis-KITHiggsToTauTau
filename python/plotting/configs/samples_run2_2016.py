@@ -2745,7 +2745,7 @@ class Samples(samples.SamplesBase):
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+"*"+weight+"*eventWeight*jetToTauFakeWeight_comb*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+					data_weight+"*"+weight+"*eventWeight*jetToTauFakeWeight_comb*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type),
 					"ff",
 					nick_suffix=nick_suffix
 			)
@@ -2755,7 +2755,7 @@ class Samples(samples.SamplesBase):
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+"*"+weight+"*eventWeight*jetToTauFakeWeight_comb*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)",
+					data_weight+"*"+weight+"*eventWeight*jetToTauFakeWeight_comb*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type),
 					"ff",
 					nick_suffix=nick_suffix
 			)
