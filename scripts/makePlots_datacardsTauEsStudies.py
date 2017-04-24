@@ -770,14 +770,14 @@ if __name__ == "__main__":
 			config["x_expressions"] = [xvalues]
 			config["y_expressions"] = [yvalues]
 			config["texts"] = [decayMode_dict[decayMode]["label"], "1#sigma", "2#sigma"]
-			config["texts_x"] = [0.38, 0.98, 0.98]
-			config["texts_y"] = [0.86, 0.23, 0.46]
+			config["texts_x"] = [0.78, 0.98, 0.98]
+			config["texts_y"] = [0.85, 0.23, 0.46]
 			if int(weightBin) > 0:
 				config["texts"].append(weight_strings[int(weightBin)])
-				config["texts_x"].append(0.38)
-				config["texts_y"].append(0.79)
+				config["texts_x"].append(0.78)
+				config["texts_y"].append(0.78)
 			config["texts_size"] = [0.035]
-			config["title"] = "combined" if channel == "combined" else "channel_"+channel
+			config["title"] = "Combined" if channel == "combined" else "channel_"+channel
 			if args.cms:
 				config["cms"] = True
 				config["extra_text"] = "Preliminary"
