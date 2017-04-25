@@ -72,6 +72,10 @@ class DatacardConfigs(object):
 				"mt_1jet_inclusive" : 31,
 				"mt_2jet_inclusive" : 32,
 				
+				"mt_ZeroJet2D" : 100,
+				"mt_Boosted2D" : 101,
+				"mt_Vbf2D" : 102,
+				
 				"mt_a1" : 1010,
 				"mt_rho" : 1020,
 				"mt_oneprong" : 1030,
@@ -100,6 +104,10 @@ class DatacardConfigs(object):
 				"et_0jet_inclusive" : 30,
 				"et_1jet_inclusive" : 31,
 				"et_2jet_inclusive" : 32,
+				
+				"et_ZeroJet2D" : 100,
+				"et_Boosted2D" : 101,
+				"et_Vbf2D" : 102,
 				
 				"et_a1" : 1010,
 				"et_rho" : 1020,
@@ -130,6 +138,10 @@ class DatacardConfigs(object):
 				"em_1jet_inclusive" : 31,
 				"em_2jet_inclusive" : 32,
 				
+				"em_ZeroJet2D" : 100,
+				"em_Boosted2D" : 101,
+				"em_Vbf2D" : 102,
+				
 				"em_oneprong" : 1030,
 			},
 			"tt" : {
@@ -157,6 +169,10 @@ class DatacardConfigs(object):
 				"tt_1jet_inclusive" : 31,
 				"tt_2jet_inclusive" : 32,
 				
+				"tt_ZeroJet2D" : 100,
+				"tt_Boosted2D" : 101,
+				"tt_Vbf2D" : 102,
+				
 				"tt_a1" : 1010,
 				"tt_rho" : 1020,
 				"tt_oneprong" : 1030,
@@ -182,6 +198,10 @@ class DatacardConfigs(object):
 				"mm_1jet_boost_low" : 21,
 				"mm_0jet_nhighpt2" : 22,
 				"mm_0jet_nlowpt2" : 23,
+				
+				"mm_ZeroJet2D" : 100,
+				"mm_Boosted2D" : 101,
+				"mm_Vbf2D" : 102,
 			},
 		}
 		#for channel in ["tt", "mt", "et", "em"]:
