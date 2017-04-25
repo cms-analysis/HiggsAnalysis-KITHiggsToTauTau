@@ -30,6 +30,7 @@ class SMHttDatacards(datacards.Datacards):
 			# efficiencies
 			# (hopefully) temporary fix
 			if year == "2016":
+				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
@@ -76,6 +77,7 @@ class SMHttDatacards(datacards.Datacards):
 			# efficiencies
 			# (hopefully) temporary fix
 			if year == "2016":
+				self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
@@ -122,6 +124,7 @@ class SMHttDatacards(datacards.Datacards):
 			# efficiencies
 			# (hopefully) temporary fix
 			if year == "2016":
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
 				self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 
@@ -160,6 +163,7 @@ class SMHttDatacards(datacards.Datacards):
 			# efficiencies
 			# (hopefully) temporary fix
 			if year == "2016":
+				self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["tt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
 				self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
 			else:

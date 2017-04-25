@@ -75,6 +75,19 @@ class Datacards(object):
 			ch.SystMap("era")
 				(       ["13TeV"], 1.026)
 		]
+		self.trigger_efficiency2016_syst_args = [ # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L76-L88
+			"CMS_eff_trigger_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["mt", "et"], 1.02)
+				(["13TeV"], ["tt"], 1.10)
+		]
+		self.trigger_efficiency2016_em_syst_args = [ # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L82-L84
+			"CMS_eff_trigger_em_$ERA",
+			"lnN",
+			ch.SystMap("era")
+				(["13TeV"], ["em", "ttbar"], 1.02)
+		]
 		self.electron_efficiency_syst_args = [
 			"CMS_eff_e",
 			"lnN",
@@ -127,7 +140,7 @@ class Datacards(object):
 			"CMS_eff_t_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel", "process")
-				(       ["13TeV"], ["tt"], ["ZTT", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.12) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+				(       ["13TeV"], ["tt"], ["ZTT", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.09) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 				(       ["13TeV"], ["tt"], ["ZJ", "VVJ", "TTJJ", "W"], 1.06) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 		]
 		self.tau_efficiency2016_syst_args = [
