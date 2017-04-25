@@ -179,15 +179,6 @@ if __name__ == "__main__":
 	eta_strings = ["|#eta(#tau_{h})| < 2.3","|#eta(#tau_{h})| < 1.479","1.479 < |#eta(#tau_{h})| < 2.3"]
 	eta_bins = ["0","1","2"]
 	
-	if args.no_inclusive and len(args.pt_ranges) > 0:
-		pt_ranges.pop(0)
-		pt_weights.pop(0)
-		pt_bins.pop(0)
-	if args.no_inclusive and args.eta_binning:
-		eta_ranges.pop(0)
-		eta_weights.pop(0)
-		eta_bins.pop(0)
-	
 	# do measurement as function of pt or eta?
 	weight_type = ("eta" if args.eta_binning else "pt")
 	weight_ranges = (eta_ranges if args.eta_binning else pt_ranges)
@@ -236,7 +227,14 @@ if __name__ == "__main__":
 				bin_id = bin_id + 1
 				category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
 				mapping_category2binid[channel][category] = bin_id
+				if weight_index == 0 and args.no_inclusive:
+					continue
 				categories.append(category)
+	
+	if args.no_inclusive:
+		weight_ranges.pop(0)
+		extra_weights.pop(0)
+		weight_bins.pop(0)
 	
 	# restrict CombineHarvester to configured channels:
 	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era, mapping_category2binid)
@@ -246,6 +244,8 @@ if __name__ == "__main__":
 		channel = category.split("_")[0]
 		decayMode = category.split("_")[-2]
 		weight_index = int(category.split("_")[-1].split(weight_type+"bin")[-1])
+		if args.no_inclusive:
+			weight_index = weight_index - 1
 
 		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 				ANALYSIS="ztt",
@@ -474,6 +474,7 @@ if __name__ == "__main__":
 	for level in ["prefit", "postfit"]:
 		for datacard in datacards_cbs.keys():
 			postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
+			# do not produce plots for combination as there is no proper implementation for that
 			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
 				continue
 			for category in datacards_cbs[datacard].cp().bin_set():
@@ -606,14 +607,15 @@ if __name__ == "__main__":
 		# the if statement in the loop is a workaround for the combination of channels
 		# if you know of a better way, feel free to try it :)
 		for category_or_bin_id in (datacards_cbs[datacard].cp().bin_set() if len(datacards_cbs[datacard].cp().bin_set()) == 1 else datacards_cbs[datacard].cp().bin_id_set()):
-			
-			category = datacards_cbs[datacard].cp().bin_set()[0]
-			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
-				category = category.replace(category.split("_")[0], "combined")
-			
 			if str(category_or_bin_id) not in filename_multidimfit:
 				continue
+
+			category = datacards_cbs[datacard].cp().bin_set()[0]
 			
+			# redefine category if performing combination
+			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
+				# only replace first occurence (otherwise etabin is replaced as well if channel is et)
+				category = category.replace(category.split("_")[0], "combined", 1)
 			channel = category.split("_")[0]
 			decayMode = category.split("_")[-2]
 			weightBin = category.split("_")[-1].split(weight_type+"bin")[-1]
@@ -811,7 +813,8 @@ if __name__ == "__main__":
 		for category_or_bin_id in (datacards_cbs[datacard].cp().bin_set() if len(datacards_cbs[datacard].cp().bin_set()) == 1 else datacards_cbs[datacard].cp().bin_id_set()):
 			category = datacards_cbs[datacard].cp().bin_set()[0]
 			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
-				category = category.replace(category.split("_")[0], "combined")
+				# only replace first occurence (otherwise etabin is replaced as well if channel is et)
+				category = category.replace(category.split("_")[0], "combined", 1)
 			
 			channel = category.split("_")[0]
 			decayMode = category.split("_")[-2]
