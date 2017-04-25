@@ -56,13 +56,6 @@ class SMHttDatacards(datacards.Datacards):
 				for category in Categories.CategoriesDict().getCategories(["mt"], False)["mt"]:
 					self.cb.cp().channel(["mt"]).bin(["mt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
-			# B-Tag
-			#self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
-			#self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
-
-			#self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
-			#self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
-
 			# ======================================================================
 			# ET channel
 			self.add_processes(
@@ -104,13 +97,6 @@ class SMHttDatacards(datacards.Datacards):
 				for category in Categories.CategoriesDict().getCategories(["et"], False)["et"]:
 					self.cb.cp().channel(["et"]).bin(["et_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
-			# B-Tag
-			#self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
-			#self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
-
-			#self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
-			#self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
-
 			# ======================================================================
 			# EM channel
 			self.add_processes(
@@ -141,11 +127,10 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency_syst_args)
 
 			# B-Tag
-			#self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
-			#self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.btag_efficiency_syst_args)
-
-			#self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.btag_mistag_syst_args)
-			#self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.btag_mistag_syst_args)
+			if year == "2016":
+				# the bins for zero jet, boosted and vbf are defined in datacardconfigs.py
+				self.cb.cp().channel(["em"]).process(["TT", "TTT", "TTJ"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
+				self.cb.cp().channel(["em"]).process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.btag_mistag2016_syst_args)
 			
 			if useRateParam:
 				for category in Categories.CategoriesDict().getCategories(["em"], False)["em"]:
@@ -259,11 +244,6 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_qcd_scale_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_pdf_scale_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_ueps_syst_args)
-
-			# transform B-Tagging shape to lnN
-			#self.cb.cp().syst_name(['CMS_eff_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
-			#self.cb.cp().syst_name(['CMS_mistag_b_13TeV']).ForEachSyst(lambda x: x.set_type("lnN"))
-
 
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()

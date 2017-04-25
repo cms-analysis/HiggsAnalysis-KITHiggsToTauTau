@@ -162,11 +162,24 @@ class Datacards(object):
 			ch.SystMap("era", "channel")
 				(["13TeV"], ["em","et","mt"], 1.0)
 		]
+		self.btag_efficiency2016_syst_args = [ # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L151-L154
+			"CMS_htt_eff_b_$ERA",
+			"lnN",
+			ch.SystMap("era", "bin", "process")
+				(["13TeV"], ["TTJ", "TTT", "TT"], ["em_ZeroJet2D"], 1.035)
+				(["13TeV"], ["TTJ", "TTT", "TT"], ["em_Boosted2D", "em_Vbf2D"], 1.05)
+		]
 		self.btag_mistag_syst_args = [
 			"CMS_mistag_b_$ERA",
 			"shape",
 			ch.SystMap("era", "channel")
 				(["13TeV"], ["em","et","mt"], 1.0)
+		]
+		self.btag_mistag2016_syst_args = [ # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L156-L157
+			"CMS_htt_mistag_b_$ERA",
+			"lnN",
+			ch.SystMap("era", "bin", "process")
+				(["13TeV"], ["VVJ", "VVT", "VV"], ["em_Boosted2D", "em_Vbf2D"], 1.015)
 		]
 		self.met_scale_syst_args = [
 			"CMS_$ANALYSIS_scale_met_$ERA",
