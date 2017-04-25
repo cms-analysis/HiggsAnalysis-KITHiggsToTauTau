@@ -129,7 +129,7 @@ class SMHttDatacards(datacards.Datacards):
 			# B-Tag
 			if year == "2016":
 				# the bins for zero jet, boosted and vbf are defined in datacardconfigs.py
-				self.cb.cp().channel(["em"]).process(["TT", "TTT", "TTJ"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
+				self.cb.cp().channel(["em"]).process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.btag_mistag2016_syst_args)
 			
 			if useRateParam:
@@ -229,6 +229,18 @@ class SMHttDatacards(datacards.Datacards):
 			else:
 				self.cb.cp().process(["VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.wj_cross_section_syst_args) # automatically in other channels determined
+			
+			# QCD normalization from https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L355-L377
+			self.cb.cp().channel(["em"]).process(["QCD"]).bin_id(["em_ZeroJet2D"]).AddSyst(self.cb, "CMS_htt_QCD_0jet_em_13TeV", "lnN", ch.SystMap()(1.10))
+			self.cb.cp().channel(["em"]).process(["QCD"]).bin_id(["em_Boosted2D"]).AddSyst(self.cb, "CMS_htt_QCD_boosted_em_13TeV", "lnN", ch.SystMap()(1.10))
+			self.cb.cp().channel(["em"]).process(["QCD"]).bin_id(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_QCD_VBF_em_13TeV", "lnN", ch.SystMap()(1.20))
+			                            
+			self.cb.cp().channel(["tt"]).process(["QCD"]).bin_id(["em_ZeroJet2D"]).AddSyst(self.cb, "CMS_htt_QCD_0jet_tt_13TeV", "lnN", ch.SystMap()(1.027))
+			self.cb.cp().channel(["tt"]).process(["QCD"]).bin_id(["em_Boosted2D"]).AddSyst(self.cb, "CMS_htt_QCD_boosted_tt_13TeV", "lnN", ch.SystMap()(1.027))
+			self.cb.cp().channel(["tt"]).process(["QCD"]).bin_id(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_QCD_VBF_tt_13TeV", "lnN", ch.SystMap()(1.15))
+			
+			self.cb.cp().channel(["mt"]).process(["QCD"]).AddSyst(self.cb, "QCD_Extrap_Iso_nonIso_mt_13TeV", "lnN". ch.SystMap()(1.20))
+			self.cb.cp().channel(["et"]).process(["QCD"]).AddSyst(self.cb, "QCD_Extrap_Iso_nonIso_et_13TeV", "lnN". ch.SystMap()(1.20))
 
 			# tau efficiency
 			# (hopefully) temporary fix

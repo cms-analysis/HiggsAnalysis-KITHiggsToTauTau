@@ -166,8 +166,8 @@ class Datacards(object):
 			"CMS_htt_eff_b_$ERA",
 			"lnN",
 			ch.SystMap("era", "bin", "process")
-				(["13TeV"], ["TTJ", "TTT", "TT"], ["em_ZeroJet2D"], 1.035)
-				(["13TeV"], ["TTJ", "TTT", "TT"], ["em_Boosted2D", "em_Vbf2D"], 1.05)
+				(["13TeV"], ["TTJ", "TTJJ", "TTT", "TT"], ["em_ZeroJet2D"], 1.035)
+				(["13TeV"], ["TTJ", "TTJJ", "TTT", "TT"], ["em_Boosted2D", "em_Vbf2D"], 1.05)
 		]
 		self.btag_mistag_syst_args = [
 			"CMS_mistag_b_$ERA",
