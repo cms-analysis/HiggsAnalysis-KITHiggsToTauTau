@@ -27,7 +27,7 @@
 		"track2p4x",
 		"track2p4y",
 		"track2p4z",
-		
+
 		"recoIP1x",
 		"recoIP1y",
 		"recoIP1z",
@@ -50,9 +50,14 @@
 		"deltaRrecoIP2s",
 
 		"recoPhiStarCP",
+		"recoPhiStarCP_rho",
 		"#recoPhiStarCPrPV",
+		"#recoPhiStarCPrPV_rho",
+
 		"#recoPhiStarCPrPVbs",
+		"#recoPhiStarCPrPVbs_rho",
 		"recoPhiStar",
+		"recoPhiStar_rho",
 		"recoChargedHadron1HiggsFrameEnergy",
 		"recoChargedHadron2HiggsFrameEnergy",
 

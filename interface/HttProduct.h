@@ -182,7 +182,7 @@ public:
 	RMFLV m_diTauSystem;
 	ROOT::Math::Boost m_boostToDiTauRestFrame;
 	bool m_diTauSystemReconstructed = false;
-	
+
 	// filled by the BoostRestFrameProducer
 	std::map<KLepton*, RMFLV> m_leptonsBoostToDiLeptonSystem;
 	std::map<KLepton*, RMFLV> m_leptonsBoostToDiTauSystem;
@@ -191,7 +191,7 @@ public:
 	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiLeptonSystem;
 	std::map<KGenTau*, RMFLV> m_genTausBoostToGenDiTauSystem;
 
-	
+
 	// filled by RefitVertexSelector
 	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
@@ -223,7 +223,7 @@ public:
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 	TVector3 m_genIP1;
 	TVector3 m_genIP2;
-	
+
 
 	// filled by RecoTauCPProducer
 	TVector3 m_recoIP1;
@@ -242,7 +242,14 @@ public:
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
 
+	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPV_rho  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPVbs_rho  = DefaultValues::UndefinedDouble;
+
+
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
+	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
+	
 	KGenParticle* m_recoChargedParticle1 = 0;
 	KGenParticle* m_recoChargedParitcle2 = 0;
 	std::pair <double,double> m_recoChargedHadronEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
@@ -313,7 +320,7 @@ public:
 	RMFLV m_pfSumP4;
 	double m_pfSumHtWithoutZMuMu = 0.;
 	RMFLV m_pfSumP4WithoutZMuMu;
-	
+
 	//filled by TagAndProbeMuonPairProducer
 	std::vector<std::pair<KMuon*,KMuon*>> m_TagAndProbeMuonPairs;
 	//filled by TagAndProbeElectronPairProducer
@@ -322,7 +329,7 @@ public:
 	std::vector<KElectron*> m_TagAndProbeGenElectrons;
 	std::vector<KMuon*> m_TagAndProbeGenMuons;
 	std::vector<KTau*> m_TagAndProbeGenTaus;
-	
+
 	//filled by TTbarGenDecayModeProducer
 	unsigned int m_TTbarGenDecayMode = 0;
 };

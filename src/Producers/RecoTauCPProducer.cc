@@ -16,24 +16,49 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 	m_isData = settings.GetInputIsData();
-	
+
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCP;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCP_rho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCP_rho;
+	});
+
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCPrPV;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPV_rho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPrPV_rho;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPVbs", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCPrPVbs;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPVbs_rho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPrPVbs_rho;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStar", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStar;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStar_rho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStar_rho;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoChargedHadron1HiggsFrameEnergy", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoChargedHadronEnergies.first;
@@ -116,7 +141,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
-	
+
 	// IP vectors (using d0 and dz)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2x", [](event_type const& event, product_type const& product)
 	{
@@ -168,7 +193,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_deltaRrecoIP2s;
 	});
-	
+
 }
 
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
@@ -191,11 +216,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	KTrack trackM = product.m_chargeOrderedLeptons[1]->track;
 	RMFLV momentumP = ((product.m_chargeOrderedLeptons[0]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[0])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[0]->p4);
 	RMFLV momentumM = ((product.m_chargeOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[1])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[1]->p4);
-	
+
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
 	//product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(event.m_refitVertexSummary->pv, trackP, trackM, momentumP, momentumM);
 	//product.m_recoPhiStarCPrPVbs = cpq.CalculatePhiStarCP(event.m_refitVertexBSSummary->pv, trackP, trackM, momentumP, momentumM);
-	
+
 	//product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	//product.m_recoIP1 = cpq.GetRecoIP1();
 	//product.m_recoIP2 = cpq.GetRecoIP2();
