@@ -85,7 +85,7 @@ class Datacards(object):
 		self.trigger_efficiency2016_em_syst_args = [ # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L82-L84
 			"CMS_eff_trigger_em_$ERA",
 			"lnN",
-			ch.SystMap("era")
+			ch.SystMap("era", "channel")
 				(["13TeV"], ["em", "ttbar"], 1.02)
 		]
 		self.electron_efficiency_syst_args = [
