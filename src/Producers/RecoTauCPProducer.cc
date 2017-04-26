@@ -34,19 +34,9 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return product.m_recoPhiStarCPrPV;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPV_rho", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCPrPV_rho;
-	});
-
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPVbs", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCPrPVbs;
-	});
-
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPVbs_rho", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCPrPVbs_rho;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStar", [](event_type const& event, product_type const& product)
@@ -216,6 +206,20 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	KTrack trackM = product.m_chargeOrderedLeptons[1]->track;
 	RMFLV momentumP = ((product.m_chargeOrderedLeptons[0]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[0])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[0]->p4);
 	RMFLV momentumM = ((product.m_chargeOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[1])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[1]->p4);
+
+	if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT) {
+
+	RMFLV chargedPiP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>((product.m_chargeOrderedLeptons.at(0))->sumChargedHadronCandidates() : DefaultValues::UndefinedRMFLV);
+	RMFLV chargedPiM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>((product.m_chargeOrderedLeptons.at(1))->sumChargedHadronCandidates() : DefaultValues::UndefinedRMFLV);
+	RMFLV piZeroP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
+	RMFLV piZeroM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
+
+
+	}
+
+    // variables for the rho method
+
+
 
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
 	//product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(event.m_refitVertexSummary->pv, trackP, trackM, momentumP, momentumM);
