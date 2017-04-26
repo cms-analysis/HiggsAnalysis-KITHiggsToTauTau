@@ -73,6 +73,9 @@ public:
 		NONE = -1,
 		CENTRAL = 0,
 		TAU_ES = 1,
+		TAU_ELECTRON_FAKE_ES = 2,
+		TAU_MUON_FAKE_ES = 3,
+		TAU_JET_FAKE_ES = 4
 	};
 
 	enum class SvfitCacheMissBehaviour : int

@@ -190,6 +190,9 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProng, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngPiZeros, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionThreeProng, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrection, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrection, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauJetFakeEnergyCorrection, 0.0);
 
 	IMPL_SETTING(float, RecoMuonInElectronConeLowerPtCut);
 	IMPL_SETTING(float, RecoMuonInElectronConeUpperAbsEtaCut);
