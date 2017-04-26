@@ -10,6 +10,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTauCorrectionsProducer.h"
 
+#include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
+
 	
 void HttTauCorrectionsProducer::Init(setting_type const& settings)
 {
@@ -68,6 +70,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		LOG(FATAL) << "Tau energy correction of type " << Utility::ToUnderlyingValue(tauEnergyCorrection) << " not yet implemented!";
 	}
 	
+	// tau energy scale shifts
 	float tauEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionShift();
 	if (tauEnergyCorrectionShift != 1.0)
 	{
@@ -78,6 +81,57 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauEnergyCorrectionShift;
 	}
 	
+	// electron->tau fake energy scale shifts
+	float tauElectronFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrection();
+	if (tauElectronFakeEnergyCorrectionShift != 1.0)
+	{
+		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+
+		if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT)
+		{
+			tau->p4 = tau->p4 * tauElectronFakeEnergyCorrectionShift;
+
+			// settings for (cached) Svfit calculation
+			(static_cast<HttProduct&>(product)).m_systematicShift = HttEnumTypes::SystematicShift::TAU_ELECTRON_FAKE_ES;
+			(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauEnergyCorrectionShift;
+		}
+	}
+
+	// muon->tau fake energy scale shifts
+	float tauMuonFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrection();
+	if (tauMuonFakeEnergyCorrectionShift != 1.0)
+	{
+		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+
+		if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT)
+		{
+			tau->p4 = tau->p4 * tauMuonFakeEnergyCorrectionShift;
+
+			// settings for (cached) Svfit calculation
+			(static_cast<HttProduct&>(product)).m_systematicShift = HttEnumTypes::SystematicShift::TAU_MUON_FAKE_ES;
+			(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauEnergyCorrectionShift;
+		}
+	}
+
+	// jet->tau fake energy scale shifts
+	float tauJetFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauJetFakeEnergyCorrection();
+	if (tauJetFakeEnergyCorrectionShift != 0.0)
+	{
+		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+
+		if ((genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_FAKE) || !genParticle)
+		{
+			// maximum shift of 40% for pt > 200 GeV
+			double shift = tau->p4.Pt() < 200. ? 0.2 * tau->p4.Pt() / 100. : 0.4;
+
+			tau->p4 = tau->p4 * (1 - tauJetFakeEnergyCorrectionShift * shift);
+
+			// settings for (cached) Svfit calculation
+			(static_cast<HttProduct&>(product)).m_systematicShift = HttEnumTypes::SystematicShift::TAU_JET_FAKE_ES;
+			(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauJetFakeEnergyCorrectionShift;
+		}
+	}
+
 	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = normalisationFactor;
 }
 
