@@ -119,8 +119,11 @@ public:
 	std::map<KLepton*, double> m_a1CosBeta; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1CosGamma; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1SinGamma; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1optimumVariableSimpleFit;
+
 	double m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
 	double m_tauPolarisationDiscriminatorSvfit = DefaultValues::UndefinedDouble;
+	double m_tauPolarisationDiscriminatorSimpleFit = DefaultValues::UndefinedDouble;
 
 	// filled by the MetprojectionProducer
 	TVector2 m_recoMetOnGenMetProjection;
@@ -151,6 +154,9 @@ public:
 
 	// filled by the HHKinFitProducer
 	std::map<KLepton*, RMFLV> m_hhKinFitTaus;
+
+	// filled by the SimpleFitProducer
+	std::map<KLepton*, RMFLV> m_SimpleFitTaus;
 
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
