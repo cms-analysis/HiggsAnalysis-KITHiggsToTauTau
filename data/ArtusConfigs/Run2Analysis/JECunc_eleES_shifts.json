@@ -20,21 +20,21 @@
 		"ElectronEnergyCorrectionShiftEB" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Summer16|Embedding2016)" : 1.01
+				"Summer16|Embedding2016" : 1.01
 			}
 		},
 		"ElectronEnergyCorrectionShiftEE" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Summer16|Embedding2016)" : 1.025
+				"Summer16|Embedding2016" : 1.025
 			}
 		},
 		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncNom_eleEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets" : "jecUncNom_eleEsUp"
-            }
-        }
+			"nick" : {
+				"default" : "jecUncNom_eleEsNom",
+				"Summer16|Embedding2016" : "jecUncNom_eleEsUp"
+			}
+		}
 	},
 	"jecUncNom_eleEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -46,21 +46,21 @@
 		"ElectronEnergyCorrectionShiftEB" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Summer16|Embedding2016)" : 0.99
+				"Summer16|Embedding2016" : 0.99
 			}
 		},
 		"ElectronEnergyCorrectionShiftEE" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Summer16|Embedding2016)" : 0.975
+				"Summer16|Embedding2016" : 0.975
 			}
 		},
 		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncNom_eleEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets" : "jecUncNom_eleEsDown"
-            }
-        }
+			"nick" : {
+				"default" : "jecUncNom_eleEsNom",
+				"Summer16|Embedding2016" : "jecUncNom_eleEsDown"
+			}
+		}
 	},
 	"jecUncUp_eleEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
