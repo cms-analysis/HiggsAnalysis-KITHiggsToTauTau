@@ -1,5 +1,5 @@
 {
-	"jecUncNom_tauEsNom" : {
+	"nominal" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016|Embedding2016" : 0.0,
@@ -9,7 +9,7 @@
 		"TauEnergyCorrectionShift" : 1.0,
 		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
 	},
-	"jecUncNom_tauEsUp" : {
+	"tauEsUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016|Embedding2016" : 0.0,
@@ -31,7 +31,7 @@
 			}
 		}
 	},
-	"jecUncNom_tauEsDown" : {
+	"tauEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016" : 0.0,
@@ -53,7 +53,7 @@
 			}
 		}
 	},
-	"jecUncUp_tauEsNom" : {
+	"jecUncUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016" : 0.0,
@@ -63,7 +63,7 @@
 		"TauEnergyCorrectionShift" : 1.0,
 		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
 	},
-	"jecUncDown_tauEsNom" : {
+	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016" : 0.0,
