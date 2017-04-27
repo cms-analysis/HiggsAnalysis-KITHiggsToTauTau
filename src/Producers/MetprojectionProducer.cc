@@ -74,7 +74,7 @@ void MetprojectionProducer::Init(setting_type const& settings)
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetMinusRecoRecoilOverGenBosonPt", [](event_type const& event, product_type const& product) {
-		return product.m_genMetMinusiRecoRecoilOverGenBosonPt;
+		return product.m_genMetMinusRecoRecoilOverGenBosonPt;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetMinusRecoPfRecoilOverGenBosonPt", [](event_type const& event, product_type const& product) {
 		return product.m_genMetMinusRecoPfRecoilOverGenBosonPt;
@@ -160,8 +160,8 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 		TVector2 rotatedGenMet = genMet.Rotate( -genBoson.Phi());
 		TVector2 rotatedRecoil = recoil.Rotate( -genBoson.Phi());
 		TVector2 rotatedPfRecoil = pfrecoil.Rotate( -genBoson.Phi());
-        product.m_genMetMinusRecoRecoilOverGenBosonPt = rotatedRecoil.X()/(ROOT::Math::Sqrt(genBoson*genBoson));
-        product.m_genMetMinusRecoPfRecoilOverGenBosonPt = rotatedPfRecoil.X()/(ROOT::Math::Sqrt(genBoson*genBoson));
+        	product.m_genMetMinusRecoRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;// rotatedRecoil.X()/(Math::Sqrt(bosonLength));
+        	product.m_genMetMinusRecoPfRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;//rotatedPfRecoil.X()/(ROOT::Math::Sqrt((genBoson*genBoson)));
 		ROOT::Math::SMatrix<double,2> rotationMatrix;
 		rotationMatrix(0,0) = rotationMatrix(1,1) = std::cos( genBoson.Phi());
 		rotationMatrix(0,1) =   std::sin( genBoson.Phi());
@@ -185,7 +185,7 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 		product.m_pfmetPull.Set(DefaultValues::UndefinedFloat, DefaultValues::UndefinedFloat);
 		product.m_chiSquare = DefaultValues::UndefinedFloat;
 		product.m_chiSquarePf = DefaultValues::UndefinedFloat;
-		product.m_genMetMinusRecoRecoilOverGenBosonPt_ = DefaultValues::UndefinedFloat;
+		product.m_genMetMinusRecoRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;
 		product.m_genMetMinusRecoPfRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;
 	}
 }
