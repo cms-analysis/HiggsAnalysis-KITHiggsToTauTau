@@ -71,12 +71,7 @@
 		},
 		"ElectronEnergyCorrectionShiftEB" : 1.0,
 		"ElectronEnergyCorrectionShiftEE" : 1.0,
-		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncUp_eleEsNom",
-		        "Run201|Embedding2016" : "jecUncNom_eleEsNom"
-            }
-        }
+		"SvfitCacheFileFolder" : "jecUncNom_eleEsNom"
 	},
 	"jecUncDown_eleEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -87,11 +82,6 @@
 		},
 		"ElectronEnergyCorrectionShiftEB" : 1.0,
 		"ElectronEnergyCorrectionShiftEE" : 1.0,
-		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncDown_eleEsNom",
-		        "Run201|Embedding2016" : "jecUncNom_eleEsNom"
-            }
-        }
+		"SvfitCacheFileFolder" : "jecUncNom_eleEsNom"
 	}
 }
