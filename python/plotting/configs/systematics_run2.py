@@ -85,9 +85,9 @@ class JecUncSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "Run201" in plot_config["files"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("jecUncNom", "jecUncUp")
+					plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("jecUncNom", "jecUncDown")
+					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
 		
 		return plot_config
 
@@ -235,9 +235,9 @@ class MuFakeTauEsSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.split("/")[0] + "_muonEsUp/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "muonEsUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.split("/")[0] + "_muonEsDown/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "muonEsDown")
 		
 		return plot_config
 
@@ -249,9 +249,9 @@ class EleFakeTauEsSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.split("/")[0] + "_eleEsUp/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "eleEsUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.split("/")[0] + "_eleEsDown/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "eleEsDown")
 		
 		return plot_config
 
@@ -264,9 +264,9 @@ class TauEsSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("tauEsNom", "tauEsUp")
+					plot_config["folders"][index] = folder.replace("nominal", "tauEsUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("tauEsNom", "tauEsDown")
+					plot_config["folders"][index] = folder.replace("nominal", "tauEsDown")
 		
 		return plot_config
 
@@ -279,9 +279,9 @@ class EleEsSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsUp")
+					plot_config["folders"][index] = folder.replace("nominal", "eleEsUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("eleEsNom", "eleEsDown")
+					plot_config["folders"][index] = folder.replace("nominal", "eleEsDown")
 		
 		return plot_config
 
@@ -294,9 +294,9 @@ class MuonEsSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("muonEsNom", "muonEsUp")
+					plot_config["folders"][index] = folder.replace("nominal", "muonEsUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("muonEsNom", "muonEsDown")
+					plot_config["folders"][index] = folder.replace("nominal", "muonEsDown")
 		
 		return plot_config
 
@@ -309,9 +309,9 @@ class MetResponseSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "data" in plot_config["nicks"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder.split("/")[0] + "_metResponseUp/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "metResponseUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder.split("/")[0] + "_metResponseDown/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "metResponseDown")
 		
 		return plot_config
 
@@ -384,9 +384,9 @@ class BTagSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "Run201" in plot_config["files"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder[0:3] + "bTagUp/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "bTagUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder[0:3] + "bTagDown/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "bTagDown")
 		
 		return plot_config
 
@@ -398,8 +398,8 @@ class BMistagSystematic(SystematicShiftBase):
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if not "Run201" in plot_config["files"][index]:
 				if shift > 0.0:
-					plot_config["folders"][index] = folder[0:3] + "bMistagUp/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "bMistagUp")
 				elif shift < 0.0:
-					plot_config["folders"][index] = folder[0:3] + "bMistagDown/ntuple"
+					plot_config["folders"][index] = folder.replace("nominal", "bMistagDown")
 		
 		return plot_config
