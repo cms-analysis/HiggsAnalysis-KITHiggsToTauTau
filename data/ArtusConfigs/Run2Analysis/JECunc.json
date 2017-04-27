@@ -15,12 +15,7 @@
 				"default" : 1.0
 			}
 		},
-		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncUp",
-		        "Run201|Embedding2016" : "jecUncNom"
-            }
-        }
+		"SvfitCacheFileFolder" : "jecUncNom"
 	},
 	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -29,12 +24,6 @@
 				"default" : -1.0
 			}
 		},
-		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncDown",
-		        "Run201|Embedding2016" : "jecUncNom"
-            }
-        }
-
+		"SvfitCacheFileFolder" : "jecUncNom"
 	}	
 }

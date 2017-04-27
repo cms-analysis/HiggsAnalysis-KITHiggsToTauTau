@@ -20,16 +20,16 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV|W.?JetsToLNu).*(?=Fall15)" : 1.03,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Embedding2016)" : 1.03,
+				"Embedding2016" : 1.03,
 				"Summer16" : 1.012
 			}
 		},
 		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncNom_tauEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16" : "jecUncNom_tauEsUp"
-            }
-        }
+			"nick" : {
+				"default" : "jecUncNom_tauEsNom",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "jecUncNom_tauEsUp"
+			}
+		}
 	},
 	"jecUncNom_tauEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -42,16 +42,16 @@
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|TT|ST|WW|WZ|ZZ|VV|W.?JetsToLNu).*(?=Fall15)" : 0.97,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Embedding2016)" : 0.97,
+				"Embedding2016" : 0.97,
 				"Summer16" : 0.988
 			}
 		},
 		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncNom_tauEsNom",
-		        "HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16" : "jecUncNom_tauEsDown"
-            }
-        }
+			"nick" : {
+				"default" : "jecUncNom_tauEsNom",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "jecUncNom_tauEsDown"
+			}
+		}
 	},
 	"jecUncUp_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -61,12 +61,7 @@
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0,
-		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncUp_tauEsNom",
-		        "Run201|Embedding2016" : "jecUncNom_tauEsNom"
-            }
-        }
+		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
 	},
 	"jecUncDown_tauEsNom" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -76,11 +71,6 @@
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0,
-		"SvfitCacheFileFolder" : {
-		    "nick" : {
-		        "default" : "jecUncDown_tauEsNom",
-		        "Run201|Embedding2016" : "jecUncNom_tauEsNom"
-            }
-        }
+		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
 	}
 }
