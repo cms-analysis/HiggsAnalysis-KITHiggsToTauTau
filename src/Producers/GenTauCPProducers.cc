@@ -12,9 +12,9 @@
 void GenTauCPProducerBase::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
-	
+
 	// add possible quantities for the lambda ntuples consumers
-	
+
 	// MC-truth PV coordinates
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPVx", [](event_type const& event, product_type const& product)
 	{
@@ -28,23 +28,47 @@ void GenTauCPProducerBase::Init(setting_type const& settings)
 	{
 		return ((product.m_genPV != nullptr) ? (product.m_genPV)->z() : DefaultValues::UndefinedFloat);
 	});
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStarCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhiStarCP;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStarCP_rho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiStarCP_rho;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhiCP;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP_rho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiCP_rho;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStar", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhiStar;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStar_rho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiStar_rho;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhi", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhi;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhi_rho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhi_rho;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TauMProngEnergy", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genChargedProngEnergies.first;
@@ -167,7 +191,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;
-	
+
 		//Selection of the right channel for phi, phi* and psi*CP
 		if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
 			(std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
@@ -195,14 +219,14 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			// Calculation of Phi* and Phi*CP itself
 			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhiStar = cpq.GetGenPhiStar();
-			// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
-			// decay planes 
+			// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+
+			// decay planes
 			double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhi = cpq.GetGenPhi();
 
 			//CPTransformation for semileptonic case
 			if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId == DefaultValues::pdgIdElectron || chargedPart1->pdgId == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId == 211)) || ((chargedPart2->pdgId == -DefaultValues::pdgIdElectron || chargedPart2->pdgId == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId == -211))))
-			{	
+			{
 				product.m_genPhiStarCP = cpq.PhiTransform(genPhiStarCP);
 				product.m_genPhiCP = cpq.PhiTransform(genPhiCP);
 			}
@@ -219,7 +243,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	}
 }
 
-	
+
 std::string GenTauCPProducer::GetProducerId() const
 {
 	return "GenTauCPProducer";
@@ -247,7 +271,7 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 	GenTauCPProducerBase::Init(settings);
 
 	// add possible quantities for the lambda ntuples consumers
-	
+
 	// MC-truth SV vertex, obtained by tau daughter 1
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1x", [](event_type const& event, product_type const& product)
 	{
@@ -261,7 +285,7 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 	{
 		return ((product.m_genSV1 != nullptr) ? (product.m_genSV1)->z() : DefaultValues::UndefinedFloat);
 	});
-	
+
 	// MC-truth SV vertex, obtained by tau daughter 2
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2x", [](event_type const& event, product_type const& product)
 	{
@@ -301,7 +325,7 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 	{
 		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).z() : DefaultValues::UndefinedFloat);
 	});
-	
+
 
 }
 
@@ -328,7 +352,7 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 	product.m_genIP2.SetXYZ(-999,-999,-999);
 
 	if (product.m_chargeOrderedGenLeptons.at(0) and product.m_chargeOrderedGenLeptons.at(1)){
-		
+
 		KGenParticle* genParticle1 = product.m_chargeOrderedGenLeptons.at(0);
 		KGenParticle* genParticle2 = product.m_chargeOrderedGenLeptons.at(1);
 		TVector3 genIP1(-999,-999,-999);
@@ -388,7 +412,7 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 		if (product.m_genPV != nullptr){
 			genIP1 = cpq.CalculateIPVector(genParticle1, product.m_genPV);
 			genIP2 = cpq.CalculateIPVector(genParticle2, product.m_genPV);
-			
+
 			product.m_genIP1 = genIP1;
 			product.m_genIP2 = genIP2;
 
