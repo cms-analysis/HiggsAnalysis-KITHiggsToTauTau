@@ -386,6 +386,16 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey 
 	return svfitStandaloneAlgorithm;
 }
 
+void SvfitInputs::Integrate(SvfitEventKey const& svfitEventKey, ClassicSVfit& svfitAlgorithm) const
+{
+	svfitAlgorithm.integrate(
+			GetMeasuredTauLeptonsClassic(svfitEventKey),
+			metMomentum->x(),
+			metMomentum->y(),
+			GetMetCovarianceMatrix()
+	);
+}
+
 std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const
 {
 	double leptonMass1, leptonMass2;
@@ -416,6 +426,40 @@ std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLepto
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
 		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, *decayMode1),
 		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, *decayMode2)
+	};
+	return measuredTauLeptons;
+}
+
+std::vector<classic_svFit::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptonsClassic(SvfitEventKey const& svfitEventKey) const
+{
+	double leptonMass1, leptonMass2;
+	if(svfitEventKey.decayType1 == 2)
+	{
+		leptonMass1 = 0.51100e-3;
+	}
+	else if(svfitEventKey.decayType1 == 3)
+	{
+		leptonMass1 = 105.658e-3;
+	}
+	else
+	{
+		leptonMass1 = leptonMomentum1->M();
+	}
+	if(svfitEventKey.decayType2 == 2)
+	{
+		leptonMass2 = 0.51100e-3;
+	}
+	else if(svfitEventKey.decayType2 == 3)
+	{
+		leptonMass2 = 105.658e-3;
+	}
+	else
+	{
+		leptonMass2 = leptonMomentum2->M();
+	}
+	std::vector<classic_svFit::MeasuredTauLepton> measuredTauLeptons {
+		classic_svFit::MeasuredTauLepton(Utility::ToEnum<classic_svFit::MeasuredTauLepton::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, *decayMode1),
+		classic_svFit::MeasuredTauLepton(Utility::ToEnum<classic_svFit::MeasuredTauLepton::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, *decayMode2)
 	};
 	return measuredTauLeptons;
 }
@@ -583,6 +627,11 @@ std::map<std::string, TFile*> SvfitTools::svfitCacheInputFile;
 std::map<std::string, std::map<SvfitEventKey, uint64_t>> SvfitTools::svfitCacheInputTreeIndices;
 std::map<std::string, SvfitResults> SvfitTools::svfitResults;
 
+SvfitTools::SvfitTools() :
+	svfitAlgorithm(1)
+{
+}
+
 void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string const& treeName)
 {
 	cacheFileName = fileNames[0];
@@ -686,6 +735,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		else if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::MARKOV_CHAIN)
 		{
 			svfitStandaloneAlgorithm.integrateMarkovChain();
+			svfitInputs.Integrate(svfitEventKey, svfitAlgorithm);
 		}
 		else if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::FIT)
 		{
@@ -701,6 +751,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		svfitResults.at(cacheFileName).fromRecalculation();
 	}
 	
+	LOG(WARNING) << svfitAlgorithm.mass() << " (classic) vs. " << svfitResults.at(cacheFileName).fittedHiggsLV->mass() << " (standalone)";
 	return svfitResults.at(cacheFileName);
 }
 

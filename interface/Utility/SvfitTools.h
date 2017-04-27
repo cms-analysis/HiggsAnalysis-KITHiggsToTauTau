@@ -11,6 +11,8 @@
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneQuantities.h"
 
+#include "TauAnalysis/ClassicSVfit/interface/ClassicSVfit.h"
+
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
@@ -169,9 +171,11 @@ public:
 	bool operator!=(SvfitInputs const& rhs) const;
 	
 	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity=0, bool addLogM=false) const;
+	void Integrate(SvfitEventKey const& svfitEventKey, ClassicSVfit& svfitAlgorithm) const;
 
 private:
 	std::vector<svFitStandalone::MeasuredTauLepton> GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const;
+	std::vector<classic_svFit::MeasuredTauLepton> GetMeasuredTauLeptonsClassic(SvfitEventKey const& svfitEventKey) const;
 	TMatrixD GetMetCovarianceMatrix() const;
 };
 
@@ -222,7 +226,7 @@ private:
 class SvfitTools {
 
 public:
-	SvfitTools() {}
+	SvfitTools();
 	~SvfitTools();
 	
 	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
@@ -235,6 +239,7 @@ private:
 	static std::map<std::string, std::map<SvfitEventKey, uint64_t>> svfitCacheInputTreeIndices;
 	std::string cacheFileName;
 	SvfitInputs svfitInputs;
+	ClassicSVfit svfitAlgorithm;
 	static std::map<std::string, SvfitResults> svfitResults;
 	SvfitEventKey svfitEventKey;
 	TFile * m_inputFile_visPtResolution = 0;
