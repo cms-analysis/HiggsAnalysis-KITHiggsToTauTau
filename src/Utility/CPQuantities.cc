@@ -32,6 +32,48 @@ double CPQuantities::CalculatePhiStarCP(KVertex pv, KTrack track1, KTrack track2
 
 }
 
+//this function calculates Phi* and Phi*CP using the rho decay planes
+double CPQuantities::CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM)
+{
+	// Part1: Boost into the ZMF frame of the two charged pions
+	RMFLV ProngImp = chargedPiP + chargedPiM;
+	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
+	ROOT::Math::Boost M(boostvec);
+
+	chargedPiP = M * chargedPiP;
+	chargedPiM = M * chargedPiM;
+	piZeroP = M * piZeroP;
+	piZeroM = M * piZeroM;
+
+	//Part2: Create the 3-momentum vectors of each of these. Notation according to Berge et al.
+
+	RMFLV::BetaVector qStarP, qStarM, qStarZeroP, qStarZeroM;
+
+	qStarP.SetXYZ(chargedPiP.Px(), chargedPiP.Py(), chargedPiP.Pz());
+	qStarM.SetXYZ(chargedPiM.Px(), chargedPiM.Py(), chargedPiM.Pz());
+	qStarZeroP.SetXYZ(piZeroP.Px(), piZeroP.Py(), piZeroP.Pz());
+	qStarZeroM.SetXYZ(piZeroM.Px(), piZeroM.Py(), piZeroM.Pz());
+
+	//Part3: Calculate transverse component of piZeroP/M to chargedPiP/M and normalise them
+	RMFLV::BetaVector qStarZeroPt = qStarZeroP - ((qStarZeroP.Dot(qStarP)) / (qStarP.Dot(qStarP))) * qStarP;
+	RMFLV::BetaVector qStarZeroMt = qStarZeroM - ((qStarZeroM.Dot(qStarM)) / (qStarM.Dot(qStarM))) * qStarM;
+	qStarZeroPt = qStarZeroPt.Unit();
+	qStarZeroMt = qStarZeroMt.Unit();
+
+	//Part4: Calculate phiStarCP
+
+	double phiStarCP = 0;
+	if((qStarM.Unit()).Dot(qStarZeroPt.Cross(qStarZeroMt))>=0)
+	{
+		phiStarCP = acos(qStarZeroPt.Dot(qStarZeroMt));
+	}
+	else
+	{
+		phiStarCP = 2*ROOT::Math::Pi()-acos(qStarZeroPt.Dot(qStarZeroMt));
+	}
+	return phiStarCP;
+
+}
 
 // calculation of variables Phi* and Phi*CP
 double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level)
@@ -47,11 +89,11 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	RMFLV::BetaVector p1, p2;
 	p1.SetXYZ(chargPart1.Px(), chargPart1.Py() , chargPart1.Pz());
 	p2.SetXYZ(chargPart2.Px(), chargPart2.Py() , chargPart2.Pz());
-	
+
 	//Not normalized n1, n2
 	RMFLV::BetaVector n1 = k1 - ((k1.Dot(p1)) / (p1.Dot(p1))) * p1;
 	RMFLV::BetaVector n2 = k2 - ((k2.Dot(p2)) / (p2.Dot(p2))) * p2;
-	
+
 	if(level=="reco")
 	{
 		this->SetRecoIP1(n1.R());
@@ -91,6 +133,7 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	{
 		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
 	}
+
 	//Step 5: Calculating Phi*CP
 	double phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
@@ -233,7 +276,7 @@ TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv)
 	}
 	else k.SetXYZ(-999, -999, -999);
 	p.SetXYZ(genParticle->p4.Px(), genParticle->p4.Py(), genParticle->p4.Pz());
-	
+
 	if ( p.Mag() != 0 && k.x() != -999 && (k.x()!=0 && k.y()!=0 && k.z()!=0) ) {
 		IP = k - (p.Dot(k) / p.Mag()) * p;
 	}
@@ -246,7 +289,7 @@ TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv)
 
 // calculate the reco IP vector (3D method)
 TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv){
-	
+
 	TVector3 k, p, IP;
 	k.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), recoParticle->track.ref.z() - pv->position.z());
 	p.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), recoParticle->p4.Pz());

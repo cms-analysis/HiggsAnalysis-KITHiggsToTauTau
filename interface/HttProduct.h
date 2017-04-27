@@ -136,6 +136,8 @@ public:
 	TVector2 m_recoPfMetOnBoson;
 	TVector2 m_pfrecoilOnBoson;
 	double m_chiSquarePf;
+    double m_genMetMinusRecoRecoilOverGenBosonPt;
+    double m_genMetMinusRecoPfRecoilOverGenBosonPt;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
@@ -219,6 +221,12 @@ public:
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_genPhi  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
+
+	double m_genPhiCP_rho  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCP_rho  = DefaultValues::UndefinedDouble;
+	double m_genPhi_rho  = DefaultValues::UndefinedDouble;
+	double m_genPhiStar_rho  = DefaultValues::UndefinedDouble;
+
 	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
@@ -255,7 +263,7 @@ public:
 
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
-	
+
 	KGenParticle* m_recoChargedParticle1 = 0;
 	KGenParticle* m_recoChargedParitcle2 = 0;
 	std::pair <double,double> m_recoChargedHadronEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);

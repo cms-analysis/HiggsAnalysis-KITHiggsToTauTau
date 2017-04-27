@@ -370,7 +370,13 @@ class Datacards(object):
 			"CMS_htt_ttbarShape_$ERA",
 			"shape",
 			ch.SystMap("era")
-			(["13TeV"], 1.0)
+				(["13TeV"], 1.0)
+		]
+		self.dy_shape_syst_args = [
+			"CMS_htt_dyShape_$ERA",
+			"shape",
+			ch.SystMap("era")
+				(["13TeV"], 1.0)
 		]
 		self.jetFakeTau_qcd_syst_args = [
 			"CMS_$ANALYSIS_jetFakeTau_qcd_Shape_$ERA",

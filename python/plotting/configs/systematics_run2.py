@@ -18,6 +18,7 @@ class SystematicsFactory(dict):
 		self["CMS_ztt_scale_mFakeTau_13TeV"] = MuFakeTauEsSystematic
 		self["CMS_ztt_scale_eFakeTau_13TeV"] = EleFakeTauEsSystematic
 		self["CMS_htt_ttbarShape_13TeV"] = TTBarShapeSystematic
+		self["CMS_htt_dyShape_13TeV"] = DYShapeSystematic
 		self["CMS_ztt_jetFakeTau_qcd_Shape_13TeV"] = JetFakeTauQCDShapeSystematic
 		self["CMS_ztt_jetFakeTau_w_Shape_13TeV"] = JetFakeTauWShapeSystematic
 		self["CMS_ztt_jetFakeTau_tt_corr_Shape_13TeV"] = JetFakeTauTTcorrShapeSystematic
@@ -103,6 +104,21 @@ class TTBarShapeSystematic(SystematicShiftBase):
 					plot_config["weights"][index] = weight.replace("topPtReweightWeight", "topPtReweightWeight*topPtReweightWeight")
 				elif shift < 0.0:
 					plot_config["weights"][index] = weight.replace("topPtReweightWeight", "(1.0)")
+		
+		return plot_config
+
+
+class DYShapeSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(DYShapeSystematic, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if not "data" in plot_config["nicks"][index]:
+				if shift > 0.0:
+					plot_config["weights"][index] = weight.replace("zPtReweightWeight","zPtReweightWeight*zPtReweightWeight")
+				elif shift < 0.0:
+					plot_config["weights"][index] = weight.replace("zPtReweightWeight","(1.0)")
 		
 		return plot_config
 
