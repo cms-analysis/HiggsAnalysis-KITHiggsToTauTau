@@ -170,6 +170,9 @@ public:
 	RMDLV m_diGenJetSystem;
 	bool m_diGenJetSystemAvailable = false;
 
+	// filled by HttTaggedJetCorrectionsProducer
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet*>> m_correctedJetsBySplitUncertainty;
+
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
 	KMET* m_pfmetUncorr = 0;
