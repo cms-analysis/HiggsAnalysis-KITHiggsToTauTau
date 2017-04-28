@@ -225,7 +225,7 @@ public:
 	SvfitTools() {}
 	~SvfitTools();
 	
-	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
+	void Init(std::string const& cacheFileName, std::string const& treeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
 

@@ -583,9 +583,8 @@ std::map<std::string, TFile*> SvfitTools::svfitCacheInputFile;
 std::map<std::string, std::map<SvfitEventKey, uint64_t>> SvfitTools::svfitCacheInputTreeIndices;
 std::map<std::string, SvfitResults> SvfitTools::svfitResults;
 
-void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string const& treeName)
+void SvfitTools::Init(std::string const& cacheFileName, std::string const& treeName)
 {
-	cacheFileName = fileNames[0];
 	if ( SvfitTools::svfitCacheInputTreeIndices.find(cacheFileName) == SvfitTools::svfitCacheInputTreeIndices.end())
 	{
 		TDirectory *savedir(gDirectory);
