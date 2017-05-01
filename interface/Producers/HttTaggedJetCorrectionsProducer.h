@@ -57,6 +57,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == "SinglePionHCAL") return HttEnumTypes::JetEnergyUncertaintyShiftName::SinglePionHCAL;
 		else if (jetEnergyCorrectionUncertainty == "TimePtEta") return HttEnumTypes::JetEnergyUncertaintyShiftName::TimePtEta;
 		else if (jetEnergyCorrectionUncertainty == "Total") return HttEnumTypes::JetEnergyUncertaintyShiftName::Total;
+		else if (jetEnergyCorrectionUncertainty == "Closure") return HttEnumTypes::JetEnergyUncertaintyShiftName::Closure;
 		else return HttEnumTypes::JetEnergyUncertaintyShiftName::NONE;
 	}
 

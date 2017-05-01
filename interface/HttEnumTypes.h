@@ -141,7 +141,8 @@ public:
 		SinglePionECAL,
 		SinglePionHCAL,
 		TimePtEta,
-		Total
+		Total,
+		Closure // individual uncertainties added in quadrature. to be compared to 'Total' for closure test
 	};
 };
 
