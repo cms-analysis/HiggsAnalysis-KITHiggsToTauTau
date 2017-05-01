@@ -5,6 +5,7 @@
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
@@ -16,77 +17,72 @@ std::string TaggedJetUncertaintyShiftProducer::GetProducerId() const
 
 void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 {
-	// only do all of this if uncertainty shifts should be applied
-	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0)
+	uncertaintyFile = settings.GetJetEnergyCorrectionSplitUncertaintyParameters();
+	individualUncertainties = settings.GetJetEnergyCorrectionSplitUncertaintyParameterNames();
+
+	// make sure the necessary parameters are configured
+	assert(uncertaintyFile != "");
+	assert(individualUncertainties.size() > 0);
+
+	for (auto const& uncertainty : individualUncertainties)
 	{
-		uncertaintyFile = settings.GetJetEnergyCorrectionSplitUncertaintyParameters();
-		individualUncertainties = settings.GetJetEnergyCorrectionSplitUncertaintyParameterNames();
+		// only do string comparison once per uncertainty
+		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = ToJetEnergyUncertaintyShiftName(uncertainty);
+		if (individualUncertainty == HttEnumTypes::JetEnergyUncertaintyShiftName::NONE)
+			continue;
+		individualUncertaintyEnums.push_back(individualUncertainty);
 
-		// make sure the necessary parameters are configured
-		assert(uncertaintyFile != "");
-		assert(individualUncertainties.size() > 0);
-
-		for (auto const& uncertainty : individualUncertainties)
+		// create uncertainty map (only if shifts are to be applied)
+		if (settings.GetJetEnergyCorrectionSplitUncertainty()
+			&& settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0
+			&& individualUncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
 		{
-			// only do string comparison once per uncertainty
-			HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = ToJetEnergyUncertaintyShiftName(uncertainty);
-			if (individualUncertainty == HttEnumTypes::JetEnergyUncertaintyShiftName::NONE)
-				continue;
-			individualUncertaintyEnums.push_back(individualUncertainty);
+			JetCorrectorParameters const * jetCorPar = new JetCorrectorParameters(uncertaintyFile, uncertainty);
+			JetCorParMap[individualUncertainty] = jetCorPar;
 
-			// create uncertainty map
-			if (individualUncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
-			{
-				JetCorrectorParameters const * jetCorPar = new JetCorrectorParameters(uncertaintyFile, uncertainty);
-				JetCorParMap[individualUncertainty] = jetCorPar;
-
-				JetCorrectionUncertainty * jecUnc(new JetCorrectionUncertainty(*JetCorParMap[individualUncertainty]));
-				JetUncMap[individualUncertainty] = jecUnc;
-			}
-
-			// add quantities to event
-			// TODO: implement nbtag?
-			// TODO: store undefined variables in any case?
-			std::string shift = settings.GetJetEnergyCorrectionUncertaintyShift() > 0.0 ? "up" : "down";
-
-			std::string njetsQuantity = "njetspt30_" + uncertainty + "_" + shift;
-			LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetsQuantity, [individualUncertainty](event_type const& event, product_type const& product)
-			{
-				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
-				return KappaProduct::GetNJetsAbovePtThreshold(shiftedJets, 30.0);
-			});
-
-			std::string mjjQuantity = "mjj_" + uncertainty + "_" + shift;
-			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(mjjQuantity, [individualUncertainty](event_type const& event, product_type const& product)
-			{
-				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
-				return shiftedJets.size() > 1 ? (shiftedJets.at(0)->p4 + shiftedJets.at(1)->p4).mass() : DefaultValues::UndefinedFloat;
-			});
-
-			std::string jdetaQuantity = "jdeta_" + uncertainty + "_" + shift;
-			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(jdetaQuantity, [individualUncertainty](event_type const& event, product_type const& product)
-			{
-				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
-				return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0)->p4.Eta() - shiftedJets.at(1)->p4.Eta()) : -1;
-			});
-
-			std::string njetingapQuantity = "njetingap_" + uncertainty + "_" + shift;
-			LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetingapQuantity, [individualUncertainty](event_type const& event, product_type const& product)
-			{
-				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
-				int nJetInGap = 0;
-				float minEta = std::min(shiftedJets.at(0)->p4.Eta(), shiftedJets.at(1)->p4.Eta());
-				float maxEta = std::max(shiftedJets.at(0)->p4.Eta(), shiftedJets.at(1)->p4.Eta());
-				for (std::vector<KJet*>::const_iterator jet = shiftedJets.begin(); jet != shiftedJets.end(); ++jet)
-				{
-					if ((*jet) == shiftedJets.at(0) || (*jet) == shiftedJets.at(1))
-						continue;
-					if (minEta < (*jet)->p4.Eta() && (*jet)->p4.Eta() < maxEta && (*jet)->p4.Pt() > 30.0)
-						nJetInGap++;
-				}
-				return nJetInGap;
-			});
+			JetCorrectionUncertainty * jecUnc(new JetCorrectionUncertainty(*JetCorParMap[individualUncertainty]));
+			JetUncMap[individualUncertainty] = jecUnc;
 		}
+
+		// add quantities to event
+		// TODO: implement nbtag?
+		std::string njetsQuantity = "njetspt30_" + uncertainty;
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetsQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
+			return KappaProduct::GetNJetsAbovePtThreshold(shiftedJets, 30.0);
+		});
+
+		std::string mjjQuantity = "mjj_" + uncertainty;
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(mjjQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
+			return shiftedJets.size() > 1 ? (shiftedJets.at(0)->p4 + shiftedJets.at(1)->p4).mass() : DefaultValues::UndefinedFloat;
+		});
+
+		std::string jdetaQuantity = "jdeta_" + uncertainty;
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(jdetaQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
+			return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0)->p4.Eta() - shiftedJets.at(1)->p4.Eta()) : -1;
+		});
+
+		std::string njetingapQuantity = "njetingap_" + uncertainty;
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetingapQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
+			int nJetInGap = 0;
+			float minEta = std::min(shiftedJets.at(0)->p4.Eta(), shiftedJets.at(1)->p4.Eta());
+			float maxEta = std::max(shiftedJets.at(0)->p4.Eta(), shiftedJets.at(1)->p4.Eta());
+			for (std::vector<KJet*>::const_iterator jet = shiftedJets.begin(); jet != shiftedJets.end(); ++jet)
+			{
+				if ((*jet) == shiftedJets.at(0) || (*jet) == shiftedJets.at(1))
+					continue;
+				if (minEta < (*jet)->p4.Eta() && (*jet)->p4.Eta() < maxEta && (*jet)->p4.Pt() > 30.0)
+					nJetInGap++;
+			}
+			return nJetInGap;
+		});
 	}
 }
 
