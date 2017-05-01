@@ -5,7 +5,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ElectronEtaSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttElectronCorrectionsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttMuonCorrectionsProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTaggedJetCorrectionsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTauCorrectionsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidElectronsProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidMuonsProducer.h"
@@ -54,6 +53,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -87,8 +87,6 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new HttElectronCorrectionsProducer();
 	else if(id == HttMuonCorrectionsProducer().GetProducerId())
 		return new HttMuonCorrectionsProducer();
-	else if(id == HttTaggedJetCorrectionsProducer().GetProducerId())
-		return new HttTaggedJetCorrectionsProducer();
 	else if(id == HttTauCorrectionsProducer().GetProducerId())
 		return new HttTauCorrectionsProducer();
 	else if(id == HttValidElectronsProducer().GetProducerId())
@@ -267,6 +265,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MadGraphReweightingProducer();
 	else if(id == TTbarGenDecayModeProducer().GetProducerId())
 		return new TTbarGenDecayModeProducer();
+	else if(id == TaggedJetUncertaintyShiftProducer().GetProducerId())
+		return new TaggedJetUncertaintyShiftProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

@@ -7,17 +7,15 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTaggedJetCorrectionsProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 
-std::string HttTaggedJetCorrectionsProducer::GetProducerId() const
+std::string TaggedJetUncertaintyShiftProducer::GetProducerId() const
 {
-	return "HttTaggedJetCorrectionsProducer";
+	return "TaggedJetUncertaintyShiftProducer";
 }
 
-void HttTaggedJetCorrectionsProducer::Init(setting_type const& settings)
+void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 {
-	TaggedJetCorrectionsProducer::Init(settings);
-
 	// only do all of this if uncertainty shifts should be applied
 	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0)
 	{
@@ -52,28 +50,28 @@ void HttTaggedJetCorrectionsProducer::Init(setting_type const& settings)
 			std::string shift = settings.GetJetEnergyCorrectionUncertaintyShift() > 0.0 ? "up" : "down";
 
 			std::string njetsQuantity = "njetspt30_" + uncertainty + "_" + shift;
-			LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetsQuantity, [individualUncertainty](spec_event_type const& event, spec_product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetsQuantity, [individualUncertainty](event_type const& event, product_type const& product)
 			{
 				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
 				return KappaProduct::GetNJetsAbovePtThreshold(shiftedJets, 30.0);
 			});
 
 			std::string mjjQuantity = "mjj_" + uncertainty + "_" + shift;
-			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(mjjQuantity, [individualUncertainty](spec_event_type const& event, spec_product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(mjjQuantity, [individualUncertainty](event_type const& event, product_type const& product)
 			{
 				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
 				return shiftedJets.size() > 1 ? (shiftedJets.at(0)->p4 + shiftedJets.at(1)->p4).mass() : DefaultValues::UndefinedFloat;
 			});
 
 			std::string jdetaQuantity = "jdeta_" + uncertainty + "_" + shift;
-			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(jdetaQuantity, [individualUncertainty](spec_event_type const& event, spec_product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(jdetaQuantity, [individualUncertainty](event_type const& event, product_type const& product)
 			{
 				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
 				return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0)->p4.Eta() - shiftedJets.at(1)->p4.Eta()) : -1;
 			});
 
 			std::string njetingapQuantity = "njetingap_" + uncertainty + "_" + shift;
-			LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetingapQuantity, [individualUncertainty](spec_event_type const& event, spec_product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetingapQuantity, [individualUncertainty](event_type const& event, product_type const& product)
 			{
 				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).at(individualUncertainty);
 				int nJetInGap = 0;
@@ -92,27 +90,26 @@ void HttTaggedJetCorrectionsProducer::Init(setting_type const& settings)
 	}
 }
 
-void HttTaggedJetCorrectionsProducer::Produce(event_type const& event, product_type& product,
-		setting_type const& settings, spec_product_type& spec_product) const
+void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product_type& product,
+		setting_type const& settings) const
 {
-	TaggedJetCorrectionsProducer::Produce(event, product, settings);
 	// only do all of this if uncertainty shifts should be applied
 	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0)
 	{
-		// first copy corrected jets
-		std::vector<KJet*> shiftedJets;
-		for (typename std::vector<std::shared_ptr<KJet> >::iterator jet = (product.m_correctedTaggedJets).begin();
-			 jet != (product.m_correctedTaggedJets).end(); ++jet)
-		{
-			shiftedJets.push_back(jet->get());
-		}
-
-		// now shift previously copied corrected jets
-		std::vector<double> closureUncertainty(shiftedJets.size(), 0.);
+		// shift copies of previously corrected jets
+		std::vector<double> closureUncertainty((product.m_correctedTaggedJets).size(), 0.);
 		for (auto const& uncertainty : individualUncertaintyEnums)
 		{
+			// construct copies of jets in order not to modify actual (corrected) jets
+			std::vector<KJet*> copiedJets;
+			for (typename std::vector<std::shared_ptr<KJet> >::iterator jet = (product.m_correctedTaggedJets).begin();
+				 jet != (product.m_correctedTaggedJets).end(); ++jet)
+			{
+				copiedJets.push_back(new KJet(*(jet->get())));
+			}
+
 			unsigned iJet = 0;
-			for (std::vector<KJet*>::iterator jet = shiftedJets.begin(); jet != shiftedJets.end(); ++jet, ++iJet)
+			for (std::vector<KJet*>::iterator jet = copiedJets.begin(); jet != copiedJets.end(); ++jet, ++iJet)
 			{
 				double unc = 0;
 
@@ -128,18 +125,18 @@ void HttTaggedJetCorrectionsProducer::Produce(event_type const& event, product_t
 				{
 					unc = std::sqrt(closureUncertainty.at(iJet));
 				}
-
 				(*jet)->p4 = (*jet)->p4 * (1 + unc * settings.GetJetEnergyCorrectionUncertaintyShift());
 			}
 			// sort vectors of shifted jets by pt
-			std::sort(shiftedJets.begin(), shiftedJets.end(),
+			std::sort(copiedJets.begin(), copiedJets.end(),
 					  [](KJet* jet1, KJet* jet2) -> bool
 					  { return jet1->p4.Pt() > jet2->p4.Pt(); });
 
 			// TODO: create new vector with shifted jets that pass ID as in ValidJetsProducer
 			//       move criteria to separate function in ValidJetsProducer and call function here?
+			std::vector<KJet*> shiftedJets = copiedJets;
 
-			(spec_product.m_correctedJetsBySplitUncertainty)[uncertainty] = shiftedJets;
+			(product.m_correctedJetsBySplitUncertainty)[uncertainty] = shiftedJets;
 		}
 	}
 }

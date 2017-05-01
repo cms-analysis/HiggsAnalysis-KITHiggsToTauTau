@@ -1,10 +1,11 @@
 
 #pragma once
 
-#include "Artus/KappaAnalysis/interface/Producers/JetCorrectionsProducer.h"
-
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
+
+#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
+#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
 
 /**
    \brief Producer for jet energy scale corrections (Htt version).
@@ -15,17 +16,14 @@
    - JetEnergyCorrectionSplitUncertaintyParameters (file location)
    - JetEnergyCorrectionSplitUncertaintyParameterNames (list of names)
 */
-class HttTaggedJetCorrectionsProducer: public TaggedJetCorrectionsProducer
+class TaggedJetUncertaintyShiftProducer: public ProducerBase<HttTypes>
 {
 
 public:
 
-	typedef KappaEvent event_type;
-	typedef KappaProduct product_type;
-	typedef KappaSettings setting_type;
-	typedef typename HttTypes::event_type spec_event_type;
-	typedef typename HttTypes::product_type spec_product_type;
-	typedef typename HttTypes::setting_type spec_setting_type;
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
 	
 	static HttEnumTypes::JetEnergyUncertaintyShiftName ToJetEnergyUncertaintyShiftName(std::string const& jetEnergyCorrectionUncertainty)
 	{
@@ -63,7 +61,7 @@ public:
 
 	virtual void Init(setting_type const& settings) override;
 	std::string GetProducerId() const override;
-	virtual void Produce(event_type const& event, product_type& product, setting_type const& settings, spec_product_type& spec_product) const;
+	virtual void Produce(event_type const& event, product_type& product, setting_type const& settings) const override;
 
 private:
 	std::string uncertaintyFile;
