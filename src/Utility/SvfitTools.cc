@@ -742,7 +742,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		svfitResults.at(cacheFileName).fromRecalculation();
 	}
 	
-	LOG(WARNING) << svfitAlgorithm.mass() << " (classic) vs. " << svfitResults.at(cacheFileName).fittedHiggsLV->mass() << " (standalone)";
+	LOG(WARNING) << svfitAlgorithm.getHistogramAdapter()->getMass() << " (classic) vs. " << svfitResults.at(cacheFileName).fittedHiggsLV->mass() << " (standalone)";
 	return svfitResults.at(cacheFileName);
 }
 
