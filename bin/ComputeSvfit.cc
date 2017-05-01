@@ -4,6 +4,8 @@
 
 #include "Kappa/DataFormats/interface/Kappa.h"
 
+#include "Artus/Utility/interface/RootFileHelper.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
@@ -45,9 +47,9 @@ int main(int argc, const char *argv[])
 	removeCharsFromString(inputFilename, chars);
 	std::cout << "Opening input file \"" << inputFilename << "\"..." << std::endl;
 	TFile *inputFile = TFile::Open(inputFilename.c_str(), "READ");
-	const char* directory = inputFile->GetListOfKeys()->At(0)->GetName();
-	std::cout << "Reading input tree \"" << (std::string(directory)+std::string("/svfitCache")).c_str() << "\"..." << std::endl;
-	TTree *inputTree = (TTree*)inputFile->Get((std::string(directory)+std::string("/svfitCache")).c_str());
+	std::string treePath = std::string(inputFile->GetListOfKeys()->At(0)->GetName()) + std::string("/svfitCache");
+	std::cout << "Reading input tree \"" << treePath << "\"..." << std::endl;
+	TTree *inputTree = (TTree*)inputFile->Get(treePath.c_str());
 	
 	svfitEventKey.SetBranchAddresses(inputTree);
 	svfitInputs.SetBranchAddresses(inputTree);
@@ -60,15 +62,6 @@ int main(int argc, const char *argv[])
 	svfitEventKey.CreateBranches(outputTree);
 	//svfitInputs.CreateBranches(outputTree);
 	svfitResults.CreateBranches(outputTree);
-
-	/*
-	TDirectory *savedir(gDirectory);
-	TFile *savefile(gFile);
-	TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-	TFile* inputFile_visPtResolution = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
-	gDirectory = savedir;
-	gFile = savefile;
-	*/
 
 	HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour = HttEnumTypes::SvfitCacheMissBehaviour::recalculate;
 	bool svfitCalculated = false;
@@ -86,7 +79,7 @@ int main(int argc, const char *argv[])
 	
 	inputFile->Close();
 	
-	outputTree->Write();
+	RootFileHelper::WriteRootObject(outputFile, outputTree, treePath);
 	outputFile->Close();
 	std::cout << "Outputs written to \"" << outputFilename << "\"." << std::endl;
 	
