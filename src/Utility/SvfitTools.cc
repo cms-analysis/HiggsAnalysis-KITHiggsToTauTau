@@ -311,21 +311,13 @@ void SvfitInputs::Set(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2
 	{
 		this->metCovariance = new RMSM2x2();
 	}
-	if (! this->decayMode1)
-	{
-		this->decayMode1 = new int;
-	}
-	if (! this->decayMode2)
-	{
-		this->decayMode2 = new int;
-	}
 	
 	*(this->leptonMomentum1) = leptonMomentum1;
 	*(this->leptonMomentum2) = leptonMomentum2;
 	*(this->metMomentum) = metMomentum;
 	*(this->metCovariance) = metCovariance;
-	*(this->decayMode1) = decayMode1;
-	*(this->decayMode2) = decayMode2;
+	this->decayMode1 = decayMode1;
+	this->decayMode2 = decayMode2;
 }
 
 void SvfitInputs::CreateBranches(TTree* tree)
@@ -334,8 +326,8 @@ void SvfitInputs::CreateBranches(TTree* tree)
 	tree->Branch("leptonMomentum2", "RMFLV", &leptonMomentum2);
 	tree->Branch("metMomentum", "ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag>", &metMomentum);
 	tree->Branch("metCovariance", "ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >", &metCovariance);
-	tree->Branch("decayMode1", decayMode1);
-	tree->Branch("decayMode2", decayMode2);
+	tree->Branch("decayMode1", &decayMode1);
+	tree->Branch("decayMode2", &decayMode2);
 }
 
 void SvfitInputs::SetBranchAddresses(TTree* tree)
@@ -344,8 +336,8 @@ void SvfitInputs::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("leptonMomentum2", &leptonMomentum2);
 	tree->SetBranchAddress("metMomentum", &metMomentum);
 	tree->SetBranchAddress("metCovariance", &metCovariance);
-	tree->SetBranchAddress("decayMode1", decayMode1);
-	tree->SetBranchAddress("decayMode2", decayMode2);
+	tree->SetBranchAddress("decayMode1", &decayMode1);
+	tree->SetBranchAddress("decayMode2", &decayMode2);
 	ActivateBranches(tree, true);
 }
 
@@ -365,8 +357,8 @@ bool SvfitInputs::operator==(SvfitInputs const& rhs) const
 	        Utility::ApproxEqual(*leptonMomentum2, *(rhs.leptonMomentum2)) &&
 	        Utility::ApproxEqual(*metMomentum, *(rhs.metMomentum)) &&
 	        Utility::ApproxEqual(*metCovariance, *(rhs.metCovariance)) &&
-	        (*decayMode1 == *(rhs.decayMode1)) &&
-	        (*decayMode2 == *(rhs.decayMode2)));
+	        (decayMode1 == rhs.decayMode1) &&
+	        (decayMode2 == rhs.decayMode2));
 }
 
 bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
@@ -424,8 +416,8 @@ std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLepto
 		leptonMass2 = leptonMomentum2->M();
 	}
 	std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons {
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, *decayMode1),
-		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, *decayMode2)
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, decayMode1),
+		svFitStandalone::MeasuredTauLepton(Utility::ToEnum<svFitStandalone::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, decayMode2)
 	};
 	return measuredTauLeptons;
 }
@@ -458,8 +450,8 @@ std::vector<classic_svFit::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons
 		leptonMass2 = leptonMomentum2->M();
 	}
 	std::vector<classic_svFit::MeasuredTauLepton> measuredTauLeptons {
-		classic_svFit::MeasuredTauLepton(Utility::ToEnum<classic_svFit::MeasuredTauLepton::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, *decayMode1),
-		classic_svFit::MeasuredTauLepton(Utility::ToEnum<classic_svFit::MeasuredTauLepton::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, *decayMode2)
+		classic_svFit::MeasuredTauLepton(Utility::ToEnum<classic_svFit::MeasuredTauLepton::kDecayType>(svfitEventKey.decayType1), leptonMomentum1->pt(), leptonMomentum1->eta(), leptonMomentum1->phi(), leptonMass1, decayMode1),
+		classic_svFit::MeasuredTauLepton(Utility::ToEnum<classic_svFit::MeasuredTauLepton::kDecayType>(svfitEventKey.decayType2), leptonMomentum2->pt(), leptonMomentum2->eta(), leptonMomentum2->phi(), leptonMass2, decayMode2)
 	};
 	return measuredTauLeptons;
 }
@@ -632,9 +624,8 @@ SvfitTools::SvfitTools() :
 {
 }
 
-void SvfitTools::Init(std::vector<std::string> const& fileNames, std::string const& treeName)
+void SvfitTools::Init(std::string const& cacheFileName, std::string const& treeName)
 {
-	cacheFileName = fileNames[0];
 	if ( SvfitTools::svfitCacheInputTreeIndices.find(cacheFileName) == SvfitTools::svfitCacheInputTreeIndices.end())
 	{
 		TDirectory *savedir(gDirectory);
@@ -701,7 +692,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
 		{
 			LOG_N_TIMES(30, INFO) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" 
-			<< std::endl << "Cache searched in file: " << cacheFileName << std::endl;
+			<< std::endl << "Cache searched in file: \"" << cacheFileName << "\"." << std::endl;
 		}
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::assert)
 		{

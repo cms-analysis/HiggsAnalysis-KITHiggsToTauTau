@@ -150,8 +150,8 @@ public:
 	RMDataV* metMomentum = 0;
 	RMSM2x2* metCovariance = 0;
 
-	int* decayMode1 = 0;
-	int* decayMode2 = 0;
+	int decayMode1 = 0;
+	int decayMode2 = 0;
 	
 	SvfitInputs() {};
 	SvfitInputs(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
@@ -229,7 +229,7 @@ public:
 	SvfitTools();
 	~SvfitTools();
 	
-	void Init(std::vector<std::string> const& fileNames, std::string const& treeName);
+	void Init(std::string const& cacheFileName, std::string const& treeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
 

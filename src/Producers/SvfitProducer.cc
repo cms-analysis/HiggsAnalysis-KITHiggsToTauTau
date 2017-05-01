@@ -36,16 +36,9 @@ void SvfitProducer::Init(setting_type const& settings)
 			inputFilePath /= inputFileName;
 			svfitCacheFile = inputFilePath.string();
 		}
-		svfitTools.Init(std::vector<std::string>(1, svfitCacheFile), settings.GetSvfitCacheTree());
+		svfitTools.Init(svfitCacheFile, settings.GetSvfitCacheTree());
 	}
-	else if ( ! settings.GetSvfitCacheFilePrefix().empty())
-	{
-		std::vector<std::string> cacheFiles;
-		for (auto file : settings.GetInputFiles()) {
-			cacheFiles.push_back(settings.GetSvfitCacheFilePrefix()+boost::filesystem::basename(boost::filesystem::path(file))+std::string(".root"));
-		}
-		svfitTools.Init(cacheFiles, settings.GetSvfitCacheTree());
-	}
+	
 	svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitAvailable", [](event_type const& event, product_type const& product) {

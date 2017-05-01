@@ -238,7 +238,6 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFileFolder, "");
-	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFilePrefix, "");
 	IMPL_SETTING_DEFAULT(bool, UseFirstInputFileNameForSvfit, false);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheMissBehaviour, "assert");
 	IMPL_SETTING_DEFAULT(std::string, SvfitOutFile, "");
