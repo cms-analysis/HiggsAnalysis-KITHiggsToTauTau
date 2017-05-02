@@ -45,7 +45,6 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 		}
 
 		// add quantities to event
-		// TODO: implement nbtag?
 		std::string njetsQuantity = "njetspt30_" + uncertainty;
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetsQuantity, [individualUncertainty](event_type const& event, product_type const& product)
 		{
@@ -78,26 +77,6 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 				return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0)->p4.Eta() - shiftedJets.at(1)->p4.Eta()) : -1;
 			}
 			return jdeta;
-		});
-
-		std::string njetingapQuantity = "njetingap_" + uncertainty;
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetingapQuantity, [individualUncertainty](event_type const& event, product_type const& product)
-		{
-			int nJetInGap = 0;
-			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
-			{
-				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
-				float minEta = std::min(shiftedJets.at(0)->p4.Eta(), shiftedJets.at(1)->p4.Eta());
-				float maxEta = std::max(shiftedJets.at(0)->p4.Eta(), shiftedJets.at(1)->p4.Eta());
-				for (std::vector<KJet*>::const_iterator jet = shiftedJets.begin(); jet != shiftedJets.end(); ++jet)
-				{
-					if ((*jet) == shiftedJets.at(0) || (*jet) == shiftedJets.at(1))
-						continue;
-					if (minEta < (*jet)->p4.Eta() && (*jet)->p4.Eta() < maxEta && (*jet)->p4.Pt() > 30.0)
-						nJetInGap++;
-				}
-			}
-			return nJetInGap;
 		});
 	}
 }
