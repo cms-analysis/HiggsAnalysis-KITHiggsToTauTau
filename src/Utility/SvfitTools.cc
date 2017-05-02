@@ -1,4 +1,6 @@
 
+#include "TauAnalysis/ClassicSVfit/interface/svFitHistogramAdapter.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 #include "Artus/Utility/interface/DefaultValues.h"
@@ -742,7 +744,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		svfitResults.at(cacheFileName).fromRecalculation();
 	}
 	
-	LOG(WARNING) << svfitAlgorithm.getHistogramAdapter()->getMass() << " (classic) vs. " << svfitResults.at(cacheFileName).fittedHiggsLV->mass() << " (standalone)";
+	LOG(WARNING) << static_cast<classic_svFit::DiTauSystemHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->getMass() << " (classic) vs. " << svfitResults.at(cacheFileName).fittedHiggsLV->mass() << " (standalone)";
 	return svfitResults.at(cacheFileName);
 }
 
