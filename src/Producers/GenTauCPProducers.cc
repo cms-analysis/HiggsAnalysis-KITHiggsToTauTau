@@ -219,12 +219,12 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			// rho method
 			if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT) //only for tt.json
 			{
-				RMFLV chargedPiP;
-				RMFLV chargedPiM;
-				RMFLV piZeroP;
-				RMFLV piZeroM;
-				selectedTau1->CreateFinalStateProngs(selectedTau1);  //pos. charged tau
-				selectedTau2->CreateFinalStateProngs(selectedTau2);  //neg charged tau
+				RMFLV chargedPiP = DefaultValues::UndefinedRMFLV;
+				RMFLV chargedPiM = DefaultValues::UndefinedRMFLV;
+				RMFLV piZeroP = DefaultValues::UndefinedRMFLV;
+				RMFLV piZeroM = DefaultValues::UndefinedRMFLV;
+				selectedTau1->CreateFinalStates(selectedTau1);  //pos. charged tau
+				selectedTau2->CreateFinalStates(selectedTau2);  //neg charged tau
 
 				std::vector<GenParticleDecayTree*> prongs1 = selectedTau1->m_finalStates;
 				std::vector<GenParticleDecayTree*> prongs2 = selectedTau2->m_finalStates;
@@ -239,7 +239,6 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 					for (unsigned int i=0; i<prongs1.size(); ++i){
 						if (std::abs(prongs1.at(i)->GetCharge()) == 1){
 							chargedPiP = prongs1.at(i)->m_genParticle->p4;
-							break;
 						}
 						else
 						{
@@ -250,16 +249,14 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 					for (unsigned int i=0; i<prongs2.size(); ++i){
 						if (std::abs(prongs2.at(i)->GetCharge()) == 1){
 							chargedPiM = prongs2.at(i)->m_genParticle->p4;
-							break;
 						}
 						else
 						{
 							piZeroM = prongs2.at(i)->m_genParticle->p4;
 						}
 					}
-				}
-				//calculate phistarCP_rho
-				product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(chargedPiP, chargedPiM, piZeroP, piZeroM);
+					//calculate phistarCP_rho
+					product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(chargedPiP, chargedPiM, piZeroP, piZeroM);
 				}
 			}
 
