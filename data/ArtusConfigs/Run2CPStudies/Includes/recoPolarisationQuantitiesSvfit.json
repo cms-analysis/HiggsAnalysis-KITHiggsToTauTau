@@ -1,0 +1,18 @@
+{
+	"property" : [
+		"svfitTau1Available",
+		"svfitTau1LV",
+		"svfitTau1E",
+		"svfitTau2Available",
+		"svfitTau2LV",
+		"svfitTau2E",
+		
+		"visibleOverFullEnergySvfit_1",
+		"visibleOverFullEnergySvfit_2",
+		
+		"visibleToFullAngleSvfit_1",
+		"visibleToFullAngleSvfit_2",
+		
+		"tauPolarisationDiscriminatorSvfit"
+	]
+}
