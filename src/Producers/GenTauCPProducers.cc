@@ -216,6 +216,53 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->m_genParticle->p4, chargedPart1->p4);
 			product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->m_genParticle->p4, chargedPart2->p4);
 
+			// rho method
+			if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT) //only for tt.json
+			{
+				RMFLV chargedPiP;
+				RMFLV chargedPiM;
+				RMFLV piZeroP;
+				RMFLV piZeroM;
+				selectedTau1->CreateFinalStateProngs(selectedTau1);  //pos. charged tau
+				selectedTau2->CreateFinalStateProngs(selectedTau2);  //neg charged tau
+
+				std::vector<GenParticleDecayTree*> prongs1 = selectedTau1->m_finalStates;
+				std::vector<GenParticleDecayTree*> prongs2 = selectedTau2->m_finalStates;
+
+				selectedTau1->DetermineDecayMode(selectedTau1);
+				selectedTau2->DetermineDecayMode(selectedTau2);
+
+				int decaymode1 = (int)selectedTau1->m_decayMode;
+				int decaymode2 = (int)selectedTau2->m_decayMode;
+				//if both taus decay into rhos and both rhos decay into two pions
+				if (decaymode1 == 7 && decaymode2 == 7 && prongs1.size() == 2 && prongs2.size() == 2){
+					for (unsigned int i=0; i<prongs1.size(); ++i){
+						if (std::abs(prongs1.at(i)->GetCharge()) == 1){
+							chargedPiP = prongs1.at(i)->m_genParticle->p4;
+							break;
+						}
+						else
+						{
+							piZeroP = prongs1.at(i)->m_genParticle->p4;
+						}
+					}
+
+					for (unsigned int i=0; i<prongs2.size(); ++i){
+						if (std::abs(prongs2.at(i)->GetCharge()) == 1){
+							chargedPiM = prongs2.at(i)->m_genParticle->p4;
+							break;
+						}
+						else
+						{
+							piZeroM = prongs2.at(i)->m_genParticle->p4;
+						}
+					}
+				}
+				//calculate phistarCP_rho
+				product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(chargedPiP, chargedPiM, piZeroP, piZeroM);
+				}
+			}
+
 			// Calculation of Phi* and Phi*CP itself
 			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhiStar = cpq.GetGenPhiStar();
