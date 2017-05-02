@@ -26,13 +26,6 @@
 		"hhKinFitTau1LV",
 		"hhKinFitTau2LV",
 		
-		"svfitTau1Available",
-		"svfitTau1LV",
-		"svfitTau1E",
-		"svfitTau2Available",
-		"svfitTau2LV",
-		"svfitTau2E",
-		
 		"leadingTauDecayMode",
 		"leadingTauSumChargedHadronsLV",
 		"leadingTauSumNeutralHadronsLV",
@@ -53,15 +46,10 @@
 		
 		"visibleOverFullEnergyHHKinFit_1",
 		"visibleOverFullEnergyHHKinFit_2",
-		"visibleOverFullEnergySvfit_1",
-		"visibleOverFullEnergySvfit_2",
 		
 		"visibleToFullAngleHHKinFit_1",
 		"visibleToFullAngleHHKinFit_2",
-		"visibleToFullAngleSvfit_1",
-		"visibleToFullAngleSvfit_2",
 		
-		"tauPolarisationDiscriminatorHHKinFit",
-		"tauPolarisationDiscriminatorSvfit"
+		"tauPolarisationDiscriminatorHHKinFit"
 	]
 }
