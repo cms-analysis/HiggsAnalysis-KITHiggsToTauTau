@@ -125,7 +125,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 		struct ParticlesGroup
 		{
-			std::vector<const KGenParticle*> momenta;
+			std::vector<const KLHEParticle*> momenta;
 			int nLightQuarks = 0;
 			int nHeavyQuarks = 0;
 			int nGluons = 0;
@@ -133,10 +133,10 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		} initialParticles, higgsParticles, jetParticles;
 		
 		std::vector<const RMFLV*> particleFourMomenta;
-		for (KGenParticles::const_iterator lheParticle = event.m_lheParticles->begin(); lheParticle != event.m_lheParticles->end(); ++lheParticle)
+		for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 		{
 			ParticlesGroup* selectedParticles = nullptr;
-			if (lheParticle->status() == 127)
+			if (lheParticle->status == 127)
 			{
 				selectedParticles = &initialParticles;
 			}
@@ -168,13 +168,13 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 				++numberOtherQuarks;
 			}
 			
-			//LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << lheParticle->particleinfo << ", " << lheParticle->status();
-			if (particleFourMomenta.size() < 5)
+			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status;
+			/*if (particleFourMomenta.size() < 5)
 			{
 				particleFourMomenta.push_back(&(lheParticle->p4));
-			}
+			}*/
 		}
-		//LOG(WARNING) << event.m_lheParticles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks;
+		//LOG(WARNING) << event.m_lheParticles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks << "," << ;
 		
 		// checks and corrections for Higgs bosons
 		if (higgsParticles.momenta.size() > 1)
@@ -211,37 +211,101 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		}
 		*/
 	
-		if ((numberGluons==2) &&
-		    (numberBottomQuarks==0)&&
-		    (numberOtherQuarks==0))
+		if (initialParticles.nGluons==2)
 		{
-			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0;
+			if ((jetParticles.nGluons==0)  &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0;
+			}
+			if (jetParticles.nGluons==1)
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0g;
+			}
+			if ((jetParticles.nGluons==2) &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0gg;
+			}
+			if ((jetParticles.nGluons==0) &&
+			    (jetParticles.nLightQuarks==2)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0uux;
+			}
+			if ((jetParticles.nGluons==0) &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==2))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0bbx;
+			}
 		}
-		else if ((numberGluons==3) &&
-		         (numberBottomQuarks==0)&&
-		         (numberOtherQuarks==0))
+		else if (initialParticles.nLightQuarks==2)
 		{
-			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0g;
+			if ((jetParticles.nGluons==0)  &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0;
+			}
+			if (jetParticles.nGluons==1)
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0g;
+			}
+			if ((jetParticles.nGluons==2) &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0gg;
+			}
+			if ((jetParticles.nGluons==0) &&
+			    (jetParticles.nLightQuarks==2)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0uux;
+			}
+			if ((jetParticles.nGluons==0) &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==2))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0bbx;
+			}
 		}
-		else if ((numberGluons>3) &&
-		         (numberBottomQuarks==0)&&
-		         (numberOtherQuarks==0))
+		else if (initialParticles.nHeavyQuarks==2)
 		{
-			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0gg;
+			if ((jetParticles.nGluons==0)  &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0;
+			}
+			if (jetParticles.nGluons==1)
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0g;
+			}
+			if ((jetParticles.nGluons==2) &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0gg;
+			}
+			if ((jetParticles.nGluons==0) &&
+			    (jetParticles.nLightQuarks==2)  &&
+			    (jetParticles.nHeavyQuarks==0))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0uux;
+			}
+			if ((jetParticles.nGluons==0) &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==2))
+			{
+				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0bbx;
+			}
 		}
 
-		else if ((numberGluons>1) &&
-		         (numberBottomQuarks>1)&&
-		         (numberOtherQuarks==0))
-		{
-			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0bbx;
-		}
-		else if ((numberGluons>1) &&
-		         (numberBottomQuarks==0)&&
-		         (numberOtherQuarks>1))
-		{
-			productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0uux;
-		}
+		//LOG(INFO) << event.m_lheParticles->particles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks << ", " << Utility::ToUnderlyingValue(productionMode);
 		
 		if (Utility::Contains(m_madGraphProcessDirectories, productionMode))
 		{
