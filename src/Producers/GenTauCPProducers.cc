@@ -209,12 +209,70 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			{
 				if (abs(selectedTau2OneProngs[i]->GetCharge()) == 1) chargedPart2 = selectedTau2OneProngs[i]->m_genParticle;
 			}
+			std::cout << "PdgId" << chargedPart1->pdgId << std::endl;
+			std::cout << "PdgId" << chargedPart2->pdgId << std::endl;
 			// Saving the charged particles for  analysis
 			product.m_genOneProngCharged1 = chargedPart1;
 			product.m_genOneProngCharged2 = chargedPart2;
 			// Saving Energies of charged particles in tau rest frames
 			product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->m_genParticle->p4, chargedPart1->p4);
 			product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->m_genParticle->p4, chargedPart2->p4);
+			selectedTau1->DetermineDecayMode(selectedTau1);
+			selectedTau2->DetermineDecayMode(selectedTau2);
+
+			int decaymode1 = (int)selectedTau1->m_decayMode;
+
+			int decaymode2 = (int)selectedTau2->m_decayMode;
+
+			std::cout << "decaymode1 " << decaymode1 << std::endl;
+			std::cout << "decaymode2 " << decaymode2<< std::endl;
+
+
+			// rho method
+			if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT) //only for tt.json
+			{
+				if (chargedPart1->pdgId == DefaultValues::pdgIdRhoPlus770) std::cout << " Charged1 is rho" << std::endl;
+				//std::cout << "Entered tt.json" << std::endl;
+				if ( decaymode1 == 7  &&  decaymode2 == 7)
+				{
+					std::cout << "Found two Rhos" << std::endl;
+				RMFLV chargedPiP = DefaultValues::UndefinedRMFLV;
+				RMFLV chargedPiM = DefaultValues::UndefinedRMFLV;
+				RMFLV piZeroP = DefaultValues::UndefinedRMFLV;
+				RMFLV piZeroM = DefaultValues::UndefinedRMFLV;
+
+				selectedTau1->CreateFinalStates(selectedTau1);  //pos. charged tau
+				selectedTau2->CreateFinalStates(selectedTau2);  //neg charged tau
+
+				std::vector<GenParticleDecayTree*> prongs1 = selectedTau1->m_finalStates;
+				std::vector<GenParticleDecayTree*> prongs2 = selectedTau2->m_finalStates;
+
+
+				//if both taus decay into rhos
+
+				for (unsigned int i=0; i<prongs1.size(); ++i){
+					if (std::abs(prongs1.at(i)->GetCharge()) == 1){
+						chargedPiP = prongs1.at(i)->m_genParticle->p4;
+					}
+					else
+					{
+						piZeroP = prongs1.at(i)->m_genParticle->p4;
+					}
+				}
+				for (unsigned int i=0; i<prongs2.size(); ++i){
+					if (std::abs(prongs2.at(i)->GetCharge()) == 1){
+						chargedPiM = prongs2.at(i)->m_genParticle->p4;
+					}
+					else
+					{
+						piZeroM = prongs2.at(i)->m_genParticle->p4;
+					}
+				}
+				//calculate phistarCP_rho
+				product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(chargedPiP, chargedPiM, piZeroP, piZeroM);
+
+			}
+			}
 
 			// Calculation of Phi* and Phi*CP itself
 			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
@@ -273,58 +331,58 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 	// add possible quantities for the lambda ntuples consumers
 
 	// MC-truth SV vertex, obtained by tau daughter 1
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1x", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV1 != nullptr) ? (product.m_genSV1)->x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1y", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV1 != nullptr) ? (product.m_genSV1)->y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1z", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV1 != nullptr) ? (product.m_genSV1)->z() : DefaultValues::UndefinedFloat);
-	});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1x", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((product.m_genSV1 != nullptr) ? (product.m_genSV1)->x() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1y", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((product.m_genSV1 != nullptr) ? (product.m_genSV1)->y() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV1z", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((product.m_genSV1 != nullptr) ? (product.m_genSV1)->z() : DefaultValues::UndefinedFloat);
+	//});
 
 	// MC-truth SV vertex, obtained by tau daughter 2
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2x", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2y", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2z", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->z() : DefaultValues::UndefinedFloat);
-	});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2x", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->x() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2y", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->y() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genSV2z", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->z() : DefaultValues::UndefinedFloat);
+	//});
 
 	// MC-truth IP vectors
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).z() : DefaultValues::UndefinedFloat);
-	});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1x", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).x() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1y", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).y() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1z", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).z() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2x", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).x() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2y", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).y() : DefaultValues::UndefinedFloat);
+	//});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2z", [](event_type const& event, product_type const& product)
+	//{
+	//	return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).z() : DefaultValues::UndefinedFloat);
+	//});
 
 
 }
