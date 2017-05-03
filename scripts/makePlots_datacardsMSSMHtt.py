@@ -38,18 +38,21 @@ shapes = {
 	"zpt" : "CMS_htt_dyShape_13TeV",
 	"wfake" : "CMS_htt_wFakeShape_13TeV",
 	"ff_qcd_syst" : "CMS_htt_jetFakeTau_qcd_syst_Shape_13TeV",
-	"ff_qcd_dm0_njet0_stat" : "CMS_htt_jetFakeTau_qcd_dm0_njet0_stat_Shape_13TeV",
-	"ff_qcd_dm0_njet1_stat" : "CMS_htt_jetFakeTau_qcd_dm0_njet1_stat_Shape_13TeV",
-	"ff_qcd_dm1_njet0_stat" : "CMS_htt_jetFakeTau_qcd_dm1_njet0_stat_Shape_13TeV",
-	"ff_qcd_dm1_njet1_stat" : "CMS_htt_jetFakeTau_qcd_dm1_njet1_stat_Shape_13TeV",
-	"ff_w_syst" : "CMS_htt_jetFakeTau_w_syst_Shape_13TeV",
-	"ff_w_dm0_njet0_stat" : "CMS_htt_jetFakeTau_w_dm0_njet0_stat_Shape_13TeV",
-	"ff_w_dm0_njet1_stat" : "CMS_htt_jetFakeTau_w_dm0_njet1_stat_Shape_13TeV",
-	"ff_w_dm1_njet0_stat" : "CMS_htt_jetFakeTau_w_dm1_njet0_stat_Shape_13TeV",
-	"ff_tt_syst" : "CMS_htt_jetFakeTau_tt_syst_Shape_13TeV",
-	"ff_tt_dm0_njet0_stat" : "CMS_htt_jetFakeTau_tt_dm0_njet0_stat_Shape_13TeV",
-	"ff_tt_dm0_njet1_stat" : "CMS_htt_jetFakeTau_tt_dm0_njet1_stat_Shape_13TeV",
-	"ff_tt_dm1_njet0_stat" : "CMS_htt_jetFakeTau_tt_dm1_njet0_stat_Shape_13TeV"
+	"ff_qcd_syst" : "norm_ff_qcd_{CHANNEL}_syst",
+	"ff_qcd_dm0_njet0_stat" : "norm_ff_qcd_dm0_njet0_{CHANNEL}_stat",
+	"ff_qcd_dm0_njet1_stat" : "norm_ff_qcd_dm0_njet1_{CHANNEL}_stat",
+	"ff_qcd_dm1_njet0_stat" : "norm_ff_qcd_dm1_njet0_{CHANNEL}_stat",
+	"ff_qcd_dm1_njet1_stat" : "norm_ff_qcd_dm1_njet1_{CHANNEL}_stat",
+	"ff_w_syst" : "norm_ff_w_syst",
+	"ff_w_dm0_njet0_stat" : "norm_ff_w_dm0_njet0_{CHANNEL}_stat",
+	"ff_w_dm0_njet1_stat" : "norm_ff_w_dm0_njet1_{CHANNEL}_stat",
+	"ff_w_dm1_njet0_stat" : "norm_ff_w_dm1_njet0_{CHANNEL}_stat",
+	"ff_w_dm1_njet1_stat" : "norm_ff_w_dm1_njet1_{CHANNEL}_stat",
+	"ff_tt_syst" : "norm_ff_tt_syst",
+	"ff_tt_dm0_njet0_stat" : "norm_ff_tt_dm0_njet0_stat",
+	"ff_tt_dm0_njet1_stat" : "norm_ff_tt_dm0_njet1_stat",
+	"ff_tt_dm1_njet0_stat" : "norm_ff_tt_dm1_njet0_stat",
+	"ff_tt_dm1_njet1_stat" : "norm_ff_tt_dm1_njet1_stat",
 	}
 shapes_weight_dict = {
 		"btag" : ("1.0", "1.0"),
@@ -186,9 +189,9 @@ if __name__ == "__main__":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 	
 	if args.fakefactor_method is not None:
-		samples_dict['et'] = [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','ff','ggh','bbh']), ("toppt",["ttj",'ttt','ttjj']), ("taues",["ztt","ttt", "vvt","wj","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","wj","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl"]), ("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','ggh','bbh'])]
-		samples_dict['mt'] = [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','ff','ggh','bbh']), ("toppt",["ttj",'ttt','ttjj']), ("taues",["ztt","ttt", "vvt","wj","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","wj","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl"]), ("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','ggh','bbh'])]
-		for syst in ["ff_qcd_syst", "ff_qcd_dm0_njet0_stat", "ff_qcd_dm0_njet1_stat", "ff_qcd_dm1_njet0_stat", "ff_qcd_dm1_njet1_stat", "ff_w_syst", "ff_w_dm0_njet0_stat", "ff_w_dm0_njet1_stat", "ff_w_dm1_njet0_stat", "ff_tt_syst", "ff_tt_dm0_njet0_stat", "ff_tt_dm0_njet1_stat", "ff_tt_dm1_njet0_stat"]:
+		samples_dict['et'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
+		samples_dict['mt'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
+		for syst in ["ff_qcd_syst", "ff_qcd_dm0_njet0_stat", "ff_qcd_dm0_njet1_stat", "ff_qcd_dm1_njet0_stat", "ff_qcd_dm1_njet1_stat", "ff_w_syst", "ff_w_dm0_njet0_stat", "ff_w_dm0_njet1_stat", "ff_w_dm1_njet0_stat", "ff_w_dm1_njet1_stat", "ff_tt_syst", "ff_tt_dm0_njet0_stat", "ff_tt_dm0_njet1_stat", "ff_tt_dm1_njet0_stat", "ff_tt_dm1_njet1_stat"]:
 			samples_dict['et'].append((syst,["ff"]))
 			samples_dict['mt'].append((syst,["ff"]))
 
@@ -341,14 +344,25 @@ if __name__ == "__main__":
 						# modify cut strings for shape uncertainties. Do not apply weights to data 
 						for index,value in enumerate(config["weights"]):
 							if not "Run201" in config["files"][index] or args.fakefactor_method is not None:
-								config["weights"][index] += "*"+additional_weight
+								# exclude ff-norm samples from additional weights
+								if not "ff_norm" in config["nicks"][index]:
+									config["weights"][index] += "*"+additional_weight
 
 						# modify cut for ff samples. Cut string does not include tau iso
 						# also need to replace ff weight with channel specific weights
 						if  args.fakefactor_method is not None:
 							for index,value in enumerate(config["weights"]):
-								if config["nicks"][index] == "ff":
-									config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
+								if "ff_norm" in config["nicks"][index]:
+									if config["nicks"][index] == "noplot_ff_norm":
+										config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
+									else:
+										config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
+									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
+								if config["nicks"][index] == "ff" or "ff_control" in config["nicks"][index]:
+									if config["nicks"][index] == "ff":
+										config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
+									else:
+										config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1))
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1))

@@ -2737,28 +2737,88 @@ class Samples(samples.SamplesBase):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
-		data_weight = "(1.0)*"
-		
-		if channel == "mt":
+		if channel in ["mt","et"]:
 			Samples._add_input(
 					config,
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+"*"+weight+"*eventWeight*jetToTauFakeWeight_comb*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type),
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*jetToTauFakeWeight_comb",
 					"ff",
 					nick_suffix=nick_suffix
 			)
-		elif channel == "et":
+
+			Samples._add_input(
+					config,
+					self.files_ztt(channel),
+					self.root_file_folder(channel),
+					lumi,
+					self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					"noplot_dy_ff_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_ttj(channel),
+					self.root_file_folder(channel),
+					lumi,
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					"noplot_tt_ff_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_vv(channel),
+					self.root_file_folder(channel),
+					lumi,
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					"noplot_vv_ff_control",
+					nick_suffix=nick_suffix
+			)
 			Samples._add_input(
 					config,
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					data_weight+"*"+weight+"*eventWeight*jetToTauFakeWeight_comb*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type),
-					"ff",
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*jetToTauFakeWeight_comb",
+					"noplot_ff_norm",
 					nick_suffix=nick_suffix
 			)
+
+			Samples._add_input(
+					config,
+					self.files_ztt(channel),
+					self.root_file_folder(channel),
+					lumi,
+					self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					"noplot_dy_ff_norm",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_ttj(channel),
+					self.root_file_folder(channel),
+					lumi,
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					"noplot_tt_ff_norm",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_vv(channel),
+					self.root_file_folder(channel),
+					lumi,
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					"noplot_vv_ff_norm",
+					nick_suffix=nick_suffix
+			)
+			if not "EstimateFF" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("EstimateFF")
+			config.setdefault("ff_data_nicks", []).append("ff"+nick_suffix)
+			config.setdefault("ff_mc_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_dy_ff_control noplot_tt_ff_control noplot_vv_ff_control".split()]))
+			config.setdefault("ff_norm_data_nicks", []).append("noplot_ff_norm"+nick_suffix)
+			config.setdefault("ff_norm_mc_subtract_nicks", []).append(" ".join([nick+"_norm"+nick_suffix for nick in "noplot_dy_ff noplot_tt_ff noplot_vv_ff".split()]))
+
 		else:
 			log.error("Sample config (FakeFactor) currently not implemented for channel \"%s\"!" % channel)
 		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
