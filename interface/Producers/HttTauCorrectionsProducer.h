@@ -30,12 +30,14 @@ public:
 		SUMMER2013 = 0,
 		NEWTAUID = 1,
 		SMHTT2016,
+		MSSMHTT2016,
 	};
 	static TauEnergyCorrection ToTauEnergyCorrection(std::string const& tauEnergyCorrection)
 	{
 		if (tauEnergyCorrection == "summer2013") return TauEnergyCorrection::SUMMER2013;
 		else if (tauEnergyCorrection == "newtauid") return TauEnergyCorrection::NEWTAUID;
 		else if (tauEnergyCorrection == "smhtt2016") return TauEnergyCorrection::SMHTT2016;
+		else if (tauEnergyCorrection == "mssmhtt2016") return TauEnergyCorrection::MSSMHTT2016;
 		else return TauEnergyCorrection::NONE;
 	}
 	
