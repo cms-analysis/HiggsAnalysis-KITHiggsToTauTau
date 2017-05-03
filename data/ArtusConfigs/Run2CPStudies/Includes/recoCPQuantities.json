@@ -42,8 +42,15 @@
 		"recoIP2method2y",
 		"recoIP2method2z",
 
-		"deltaRgenIPrecoIP1",
-		"deltaRgenIPrecoIP2",
+		"deltaEtaGenRecoIP1",
+		"deltaEtaGenRecoIP2",
+		"deltaPhiGenRecoIP1",
+		"deltaPhiGenRecoIP2",
+		"deltaRGenRecoIP1",
+		"deltaRGenRecoIP2",
+		"deltaGenRecoIP1",
+		"deltaGenRecoIP2",
+
 		"deltaRgenIPrecoIP1met2",
 		"deltaRgenIPrecoIP2met2",
 		"deltaRrecoIP1s",
@@ -51,7 +58,7 @@
 
 		"recoPhiStarCP",
 		"recoPhiStarCP_rho",
-		"#recoPhiStarCPrPV",
+		"recoPhiStarCPrPV",
 		"#recoPhiStarCPrPV_rho",
 
 		"#recoPhiStarCPrPVbs",
