@@ -132,11 +132,11 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			int nHiggsBosons = 0;
 		} initialParticles, higgsParticles, jetParticles;
 		
-		std::vector<const RMFLV*> particleFourMomenta;
+		std::vector<const CartesianRMFLV*> particleFourMomenta;
 		for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 		{
 			ParticlesGroup* selectedParticles = nullptr;
-			if (lheParticle->status == 127)
+			if (lheParticle->status == -1)
 			{
 				selectedParticles = &initialParticles;
 			}
@@ -168,11 +168,11 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 				++numberOtherQuarks;
 			}
 			
-			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status;
-			/*if (particleFourMomenta.size() < 5)
+			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode;
+			if (particleFourMomenta.size() < 5)
 			{
 				particleFourMomenta.push_back(&(lheParticle->p4));
-			}*/
+			}
 		}
 		//LOG(WARNING) << event.m_lheParticles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks << "," << ;
 		
