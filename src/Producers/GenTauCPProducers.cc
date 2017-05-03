@@ -159,6 +159,23 @@ void GenTauCPProducerBase::Init(setting_type const& settings)
 void GenTauCPProducerBase::Produce(event_type const& event, product_type& product,
                                    setting_type const& settings) const
 {
+	if (product.m_genBosonLVFound && product.m_genLeptonsFromBosonDecay.size() > 1 &&
+		(std::abs(product.m_genLeptonsFromBosonDecay.at(0)->pdgId) == DefaultValues::pdgIdTau) &&
+	(std::abs(product.m_genLeptonsFromBosonDecay.at(1)->pdgId) == DefaultValues::pdgIdTau))
+	{
+		//generate the Taus from the Boson decay
+		KGenTau* genTau1 = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(0), static_cast<KGenTau*>(nullptr));
+		KGenTau* genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(1), static_cast<KGenTau*>(nullptr));
+
+		//std::cout << "Tau1 Decay mode " << genTau1->genDecayMode()  << std::endl;
+		//std::cout << "Tau2 Decay mode " << genTau2->genDecayMode()  << std::endl;
+
+		//selected the taus decaying into a rho
+		if (genTau1->genDecayMode() == 1 && genTau2->genDecayMode() == 1)
+		{
+
+		}
+	}
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
@@ -209,8 +226,8 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			{
 				if (abs(selectedTau2OneProngs[i]->GetCharge()) == 1) chargedPart2 = selectedTau2OneProngs[i]->m_genParticle;
 			}
-			std::cout << "PdgId" << chargedPart1->pdgId << std::endl;
-			std::cout << "PdgId" << chargedPart2->pdgId << std::endl;
+			//std::cout << "PdgId " << chargedPart1->pdgId << std::endl;
+			//std::cout << "PdgId " << chargedPart2->pdgId << std::endl;
 			// Saving the charged particles for  analysis
 			product.m_genOneProngCharged1 = chargedPart1;
 			product.m_genOneProngCharged2 = chargedPart2;
@@ -221,58 +238,50 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			selectedTau2->DetermineDecayMode(selectedTau2);
 
 			int decaymode1 = (int)selectedTau1->m_decayMode;
-
 			int decaymode2 = (int)selectedTau2->m_decayMode;
 
-			std::cout << "decaymode1 " << decaymode1 << std::endl;
-			std::cout << "decaymode2 " << decaymode2<< std::endl;
+			//std::cout << "decaymode1 " << decaymode1 << std::endl;
+			//std::cout << "decaymode2 " << decaymode2<< std::endl;
 
 
 			// rho method
-			if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT) //only for tt.json
-			{
-				if (chargedPart1->pdgId == DefaultValues::pdgIdRhoPlus770) std::cout << " Charged1 is rho" << std::endl;
-				//std::cout << "Entered tt.json" << std::endl;
-				if ( decaymode1 == 7  &&  decaymode2 == 7)
+
+			//std::cout << "Entered tt.json" << std::endl;
+			if ( decaymode1 == 4   &&  decaymode2 == 4)
+			 {
+				//std::cout << "Found two Piosn" << std::endl;
+			RMFLV chargedPiP = DefaultValues::UndefinedRMFLV;
+			RMFLV chargedPiM = DefaultValues::UndefinedRMFLV;
+			RMFLV piZeroP = DefaultValues::UndefinedRMFLV;
+			RMFLV piZeroM = DefaultValues::UndefinedRMFLV;
+			selectedTau1->CreateFinalStates(selectedTau1);  //pos. charged tau
+			selectedTau2->CreateFinalStates(selectedTau2);  //neg charged tau
+			std::vector<GenParticleDecayTree*> prongs1 = selectedTau1->m_finalStates;
+			std::vector<GenParticleDecayTree*> prongs2 = selectedTau2->m_finalStates;
+			//if both taus decay into rhos
+			for (unsigned int i=0; i<prongs1.size(); ++i){
+				if (std::abs(prongs1.at(i)->GetCharge()) == 1){
+					chargedPiP = prongs1.at(i)->m_genParticle->p4;
+				}
+				else
 				{
-					std::cout << "Found two Rhos" << std::endl;
-				RMFLV chargedPiP = DefaultValues::UndefinedRMFLV;
-				RMFLV chargedPiM = DefaultValues::UndefinedRMFLV;
-				RMFLV piZeroP = DefaultValues::UndefinedRMFLV;
-				RMFLV piZeroM = DefaultValues::UndefinedRMFLV;
-
-				selectedTau1->CreateFinalStates(selectedTau1);  //pos. charged tau
-				selectedTau2->CreateFinalStates(selectedTau2);  //neg charged tau
-
-				std::vector<GenParticleDecayTree*> prongs1 = selectedTau1->m_finalStates;
-				std::vector<GenParticleDecayTree*> prongs2 = selectedTau2->m_finalStates;
-
-
-				//if both taus decay into rhos
-
-				for (unsigned int i=0; i<prongs1.size(); ++i){
-					if (std::abs(prongs1.at(i)->GetCharge()) == 1){
-						chargedPiP = prongs1.at(i)->m_genParticle->p4;
-					}
-					else
-					{
-						piZeroP = prongs1.at(i)->m_genParticle->p4;
-					}
+					piZeroP = prongs1.at(i)->m_genParticle->p4;
 				}
-				for (unsigned int i=0; i<prongs2.size(); ++i){
-					if (std::abs(prongs2.at(i)->GetCharge()) == 1){
-						chargedPiM = prongs2.at(i)->m_genParticle->p4;
-					}
-					else
-					{
-						piZeroM = prongs2.at(i)->m_genParticle->p4;
-					}
+			}
+			for (unsigned int i=0; i<prongs2.size(); ++i){
+				if (std::abs(prongs2.at(i)->GetCharge()) == 1){
+					chargedPiM = prongs2.at(i)->m_genParticle->p4;
 				}
+				else
+				{
+					piZeroM = prongs2.at(i)->m_genParticle->p4;
+				}
+			}
 				//calculate phistarCP_rho
-				product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(chargedPiP, chargedPiM, piZeroP, piZeroM);
+			product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(chargedPiP, chargedPiM, piZeroP, piZeroM);
 
 			}
-			}
+
 
 			// Calculation of Phi* and Phi*CP itself
 			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
