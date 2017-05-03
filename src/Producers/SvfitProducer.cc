@@ -4,7 +4,7 @@
 #include <boost/filesystem/convenience.hpp>
 #include "boost/functional/hash.hpp"
 
-#include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
+#include "TauAnalysis/ClassicSVfit/interface/MeasuredTauLepton.h"
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
@@ -95,29 +95,29 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	
 	// construct decay types
-	svFitStandalone::kDecayType decayType1 = svFitStandalone::kTauToHadDecay;
+	classic_svFit::MeasuredTauLepton::kDecayType decayType1 = classic_svFit::MeasuredTauLepton::kTauToHadDecay;
 	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::MM)
 	{
-		decayType1 = svFitStandalone::kTauToMuDecay;
+		decayType1 = classic_svFit::MeasuredTauLepton::kTauToMuDecay;
 	}
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET || product.m_decayChannel == HttEnumTypes::DecayChannel::EM || product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
 	{
-		decayType1 = svFitStandalone::kTauToElecDecay;
+		decayType1 = classic_svFit::MeasuredTauLepton::kTauToElecDecay;
 	}
 	
-	svFitStandalone::kDecayType decayType2 = svFitStandalone::kTauToHadDecay;
+	classic_svFit::MeasuredTauLepton::kDecayType decayType2 = classic_svFit::MeasuredTauLepton::kTauToHadDecay;
 	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MM || product.m_decayChannel == HttEnumTypes::DecayChannel::EM)
 	{
-		decayType2 = svFitStandalone::kTauToMuDecay;
+		decayType2 = classic_svFit::MeasuredTauLepton::kTauToMuDecay;
 	}
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
 	{
-		decayType2 = svFitStandalone::kTauToElecDecay;
+		decayType2 = classic_svFit::MeasuredTauLepton::kTauToElecDecay;
 	}
 
 	// set decayModes. For hadronic taus use the one from the decayModeFinding (OldDMs). Else set it to -1 (this is the default)
 	int decayMode1, decayMode2;
-	if (decayType1 == svFitStandalone::kTauToHadDecay)
+	if (decayType1 == classic_svFit::MeasuredTauLepton::kTauToHadDecay)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[0];
 		if (lepton->flavour() == KLeptonFlavour::TAU)
@@ -133,7 +133,7 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	{
 		decayMode1 = -1;
 	}
-	if (decayType2 == svFitStandalone::kTauToHadDecay)
+	if (decayType2 == classic_svFit::MeasuredTauLepton::kTauToHadDecay)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[1];
 		if (lepton->flavour() == KLeptonFlavour::TAU)
