@@ -1,7 +1,8 @@
 {
 	"TauEnergyCorrection" : {
 		"nick" : {
-			"HToTauTau|DY.?JetsToLL|Run2015" : "none"
+			"default" : "none",
+			"Summer16" : "mssmhtt2016"
 		}
 	}
 }

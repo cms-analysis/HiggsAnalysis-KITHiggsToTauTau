@@ -65,6 +65,23 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
 		}
 	}
+	else if (tauEnergyCorrection == TauEnergyCorrection::MSSMHTT2016)
+	{
+		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+
+		// correct e->tau fake energy scale
+		if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT)
+		{
+			if (tau->decayMode == 0)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProng();
+			}
+			else if (tau->decayMode == 1 || tau->decayMode == 2)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
+			}
+		}
+	}
 	else if (tauEnergyCorrection != TauEnergyCorrection::NONE)
 	{
 		LOG(FATAL) << "Tau energy correction of type " << Utility::ToUnderlyingValue(tauEnergyCorrection) << " not yet implemented!";
