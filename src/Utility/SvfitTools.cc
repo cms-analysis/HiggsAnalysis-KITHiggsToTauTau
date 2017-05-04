@@ -366,15 +366,29 @@ bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
 	return (! (*this == rhs));
 }
 
-SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM) const
+SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM, TFile* visPtResolutionFile) const
 {
 	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(GetMeasuredTauLeptons(svfitEventKey),
 	                                                                             metMomentum->x(),
 	                                                                             metMomentum->y(),
 	                                                                             GetMetCovarianceMatrix(),
 	                                                                             verbosity);
-	svfitStandaloneAlgorithm.addLogM(addLogM);
+	
 	svfitStandaloneAlgorithm.setMCQuantitiesAdapter(new MCTauTauQuantitiesAdapter());
+	
+	svfitStandaloneAlgorithm.addLogM(addLogM);
+	
+	if (! visPtResolutionFile)
+	{
+		TDirectory *savedir(gDirectory);
+		TFile *savefile(gFile);
+		TString cmsswBase = TString( getenv ("CMSSW_BASE") );
+		visPtResolutionFile = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
+		gDirectory = savedir;
+		gFile = savefile;
+	}
+	svfitStandaloneAlgorithm.shiftVisPt(true, visPtResolutionFile);
+	
 	return svfitStandaloneAlgorithm;
 }
 
@@ -490,12 +504,24 @@ void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, 
 
 void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 {
-	Set(GetFittedTransverseMass(svfitStandaloneAlgorithm),
-	    GetFittedHiggsLV(svfitStandaloneAlgorithm),
-	    GetFittedTau1E(svfitStandaloneAlgorithm),
-	    GetFittedTau1LV(svfitStandaloneAlgorithm),
-	    GetFittedTau2E(svfitStandaloneAlgorithm),
-	    GetFittedTau2LV(svfitStandaloneAlgorithm));
+	if (svfitStandaloneAlgorithm.isValidSolution())
+	{
+		Set(GetFittedTransverseMass(svfitStandaloneAlgorithm),
+		    GetFittedHiggsLV(svfitStandaloneAlgorithm),
+		    GetFittedTau1E(svfitStandaloneAlgorithm),
+		    GetFittedTau1LV(svfitStandaloneAlgorithm),
+		    GetFittedTau2E(svfitStandaloneAlgorithm),
+		    GetFittedTau2LV(svfitStandaloneAlgorithm));
+	}
+	else
+	{
+		Set(DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedRMFLV,
+		    DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedRMFLV,
+		    DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedRMFLV);
+	}
 }
 
 void SvfitResults::CreateBranches(TTree* tree)
@@ -634,7 +660,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if (svfitCacheInputTreeIndicesItem != SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).end())
 		{
 			SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntry(svfitCacheInputTreeIndicesItem->second);
-			svfitResults.at(cacheFileName).fromCache();
+			svfitResults.at(cacheFileName).FromCache();
 			neededRecalculation = false;
 		}
 	}
@@ -652,22 +678,12 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::undefined)
 		{
 			svfitResults[cacheFileName] = SvfitResults();
-			svfitResults.at(cacheFileName).fromRecalculation();
+			svfitResults.at(cacheFileName).FromRecalculation();
 			return svfitResults.at(cacheFileName);
 		}
 		
 		// construct algorithm
-		if (! m_inputFile_visPtResolution)
-		{
-			TDirectory *savedir(gDirectory);
-			TFile *savefile(gFile);
-			TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-			m_inputFile_visPtResolution = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
-			gDirectory = savedir;
-			gFile = savefile;
-		}
-		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm(svfitEventKey);
-		svfitStandaloneAlgorithm.shiftVisPt(true, m_inputFile_visPtResolution);
+		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm(svfitEventKey, 0, false, m_visPtResolutionFile);
 	
 		// execute integration
 		if (svfitEventKey.GetIntegrationMethod() == SvfitEventKey::IntegrationMethod::VEGAS)
@@ -689,7 +705,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	
 		// retrieve results
 		svfitResults[cacheFileName].Set(svfitStandaloneAlgorithm);
-		svfitResults.at(cacheFileName).fromRecalculation();
+		svfitResults.at(cacheFileName).FromRecalculation();
 	}
 	
 	return svfitResults.at(cacheFileName);
@@ -697,6 +713,11 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 
 SvfitTools::~SvfitTools()
 {
+	if (m_visPtResolutionFile)
+	{
+		m_visPtResolutionFile->Close();
+	}
+	
 	// do NOT call destructor for TTree and TFile here. They are static and the destructor is called several times when running the factory
 	// We have to trust the OS does handle freeing the memory properly
 }
