@@ -144,6 +144,10 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["em"]).process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.btag_mistag2016_syst_args)
 			
+			# electron ES
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
+			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.ele_es_syst_args)
+			
 			# ttbar shape
 			self.cb.cp().channel(["em"]).process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.ttj_syst_args)
 			

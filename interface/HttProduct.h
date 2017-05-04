@@ -170,6 +170,9 @@ public:
 	RMDLV m_diGenJetSystem;
 	bool m_diGenJetSystemAvailable = false;
 
+	// filled by TaggedJetUncertaintyShiftProducer
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet*>> m_correctedJetsBySplitUncertainty;
+
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
 	KMET* m_pfmetUncorr = 0;
@@ -245,8 +248,15 @@ public:
 	TVector3 m_recoIP1method2;
 	TVector3 m_recoIP2method2;
 
-	double m_deltaRgenIPrecoIP1  = DefaultValues::UndefinedDouble;
-	double m_deltaRgenIPrecoIP2  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP1  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP2  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP1  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP2  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP1  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP2  = DefaultValues::UndefinedDouble;
+
 	double m_deltaRgenIPrecoIP1met2  = DefaultValues::UndefinedDouble;
 	double m_deltaRgenIPrecoIP2met2  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;

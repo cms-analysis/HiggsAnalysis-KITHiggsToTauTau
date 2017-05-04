@@ -38,4 +38,7 @@ private:
 
 	std::map<std::string,std::shared_ptr<FakeFactor>> m_ffComb;
 	bool m_applyFakeFactors;
+	bool m_isET;
+	bool m_isMT;
+	bool m_isTT;
 };

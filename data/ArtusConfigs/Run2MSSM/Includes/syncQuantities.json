@@ -129,6 +129,7 @@
 		"njets",
 		"njetspt20",
 		"njetspt30",
+		"njetspt20eta2p4",
 		"#mva_gf",
 		"#mva_vbf",
 		"trigweight_1",

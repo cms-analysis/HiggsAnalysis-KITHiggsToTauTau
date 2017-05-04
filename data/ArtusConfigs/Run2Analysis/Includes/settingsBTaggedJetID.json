@@ -25,6 +25,11 @@
 		}
 	},
 	"BTaggedJetAbsEtaCut" : 2.4,
-	"ApplyBTagSF" : true,
+	"ApplyBTagSF" : {
+		"nick" : {
+			"default" : true,
+			"Fall15" : false
+		}
+	},
 	"BTagSFMethod" : "PromotionDemotion"
 }

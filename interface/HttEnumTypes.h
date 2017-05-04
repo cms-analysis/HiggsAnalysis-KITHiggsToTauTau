@@ -110,5 +110,39 @@ public:
 		else if (madGraphProductionModeGGH == "gg_x0uux") return MadGraphProductionModeGGH::gg_x0uux;
 		else return MadGraphProductionModeGGH::NONE;
 	};
+
+	enum class JetEnergyUncertaintyShiftName : int
+	{
+		NONE,
+		AbsoluteFlavMap,
+		AbsoluteMPFBias,
+		AbsoluteScale,
+		AbsoluteStat,
+		FlavorQCD,
+		Fragmentation,
+		PileUpDataMC,
+		PileUpPtBB,
+		PileUpPtEC1,
+		PileUpPtEC2,
+		PileUpPtHF,
+		PileUpPtRef,
+		RelativeBal,
+		RelativeFSR,
+		RelativeJEREC1,
+		RelativeJEREC2,
+		RelativeJERHF,
+		RelativePtBB,
+		RelativePtEC1,
+		RelativePtEC2,
+		RelativePtHF,
+		RelativeStatEC,
+		RelativeStatFSR,
+		RelativeStatHF,
+		SinglePionECAL,
+		SinglePionHCAL,
+		TimePtEta,
+		Total,
+		Closure // individual uncertainties added in quadrature. to be compared to 'Total' for closure test
+	};
 };
 

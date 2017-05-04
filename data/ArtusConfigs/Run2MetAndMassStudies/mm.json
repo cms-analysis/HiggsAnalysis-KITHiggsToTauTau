@@ -8,6 +8,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJECUncertaintySplit.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
@@ -27,7 +28,7 @@
 					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
 					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
 				],
-				"Spring16|Embedding(2016|MC)" : [
+				"Embedding(2016|MC)" : [
 					""
 				]
 			}
@@ -35,7 +36,6 @@
 		"NoHltFiltering" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true,
 				"Embedding(2016|MC)" : true
 				}
 			},
@@ -79,12 +79,11 @@
 		},
 		"DiTauPairNoHLT" : {
 			"nick" : {
-				"default" : false,
-				"Spring16" : true
+				"default" : false
 			}
 		},
 		"EventWeight" : "eventWeight",
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
 		"RooWorkspaceWeightNames" : [
 			"0:idIsoWeight",
 			"1:idIsoWeight"
@@ -97,14 +96,14 @@
 			"0:m_pt,m_eta",
 			"1:m_pt,m_eta"
 		],
-		"MuMuTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"MuMuTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
 		"MuMuTriggerWeightWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"1:triggerWeight"
 		],
 		"MuMuTriggerWeightWorkspaceObjectNames" : [
-			"0:m_trgIsoMu22orTkIsoMu22_desy_data",
-			"1:m_trgIsoMu22orTkIsoMu22_desy_data"
+			"0:m_trgIsoMu24orTkIsoMu24_desy_ratio",
+			"1:m_trgIsoMu24orTkIsoMu24_desy_ratio"
 		],
 		"MuMuTriggerWeightWorkspaceObjectArguments" : [
 			"0:m_pt,m_eta",
@@ -112,12 +111,6 @@
 		],
 		"TriggerEfficiencyData" : {
 			"nick" : {
-				"default" : [
-					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu8_eff_Spring16.root",
-					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu17_eff_Spring16.root",
-					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu8_eff_Spring16.root",
-					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu17_eff_Spring16.root"
-				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu8_fall15.root",
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_Mu17_fall15.root",
@@ -146,8 +139,8 @@
 		"IdentificationEfficiencyData" : {
 			"nick" : {
 				"default" : [
-					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso0p15_eff.root",
-					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso0p15_eff.root"
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"
 				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p15_fall15.root",
@@ -158,8 +151,8 @@
 		"IdentificationEfficiencyMc" : {
 			"nick" : {
 				"default" : [
-					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_eff.root",
-					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_eff.root"
+					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root",
+					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"
 				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_fall15.root",
@@ -191,7 +184,7 @@
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MetAndMassStudies/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/lheWeights.json"
 				]
@@ -236,6 +229,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -246,13 +240,12 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"#producer:RooWorkspaceWeightProducer",
 					"producer:MuMuTriggerWeightProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -272,6 +265,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -282,10 +276,9 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
-					"producer:RooWorkspaceWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"#producer:RooWorkspaceWeightProducer",
 					"producer:MuMuTriggerWeightProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|EWKZ2Jets)).)*Fall15" : [
@@ -308,6 +301,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -318,7 +312,6 @@
 					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : [
@@ -341,6 +334,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -352,7 +346,6 @@
 					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2016" : [
@@ -375,13 +368,13 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -404,13 +397,13 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				]
 			}

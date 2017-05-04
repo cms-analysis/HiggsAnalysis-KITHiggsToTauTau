@@ -1,0 +1,185 @@
+
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/trim.hpp>
+
+#include "Artus/Utility/interface/SafeMap.h"
+#include "Artus/Utility/interface/Utility.h"
+#include "Artus/Utility/interface/DefaultValues.h"
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "Artus/KappaAnalysis/interface/Producers/ValidJetsProducer.h"
+
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
+
+std::string TaggedJetUncertaintyShiftProducer::GetProducerId() const
+{
+	return "TaggedJetUncertaintyShiftProducer";
+}
+
+void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
+{
+	uncertaintyFile = settings.GetJetEnergyCorrectionSplitUncertaintyParameters();
+	individualUncertainties = settings.GetJetEnergyCorrectionSplitUncertaintyParameterNames();
+
+	// make sure the necessary parameters are configured
+	assert(uncertaintyFile != "");
+	assert(individualUncertainties.size() > 0);
+
+	jetIDVersion = KappaEnumTypes::ToJetIDVersion(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetJetIDVersion())));
+	jetID = KappaEnumTypes::ToJetID(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetJetID())));
+
+	// implementation not nice at the moment. feel free to improve it :)
+	lowerPtCuts = Utility::ParseMapTypes<std::string, float>(Utility::ParseVectorToMap(settings.GetJetLowerPtCuts()));
+	upperAbsEtaCuts = Utility::ParseMapTypes<std::string, float>(Utility::ParseVectorToMap(settings.GetJetUpperAbsEtaCuts()));
+
+	if (lowerPtCuts.size() > 1)
+		LOG(FATAL) << "TaggedJetUncertaintyShiftProducer: lowerPtCuts.size() = " << lowerPtCuts.size() << ". Current implementation requires it to be <= 1.";
+	if (upperAbsEtaCuts.size() > 1)
+		LOG(FATAL) << "TaggedJetUncertaintyShiftProducer: upperAbsEtaCuts.size() = " << upperAbsEtaCuts.size() << ". Current implementation requires it to be <= 1.";
+
+	for (auto const& uncertainty : individualUncertainties)
+	{
+		// only do string comparison once per uncertainty
+		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = ToJetEnergyUncertaintyShiftName(uncertainty);
+		if (individualUncertainty == HttEnumTypes::JetEnergyUncertaintyShiftName::NONE)
+			continue;
+		individualUncertaintyEnums.push_back(individualUncertainty);
+
+		// create uncertainty map (only if shifts are to be applied)
+		if (settings.GetJetEnergyCorrectionSplitUncertainty()
+			&& settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0
+			&& individualUncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
+		{
+			JetCorrectorParameters const * jetCorPar = new JetCorrectorParameters(uncertaintyFile, uncertainty);
+			JetCorParMap[individualUncertainty] = jetCorPar;
+
+			JetCorrectionUncertainty * jecUnc(new JetCorrectionUncertainty(*JetCorParMap[individualUncertainty]));
+			JetUncMap[individualUncertainty] = jecUnc;
+		}
+
+		// add quantities to event
+		std::string njetsQuantity = "njetspt30_" + uncertainty;
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(njetsQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			int nJetsPt30 = 0;
+			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			{
+				nJetsPt30 = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second, 30.0);
+			}
+			return nJetsPt30;
+		});
+
+		std::string mjjQuantity = "mjj_" + uncertainty;
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(mjjQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			{
+				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
+				return shiftedJets.size() > 1 ? (shiftedJets.at(0)->p4 + shiftedJets.at(1)->p4).mass() : -11.f;
+			}
+			return -11.f;
+		});
+
+		std::string jdetaQuantity = "jdeta_" + uncertainty;
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(jdetaQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			float jdeta = -1;
+			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			{
+				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
+				return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0)->p4.Eta() - shiftedJets.at(1)->p4.Eta()) : -1;
+			}
+			return jdeta;
+		});
+	}
+}
+
+void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product_type& product,
+		setting_type const& settings) const
+{
+	// only do all of this if uncertainty shifts should be applied
+	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0)
+	{
+		// shift copies of previously corrected jets
+		std::vector<double> closureUncertainty((product.m_correctedTaggedJets).size(), 0.);
+		for (auto const& uncertainty : individualUncertaintyEnums)
+		{
+
+			// construct copies of jets in order not to modify actual (corrected) jets
+			std::vector<KJet*> copiedJets;
+			for (typename std::vector<std::shared_ptr<KJet> >::iterator jet = (product.m_correctedTaggedJets).begin();
+				 jet != (product.m_correctedTaggedJets).end(); ++jet)
+			{
+				copiedJets.push_back(new KJet(*(jet->get())));
+			}
+
+			unsigned iJet = 0;
+			for (std::vector<KJet*>::iterator jet = copiedJets.begin(); jet != copiedJets.end(); ++jet, ++iJet)
+			{
+				double unc = 0;
+
+				if (std::abs((*jet)->p4.Eta()) < 5.2 && (*jet)->p4.Pt() > 9. && uncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
+				{
+					JetUncMap.at(uncertainty)->setJetEta((*jet)->p4.Eta());
+					JetUncMap.at(uncertainty)->setJetPt((*jet)->p4.Pt());
+					unc = JetUncMap.at(uncertainty)->getUncertainty(true);
+				}
+				closureUncertainty.at(iJet) = closureUncertainty.at(iJet) + unc*unc;
+
+				if (uncertainty == HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
+				{
+					unc = std::sqrt(closureUncertainty.at(iJet));
+				}
+				(*jet)->p4 = (*jet)->p4 * (1 + unc * settings.GetJetEnergyCorrectionUncertaintyShift());
+			}
+			// sort vectors of shifted jets by pt
+			std::sort(copiedJets.begin(), copiedJets.end(),
+					  [](KJet* jet1, KJet* jet2) -> bool
+					  { return jet1->p4.Pt() > jet2->p4.Pt(); });
+
+			// create new vector with shifted jets that pass ID as in ValidJetsProducer
+			std::vector<KJet*> shiftedJets;
+			for (std::vector<KJet*>::iterator jet = copiedJets.begin(); jet != copiedJets.end(); ++jet)
+			{
+				bool validJet = true;
+
+				// passed jet id?
+				validJet = validJet && ValidJetsProducer::passesJetID(*jet, jetIDVersion, jetID);
+
+				// kinematic cuts
+				// implementation not nice at the moment. feel free to improve it :)
+				for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCut = lowerPtCuts.begin(); lowerPtCut != lowerPtCuts.end() && validJet; ++lowerPtCut)
+				{
+					if ((*jet)->p4.Pt() < *std::max_element(lowerPtCut->second.begin(), lowerPtCut->second.end()))
+					{
+						validJet = false;
+					}
+				}
+				for (std::map<std::string, std::vector<float> >::const_iterator upperAbsEtaCut = upperAbsEtaCuts.begin(); upperAbsEtaCut != upperAbsEtaCuts.end() && validJet; ++upperAbsEtaCut)
+				{
+					if (std::abs((*jet)->p4.Eta()) > *std::min_element(upperAbsEtaCut->second.begin(), upperAbsEtaCut->second.end()))
+					{
+						validJet = false;
+					}
+				}
+
+				// remove leptons from list of jets via simple DeltaR isolation
+				for (std::vector<KLepton*>::const_iterator lepton = product.m_validLeptons.begin();
+					 validJet && lepton != product.m_validLeptons.end(); ++lepton)
+				{
+					validJet = validJet && ROOT::Math::VectorUtil::DeltaR((*jet)->p4, (*lepton)->p4) > settings.GetJetLeptonLowerDeltaRCut();
+				}
+
+				// apply additional criteria if needed (check ValidTaggedJetsProducer settings)
+
+				if (validJet)
+				{
+					shiftedJets.push_back(*jet);
+				}
+			}
+
+			(product.m_correctedJetsBySplitUncertainty)[uncertainty] = shiftedJets;
+		}
+	}
+}
+
