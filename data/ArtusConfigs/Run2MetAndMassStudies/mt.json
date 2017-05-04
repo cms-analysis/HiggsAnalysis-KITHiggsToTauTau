@@ -8,6 +8,7 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJECUncertaintySplit.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
@@ -25,10 +26,14 @@
 					"HLT_IsoMu18"
 				],
 				"Run2016|Summer16" : [
-					"HLT_IsoMu24",
-					"HLT_IsoTkMu24"
+					"HLT_IsoMu22",
+					"HLT_IsoTkMu22",
+					"HLT_IsoMu22_eta2p1",
+					"HLT_IsoTkMu22_eta2p1",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1"
 				],
-				"Spring16|Embedding(2016|MC)" : [
+				"Embedding(2016|MC)" : [
 					""
 				]
 			}
@@ -36,34 +41,26 @@
 		"NoHltFiltering" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true,
 				"Embedding(2016|MC)": true
-					}
+			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"MuonLowerPtCuts" : {
 			"nick" : {
 				"default" : [
-					"25.0"
+					"20.0"
 				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"19.0"
 				]
 			}
 		},
-		"MuonUpperAbsEtaCuts" : {
-			"nick" : {
-				"default" : [
-					"2.4"
-				],
-				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
-					"2.1"
-				]
-			}
-		},
+		"MuonUpperAbsEtaCuts" : [
+			"2.1"
+		],
 		"TauLowerPtCuts" : [
-			"20.0"
+			"30.0"
 		],
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
@@ -92,54 +89,118 @@
 					"HLT_IsoMu18_v"
 				],
 				"Run2016|Summer16|Embedding(2016|MC)" : [
-					"HLT_IsoMu24_v",
-					"HLT_IsoTkMu24_v"
+					"HLT_IsoMu22_v",
+					"HLT_IsoTkMu22_v",
+					"HLT_IsoMu22_eta2p1_v",
+					"HLT_IsoTkMu22_eta2p1_v",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
 				]
 			}
 		},
 		"DiTauPairNoHLT" : {
 			"nick" : {
 				"default" : false,
-				"Spring16" : true,
 				"Embedding(2016|MC)": true
 			}
 		},
+		"DiTauPairHLTLast" : {
+			"nick" : {
+				"default" : false,
+				"Run2016|Summer16|Embedding(2016|MC)" : true
+			}
+		},
+		"HLTBranchNames" : {
+			"nick" : {
+				"Run2016|Summer16|Embedding(2016|MC)" : [
+					"trg_singlemuon:HLT_IsoMu22_v",
+					"trg_singlemuon:HLT_IsoTkMu22_v",
+					"trg_singlemuon:HLT_IsoMu22_eta2p1_v",
+					"trg_singlemuon:HLT_IsoTkMu22_eta2p1_v",
+					"trg_mutaucross:HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
+					"trg_mutaucross:HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
+				]
+			}
+		},
+		"MuonTriggerFilterNames" : {
+			"nick" : {
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
+					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
+				],
+				"Run2016|Summer16|Embedding(2016|MC)" : [
+					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09",
+					"HLT_IsoMu22_eta2p1_v:hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+					"HLT_IsoTkMu22_eta2p1_v:hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu18erTauJet20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+				]
+			}
+		},
+		"TauTriggerFilterNames" : {
+			"nick" : {
+				"Run2016|Summer16|Embedding(2016|MC)" : [
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltPFTau20TrackLooseIsoAgainstMuon",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
+					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+				]
+			}
+		},
 		"EventWeight" : "eventWeight",
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors.root",
+		"SaveRooWorkspaceTriggerWeightAsOptionalOnly" : "true",
+		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
 		"RooWorkspaceWeightNames" : [
-			"0:triggerWeight",
+			"0:triggerWeight_singleMu",
 			"0:idIsoWeight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:m_trgIsoMu22orTkIsoMu22_desy_data",
+			"0:m_trgMu22OR_eta2p1_desy_ratio",
 			"0:m_idiso0p15_desy_ratio"
+
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:m_pt,m_eta",
 			"0:m_pt,m_eta"
 		],
+		"SaveMuTauTriggerWeightAsOptionalOnly" : "true",
+		"MuTauTriggerWeightWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
+		"MuTauTriggerWeightWorkspaceWeightNames" : [
+			"0:triggerWeight_muTauCross",
+			"1:triggerWeight_muTauCross"
+		],
+		"MuTauTriggerWeightWorkspaceObjectNames" : [
+			"0:m_trgMu19leg_eta2p1_desy_ratio",
+			"1:t_genuine_TightIso_mt_ratio,t_fake_TightIso_mt_ratio"
+		],
+		"MuTauTriggerWeightWorkspaceObjectArguments" : [
+			"0:m_pt,m_eta",
+			"1:t_pt,t_eta"
+		],
 		"TriggerEfficiencyData" : {
 			"nick" : { 
-				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_IsoMu22_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu22OR_eta2p1_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
 			}
 		},
 		"TriggerEfficiencyMc" : {
 			"nick" : {
-				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu22OR_eta2p1_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"]
 			}
 		},
 		"TriggerEfficiencyMode" : "multiply_weights",
 		"IdentificationEfficiencyData" : {
 			"nick" : {
-				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso0p15_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p1_fall15.root"]
 			}
 		},
 		"IdentificationEfficiencyMc" : {
 			"nick" : {
-				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p15_eff.root"],
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p1_fall15.root"]
 			}
 		},
@@ -148,17 +209,6 @@
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
 		],
 		"TauTauRestFrameReco" : "collinear_approximation",
-		"MuonTriggerFilterNames" : {
-			"nick" : {
-				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
-					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
-				],
-				"Run2016|Summer16|Embedding(2016|MC)" : [
-					"HLT_IsoMu24_v:hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09",
-					"HLT_IsoTkMu24_v:hltL3fL1sMu22L1f0Tkf24QL3trkIsoFiltered0p09"
-				]
-			}
-		},
 		"InvalidateNonMatchingElectrons" : false,
 		"InvalidateNonMatchingMuons" : true,
 		"InvalidateNonMatchingTaus" : true,
@@ -170,7 +220,7 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MetAndMassStudies/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fakeFactorQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/lheWeights.json"
 				]
@@ -179,7 +229,12 @@
 			"nLooseElectrons",
 			"nLooseMuons",
 			"nDiTauPairCandidates",
-			"nAllDiTauPairCandidates"
+			"nAllDiTauPairCandidates",
+			"trg_singlemuon",
+			"trg_mutaucross",
+			"triggerWeight_singleMu_1",
+			"triggerWeight_muTauCross_1",
+			"triggerWeight_muTauCross_2"
 		],
 		"OSChargeLeptons" : true,
 		"Processors" : {
@@ -209,6 +264,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -223,10 +279,11 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:MuTauTriggerWeightProducer",
 					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -251,6 +308,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -265,6 +323,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:MuTauTriggerWeightProducer",
 					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				],
@@ -293,6 +352,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -332,6 +392,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
 					"producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -371,6 +432,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -404,6 +466,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -438,6 +501,7 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
 					"#producer:MetCorrector",
 					"#producer:MvaMetCorrector",
 					"producer:TauTauRestFrameSelector",
@@ -449,6 +513,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:MetprojectionProducer",
 					"producer:EventWeightProducer"
 				]
 			}

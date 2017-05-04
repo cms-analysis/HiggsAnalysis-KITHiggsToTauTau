@@ -30,6 +30,7 @@ public:
 
 private:
     std::vector<std::string> m_metFilters;
+    std::vector<std::string> m_invertedFilters;
 
 };
 

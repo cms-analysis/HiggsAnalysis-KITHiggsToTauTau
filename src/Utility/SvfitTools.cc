@@ -504,12 +504,24 @@ void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, 
 
 void SvfitResults::Set(ClassicSVfit const& svfitAlgorithm)
 {
-	Set(GetFittedTransverseMass(svfitAlgorithm),
-	    GetFittedHiggsLV(svfitAlgorithm),
-	    GetFittedTau1ERatio(svfitAlgorithm),
-	    GetFittedTau1LV(svfitAlgorithm),
-	    GetFittedTau2ERatio(svfitAlgorithm),
-	    GetFittedTau2LV(svfitAlgorithm));
+	if (svfitAlgorithm.isValidSolution())
+	{
+		Set(GetFittedTransverseMass(svfitAlgorithm),
+		    GetFittedHiggsLV(svfitAlgorithm),
+		    GetFittedTau1ERatio(svfitAlgorithm),
+		    GetFittedTau1LV(svfitAlgorithm),
+		    GetFittedTau2ERatio(svfitAlgorithm),
+		    GetFittedTau2LV(svfitAlgorithm));
+	}
+	else
+	{
+		Set(DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedRMFLV,
+		    DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedRMFLV,
+		    DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedRMFLV);
+	}
 }
 
 void SvfitResults::CreateBranches(TTree* tree)
@@ -654,7 +666,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if (svfitCacheInputTreeIndicesItem != SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).end())
 		{
 			SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntry(svfitCacheInputTreeIndicesItem->second);
-			svfitResults.at(cacheFileName).fromCache();
+			svfitResults.at(cacheFileName).FromCache();
 			neededRecalculation = false;
 		}
 	}
@@ -672,7 +684,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::undefined)
 		{
 			svfitResults[cacheFileName] = SvfitResults();
-			svfitResults.at(cacheFileName).fromRecalculation();
+			svfitResults.at(cacheFileName).FromRecalculation();
 			return svfitResults.at(cacheFileName);
 		}
 	
@@ -688,7 +700,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 	
 		// retrieve results
 		svfitResults[cacheFileName].Set(svfitAlgorithm);
-		svfitResults.at(cacheFileName).fromRecalculation();
+		svfitResults.at(cacheFileName).FromRecalculation();
 	}
 	
 	LOG(WARNING) << static_cast<classic_svFit::DiTauSystemHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->getMass() << " (classic) vs. " << svfitResults.at(cacheFileName).fittedHiggsLV->mass() << " (standalone)";

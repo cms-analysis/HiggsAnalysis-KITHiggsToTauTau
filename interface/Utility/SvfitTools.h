@@ -214,8 +214,8 @@ public:
 	
 	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
 	void Set(ClassicSVfit const& svfitAlgorithm);
-	void fromRecalculation(){ recalculated = true; }
-	void fromCache(){ recalculated = false; }
+	inline void FromRecalculation() { recalculated = true; }
+	inline void FromCache() { recalculated = false; }
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
