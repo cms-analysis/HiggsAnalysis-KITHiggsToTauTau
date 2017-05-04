@@ -1,8 +1,18 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
+####################################################################################
+# This script needs scikit-learn and root_numpy modules and requieres the	   #
+# following versions: Python >=2.6 or >=3.3, Numpy >=1.6.1, Scipy >=0.9 and	   #
+# ROOT >=5.32.                							   #
+####################################################################################
+
+
 import numpy as np
+
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import GradientBoostingClassifier  
+from sklearn.ensemble import AdaBoostClassifier  
 from sklearn.metrics import classification_report, roc_auc_score
 
 import logging
@@ -16,7 +26,7 @@ import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 
-def tmva_classification(args_from_script=None):
+def scikit_classification(args_from_script=None):
 	"""
 	Perform scikit learn classification training.
 	
@@ -33,9 +43,9 @@ def tmva_classification(args_from_script=None):
 	parser.add_argument("-f", "--folder", default=None, required=True,
 	                    help="Tree in signal & background file. [Default: %(default)s]")
 	parser.add_argument("-v", "--variables", nargs="+", required=True, default=None,
-	                    help="Training variables. Multiple arguments for TMVA.Factory.AddVariable are split by semicolon.")
+	                    help="Training variables.")
 	parser.add_argument("--splitting", nargs="+", default="0.3 0.1 0.6",
-	                    help="Set relative size of training, test and evaluation subsample. [Default: %(default)s]")
+	                    help="Set relative size of training, test and evaluation subsample (sum has to be 1). [Default: %(default)s]")
 	parser.add_argument("-m", "--methods", nargs="+", required=True, default=None,
 	                    help="MVA methods.")
 	parser.add_argument("-o", "--output-file", default="sklearnClassification/output.root",
@@ -45,6 +55,11 @@ def tmva_classification(args_from_script=None):
 
 	args = parser.parse_args(args_from_script.split() if args_from_script != None else None)
 	logger.initLogger(args)
+
+	# create output file
+	if not os.path.exists(os.path.dirname(args.output_file)):
+		os.makedirs(os.path.dirname(args.output_file))
+	output_file = ROOT.TFile(args.output_file, "RECREATE")
 
 	
 	#training variables	
@@ -74,7 +89,7 @@ def tmva_classification(args_from_script=None):
 	X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=splitting[1], random_state=1)
     	
 	#model and training
-	bdt = GradientBoostingClassifier(args.methods)
+	bdt = AdaBoostClassifier(args.methods)
 	bdt.fit(X_train,y_train)
 
 
@@ -95,72 +110,31 @@ def tmva_classification(args_from_script=None):
 				               cv=3,
 				               scoring='roc_auc',
 				               n_jobs=8)
-		_ = clf.fit(X_train, y_train)
+		clf.fit(X_train, y_train)
 
 		print "Best parameter set found on development set:"
 		print
-		print clf.best_estimator_	
+		print clf.best_estimator_
+
+	# finish
+	output_file.Close()
+	log.info("Training output is written to \"" + args.output_file + "\".")
+	
 	
 	#testing
 	y_predicted = bdt.predict(X_test)
 	y_predicted.dtype = [('score', np.float64)]
 	array2root(y_predicted, args.output, "BDTtest")
 
-	log.debug(classification_report(y_test, y_predicted, target_names=["background", "signal"])
-	log.debug("Area under ROC curve: %.4f"%(roc_auc_score(y_test, bdt.decision_function(X_test))))
+	print classification_report(y_test, y_predicted, target_names=["background", "signal"])
+	print "Area under ROC curve: %.4f"%(roc_auc_score(y_test, bdt.decision_function(X_test)))
 
-	#Roc curve TODO!!!!
-	"""
-	plot_configs = []
+	#evaluation
+	y_eval = bdt.predict(X_eval)
+	y_eval.dtype = [('score', np.float64)]
+	array2root(y_eval, args.output, "BDTeval")
+
+if __name__ == "__main__" and len(sys.argv) > 1:
+	scikit_classification()
 		
-	config_CutEff = {
-    	"analysis_modules": [
-		"CutEfficiency"
-	],
-	"markers": [
-		"LP"
-    	],
-	"x_expressions": [
-		"BDTscore"
-    	], 
-    	"x_label": "bkg_rej", 
-    	"y_label": "sig_eff",
-	"legend": [0.25, 0.25, 0.45, 0.45],
-	"legend_cols": 1,
-	"legend_markers": ["LP"],
-	"weights": [
-		"classID<0.5", 
-		"classID>0.5"
-    	]
-	}
-	
-	plot_configs.append(config_CutEff)
-
-	if log.isEnabledFor(logging.DEBUG):
-		import pprint
-		pprint.pprint(plot_configs)
-	
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
-	"""
-
-	#Evaluation
-	from Artus.Utility.helpers.root.tree import TreeExtender
-
-	with TreeExtender(args.output, BDTevaluation) as extender:
-	    variables = list_of_variables
-	    extender.addBranch("myDiscriminator/D", unpack=variables)
-
-	    for entry in extender:
-		values = [getattr(entry, v)[0] for v in variables]
-		entry.myDiscriminator[0] = bdt.predict(X_eval, y_eval)
-
-
-
-
-	
 		
-
-	
-			
-	
-

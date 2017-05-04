@@ -159,6 +159,7 @@ void GenTauCPProducerBase::Init(setting_type const& settings)
 void GenTauCPProducerBase::Produce(event_type const& event, product_type& product,
                                    setting_type const& settings) const
 {
+
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
@@ -171,7 +172,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				product.m_genPV = &event.m_genParticles->at(i).vertex;
 			}
 		}
-
+	
 		GenParticleDecayTree* selectedTau1;
 		GenParticleDecayTree* selectedTau2;
 		if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
@@ -188,19 +189,21 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 		selectedTau2->CreateFinalStateProngs(selectedTau2);
 		std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
 		std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
-
+	
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;
-
+		
 		//Selection of the right channel for phi, phi* and psi*CP
 		if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
-			(std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
-			(selectedTau1OneProngs.size() != 0) &&
-			(selectedTau2OneProngs.size() != 0))
+		    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+		    (selectedTau1OneProngs.size() != 0) &&
+		    (selectedTau2OneProngs.size() != 0))
 		{
 			//Initialization of charged particles
 			KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->m_genParticle;
 			KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->m_genParticle;
+			//KGenParticle* neutralPart1 = selectedTau1OneProngs[0]->m_genParticle;
+			//KGenParticle* neutralPart2 = selectedTau2OneProngs[0]->m_genParticle;
 			for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
 			{
 				if (abs(selectedTau1OneProngs[i]->GetCharge()) == 1) chargedPart1 = selectedTau1OneProngs[i]->m_genParticle;
@@ -216,17 +219,44 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(selectedTau1->m_genParticle->p4, chargedPart1->p4);
 			product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(selectedTau2->m_genParticle->p4, chargedPart2->p4);
 
+			// rho method
+			if (product.m_genBosonLVFound && product.m_genLeptonsFromBosonDecay.size() > 1 &&
+				(std::abs(product.m_genLeptonsFromBosonDecay.at(0)->pdgId) == DefaultValues::pdgIdTau) &&
+			(std::abs(product.m_genLeptonsFromBosonDecay.at(1)->pdgId) == DefaultValues::pdgIdTau))
+			{
+				//generate the Taus from the Boson decay
+				KGenTau* genTau1 = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(0), static_cast<KGenTau*>(nullptr));
+				KGenTau* genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(1), static_cast<KGenTau*>(nullptr));
+
+				//std::cout << "Tau1 Decay mode " << genTau1->genDecayMode()  << std::endl;
+				//std::cout << "Tau2 Decay mode " << genTau2->genDecayMode()  << std::endl;
+
+				//selected the taus decaying into a rho
+				if (genTau1->genDecayMode() == 1 && genTau2->genDecayMode() == 1)
+				{
+					//std::cout << "Number of Pions 1 " << selectedTau1OneProngs.size() << std::endl;
+					//std::cout << "Number of Pions 2 " << selectedTau2OneProngs.size() << std::endl;
+					//std::cout << "PdgId " << chargedPart1->pdgId << std::endl;
+					//std::cout << "PdgId " << chargedPart2->pdgId << std::endl;
+
+					cpq.CalculatePhiStarCP_rho(chargedPart1->p4, chargedPart2->p4,chargedPart1->p4, chargedPart2->p4);
+				}
+			}
+
+
+
+
 			// Calculation of Phi* and Phi*CP itself
 			double genPhiStarCP = cpq.CalculatePhiStarCP(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhiStar = cpq.GetGenPhiStar();
-			// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+
-			// decay planes
+			// Calculation of the angle Phi as angle betweeen normal vectors of Tau- -> Pi- and Tau+ -> Pi+ 
+			// decay planes 
 			double genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhi = cpq.GetGenPhi();
-
+	
 			//CPTransformation for semileptonic case
 			if (settings.GetPhiTransform() == true && (((chargedPart1->pdgId == DefaultValues::pdgIdElectron || chargedPart1->pdgId == DefaultValues::pdgIdMuon) && (chargedPart2->pdgId == 211)) || ((chargedPart2->pdgId == -DefaultValues::pdgIdElectron || chargedPart2->pdgId == -DefaultValues::pdgIdMuon) && (chargedPart1->pdgId == -211))))
-			{
+			{	
 				product.m_genPhiStarCP = cpq.PhiTransform(genPhiStarCP);
 				product.m_genPhiCP = cpq.PhiTransform(genPhiCP);
 			}
@@ -333,94 +363,98 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
                                       setting_type const& settings) const
 {
 
-	assert(product.m_genBosonLVFound);
-	assert(product.m_genBosonTree.m_daughters.size() > 1);
+	if(product.m_genBosonLVFound && product.m_genBosonTree.m_daughters.size() > 1){
 
-	GenParticleDecayTree* selectedTau1;
-	GenParticleDecayTree* selectedTau2;
-	if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
-		selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
-		selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
-	}
-	else {
-		selectedTau1 = &(product.m_genBosonTree.m_daughters[1]);
-		selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
-	}
-
-	// initialization of TVector3 objects
-	product.m_genIP1.SetXYZ(-999,-999,-999);
-	product.m_genIP2.SetXYZ(-999,-999,-999);
-
-	if (product.m_chargeOrderedGenLeptons.at(0) and product.m_chargeOrderedGenLeptons.at(1)){
-
-		KGenParticle* genParticle1 = product.m_chargeOrderedGenLeptons.at(0);
-		KGenParticle* genParticle2 = product.m_chargeOrderedGenLeptons.at(1);
-		TVector3 genIP1(-999,-999,-999);
-		TVector3 genIP2(-999,-999,-999);
-
-		// Defining CPQuantities object to use variables and functions of this class
-		CPQuantities cpq;
-
-		// if the GenLepton is a hadronic tau, we want to take its hadronic daughter
-		// for the calculation of the IP vector
-		if (std::abs(genParticle1->pdgId) == DefaultValues::pdgIdTau){
-
-			selectedTau1->CreateFinalStateProngs(selectedTau1);
-			std::vector<GenParticleDecayTree*> prongs = selectedTau1->m_finalStates;
-
-			selectedTau1->DetermineDecayMode(selectedTau1);
-			int decaymode = (int)selectedTau1->m_decayMode;
-
-			if (decaymode == 4 or decaymode == 7){
-				for (unsigned int i=0; i<prongs.size(); ++i){
-					if (std::abs(prongs.at(i)->GetCharge()) == 1){
-						genParticle1 = prongs.at(i)->m_genParticle;
-						break;
-					}
-				} // loop over the prongs
-			} // if decaymode = 1-prong
-
-			// if (decaymode == 10) {}    // need a definition in case of 3-prongs
-
-		} // if genParticle1 == tau
-
-
-		if (std::abs(genParticle2->pdgId) == DefaultValues::pdgIdTau){
-
-			selectedTau2->CreateFinalStateProngs(selectedTau2);
-			std::vector<GenParticleDecayTree*> prongs = selectedTau2->m_finalStates;
-
-			selectedTau2->DetermineDecayMode(selectedTau2);
-			int decaymode = (int)selectedTau2->m_decayMode;
-
-			if (decaymode == 4 or decaymode == 7){
-				for (unsigned int i=0; i<prongs.size(); ++i){
-					if (std::abs(prongs.at(i)->GetCharge()) == 1){
-						genParticle2 = prongs.at(i)->m_genParticle;
-						break;
-					}
-				} // loop over the prongs
-			} // if decaymode = 1-prong
-
-			// if (decaymode == 10) {}    // need a definition in case of 3-prongs
-
-		} // if genParticle2 == tau
-
-		product.m_genSV1 = &genParticle1->vertex;
-		product.m_genSV2 = &genParticle2->vertex;
-
-		if (product.m_genPV != nullptr){
-			genIP1 = cpq.CalculateIPVector(genParticle1, product.m_genPV);
-			genIP2 = cpq.CalculateIPVector(genParticle2, product.m_genPV);
-
-			product.m_genIP1 = genIP1;
-			product.m_genIP2 = genIP2;
-
+		GenParticleDecayTree* selectedTau1;
+		GenParticleDecayTree* selectedTau2;
+		if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
+			selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
+			selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
 		}
-		// need to add the calculation of phi*CP
+		else {
+			selectedTau1 = &(product.m_genBosonTree.m_daughters[1]);
+			selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
+		}
+	
+		// initialization of TVector3 objects
+		product.m_genIP1.SetXYZ(-999,-999,-999);
+		product.m_genIP2.SetXYZ(-999,-999,-999);
+	
+	
+		if (product.m_chargeOrderedGenLeptons.at(0) and product.m_chargeOrderedGenLeptons.at(1)){
+			
+			//KGenParticle* genParticle1 = product.m_chargeOrderedGenLeptons.at(0);
+			//KGenParticle* genParticle2 = product.m_chargeOrderedGenLeptons.at(1);
+			KGenParticle* genParticle1 = product.m_flavourOrderedGenLeptons.at(0);
+			KGenParticle* genParticle2 = product.m_flavourOrderedGenLeptons.at(1);
+			TVector3 genIP1(-999,-999,-999);
+			TVector3 genIP2(-999,-999,-999);
+	
+			// Defining CPQuantities object to use variables and functions of this class
+			CPQuantities cpq;
+	
+			// if the GenLepton is a hadronic tau, we want to take its hadronic daughter
+			// for the calculation of the IP vector
+			if (std::abs(genParticle1->pdgId) == DefaultValues::pdgIdTau){
+	
+				selectedTau1->CreateFinalStateProngs(selectedTau1);
+				std::vector<GenParticleDecayTree*> prongs = selectedTau1->m_finalStates;
+	
+				selectedTau1->DetermineDecayMode(selectedTau1);
+				int decaymode = (int)selectedTau1->m_decayMode;
+	
+				if (decaymode == 4 or decaymode == 7){
+					for (unsigned int i=0; i<prongs.size(); ++i){
+						if (std::abs(prongs.at(i)->GetCharge()) == 1){
+							genParticle1 = prongs.at(i)->m_genParticle;
+							break;
+						}
+					} // loop over the prongs
+				} // if decaymode = 1-prong
+	
+				// if (decaymode == 10) {}    // need a definition in case of 3-prongs
+	
+			} // if genParticle1 == tau
+	
+	
+			if (std::abs(genParticle2->pdgId) == DefaultValues::pdgIdTau){
+	
+				selectedTau2->CreateFinalStateProngs(selectedTau2);
+				std::vector<GenParticleDecayTree*> prongs = selectedTau2->m_finalStates;
+	
+				selectedTau2->DetermineDecayMode(selectedTau2);
+				int decaymode = (int)selectedTau2->m_decayMode;
+	
+				if (decaymode == 4 or decaymode == 7){
+					for (unsigned int i=0; i<prongs.size(); ++i){
+						if (std::abs(prongs.at(i)->GetCharge()) == 1){
+							genParticle2 = prongs.at(i)->m_genParticle;
+							break;
+						}
+					} // loop over the prongs
+				} // if decaymode = 1-prong
+	
+				// if (decaymode == 10) {}    // need a definition in case of 3-prongs
+	
+			} // if genParticle2 == tau
+	
+			product.m_genSV1 = &genParticle1->vertex;
+			product.m_genSV2 = &genParticle2->vertex;
+	
+			if (product.m_genPV != nullptr){
+				genIP1 = cpq.CalculateIPVector(genParticle1, product.m_genPV);
+				genIP2 = cpq.CalculateIPVector(genParticle2, product.m_genPV);
+				
+				product.m_genIP1 = genIP1;
+				product.m_genIP2 = genIP2;
+				
+			}
+			// need to add the calculation of phi*CP
+	
+	
+		} // if chargeOrderedGenLeptons is a non-empty vector
 
 
-	} // if chargeOrderedGenLeptons is a non-empty vector
-
+	} // if product.m_genBosonLVFound && product.m_genBosonTree.m_daughters.size() > 1
 
 }

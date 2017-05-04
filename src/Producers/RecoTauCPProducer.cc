@@ -131,8 +131,8 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
-
-	// IP vectors (using d0 and dz)
+	
+	// FIXME: IP vectors (using d0 and dz)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2x", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).x() : DefaultValues::UndefinedFloat);
@@ -158,15 +158,41 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return ((&product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2).z() : DefaultValues::UndefinedFloat);
 	});
 
-	// deltaR between IP vectors
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP1", [](event_type const& event, product_type const& product)
+	// deltaEta, deltaPhi, deltaR and angle delta between IP vectors
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaEtaGenRecoIP1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaRgenIPrecoIP1;
+		return product.m_deltaEtaGenRecoIP1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaEtaGenRecoIP2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaRgenIPrecoIP2;
+		return product.m_deltaEtaGenRecoIP2;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaPhiGenRecoIP1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIP1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaPhiGenRecoIP2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIP2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRGenRecoIP1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIP1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRGenRecoIP2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIP2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaGenRecoIP1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaGenRecoIP2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP2;
+	});
+
+	// probably to be deleted in the near future
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP1met2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_deltaRgenIPrecoIP1met2;
@@ -191,12 +217,19 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 
+	// initialization of TVector3 objects
+	product.m_recoIP1.SetXYZ(-999,-999,-999);
+	product.m_recoIP2.SetXYZ(-999,-999,-999);
+	product.m_recoIP1method2.SetXYZ(-999,-999,-999);
+	product.m_recoIP2method2.SetXYZ(-999,-999,-999);
+
+	TVector3 recoIP1(-999,-999,-999);
+	TVector3 recoIP2(-999,-999,-999);
+	TVector3 recoIP1method2(-999,-999,-999);
+	TVector3 recoIP2method2(-999,-999,-999);
+
 	KLepton* recoParticle1 = product.m_chargeOrderedLeptons.at(0);
 	KLepton* recoParticle2 = product.m_chargeOrderedLeptons.at(1);
-	TVector3 recoIP1;
-	TVector3 recoIP2;
-	TVector3 recoIP1method2;
-	TVector3 recoIP2method2;
 
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
@@ -223,9 +256,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
-	//product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(event.m_refitVertexSummary->pv, trackP, trackM, momentumP, momentumM);
-	//product.m_recoPhiStarCPrPVbs = cpq.CalculatePhiStarCP(event.m_refitVertexBSSummary->pv, trackP, trackM, momentumP, momentumM);
-
 	//product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	//product.m_recoIP1 = cpq.GetRecoIP1();
 	//product.m_recoIP2 = cpq.GetRecoIP2();
@@ -241,6 +271,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoIP1 = recoIP1;
 		product.m_recoIP2 = recoIP2;
 
+		// FIXME get rid of recoIPmet2
+		// FIXME this block needs to be deleted
 		double dz1 = product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPV);
 		double dz2 = product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPV);
 		recoIP1method2 = cpq.CalculateIPVector(recoParticle1, product.m_refitPV, dz1);
@@ -253,26 +285,49 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_deltaRrecoIP1s = deltaRrecoIP1s;
 		product.m_deltaRrecoIP2s = deltaRrecoIP2s;
 
+		// calculate PhiStarCP using the refitted PV
+		product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(product.m_refitPV, trackP, trackM, momentumP, momentumM);
 
 		if (!m_isData){
+			// FIXME delete all temporary variable of type double
+			if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
+				double deltaEtaGenRecoIP1 = recoIP1.Eta() - product.m_genIP1.Eta();
+				product.m_deltaEtaGenRecoIP1 = deltaEtaGenRecoIP1;
 
-			if(&product.m_genIP1 != nullptr){
-				double deltaRgenIPrecoIP1 = recoIP1.DeltaR(product.m_genIP1);
-				product.m_deltaRgenIPrecoIP1 = deltaRgenIPrecoIP1;
+				double deltaPhiGenRecoIP1 = recoIP1.DeltaPhi(product.m_genIP1);
+				product.m_deltaPhiGenRecoIP1 = deltaPhiGenRecoIP1;
 
+				double deltaRGenRecoIP1 = recoIP1.DeltaR(product.m_genIP1);
+				product.m_deltaRGenRecoIP1 = deltaRGenRecoIP1;
+
+				double deltaGenRecoIP1 = recoIP1.Angle(product.m_genIP1);
+				product.m_deltaGenRecoIP1 = deltaGenRecoIP1;
+
+				// FIXME delete following two lines
 				double deltaRgenIPrecoIP1met2 = recoIP1method2.DeltaR(product.m_genIP1);
 				product.m_deltaRgenIPrecoIP1met2 = deltaRgenIPrecoIP1met2;
 			} // if genIP1 exists
 
-			if(&product.m_genIP2 != nullptr){
-				double deltaRgenIPrecoIP2 = recoIP2.DeltaR(product.m_genIP2);
-				product.m_deltaRgenIPrecoIP2 = deltaRgenIPrecoIP2;
+			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
+				double deltaEtaGenRecoIP2 = recoIP2.Eta() - product.m_genIP2.Eta();
+				product.m_deltaEtaGenRecoIP2 = deltaEtaGenRecoIP2;
 
+				double deltaPhiGenRecoIP2 = recoIP2.DeltaPhi(product.m_genIP2);
+				product.m_deltaPhiGenRecoIP2 = deltaPhiGenRecoIP2;
+
+				double deltaRGenRecoIP2 = recoIP2.DeltaR(product.m_genIP2);
+				product.m_deltaRGenRecoIP2 = deltaRGenRecoIP2;
+
+				double deltaGenRecoIP2 = recoIP2.Angle(product.m_genIP2);
+				product.m_deltaGenRecoIP2 = deltaGenRecoIP2;
+
+				// FIXME delete following two lines
 				double deltaRgenIPrecoIP2met2 = recoIP2method2.DeltaR(product.m_genIP2);
 				product.m_deltaRgenIPrecoIP2met2 = deltaRgenIPrecoIP2met2;
 			} // if genIP2 exists
 
 		} // if MC sample
+	
 
 	} // if the refitPV exists
 

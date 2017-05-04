@@ -176,7 +176,7 @@ public:
 	bool operator==(SvfitInputs const& rhs) const;
 	bool operator!=(SvfitInputs const& rhs) const;
 	
-	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity=0, bool addLogM=false) const;
+	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity=0, bool addLogM=false, TFile* visPtResolutionFile=nullptr) const;
 
 private:
 	std::vector<svFitStandalone::MeasuredTauLepton> GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const;
@@ -203,8 +203,8 @@ public:
 	
 	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
 	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
-	void fromRecalculation(){ recalculated = true; }
-	void fromCache(){ recalculated = false; }
+	inline void FromRecalculation() { recalculated = true; }
+	inline void FromCache() { recalculated = false; }
 	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
@@ -245,6 +245,6 @@ private:
 	SvfitInputs svfitInputs;
 	static std::map<std::string, SvfitResults> svfitResults;
 	SvfitEventKey svfitEventKey;
-	TFile * m_inputFile_visPtResolution = 0;
+	TFile * m_visPtResolutionFile = nullptr;
 };
 
