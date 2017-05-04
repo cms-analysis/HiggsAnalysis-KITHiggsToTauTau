@@ -605,6 +605,7 @@ SvfitTools::SvfitTools() :
 	svfitAlgorithm(1)
 {
 	svfitAlgorithm.setHistogramAdapter(new TauTauHistogramAdapter());
+	svfitAlgorithm.addLogM_fixed(true, 6.0);
 }
 
 void SvfitTools::Init(std::string const& cacheFileName, std::string const& treeName)
