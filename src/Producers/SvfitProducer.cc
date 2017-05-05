@@ -160,7 +160,7 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	boost::hash_combine(runLumiEvent, event.m_eventInfo->nEvent);
 
 	product.m_svfitEventKey.Set(runLumiEvent, decayType1, decayType2,
-	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, product.m_met.leptonSelectionHash);
+	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, settings.GetDiTauMassConstraint(), product.m_met.leptonSelectionHash);
 
 //	if (settings.GetGenerateSvfitInput())
 //	{
