@@ -606,6 +606,7 @@ SvfitTools::SvfitTools() :
 {
 	svfitAlgorithm.setHistogramAdapter(new TauTauHistogramAdapter());
 	svfitAlgorithm.addLogM_fixed(true, 6.0);
+	svfitAlgorithm.setDiTauMassConstraint(90.0);
 }
 
 void SvfitTools::Init(std::string const& cacheFileName, std::string const& treeName)
@@ -704,7 +705,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		svfitResults.at(cacheFileName).FromRecalculation();
 	}
 	
-	LOG(WARNING) << static_cast<classic_svFit::DiTauSystemHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->getMass() << " (classic) vs. " << svfitResults.at(cacheFileName).fittedHiggsLV->mass() << " (standalone)";
+	LOG(WARNING) << static_cast<classic_svFit::DiTauSystemHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->getMass() << (svfitAlgorithm.isValidSolution() ? " (valid)" : " (invalid)");
 	return svfitResults.at(cacheFileName);
 }
 
