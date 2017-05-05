@@ -504,7 +504,7 @@ void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, 
 
 void SvfitResults::Set(ClassicSVfit const& svfitAlgorithm)
 {
-	if (svfitAlgorithm.isValidSolution())
+	if (true /*svfitAlgorithm.isValidSolution()*/) // currently all solutions are marked as invalid
 	{
 		Set(GetFittedTransverseMass(svfitAlgorithm),
 		    GetFittedHiggsLV(svfitAlgorithm),
