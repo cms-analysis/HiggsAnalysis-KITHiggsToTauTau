@@ -254,9 +254,10 @@ bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 	        (decayType1 == rhs.decayType1) &&
 	        (decayType2 == rhs.decayType2) &&
 	        (integrationMethod == rhs.integrationMethod) &&
+	        (systematicShift == rhs.systematicShift) &&
+	        (hash == rhs.hash) &&
 	        Utility::ApproxEqual(systematicShiftSigma, rhs.systematicShiftSigma) &&
-	        Utility::ApproxEqual(diTauMassConstraint, rhs.diTauMassConstraint) &&
-	        (hash == rhs.hash));
+	        Utility::ApproxEqual(diTauMassConstraint, rhs.diTauMassConstraint));
 }
 
 bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
