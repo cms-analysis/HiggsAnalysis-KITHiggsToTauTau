@@ -170,12 +170,12 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
             product.m_optionalWeights["jetToTauFakeWeight_qcd_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_syst_down");
             product.m_optionalWeights["jetToTauFakeWeight_qcd_dm0_njet0_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet0_stat_up");
             product.m_optionalWeights["jetToTauFakeWeight_qcd_dm0_njet0_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet0_stat_down");
-            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm0_njet2_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet2_stat_up");
-            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm0_njet2_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet2_stat_down");
-            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm2_njet0_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm2_njet0_stat_up");
-            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm2_njet0_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm2_njet0_stat_down");
-            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm2_njet2_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm2_njet2_stat_up");
-            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm2_njet2_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm2_njet2_stat_down");
+            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm0_njet1_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet1_stat_up");
+            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm0_njet1_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet1_stat_down");
+            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm1_njet0_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet0_stat_up");
+            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm1_njet0_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet0_stat_down");
+            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm1_njet1_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet1_stat_up");
+            product.m_optionalWeights["jetToTauFakeWeight_qcd_dm1_njet1_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet1_stat_down");
             // Total systematic uncertainties on the W fake factor
             product.m_optionalWeights["jetToTauFakeWeight_w_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_syst_up");
             product.m_optionalWeights["jetToTauFakeWeight_w_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_syst_down");

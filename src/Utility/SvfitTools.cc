@@ -247,8 +247,8 @@ bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 	        (decayType2 == rhs.decayType2) &&
 	        (integrationMethod == rhs.integrationMethod) &&
 	        (systematicShift == rhs.systematicShift) &&
-	        CutRange::EqualsCut(systematicShiftSigma).IsInRange(rhs.systematicShiftSigma) &&
-	        (hash == rhs.hash));
+	        (hash == rhs.hash) &&
+	        Utility::ApproxEqual(systematicShiftSigma, rhs.systematicShiftSigma));
 }
 
 bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
