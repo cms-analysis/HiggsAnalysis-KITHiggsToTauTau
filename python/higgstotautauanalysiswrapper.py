@@ -8,8 +8,8 @@ import os
 
 import Artus.KappaAnalysis.kappaanalysiswrapper as kappaanalysiswrapper
 import Artus.Utility.jsonTools as jsonTools
+import Artus.Utility.tools as tools
 
-import HiggsAnalysis.KITHiggsToTauTau.tools as tools
 import sys
 
 class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
@@ -30,22 +30,26 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		for index1, pipeline1 in enumerate(pipelines):
 			if pipeline1 in pipelines_to_remove:
 				continue
-			
+
 			for pipeline2 in pipelines[index1+1:]:
 				if pipeline2 in pipelines_to_remove:
 					continue
-				
+
 				difference = jsonTools.JsonDict.deepdiff(self._config["Pipelines"][pipeline1],
 				                                         self._config["Pipelines"][pipeline2])
 				if len(difference[0]) == 0 and len(difference[1]) == 0:
 					pipelines_to_remove.append(pipeline2)
-					new_name = tools.find_common_httpipename(pipeline_renamings.get(pipeline1, pipeline1),
-					                                         pipeline_renamings.get(pipeline2, pipeline2))
+					new_name = tools.find_common_string(pipeline_renamings.get(pipeline1, pipeline1),
+					                                    pipeline_renamings.get(pipeline2, pipeline2))
+					if new_name.endswith("_"):
+						new_name += "nominal"
+					elif "_" not in new_name:
+						new_name += "_nominal"
 					pipeline_renamings[pipeline1] = new_name.strip("_").replace("__", "_")
-		
+
 		for pipeline in pipelines_to_remove:
 			self._config["Pipelines"].pop(pipeline)
-		
+
 		for old_name, new_name in pipeline_renamings.iteritems():
 			self._config["Pipelines"][new_name] = self._config["Pipelines"].pop(old_name)
 
