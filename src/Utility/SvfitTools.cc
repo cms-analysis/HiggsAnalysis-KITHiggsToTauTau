@@ -214,13 +214,20 @@ bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
 				{
 					if (systematicShift == rhs.systematicShift)
 					{
-						if (diTauMassConstraint == rhs.diTauMassConstraint)
+						if (hash == rhs.hash)
 						{
-							return (hash < rhs.hash);
+							if (Utility::ApproxEqual(systematicShiftSigma, rhs.systematicShiftSigma))
+							{
+								return (diTauMassConstraint < rhs.diTauMassConstraint);
+							}
+							else
+							{
+								return (systematicShiftSigma < rhs.systematicShiftSigma);
+							}
 						}
 						else
 						{
-							return (diTauMassConstraint < rhs.diTauMassConstraint);
+							return (hash < rhs.hash);
 						}
 					}
 					else
