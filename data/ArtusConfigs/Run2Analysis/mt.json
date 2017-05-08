@@ -214,6 +214,7 @@
 		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
 		"DirectIso" : true,
+		"TopPtReweightingStrategy" : "Run1",
 		"Quantities" : [
 			{
 				"include" : [
@@ -276,8 +277,6 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
@@ -319,8 +318,6 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:EventWeightProducer"

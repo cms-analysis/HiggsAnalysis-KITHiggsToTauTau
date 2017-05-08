@@ -8,12 +8,15 @@ std::string TopPtReweightingProducer::GetProducerId() const
 
 void TopPtReweightingProducer::Init(setting_type const& settings)
 {
-    m_isTTbar = boost::regex_search(settings.GetNickname(), boost::regex("TT_", boost::regex::icase | boost::regex::extended));
+	m_isTTbar = boost::regex_search(settings.GetNickname(), boost::regex("(TT_|TTTo)", boost::regex::icase | boost::regex::extended));
+	std::string strategy = settings.GetTopPtReweightingStrategy();
+	boost::algorithm::to_lower(strategy);
+	if (strategy == "run1") m_oldStrategy = true;
 }
 
-void TopPtReweightingProducer::Produce( KappaEvent const& event,
-			KappaProduct & product,
-			KappaSettings const& settings) const
+void TopPtReweightingProducer::Produce( event_type const& event,
+			product_type & product,
+			setting_type const& settings) const
 {
 	if (m_isTTbar)
 	{
@@ -25,32 +28,22 @@ void TopPtReweightingProducer::Produce( KappaEvent const& event,
 			if(std::abs(particle.pdgId) == 6 && particle.isLastCopy()) tops.push_back(particle);
 		}
 
-		float topPtWeight;
 		assert(tops.size() == 2);
-		if (settings.GetYear() == 2015 || settings.GetYear() == 2016)
-		{
-			topPtWeight = sqrt(exp(0.0615-0.0005*tops.at(0).p4.Pt())*exp(0.0615-0.0005*tops.at(1).p4.Pt()));
-		}
-		else
-		{
-			if ((tops.at(0).p4.Pt() > 400.0) && (tops.at(1).p4.Pt() > 400.0))
-			{
-				topPtWeight = sqrt(exp(0.156-0.00137*400.0)*exp(0.156-0.00137*400.0));
-			}
-			else if (tops.at(0).p4.Pt() > 400.0)
-			{
-				topPtWeight = sqrt(exp(0.156-0.00137*400.0)*exp(0.156-0.00137*tops.at(1).p4.Pt()));
-			}
-			else if (tops.at(1).p4.Pt() > 400.0)
-			{
-				topPtWeight = sqrt(exp(0.156-0.00137*400.0)*exp(0.156-0.00137*tops.at(0).p4.Pt()));
-			}
-			else
-			{
-				topPtWeight = sqrt(exp(0.156-0.00137*tops.at(0).p4.Pt())*exp(0.156-0.00137*tops.at(1).p4.Pt()));
-			}
-		}
-		product.m_optionalWeights["topPtReweightWeight"] = topPtWeight;
+
+		float top1Pt = tops.at(0).p4.Pt();
+		float top2Pt = tops.at(1).p4.Pt();
+
+		// Run 1 specifications for a and b
+		product.m_optionalWeights["topPtReweightWeightRun1"] = ComputeWeight(top1Pt, top2Pt, 0.156, -0.00137);
+		// Run 2 specifications for a and b
+		product.m_optionalWeights["topPtReweightWeightRun2"] = ComputeWeight(top1Pt, top2Pt, 0.0615, -0.0005);
+		product.m_optionalWeights["topPtReweightWeight"]  = m_oldStrategy ? product.m_optionalWeights["topPtReweightWeightRun1"] : product.m_optionalWeights["topPtReweightWeightRun2"];
 	}
-	
+}
+
+float TopPtReweightingProducer::ComputeWeight(float top1Pt, float top2Pt, float parameter_a, float parameter_b) const
+{
+	top1Pt = top1Pt > 400 ? 400 : top1Pt;
+	top2Pt = top2Pt > 400 ? 400 : top2Pt; 
+	return sqrt(exp(parameter_a + parameter_b*top1Pt)*exp(parameter_a + parameter_b*top2Pt));
 }

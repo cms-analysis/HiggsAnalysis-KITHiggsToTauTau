@@ -165,11 +165,11 @@ class CategoriesDict(object):
 						"_decayMode_2": auto_rebin_binning
 						},
 					"mt_" : {
-						"_decayMode_2" : "0 1 10",
+						"_decayMode_2" : "0 1 10 11",
 						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
 						},
 					"et_" : {
-						"_decayMode_2" : "0 1 10",
+						"_decayMode_2" : "0 1 10 11",
 						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
 						},
 					"em_" : {
