@@ -187,12 +187,13 @@ class Samples(samples.SamplesBase):
 		else:
 			return "(1.0)"
 
-	def __init__(self,embedding=False,embedding_weight="(1.0)"):
+	def __init__(self,embedding=False,ttbar_retuned=False,embedding_weight="(1.0)"):
 		super(Samples, self).__init__()
 		self.exclude_cuts = ["blind"]
 		self.period = "run2"
-		self.embedding=embedding
-		self.embedding_weight=embedding_weight
+		self.embedding = embedding
+		self.ttbar_retuned = ttbar_retuned
+		self.embedding_weight = embedding_weight
 
 	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
 		config = super(Samples, self).get_config(samples, channel, category, nick_suffix=nick_suffix, postfit_scales=postfit_scales, **kwargs)
@@ -556,7 +557,10 @@ class Samples(samples.SamplesBase):
 		return config
 		
 	def files_ttj(self, channel):
-		return self.artus_file_names({"process" : "TT", "data": False, "campaign" : self.mc_campaign}, 1)
+		if self.ttbar_retuned:
+			return self.artus_file_names({"process" : "TTTo.*", "data": False, "campaign" : self.mc_campaign}, 2)
+		else:
+			return self.artus_file_names({"process" : "TT_", "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def ttt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
