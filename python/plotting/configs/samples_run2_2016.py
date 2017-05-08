@@ -864,7 +864,7 @@ class Samples(samples.SamplesBase):
 	
 	def files_wgamma(self, channel):
 		artus_files = self.artus_file_names({"process" : "WGToLNuG", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 1)
-		aruts_files = artus_files + " " + self.artus_file_names({"process" : "WGstarToLNuEE|WGstarToLNuMuMu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph"}, 2)
+		artus_files = artus_files + " " + self.artus_file_names({"process" : "WGstarToLNuEE|WGstarToLNuMuMu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph"}, 2)
 		return artus_files
 
 	def files_ewkw(self, channel):
