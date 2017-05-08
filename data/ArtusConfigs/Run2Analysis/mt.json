@@ -276,8 +276,6 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:EventWeightProducer"
@@ -319,8 +317,6 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
-					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:EventWeightProducer"

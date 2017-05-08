@@ -100,7 +100,7 @@
 			"0:idIsoWeight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:e_trgEle25eta2p1WPTight_desy_data",
+			"0:e_trgEle25eta2p1WPTight_desy_ratio",
 			"0:e_idiso0p1_desy_ratio"
 
 		],
@@ -211,9 +211,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : [
@@ -253,9 +251,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|EWKZ2Jets)).)*Fall15" : [
