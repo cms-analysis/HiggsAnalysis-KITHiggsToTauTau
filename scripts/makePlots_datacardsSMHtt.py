@@ -242,6 +242,9 @@ if __name__ == "__main__":
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
 							config["texts"] = list(("p_{T}^{#mu} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
 							config["texts_x"] = [0.25, 0.37, 0.50, 0.64, 0.77, 0.89]
+						elif channel == "tt":
+							config["x_expressions"] = ["m_sv"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
 					elif "Boosted2D" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
