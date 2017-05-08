@@ -114,7 +114,7 @@ class SMHttDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="em",
 					categories=Categories.CategoriesDict().getCategories(["em"])["em"],
-					bkg_processes=["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"],
+					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
@@ -124,35 +124,35 @@ class SMHttDatacards(datacards.Datacards):
 			# efficiencies
 			# (hopefully) temporary fix
 			if year == "2016":
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 			else:
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency_syst_args)
 
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency_syst_args)
 
 			# B-Tag
 			if year == "2016":
 				# the bins for zero jet, boosted and vbf are defined in datacardconfigs.py
-				self.cb.cp().channel(["em"]).process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
-				self.cb.cp().channel(["em"]).process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.btag_mistag2016_syst_args)
+				self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
+				self.cb.cp().channel(["em"]).process(["VV"]).AddSyst(self.cb, *self.btag_mistag2016_syst_args)
 			
 			# electron ES
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.ele_es_syst_args)
 			
 			# ttbar shape
-			self.cb.cp().channel(["em"]).process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.ttj_syst_args)
+			self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
 			
 			# dy shape
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZL"]).AddSyst(self.cb, *self.dy_shape_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.dy_shape_syst_args)
 			
 			if useRateParam:
 				for category in Categories.CategoriesDict().getCategories(["em"], False)["em"]:
@@ -227,15 +227,15 @@ class SMHttDatacards(datacards.Datacards):
 			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().signals().AddSyst(self.cb, *self.lumi2016_syst_args)
-				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi2016_syst_args) # automatically in other channels determined
 			else:
 				self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
-				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.lumi_syst_args)
+				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.lumi_syst_args)
 				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args) # automatically in other channels determined
 
 			# jets
-			self.cb.cp().process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.jec_syst_args)
 			# fakes
 			if year == "2016":
@@ -246,12 +246,12 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)
 
 			# cross section
-			self.cb.cp().process(["ZTT", "ZL", "ZJ","ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+			self.cb.cp().process(["ZTT", "ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			self.cb.cp().process(["TTT", "TTJJ"]).channel(["mt", "et", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args) # automatically in other channels determined
 			if year == "2016":
-				self.cb.cp().process(["VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
+				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
 			else:
-				self.cb.cp().process(["VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
+				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
 			self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.wj_cross_section_syst_args) # automatically in other channels determined
 			
 			# QCD normalization from https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L1393-L1415
