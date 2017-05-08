@@ -214,16 +214,17 @@ if __name__ == "__main__":
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
-					binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
-					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-						config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
-					elif args.x_bins != None:
-						config["x_bins"] = [args.x_bins]
-					else:
-						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
-						for key in binnings_settings.binnings_dict:
-							print key
-						sys.exit()
+					if "2D" not in category:
+						binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
+						if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
+							config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
+						elif args.x_bins != None:
+							config["x_bins"] = [args.x_bins]
+						else:
+							log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
+							for key in binnings_settings.binnings_dict:
+								print key
+							sys.exit()
 					
 					# Use 2d plots for 2d categories
 					config["texts"] = []
