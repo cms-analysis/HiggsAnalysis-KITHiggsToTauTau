@@ -32,6 +32,7 @@
 			}
 		},
 	"ElectronIDList" : [
+		"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
 		"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
 		"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
 		"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
