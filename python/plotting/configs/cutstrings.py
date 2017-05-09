@@ -110,10 +110,7 @@ class CutStringsDict:
 			else:
 				iso_2_cut = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016tight" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<70.0)"
-			cuts["iso_2"] = iso_2_cut 
-		else:
-			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
-			sys.exit(1)
+			cuts["iso_2"] = iso_2_cut
 		return cuts
 	
 	@staticmethod

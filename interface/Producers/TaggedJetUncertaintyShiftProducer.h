@@ -6,6 +6,7 @@
 
 #include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
 #include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
+#include "Artus/KappaAnalysis/interface/Utility/BTagSF.h"
 
 /**
    \brief Producer for jet energy scale corrections (Htt version).
@@ -76,5 +77,9 @@ private:
 
 	std::map<std::string, std::vector<float> > lowerPtCuts;
 	std::map<std::string, std::vector<float> > upperAbsEtaCuts;
+
+	KappaEnumTypes::BTagScaleFactorMethod m_bTagSFMethod;
+	float m_bTagWorkingPoint;
+	BTagSF m_bTagSf;
 };
 

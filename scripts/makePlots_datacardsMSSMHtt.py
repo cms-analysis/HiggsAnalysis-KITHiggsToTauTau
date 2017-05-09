@@ -62,6 +62,8 @@ shapes = {
 	"toppt" : "CMS_htt_ttbarShape_13TeV",
 	"taupt" : "CMS_eff_t_mssmHigh_{CHANNEL}_13TeV",
 	"taues" : "CMS_scale_t_{CHANNEL}_13TeV",
+	"etaues1prong0pi" : "CMS_scale_t_efake_1prong0pi0_13TeV",
+	"etaues1prong1pi" : "CMS_scale_t_efake_1prong1pi0_13TeV",
 	"zpt" : "CMS_htt_dyShape_13TeV",
 	"wfake" : "CMS_htt_wFakeShape_13TeV",
 	"ff_qcd_syst" : "CMS_htt_jetFakeTau_qcd_syst_Shape_13TeV",
@@ -89,6 +91,8 @@ shapes_weight_dict = {
 		"zpt" : ("1.0/zPtReweightWeight","zPtReweightWeight"),
 		"taupt" : ("(1-0.0002*had_gen_match_pT_1)*(1-0.0002*had_gen_match_pT_2)", "(1+0.0002*had_gen_match_pT_1)*(1+0.0002*had_gen_match_pT_2)"),
 		"taues" : ("1.0", "1.0"),
+		"etaues1prong0pi" : ("1.0", "1.0"),
+		"etaues1prong1pi" : ("1.0", "1.0"),
 		"wfake" : ("((gen_match_1 != 6) + (gen_match_1 == 6)*(1-0.002*pt_1))*((gen_match_2 != 6) + (gen_match_2 == 6)*(1-0.002*pt_2))", "((gen_match_1 != 6) + (gen_match_1 == 6)*(1+0.002*pt_1))*((gen_match_2 != 6) + (gen_match_2 == 6)*(1+0.002*pt_2))"),
 		"ff_qcd_syst" : ("jetToTauFakeWeight_qcd_syst_down/jetToTauFakeWeight_comb", "jetToTauFakeWeight_qcd_syst_up/jetToTauFakeWeight_comb"),
 		"ff_qcd_dm0_njet0_stat" : ("jetToTauFakeWeight_qcd_dm0_njet0_stat_down/jetToTauFakeWeight_comb", "jetToTauFakeWeight_qcd_dm0_njet0_stat_up/jetToTauFakeWeight_comb"),
@@ -216,8 +220,10 @@ if __name__ == "__main__":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 	
 	if args.fakefactor_method is not None:
-		samples_dict['et'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
-		samples_dict['mt'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
+		# samples_dict['et'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
+		# samples_dict['mt'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
+		samples_dict['et'][0][1].append('ff')
+		samples_dict['mt'][0][1].append('ff')
 		for syst in ["ff_qcd_syst", "ff_qcd_dm0_njet0_stat", "ff_qcd_dm0_njet1_stat", "ff_qcd_dm1_njet0_stat", "ff_qcd_dm1_njet1_stat", "ff_w_syst", "ff_w_dm0_njet0_stat", "ff_w_dm0_njet1_stat", "ff_w_dm1_njet0_stat", "ff_w_dm1_njet1_stat", "ff_tt_syst", "ff_tt_dm0_njet0_stat", "ff_tt_dm0_njet1_stat", "ff_tt_dm1_njet0_stat", "ff_tt_dm1_njet1_stat"]:
 			samples_dict['et'].append((syst,["ff"]))
 			samples_dict['mt'].append((syst,["ff"]))
