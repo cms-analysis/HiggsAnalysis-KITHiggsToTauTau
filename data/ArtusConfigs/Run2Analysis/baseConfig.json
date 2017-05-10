@@ -55,6 +55,7 @@
 	"MatchAllMuonsGenTau" : "true",
 	"MatchAllTausGenTau" : "true",
 	"UpdateMetWithCorrectedLeptons" : "true",
+	"TopPtReweightingStrategy" : "Run2",
 	"#EventWhitelist" : [
 	],
 	"MetFilter" : {

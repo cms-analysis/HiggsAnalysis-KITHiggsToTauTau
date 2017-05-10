@@ -163,6 +163,7 @@
 		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
 		"DirectIso" : true,
+		"TopPtReweightingStrategy" : "Run1",
 		"Quantities" : {
 			"nick" : {
 				"default" : [
