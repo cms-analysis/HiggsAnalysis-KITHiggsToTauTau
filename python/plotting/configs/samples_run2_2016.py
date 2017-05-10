@@ -43,7 +43,7 @@ class Samples(samples.SamplesBase):
 	@staticmethod
 	def ttt_genmatch(channel, kwargs):
 		if channel in ["mt", "et"]:
-			if not kwargs.get("mssm", False):
+			if kwargs.get("mssm", False):
 				return "(gen_match_2 < 6)"
 			else:
 				return "(gen_match_2 == 5)"
