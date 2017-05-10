@@ -186,13 +186,17 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 
 
 		selectedTau1->CreateFinalStateProngs(selectedTau1);
+		//selectedTau1->CreateFinalStates(selectedTau1);
 		selectedTau2->CreateFinalStateProngs(selectedTau2);
+		//selectedTau2->CreateFinalStates(selectedTau2);
 		std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
+		//std::vector<GenParticleDecayTree*> selectedTau1States = selectedTau1->m_finalStates;
 		std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
-	
+		//std::vector<GenParticleDecayTree*> selectedTau2States = selectedTau2->m_finalStates;
+
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;
-		
+
 		//Selection of the right channel for phi, phi* and psi*CP
 		if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
 		    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
@@ -238,6 +242,16 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 					//std::cout << "Number of Pions 2 " << selectedTau2OneProngs.size() << std::endl;
 					//std::cout << "PdgId " << chargedPart1->pdgId << std::endl;
 					//std::cout << "PdgId " << chargedPart2->pdgId << std::endl;
+					std::cout << "In Total" << selectedTau1OneProngs.size() << "FinalState Prongs in Tau1 decay" << std::endl;
+					std::cout << "In Total" << selectedTau2OneProngs.size() << "FinalState Prongs in Tau2 decay" << std::endl;
+					for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
+					{
+						std::cout << "Tau1 decays to " << selectedTau1OneProngs.at(i)->m_genParticle->pdgId << std::endl;
+					}
+					for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
+					{
+						std::cout << "Tau2 decays to " << selectedTau2OneProngs.at(i)->m_genParticle->pdgId << std::endl;
+					}
 
 					cpq.CalculatePhiStarCP_rho(chargedPart1->p4, chargedPart2->p4,chargedPart1->p4, chargedPart2->p4);
 				}
