@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "Kappa/DataFormats/interface/Kappa.h"
+
 #include "Artus/Utility/interface/ArtusLogging.h"
 #include "Artus/KappaAnalysis/interface/KappaEnumTypes.h"
 
@@ -178,5 +180,30 @@ public:
 		else if (jetEnergyCorrectionUncertainty == "Closure") return JetEnergyUncertaintyShiftName::Closure;
 		else return JetEnergyUncertaintyShiftName::NONE;
 	}
+
+	static KMETUncertainty::Type ToMETUncertaintyType(std::string const& metUncertainty)
+	{
+		if (metUncertainty == "JetResUp") return KMETUncertainty::JetResUp;
+		else if (metUncertainty == "JetResDown") return KMETUncertainty::JetResDown;
+		else if (metUncertainty == "JetEnUp") return KMETUncertainty::JetEnUp;
+		else if (metUncertainty == "JetEnDown") return KMETUncertainty::JetEnDown;
+		else if (metUncertainty == "MuonEnUp") return KMETUncertainty::MuonEnUp;
+		else if (metUncertainty == "MuonEnDown") return KMETUncertainty::MuonEnDown;
+		else if (metUncertainty == "ElectronEnUp") return KMETUncertainty::ElectronEnUp;
+		else if (metUncertainty == "ElectronEnDown") return KMETUncertainty::ElectronEnDown;
+		else if (metUncertainty == "TauEnUp") return KMETUncertainty::TauEnUp;
+		else if (metUncertainty == "TauEnDown") return KMETUncertainty::TauEnDown;
+		else if (metUncertainty == "UnclusteredEnUp") return KMETUncertainty::UnclusteredEnUp;
+		else if (metUncertainty == "UnclusteredEnDown") return KMETUncertainty::UnclusteredEnDown;
+		else if (metUncertainty == "PhotonEnUp") return KMETUncertainty::PhotonEnUp;
+		else if (metUncertainty == "PhotonEnDown") return KMETUncertainty::PhotonEnDown;
+		else if (metUncertainty == "NoShift") return KMETUncertainty::NoShift;
+		else if (metUncertainty == "METUncertaintySize") return KMETUncertainty::METUncertaintySize;
+		else if (metUncertainty == "JetResUpSmear") return KMETUncertainty::JetResUpSmear;
+		else if (metUncertainty == "JetResDownSmear") return KMETUncertainty::JetResDownSmear;
+		else if (metUncertainty == "METFullUncertaintySize") return KMETUncertainty::METFullUncertaintySize;
+		else return KMETUncertainty::NoShift;
+		LOG(FATAL) << "You need to specify an implemented MET uncertainty in your config.";
+	};
 };
 
