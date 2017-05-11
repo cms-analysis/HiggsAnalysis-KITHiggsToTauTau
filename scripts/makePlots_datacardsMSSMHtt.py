@@ -18,14 +18,41 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 
 samples_dict = {
-		'et' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']), ("toppt",["ttj",'ttt','ttjj',"wj","qcd"]), ("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd"]), ("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])],
-		'mt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']), ("toppt",["ttj",'ttt','ttjj',"wj","qcd"]), ("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd"]), ("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])],
+		'et' : [
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]),
+			("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("zpt",["ztt","zll","zj","zl","wj","qcd"]),
+			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+		],
+		'mt' : [
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]), ("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd"]),
+			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+		],
 		# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 		# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 		# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vvt','vvj','vv','wj','qcd'])],
 		# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vvt','vvj','vv','wj','qcd'])],
-		'tt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])]
-		# 'em' : [('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]),("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll"])],
+		'tt' : [
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+		],
+		'em' : [
+			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			("toppt",["ttj"]),("taues",["ztt","ggh","bbh"]),
+			('taupt',['ztt',"ggh","bbh"]),
+			("zpt",["ztt","zll"]),
+			('btag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh'])
+		],
 		# 'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll", "zj", "zl"])]
 	}
 shapes = {
@@ -413,6 +440,15 @@ if __name__ == "__main__":
 								if any([(proc in config["nicks"][index]) for proc in ["ggh","bbh","ztt"]]):
 									# hack to only substitute the folder for those where it is needed
 									config["folders"][index] = config["folders"][index].replace("jecUncNom_tauEsNom", replacestring)
+						if shape_systematic == "btag":
+							replacestring = "btagEffUp" if shift_up else "btagEffDown"
+							for index, folder in enumerate(config["folders"]):
+								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+
+						if shape_systematic == "mistag":
+							replacestring = "btagMistagUp" if shift_up else "btagMistagDown"
+							for index, folder in enumerate(config["folders"]):
+								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
 
 						config["x_expressions"] = [args.quantity.format(mass=mass)] if args.mass_dependent else [args.quantity]
 						

@@ -1,21 +1,9 @@
 {
-	"jecUncNom_tauEsNom" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run2015" : 0.0,
-				"default" : 0.0
-			}
-		},
+	"nominal" : {
 		"ElectronEnergyCorrectionShiftEB" : 1.0,
 		"ElectronEnergyCorrectionShiftEE" : 1.0
 	},
-	"jecUncNom_tauEsNom_eleEsUp" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run2015" : 0.0,
-				"default" : 0.0
-			}
-		},
+	"eleEsUp" : {
 		"ElectronEnergyCorrectionShiftEB" : {
 			"nick" : {
 				"default" : 1.0,
@@ -29,13 +17,7 @@
 			}
 		}
 	},
-	"jecUncNom_tauEsNom_eleEsDown" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run2015" : 0.0,
-				"default" : 0.0
-			}
-		},
+	"eleEsDown" : {
 		"ElectronEnergyCorrectionShiftEB" : {
 			"nick" : {
 				"default" : 1.0,

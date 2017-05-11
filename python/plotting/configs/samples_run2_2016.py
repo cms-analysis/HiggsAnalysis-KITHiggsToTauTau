@@ -25,12 +25,8 @@ class Samples(samples.SamplesBase):
 			return "inclusive/ntuple"
 		elif channel == "gen":
 			return "gen/ntuple"
-		elif channel in ["mt", "et", "tt"]:
-			return channel+"_jecUncNom_tauEsNom/ntuple"
-		elif channel in ["em"]:
-			return channel+"_jecUncNom_eleEsNom/ntuple"
 		else:
-			return channel+"_jecUncNom/ntuple"
+			return channel+"_nominal/ntuple"
 
 	@staticmethod
 	def artus_file_names( query, expect_n_results = 1):
