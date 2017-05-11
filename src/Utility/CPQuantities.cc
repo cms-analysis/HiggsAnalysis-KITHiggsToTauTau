@@ -244,6 +244,33 @@ double CPQuantities::CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng)
 	return chargedProng.E();
 }
 
+// calculation of the spin analysing discriminant (y^{tau}) using the rest frame of the taus (only gen level)
+double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M)
+{
+	// Step 1: Extract all pion energies in the tau restframe
+	double pionP_energy = CalculateChargedProngEnergy(tau1, pionP);
+	double pionM_energy = CalculateChargedProngEnergy(tau2, pionM);
+	double pi0P_energy = CalculateChargedProngEnergy(tau1, pi0P);
+	double pi0M_energy = CalculateChargedProngEnergy(tau2, pi0M);
+
+	// Step 2: Calculate the y for each pair of pions respectively
+	double ytauP = (pionP_energy - pi0P_energy) / (pionP_energy + pi0P_energy);
+	double ytauM = (pionM_energy - pi0M_energy) / (pionM_energy + pi0M_energy);
+
+	return ytauM * ytauP;
+}
+
+// calculation of the spin analysing discriminant (y^{tau}_L) using the laboratory system of the rhos
+double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M)
+{
+
+	double ytauLP = (pionP.E() - pi0P.E()) / (pionP.E() + pi0P.E());
+	double ytauLM = (pionM.E() - pi0M.E()) / (pionM.E() + pi0M.E());
+
+	return ytauLM * ytauLP;
+}
+
+
 
 // Calculate longitudinal polarization variables (z+, z-, zs)
 double CPQuantities::CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart)
