@@ -231,6 +231,11 @@ public:
 	double m_genPhi_rho  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar_rho  = DefaultValues::UndefinedDouble;
 
+	double m_genPhiStarCP_rho_positive_yTau  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCP_rho_positive_yTauL  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCP_rho_negative_yTau  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCP_rho_negative_yTauL  = DefaultValues::UndefinedDouble;
+
 	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;

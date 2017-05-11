@@ -39,6 +39,26 @@ void GenTauCPProducerBase::Init(setting_type const& settings)
 		return product.m_genPhiStarCP_rho;
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStarCP_rho_positive_yTau", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiStarCP_rho_positive_yTau;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStarCP_rho_negative_yTau", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiStarCP_rho_negative_yTau;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStarCP_rho_positive_yTauL", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiStarCP_rho_positive_yTauL;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiStarCP_rho_negative_yTauL", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiStarCP_rho_negative_yTauL;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genPhiCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhiCP;
