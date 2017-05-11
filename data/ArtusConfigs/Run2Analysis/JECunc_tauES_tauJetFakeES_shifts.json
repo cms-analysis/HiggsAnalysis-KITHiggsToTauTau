@@ -3,7 +3,7 @@
 		"JetEnergyCorrectionUncertaintyShift" : 0.0,
 		"TauEnergyCorrectionShift" : 1.0,
 		"TauJetFakeEnergyCorrection" : 0.0,
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"tauEsUp" : {
 		"TauEnergyCorrectionShift" : {
