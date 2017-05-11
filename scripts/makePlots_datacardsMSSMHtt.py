@@ -181,7 +181,7 @@ if __name__ == "__main__":
 	parser.add_argument("-e", "--era", default="",
 	                    help="Era for which the datacards will be build. [Default: %(default)s]")
 	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "individual"],
-			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
+	                    help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
 	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
 	parser.add_argument("--workingpoint", default="",
@@ -198,6 +198,8 @@ if __name__ == "__main__":
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--controlregions", action="store_true", default=False,
 	                    help="Also create histograms for control regions. [Default: %(default)s]")
+	parser.add_argument("--SMHiggs", action="store_true", default=False,
+	                    help="Also create histograms for SM Higgs. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
