@@ -7,6 +7,6 @@
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	}
 }

@@ -8,6 +8,6 @@
 		},
 		"ElectronEnergyCorrectionShiftEB" : 1.0,
 		"ElectronEnergyCorrectionShiftEE" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_eleEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	}
 }

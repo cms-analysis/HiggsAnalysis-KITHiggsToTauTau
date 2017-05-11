@@ -6,7 +6,6 @@
 		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
 	},
 	"tauEsUp" : {
-		"JetEnergyCorrectionUncertaintyShift" : 0.0,
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
@@ -15,16 +14,14 @@
 				"Summer16" : 1.012
 			}
 		},
-		"TauJetFakeEnergyCorrection" : 0.0,
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "jecUncNom_tauEsUp"
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsUp"
 			}
 		}
 	},
 	"tauEsDown" : {
-		"JetEnergyCorrectionUncertaintyShift" : 0.0,
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
@@ -33,11 +30,10 @@
 				"Summer16" : 0.988
 			}
 		},
-		"TauJetFakeEnergyCorrection" : 0.0,
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "jecUncNom_tauEsDown"
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsDown"
 			}
 		}
 	},
@@ -48,9 +44,7 @@
 				"default" : 1.0
 			}
 		},
-		"TauEnergyCorrectionShift" : 1.0,
-		"TauJetFakeEnergyCorrection" : 0.0,
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -59,13 +53,9 @@
 				"default" : -1.0
 			}
 		},
-		"TauEnergyCorrectionShift" : 1.0,
-		"TauJetFakeEnergyCorrection" : 0.0,
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"tauJetFakeEsUp" : {
-		"JetEnergyCorrectionUncertaintyShift" : 0.0,
-		"TauEnergyCorrectionShift" : 1.0,
 		"TauJetFakeEnergyCorrection" : {
 			"nick" : {
 				"default" : 0.0,
@@ -74,14 +64,12 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "tauJetFakeEsUp"
 			}
 		}
 	},
 	"tauJetFakeEsDown" : {
-		"JetEnergyCorrectionUncertaintyShift" : 0.0,
-		"TauEnergyCorrectionShift" : 1.0,
 		"TauJetFakeEnergyCorrection" : {
 			"nick" : {
 				"default" : 0.0,
@@ -90,7 +78,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "tauJetFakeEsDown"
 			}
 		}
