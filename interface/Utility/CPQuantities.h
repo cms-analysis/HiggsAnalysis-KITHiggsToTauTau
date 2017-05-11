@@ -27,6 +27,8 @@ public:
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
 	double CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng);
 	double CalculateChargedProngEnergyApprox(RMFLV tau, RMFLV chargedProng);
+	double CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M);
+	double CalculateSpinAnalysingDiscriminant_rho(RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M);
 	double CalculateTrackReferenceError(KTrack track);
 	double CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart);
 	double CalculateZs(double zPlus, double zMinus);

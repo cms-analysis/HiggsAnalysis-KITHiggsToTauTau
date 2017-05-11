@@ -1,5 +1,5 @@
 {
-	"jecUncNom_tauEsNom" : {
+	"nominal" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016|Embedding2016" : 0.0,
@@ -7,15 +7,9 @@
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
-	"jecUncNom_tauEsUp" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding2016|Embedding2016" : 0.0,
-				"default" : 0.0
-			}
-		},
+	"tauEsUp" : {
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
@@ -26,18 +20,12 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "jecUncNom_tauEsUp"
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsUp"
 			}
 		}
 	},
-	"jecUncNom_tauEsDown" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding2016" : 0.0,
-				"default" : 0.0
-			}
-		},
+	"tauEsDown" : {
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
@@ -48,29 +36,27 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "jecUncNom_tauEsDown"
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsDown"
 			}
 		}
 	},
-	"jecUncUp_tauEsNom" : {
+	"jecUncUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016" : 0.0,
 				"default" : 1.0
 			}
 		},
-		"TauEnergyCorrectionShift" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
-	"jecUncDown_tauEsNom" : {
+	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016" : 0.0,
 				"default" : -1.0
 			}
 		},
-		"TauEnergyCorrectionShift" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	}
 }

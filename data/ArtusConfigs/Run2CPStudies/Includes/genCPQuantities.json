@@ -135,6 +135,10 @@
 		"genPhiStar_rho",
 		"genPhi_rho",
 
+		"genPhiStarCP_rho_positive_yTau",
+		"genPhiStarCP_rho_positive_yTauL",
+		"genPhiStarCP_rho_negative_yTau",
+		"genPhiStarCP_rho_negative_yTauL",
 
 		"TauMProngEnergy",
 		"TauPProngEnergy",

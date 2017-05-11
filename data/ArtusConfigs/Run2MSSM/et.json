@@ -83,7 +83,12 @@
 			"HLT_VLooseIsoPFTau120_Trk50_eta2p1_v",
 			"HLT_Ele25_eta2p1_WPTight_Gsf_v"
 		],
-		"RooWorkspace" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_4.root",
+		"RooWorkspace" : {
+			"nick" : {
+					"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_4.root",
+					"Embedding201" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_embedding_v2.root"
+				}
+		},		
 		"RooWorkspaceWeightNames" : [
 			"0:triggerWeight",
 			"0:idweight",

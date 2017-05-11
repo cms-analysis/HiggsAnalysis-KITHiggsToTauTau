@@ -7,7 +7,7 @@
 		"TauJetFakeEnergyCorrection" : 0.0,
 		"MetUncertaintyShift" : false,
 		"MetUncertaintyType" : "",
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"tauEsUp" : {
 		"TauEnergyCorrectionShift" : {
@@ -20,8 +20,8 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "jecUncNom_tauEsUp"
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsUp"
 			}
 		}
 	},
@@ -36,8 +36,8 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "jecUncNom_tauEsDown"
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsDown"
 			}
 		}
 	},
@@ -48,7 +48,7 @@
 				"default" : 1.0
 			}
 		},
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -57,7 +57,7 @@
 				"default" : -1.0
 			}
 		},
-		"SvfitCacheFileFolder" : "jecUncNom_tauEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"tauEleFakeEsUp" : {
 		"TauElectronFakeEnergyCorrection" : {
@@ -68,7 +68,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : "tauEleFakeEsUp"
 			}
 		}
@@ -82,7 +82,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : "tauEleFakeEsDown"
 			}
 		}
@@ -96,7 +96,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : "tauMuFakeEsUp"
 			}
 		}
@@ -110,7 +110,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : "tauMuFakeEsDown"
 			}
 		}
@@ -124,7 +124,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "tauJetFakeEsUp"
 			}
 		}
@@ -138,7 +138,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "tauJetFakeEsDown"
 			}
 		}
@@ -158,7 +158,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "metJetEnUp"
 			}
 		}
@@ -178,7 +178,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "metJetEnDown"
 			}
 		}
@@ -198,7 +198,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "metUnclusteredEnUp"
 			}
 		}
@@ -218,7 +218,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "metUnclusteredEnDown"
 			}
 		}
