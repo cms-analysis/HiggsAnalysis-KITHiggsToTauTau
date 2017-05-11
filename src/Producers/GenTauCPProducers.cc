@@ -255,6 +255,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 						RMFLV PionM;
 						std::vector<RMFLV> rho1_decay_photons;
 						std::vector<RMFLV> rho2_decay_photons;
+						double phiStarCP_rho, yTau, yTauL;
 						for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
 						{
 							if(std::abs(selectedTau1OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdPiPlus)
@@ -268,7 +269,6 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 							//std::cout << "Tau1 decays to " << selectedTau1OneProngs.at(i)->m_genParticle->pdgId << std::endl;
 						}
 
-
 						for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
 						{
 							if(std::abs(selectedTau2OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdPiPlus)
@@ -281,8 +281,17 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 							}
 						}
 
-						product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(PionP, PionM, rho1_decay_photons.at(0)+rho1_decay_photons.at(1), rho2_decay_photons.at(0)+rho2_decay_photons.at(1));
-						}
+						phiStarCP_rho = cpq.CalculatePhiStarCP_rho(PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
+						yTau = cpq.CalculateSpinAnalysingDiscriminant_rho( selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
+						yTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
+						product.m_genPhiStarCP_rho = phiStarCP_rho;
+						//Select angle according to sign of yTau/yTauL
+						//for yTau < 0 phiStarCP -> phiStarCP + Pi
+						if(yTau < 0) product.m_genPhiStarCP_rho_negative_yTau = phiStarCP_rho;
+						if(yTauL < 0) product.m_genPhiStarCP_rho_negative_yTauL = phiStarCP_rho;
+						if(yTau >= 0) product.m_genPhiStarCP_rho_positive_yTau = phiStarCP_rho;
+						if(yTauL >= 0) product.m_genPhiStarCP_rho_positive_yTauL = phiStarCP_rho;
+					}
 				}
 			}
 
