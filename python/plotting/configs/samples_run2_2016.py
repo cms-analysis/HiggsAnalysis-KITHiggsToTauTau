@@ -1233,7 +1233,7 @@ class Samples(samples.SamplesBase):
 				# wj shape and highmt to lowmt extrapolation
 				wj_shape_weight = weight   # replace only category part
 				if category != None:
-					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else cut_type
 				if "newKIT" in estimationMethod:
 					wj_shape_weight = make_multiplication(Samples.get_jetbin(category, channel, weight))
 				Samples._add_input(
@@ -1914,7 +1914,7 @@ class Samples(samples.SamplesBase):
 					qcd_shape_weight = weight
 					qcd_shape_cut = cut_type
 					if category != None:
-						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else cut_type
 					if "newKIT" in estimationMethod:
 						qcd_shape_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 					Samples._add_input(
