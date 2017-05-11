@@ -67,6 +67,18 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	}
 	else if (tauEnergyCorrection == TauEnergyCorrection::MSSMHTT2016)
 	{
+		if (tau->decayMode == 0)
+		{
+			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProng();
+		}
+		else if (tau->decayMode == 1 || tau->decayMode == 2)
+		{
+			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
+		}
+		else if (tau->decayMode == 10)
+		{
+			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
+		}
 		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
 
 		// correct e->tau fake energy scale
@@ -74,11 +86,11 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		{
 			if (tau->decayMode == 0)
 			{
-				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProng();
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProng();
 			}
 			else if (tau->decayMode == 1 || tau->decayMode == 2)
 			{
-				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngPiZero();
 			}
 		}
 	}

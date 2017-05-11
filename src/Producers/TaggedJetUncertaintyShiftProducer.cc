@@ -53,7 +53,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 	for (auto const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
-		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = ToJetEnergyUncertaintyShiftName(uncertainty);
+		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = HttEnumTypes::ToJetEnergyUncertaintyShiftName(uncertainty);
 		if (individualUncertainty == HttEnumTypes::JetEnergyUncertaintyShiftName::NONE)
 			continue;
 		individualUncertaintyEnums.push_back(individualUncertainty);

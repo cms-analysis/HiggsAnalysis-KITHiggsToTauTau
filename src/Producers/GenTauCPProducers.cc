@@ -189,10 +189,10 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 		selectedTau2->CreateFinalStateProngs(selectedTau2);
 		std::vector<GenParticleDecayTree*> selectedTau1OneProngs = selectedTau1->m_finalStateOneProngs;
 		std::vector<GenParticleDecayTree*> selectedTau2OneProngs = selectedTau2->m_finalStateOneProngs;
-	
+
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;
-		
+
 		//Selection of the right channel for phi, phi* and psi*CP
 		if ((std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
 		    (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
@@ -202,8 +202,6 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			//Initialization of charged particles
 			KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->m_genParticle;
 			KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->m_genParticle;
-			//KGenParticle* neutralPart1 = selectedTau1OneProngs[0]->m_genParticle;
-			//KGenParticle* neutralPart2 = selectedTau2OneProngs[0]->m_genParticle;
 			for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
 			{
 				if (abs(selectedTau1OneProngs[i]->GetCharge()) == 1) chargedPart1 = selectedTau1OneProngs[i]->m_genParticle;
@@ -227,19 +225,44 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				//generate the Taus from the Boson decay
 				KGenTau* genTau1 = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(0), static_cast<KGenTau*>(nullptr));
 				KGenTau* genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(1), static_cast<KGenTau*>(nullptr));
-
-				//std::cout << "Tau1 Decay mode " << genTau1->genDecayMode()  << std::endl;
-				//std::cout << "Tau2 Decay mode " << genTau2->genDecayMode()  << std::endl;
-
 				//selected the taus decaying into a rho
 				if (genTau1->genDecayMode() == 1 && genTau2->genDecayMode() == 1)
 				{
-					//std::cout << "Number of Pions 1 " << selectedTau1OneProngs.size() << std::endl;
-					//std::cout << "Number of Pions 2 " << selectedTau2OneProngs.size() << std::endl;
-					//std::cout << "PdgId " << chargedPart1->pdgId << std::endl;
-					//std::cout << "PdgId " << chargedPart2->pdgId << std::endl;
+					//Select the decays with 2 final state photons for simplicity first
+				 	if( selectedTau1OneProngs.size() == 4 && selectedTau2OneProngs.size() == 4)
+					{
+						RMFLV PionP;
+						RMFLV PionM;
+						std::vector<RMFLV> rho1_decay_photons;
+						std::vector<RMFLV> rho2_decay_photons;
+						for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
+						{
+							if(std::abs(selectedTau1OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdPiPlus)
+							{
+								PionP = selectedTau1OneProngs.at(i)->m_genParticle->p4;
+							}
+							if(std::abs(selectedTau1OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdGamma)
+							{
+								rho1_decay_photons.push_back(selectedTau1OneProngs.at(i)->m_genParticle->p4);
+							}
+							//std::cout << "Tau1 decays to " << selectedTau1OneProngs.at(i)->m_genParticle->pdgId << std::endl;
+						}
 
-					cpq.CalculatePhiStarCP_rho(chargedPart1->p4, chargedPart2->p4,chargedPart1->p4, chargedPart2->p4);
+
+						for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
+						{
+							if(std::abs(selectedTau2OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdPiPlus)
+							{
+								PionM = selectedTau2OneProngs.at(i)->m_genParticle->p4;
+							}
+							if(std::abs(selectedTau2OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdGamma)
+							{
+								rho2_decay_photons.push_back(selectedTau2OneProngs.at(i)->m_genParticle->p4);
+							}
+						}
+
+						product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(PionP, PionM, rho1_decay_photons.at(0)+rho1_decay_photons.at(1), rho2_decay_photons.at(0)+rho2_decay_photons.at(1));
+						}
 				}
 			}
 
