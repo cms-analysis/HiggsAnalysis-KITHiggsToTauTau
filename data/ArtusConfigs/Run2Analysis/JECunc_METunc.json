@@ -3,7 +3,7 @@
 		"JetEnergyCorrectionUncertaintyShift" : 0.0,
 		"MetUncertaintyShift" : false,
 		"MetUncertaintyType" : "",
-		"SvfitCacheFileFolder" : "jecUncNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"jecUncUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -12,7 +12,7 @@
 				"default" : 1.0
 			}
 		},
-		"SvfitCacheFileFolder" : "jecUncNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
@@ -21,7 +21,7 @@
 				"default" : -1.0
 			}
 		},
-		"SvfitCacheFileFolder" : "jecUncNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
 	"metJetEnUp" : {
 		"MetUncertaintyShift" : {
@@ -38,7 +38,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "metJetEnUp"
 			}
 		}
@@ -58,7 +58,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "metJetEnDown"
 			}
 		}
@@ -78,7 +78,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "metUnclusteredEnUp"
 			}
 		}
@@ -98,7 +98,7 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_tauEsNom",
+				"default" : "nominal",
 				"Summer16" : "metUnclusteredEnDown"
 			}
 		}
