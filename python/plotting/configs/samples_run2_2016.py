@@ -175,21 +175,6 @@ class Samples(samples.SamplesBase):
 	def wj_stitchingweight(self):
 		return "(((npartons == 0 || npartons >= 5)*7.09390278348407e-4) + ((npartons == 1)*1.90063898596475e-4) + ((npartons == 2)*5.8529964471165e-5) + ((npartons == 3)*1.9206444928444e-5) + ((npartons == 4)*1.923548021385e-5))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 
-	def hadronic_scale_factor(self, channel, cut_type):
-		if channel in ["mt", "et"]:
-			if cut_type == "mssm2016":
-				scale_factor = "(0.97)"
-			elif "mssm2016" in cut_type:
-				# scale factor is in cut dict
-				scale_factor = "(1.0)"
-			else:
-				scale_factor = "(0.95)"
-			return scale_factor
-		elif channel in ["tt"]:
-			return "(0.9025)"
-		else:
-			return "(1.0)"
-
 	def __init__(self,embedding=False,ttbar_retuned=False,embedding_weight="(1.0)"):
 		super(Samples, self).__init__()
 		self.exclude_cuts = ["blind"]
@@ -233,20 +218,20 @@ class Samples(samples.SamplesBase):
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif mc_sample_weight != "(1.0)":
 			if doStitching:
-				return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight, self.hadronic_scale_factor(channel, cut_type)])
+				return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight])
 			else:
-				return make_multiplication([mc_sample_weight, self.hadronic_scale_factor(channel, cut_type)])
+				mc_sample_weight
 		else:
 			if doStitching:
 				if channel == "gen":
-					return  make_multiplication([mc_weight])  # TODO this needs to be studied further!
+					return  mc_weight  # TODO this needs to be studied further!
 				else:
-					return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(), self.hadronic_scale_factor(channel, cut_type)])
+					return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight()])
 			else:
 				if channel == "gen":
-					return  make_multiplication([mc_weight])  # TODO this needs to be studied further!
+					return  mc_weight  # TODO this needs to be studied further!
 				else:
-					return make_multiplication([mc_weight, weight, "eventWeight", self.hadronic_scale_factor(channel, cut_type)])
+					return make_multiplication([mc_weight, weight, "eventWeight"])
 
 	def files_data(self, channel):
 		query_rereco = {}
@@ -1233,7 +1218,7 @@ class Samples(samples.SamplesBase):
 				# wj shape and highmt to lowmt extrapolation
 				wj_shape_weight = weight   # replace only category part
 				if category != None:
-					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+					wj_shape_cut_type = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else cut_type
 				if "newKIT" in estimationMethod:
 					wj_shape_weight = make_multiplication(Samples.get_jetbin(category, channel, weight))
 				Samples._add_input(
@@ -1914,7 +1899,7 @@ class Samples(samples.SamplesBase):
 					qcd_shape_weight = weight
 					qcd_shape_cut = cut_type
 					if category != None:
-						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "baseline2016" if "2016" in cut_type else "baseline"
+						qcd_shape_cut = "relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else cut_type
 					if "newKIT" in estimationMethod:
 						qcd_shape_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 					Samples._add_input(

@@ -151,6 +151,10 @@ class ExpressionsDict(expressions.ExpressionsDict):
 				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_tight"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
 				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_loosemt"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
 				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_looseiso"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
+		for cat in ["_nobtag","_btag","_inclusive"]:
+			self.expressions_dict["catHttMSSM13TeV_em"+cat+"_lowPzeta"] = self.expressions_dict["catHttMSSM13TeV_em"+cat]+"*(pZetaMissVis > -50)*(pZetaMissVis < -10)"
+			self.expressions_dict["catHttMSSM13TeV_em"+cat+"_mediumPzeta"] = self.expressions_dict["catHttMSSM13TeV_em"+cat]+"*(pZetaMissVis > -10)*(pZetaMissVis < 30)"
+			self.expressions_dict["catHttMSSM13TeV_em"+cat+"_highPzeta"] = self.expressions_dict["catHttMSSM13TeV_em"+cat]+"*(pZetaMissVis > 30)"
 
 		for channel in ["et","mt","tt"]:
 			pt_var = "pt_2" if channel in ["mt", "et"] else "pt_1"

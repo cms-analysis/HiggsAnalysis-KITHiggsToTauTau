@@ -220,7 +220,7 @@ if __name__ == "__main__":
 	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("--emb", default=False, action="store_true",
 	                    help="Use embedded samples. [Default: %(default)s]")
-	parser.add_argument("--ttbar-retuned" default=False, action="store_true",
+	parser.add_argument("--ttbar-retuned", default=False, action="store_true",
 	                    help="Use retuned ttbar samples. [Default: %(default)s]")
 	parser.add_argument("--embedded-weights", default=['1.0','1.0','1.0','1.0'], nargs='*',
 	                    help="Custom Embedding weights for mt, et, em, tt (in this order). [Default: %(default)s]")
