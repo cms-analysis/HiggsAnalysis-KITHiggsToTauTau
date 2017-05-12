@@ -52,17 +52,44 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	}
 	else if (tauEnergyCorrection == TauEnergyCorrection::SMHTT2016)
 	{
-		if (tau->decayMode == 0)
+		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+
+		if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY) // correct tau->had energy scale
 		{
-			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProng();
+			if (tau->decayMode == 0)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProng();
+			}
+			else if (tau->decayMode == 1 || tau->decayMode == 2)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
+			}
+			else if (tau->decayMode == 10)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
+			}
 		}
-		else if (tau->decayMode == 1 || tau->decayMode == 2)
+		else if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) // correct mu->tau fake energy scale
 		{
-			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
+			if (tau->decayMode == 0)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionOneProng();
+			}
+			else if (tau->decayMode == 1 || tau->decayMode == 2)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionOneProngPiZeros();
+			}
 		}
-		else if (tau->decayMode == 10)
+		else if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT) // correct e->tau fake energy scale
 		{
-			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
+			if (tau->decayMode == 0)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProng();
+			}
+			else if (tau->decayMode == 1 || tau->decayMode == 2)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngPiZeros();
+			}
 		}
 	}
 	else if (tauEnergyCorrection == TauEnergyCorrection::MSSMHTT2016)
@@ -90,7 +117,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			}
 			else if (tau->decayMode == 1 || tau->decayMode == 2)
 			{
-				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngPiZero();
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngPiZeros();
 			}
 		}
 	}
