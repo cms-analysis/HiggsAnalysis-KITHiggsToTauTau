@@ -34,6 +34,8 @@ class SystematicsFactory(dict):
 		self["CMS_mFakeTau_1prong_13TeV"] = MuonToTauFakeSystematic
 		self["CMS_mFakeTau_1prong1pizero_13TeV"] = MuonToTauFakeSystematic
 		self["CMS_htt_jetToTauFake_13TeV"] = JetToTauFakeSystematic
+		self["CMS_scale_met_clustered_13TeV"] = MetJetEnSystematic
+		self["CMS_scale_met_unclustered_13TeV"] = MetUnclusteredEnSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
@@ -469,5 +471,35 @@ class JetToTauFakeSystematic(SystematicShiftBase):
 					plot_config["folders"][index] = folder.replace("nominal", "tauJetFakeEsUp")
 				elif shift < 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauJetFakeEsDown")
+		
+		return plot_config
+
+
+class MetJetEnSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(MetJetEnSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "metJetEnUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "metJetEnDown")
+		
+		return plot_config
+
+
+class MetUnclusteredEnSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(MetUnclusteredEnSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "metUnclusteredEnUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "metUnclusteredEnDown")
 		
 		return plot_config

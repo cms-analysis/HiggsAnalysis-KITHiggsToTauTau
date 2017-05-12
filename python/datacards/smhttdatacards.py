@@ -243,7 +243,10 @@ class SMHttDatacards(datacards.Datacards):
 			else:
 				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ", "VVJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 			# MET
-			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "QCD"]).channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().signals().channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "QCD"]).channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().signals().channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
 
 			# cross section
 			self.cb.cp().process(["ZTT", "ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
