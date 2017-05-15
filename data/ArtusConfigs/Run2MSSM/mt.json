@@ -39,7 +39,7 @@
 		"RooWorkspace" : {
 			"nick" : {
 					"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_4.root",
-					"Embedding201" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_embedding_v2.root"
+					"Embedding201" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_embedding.root"
 				}
 		},
 		"RooWorkspaceWeightNames" : [
