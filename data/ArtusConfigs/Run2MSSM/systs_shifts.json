@@ -1,322 +1,72 @@
 {
 	"nominal" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
-		],
-		"TauEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 0.982
-			}
-		},
-		"TauEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.01
-			}
-		},
-		"TauEnergyCorrectionThreeProng": {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.004
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
-			}
-		}
-	},
-	"jecUncUp" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding2016" : 0.0,
-				"default" : 1.0
-			}
-		},
-		"TauEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 0.982
-			}
-		},
-		"TauEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.01
-			}
-		},
-		"TauEnergyCorrectionThreeProng": {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.004
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
-			}
-		}
-	},
-	"jecUncDown" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding2016" : 0.0,
-				"default" : -1.0
-			}
-		},
-		"TauEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 0.982
-			}
-		},
-		"TauEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.01
-			}
-		},
-		"TauEnergyCorrectionThreeProng": {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.004
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
-			}
-		}
+			0.0
+		]
 	},
 	"tauEsOneProngUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
 		"TauEnergyCorrectionOneProng" : {
 			"nick" : {
 				"Run201|Embedding2016" : 1.0,
-				"default" : 0.994
-			}
-		},
-		"TauEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.01
-			}
-		},
-		"TauEnergyCorrectionThreeProng": {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.004
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
+				"default" : 1.007
 			}
 		}
 	},
 	"tauEsOneProngDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
 		"TauEnergyCorrectionOneProng" : {
 			"nick" : {
 				"Run201|Embedding2016" : 1.0,
-				"default" : 0.97
-			}
-		},
-		"TauEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.01
-			}
-		},
-		"TauEnergyCorrectionThreeProng": {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.004
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
+				"default" : 0.983
 			}
 		}
 	},
 	"tauEsOneProngOnePiZeroUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
-		"TauEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 0.982
-			}
-		},
 		"TauEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
 				"Run201|Embedding2016" : 1.0,
-				"default" : 1.022
-			}
-		},
-		"TauEnergyCorrectionThreeProng": {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.004
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
+				"default" : 1.023
 			}
 		}
 	},
 	"tauEsOneProngOnePiZeroDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
-		"TauEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 0.982
-			}
-		},
 		"TauEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
 				"Run201|Embedding2016" : 1.0,
-				"default" : 0.998
-			}
-		},
-		"TauEnergyCorrectionThreeProng": {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.004
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
+				"default" : 0.999
 			}
 		}
 	},
 	"tauEsThreeProngUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
-		"TauEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 0.982
-			}
-		},
-		"TauEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.01
-			}
-		},
 		"TauEnergyCorrectionThreeProng": {
 			"nick" : {
 				"Run201|Embedding2016" : 1.0,
-				"default" : 1.016
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
+				"default" : 1.018
 			}
 		}
 	},
 	"tauEsThreeProngDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
-		"TauEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 0.982
-			}
-		},
-		"TauEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.01
-			}
-		},
 		"TauEnergyCorrectionThreeProng": {
 			"nick" : {
 				"Run201|Embedding2016" : 1.0,
-				"default" : 0.992
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProng" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.024
-			}
-		},
-        "TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
-			"nick" : {
-				"Run201|Embedding2016" : 1.0,
-				"default" : 1.076
+				"default" : 0.994
 			}
 		}
 	}
