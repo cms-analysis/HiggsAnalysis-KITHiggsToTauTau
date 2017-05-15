@@ -91,7 +91,7 @@
 		"TauMuonFakeEnergyCorrection" : {
 			"nick": {
 				"default" : 1.0,
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 1.03
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 1.015
 			}
 		},
 		"SvfitCacheFileFolder" : {
@@ -105,7 +105,7 @@
 		"TauMuonFakeEnergyCorrection" : {
 			"nick": {
 				"default" : 1.0,
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 0.97
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 0.985
 			}
 		},
 		"SvfitCacheFileFolder" : {
