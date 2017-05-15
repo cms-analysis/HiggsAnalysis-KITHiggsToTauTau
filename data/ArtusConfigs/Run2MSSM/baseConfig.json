@@ -51,6 +51,7 @@
 	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13] ,
 	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13] ,
 	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
+	"UpdateMetWithCorrectedLeptons" : "true",
 	"#EventWhitelist" : [23, 3229, 14936, 49062, 24188, 76021, 11743, 74937, 93490, 31289, 70866, 54606, 50689, 50776, 50995, 52189, 53744, 60043, 86167, 2124, 16529, 81888, 80195, 91508, 47278, 9031, 38816, 45482, 60536, 80262, 45896, 27032, 66850, 94932, 22645, 31953, 45298, 85970, 91308, 91327, 96423, 98229, 39907, 52601, 67478],
 	"MetFilter" : {
 		"nick" : {
