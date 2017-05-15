@@ -62,7 +62,9 @@
 				"Flag_goodVertices",
 				"Flag_globalTightHalo2016Filter",
 				"Flag_BadPFMuonFilter",
-				"Flag_BadChargedCandidateFilter"
+				"Flag_BadChargedCandidateFilter",
+				"!Flag_badGlobalMuonTaggerMAOD",
+				"!Flag_cloneGlobalMuonTaggerMAOD"
 			],
 			"Run201" : [
 				"Flag_HBHENoiseFilter",
@@ -72,7 +74,9 @@
 				"Flag_globalTightHalo2016Filter",
 				"Flag_eeBadScFilter",
 				"Flag_BadPFMuonFilter",
-				"Flag_BadChargedCandidateFilter"
+				"Flag_BadChargedCandidateFilter",
+				"!Flag_duplicateMuons",
+				"!Flag_badMuons"
 			]
 		}
 	},
