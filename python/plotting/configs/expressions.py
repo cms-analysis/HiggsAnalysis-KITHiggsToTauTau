@@ -141,7 +141,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nlowpt2"] = self.combine([self.invert(jet1_string), self.invert(pt2_tight_string)])
 
 		# MSSSM
-		for channel in ["et","mt","tt","em"]:
+		for channel in ["et","mt","tt","em","mm"]:
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusivemt40"] = "(1.0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_nobtag"] = "(nbtag==0)"
