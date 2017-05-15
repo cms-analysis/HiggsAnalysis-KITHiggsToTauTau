@@ -145,7 +145,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusivemt40"] = "(1.0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_nobtag"] = "(nbtag==0)"
-			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"] = "(njets<=1)*(nbtag>=1)"
+			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"] = "(nbtag>=1)"
 		for channel in ["et","mt"]:
 			for cat in ["_nobtag","_btag","_inclusive"]:
 				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_tight"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]

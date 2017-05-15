@@ -132,7 +132,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			{
 				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProng();
 			}
-			else if (tau->decayMode == 1 || tau->decayMode == 2)
+			else if (tau->decayMode == 1)
 			{
 				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngPiZeros();
 			}
