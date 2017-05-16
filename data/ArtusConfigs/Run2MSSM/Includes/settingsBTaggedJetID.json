@@ -13,7 +13,7 @@
 	"ApplyBTagSF" : {
 		"nick": {
 			"default" : true,
-			"Embedding" : false
+			"Embedding201" : false
 		}
 	},
 	"BTagSFMethod" : "PromotionDemotion",
