@@ -400,16 +400,16 @@
 					"producer:Run2DecayChannelProducer",
 					"#producer:MvaMetSelector",
 					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetCorrectionsProducer",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter",
+					"producer:MVAInputQuantitiesProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer",
-					"producer:MVAInputQuantitiesProducer"
+					"producer:EventWeightProducer"
 				]
 			}
 		},
