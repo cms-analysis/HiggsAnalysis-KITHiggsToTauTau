@@ -23,7 +23,8 @@ from CRABClient.UserUtilities import getUsernameFromSiteDB
 import Artus.Utility.tools as tools
 
 
-def build_configs(base_path, sample, results):
+def build_configs(args):
+	base_path, sample = args[0], args[1]
 
 	today = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
 	max_n_files_per_task = 8000
@@ -87,9 +88,11 @@ def build_configs(base_path, sample, results):
 				configs[-1].JobType.outputFiles = ["SvfitCache.tar"]
 				configs[-1].Site.storageSite = "T2_DE_DESY"
 	
-	results[sample] = [configs, jobfiles]
+	return [configs, jobfiles]
 
-def submit(config, jobfile):
+def submit(args):
+	config, jobfile = args[0], args[1]
+	
 	try:
 		crabCommand("submit", config=config)
 	except HTTPException as hte:
@@ -105,19 +108,23 @@ def read_file(filename):
 		content = input_file.read()
 	return content
 
-def submission(base_path):
-	
-	configs_jobfiles = {}
+def submission(base_path, n_processes=1):
 	
 	# retrieve and prepare input files
 	stdout_directories, stderr_directories = tools.subprocessCall(shlex.split("gfal-ls " + base_path))
-	for sample in stdout_directories.decode().strip().split("\n"):
-		build_configs(base_path, sample, configs_jobfiles)
+	configs_jobfiles = tools.parallelize(
+			build_configs,
+			[[base_path, sample] for sample in stdout_directories.decode().strip().split("\n")],
+			n_processes=n_processes,
+			description="Retrieving inputs and building crab configs"
+	)
 	
 	# submit tasks
-	for tmp_configs_jobfiles in configs_jobfiles.values():
+	submit_args = []
+	for tmp_configs_jobfiles in configs_jobfiles:
 		for config, jobfile in zip(*tmp_configs_jobfiles):
-			submit(config, jobfile)
+			submit_args.append([config, jobfile])
+	tools.parallelize(submit, submit_args, n_processes=n_processes, description="Submitting crab tasks")
 
 
 if __name__ == "__main__":
@@ -127,9 +134,11 @@ if __name__ == "__main__":
 	
 	parser.add_argument("base_path",
 	                    help="/pnfs/[path to storage element with SvfitCache input files]")
+	parser.add_argument("-n", "--n-processes", type=int, default=1,
+	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	submission(args.base_path)
+	submission(args.base_path, args.n_processes)
 
