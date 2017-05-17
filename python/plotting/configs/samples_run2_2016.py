@@ -458,10 +458,6 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zll", nick_suffix)
 		
-		if channel in ["mt", "et"] and fakefactor_method == "standard":
-			config["weights"][config["nicks"].index("zll")] = config["weights"][config["nicks"].index("zll")]+"*(gen_match_2 != 6)"
-		if channel in ["mt", "et"] and fakefactor_method == "comparison":
-			config["weights"][config["nicks"].index("zll")] = config["weights"][config["nicks"].index("zll")]+"*(gen_match_2 == 6)"
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
@@ -728,10 +724,6 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttj", nick_suffix)
 		
-		if channel in ["mt", "et"] and fakefactor_method == "standard":
-			config["weights"][config["nicks"].index("ttj")] = config["weights"][config["nicks"].index("ttj")]+"*(gen_match_2 != 6)"
-		if channel in ["mt", "et"] and fakefactor_method == "comparison":
-			config["weights"][config["nicks"].index("ttj")] = config["weights"][config["nicks"].index("ttj")]+"*(gen_match_2 == 6)"
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
@@ -838,10 +830,6 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vv", nick_suffix)
 		
-		if channel in ["mt", "et"] and fakefactor_method == "standard":
-			config["weights"][config["nicks"].index("vv")] = config["weights"][config["nicks"].index("vv")]+"*(gen_match_2 != 6)"
-		if channel in ["mt", "et"] and fakefactor_method == "comparison":
-			config["weights"][config["nicks"].index("vv")] = config["weights"][config["nicks"].index("vv")]+"*(gen_match_2 == 6)"
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
@@ -1450,14 +1438,8 @@ class Samples(samples.SamplesBase):
 
 				if not "EstimateWjets" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("EstimateWjets")
-				if channel in ["mt", "et"] and fakefactor_method == "standard":
-					config["weights"][config["nicks"].index("wj")] = config["weights"][config["nicks"].index("wj")]+"*(gen_match_2 != 6)"
-					config.setdefault("wjets_from_mc", []).append(True)
-				if channel in ["mt", "et"] and fakefactor_method == "comparison":
-					config["weights"][config["nicks"].index("wj")] = config["weights"][config["nicks"].index("wj")]+"*(gen_match_2 == 6)"
-					config.setdefault("wjets_from_mc", []).append(False)
-				if fakefactor_method is None:
-					config.setdefault("wjets_from_mc", []).append(False)
+				# if fakefactor_method is None:
+					# config.setdefault("wjets_from_mc", []).append(False)
 				config.setdefault("wjets_shape_nicks", []).append("wj"+nick_suffix)
 				config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_data_control"+nick_suffix)
 				config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_wj_control noplot_zll_wj_control noplot_ttj_wj_control noplot_vv_wj_control".split()]))
