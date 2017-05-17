@@ -42,12 +42,18 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 			Utility::ParseVectorToMap(settings.GetBTaggerWorkingPoints())
 	);
 
-	m_bTagSf = BTagSF(settings.GetBTagScaleFactorFile(), settings.GetBTagEfficiencyFile());
-	m_bTagWorkingPoint = bTagWorkingPointsTmp.begin()->second.at(0);
-	if (settings.GetApplyBTagSF() && !settings.GetInputIsData())
+	// initialize b-tag scale factor class only if shifts are to be applied
+	if (settings.GetJetEnergyCorrectionSplitUncertainty()
+		&& settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0
+		&& settings.GetUseJECShiftsForBJets())
 	{
-		m_bTagSFMethod = KappaEnumTypes::ToBTagScaleFactorMethod(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetBTagSFMethod())));
-		m_bTagSf.initBtagwp(bTagWorkingPointsTmp.begin()->first);
+		m_bTagSf = BTagSF(settings.GetBTagScaleFactorFile(), settings.GetBTagEfficiencyFile());
+		m_bTagWorkingPoint = bTagWorkingPointsTmp.begin()->second.at(0);
+		if (settings.GetApplyBTagSF() && !settings.GetInputIsData())
+		{
+			m_bTagSFMethod = KappaEnumTypes::ToBTagScaleFactorMethod(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetBTagSFMethod())));
+			m_bTagSf.initBtagwp(bTagWorkingPointsTmp.begin()->first);
+		}
 	}
 
 	for (auto const& uncertainty : individualUncertainties)
