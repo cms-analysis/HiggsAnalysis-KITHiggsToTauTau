@@ -51,3 +51,5 @@ EOF
 }
 trap 'error_exit $?' ERR
 
+cmsRun -j FrameworkJobReport.xml -p PSet.py
+

@@ -31,12 +31,6 @@ def submit(config):
 	except ClientException as cle:
 		log.error("Failed submitting task: %s" % (cle))
 
-def get_filename(date, nick, index=None):
-	if(index==None):
-		return "svfit-%s-%s.sh"%(date, nick)
-	else:
-		return "svfit-%s-%s-%s.sh"%(date, nick, index)
-
 def read_file(filename):
 	content = ""
 	with open(filename) as input_file:
@@ -45,7 +39,7 @@ def read_file(filename):
 
 def submission(base_path):
 
-	today = datetime.date.today().strftime("%Y-%m-%d")
+	today = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
 	max_n_files_per_task = 8000
 	filename_replacements = {
 		"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
