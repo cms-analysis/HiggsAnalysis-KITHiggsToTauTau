@@ -108,6 +108,11 @@ public:
 			m_correctionMethod = MetCorrectorBase::CorrectionMethod::NONE;
 			LOG(FATAL) << "Invalid MetCorrectionMethod option. Available are 'quantileMapping' and 'meanResolution'";
 		}
+
+		if (settings.GetMetUncertaintyShift())
+		{
+			m_metUncertaintyType = HttEnumTypes::ToMETUncertaintyType(settings.GetMetUncertaintyType());
+		}
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 
@@ -115,6 +120,13 @@ public:
 	{
 		assert(m_metMemberUncorrected != nullptr);
 		
+		// replace nominal met four vector by one shifted by specific uncertainty
+		// in order to propagate it through entire analysis
+		if (settings.GetMetUncertaintyShift())
+		{
+			(product.*m_metMemberUncorrected)->p4 = (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType];
+		}
+
 		// Recalculate MET if lepton energies have been corrected:
 		// MetX' = MetX + Px - Px'
 		// MetY' = MetY + Py - Py'
@@ -302,6 +314,7 @@ protected:
 	CorrectionMethod m_correctionMethod;
 	bool m_correctGlobalMet;
 	bool (setting_type::*GetUpdateMetWithCorrectedLeptons)(void) const;
+	KMETUncertainty::Type m_metUncertaintyType;
 };
 
 

@@ -45,6 +45,9 @@ public:
 	IMPL_SETTING_DEFAULT(int, MetSysType, 0);
 	IMPL_SETTING_DEFAULT(int, MetSysShift, 0);
 
+	IMPL_SETTING_DEFAULT(bool, MetUncertaintyShift, false);
+	IMPL_SETTING_DEFAULT(std::string, MetUncertaintyType, "");
+
 	IMPL_SETTING_STRINGLIST_DEFAULT(PlotlevelFilterExpressionQuantities, {});
 	IMPL_SETTING_DEFAULT(std::string, PlotlevelFilterExpression, "");
 

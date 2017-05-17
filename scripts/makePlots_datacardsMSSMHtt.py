@@ -19,40 +19,53 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as syste
 
 samples_dict = {
 		'et' : [
-			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
 			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]),
 			("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
 			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
 			("zpt",["ztt","zll","zj","zl","wj","qcd"]),
 			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
 			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
 		'mt' : [
-			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]), ("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
-			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd"]),
+			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]),
+			("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("zpt",["ztt","zll","zj","zl","wj","qcd"]),
 			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
 			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
 		# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 		# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 		# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vvt','vvj','vv','wj','qcd'])],
 		# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vvt','vvj','vv','wj','qcd'])],
 		'tt' : [
-			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
 			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
 		'em' : [
-			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
 			("toppt",["ttj"]),("taues",["ztt","ggh","bbh"]),
 			('taupt',['ztt',"ggh","bbh"]),
 			("zpt",["ztt","zll"]),
 			('btag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			('mistag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh'])
+			('mistag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh'])
 		],
+		'mm' : [
+			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]),
+			("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("zpt",["ztt","zll","zj","zl","wj","qcd"]),
+			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('btag',['ztt','zl','zj','ttj','vv','wj','qcd']),
+			('mistag',['ztt','zl','zj','ttj','vv','wj','qcd']),
+			('nominal',['ztt','zl','zj','ttj','vv','wj','qcd'])
+		],
+
 		# 'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll", "zj", "zl"])]
 	}
 shapes = {
@@ -230,8 +243,10 @@ if __name__ == "__main__":
 	if args.fakefactor_method is not None:
 		# samples_dict['et'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
 		# samples_dict['mt'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
-		samples_dict['et'][0][1].append('ff')
-		samples_dict['mt'][0][1].append('ff')
+		for channel in ['mt','et']:
+			for shape_variation in samples_dict[channel]:
+				if shape_variation[0] in ['btag','mistag','nominal']:
+					shape_variation[1].append('ff')
 		for syst in ["ff_qcd_syst", "ff_qcd_dm0_njet0_stat", "ff_qcd_dm0_njet1_stat", "ff_qcd_dm1_njet0_stat", "ff_qcd_dm1_njet1_stat", "ff_w_syst", "ff_w_dm0_njet0_stat", "ff_w_dm0_njet1_stat", "ff_w_dm1_njet0_stat", "ff_w_dm1_njet1_stat", "ff_tt_syst", "ff_tt_dm0_njet0_stat", "ff_tt_dm0_njet1_stat", "ff_tt_dm1_njet0_stat", "ff_tt_dm1_njet1_stat"]:
 			samples_dict['et'].append((syst,["ff"]))
 			samples_dict['mt'].append((syst,["ff"]))
@@ -270,7 +285,7 @@ if __name__ == "__main__":
 	for mass in looplist:
 		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 			tmp_output_files = []
-			output_file = os.path.join(args.output_dir, "htt_%s%s%s.inputs-mssm-13TeV%s.root"%(channel,prefix,mass,args.postfix))
+			output_file = os.path.join(args.output_dir, "htt_%s%s%s.inputs-mssm-13TeV%s.root"%(channel.replace("mm","zmm"),prefix,mass,args.postfix))
 			output_files.append(output_file)
 			
 			for categorytemplate in categories:
@@ -503,14 +518,14 @@ if __name__ == "__main__":
 						histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 						config["labels"] = [histogram_name_template.replace("$", "").format(
 								PROCESS=sample2process(re.sub("_(os|ss)_(low|high)mt","",sample)),
-								BIN = getcategory(category,sample),
+								BIN = getcategory(category,sample).replace("mm_","zmm_"),
 								SYSTEMATIC=systematic
 						) for sample in config["labels"]]
 						
 						tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 								ANALYSIS="htt",
-								CHANNEL=channel,
-								BIN=category,
+								CHANNEL="zmm" if channel == "mm" else channel,
+								BIN=category.replace("mm","zmm"),
 								SYSTEMATIC=systematic,
 								ERA="13TeV",
 								MASS=prefix+mass
@@ -608,8 +623,8 @@ if __name__ == "__main__":
 							
 							tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 									ANALYSIS="htt",
-									CHANNEL=channel,
-									BIN=category,
+									CHANNEL="zmm" if channel == "mm" else channel,
+									BIN=category.replace("mm","zmm"),
 									SYSTEMATIC=systematic,
 									ERA="13TeV",
 									MASS=prefix+mass

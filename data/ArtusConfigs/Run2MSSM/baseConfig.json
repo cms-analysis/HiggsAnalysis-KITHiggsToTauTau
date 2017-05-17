@@ -194,13 +194,13 @@
 	},
 	"SimpleMuTauFakeRateWeightLoose" : {
 		"nick" : {
-			"default" : [1.01, 1.01, 0.87, 1.2, 2.3],
+			"default" : [1.22, 1.12, 1.26, 1.22, 2.39],
 			"Fall15MiniAODv2" : [1.0, 1.0, 1.0, 1.0, 1.0]
 		}
 	},
 	"SimpleMuTauFakeRateWeightTight" : {
 		"nick" : {
-			"default" : [1.26, 1.36, 0.85, 1.7, 2.3],
+			"default" : [1.47, 1.55, 1.33, 1.72, 2.50],
 			"Fall15MiniAODv2" : [1.0, 1.0, 1.0, 1.0, 1.0]
 		}
 	},
