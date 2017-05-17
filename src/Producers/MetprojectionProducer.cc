@@ -104,6 +104,14 @@ void MetprojectionProducer::Init(setting_type const& settings)
 	{
 		return (!(event.m_genMet) ? DefaultValues::UndefinedFloat : event.m_genMet->p4.Phi());
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genBosonPt", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genBosonPt;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genBosonPhi", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genBosonPhi;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("chiSquare", [](event_type const& event, product_type const& product)
 	{
 		return product.m_chiSquare;
@@ -187,6 +195,8 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 		TVector2 dPfRecoGenMet = pfmet - genMet;
 		product.m_chiSquare = Quantities::MetChiSquare(dRecoGenMet, product.m_met.significance);
 		product.m_chiSquarePf = Quantities::MetChiSquare(dPfRecoGenMet, product.m_pfmet.significance);
+		product.m_genBosonPt = TMath::Sqrt(genBoson*genBoson);
+		product.m_genBosonPhi = genBoson.Phi();
 	}
 	else
 	{
@@ -196,5 +206,7 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 		product.m_chiSquarePf = DefaultValues::UndefinedFloat;
 		product.m_metPlusVisLepsOnGenBosonPtOverGenBosonPt = DefaultValues::UndefinedFloat;
 		product.m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt = DefaultValues::UndefinedFloat;
+		product.m_genBosonPt = DefaultValues::UndefinedFloat;
+		product.m_genBosonPhi = DefaultValues::UndefinedFloat;
 	}
 }
