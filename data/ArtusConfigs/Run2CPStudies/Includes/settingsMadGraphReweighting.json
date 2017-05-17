@@ -17,12 +17,12 @@
 			"SUSY(BB|GluGlu|GluGluTo)HToTauTau" : 1.0
 		}
 	},
-	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/Cards/param_card.dat",
 	"MadGraphProcessDirectories" : [
-		"gg_x0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/SubProcesses/P1_gg_x0",
-		"gg_x0g:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0J/SubProcesses/P1_gg_x0g",
-		"gg_x0gg:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0gg",
-		"gg_x0bbx:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0bbx",
-		"gg_x0uux:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0JJ/SubProcesses/P1_gg_x0uux"
-	]
+		"gg_x0:/home/home2/institut_3b/degens/bachelorarbeit/matrixtools/GeneratorTools/MG5_aMC_v2_5_2/JJ_X0/SubProcesses/P1_gg_x0",
+		"gg_x0g:/home/home2/institut_3b/degens/bachelorarbeit/matrixtools/GeneratorTools/MG5_aMC_v2_5_2/JJ_X0J/SubProcesses/P1_gg_x0g",
+		"gg_x0gg:/home/home2/institut_3b/degens/bachelorarbeit/matrixtools/GeneratorTools/MG5_aMC_v2_5_2/JJ_X0JJ/SubProcesses/P1_gg_x0gg",
+		"gg_x0bbx:/home/home2/institut_3b/degens/bachelorarbeit/matrixtools/GeneratorTools/MG5_aMC_v2_5_2/JJ_X0JJ/SubProcesses/P1_gg_x0bbx",
+		"gg_x0uux:/home/home2/institut_3b/degens/bachelorarbeit/matrixtools/GeneratorTools/MG5_aMC_v2_5_2/JJ_X0JJ/SubProcesses/P1_gg_x0uux"
+	],
+	"MadGraphParamCard" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/madgraph/HiggsCharacterisation/gg_X0/Cards/param_card.dat"
 }
