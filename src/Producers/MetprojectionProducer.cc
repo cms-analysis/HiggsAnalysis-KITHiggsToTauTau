@@ -73,11 +73,11 @@ void MetprojectionProducer::Init(setting_type const& settings)
 		return TVector2::Phi_mpi_pi(product.m_recoPfMetOnGenMetProjection.Phi());
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetMinusRecoRecoilOverGenBosonPt", [](event_type const& event, product_type const& product) {
-		return product.m_genMetMinusRecoRecoilOverGenBosonPt;
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPlusVisLepsOnGenBosonPtOverGenBosonPt", [](event_type const& event, product_type const& product) {
+		return product.m_metPlusVisLepsOnGenBosonPtOverGenBosonPt;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetMinusRecoPfRecoilOverGenBosonPt", [](event_type const& event, product_type const& product) {
-		return product.m_genMetMinusRecoPfRecoilOverGenBosonPt;
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt", [](event_type const& event, product_type const& product) {
+		return product.m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPullX", [](event_type const& event, product_type const& product) {
@@ -154,14 +154,23 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 	// "pulls", recommended as crosscheck for covariance matrix, suggested by Christian Veelken
 	if(product.m_genBosonLVFound && (!m_isData))
 	{
-		TVector2 genBoson(product.m_genBosonLV.X(), product.m_genBosonLV.Y());
+		//quantity from MetCorrections
+		TVector2 genBoson(product.m_pfmetCorrections[0],product.m_pfmetCorrections[1]);//product.m_genBosonLV.X(), product.m_genBosonLV.Y());
 		TVector2 rotatedMet = met.Rotate( - genBoson.Phi());
 		TVector2 rotatedPfMet = pfmet.Rotate( - genBoson.Phi());
 		TVector2 rotatedGenMet = genMet.Rotate( -genBoson.Phi());
 		TVector2 rotatedRecoil = recoil.Rotate( -genBoson.Phi());
 		TVector2 rotatedPfRecoil = pfrecoil.Rotate( -genBoson.Phi());
-        	product.m_genMetMinusRecoRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;// rotatedRecoil.X()/(Math::Sqrt(bosonLength));
-        	product.m_genMetMinusRecoPfRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;//rotatedPfRecoil.X()/(ROOT::Math::Sqrt((genBoson*genBoson)));
+        	//product.m_genMetMinusRecoRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;// rotatedRecoil.X()/(Math::Sqrt(bosonLength));
+        	//product.m_genMetMinusRecoPfRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;//rotatedPfRecoil.X()/(ROOT::Math::Sqrt((genBoson*genBoson)));
+        	TVector2 visibleLeps(product.m_mvametCorrections[2], product.m_mvametCorrections[3]);
+		//should be the same
+        	TVector2 visiblePfLeps(product.m_pfmetCorrections[2], product.m_pfmetCorrections[3]);
+		
+		TVector2 rotatedVisibleLeps = visiblePfLeps.Rotate( -genBoson.Phi());
+		
+            	product.m_metPlusVisLepsOnGenBosonPtOverGenBosonPt = (rotatedMet.X()+rotatedVisibleLeps.X())/(TMath::Sqrt(genBoson*genBoson));
+            	product.m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt = (rotatedPfMet.X()+rotatedVisibleLeps.X())/(TMath::Sqrt(genBoson*genBoson));
 		ROOT::Math::SMatrix<double,2> rotationMatrix;
 		rotationMatrix(0,0) = rotationMatrix(1,1) = std::cos( genBoson.Phi());
 		rotationMatrix(0,1) =   std::sin( genBoson.Phi());
@@ -185,7 +194,7 @@ void MetprojectionProducer::Produce(event_type const& event, product_type& produ
 		product.m_pfmetPull.Set(DefaultValues::UndefinedFloat, DefaultValues::UndefinedFloat);
 		product.m_chiSquare = DefaultValues::UndefinedFloat;
 		product.m_chiSquarePf = DefaultValues::UndefinedFloat;
-		product.m_genMetMinusRecoRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;
-		product.m_genMetMinusRecoPfRecoilOverGenBosonPt = DefaultValues::UndefinedFloat;
+		product.m_metPlusVisLepsOnGenBosonPtOverGenBosonPt = DefaultValues::UndefinedFloat;
+		product.m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt = DefaultValues::UndefinedFloat;
 	}
 }

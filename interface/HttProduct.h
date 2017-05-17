@@ -136,8 +136,8 @@ public:
 	TVector2 m_recoPfMetOnBoson;
 	TVector2 m_pfrecoilOnBoson;
 	double m_chiSquarePf;
-    double m_genMetMinusRecoRecoilOverGenBosonPt;
-    double m_genMetMinusRecoPfRecoilOverGenBosonPt;
+    double m_metPlusVisLepsOnGenBosonPtOverGenBosonPt;
+    double m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
