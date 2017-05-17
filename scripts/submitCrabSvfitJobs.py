@@ -23,13 +23,81 @@ from CRABClient.UserUtilities import getUsernameFromSiteDB
 import Artus.Utility.tools as tools
 
 
-def submit(config):
+def build_configs(base_path, sample, results):
+
+	today = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+	max_n_files_per_task = 8000
+	filename_replacements = {
+		"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
+	}
+	
+	configs = []
+	jobfiles = []
+	
+	stdout, stderr = tools.subprocessCall(shlex.split("gfal-ls " + os.path.join(base_path, sample)))
+	filenames = [filename for filename in stdout.decode().strip().split("\n") if (("SvfitCache" in filename) and filename.endswith(".root"))]
+	if len(filenames) > 0:
+		filenames = [os.path.join(base_path, sample, filename) for filename in filenames]
+		pipelines_filenames = {}
+		for filename in filenames:
+			for src, dst in filename_replacements.iteritems():
+				filename = filename.replace(src, dst)
+			pipeline = re.search("SvfitCache(?P<pipeline>.*)\d+.root", filename).groupdict()["pipeline"]
+			pipelines_filenames.setdefault(pipeline, []).append(filename)
+		
+		for pipeline, filenames in pipelines_filenames.iteritems():
+			filenames_chunks = [filenames[index:index+max_n_files_per_task] for index in xrange(0, len(filenames), max_n_files_per_task)]
+			for index, filenames_chunk in enumerate(filenames_chunks):
+				
+				# create job scripts
+				jobfiles.append(str("svfit_%s_%s_%s_%d.sh" % (today, sample, pipeline, index)))
+				with open(jobfiles[-1], "w+") as jobfile:
+					jobfile.write(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_userjob_prefix.sh")))
+					
+					svfit_code = string.Template(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_svfit.sh")))
+					jobfile.write(svfit_code.safe_substitute(
+							input_files = "\n".join("arr[%d,0]=%s" % (i+1, f) for i, f in enumerate(filenames_chunk)),
+							cwd=os.getcwd()
+					))
+					
+					jobfile.close()
+				
+				# crab configuration
+				configs.append(CRABClient.UserUtilities.config())
+				configs[-1].General.workArea = os.path.abspath(os.path.expandvars("$ARTUS_WORK_BASE/../svfit_caches/%s/" % (today)))
+				configs[-1].General.transferOutputs = True
+				configs[-1].General.transferLogs = True
+				configs[-1].General.requestName = ("%s_%s_%d" % (sample, pipeline, index))[:100]
+				log.debug("Job name: " + configs[-1].General.requestName)
+				configs[-1].Data.outputPrimaryDataset = "Svfit"
+				configs[-1].Data.splitting = "EventBased"
+				configs[-1].Data.unitsPerJob = 1
+				configs[-1].Data.totalUnits = len(filenames_chunk)
+				configs[-1].Data.publication = False
+				configs[-1].Data.outputDatasetTag = configs[-1].General.requestName
+				configs[-1].Data.outLFNDirBase = "/store/user/%s/higgs-kit/Svfit/%s/"%(getUsernameFromSiteDB(), today)
+				log.debug("Output directory: " + configs[-1].Data.outLFNDirBase)
+				configs[-1].Data.publication = False
+				configs[-1].User.voGroup = "dcms"
+				configs[-1].JobType.pluginName = "PrivateMC"
+				configs[-1].JobType.psetName = os.environ["CMSSW_BASE"]+"/src/CombineHarvester/CombineTools/scripts/do_nothing_cfg.py"
+				configs[-1].JobType.inputFiles = [os.path.expandvars("$CMSSW_BASE/bin/$SCRAM_ARCH/ComputeSvfit"), jobfiles[-1]]
+				configs[-1].JobType.allowUndistributedCMSSW = True
+				configs[-1].JobType.scriptExe = jobfiles[-1]
+				configs[-1].JobType.outputFiles = ["SvfitCache.tar"]
+				configs[-1].Site.storageSite = "T2_DE_DESY"
+	
+	results[sample] = [configs, jobfiles]
+
+def submit(config, jobfile):
 	try:
 		crabCommand("submit", config=config)
 	except HTTPException as hte:
 		log.error("Failed submitting task: %s" % (hte.headers))
 	except ClientException as cle:
 		log.error("Failed submitting task: %s" % (cle))
+	
+	os.remove(jobfile)
 
 def read_file(filename):
 	content = ""
@@ -38,78 +106,18 @@ def read_file(filename):
 	return content
 
 def submission(base_path):
-
-	today = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
-	max_n_files_per_task = 8000
-	filename_replacements = {
-		"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
-	}
+	
+	configs_jobfiles = {}
 	
 	# retrieve and prepare input files
-	stdout_directories, stderr_directories = tools.subprocessCall(shlex.split("gfal-ls " + args.base_path))
+	stdout_directories, stderr_directories = tools.subprocessCall(shlex.split("gfal-ls " + base_path))
 	for sample in stdout_directories.decode().strip().split("\n"):
-		stdout_files, stderr_files = tools.subprocessCall(shlex.split("gfal-ls " + os.path.join(args.base_path, sample)))
-		filenames = [filename for filename in stdout_files.decode().strip().split("\n") if (("SvfitCache" in filename) and filename.endswith(".root"))]
-		if len(filenames) > 0:
-			filenames = [os.path.join(args.base_path, sample, filename) for filename in filenames]
-			pipelines_filenames = {}
-			for filename in filenames:
-				for src, dst in filename_replacements.iteritems():
-					filename = filename.replace(src, dst)
-				pipeline = re.search("SvfitCache(?P<pipeline>.*)\d+.root", filename).groupdict()["pipeline"]
-				pipelines_filenames.setdefault(pipeline, []).append(filename)
-			
-			for pipeline, filenames in pipelines_filenames.iteritems():
-				filenames_chunks = [filenames[index:index+max_n_files_per_task] for index in xrange(0, len(filenames), max_n_files_per_task)]
-				for index, filenames_chunk in enumerate(filenames_chunks):
-					
-					# create job scripts
-					jobfile_name = str("svfit_%s_%s_%s_%d.sh" % (today, sample, pipeline, index))
-					with open(jobfile_name, "w+") as jobfile:
-						jobfile.write(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_userjob_prefix.sh")))
-						
-						svfit_code = string.Template(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_svfit.sh")))
-						jobfile.write(svfit_code.safe_substitute(
-								input_files = "\n".join("arr[%d,0]=%s" % (i+1, f) for i, f in enumerate(filenames_chunk)),
-								cwd=os.getcwd()
-						))
-						
-						jobfile.close()
-					
-					# crab configuration
-					config = CRABClient.UserUtilities.config()
-					config.General.workArea = os.path.abspath(os.path.expandvars("$ARTUS_WORK_BASE/../svfit_caches/%s/" % (today)))
-					config.General.transferOutputs = True
-					config.General.transferLogs = True
-					config.General.requestName = ("%s_%s_%d" % (sample, pipeline, index))[:100]
-					log.info("Job name: " + config.General.requestName)
-					config.Data.outputPrimaryDataset = "Svfit"
-					config.Data.splitting = "EventBased"
-					config.Data.unitsPerJob = 1
-					config.Data.totalUnits = len(filenames_chunk)
-					config.Data.publication = False
-					config.Data.outputDatasetTag = config.General.requestName
-					config.Data.outLFNDirBase = "/store/user/%s/higgs-kit/Svfit/%s/"%(getUsernameFromSiteDB(), today)
-					log.info("Output directory: " + config.Data.outLFNDirBase)
-					config.Data.publication = False
-		
-					config.User.voGroup = "dcms"
-		
-					config.JobType.pluginName = "PrivateMC"
-					config.JobType.psetName = os.environ["CMSSW_BASE"]+"/src/CombineHarvester/CombineTools/scripts/do_nothing_cfg.py"
-					# config.JobType.inputFiles = ["Kappa/lib/libKappa.so", os.environ["CMSSW_BASE"]+"/bin/"+os.environ["SCRAM_ARCH"]+"/ComputeSvfit", jobfile_name]
-					config.JobType.inputFiles = [os.path.expandvars("$CMSSW_BASE/bin/$SCRAM_ARCH/ComputeSvfit"), jobfile_name]
-					config.JobType.allowUndistributedCMSSW = True
-					config.JobType.scriptExe = jobfile_name
-					config.JobType.outputFiles = ["SvfitCache.tar"]
-		
-					config.Site.storageSite = "T2_DE_DESY"
-					# config.Site.blacklist = ["T3_US_PuertoRico", "T2_ES_CIEMAT", "T2_DE_RWTH", "T3_US_Colorado", "T2_BR_UERJ", "T2_ES_IFCA", "T2_RU_JINR", "T2_UA_KIPT", "T2_EE_Estonia", "T2_FR_GRIF_LLR", "T2_CH_CERN", "T2_FR_GRIF_LLR", "T3_IT_Bologna", "T2_US_Nebraska", "T2_US_Nebraska", "T3_TW_NTU_HEP", "T2_US_Caltech", "T3_US_Cornell", "T2_IT_Legnaro", "T2_HU_Budapest", "T2_IT_Pisa", "T2_US_Florida", "T2_IT_Bari", "T2_FR_GRIF_IRFU", "T2_IT_Rome", "T2_FR_GRIF_IRFU", "T2_CH_CSCS", "T3_TW_NCU"]
-					p = Process(target=submit, args=(config,))
-					p.start()
-					p.join()
-					
-					os.remove(jobfile_name)
+		build_configs(base_path, sample, configs_jobfiles)
+	
+	# submit tasks
+	for tmp_configs_jobfiles in configs_jobfiles.values():
+		for config, jobfile in zip(*tmp_configs_jobfiles):
+			submit(config, jobfile)
 
 
 if __name__ == "__main__":
