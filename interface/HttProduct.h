@@ -274,7 +274,7 @@ public:
 	double m_recoPhiStarCPrPV_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs_rho  = DefaultValues::UndefinedDouble;
 
-
+	double m_reco_yTauL = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
 

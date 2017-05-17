@@ -68,6 +68,8 @@
 		"recoChargedHadron1HiggsFrameEnergy",
 		"recoChargedHadron2HiggsFrameEnergy",
 
+		"reco_yTauL",
+
 		"d0_refitPV_1",
 		"d0_refitPVBS_1",
 		"dZ_refitPV_1",
