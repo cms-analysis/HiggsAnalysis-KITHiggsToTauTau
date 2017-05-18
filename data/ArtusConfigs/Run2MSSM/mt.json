@@ -378,6 +378,7 @@
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
+					"producer:MuonCorrectionsProducer",
 					"producer:MetSelector",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",

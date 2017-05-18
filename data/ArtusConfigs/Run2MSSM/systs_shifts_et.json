@@ -4,13 +4,33 @@
 			0.0
 		]
 	},
+	"tauEsUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrection" : {
+			"nick" : {
+				"Embedding2016" : 1.016
+			}
+		}
+	},
+	"tauEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrection" : {
+			"nick" : {
+				"Embedding2016" : 0.984
+			}
+		}
+	},
 	"tauEsOneProngUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
 			0.0
 		],
 		"TauEnergyCorrectionOneProng" : {
 			"nick" : {
-				"Run201|Embedding2016" : 1.0,
+				"Run201" : 1.0,
 				"default" : 1.007
 			}
 		}
@@ -21,7 +41,7 @@
 		],
 		"TauEnergyCorrectionOneProng" : {
 			"nick" : {
-				"Run201|Embedding2016" : 1.0,
+				"Run201" : 1.0,
 				"default" : 0.983
 			}
 		}
@@ -32,7 +52,7 @@
 		],
 		"TauEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
-				"Run201|Embedding2016" : 1.0,
+				"Run201" : 1.0,
 				"default" : 1.023
 			}
 		}
@@ -43,7 +63,7 @@
 		],
 		"TauEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
-				"Run201|Embedding2016" : 1.0,
+				"Run201" : 1.0,
 				"default" : 0.999
 			}
 		}
@@ -54,7 +74,7 @@
 		],
 		"TauEnergyCorrectionThreeProng": {
 			"nick" : {
-				"Run201|Embedding2016" : 1.0,
+				"Run201" : 1.0,
 				"default" : 1.018
 			}
 		}
@@ -65,7 +85,7 @@
 		],
 		"TauEnergyCorrectionThreeProng": {
 			"nick" : {
-				"Run201|Embedding2016" : 1.0,
+				"Run201" : 1.0,
 				"default" : 0.994
 			}
 		}
@@ -77,7 +97,7 @@
 		"TauElectronFakeEnergyCorrectionOneProng" : {
 			"nick" : {
 				"default" : 1.024,
-				"Run201|Embedding2016" : 1.0,
+				"Run201" : 1.0,
 				"DY.?JetsToLL" : 1.029
 			}
 		}
