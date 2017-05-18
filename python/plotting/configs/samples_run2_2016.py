@@ -312,7 +312,7 @@ class Samples(samples.SamplesBase):
 
 	def files_ztt(self, channel):
 		if self.embedding:
-			return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "MuTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 7)
+			return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "(El|Mu)TauFinalState","scenario": ".*v2" }, 14)
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
