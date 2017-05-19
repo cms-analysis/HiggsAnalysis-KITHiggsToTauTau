@@ -73,7 +73,7 @@ class Datacards(object):
 			"lumi_$ERA",
 			"lnN",
 			ch.SystMap("era")
-				(       ["13TeV"], 1.026)
+				(       ["13TeV"], 1.025)
 		]
 		self.trigger_efficiency2016_syst_args = [ # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L76-L88
 			"CMS_eff_trigger_$CHANNEL_$ERA",
