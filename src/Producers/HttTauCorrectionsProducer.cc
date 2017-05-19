@@ -111,20 +111,22 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	}
 	else if (tauEnergyCorrection == TauEnergyCorrection::MSSMHTT2016)
 	{
-		if (tau->decayMode == 0)
-		{
-			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProng();
-		}
-		else if (tau->decayMode == 1 || tau->decayMode == 2)
-		{
-			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
-		}
-		else if (tau->decayMode == 10)
-		{
-			tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
-		}
 		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
-
+		if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY)
+		{
+			if (tau->decayMode == 0)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProng();
+			}
+			else if (tau->decayMode == 1)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
+			}
+			else if (tau->decayMode == 10)
+			{
+				tau->p4 = tau->p4 * static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
+			}
+		}
 		// correct e->tau fake energy scale
 		if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT)
 		{
@@ -153,7 +155,6 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		(static_cast<HttProduct&>(product)).m_systematicShift = HttEnumTypes::SystematicShift::TAU_ES;
 		(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauEnergyCorrectionShift;
 	}
-	
 	// electron->tau fake energy scale shifts
 	float tauElectronFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrection();
 	if (tauElectronFakeEnergyCorrectionShift != 1.0)
@@ -169,7 +170,6 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauEnergyCorrectionShift;
 		}
 	}
-
 	// muon->tau fake energy scale shifts
 	float tauMuonFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrection();
 	if (tauMuonFakeEnergyCorrectionShift != 1.0)
@@ -185,7 +185,6 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauEnergyCorrectionShift;
 		}
 	}
-
 	// jet->tau fake energy scale shifts
 	float tauJetFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauJetFakeEnergyCorrection();
 	if (tauJetFakeEnergyCorrectionShift != 0.0)
@@ -204,7 +203,6 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauJetFakeEnergyCorrectionShift;
 		}
 	}
-
 	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = normalisationFactor;
 }
 
