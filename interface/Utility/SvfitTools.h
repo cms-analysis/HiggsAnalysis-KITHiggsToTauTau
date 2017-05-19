@@ -168,7 +168,7 @@ public:
 	bool operator==(SvfitInputs const& rhs) const;
 	bool operator!=(SvfitInputs const& rhs) const;
 	
-	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity=0, bool addLogM=false, TFile* visPtResolutionFile=nullptr) const;
+	SVfitStandaloneAlgorithm GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM, TFile* &visPtResolutionFile) const;
 
 private:
 	std::vector<svFitStandalone::MeasuredTauLepton> GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const;
@@ -228,6 +228,7 @@ public:
 	void Init(std::string const& cacheFileName, std::string const& treeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
+	TFile * m_visPtResolutionFile = nullptr;
 
 private:
 	static std::map<std::string, TTree*> svfitCacheInputTree;
@@ -237,6 +238,5 @@ private:
 	SvfitInputs svfitInputs;
 	static std::map<std::string, SvfitResults> svfitResults;
 	SvfitEventKey svfitEventKey;
-	TFile * m_visPtResolutionFile = nullptr;
 };
 
