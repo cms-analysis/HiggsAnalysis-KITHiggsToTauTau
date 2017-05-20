@@ -374,6 +374,7 @@
 					"producer:ValidMTPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
+					"producer:MetCorrector",
 					"#producer:MvaMetSelector",
 					"producer:DiVetoMuonVetoProducer",
 					"producer:ValidTaggedJetsProducer",

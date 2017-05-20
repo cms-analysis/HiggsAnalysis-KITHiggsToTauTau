@@ -8,9 +8,10 @@
 		"JetEnergyCorrectionUncertaintyShift" : [
 			0.0
 		],
-		"TauEnergyCorrection" : {
+		"TauEnergyCorrectionShift" : {
 			"nick" : {
-				"Embedding2016" : 1.016
+				"Embedding2016" : 1.016,
+				"default" : 1.0
 			}
 		}
 	},
@@ -18,9 +19,10 @@
 		"JetEnergyCorrectionUncertaintyShift" : [
 			0.0
 		],
-		"TauEnergyCorrection" : {
+		"TauEnergyCorrectionShift" : {
 			"nick" : {
-				"Embedding2016" : 0.984
+				"Embedding2016" : 0.984,
+				"default" : 1.0
 			}
 		}
 	},
@@ -28,9 +30,10 @@
 		"JetEnergyCorrectionUncertaintyShift" : [
 			0.0
 		],
-		"MuonEnergyCorrection" : {
+		"MuonEnergyCorrectionShift" : {
 			"nick" : {
-				"Embedding2016" : 1.01
+				"Embedding2016" : 1.01,
+				"default" : 1.0
 			}
 		}
 	},
@@ -38,9 +41,10 @@
 		"JetEnergyCorrectionUncertaintyShift" : [
 			0.0
 		],
-		"MuonEnergyCorrection" : {
+		"MuonEnergyCorrectionShift" : {
 			"nick" : {
-				"Embedding2016" : 0.99
+				"Embedding2016" : 0.99,
+				"default" : 1.0
 			}
 		}
 	},
@@ -50,7 +54,7 @@
 		],
 		"TauEnergyCorrectionOneProng" : {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 1.007
 			}
 		}
@@ -61,7 +65,7 @@
 		],
 		"TauEnergyCorrectionOneProng" : {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 0.983
 			}
 		}
@@ -72,7 +76,7 @@
 		],
 		"TauEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 1.023
 			}
 		}
@@ -83,7 +87,7 @@
 		],
 		"TauEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 0.999
 			}
 		}
@@ -94,7 +98,7 @@
 		],
 		"TauEnergyCorrectionThreeProng": {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 1.018
 			}
 		}
@@ -105,7 +109,7 @@
 		],
 		"TauEnergyCorrectionThreeProng": {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 0.994
 			}
 		}

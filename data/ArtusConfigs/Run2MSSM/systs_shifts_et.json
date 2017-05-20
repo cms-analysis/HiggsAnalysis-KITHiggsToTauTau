@@ -8,9 +8,10 @@
 		"JetEnergyCorrectionUncertaintyShift" : [
 			0.0
 		],
-		"TauEnergyCorrection" : {
+		"TauEnergyCorrectionShift" : {
 			"nick" : {
-				"Embedding2016" : 1.016
+				"Embedding2016" : 1.016,
+				"default" : 1.0
 			}
 		}
 	},
@@ -18,9 +19,10 @@
 		"JetEnergyCorrectionUncertaintyShift" : [
 			0.0
 		],
-		"TauEnergyCorrection" : {
+		"TauEnergyCorrectionShift" : {
 			"nick" : {
-				"Embedding2016" : 0.984
+				"Embedding2016" : 0.984,
+				"default" : 1.0
 			}
 		}
 	},
@@ -30,7 +32,7 @@
 		],
 		"TauEnergyCorrectionOneProng" : {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 1.007
 			}
 		}
@@ -41,7 +43,7 @@
 		],
 		"TauEnergyCorrectionOneProng" : {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 0.983
 			}
 		}
@@ -52,7 +54,7 @@
 		],
 		"TauEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 1.023
 			}
 		}
@@ -63,7 +65,7 @@
 		],
 		"TauEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 0.999
 			}
 		}
@@ -74,7 +76,7 @@
 		],
 		"TauEnergyCorrectionThreeProng": {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 1.018
 			}
 		}
@@ -85,7 +87,7 @@
 		],
 		"TauEnergyCorrectionThreeProng": {
 			"nick" : {
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"default" : 0.994
 			}
 		}
@@ -97,7 +99,7 @@
 		"TauElectronFakeEnergyCorrectionOneProng" : {
 			"nick" : {
 				"default" : 1.024,
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"DY.?JetsToLL" : 1.029
 			}
 		}
@@ -109,7 +111,7 @@
 		"TauElectronFakeEnergyCorrectionOneProng" : {
 			"nick" : {
 				"default" : 1.024,
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"DY.?JetsToLL" : 1.019
 			}
 		}
@@ -121,7 +123,7 @@
 		"TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
 				"default" : 1.076,
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"DY.?JetsToLL" : 1.086
 			}
 		}
@@ -133,7 +135,7 @@
 		"TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
 			"nick" : {
 				"default" : 1.076,
-				"Run201" : 1.0,
+				"Run201|Embedding2016" : 1.0,
 				"DY.?JetsToLL" : 1.066
 			}
 		}
