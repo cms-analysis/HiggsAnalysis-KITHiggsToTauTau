@@ -107,8 +107,9 @@
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer"
 			],
-			"TT(To|_)" : [
+			"TT(To|_|Jets)" : [
 				"#filter:RunLumiEventFilter",
+				"producer:ScaleVariationProducer",
 				"filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",

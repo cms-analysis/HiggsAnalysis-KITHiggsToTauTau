@@ -147,6 +147,7 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/lheWeights.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/fakeFactorWeightQuantities.json"
 				]
 			},
@@ -205,7 +206,7 @@
 					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer"
 				],
-				"TT(To|_)" : [
+				"TT(To|_|Jets)" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",

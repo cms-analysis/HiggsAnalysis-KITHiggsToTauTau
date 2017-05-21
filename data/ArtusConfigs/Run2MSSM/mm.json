@@ -190,7 +190,7 @@
 					"producer:EventWeightProducer",
 					"producer:MVAInputQuantitiesProducer"
 				],
-				"TT(To|_)" : [
+				"TT(To|_|Jets)" : [
 					"producer:HltProducer",
 					"producer:MetSelector",
 					"producer:MuonCorrectionsProducer",
