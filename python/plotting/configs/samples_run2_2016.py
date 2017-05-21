@@ -220,7 +220,7 @@ class Samples(samples.SamplesBase):
 			if doStitching:
 				return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight])
 			else:
-				mc_sample_weight
+				return mc_sample_weight
 		else:
 			if doStitching:
 				if channel == "gen":
