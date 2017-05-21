@@ -749,6 +749,47 @@ class Samples(samples.SamplesBase):
 		                      "data" : False, "campaign" : self.mc_campaign}, 4)
 		return artus_files
 
+	def files_gghww(self, channel, mass=125):
+		return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+
+	def files_qqhww(self, channel, mass=125):
+		return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+
+        def hww(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		data_weight, mc_weight = self.projection(kwargs)
+
+		for mass in higgs_masses:
+			if channel == "em":
+				Samples._add_input(
+					config,
+					self.files_gghww(channel, mass),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"hww"+str(mass),
+					nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+					config,
+					self.files_qqhww(channel, mass),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"hww"+str(mass),
+					nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (HWW) currently not implemented for channel \"%s\"!" % channel)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "hww"+str(mass), nick_suffix)
+
+
+			Samples._add_plot(config, "bkg", "HIST", "F", "hww"+str(mass), nick_suffix)
+		return config
+
 	def vvt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -839,7 +880,7 @@ class Samples(samples.SamplesBase):
 		return artus_files
 	
 	def files_wgamma(self, channel):
-		artus_files = self.artus_file_names({"process" : "WGToLNuG", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 1)
+		artus_files = self.artus_file_names({"process" : "WGToLNuG", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8", "extension" : "ext3"}, 1)
 		artus_files = artus_files + " " + self.artus_file_names({"process" : "WGstarToLNuEE|WGstarToLNuMuMu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph"}, 2)
 		return artus_files
 

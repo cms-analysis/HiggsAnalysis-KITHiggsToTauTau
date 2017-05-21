@@ -114,7 +114,9 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["vh"]  = self.colors_dict["kit_lila_1"]
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
 			self.colors_dict["hww"] = self.colors_dict["kit_lila_3"]+" "+self.colors_dict["kit_lila_4"]
+			self.colors_dict["hww120"] = self.colors_dict["hww"]
 			self.colors_dict["hww125"] = self.colors_dict["hww"]
+			self.colors_dict["hww130"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
 
@@ -165,6 +167,10 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["zh"]  = self.colors_dict["kit_lila_1"]
 			self.colors_dict["wh"]  = self.colors_dict["kit_lila_1"]			
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
+			self.colors_dict["hww"] = self.colors_dict["kit_lila_3"]+" "+self.colors_dict["kit_lila_4"]
+			self.colors_dict["hww120"] = self.colors_dict["hww"]
+			self.colors_dict["hww125"] = self.colors_dict["hww"]
+			self.colors_dict["hww130"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
 			
