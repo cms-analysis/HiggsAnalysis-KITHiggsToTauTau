@@ -443,16 +443,8 @@ if __name__ == "__main__":
 						if  args.fakefactor_method is not None:
 							for index,value in enumerate(config["weights"]):
 								if "ff_norm" in config["nicks"][index]:
-									if config["nicks"][index] == "noplot_ff_norm":
-										config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
-									else:
-										config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
 								if config["nicks"][index] == "ff" or "ff_control" in config["nicks"][index]:
-									if config["nicks"][index] == "ff":
-										config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
-									else:
-										config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1))
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1))

@@ -2996,12 +2996,14 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		if channel in ["mt","et"]:
+			mc_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))*(gen_match_2 < 6)*jetToTauFakeWeight_comb)"
+			data_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99*jetToTauFakeWeight_comb*0.5)"
 			Samples._add_input(
 					config,
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*jetToTauFakeWeight_comb",
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight"+data_ff_weight,
 					"ff",
 					nick_suffix=nick_suffix
 			)
@@ -3011,7 +3013,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight"+mc_ff_weight,
 					"noplot_dy_ff_control",
 					nick_suffix=nick_suffix
 			)
@@ -3020,7 +3022,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight"+mc_ff_weight,
 					"noplot_tt_ff_control",
 					nick_suffix=nick_suffix
 			)
@@ -3029,7 +3031,7 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
-					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight"+mc_ff_weight,
 					"noplot_vv_ff_control",
 					nick_suffix=nick_suffix
 			)
@@ -3038,7 +3040,7 @@ class Samples(samples.SamplesBase):
 					self.files_data(channel),
 					self.root_file_folder(channel),
 					1.0,
-					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*jetToTauFakeWeight_comb",
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight"+data_ff_weight,
 					"noplot_ff_norm",
 					nick_suffix=nick_suffix
 			)
@@ -3048,7 +3050,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight"+mc_ff_weight,
 					"noplot_dy_ff_norm",
 					nick_suffix=nick_suffix
 			)
@@ -3057,7 +3059,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight"+mc_ff_weight,
 					"noplot_tt_ff_norm",
 					nick_suffix=nick_suffix
 			)
@@ -3066,12 +3068,10 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
-					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight"+mc_ff_weight,
 					"noplot_vv_ff_norm",
 					nick_suffix=nick_suffix
 			)
-
-			"*((byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*jetToTauFakeWeight_comb_1 + (byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*jetToTauFakeWeight_comb_2)"
 
 			if not "EstimateFF" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("EstimateFF")
@@ -3080,8 +3080,8 @@ class Samples(samples.SamplesBase):
 			config.setdefault("ff_norm_data_nicks", []).append("noplot_ff_norm"+nick_suffix)
 			config.setdefault("ff_norm_mc_subtract_nicks", []).append(" ".join([nick+"_norm"+nick_suffix for nick in "noplot_dy_ff noplot_tt_ff noplot_vv_ff".split()]))
 		elif channel in ["tt"]:
-			mc_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(gen_match_1 < 6)*jetToTauFakeWeight_comb_1*0.5 + (byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(gen_match_2 < 6)*jetToTauFakeWeight_comb_2*0.5)"
-			data_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*jetToTauFakeWeight_comb_1*0.5 + (byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*jetToTauFakeWeight_comb_2*0.5)"
+			mc_ff_weight = "*((byMediumIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(gen_match_1 < 6)*jetToTauFakeWeight_comb_1*0.5 + (byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(gen_match_2 < 6)*jetToTauFakeWeight_comb_2*0.5)"
+			data_ff_weight = "*((byMediumIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.99 + (gen_match_1 != 5))*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.95*jetToTauFakeWeight_comb_1*0.5 + (byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*0.95*jetToTauFakeWeight_comb_2*0.5)"
 			Samples._add_input(
 					config,
 					self.files_data(channel),
