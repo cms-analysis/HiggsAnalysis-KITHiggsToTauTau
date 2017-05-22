@@ -177,7 +177,7 @@ class Samples(samples.SamplesBase):
 	def zl_shape_weight(self, channel, cut_type):
 		if "smhtt2016" in cut_type:
 			if channel == "mt":
-				return "(((decayMode_2 == 0)*0.75) + ((decayMode_2 > 0)*1.0))"
+				return "(((decayMode_2 == 0)*0.75) + ((decayMode_2 ==1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))"
 			elif channel == "et":
 				return "(((decayMode_2 == 0)*0.98) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2) + ((decayMode_2 == 10)*1.0))"
 			else:
