@@ -113,6 +113,9 @@ class CutStringsDict:
 				iso_2_cut = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016tight" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<70.0)"
 			cuts["iso_2"] = iso_2_cut
+		elif channel == "tt":
+			cuts["iso_1"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 		return cuts
 	
 	@staticmethod
