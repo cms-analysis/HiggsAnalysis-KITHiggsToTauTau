@@ -246,8 +246,8 @@ if __name__ == "__main__":
 			log.critical("Invalid era string selected: " + args.era)
 			sys.exit(1)
 
-	if args.fakefactor_method is not None:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
+	# if args.fakefactor_method is not None:
+		# import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
 
 	if args.shapes:
 		args.ratio = False
@@ -321,16 +321,12 @@ if __name__ == "__main__":
 			channel_config = {}
 			for index, (channel, background_method) in enumerate(channels_background_methods):
 				if args.mssm:
-					if args.era == "2016":
-						cut_type = "mssm2016"
-					elif "looseiso" in category:
-						cut_type = "mssm2016looseiso"
-					elif "loosemt" in category:
-						cut_type = "mssm2016loosemt"
+					if "loosemt" in category:
+						global_cut_type = "mssm2016ffloosemt"
 					elif "tight" in category:
-						cut_type = "mssm2016tight"
+						global_cut_type = "mssm2016fftight"
 					else:
-						cut_type = "mssm2016full"
+						global_cut_type = "mssm2016fffull"
 				last_loop = (index == len(channels_background_methods) - 1)
 				
 				if category != None:
@@ -357,7 +353,7 @@ if __name__ == "__main__":
 						lumi  =  args.lumi * 1000,
 						exclude_cuts = args.exclude_cuts + json_config.pop("exclude_cuts", []),
 						blind_expression = channel + "_" + quantity,
-						fakefactor_method = args.fakefactor_method,
+						# fakefactor_method = args.fakefactor_method,
 						stack_signal = args.stack_signal,
 						scale_signal = args.scale_signal,
 						project_to_lumi = args.project_to_lumi,
@@ -375,6 +371,32 @@ if __name__ == "__main__":
 					channel_config = samples.Samples.merge_configs(channel_config, config)
 					if last_loop:
 						config = channel_config
+				if category == "nobtag" and channel == "mt":
+					config["qcd_extrapolation_factors_ss_os"] = 1.12
+				elif category == "btag" and channel == "mt":
+					config["qcd_extrapolation_factors_ss_os"] = 1.08
+				elif category == "inclusive" and channel == "mt":
+					config["qcd_extrapolation_factors_ss_os"] = 1.10
+				elif category == "nobtag" and channel == "et":
+					config["qcd_extrapolation_factors_ss_os"] = 1.02
+				elif category == "btag" and channel == "et":
+					config["qcd_extrapolation_factors_ss_os"] = 1.21
+				elif category == "inclusive" and channel == "et":
+					config["qcd_extrapolation_factors_ss_os"] = 1.04
+
+				for index,value in enumerate(config["weights"]):
+					if "ff_norm" in config["nicks"][index]:
+						if config["nicks"][index] == "noplot_ff_norm":
+							config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
+						else:
+							config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
+						config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category)
+					if config["nicks"][index] == "ff" or "ff_control" in config["nicks"][index]:
+						if config["nicks"][index] == "ff":
+							config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
+						else:
+							config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
+						config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category)
 
 				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 				config["category"] = category

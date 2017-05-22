@@ -90,7 +90,7 @@ class CutStringsDict:
 			if cut_type == "mssm2016fflooseiso":
 				iso_2_cut = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 			elif cut_type == "mssm2016fffull":
-				iso_2_cut = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+				iso_2_cut = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 			elif cut_type == "mssm2016looseiso":
 				iso_2_cut = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 			elif cut_type in ["mssm2016loosemt", "mssm2016tight"]:
@@ -104,7 +104,7 @@ class CutStringsDict:
 			if cut_type == "mssm2016fflooseiso":
 				iso_2_cut = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 			elif cut_type == "mssm2016fffull":
-				iso_2_cut = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+				iso_2_cut = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 			elif cut_type == "mssm2016looseiso":
 				iso_2_cut = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 			elif cut_type in ["mssm2016loosemt", "mssm2016tight"]:
