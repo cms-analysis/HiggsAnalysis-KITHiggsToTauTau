@@ -73,11 +73,11 @@ samples_dict = {
 		],
 		'mm' : [
 			("toppt",["ttj","wj","qcd"]),
-			("zpt",["ztt","zll","zj","zl","wj","qcd"]),
-			("wfake",['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']),
-			# ('btag',['ztt','zl','zj','ttj','vv','wj','qcd']),
-			# ('mistag',['ztt','zl','zj','ttj','vv','wj','qcd']),
-			('nominal',['ztt','zl','zj','ttj','vv','wj','qcd'])
+			("zpt",["ztt","zll","wj","qcd"]),
+			("wfake",['ztt','zll','ttj','vv','wj','qcd']),
+			# ('btag',['ztt','zll','ttj','vv','wj','qcd']),
+			# ('mistag',['ztt','zll','ttj','vv','wj','qcd']),
+			('nominal',['ztt','zll','ttj','vv','wj','qcd'])
 		],
 
 		# 'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll", "zj", "zl"])]
