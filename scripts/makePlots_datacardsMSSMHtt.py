@@ -111,7 +111,7 @@ shapes = {
 	"ff_tt_dm0_njet1_stat" : "norm_ff_tt_dm0_njet1_stat",
 	"ff_tt_dm1_njet0_stat" : "norm_ff_tt_dm1_njet0_stat",
 	"ff_tt_dm1_njet1_stat" : "norm_ff_tt_dm1_njet1_stat",
-	"ff_w_syst_tt" : "norm_ff_w_{CHANNEL{)syst",
+	"ff_w_syst_tt" : "norm_ff_w_{CHANNEL}_syst",
 	"ff_tt_syst_tt" : "norm_ff_tt_{CHANNEL}_syst",
 	"ff_qcd_syst_tt" : "norm_ff_qcd_{CHANNEL}_syst",
 	"ff_qcd_dm0_njet0_stat_tt" : "norm_ff_qcd_dm0_njet0_{CHANNEL}_stat",
@@ -159,9 +159,9 @@ shapes_weight_dict = {
 		"ff_qcd_dm0_njet1_stat_tt" : ("jetToTauFakeWeight_qcd_dm0_njet1_stat_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_qcd_dm0_njet1_stat_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_qcd_dm0_njet1_stat_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_qcd_dm0_njet1_stat_up_2/jetToTauFakeWeight_comb_2"),
 		"ff_qcd_dm1_njet0_stat_tt" : ("jetToTauFakeWeight_qcd_dm1_njet0_stat_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_qcd_dm1_njet0_stat_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_qcd_dm1_njet0_stat_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_qcd_dm1_njet0_stat_up_2/jetToTauFakeWeight_comb_2"),
 		"ff_qcd_dm1_njet1_stat_tt" : ("jetToTauFakeWeight_qcd_dm1_njet1_stat_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_qcd_dm1_njet1_stat_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_qcd_dm1_njet1_stat_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_qcd_dm1_njet1_stat_up_2/jetToTauFakeWeight_comb_2"),
-		"ff_w_frac" : ("jetToTauFakeWeight_w_frac_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_w_frac_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_w_frac_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_w_frac_up_2/jetToTauFakeWeight_comb_2"),
-		"ff_dy_frac" : ("jetToTauFakeWeight_dy_frac_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_dy_frac_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_dy_frac_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_dy_frac_up_2/jetToTauFakeWeight_comb_2"),
-		"ff_tt_frac" : ("jetToTauFakeWeight_tt_frac_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_tt_frac_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_tt_frac_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_tt_frac_up_2/jetToTauFakeWeight_comb_2"),
+		"ff_w_frac" : ("jetToTauFakeWeight_w_frac_syst_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_w_frac_syst_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_w_frac_syst_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_w_frac_syst_up_2/jetToTauFakeWeight_comb_2"),
+		"ff_dy_frac" : ("jetToTauFakeWeight_dy_frac_syst_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_dy_frac_syst_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_dy_frac_syst_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_dy_frac_syst_up_2/jetToTauFakeWeight_comb_2"),
+		"ff_tt_frac" : ("jetToTauFakeWeight_tt_frac_syst_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_tt_frac_syst_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_tt_frac_syst_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_tt_frac_syst_up_2/jetToTauFakeWeight_comb_2"),
 		"nominal" : ("1.0", "1.0")
 	}
 mapping_process2sample = {
