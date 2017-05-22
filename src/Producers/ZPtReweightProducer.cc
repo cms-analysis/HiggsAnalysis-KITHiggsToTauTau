@@ -2,14 +2,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZPtReweightProducer.h"
 
 
-ZPtReweightProducer::~ZPtReweightProducer()
-{
-	if (m_zPtHist != nullptr)
-	{
-		delete m_zPtHist;
-	}
-}
-
 std::string ZPtReweightProducer::GetProducerId() const
 {
 	return "ZPtReweightProducer";
@@ -19,10 +11,29 @@ void ZPtReweightProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 	
-	TFile zPtFile(settings.GetZptReweightProducerWeights().c_str(), "READ");
-	m_zPtHist = (TH2D*)zPtFile.Get("zptmass_histo");
-	m_zPtHist->SetDirectory(nullptr);
-	zPtFile.Close();
+	TDirectory *savedir(gDirectory);
+	TFile *savefile(gFile);
+	TFile f(settings.GetZptRooWorkspace().c_str());
+	gSystem->AddIncludePath("-I$ROOFITSYS/include");
+	m_workspace = (RooWorkspace*)f.Get("w");
+	f.Close();
+	gDirectory = savedir;
+	gFile = savefile;
+
+	m_ZptWeightFunktor = m_workspace->function("zpt_weight_nom")->functor(m_workspace->argSet({"z_gen_mass,z_gen_pt"}));
+	if (settings.GetDoZptUncertainties())
+	{
+		m_ZptWeightUncertaintiesFunktor["zPtWeightEsUp"] = m_workspace->function("zpt_weight_esup")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightEsDown"] = m_workspace->function("zpt_weight_esdown")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightStatPt0Up"] = m_workspace->function("zpt_weight_statpt0up")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightStatPt0Down"] = m_workspace->function("zpt_weight_statpt0down")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightStatPt40Up"] = m_workspace->function("zpt_weight_statpt40up")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightStatPt40Down"] = m_workspace->function("zpt_weight_statpt40down")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightStatPt80Up"] = m_workspace->function("zpt_weight_statpt80up")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightStatPt80Down"] = m_workspace->function("zpt_weight_statpt80down")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightTTbarUp"] = m_workspace->function("zpt_weight_ttup")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+		m_ZptWeightUncertaintiesFunktor["zPtWeightTTbarDown"] = m_workspace->function("zpt_weight_ttdown")->functor(m_workspace->argSet("z_gen_mass,z_gen_pt"));
+	}
 	
 	m_applyReweighting = boost::regex_search(settings.GetNickname(), boost::regex("DY.?JetsToLLM(50|150)", boost::regex::icase | boost::regex::extended));
 }
@@ -47,7 +58,14 @@ void ZPtReweightProducer::Produce( event_type const& event, product_type & produ
 		}
 		genPt = genMomentum.Pt();
 		genMass = genMomentum.M();
-		float zPtWeight = m_zPtHist->GetBinContent(m_zPtHist->GetXaxis()->FindBin(genMass),m_zPtHist->GetYaxis()->FindBin(genPt));
-		product.m_optionalWeights["zPtReweightWeight"] = zPtWeight;
+		auto args = std::vector<double>{genMass,genPt};
+		product.m_optionalWeights["zPtReweightWeight"] = m_ZptWeightFunktor->eval(args.data());
+		if (settings.GetDoZptUncertainties())
+		{
+			for(auto uncertainty: m_ZptWeightUncertaintiesFunktor)
+			{
+				product.m_optionalWeights[uncertainty.first] = uncertainty.second->eval(args.data());
+			}
+		}
 	}
 }

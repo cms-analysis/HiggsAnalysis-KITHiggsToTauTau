@@ -1,8 +1,10 @@
 
 #pragma once
 
-#include <TH2.h>
 #include "Artus/Core/interface/ProducerBase.h"
+#include "RooWorkspace.h"
+#include "RooFunctor.h"
+#include "TSystem.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include <boost/regex.hpp>
 
@@ -20,7 +22,6 @@ public:
 	typedef typename HttTypes::product_type product_type;
 	typedef typename HttTypes::setting_type setting_type;
 	
-	virtual ~ZPtReweightProducer();
 
 	std::string GetProducerId() const;
 
@@ -29,6 +30,8 @@ public:
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override;
 private:
-	TH2D* m_zPtHist = nullptr;
+	RooFunctor* m_ZptWeightFunktor;
+	std::map<std::string,RooFunctor*> m_ZptWeightUncertaintiesFunktor;
+	RooWorkspace *m_workspace;
 	bool m_applyReweighting;
 };

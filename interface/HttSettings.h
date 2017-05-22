@@ -369,6 +369,8 @@ public:
 
 	// settings for ZPtReweightProducer
 	IMPL_SETTING(std::string, ZptReweightProducerWeights);
+	IMPL_SETTING(std::string, ZptRooWorkspace);
+	IMPL_SETTING_DEFAULT(bool, DoZptUncertainties, false);
 
 	// settings for JetToTauFakesProducer
 	IMPL_SETTING_STRINGLIST_DEFAULT(FakeFaktorFiles, {});
