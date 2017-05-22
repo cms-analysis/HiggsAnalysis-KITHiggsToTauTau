@@ -749,13 +749,65 @@ class Samples(samples.SamplesBase):
 		                      "data" : False, "campaign" : self.mc_campaign}, 4)
 		return artus_files
 
-	def files_gghww(self, channel, mass=125):
+	def files_hww_gg(self, channel, mass=125):
 		return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+	
+	def hww_gg(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		data_weight, mc_weight = self.projection(kwargs)
+		
+		for mass in higgs_masses:
+			if channel == "em":
+				Samples._add_input(
+					config,
+					self.files_hww_gg(channel, mass),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"hww_gg"+str(mass),
+					nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (HWW_gg) currently not implemented for channel \"%s\"!" % channel)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "hww_gg"+str(mass), nick_suffix)
+		
+			Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg"+str(mass), nick_suffix)
+		
+		return config
 
-	def files_qqhww(self, channel, mass=125):
+	def files_hww_qq(self, channel, mass=125):
 		return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
-        def hww(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+	def hww_qq(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		data_weight, mc_weight = self.projection(kwargs)
+		
+		for mass in higgs_masses:
+			if channel == "em":
+				Samples._add_input(
+					config,
+					self.files_hww_qq(channel, mass),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"hww_qq"+str(mass),
+					nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (HWW_qq) currently not implemented for channel \"%s\"!" % channel)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "hww_qq"+str(mass), nick_suffix)
+			
+			Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq"+str(mass), nick_suffix)
+		
+		return config
+
+	def hww(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -765,7 +817,7 @@ class Samples(samples.SamplesBase):
 			if channel == "em":
 				Samples._add_input(
 					config,
-					self.files_gghww(channel, mass),
+					self.files_hww_gg(channel, mass),
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -774,7 +826,7 @@ class Samples(samples.SamplesBase):
 				)
 				Samples._add_input(
 					config,
-					self.files_qqhww(channel, mass),
+					self.files_hww_qq(channel, mass),
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -785,7 +837,6 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (HWW) currently not implemented for channel \"%s\"!" % channel)
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww"+str(mass), nick_suffix)
-
 
 			Samples._add_plot(config, "bkg", "HIST", "F", "hww"+str(mass), nick_suffix)
 		return config

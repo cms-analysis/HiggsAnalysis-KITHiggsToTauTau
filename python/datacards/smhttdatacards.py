@@ -114,7 +114,7 @@ class SMHttDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="em",
 					categories=Categories.CategoriesDict().getCategories(["em"])["em"],
-					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
+					bkg_processes=["ZTT", "ZLL", "TT", "VV", "HWW_gg", "HWW_qq", "W", "QCD"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
@@ -124,18 +124,18 @@ class SMHttDatacards(datacards.Datacards):
 			# efficiencies
 			# (hopefully) temporary fix
 			if year == "2016":
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "HWW_gg", "HWW_qq", "W"]).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "HWW_gg", "HWW_qq", "W"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "HWW_gg", "HWW_qq", "W"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 			else:
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "HWW_gg", "HWW_qq", "W"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency_syst_args)
 
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "HWW_gg", "HWW_qq", "W"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency_syst_args)
 
 			# B-Tag
@@ -145,7 +145,7 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["em"]).process(["VV"]).AddSyst(self.cb, *self.btag_mistag2016_syst_args)
 			
 			# electron ES
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "W", "QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "TT", "VV", "HWW_gg", "HWW_qq", "W", "QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
 			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.ele_es_syst_args)
 			
 			# ttbar shape
@@ -227,15 +227,15 @@ class SMHttDatacards(datacards.Datacards):
 			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().signals().AddSyst(self.cb, *self.lumi2016_syst_args)
-				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "HWW_gg", "HWW_qq"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi2016_syst_args) # automatically in other channels determined
 			else:
 				self.cb.cp().signals().AddSyst(self.cb, *self.lumi_syst_args)
-				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.lumi_syst_args)
+				self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "HWW_gg", "HWW_qq"]).AddSyst(self.cb, *self.lumi_syst_args)
 				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args) # automatically in other channels determined
 
 			# jets
-			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "HWW_gg", "HWW_qq", "W", "QCD"]).AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.jec_syst_args)
 			# fakes
 			if year == "2016":
@@ -243,9 +243,9 @@ class SMHttDatacards(datacards.Datacards):
 			else:
 				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ", "VVJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 			# MET
-			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "QCD"]).channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "HWW_gg", "HWW_qq", "W", "QCD"]).channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().signals().channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "QCD"]).channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "HWW_gg", "HWW_qq", "W", "QCD"]).channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().signals().channel(["et", "mt", "tt", "em"]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
 
 			# cross section
@@ -279,10 +279,31 @@ class SMHttDatacards(datacards.Datacards):
 			else:
 				self.cb.cp().channel(["mt", "et", "tt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 				self.cb.cp().channel(["mt", "et", "tt"]).signals().AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
-			# signal
+			
+			# Theory uncertainties
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_qcd_scale_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_pdf_scale_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.htt_ueps_syst_args)
+			
+			# Uncertainty on BR of HTT @ 125 GeV
+			self.cb.cp().signals().AddSyst(self.cb, "BR_htt_THU", "lnN", ch.SystMap()(1.017))
+			self.cb.cp().signals().AddSyst(self.cb, "BR_htt_PU_mq", "lnN", ch.SystMap()(1.0099))
+			self.cb.cp().signals().AddSyst(self.cb, "BR_htt_PU_alphas", "lnN", ch.SystMap()(1.0062))
+			
+			# Uncertainty on BR of HWW @ 125 GeV
+			self.cb.cp().process(["HWW_gg", "HWW_qq"]).AddSyst(self.cb, "BR_hww_THU", "lnN", ch.SystMap()(1.0099))
+			self.cb.cp().process(["HWW_gg", "HWW_qq"]).AddSyst(self.cb, "BR_hww_PU_mq", "lnN", ch.SystMap()(1.0099))
+			self.cb.cp().process(["HWW_gg", "HWW_qq"]).AddSyst(self.cb, "BR_hww_PU_alphas", "lnN", ch.SystMap()(1.0066))
+			
+			self.cb.cp().process(["ggH", "HWW_gg"]).AddSyst(self.cb, "QCDScale_ggH", "lnN", ch.SystMap()(1.039))
+			self.cb.cp().process(["qqH", "HWW_qq"]).AddSyst(self.cb, "QCDScale_qqH", "lnN", ch.SystMap()(1.004))
+			self.cb.cp().process(["WH"]).AddSyst(self.cb, "QCDScale_VH", "lnN", ch.SystMap()(1.007))
+			self.cb.cp().process(["ZH"]).AddSyst(self.cb, "QCDScale_VH", "lnN", ch.SystMap()(1.038))
+			
+			self.cb.cp().process(["ggH", "HWW_gg"]).AddSyst(self.cb, "pdf_Higgs_gg", "lnN", ch.SystMap()(1.032))
+			self.cb.cp().process(["qqH", "HWW_qq"]).AddSyst(self.cb, "pdf_Higgs_qq", "lnN", ch.SystMap()(1.021))
+			self.cb.cp().process(["WH"]).AddSyst(self.cb, "pdf_Higgs_VH", "lnN", ch.SystMap()(1.019))
+			self.cb.cp().process(["ZH"]).AddSyst(self.cb, "pdf_Higgs_VH", "lnN", ch.SystMap()(1.016))
 
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
