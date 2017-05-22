@@ -46,10 +46,10 @@ def embedding_stitchingweight_mt():
 	runD = "((run >= 276315) && (run < 276831))*2570815.+"
 	runE = "((run >= 276831) && (run < 277772))*2514506.+"
 	runF = "((run >= 277772) && (run < 278820))*1879819.+"
-	runG = "((run >= 278820) && (run < 280919))*5008746."
-	#runH = "((run >= 280919) && (run < 284045))*6325743."
-	totalevents = "3768958.+1583897.+2570815.+2514506.+1879819.+5008746."#+6325743."
-	return "("+runB+runC+runD+runE+runF+runG+")/("+totalevents+")*(eventWeight<1.0)"
+	runG = "((run >= 278820) && (run < 280919))*5008746.+"
+	runH = "((run >= 280919) && (run < 284045))*6367665."
+	totalevents = "3768958.+1583897.+2570815.+2514506.+1879819.+5008746.+6367665."
+	return "("+runB+runC+runD+runE+runF+runG+runH+")/("+totalevents+")*(eventWeight<1.0)"
 
 def embedding_stitchingweight_et():
 	runB = "((run >= 272007) && (run < 275657))*3570181.+"
@@ -57,9 +57,10 @@ def embedding_stitchingweight_et():
 	runD = "((run >= 276315) && (run < 276831))*2614984.+"
 	runE = "((run >= 276831) && (run < 277772))*2387033.+"
 	runF = "((run >= 277772) && (run < 278820))*1733082.+"
-	runG = "((run >= 278820) && (run < 280919))*4700036."
-	totalevents = "3570181.+1543340.+2614984.+2387033.+1733082.+4700036."
-	return "("+runB+runC+runD+runE+runF+runG+")/("+totalevents+")*(eventWeight<1.0)"
+	runG = "((run >= 278820) && (run < 280919))*4700036.+"
+	runH = "((run >= 280919) && (run < 284045))*5830114."
+	totalevents = "3570181.+1543340.+2614984.+2387033.+1733082.+4700036.+5830114."
+	return "("+runB+runC+runD+runE+runF+runG+runH+")/("+totalevents+")*(eventWeight<1.0)"
 
 def embedding_stitchingweight(channel="mt"):
 	if channel == "mt":
@@ -78,7 +79,7 @@ def ztt_stitching():
 selection["mt"] = "35870.0*eventWeight*(0.99)*(gen_match_1 == 4 && gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(dilepton_veto < 0.5)*(trg_singlemuon == 1)*(againstElectronVLooseMVA6_2 > 0.5)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*(mt_1 < 70)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*zPtReweightWeight"
 selection["et"] = "35870.0*eventWeight*(0.99)*(gen_match_1 == 3 && gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(dilepton_veto < 0.5)*(trg_singleelectron == 1)*(againstElectronTightMVA6_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)*(mt_1 < 70)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*zPtReweightWeight"
 selection["em"] = "35870*eventWeight*(gen_match_1 == 3 && gen_match_2 == 4)*(pt_1 > 24.0 || pt_2 > 24.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(trg_muonelectron == 1)*(iso_2 < 0.2)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*(pZetaMissVis > -50)*zPtReweightWeight"
-selection["tt"] = "35870*eventWeight*((0.9025))*(gen_match_1 == 5 && gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)*(1.0)*(trg_doubletau == 1)*(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((q_1*q_2)<0.0)*zPtReweightWeight"
+selection["tt"] = "35870*eventWeight*((0.9409))*(gen_match_1 == 5 && gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)*(1.0)*(trg_doubletau == 1)*(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((q_1*q_2)<0.0)*zPtReweightWeight"
 selection["mm"] = "35870.0*eventWeight*(gen_match_1 == 2 && gen_match_2 == 2)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(trg_singlemuon == 1)*(m_vis > 70.0)*(m_vis < 110.0)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*zPtReweightWeight"
 
 # main categorisation
@@ -218,8 +219,6 @@ for weight in sorted(ratios):
 	if weight != channel+"_inclusive_inclusive":
 		intervals[weight] = {}
 		variations = [ratios[weight][r_key] for r_key in ratios[weight] if not r_key in ["1","nlo","embedding"]]
-		print "weight:",weight
-		print variations
 
 		intervals[weight]["max"] = max(variations)
 		intervals[weight]["min"] = min(variations)
