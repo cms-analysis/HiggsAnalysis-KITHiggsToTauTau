@@ -34,19 +34,15 @@ weight_keys = {
 }
 
 ztt_weight_keys = {
-	"et_btag_looseiso" : r'$e\tau_{h}$ b-tag loose iso',
 	"et_btag_loosemt" : r'$e\tau_{h}$ b-tag loose $m_T$',
 	"et_btag_tight" : r'$e\tau_{h}$ b-tag tight',
 	"et_btag_inclusive" : r'$e\tau_{h}$ b-tag',
-	"et_nobtag_looseiso" : r'$e\tau_{h}$ no b-tag loose iso',
 	"et_nobtag_loosemt" : r'$e\tau_{h}$ no b-tag loose $m_T$',
 	"et_nobtag_tight" : r'$e\tau_{h}$ no b-tag tight',
 	"et_nobtag_inclusive" : r'$e\tau_{h}$ no b-tag',
-	"mt_btag_looseiso" : r'$\mu\tau_{h}$ b-tag loose iso',
 	"mt_btag_loosemt" : r'$\mu\tau_{h}$ b-tag loose $m_T$',
 	"mt_btag_tight" : r'$\mu\tau_{h}$ b-tag tight',
 	"mt_btag_inclusive" : r'$\mu\tau_{h}$ b-tag',
-	"mt_nobtag_looseiso" : r'$\mu\tau_{h}$ no b-tag loose iso',
 	"mt_nobtag_loosemt" : r'$\mu\tau_{h}$ no b-tag loose $m_T$',
 	"mt_nobtag_tight" : r'$\mu\tau_{h}$ no b-tag tight',
 	"mt_nobtag_inclusive" : r'$\mu\tau_{h}$ no b-tag'

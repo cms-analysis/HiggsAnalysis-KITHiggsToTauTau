@@ -52,8 +52,8 @@ def ztt_stitching():
 # channel selection
 selection["mt"] = "35870.0*eventWeight*(0.99)*(gen_match_1 == 4 && gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(dilepton_veto < 0.5)*(trg_singlemuon == 1)*(againstElectronVLooseMVA6_2 > 0.5)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*(mt_1 < 70)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*zPtReweightWeight"
 selection["et"] = "35870.0*eventWeight*(0.99)*(gen_match_1 == 3 && gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(dilepton_veto < 0.5)*(trg_singleelectron == 1)*(againstElectronTightMVA6_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)*(mt_1 < 70)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*zPtReweightWeight"
-selection["em"] = "35870*eventWeight*(gen_match_1 == 3 && gen_match_2 == 4)*(pt_1 > 24.0 || pt_2 > 24.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(trg_muonelectron == 1)*(iso_2 < 0.2)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*(pZetaMissVis > -40)*zPtReweightWeight"
-selection["tt"] = "35870*eventWeight*((0.9025))*(gen_match_1 == 5 && gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)*(1.0)*(trg_doubletau == 1)*(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((q_1*q_2)<0.0)*zPtReweightWeight"
+selection["em"] = "35870*eventWeight*(gen_match_1 == 3 && gen_match_2 == 4)*(pt_1 > 24.0 || pt_2 > 24.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(trg_muonelectron == 1)*(iso_2 < 0.2)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*(pZetaMissVis > -50)*zPtReweightWeight"
+selection["tt"] = "35870*eventWeight*((0.9025))*(gen_match_1 == 5 && gen_match_2 == 5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)*(1.0)*(trg_doubletau == 1)*(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((q_1*q_2)<0.0)*zPtReweightWeight"
 selection["mm"] = "35870.0*eventWeight*(gen_match_1 == 2 && gen_match_2 == 2)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(trg_singlemuon == 1)*(m_vis > 70.0)*(m_vis < 110.0)*(iso_2 < 0.15)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*zPtReweightWeight"
 
 # main categorisation
@@ -104,7 +104,7 @@ inputDYfiles = args.input_LO_DY
 
 lo_dy_file_list = glob.glob(inputDYfiles)
 
-inputDYNLOfile = args.input_NLO_DY
+inputDYNLOfile = glob.glob(args.input_NLO_DY)[0]
 
 def scale_variation_mm(argument=("1","1")):
 	mm = r.TChain()
@@ -140,6 +140,7 @@ for weight in mm_weights:
 	for result in results:
 		mm_hists[weight][result[0]] = result[1]
 		mm_yields[weight][result[0]] = result[2]
+		print "LO yield: ",weight,result[0],result[2]
 
 	nlo_mm = r.TChain()
 	nlo_mm.Add(inputDYNLOfile+"/mm_nominal/ntuple")
@@ -148,6 +149,8 @@ for weight in mm_weights:
 	nlo_mm.Project(hist_name,"m_vis",str(mm_weights[weight].replace("*zPtReweightWeight","")),"GOFF")
 	mm_hists[weight]["nlo"] = r.gDirectory.Get(hist_name)
 	mm_yields[weight]["nlo"] = mm_hists[weight]["nlo"].Integral()
+	print "NLO yield: ",weight,mm_yields[weight]["nlo"]
+	print "NLO mm weight:",mm_weights[weight].replace("*zPtReweightWeight","") 
 
 print "Scale variations for mm DONE"
 
