@@ -200,7 +200,7 @@ class SMHttDatacards(datacards.Datacards):
 			self.add_processes(
 					channel="mm",
 					categories=Categories.CategoriesDict().getCategories(["mm"])["mm"],
-					bkg_processes=["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"],
+					bkg_processes=["ZLL", "TT", "VV", "W"],
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
@@ -210,10 +210,10 @@ class SMHttDatacards(datacards.Datacards):
 			# efficiencies
 			# (hopefully) temporary fix
 			if year == "2016":
-				self.cb.cp().channel(["mm"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+				self.cb.cp().channel(["mm"]).process(["ZLL""TT", "VV", "W"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 				self.cb.cp().channel(["mm"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 			else:
-				self.cb.cp().channel(["mm"]).process(["ZTT", "ZLL", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
+				self.cb.cp().channel(["mm"]).process(["ZLL""TT", "VV", "W"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 				self.cb.cp().channel(["mm"]).signals().AddSyst(self.cb, *self.muon_efficiency_syst_args)
 			
 			if useRateParam:
@@ -280,6 +280,7 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt", "et", "tt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 				self.cb.cp().channel(["mt", "et", "tt"]).signals().AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 			
+			# ======================================================================
 			# Theory uncertainties
 			# TODO: implement shape uncertainty in systematics_run2.py
 			#self.cb.cp().channel(["mt", "et", "tt", "em"]).process(["qqH"]).AddSyst(self.cb, "CMS_scale_gg_13TeV", "shape", ch.SystMap()(1.0))
@@ -306,6 +307,8 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["qqH", "HWW_qq"]).AddSyst(self.cb, "pdf_Higgs_qq", "lnN", ch.SystMap()(1.021))
 			self.cb.cp().process(["WH"]).AddSyst(self.cb, "pdf_Higgs_VH", "lnN", ch.SystMap()(1.019))
 			self.cb.cp().process(["ZH"]).AddSyst(self.cb, "pdf_Higgs_VH", "lnN", ch.SystMap()(1.016))
+			
+			# ======================================================================
 
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
