@@ -281,9 +281,11 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt", "et", "tt"]).signals().AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 			
 			# Theory uncertainties
-			self.cb.cp().signals().AddSyst(self.cb, *self.htt_qcd_scale_syst_args)
-			self.cb.cp().signals().AddSyst(self.cb, *self.htt_pdf_scale_syst_args)
-			self.cb.cp().signals().AddSyst(self.cb, *self.htt_ueps_syst_args)
+			# TODO: implement shape uncertainty in systematics_run2.py
+			#self.cb.cp().channel(["mt", "et", "tt", "em"]).process(["qqH"]).AddSyst(self.cb, "CMS_scale_gg_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().process(["qqH"]).AddSyst(self.cb, *self.htt_qcd_scale_qqh_syst_args)
+			self.cb.cp().process(["ggH", "qqH"]).AddSyst(self.cb, *self.htt_pdf_scale_smhtt_syst_args)
+			self.cb.cp().process(["ggH", "qqH"]).AddSyst(self.cb, *self.htt_ueps_smhtt_syst_args)
 			
 			# Uncertainty on BR of HTT @ 125 GeV
 			self.cb.cp().signals().AddSyst(self.cb, "BR_htt_THU", "lnN", ch.SystMap()(1.017))

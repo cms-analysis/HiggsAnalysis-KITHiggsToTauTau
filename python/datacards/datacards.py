@@ -521,6 +521,94 @@ class Datacards(object):
 				(["13TeV"], ["WH"], 1.022)
 				(["13TeV"], ["ZH"], 1.022)
 		]
+		
+		# for 13 TeV ggH gets shape uncertainty
+		self.htt_qcd_scale_qqh_syst_args = [
+			"CMS_qqH_QCDUnc",
+			"lnN",
+			ch.SystMap("channel", "bin", "process")
+				(["em"], ["em_ZeroJet2D"], ["qqH"], 0.997)
+				(["em"], ["em_Boosted2D"], ["qqH"], 1.004)
+				(["em"], ["em_Vbf2D"], ["qqH"], 1.005)
+				
+				(["et"], ["et_ZeroJet2D"], ["qqH"], 1.003)
+				(["et"], ["et_Boosted2D"], ["qqH"], 1.004)
+				(["et"], ["et_Vbf2D"], ["qqH"], 1.005)
+				
+				(["mt"], ["mt_ZeroJet2D"], ["qqH"], 0.998)
+				(["mt"], ["mt_Boosted2D"], ["qqH"], 1.002)
+				(["mt"], ["mt_Vbf2D"], ["qqH"], 1.002)
+				
+				(["tt"], ["tt_ZeroJet2D"], ["qqH"], 0.997)
+				(["tt"], ["tt_Boosted2D"], ["qqH"], 1.003)
+				(["tt"], ["tt_Vbf2D"], ["qqH"], 1.003)
+		]
+		
+		self.htt_pdf_scale_smhtt_syst_args = [
+			"CMS_$PROCESS_PDF",
+			"lnN",
+			ch.SystMap("channel", "bin", "process")
+				(["em"], ["em_ZeroJet2D"], ["ggH"], 1.007)
+				(["em"], ["em_Boosted2D"], ["ggH"], 1.007)
+				(["em"], ["em_Vbf2D"], ["ggH"], 1.007)
+				(["em"], ["em_ZeroJet2D"], ["qqH"], 1.011)
+				(["em"], ["em_Boosted2D"], ["qqH"], 1.005)
+				(["em"], ["em_Vbf2D"], ["qqH"], 1.005)
+				
+				(["et"], ["et_ZeroJet2D"], ["ggH"], 1.007)
+				(["et"], ["et_Boosted2D"], ["ggH"], 1.007)
+				(["et"], ["et_Vbf2D"], ["ggH"], 1.007)
+				(["et"], ["et_ZeroJet2D"], ["qqH"], 1.005)
+				(["et"], ["et_Boosted2D"], ["qqH"], 1.002)
+				(["et"], ["et_Vbf2D"], ["qqH"], 1.005)
+				
+				(["mt"], ["mt_ZeroJet2D"], ["ggH"], 1.007)
+				(["mt"], ["mt_Boosted2D"], ["ggH"], 1.007)
+				(["mt"], ["mt_Vbf2D"], ["ggH"], 1.007)
+				(["mt"], ["mt_ZeroJet2D"], ["qqH"], 1.005)
+				(["mt"], ["mt_Boosted2D"], ["qqH"], 1.002)
+				(["mt"], ["mt_Vbf2D"], ["qqH"], 1.005)
+				
+				(["tt"], ["tt_ZeroJet2D"], ["ggH"], 1.009)
+				(["tt"], ["tt_Boosted2D"], ["ggH"], 1.009)
+				(["tt"], ["tt_Vbf2D"], ["ggH"], 1.009)
+				(["tt"], ["tt_ZeroJet2D"], ["qqH"], 1.008)
+				(["tt"], ["tt_Boosted2D"], ["qqH"], 1.003)
+				(["tt"], ["tt_Vbf2D"], ["qqH"], 1.005)
+		]
+		
+		self.htt_ueps_smhtt_syst_args = [
+			"CMS_$PROCESS_UEPS",
+			"lnN",
+			ch.SystMap("channel", "bin", "process")
+				(["em"], ["em_ZeroJet2D"], ["ggH"], 1.015)
+				(["em"], ["em_Boosted2D"], ["ggH"], 0.945)
+				(["em"], ["em_Vbf2D"], ["ggH"], 1.03)
+				(["em"], ["em_ZeroJet2D"], ["qqH"], 1.015)
+				(["em"], ["em_Boosted2D"], ["qqH"], 0.945)
+				(["em"], ["em_Vbf2D"], ["qqH"], 1.03)
+				
+				(["et"], ["et_ZeroJet2D"], ["ggH"], 1.015)
+				(["et"], ["et_Boosted2D"], ["ggH"], 0.945)
+				(["et"], ["et_Vbf2D"], ["ggH"], 1.03)
+				(["et"], ["et_ZeroJet2D"], ["qqH"], 1.015)
+				(["et"], ["et_Boosted2D"], ["qqH"], 0.945)
+				(["et"], ["et_Vbf2D"], ["qqH"], 1.03)
+				
+				(["mt"], ["mt_ZeroJet2D"], ["ggH"], 1.015)
+				(["mt"], ["mt_Boosted2D"], ["ggH"], 0.945)
+				(["mt"], ["mt_Vbf2D"], ["ggH"], 1.03)
+				(["mt"], ["mt_ZeroJet2D"], ["qqH"], 1.015)
+				(["mt"], ["mt_Boosted2D"], ["qqH"], 0.945)
+				(["mt"], ["mt_Vbf2D"], ["qqH"], 1.03)
+				
+				(["tt"], ["tt_ZeroJet2D"], ["ggH"], 1.015)
+				(["tt"], ["tt_Boosted2D"], ["ggH"], 0.945)
+				(["tt"], ["tt_Vbf2D"], ["ggH"], 1.03)
+				(["tt"], ["tt_ZeroJet2D"], ["qqH"], 1.015)
+				(["tt"], ["tt_Boosted2D"], ["qqH"], 0.945)
+				(["tt"], ["tt_Vbf2D"], ["qqH"], 1.03)
+		]
 
 		self.ztt_qcd_scale_syst_args = [
 			"CMS_$ANALYSIS_QCDscale_$ERA",
