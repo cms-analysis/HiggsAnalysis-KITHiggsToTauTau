@@ -50,6 +50,7 @@ ztt_weight_keys = {
 
 intervals = {}
 ztt_intervals = {}
+ttbar_intervals = {}
 ratios = {}
 
 
@@ -64,6 +65,8 @@ with open("ztt_zmm_normalization/ratios.json") as r:
 	ratios = json.load(r)
 with open("ztt_yields_comparison/intervals.json") as ivtt:
 	ztt_intervals = json.load(ivtt)
+with open("ttbar_cr_normalization/intervals.json") as ivttbar:
+	ttbar_intervals = json.load(ivttbar)	
 
 
 #latex_tables_file = open("latex_tables_file_one_DY.tex","w")
@@ -72,6 +75,7 @@ with open("ztt_yields_comparison/intervals.json") as ivtt:
 latex_tables_file = open("latex_tables_file.tex","w")
 summary_table_file = open("summary_table.tex","w")
 ztt_summary_table_file = open("ztt_summary_table.tex","w")
+ttbar_summary_table_file = open("ttbar_summary_table.tex","w")
 
 def create_variation_matrix(weight):
 	variations = ratios[weight]
@@ -156,6 +160,33 @@ def create_summary():
 	slide += '\n'
 	return slide
 
+def create_ttbar_summary():
+	slide = ""
+	slide += r'\begin{frame}{Summary on extrapolation uncertainties ($t\bar{t}$)}'+'\n'
+	slide += r'\vspace{-0.5cm}'+'\n'
+	slide += r'\begin{center}'+'\n'
+	slide += r'\begin{table}'+'\n'
+	slide += r'\resizebox{0.85\textheight}{!}{'+'\n'
+	slide += r'\begin{tabular}{c | c c c c c c}'+'\n'
+	slide += r'category & NLO $R^{t\bar{t}\rightarrow\tau\tau}_{t\bar{t}\rightarrow e\mu(CR)}$ & $\Delta (scale)$ & $\Delta (stat.)$ & \textbf{LO} $R^{t\bar{t}\rightarrow\tau\tau}_{t\bar{t}\rightarrow e\mu(CR)}$ & $\Delta^{\textbf{LO}} (stat.)$ & $\Delta^{\textbf{LO}} (\text{to NLO})$\\'+'\n'
+	slide += r'\hline'+'\n'
+	for weight in sorted(weight_keys):
+		slide += r'\rule{0pt}{2.7ex}'+'\n'
+		slide += weight_keys[weight] + r' & '
+		slide += latex_number(ttbar_intervals[weight]["nominal"]) + r' & '
+		slide += r'$^{+'+latex_percentage(ttbar_intervals[weight]["percentage_up"])+r'}_{'+latex_percentage(ttbar_intervals[weight]["percentage_down"])+r'}$ & '
+		slide += r'$\pm$'+latex_percentage(ttbar_intervals[weight]["percentage_stat_nominal"]) + r' & '
+		slide += latex_number(ttbar_intervals[weight]["lo"]) + r' & '
+		slide += r'$\pm$'+latex_percentage(ttbar_intervals[weight]["percentage_stat_lo"]) + r' & '
+		slide += latex_percentage(ttbar_intervals[weight]["percentage_lo"]) + r'\\'+'\n'
+	slide += r'\end{tabular}}'+'\n'
+	slide += r'\end{table}'+'\n'
+	slide += r'\end{center}'+'\n'
+
+	slide += r'\end{frame}'+'\n'
+	slide += '\n'
+	return slide
+
 
 def create_ztt_summary():
 	slide = ""
@@ -197,4 +228,7 @@ summary_table_file.close()
 
 ztt_summary_table_file.write(create_ztt_summary())
 ztt_summary_table_file.close()
+
+ttbar_summary_table_file.write(create_ttbar_summary())
+ttbar_summary_table_file.close()
 

@@ -8,7 +8,7 @@ std::string TopPtReweightingProducer::GetProducerId() const
 
 void TopPtReweightingProducer::Init(setting_type const& settings)
 {
-	m_isTTbar = boost::regex_search(settings.GetNickname(), boost::regex("(TT_|TTTo)", boost::regex::icase | boost::regex::extended));
+	m_isTTbar = boost::regex_search(settings.GetNickname(), boost::regex("(TT_|TTTo|TTJets)", boost::regex::icase | boost::regex::extended));
 	std::string strategy = settings.GetTopPtReweightingStrategy();
 	boost::algorithm::to_lower(strategy);
 	if (strategy == "run1") m_oldStrategy = true;
