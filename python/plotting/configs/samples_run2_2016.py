@@ -177,11 +177,18 @@ class Samples(samples.SamplesBase):
 	def zl_shape_weight(self, channel, cut_type):
 		if "smhtt2016" in cut_type:
 			if channel == "mt":
-				return "(((decayMode_2 == 0)*0.75) + ((decayMode_2 ==1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))"
+				return "(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))"
 			elif channel == "et":
 				return "(((decayMode_2 == 0)*0.98) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2) + ((decayMode_2 == 10)*1.0))"
 			else:
 				return "(1.0)"
+		else:
+			return "(1.0)"
+	
+	# decay mode reweighting (currently no default reweighting but only used as workaround for shape systematics)
+	def decay_mode_reweight(self, channel):
+		if channel in ["et", "mt"]:
+			return "(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))"
 		else:
 			return "(1.0)"
 
@@ -348,7 +355,7 @@ class Samples(samples.SamplesBase):
 					self.files_ztt(channel),
 					self.root_file_folder(channel),
 					lumi,
-					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*zPtReweightWeight",
+					Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel),
 					"ztt",
 					nick_suffix=nick_suffix
 			)
@@ -358,7 +365,7 @@ class Samples(samples.SamplesBase):
 						self.files_ewkz(channel),
 						self.root_file_folder(channel),
 						lumi,
-						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel),
 						"ztt",
 						nick_suffix=nick_suffix
 				)
