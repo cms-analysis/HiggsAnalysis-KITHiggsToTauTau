@@ -1,6 +1,6 @@
 {
-	"tauEsUp" : {
-		"TauEnergyCorrectionShift" : {
+	"tauEsOneProngUp" : {
+		"TauEnergyCorrectionOneProngShift" : {
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
@@ -11,12 +11,12 @@
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsUp"
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsOneProngUp"
 			}
 		}
 	},
-	"tauEsDown" : {
-		"TauEnergyCorrectionShift" : {
+	"tauEsOneProngDown" : {
+		"TauEnergyCorrectionOneProngShift" : {
 			"nick" : {
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
@@ -27,7 +27,71 @@
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsDown"
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsOneProngDown"
+			}
+		}
+	},
+	"tauEsOneProngPiZerosUp" : {
+		"TauEnergyCorrectionOneProngPiZerosShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
+				"Embedding2016" : 1.03,
+				"Summer16" : 1.012
+			}
+		},
+		"SvfitCacheFileFolder" : {
+			"nick" : {
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsOneProngPiZerosUp"
+			}
+		}
+	},
+	"tauEsOneProngPiZerosDown" : {
+		"TauEnergyCorrectionOneProngPiZerosShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
+				"Embedding2016" : 0.97,
+				"Summer16" : 0.988
+			}
+		},
+		"SvfitCacheFileFolder" : {
+			"nick" : {
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsOneProngPiZerosDown"
+			}
+		}
+	},
+	"tauEsThreeProngUp" : {
+		"TauEnergyCorrectionThreeProngShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
+				"Embedding2016" : 1.03,
+				"Summer16" : 1.012
+			}
+		},
+		"SvfitCacheFileFolder" : {
+			"nick" : {
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsThreeProngUp"
+			}
+		}
+	},
+	"tauEsThreeProngDown" : {
+		"TauEnergyCorrectionThreeProngShift" : {
+			"nick" : {
+				"default" : 1.0,
+				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
+				"Embedding2016" : 0.97,
+				"Summer16" : 0.988
+			}
+		},
+		"SvfitCacheFileFolder" : {
+			"nick" : {
+				"default" : "nominal",
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsThreeProngDown"
 			}
 		}
 	}
