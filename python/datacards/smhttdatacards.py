@@ -55,7 +55,11 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
 
-			# fake-rate
+			# mu->tau fake ES
+			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, "CMS_ZLShape_mt_1prong_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, "CMS_ZLShape_mt_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
+
+			# mu->tau fake rate
 			if year == "2016":
 				self.cb.cp().channel(["mt"]).process(["ZL"]).bin(["mt_ZeroJet2D", "mt_Boosted2D", "mt_Vbf2D"]).AddSyst(self.cb, "CMS_mFakeTau_1prong_13TeV", "shape", ch.SystMap()(1.0))
 				self.cb.cp().channel(["mt"]).process(["ZL"]).bin(["mt_ZeroJet2D", "mt_Boosted2D", "mt_Vbf2D"]).AddSyst(self.cb, "CMS_mFakeTau_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
@@ -108,7 +112,11 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_es_syst_args)
 			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
 
-			# fake-rate
+			# e->tau fake ES
+			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, "CMS_ZLShape_et_1prong_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, "CMS_ZLShape_et_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
+
+			# e->tau fake rate
 			if year == "2016":
 				self.cb.cp().channel(["et"]).process(["ZL"]).bin(["et_ZeroJet2D", "et_Boosted2D", "et_Vbf2D"]).AddSyst(self.cb, "CMS_eFakeTau_1prong_13TeV", "shape", ch.SystMap()(1.0))
 				self.cb.cp().channel(["et"]).process(["ZL"]).bin(["et_ZeroJet2D", "et_Boosted2D", "et_Vbf2D"]).AddSyst(self.cb, "CMS_eFakeTau_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))

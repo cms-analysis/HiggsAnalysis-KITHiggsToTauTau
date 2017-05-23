@@ -39,6 +39,10 @@ class SystematicsFactory(dict):
 		self["CMS_tauDMReco_1prong_13TeV"] = TauDMRecoOneProngSystematic
 		self["CMS_tauDMReco_1prong1pizero_13TeV"] = TauDMRecoOneProngPiZerosSystematic
 		self["CMS_tauDMReco_3prong_13TeV"] = TauDMRecoThreeProngSystematic
+		self["CMS_ZLShape_mt_1prong_13TeV"] = MuonFakeOneProngTauEnergyScaleSystematic
+		self["CMS_ZLShape_mt_1prong1pizero_13TeV"] = MuonFakeOneProngPiZerosTauEnergyScaleSystematic
+		self["CMS_ZLShape_et_1prong_13TeV"] = ElectronFakeOneProngTauEnergyScaleSystematic
+		self["CMS_ZLShape_et_1prong1pizero_13TeV"] = ElectronFakeOneProngPiZerosTauEnergyScaleSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
@@ -579,5 +583,65 @@ class TauDMRecoThreeProngSystematic(SystematicShiftBase):
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.03))")
 				elif shift < 0.0:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*0.97))")
+		
+		return plot_config
+
+
+class ElectronFakeOneProngTauEnergyScaleSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(ElectronFakeOneProngTauEnergyScaleSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "tauEleFakeEsOneProngUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "tauEleFakeEsOneProngDown")
+		
+		return plot_config
+
+
+class ElectronFakeOneProngPiZerosTauEnergyScaleSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(ElectronFakeOneProngPiZerosTauEnergyScaleSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "tauEleFakeEsOneProngPiZerosUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "tauEleFakeEsOneProngPiZerosDown")
+		
+		return plot_config
+
+
+class MuonFakeOneProngTauEnergyScaleSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(MuonFakeOneProngTauEnergyScaleSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "tauMuFakeEsOneProngUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "tauMuFakeEsOneProngDown")
+		
+		return plot_config
+
+
+class MuonFakeOneProngPiZerosTauEnergyScaleSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(MuonFakeOneProngPiZerosTauEnergyScaleSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "tauMuFakeEsOneProngPiZerosUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "tauMuFakeEsOneProngPiZerosDown")
 		
 		return plot_config
