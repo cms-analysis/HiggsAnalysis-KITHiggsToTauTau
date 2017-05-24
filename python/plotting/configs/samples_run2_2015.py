@@ -39,9 +39,6 @@ class Samples(samples.Samples):
 
 	def wj_stitchingweight(self):
 		return "(((npartons == 0 || npartons >= 5)*1.3046006677e-3) + ((npartons == 1)*2.162338159e-4) + ((npartons == 2)*1.159006627e-4) + ((npartons == 3)*5.82002641e-5) + ((npartons == 4)*6.27558901e-05))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
-	
-	def hadronic_scale_factor(self, channel):
-		return "(1.0)"
 
 	# needs to be overwritten since extentions have not been available in Fall15 nicks
 	@staticmethod

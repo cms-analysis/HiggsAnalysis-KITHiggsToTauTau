@@ -36,11 +36,30 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 		LOG(FATAL) << "TaggedJetUncertaintyShiftProducer: lowerPtCuts.size() = " << lowerPtCuts.size() << ". Current implementation requires it to be <= 1.";
 	if (upperAbsEtaCuts.size() > 1)
 		LOG(FATAL) << "TaggedJetUncertaintyShiftProducer: upperAbsEtaCuts.size() = " << upperAbsEtaCuts.size() << ". Current implementation requires it to be <= 1.";
+	
+	// some inputs needed for b-tagging
+	std::map<std::string, std::vector<float> > bTagWorkingPointsTmp = Utility::ParseMapTypes<std::string, float>(
+			Utility::ParseVectorToMap(settings.GetBTaggerWorkingPoints())
+	);
+
+	// initialize b-tag scale factor class only if shifts are to be applied
+	if (settings.GetJetEnergyCorrectionSplitUncertainty()
+		&& settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0
+		&& settings.GetUseJECShiftsForBJets())
+	{
+		m_bTagSf = BTagSF(settings.GetBTagScaleFactorFile(), settings.GetBTagEfficiencyFile());
+		m_bTagWorkingPoint = bTagWorkingPointsTmp.begin()->second.at(0);
+		if (settings.GetApplyBTagSF() && !settings.GetInputIsData())
+		{
+			m_bTagSFMethod = KappaEnumTypes::ToBTagScaleFactorMethod(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetBTagSFMethod())));
+			m_bTagSf.initBtagwp(bTagWorkingPointsTmp.begin()->first);
+		}
+	}
 
 	for (auto const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
-		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = ToJetEnergyUncertaintyShiftName(uncertainty);
+		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = HttEnumTypes::ToJetEnergyUncertaintyShiftName(uncertainty);
 		if (individualUncertainty == HttEnumTypes::JetEnergyUncertaintyShiftName::NONE)
 			continue;
 		individualUncertaintyEnums.push_back(individualUncertainty);
@@ -91,6 +110,17 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 			}
 			return jdeta;
 		});
+
+		std::string nbjetsQuantity = "nbtag_" + uncertainty;
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(nbjetsQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			int nbtag = 0;
+			if ((product.m_correctedBTaggedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			{
+				nbtag = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedBTaggedJetsBySplitUncertainty).find(individualUncertainty)->second, 20.0);
+			}
+			return nbtag;
+		});
 	}
 }
 
@@ -139,6 +169,7 @@ void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product
 
 			// create new vector with shifted jets that pass ID as in ValidJetsProducer
 			std::vector<KJet*> shiftedJets;
+			std::vector<KJet*> shiftedBTaggedJets;
 			for (std::vector<KJet*>::iterator jet = copiedJets.begin(); jet != copiedJets.end(); ++jet)
 			{
 				bool validJet = true;
@@ -176,9 +207,56 @@ void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product
 				{
 					shiftedJets.push_back(*jet);
 				}
+				if (settings.GetUseJECShiftsForBJets())
+				{
+					// determine if jet is btagged
+					bool validBJet = true;
+					KJet* tjet = static_cast<KJet*>(*jet);
+
+					float combinedSecondaryVertex = tjet->getTag(settings.GetBTaggedJetCombinedSecondaryVertexName(), event.m_jetMetadata);
+
+					if (combinedSecondaryVertex < m_bTagWorkingPoint ||
+						std::abs(tjet->p4.eta()) > settings.GetBTaggedJetAbsEtaCut()) {
+						validBJet = false;
+					}
+
+					//entry point for Scale Factor (SF) of btagged jets
+					if (settings.GetApplyBTagSF() && !settings.GetInputIsData())
+					{
+						//https://twiki.cern.ch/twiki/bin/view/CMS/BTagSFMethods#2a_Jet_by_jet_updating_of_the_b
+						if (m_bTagSFMethod == KappaEnumTypes::BTagScaleFactorMethod::PROMOTIONDEMOTION) {
+						
+							int jetflavor = tjet->flavour;
+							unsigned int btagSys = BTagSF::kNo;
+							unsigned int bmistagSys = BTagSF::kNo;
+
+							bool taggedBefore = validBJet;
+							validBJet = m_bTagSf.isbtagged(
+									tjet->p4.pt(),
+									tjet->p4.eta(),
+									combinedSecondaryVertex,
+									jetflavor,
+									btagSys,
+									bmistagSys,
+									settings.GetYear(),
+									m_bTagWorkingPoint
+							);
+							
+							if (taggedBefore != validBJet)
+								LOG_N_TIMES(20, DEBUG) << "Promoted/demoted : " << validBJet;
+						}
+						
+						else if (m_bTagSFMethod == KappaEnumTypes::BTagScaleFactorMethod::OTHER) {
+							//todo
+						}
+					}
+
+					if (validBJet) shiftedBTaggedJets.push_back(tjet);
+				}
 			}
 
 			(product.m_correctedJetsBySplitUncertainty)[uncertainty] = shiftedJets;
+			(product.m_correctedBTaggedJetsBySplitUncertainty)[uncertainty] = shiftedBTaggedJets;
 		}
 	}
 }

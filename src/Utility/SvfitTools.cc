@@ -378,7 +378,7 @@ bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
 	return (! (*this == rhs));
 }
 
-SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM, TFile* visPtResolutionFile) const
+SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM, TFile* &visPtResolutionFile) const
 {
 	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(GetMeasuredTauLeptons(svfitEventKey),
 	                                                                             metMomentum->x(),
@@ -389,8 +389,7 @@ SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey 
 	svfitStandaloneAlgorithm.setMCQuantitiesAdapter(new MCTauTauQuantitiesAdapter());
 	
 	svfitStandaloneAlgorithm.addLogM(addLogM);
-	
-	if (! visPtResolutionFile)
+	if (visPtResolutionFile == 0)
 	{
 		TDirectory *savedir(gDirectory);
 		TFile *savefile(gFile);
@@ -727,6 +726,7 @@ SvfitTools::~SvfitTools()
 {
 	if (m_visPtResolutionFile)
 	{
+		std::cout << "Closing File" << std::endl;
 		m_visPtResolutionFile->Close();
 	}
 	

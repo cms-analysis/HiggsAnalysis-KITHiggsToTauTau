@@ -1,68 +1,117 @@
 {
 	"nominal" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
-		],
-		"TauEnergyCorrectionShift" : 1.0,
-        "TauEnergyCorrectionOneProng" : 1.024,
-        "TauEnergyCorrectionOneProngPiZeros" : 1.076
+			0.0
+		]
 	},
 	"tauEsUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
-				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 1.03
+				"Embedding2016" : 1.016,
+				"default" : 1.0
 			}
 		}
-        "TauEnergyCorrectionOneProng" : 1.024,
-        "TauEnergyCorrectionOneProngPiZeros" : 1.076
 	},
 	"tauEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
-				"default" : 1.0,
-				"HToTauTau|DY.?JetsToLL" : 0.97
+				"Embedding2016" : 0.984,
+				"default" : 1.0
 			}
-		},
-        "TauEnergyCorrectionOneProng" : 1.024,
-        "TauEnergyCorrectionOneProngPiZeros" : 1.076
+		}
 	},
-	"eleTauEs1Pron0PiZeroUp" : {
+	"muonEsUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
-		"TauEnergyCorrectionShift" : 1.0,
-        "TauEnergyCorrectionOneProng" : 1.029,
-        "TauEnergyCorrectionOneProngPiZeros" : 1.076
+		"MuonEnergyCorrectionShift" : {
+			"nick" : {
+				"Embedding2016" : 1.01,
+				"default" : 1.0
+			}
+		}
 	},
-	"eleTauEs1Pron0PiZeroDown" : {
+	"muonEsDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
-		"TauEnergyCorrectionShift" : 1.0,
-        "TauEnergyCorrectionOneProng" : 1.019,
-        "TauEnergyCorrectionOneProngPiZeros" : 1.076
+		"MuonEnergyCorrectionShift" : {
+			"nick" : {
+				"Embedding2016" : 0.99,
+				"default" : 1.0
+			}
+		}
 	},
-	"eleTauEs1Pron1PiZeroUp" : {
+	"tauEsOneProngUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
-		"TauEnergyCorrectionShift" : 1.0,
-        "TauEnergyCorrectionOneProng" : 1.024,
-        "TauEnergyCorrectionOneProngPiZeros" : 1.086
+		"TauEnergyCorrectionOneProng" : {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 1.007
+			}
+		}
 	},
-	"eleTauEs1Pron1PiZeroDown" : {
+	"tauEsOneProngDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : [
-		    0.0
+			0.0
 		],
-		"TauEnergyCorrectionShift" : 1.0,
-        "TauEnergyCorrectionOneProng" : 1.024,
-        "TauEnergyCorrectionOneProngPiZeros" : 1.066
+		"TauEnergyCorrectionOneProng" : {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 0.983
+			}
+		}
 	},
+	"tauEsOneProngOnePiZeroUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionOneProngPiZeros" : {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 1.023
+			}
+		}
+	},
+	"tauEsOneProngOnePiZeroDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionOneProngPiZeros" : {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 0.999
+			}
+		}
+	},
+	"tauEsThreeProngUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionThreeProng": {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 1.018
+			}
+		}
+	},
+	"tauEsThreeProngDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionThreeProng": {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 0.994
+			}
+		}
+	}
 }

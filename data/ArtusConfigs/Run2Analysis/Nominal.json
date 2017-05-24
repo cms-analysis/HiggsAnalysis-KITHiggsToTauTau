@@ -1,0 +1,8 @@
+{
+	"nominal" : {
+		"JetEnergyCorrectionUncertaintyShift" : 0.0,
+		"MetUncertaintyShift" : false,
+		"MetUncertaintyType" : "",
+		"SvfitCacheFileFolder" : "nominal"
+	}
+}

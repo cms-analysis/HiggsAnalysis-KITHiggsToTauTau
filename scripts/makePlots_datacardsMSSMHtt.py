@@ -18,14 +18,54 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 
 samples_dict = {
-		'et' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']), ("toppt",["ttj",'ttt','ttjj',"wj","qcd"]), ("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd"]), ("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])],
-		'mt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']), ("toppt",["ttj",'ttt','ttjj',"wj","qcd"]), ("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]), ("zpt",["ztt","zll","zj","zl","wj","qcd"]), ("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])],
+		'et' : [
+			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]),
+			("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("zpt",["ztt","zll","zj","zl","wj","qcd"]),
+			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+		],
+		'mt' : [
+			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]),
+			("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("zpt",["ztt","zll","zj","zl","wj","qcd"]),
+			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+		],
 		# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 		# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
 		# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vvt','vvj','vv','wj','qcd'])],
 		# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vvt','vvj','vv','wj','qcd'])],
-		'tt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])]
-		# 'em' : [('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]),("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll"])],
+		'tt' : [
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
+		],
+		'em' : [
+			("toppt",["ttj"]),("taues",["ztt","ggh","bbh"]),
+			('taupt',['ztt',"ggh","bbh"]),
+			("zpt",["ztt","zll"]),
+			('btag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh'])
+		],
+		'mm' : [
+			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]),
+			("taues",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("taupt",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
+			("zpt",["ztt","zll","zj","zl","wj","qcd"]),
+			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('btag',['ztt','zl','zj','ttj','vv','wj','qcd']),
+			('mistag',['ztt','zl','zj','ttj','vv','wj','qcd']),
+			('nominal',['ztt','zl','zj','ttj','vv','wj','qcd'])
+		],
+
 		# 'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll", "zj", "zl"])]
 	}
 shapes = {
@@ -35,6 +75,11 @@ shapes = {
 	"toppt" : "CMS_htt_ttbarShape_13TeV",
 	"taupt" : "CMS_eff_t_mssmHigh_{CHANNEL}_13TeV",
 	"taues" : "CMS_scale_t_{CHANNEL}_13TeV",
+	"taues1prong0pi" : "CMS_scale_t_1prong0pi0_13TeV",
+	"taues1prong1pi" : "CMS_scale_t_1prong1pi0_13TeV",
+	"taues3prong0pi" : "CMS_scale_t_3prong0pi0_13TeV",
+	"etaues1prong0pi" : "CMS_scale_t_efake_1prong0pi0_13TeV",
+	"etaues1prong1pi" : "CMS_scale_t_efake_1prong1pi0_13TeV",
 	"zpt" : "CMS_htt_dyShape_13TeV",
 	"wfake" : "CMS_htt_wFakeShape_13TeV",
 	"ff_qcd_syst" : "CMS_htt_jetFakeTau_qcd_syst_Shape_13TeV",
@@ -62,6 +107,11 @@ shapes_weight_dict = {
 		"zpt" : ("1.0/zPtReweightWeight","zPtReweightWeight"),
 		"taupt" : ("(1-0.0002*had_gen_match_pT_1)*(1-0.0002*had_gen_match_pT_2)", "(1+0.0002*had_gen_match_pT_1)*(1+0.0002*had_gen_match_pT_2)"),
 		"taues" : ("1.0", "1.0"),
+		"taues1prong0pi" : ("1.0", "1.0"),
+		"taues1prong1pi" : ("1.0", "1.0"),
+		"taues3prong0pi" : ("1.0", "1.0"),
+		"etaues1prong0pi" : ("1.0", "1.0"),
+		"etaues1prong1pi" : ("1.0", "1.0"),
 		"wfake" : ("((gen_match_1 != 6) + (gen_match_1 == 6)*(1-0.002*pt_1))*((gen_match_2 != 6) + (gen_match_2 == 6)*(1-0.002*pt_2))", "((gen_match_1 != 6) + (gen_match_1 == 6)*(1+0.002*pt_1))*((gen_match_2 != 6) + (gen_match_2 == 6)*(1+0.002*pt_2))"),
 		"ff_qcd_syst" : ("jetToTauFakeWeight_qcd_syst_down/jetToTauFakeWeight_comb", "jetToTauFakeWeight_qcd_syst_up/jetToTauFakeWeight_comb"),
 		"ff_qcd_dm0_njet0_stat" : ("jetToTauFakeWeight_qcd_dm0_njet0_stat_down/jetToTauFakeWeight_comb", "jetToTauFakeWeight_qcd_dm0_njet0_stat_up/jetToTauFakeWeight_comb"),
@@ -144,7 +194,7 @@ if __name__ == "__main__":
 	parser.add_argument("-e", "--era", default="",
 	                    help="Era for which the datacards will be build. [Default: %(default)s]")
 	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "individual"],
-			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
+	                    help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
 	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
 	parser.add_argument("--workingpoint", default="",
@@ -161,6 +211,8 @@ if __name__ == "__main__":
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--controlregions", action="store_true", default=False,
 	                    help="Also create histograms for control regions. [Default: %(default)s]")
+	parser.add_argument("--SMHiggs", action="store_true", default=False,
+	                    help="Also create histograms for SM Higgs. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
@@ -189,8 +241,12 @@ if __name__ == "__main__":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 	
 	if args.fakefactor_method is not None:
-		samples_dict['et'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
-		samples_dict['mt'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
+		# samples_dict['et'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
+		# samples_dict['mt'] = [('nominal',['ztt','zl','ttt','vvt','ff','ggh','bbh']), ("toppt",['ttt']), ("taues",["ztt","ttt", "vvt","ggh","bbh"]), ("taupt",["ztt","ttt", "vvt","ggh","bbh"]), ("zpt",["ztt","zl"])]
+		for channel in ['mt','et']:
+			for shape_variation in samples_dict[channel]:
+				if shape_variation[0] in ['btag','mistag','nominal']:
+					shape_variation[1].append('ff')
 		for syst in ["ff_qcd_syst", "ff_qcd_dm0_njet0_stat", "ff_qcd_dm0_njet1_stat", "ff_qcd_dm1_njet0_stat", "ff_qcd_dm1_njet1_stat", "ff_w_syst", "ff_w_dm0_njet0_stat", "ff_w_dm0_njet1_stat", "ff_w_dm1_njet0_stat", "ff_w_dm1_njet1_stat", "ff_tt_syst", "ff_tt_dm0_njet0_stat", "ff_tt_dm0_njet1_stat", "ff_tt_dm1_njet0_stat", "ff_tt_dm1_njet1_stat"]:
 			samples_dict['et'].append((syst,["ff"]))
 			samples_dict['mt'].append((syst,["ff"]))
@@ -229,7 +285,7 @@ if __name__ == "__main__":
 	for mass in looplist:
 		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 			tmp_output_files = []
-			output_file = os.path.join(args.output_dir, "htt_%s%s%s.inputs-mssm-13TeV%s.root"%(channel,prefix,mass,args.postfix))
+			output_file = os.path.join(args.output_dir, "htt_%s%s%s.inputs-mssm-13TeV%s.root"%(channel.replace("mm","zmm"),prefix,mass,args.postfix))
 			output_files.append(output_file)
 			
 			for categorytemplate in categories:
@@ -292,8 +348,8 @@ if __name__ == "__main__":
 								exclude_cuts=args.exclude_cuts,
 								higgs_masses=args.higgs_masses,
 								mssm=True,
-								estimationMethod="classic" if args.fakefactor_method is not None else args.background_method,
-								controlregions=False if args.fakefactor_method is not None else args.controlregions,
+								estimationMethod=args.background_method,
+								controlregions=args.controlregions,
 								fakefactor_method=args.fakefactor_method,
 								cut_type=cut_type,
 								no_ewk_samples = True,
@@ -303,43 +359,43 @@ if __name__ == "__main__":
 						# systematics_settings = systematics_factory.get(shape_systematic)(config)
 						# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
-						if args.fakefactor_method is None:
-							if category in ["mt_nobtag_tight", "mt_nobtag_loosemt"]:
-								config["qcd_extrapolation_factors_ss_os"] = 1.12
-							elif category == "mt_nobtag_looseiso":
-								config["qcd_extrapolation_factors_ss_os"] = 1.20
-							elif category == "mt_nobtag":
-								config["qcd_extrapolation_factors_ss_os"] = 1.20
-							elif category in ["mt_btag_tight", "mt_btag_loosemt"]:
-								config["qcd_extrapolation_factors_ss_os"] = 1.08
-							elif category == "mt_btag_looseiso":
-								config["qcd_extrapolation_factors_ss_os"] = 0.95
-							elif category == "mt_btag":
-								config["qcd_extrapolation_factors_ss_os"] = 0.95
-							elif category in ["mt_inclusive_tight", "mt_inclusive_loosemt"]:
-								config["qcd_extrapolation_factors_ss_os"] = 1.10
-							elif category == "mt_inclusive_looseiso":
-								config["qcd_extrapolation_factors_ss_os"] = 1.19
-							elif category == "mt_inclusive":
-								config["qcd_extrapolation_factors_ss_os"] = 1.19
-							elif category in ["et_nobtag_tight", "et_nobtag_loosemt"]:
-								config["qcd_extrapolation_factors_ss_os"] = 1.02
-							elif category == "et_nobtag_looseiso":
-								config["qcd_extrapolation_factors_ss_os"] = 0.97
-							elif category == "et_nobtag":
-								config["qcd_extrapolation_factors_ss_os"] = 0.97
-							elif category in ["et_btag_tight", "et_btag_loosemt"]:
-								config["qcd_extrapolation_factors_ss_os"] = 1.21
-							elif category == "et_btag_looseiso":
-								config["qcd_extrapolation_factors_ss_os"] = 0.84
-							elif category == "et_btag":
-								config["qcd_extrapolation_factors_ss_os"] = 0.84
-							elif category in ["et_inclusive_tight", "et_inclusive_loosemt"]:
-								config["qcd_extrapolation_factors_ss_os"] = 1.04
-							elif category == "et_inclusive_looseiso":
-								config["qcd_extrapolation_factors_ss_os"] = 0.99
-							elif category == "et_inclusive":
-								config["qcd_extrapolation_factors_ss_os"] = 0.99
+						# set qcd os-ss extrapolation factors
+						if category in ["mt_nobtag_tight", "mt_nobtag_loosemt"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.12
+						elif category == "mt_nobtag_looseiso":
+							config["qcd_extrapolation_factors_ss_os"] = 1.20
+						elif category == "mt_nobtag":
+							config["qcd_extrapolation_factors_ss_os"] = 1.20
+						elif category in ["mt_btag_tight", "mt_btag_loosemt"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.08
+						elif category == "mt_btag_looseiso":
+							config["qcd_extrapolation_factors_ss_os"] = 0.95
+						elif category == "mt_btag":
+							config["qcd_extrapolation_factors_ss_os"] = 0.95
+						elif category in ["mt_inclusive_tight", "mt_inclusive_loosemt"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.10
+						elif category == "mt_inclusive_looseiso":
+							config["qcd_extrapolation_factors_ss_os"] = 1.19
+						elif category == "mt_inclusive":
+							config["qcd_extrapolation_factors_ss_os"] = 1.19
+						elif category in ["et_nobtag_tight", "et_nobtag_loosemt"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.02
+						elif category == "et_nobtag_looseiso":
+							config["qcd_extrapolation_factors_ss_os"] = 0.97
+						elif category == "et_nobtag":
+							config["qcd_extrapolation_factors_ss_os"] = 0.97
+						elif category in ["et_btag_tight", "et_btag_loosemt"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.21
+						elif category == "et_btag_looseiso":
+							config["qcd_extrapolation_factors_ss_os"] = 0.84
+						elif category == "et_btag":
+							config["qcd_extrapolation_factors_ss_os"] = 0.84
+						elif category in ["et_inclusive_tight", "et_inclusive_loosemt"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.04
+						elif category == "et_inclusive_looseiso":
+							config["qcd_extrapolation_factors_ss_os"] = 0.99
+						elif category == "et_inclusive":
+							config["qcd_extrapolation_factors_ss_os"] = 0.99
 
 						# modify cut strings for shape uncertainties. Do not apply weights to data 
 						for index,value in enumerate(config["weights"]):
@@ -354,15 +410,15 @@ if __name__ == "__main__":
 							for index,value in enumerate(config["weights"]):
 								if "ff_norm" in config["nicks"][index]:
 									if config["nicks"][index] == "noplot_ff_norm":
-										config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
+										config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
 									else:
-										config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
+										config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
 								if config["nicks"][index] == "ff" or "ff_control" in config["nicks"][index]:
 									if config["nicks"][index] == "ff":
-										config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
+										config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99"
 									else:
-										config["weights"][index] += "*(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
+										config["weights"][index] += "*(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1))
 									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1))
@@ -406,8 +462,49 @@ if __name__ == "__main__":
 							for index, folder in enumerate(config["folders"]):
 								if any([(proc in config["nicks"][index]) for proc in ["ggh","bbh","ztt"]]):
 									# hack to only substitute the folder for those where it is needed
-									config["folders"][index] = config["folders"][index].replace("jecUncNom_tauEsNom", replacestring)
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						if shape_systematic == "btag":
+							replacestring = "btagEffUp" if shift_up else "btagEffDown"
+							for index, folder in enumerate(config["folders"]):
+								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
 
+						if shape_systematic == "mistag":
+							replacestring = "btagMistagUp" if shift_up else "btagMistagDown"
+							for index, folder in enumerate(config["folders"]):
+								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+
+						if shape_systematic == "jec":
+							replacestring = "jecUncUp" if shift_up else "jecUncDown"
+							for index, folder in enumerate(config["folders"]):
+								if not "Run201" in config["files"][index]:
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						# taues
+						if shape_systematic == "taues1prong0pi":
+							replacestring = "tauEsOneProngZeroPiZeroUp" if shift_up else "tauEsOneProngZeroPiZeroDown"
+							for index, folder in enumerate(config["folders"]):
+								if not "Run201" in config["files"][index]:
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						if shape_systematic == "taues1prong1pi":
+							replacestring = "tauEsOneProngOnePiZeroUp" if shift_up else "tauEsOneProngOnePiZeroDown"
+							for index, folder in enumerate(config["folders"]):
+								if not "Run201" in config["files"][index]:
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						if shape_systematic == "taues3prong0pi":
+							replacestring = "tauEsThreeProngUp" if shift_up else "tauEsThreeProngDown"
+							for index, folder in enumerate(config["folders"]):
+								if not "Run201" in config["files"][index]:
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+
+						if shape_systematic == "etaues1prong0pi":
+							replacestring = "eleTauEs1Prong0PiZeroUp" if shift_up else "eleTauEs1Prong0PiZeroDown"
+							for index, folder in enumerate(config["folders"]):
+								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						
+						if shape_systematic == "etaues1prong1pi":
+							replacestring = "eleTauEs1Prong1PiZeroUp" if shift_up else "eleTauEs1Prong1PiZeroDown"
+							for index, folder in enumerate(config["folders"]):
+								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						
 						config["x_expressions"] = [args.quantity.format(mass=mass)] if args.mass_dependent else [args.quantity]
 						
 						binnings_key = "binningHttMSSM13TeV_"+category+"_"+(args.quantity.format(mass=mass) if args.mass_dependent else args.quantity)
@@ -421,14 +518,14 @@ if __name__ == "__main__":
 						histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 						config["labels"] = [histogram_name_template.replace("$", "").format(
 								PROCESS=sample2process(re.sub("_(os|ss)_(low|high)mt","",sample)),
-								BIN = getcategory(category,sample),
+								BIN = getcategory(category,sample).replace("mm_","zmm_"),
 								SYSTEMATIC=systematic
 						) for sample in config["labels"]]
 						
 						tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 								ANALYSIS="htt",
-								CHANNEL=channel,
-								BIN=category,
+								CHANNEL="zmm" if channel == "mm" else channel,
+								BIN=category.replace("mm","zmm"),
 								SYSTEMATIC=systematic,
 								ERA="13TeV",
 								MASS=prefix+mass
@@ -446,6 +543,103 @@ if __name__ == "__main__":
 							config["wjets_from_mc"] = [True,True]
 				
 						plot_configs.append(config)
+						if args.SMHiggs:
+							log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+									samples="\", \"".join(list_of_samples),
+									channel=channel,
+									category=category,
+									systematic=systematic
+							))
+							# modify weight for toppt, taupt
+							additional_weight = shapes_weight_dict[shape_systematic][1] if shift_up else shapes_weight_dict[shape_systematic][0]
+							# samples will be normalized later on
+							additional_weight += "/crossSectionPerEventWeight"
+		
+							# prepare plotting configs for retrieving the input histograms
+							config = sample_settings.get_config(
+									samples=[getattr(samples.Samples, sample) for sample in ["ggh","qqh","wminush","wplush","zh"]],
+									channel=channel,
+									category="catHttMSSM13TeV_"+category,
+									weight=args.weight+"*"+additional_weight,
+									lumi = args.lumi * 1000,
+									exclude_cuts=args.exclude_cuts,
+									higgs_masses=['125'],
+									mssm=False,
+									estimationMethod=args.background_method,
+									controlregions=args.controlregions,
+									fakefactor_method=args.fakefactor_method,
+									cut_type=cut_type,
+									no_ewk_samples = True,
+									no_ewkz_as_dy = True
+							)
+							
+							if args.workingpoint:
+								for index, folder in enumerate(config["weights"]):
+									config["weights"][index] = config["weights"][index].replace("nbtag","n"+args.workingpoint+"btag")
+							# modify folder for taues
+							if shape_systematic == "taues":
+								replacestring = "jecUncNom_tauEsUp" if shift_up else "jecUncNom_tauEsDown"
+								for index, folder in enumerate(config["folders"]):
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+
+							if shape_systematic == "jec":
+								replacestring = "jecUncUp" if shift_up else "jecUncDown"
+								for index, folder in enumerate(config["folders"]):
+									if not "Run201" in config["files"][index]:
+										config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+							# taues
+							if shape_systematic == "taues1prong0pi":
+								replacestring = "tauEsOneProngZeroPiZeroUp" if shift_up else "tauEsOneProngZeroPiZeroDown"
+								for index, folder in enumerate(config["folders"]):
+									if not "Run201" in config["files"][index]:
+										config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+							if shape_systematic == "taues1prong1pi":
+								replacestring = "tauEsOneProngOnePiZeroUp" if shift_up else "tauEsOneProngOnePiZeroDown"
+								for index, folder in enumerate(config["folders"]):
+									if not "Run201" in config["files"][index]:
+										config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+							if shape_systematic == "taues3prong0pi":
+								replacestring = "tauEsThreeProngUp" if shift_up else "tauEsThreeProngDown"
+								for index, folder in enumerate(config["folders"]):
+									if not "Run201" in config["files"][index]:
+										config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+							
+							config["x_expressions"] = [args.quantity.format(mass=mass)] if args.mass_dependent else [args.quantity]
+							
+							binnings_key = "binningHttMSSM13TeV_"+category+"_"+(args.quantity.format(mass=mass) if args.mass_dependent else args.quantity)
+							if binnings_key in binnings_settings.binnings_dict:
+								config["x_bins"] = [binnings_key]
+							else:
+								config["x_bins"] = ["35,0.0,350.0"]
+							
+							config["directories"] = [args.input_dir]
+							
+							histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
+							config["labels"] = [histogram_name_template.replace("$", "").format(
+									PROCESS=sample2process(sample).replace("H","H_SM"),
+									BIN = getcategory(category,sample),
+									SYSTEMATIC=systematic
+							) for sample in config["labels"]]
+							
+							tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
+									ANALYSIS="htt",
+									CHANNEL="zmm" if channel == "mm" else channel,
+									BIN=category.replace("mm","zmm"),
+									SYSTEMATIC=systematic,
+									ERA="13TeV",
+									MASS=prefix+mass
+							))
+							tmp_output_files.append(tmp_output_file)
+							config["output_dir"] = os.path.dirname(tmp_output_file)
+							config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
+						
+							config["plot_modules"] = ["ExportRoot"]
+							config["file_mode"] = "UPDATE"
+					
+							if "legend_markers" in config:
+								config.pop("legend_markers")
+					
+							plot_configs.append(config)
 				
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
 					DST=output_file,

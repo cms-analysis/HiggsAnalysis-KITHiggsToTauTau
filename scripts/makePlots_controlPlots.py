@@ -106,7 +106,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "ff",
+	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
 	                             "ggh", "gghsm", "gghmm", "gghps", "qqh", "bbh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
@@ -220,6 +220,8 @@ if __name__ == "__main__":
 	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("--emb", default=False, action="store_true",
 	                    help="Use embedded samples. [Default: %(default)s]")
+	parser.add_argument("--ttbar-retuned", default=False, action="store_true",
+	                    help="Use retuned ttbar samples. [Default: %(default)s]")
 	parser.add_argument("--embedded-weights", default=['1.0','1.0','1.0','1.0'], nargs='*',
 	                    help="Custom Embedding weights for mt, et, em, tt (in this order). [Default: %(default)s]")
 	parser.add_argument("--no-ewk-samples", default=False, action="store_true",
@@ -255,13 +257,13 @@ if __name__ == "__main__":
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	
-	if args.emb:
-		if args.run1:
-			log.critical("Embedding --emb only valid for run2. Remove --emb or select run2 samples.")
+	if args.run1 and (args.emb or args.ttbar_retuned):
+			log.critical("Embedding --emb and --ttbar-retuned only valid for run2. Remove --emb and --tbar-retuned or select run2 samples.")
 			sys.exit(1)
-		sample_settings= samples.Samples(embedding=True,embedding_weight=args.embedded_weights)
-	else: 
-		sample_settings= samples.Samples()
+	elif args.run1:
+		sample_settings = samples.Samples()
+	else:
+		sample_settings = samples.Samples(embedding=args.emb,embedding_weight=args.embedded_weights,ttbar_retuned=args.ttbar_retuned)
 	if args.mssm:
 		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "bbh"]]
 		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "bbh"]]
@@ -279,7 +281,6 @@ if __name__ == "__main__":
 			#else:
 				#sig_samples.append(sample+"%s%s"%(mass, scale_str))
 			sig_samples.append(sample+"%s%s"%(mass, scale_str))
-
 
 	log.debug("used bkg + signal nicks")
 	log.debug(" ".join(bkg_samples+sig_samples))

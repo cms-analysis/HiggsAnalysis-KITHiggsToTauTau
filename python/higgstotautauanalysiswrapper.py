@@ -41,6 +41,12 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 					pipelines_to_remove.append(pipeline2)
 					new_name = tools.find_common_string(pipeline_renamings.get(pipeline1, pipeline1),
 					                                    pipeline_renamings.get(pipeline2, pipeline2))
+					# Needed for systematic shifts that are only applied to certain samples.
+					# In that case we do not want an extra pipeline with the same configuration
+					# as the nominal one.
+					if "Down" not in new_name or "Up" not in new_name:
+						new_name = new_name.replace(new_name.split("_")[-1], "")
+					# Add "nominal" to pipelines without systematic shifts
 					if new_name.endswith("_"):
 						new_name += "nominal"
 					elif "_" not in new_name:

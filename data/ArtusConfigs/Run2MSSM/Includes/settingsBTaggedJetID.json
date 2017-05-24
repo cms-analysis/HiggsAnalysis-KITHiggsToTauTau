@@ -10,7 +10,12 @@
 		"loose:0.5426"
 	],
 	"BTaggedJetAbsEtaCut" : 2.4,
-	"ApplyBTagSF" : true,
+	"ApplyBTagSF" : {
+		"nick": {
+			"default" : true,
+			"Embedding201" : false
+		}
+	},
 	"BTagSFMethod" : "PromotionDemotion",
 	"BTagShift" : 0,
 	"BMistagShift" : 0
