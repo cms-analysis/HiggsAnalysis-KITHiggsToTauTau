@@ -43,6 +43,7 @@ class SystematicsFactory(dict):
 		self["CMS_ZLShape_mt_1prong1pizero_13TeV"] = MuonFakeOneProngPiZerosTauEnergyScaleSystematic
 		self["CMS_ZLShape_et_1prong_13TeV"] = ElectronFakeOneProngTauEnergyScaleSystematic
 		self["CMS_ZLShape_et_1prong1pizero_13TeV"] = ElectronFakeOneProngPiZerosTauEnergyScaleSystematic
+		self["CMS_scale_gg_13TeV"] = GGHRenormalizationScaleSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
@@ -67,6 +68,41 @@ class SystematicsFactory(dict):
 		
 		for channel in ["et"]:
 			self["CMS_scale_massRes_"+channel+"_13TeV"] = MassResSystematic
+		
+		jecUncertNames = [
+			"AbsoluteFlavMap",
+			"AbsoluteMPFBias",
+			"AbsoluteScale",
+			"AbsoluteStat",
+			"FlavorQCD",
+			"Fragmentation",
+			"PileUpDataMC",
+			"PileUpPtBB",
+			"PileUpPtEC1",
+			"PileUpPtEC2",
+			"PileUpPtHF",
+			"PileUpPtRef",
+			"RelativeBal",
+			"RelativeFSR",
+			"RelativeJEREC1",
+			"RelativeJEREC2",
+			"RelativeJERHF",
+			"RelativePtBB",
+			"RelativePtEC1",
+			"RelativePtEC2",
+			"RelativePtHF",
+			"RelativeStatEC",
+			"RelativeStatFSR",
+			"RelativeStatHF",
+			"SinglePionECAL",
+			"SinglePionHCAL",
+			"TimePtEta",
+			"Total",
+			"Closure"
+		]
+		
+		for jecUncert in jecUncertNames:
+			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic
 
 
 class SystematicShiftBase(object):
@@ -88,6 +124,56 @@ class SystematicShiftBase(object):
 		return plot_config
 
 
+class GGHRenormalizationScaleSystematic(SystematicShiftBase):
+	
+	def __init__(self, plot_config, category):
+		super(GGHRenormalizationScaleSystematic, self).__init__(plot_config)
+		self.plot_config = plot_config
+		self.channel = category.split("_")[0]
+		self.category = category.split("_")[1]
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(GGHRenormalizationScaleSystematic, self).get_config(shift=shift)
+		
+		w = "(1.0)"
+		if self.category == "ZeroJet2D":
+			if self.channel == "mt":
+				w = "(0.929+0.0001702*pt_2)"
+			elif self.channel == "et":
+				w = "(0.973+0.0003405*pt_2)"
+			elif self.channel == "em":
+				w = "(0.942-0.0000170*pt_1)"
+			elif self.channel == "tt":
+				w = "(0.814+0.0027094*pt_1)"
+		elif self.category == "Boosted2D":
+			if self.channel == "mt":
+				w = "(0.919+0.0010055*H_pt)"
+			elif self.channel == "et":
+				w = "(0.986-0.0000278*H_pt)"
+			elif self.channel == "em":
+				w = "(0.936+0.0008871*H_pt)"
+			elif self.channel == "tt":
+				w = "(0.973+0.0008596*H_pt)"
+		elif self.category == "Vbf2D":
+			if self.channel == "mt":
+				w = "(1.026+0.000066*mjj)"
+			elif self.channel == "et":
+				w = "(0.971+0.0000327*mjj)"
+			elif self.channel == "em":
+				w = "(1.032+0.000102*mjj)"
+			elif self.channel == "tt":
+				w = "(1.094+0.0000545*mjj)"
+	
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["weights"][index] = weight+"*"+w
+				elif shift < 0.0:
+					plot_config["weights"][index] = weight+"*(2-"+w+")"
+		
+		return plot_config
+
+
 class Nominal(SystematicShiftBase):
 	pass
 
@@ -103,6 +189,31 @@ class JecUncSystematic(SystematicShiftBase):
 					plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
 				elif shift < 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
+		
+		return plot_config
+
+
+class JecUncSplitSystematic(SystematicShiftBase):
+	
+	def __init__(self, plot_config, jecUncertainty):
+		super(JecUncSplitSystematic, self).__init__(plot_config)
+		self.plot_config = plot_config
+		self.jecUncertainty = jecUncertainty
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(JecUncSplitSystematic, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
+				elif shift < 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0 or shift < 0.0:
+					plot_config["weights"][index] = weight.replace("njetspt30", "njetspt30_"+self.jecUncertainty).replace("mjj", "mjj_"+self.jecUncertainty).replace("jdeta", "jdeta_"+self.jecUncertainty)
 		
 		return plot_config
 
