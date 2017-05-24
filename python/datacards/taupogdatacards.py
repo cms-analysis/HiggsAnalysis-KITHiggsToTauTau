@@ -15,6 +15,9 @@ class TauEsDatacards(datacards.Datacards):
 		
 		if mapping_category2binid is not None:
 			self.configs._mapping_category2binid.update(mapping_category2binid)
+
+		# some systematics are only applied to 1-prongs and 1-prong+Pi0s
+		decaymodesNoThreeProng = [decaymode for decaymode in decaymodes if decaymode != "ThreeProng"]
 		
 		if cb is None:
 			# ======================================================================
@@ -37,15 +40,16 @@ class TauEsDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
 				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 
-			# mu->tau fake ES
-			self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_es_syst_args)
+			# mu->tau fake ES (only for 1-prongs and 1-prong+Pi0s)
+			categoriesForMuFakeTauES = ["mt_"+quantity+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for decaymode in decaymodesNoThreeProng for weight_bin in weight_bins]
+			self.cb.cp().channel(["mt"]).process(["ZL"]).bin(categoriesForMuFakeTauES).AddSyst(self.cb, *self.muFakeTau_es_syst_args)
 
 			# fake-rate
 			if year == "2016":
-				self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau2016_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZL"]).bin(categoriesForMuFakeTauES).AddSyst(self.cb, *self.muFakeTau2016_syst_args)
 			else:
-				self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
-				self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *self.muFakeTau_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZL"]).bin(categoriesForMuFakeTauES).AddSyst(self.cb, *self.eFakeTau_vloose_syst_args)
+				self.cb.cp().channel(["mt"]).process(["ZL"]).bin(categoriesForMuFakeTauES).AddSyst(self.cb, *self.muFakeTau_syst_args)
 
 			# ======================================================================
 			# ET channel
@@ -67,14 +71,15 @@ class TauEsDatacards(datacards.Datacards):
 				self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
 				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 			
-			# e->tau fake ES
-			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eleFakeTau_es_syst_args)
+			# e->tau fake ES (only for 1-prongs and 1-prong+Pi0s)
+			categoriesForEleFakeTauES = ["et_"+quantity+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for decaymode in decaymodesNoThreeProng for weight_bin in weight_bins]
+			self.cb.cp().channel(["et"]).process(["ZL"]).bin(categoriesForEleFakeTauES).AddSyst(self.cb, *self.eleFakeTau_es_syst_args)
 
 			# fake-rate
 			if year == "2016":
-				self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau2016_syst_args)
+				self.cb.cp().channel(["et"]).process(["ZL"]).bin(categoriesForEleFakeTauES).AddSyst(self.cb, *self.eFakeTau2016_syst_args)
 			else:
-				self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
+				self.cb.cp().channel(["et"]).process(["ZL"]).bin(categoriesForEleFakeTauES).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
 
 			# ======================================================================
 			# All channels

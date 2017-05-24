@@ -1,148 +1,144 @@
 #!/bin/env python
-# crab submission script for standalone Svfit calculation
-# usage: python submitCrabSvfitJobs.py /pnfs/[path to storage element with SvfitCache input files]
+# -*- coding: utf-8 -*-
 
-from CRABClient.UserUtilities import getUsernameFromSiteDB
+import logging
+import Artus.Utility.logger as logger
+log = logging.getLogger(__name__)
+
+import argparse
+import datetime
 from httplib import HTTPException
+from multiprocessing import Process
+import os
+import re
+import shutil
+import shlex
+import string
+
 from CRABAPI.RawCommand import crabCommand
 from CRABClient.ClientExceptions import ClientException
-from multiprocessing import Process
-import sys
-from glob import glob
-import os, shutil
-import datetime
+import CRABClient.UserUtilities
+from CRABClient.UserUtilities import getUsernameFromSiteDB
 
-CRAB_PREFIX = """
-set -x
-set -e
-ulimit -s unlimited
-ulimit -c 0
+import Artus.Utility.tools as tools
 
 
+def build_configs(args):
+	base_path, sample = args[0], args[1]
 
-echo "<FrameworkJobReport>
-  <ReadBranches>
-  </ReadBranches>
-  <PerformanceReport>
-    <PerformanceSummary Metric=\\"StorageStatistics\\">
-      <Metric Name=\\"Parameter-untracked-bool-enabled\\" Value=\\"true\\"/>
-      <Metric Name=\\"Parameter-untracked-bool-stats\\" Value=\\"true\\"/>
-      <Metric Name=\\"Parameter-untracked-string-cacheHint\\" Value=\\"application-only\\"/>
-      <Metric Name=\\"Parameter-untracked-string-readHint\\" Value=\\"auto-detect\\"/>
-      <Metric Name=\\"ROOT-tfile-read-totalMegabytes\\" Value=\\"0\\"/>
-      <Metric Name=\\"ROOT-tfile-write-totalMegabytes\\" Value=\\"0\\"/>
-    </PerformanceSummary>
-  </PerformanceReport>
+	today = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+	max_n_files_per_task = 8000
+	filename_replacements = {
+		"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
+	}
+	
+	configs = []
+	jobfiles = []
+	
+	stdout, stderr = tools.subprocessCall(shlex.split("gfal-ls " + os.path.join(base_path, sample)))
+	filenames = [filename for filename in stdout.decode().strip().split("\n") if (("SvfitCache" in filename) and filename.endswith(".root"))]
+	if len(filenames) > 0:
+		filenames = [os.path.join(base_path, sample, filename) for filename in filenames]
+		pipelines_filenames = {}
+		for filename in filenames:
+			for src, dst in filename_replacements.iteritems():
+				filename = filename.replace(src, dst)
+			pipeline = re.search("SvfitCache(?P<pipeline>.*)\d+.root", filename).groupdict()["pipeline"]
+			pipelines_filenames.setdefault(pipeline, []).append(filename)
+		
+		for pipeline, filenames in pipelines_filenames.iteritems():
+			filenames_chunks = [filenames[index:index+max_n_files_per_task] for index in xrange(0, len(filenames), max_n_files_per_task)]
+			for index, filenames_chunk in enumerate(filenames_chunks):
+				
+				# create job scripts
+				jobfiles.append(str("svfit_%s_%s_%s_%d.sh" % (today, sample, pipeline, index)))
+				with open(jobfiles[-1], "w+") as jobfile:
+					jobfile.write(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_userjob_prefix.sh")))
+					
+					svfit_code = string.Template(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_svfit.sh")))
+					jobfile.write(svfit_code.safe_substitute(
+							input_files = "\n".join("arr[%d,0]=%s" % (i+1, f) for i, f in enumerate(filenames_chunk)),
+							cwd=os.getcwd()
+					))
+					
+					jobfile.close()
+				
+				# crab configuration
+				configs.append(CRABClient.UserUtilities.config())
+				configs[-1].General.workArea = os.path.abspath(os.path.expandvars("$ARTUS_WORK_BASE/../svfit_caches/%s/" % (today)))
+				configs[-1].General.transferOutputs = True
+				configs[-1].General.transferLogs = True
+				configs[-1].General.requestName = ("%s_%s_%d" % (sample, pipeline, index))[:100]
+				log.debug("Job name: " + configs[-1].General.requestName)
+				configs[-1].Data.outputPrimaryDataset = "Svfit"
+				configs[-1].Data.splitting = "EventBased"
+				configs[-1].Data.unitsPerJob = 1
+				configs[-1].Data.totalUnits = len(filenames_chunk)
+				configs[-1].Data.publication = False
+				configs[-1].Data.outputDatasetTag = configs[-1].General.requestName
+				configs[-1].Data.outLFNDirBase = "/store/user/%s/higgs-kit/Svfit/%s/"%(getUsernameFromSiteDB(), today)
+				log.debug("Output directory: " + configs[-1].Data.outLFNDirBase)
+				configs[-1].Data.publication = False
+				configs[-1].User.voGroup = "dcms"
+				configs[-1].JobType.pluginName = "PrivateMC"
+				configs[-1].JobType.psetName = os.environ["CMSSW_BASE"]+"/src/CombineHarvester/CombineTools/scripts/do_nothing_cfg.py"
+				configs[-1].JobType.inputFiles = [os.path.expandvars("$CMSSW_BASE/bin/$SCRAM_ARCH/ComputeSvfit"), jobfiles[-1]]
+				configs[-1].JobType.allowUndistributedCMSSW = True
+				configs[-1].JobType.scriptExe = jobfiles[-1]
+				configs[-1].JobType.outputFiles = ["SvfitCache.tar"]
+				configs[-1].Site.storageSite = "T2_DE_DESY"
+	
+	return [configs, jobfiles]
 
-  <GeneratorInfo>
-  </GeneratorInfo>
-</FrameworkJobReport>" >FrameworkJobReport.xml
-
-function error_exit
-{
-  if [ $1 -ne 0 ]; then
-    echo "Error with exit code ${1}"
-    if [ -e FrameworkJobReport.xml ]
-    then
-      cat << EOF > FrameworkJobReport.xml.tmp
-      <FrameworkJobReport>
-      <FrameworkError ExitStatus="${1}" Type="" >
-      Error with exit code ${1}
-      </FrameworkError>
-EOF
-      tail -n+2 FrameworkJobReport.xml >> FrameworkJobReport.xml.tmp
-      mv FrameworkJobReport.xml.tmp FrameworkJobReport.xml
-    else
-      cat << EOF > FrameworkJobReport.xml
-      <FrameworkJobReport>
-      <FrameworkError ExitStatus="${1}" Type="" >
-      Error with exit code ${1}
-      </FrameworkError>
-      </FrameworkJobReport>
-EOF
-    fi
-    exit 0
-  fi
-}
-trap 'error_exit $?' ERR
-
-
-"""
-
-def submit(config):
+def submit(args):
+	config, jobfile = args[0], args[1]
+	
 	try:
-		crabCommand('submit', config = config)
+		crabCommand("submit", config=config)
 	except HTTPException as hte:
-		print "Failed submitting task: %s" % (hte.headers)
+		log.error("Failed submitting task: %s" % (hte.headers))
 	except ClientException as cle:
-		print "Failed submitting task: %s" % (cle)
+		log.error("Failed submitting task: %s" % (cle))
+	
+	os.remove(jobfile)
 
-def get_filename(date, nick, index=None):
-	if(index==None):
-		return "svfit-%s-%s.sh"%(date, nick)
-	else:
-		return "svfit-%s-%s-%s.sh"%(date, nick, index)
+def read_file(filename):
+	content = ""
+	with open(filename) as input_file:
+		content = input_file.read()
+	return content
 
-def submission(base_path):
+def submission(base_path, n_processes=1):
+	
+	# retrieve and prepare input files
+	stdout_directories, stderr_directories = tools.subprocessCall(shlex.split("gfal-ls " + base_path))
+	configs_jobfiles = tools.parallelize(
+			build_configs,
+			[[base_path, sample] for sample in stdout_directories.decode().strip().split("\n")],
+			n_processes=n_processes,
+			description="Retrieving inputs and building crab configs"
+	)
+	
+	# submit tasks
+	submit_args = []
+	for tmp_configs_jobfiles in configs_jobfiles:
+		for config, jobfile in zip(*tmp_configs_jobfiles):
+			submit_args.append([config, jobfile])
+	tools.parallelize(submit, submit_args, n_processes=n_processes, description="Submitting crab tasks")
 
-	from CRABClient.UserUtilities import config
-	config = config()
-	today=datetime.date.today().strftime("%Y-%m-%d")
-	files =0
-	cache_files = [f for f in glob(base_path+"/*/*.root") if("SvfitCache" in f)]
-	if len(cache_files) == 0:
-		return
-	if len(cache_files) > 8000:
-            cache_files = [cache_files[i:i+8000] for i in xrange(0,len(cache_files),8000)]
-        else:
-            cache_files = [cache_files]
-        for index,cache_file in enumerate(cache_files):
-            jobfile_name = get_filename(today,index)
-            jobfile = open(jobfile_name,"w+")
-            jobfile.write("#!/bin/bash\n")
-            jobfile.write("declare -A arr\n")
-            jobfile.write(CRAB_PREFIX)
-            for index2,file in enumerate(cache_file):
-                    jobfile.write("arr[%s,0]=dcap://dcache-cms-dcap.desy.de/%s\n"%(index2+1,file))
-            jobfile.write("if [ \"x$2\" != \"x\" ]; then\npushd %s\nSCRAM_ARCH=slc6_amd64_gcc493\nsource /cvmfs/cms.cern.ch/cmsset_default.sh\neval `scramv1 runtime -sh`\n"%(os.getcwd()))
-            jobfile.write("ComputeSvfit -i ${arr[$1,0]} -o SvfitCache.root\n")
-            jobfile.write("else\n./ComputeSvfit -i ${arr[$1,0]} -o $(basename ${arr[$1,0]})\ntar -cf SvfitCache.tar $(basename ${arr[$1,0]})\nfi\n")
-            jobfile.close()
-			
-            config.General.workArea = '/nfs/dust/cms/user/%s/%s/'%(getUsernameFromSiteDB(),today)
-            config.General.transferOutputs = True
-            config.General.transferLogs = True
-            jobname = "SvFit_"+today+"_"+str(index)
-            config.General.requestName = jobname
-            print jobname
-            config.Data.outputPrimaryDataset = 'Svfit'
-            config.Data.splitting = 'EventBased'
-            config.Data.unitsPerJob = 1
-            config.Data.totalUnits = len(cache_file)
-            config.Data.publication = False
-            config.Data.outputDatasetTag = config.General.requestName
-            config.Data.outLFNDirBase = '/store/user/%s/higgs-kit/Svfit/%s/'%(getUsernameFromSiteDB(),today)
-            print "outdir: " + config.Data.outLFNDirBase
-            config.Data.publication = False
-			
-            config.User.voGroup = 'dcms'
-			
-            config.JobType.pluginName = 'PrivateMC'
-            config.JobType.psetName = os.environ['CMSSW_BASE']+'/src/CombineHarvester/CombineTools/scripts/do_nothing_cfg.py'
-#            config.JobType.inputFiles = ['Kappa/lib/libKappa.so', os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', jobfile_name]
-            config.JobType.inputFiles = [os.environ['CMSSW_BASE']+'/bin/'+os.environ['SCRAM_ARCH']+'/ComputeSvfit', jobfile_name]
-            config.JobType.allowUndistributedCMSSW = True
-            config.JobType.scriptExe = jobfile_name
-            config.JobType.outputFiles = ['SvfitCache.tar']
-			
-            config.Site.storageSite = "T2_DE_DESY"
-                    # config.Site.blacklist = ["T3_US_PuertoRico","T2_ES_CIEMAT","T2_DE_RWTH","T3_US_Colorado","T2_BR_UERJ","T2_ES_IFCA","T2_RU_JINR","T2_UA_KIPT","T2_EE_Estonia","T2_FR_GRIF_LLR","T2_CH_CERN","T2_FR_GRIF_LLR","T3_IT_Bologna","T2_US_Nebraska","T2_US_Nebraska","T3_TW_NTU_HEP","T2_US_Caltech","T3_US_Cornell","T2_IT_Legnaro","T2_HU_Budapest","T2_IT_Pisa","T2_US_Florida",'T2_IT_Bari',"T2_FR_GRIF_IRFU","T2_IT_Rome","T2_FR_GRIF_IRFU","T2_CH_CSCS","T3_TW_NCU"]
-            p = Process(target=submit, args=(config,))
-            p.start()
-            p.join()
 
 if __name__ == "__main__":
-	if len(sys.argv) == 1: 
-		print "no setting provided"
-		sys.exit()
-	submission(sys.argv[1])
+
+	parser = argparse.ArgumentParser(description="crab submission script for standalone Svfit calculation.",
+	                                 parents=[logger.loggingParser])
+	
+	parser.add_argument("base_path",
+	                    help="/pnfs/[path to storage element with SvfitCache input files]")
+	parser.add_argument("-n", "--n-processes", type=int, default=1,
+	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	
+	args = parser.parse_args()
+	logger.initLogger(args)
+	
+	submission(args.base_path, args.n_processes)
+

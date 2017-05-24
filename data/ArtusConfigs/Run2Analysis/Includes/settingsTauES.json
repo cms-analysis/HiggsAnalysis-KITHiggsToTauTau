@@ -7,5 +7,35 @@
 	},
 	"TauEnergyCorrectionOneProng" : 0.982,
 	"TauEnergyCorrectionOneProngPiZeros" : 1.01,
-	"TauEnergyCorrectionThreeProng" : 1.004
+	"TauEnergyCorrectionThreeProng" : 1.004,
+	"TauElectronFakeEnergyCorrectionOneProng" : {
+		"nick" : {
+			"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 1.0
+		}
+	},
+	"TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
+		"nick" : {
+			"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 1.095
+		}
+	},
+	"TauElectronFakeEnergyCorrectionThreeProng" : {
+		"nick" : {
+			"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 1.0
+		}
+	},
+	"TauMuonFakeEnergyCorrectionOneProng" : {
+		"nick" : {
+			"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 0.998
+		}
+	},
+	"TauMuonFakeEnergyCorrectionOneProngPiZeros" : {
+		"nick" : {
+			"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 1.015
+		}
+	},
+	"TauMuonFakeEnergyCorrectionThreeProng" : {
+		"nick" : {
+			"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 1.0
+		}
+	}
 }

@@ -135,6 +135,8 @@
 		"genPhiStar_rho",
 		"genPhi_rho",
 
+		"gen_yTau",
+		"gen_yTauL",
 
 		"TauMProngEnergy",
 		"TauPProngEnergy",

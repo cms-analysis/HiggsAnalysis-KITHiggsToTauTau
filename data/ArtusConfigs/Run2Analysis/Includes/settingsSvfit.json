@@ -1,13 +1,13 @@
 {
 	"SvfitIntegrationMethod" : "MarkovChain",
 	"DiTauMassConstraint" : 90.0,
-	"GenerateSvfitInput" : false,
+	"GenerateSvfitInput" : true,
 	"UseFirstInputFileNameForSvfit" : false,
-	"SvfitCacheMissBehaviour" : "recalculate",
+	"SvfitCacheMissBehaviour" : "undefined",
 	"SvfitInputCutOff" : 2000,
 	"UpdateSvfitCache" : true,
 	"SvfitOutFile" : "SvfitCache.root",
-	"SvfitCacheFile": {
+	"#SvfitCacheFile": {
 	    "nick" : {
 			"DY1JetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8" : "root://dcache-cms-xrootd.desy.de:1094//store/user/rfriese/higgs-kit/MergedCaches2015/svfitCache_DY1JetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8.root",
 			"DY2JetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8" : "root://dcache-cms-xrootd.desy.de:1094//store/user/rfriese/higgs-kit/MergedCaches2015/svfitCache_DY2JetsToLLM50_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_madgraph-pythia8.root",

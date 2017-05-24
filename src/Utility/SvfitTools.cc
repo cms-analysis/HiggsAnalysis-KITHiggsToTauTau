@@ -517,7 +517,7 @@ void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, 
 
 void SvfitResults::Set(ClassicSVfit const& svfitAlgorithm)
 {
-	if (true /*svfitAlgorithm.isValidSolution()*/) // currently all solutions are marked as invalid
+	if (svfitAlgorithm.isValidSolution())
 	{
 		Set(GetFittedTransverseMass(svfitAlgorithm),
 		    GetFittedHiggsLV(svfitAlgorithm),
@@ -725,6 +725,12 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 
 SvfitTools::~SvfitTools()
 {
+	if (m_visPtResolutionFile)
+	{
+		std::cout << "Closing File" << std::endl;
+		m_visPtResolutionFile->Close();
+	}
+	
 	// do NOT call destructor for TTree and TFile here. They are static and the destructor is called several times when running the factory
 	// We have to trust the OS does handle freeing the memory properly
 }

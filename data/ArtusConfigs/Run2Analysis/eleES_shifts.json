@@ -1,0 +1,42 @@
+{
+	"eleEsUp" : {
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 1.01
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 1.025
+			}
+		},
+		"SvfitCacheFileFolder" : {
+			"nick" : {
+				"default" : "nominal",
+				"Summer16|Embedding2016" : "eleEsUp"
+			}
+		}
+	},
+	"eleEsDown" : {
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 0.99
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 0.975
+			}
+		},
+		"SvfitCacheFileFolder" : {
+			"nick" : {
+				"default" : "nominal",
+				"Summer16|Embedding2016" : "eleEsDown"
+			}
+		}
+	}
+}

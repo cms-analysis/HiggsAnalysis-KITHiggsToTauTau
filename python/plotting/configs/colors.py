@@ -72,6 +72,18 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["kit_grau_4"] = "#BDBCBC"
 		self.colors_dict["kit_grau_5"] = "#DEDDDE"
 
+		#vega 10-color categorical palette as used by mlp2
+		self.colors_dict["vega_cat1_01"] = "#1f77b4"
+		self.colors_dict["vega_cat1_02"] = "#ff7f0e"
+		self.colors_dict["vega_cat1_03"] = "#2ca02c"
+		self.colors_dict["vega_cat1_04"] = "#d62728"
+		self.colors_dict["vega_cat1_05"] = "#9467bd"
+		self.colors_dict["vega_cat1_06"] = "#8c564b"
+		self.colors_dict["vega_cat1_07"] = "#e377c2"
+		self.colors_dict["vega_cat1_08"] = "#7f7f7f"
+		self.colors_dict["vega_cat1_09"] = "#bcbd22"
+		self.colors_dict["vega_cat1_10"] = "#17becf"
+
 		self.colors_dict["data"] = "#000000"
 		self.colors_dict["data_obs"] = self.colors_dict["data"]
 		self.colors_dict["tttautau"] = "#000000 #00FF00"
@@ -114,7 +126,15 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["vh"]  = self.colors_dict["kit_lila_1"]
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
 			self.colors_dict["hww"] = self.colors_dict["kit_lila_3"]+" "+self.colors_dict["kit_lila_4"]
+			self.colors_dict["hww120"] = self.colors_dict["hww"]
 			self.colors_dict["hww125"] = self.colors_dict["hww"]
+			self.colors_dict["hww130"] = self.colors_dict["hww"]
+			self.colors_dict["hww_gg120"] = self.colors_dict["hww"]
+			self.colors_dict["hww_gg125"] = self.colors_dict["hww"]
+			self.colors_dict["hww_gg130"] = self.colors_dict["hww"]
+			self.colors_dict["hww_qq120"] = self.colors_dict["hww"]
+			self.colors_dict["hww_qq125"] = self.colors_dict["hww"]
+			self.colors_dict["hww_qq130"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
 
@@ -165,6 +185,16 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["zh"]  = self.colors_dict["kit_lila_1"]
 			self.colors_dict["wh"]  = self.colors_dict["kit_lila_1"]			
 			self.colors_dict["totalsig"] = self.colors_dict["htt"]
+			self.colors_dict["hww"] = self.colors_dict["kit_lila_3"]+" "+self.colors_dict["kit_lila_4"]
+			self.colors_dict["hww120"] = self.colors_dict["hww"]
+			self.colors_dict["hww125"] = self.colors_dict["hww"]
+			self.colors_dict["hww130"] = self.colors_dict["hww"]
+			self.colors_dict["hww_gg120"] = self.colors_dict["hww"]
+			self.colors_dict["hww_gg125"] = self.colors_dict["hww"]
+			self.colors_dict["hww_gg130"] = self.colors_dict["hww"]
+			self.colors_dict["hww_qq120"] = self.colors_dict["hww"]
+			self.colors_dict["hww_qq125"] = self.colors_dict["hww"]
+			self.colors_dict["hww_qq130"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
 			

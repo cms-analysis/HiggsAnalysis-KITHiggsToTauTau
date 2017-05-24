@@ -28,6 +28,10 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return product.m_recoPhiStarCP_rho;
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("reco_yTauL", [](event_type const& event, product_type const& product)
+	{
+		return product.m_reco_yTauL;
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPV", [](event_type const& event, product_type const& product)
 	{
@@ -131,7 +135,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
-	
+
 	// FIXME: IP vectors (using d0 and dz)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2x", [](event_type const& event, product_type const& product)
 	{
@@ -240,16 +244,14 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	RMFLV momentumP = ((product.m_chargeOrderedLeptons[0]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[0])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[0]->p4);
 	RMFLV momentumM = ((product.m_chargeOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[1])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[1]->p4);
 
-	if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT) {
-
-	RMFLV chargedPiP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->sumChargedHadronCandidates() : DefaultValues::UndefinedRMFLV);
-	RMFLV chargedPiM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->sumChargedHadronCandidates() : DefaultValues::UndefinedRMFLV);
+	//RMFLV chargedPiP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->chargedHadronCandidates.at(0).p4  : DefaultValues::UndefinedRMFLV);
+	//RMFLV chargedPiM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->chargedHadronCandidates.at(0).p4  : DefaultValues::UndefinedRMFLV);
 	RMFLV piZeroP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
 	RMFLV piZeroM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
 
-	product.m_recoPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(chargedPiP, chargedPiM, piZeroP, piZeroM);
-	
-	}
+	product.m_recoPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(momentumP, momentumM, piZeroP, piZeroM);
+	product.m_reco_yTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(momentumP, momentumM, piZeroP, piZeroM);
+
 
     // variables for the rho method
 
@@ -327,7 +329,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			} // if genIP2 exists
 
 		} // if MC sample
-	
+
 
 	} // if the refitPV exists
 

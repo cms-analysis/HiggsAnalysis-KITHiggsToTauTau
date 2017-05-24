@@ -1,0 +1,22 @@
+{
+	"nominal" : {
+		"MetSysType" : 0,
+		"MetSysShift" : 0
+	},
+	"metRecoilResponseUp" : {
+		"MetSysType" : 1,
+		"MetSysShift" : 1
+	},
+	"metRecoilResponseDown" : {
+		"MetSysType" : 1,
+		"MetSysShift" : -1
+	},
+	"metRecoilResolutionUp" : {
+		"MetSysType" : 2,
+		"MetSysShift" : 1
+	},
+	"metRecoilResolutionDown" : {
+		"MetSysType" : 2,
+		"MetSysShift" : -1
+	}
+}

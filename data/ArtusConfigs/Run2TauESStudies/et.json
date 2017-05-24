@@ -98,8 +98,8 @@
 			"0:idIsoWeight"
 		],
 		"RooWorkspaceObjectNames" : [
-			"0:e_trgEle25eta2p1WPTight_desy_data",
-			"0:e_idiso0p10_desy_ratio"
+			"0:e_trgEle25eta2p1WPTight_desy_ratio",
+			"0:e_idiso0p1_desy_ratio"
 
 		],
 		"RooWorkspaceObjectArguments" : [
@@ -157,7 +157,6 @@
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fakeFactorQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/lheWeights.json"
 				]
@@ -205,11 +204,7 @@
 					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : [
@@ -247,11 +242,7 @@
 					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|EWKZ2Jets)).)*Fall15" : [
@@ -286,8 +277,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EventWeightProducer"
@@ -325,8 +314,6 @@
 					"producer:DiJetQuantitiesProducer",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
@@ -360,8 +347,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -392,8 +377,6 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
 					"producer:EventWeightProducer"
 				]
 			}

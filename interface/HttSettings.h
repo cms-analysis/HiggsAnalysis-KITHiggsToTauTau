@@ -45,6 +45,9 @@ public:
 	IMPL_SETTING_DEFAULT(int, MetSysType, 0);
 	IMPL_SETTING_DEFAULT(int, MetSysShift, 0);
 
+	IMPL_SETTING_DEFAULT(bool, MetUncertaintyShift, false);
+	IMPL_SETTING_DEFAULT(std::string, MetUncertaintyType, "");
+
 	IMPL_SETTING_STRINGLIST_DEFAULT(PlotlevelFilterExpressionQuantities, {});
 	IMPL_SETTING_DEFAULT(std::string, PlotlevelFilterExpression, "");
 
@@ -186,12 +189,27 @@ public:
 	IMPL_SETTING_DEFAULT(float, ElectronEnergyCorrectionShiftEE, 1.0);
 	IMPL_SETTING_DEFAULT(float, MuonEnergyCorrectionShift, 1.0);
 	IMPL_SETTING_DEFAULT(std::string, TauEnergyCorrection, "none");
-	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionShift, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProng, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngPiZeros, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionThreeProng, 1.0);
-	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrection, 1.0);
-	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrection, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngPiZerosShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionThreeProngShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionOneProng, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionOneProngPiZeros, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionThreeProng, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionOneProngShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionOneProngPiZerosShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionThreeProngShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionOneProng, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionOneProngPiZeros, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionThreeProng, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionOneProngShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionOneProngPiZerosShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionThreeProngShift, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauJetFakeEnergyCorrection, 0.0);
 
 	IMPL_SETTING(float, RecoMuonInElectronConeLowerPtCut);
@@ -370,4 +388,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, MadGraphMixingAnglesOverPiHalfSample, -1.0);
 	IMPL_SETTING(std::string, MadGraphParamCard);
 	IMPL_SETTING_STRINGLIST_DEFAULT(MadGraphProcessDirectories, {});
+	
+	// settting for TopPtReweightingProducer
+	IMPL_SETTING(std::string, TopPtReweightingStrategy)
 };

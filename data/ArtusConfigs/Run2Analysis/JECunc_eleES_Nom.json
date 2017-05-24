@@ -1,5 +1,5 @@
 {
-	"jecUncNom_eleEsNom" : {
+	"nominal" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016|Embedding2016" : 0.0,
@@ -8,6 +8,6 @@
 		},
 		"ElectronEnergyCorrectionShiftEB" : 1.0,
 		"ElectronEnergyCorrectionShiftEE" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_eleEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	}
 }

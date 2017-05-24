@@ -108,22 +108,33 @@ public:
 			m_correctionMethod = MetCorrectorBase::CorrectionMethod::NONE;
 			LOG(FATAL) << "Invalid MetCorrectionMethod option. Available are 'quantileMapping' and 'meanResolution'";
 		}
+
+		if (settings.GetMetUncertaintyShift())
+		{
+			m_metUncertaintyType = HttEnumTypes::ToMETUncertaintyType(settings.GetMetUncertaintyType());
+		}
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 
 	                     setting_type const& settings) const override
 	{
 		assert(m_metMemberUncorrected != nullptr);
-		
+
+		// Retrieve the needed informations from the event content
+		// and replace nominal met four vector by one shifted by
+		// specific uncertainty in order to propagate it through
+		// entire analysis if required by configuration
+		float metX = settings.GetMetUncertaintyShift() ? (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].Px() : (product.*m_metMemberUncorrected)->p4.Px();
+		float metY = settings.GetMetUncertaintyShift() ? (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].Py() : (product.*m_metMemberUncorrected)->p4.Py();
+		float metEnergy = settings.GetMetUncertaintyShift() ? (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].energy() : (product.*m_metMemberUncorrected)->p4.energy();
+		float metResolution = std::sqrt(metEnergy * metEnergy - metX * metX - metY * metY);
+
 		// Recalculate MET if lepton energies have been corrected:
 		// MetX' = MetX + Px - Px'
 		// MetY' = MetY + Py - Py'
 		// MET' = sqrt(MetX' * MetX' + MetY' * MetY')
 		if ((settings.*GetUpdateMetWithCorrectedLeptons)())
 		{
-			float metX = (product.*m_metMemberUncorrected)->p4.Px();
-			float metY = (product.*m_metMemberUncorrected)->p4.Py();
-
 			// Electrons
 			for (std::vector<std::shared_ptr<KElectron> >::iterator electron = product.m_correctedElectrons.begin();
 				 electron != product.m_correctedElectrons.end(); ++electron)
@@ -168,17 +179,11 @@ public:
 				metX -= eX;
 				metY -= eY;
 			}
-
-			(product.*m_metMemberUncorrected)->p4.SetPxPyPzE(metX, metY, 0., std::sqrt(metX * metX + metY * metY));
 		}
-
-		// Retrieve the needed informations from the event content
-		float metX = (product.*m_metMemberUncorrected)->p4.Px();
-		float metY = (product.*m_metMemberUncorrected)->p4.Py();
-		float metEnergy = (product.*m_metMemberUncorrected)->p4.energy();
-		float metResolution = std::sqrt(metEnergy * metEnergy - metX * metX - metY * metY);
-		int nJets30 = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
 		
+		// Recoil corrections follow
+		int nJets30 = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
+
 		// In selected W+Jets events one of the leptons is faked by hadronic jet and this 
 		// jet should be counted as a part of hadronic recoil to the W boson
 		if(m_isWJets)
@@ -243,7 +248,7 @@ public:
 		
 		(product.*m_metMemberCorrected) = *(product.*m_metMemberUncorrected);
 		
-		// Apply the correction to the MET object (only for DY, W and Higgs samples)
+		// Apply the recoil correction to the MET object (only for DY, W and Higgs samples)
 		if (m_processType == MEtSys::ProcessType::BOSON)
 		{
 			(product.*m_metMemberCorrected).p4.SetPxPyPzE(
@@ -251,6 +256,30 @@ public:
 				correctedMetY,
 				0.,
 				std::sqrt(metResolution * metResolution + correctedMetX * correctedMetX + correctedMetY * correctedMetY));
+			if (m_correctGlobalMet)
+			{
+				product.m_met = product.*m_metMemberCorrected;
+			}
+		}
+		else if ((settings.*GetUpdateMetWithCorrectedLeptons)()) // Apply at least corrections from lepton adjustments
+		{
+			(product.*m_metMemberCorrected).p4.SetPxPyPzE(
+				metX,
+				metY,
+				0.,
+				std::sqrt(metResolution * metResolution + metX * metX + metY * metY));
+			if (m_correctGlobalMet)
+			{
+				product.m_met = product.*m_metMemberCorrected;
+			}
+		}
+		else if (settings.GetMetUncertaintyShift()) // If no other corrections are applied, use MET shifted by uncertainty if required by configuration
+		{
+			(product.*m_metMemberCorrected).p4.SetPxPyPzE(
+				(product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].Px(),
+				(product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].Py(),
+				(product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].Pz(),
+				(product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].energy());
 			if (m_correctGlobalMet)
 			{
 				product.m_met = product.*m_metMemberCorrected;
@@ -302,6 +331,7 @@ protected:
 	CorrectionMethod m_correctionMethod;
 	bool m_correctGlobalMet;
 	bool (setting_type::*GetUpdateMetWithCorrectedLeptons)(void) const;
+	KMETUncertainty::Type m_metUncertaintyType;
 };
 
 

@@ -48,9 +48,16 @@
 	"DeltaRMatchingRecoMuonGenTau" : 0.2,
 	"DeltaRMatchingRecoTauGenParticle" : 0.2,
 	"DeltaRMatchingRecoTauGenTau" : 0.2,
-	"RecoElectronMatchingGenParticlePdgIds" : [ 11, 13] ,
-	"RecoMuonMatchingGenParticlePdgIds" : [ 11, 13] ,
-	"RecoTauMatchingGenParticlePdgIds" : [ 11, 13 ],
+	"RecoElectronMatchingGenParticlePdgIds" : [11,13],
+	"RecoMuonMatchingGenParticlePdgIds" : [11,13],
+	"RecoTauMatchingGenParticlePdgIds" : [11,13],
+	"RecoElectronMatchingGenParticleMatchAllElectrons" : "true",
+	"RecoMuonMatchingGenParticleMatchAllMuons" : "true",
+	"RecoTauMatchingGenParticleMatchAllTaus" : "true",
+	"MatchAllElectronsGenTau" : "true",
+	"MatchAllMuonsGenTau" : "true",
+	"MatchAllTausGenTau" : "true",
+	"UpdateMetWithCorrectedLeptons" : "true",
 	"#EventWhitelist" : [23, 3229, 14936, 49062, 24188, 76021, 11743, 74937, 93490, 31289, 70866, 54606, 50689, 50776, 50995, 52189, 53744, 60043, 86167, 2124, 16529, 81888, 80195, 91508, 47278, 9031, 38816, 45482, 60536, 80262, 45896, 27032, 66850, 94932, 22645, 31953, 45298, 85970, 91308, 91327, 96423, 98229, 39907, 52601, 67478],
 	"MetFilter" : {
 		"nick" : {
@@ -61,7 +68,9 @@
 				"Flag_goodVertices",
 				"Flag_globalTightHalo2016Filter",
 				"Flag_BadPFMuonFilter",
-				"Flag_BadChargedCandidateFilter"
+				"Flag_BadChargedCandidateFilter",
+				"!Flag_badGlobalMuonTaggerMAOD",
+				"!Flag_cloneGlobalMuonTaggerMAOD"
 			],
 			"Run201" : [
 				"Flag_HBHENoiseFilter",
@@ -71,7 +80,9 @@
 				"Flag_globalTightHalo2016Filter",
 				"Flag_eeBadScFilter",
 				"Flag_BadPFMuonFilter",
-				"Flag_BadChargedCandidateFilter"
+				"Flag_BadChargedCandidateFilter",
+				"!Flag_duplicateMuons",
+				"!Flag_badMuons"
 			]
 		}
 	},
@@ -87,10 +98,18 @@
 				"producer:PUWeightProducer",
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
-				"producer:GeneratorWeightProducer"
+				"producer:GeneratorWeightProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer"
 			],
-			"TT(To|_)" : [
+			"TT(To|_|Jets)" : [
 				"#filter:RunLumiEventFilter",
+				"producer:ScaleVariationProducer",
 				"filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
@@ -99,6 +118,13 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GeneratorWeightProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer",
 				"producer:TTbarGenDecayModeProducer"
 			],
 			"W.?JetsToLNu" : [
@@ -113,7 +139,14 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GeneratorWeightProducer"
+				"producer:GeneratorWeightProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer"
 			],
 			"DY.?JetsToLLM(50|150)" : [
 				"#filter:RunLumiEventFilter",
@@ -129,7 +162,14 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GeneratorWeightProducer"
+				"producer:GeneratorWeightProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer"
 			],
 			"Run201" : [
 				"#filter:RunLumiEventFilter",
@@ -150,7 +190,14 @@
 				"producer:GenParticleProducer",
 				"producer:GenPartonCounterProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GeneratorWeightProducer"
+				"producer:GeneratorWeightProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer"
 			]
 		}
 	},
@@ -163,8 +210,9 @@
 			"Embedding" : "not needed"
 		}
 	},
-	"ZptReweightProducerWeights" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH_MSSM.root",
+	"ZptReweightProducerWeights" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH_MSSM_v2.root",
 	"MetRecoilCorrectorFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root",
+	"MetShiftCorrectorFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/PFMEtSys_2016.root",
 	"MvaMetRecoilCorrectorFile" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root",
 	"MetCorrectionMethod" : {
 		"nick" : {
@@ -189,13 +237,13 @@
 	},
 	"SimpleMuTauFakeRateWeightLoose" : {
 		"nick" : {
-			"default" : [1.01, 1.01, 0.87, 1.2, 2.3],
+			"default" : [1.22, 1.12, 1.26, 1.22, 2.39],
 			"Fall15MiniAODv2" : [1.0, 1.0, 1.0, 1.0, 1.0]
 		}
 	},
 	"SimpleMuTauFakeRateWeightTight" : {
 		"nick" : {
-			"default" : [1.26, 1.36, 0.85, 1.7, 2.3],
+			"default" : [1.47, 1.55, 1.33, 1.72, 2.50],
 			"Fall15MiniAODv2" : [1.0, 1.0, 1.0, 1.0, 1.0]
 		}
 	},

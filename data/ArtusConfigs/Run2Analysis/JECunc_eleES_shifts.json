@@ -1,5 +1,5 @@
 {
-	"jecUncNom_eleEsNom" : {
+	"nominal" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016|Embedding2016" : 0.0,
@@ -8,15 +8,9 @@
 		},
 		"ElectronEnergyCorrectionShiftEB" : 1.0,
 		"ElectronEnergyCorrectionShiftEE" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_eleEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
-	"jecUncNom_eleEsUp" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding2016" : 0.0,
-				"default" : 0.0
-			}
-		},
+	"eleEsUp" : {
 		"ElectronEnergyCorrectionShiftEB" : {
 			"nick" : {
 				"default" : 1.0,
@@ -31,18 +25,12 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_eleEsNom",
-				"Summer16|Embedding2016" : "jecUncNom_eleEsUp"
+				"default" : "nominal",
+				"Summer16|Embedding2016" : "eleEsUp"
 			}
 		}
 	},
-	"jecUncNom_eleEsDown" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding2016" : 0.0,
-				"default" : 0.0
-			}
-		},
+	"eleEsDown" : {
 		"ElectronEnergyCorrectionShiftEB" : {
 			"nick" : {
 				"default" : 1.0,
@@ -57,31 +45,27 @@
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
-				"default" : "jecUncNom_eleEsNom",
-				"Summer16|Embedding2016" : "jecUncNom_eleEsDown"
+				"default" : "nominal",
+				"Summer16|Embedding2016" : "eleEsDown"
 			}
 		}
 	},
-	"jecUncUp_eleEsNom" : {
+	"jecUncUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016" : 0.0,
 				"default" : 1.0
 			}
 		},
-		"ElectronEnergyCorrectionShiftEB" : 1.0,
-		"ElectronEnergyCorrectionShiftEE" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_eleEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	},
-	"jecUncDown_eleEsNom" : {
+	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
 				"Run201|Embedding2016" : 0.0,
 				"default" : -1.0
 			}
 		},
-		"ElectronEnergyCorrectionShiftEB" : 1.0,
-		"ElectronEnergyCorrectionShiftEE" : 1.0,
-		"SvfitCacheFileFolder" : "jecUncNom_eleEsNom"
+		"SvfitCacheFileFolder" : "nominal"
 	}
 }

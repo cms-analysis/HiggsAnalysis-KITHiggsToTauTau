@@ -1,0 +1,20 @@
+{
+	"jecUncUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016" : 0.0,
+				"default" : 1.0
+			}
+		},
+		"SvfitCacheFileFolder" : "nominal"
+	},
+	"jecUncDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016" : 0.0,
+				"default" : -1.0
+			}
+		},
+		"SvfitCacheFileFolder" : "nominal"
+	}
+}

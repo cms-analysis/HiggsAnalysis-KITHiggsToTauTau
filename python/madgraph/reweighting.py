@@ -10,6 +10,7 @@ import tempfile
 
 
 def me2(connection):
+	print "me2"
 	args = connection.recv()
 	cartesian_four_momenta = args[0]
 	madgraph_process_directory = args[1]
@@ -18,18 +19,31 @@ def me2(connection):
 	
 	cwd = os.getcwd()
 	os.chdir(madgraph_process_directory)
-
+	print madgraph_process_directory
+	print 
+	print cartesian_four_momenta
+	print
+	print zip(*cartesian_four_momenta)
+	print
 	sys.path.insert(0, madgraph_process_directory)
-	import matrix2py
+	print os.getcwd()
 
+	if "matrix2py" not in sys.modules:
+		import matrix2py
+		print "no"
+	elif "matrix2py" in sys.modules:	
+		print "yes"
+		del sys.modules["matrix2py"]
+		import matrix2py
+	
 	matrix2py.initialise(madgraph_param_card)
 	result = matrix2py.get_me(zip(*cartesian_four_momenta), alpha_s, 0)
-	
+
 	sys.path.pop(0)
 	os.chdir(cwd)
 	connection.send([result])
+	print result
 	return result
-
 
 class MadGraphTools(object):
 	def __init__(self, mixing_angle_over_pi_half, madgraph_process_directory, madgraph_param_card, alpha_s):
@@ -58,11 +72,14 @@ class MadGraphTools(object):
 		process = multiprocessing.Process(target=me2, args=(child_connection,))
 		process.start()
 		
-		timeout = 5 # in seconds
+		timeout = 10 # in seconds
 		process.join(timeout)
+		
+
 		result = -999.0
 		if parent_connection.poll(timeout):
 			result = parent_connection.recv()[0]
-		
 		process.terminate()
 		return result
+
+

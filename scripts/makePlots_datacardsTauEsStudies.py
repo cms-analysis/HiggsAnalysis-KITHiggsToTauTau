@@ -287,13 +287,13 @@ if __name__ == "__main__":
 					channel=channel,
 					category=catForConfig,
 					nick_suffix="_" + str(weight_index),
-					weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else "") + "*" + args.weight,
+					weight="(pt_2>20)*" + args.weight,
 					lumi=args.lumi * 1000,
 					cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 					estimationMethod=args.background_method
 				)
 				
-				config_rest["x_expressions"] = [quantity] * len(config_rest["nicks"])
+				config_rest["x_expressions"] = [quantity + "*" + extra_weights[weight_index]] * len(config_rest["nicks"])
 				histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 				config_rest["labels"] = [histogram_name_template.replace("$", "").format(
 					PROCESS=datacards.configs.sample2process(sample),
@@ -317,7 +317,7 @@ if __name__ == "__main__":
 						channel=channel,
 						category=catForConfig,
 						nick_suffix="_" + str(shift).replace(".", "_") + "_" + str(weight_index),
-						weight=extra_weights[weight_index] + ("*(pt_2>20)" if args.eta_binning else "") + "*" + args.weight,
+						weight="(pt_2>20)*" + args.weight,
 						lumi=args.lumi * 1000,
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 						estimationMethod=args.background_method
@@ -329,9 +329,9 @@ if __name__ == "__main__":
 						log.error("Tau mass (m_2) fit not possible in 1prong decay mode")
 						sys.exit(1)
 					if quantity == "m_2":
-						config_ztt["x_expressions"] = [quantity + "*" + str(shift)] * len(config_ztt["nicks"])
+						config_ztt["x_expressions"] = [quantity + "*" + str(shift) + "*" + extra_weights[weight_index].replace("pt_2","("+str(shift)+"*pt_2)")] * len(config_ztt["nicks"])
 					elif quantity == "m_vis":
-						config_ztt["x_expressions"] = [quantity + "*sqrt(" + str(shift) + ")"] * len(config_ztt["nicks"])
+						config_ztt["x_expressions"] = [quantity + "*sqrt(" + str(shift) + ")" + "*" + extra_weights[weight_index].replace("pt_2","("+str(shift)+"*pt_2)")] * len(config_ztt["nicks"])
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config_ztt)
 					config_ztt = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))

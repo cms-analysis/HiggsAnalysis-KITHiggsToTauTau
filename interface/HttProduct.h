@@ -136,8 +136,10 @@ public:
 	TVector2 m_recoPfMetOnBoson;
 	TVector2 m_pfrecoilOnBoson;
 	double m_chiSquarePf;
-    double m_genMetMinusRecoRecoilOverGenBosonPt;
-    double m_genMetMinusRecoPfRecoilOverGenBosonPt;
+	    double m_metPlusVisLepsOnGenBosonPtOverGenBosonPt;
+	    double m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt;
+	double m_genBosonPt;
+	double m_genBosonPhi;
 
 	// filled by the DiLeptonQuantitiesProducer (collinear approximation)
 	std::vector<RMFLV> m_flavourOrderedTauMomentaCA;
@@ -172,6 +174,7 @@ public:
 
 	// filled by TaggedJetUncertaintyShiftProducer
 	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet*>> m_correctedJetsBySplitUncertainty;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet*>> m_correctedBTaggedJetsBySplitUncertainty;
 
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
@@ -229,6 +232,9 @@ public:
 	double m_genPhiStarCP_rho  = DefaultValues::UndefinedDouble;
 	double m_genPhi_rho  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar_rho  = DefaultValues::UndefinedDouble;
+	double m_gen_yTau  = DefaultValues::UndefinedDouble;
+	double m_gen_yTauL  = DefaultValues::UndefinedDouble;
+
 
 	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
 	KGenParticle* m_genOneProngCharged1 = 0;
@@ -270,7 +276,7 @@ public:
 	double m_recoPhiStarCPrPV_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs_rho  = DefaultValues::UndefinedDouble;
 
-
+	double m_reco_yTauL = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
 

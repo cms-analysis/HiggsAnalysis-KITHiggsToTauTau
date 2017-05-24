@@ -248,6 +248,7 @@ public:
 	void Init(std::string const& cacheFileName, std::string const& treeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
+	TFile * m_visPtResolutionFile = nullptr;
 
 private:
 	static std::map<std::string, TTree*> svfitCacheInputTree;
