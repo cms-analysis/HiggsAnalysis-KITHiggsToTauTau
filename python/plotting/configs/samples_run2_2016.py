@@ -44,7 +44,10 @@ class Samples(samples.SamplesBase):
 			else:
 				return "(gen_match_2 == 5)"
 		elif channel == "tt":
-			return "(gen_match_1 == 5 && gen_match_2 == 5)"
+			if kwargs.get("mssm", False):
+				return "(gen_match_1 < 6 && gen_match_2 < 6)"
+			else:
+				return "(gen_match_1 == 5 && gen_match_2 == 5)"
 		else:
 			log.fatal("No ZTT selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -2997,7 +3000,7 @@ class Samples(samples.SamplesBase):
 
 		if channel in ["mt","et"]:
 			mc_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))*(gen_match_2 < 6)*jetToTauFakeWeight_comb)"
-			data_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99*jetToTauFakeWeight_comb*0.5)"
+			data_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99*jetToTauFakeWeight_comb)"
 			Samples._add_input(
 					config,
 					self.files_data(channel),

@@ -235,7 +235,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 				if "wj" in nick:
 					integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 					if integral_shape != 0.0:
-						scale_factor = wjets_yield_os_lowmt / integral_shape
+						scale_factor = wjets_yield_ss_lowmt / integral_shape
 						plotData.plotdict["root_objects"][nick].Scale(scale_factor.nominal_value)
 				plotData.plotdict["root_objects"][qcd_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1)
 			yield_qcd_ss_lowmt = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_yield_nick])()
