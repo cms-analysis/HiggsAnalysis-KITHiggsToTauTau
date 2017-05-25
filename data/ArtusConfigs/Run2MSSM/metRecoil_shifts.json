@@ -4,19 +4,59 @@
 		"MetSysShift" : 0
 	},
 	"metRecoilResponseUp" : {
-		"MetSysType" : 1,
-		"MetSysShift" : 1
+		"MetSysType" : {
+			"nick" : {
+				"default" : 0,
+				"Summer16" : 1
+			}
+		},
+		"MetSysShift"  : {
+			"nick" : {
+				"default" : 0,
+				"Summer16" : 1
+			}
+		} 
 	},
 	"metRecoilResponseDown" : {
-		"MetSysType" : 1,
-		"MetSysShift" : -1
+		"MetSysType" : {
+			"nick" : {
+				"default" : 0,
+				"Summer16" : 1
+			}
+		},
+		"MetSysShift"  : {
+			"nick" : {
+				"default" : 0,
+				"Summer16" : -1
+			}
+		}
 	},
 	"metRecoilResolutionUp" : {
-		"MetSysType" : 2,
-		"MetSysShift" : 1
+		"MetSysType" : {
+			"nick" : {
+				"default" : 0,
+				"Summer16" : 2
+			}
+		},
+		"MetSysShift"  : {
+			"nick" : {
+				"default" : 0,
+				"Summer16" : 1
+			}
+		}
 	},
 	"metRecoilResolutionDown" : {
-		"MetSysType" : 2,
-		"MetSysShift" : -1
+		"MetSysType" : {
+			"nick" : {
+				"default" : 0,
+				"Summer16" : 2
+			}
+		},
+		"MetSysShift"  : {
+			"nick" : {
+				"default" : 0,
+				"Summer16" : -1
+			}
+		}
 	}
 }
