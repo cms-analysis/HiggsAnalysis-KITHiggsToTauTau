@@ -1,0 +1,62 @@
+{
+	"nominal" : {
+		"MetUncertaintyShift" : false,
+		"MetUncertaintyType" : ""
+	},
+	"metJetEnUp" : {
+		"MetUncertaintyShift" : {
+			"nick" : {
+				"default" : false,
+				"Summer16" : true
+			}
+		},
+		"MetUncertaintyType" : {
+			"nick" : {
+				"default" : "",
+				"Summer16" : "JetEnUp"
+			}
+		}
+	},
+	"metJetEnDown" : {
+		"MetUncertaintyShift" : {
+			"nick" : {
+				"default" : false,
+				"Summer16" : true
+			}
+		},
+		"MetUncertaintyType" : {
+			"nick" : {
+				"default" : "",
+				"Summer16" : "JetEnDown"
+			}
+		}
+	},
+	"metUnclusteredEnUp" : {
+		"MetUncertaintyShift" : {
+			"nick" : {
+				"default" : false,
+				"Summer16" : true
+			}
+		},
+		"MetUncertaintyType" : {
+			"nick" : {
+				"default" : "",
+				"Summer16" : "UnclusteredEnUp"
+			}
+		}
+	},
+	"metUnclusteredEnDown" : {
+		"MetUncertaintyShift" : {
+			"nick" : {
+				"default" : false,
+				"Summer16" : true
+			}
+		},
+		"MetUncertaintyType" : {
+			"nick" : {
+				"default" : "",
+				"Summer16" : "UnclusteredEnDown"
+			}
+		}
+	}
+}
