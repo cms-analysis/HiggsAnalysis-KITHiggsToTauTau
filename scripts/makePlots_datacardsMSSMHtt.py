@@ -484,6 +484,11 @@ if __name__ == "__main__":
 						elif category == "et_inclusive":
 							config["qcd_extrapolation_factors_ss_os"] = 0.99
 
+						if channel == "mt":
+							config["qcd_extrapolation_factors_ss_os"] = 1.18
+						elif channel == "et":
+							config["qcd_extrapolation_factors_ss_os"] = 1.02
+
 						# modify cut strings for shape uncertainties. Do not apply weights to data 
 						for index,value in enumerate(config["weights"]):
 							if not "Run201" in config["files"][index] or args.fakefactor_method is not None:
