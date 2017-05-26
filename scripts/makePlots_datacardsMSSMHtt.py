@@ -238,6 +238,8 @@ mapping_process2sample = {
 	"qqH" : "qqh",
 	"VH" : "vh",
 	"WH" : "wh",
+	"WplusH" : "wph",
+	"WminusH" : "wmh",
 	"ZH" : "zh",
 }
 

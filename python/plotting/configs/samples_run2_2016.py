@@ -2892,6 +2892,95 @@ class Samples(samples.SamplesBase):
 	def files_wh_plus(self, channel, mass=125):
 		return self.artus_file_names({"process" : "WplusHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
+	def wplush(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("WH", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs) 
+
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em", "mm", "ee"]:
+				Samples._add_input(
+						config,
+						self.files_wh_plus(channel, mass),
+						self.root_file_folder(channel),
+						lumi*kwargs.get("scale_signal", 1.0),
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						"wph"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix=nick_suffix+"_noplot"
+				)
+
+			else:
+				log.error("Sample config (WH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+
+			if not kwargs.get("no_plot", False):
+				if not kwargs.get("mssm", False):
+					Samples._add_bin_corrections(
+							config,
+							"wph"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
+				Samples._add_plot(
+						config,
+						"wph",
+						"LINE",
+						"L",
+						"wph"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+		return config
+
+	def wminush(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("WH", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs) 
+
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em", "mm", "ee"]:
+				Samples._add_input(
+						config,
+						self.files_wh_minus(channel, mass),
+						self.root_file_folder(channel),
+						lumi*kwargs.get("scale_signal", 1.0),
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						"wmh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix=nick_suffix+"_noplot"
+				)
+
+				if not "AddHistograms" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("AddHistograms")
+				config.setdefault("add_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wmh", "wph"]]))
+				config.setdefault("add_result_nicks", []).append("wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
+
+			else:
+				log.error("Sample config (WH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+
+			if not kwargs.get("no_plot", False):
+				if not kwargs.get("mssm", False):
+					Samples._add_bin_corrections(
+							config,
+							"wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							nick_suffix
+					)
+				Samples._add_plot(
+						config,
+						"wmh",
+						"LINE",
+						"L",
+						"wmh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						nick_suffix
+				)
+		return config
+
 	def wh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
