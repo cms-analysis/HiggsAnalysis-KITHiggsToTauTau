@@ -785,7 +785,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		
 		for mass in higgs_masses:
-			if channel == "em":
+			if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
 				Samples._add_input(
 					config,
 					self.files_hww_gg(channel, mass),
@@ -804,6 +804,31 @@ class Samples(samples.SamplesBase):
 		
 		return config
 
+	def hww_gg125(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		data_weight, mc_weight = self.projection(kwargs)
+		
+		if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
+			Samples._add_input(
+				config,
+				self.files_hww_gg(channel, 125),
+				self.root_file_folder(channel),
+				lumi,
+				mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+				"hww_gg125",
+				nick_suffix=nick_suffix
+			)
+		else:
+			log.error("Sample config (HWW_gg125) currently not implemented for channel \"%s\"!" % channel)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "hww_gg125", nick_suffix)
+		
+		Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg125", nick_suffix)
+		
+		return config
+
 	def files_hww_qq(self, channel, mass=125):
 		return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
@@ -814,7 +839,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		
 		for mass in higgs_masses:
-			if channel == "em":
+			if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
 				Samples._add_input(
 					config,
 					self.files_hww_qq(channel, mass),
@@ -830,6 +855,31 @@ class Samples(samples.SamplesBase):
 				Samples._add_bin_corrections(config, "hww_qq"+str(mass), nick_suffix)
 			
 			Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq"+str(mass), nick_suffix)
+		
+		return config
+
+	def hww_qq125(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		data_weight, mc_weight = self.projection(kwargs)
+		
+		if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
+			Samples._add_input(
+				config,
+				self.files_hww_qq(channel, 125),
+				self.root_file_folder(channel),
+				lumi,
+				mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+				"hww_qq125",
+				nick_suffix=nick_suffix
+			)
+		else:
+			log.error("Sample config (HWW_qq125) currently not implemented for channel \"%s\"!" % channel)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "hww_qq125", nick_suffix)
+		
+		Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq125", nick_suffix)
 		
 		return config
 
