@@ -3000,7 +3000,7 @@ class Samples(samples.SamplesBase):
 
 		if channel in ["mt","et"]:
 			mc_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))*(gen_match_2 < 6)*jetToTauFakeWeight_comb)"
-			data_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.99*jetToTauFakeWeight_comb)"
+			data_ff_weight = "*((byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*jetToTauFakeWeight_comb)"
 			Samples._add_input(
 					config,
 					self.files_data(channel),
@@ -3083,8 +3083,8 @@ class Samples(samples.SamplesBase):
 			config.setdefault("ff_norm_data_nicks", []).append("noplot_ff_norm"+nick_suffix)
 			config.setdefault("ff_norm_mc_subtract_nicks", []).append(" ".join([nick+"_norm"+nick_suffix for nick in "noplot_dy_ff noplot_tt_ff noplot_vv_ff".split()]))
 		elif channel in ["tt"]:
-			mc_ff_weight = "*((byMediumIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(gen_match_1 < 6)*jetToTauFakeWeight_comb_1*0.5 + (byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(gen_match_2 < 6)*jetToTauFakeWeight_comb_2*0.5)"
-			data_ff_weight = "*((byMediumIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.99 + (gen_match_1 != 5))*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.95*jetToTauFakeWeight_comb_1*0.5 + (byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*0.95*jetToTauFakeWeight_comb_2*0.5)"
+			mc_ff_weight = "*((byMediumIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.99 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(gen_match_1 < 6)*jetToTauFakeWeight_comb_1*0.5 + (byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))*((gen_match_1 == 5)*0.97 + (gen_match_1 != 5))*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(gen_match_2 < 6)*jetToTauFakeWeight_comb_2*0.5)"
+			data_ff_weight = "*((byMediumIsolationMVArun2v1DBoldDMwLT_1 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*0.95*jetToTauFakeWeight_comb_1*0.5 + (byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*0.95*jetToTauFakeWeight_comb_2*0.5)"
 			Samples._add_input(
 					config,
 					self.files_data(channel),

@@ -447,47 +447,18 @@ if __name__ == "__main__":
 						# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
 						# set qcd os-ss extrapolation factors
-						if category in ["mt_nobtag_tight", "mt_nobtag_loosemt"]:
+						if category in ["mt_nobtag_tight", "mt_nobtag_loosemt", "mt_nobtag"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.14
+						elif category in ["mt_btag_tight", "mt_btag_loosemt", "mt_btag"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.01
+						elif category in ["mt_inclusive_tight", "mt_inclusive_loosemt", "mt_inclusive"]:
 							config["qcd_extrapolation_factors_ss_os"] = 1.12
-						elif category == "mt_nobtag_looseiso":
-							config["qcd_extrapolation_factors_ss_os"] = 1.20
-						elif category == "mt_nobtag":
-							config["qcd_extrapolation_factors_ss_os"] = 1.20
-						elif category in ["mt_btag_tight", "mt_btag_loosemt"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.08
-						elif category == "mt_btag_looseiso":
-							config["qcd_extrapolation_factors_ss_os"] = 0.95
-						elif category == "mt_btag":
-							config["qcd_extrapolation_factors_ss_os"] = 0.95
-						elif category in ["mt_inclusive_tight", "mt_inclusive_loosemt"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.10
-						elif category == "mt_inclusive_looseiso":
-							config["qcd_extrapolation_factors_ss_os"] = 1.19
-						elif category == "mt_inclusive":
-							config["qcd_extrapolation_factors_ss_os"] = 1.19
-						elif category in ["et_nobtag_tight", "et_nobtag_loosemt"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.02
-						elif category == "et_nobtag_looseiso":
-							config["qcd_extrapolation_factors_ss_os"] = 0.97
-						elif category == "et_nobtag":
-							config["qcd_extrapolation_factors_ss_os"] = 0.97
-						elif category in ["et_btag_tight", "et_btag_loosemt"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.21
-						elif category == "et_btag_looseiso":
-							config["qcd_extrapolation_factors_ss_os"] = 0.84
-						elif category == "et_btag":
-							config["qcd_extrapolation_factors_ss_os"] = 0.84
-						elif category in ["et_inclusive_tight", "et_inclusive_loosemt"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.04
-						elif category == "et_inclusive_looseiso":
-							config["qcd_extrapolation_factors_ss_os"] = 0.99
-						elif category == "et_inclusive":
-							config["qcd_extrapolation_factors_ss_os"] = 0.99
-
-						if channel == "mt":
-							config["qcd_extrapolation_factors_ss_os"] = 1.18
-						elif channel == "et":
-							config["qcd_extrapolation_factors_ss_os"] = 1.02
+						elif category in ["et_nobtag_tight", "et_nobtag_loosemt", "et_nobtag"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.11
+						elif category in ["et_btag_tight", "et_btag_loosemt", "et_btag"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.16
+						elif category in ["et_inclusive_tight", "et_inclusive_loosemt", "et_inclusive"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.13
 
 						# modify cut strings for shape uncertainties. Do not apply weights to data 
 						for index,value in enumerate(config["weights"]):
