@@ -301,14 +301,14 @@ class SMHttDatacards(datacards.Datacards):
 			if year == "2016":
 				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "TTJJ", "VVJ"]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
 				# TODO: add control regions for W+jets once implemented
-				self.cb.cp().channel(["et", "mt", "tt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
+			#	self.cb.cp().channel(["et", "mt", "tt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
 			else:
 				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ", "VVJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 			
 			# MET ES
-			self.cb.cp().channel(["et", "mt", "tt", "em"]).process(all_mc_bkgs).bin([channel+"_"+category for channel in ["em", "et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt", "tt", "em"]).process(all_mc_bkgs_no_W).bin([channel+"_"+category for channel in ["em", "et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt", "tt", "em"]).signals().bin([channel+"_"+category for channel in ["em", "et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["et", "mt", "tt", "em"]).process(all_mc_bkgs).bin([channel+"_"+category for channel in ["em", "et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt", "tt", "em"]).process(all_mc_bkgs_no_W).bin([channel+"_"+category for channel in ["em", "et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt", "tt", "em"]).signals().bin([channel+"_"+category for channel in ["em", "et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
 
 			# cross section
