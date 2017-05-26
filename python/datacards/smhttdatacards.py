@@ -74,7 +74,7 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
-				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+				self.cb.cp().channel(["mt"]).process(all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
 			else:
 				self.cb.cp().channel(["mt"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.muon_efficiency_syst_args)
@@ -127,7 +127,7 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
-				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+				self.cb.cp().channel(["et"]).process(all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
 			else:
 				self.cb.cp().channel(["et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.electron_efficiency_syst_args)
@@ -180,7 +180,6 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
 				self.cb.cp().channel(["em"]).process(all_mc_bkgs).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
-
 				self.cb.cp().channel(["em"]).process(all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 				self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 			else:
@@ -227,7 +226,7 @@ class SMHttDatacards(datacards.Datacards):
 			if year == "2016":
 				self.cb.cp().channel(["tt"]).process(all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
-				self.cb.cp().channel(["tt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
+				self.cb.cp().channel(["tt"]).process(all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
 				self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
 			else:
 				self.cb.cp().channel(["tt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
@@ -336,8 +335,8 @@ class SMHttDatacards(datacards.Datacards):
 			# tau efficiency
 			# (hopefully) temporary fix
 			if year == "2016":
-				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
-				self.cb.cp().channel(["tt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency2016_tt_corr_syst_args)
+				self.cb.cp().channel(["mt", "et"]).process(all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
+				self.cb.cp().channel(["tt"]).process(all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_corr_syst_args)
 				self.cb.cp().channel(["mt", "et"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
 				self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_tt_corr_syst_args)
 			else:
