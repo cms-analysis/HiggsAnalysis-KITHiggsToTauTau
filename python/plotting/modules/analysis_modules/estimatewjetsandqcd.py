@@ -169,8 +169,8 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 
 				wjets_yield_ss_highmt = wjets_yield_relaxed_ss_highmt*wjets_extrapolation_factor_relaxed_highmt
 				wjets_yield_os_highmt = wjets_yield_relaxed_os_highmt*wjets_extrapolation_factor_relaxed_highmt
-				wjets_yield_ss_lowmt = wjets_yield_ss_highmt*wjets_extrapolation_factor_mt
-				wjets_yield_os_lowmt = wjets_yield_os_highmt*wjets_extrapolation_factor_mt
+				wjets_yield_ss_lowmt = wjets_yield_relaxed_ss_highmt*wjets_extrapolation_factor_relaxed_lowmt*wjets_extrapolation_factor_mt
+				wjets_yield_os_lowmt = wjets_yield_relaxed_os_highmt*wjets_extrapolation_factor_relaxed_lowmt*wjets_extrapolation_factor_mt
 				print "wjets yield os highmt", wjets_yield_os_highmt
 				print "wjets yield ss highmt", wjets_yield_ss_highmt
 				print "wjets yield os lowmt", wjets_yield_os_lowmt

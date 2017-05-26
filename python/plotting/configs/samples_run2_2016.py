@@ -978,7 +978,7 @@ class Samples(samples.SamplesBase):
 				wj_weight = weight
 				is_btag_category = category in ["catHttMSSM13TeV_mt_btag_looseiso", "catHttMSSM13TeV_mt_btag_loosemt", "catHttMSSM13TeV_mt_btag_tight", "catHttMSSM13TeV_mt_btag", "catHttMSSM13TeV_et_btag_looseiso", "catHttMSSM13TeV_et_btag_loosemt", "catHttMSSM13TeV_et_btag_tight", "catHttMSSM13TeV_et_btag"]
 				if is_btag_category:
-					relaxed_wj_weight = split_multiplication(weight)[-1]+"*(njets<=1)*(njetspt20eta2p4>=1)" # remove category selection for yield estimation and move to relaxed selection
+					relaxed_wj_weight = split_multiplication(weight)[-1]+"*(njetspt20>=1)" # remove category selection for yield estimation and move to relaxed selection
 
 				if "newKIT" in estimationMethod:
 					wj_weight = split_multiplication(weight)[-1] # remove category selection for yield estimation
