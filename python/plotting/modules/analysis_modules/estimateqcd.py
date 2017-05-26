@@ -89,7 +89,7 @@ class EstimateQcd(estimatebase.EstimateBase):
 			#print "yield_qcd :" + str(yield_qcd)
 			# save to be picked up
 			plotData.metadata[qcd_shape_nick] = {
-				"yield" : final_yield_qcd.nominal_value,
-				"yield_unc" : final_yield_qcd.std_dev,
-				"yield_unc_rel" : abs(final_yield_qcd.std_dev/final_yield_qcd.nominal_value if final_yield_qcd.nominal_value != 0.0 else 0.0),
+				"yield" : 0.0 if yield_qcd == 0.0 else final_yield_qcd.nominal_value,
+				"yield_unc" : 0.0 if yield_qcd == 0.0 else final_yield_qcd.std_dev,
+				"yield_unc_rel" : abs(0.0 if yield_qcd == 0.0 else final_yield_qcd.std_dev/final_yield_qcd.nominal_value),
 			}
