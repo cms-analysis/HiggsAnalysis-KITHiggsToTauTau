@@ -33,9 +33,13 @@ samples_dict = {
 			("zptstat80pt",["ztt","zll","zj","zl","wj","qcd"]),
 			("zptttbar",["ztt","zll","zj","zl","wj","qcd"]),
 			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metrecoilscale',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metrecoilreso',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metjeten',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metunclustereden',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
 			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
 		'mt' : [
@@ -51,15 +55,15 @@ samples_dict = {
 			("zptstat80pt",["ztt","zll","zj","zl","wj","qcd"]),
 			("zptttbar",["ztt","zll","zj","zl","wj","qcd"]),
 			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metrecoilscale',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metrecoilreso',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metjeten',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metunclustereden',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
 			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
-		# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
-		# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ("taupt",["ztt","ggh","bbh"])],
-		# 'et' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vvt','vvj','vv','wj','qcd'])],
-		# 'mt' : [('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vvt','vvj','vv','wj','qcd'])],
 		'tt' : [
 			("toppt",["ttj",'ttt','ttjj',"wj","qcd"]),
 			("taues1prong0pi",["ztt","ttt", "vvt","wj","qcd","ggh","bbh"]),
@@ -73,9 +77,13 @@ samples_dict = {
 			("zptstat80pt",["ztt","zll","zj","zl","wj","qcd"]),
 			("zptttbar",["ztt","zll","zj","zl","wj","qcd"]),
 			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			# ("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
+			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metrecoilscale',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metrecoilreso',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metjeten',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			('metenclustereden',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
+			("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
 			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
 		'em' : [
@@ -86,26 +94,36 @@ samples_dict = {
 			("zptstat40pt",["ztt","zll"]),
 			("zptstat80pt",["ztt","zll"]),
 			("zptttbar",["ztt","zll"]),
-			# ('btag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			# ('mistag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			# ('jec',['ztt','zll','ttj','vv','ggh','bbh']),
+			('btag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('mistag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('metrecoilscale',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('metrecoilreso',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('metjeten',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('metunclustereden',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('jec',['ztt','zll','ttj','vv','ggh','bbh']),
 			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh'])
 		],
 		'mm' : [
 			("toppt",["ttj","wj","qcd"]),
 			("zpt",["ztt","zll","wj","qcd"]),
 			("wfake",['ztt','zll','ttj','vv','wj','qcd']),
-			# ('btag',['ztt','zll','ttj','vv','wj','qcd']),
-			# ('mistag',['ztt','zll','ttj','vv','wj','qcd']),
-+			# ('jec',['ztt','zl','zj','ttj','vv','ggh','bbh']),
+			('btag',['ztt','zll','ttj','vv','wj','qcd']),
+			('mistag',['ztt','zll','ttj','vv','wj','qcd']),
+			('metrecoilscale',['ztt','zll','ttj','vv','wj','qcd']),
+			('metrecoilreso',['ztt','zll','ttj','vv','wj','qcd']),
+			('metjeten',['ztt','zll','ttj','vv','wj','qcd']),
+			('metunclustereden',['ztt','zll','ttj','vv','wj','qcd']),
+			('jec',['ztt','zl','zj','ttj','vv','ggh','bbh']),
 			('nominal',['ztt','zll','ttj','vv','wj','qcd'])
-		],
-
-		# 'tt' : [('nominal',['ztt','zll','zl','zj','ttj','vv','wj','qcd','ggh','bbh']), ("toppt",["ttj"]), ("taues",["ztt","ggh","bbh"]), ('taupt',['ztt',"ggh","bbh"]), ("zpt",["ztt","zll", "zj", "zl"])]
+		]
 	}
 shapes = {
 	"btag" : "CMS_eff_b_13TeV",
 	"mistag" :"CMS_fake_b_13TeV",
+	"metrecoilscale" : "CMS_htt_boson_scale_met_13TeV",
+	"metrecoilreso" :"CMS_htt_boson_reso_met_13TeV",
+	"metjeten" : "CMS_jet_energy_met_unc_13TeV",
+	"metunclustereden" :"CMS_unclustered_energy_met_unc_13TeV",
 	"jec" : "CMS_scale_j_13TeV",
 	"toppt" : "CMS_htt_ttbarShape_13TeV",
 	"taupt" : "CMS_eff_t_mssmHigh_{CHANNEL}_13TeV",
@@ -152,6 +170,10 @@ shapes = {
 shapes_weight_dict = {
 		"btag" : ("1.0", "1.0"),
 		"mistag" : ("1.0", "1.0"),
+		"metrecoilscale" : ("1.0", "1.0"),
+		"metrecoilreso" : ("1.0", "1.0"),
+		"metjeten" : ("1.0", "1.0"),
+		"metunclustereden" : ("1.0", "1.0"),
 		"jec" : ("1.0", "1.0"),
 		"toppt" : ("1.0/topPtReweightWeight","topPtReweightWeight"),
 		"zpt" : ("1.0/zPtReweightWeight","zPtReweightWeight"),
@@ -562,16 +584,43 @@ if __name__ == "__main__":
 								if any([(proc in config["nicks"][index]) for proc in ["ggh","bbh","ztt"]]):
 									# hack to only substitute the folder for those where it is needed
 									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+
+						# modify folder for b-tagging efficiency and fake rate uncertainties
 						if shape_systematic == "btag":
 							replacestring = "btagEffUp" if shift_up else "btagEffDown"
 							for index, folder in enumerate(config["folders"]):
 								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
-
 						if shape_systematic == "mistag":
 							replacestring = "btagMistagUp" if shift_up else "btagMistagDown"
 							for index, folder in enumerate(config["folders"]):
 								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
 
+						# modify folder for met uncertainties for contributions w/o recoil corrections
+						if shape_systematic == "metjeten":
+							replacestring = "metJetEnUp" if shift_up else "metJetEnDown"
+							for index, folder in enumerate(config["folders"]):
+								if not re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]) and not "Run201" in config["files"][index]:
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+									print "Folder changed for:",config["files"][index]
+						if shape_systematic == "metunclustereden":
+							replacestring = "metUnclusteredEnUp" if shift_up else "metUnclusteredEnDown"
+							for index, folder in enumerate(config["folders"]):
+								if not re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]) and not "Run201" in config["files"][index]:
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+
+						# modify folder for met uncertainties for contributions with recoil corrections
+						if shape_systematic == "metrecoilscale":
+							replacestring = "metRecoilResponseUp" if shift_up else "metRecoilResponseUp"
+							for index, folder in enumerate(config["folders"]):
+								if re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]):
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						if shape_systematic == "metrecoilreso":
+							replacestring = "metRecoilResolutionUp" if shift_up else "metRecoilResolutionUp"
+							for index, folder in enumerate(config["folders"]):
+								if re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]):
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+
+						# modify folder for jec uncertainties
 						if shape_systematic == "jec":
 							replacestring = "jecUncUp" if shift_up else "jecUncDown"
 							for index, folder in enumerate(config["folders"]):
