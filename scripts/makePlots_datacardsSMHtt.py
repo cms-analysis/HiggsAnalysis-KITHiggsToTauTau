@@ -140,6 +140,39 @@ if __name__ == "__main__":
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
+	
+	# list of JEC uncertainties
+	jecUncertNames = [
+		"AbsoluteFlavMap",
+		"AbsoluteMPFBias",
+		"AbsoluteScale",
+		"AbsoluteStat",
+		"FlavorQCD",
+		"Fragmentation",
+		"PileUpDataMC",
+		"PileUpPtBB",
+		"PileUpPtEC1",
+		"PileUpPtEC2",
+		"PileUpPtHF",
+		"PileUpPtRef",
+		"RelativeBal",
+		"RelativeFSR",
+		"RelativeJEREC1",
+		"RelativeJEREC2",
+		"RelativeJERHF",
+		"RelativePtBB",
+		"RelativePtEC1",
+		"RelativePtEC2",
+		"RelativePtHF",
+		"RelativeStatEC",
+		"RelativeStatFSR",
+		"RelativeStatHF",
+		"SinglePionECAL",
+		"SinglePionHCAL",
+		"TimePtEta",
+		"Total",
+		"Closure"
+	]
 
 	#restriction to CH
 	datacards.cb.channel(args.channel)
@@ -207,8 +240,12 @@ if __name__ == "__main__":
 							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method
 					)
-					
-					systematics_settings = systematics_factory.get(shape_systematic)(config)
+					if "CMS_scale_gg_13TeV" in shape_systematic:
+						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
+					elif "CMS_scale_j_" in shape_systematic and shape_systematic.split("_")[-2] in jecUncertNames:
+						systematics_settings = systematics_factory.get(shape_systematic)(config, shape_systematic.split("_")[-2])
+					else:
+						systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
@@ -241,7 +278,7 @@ if __name__ == "__main__":
 							config["y_expressions"] = ["pt_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
 							config["texts"] = list(("p_{T}^{#mu} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-							config["texts_x"] = [0.25, 0.37, 0.50, 0.64, 0.77, 0.89]
+							config["texts_x"] = [0.25, 0.5, 0.7]
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
