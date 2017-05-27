@@ -116,19 +116,22 @@ def read_file(filename):
 		content = input_file.read()
 	return content
 
-def submission(base_path, n_processes=1):
+def submission(base_paths, n_processes=1):
 	
 	# retrieve and prepare input files
-	stdout_directories, stderr_directories = tools.subprocessCall(shlex.split("gfal-ls " + base_path))
-	tmp_filenames_per_sample_per_pipeline = tools.parallelize(
-			get_filenames,
-			[[base_path, sample] for sample in stdout_directories.decode().strip().split("\n")],
-			n_processes=n_processes,
-			description="Retrieving inputs"
-	)
 	filenames_per_sample_per_pipeline = {}
-	for item in tmp_filenames_per_sample_per_pipeline:
-		filenames_per_sample_per_pipeline.update(item)
+	for base_path in base_paths:
+		stdout_directories, stderr_directories = tools.subprocessCall(shlex.split("gfal-ls " + base_path))
+		tmp_filenames_per_sample_per_pipeline = tools.parallelize(
+				get_filenames,
+				[[base_path, sample] for sample in stdout_directories.decode().strip().split("\n")],
+				n_processes=n_processes,
+				description="Retrieving inputs"
+		)
+		for item in tmp_filenames_per_sample_per_pipeline:
+			for sample, filenames_per_pipeline in item.iteritems():
+				for pipeline, tmp_filenames in filenames_per_pipeline.iteritems():
+					filenames_per_sample_per_pipeline.setdefault(sample, {}).setdefault("pipeline", []).extend(tmp_filenames)
 	configs, jobfiles = build_configs(filenames_per_sample_per_pipeline)
 	
 	# submit tasks
@@ -143,13 +146,13 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="crab submission script for standalone Svfit calculation.",
 	                                 parents=[logger.loggingParser])
 	
-	parser.add_argument("base_path",
-	                    help="/pnfs/[path to storage element with SvfitCache input files]")
+	parser.add_argument("base_paths", nargs="+",
+	                    help="/pnfs/[path(s) to storage element(s) with SvfitCache input files]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	submission(args.base_path, args.n_processes)
+	submission(args.base_paths, args.n_processes)
 
