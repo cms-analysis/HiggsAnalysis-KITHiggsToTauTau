@@ -138,7 +138,7 @@ def submission(base_paths, n_processes=1):
 	submit_args = []
 	for config, jobfile in zip(configs, jobfiles):
 		submit_args.append([config, jobfile])
-	tools.parallelize(submit, submit_args, n_processes=n_processes, description="Submitting crab tasks")
+	tools.parallelize(submit, submit_args, n_processes=1, description="Submitting crab tasks")
 
 
 if __name__ == "__main__":
