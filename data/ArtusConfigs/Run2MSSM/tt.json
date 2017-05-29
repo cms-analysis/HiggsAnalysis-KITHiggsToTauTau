@@ -76,8 +76,8 @@
 			"1:triggerWeight"
 		],
 		"TauTauTriggerWeightWorkspaceObjectNames" : [
-			"0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio",
-			"1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"
+			"0:t_genuine_MediumIso_tt_ratio,t_fake_MediumIso_tt_ratio",
+			"1:t_genuine_MediumIso_tt_ratio,t_fake_MediumIso_tt_ratio"
 		],
 		"TauTauTriggerWeightWorkspaceObjectArguments" : [
 			"0:t_pt,t_dm",
@@ -104,9 +104,7 @@
 		"InvalidateNonMatchingJets" : false,
 		"DirectIso" : true,
 		"BTagWPs" : [
-			"medium",
-			"loose",
-			"tight"
+			"medium"
 		],
 		"Quantities" : [
 			{
@@ -143,6 +141,7 @@
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
@@ -159,7 +158,7 @@
 					"producer:MetCorrector",
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
-					"filter:MinimalPlotlevelFilter",
+					"#filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -173,6 +172,7 @@
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
@@ -189,7 +189,7 @@
 					"producer:MetCorrector",
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
-					"filter:MinimalPlotlevelFilter",
+					"#filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -223,7 +223,7 @@
 					"producer:ZPtReweightProducer",
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
-					"filter:MinimalPlotlevelFilter",
+					"#filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -255,7 +255,7 @@
 					"#producer:MvaMetCorrector",
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
-					"filter:MinimalPlotlevelFilter",
+					"#filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
@@ -282,7 +282,7 @@
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:TaggedJetCorrectionsProducer",
-					"filter:MinimalPlotlevelFilter",
+					"#filter:MinimalPlotlevelFilter",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
