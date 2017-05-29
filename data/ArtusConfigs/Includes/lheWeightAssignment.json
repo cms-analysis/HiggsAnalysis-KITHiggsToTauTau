@@ -1,7 +1,7 @@
 {
 	"GenEventInfoMetadataNames" : {
 		"nick" : {
-			"DYJetsToLL.*amcatnlo|TT_" : [
+			"DYJetsToLL.*amcatnlo|TT" : [
 				"1001:muR1p0_muF1p0_weight",
 				"1002:muR1p0_muF2p0_weight",
 				"1003:muR1p0_muF0p5_weight",
