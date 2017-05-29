@@ -130,7 +130,6 @@
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json"
 				]
 			},
-			"nmediumbtag",
 			"had_gen_match_pT_1",
 			"had_gen_match_pT_2",
 			"muR1p0_muF1p0_weight",
