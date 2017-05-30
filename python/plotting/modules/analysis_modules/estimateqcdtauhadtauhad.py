@@ -39,12 +39,12 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 	def prepare_args(self, parser, plotData):
 		super(EstimateQcdTauHadTauHad, self).prepare_args(parser, plotData)
 		
-                self._plotdict_keys = ["qcd_data_shape_nicks", "qcd_data_signal_control_nicks", "qcd_data_relaxed_control_nicks", "qcd_data_subtract_nicks", "qcd_control_signal_subtract_nicks", "qcd_control_relaxed_subtract_nicks"]
+		self._plotdict_keys = ["qcd_data_shape_nicks", "qcd_data_signal_control_nicks", "qcd_data_relaxed_control_nicks", "qcd_data_subtract_nicks", "qcd_control_signal_subtract_nicks", "qcd_control_relaxed_subtract_nicks"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		
-                plotData.plotdict["qcd_data_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_data_subtract_nicks"]]
-                plotData.plotdict["qcd_control_signal_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_signal_subtract_nicks"]]
-                plotData.plotdict["qcd_control_relaxed_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_relaxed_subtract_nicks"]]
+		plotData.plotdict["qcd_data_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_data_subtract_nicks"]]
+		plotData.plotdict["qcd_control_signal_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_signal_subtract_nicks"]]
+		plotData.plotdict["qcd_control_relaxed_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_relaxed_subtract_nicks"]]
 		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
@@ -61,26 +61,26 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 		for qcd_data_shape_nick, qcd_data_signal_control_nick, qcd_data_relaxed_control_nick, qcd_data_subtract_nicks, qcd_control_signal_subtract_nicks, qcd_control_relaxed_subtract_nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			
 			for nick in qcd_data_subtract_nicks:
-                                plotData.plotdict["root_objects"][qcd_data_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
+				plotData.plotdict["root_objects"][qcd_data_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
 			
-                        yield_control_signal = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_signal_control_nick])()
-                        for nick in qcd_control_signal_subtract_nicks:
-                            yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-                            yield_control_signal -= yield_bgk_control
+			yield_control_signal = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_signal_control_nick])()
+			for nick in qcd_control_signal_subtract_nicks:
+				yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+				yield_control_signal -= yield_bgk_control
 
-                        yield_control_relaxed = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_relaxed_control_nick])()
-                        for nick in qcd_control_relaxed_subtract_nicks:
-                            yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-                            yield_control_relaxed -= yield_bgk_control
-                        
-                        scale_factor = yield_control_signal
-                        if yield_control_relaxed != 0.0:
-                            scale_factor /= yield_control_relaxed
+			yield_control_relaxed = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_relaxed_control_nick])()
+			for nick in qcd_control_relaxed_subtract_nicks:
+				yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+				yield_control_relaxed -= yield_bgk_control
+
+			scale_factor = yield_control_signal
+			if yield_control_relaxed != 0.0:
+				scale_factor /= yield_control_relaxed
 			
-                        log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
-                        plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
+			log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
+			plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
 
-                        final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])()
+			final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])()
 			
 			log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 			
