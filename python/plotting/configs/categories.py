@@ -319,7 +319,8 @@ class CategoriesDict(object):
 						"binningHtt13TeV_"
 						],
 					"global": {
-						"_m_vis": auto_rebin_binning
+						"_m_vis": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning
 						},
 					"mt_" : {
 						"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
