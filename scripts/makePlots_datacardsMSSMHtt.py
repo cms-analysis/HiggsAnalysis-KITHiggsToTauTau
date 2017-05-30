@@ -577,7 +577,6 @@ if __name__ == "__main__":
 							for index, folder in enumerate(config["folders"]):
 								if not re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]) and not "Run201" in config["files"][index]:
 									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
-									print "Folder changed for:",config["files"][index]
 						if shape_systematic == "metunclustereden":
 							replacestring = "metUnclusteredEnUp" if shift_up else "metUnclusteredEnDown"
 							for index, folder in enumerate(config["folders"]):
@@ -586,12 +585,12 @@ if __name__ == "__main__":
 
 						# modify folder for met uncertainties for contributions with recoil corrections
 						if shape_systematic == "metrecoilscale":
-							replacestring = "metRecoilResponseUp" if shift_up else "metRecoilResponseUp"
+							replacestring = "metRecoilResponseUp" if shift_up else "metRecoilResponseDown"
 							for index, folder in enumerate(config["folders"]):
 								if re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]):
 									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
 						if shape_systematic == "metrecoilreso":
-							replacestring = "metRecoilResolutionUp" if shift_up else "metRecoilResolutionUp"
+							replacestring = "metRecoilResolutionUp" if shift_up else "metRecoilResolutionDown"
 							for index, folder in enumerate(config["folders"]):
 								if re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]):
 									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
