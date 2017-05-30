@@ -265,10 +265,31 @@ if __name__ == "__main__":
 								print key
 							sys.exit()
 					
+					# define quantities and binning for control regions
+					if "ZeroJet2D" in category and "WJCR" in category and channel in ["mt", "et"]:
+						config["x_expressions"] = ["mt_1"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
+					elif "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+						if channel in ["mt", "et"]:
+							config["x_expressions"] = ["m_vis"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						elif channel == "tt":
+							config["x_expressions"] = ["m_sv"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "Vbf2D" in category and "QCDCR" in category and channel == "tt":
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "TTbarCR" in category and channel == "em":
+						config["x_expressions"] = ["m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+					
 					# Use 2d plots for 2d categories
 					config["texts"] = []
 					config["texts_x"] = []
-					if "ZeroJet2D" in category:
+					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						if channel in ["mt", "et"]:
@@ -284,14 +305,14 @@ if __name__ == "__main__":
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "Boosted2D" in category:
+					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
 						config["texts"] = list(("p_{T}^{#tau#tau} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
 						config["texts_x"] = ([0.25, 0.45, 0.65, 0.85] if channel == "tt" else [0.25, 0.37, 0.50, 0.64, 0.77, 0.89])
-					elif "Vbf2D" in category:
+					elif "Vbf2D" in category and not "QCDCR" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["mjj"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
@@ -300,7 +321,7 @@ if __name__ == "__main__":
 						config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
 					
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if "2D" in category:
+					if "2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						two_d_inputs = []
 						for mass in higgs_masses:
 							two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggh",'qqh'] else "") for sample in list_of_samples])
