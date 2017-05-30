@@ -68,7 +68,13 @@
 		"recoChargedHadron1HiggsFrameEnergy",
 		"recoChargedHadron2HiggsFrameEnergy",
 
-		"reco_yTauL",
+		"reco_posyTauL",
+		"reco_negyTauL",
+
+		"posLepSumChargedHadronsLV",
+		"negLepSumChargedHadronsLV",
+		"posLepSumNeutralHadronsLV",
+		"negLepSumNeutralHadronsLV",
 
 		"d0_refitPV_1",
 		"d0_refitPVBS_1",

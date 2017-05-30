@@ -28,9 +28,14 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return product.m_recoPhiStarCP_rho;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("reco_yTauL", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("reco_posyTauL", [](event_type const& event, product_type const& product)
 	{
-		return product.m_reco_yTauL;
+		return product.m_reco_posyTauL;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("reco_negyTauL", [](event_type const& event, product_type const& product)
+	{
+		return product.m_reco_negyTauL;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCPrPV", [](event_type const& event, product_type const& product)
@@ -250,7 +255,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	RMFLV piZeroM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
 
 	product.m_recoPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(momentumP, momentumM, piZeroP, piZeroM);
-	product.m_reco_yTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(momentumP, momentumM, piZeroP, piZeroM);
+	product.m_reco_posyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(momentumP, piZeroP);
+	product.m_reco_negyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(momentumM, piZeroM);
 
 
     // variables for the rho method

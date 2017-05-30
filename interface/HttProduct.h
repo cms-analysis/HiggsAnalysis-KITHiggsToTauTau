@@ -233,7 +233,8 @@ public:
 	double m_genPhi_rho  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar_rho  = DefaultValues::UndefinedDouble;
 	double m_gen_yTau  = DefaultValues::UndefinedDouble;
-	double m_gen_yTauL  = DefaultValues::UndefinedDouble;
+	double m_gen_posyTauL  = DefaultValues::UndefinedDouble;
+	double m_gen_negyTauL  = DefaultValues::UndefinedDouble;
 
 
 	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
@@ -276,9 +277,20 @@ public:
 	double m_recoPhiStarCPrPV_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs_rho  = DefaultValues::UndefinedDouble;
 
-	double m_reco_yTauL = DefaultValues::UndefinedDouble;
+	double m_reco_posyTauL = DefaultValues::UndefinedDouble;
+	double m_reco_negyTauL = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
+
+
+	double m_recoChargedPiPlus_rho_pt = DefaultValues::UndefinedDouble;
+	double m_recoChargedPiMinus_pt = DefaultValues::UndefinedDouble;
+	double m_recoPiZeroPlus_pt = DefaultValues::UndefinedDouble;
+	double m_recoPiZeroMinus_pt = DefaultValues::UndefinedDouble;
+	double m_recoChargedPiPlus_eta = DefaultValues::UndefinedDouble;
+	double m_recoChargedPiMinus_eta = DefaultValues::UndefinedDouble;
+	double m_recoPiZeroPlus_eta = DefaultValues::UndefinedDouble;
+	double m_recoPiZeroMinus_eta = DefaultValues::UndefinedDouble;
 
 	KGenParticle* m_recoChargedParticle1 = 0;
 	KGenParticle* m_recoChargedParitcle2 = 0;
