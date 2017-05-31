@@ -2209,12 +2209,15 @@ class Samples(samples.SamplesBase):
 							"qcd",
 							nick_suffix=nick_suffix
 					)
-					ss_os_factor = 1.0
-					if category != None:
-						if channel == "et":
-							ss_os_factor = 1.28 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.0 if "ZeroJet2D" in category else 1.0
-						elif channel == "mt":
-							ss_os_factor = 1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
+					if kwargs.get("ss_os_factor", 0.0) != 0.0:
+						ss_os_factor = kwargs["ss_os_factor"]
+					else:
+						ss_os_factor = 1.0
+						if category != None:
+							if channel == "et":
+								ss_os_factor = 1.28 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.0 if "ZeroJet2D" in category else 1.0
+							elif channel == "mt":
+								ss_os_factor = 1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
 					if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
 					elif channel == "et":

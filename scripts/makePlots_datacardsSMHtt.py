@@ -175,6 +175,16 @@ if __name__ == "__main__":
 		"Total",
 		"Closure"
 	]
+	
+	# os/ss factors for different categories
+	ss_os_factors = {
+		"mt_ZeroJet2D" : 1.07,
+		"mt_Boosted2D" : 1.06,
+		"mt_Vbf2D" : 1.0,
+		"et_ZeroJet2D" : 1.0,
+		"et_Boosted2D" : 1.28,
+		"et_Vbf2D" : 1.0
+	}
 
 	#restriction to CH
 	datacards.cb.channel(args.channel)
@@ -230,6 +240,13 @@ if __name__ == "__main__":
 							systematic=systematic
 					))
 					
+					ss_os_factor = ss_os_factors.get(category,0.0)
+					if "WSFUncert" in shape_systematic:
+						if "ZeroJet2D" in category or "Boosted2D" in category:
+							ss_os_factor *= 1.15 if shift_up else 0.85
+						elif "Vbf2D" in category:
+							ss_os_factor *= 1.30 if shift_up else 0.70
+					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -240,7 +257,8 @@ if __name__ == "__main__":
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="smhtt2016" if args.era == "2016" else "baseline",
-							estimationMethod=args.background_method
+							estimationMethod=args.background_method,
+							ss_os_factor=ss_os_factor
 					)
 					if "CMS_scale_gg_13TeV" in shape_systematic:
 						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
