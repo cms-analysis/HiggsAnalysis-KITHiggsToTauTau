@@ -207,6 +207,8 @@ if __name__ == "__main__":
 			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = args.exclude_cuts
+			if "TTbarCR" in category:
+				exclude_cuts += ["pzeta"]
 			if args.for_dcsync:
 				if category[3:] == 'inclusive':
 					exclude_cuts=["mt", "pzeta"]
@@ -437,12 +439,15 @@ if __name__ == "__main__":
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.05, merge_threshold=0.8, fix_norm=False
 		)
-	
 
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
-		
+	
+	# normalize DM systematic templates to the nominal one in order to get a pure shape systematic
+	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_u(1 if "tauDMReco" in systematic.name() else systematic.value_u()))
+	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_d(1 if "tauDMReco" in systematic.name() else systematic.value_d()))
+	
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset("125")
