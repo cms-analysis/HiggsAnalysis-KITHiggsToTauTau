@@ -2367,9 +2367,12 @@ class Samples(samples.SamplesBase):
 					config.setdefault("qcd_yield_nicks", []).append("noplot_qcd_yield"+nick_suffix)
 					config.setdefault("qcd_yield_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_yield"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
 					config.setdefault("qcd_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_shape"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
-					ss_os_factor = 1.0
-					if category != None:
-						ss_os_factor = 1.8 if "ZeroJet2D" in category else 1.89 if "Boosted2D" in category else 1.74 if "Vbf2D" in category else 1.0
+					if kwargs.get("ss_os_factor", 0.0) != 0.0:
+						ss_os_factor = kwargs["ss_os_factor"]
+					else:
+						ss_os_factor = 1.0
+						if category != None:
+							ss_os_factor = 1.8 if "ZeroJet2D" in category else 1.89 if "Boosted2D" in category else 1.74 if "Vbf2D" in category else 1.0
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 				if channel == "tt":
 					if cut_type == "baseline2016":
