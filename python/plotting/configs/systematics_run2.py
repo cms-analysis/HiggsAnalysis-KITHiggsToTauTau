@@ -106,6 +106,14 @@ class SystematicsFactory(dict):
 		
 		for jecUncert in jecUncertNames:
 			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic
+		
+		# these uncertainties currently need to be implemented in your datacards script
+		self["WSFUncert_mt_0jet_13TeV"] = Nominal
+		self["WSFUncert_et_0jet_13TeV"] = Nominal
+		self["WSFUncert_mt_boosted_13TeV"] = Nominal
+		self["WSFUncert_et_boosted_13TeV"] = Nominal
+		self["WSFUncert_mt_vbf_13TeV"] = Nominal
+		self["WSFUncert_et_vbf_13TeV"] = Nominal
 
 
 class SystematicShiftBase(object):

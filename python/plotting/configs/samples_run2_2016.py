@@ -2233,6 +2233,8 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
 						config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
 						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
+						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
+							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
 
 						for nick in ["ztt_ss_lowmt", "zll_ss_lowmt", "zl_ss_lowmt", "zj_ss_lowmt", "ttt_ss_lowmt", "ttjj_ss_lowmt", "ttj_ss_lowmt", "vvt_ss_lowmt", "vvj_ss_lowmt", "vv_ss_lowmt", "wj_ss_lowmt","data_ss_lowmt", "qcd_ss_highmt", "qcd_os_highmt", "qcd_ss_lowmt"]:
 							if not kwargs.get("mssm", False):
@@ -2247,6 +2249,8 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
 						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
+						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
+							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
 				if channel == "em":
 					for estimation_type in ["shape", "yield"]:
 						qcd_weight = weight
