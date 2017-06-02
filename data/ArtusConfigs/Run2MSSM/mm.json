@@ -126,21 +126,12 @@
 				"include" : [
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/syncQuantities.json",
 					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/zptQuantities.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/MVAInputQuantities.json"
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/lheWeights.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/zptQuantities.json"
 				]
 			},
 			"had_gen_match_pT_1",
-			"had_gen_match_pT_2",
-			"muR1p0_muF1p0_weight",
-			"muR1p0_muF2p0_weight",
-			"muR1p0_muF0p5_weight",
-			"muR2p0_muF1p0_weight",
-			"muR2p0_muF2p0_weight",
-			"muR2p0_muF0p5_weight",
-			"muR0p5_muF1p0_weight",
-			"muR0p5_muF2p0_weight",
-			"muR0p5_muF0p5_weight"
+			"had_gen_match_pT_2"
 		],
 		"OSChargeLeptons" : true,
 		"TopPtReweightingStrategy" : "Run1",
@@ -187,8 +178,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer",
-					"producer:MVAInputQuantitiesProducer"
+					"producer:EventWeightProducer"
 				],
 				"TT(To|_|Jets)" : [
 					"producer:HltProducer",
@@ -220,8 +210,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer",
-					"producer:MVAInputQuantitiesProducer"
+					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
 					"producer:HltProducer",
@@ -256,8 +245,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer",
-					"producer:MVAInputQuantitiesProducer"
+					"producer:EventWeightProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
 					"producer:HltProducer",
@@ -291,8 +279,7 @@
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
-					"producer:EventWeightProducer",
-					"producer:MVAInputQuantitiesProducer"
+					"producer:EventWeightProducer"
 				],
 				"Run201" : [
 					"producer:HltProducer",
@@ -320,8 +307,7 @@
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:EventWeightProducer",
-					"producer:MVAInputQuantitiesProducer"
+					"producer:EventWeightProducer"
 				]
 			}
 		},
