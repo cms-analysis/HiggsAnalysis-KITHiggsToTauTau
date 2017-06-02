@@ -185,6 +185,17 @@ if __name__ == "__main__":
 		"et_Boosted2D" : 1.28,
 		"et_Vbf2D" : 1.0
 	}
+	
+	# w+jets scale factor shifts for different categories
+	# same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV
+	wj_sf_shifts = {
+		"mt_ZeroJet2D" : 0.10,
+		"mt_Boosted2D" : 0.05,
+		"mt_Vbf2D" : 0.10,
+		"et_ZeroJet2D" : 0.10,
+		"et_Boosted2D" : 0.05,
+		"et_Vbf2D" : 0.10
+	}
 
 	#restriction to CH
 	datacards.cb.channel(args.channel)
@@ -232,6 +243,15 @@ if __name__ == "__main__":
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				
+				# This is needed because wj and qcd are interdependent when using the new background estimation method
+				# NB: CH takes care to only use the templates for processes that you specified. This means that any
+				#     superfluous histograms created as a result of this problem do not influence the result
+				if args.background_method == "new":
+					if "qcd" in list_of_samples and "wj" not in list_of_samples:
+						list_of_samples += ["wj"]
+					elif "wj" in list_of_samples and "qcd" not in list_of_samples:
+						list_of_samples += ["qcd"]
+				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 					
@@ -243,11 +263,11 @@ if __name__ == "__main__":
 					))
 					
 					ss_os_factor = ss_os_factors.get(category,0.0)
-					if "WSFUncert" in shape_systematic:
-						if "ZeroJet2D" in category or "Boosted2D" in category:
-							ss_os_factor *= 1.15 if shift_up else 0.85
-						elif "Vbf2D" in category:
-							ss_os_factor *= 1.30 if shift_up else 0.70
+					wj_sf_shift = wj_sf_shifts.get(category,0.0)
+					if "WSFUncert" in shape_systematic and wj_sf_shift != 0.0:
+						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
+					else:
+						wj_sf_shift = 0.0
 					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
@@ -260,8 +280,10 @@ if __name__ == "__main__":
 							higgs_masses=higgs_masses,
 							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
-							ss_os_factor=ss_os_factor
+							ss_os_factor=ss_os_factor,
+							wj_sf_shift=wj_sf_shift
 					)
+					
 					if "CMS_scale_gg_13TeV" in shape_systematic:
 						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
 					elif "CMS_scale_j_" in shape_systematic and shape_systematic.split("_")[-2] in jecUncertNames:

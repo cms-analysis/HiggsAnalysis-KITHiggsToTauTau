@@ -278,12 +278,9 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt", "et", "tt"]).signals().AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 
 			# tau ES
-			self.cb.cp().channel(["mt", "et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, "CMS_scale_t_1prong_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["mt", "et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, "CMS_scale_t_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["mt", "et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, "CMS_scale_t_3prong_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["tt"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_scale_t_1prong_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["tt"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_scale_t_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["tt"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_scale_t_3prong_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["mt", "et", "tt"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_scale_t_1prong_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["mt", "et", "tt"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_scale_t_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["mt", "et", "tt"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_scale_t_3prong_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["mt", "et", "tt"]).signals().AddSyst(self.cb, "CMS_scale_t_1prong_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["mt", "et", "tt"]).signals().AddSyst(self.cb, "CMS_scale_t_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["mt", "et", "tt"]).signals().AddSyst(self.cb, "CMS_scale_t_3prong_13TeV", "shape", ch.SystMap()(1.0))
@@ -298,18 +295,14 @@ class SMHttDatacards(datacards.Datacards):
 			if year == "2016":
 				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "TTJJ", "VVJ"]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
 				# TODO: add control regions for W+jets once implemented
-				# TODO: include W also for et and mt channels somehow since shape is taken from MC
-				self.cb.cp().channel(["tt"]).process(["W"]).bin([channel+"_"+category for channel in ["tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
+				self.cb.cp().channel(["et", "mt", "tt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
 			else:
 				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ", "VVJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
 			
 			# MET ES
-			# TODO: include W also for et and mt channels somehow since shape is taken from MC
-			self.cb.cp().channel(["et", "mt"]).process(all_mc_bkgs_no_W).bin([channel+"_"+category for channel in ["et", "mt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["tt", "em"]).process(all_mc_bkgs).bin([channel+"_"+category for channel in ["tt", "em"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt", "tt", "em"]).process(all_mc_bkgs).bin([channel+"_"+category for channel in ["tt", "em"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt", "tt", "em"]).signals().bin([channel+"_"+category for channel in ["em", "et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["et", "mt"]).process(all_mc_bkgs_no_W).bin([channel+"_"+category for channel in ["et", "mt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["tt", "em"]).process(all_mc_bkgs).bin([channel+"_"+category for channel in ["tt", "em"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt", "tt", "em"]).process(all_mc_bkgs).bin([channel+"_"+category for channel in ["et", "mt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt", "tt", "em"]).signals().bin([channel+"_"+category for channel in ["em", "et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
 			
 			# QCD normalization from https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L1393-L1415
@@ -325,9 +318,9 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["QCD"]).bin(["et_"+category for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "QCD_Extrap_Iso_nonIso_et_13TeV", "lnN", ch.SystMap()(1.20))
 			
 			# TODO: add shape uncertainties from W+jets SF uncertainties
-			#self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_0jet_13TeV", "shape", ch.SystMap()(1.0))
-			#self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_boosted_13TeV", "shape", ch.SystMap()(1.0))
-			#self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_vbf_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_0jet_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_boosted_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_vbf_13TeV", "shape", ch.SystMap()(1.0))
 			
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_0jet_13TeV", "lnN", ch.SystMap()(1.10))
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_boosted_13TeV", "lnN", ch.SystMap()(1.05))
