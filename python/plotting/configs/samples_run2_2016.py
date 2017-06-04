@@ -2911,7 +2911,7 @@ class Samples(samples.SamplesBase):
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"wph"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix=nick_suffix+"_noplot"
+						nick_suffix=nick_suffix
 				)
 
 			else:
@@ -2953,13 +2953,8 @@ class Samples(samples.SamplesBase):
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 						"wmh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix=nick_suffix+"_noplot"
+						nick_suffix=nick_suffix
 				)
-
-				if not "AddHistograms" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("AddHistograms")
-				config.setdefault("add_nicks", []).append(" ".join([sample+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix+"_noplot" for sample in ["wmh", "wph"]]))
-				config.setdefault("add_result_nicks", []).append("wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+nick_suffix)
 
 			else:
 				log.error("Sample config (WH%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
@@ -2968,7 +2963,7 @@ class Samples(samples.SamplesBase):
 				if not kwargs.get("mssm", False):
 					Samples._add_bin_corrections(
 							config,
-							"wh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							"wmh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 							nick_suffix
 					)
 				Samples._add_plot(
