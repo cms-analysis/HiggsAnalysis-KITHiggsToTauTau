@@ -623,12 +623,14 @@ if __name__ == "__main__":
 						if shape_systematic == "etaues1prong0pi":
 							replacestring = "eleTauEsOneProngZeroPiZeroUp" if shift_up else "eleTauEsOneProngZeroPiZeroDown"
 							for index, folder in enumerate(config["folders"]):
-								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+								if re.search("DY\d?JetsToLL",config["files"][index]):
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
 						
 						if shape_systematic == "etaues1prong1pi":
 							replacestring = "eleTauEsOneProngOnePiZeroUp" if shift_up else "eleTauEsOneProngOnePiZeroDown"
 							for index, folder in enumerate(config["folders"]):
-								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+								if re.search("DY\d?JetsToLL",config["files"][index]):
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
 						
 						config["x_expressions"] = [args.quantity.format(mass=mass)] if args.mass_dependent else [args.quantity]
 						
@@ -668,8 +670,8 @@ if __name__ == "__main__":
 							config["wjets_from_mc"] = [True,True]
 				
 						plot_configs.append(config)
-						if args.SMHiggs:
-							log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+						if args.SMHiggs and "ggh" in list_of_samples:
+							log.debug("Create SM inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 									samples="\", \"".join(list_of_samples),
 									channel=channel,
 									category=category,
@@ -714,7 +716,7 @@ if __name__ == "__main__":
 										config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
 							# taues
 							if shape_systematic == "taues1prong0pi":
-								replacestring = "tauEsOneProngZeroPiZeroUp" if shift_up else "tauEsOneProngZeroPiZeroDown"
+								replacestring = "tauEsOneProngUp" if shift_up else "tauEsOneProngDown"
 								for index, folder in enumerate(config["folders"]):
 									if not "Run201" in config["files"][index]:
 										config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
@@ -758,7 +760,7 @@ if __name__ == "__main__":
 							tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 									ANALYSIS="htt",
 									CHANNEL="zmm" if channel == "mm" else channel,
-									BIN=category.replace("mm","zmm"),
+									BIN=category.replace("mm","zmm")+"_SM",
 									SYSTEMATIC=systematic,
 									ERA="13TeV",
 									MASS=prefix+mass
