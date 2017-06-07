@@ -173,11 +173,11 @@ class CategoriesDict(object):
 						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
 						},
 					"em_" : {
-						"_pt_2" : " ".join([str(float(f)) for f in range(15, 40, 5)+range(40,301,260)]),
-						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+						"_pt_2" : " ".join([str(float(f)) for f in range(15, 35, 10)+range(35,10001,9965)]),
+						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(50, 100, 5)+range(100,401,300)])
 						},
 					"tt_" : {
-						"_m_sv" : " ".join([str(float(f)) for f in range(0, 301, 10)])
+						"_m_sv" : "0.0 "+" ".join([str(float(f)) for f in range(50,301,10)])
 						}
 					}
 				}
@@ -209,19 +209,19 @@ class CategoriesDict(object):
 						"_m_sv": auto_rebin_binning
 						},
 					"mt_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,5001,4700)]),
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
 						},
 					"et_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,5001,4700)]),
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
 						},
 					"em_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,5001,4700)]),
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
 						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
 						},
 					"tt_": {
-						"_H_pt":"0.0 100.0 170.0 300.0 1000.0",
+						"_H_pt":"0.0 100.0 170.0 300.0 10000.0",
 						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
 						}
 					}
@@ -268,6 +268,175 @@ class CategoriesDict(object):
 					"tt_": {
 						"_mjj":"0.0 300.0 500.0 800.0 10000.0",
 						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}ZeroJet2D_WJCR{discriminator}"] = {
+				"channel": [
+					"mt_",
+					"et_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":jet0_string,
+					"mt_":"(pt_2>30)*(nbtag==0)*(mt_1>80.0)",
+					"et_":"(pt_2>30)*(nbtag==0)*(mt_1>80.0)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mt_1": auto_rebin_binning
+						},
+					"mt_" : {
+						"_mt_1" : "80.0 200.0"
+						},
+					"et_" : {
+						"_mt_1" : "80.0 200.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}ZeroJet2D_QCDCR{discriminator}"] = {
+				"channel": [
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":jet0_string,
+					"mt_":"(pt_2>30)*(iso_1>0.15)*(iso_1<0.30)",
+					"et_":"(pt_2>30)*(iso_1>0.10)*(iso_1<0.30)",
+					"tt_":"((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_vis": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning
+						},
+					"mt_" : {
+						"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
+						},
+					"et_" : {
+						"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
+						},
+					"tt_" : {
+						"_m_sv" : "0.0 300.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Boosted2D_WJCR{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&pt_2<=40)||(njetspt30>1&&H_pt<=50))*(nbtag==0)*(mt_1>80.0)",
+					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&H_pt<=50))*(nbtag==0)*(mt_1>80.0)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mt_1": auto_rebin_binning
+						},
+					"mt_": {
+						"_mt_1" : "80.0 200.0"
+						},
+					"et_": {
+						"_mt_1" : "80.0 200.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Boosted2D_QCDCR{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&pt_2<=40)||(njetspt30>1&&H_pt<=50))*(iso_1>0.15)*(iso_1<0.30)",
+					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&H_pt<=50))*(iso_1>0.10)*(iso_1<0.30)",
+					"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))*((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_sv": auto_rebin_binning
+						},
+					"mt_": {
+						"_m_sv" : "40.0 80.0 120.0 160.0 200.0"
+						},
+					"et_": {
+						"_m_sv" : "40.0 80.0 120.0 160.0 200.0"
+						},
+					"tt_": {
+						"_m_sv" : "0.0 250.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Vbf2D_QCDCR{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>100)*((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_sv": auto_rebin_binning
+						},
+					"tt_": {
+						"_m_sv":"0.0 250.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}TTbarCR{discriminator}"] = {
+				"channel": [
+					"em_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"em_":"(pZetaMissVis < -35.0)*(m_vis>90.0)*(njetspt30>0)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_vis": auto_rebin_binning
+						},
+					"em_" : {
+						"_m_vis" : "0.0 10000.0"
 						}
 					}
 				}

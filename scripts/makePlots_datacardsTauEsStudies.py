@@ -127,6 +127,8 @@ if __name__ == "__main__":
 	                    help="Produce pdf versions of all plots. [Default: %(default)s]")
 	parser.add_argument("--no-inclusive", action="store_true", default=False,
 	                    help="Do not produce inclusive results if pt or eta ranges are given. [Default: %(default)s]")
+	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
+	                    help="Produce nuisance impact plots. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -459,7 +461,8 @@ if __name__ == "__main__":
 	
 	#plot nuisance impacts
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="mes"))
-	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
+	if args.plot_nuisance_impacts:
+		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
 	
 	#postfitshapes call
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
