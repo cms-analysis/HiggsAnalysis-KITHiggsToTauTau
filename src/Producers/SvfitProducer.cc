@@ -175,7 +175,8 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 				product.m_svfitEventKey,
 				product.m_svfitInputs,
 				product.m_svfitCalculated,
-				svfitCacheMissBehaviour
+				svfitCacheMissBehaviour,
+				settings.GetSvfitKappaParameter()
 		);
 		
 		// apply systematic shifts

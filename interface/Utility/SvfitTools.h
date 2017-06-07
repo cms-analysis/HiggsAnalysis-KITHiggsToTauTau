@@ -247,7 +247,7 @@ public:
 	
 	void Init(std::string const& cacheFileName, std::string const& treeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
-	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
+	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour, float const& svfitKappa=6.0);
 	TFile * m_visPtResolutionFile = nullptr;
 
 private:

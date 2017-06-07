@@ -253,6 +253,7 @@ public:
 	IMPL_SETTING_DEFAULT(bool, DiTauPairHLTLast, false);
 
 	IMPL_SETTING(std::string, SvfitIntegrationMethod);
+	IMPL_SETTING_DEFAULT(float, SvfitKappaParameter, 6.0);
 	IMPL_SETTING_DEFAULT(float, DiTauMassConstraint, -1.0);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
