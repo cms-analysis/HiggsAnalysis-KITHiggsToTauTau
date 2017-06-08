@@ -23,7 +23,7 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
 import HiggsAnalysis.KITHiggsToTauTau.datacards.cpstudiesdatacards as cpstudiesdatacards
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 
 def _str2bool(string):
 	""" Parse string content to bool."""
