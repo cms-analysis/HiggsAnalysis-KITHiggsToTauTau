@@ -7,6 +7,7 @@
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MEtSys.h"
 
@@ -133,9 +134,10 @@ public:
 		// MetX' = MetX + Px - Px'
 		// MetY' = MetY + Py - Py'
 		// MET' = sqrt(MetX' * MetX' + MetY' * MetY')
+		//std::cout << "Pipeline: " << settings.GetRootFileFolder() << std::endl;
 		if ((settings.*GetUpdateMetWithCorrectedLeptons)())
 		{
-			// Electrons
+			/*// Electrons
 			for (std::vector<std::shared_ptr<KElectron> >::iterator electron = product.m_correctedElectrons.begin();
 				 electron != product.m_correctedElectrons.end(); ++electron)
 			{
@@ -178,7 +180,181 @@ public:
 
 				metX -= eX;
 				metY -= eY;
+			}*/
+			float eX = 0.0;
+			float eY = 0.0;
+
+			KLV* lep1 = product.m_validDiTauPairCandidates[0].first;
+			KLV* lep2 = product.m_validDiTauPairCandidates[0].second;
+
+			if(product.m_decayChannel == HttEnumTypes::DecayChannel::ET)
+			{
+				float eX1 = 0.0;
+				float eX2 = 0.0;
+				float eY1 = 0.0;
+				float eY2 = 0.0;
+				for (std::vector<std::shared_ptr<KElectron> >::iterator e = product.m_correctedElectrons.begin();
+					 e != product.m_correctedElectrons.end(); ++e)
+				{
+					if(e->get()->p4 == lep1->p4)
+					{
+						eX1 = e->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[e->get()])->p4.Px();
+						eY1 = e->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[e->get()])->p4.Py();
+					}
+				}
+				for (std::vector<std::shared_ptr<KTau> >::iterator t = product.m_correctedTaus.begin();
+					 t != product.m_correctedTaus.end(); ++t)
+				{
+					if(t->get()->p4 == lep2->p4)
+					{
+						eX2 = t->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[t->get()])->p4.Px();
+						eY2 = t->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[t->get()])->p4.Py();
+					}
+				}
+				eX = eX1 + eX2;
+				eY = eY1 + eY2;
 			}
+			else if(product.m_decayChannel == HttEnumTypes::DecayChannel::MT)
+			{
+				//std::cout << "Compute corrections for MT channel" << std::endl;
+				float eX1 = 0.0;
+				float eX2 = 0.0;
+				float eY1 = 0.0;
+				float eY2 = 0.0;
+				for (std::vector<std::shared_ptr<KMuon> >::iterator m = product.m_correctedMuons.begin();
+					 m != product.m_correctedMuons.end(); ++m)
+				{
+					if(m->get()->p4 == lep1->p4)
+					{
+						//std::cout << "Found a muon matching first pair member" << std::endl;
+						eX1 = m->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[m->get()])->p4.Px();
+						eY1 = m->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[m->get()])->p4.Py();
+					}
+				}
+				for (std::vector<std::shared_ptr<KTau> >::iterator t = product.m_correctedTaus.begin();
+					 t != product.m_correctedTaus.end(); ++t)
+				{
+					if(t->get()->p4 == lep2->p4)
+					{
+						//std::cout << "Found a tau matching second pair member" << std::endl;
+						eX2 = t->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[t->get()])->p4.Px();
+						eY2 = t->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[t->get()])->p4.Py();
+					}
+				}
+				eX = eX1 + eX2;
+				eY = eY1 + eY2;
+				//std::cout << "Corrections X,Y:" << eX << "," << eY << std::endl;
+			}
+			else if(product.m_decayChannel == HttEnumTypes::DecayChannel::TT)
+			{
+				float eX1 = 0.0;
+				float eX2 = 0.0;
+				float eY1 = 0.0;
+				float eY2 = 0.0;
+				for (std::vector<std::shared_ptr<KTau> >::iterator t = product.m_correctedTaus.begin();
+					 t != product.m_correctedTaus.end(); ++t)
+				{
+					if(t->get()->p4 == lep1->p4)
+					{
+						eX1 = t->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[t->get()])->p4.Px();
+						eY1 = t->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[t->get()])->p4.Py();
+					}
+				}
+				for (std::vector<std::shared_ptr<KTau> >::iterator t = product.m_correctedTaus.begin();
+					 t != product.m_correctedTaus.end(); ++t)
+				{
+					if(t->get()->p4 == lep2->p4)
+					{
+						eX2 = t->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[t->get()])->p4.Px();
+						eY2 = t->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[t->get()])->p4.Py();
+					}
+				}
+				eX = eX1 + eX2;
+				eY = eY1 + eY2;
+			}
+			else if(product.m_decayChannel == HttEnumTypes::DecayChannel::EM)
+			{
+				float eX1 = 0.0;
+				float eX2 = 0.0;
+				float eY1 = 0.0;
+				float eY2 = 0.0;
+				for (std::vector<std::shared_ptr<KElectron> >::iterator e = product.m_correctedElectrons.begin();
+					 e != product.m_correctedElectrons.end(); ++e)
+				{
+					if(e->get()->p4 == lep1->p4)
+					{
+						eX1 = e->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[e->get()])->p4.Px();
+						eY1 = e->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[e->get()])->p4.Py();
+					}
+				}
+				for (std::vector<std::shared_ptr<KMuon> >::iterator m = product.m_correctedMuons.begin();
+					 m != product.m_correctedMuons.end(); ++m)
+				{
+					if(m->get()->p4 == lep2->p4)
+					{
+						eX2 = m->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[m->get()])->p4.Px();
+						eY2 = m->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[m->get()])->p4.Py();
+					}
+				}
+				eX = eX1 + eX2;
+				eY = eY1 + eY2;
+			}
+			else if(product.m_decayChannel == HttEnumTypes::DecayChannel::MM)
+			{
+				float eX1 = 0.0;
+				float eX2 = 0.0;
+				float eY1 = 0.0;
+				float eY2 = 0.0;
+				for (std::vector<std::shared_ptr<KMuon> >::iterator m = product.m_correctedMuons.begin();
+					 m != product.m_correctedMuons.end(); ++m)
+				{
+					if(m->get()->p4 == lep1->p4)
+					{
+						eX1 = m->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[m->get()])->p4.Px();
+						eY1 = m->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[m->get()])->p4.Py();
+					}
+				}
+				for (std::vector<std::shared_ptr<KMuon> >::iterator m = product.m_correctedMuons.begin();
+					 m != product.m_correctedMuons.end(); ++m)
+				{
+					if(m->get()->p4 == lep2->p4)
+					{
+						eX2 = m->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[m->get()])->p4.Px();
+						eY2 = m->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[m->get()])->p4.Py();
+					}
+				}
+				eX = eX1 + eX2;
+				eY = eY1 + eY2;
+			}
+			else if(product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
+			{
+				float eX1 = 0.0;
+				float eX2 = 0.0;
+				float eY1 = 0.0;
+				float eY2 = 0.0;
+				for (std::vector<std::shared_ptr<KElectron> >::iterator e = product.m_correctedElectrons.begin();
+					 e != product.m_correctedElectrons.end(); ++e)
+				{
+					if(e->get()->p4 == lep1->p4)
+					{
+						eX1 = e->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[e->get()])->p4.Px();
+						eY1 = e->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[e->get()])->p4.Py();
+					}
+				}
+				for (std::vector<std::shared_ptr<KElectron> >::iterator e = product.m_correctedElectrons.begin();
+					 e != product.m_correctedElectrons.end(); ++e)
+				{
+					if(e->get()->p4 == lep2->p4)
+					{
+						eX2 = e->get()->p4.Px() - const_cast<KLepton*>(product.m_originalLeptons[e->get()])->p4.Px();
+						eY2 = e->get()->p4.Py() - const_cast<KLepton*>(product.m_originalLeptons[e->get()])->p4.Py();
+					}
+				}
+				eX = eX1 + eX2;
+				eY = eY1 + eY2;
+			}
+			metX -= eX;
+			metY -= eY;
 		}
 		
 		// Recoil corrections follow
