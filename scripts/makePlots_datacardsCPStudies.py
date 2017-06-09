@@ -73,6 +73,22 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
                         help="Scale datacard to luminosity specified. [Default: %(default)s]")
+	parser.add_argument("--era", default="2016",
+	                    help="Era of samples to be used. [Default: %(default)s]")
+	parser.add_argument("--no-ewk-samples", default=False, action="store_true",
+	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
+	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
+
+	if (args.era == "2015") or (args.era == "2015new"):
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+	elif args.era == "2016":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+		if args.lumi == parser.get_default("lumi"):
+			args.lumi = samples.default_lumi/1000.0
+	else:
+		log.critical("Invalid era string selected: " + args.era)
+		sys.exit(1)
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -180,7 +196,9 @@ if __name__ == "__main__":
 							channel=channel,
 							category="catHtt13TeV_"+category,
 							weight=args.weight,
-							lumi=args.lumi * 1000
+							lumi=args.lumi * 1000,
+							no_ewk_samples = args.no_ewk_samples,
+							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
 
 					config_bkg["labels"] = [(bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
