@@ -80,6 +80,9 @@ if __name__ == "__main__":
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 
+	args = parser.parse_args()
+	logger.initLogger(args)
+
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	elif args.era == "2016":
@@ -89,9 +92,6 @@ if __name__ == "__main__":
 	else:
 		log.critical("Invalid era string selected: " + args.era)
 		sys.exit(1)
-
-	args = parser.parse_args()
-	logger.initLogger(args)
 
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
