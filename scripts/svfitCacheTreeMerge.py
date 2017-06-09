@@ -89,7 +89,7 @@ def main():
 	for src, dst in filename_replacements.iteritems():
 		config_output_dir = config_output_dir.replace(src, dst)
 	for sample_nick in sorted(root_files_per_sample_nick.keys()):
-		log.info(sample_nick+" : "+os.path.join(config_output_dir, sample_nick+".root")+",")
+		log.info("\""+sample_nick+"\" : \""+os.path.join(config_output_dir, sample_nick+".root")+"\",")
 
 if __name__ == "__main__":
 	main()
