@@ -614,6 +614,7 @@ std::map<std::string, SvfitResults> SvfitTools::svfitResults;
 
 void SvfitTools::Init(std::string const& cacheFileName, std::string const& treeName)
 {
+	this->cacheFileName = cacheFileName;
 	if ( SvfitTools::svfitCacheInputTreeIndices.find(cacheFileName) == SvfitTools::svfitCacheInputTreeIndices.end())
 	{
 		TDirectory *savedir(gDirectory);
