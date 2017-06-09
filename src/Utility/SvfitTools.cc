@@ -607,10 +607,9 @@ RMFLV SvfitResults::GetFittedTau2LV(SVfitStandaloneAlgorithm const& svfitStandal
 }
 
 
+std::map<std::string, TFile*> SvfitTools::svfitCacheInputFiles;
 std::map<std::string, TTree*> SvfitTools::svfitCacheInputTree;
-std::map<std::string, TFile*> SvfitTools::svfitCacheInputFile;
 std::map<std::string, std::map<SvfitEventKey, uint64_t>> SvfitTools::svfitCacheInputTreeIndices;
-std::map<std::string, SvfitResults> SvfitTools::svfitResults;
 
 void SvfitTools::Init(std::string const& cacheFileName, std::string const& cacheTreeName)
 {
@@ -622,20 +621,20 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& cache
 		TDirectory *savedir(gDirectory);
 		TFile *savefile(gFile);
 
-		if (! Utility::Contains(SvfitTools::svfitCacheInputFile, cacheFileName))
+		if (! Utility::Contains(SvfitTools::svfitCacheInputFiles, cacheFileName))
 		{
-			SvfitTools::svfitCacheInputFile[cacheFileName] = TFile::Open(cacheFileName.c_str(), "READ", cacheFileName.c_str());
+			SvfitTools::svfitCacheInputFiles[cacheFileName] = TFile::Open(cacheFileName.c_str(), "READ", cacheFileName.c_str());
 		}
-		if (SvfitTools::svfitCacheInputFile[cacheFileName] == nullptr)
+		if (SvfitTools::svfitCacheInputFiles[cacheFileName] == nullptr)
 		{
 			LOG(WARNING) << "Could not load SVfit cache trees from file " << cacheFileTreeName << "!" << std::endl;
 		}
 		else
 		{
-			SvfitTools::svfitCacheInputTree[cacheFileTreeName] = dynamic_cast<TTree*>(SvfitTools::svfitCacheInputFile.at(cacheFileName)->Get(cacheTreeName.c_str()));
+			SvfitTools::svfitCacheInputTree[cacheFileTreeName] = dynamic_cast<TTree*>(SvfitTools::svfitCacheInputFiles.at(cacheFileName)->Get(cacheTreeName.c_str()));
 
-			LOG(INFO) << "\tLoaded SVfit cache trees from file...";
-			LOG(INFO) << "\t\t" << cacheFileTreeName << " with " << SvfitTools::svfitCacheInputTree.at(cacheFileTreeName)->GetEntries() << " Entries" << std::endl;
+			LOG(DEBUG) << "\tLoaded SVfit cache trees from file...";
+			LOG(DEBUG) << "\t\t" << cacheFileTreeName << " with " << SvfitTools::svfitCacheInputTree.at(cacheFileTreeName)->GetEntries() << " Entries" << std::endl;
 
 			svfitEventKey.SetBranchAddresses(SvfitTools::svfitCacheInputTree[cacheFileTreeName]);
 			SvfitTools::svfitCacheInputTreeIndices[cacheFileTreeName] = std::map<SvfitEventKey, uint64_t>();
@@ -652,8 +651,7 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& cache
 			svfitEventKey.ActivateBranches(SvfitTools::svfitCacheInputTree.at(cacheFileTreeName), false);
 			LOG(DEBUG) << "\t\t" << SvfitTools::svfitCacheInputTreeIndices.at(cacheFileTreeName).size() << " entries found.";
 		
-			svfitResults[cacheFileName] = SvfitResults();
-			svfitResults.at(cacheFileName).SetBranchAddresses(SvfitTools::svfitCacheInputTree.at(cacheFileTreeName));
+			svfitResults.SetBranchAddresses(SvfitTools::svfitCacheInputTree.at(cacheFileTreeName));
 		}
 
 		gDirectory = savedir;
@@ -677,7 +675,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if (svfitCacheInputTreeIndicesItem != SvfitTools::svfitCacheInputTreeIndices.at(cacheFileTreeName).end())
 		{
 			SvfitTools::svfitCacheInputTree.at(cacheFileTreeName)->GetEntry(svfitCacheInputTreeIndicesItem->second);
-			svfitResults.at(cacheFileName).FromCache();
+			svfitResults.FromCache();
 			neededRecalculation = false;
 		}
 	}
@@ -694,9 +692,8 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		}
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::undefined)
 		{
-			svfitResults[cacheFileName] = SvfitResults();
-			svfitResults.at(cacheFileName).FromRecalculation();
-			return svfitResults.at(cacheFileName);
+			svfitResults.FromRecalculation();
+			return svfitResults;
 		}
 		
 		// construct algorithm
@@ -721,11 +718,11 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		}
 	
 		// retrieve results
-		svfitResults[cacheFileName].Set(svfitStandaloneAlgorithm);
-		svfitResults.at(cacheFileName).FromRecalculation();
+		svfitResults.Set(svfitStandaloneAlgorithm);
+		svfitResults.FromRecalculation();
 	}
 	
-	return svfitResults.at(cacheFileName);
+	return svfitResults;
 }
 
 SvfitTools::~SvfitTools()
@@ -736,10 +733,10 @@ SvfitTools::~SvfitTools()
 		m_visPtResolutionFile->Close();
 	}
 	
-	if (Utility::Contains(SvfitTools::svfitCacheInputFile, cacheFileName) && SafeMap::Get(SvfitTools::svfitCacheInputFile, cacheFileName)->IsOpen())
+	if (Utility::Contains(SvfitTools::svfitCacheInputFiles, cacheFileName) && SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->IsOpen())
 	{
-		SafeMap::Get(SvfitTools::svfitCacheInputFile, cacheFileName)->Close();
-		SvfitTools::svfitCacheInputFile.erase(cacheFileName);
+		SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->Close();
+		SvfitTools::svfitCacheInputFiles.erase(cacheFileName);
 	}
 	
 	// do NOT call destructor for TTree and TFile here. They are static and the destructor is called several times when running the factory
