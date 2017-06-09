@@ -271,6 +271,175 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}ZeroJet2D_WJCR{discriminator}"] = {
+				"channel": [
+					"mt_",
+					"et_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":jet0_string,
+					"mt_":"(pt_2>30)*(nbtag==0)*(mt_1>80.0)",
+					"et_":"(pt_2>30)*(nbtag==0)*(mt_1>80.0)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mt_1": auto_rebin_binning
+						},
+					"mt_" : {
+						"_mt_1" : "80.0 200.0"
+						},
+					"et_" : {
+						"_mt_1" : "80.0 200.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}ZeroJet2D_QCDCR{discriminator}"] = {
+				"channel": [
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":jet0_string,
+					"mt_":"(pt_2>30)*(iso_1>0.15)*(iso_1<0.30)",
+					"et_":"(pt_2>30)*(iso_1>0.10)*(iso_1<0.30)",
+					"tt_":"((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_vis": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning
+						},
+					"mt_" : {
+						"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
+						},
+					"et_" : {
+						"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
+						},
+					"tt_" : {
+						"_m_sv" : "0.0 300.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Boosted2D_WJCR{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&pt_2<=40)||(njetspt30>1&&H_pt<=50))*(nbtag==0)*(mt_1>80.0)",
+					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&H_pt<=50))*(nbtag==0)*(mt_1>80.0)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mt_1": auto_rebin_binning
+						},
+					"mt_": {
+						"_mt_1" : "80.0 200.0"
+						},
+					"et_": {
+						"_mt_1" : "80.0 200.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Boosted2D_QCDCR{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&pt_2<=40)||(njetspt30>1&&H_pt<=50))*(iso_1>0.15)*(iso_1<0.30)",
+					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&H_pt<=50))*(iso_1>0.10)*(iso_1<0.30)",
+					"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))*((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_sv": auto_rebin_binning
+						},
+					"mt_": {
+						"_m_sv" : "40.0 80.0 120.0 160.0 200.0"
+						},
+					"et_": {
+						"_m_sv" : "40.0 80.0 120.0 160.0 200.0"
+						},
+					"tt_": {
+						"_m_sv" : "0.0 250.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Vbf2D_QCDCR{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>100)*((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_sv": auto_rebin_binning
+						},
+					"tt_": {
+						"_m_sv":"0.0 250.0"
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}TTbarCR{discriminator}"] = {
+				"channel": [
+					"em_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"em_":"(pZetaMissVis < -35.0)*(m_vis>90.0)*(njetspt30>0)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_vis": auto_rebin_binning
+						},
+					"em_" : {
+						"_m_vis" : "0.0 10000.0"
+						}
+					}
+				}
 		self.categoriesDict["{analysis}{channel}FT_InsteadQCuts{discriminator}"] = {
 				"channel": [
 					"mt_"

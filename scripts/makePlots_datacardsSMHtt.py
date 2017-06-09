@@ -87,6 +87,8 @@ if __name__ == "__main__":
 	                    help="Produce debug Plots [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
+	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
+	                    help="Produce nuisance impact plots. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -173,6 +175,27 @@ if __name__ == "__main__":
 		"Total",
 		"Closure"
 	]
+	
+	# os/ss factors for different categories
+	ss_os_factors = {
+		"mt_ZeroJet2D" : 1.07,
+		"mt_Boosted2D" : 1.06,
+		"mt_Vbf2D" : 1.0,
+		"et_ZeroJet2D" : 1.0,
+		"et_Boosted2D" : 1.28,
+		"et_Vbf2D" : 1.0
+	}
+	
+	# w+jets scale factor shifts for different categories
+	# same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV
+	wj_sf_shifts = {
+		"mt_ZeroJet2D" : 0.10,
+		"mt_Boosted2D" : 0.05,
+		"mt_Vbf2D" : 0.10,
+		"et_ZeroJet2D" : 0.10,
+		"et_Boosted2D" : 0.05,
+		"et_Vbf2D" : 0.10
+	}
 
 	#restriction to CH
 	datacards.cb.channel(args.channel)
@@ -195,6 +218,8 @@ if __name__ == "__main__":
 			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = args.exclude_cuts
+			if "TTbarCR" in category:
+				exclude_cuts += ["pzeta"]
 			if args.for_dcsync:
 				if category[3:] == 'inclusive':
 					exclude_cuts=["mt", "pzeta"]
@@ -218,6 +243,15 @@ if __name__ == "__main__":
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				
+				# This is needed because wj and qcd are interdependent when using the new background estimation method
+				# NB: CH takes care to only use the templates for processes that you specified. This means that any
+				#     superfluous histograms created as a result of this problem do not influence the result
+				if args.background_method == "new":
+					if "qcd" in list_of_samples and "wj" not in list_of_samples:
+						list_of_samples += ["wj"]
+					elif "wj" in list_of_samples and "qcd" not in list_of_samples:
+						list_of_samples += ["qcd"]
+				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 					
@@ -227,6 +261,13 @@ if __name__ == "__main__":
 							category=category,
 							systematic=systematic
 					))
+					
+					ss_os_factor = ss_os_factors.get(category,0.0)
+					wj_sf_shift = wj_sf_shifts.get(category,0.0)
+					if "WSFUncert" in shape_systematic and wj_sf_shift != 0.0:
+						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
+					else:
+						wj_sf_shift = 0.0
 					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
@@ -238,8 +279,11 @@ if __name__ == "__main__":
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="smhtt2016" if args.era == "2016" else "baseline",
-							estimationMethod=args.background_method
+							estimationMethod=args.background_method,
+							ss_os_factor=ss_os_factor,
+							wj_sf_shift=wj_sf_shift
 					)
+					
 					if "CMS_scale_gg_13TeV" in shape_systematic:
 						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
 					elif "CMS_scale_j_" in shape_systematic and shape_systematic.split("_")[-2] in jecUncertNames:
@@ -263,10 +307,31 @@ if __name__ == "__main__":
 								print key
 							sys.exit()
 					
+					# define quantities and binning for control regions
+					if "ZeroJet2D" in category and "WJCR" in category and channel in ["mt", "et"]:
+						config["x_expressions"] = ["mt_1"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
+					elif "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+						if channel in ["mt", "et"]:
+							config["x_expressions"] = ["m_vis"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						elif channel == "tt":
+							config["x_expressions"] = ["m_sv"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "Vbf2D" in category and "QCDCR" in category and channel == "tt":
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "TTbarCR" in category and channel == "em":
+						config["x_expressions"] = ["m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+					
 					# Use 2d plots for 2d categories
 					config["texts"] = []
 					config["texts_x"] = []
-					if "ZeroJet2D" in category:
+					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						if channel in ["mt", "et"]:
@@ -282,14 +347,14 @@ if __name__ == "__main__":
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "Boosted2D" in category:
+					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
 						config["texts"] = list(("p_{T}^{#tau#tau} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
 						config["texts_x"] = ([0.25, 0.45, 0.65, 0.85] if channel == "tt" else [0.25, 0.37, 0.50, 0.64, 0.77, 0.89])
-					elif "Vbf2D" in category:
+					elif "Vbf2D" in category and not "QCDCR" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["mjj"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
@@ -298,7 +363,7 @@ if __name__ == "__main__":
 						config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
 					
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if "2D" in category:
+					if "2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						two_d_inputs = []
 						for mass in higgs_masses:
 							two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggh",'qqh'] else "") for sample in list_of_samples])
@@ -396,12 +461,15 @@ if __name__ == "__main__":
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.05, merge_threshold=0.8, fix_norm=False
 		)
-	
 
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
-		
+	
+	# normalize DM systematic templates to the nominal one in order to get a pure shape systematic
+	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_u(1 if "tauDMReco" in systematic.name() else systematic.value_u()))
+	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_d(1 if "tauDMReco" in systematic.name() else systematic.value_d()))
+	
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset("125")
@@ -449,6 +517,8 @@ if __name__ == "__main__":
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era, "unrolled" : ("2D" in category), "texts" : config["texts"], "texts_x" : config["texts_x"]}, n_processes=args.n_processes)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+	if args.plot_nuisance_impacts:
+		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",

@@ -29,13 +29,13 @@ class CPStudiesDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.muon_efficiency_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 
-			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficiency_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
@@ -59,11 +59,11 @@ class CPStudiesDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.electron_efficiency_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 
-			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_efficiency_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
@@ -87,11 +87,11 @@ class CPStudiesDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
-			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.muon_efficiency_syst_args)
-			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 
 			# ======================================================================
 			# TT channel
@@ -107,8 +107,8 @@ class CPStudiesDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			self.cb.cp().channel(["tt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
-			self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficiency_syst_args)
+			self.cb.cp().channel(["tt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+			self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
 
 			# Tau ES
 			self.cb.cp().channel(["tt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
@@ -127,7 +127,7 @@ class CPStudiesDatacards(datacards.Datacards):
 			# jets
 			self.cb.cp().process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.jec_syst_args)
 			self.cb.cp().signals().AddSyst(self.cb, *self.jec_syst_args)
-			#self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.btag_efficiency_syst_args)
+			#self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
 
 			# MET
 			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)

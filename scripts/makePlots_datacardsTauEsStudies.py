@@ -25,51 +25,29 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.taupogdatacards as taupogdatacar
 
 
 decayMode_dict = {
-	"AllDMs" : {
+	"AllDMs" :
+	{
 		"color" : "1",
 		"label" : "All decay modes"
 	},
-	"OneProng" : {
+	"OneProng" :
+	{
 		"color" : "2",
 		"label" : "h^{#pm} decay mode"
 	},
-	"OneProngPiZeros" : {
+	"OneProngPiZeros" :
+	{
 		"color" : "4",
 		"label" : "h^{#pm}#pi^{0} decay mode"
 	},
-	"ThreeProng" : {
+	"ThreeProng" :
+	{
 		"color" : "6",
 		"label" : "h^{#pm}h^{#pm}h^{#mp} decay mode"
 	}
 }
 
-def _call_command(args):
-	command = None
-	cwd = None
-	if isinstance(args, basestring):
-		command = args
-	else:
-		command = args[0]
-		if len(args) > 1:
-			cwd = args[1]
-	
-	old_cwd = None
-	if not cwd is None:
-		old_cwd = os.getcwd()
-		os.chdir(cwd)
-	
-	log.debug(command)
-	logger.subprocessCall(command, shell=True)
-	
-	if not cwd is None:
-		os.chdir(old_cwd)
-
-
-if __name__ == "__main__":
-
-	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for tau energy scale measurement.",
-	                                 parents=[logger.loggingParser])
-
+def addArguments(parser):
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("--quantity", default="m_2", choices=["m_2","m_vis"],
@@ -127,32 +105,62 @@ if __name__ == "__main__":
 	                    help="Produce pdf versions of all plots. [Default: %(default)s]")
 	parser.add_argument("--no-inclusive", action="store_true", default=False,
 	                    help="Do not produce inclusive results if pt or eta ranges are given. [Default: %(default)s]")
-	
+	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
+	                    help="Produce nuisance impact plots. [Default: %(default)s]")
+
+def _call_command(args):
+	command = None
+	cwd = None
+	if isinstance(args, basestring):
+		command = args
+	else:
+		command = args[0]
+		if len(args) > 1:
+			cwd = args[1]
+
+	old_cwd = None
+	if not cwd is None:
+		old_cwd = os.getcwd()
+		os.chdir(cwd)
+
+	log.debug(command)
+	logger.subprocessCall(command, shell=True)
+
+	if not cwd is None:
+		os.chdir(old_cwd)
+
+if __name__ == "__main__":
+
+	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for tau energy scale measurement.",
+	                                 parents=[logger.loggingParser])
+	addArguments(parser)
+
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	# Clean the output dir
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 		
-	# produce es shifts from input arguments
+	# Produce es shifts from input arguments
 	es_shifts = [args.shift_ranges[0]]
 	es_shifts_str = [str(args.shift_ranges[0])] #taupogdatacards needs a list of strings. this can maybe be done better
 	while es_shifts[-1] < args.shift_ranges[-1]:
-		# sometimes, we get numbers like 0.990000000001 without round
-		current_shift = round(es_shifts[-1]+args.shift_binning,4)
+		current_shift = round(es_shifts[-1] + args.shift_binning, 4) # sometimes, we get numbers like 0.990000000001 without round
 		es_shifts.append(current_shift)
 		es_shifts_str.append(str(current_shift))
 	if args.plot_with_shift != 0.0:
-		es_shifts = [args.plot_with_shift-0.0001,args.plot_with_shift+0.0001]
-		es_shifts_str = [str(es_shifts[0]),str(es_shifts[1])]
+		es_shifts = [args.plot_with_shift - 0.0001, args.plot_with_shift + 0.0001]
+		es_shifts_str = [str(es_shifts[0]), str(es_shifts[1])]
 		
-	# produce decaymode bins
+	# Produce decaymode bins
+	# test this instead: decay_modes = copy.deepcopy(args.decay_modes)
 	decay_modes = []
 	for decayMode in args.decay_modes:
 		decay_modes.append(decayMode)
 	
-	# produce pt-bins (first one is always inclusive)
+	# Produce pt-bins (first one is always inclusive)
 	pt_ranges = ["0.0"]
 	for pt_index, (pt_range) in enumerate(args.pt_ranges):
 		pt_ranges.append(args.pt_ranges[pt_index])
@@ -164,29 +172,45 @@ if __name__ == "__main__":
 			pt_weights.append("(pt_2>20)")
 			pt_strings.append("p_{T}(#tau_{h}) > 20 GeV")
 		else:
-			if len(pt_ranges) > pt_index+1:
-				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")*(pt_2<"+str(pt_ranges[pt_index+1])+")")
-				pt_strings.append(pt_ranges[pt_index]+" < p_{T}(#tau_{h}) < "+pt_ranges[pt_index+1]+ " GeV")
+			if len(pt_ranges) > pt_index + 1:
+				pt_weights.append("(pt_2>" + str(pt_ranges[pt_index]) + ")*(pt_2<" + str(pt_ranges[pt_index + 1]) + ")")
+				pt_strings.append(pt_ranges[pt_index] + " < p_{T}(#tau_{h}) < " + pt_ranges[pt_index + 1] + " GeV")
 			else:
-				pt_weights.append("(pt_2>"+str(pt_ranges[pt_index])+")")
-				pt_strings.append("p_{T}(#tau_{h}) > "+pt_ranges[pt_index]+" GeV")
+				pt_weights.append("(pt_2>" + str(pt_ranges[pt_index]) + ")")
+				pt_strings.append("p_{T}(#tau_{h}) > " + pt_ranges[pt_index] + " GeV")
 		pt_bins.append(str(pt_index))
 	
-	# produce eta-bins (first one is always inclusive)
+	# Produce eta-bins (first one is always inclusive)
 	# for the moment only barrel and endcap considered
-	eta_ranges = ["0.0","1.479","2.3"]
-	eta_weights = ["(abs(eta_2)<2.3)","(abs(eta_2)<1.479)","(abs(eta_2)>1.479)*(abs(eta_2)<2.3)"]
-	eta_strings = ["|#eta(#tau_{h})| < 2.3","|#eta(#tau_{h})| < 1.479","1.479 < |#eta(#tau_{h})| < 2.3"]
-	eta_bins = ["0","1","2"]
+	eta_ranges = ["0.0", "1.479", "2.3"]
+	eta_weights = ["(abs(eta_2)<2.3)", "(abs(eta_2)<1.479)", "(abs(eta_2)>1.479)*(abs(eta_2)<2.3)"]
+	eta_strings = ["|#eta(#tau_{h})| < 2.3", "|#eta(#tau_{h})| < 1.479", "1.479 < |#eta(#tau_{h})| < 2.3"]
+	eta_bins = ["0", "1", "2"]
 	
-	# do measurement as function of pt or eta?
+	# Do measurement as function of pt or eta?
+	# Note: Python variables are scoped to the innermost function or module; control blocks like if and while blocks don't count
+	# try this instead:
+	'''
+	if args.eta_binning:
+		weight_type = "eta"
+		weight_ranges = eta_ranges
+		extra_weights = eta_weights
+		weight_strings = eta_strings
+		weight_bins = eta_bins
+	else:
+		weight_type = "pt"
+		weight_ranges = pt_ranges
+		extra_weights = pt_weights
+		weight_strings = pt_strings
+		weight_bins = pt_bins
+	'''
 	weight_type = ("eta" if args.eta_binning else "pt")
 	weight_ranges = (eta_ranges if args.eta_binning else pt_ranges)
 	extra_weights = (eta_weights if args.eta_binning else pt_weights)
 	weight_strings = (eta_strings if args.eta_binning else pt_strings)
 	weight_bins = (eta_bins if args.eta_binning else pt_bins)
 	
-	# initialisations for plotting
+	# Initialisations for plotting
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	else:
@@ -199,7 +223,7 @@ if __name__ == "__main__":
 	www_output_dirs_weightbin = []
 	www_output_dirs_parabola = []
 	
-	# initialise datacards
+	# Initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
@@ -213,7 +237,7 @@ if __name__ == "__main__":
 	
 	quantity = args.quantity
 	
-	# build categories and bin id's for CombineHarvester
+	# Build categories and bin id's for CombineHarvester
 	categories = []
 	mapping_category2binid = {}
 	for channel in args.channels:
@@ -225,10 +249,9 @@ if __name__ == "__main__":
 			bin_id = bin_id + 1
 			for weight_index, (weight_bin) in enumerate(weight_bins):
 				bin_id = bin_id + 1
-				category = channel+"_"+quantity+"_"+decayMode+"_"+weight_type+"bin"+weight_bins[weight_index]
+				category = channel + "_" + quantity + "_" + decayMode + "_" + weight_type + "bin" + weight_bins[weight_index]
 				mapping_category2binid[channel][category] = bin_id
-				if weight_index == 0 and args.no_inclusive:
-					continue
+				if weight_index == 0 and args.no_inclusive: continue
 				categories.append(category)
 	
 	if args.no_inclusive:
@@ -236,22 +259,22 @@ if __name__ == "__main__":
 		extra_weights.pop(0)
 		weight_bins.pop(0)
 	
-	# restrict CombineHarvester to configured channels:
+	# Restrict CombineHarvester to configured channels:
 	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era, mapping_category2binid)
 	datacards.cb.channel(args.channels)
 	
 	for category in categories:
 		channel = category.split("_")[0]
 		decayMode = category.split("_")[-2]
-		weight_index = int(category.split("_")[-1].split(weight_type+"bin")[-1])
+		weight_index = int(category.split("_")[-1].split(weight_type + "bin")[-1])
 		if args.no_inclusive:
 			weight_index = weight_index - 1
 
 		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
-				ANALYSIS="ztt",
-				CHANNEL=channel,
-				BIN=category,
-				ERA="13TeV"
+			ANALYSIS="ztt",
+			CHANNEL=channel,
+			BIN=category,
+			ERA="13TeV"
 		))
 		
 		input_plot_configs = []
@@ -277,8 +300,8 @@ if __name__ == "__main__":
 
 				merged_config={}
 				
-				# config for rest for each pt range
-				# need to get "rest" first in order for corrections of negative bin contents to have an effect
+				# Config for rest for each pt range
+				# Need to get "rest" first in order for corrections of negative bin contents to have an effect
 				catForConfig = "cat" + decayMode + "_" + channel
 				if (decayMode == "AllDMs" and quantity == "m_2"):
 					catForConfig = "catAllDMsNotOneProng_" + channel
@@ -304,13 +327,12 @@ if __name__ == "__main__":
 				systematics_settings = systematics_factory.get(shape_systematic)(config_rest)
 				config_rest = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 				
-				# merge configs
+				# Merge configs
 				merged_config = samples.Samples.merge_configs(merged_config, config_rest)
 				
-				# one ztt nick config for each es shift
+				# One ztt nick config for each es shift
 				for shift in es_shifts:
-					if "ztt" not in list_of_samples:
-						continue
+					if "ztt" not in list_of_samples: continue
 					
 					config_ztt = sample_settings.get_config(
 						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample in ["ztt", "ttt", "vvt"]],
@@ -322,7 +344,7 @@ if __name__ == "__main__":
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 						estimationMethod=args.background_method
 					)
-					# shift also pt to account for acceptance effects
+					# Shift also pt to account for acceptance effects
 					config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]
 					
 					if decayMode == "OneProng" and quantity == "m_2":
@@ -344,7 +366,7 @@ if __name__ == "__main__":
 						SYSTEMATIC=systematic
 					) for sample in config_ztt["labels"]]
 					
-					# merge configs
+					# Merge configs
 					merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
 		
 				merged_config["directories"] = [args.input_dir]
@@ -366,7 +388,7 @@ if __name__ == "__main__":
 				merged_config["plot_modules"] = ["ExportRoot"]
 				merged_config["file_mode"] = "UPDATE"
 					
-				# set proper binnings of the distributions
+				# Set proper binnings of the distributions
 				if decayMode == "OneProngPiZeros" and quantity == "m_2":
 					if args.tighten_mass_window:
 						merged_config["weights"] = [weight+"*(m_2 >= 0.318)*(m_2 < 1.41)" for weight in merged_config["weights"]]
@@ -388,19 +410,19 @@ if __name__ == "__main__":
 			SRC=" ".join(tmp_output_files)
 		))
 
-		# delete existing output files
+		# Delete existing output files
 		output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in input_plot_configs[:args.n_plots[0]]]))
 		for output_file in output_files:
 			if os.path.exists(output_file):
 				os.remove(output_file)
 				log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	
-		# create input histograms with HarryPlotter
+		# Create input histograms with HarryPlotter
 		higgsplot.HiggsPlotter(list_of_config_dicts=input_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
 		if args.n_plots[0] != 0:
 			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	
-	# update CombineHarvester with the yields and shapes
+	# Update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
 		os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
 		bkg_histogram_name_template, sig_histogram_name_template,
@@ -408,17 +430,17 @@ if __name__ == "__main__":
 		update_systematics=True
 	)
 	
-	# create morphing
+	# Create morphing
 	datacards.create_morphing_signals("mes", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 	
-	# add bin-by-bin uncertainties
+	# Add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 			processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
 			add_threshold=0.1, merge_threshold=0.5, fix_norm=False
 		)
 	
-	# write datacards and call text2workspace
+	# Write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
 		datacards_cbs.update(datacards.write_datacards(
@@ -429,8 +451,8 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
-	#combine call
-	#important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
+	# Combine call
+	# Important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
 	datacards.combine(
 			datacards_cbs,
 			datacards_workspaces,
@@ -442,8 +464,8 @@ if __name__ == "__main__":
 			)
 	)
 	
-	#2nd combine call to get deltaNLL distribution
-	#(always done, since the bestfit value and uncertainties are taken from this scan)
+	# 2nd combine call to get deltaNLL distribution
+	# (always done, since the bestfit value and uncertainties are taken from this scan)
 	datacards.combine(
 			datacards_cbs,
 			datacards_workspaces,
@@ -457,17 +479,18 @@ if __name__ == "__main__":
 			)
 	)
 	
-	#plot nuisance impacts
+	# Plot nuisance impacts
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="mes"))
-	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
+	if args.plot_nuisance_impacts:
+		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
 	
-	#postfitshapes call
+	# Postfitshapes call
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	
-	#pull plots
+	# Pull plots
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
 	
-	#plot postfit
+	# Plot postfit
 	postfit_plot_configs = [] #reset list containing the plot configs
 	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT","TTJJ", "VVT", "VVJ", "W", "QCD"]
 	
@@ -588,7 +611,7 @@ if __name__ == "__main__":
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
-	# compute parabola from NLL scan and from here extract the best fit value and the uncertainties
+	# Compute parabola from NLL scan and from here extract the best fit value and the uncertainties.
 	output_dict_mu, output_dict_errHi, output_dict_errLo = {}, {}, {}
 	output_dict_scan_mu, output_dict_scan_errHi, output_dict_scan_errLo = {}, {}, {}
 	output_dict_scan_fit_mu, output_dict_scan_fit_err = {}, {}
@@ -604,7 +627,7 @@ if __name__ == "__main__":
 		
 		filename_multidimfit = os.path.join(os.path.dirname(datacard), "higgsCombineTest.MultiDimFit.mH0.root")
 		
-		# the if statement in the loop is a workaround for the combination of channels
+		# The if statement in the loop is a workaround for the combination of channels
 		# if you know of a better way, feel free to try it :)
 		for category_or_bin_id in (datacards_cbs[datacard].cp().bin_set() if len(datacards_cbs[datacard].cp().bin_set()) == 1 else datacards_cbs[datacard].cp().bin_id_set()):
 			if str(category_or_bin_id) not in filename_multidimfit:
@@ -612,22 +635,22 @@ if __name__ == "__main__":
 
 			category = datacards_cbs[datacard].cp().bin_set()[0]
 			
-			# redefine category if performing combination
+			# Redefine category if performing combination
 			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
-				# only replace first occurence (otherwise etabin is replaced as well if channel is et)
+				# Only replace first occurence (otherwise etabin is replaced as well if channel is et)
 				category = category.replace(category.split("_")[0], "combined", 1)
 			channel = category.split("_")[0]
 			decayMode = category.split("_")[-2]
 			weightBin = category.split("_")[-1].split(weight_type+"bin")[-1]
 			
-			output_dict_mu.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
-			output_dict_errHi.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
-			output_dict_errLo.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
-			output_dict_scan_mu.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
-			output_dict_scan_errHi.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
-			output_dict_scan_errLo.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
-			output_dict_scan_fit_mu.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
-			output_dict_scan_fit_err.setdefault(channel+"_"+decayMode, {})[weightBin] = 0
+			output_dict_mu.setdefault(channel + "_" + decayMode, {})[weightBin] = 0
+			output_dict_errHi.setdefault(channel + "_" + decayMode, {})[weightBin] = 0
+			output_dict_errLo.setdefault(channel + "_" + decayMode, {})[weightBin] = 0
+			output_dict_scan_mu.setdefault(channel + "_" + decayMode, {})[weightBin] = 0
+			output_dict_scan_errHi.setdefault(channel + "_" + decayMode, {})[weightBin] = 0
+			output_dict_scan_errLo.setdefault(channel + "_" + decayMode, {})[weightBin] = 0
+			output_dict_scan_fit_mu.setdefault(channel + "_" + decayMode, {})[weightBin] = 0
+			output_dict_scan_fit_err.setdefault(channel + "_" + decayMode, {})[weightBin] = 0
 			
 			file_multidimfit = ROOT.TFile(filename_multidimfit)
 			tree_multidimfit = file_multidimfit.Get("limit")
@@ -635,7 +658,7 @@ if __name__ == "__main__":
 			deltaNLL_list = []
 			deltaNLLshifted_list = []
 			
-			# the entry '0' contains the best shift and deltaNLL=0 --> start from 1
+			# The entry '0' contains the best shift and deltaNLL=0 --> start from 1
 			for entry in range(1, tree_multidimfit.GetEntries()):
 				tree_multidimfit.GetEntry(entry)
 				mes_list.append(tree_multidimfit.mes)
@@ -643,7 +666,7 @@ if __name__ == "__main__":
 			
 			file_multidimfit.Close()
 			
-			#find minimum
+			# Find minimum
 			for index, (nll) in enumerate(deltaNLL_list):
 				if index == 0:
 					min_nll = deltaNLL_list[0]
@@ -652,7 +675,7 @@ if __name__ == "__main__":
 					min_nll = deltaNLL_list[index]
 					min_shift = mes_list[index]
 			
-			#find left-right intercept for 1sigma uncertainty
+			# Find left-right intercept for 1sigma uncertainty
 			for index, (nll) in enumerate(deltaNLL_list):
 				deltaNLLshifted_list.append(nll - min_nll)
 			
@@ -702,7 +725,7 @@ if __name__ == "__main__":
 						else:
 							err2sigmaHi = abs(mes_list[index] - min_shift)
 			
-			#values for parabola plot
+			# Values for parabola plot
 			xvaluesF = []
 			xvalues = ""
 			yvalues = ""
@@ -711,7 +734,7 @@ if __name__ == "__main__":
 				xvalues += str((mes_list[index]-1.0)*100) + " "
 				yvalues += str(nll) + " "
 			
-			# values for fit
+			# Values for fit
 			xvaluesF_belowX = []
 			for index, (nll) in enumerate(nll_belowX):
 				xvaluesF_belowX.append((mes_list_nll_belowX[index]-1.0)*100)
@@ -745,21 +768,21 @@ if __name__ == "__main__":
 			RooFitGraph_Parabola.Write()
 			graphfile.Close()
 		
-			output_dict_mu[channel+"_"+decayMode][weightBin] = (tree_mlfit.mu-1.0)*100
-			output_dict_errHi[channel+"_"+decayMode][weightBin] = tree_mlfit.muHiErr*100
-			output_dict_errLo[channel+"_"+decayMode][weightBin] = tree_mlfit.muLoErr*100
-			output_dict_scan_mu[channel+"_"+decayMode][weightBin] = (min_shift-1.0)*100
-			output_dict_scan_errHi[channel+"_"+decayMode][weightBin] = err1sigmaHi*100
-			output_dict_scan_errLo[channel+"_"+decayMode][weightBin] = err1sigmaLow*100
-			output_dict_scan_fit_mu[channel+"_"+decayMode][weightBin] = minimumScanFit
-			output_dict_scan_fit_err[channel+"_"+decayMode][weightBin] = sigmaScanFit
+			output_dict_mu[channel + "_" + decayMode][weightBin] = (tree_mlfit.mu-1.0)*100
+			output_dict_errHi[channel + "_" + decayMode][weightBin] = tree_mlfit.muHiErr*100
+			output_dict_errLo[channel + "_" + decayMode][weightBin] = tree_mlfit.muLoErr*100
+			output_dict_scan_mu[channel + "_" + decayMode][weightBin] = (min_shift-1.0)*100
+			output_dict_scan_errHi[channel + "_" + decayMode][weightBin] = err1sigmaHi*100
+			output_dict_scan_errLo[channel + "_" + decayMode][weightBin] = err1sigmaLow*100
+			output_dict_scan_fit_mu[channel + "_" + decayMode][weightBin] = minimumScanFit
+			output_dict_scan_fit_err[channel + "_" + decayMode][weightBin] = sigmaScanFit
 			
 			config = {}
 			config["input_modules"] = ["InputInteractive"]
 			config["analysis_modules"] = ["AddLine"]
 			config["x_label"] = "#tau_{h} ES (%)"
 			config["y_label"] = "-2 \\\mathrm{ln} \\\mathscr{L}"
-			config["x_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
+			config["x_lims"] = [(min(es_shifts) - 1.0) * 100, (max(es_shifts) - 1.0) * 100]
 			config["y_lims"] = [0.0, nllMax]
 			config["x_lines"] = ["-6 6"]
 			config["y_lines"] = ["1 1", "4 4"]
@@ -796,19 +819,19 @@ if __name__ == "__main__":
 			parabola_plot_configs.append(config)
 		file_mlfit.Close()
 
-	#plot parabolas
+	# Plot parabolas
 	higgsplot.HiggsPlotter(list_of_config_dicts=parabola_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
-	# plot best fit result as function of pt/eta bins and fit with polynomials of orders 0 and 1
+	# Plot best fit result as function of pt/eta bins and fit with polynomials of orders 0 and 1
 	config = {}
 	xbins, xerrs, ybins, yerrslo, yerrshi = [], [], [], [], []
 	
-	# dicts for table
+	# Dicts for table
 	polZero_dict_p0, polZero_dict_p0err, polZero_dict_chi2, polZero_dict_ndf = {}, {}, {}, {}
 	polOne_dict_p0, polOne_dict_p0err,polOne_dict_p1, polOne_dict_p1err, polOne_dict_chi2, polOne_dict_ndf = {}, {}, {}, {}, {}, {}
 	
 	for datacard, cb in datacards_cbs.iteritems():
-		# the if statement in the loop is a workaround for the combination of channels
+		# The if statement in the loop is a workaround for the combination of channels
 		# if you know of a better way, feel free to try it :)
 		for category_or_bin_id in (datacards_cbs[datacard].cp().bin_set() if len(datacards_cbs[datacard].cp().bin_set()) == 1 else datacards_cbs[datacard].cp().bin_id_set()):
 			category = datacards_cbs[datacard].cp().bin_set()[0]
@@ -825,49 +848,49 @@ if __name__ == "__main__":
 			weight_ranges_loop = weight_ranges if args.no_inclusive else weight_ranges[1:]
 			for index, weightBin in enumerate(weight_bins_loop):
 				if args.use_scan_without_fit:
-					yval += str(output_dict_scan_mu[channel+"_"+decayMode][weightBin])+" "
-					yerrsloval += str(output_dict_scan_errLo[channel+"_"+decayMode][weightBin])+" "
-					yerrshival += str(output_dict_scan_errHi[channel+"_"+decayMode][weightBin])+" "
-					ybinsF.append(output_dict_scan_mu[channel+"_"+decayMode][weightBin])
-					yerrsloF.append(output_dict_scan_errLo[channel+"_"+decayMode][weightBin])
-					yerrshiF.append(output_dict_scan_errHi[channel+"_"+decayMode][weightBin])
+					yval += str(output_dict_scan_mu[channel + "_" + decayMode][weightBin]) + " "
+					yerrsloval += str(output_dict_scan_errLo[channel + "_" + decayMode][weightBin]) + " "
+					yerrshival += str(output_dict_scan_errHi[channel + "_" + decayMode][weightBin]) + " "
+					ybinsF.append(output_dict_scan_mu[channel + "_" + decayMode][weightBin])
+					yerrsloF.append(output_dict_scan_errLo[channel + "_" + decayMode][weightBin])
+					yerrshiF.append(output_dict_scan_errHi[channel + "_" + decayMode][weightBin])
 				else:
-					yval += str(output_dict_scan_fit_mu[channel+"_"+decayMode][weightBin])+" "
-					yerrsloval += str(output_dict_scan_fit_err[channel+"_"+decayMode][weightBin])+" "
-					yerrshival += str(output_dict_scan_fit_err[channel+"_"+decayMode][weightBin])+" "
-					ybinsF.append(output_dict_scan_fit_mu[channel+"_"+decayMode][weightBin])
-					yerrsloF.append(output_dict_scan_fit_err[channel+"_"+decayMode][weightBin])
-					yerrshiF.append(output_dict_scan_fit_err[channel+"_"+decayMode][weightBin])
-				if index < (len(weight_bins_loop)-1):
-					xval += str((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)+" "
-					xerrsval += str((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)+" "
-					xbinsF.append((float(weight_ranges_loop[index])+float(weight_ranges_loop[index+1]))/2.0)
-					xerrsF.append((float(weight_ranges_loop[index+1])-float(weight_ranges_loop[index]))/2.0)
+					yval += str(output_dict_scan_fit_mu[channel + "_" + decayMode][weightBin]) + " "
+					yerrsloval += str(output_dict_scan_fit_err[channel + "_" + decayMode][weightBin]) + " "
+					yerrshival += str(output_dict_scan_fit_err[channel + "_" + decayMode][weightBin]) + " "
+					ybinsF.append(output_dict_scan_fit_mu[channel + "_" + decayMode][weightBin])
+					yerrsloF.append(output_dict_scan_fit_err[channel + "_" + decayMode][weightBin])
+					yerrshiF.append(output_dict_scan_fit_err[channel + "_" + decayMode][weightBin])
+				if index < (len(weight_bins_loop) - 1):
+					xval += str((float(weight_ranges_loop[index]) + float(weight_ranges_loop[index + 1])) / 2.0) + " "
+					xerrsval += str((float(weight_ranges_loop[index + 1])-float(weight_ranges_loop[index])) / 2.0) + " "
+					xbinsF.append((float(weight_ranges_loop[index]) + float(weight_ranges_loop[index + 1])) / 2.0)
+					xerrsF.append((float(weight_ranges_loop[index + 1])-float(weight_ranges_loop[index])) / 2.0)
 			
 			if len(weight_bins_loop) > 0:
-				xval += str((float(weight_ranges_loop[index])+200.0)/2.0)
-				xerrsval += str((200.0 - float(weight_ranges_loop[index]))/2.0)
-				xbinsF.append((float(weight_ranges_loop[index])+200.0)/2.0)
-				xerrsF.append((200.0 - float(weight_ranges_loop[index]))/2.0)
+				xval += str((float(weight_ranges_loop[index]) + 200.0) / 2.0)
+				xerrsval += str((200.0 - float(weight_ranges_loop[index])) / 2.0)
+				xbinsF.append((float(weight_ranges_loop[index]) + 200.0) / 2.0)
+				xerrsF.append((200.0 - float(weight_ranges_loop[index])) / 2.0)
 			else: # no pt ranges were given - plot only inclusive result
 				xval += "110.0 "
 				xerrsval += "90.0 "
 				xbinsF.append(110.0)
 				xerrsF.append(90.0)
 				if args.use_scan_without_fit:
-					yval += str(output_dict_scan_mu[channel+"_"+decayMode]["0"])+" "
-					yerrsloval += str(output_dict_scan_errLo[channel+"_"+decayMode]["0"])+" "
-					yerrshival += str(output_dict_scan_errHi[channel+"_"+decayMode]["0"])+" "
-					ybinsF.append(output_dict_scan_mu[channel+"_"+decayMode]["0"])
-					yerrsloF.append(output_dict_scan_errLo[channel+"_"+decayMode]["0"])
-					yerrshiF.append(output_dict_scan_errHi[channel+"_"+decayMode]["0"])
+					yval += str(output_dict_scan_mu[channel + "_" + decayMode]["0"]) + " "
+					yerrsloval += str(output_dict_scan_errLo[channel + "_" + decayMode]["0"]) + " "
+					yerrshival += str(output_dict_scan_errHi[channel + "_" + decayMode]["0"]) + " "
+					ybinsF.append(output_dict_scan_mu[channel + "_" + decayMode]["0"])
+					yerrsloF.append(output_dict_scan_errLo[channel + "_" + decayMode]["0"])
+					yerrshiF.append(output_dict_scan_errHi[channel + "_" + decayMode]["0"])
 				else:
-					yval += str(output_dict_scan_fit_mu[channel+"_"+decayMode]["0"])+" "
-					yerrsloval += str(output_dict_scan_fit_err[channel+"_"+decayMode]["0"])+" "
-					yerrshival += str(output_dict_scan_fit_err[channel+"_"+decayMode]["0"])+" "
-					ybinsF.append(output_dict_scan_fit_mu[channel+"_"+decayMode]["0"])
-					yerrsloF.append(output_dict_scan_fit_err[channel+"_"+decayMode]["0"])
-					yerrshiF.append(output_dict_scan_fit_err[channel+"_"+decayMode]["0"])
+					yval += str(output_dict_scan_fit_mu[channel + "_" + decayMode]["0"]) + " "
+					yerrsloval += str(output_dict_scan_fit_err[channel + "_" + decayMode]["0"]) + " "
+					yerrshival += str(output_dict_scan_fit_err[channel + "_" + decayMode]["0"]) + " "
+					ybinsF.append(output_dict_scan_fit_mu[channel + "_" + decayMode]["0"])
+					yerrsloF.append(output_dict_scan_fit_err[channel + "_" + decayMode]["0"])
+					yerrshiF.append(output_dict_scan_fit_err[channel + "_" + decayMode]["0"])
 					
 			
 			if args.eta_binning:
@@ -893,26 +916,26 @@ if __name__ == "__main__":
 			
 			# Fit Pol0
 			RooFitGraph_Linear.Fit("f2","R")
-			polZero_dict_p0[channel+"_"+decayMode] = fit_polZero.GetParameter(0)
-			polZero_dict_p0err[channel+"_"+decayMode] = fit_polZero.GetParError(0)
-			polZero_dict_chi2[channel+"_"+decayMode] = fit_polZero.GetChisquare()
-			polZero_dict_ndf[channel+"_"+decayMode] = fit_polZero.GetNDF()
+			polZero_dict_p0[channel + "_" + decayMode] = fit_polZero.GetParameter(0)
+			polZero_dict_p0err[channel + "_" + decayMode] = fit_polZero.GetParError(0)
+			polZero_dict_chi2[channel + "_" + decayMode] = fit_polZero.GetChisquare()
+			polZero_dict_ndf[channel + "_" + decayMode] = fit_polZero.GetNDF()
 			
-			polZero_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol0_"+decayMode+"_"+quantity+".root")
+			polZero_filename = os.path.join(args.output_dir, "datacards/result_fit_" + ("eta" if args.eta_binning else "pt") + "_pol0_" + decayMode + "_" + quantity + ".root")
 			polZero_file = ROOT.TFile(polZero_filename, "RECREATE")
 			RooFitGraph_Linear.Write()
 			polZero_file.Close()
 			
 			# Fit Pol1
 			RooFitGraph_Linear.Fit("f3","R")
-			polOne_dict_p0[channel+"_"+decayMode] = fit_polOne.GetParameter(0)
-			polOne_dict_p0err[channel+"_"+decayMode] = fit_polOne.GetParError(0)
-			polOne_dict_p1[channel+"_"+decayMode] = fit_polOne.GetParameter(1)
-			polOne_dict_p1err[channel+"_"+decayMode] = fit_polOne.GetParError(1)
-			polOne_dict_chi2[channel+"_"+decayMode] = fit_polOne.GetChisquare()
-			polOne_dict_ndf[channel+"_"+decayMode] = fit_polOne.GetNDF()
+			polOne_dict_p0[channel + "_" + decayMode] = fit_polOne.GetParameter(0)
+			polOne_dict_p0err[channel + "_" + decayMode] = fit_polOne.GetParError(0)
+			polOne_dict_p1[channel + "_" + decayMode] = fit_polOne.GetParameter(1)
+			polOne_dict_p1err[channel + "_" + decayMode] = fit_polOne.GetParError(1)
+			polOne_dict_chi2[channel + "_" + decayMode] = fit_polOne.GetChisquare()
+			polOne_dict_ndf[channel + "_" + decayMode] = fit_polOne.GetNDF()
 			
-			polOne_filename = os.path.join(args.output_dir, "datacards/result_fit_"+("eta" if args.eta_binning else "pt")+"_pol1_"+decayMode+"_"+quantity+".root")
+			polOne_filename = os.path.join(args.output_dir, "datacards/result_fit_" + ("eta" if args.eta_binning else "pt") + "_pol1_" + decayMode + "_" + quantity + ".root")
 			polOne_file = ROOT.TFile(polOne_filename, "RECREATE")
 			RooFitGraph_Linear.Write()
 			polOne_file.Close()
@@ -927,12 +950,12 @@ if __name__ == "__main__":
 	
 		config["input_modules"] = ["InputInteractive"]
 		config["x_lims"] = ([0.0, 2.3] if args.eta_binning else [0.0, 200.0])
-		config["y_lims"] = [(min(es_shifts)-1.0)*100, (max(es_shifts)-1.0)*100]
+		config["y_lims"] = [(min(es_shifts) - 1.0) * 100, (max(es_shifts) - 1.0) * 100]
 		config["x_label"] = ("#eta_{#tau_{h}}" if args.eta_binning else "p^{#tau_{h}}_{T} (GeV)")
 		config["y_label"] = "#tau_{h} ES (%)"
 		config["markers"] = ["P"]
 		config["legend"] = [0.2,0.78,0.6,0.9]
-		config["output_dir"] = os.path.expandvars(args.output_dir)+"/datacards/"
+		config["output_dir"] = os.path.expandvars(args.output_dir) + "/datacards/"
 		config["filename"] = ("result_vs_eta_" if args.eta_binning else "result_vs_pt_") + quantity + ("_tightenedMassWindow" if args.tighten_mass_window else "")
 		config["x_expressions"] = xbins
 		config["x_errors"] = xerrs
@@ -950,7 +973,7 @@ if __name__ == "__main__":
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=weightbin_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
 
-	# print output tables to shell
+	# Print output tables to shell
 	for channel in args.channels+(["combined"] if len(args.channels) > 1 else []):
 		print ">>>>>>>>>>>>>>>>>>> Output summary for channel: "+channel+" <<<<<<<<<<<<<<<<<<<"
 		
@@ -1028,7 +1051,7 @@ if __name__ == "__main__":
 				print "{:^22}".format(polOne_string1 + " / " + polOne_string2)
 		print
 
-	# it's not pretty but it works :)
+	# Publish to web : it's not pretty but it works :)
 	if not args.www is None:
 		from Artus.HarryPlotter.plotdata import PlotData
 		for output_dir in www_output_dirs_postfit:

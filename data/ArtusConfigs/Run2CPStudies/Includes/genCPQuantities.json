@@ -136,7 +136,8 @@
 		"genPhi_rho",
 
 		"gen_yTau",
-		"gen_yTauL",
+		"gen_posyTauL",
+		"gen_negyTauL",
 
 		"TauMProngEnergy",
 		"TauPProngEnergy",

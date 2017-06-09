@@ -261,15 +261,10 @@ double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV ta
 }
 
 // calculation of the spin analysing discriminant (y^{tau}_L) using the laboratory system of the rhos
-double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M)
+double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV chargedPion, RMFLV pi0)
 {
-
-	double ytauLP = (pionP.E() - pi0P.E()) / (pionP.E() + pi0P.E());
-	double ytauLM = (pionM.E() - pi0M.E()) / (pionM.E() + pi0M.E());
-
-	return ytauLM * ytauLP;
+	return (chargedPion.E() - pi0.E()) / (chargedPion.E() + pi0.E());
 }
-
 
 
 // Calculate longitudinal polarization variables (z+, z-, zs)

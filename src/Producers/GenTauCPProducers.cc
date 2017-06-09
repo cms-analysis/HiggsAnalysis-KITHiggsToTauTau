@@ -39,9 +39,14 @@ void GenTauCPProducerBase::Init(setting_type const& settings)
 		return product.m_genPhiStarCP_rho;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("gen_yTauL", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("gen_posyTauL", [](event_type const& event, product_type const& product)
 	{
-		return product.m_gen_yTauL;
+		return product.m_gen_posyTauL;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("gen_negyTauL", [](event_type const& event, product_type const& product)
+	{
+		return product.m_gen_negyTauL;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("gen_yTau", [](event_type const& event, product_type const& product)
@@ -273,7 +278,8 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 
 						product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
 						product.m_gen_yTau = cpq.CalculateSpinAnalysingDiscriminant_rho(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
-						product.m_gen_yTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
+						product.m_gen_posyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, rho1_decay_photons.at(0) + rho1_decay_photons.at(1));
+						product.m_gen_negyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionM, rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
 
 					}
 				}
