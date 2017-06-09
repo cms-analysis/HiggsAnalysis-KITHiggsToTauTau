@@ -242,7 +242,9 @@ private:
 	static std::map<std::string, TTree*> svfitCacheInputTree;
 	static std::map<std::string, TFile*> svfitCacheInputFile;
 	static std::map<std::string, std::map<SvfitEventKey, uint64_t>> svfitCacheInputTreeIndices;
+	
 	std::string cacheFileName;
+	std::string cacheFileTreeName;
 	SvfitInputs svfitInputs;
 	static std::map<std::string, SvfitResults> svfitResults;
 	SvfitEventKey svfitEventKey;
