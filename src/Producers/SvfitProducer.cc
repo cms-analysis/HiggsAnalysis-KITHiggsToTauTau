@@ -15,9 +15,6 @@
 
 void SvfitProducer::Init(setting_type const& settings)
 {
-	ProducerBase<HttTypes>::Init(settings);
-	TFile::SetCacheFileDir(("/tmp/" + settings.GetUser() +"/").c_str());// necessary for SvfitTools to have a cache directory not conflicting with other users
-	
 	integrationMethod = SvfitEventKey::ToIntegrationMethod(
 			boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetSvfitIntegrationMethod()))
 	);

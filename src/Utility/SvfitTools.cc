@@ -620,7 +620,7 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& cache
 		TDirectory *savedir(gDirectory);
 		TFile *savefile(gFile);
 
-		SvfitTools::svfitCacheInputFile[cacheFileName] = TFile::Open(cacheFileName.c_str(), "CACHEREAD", cacheFileName.c_str());
+		SvfitTools::svfitCacheInputFile[cacheFileName] = TFile::Open(cacheFileName.c_str(), "READ", cacheFileName.c_str());
 		if (SvfitTools::svfitCacheInputFile[cacheFileName] == nullptr)
 		{
 			LOG(WARNING) << "Could not load SVfit cache trees from file " << cacheFileName << "/" << cacheTreeName << "!" << std::endl;
@@ -641,7 +641,7 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& cache
 				SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntry(svfitCacheInputTreeIndex);
 
 				SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName)[svfitEventKey] = svfitCacheInputTreeIndex;
-				LOG_N_TIMES(10,DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
+				LOG_N_TIMES(10, DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
 				LOG_N_TIMES(10, DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
 			}
 			svfitEventKey.ActivateBranches(SvfitTools::svfitCacheInputTree.at(cacheFileName), false);
