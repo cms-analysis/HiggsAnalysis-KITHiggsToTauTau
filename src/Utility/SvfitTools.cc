@@ -620,6 +620,7 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& cache
 	{
 		TDirectory* savedir(gDirectory);
 		TFile* savefile(gFile);
+		
 		TFile* svfitCacheInputFile = nullptr;
 		if (! Utility::Contains(SvfitTools::svfitCacheInputFiles, cacheFileName))
 		{
@@ -630,38 +631,46 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& cache
 			svfitCacheInputFile = SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName);
 		}
 		
-		if (svfitCacheInputFile == nullptr)
+		if (svfitCacheInputFile)
 		{
-			LOG(WARNING) << "Could not load SVfit cache trees from file " << cacheFileTreeName << "!";
+			TTree* svfitCacheInputTree = dynamic_cast<TTree*>(svfitCacheInputFile->Get(cacheTreeName.c_str()));
+			if (svfitCacheInputTree)
+			{
+				LOG(DEBUG) << "\tLoaded SVfit cache trees from file...";
+				LOG(DEBUG) << "\t\t" << cacheFileTreeName << " with " << svfitCacheInputTree->GetEntries() << " Entries";
+
+				svfitEventKey.SetBranchAddresses(svfitCacheInputTree);
+				std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
+				for (uint64_t svfitCacheInputTreeIndex = 0;
+					 svfitCacheInputTreeIndex < uint64_t(svfitCacheInputTree->GetEntries());
+					 ++svfitCacheInputTreeIndex)
+				{
+					svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
+
+					svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
+					LOG_N_TIMES(10, DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
+					LOG_N_TIMES(10, DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
+				}
+				svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
+				LOG(DEBUG) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
+		
+				svfitResults.SetBranchAddresses(svfitCacheInputTree);
+			
+				SvfitTools::svfitCacheInputTrees[cacheFileTreeName] = svfitCacheInputTree;
+				SvfitTools::svfitCacheInputTreeIndices[cacheFileTreeName] = svfitCacheInputTreeIndices;
+			}
+			else
+			{
+				LOG(WARNING) << "Could not read SVfit cache tree from \"" << cacheFileTreeName << "\"!";
+			}
+			
+			SvfitTools::svfitCacheInputFiles[cacheFileName] = svfitCacheInputFile;
 		}
 		else
 		{
-			TTree* svfitCacheInputTree = dynamic_cast<TTree*>(svfitCacheInputFile->Get(cacheTreeName.c_str()));
-			LOG(DEBUG) << "\tLoaded SVfit cache trees from file...";
-			LOG(DEBUG) << "\t\t" << cacheFileTreeName << " with " << svfitCacheInputTree->GetEntries() << " Entries";
-
-			svfitEventKey.SetBranchAddresses(svfitCacheInputTree);
-			std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
-			for (uint64_t svfitCacheInputTreeIndex = 0;
-				 svfitCacheInputTreeIndex < uint64_t(svfitCacheInputTree->GetEntries());
-				 ++svfitCacheInputTreeIndex)
-			{
-				svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
-
-				svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
-				LOG_N_TIMES(10, DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
-				LOG_N_TIMES(10, DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
-			}
-			svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
-			LOG(DEBUG) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
-		
-			svfitResults.SetBranchAddresses(svfitCacheInputTree);
-			
-			SvfitTools::svfitCacheInputTrees[cacheFileTreeName] = svfitCacheInputTree;
-			SvfitTools::svfitCacheInputTreeIndices[cacheFileTreeName] = svfitCacheInputTreeIndices;
+			LOG(WARNING) << "Could not open SVfit cache file \"" << cacheFileName << "\"!";
 		}
 
-		SvfitTools::svfitCacheInputFiles[cacheFileName] = svfitCacheInputFile;
 		gDirectory = savedir;
 		gFile = savefile;
 	}
