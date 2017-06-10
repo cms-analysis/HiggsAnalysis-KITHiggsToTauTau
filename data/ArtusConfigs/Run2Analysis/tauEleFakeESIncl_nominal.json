@@ -1,6 +1,6 @@
 {
 	"nominal" : {
-		"JetEnergyCorrectionUncertaintyShift" : 0.0,
+		"TauElectronFakeEnergyCorrection" : 1.0,
 		"SvfitCacheFileFolder" : "nominal"
 	}
 }
