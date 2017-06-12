@@ -23,7 +23,7 @@
 				"#producer:ScaleVariationProducer",
 				"filter:MetFilter"
 			],
-			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets" :
+			"DY.?JetsToLLM(10to50|50|150)" :
 			[
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonFromGenParticlesProducer",
