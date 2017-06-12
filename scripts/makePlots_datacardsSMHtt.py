@@ -196,6 +196,8 @@ if __name__ == "__main__":
 		"et_Boosted2D" : 0.05,
 		"et_Vbf2D" : 0.10
 	}
+	
+	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
 	#restriction to CH
 	datacards.cb.channel(args.channel)
@@ -220,15 +222,20 @@ if __name__ == "__main__":
 			exclude_cuts = args.exclude_cuts
 			if "TTbarCR" in category:
 				exclude_cuts += ["pzeta"]
+				do_not_normalize_by_bin_width = True
 			# TODO: check that this does what it should in samples_run2_2016.py !!!
 			#       a workaround solution may be necessary
 			if "ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category:
-				exclude_cuts += ["mt"]
+				if channel in ["mt", "et"]:
+					exclude_cuts += ["mt"]
+					do_not_normalize_by_bin_width = True
 			if "ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["iso_1"]
+					do_not_normalize_by_bin_width = True
 				elif channel == "tt":
 					exclude_cuts += ["iso_1", "iso_2"]
+					do_not_normalize_by_bin_width = True
 			if args.for_dcsync:
 				if category[3:] == 'inclusive':
 					exclude_cuts=["mt", "pzeta"]
@@ -520,10 +527,10 @@ if __name__ == "__main__":
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 
 	# divide plots by bin width and change the label correspondingly
-	if args.quantity == "m_sv" and not(args.do_not_normalize_by_bin_width):
+	if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era, "unrolled" : ("2D" in category), "texts" : config["texts"], "texts_x" : config["texts_x"]}, n_processes=args.n_processes)
+	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "unrolled" : ("2D" in category), "texts" : config["texts"], "texts_x" : config["texts_x"]}, n_processes=args.n_processes)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 	if args.plot_nuisance_impacts:
