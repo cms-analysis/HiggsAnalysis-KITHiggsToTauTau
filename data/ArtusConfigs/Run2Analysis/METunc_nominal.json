@@ -1,7 +1,0 @@
-{
-	"nominal" : {
-		"MetUncertaintyShift" : false,
-		"MetUncertaintyType" : "",
-		"SvfitCacheFileFolder" : "nominal"
-	}
-}

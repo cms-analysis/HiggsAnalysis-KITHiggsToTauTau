@@ -1,7 +1,0 @@
-{
-	"nominal" : {
-		"ElectronEnergyCorrectionShiftEB" : 1.0,
-		"ElectronEnergyCorrectionShiftEE" : 1.0,
-		"SvfitCacheFileFolder" : "nominal"
-	}
-}

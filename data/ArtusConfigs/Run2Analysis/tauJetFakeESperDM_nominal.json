@@ -1,6 +1,0 @@
-{
-	"nominal" : {
-		"TauJetFakeEnergyCorrection" : 0.0,
-		"SvfitCacheFileFolder" : "nominal"
-	}
-}

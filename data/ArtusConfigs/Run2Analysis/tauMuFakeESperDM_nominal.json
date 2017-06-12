@@ -1,7 +1,0 @@
-{
-	"nominal" : {
-		"TauMuonFakeEnergyCorrectionOneProngShift" : 1.0,
-		"TauMuonFakeEnergyCorrectionOneProngPiZerosShift" : 1.0,
-		"SvfitCacheFileFolder" : "nominal"
-	}
-}
