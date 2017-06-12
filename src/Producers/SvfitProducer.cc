@@ -15,28 +15,16 @@
 
 void SvfitProducer::Init(setting_type const& settings)
 {
-	ProducerBase<HttTypes>::Init(settings);
-	TFile::SetCacheFileDir(("/tmp/" + settings.GetUser() +"/").c_str());// necessary for SvfitTools to have a cache directory not conflicting with other users
-	
 	integrationMethod = SvfitEventKey::ToIntegrationMethod(
 			boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetSvfitIntegrationMethod()))
 	);
 	
 	if (! settings.GetSvfitCacheFile().empty())
 	{
-		std::string svfitCacheFile = settings.GetSvfitCacheFile();
-		// Check if we need to look in a subfolder
-		if ( ! settings.GetSvfitCacheFileFolder().empty())
-		{
-			// modify the path to include the subfolder defined in the setting SvfitCacheFileFolder
-			boost::filesystem::path inputFilePath(svfitCacheFile);
-			boost::filesystem::path inputFileName = inputFilePath.filename();
-			inputFilePath = inputFilePath.parent_path();
-			inputFilePath /= boost::filesystem::path(settings.GetSvfitCacheFileFolder());
-			inputFilePath /= inputFileName;
-			svfitCacheFile = inputFilePath.string();
-		}
-		svfitTools.Init(svfitCacheFile, settings.GetSvfitCacheTree());
+		svfitTools.Init(
+				settings.GetSvfitCacheFile(),
+				boost::algorithm::to_lower_copy(settings.GetChannel())+"_"+settings.GetSvfitCacheFileFolder()+"/"+settings.GetSvfitCacheTree()
+		);
 	}
 	
 	svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
@@ -70,8 +58,8 @@ void SvfitProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("svfitTau1LV", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedTau1LV ? *(product.m_svfitResults.fittedTau1LV) : DefaultValues::UndefinedRMFLV);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau1E", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTau1E ? (product.m_svfitResults.fittedTau1E) : DefaultValues::UndefinedFloat);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau1ERatio", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.fittedTau1ERatio ? (product.m_svfitResults.fittedTau1ERatio) : DefaultValues::UndefinedFloat);
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitTau2Available", [](event_type const& event, product_type const& product) {
@@ -80,8 +68,8 @@ void SvfitProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("svfitTau2LV", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedTau2LV ? *(product.m_svfitResults.fittedTau2LV) : DefaultValues::UndefinedRMFLV);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau2E", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTau2E ? (product.m_svfitResults.fittedTau2E) : DefaultValues::UndefinedFloat);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau2ERatio", [](event_type const& event, product_type const& product) {
+		return (product.m_svfitResults.fittedTau2ERatio ? (product.m_svfitResults.fittedTau2ERatio) : DefaultValues::UndefinedFloat);
 	});
 }
 

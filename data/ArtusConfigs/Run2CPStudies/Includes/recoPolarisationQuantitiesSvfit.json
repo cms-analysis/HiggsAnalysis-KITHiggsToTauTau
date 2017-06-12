@@ -2,10 +2,10 @@
 	"property" : [
 		"svfitTau1Available",
 		"svfitTau1LV",
-		"svfitTau1E",
+		"svfitTau1ERatio",
 		"svfitTau2Available",
 		"svfitTau2LV",
-		"svfitTau2E",
+		"svfitTau2ERatio",
 		
 		"visibleOverFullEnergySvfit_1",
 		"visibleOverFullEnergySvfit_2",

@@ -2,8 +2,8 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 #include "Artus/Utility/interface/DefaultValues.h"
-#include "Artus/Utility/interface/CutRange.h"
 #include "Artus/Utility/interface/Utility.h"
+#include "Artus/Utility/interface/SafeMap.h"
 
 #include "Kappa/DataFormats/interface/Hash.h"
 
@@ -25,6 +25,18 @@ TH1* TauESVfitQuantity::CreateHistogram(std::vector<svFitStandalone::LorentzVect
 double TauESVfitQuantity::FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const
 {
 	return fittedTauLeptons.at(m_tauIndex).E();
+}
+
+TauERatioSVfitQuantity::TauERatioSVfitQuantity(size_t tauIndex) : TauSVfitQuantity(tauIndex)
+{
+}
+TH1* TauERatioSVfitQuantity::CreateHistogram(std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const
+{
+	return new TH1D(std::string("SVfitStandaloneAlgorithm_histogram"+m_tauLabel+"ERatio").c_str(), std::string("SVfitStandaloneAlgorithm_histogram"+m_tauLabel+"ERatio").c_str(), 200, 0.0, 1.0);
+}
+double TauERatioSVfitQuantity::FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const
+{
+	return measuredTauLeptons.at(m_tauIndex).E() / fittedTauLeptons.at(m_tauIndex).E();
 }
 
 TauPtSVfitQuantity::TauPtSVfitQuantity(size_t tauIndex) : TauSVfitQuantity(tauIndex)
@@ -65,11 +77,11 @@ double TauPhiSVfitQuantity::FitFunction(std::vector<svFitStandalone::LorentzVect
 
 MCTauTauQuantitiesAdapter::MCTauTauQuantitiesAdapter() : MCPtEtaPhiMassAdapter()
 {
-	quantities_.push_back(new TauESVfitQuantity(0));
+	quantities_.push_back(new TauERatioSVfitQuantity(0));
 	quantities_.push_back(new TauPtSVfitQuantity(0));
 	quantities_.push_back(new TauEtaSVfitQuantity(0));
 	quantities_.push_back(new TauPhiSVfitQuantity(0));
-	quantities_.push_back(new TauESVfitQuantity(1));
+	quantities_.push_back(new TauERatioSVfitQuantity(1));
 	quantities_.push_back(new TauPtSVfitQuantity(1));
 	quantities_.push_back(new TauEtaSVfitQuantity(1));
 	quantities_.push_back(new TauPhiSVfitQuantity(1));
@@ -85,7 +97,7 @@ RMFLV MCTauTauQuantitiesAdapter::GetFittedHiggsLV() const
 	return momentum;
 }
 
-float MCTauTauQuantitiesAdapter::GetFittedTau1E() const
+float MCTauTauQuantitiesAdapter::GetFittedTau1ERatio() const
 {
 	return ExtractValue(5);
 }
@@ -100,7 +112,7 @@ RMFLV MCTauTauQuantitiesAdapter::GetFittedTau1LV() const
 	return momentum;
 }
 
-float MCTauTauQuantitiesAdapter::GetFittedTau2E() const
+float MCTauTauQuantitiesAdapter::GetFittedTau2ERatio() const
 {
 	return ExtractValue(9);
 }
@@ -435,10 +447,10 @@ TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 	return metCovarianceMatrix;
 }
 
-SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV) :
+SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV) :
 	SvfitResults()
 {
-	Set(fittedTransverseMass, fittedHiggsLV, fittedTau1E, fittedTau1LV, fittedTau2E, fittedTau2LV);
+	Set(fittedTransverseMass, fittedHiggsLV, fittedTau1ERatio, fittedTau1LV, fittedTau2ERatio, fittedTau2LV);
 	recalculated = false;
 }
 
@@ -459,17 +471,17 @@ SvfitResults::~SvfitResults()
 	{
 		delete fittedHiggsLV;
 	}
-	if (fittedTau1E)
+	if (fittedTau1ERatio)
 	{
-		delete fittedTau1E;
+		delete fittedTau1ERatio;
 	}
 	if (fittedTau1LV)
 	{
 		delete fittedTau1LV;
 	}
-	if (fittedTau2E)
+	if (fittedTau2ERatio)
 	{
-		delete fittedTau2E;
+		delete fittedTau2ERatio;
 	}
 	if (fittedTau2LV)
 	{
@@ -478,7 +490,7 @@ SvfitResults::~SvfitResults()
 	*/
 }
 
-void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV)
+void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV)
 {
 	if (! this->fittedHiggsLV)
 	{
@@ -495,9 +507,9 @@ void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, 
 	
 	this->fittedTransverseMass = fittedTransverseMass;
 	*(this->fittedHiggsLV) = fittedHiggsLV;
-	this->fittedTau1E = fittedTau1E;
+	this->fittedTau1ERatio = fittedTau1ERatio;
 	*(this->fittedTau1LV) = fittedTau1LV;
-	this->fittedTau2E = fittedTau2E;
+	this->fittedTau2ERatio = fittedTau2ERatio;
 	*(this->fittedTau2LV) = fittedTau2LV;
 }
 
@@ -507,9 +519,9 @@ void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
 	{
 		Set(GetFittedTransverseMass(svfitStandaloneAlgorithm),
 		    GetFittedHiggsLV(svfitStandaloneAlgorithm),
-		    GetFittedTau1E(svfitStandaloneAlgorithm),
+		    GetFittedTau1ERatio(svfitStandaloneAlgorithm),
 		    GetFittedTau1LV(svfitStandaloneAlgorithm),
-		    GetFittedTau2E(svfitStandaloneAlgorithm),
+		    GetFittedTau2ERatio(svfitStandaloneAlgorithm),
 		    GetFittedTau2LV(svfitStandaloneAlgorithm));
 	}
 	else
@@ -527,9 +539,9 @@ void SvfitResults::CreateBranches(TTree* tree)
 {
 	tree->Branch("svfitTransverseMass", &fittedTransverseMass, "svfitTransverseMass/D");
 	tree->Branch("svfitHiggsLV", &fittedHiggsLV);
-	tree->Branch("svfitTau1E", &fittedTau1E, "svfitTau1E/F");
+	tree->Branch("svfitTau1ERatio", &fittedTau1ERatio, "svfitTau1ERatio/F");
 	tree->Branch("svfitTau1LV", &fittedTau1LV);
-	tree->Branch("svfitTau2E", &fittedTau2E, "svfitTau2E/F");
+	tree->Branch("svfitTau2ERatio", &fittedTau2ERatio, "svfitTau2ERatio/F");
 	tree->Branch("svfitTau2LV", &fittedTau2LV);
 }
 
@@ -537,9 +549,9 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 {
 	tree->SetBranchAddress("svfitTransverseMass", &fittedTransverseMass);
 	tree->SetBranchAddress("svfitHiggsLV", &fittedHiggsLV);
-	tree->SetBranchAddress("svfitTau1E", &fittedTau1E);
+	tree->SetBranchAddress("svfitTau1ERatio", &fittedTau1ERatio);
 	tree->SetBranchAddress("svfitTau1LV", &fittedTau1LV);
-	tree->SetBranchAddress("svfitTau2E", &fittedTau2E);
+	tree->SetBranchAddress("svfitTau2ERatio", &fittedTau2ERatio);
 	tree->SetBranchAddress("svfitTau2LV", &fittedTau2LV);
 	ActivateBranches(tree, true);
 }
@@ -548,9 +560,9 @@ void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 {
 	tree->SetBranchStatus("svfitTransverseMass", activate);
 	tree->SetBranchStatus("svfitHiggsLV", activate);
-	tree->SetBranchStatus("svfitTau1E", activate);
+	tree->SetBranchStatus("svfitTau1ERatio", activate);
 	tree->SetBranchStatus("svfitTau1LV", activate);
-	tree->SetBranchStatus("svfitTau2E", activate);
+	tree->SetBranchStatus("svfitTau2ERatio", activate);
 	tree->SetBranchStatus("svfitTau2LV", activate);
 }
 
@@ -558,9 +570,9 @@ bool SvfitResults::operator==(SvfitResults const& rhs) const
 {
 	return (Utility::ApproxEqual(fittedTransverseMass, rhs.fittedTransverseMass) &&
 	        Utility::ApproxEqual(*fittedHiggsLV, *(rhs.fittedHiggsLV)) &&
-	        Utility::ApproxEqual(fittedTau1E, rhs.fittedTau1E) &&
+	        Utility::ApproxEqual(fittedTau1ERatio, rhs.fittedTau1ERatio) &&
 	        Utility::ApproxEqual(*fittedTau1LV, *(rhs.fittedTau1LV)) &&
-	        Utility::ApproxEqual(fittedTau2E, rhs.fittedTau2E) &&
+	        Utility::ApproxEqual(fittedTau2ERatio, rhs.fittedTau2ERatio) &&
 	        Utility::ApproxEqual(*fittedTau2LV, *(rhs.fittedTau2LV)));
 }
 
@@ -577,17 +589,17 @@ RMFLV SvfitResults::GetFittedHiggsLV(SVfitStandaloneAlgorithm const& svfitStanda
 {
 	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedHiggsLV();
 }
-float SvfitResults::GetFittedTau1E(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+float SvfitResults::GetFittedTau1ERatio(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
 {
-	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau1E();
+	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau1ERatio();
 }
 RMFLV SvfitResults::GetFittedTau1LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
 {
 	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau1LV();
 }
-float SvfitResults::GetFittedTau2E(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+float SvfitResults::GetFittedTau2ERatio(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
 {
-	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau2E();
+	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau2ERatio();
 }
 RMFLV SvfitResults::GetFittedTau2LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
 {
@@ -595,48 +607,68 @@ RMFLV SvfitResults::GetFittedTau2LV(SVfitStandaloneAlgorithm const& svfitStandal
 }
 
 
-std::map<std::string, TTree*> SvfitTools::svfitCacheInputTree;
-std::map<std::string, TFile*> SvfitTools::svfitCacheInputFile;
+std::map<std::string, TFile*> SvfitTools::svfitCacheInputFiles;
+std::map<std::string, TTree*> SvfitTools::svfitCacheInputTrees;
 std::map<std::string, std::map<SvfitEventKey, uint64_t>> SvfitTools::svfitCacheInputTreeIndices;
-std::map<std::string, SvfitResults> SvfitTools::svfitResults;
 
-void SvfitTools::Init(std::string const& cacheFileName, std::string const& treeName)
+void SvfitTools::Init(std::string const& cacheFileName, std::string const& cacheTreeName)
 {
 	this->cacheFileName = cacheFileName;
-	if ( SvfitTools::svfitCacheInputTreeIndices.find(cacheFileName) == SvfitTools::svfitCacheInputTreeIndices.end())
+	this->cacheFileTreeName = cacheFileName+"/"+cacheTreeName;
+	
+	if (! Utility::Contains(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName))
 	{
-		TDirectory *savedir(gDirectory);
-		TFile *savefile(gFile);
-
-		SvfitTools::svfitCacheInputFile[cacheFileName] = TFile::Open(cacheFileName.c_str(), "CACHEREAD", cacheFileName.c_str());
-		if (SvfitTools::svfitCacheInputFile[cacheFileName] == nullptr)
+		TDirectory* savedir(gDirectory);
+		TFile* savefile(gFile);
+		
+		TFile* svfitCacheInputFile = nullptr;
+		if (! Utility::Contains(SvfitTools::svfitCacheInputFiles, cacheFileName))
 		{
-			LOG(WARNING) << "Could not load SVfit cache trees from file " << cacheFileName << "/" << treeName << "!" << std::endl;
+			svfitCacheInputFile = TFile::Open(cacheFileName.c_str(), "READ", cacheFileName.c_str());
 		}
 		else
 		{
-			SvfitTools::svfitCacheInputTree[cacheFileName] = dynamic_cast<TTree*>(SvfitTools::svfitCacheInputFile.at(cacheFileName)->Get(treeName.c_str()));
-
-			LOG(INFO) << "\tLoaded SVfit cache trees from file...";
-			LOG(INFO) << "\t\t" << cacheFileName << "/" << treeName << " with " << SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntries() << " Entries" << std::endl;
-
-			svfitEventKey.SetBranchAddresses(SvfitTools::svfitCacheInputTree[cacheFileName]);
-			SvfitTools::svfitCacheInputTreeIndices[cacheFileName] = std::map<SvfitEventKey, uint64_t>();
-			for (uint64_t svfitCacheInputTreeIndex = 0;
-				 svfitCacheInputTreeIndex < uint64_t(SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntries());
-				 ++svfitCacheInputTreeIndex)
-			{
-				SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntry(svfitCacheInputTreeIndex);
-
-				SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName)[svfitEventKey] = svfitCacheInputTreeIndex;
-				LOG_N_TIMES(10,DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
-				LOG_N_TIMES(10, DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
-			}
-			svfitEventKey.ActivateBranches(SvfitTools::svfitCacheInputTree.at(cacheFileName), false);
-			LOG(DEBUG) << "\t\t" << SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).size() << " entries found.";
+			svfitCacheInputFile = SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName);
+		}
 		
-			svfitResults[cacheFileName] = SvfitResults();
-			svfitResults.at(cacheFileName).SetBranchAddresses(SvfitTools::svfitCacheInputTree.at(cacheFileName));
+		if (svfitCacheInputFile)
+		{
+			TTree* svfitCacheInputTree = dynamic_cast<TTree*>(svfitCacheInputFile->Get(cacheTreeName.c_str()));
+			if (svfitCacheInputTree)
+			{
+				LOG(DEBUG) << "\tLoaded SVfit cache trees from file...";
+				LOG(DEBUG) << "\t\t" << cacheFileTreeName << " with " << svfitCacheInputTree->GetEntries() << " Entries";
+
+				svfitEventKey.SetBranchAddresses(svfitCacheInputTree);
+				std::map<SvfitEventKey, uint64_t> svfitCacheInputTreeIndices;
+				for (uint64_t svfitCacheInputTreeIndex = 0;
+					 svfitCacheInputTreeIndex < uint64_t(svfitCacheInputTree->GetEntries());
+					 ++svfitCacheInputTreeIndex)
+				{
+					svfitCacheInputTree->GetEntry(svfitCacheInputTreeIndex);
+
+					svfitCacheInputTreeIndices[svfitEventKey] = svfitCacheInputTreeIndex;
+					LOG_N_TIMES(10, DEBUG) << std::to_string(svfitEventKey) << " --> " << svfitCacheInputTreeIndex;
+					LOG_N_TIMES(10, DEBUG) << svfitEventKey << " --> " << svfitCacheInputTreeIndex;
+				}
+				svfitEventKey.ActivateBranches(svfitCacheInputTree, false);
+				LOG(DEBUG) << "\t\t" << svfitCacheInputTreeIndices.size() << " entries found.";
+		
+				svfitResults.SetBranchAddresses(svfitCacheInputTree);
+			
+				SvfitTools::svfitCacheInputTrees[cacheFileTreeName] = svfitCacheInputTree;
+				SvfitTools::svfitCacheInputTreeIndices[cacheFileTreeName] = svfitCacheInputTreeIndices;
+			}
+			else
+			{
+				LOG(WARNING) << "Could not read SVfit cache tree from \"" << cacheFileTreeName << "\"!";
+			}
+			
+			SvfitTools::svfitCacheInputFiles[cacheFileName] = svfitCacheInputFile;
+		}
+		else
+		{
+			LOG(WARNING) << "Could not open SVfit cache file \"" << cacheFileName << "\"!";
 		}
 
 		gDirectory = savedir;
@@ -644,7 +676,7 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& treeN
 	}
 	else 
 	{
-		LOG(DEBUG) << "\tSVfit cache trees from file " << cacheFileName << " already loaded" << std::endl;
+		LOG(DEBUG) << "\tSVfit cache trees from file " << cacheFileName << " already loaded.";
 	}
 }
 
@@ -654,13 +686,12 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
                                     HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour)
 {
 	neededRecalculation = true;
-	if ((cacheFileName != NULL) && (SvfitTools::svfitCacheInputTree.count(cacheFileName) > 0) &&( SvfitTools::svfitCacheInputTreeIndices.find(cacheFileName) != SvfitTools::svfitCacheInputTreeIndices.end() ))
+	if (Utility::Contains(SvfitTools::svfitCacheInputTrees, cacheFileTreeName) && Utility::Contains(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName))
 	{
-		auto svfitCacheInputTreeIndicesItem = SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).find(svfitEventKey);
-		if (svfitCacheInputTreeIndicesItem != SvfitTools::svfitCacheInputTreeIndices.at(cacheFileName).end())
+		if (Utility::Contains(SafeMap::Get(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName), svfitEventKey))
 		{
-			SvfitTools::svfitCacheInputTree.at(cacheFileName)->GetEntry(svfitCacheInputTreeIndicesItem->second);
-			svfitResults.at(cacheFileName).FromCache();
+			SafeMap::Get(SvfitTools::svfitCacheInputTrees, cacheFileTreeName)->GetEntry(SafeMap::Get(SafeMap::Get(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName), svfitEventKey));
+			svfitResults.FromCache();
 			neededRecalculation = false;
 		}
 	}
@@ -669,17 +700,16 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
 		{
 			LOG_N_TIMES(30, INFO) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" 
-			<< std::endl << "Cache searched in file: \"" << cacheFileName << "\"." << std::endl;
+			                      << std::endl << "Cache searched in tree: \"" << cacheFileTreeName << "\".";
 		}
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::assert)
 		{
-			LOG(FATAL) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Did your inputs change?" << std::endl;
+			LOG(FATAL) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Did your inputs change?";
 		}
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::undefined)
 		{
-			svfitResults[cacheFileName] = SvfitResults();
-			svfitResults.at(cacheFileName).FromRecalculation();
-			return svfitResults.at(cacheFileName);
+			svfitResults.FromRecalculation();
+			return svfitResults;
 		}
 		
 		// construct algorithm
@@ -704,19 +734,24 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		}
 	
 		// retrieve results
-		svfitResults[cacheFileName].Set(svfitStandaloneAlgorithm);
-		svfitResults.at(cacheFileName).FromRecalculation();
+		svfitResults.Set(svfitStandaloneAlgorithm);
+		svfitResults.FromRecalculation();
 	}
 	
-	return svfitResults.at(cacheFileName);
+	return svfitResults;
 }
 
 SvfitTools::~SvfitTools()
 {
 	if (m_visPtResolutionFile)
 	{
-		std::cout << "Closing File" << std::endl;
 		m_visPtResolutionFile->Close();
+	}
+	
+	if (Utility::Contains(SvfitTools::svfitCacheInputFiles, cacheFileName) && SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->IsOpen())
+	{
+		SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->Close();
+		SvfitTools::svfitCacheInputFiles.erase(cacheFileName);
 	}
 	
 	// do NOT call destructor for TTree and TFile here. They are static and the destructor is called several times when running the factory

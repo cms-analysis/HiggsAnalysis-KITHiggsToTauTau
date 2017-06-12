@@ -39,6 +39,14 @@ public:
 	virtual double FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
 };
 
+class TauERatioSVfitQuantity : public TauSVfitQuantity
+{
+public:
+	TauERatioSVfitQuantity(size_t tauIndex);
+	virtual TH1* CreateHistogram(std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+	virtual double FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const;
+};
+
 class TauPtSVfitQuantity : public TauSVfitQuantity
 {
 public:
@@ -71,10 +79,10 @@ public:
 
 	RMFLV GetFittedHiggsLV() const;
 	
-	float GetFittedTau1E() const;
+	float GetFittedTau1ERatio() const;
 	RMFLV GetFittedTau1LV() const;
 	
-	float GetFittedTau2E() const;
+	float GetFittedTau2ERatio() const;
 	RMFLV GetFittedTau2LV() const;
 };
 
@@ -183,17 +191,17 @@ class SvfitResults {
 public:
 	double fittedTransverseMass;
 	RMFLV* fittedHiggsLV = nullptr;
-	float fittedTau1E;
+	float fittedTau1ERatio;
 	RMFLV* fittedTau1LV = nullptr;
-	float fittedTau2E;
+	float fittedTau2ERatio;
 	RMFLV* fittedTau2LV = nullptr;
 	
 	SvfitResults() {};
-	SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV);
+	SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
 	SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	~SvfitResults();
 	
-	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2E, RMFLV const& fittedTau2LV);
+	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
 	void Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm);
 	inline void FromRecalculation() { recalculated = true; }
 	inline void FromCache() { recalculated = false; }
@@ -210,9 +218,9 @@ public:
 private:
 	double GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMFLV GetFittedHiggsLV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
-	float GetFittedTau1E(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	float GetFittedTau1ERatio(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMFLV GetFittedTau1LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
-	float GetFittedTau2E(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
+	float GetFittedTau2ERatio(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 	RMFLV GetFittedTau2LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const;
 };
 
@@ -225,18 +233,21 @@ public:
 	SvfitTools() {}
 	~SvfitTools();
 	
-	void Init(std::string const& cacheFileName, std::string const& treeName);
+	void Init(std::string const& cacheFileName, std::string const& cacheTreeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
 	TFile * m_visPtResolutionFile = nullptr;
 
 private:
-	static std::map<std::string, TTree*> svfitCacheInputTree;
-	static std::map<std::string, TFile*> svfitCacheInputFile;
-	static std::map<std::string, std::map<SvfitEventKey, uint64_t>> svfitCacheInputTreeIndices;
+	static std::map<std::string, TFile*> svfitCacheInputFiles;
+	static std::map<std::string, TTree*> svfitCacheInputTrees;
+	static std::map<std::string, std::map<SvfitEventKey, uint64_t> > svfitCacheInputTreeIndices;
+	
 	std::string cacheFileName;
-	SvfitInputs svfitInputs;
-	static std::map<std::string, SvfitResults> svfitResults;
+	std::string cacheFileTreeName;
+	
 	SvfitEventKey svfitEventKey;
+	SvfitInputs svfitInputs;
+	SvfitResults svfitResults;
 };
 
