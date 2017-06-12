@@ -245,19 +245,23 @@ public:
 	SvfitTools();
 	~SvfitTools();
 	
-	void Init(std::string const& cacheFileName, std::string const& treeName);
+	void Init(std::string const& cacheFileName, std::string const& cacheTreeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour, float const& svfitKappa=6.0);
 	TFile * m_visPtResolutionFile = nullptr;
 
 private:
-	static std::map<std::string, TTree*> svfitCacheInputTree;
-	static std::map<std::string, TFile*> svfitCacheInputFile;
-	static std::map<std::string, std::map<SvfitEventKey, uint64_t>> svfitCacheInputTreeIndices;
-	std::string cacheFileName;
-	SvfitInputs svfitInputs;
 	ClassicSVfit svfitAlgorithm;
-	static std::map<std::string, SvfitResults> svfitResults;
+	
+	static std::map<std::string, TFile*> svfitCacheInputFiles;
+	static std::map<std::string, TTree*> svfitCacheInputTrees;
+	static std::map<std::string, std::map<SvfitEventKey, uint64_t> > svfitCacheInputTreeIndices;
+	
+	std::string cacheFileName;
+	std::string cacheFileTreeName;
+	
 	SvfitEventKey svfitEventKey;
+	SvfitInputs svfitInputs;
+	SvfitResults svfitResults;
 };
 

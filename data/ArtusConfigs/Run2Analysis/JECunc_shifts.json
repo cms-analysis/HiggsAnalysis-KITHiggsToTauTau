@@ -2,7 +2,7 @@
 	"jecUncUp" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201|Embedding2016" : 0.0,
+				"Run201|Embedding" : 0.0,
 				"default" : 1.0
 			}
 		},
@@ -11,7 +11,7 @@
 	"jecUncDown" : {
 		"JetEnergyCorrectionUncertaintyShift" : {
 			"nick" : {
-				"Run201|Embedding2016" : 0.0,
+				"Run201|Embedding" : 0.0,
 				"default" : -1.0
 			}
 		},

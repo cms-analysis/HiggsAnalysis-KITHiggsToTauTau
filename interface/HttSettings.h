@@ -264,7 +264,6 @@ public:
 	IMPL_SETTING_DEFAULT(bool, GenerateSvfitInput, false);
 	IMPL_SETTING_DEFAULT(int, SvfitInputCutOff, 5000)
 	IMPL_SETTING_DEFAULT(bool, UpdateSvfitCache, false)
-	IMPL_SETTING_DEFAULT(std::string, User, "");
 
 	IMPL_SETTING(std::string, TauTauRestFrameReco);
 

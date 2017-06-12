@@ -1,14 +1,4 @@
 {
-	"nominal" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding" : 0.0,
-				"default" : 0.0
-			}
-		},
-		"TauEnergyCorrectionShift" : 1.0,
-		"SvfitCacheFileFolder" : "nominal"
-	},
 	"tauEsUp" : {
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
@@ -40,23 +30,5 @@
 				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsDown"
 			}
 		}
-	},
-	"jecUncUp" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding" : 0.0,
-				"default" : 1.0
-			}
-		},
-		"SvfitCacheFileFolder" : "nominal"
-	},
-	"jecUncDown" : {
-		"JetEnergyCorrectionUncertaintyShift" : {
-			"nick" : {
-				"Run201|Embedding" : 0.0,
-				"default" : -1.0
-			}
-		},
-		"SvfitCacheFileFolder" : "nominal"
 	}
 }

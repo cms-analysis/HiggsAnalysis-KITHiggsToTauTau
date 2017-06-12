@@ -6,50 +6,32 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import argparse
-import os
-import re
-import shutil
-import sys
-
-import ROOT
-ROOT.gROOT.SetBatch(True)
-ROOT.PyConfig.IgnoreCommandLineOptions = True
-ROOT.gErrorIgnoreLevel = ROOT.kError
-
-import HiggsAnalysis.KITHiggsToTauTau.treemerge as treemerge
-import Artus.Utility.tools as tools
-import Artus.Utility.jsonTools as jsonTools
-
 import glob
-import tempfile
+import os
+import shlex
+
+import Artus.Utility.tools as tools
+
+filename_replacements = {
+	"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
+}
 
 def _call_command(command):
 	log.debug(command)
-	if logger.subprocessCall(command.split()) != 0:
+	if logger.subprocessCall(shlex.split(command)) != 0:
 		pass
 		#log.critical("Could not execute command \""+command+"\"! Exit program!")
 		#sys.exit(1)
-
-def nick_from_dir(directory):
-	directory = directory.rstrip("/")
-	return directory[directory.rfind("/")+1:]
-
-def srm(in_path):
-	return "srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN=/%s"%(in_path)
-
-def dcap(in_path):
-	return "dcap://dcache-cms-dcap.desy.de%s" % (in_path)
-
-def xrd(in_path):
-	return "root://dcache-cms-xrootd.desy.de:1094/%s" % (in_path.replace("/pnfs/desy.de/cms/tier2", ""))
 
 def main():
 	parser = argparse.ArgumentParser(description="Collect matching trees from input files into one output tree",
 	                                 parents=[logger.loggingParser])
 
-	parser.add_argument("-i", "--input", help="Input directory with merged Artus outputs including Svit Cache files")
-	parser.add_argument("-o", "--output", default="svfitCache.root",
-	                    help="Output ROOT file. [Default: %(default)s]")
+	parser.add_argument("-i", "--input-dirs", help="Input directories = crab project directories containing the subdirectories with crab tasks", nargs="+")
+	parser.add_argument("-o", "--output-dir", default=None,
+	                    help="Local output directory. [Default: subdir \"results\" in first input directory]")
+	parser.add_argument("-d", "--dcache-target", default=None,
+	                    help="Directory on dCache (srm) where the files should be copied to. [Default: %(default)s]")
 	
 	parser.add_argument("--input-trees", nargs="+", default=["svfitCache"],
 	                    help="Paths of input SVfit cache trees. [Default: %(default)s]")
@@ -67,110 +49,47 @@ def main():
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	merge_commands = []
-	copy_commands = []
-	config_file = []
+	if args.output_dir is None:
+		args.output_dir = os.path.join(args.input_dirs[0], "results")
 	
-	ls_command = "gfal-ls %s" %(srm(args.output))
-	retCode = logger.subprocessCall(ls_command.split())
-	if(retCode != 0):
-		mkdir_command = "gfal-mkdir %s" %(srm(args.output))
-		log.info("Creating " + srm(args.output))
-		logger.subprocessCall(mkdir_command.split())
-	tmpdir = tempfile.mkdtemp(suffix='', prefix='tmp', dir="/tmp") #dir=os.getcwd())
-	
-	if not args.dcache:
-		if not args.no_run:
-			for input in glob.glob(args.input + "/*/*.root"):
-				output = tmpdir 
-				input_trees = args.input_trees
-				output_trees = args.output_tree
-				config = jsonTools.JsonDict(input)
-				pipelines = config.get("Pipelines", {}).keys()
-				# extract names without the leading channel
-				pipelines = ["_".join(pipeline.split("_")[1:]) for pipeline in pipelines]
-				pipelines = list(set(pipelines))
-				pipelines = [x for x in pipelines if x != '']
-				merge_commands = []
-				for pipeline in pipelines:
-					out_filename = os.path.join(output, pipeline, "svfitCache_" + os.path.basename(input))
-					if not os.path.exists(os.path.dirname(out_filename)):
-						os.makedirs(os.path.dirname(out_filename))
-					pipeline_input_trees = [pipeline+"/"+input_tree for input_tree in input_trees]
-					merged_tree_name = treemerge.treemerge(
-							[input],  pipeline_input_trees,
-							out_filename, output_trees,
-							match_input_tree_names=True
-					)
-					log.info("SVfit cache trees collected in \"%s\"." % merged_tree_name)
-			
-			if args.previous_cache: # check for all available files in previous_cache
-				previous_caches = glob.glob(args.previous_cache + "*/*.root")
-				previous_cachefiles = [ "/".join(cache.split("/")[-2:]) for cache in previous_caches ]
-				for cachefile in previous_cachefiles:
-					current = os.path.join(output, cachefile)
-					previous = os.path.join(args.previous_cache, cachefile)
-					if not os.path.exists(os.path.dirname(current)):
-						os.makedirs(os.path.dirname(current))
-					if os.path.exists(current):
-						merge_commands.append("mv %s %s_tmp.root "%(current, current))
-						merge_commands.append("hadd -f -f6 %s %s_tmp.root %s "%(current, current, previous))
-						merge_commands.append("rm %s_tmp.root "%(current))
-					else:
-						merge_commands.append("hadd -f -f6 %s %s"%(current, previous))
-				tools.parallelize(_call_command, merge_commands, args.n_processes, description="merging")
-			
-			# move to output-directory
-			copy_command = "gfal-copy -r file:///%s %s" % (output, srm(args.output) )
-			logger.subprocessCall(copy_command.split())
+	tar_files = []
+	for input_dir in args.input_dirs:
+		tar_files.extend(glob.glob(os.path.join(input_dir, "*/results/*.tar")))
+		tar_files.extend(glob.glob(os.path.join(input_dir, "results/*.tar")))
 		
-		# print c&p summary
-		current_caches = glob.glob(args.output + "*/*.root")
-		nicknames = list(set([ os.path.basename(cache).split(".")[0].replace("svfitCache_", "") for cache in current_caches ]))
-		for nick in sorted(nicknames):
-			config_file.append('\t\t\t"%s" : "%s",' % (nick, xrd(args.output) + "/svfitCache_" + nick + ".root"))
+	tar_commands = ["tar -x -f "+tar_file+" -C "+args.output_dir+" --overwrite" for tar_file in tar_files]
+	tools.parallelize(_call_command, tar_commands, args.n_processes, description="un-tar crab outputs")
 	
-	else:
-		input_dirs = glob.glob(args.input + "/*/*/*")
-		untar_commands = ["tar xf %s -C %s"%(file,tmpdir) for input_dir in input_dirs for file in glob.glob(input_dir + "/*.tar*")]
-		if not args.no_run:
-			tools.parallelize(_call_command, untar_commands, args.n_processes, description="unpacking")
-		regex=re.compile(".*/(.*)_job_[0-9]+_SvfitCache.._(.*?)[0-9]+.root")
-		matches = [(regex.match(file).groups(),file) for file in glob.glob(tmpdir+"/*.root")]
-		dirs = {}
-		
-		# go through matches and create nested dict {'sample' : {'Pipeline' : [files]}}
-		for match in matches:
-			if match[0][0] not in dirs:
-				dirs[match[0][0]] = {}
-			if match[0][1] not in dirs[match[0][0]]:
-				dirs[match[0][0]][match[0][1]] = []
-			dirs[match[0][0]][match[0][1]].append(match[1])
-		
-		for sample in dirs:
-			for pipeline in dirs[sample]:
-				# create folders as needed
-				if not os.path.exists(tmpdir + "/" + pipeline):
-					os.makedirs(tmpdir + "/" + pipeline)
-				previous_cache_file = ""
-				if args.previous_cache:
-					if os.path.isfile(args.previous_cache + "/" + pipeline + "/svfitCache_" + sample + ".root"):
-						previous_cache_file = args.previous_cache + "/" + pipeline + "/svfitCache_" + sample + ".root"
-				tmp_filename = tmpdir + "/" + pipeline + "/svfitCache_" + sample + ".root"
-				out_filename = args.output + "/" + pipeline + "/svfitCache_" + sample + ".root"
-				merge_commands.append("hadd -f %s %s %s"%(tmp_filename, " ".join(dirs[sample][pipeline]), previous_cache_file))
-				copy_commands.append("gfal-copy -f file:///%s %s" % (tmp_filename, srm(out_filename) ))
-			config_file.append('"%s" : "%s",' % (sample, xrd(args.output) + "/svfitCache_" + sample + ".root"))
-		
-		if not args.no_run:
-			tools.parallelize(_call_command, merge_commands, args.n_processes, description="merging")
-			tools.parallelize(_call_command, copy_commands, args.n_processes, description="copying")
+	root_files = glob.glob(os.path.join(args.output_dir, "*.root"))
+	# TODO: maybe add more root files from -i arguments, that did not need to be un-tared
 	
-	shutil.rmtree(tmpdir)
-	log.info("done. Artus SvfitCacheFile settings: ")
+	root_files_per_sample_nick = {}
+	for root_file in root_files:
+		basename = os.path.basename(root_file)
+		sample_nick = basename[:basename.index("_job_")]
+		root_files_per_sample_nick.setdefault(sample_nick, []).append(root_file)
 	
-	for entry in config_file: 
-		log.info(entry)
+	merged_output_dir = os.path.join(args.output_dir, "merged")
+	if not os.path.exists(merged_output_dir):
+		os.makedirs(merged_output_dir)
+	hadd_commands = ["hadd.py "+(" ".join(tmp_root_files))+" -t "+os.path.join(merged_output_dir, sample_nick+".root")+" -a \" -f -v 0\"" for sample_nick, tmp_root_files in root_files_per_sample_nick.iteritems()]
+	tools.parallelize(_call_command, hadd_commands, args.n_processes, description="merging")
+	
+	if args.dcache_target:
+		dcache_copy_commands = ["gfal-copy -f -r "+merged_output_dir+" "+args.dcache_target]
+		tools.parallelize(_call_command, dcache_copy_commands, args.n_processes, description="copying to dCache")
+	
+	rm_commands = ["rm "+root_file for root_file in root_files]
+	if args.dcache_target:
+		rm_commands.extend(["rm "+os.path.join(merged_output_dir, sample_nick+".root") for sample_nick in root_files_per_sample_nick.keys()])
+	tools.parallelize(_call_command, rm_commands, args.n_processes, description="deleting temporary files")
+	
+	log.info("\nJSON configuration for Artus:\n")
+	config_output_dir = args.dcache_target if args.dcache_target else merged_output_dir
+	for src, dst in filename_replacements.iteritems():
+		config_output_dir = config_output_dir.replace(src, dst)
+	for sample_nick in sorted(root_files_per_sample_nick.keys()):
+		log.info("\""+sample_nick+"\" : \""+os.path.join(config_output_dir, sample_nick+".root")+"\",")
 
 if __name__ == "__main__":
 	main()
