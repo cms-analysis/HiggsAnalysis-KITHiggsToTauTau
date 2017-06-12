@@ -220,6 +220,15 @@ if __name__ == "__main__":
 			exclude_cuts = args.exclude_cuts
 			if "TTbarCR" in category:
 				exclude_cuts += ["pzeta"]
+			# TODO: check that this does what it should in samples_run2_2016.py !!!
+			#       a workaround solution may be necessary
+			if "ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category:
+				exclude_cuts += ["mt"]
+			if "ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category:
+				if channel in ["mt", "et"]:
+					exclude_cuts += ["iso_1"]
+				elif channel == "tt":
+					exclude_cuts += ["iso_1", "iso_2"]
 			if args.for_dcsync:
 				if category[3:] == 'inclusive':
 					exclude_cuts=["mt", "pzeta"]
@@ -308,23 +317,23 @@ if __name__ == "__main__":
 							sys.exit()
 					
 					# define quantities and binning for control regions
-					if "ZeroJet2D" in category and "WJCR" in category and channel in ["mt", "et"]:
+					if ("ZeroJet2D" in category or "Boosted2D" in category) and "WJCR" in category and channel in ["mt", "et"]:
 						config["x_expressions"] = ["mt_1"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
-					elif "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
 						if channel in ["mt", "et"]:
 							config["x_expressions"] = ["m_vis"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "Vbf2D" in category and "QCDCR" in category and channel == "tt":
+					if "Vbf2D" in category and "QCDCR" in category and channel == "tt":
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "TTbarCR" in category and channel == "em":
+					if "TTbarCR" in category and channel == "em":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					
