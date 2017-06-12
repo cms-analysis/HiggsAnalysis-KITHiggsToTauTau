@@ -397,7 +397,7 @@ class CutStringsDict:
 	@staticmethod
 	def relaxedETauMuTauWJ(channel, cut_type):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""))
 			cuts["iso_1"] = "(iso_1 < 0.3)"
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "smhtt2016" in cut_type else "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "2016" in cut_type else "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel in ["em"]:
