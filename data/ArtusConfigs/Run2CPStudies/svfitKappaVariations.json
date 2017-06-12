@@ -1,35 +1,8 @@
 {
-	"Kappa0" : {
-		"SvfitKappaParameter" : 0.0
-	},
-	"Kappa1" : {
-		"SvfitKappaParameter" : 1.0
-	},
-	"Kappa2" : {
-		"SvfitKappaParameter" : 2.0
-	},
-	"Kappa3" : {
-		"SvfitKappaParameter" : 3.0
-	},
 	"Kappa4" : {
 		"SvfitKappaParameter" : 4.0
-	},
-	"Kappa5" : {
-		"SvfitKappaParameter" : 5.0
-	},
-	"Kappa6" : {
-		"SvfitKappaParameter" : 6.0
-	},
-	"Kappa7" : {
-		"SvfitKappaParameter" : 7.0
-	},
-	"Kappa8" : {
-		"SvfitKappaParameter" : 8.0
 	},
 	"Kappa9" : {
 		"SvfitKappaParameter" : 9.0
 	},
-	"Kappa10" : {
-		"SvfitKappaParameter" : 10.0
-	}
 }
