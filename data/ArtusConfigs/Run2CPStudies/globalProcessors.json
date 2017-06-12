@@ -20,7 +20,8 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"#producer:ScaleVariationProducer"
+				"#producer:ScaleVariationProducer",
+				"filter:MetFilter"
 			],
 			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets" :
 			[
@@ -51,6 +52,7 @@
 			"Run201" :
 			[
 				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
 				"filter:JsonFilter",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer"
@@ -58,6 +60,7 @@
 			"Embedding201" :
 			[
 				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
@@ -76,6 +79,7 @@
 			"EmbeddingMC" :
 			[
 				"#filter:RunLumiEventFilter",
+				"filter:MetFilter",
 				"#filter:JsonFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
@@ -115,7 +119,8 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"#producer:ScaleVariationProducer"
+				"#producer:ScaleVariationProducer",
+				"filter:MetFilter"
 			],
 			"SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" : [
 				"#filter:RunLumiEventFilter",
@@ -140,7 +145,8 @@
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer"
+				"producer:PUWeightProducer",
+				"filter:MetFilter"
 			]
 		}
 	}

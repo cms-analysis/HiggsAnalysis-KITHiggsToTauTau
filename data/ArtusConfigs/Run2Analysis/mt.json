@@ -42,7 +42,7 @@
 			"nick" : {
 				"default" : false,
 				"Embedding(2016|MC)": true
-			}
+					}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
@@ -159,7 +159,6 @@
 		"RooWorkspaceObjectNames" : [
 			"0:m_trgMu22OR_eta2p1_desy_ratio",
 			"0:m_idiso0p15_desy_ratio"
-
 		],
 		"RooWorkspaceObjectArguments" : [
 			"0:m_pt,m_eta",
@@ -515,7 +514,8 @@
 			"#KappaTausConsumer",
 			"#KappaTaggedJetsConsumer",
 			"#RunTimeConsumer",
-			"#PrintEventsConsumer"
+			"#PrintEventsConsumer",
+			"#PrintGenParticleDecayTreeConsumer"
 		]
 	}
 }
