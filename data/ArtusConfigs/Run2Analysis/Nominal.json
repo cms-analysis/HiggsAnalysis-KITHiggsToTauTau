@@ -1,8 +1,21 @@
 {
-	"nominal" : {
-		"JetEnergyCorrectionUncertaintyShift" : 0.0,
-		"MetUncertaintyShift" : false,
-		"MetUncertaintyType" : "",
-		"SvfitCacheFileFolder" : "nominal"
-	}
+    "nominal": {
+        "ElectronEnergyCorrectionShiftEB": 1.0, 
+        "ElectronEnergyCorrectionShiftEE": 1.0, 
+        "JetEnergyCorrectionUncertaintyShift": 0.0, 
+        "MetUncertaintyShift": false, 
+        "MetUncertaintyType": "", 
+        "SvfitCacheFileFolder": "nominal", 
+        "TauElectronFakeEnergyCorrection": 1.0, 
+        "TauElectronFakeEnergyCorrectionOneProngPiZerosShift": 1.0, 
+        "TauElectronFakeEnergyCorrectionOneProngShift": 1.0, 
+        "TauEnergyCorrectionOneProngPiZerosShift": 1.0, 
+        "TauEnergyCorrectionOneProngShift": 1.0, 
+        "TauEnergyCorrectionShift": 1.0, 
+        "TauEnergyCorrectionThreeProngShift": 1.0, 
+        "TauJetFakeEnergyCorrection": 0.0, 
+        "TauMuonFakeEnergyCorrection": 1.0, 
+        "TauMuonFakeEnergyCorrectionOneProngPiZerosShift": 1.0, 
+        "TauMuonFakeEnergyCorrectionOneProngShift": 1.0
+    }
 }
