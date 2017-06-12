@@ -5,7 +5,7 @@
 	"GenerateSvfitInput" : false,
 	"UseFirstInputFileNameForSvfit" : false,
 	"SvfitCacheMissBehaviour" : "recalculate",
-	"SvfitInputCutOff" : 2000,
+	"SvfitInputCutOff" : 10000,
 	"UpdateSvfitCache" : true,
 	"SvfitOutFile" : "SvfitCache.root",
 	"#SvfitCacheFile": {

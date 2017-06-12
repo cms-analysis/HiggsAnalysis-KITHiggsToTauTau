@@ -196,6 +196,8 @@ if __name__ == "__main__":
 		"et_Boosted2D" : 0.05,
 		"et_Vbf2D" : 0.10
 	}
+	
+	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
 	#restriction to CH
 	datacards.cb.channel(args.channel)
@@ -220,6 +222,20 @@ if __name__ == "__main__":
 			exclude_cuts = args.exclude_cuts
 			if "TTbarCR" in category:
 				exclude_cuts += ["pzeta"]
+				do_not_normalize_by_bin_width = True
+			# TODO: check that this does what it should in samples_run2_2016.py !!!
+			#       a workaround solution may be necessary
+			if "ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category:
+				if channel in ["mt", "et"]:
+					exclude_cuts += ["mt"]
+					do_not_normalize_by_bin_width = True
+			if "ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category:
+				if channel in ["mt", "et"]:
+					exclude_cuts += ["iso_1"]
+					do_not_normalize_by_bin_width = True
+				elif channel == "tt":
+					exclude_cuts += ["iso_1", "iso_2"]
+					do_not_normalize_by_bin_width = True
 			if args.for_dcsync:
 				if category[3:] == 'inclusive':
 					exclude_cuts=["mt", "pzeta"]
@@ -308,23 +324,23 @@ if __name__ == "__main__":
 							sys.exit()
 					
 					# define quantities and binning for control regions
-					if "ZeroJet2D" in category and "WJCR" in category and channel in ["mt", "et"]:
+					if ("ZeroJet2D" in category or "Boosted2D" in category) and "WJCR" in category and channel in ["mt", "et"]:
 						config["x_expressions"] = ["mt_1"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
-					elif "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
 						if channel in ["mt", "et"]:
 							config["x_expressions"] = ["m_vis"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "Vbf2D" in category and "QCDCR" in category and channel == "tt":
+					if "Vbf2D" in category and "QCDCR" in category and channel == "tt":
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "TTbarCR" in category and channel == "em":
+					if "TTbarCR" in category and channel == "em":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					
@@ -511,10 +527,10 @@ if __name__ == "__main__":
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 
 	# divide plots by bin width and change the label correspondingly
-	if args.quantity == "m_sv" and not(args.do_not_normalize_by_bin_width):
+	if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era, "unrolled" : ("2D" in category), "texts" : config["texts"], "texts_x" : config["texts_x"]}, n_processes=args.n_processes)
+	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "unrolled" : ("2D" in category), "texts" : config["texts"], "texts_x" : config["texts_x"]}, n_processes=args.n_processes)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 	if args.plot_nuisance_impacts:
