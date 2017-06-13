@@ -32,7 +32,7 @@ class CutStringsDict:
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(iso_2 < 0.1)"
 			cuts["m_vis"] = "(m_vis > 60.0)*(m_vis < 120.0)"
-		elif channel == "em":
+		elif channel == "em" or channel == "ttbar":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_muonelectron == 1)"
 			cuts["trigger_threshold"] = "(pt_1 > 24.0 || pt_2 > 24.0)" if "2016" in cut_type else "(1.0)"
@@ -400,7 +400,7 @@ class CutStringsDict:
 			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""))
 			cuts["iso_1"] = "(iso_1 < 0.3)"
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "smhtt2016" in cut_type else "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "2016" in cut_type else "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
-		elif channel in ["em"]:
+		elif channel in ["em", "ttbar"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["iso_1"] = "(iso_1 < 0.3)"
 			cuts["iso_2"] = "(iso_2 < 0.3)"
