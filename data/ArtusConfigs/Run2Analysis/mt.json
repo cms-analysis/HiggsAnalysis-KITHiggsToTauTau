@@ -42,7 +42,7 @@
 			"nick" : {
 				"default" : false,
 				"Embedding(2016|MC)": true
-					}
+			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
