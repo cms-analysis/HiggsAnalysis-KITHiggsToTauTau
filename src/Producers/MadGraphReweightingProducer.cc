@@ -10,7 +10,7 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
-
+std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
 
 std::string MadGraphReweightingProducer::GetProducerId() const
 {
@@ -22,18 +22,18 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	ProducerBase<HttTypes>::Init(settings);
 
 	// parsing settings
-	std::map<std::string, std::vector<std::string> > madGraphProcessDirectoriesByName;
+	//std::map<std::string, std::vector<std::string> > madGraphProcessDirectoriesByName;
 	std::map<int, std::vector<std::string> > madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>(
 			Utility::ParseVectorToMap(settings.GetMadGraphProcessDirectories()),
-			madGraphProcessDirectoriesByName
+			m_madGraphProcessDirectoriesByName
 	);
 	for (std::map<int, std::vector<std::string> >::const_iterator processDirectories = madGraphProcessDirectoriesByIndex.begin();
 	     processDirectories != madGraphProcessDirectoriesByIndex.end(); ++processDirectories)
 	{
 		m_madGraphProcessDirectories[static_cast<HttEnumTypes::MadGraphProductionModeGGH>(processDirectories->first)] = processDirectories->second;
 	}
-	for (std::map<std::string, std::vector<std::string> >::const_iterator processDirectories = madGraphProcessDirectoriesByName.begin();
-	     processDirectories != madGraphProcessDirectoriesByName.end(); ++processDirectories)
+	for (std::map<std::string, std::vector<std::string> >::const_iterator processDirectories = m_madGraphProcessDirectoriesByName.begin();
+	     processDirectories != m_madGraphProcessDirectoriesByName.end(); ++processDirectories)
 	{
 		m_madGraphProcessDirectories[HttEnumTypes::ToMadGraphProductionModeGGH(processDirectories->first)] = processDirectories->second;
 	}
@@ -92,7 +92,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	// TODO: should this be an assertion?
 	if (event.m_lheParticles != nullptr)
 	{
-		HttEnumTypes::MadGraphProductionModeGGH productionMode = HttEnumTypes::MadGraphProductionModeGGH::NONE;
+		//HttEnumTypes::MadGraphProductionModeGGH productionMode = HttEnumTypes::MadGraphProductionModeGGH::NONE;
+		
 		int numberGluons=0;
 		int numberBottomQuarks=0;
 		int numberOtherQuarks=0;
@@ -133,6 +134,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		} initialParticles, higgsParticles, jetParticles;
 		
 		std::vector<const CartesianRMFLV*> particleFourMomenta;
+		std::string directoryname = "";
+
 		for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 		{
 			ParticlesGroup* selectedParticles = nullptr;
@@ -151,25 +154,93 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			}
 			
 			selectedParticles->momenta.push_back(&(*lheParticle));
-		
+			
 			if (lheParticle->pdgId == DefaultValues::pdgIdGluon)
 			{
 				selectedParticles->nGluons += 1;
 				++numberGluons;
+				directoryname += "g";
 			}
-			else if (std::abs(lheParticle->pdgId) == 5)
+			else if ((lheParticle->pdgId) == 25)
 			{
-				selectedParticles->nHeavyQuarks += 1;
-				++numberBottomQuarks;
+				selectedParticles = &higgsParticles;
+				selectedParticles->nHiggsBosons += 1;
+				directoryname += "_x0";
 			}
-			else if (std::abs(lheParticle->pdgId) < 5)
+
+
+			else if ((lheParticle->pdgId) == 1)
 			{
 				selectedParticles->nLightQuarks += 1;
 				++numberOtherQuarks;
+				directoryname += "d";
 			}
 			
+			else if ((lheParticle->pdgId) == -1)
+			{
+				selectedParticles->nLightQuarks += 1;
+				++numberOtherQuarks;
+				directoryname += "dx";
+			}
+
+			else if ((lheParticle->pdgId) == 2)
+			{
+				selectedParticles->nLightQuarks += 1;
+				++numberOtherQuarks;
+				directoryname += "u";
+			}
+			
+			else if ((lheParticle->pdgId) == -2)
+			{
+				selectedParticles->nLightQuarks += 1;
+				++numberOtherQuarks;
+				directoryname += "ux";
+			}
+
+			else if ((lheParticle->pdgId) == 3)
+			{
+				selectedParticles->nLightQuarks += 1;
+				++numberOtherQuarks;
+				directoryname += "s";
+			}
+			
+			else if ((lheParticle->pdgId) == -3)
+			{
+				selectedParticles->nLightQuarks += 1;
+				++numberOtherQuarks;
+				directoryname += "sx";
+			}
+
+			else if ((lheParticle->pdgId) == 4)
+			{
+				selectedParticles->nLightQuarks += 1;
+				++numberOtherQuarks;
+				directoryname += "c";
+			}
+			
+			else if ((lheParticle->pdgId) == -4)
+			{
+				selectedParticles->nLightQuarks += 1;
+				++numberOtherQuarks;
+				directoryname += "cx";
+			}
+
+			else if ((lheParticle->pdgId) == 5)
+			{
+				selectedParticles->nHeavyQuarks += 1;
+				++numberBottomQuarks;
+				directoryname += "b";
+			}
+			
+			else if ((lheParticle->pdgId) == -5)
+			{
+				selectedParticles->nHeavyQuarks += 1;
+				++numberBottomQuarks;
+				directoryname += "bx";
+			}
+
 			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode;
-			if (particleFourMomenta.size() < 5)
+			if (particleFourMomenta.size() < 7)
 			{
 				particleFourMomenta.push_back(&(lheParticle->p4));
 			}
@@ -210,7 +281,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			}
 		}
 		*/
-	
+		/*
 		if (initialParticles.nGluons==2)
 		{
 			if ((jetParticles.nGluons==0)  &&
@@ -303,13 +374,31 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			{
 				productionMode = HttEnumTypes::MadGraphProductionModeGGH::gg_x0bbx;
 			}
-		}
-
-		//LOG(INFO) << event.m_lheParticles->particles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks << ", " << Utility::ToUnderlyingValue(productionMode);
 		
-		if (Utility::Contains(m_madGraphProcessDirectories, productionMode))
+		//productionMode = directoryname;
+		}*/
+		//LOG(INFO) << productionMode << directoryname; 
+		//LOG(INFO) << event.m_lheParticles->particles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks << ", " << Utility::ToUnderlyingValue(productionMode);
+
+		if ((jetParticles.nGluons==0)  &&
+			    (jetParticles.nLightQuarks==0)  &&
+			    (jetParticles.nHeavyQuarks==0) && 
+			    (directoryname!="gg_x0"))
+			{
+			directoryname="bbx_x0";				
+			}
+
+		//if ((initialParticles.nLightQuarks==2) && 
+		//	(jetParticles.nGluons==0))
+			
+		
+		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
 		{
-			std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
+			//std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
+			//LOG(INFO) << "DIRNAME_NEW: " << directoryname << "DIRNAME_NoW: " << madGraphProcessDirectory;
+			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
+			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(directoryname)[0];
+						
 			std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
 		
 			// calculate the matrix elements for different mixing angles
@@ -323,7 +412,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		}
 		else
 		{
-			LOG(ERROR) << "Process directory for production mode " << Utility::ToUnderlyingValue(productionMode) << " not found in settings with tag \"MadGraphProcessDirectories\"!";
+			//LOG(ERROR) << "Process directory for production mode " << Utility::ToUnderlyingValue(productionMode) << " not found in settings with tag \"MadGraphProcessDirectories\"!";
+			LOG(ERROR) << "Process directory for production mode " << directoryname << " not found in settings with tag \"MadGraphProcessDirectories\"!";
 		}
 	}
 }
