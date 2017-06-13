@@ -44,7 +44,7 @@
 				"default" : false,
 				"Spring16" : true,
 				"Embedding(2016|MC)": true
-					}
+			}
 		},
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
