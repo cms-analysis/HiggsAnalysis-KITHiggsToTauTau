@@ -59,7 +59,7 @@ void SvfitProducer::Init(setting_type const& settings)
 		return (product.m_svfitResults.fittedTau1LV ? *(product.m_svfitResults.fittedTau1LV) : DefaultValues::UndefinedRMFLV);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau1ERatio", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTau1ERatio ? (product.m_svfitResults.fittedTau1ERatio) : DefaultValues::UndefinedFloat);
+		return product.m_svfitResults.fittedTau1ERatio;
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitTau2Available", [](event_type const& event, product_type const& product) {
@@ -69,7 +69,7 @@ void SvfitProducer::Init(setting_type const& settings)
 		return (product.m_svfitResults.fittedTau2LV ? *(product.m_svfitResults.fittedTau2LV) : DefaultValues::UndefinedRMFLV);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau2ERatio", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTau2ERatio ? (product.m_svfitResults.fittedTau2ERatio) : DefaultValues::UndefinedFloat);
+		return product.m_svfitResults.fittedTau2ERatio;
 	});
 }
 

@@ -25,6 +25,8 @@ class Samples(samples.SamplesBase):
 			return "inclusive/ntuple"
 		elif channel == "gen":
 			return "gen/ntuple"
+		elif channel == "ttbar":
+			return "em_nominal/ntuple"
 		else:
 			return channel+"_nominal/ntuple"
 
@@ -68,7 +70,7 @@ class Samples(samples.SamplesBase):
 				return "genTauTauDecayMode == 3"
 			elif category == "mm":
 				return "genTauTauDecayMode == 4"
-			elif category == "em":
+			elif category == "em" or category == "ttbar":
 				return "genTauTauDecayMode == 5"
 			elif category == "ee":
 				return "genTauTauDecayMode == 6"
@@ -80,7 +82,7 @@ class Samples(samples.SamplesBase):
 	def ztt_genmatch(channel):
 		if channel in ["mt", "et"]:
 			return "(gen_match_2 == 5)"
-		elif channel == "em":
+		elif channel == "em" or channel == "ttbar":
 			return "(gen_match_1 > 2 && gen_match_2 > 3)"
 		elif channel == "mm":
 			return "(gen_match_1 > 3 && gen_match_2 > 3)"
@@ -116,7 +118,7 @@ class Samples(samples.SamplesBase):
 	def zll_genmatch(channel):
 		if channel in ["mt", "et"]:
 			return "(gen_match_2 < 5 || gen_match_2 == 6)"
-		elif channel == "em":
+		elif channel == "em" or channel == "ttbar":
 			return "(gen_match_1 < 3 || gen_match_2 < 4)"
 		elif channel == "mm":
 			return "(gen_match_1 < 4 || gen_match_2 < 4)"
@@ -238,7 +240,7 @@ class Samples(samples.SamplesBase):
 				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[0]])
 			elif channel == "tt":
 				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[3]])
-			elif channel == "em":
+			elif channel == "em" or channel == "ttbar":
 				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[2]])
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
@@ -274,7 +276,7 @@ class Samples(samples.SamplesBase):
 			query_rereco = { "process" : "SingleElectron" }
 			query_promptreco = { "process" : "SingleElectron" }
 			query_reminiaod = { "process" : "SingleElectron" }
-		elif channel == "em":
+		elif channel == "em" or channel == "ttbar":
 			query_rereco = { "process" : "MuonEG" }
 			query_promptreco = { "process" : "MuonEG" }
 			query_reminiaod = { "process" : "MuonEG" }
@@ -358,7 +360,7 @@ class Samples(samples.SamplesBase):
 					"ztt",
 					nick_suffix=nick_suffix
 		)
-		elif channel in ["mt", "et", "tt", "em", "mm", "ee"]:
+		elif channel in ["mt", "et", "tt", "em", "mm", "ee", "ttbar"]:
 			Samples._add_input(
 					config,
 					self.files_ztt(channel),
@@ -459,7 +461,7 @@ class Samples(samples.SamplesBase):
 
 		data_weight, mc_weight = self.projection(kwargs)
 
-		if channel in ["mt", "et", "tt", "em", "mm", "ee"]:
+		if channel in ["mt", "et", "tt", "em", "mm", "ee", "ttbar"]:
 			Samples._add_input(
 					config,
 					self.files_zll(channel),
@@ -518,7 +520,7 @@ class Samples(samples.SamplesBase):
 						"zl",
 						nick_suffix=nick_suffix
 				)
-		elif channel in ["em"]:
+		elif channel in ["em", "ttbar"]:
 			pass
 		else:
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
@@ -557,7 +559,7 @@ class Samples(samples.SamplesBase):
 						"zj",
 						nick_suffix=nick_suffix
 				)
-		elif channel in ["em"]:
+		elif channel in ["em", "ttbar"]:
 			pass
 		else:
 			log.error("Sample config (ZJ) currently not implemented for channel \"%s\"!" % channel)
@@ -745,7 +747,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("ttbar_data_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
 			config.setdefault("ttbar_mc_signal_nicks", []).append("noplot_ttj_mc_signal"+nick_suffix)
 			config.setdefault("ttbar_mc_control_nicks", []).append("noplot_ttj_mc_control"+nick_suffix)
-		if channel not in ["em", "et", "mt", "tt", "mm", "ee"]:
+		if channel not in ["em", "et", "mt", "tt", "mm", "ee", "ttbar"]:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttj", nick_suffix)
@@ -785,7 +787,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		
 		for mass in higgs_masses:
-			if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
+			if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 				Samples._add_input(
 					config,
 					self.files_hww_gg(channel, mass),
@@ -810,7 +812,7 @@ class Samples(samples.SamplesBase):
 		
 		data_weight, mc_weight = self.projection(kwargs)
 		
-		if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
+		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			Samples._add_input(
 				config,
 				self.files_hww_gg(channel, 125),
@@ -839,7 +841,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		
 		for mass in higgs_masses:
-			if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
+			if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 				Samples._add_input(
 					config,
 					self.files_hww_qq(channel, mass),
@@ -864,7 +866,7 @@ class Samples(samples.SamplesBase):
 		
 		data_weight, mc_weight = self.projection(kwargs)
 		
-		if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
+		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			Samples._add_input(
 				config,
 				self.files_hww_qq(channel, 125),
@@ -890,7 +892,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 
 		for mass in higgs_masses:
-			if channel == "em":
+			if channel == "em" or channel == "ttbar":
 				Samples._add_input(
 					config,
 					self.files_hww_gg(channel, mass),
@@ -983,7 +985,7 @@ class Samples(samples.SamplesBase):
 
 		data_weight, mc_weight = self.projection(kwargs)
 
-		if channel in ["mt", "et", "em", "tt", "mm", "ee"]:
+		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			Samples._add_input(
 					config,
 					self.files_vv(channel),
@@ -1600,7 +1602,7 @@ class Samples(samples.SamplesBase):
 				config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_mc_signal"+nick_suffix)
 				config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_mc_control"+nick_suffix)
 
-		elif channel in ["em", "tt", "mm", "ee"]:
+		elif channel in ["em", "tt", "mm", "ee", "ttbar"]:
 			Samples._add_input(
 					config,
 					self.files_wj(channel),
@@ -1620,7 +1622,7 @@ class Samples(samples.SamplesBase):
 						"wj",
 						nick_suffix=nick_suffix
 				)
-			if channel == "em":
+			if channel == "em" or channel == "ttbar":
 				Samples._add_input(
 						config,
 						self.files_wgamma(channel),
@@ -1649,7 +1651,7 @@ class Samples(samples.SamplesBase):
 
 		data_weight, mc_weight = self.projection(kwargs)
 
-		if channel in ["et", "mt", "em", "tt", "mm", "ee"]:
+		if channel in ["et", "mt", "em", "tt", "mm", "ee", "ttbar"]:
 			if "classic" in estimationMethod:
 				# WJets for QCD estimate
 				Samples._add_input(
@@ -1859,7 +1861,7 @@ class Samples(samples.SamplesBase):
 				config.setdefault("qcd_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
 				config.setdefault("qcd_yield_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
 				config.setdefault("qcd_shape_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_qcd_control noplot_zll_qcd_control noplot_ttj_qcd_control noplot_vv_qcd_control noplot_wj_ss".split()]))
-				if channel == "em":
+				if channel == "em" or channel == "ttbar":
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(2.0 + (0.0 if not "os" in exclude_cuts else 1.0))
 				elif channel == "et":
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0 + (0.0 if not "os" in exclude_cuts else 1.0))
@@ -2251,7 +2253,7 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
 						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
 							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
-				if channel == "em":
+				if channel == "em" or channel == "ttbar":
 					for estimation_type in ["shape", "yield"]:
 						qcd_weight = weight
 						qcd_shape_cut = cut_type
@@ -2582,7 +2584,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 
 		for mass in higgs_masses:
-			if channel in ["tt", "et", "mt", "em"]:
+			if channel in ["tt", "et", "mt", "em", "ttbar"]:
 				Samples._add_input(
 						config,
 						self.files_bbh(channel, mass),
@@ -2637,7 +2639,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 
 		for mass in higgs_masses:
-			if channel in ["tt", "et", "mt", "em", "mm", "ee"]:
+			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
 				Samples._add_input(
 						config,
 						self.files_ggh(channel, mass, cp=kwargs.get("cp", None)) if not mssm else self.files_susy_ggh(channel, mass),
@@ -2695,7 +2697,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 
 		for mass in higgs_masses:
-			if channel in ["tt", "et", "mt", "em", "mm", "ee"]:
+			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
 				Samples._add_input(
 						config,
 						self.files_qqh(channel, mass),
@@ -2776,7 +2778,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 
 		for mass in higgs_masses:
-			if channel in ["tt", "et", "mt", "em", "mm", "ee"]:
+			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
 				Samples._add_input(
 						config,
 						self.files_wh_minus(channel, mass),
@@ -2835,7 +2837,7 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 
 		for mass in higgs_masses:
-			if channel in ["tt", "et", "mt", "em", "mm", "ee"]:
+			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
 				Samples._add_input(
 						config,
 						self.files_zh(channel, mass),

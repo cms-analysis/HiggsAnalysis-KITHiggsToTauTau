@@ -419,14 +419,14 @@ class CategoriesDict(object):
 				}
 		self.categoriesDict["{analysis}{channel}TTbarCR{discriminator}"] = {
 				"channel": [
-					"em_"
+					"ttbar_"
 					],
 				"expressions":{
 					"analysis": [
 						"catHtt13TeV_"
 						],
 					"global":"(1.0)",
-					"em_":"(pZetaMissVis < -35.0)*(m_vis>90.0)*(njetspt30>0)"
+					"ttbar_":"(pZetaMissVis < -35.0)*(m_vis>90.0)*(njetspt30>0)"
 					},
 				"binnings":{
 					"analysis": [
@@ -435,7 +435,7 @@ class CategoriesDict(object):
 					"global": {
 						"_m_vis": auto_rebin_binning
 						},
-					"em_" : {
+					"ttbar_" : {
 						"_m_vis" : "0.0 10000.0"
 						}
 					}
