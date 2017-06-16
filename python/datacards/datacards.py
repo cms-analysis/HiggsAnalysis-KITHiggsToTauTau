@@ -1147,8 +1147,11 @@ class Datacards(object):
 
 							plot_configs.append(config)
 
-		# create result plots HarryPlotter
-		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
+		if plotting_args.get("return_configs", False):
+			return plot_configs
+		else:
+			# create result plots HarryPlotter
+			return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
 	def print_pulls(self, datacards_cbs, n_processes=1, *args, **kwargs):
 		commands = []
