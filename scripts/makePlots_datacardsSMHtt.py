@@ -91,6 +91,8 @@ if __name__ == "__main__":
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
+	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
+						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -210,7 +212,7 @@ if __name__ == "__main__":
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-		if(categories_save != sorted(categories)):
+		if(categories_save != sorted(categories)) and args.do_not_ignore_category_removal:
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)

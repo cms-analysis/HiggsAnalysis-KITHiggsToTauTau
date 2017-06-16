@@ -22,9 +22,9 @@ class SMHttDatacards(datacards.Datacards):
 			background_processes_mm = ["ZLL", "TT", "VV", "W"]
 			background_processes_ttbar = ["ZTT", "ZLL", "TT", "VV", "W", "QCD"]
 			
-			all_mc_bkgs = ["ZTT", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
-			all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]
-			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
+			all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
+			all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]
+			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "ZLL", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
 			
 			# list of JEC uncertainties
 			jecUncertNames = [
@@ -213,31 +213,53 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 			
-			self.cb.cp().channel(["ttbar"]).bin(["TTbarCR"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_htt_scale_met_13TeV", "lnN", ch.SystMap()(1.01))
+			self.cb.cp().channel(["ttbar"]).bin(["ttbar_TTbarCR"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_htt_scale_met_13TeV", "lnN", ch.SystMap()(1.01))
 
 			# ======================================================================
 			# All channels
 
+			# ======================================================================
 			# lumi
 			if year == "2016":
-				self.cb.cp().process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.lumi2016_syst_args)
 				self.cb.cp().process(signal_processes+["VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 				if not ttbarFit:
-					self.cb.cp().process(signal_processes+["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
-				# TODO: double check how to treat ZL & ZJ
-				if not mmFit:
-					self.cb.cp().process(signal_processes+["ZTT", "ZL", "ZJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+					self.cb.cp().process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				if mmFit:
+					self.cb.cp().channel(["mt", "et", "tt", "em", "ttbar"]).process(["ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+					self.cb.cp().channel(["mt", "et"]).process(["ZTT"]).bin([channel + "_" + category + "_" + cr for channel in ["mt", "et"] for category in ["ZeroJet2D", "Boosted2D"] for cr in ["WJCR", "QCDCR"]]).AddSyst(self.cb, *self.lumi2016_syst_args)
+					self.cb.cp().channel(["tt"]).process(["ZTT"]).bin(["tt_" + category + "_QCDCR" for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, *self.lumi2016_syst_args)
+					self.cb.cp().channel(["ttbar"]).process(["ZTT"]).bin(["ttbar_TTbarCR"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+					self.cb.cp().channel(["mm"]).process(["ZTT"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 				self.cb.cp().process(["W"]).channel(["em", "tt", "mm", "ttbar"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 			else:
 				self.cb.cp().process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.lumi_syst_args)
 				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args)
 			
+			# ======================================================================
 			# cross section
-			# TODO: double check treatment of cross section uncertainties for ZTT, ZLL, ZL & ZJ
 			if mmFit:
-				self.cb.cp().process(["ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+				self.cb.cp().channel(["mt", "et", "tt", "em", "ttbar"]).process(["ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+				# add uncertainty for ZTT only in control regions
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT"]).bin([channel + "_" + category + "_" + cr for channel in ["mt", "et"] for category in ["ZeroJet2D", "Boosted2D"] for cr in ["WJCR", "QCDCR"]]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+				self.cb.cp().channel(["tt"]).process(["ZTT"]).bin(["tt_" + category + "_QCDCR" for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+				self.cb.cp().channel(["ttbar"]).process(["ZTT"]).bin(["ttbar_TTbarCR"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
 			else:
-				self.cb.cp().process(["ZTT", "ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_ZeroJet2D"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_0jet_em_13TeV", "lnN", ch.SystMap()(1.07))
+				self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ"]).bin(["tt_ZeroJet2D", "tt_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_0jet_tt_13TeV", "lnN", ch.SystMap()(1.07))
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "ZL", "ZJ"]).bin(["mt_ZeroJet2D", "mt_ZeroJet2D_WJCR", "mt_ZeroJet2D_QCDCR", "et_ZeroJet2D", "et_ZeroJet2D_WJCR", "et_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_0jet_lt_13TeV", "lnN", ch.SystMap()(1.07))
+				
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Boosted2D"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_boosted_em_13TeV", "lnN", ch.SystMap()(1.07))
+				self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ"]).bin(["tt_Boosted2D", "tt_Boosted2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_boosted_tt_13TeV", "lnN", ch.SystMap()(1.07))
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "ZL", "ZJ"]).bin(["mt_Boosted2D", "mt_Boosted2D_WJCR", "mt_Boosted2D_QCDCR", "et_Boosted2D", "et_Boosted2D_WJCR", "et_Boosted2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_boosted_lt_13TeV", "lnN", ch.SystMap()(1.07))
+				
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_em_13TeV", "lnN", ch.SystMap()(1.15))
+				self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ"]).bin(["tt_Vbf2D", "tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_tt_13TeV", "lnN", ch.SystMap()(1.15))
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "ZL", "ZJ"]).bin(["mt_vbf2D", "et_vbf2D"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_lt_13TeV", "lnN", ch.SystMap()(1.10))
+				
+				# TODO: implement these shape uncertainties
+				#self.cb.cp().channel(["mt", "et", "tt"]).process(["ZTT", "ZL", "ZJ"]).bin([channel + "_Vbf2D" for channel in ["mt", "et", "tt"]]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
+				#self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ"]).bin(["tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
+				#self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
 			if not ttbarFit:
 				self.cb.cp().process(["TT", "TTT", "TTJJ"]).channel(["mt", "et", "em", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			if year == "2016":
@@ -247,13 +269,17 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["W"]).channel(["em"]).AddSyst(self.cb, "CMS_htt_jetFakeLep_13TeV", "lnN", ch.SystMap()(1.20))
 			self.cb.cp().process(["W"]).channel(["tt", "mm"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
 
-			# tau efficiency
+			# ======================================================================
+			# tau id efficiency
 			if year == "2016":
 				self.cb.cp().channel(["mt", "et"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
 				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_corr_syst_args)
 			else:
 				self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
 
+			# ======================================================================
+			# energy scales
+			
 			# tau ES
 			self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, "CMS_scale_t_1prong_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, "CMS_scale_t_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
@@ -282,7 +308,10 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et", "mt"]).process(all_mc_bkgs).bin([channel+"_"+category for channel in ["et", "mt"] for category in ["ZeroJet2D_WJCR", "ZeroJet2D_QCDCR", "Boosted2D_WJCR", "Boosted2D_QCDCR"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt"]).process(all_mc_bkgs).bin([channel+"_"+category for channel in ["et", "mt"] for category in ["ZeroJet2D_WJCR", "ZeroJet2D_QCDCR", "Boosted2D_WJCR", "Boosted2D_QCDCR"]]).AddSyst(self.cb, "CMS_scale_met_unclustered_13TeV", "shape", ch.SystMap()(1.0))
 			
-			# QCD normalization from https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L1393-L1415
+			# ======================================================================
+			# W+jets and QCD estimation uncertainties
+			
+			# QCD normalization
 			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_ZeroJet2D"]).AddSyst(self.cb, "CMS_htt_QCD_0jet_em_13TeV", "lnN", ch.SystMap()(1.10))
 			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_Boosted2D"]).AddSyst(self.cb, "CMS_htt_QCD_boosted_em_13TeV", "lnN", ch.SystMap()(1.10))
 			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_QCD_VBF_em_13TeV", "lnN", ch.SystMap()(1.20))
@@ -298,9 +327,13 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_boosted_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_vbf_13TeV", "shape", ch.SystMap()(1.0))
 			
+			# W+jets high->low mt extrapolation uncertainty
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_0jet_13TeV", "lnN", ch.SystMap()(1.10))
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_boosted_13TeV", "lnN", ch.SystMap()(1.05))
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_vbf_13TeV", "lnN", ch.SystMap()(1.10))
+			
+			# ======================================================================
+			# pt reweighting uncertainties
 			
 			# ttbar shape
 			self.cb.cp().channel(["et", "mt", "em", "tt"]).process(["TTT", "TTJJ"]).AddSyst(self.cb, *self.ttj_syst_args)
@@ -355,7 +388,7 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().process(["TTT", "TTJJ"]).bin(["tt_Vbf2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["TT"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
 				
-				self.cb.cp().process(["TT"]).bin(["TTbarCR"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TT"]).bin(["ttbar_TTbarCR"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
 				
 				self.cb.cp().GetParameter("rate_ttbar").set_range(0.8, 1.2)
 			
