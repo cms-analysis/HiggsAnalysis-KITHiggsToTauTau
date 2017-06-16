@@ -168,6 +168,18 @@ class Samples(samples.SamplesBase):
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)			
 		else:
 			return "(1.0)"	
+	
+	def tttautau_genmatch(self,channel):
+		if channel == "mt":
+			return "((gen_match_1 == 4) && (gen_match_2 == 5))"
+		elif channel == "et":
+			return "((gen_match_1 == 3) && (gen_match_2 == 5))"
+		elif channel == "tt":
+			return "((gen_match_1 == 5) && (gen_match_2 == 5))"				
+		elif channel == "em":
+			return "((gen_match_1 == 3) && (gen_match_2 == 4))"
+		else:
+			log.error("TTTAUTAU currently not implemented for channel \"%s\"!" % channel)			
 
 	def embedding_stitchingweight(self,channel):
 		if channel=='mt':
@@ -693,13 +705,12 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTTAUTAU", 1.0)
 		data_weight, mc_weight = self.projection(kwargs)
-
 		Samples._add_input(
 				config,
 				self.files_ttj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				make_multiplication([mc_weight, weight, "eventWeight","!"+self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
+				make_multiplication([mc_weight, weight, "eventWeight",self.tttautau_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
 				"tttautau",
 				nick_suffix=nick_suffix
 		)
@@ -718,7 +729,6 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		data_weight, mc_weight = self.projection(kwargs)
-
 		Samples._add_input(
 				config,
 				self.files_ttj(channel),
