@@ -406,7 +406,7 @@ class Samples(samples.SamplesBase):
 			elif channel=='tt':
 				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "TauTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)				
 			elif channel=='em':
-				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "ElTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)
+				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "ElMuFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 								
