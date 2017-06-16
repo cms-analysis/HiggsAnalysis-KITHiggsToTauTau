@@ -9,7 +9,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
 class SMHttDatacards(datacards.Datacards):
-	def __init__(self, higgs_masses=["125"], useRateParam=False, year="", cb=None):
+	def __init__(self, higgs_masses=["125"], ttbarFit=False, mmFit=False, year="", cb=None):
 		super(SMHttDatacards, self).__init__(cb)
 
 		if cb is None:
@@ -70,7 +70,6 @@ class SMHttDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().channel(["mt"]).process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
@@ -95,10 +94,6 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["ZTT"]).bin(["mt_ZeroJet2D"]).AddSyst(self.cb, "CMS_tauDMReco_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["mt"]).process(["ZTT"]).bin(["mt_ZeroJet2D"]).AddSyst(self.cb, "CMS_tauDMReco_3prong_13TeV", "shape", ch.SystMap()(1.0))
 			
-			if useRateParam:
-				for category in Categories.CategoriesDict().getCategories(["mt"], False)["mt"]:
-					self.cb.cp().channel(["mt"]).bin(["mt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
-
 			# ======================================================================
 			# ET channel
 			self.add_processes(
@@ -112,7 +107,6 @@ class SMHttDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().channel(["et"]).process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
@@ -136,10 +130,6 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZTT"]).bin(["et_ZeroJet2D"]).AddSyst(self.cb, "CMS_tauDMReco_1prong_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et"]).process(["ZTT"]).bin(["et_ZeroJet2D"]).AddSyst(self.cb, "CMS_tauDMReco_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et"]).process(["ZTT"]).bin(["et_ZeroJet2D"]).AddSyst(self.cb, "CMS_tauDMReco_3prong_13TeV", "shape", ch.SystMap()(1.0))
-			
-			if useRateParam:
-				for category in Categories.CategoriesDict().getCategories(["et"], False)["et"]:
-					self.cb.cp().channel(["et"]).bin(["et_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# EM channel
@@ -154,7 +144,6 @@ class SMHttDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
 				self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
@@ -169,10 +158,6 @@ class SMHttDatacards(datacards.Datacards):
 			
 			# electron ES
 			self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs+["QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
-			
-			if useRateParam:
-				for category in Categories.CategoriesDict().getCategories(["em"], False)["em"]:
-					self.cb.cp().channel(["em"]).bin(["em_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# TT channel
@@ -187,16 +172,11 @@ class SMHttDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
 			else:
 				self.cb.cp().channel(["tt"]).process(signal_processes+["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
-			
-			if useRateParam:
-				for category in Categories.CategoriesDict().getCategories(["tt"], False)["tt"]:
-					self.cb.cp().channel(["tt"]).bin(["tt_"+category]).process(["ZTT"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 			
 			# ======================================================================
 			# MM channel
@@ -211,15 +191,10 @@ class SMHttDatacards(datacards.Datacards):
 			)
 			
 			# efficiencies
-			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().channel(["mm"]).process(all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 			else:
 				self.cb.cp().channel(["mm"]).process(all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency_syst_args)
-			
-			if useRateParam:
-				for category in Categories.CategoriesDict().getCategories(["mm"], False)["mm"]:
-					self.cb.cp().channel(["mm"]).bin(["mm_"+category]).process(["ZLL"]).AddSyst(self.cb, "n_zll_"+category+"_norm", "rateParam", ch.SystMap()(1.0))
 
 			# ======================================================================
 			# ttbar "channel" to extract normalization of ttbar process
@@ -244,27 +219,35 @@ class SMHttDatacards(datacards.Datacards):
 			# All channels
 
 			# lumi
-			# (hopefully) temporary fix
-			# TODO: update processes once MM and TT fits are implemented
 			if year == "2016":
 				self.cb.cp().process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.lumi2016_syst_args)
-				self.cb.cp().process(["W"]).channel(["em", "tt", "mm", "ttbar"]).AddSyst(self.cb, *self.lumi2016_syst_args) # automatically in other channels determined
+				self.cb.cp().process(signal_processes+["VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				if not ttbarFit:
+					self.cb.cp().process(signal_processes+["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				# TODO: double check how to treat ZL & ZJ
+				if not mmFit:
+					self.cb.cp().process(signal_processes+["ZTT", "ZL", "ZJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().process(["W"]).channel(["em", "tt", "mm", "ttbar"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 			else:
 				self.cb.cp().process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.lumi_syst_args)
-				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args) # automatically in other channels determined
+				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args)
 			
 			# cross section
-			self.cb.cp().process(["ZTT", "ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
-			self.cb.cp().process(["TT", "TTT", "TTJJ"]).channel(["mt", "et", "em", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args) # automatically in other channels determined
+			# TODO: double check treatment of cross section uncertainties for ZTT, ZLL, ZL & ZJ
+			if mmFit:
+				self.cb.cp().process(["ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+			else:
+				self.cb.cp().process(["ZTT", "ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
+			if not ttbarFit:
+				self.cb.cp().process(["TT", "TTT", "TTJJ"]).channel(["mt", "et", "em", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			if year == "2016":
 				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
 			else:
 				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
-			self.cb.cp().process(["W"]).channel(["em"]).AddSyst(self.cb, "CMS_htt_jetFakeLep_13TeV", "lnN", ch.SystMap()(1.20)) # automatically in other channels determined
+			self.cb.cp().process(["W"]).channel(["em"]).AddSyst(self.cb, "CMS_htt_jetFakeLep_13TeV", "lnN", ch.SystMap()(1.20))
 			self.cb.cp().process(["W"]).channel(["tt", "mm"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
 
 			# tau efficiency
-			# (hopefully) temporary fix
 			if year == "2016":
 				self.cb.cp().channel(["mt", "et"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
 				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_corr_syst_args)
@@ -353,6 +336,65 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["qqH", "hww_qq125"]).AddSyst(self.cb, "pdf_Higgs_qq", "lnN", ch.SystMap()(1.021))
 			self.cb.cp().process(["WH"]).AddSyst(self.cb, "pdf_Higgs_VH", "lnN", ch.SystMap()(1.019))
 			self.cb.cp().process(["ZH"]).AddSyst(self.cb, "pdf_Higgs_VH", "lnN", ch.SystMap()(1.016))
+			
+			# ======================================================================
+			# ttbar rate parameters
+			# TODO: set range of this rateParam to 0.8-1.2
+			if ttbarFit:
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["mt_ZeroJet2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["et_ZeroJet2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["tt_ZeroJet2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TT"]).bin(["em_ZeroJet2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["mt_Boosted2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["et_Boosted2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["tt_Boosted2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TT"]).bin(["em_Boosted2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["mt_Vbf2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["et_Vbf2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TTT", "TTJJ"]).bin(["tt_Vbf2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["TT"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				
+				self.cb.cp().process(["TT"]).bin(["TTbarCR"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+			
+			# ======================================================================
+			# mm rate parameters
+			# TODO: set range of this rateParam to 0.9-1.1
+			if mmFit:
+				self.cb.cp().process(["ZTT"]).bin(["mt_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["et_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["tt_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["em_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZLL"]).bin(["mm_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
+				
+				self.cb.cp().process(["ZTT"]).bin(["mt_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["et_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["tt_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["em_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZLL"]).bin(["mm_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
+				
+				self.cb.cp().process(["ZTT"]).bin(["mt_Vbf2D"]).AddSyst(self.cb, "rate_mm_ZTT_vbf", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["et_Vbf2D"]).AddSyst(self.cb, "rate_mm_ZTT_vbf", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["tt_Vbf2D"]).AddSyst(self.cb, "rate_mm_ZTT_vbf", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "rate_mm_ZTT_vbf", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZLL"]).bin(["mm_Vbf2D"]).AddSyst(self.cb, "rate_mm_ZTT_vbf", "rateParam", ch.SystMap()(1.0))
+			
+			# ======================================================================
+			# control region rate parameters
+			#TODO: set range of these rateParams to 0-5
+			self.cb.cp().process(["W"]).bin(["mt_ZeroJet2D", "mt_ZeroJet2D_WJCR"]).AddSyst(self.cb, "rate_W_cr_0jet_mt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["W"]).bin(["mt_Boosted2D", "mt_Boosted2D_WJCR", "mt_Vbf2D"]).AddSyst(self.cb, "rate_W_cr_boosted_mt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["W"]).bin(["et_ZeroJet2D", "et_ZeroJet2D_WJCR"]).AddSyst(self.cb, "rate_W_cr_0jet_et", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["W"]).bin(["et_Boosted2D", "et_Boosted2D_WJCR", "et_Vbf2D"]).AddSyst(self.cb, "rate_W_cr_boosted_et", "rateParam", ch.SystMap()(1.0))
+			
+			self.cb.cp().process(["QCD"]).bin(["mt_ZeroJet2D", "mt_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_0jet_mt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["mt_Boosted2D", "mt_Boosted2D_QCDCR", "mt_Vbf2D"]).AddSyst(self.cb, "rate_QCD_cr_boosted_mt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["et_ZeroJet2D", "et_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_0jet_et", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["et_Boosted2D", "et_Boosted2D_QCDCR", "et_Vbf2D"]).AddSyst(self.cb, "rate_QCD_cr_boosted_et", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["tt_ZeroJet2D", "tt_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_0jet_tt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["tt_Boosted2D", "tt_Boosted2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_boosted_tt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["tt_Vbf2D", "tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_vbf_tt", "rateParam", ch.SystMap()(1.0))
 			
 			# ======================================================================
 

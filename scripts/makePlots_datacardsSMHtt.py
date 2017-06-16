@@ -75,8 +75,10 @@ if __name__ == "__main__":
                         help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
-	parser.add_argument("--use-rateParam", action="store_true", default=False,
-						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
+	parser.add_argument("--ttbar-fit", action="store_true", default=False,
+						help="Use rate parameter to propagate ttbar normalization from control region to all categories. [Default: %(default)s]")
+	parser.add_argument("--mm-fit", action="store_true", default=False,
+						help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--remote", action="store_true", default=False,
 						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
@@ -117,9 +119,9 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
+	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
 	if args.for_dcsync:
-		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
+		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
