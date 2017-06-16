@@ -154,16 +154,63 @@ class Samples(samples.SamplesBase):
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		return "("+highmass+mediummass+lowmass+")"+normalization
 
-	def embedding_stitchingweight(self):
-		runB = "((run >= 272007) && (run < 275657))*3768958.+"
-		runC = "((run >= 275657) && (run < 276315))*1583897.+"
-		runD = "((run >= 276315) && (run < 276831))*2570815.+"
-		runE = "((run >= 276831) && (run < 277772))*2514506.+"
-		runF = "((run >= 277772) && (run < 278820))*1879819.+"
-		runG = "((run >= 278820) && (run < 280919))*5008746.+"
-		runH = "((run >= 280919) && (run < 284045))*6325743."
-		totalevents = "3768958.+1583897.+2570815.+2514506.+1879819.+5008746.+6325743."
-		return "("+runB+runC+runD+runE+runF+runG+runH+")/("+totalevents+")"
+	def embedding_ttbarveto_weight(self,channel):
+		if self.embedding:
+			if channel == "mt":
+				return "!((gen_match_1 == 4) && (gen_match_2 == 5))"
+			elif channel == "et":
+				return "!((gen_match_1 == 3) && (gen_match_2 == 5))"
+			elif channel == "tt":
+				return "!((gen_match_1 == 5) && (gen_match_2 == 5))"				
+			elif channel == "em":
+				return "!((gen_match_1 == 3) && (gen_match_2 == 4))"
+			else:
+				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)			
+		else:
+			return "(1.0)"	
+
+	def embedding_stitchingweight(self,channel):
+		if channel=='mt':
+			runB = "((run >= 272007) && (run < 275657))*3768958.+"
+			runC = "((run >= 275657) && (run < 276315))*1583897.+"
+			runD = "((run >= 276315) && (run < 276831))*2570815.+"
+			runE = "((run >= 276831) && (run < 277772))*2514506.+"
+			runF = "((run >= 277772) && (run < 278820))*1879819.+"
+			runG = "((run >= 278820) && (run < 280919))*5008746.+"
+			runH = "((run >= 280919) && (run < 284045))*6325743."
+			totalevents = "3768958.+1583897.+2570815.+2514506.+1879819.+5008746.+6325743."
+			return "("+runB+runC+runD+runE+runF+runG+runH+")/("+totalevents+")"
+		elif channel=='et':
+			runB = "((run >= 272007) && (run < 275657))*3570181.+"
+			runC = "((run >= 275657) && (run < 276315))*1543340.+"
+			runD = "((run >= 276315) && (run < 276831))*2614984.+"
+			runE = "((run >= 276831) && (run < 277772))*2387033.+"
+			runF = "((run >= 277772) && (run < 278820))*1733082.+"
+			runG = "((run >= 278820) && (run < 280919))*4700036.+"
+			runH = "((run >= 280919) && (run < 284045))*5830114."
+			totalevents = "3570181.+1543340.+2614984.+2387033.+1733082.+4700036.+5830114."
+			return "("+runB+runC+runD+runE+runF+runG+runH+")/("+totalevents+")"
+		elif channel=='tt':
+			runB = "((run >= 272007) && (run < 275657))*1331777.+"
+			runC = "((run >= 275657) && (run < 276315))*577219.+"
+			runD = "((run >= 276315) && (run < 276831))*984751.+"
+			runE = "((run >= 276831) && (run < 277772))*813524.+"
+			runF = "((run >= 277772) && (run < 278820))*665461.+"
+			runG = "((run >= 278820) && (run < 280919))*1773204."
+			totalevents = "1331777.+577219.+984751.+813524.+665461.+1773204."
+			return "("+runB+runC+runD+runE+runF+runG+")/("+totalevents+")"
+		elif channel=='em':
+			runB = "((run >= 272007) && (run < 275657))*4475455.+"
+			runC = "((run >= 275657) && (run < 276315))*1961248.+"
+			runD = "((run >= 276315) && (run < 276831))*3356220.+"
+			runE = "((run >= 276831) && (run < 277772))*3055567.+"
+			runF = "((run >= 277772) && (run < 278820))*2280011.+"
+			runG = "((run >= 278820) && (run < 280919))*5993673."
+			totalevents = "4475455.+1961248.+3356220.+3055567.+2280011.+5993673."
+			return "("+runB+runC+runD+runE+runF+runG+")/("+totalevents+")"
+		else:
+			log.error("Embedding currently not implemented for channel \"%s\"!" % channel)			
+		
 
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays
 	def zll_stitchingweight(self):
@@ -235,13 +282,13 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		if self.embedding:
 			if channel == "et":
-				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[1]])
+				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(channel), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[1]])
 			elif channel == "mt":
-				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[0]])
+				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(channel), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[0]])
 			elif channel == "tt":
-				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[3]])
+				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(channel), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[3]])
 			elif channel == "em" or channel == "ttbar":
-				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[2]])
+				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(channel), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[2]])
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif mc_sample_weight != "(1.0)":
@@ -340,7 +387,17 @@ class Samples(samples.SamplesBase):
 
 	def files_ztt(self, channel):
 		if self.embedding:
-			return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "(El|Mu)TauFinalState","scenario": ".*v2" }, 14)
+			if channel=='mt':
+				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "MuTauFinalState","scenario": ".*v2" }, 7)
+			elif channel=='et':
+				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "ElTauFinalState","scenario": ".*v2" }, 7)
+			elif channel=='tt':
+				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "TauTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)				
+			elif channel=='em':
+				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "ElTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)
+			else:
+				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
+								
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -589,7 +646,7 @@ class Samples(samples.SamplesBase):
 				self.files_ttj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight",
+				mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight",
 				"ttt",
 				nick_suffix=nick_suffix
 		)
@@ -616,7 +673,7 @@ class Samples(samples.SamplesBase):
 				self.files_ttj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight",
+				mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight",
 				"ttjj",
 				nick_suffix=nick_suffix
 		)
@@ -628,6 +685,31 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttjj", nick_suffix)
 		return config
 
+	def tttautau(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("TTTAUTAU", 1.0)
+		data_weight, mc_weight = self.projection(kwargs)
+
+		Samples._add_input(
+				config,
+				self.files_ttj(channel),
+				self.root_file_folder(channel),
+				lumi,
+				make_multiplication([mc_weight, weight, "eventWeight","!"+self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
+				"tttautau",
+				nick_suffix=nick_suffix
+		)
+		if channel not in ["em", "et", "mt", "tt", "mm", "ee", "ttbar"]:
+			log.error("Sample config (TTTAUTAU) currently not implemented for channel \"%s\"!" % channel)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "tttautau", nick_suffix)		
+		Samples._add_plot(config, "bkg", "HIST", "F", "tttautau", nick_suffix)
+		return config
+
 	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -636,19 +718,13 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		data_weight, mc_weight = self.projection(kwargs)
-		if self.embedding:
-			if channel == "mt":
-				ttbar_gen_match_weight="!((gen_match_1 == 4) && (gen_match_2 == 5))"
-			else:
-				ttbar_gen_match_weight="(1.0)"
-		else:
-			ttbar_gen_match_weight="(1.0)"
+
 		Samples._add_input(
 				config,
 				self.files_ttj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				make_multiplication([mc_weight, weight, "eventWeight", ttbar_gen_match_weight, self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
+				make_multiplication([mc_weight, weight, "eventWeight",self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
 				"ttj",
 				nick_suffix=nick_suffix
 		)
@@ -727,7 +803,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					make_multiplication([mc_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
+					make_multiplication([mc_weight, weight, "eventWeight",self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"]),
 					"noplot_ttj_mc_signal",
 					nick_suffix=nick_suffix
 			)
@@ -736,7 +812,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*topPtReweightWeight"]),
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight",self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*topPtReweightWeight"]),
 					"noplot_ttj_mc_control",
 					nick_suffix=nick_suffix
 			)
@@ -1150,7 +1226,7 @@ class Samples(samples.SamplesBase):
 						self.files_ttj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
 						("noplot_" if not controlregions else "") + "ttt_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1159,7 +1235,7 @@ class Samples(samples.SamplesBase):
 						self.files_ttj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
 						("noplot_" if not controlregions else "") + "ttjj_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1168,7 +1244,7 @@ class Samples(samples.SamplesBase):
 						self.files_ttj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
 						("noplot_" if not controlregions else "") + "ttj_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1309,7 +1385,7 @@ class Samples(samples.SamplesBase):
 						self.files_ttj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
 						("noplot_" if not controlregions else "") + "ttt_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1318,7 +1394,7 @@ class Samples(samples.SamplesBase):
 						self.files_ttj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
 						("noplot_" if not controlregions else "") + "ttjj_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1327,7 +1403,7 @@ class Samples(samples.SamplesBase):
 						self.files_ttj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
 						("noplot_" if not controlregions else "") + "ttj_ss_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1560,7 +1636,7 @@ class Samples(samples.SamplesBase):
 						self.files_ttj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
+						mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
 						"noplot_ttj_wj_control",
 						nick_suffix=nick_suffix
 				)
@@ -1721,7 +1797,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
+							mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
 							"noplot_ttj_ss_wj_control",
 							nick_suffix=nick_suffix
 					)
@@ -1841,7 +1917,7 @@ class Samples(samples.SamplesBase):
 						self.files_ttj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
+						mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
 						"noplot_ttj_qcd_control",
 						nick_suffix=nick_suffix
 				)
@@ -1967,7 +2043,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
+							mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
 							("noplot_" if not controlregions else "") + "ttt_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1976,7 +2052,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
+							mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
 							("noplot_" if not controlregions else "") + "ttjj_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1985,7 +2061,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
+							mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
 							("noplot_" if not controlregions else "") + "ttj_ss_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -2087,7 +2163,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
+							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
 							"noplot_ttj_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -2171,7 +2247,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
+							mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
 							"noplot_ttj_shape_ss_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -2354,7 +2430,7 @@ class Samples(samples.SamplesBase):
 								self.files_ttj(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_sample_weight+"*topPtReweightWeight",
+								mc_sample_weight+"*"+self.embedding_ttbarveto_weight(channel)+"*topPtReweightWeight",
 								"noplot_ttj_"+estimation_type,
 								nick_suffix=nick_suffix
 						)
@@ -2469,7 +2545,7 @@ class Samples(samples.SamplesBase):
 								self.files_ttj(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_selection_weights[key]+"*topPtReweightWeight",
+								mc_selection_weights[key]+"*"+self.embedding_ttbarveto_weight(channel)+"*topPtReweightWeight",
 								"noplot_ttj_"+key,
 								nick_suffix=nick_suffix
 						)
@@ -2898,7 +2974,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					weight+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
 					"noplot_tt_ff_control",
 					nick_suffix=nick_suffix
 			)
@@ -2935,7 +3011,7 @@ class Samples(samples.SamplesBase):
 					self.files_ttj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					weight+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
 					"noplot_tt_ff_norm",
 					nick_suffix=nick_suffix
 			)
