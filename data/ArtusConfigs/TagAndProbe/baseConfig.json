@@ -17,7 +17,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL" : [
+			"DY.?JetsToLL|Embedidng" : [
 				23
 			],
 			"^(GluGlu|GluGluTo|VBF)HToTauTau" : [
@@ -66,7 +66,29 @@
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
 				"#producer:TaggedJetCorrectionsProducer"
-			]
+			],
+			"Embedding201" :
+			[
+				"#filter:RunLumiEventFilter",
+				"#filter:MetFilter",
+				"filter:JsonFilter",
+				"producer:CrossSectionWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:NicknameProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenDiLeptonDecayModeProducer",
+				"producer:GenParticleProducer",
+				"producer:GenPartonCounterProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer"
+			]		
 		}
 	},
 	"PileupWeightFile" : {
@@ -74,7 +96,7 @@
 			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2015_246908-260627_13TeVFall15MiniAODv2_PromptReco_69mbMinBiasXS.root",
 			"Spring16" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-276811_13TeVSpring16_PromptReco_69p2mbMinBiasXS.root",
 			"Summer16": "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVMoriond17_23Sep2016ReReco_69p2mbMinBiasXS.root",
-			"Run201" : "not needed"
+			"Run201|Embedding" : "not needed"
 		}
 	},
 	"BTagScaleFactorFile" : {
@@ -106,7 +128,7 @@
 			"Run2015(C|D)" : [
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt"
 			],
-			"Run2016" : [
+			"Run2016|Embedding" : [
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
 			]
 		}
