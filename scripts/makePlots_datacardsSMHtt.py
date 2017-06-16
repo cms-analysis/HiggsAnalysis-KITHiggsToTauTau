@@ -490,6 +490,34 @@ if __name__ == "__main__":
 	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_u(1 if "tauDMReco" in systematic.name() else systematic.value_u()))
 	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_d(1 if "tauDMReco" in systematic.name() else systematic.value_d()))
 	
+	# remove processes with zero yield
+	def is_control_region(obj):
+		return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")
+	
+	def matching_process(obj1, obj2):
+		matches = (obj1.bin() == obj2.bin())
+		matches = matches and (obj1.process() == obj2.process())
+		matches = matches and (obj1.signal() == obj2.signal())
+		matches = matches and (obj1.analysis() == obj2.analysis())
+		matches = matches and (obj1.era() == obj2.era())
+		matches = matches and (obj1.channel() == obj2.channel())
+		matches = matches and (obj1.bin_id() == obj2.bin_id())
+		matches = matches and (obj1.mass() == obj2.mass())
+		return matches
+	
+	def remove_procs_and_systs_with_zero_yield(proc):
+		# TODO: find out why zero yield should be ok in control regions. until then remove them
+		#null_yield = not (proc.rate() > 0. or is_control_region(proc))
+		null_yield = not proc.rate() > 0.
+		if null_yield:
+			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+		return null_yield
+	
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
+	
+	# convert shapes in control regions to lnN
+	datacards.cb.cp().ForEachSyst(lambda systematic: systematic.set_type("lnN") if is_control_region(systematic) and systematic.type() == "shape" else systematic.set_type(systematic.type()))
+	
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset("125")
