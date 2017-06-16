@@ -204,5 +204,15 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		}
 	}
 	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = normalisationFactor;
+	
+	float randomTauEnergySmearing = static_cast<HttSettings const&>(settings).GetRandomTauEnergySmearing();
+	if (randomTauEnergySmearing != 0.0)
+	{	
+		double r;
+		TRandom *r3 = new TRandom3();
+		r3->SetSeed(event.m_eventInfo->nEvent);
+		r = (1.0+r3->Gaus(0,randomTauEnergySmearing));
+		tau->p4 = tau->p4 * r;
+	}
 }
 
