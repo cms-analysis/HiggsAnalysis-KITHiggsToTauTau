@@ -339,7 +339,6 @@ class SMHttDatacards(datacards.Datacards):
 			
 			# ======================================================================
 			# ttbar rate parameters
-			# TODO: set range of this rateParam to 0.8-1.2
 			if ttbarFit:
 				self.cb.cp().process(["TTT", "TTJJ"]).bin(["mt_ZeroJet2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["TTT", "TTJJ"]).bin(["et_ZeroJet2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
@@ -357,10 +356,11 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().process(["TT"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
 				
 				self.cb.cp().process(["TT"]).bin(["TTbarCR"]).AddSyst(self.cb, "rate_ttbar", "rateParam", ch.SystMap()(1.0))
+				
+				self.cb.cp().GetParameter("rate_ttbar").set_range(0.8, 1.2)
 			
 			# ======================================================================
 			# mm rate parameters
-			# TODO: set range of this rateParam to 0.9-1.1
 			if mmFit:
 				self.cb.cp().process(["ZTT"]).bin(["mt_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["ZTT"]).bin(["et_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
@@ -379,10 +379,13 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().process(["ZTT"]).bin(["tt_Vbf2D"]).AddSyst(self.cb, "rate_mm_ZTT_vbf", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["ZTT"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "rate_mm_ZTT_vbf", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["ZLL"]).bin(["mm_Vbf2D"]).AddSyst(self.cb, "rate_mm_ZTT_vbf", "rateParam", ch.SystMap()(1.0))
+				
+				self.cb.cp().GetParameter("rate_mm_ZTT_0jet").set_range(0.9, 1.1)
+				self.cb.cp().GetParameter("rate_mm_ZTT_boosted").set_range(0.9, 1.1)
+				self.cb.cp().GetParameter("rate_mm_ZTT_vbf").set_range(0.9, 1.1)
 			
 			# ======================================================================
 			# control region rate parameters
-			#TODO: set range of these rateParams to 0-5
 			self.cb.cp().process(["W"]).bin(["mt_ZeroJet2D", "mt_ZeroJet2D_WJCR"]).AddSyst(self.cb, "rate_W_cr_0jet_mt", "rateParam", ch.SystMap()(1.0))
 			self.cb.cp().process(["W"]).bin(["mt_Boosted2D", "mt_Boosted2D_WJCR", "mt_Vbf2D"]).AddSyst(self.cb, "rate_W_cr_boosted_mt", "rateParam", ch.SystMap()(1.0))
 			self.cb.cp().process(["W"]).bin(["et_ZeroJet2D", "et_ZeroJet2D_WJCR"]).AddSyst(self.cb, "rate_W_cr_0jet_et", "rateParam", ch.SystMap()(1.0))
@@ -395,6 +398,19 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["QCD"]).bin(["tt_ZeroJet2D", "tt_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_0jet_tt", "rateParam", ch.SystMap()(1.0))
 			self.cb.cp().process(["QCD"]).bin(["tt_Boosted2D", "tt_Boosted2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_boosted_tt", "rateParam", ch.SystMap()(1.0))
 			self.cb.cp().process(["QCD"]).bin(["tt_Vbf2D", "tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_vbf_tt", "rateParam", ch.SystMap()(1.0))
+			
+			self.cb.cp().GetParameter("rate_W_cr_0jet_mt").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_W_cr_boosted_mt").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_W_cr_0jet_et").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_W_cr_boosted_et").set_range(0, 5)
+			
+			self.cb.cp().GetParameter("rate_QCD_cr_0jet_mt").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_QCD_cr_boosted_mt").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_QCD_cr_0jet_et").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_QCD_cr_boosted_et").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_QCD_cr_0jet_tt").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_QCD_cr_boosted_tt").set_range(0, 5)
+			self.cb.cp().GetParameter("rate_QCD_cr_vbf_tt").set_range(0, 5)
 			
 			# ======================================================================
 
