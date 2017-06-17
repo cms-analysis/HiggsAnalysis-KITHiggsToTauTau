@@ -119,7 +119,8 @@ public:
 	std::map<KLepton*, double> m_a1CosBeta; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1CosGamma; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1SinGamma; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1optimumVariableSimpleFit;
+	std::map<KLepton*, double> m_a1OmegaHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1OmegaSvfit; // Keys are only of type KTau*
 
 	double m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
 	double m_tauPolarisationDiscriminatorSvfit = DefaultValues::UndefinedDouble;
