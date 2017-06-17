@@ -11,6 +11,23 @@ vtx_corrected_MM = pltcl.single_plotline(
 	num_tree = "",
 	color = "kRed")
 
+DYPrefitShape = pltcl.single_plotline(
+	name = "DYPrefitShape",
+	num_file = "/portal/ekpbms2/home/jbechtel/analysis/CMSSW_7_4_7/src/CombineHarvester/MSSMFull2016/shapes_160916.root",
+	num_folder = "htt_mt_8_13TeV_prefit",
+	#den_folder = "input_check",
+	num_tree = "ZTT",
+	label = "Monte Carlo",
+	color = "kRed")
+	
+EmbeddingPrefitShape = pltcl.single_plotline(
+	name = "EmbeddingPrefitShape",
+	num_file = "/portal/ekpbms2/home/jbechtel/analysis/CMSSW_7_4_7/src/CombineHarvester/MSSMFull2016/emb/shapes_160916.root",
+	num_folder = "htt_mt_8_13TeV_prefit",
+	#den_folder = "input_check",
+	num_tree = "ZTT",
+	label = "Embedding",
+	color = "kBlack")
 ## Embedding and Cleaning Input Check for Muon Embedding
 
 DoubleMuonSelected = pltcl.single_plotline(
@@ -295,22 +312,30 @@ TTFileTauTauFile = TTFileMuTauFile.clone(
 DYFileMuTauFile = pltcl.single_plotline(
 	name = "DYFileMuTauFile",
 	#scale_factor = 1./5.234,
-	num_file ="/home/jbechtel/plotting/DYElTau/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified/DYToLLMCRunIISummer16DR80_AllFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_unspecified.root",	#'/storage/a/akhmet/htautau/artus/2017-02-09_00-10_analysis/merged/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1.root',
-	
-	
-	
-	num_folder = "mt_jecUncNom_tauEsNom",
-	den_folder = "mt_jecUncNom_tauEsNom",
+	num_file ="/home/jbechtel/plotting/dySmeared/dySmeared.root",	#'/storage/a/akhmet/htautau/artus/2017-02-09_00-10_analysis/merged/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1.root',
+	#~ num_folder = "mt_jecUncNom_tauEsNom",
+	#~ den_folder = "mt_jecUncNom_tauEsNom",	
+	num_folder = "mt_nominal",
+	den_folder = "mt_nominal",
 	num_tree = "ntuple",
 	label = "Z#rightarrow#tau#tau simulation",
 	color = "kRed",
 	marker = "PE")
 
+DYFileMuTauSmeared = DYFileMuTauFile.clone(
+	name = "DYFileMuTauSmeared",
+	#scale_factor = 1./1.7122,
+	num_folder = "mt_ZDecayProductsSmeared",
+	den_folder = "mt_ZDecayProductsSmeared",
+	color = "kMagenta",
+	label = "Z#rightarrow#tau#tau SMEARED",
+	marker = "LINE"
+)
 DYFileElTauFile = DYFileMuTauFile.clone(
 	name = "DYFileElTauFile",
 	#scale_factor = 1./1.7122,
-	num_folder = "et_jecUncNom_tauEsNom",
-	den_folder = "et_jecUncNom_tauEsNom"
+	num_folder = "et_nominal",
+	den_folder = "et_nominal"
 )
 
 DYFileTauTauFile = DYFileMuTauFile.clone(
@@ -430,8 +455,8 @@ HToTauTauElMuFile = HToTauTauMuTauFile.clone(
 
 EmbeddingMuTauFileNominal = DYFileMuTauFile.clone(
 	name = "EmbeddingMuTauFileNominal",
-	scale_factor = 1.62724193802,
-	num_file = '/portal/ekpbms1/home/jbechtel/plotting/2017-03-10_01-34_analysis/merged/Embedding2016*MuTauFinalState_imputSep16DoubleMumirrorminiAODv2_13TeV_USER/*.root',
+	scale_factor = 1.04277308792,
+	num_file = '/portal/ekpbms1/home/jbechtel/plotting/EmbeddingMETtest/EmbeddingMuTau.root',
 	#num_file = "/home/jbechtel/plotting/0226/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",
 	label = "#mu#rightarrow#tau embedded",
 	color = "kBlue"
@@ -456,11 +481,39 @@ EmbeddingMuTauFileDown = EmbeddingMuTauFileNominal.clone(
 )
 
 
+EmbeddingMuTauFileNominalMirrored = DYFileMuTauFile.clone(
+	name = "EmbeddingMuTauFileNominalMirrored",
+	#scale_factor = 1.62724193802,
+	num_file = '/portal/ekpbms1/home/jbechtel/plotting/mirrored/RUNC/Embedding2016C_MuTauFinalState_imputSep16DoubleMumirrorminiAODv2_13TeV_USER/Embedding2016C_MuTauFinalState_imputSep16DoubleMumirrorminiAODv2_13TeV_USER.root',
+	#num_file = "/home/jbechtel/plotting/0226/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_MuTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",
+	label = "#mu#rightarrow#tau emb mirrored",
+	color = "kGreen"
+)
+
+EmbeddingMuTauFileUpMirrored = EmbeddingMuTauFileNominal.clone(
+	name = "EmbeddingMuTauFileUpMirrored",
+	num_folder = "mt_jecUncNom_tauEsUp",
+	den_folder = "mt_jecUncNom_tauEsUp",
+	label = "w. #pm3% #tau_{h}-ES shifts",
+	color = "kCyan+2",
+	marker = "HISTO"
+)
+
+EmbeddingMuTauFileDownMirrored = EmbeddingMuTauFileNominal.clone(
+	name = "EmbeddingMuTauFileDownMirrored",
+	num_folder = "mt_jecUncNom_tauEsDown",
+	den_folder = "mt_jecUncNom_tauEsDown",
+	label = "",
+	color = "kCyan+2",
+	marker = "HISTO"
+)
+
 #Embedding files for ElTau
 
 EmbeddingElTauFileNominal = DYFileElTauFile.clone(
 	name = "EmbeddingElTauFileNominal",
-	num_file ="/home/jbechtel/plotting/DYElTau/EmbeddingMCRunIISummer16DR80_ElTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8/EmbeddingMCRunIISummer16DR80_ElTauFinalState_imputFlatPU28to62HcalNZSRAWAODSIM_13TeV_USER_pythia8.root",	#'/storage/a/akhmet/htautau/artus/2017-02-09_00-10_analysis/merged/Embedding2016B_ElTauFinalState_imputSep16DoubleMumirrorminiAODv1_13TeV_USER/Embedding2016B_ElTauFinalState_imputSep16DoubleMumirrorminiAODv1_13TeV_USER.root',
+	scale_factor=1.00421186517,
+	num_file ="/home/jbechtel/plotting/Jun17_EmbeddingFiles/EmbeddingElTau.root",	#'/storage/a/akhmet/htautau/artus/2017-02-09_00-10_analysis/merged/Embedding2016B_ElTauFinalState_imputSep16DoubleMumirrorminiAODv1_13TeV_USER/Embedding2016B_ElTauFinalState_imputSep16DoubleMumirrorminiAODv1_13TeV_USER.root',
 	#num_file = "/home/jbechtel/plotting/output.root",
 	label = "#mu#rightarrow#tau embedded",
 	color = "kBlue"

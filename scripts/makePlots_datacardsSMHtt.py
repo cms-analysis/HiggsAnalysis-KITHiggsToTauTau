@@ -75,8 +75,10 @@ if __name__ == "__main__":
                         help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
-	parser.add_argument("--use-rateParam", action="store_true", default=False,
-						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
+	parser.add_argument("--ttbar-fit", action="store_true", default=False,
+						help="Use rate parameter to propagate ttbar normalization from control region to all categories. [Default: %(default)s]")
+	parser.add_argument("--mm-fit", action="store_true", default=False,
+						help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--remote", action="store_true", default=False,
 						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
@@ -89,6 +91,8 @@ if __name__ == "__main__":
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
+	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
+						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -117,9 +121,9 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
+	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
 	if args.for_dcsync:
-		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
+		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -208,7 +212,7 @@ if __name__ == "__main__":
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-		if(categories_save != sorted(categories)):
+		if(categories_save != sorted(categories)) and args.do_not_ignore_category_removal:
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
@@ -485,6 +489,34 @@ if __name__ == "__main__":
 	# normalize DM systematic templates to the nominal one in order to get a pure shape systematic
 	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_u(1 if "tauDMReco" in systematic.name() else systematic.value_u()))
 	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_d(1 if "tauDMReco" in systematic.name() else systematic.value_d()))
+	
+	# remove processes with zero yield
+	def is_control_region(obj):
+		return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")
+	
+	def matching_process(obj1, obj2):
+		matches = (obj1.bin() == obj2.bin())
+		matches = matches and (obj1.process() == obj2.process())
+		matches = matches and (obj1.signal() == obj2.signal())
+		matches = matches and (obj1.analysis() == obj2.analysis())
+		matches = matches and (obj1.era() == obj2.era())
+		matches = matches and (obj1.channel() == obj2.channel())
+		matches = matches and (obj1.bin_id() == obj2.bin_id())
+		matches = matches and (obj1.mass() == obj2.mass())
+		return matches
+	
+	def remove_procs_and_systs_with_zero_yield(proc):
+		# TODO: find out why zero yield should be ok in control regions. until then remove them
+		#null_yield = not (proc.rate() > 0. or is_control_region(proc))
+		null_yield = not proc.rate() > 0.
+		if null_yield:
+			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+		return null_yield
+	
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
+	
+	# convert shapes in control regions to lnN
+	datacards.cb.cp().ForEachSyst(lambda systematic: systematic.set_type("lnN") if is_control_region(systematic) and systematic.type() == "shape" else systematic.set_type(systematic.type()))
 	
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
