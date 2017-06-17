@@ -1,4 +1,4 @@
-#include "a1Helper.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/A1Helper.h"
 #include <iostream>
 
 a1Helper::a1Helper(){
@@ -41,7 +41,7 @@ a1Helper::Setup(vector<TLorentzVector> TauA1andProd, TLorentzVector ReferenceFra
    grhopipi = 6.08;  //GeV
    beta = -0.145;
    debug  = false;
-   for(int i=0; i<TauA1andProd.size(); i++){
+   for(unsigned int i=0; i<TauA1andProd.size(); i++){
      TauA1andProd_RF.push_back(Boost(TauA1andProd.at(i),ReferenceFrame));
    }
    LFosPionLV  = TauA1andProd.at(1);
@@ -173,7 +173,7 @@ a1Helper::MomentSFunction(double s, string type){
   set.push_back(_s3);
   set.push_back(_Q);
   double  stepx  = (pow(sqrt(s)-m2,2) - pow( m1+m3,2) ) / cells;
-  for(unsigned int i=1;i<cells + 1;i++){ 
+  for(int i=1;i<cells + 1;i++){ 
     da1 = pow(m1+m3,2) + stepx*(i-1);
     db1 = pow(m1+m3,2) + stepx*i;
     m13 = 0.5*(da1 + db1);
@@ -186,7 +186,7 @@ a1Helper::MomentSFunction(double s, string type){
     double inty(0);
     double m23(0);
     double m12(0);
-    for(unsigned int j=1;j<cells + 1;j++){ 
+    for(int j=1;j<cells + 1;j++){ 
       da2 = m23min + stepy*(j-1);
       db2 = m23min + stepy*j;
       m23 = 0.5*(da2 + db2);
@@ -526,7 +526,8 @@ double a1Helper::ppi(double QQ){  if(QQ < 4*mpi*mpi) std::cout<<"Warning! Can no
 
  double a1Helper::vgetf(TString type){
    double QQ=_Q*_Q;
-   double RR  = mtau*mtau/QQ; double R = sqrt(RR);
+   double RR  = mtau*mtau/QQ;
+   //double R = sqrt(RR);
    float U = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 - RR);
    double B = 0.5*(3*cosbeta()*cosbeta() - 1);
 
@@ -544,7 +545,7 @@ double a1Helper::ppi(double QQ){  if(QQ < 4*mpi*mpi) std::cout<<"Warning! Can no
  double a1Helper::vgetg(TString type){
    double QQ=_Q*_Q;
    double RR  = mtau*mtau/QQ; double R = sqrt(RR);
-   float U = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 - RR);
+   //float U = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 - RR);
    float V = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 + RR)*costhetaLF() + 0.5*3*2*cospsiLF()* sinpsiLF()*sinthetaLF()*R;
    double B = 0.5*(3*cosbeta()*cosbeta() - 1);
    double fact =0;
@@ -561,9 +562,10 @@ double a1Helper::ppi(double QQ){  if(QQ < 4*mpi*mpi) std::cout<<"Warning! Can no
 
  double a1Helper::vgetfscalar(TString type){
    double QQ=_Q*_Q;
-   double RR  = mtau*mtau/QQ; double R = sqrt(RR);
+   double RR  = mtau*mtau/QQ;
+   //double R = sqrt(RR);
    float U = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 - RR);
-   float V = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 + RR)*costhetaLF() + 0.5*3*2*cospsiLF()* sinpsiLF()*sinthetaLF()*R;
+   //float V = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 + RR)*costhetaLF() + 0.5*3*2*cospsiLF()* sinpsiLF()*sinthetaLF()*R;
    double B = 0.5*(3*cosbeta()*cosbeta() - 1);
 
    double fA =  WA()*(2+RR + B*U)/3;
@@ -583,7 +585,7 @@ double a1Helper::ppi(double QQ){  if(QQ < 4*mpi*mpi) std::cout<<"Warning! Can no
  double a1Helper::vgetgscalar(TString type){
    double QQ=_Q*_Q;
    double RR  = mtau*mtau/QQ; double R = sqrt(RR);
-   float U = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 - RR);
+   //float U = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 - RR);
    float V = 0.5*(3*cospsiLF()*cospsiLF() - 1)*(1 + RR)*costhetaLF() + 0.5*3*2*cospsiLF()* sinpsiLF()*sinthetaLF()*R;
    double B = 0.5*(3*cosbeta()*cosbeta() - 1);
    double fact =0;
@@ -594,11 +596,11 @@ double a1Helper::ppi(double QQ){  if(QQ < 4*mpi*mpi) std::cout<<"Warning! Can no
    double gC =  WC()*0.5*V*sinbeta()*sinbeta()* cos2gamma()                                                 -      fact*WC()*R*sinthetaLF()*sinbeta()*(sinalpha()*sin2gamma()  -  cos2gamma()*cosalpha()*cosbeta() ) ;
    double gD = -WD()*0.5*V*sinbeta()*sinbeta()* sin2gamma()                                                 -      fact*WD()*R*sinthetaLF()*sinbeta()*(sinalpha()*cos2gamma() + sin2gamma()* cosalpha()*cosbeta()  );
    double gE = - WE()*cosbeta()*( costhetaLF()*cospsiLF() + R*sinthetaLF()*sinpsiLF())             +     fact*WE()*R*sinthetaLF()*sinbeta()*cosalpha();
-   double gSA =WSA()*RR*costhetaLF();
-   double gSB =WSB()*R*(R*cospsiLF()*costhetaLF()*sinbeta()*cosgamma() + sinthetaLF()* ( sinpsiLF()*sinbeta()*cosgamma()  -  cosbeta()* cosalpha()* cosgamma() + sinalpha()*singamma())   );
-   double gSC = WSC()*R*sinthetaLF()*(cosbeta()*sinalpha()*cosgamma() + cosalpha()*singamma());
-   double gSD = WSD()*R*(sinthetaLF()*(cosbeta()*cosalpha()*singamma() + sinalpha()*cosgamma() - sinpsiLF()*sinbeta()*singamma()  )      - R*costhetaLF()*cospsiLF()*sinbeta()*singamma() );
-   double gSE = -WSE()*R*sinthetaLF()*(cosbeta()*sinalpha()*singamma() -  cosalpha()*cosgamma());
+   //double gSA =WSA()*RR*costhetaLF();
+   //double gSB =WSB()*R*(R*cospsiLF()*costhetaLF()*sinbeta()*cosgamma() + sinthetaLF()* ( sinpsiLF()*sinbeta()*cosgamma()  -  cosbeta()* cosalpha()* cosgamma() + sinalpha()*singamma())   );
+   //double gSC = WSC()*R*sinthetaLF()*(cosbeta()*sinalpha()*cosgamma() + cosalpha()*singamma());
+   //double gSD = WSD()*R*(sinthetaLF()*(cosbeta()*cosalpha()*singamma() + sinalpha()*cosgamma() - sinpsiLF()*sinbeta()*singamma()  )      - R*costhetaLF()*cospsiLF()*sinbeta()*singamma() );
+   //double gSE = -WSE()*R*sinthetaLF()*(cosbeta()*sinalpha()*singamma() -  cosalpha()*cosgamma());
    double res = gA+gC+gD+gE;
 
    return res;
@@ -617,12 +619,13 @@ void a1Helper::debugger(){
    double fC = -WC()*0.5*sb*sb*c2g*(1- RR);
    double fD = WD()*0.5*(1-RR)*sb*sb*s2g;
    double fE =  WE()*cb;
-   double fSA = WSA()*RR;
-   double fSB = WSB()*RR*sb*cg;
-   double fSC = 0;
-   double fSD = -WSD()*RR*sb*sg;
-   double fSE = 0;
-   double s2b  = 2*sb*cb; double c2b = cb*cb - sb*sb;
+   //double fSA = WSA()*RR;
+   //double fSB = WSB()*RR*sb*cg;
+   //double fSC = 0;
+   //double fSD = -WSD()*RR*sb*sg;
+   //double fSE = 0;
+   double s2b  = 2*sb*cb;
+   //double c2b = cb*cb - sb*sb;
 
  
    double gA =  WA()*(RR*ct - Bb*ct*(1+RR)) + WA()*0.5*R*st*s2b*ca ;
@@ -630,11 +633,11 @@ void a1Helper::debugger(){
    double gD = -WD()*(ct*(1+RR)*sb*sb*s2g) +WD()* R*st*sb*( sa*c2g + s2g*ca*cb  );
    double gE =  WE()*(R*st*sb*ca) - WE()*ct*cb;
 
-   double gSA = WSA()*RR*ct;
-   double gSB = WSB()*(RR*ct*sb*sg - R*st*(cb*ca*cg - sa*sg  ));
-   double gSC = WSC()*R*st*(cb*sa*cg + ca*sg);
-   double gSD = WSD()*(R*st*(cb*ca*sg + sa*cg) - RR*ct*sb*sg);
-   double gSE = -WSE()*st*(cb*sa*sg - ca*cg);
+   //double gSA = WSA()*RR*ct;
+   //double gSB = WSB()*(RR*ct*sb*sg - R*st*(cb*ca*cg - sa*sg  ));
+   //double gSC = WSC()*R*st*(cb*sa*cg + ca*sg);
+   //double gSD = WSD()*(R*st*(cb*ca*sg + sa*cg) - RR*ct*sb*sg);
+   //double gSE = -WSE()*st*(cb*sa*sg - ca*cg);
 
    std::cout<<"  TRF_f"<<std::endl; 
    std::cout<<" fa + fc + fd + fe   "<< fA+fC+fD+fE;  std::cout<<"   TRF g non alpha   "<< WA()*(RR*ct - Bb*ct*(1+RR))+  WC()*(ct*(1+RR)  *s2b*c2g) -WD()*(ct*(1+RR)*sb*sb*s2g)- WE()*ct*cb <<std::endl;
@@ -671,7 +674,7 @@ a1Helper::getA1omega(){
   float ga1 = (costhetaLF()*(RR -2) - 0.5*(3*cosbeta()*cosbeta() - 1)*V)*WA()/3 + 0.5*sinbeta()*sinbeta()*cos2gamma()*V*WC() - 0.5*sinbeta()*sinbeta()*sin2gamma()*V*WD() -cosbeta()*(costhetaLF()*cospsiLF() + sinthetaLF()*sinpsiLF()*sqrt(RR))*WE();
 
   double omega = ga1/fa1;
-  if(!isnan(omega)) 	return omega;
+  if(!std::isnan(omega)) 	return omega;
   return -999;
 }
 TLorentzVector
