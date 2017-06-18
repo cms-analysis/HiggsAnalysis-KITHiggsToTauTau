@@ -205,7 +205,9 @@ if __name__ == "__main__":
 	zmm_cr_factors = {
 		"ZeroJet2D" : "(1.0395)",
 		"Boosted2D" : "(((ptvis<100)*1.0321) + ((ptvis>=100)*(ptvis<150)*1.023) + ((ptvis>=150)*(ptvis<200)*1.007) + ((ptvis>=200)*(ptvis<250)*1.016) + ((ptvis>=250)*(ptvis<300)*1.02) + ((ptvis>=300)*1.03))",
-		"Vbf2D" : "(((mjj>=300)*(mjj<700)*1.0605) + ((mjj>=700)*(mjj<1100)*1.017) + ((mjj>=1100)*(mjj<1500)*0.975) + ((mjj>=1500)*0.97))"
+		"Vbf2D" : "(((mjj>=300)*(mjj<700)*1.0605) + ((mjj>=700)*(mjj<1100)*1.017) + ((mjj>=1100)*(mjj<1500)*0.975) + ((mjj>=1500)*0.97))",
+		"Vbf2D_Up" : "(((mjj>=300)*(mjj<700)*1.121) + ((mjj>=700)*(mjj<1100)*1.034) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.94))",
+		"Vbf2D_Down" : "(1.0)"
 	}
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
@@ -296,6 +298,8 @@ if __name__ == "__main__":
 					else:
 						wj_sf_shift = 0.0
 					zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1],"(1.0)")
+					if "zmumuShape_VBF" in shape_systematic:
+						zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
 					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
