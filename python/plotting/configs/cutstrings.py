@@ -21,6 +21,11 @@ class CutStringsDict:
 		if channel == "mm":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
+			if "smhtt2016" in cut_type:
+				cuts["pt_1"] = "(pt_1 > 25.0)"
+				cuts["pt_2"] = "(pt_2 > 25.0)"
+				cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+				cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
