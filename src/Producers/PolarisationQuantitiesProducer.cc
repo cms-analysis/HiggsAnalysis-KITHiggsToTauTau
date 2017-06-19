@@ -106,7 +106,7 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1optimumVariableSimpleFit_2", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1optimumVariableSimpleFit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
-	});	
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationDiscriminatorHHKinFit", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(product.m_tauPolarisationDiscriminatorHHKinFit);
 	});
@@ -116,7 +116,6 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationDiscriminatorSimpleFit", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(product.m_tauPolarisationDiscriminatorSimpleFit);
 	});
-	
 }
 
 void PolarisationQuantitiesProducer::Produce(
@@ -126,7 +125,6 @@ void PolarisationQuantitiesProducer::Produce(
 ) const
 {
 	bool tauPolarisationDiscriminatorChosen = false;
-	
 	// all numbers of prongs
 	{
 		size_t indexLepton = 0;
@@ -161,7 +159,6 @@ void PolarisationQuantitiesProducer::Produce(
 
 
 	double valueV = 0.0;
-	
 	  
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
@@ -216,7 +213,6 @@ void PolarisationQuantitiesProducer::Produce(
 			
 			// calculate angles
 			product.m_a1CosTheta[*tau] = (2*((pions[0]->E() + pions[1]->E() + pions[2]->E())/(*tau)->p4.E())*std::pow((*tau)->p4.mass(), 2) - std::pow((*tau)->p4.mass(), 2) - std::pow(valueQ, 2)) / ((std::pow((*tau)->p4.mass(), 2) - std::pow(valueQ, 2))*std::sqrt(1 - std::pow((*tau)->p4.mass(), 2) / std::pow((*tau)->p4.E(), 2)));	
-			
 			product.m_a1SinTheta[*tau] = std::sqrt(1 - std::pow(product.m_a1CosTheta[*tau], 2));
 			product.m_a1CosBeta[*tau] = pions[2]->Vect().Dot(pions[0]->Vect().Cross(pions[1]->Vect())) / ((pions[0]->Vect() + pions[1]->Vect() + pions[2]->Vect()).R() * valueT);
 			product.m_a1SinBeta[*tau] = std::sqrt(1 - std::pow(product.m_a1CosBeta[*tau], 2));
@@ -225,18 +221,16 @@ void PolarisationQuantitiesProducer::Produce(
 			
 			product.m_a1CosPsi[*tau] = (product.m_a1CosBeta[*tau]*(std::pow((*tau)->p4.mass(), 2) + std::pow(valueQ, 2)) + (std::pow((*tau)->p4.mass(), 2) - std::pow(valueQ, 2))) / (product.m_a1CosBeta[*tau]*(std::pow((*tau)->p4.mass(), 2) - std::pow(valueQ, 2)) + (std::pow((*tau)->p4.mass(), 2) + std::pow(valueQ, 2)));
 			product.m_a1SinPsi[*tau] = std::sqrt(1 - std::pow(product.m_a1CosPsi[*tau], 2));
-		
+	
 			// calculate auxiliary variables for optimum variable
-			double valueU = 0.5*(3*std::pow(product.m_a1CosPsi[*tau], 2) - 1)*(1 - std::pow((*tau)->p4.mass(),2)/std::pow(valueQ, 2)); 
+			double valueU = 0.5*(3*std::pow(product.m_a1CosPsi[*tau], 2) - 1)*(1 - std::pow((*tau)->p4.mass(),2)/std::pow(valueQ, 2));
 			valueV = 0.5*(3*std::pow(product.m_a1CosPsi[*tau], 2) - 1)*product.m_a1CosTheta[*tau]*(1 + std::pow((*tau)->p4.mass(),2)/std::pow(valueQ, 2)) + 3.0/2*2*product.m_a1SinPsi[*tau]*product.m_a1CosPsi[*tau]*std::sqrt(std::pow((*tau)->p4.mass(),2)/std::pow(valueQ, 2))*product.m_a1SinTheta[*tau];
-		
 			double valueV1V1 = (4*std::pow(pions[0]->mass(), 2) - valuesS[1]) - std::pow(valuesS[2] - valuesS[0], 2) / (4*std::pow(valueQ, 2));
-			double valueV2V2 = (4*std::pow(pions[0]->mass(), 2) - valuesS[0]) - std::pow(valuesS[2] - valuesS[1], 2) / (4*std::pow(valueQ, 2));			
-			double valueV1V2 = (0.5*std::pow(pions[0]->mass(), 2) + valuesS[2] - std::pow(valueQ, 2)) - (valuesS[2] - valuesS[0])*(valuesS[2] - valuesS[1]) / (4*std::pow(valueQ, 2));					
+			double valueV2V2 = (4*std::pow(pions[0]->mass(), 2) - valuesS[0]) - std::pow(valuesS[2] - valuesS[1], 2) / (4*std::pow(valueQ, 2));
+			double valueV1V2 = (0.5*std::pow(pions[0]->mass(), 2) + valuesS[2] - std::pow(valueQ, 2)) - (valuesS[2] - valuesS[0])*(valuesS[2] - valuesS[1]) / (4*std::pow(valueQ, 2));
 			double valueH0 = 2.0/3*(std::pow(2*std::pow(pions[0]->mass(), 2) - valuesS[0] - valuesS[1], 2)/std::pow(valueQ, 2)) - 8.0/3*std::pow(pions[0]->mass(), 2);
 
 			double valueH = std::pow((valuesS[0]*valuesS[1]*valuesS[2] - std::pow(pions[0]->mass(), 2)*(std::pow(std::pow(valueQ, 2) - std::pow(pions[0]->mass(), 2), 2))) / valueH0*std::pow(valueQ, 2),2);
-		
 			// mass and width values from PDG 2014
 			double gammaA10 = 0.250;
 			double gammaRho10 = 0.149;
@@ -244,51 +238,49 @@ void PolarisationQuantitiesProducer::Produce(
 			double massA1 = 1.230;
 			double massRho1 = 0.775;
 			double massRho2 = 1.465;
-			
-			// g values necessary for Gamma functions in Eq. 65 in ref. Z. Phys. C Particles and Fields 56, 661-671, 1992)		
+	
+			// g values necessary for Gamma functions in Eq. 65 in ref. Z. Phys. C Particles and Fields 56, 661-671, 1992)
 			double gvalueQ = (std::pow(valueQ, 2) > std::pow(massRho1 + pions[0]->mass(), 2) ? std::pow(valueQ, 2)*(1.623 + 10.38/std::pow(valueQ, 2) + 0.65/std::pow(valueQ, 2)) : 4.1*std::pow(std::pow(valueQ, 2) - 9*std::pow(pions[0]->mass(), 2), 3)*(1 - 3.3*(std::pow(valueQ, 2) - 9*std::pow(pions[0]->mass(), 2)) + 5.8*std::pow(std::pow(valueQ, 2) - 9*std::pow(pions[0]->mass(),2), 2)));
 			double gvalueA1 = (std::pow(massA1, 2) > std::pow(massRho1 + pions[0]->mass(), 2) ? std::pow(massA1, 2)*(1.623 + 10.38/std::pow(massA1, 2) + 0.65/std::pow(massA1, 2)) : 4.1*std::pow(std::pow(massA1, 2) - 9*std::pow(pions[0]->mass(), 2), 3)*(1 - 3.3*(std::pow(massA1, 2) - 9*std::pow(pions[0]->mass(), 2)) + 5.8*std::pow(std::pow(massA1, 2) - 9*std::pow(pions[0]->mass(),2), 2)));
-			
+
 			// Gamma funtions necessary for Breit Wigner resonances
-			double gammaA1 = gammaA10*gvalueQ/gvalueA1;			
+			double gammaA1 = gammaA10*gvalueQ/gvalueA1;
 			double gammaRho1 = gammaRho10*massRho1/std::sqrt(std::pow(valueQ, 2))*std::pow(0.5*std::sqrt(std::pow(valueQ, 2) - 4*std::pow(pions[0]->mass(), 2)) / (0.5*std::sqrt(std::pow(massRho1, 2) - 4*std::pow(pions[0]->mass(), 2))), 3);			
 			double gammaRho2 = gammaRho20*massRho2/std::sqrt(std::pow(valueQ, 2))*std::pow(0.5*std::sqrt(std::pow(valueQ, 2) - 4*std::pow(pions[0]->mass(), 2)) / (0.5*std::sqrt(std::pow(massRho2, 2) - 4*std::pow(pions[0]->mass(), 2))), 3);			
-			
+
 			// Breit Wigner fuctions for A1
 			std::vector<double> RealBWa1;
 			RealBWa1.push_back(std::pow(massA1, 2)*(std::pow(massA1, 2) - valuesS[0])/(std::pow(std::pow(massA1, 2) - valuesS[0], 2) + std::pow(massA1, 2)*std::pow(gammaA1, 2)));
 			RealBWa1.push_back(std::pow(massA1, 2)*(std::pow(massA1, 2) - valuesS[1])/(std::pow(std::pow(massA1, 2) - valuesS[1], 2) + std::pow(massA1, 2)*std::pow(gammaA1, 2)));
-			RealBWa1.push_back(std::pow(massA1, 2)*(std::pow(massA1, 2) - std::pow(valueQ, 2))/(std::pow(std::pow(massA1, 2) -  std::pow(valueQ, 2), 2) + std::pow(massA1, 2)*std::pow(gammaA1, 2)));
-			
+			RealBWa1.push_back(std::pow(massA1, 2)*(std::pow(massA1, 2) - std::pow(valueQ, 2))/(std::pow(std::pow(massA1, 2) -  std::pow(valueQ, 2), 2) + std::pow(massA1, 2)*std::pow(gammaA1, 2)));	
 			std::vector<double> ImBWa1;
 			ImBWa1.push_back(std::pow(massA1, 3)*gammaA1/(std::pow(std::pow(massA1, 2) - valuesS[0], 2) + std::pow(massA1, 2)*std::pow(gammaA1, 2)));
 			ImBWa1.push_back(std::pow(massA1, 3)*gammaA1/(std::pow(std::pow(massA1, 2) - valuesS[1], 2) + std::pow(massA1, 2)*std::pow(gammaA1, 2)));			
 			ImBWa1.push_back(std::pow(massA1, 3)*gammaA1/(std::pow(std::pow(massA1, 2) - std::pow(valueQ, 2), 2) + std::pow(massA1, 2)*std::pow(gammaA1, 2)));
-			
+
 			// Breit Wigner fuctions for rho1
 			std::vector<double> RealBWrho1;
 			RealBWrho1.push_back(std::pow(massRho1, 2)*(std::pow(massRho1, 2) - valuesS[0])/(std::pow(std::pow(massRho1, 2) - valuesS[0], 2) + std::pow(massRho1, 2)*std::pow(gammaRho1, 2)));
 			RealBWrho1.push_back(std::pow(massRho1, 2)*(std::pow(massRho1, 2) - valuesS[1])/(std::pow(std::pow(massRho1, 2) - valuesS[1], 2) + std::pow(massRho1, 2)*std::pow(gammaRho1, 2)));
 			RealBWrho1.push_back(std::pow(massRho1, 2)*(std::pow(massRho1, 2) - std::pow(valueQ, 2))/(std::pow(std::pow(massRho1, 2) - std::pow(valueQ, 2), 2) + std::pow(massRho1, 2)*std::pow(gammaRho1, 2)));
-			
 			std::vector<double> ImBWrho1;
 			ImBWrho1.push_back(std::pow(massRho1, 3)*gammaRho1/(std::pow(std::pow(massRho1, 2) - valuesS[0], 2) + std::pow(massRho1, 2)*std::pow(gammaRho1, 2)));
 			ImBWrho1.push_back(std::pow(massRho1, 3)*gammaRho1/(std::pow(std::pow(massRho1, 2) - valuesS[1], 2) + std::pow(massRho1, 2)*std::pow(gammaRho1, 2)));
 			ImBWrho1.push_back(std::pow(massRho1, 3)*gammaRho1/(std::pow(std::pow(massRho1, 2) - std::pow(valueQ, 2), 2) + std::pow(massRho1, 2)*std::pow(gammaRho1, 2)));
-				
+
 			// Breit Wigner fuctions for rho2
-			std::vector<double> RealBWrho2;		
+			std::vector<double> RealBWrho2;
 			RealBWrho2.push_back(std::pow(massRho2, 2)*(std::pow(massRho2, 2) - valuesS[0])/(std::pow(std::pow(massRho2, 2) - valuesS[0], 2) + std::pow(massRho2, 2)*std::pow(gammaRho2, 2)));
 			RealBWrho2.push_back(std::pow(massRho2, 2)*(std::pow(massRho2, 2) - valuesS[1])/(std::pow(std::pow(massRho2, 2) - valuesS[1], 2) + std::pow(massRho2, 2)*std::pow(gammaRho2, 2)));
 			RealBWrho2.push_back(std::pow(massRho2, 2)*(std::pow(massRho2, 2) - std::pow(valueQ, 2))/(std::pow(std::pow(massRho2, 2) - std::pow(valueQ, 2), 2) + std::pow(massRho2, 2)*std::pow(gammaRho2, 2)));
-			std::vector<double> ImBWrho2;	
+			std::vector<double> ImBWrho2;
 			ImBWrho2.push_back(std::pow(massRho2, 3)*gammaRho2/(std::pow(std::pow(massRho2, 2) - valuesS[0], 2) + std::pow(massRho2, 2)*std::pow(gammaRho2, 2)));
 			ImBWrho2.push_back(std::pow(massRho2, 3)*gammaRho2/(std::pow(std::pow(massRho2, 2) - valuesS[1], 2) + std::pow(massRho2, 2)*std::pow(gammaRho2, 2)));
 			ImBWrho2.push_back(std::pow(massRho2, 3)*gammaRho2/(std::pow(std::pow(massRho2, 2) - std::pow(valueQ, 2), 2) + std::pow(massRho2, 2)*std::pow(gammaRho2, 2)));	
 
 			// Breit Wigner fuctions for taking into account the contribution from two rho mesons, rho1 and rho2
 			std::vector<double> RealBrho1;
-			std::vector<double> ImBrho1;		
+			std::vector<double> ImBrho1;
 			if(RealBWrho1.size() != 0){
 				for(unsigned int iMinv=0; iMinv < RealBWrho1.size(); iMinv++){
 					double beta = -0.145;
@@ -296,14 +288,13 @@ void PolarisationQuantitiesProducer::Produce(
 					ImBrho1.push_back((ImBWrho1[iMinv] + beta*ImBWrho2[iMinv])/(1.0 + beta));
 				}
 			}
-		
 			// Form factors
 			double fpi = 0.093;
 			double RealformFactor1 =- 2*std::sqrt(2)/(3.0*fpi)*ImBWa1[2]*ImBrho1[1];
-			double ImformFactor1 =- 2*std::sqrt(2)/(3.0*fpi)*RealBWa1[2]*RealBrho1[1];			
+			double ImformFactor1 =- 2*std::sqrt(2)/(3.0*fpi)*RealBWa1[2]*RealBrho1[1];
 			double RealformFactor2 =- 2*std::sqrt(2)/(3.0*fpi)*ImBWa1[2]*ImBrho1[0];
 			double ImformFactor2 =- 2*std::sqrt(2)/(3.0*fpi)*RealBWa1[2]*RealBrho1[0];
-			
+
 			// Structure functions
 			double structureFWA = -valueV1V1*(std::pow(RealformFactor1, 2) + std::pow(ImformFactor1, 2)) - valueV2V2*(std::pow(RealformFactor2, 2) + std::pow(ImformFactor2, 2)) - 2*valueV1V2*(RealformFactor1*RealformFactor2 + ImformFactor1*ImformFactor2);			
 
@@ -312,17 +303,16 @@ void PolarisationQuantitiesProducer::Produce(
 			double structureFWD = - std::sqrt(valueH)*(2*std::sqrt(-valueV1V1 - valueH)*(std::pow(RealformFactor1, 2) + std::pow(ImformFactor1, 2)) - 2*std::sqrt(-valueV2V2) - valueH*(std::pow(RealformFactor2, 2) + std::pow(ImformFactor2, 2)) + 1.0/(std::pow(valueQ, 2)*std::sqrt(valueH0))*(std::pow(valueQ, 2) - std::pow(pions[0]->mass(),2) + valuesS[2])*(valuesS[0] - valuesS[1])*(RealformFactor1*RealformFactor2 + ImformFactor1*ImformFactor2));			
 
 			double structureFWE = 3*std::sqrt(valueH*valueH0)*(RealformFactor1*ImformFactor2 + ImformFactor1*RealformFactor2);
-			
-			// f and g functions for the omega calculation w=f/g		
+
+			// f and g functions for the omega calculation w=f/g
 			double functionF = 1.0/3*((2 + std::pow((*tau)->p4.mass(),2)/std::pow(valueQ, 2)) + 0.5*(3*std::pow(product.m_a1CosBeta[*tau], 2) - 1)*valueU)*structureFWA - 0.5*std::pow(product.m_a1SinBeta[*tau], 2)*(std::pow(product.m_a1CosGamma[*tau], 2) - std::pow(product.m_a1SinGamma[*tau], 2))*valueU*structureFWC + 0.5*std::pow(product.m_a1SinBeta[*tau], 2)*2*product.m_a1CosGamma[*tau]*product.m_a1SinGamma[*tau]*valueU*structureFWD + product.m_a1CosPsi[*tau]*product.m_a1CosBeta[*tau]*structureFWE;
-		
+
 			double functionG = 1.0/3*(product.m_a1CosTheta[*tau]*(std::pow((*tau)->p4.mass(), 2)/std::pow(valueQ, 2) - 2) - 1.0/3*(3*product.m_a1CosBeta[*tau] - 1)*valueV)*structureFWA + 0.5*std::pow(product.m_a1SinBeta[*tau], 2)*(std::pow(product.m_a1CosGamma[*tau], 2) - std::pow(product.m_a1SinGamma[*tau], 2))*valueV*structureFWC + 0.5*std::pow(product.m_a1SinBeta[*tau], 2)*(std::pow(product.m_a1CosGamma[*tau], 2) - std::pow(product.m_a1SinGamma[*tau], 2))*valueV*structureFWD - product.m_a1CosBeta[*tau]*(product.m_a1CosTheta[*tau]* product.m_a1CosPsi[*tau] +  product.m_a1CosTheta[*tau]*product.m_a1SinPsi[*tau]*std::sqrt(std::pow((*tau)->p4.mass(), 2)/std::pow(valueQ, 2)))*structureFWE;
-			
+
 			product.m_a1optimumVariableSimpleFit[*tau] = (functionG != 0.0 ? functionF / functionG :  0.0); 
-		}	
+		}
 			if (! tauPolarisationDiscriminatorChosen)
-			{			
-	
+			{
 			// TODO: choose final discriminator
 			product.m_tauPolarisationDiscriminatorSimpleFit = SafeMap::GetWithDefault(product.m_a1optimumVariableSimpleFit, static_cast<KLepton*>(*tau), DefaultValues::UndefinedDouble); 
 				tauPolarisationDiscriminatorChosen = true;
