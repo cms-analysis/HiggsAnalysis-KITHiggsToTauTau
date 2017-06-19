@@ -16,7 +16,7 @@
 
 class HttProduct : public KappaProduct
 {
-public:
+	public:
 
 	/// added by HttValidLooseElectronsProducer
 	std::vector<KElectron*> m_validLooseElectrons;
@@ -136,8 +136,8 @@ public:
 	TVector2 m_recoPfMetOnBoson;
 	TVector2 m_pfrecoilOnBoson;
 	double m_chiSquarePf;
-	    double m_metPlusVisLepsOnGenBosonPtOverGenBosonPt;
-	    double m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt;
+	double m_metPlusVisLepsOnGenBosonPtOverGenBosonPt;
+	double m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt;
 	double m_genBosonPt;
 	double m_genBosonPhi;
 
@@ -305,7 +305,7 @@ public:
 	std::vector<double> m_antiTtbarDiscriminators;
 	std::vector<double> m_tauPolarisationDiscriminators;
 
-	//MVATestMethods
+	// MVATestMethods
 	std::vector<double> m_MVATestMethodsDiscriminators;
 
 	// filled by HttValidGenTausProducer. Naming scheme like for the reco particles
@@ -328,7 +328,7 @@ public:
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
 
 	// filled by MVAInputQuantitiesProducer
-// 	int tsValue = 0;
+	//int tsValue = 0;
 	double m_pVecSum = -1;
 	double m_pScalSum = -1;
 	double m_MinLLJetEta = 10;

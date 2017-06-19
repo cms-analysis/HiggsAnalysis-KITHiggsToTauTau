@@ -224,10 +224,10 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-// 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("ptvis", [](KappaEvent const& event, KappaProduct const& product)
-// 	{
-// 		return DefaultValues::UndefinedFloat;
-// 	});
+	// 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("ptvis", [](KappaEvent const& event, KappaProduct const& product)
+	// 	{
+	// 		return DefaultValues::UndefinedFloat;
+	// 	});
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jrawf_1", [](KappaEvent const& event, KappaProduct const& product)
 	{
 		return DefaultValues::UndefinedFloat;
