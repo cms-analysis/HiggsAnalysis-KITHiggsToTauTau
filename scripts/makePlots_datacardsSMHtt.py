@@ -232,17 +232,17 @@ if __name__ == "__main__":
 		for category in categories:
 			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
-			exclude_cuts = args.exclude_cuts
-			if "TTbarCR" in category:
+			exclude_cuts = copy.deepcopy(args.exclude_cuts)
+			if "TTbarCR" in category and channel == "ttbar":
 				exclude_cuts += ["pzeta"]
 				do_not_normalize_by_bin_width = True
 			# TODO: check that this does what it should in samples_run2_2016.py !!!
 			#       a workaround solution may be necessary
-			if "ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category:
+			if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["mt"]
 					do_not_normalize_by_bin_width = True
-			if "ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category:
+			if ("ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category)  and channel in ["mt", "et", "tt"]:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["iso_1"]
 					do_not_normalize_by_bin_width = True
@@ -341,23 +341,23 @@ if __name__ == "__main__":
 							sys.exit()
 					
 					# define quantities and binning for control regions
-					if ("ZeroJet2D" in category or "Boosted2D" in category) and "WJCR" in category and channel in ["mt", "et"]:
+					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 						config["x_expressions"] = ["mt_1"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
-					if "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "ZeroJet2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
 						if channel in ["mt", "et"]:
 							config["x_expressions"] = ["m_vis"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "Boosted2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Vbf2D" in category and "QCDCR" in category and channel == "tt":
+					if "Vbf2D_QCDCR" in category and channel == "tt":
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "TTbarCR" in category and channel == "em":
+					if "TTbarCR" in category and channel == "ttbar":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					
