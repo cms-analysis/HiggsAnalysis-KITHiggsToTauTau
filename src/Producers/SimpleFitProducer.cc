@@ -56,7 +56,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	{
 	    if ((*lepton)->flavour() == KLeptonFlavour::MUON)
 	      {
-		LOG(INFO) << "Type of Lepton: "<< (*lepton)->flavour()  << " Is it a muon: " << KLeptonFlavour::MUON << ", or electron: "<< KLeptonFlavour::ELECTRON << ", or tau: "<< KLeptonFlavour::TAU ;
+		//LOG(INFO) << "Type of Lepton: "<< (*lepton)->flavour()  << " Is it a muon: " << KLeptonFlavour::MUON << ", or electron: "<< KLeptonFlavour::ELECTRON << ", or tau: "<< KLeptonFlavour::TAU ;
 		muonFound = true;
 		//LOG(INFO) << "This is a MUON!.. " << "TrackParticle::NHelixPar: "<<  TrackParticle::NHelixPar << " LorentzVectorParticle::NLorentzandVertexPar: " << LorentzVectorParticle::NLorentzandVertexPar ;	
 		
@@ -112,7 +112,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
     for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
       {     
      	if (! tauFound){
-	  LOG(INFO) << "NchargedPart: "<< (*tau)->chargedHadronCandidates.size() << ", decaymode: " << (*tau)->decayMode ;
+	  //LOG(INFO) << "NchargedPart: "<< (*tau)->chargedHadronCandidates.size() << ", decaymode: " << (*tau)->decayMode ;
 	  if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 	    ((*tau)->chargedHadronCandidates.size() > 2))
 	  {
@@ -175,7 +175,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
     metCov[1][1] = product.m_met.significance[1][1];
     
     // TMatrixD metCov = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >,   TMatrixTSym<double>>(product.m_met.significance, 2, 4);
-    LOG(INFO) << "MtCov: " << metCov[0][0] << std::endl;
+    //LOG(INFO) << "MtCov: " << metCov[0][0] << std::endl;
     
     PTObject MET(metPar, metCov); //   // ????
     
@@ -190,7 +190,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
     PVCov[2][2]= 0.5;
 
     if( muonFound && tauFound){
-       LOG(INFO) << "PER EVENT: this a new event with one muon and one tau_h";
+       //LOG(INFO) << "PER EVENT: this a new event with one muon and one tau_h";
     TrackParticle Muon(muonPar, muonCov, muonPdgid, muonMass, muonCharge, muonB);
     LorentzVectorParticle Tauh(tauhPar, tauhCov, tauhPdgid, tauhCharge, tauhB);
     
@@ -204,7 +204,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
       //product.m_SimpleFitTaus[product.m_flavourOrderedLeptons[0]] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(GEF.getTauH().LV());
       product.m_SimpleFitTaus[product.m_flavourOrderedLeptons[1]] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(GEF.getTauH().LV());
       //LOG(INFO) << " I am hereQ" << GEF.getTauH().LV().M() << "  " << product.m_SimpleFitTaus[product.m_flavourOrderedLeptons[0]].M();
-      LOG(INFO) << "Fit is valid and implemented\n\n" ;
+      //LOG(INFO) << "Fit is valid and implemented\n\n" ;
     }
     }
   }
