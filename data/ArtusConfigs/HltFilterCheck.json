@@ -2,24 +2,16 @@
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json"
 	],
+	"#RunWhitelist" : [],
+	"#LumiWhitelist" : [],
+	"#EventWhitelist" : [],
+	"#RunBlacklist" : [],
+	"#LumiBlacklist" : [],
+	"#EventBlacklist" : [],
 	"SkipEvents" : 0,
 	"EventCount" : -1,
-	"#RunWhitelist" : [
-	],
-	"#LumiWhitelist" : [
-	],
-	"#EventWhitelist" : [
-	],
-	"#RunBlacklist" : [
-	],
-	"#LumiBlacklist" : [
-	],
-	"#EventBlacklist" : [
-	],
 	"InputIsData" : "false",
-	"#EventWhitelist" : [
-	],
-	"OutputPath" : "output.root",
+	"OutputPath" : "HltFilterCheck.root",
 	"Processors" : {
 		"nick" : {
 			"default" : [
@@ -29,8 +21,7 @@
 	},
 	"Pipelines" : {
 		"trigger" : {
-			"Processors" : [
-			],
+			"Processors" : [],
 			"Consumers" : [
 				"PrintHltConsumer"
 			]
