@@ -33,6 +33,14 @@ class SimpleFitProducer: public ProducerBase<HttTypes>
     
     virtual void Produce(event_type const& event, product_type& product,
                          setting_type const& settings) const override;      
+
+
+
+  
+
+
+
+
     
 };
 
