@@ -6,7 +6,7 @@
 	"SvfitInputCutOff" : 10000,
 	"UpdateSvfitCache" : true,
 	"SvfitOutFile" : "SvfitCache.root",
-	"SvfitCacheFile": {
+	"#SvfitCacheFile": {
 		"nick" : {
 			"DY1JetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/tmuller/higgs-kit/Svfit/MergedCaches/2017-05-28_20-05/DY1JetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8.root",
 			"DY2JetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/tmuller/higgs-kit/Svfit/MergedCaches/2017-05-28_20-05/DY2JetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8.root",
