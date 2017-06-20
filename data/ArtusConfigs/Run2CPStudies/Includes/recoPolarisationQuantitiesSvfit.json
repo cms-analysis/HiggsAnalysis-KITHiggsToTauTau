@@ -1,5 +1,6 @@
 {
 	"property" : [
+		"svfitLV",
 		"svfitTau1Available",
 		"svfitTau1LV",
 		"svfitTau1ERatio",
