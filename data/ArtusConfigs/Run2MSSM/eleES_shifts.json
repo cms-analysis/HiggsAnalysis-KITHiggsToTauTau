@@ -1,0 +1,30 @@
+{
+	"eleEsUp" : {
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 1.01
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 1.025
+			}
+		}
+	},
+	"eleEsDown" : {
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 0.99
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 0.975
+			}
+		}
+	}
+}
