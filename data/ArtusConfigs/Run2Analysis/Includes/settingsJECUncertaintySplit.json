@@ -2,13 +2,13 @@
 	"JetEnergyCorrectionSplitUncertainty" : {
 		"nick" : {
 			"default" : false,
-			"Run2016|Summer16|Spring16" : true
+			"Run2016|Summer16|Spring16|Fall15" : true
 		}
 	},
 	"JetEnergyCorrectionSplitUncertaintyParameters" : {
 		"nick" : {
 			"default" : "",
-			"Run2016|Summer16|Spring16" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"
+			"Run2016|Summer16|Spring16|Fall15" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"
 		}
 	},
 	"JetEnergyCorrectionSplitUncertaintyParameterNames" : [

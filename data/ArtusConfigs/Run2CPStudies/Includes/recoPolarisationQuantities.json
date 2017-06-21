@@ -2,17 +2,17 @@
 	"property" : [
 		"lep1SumChargedHadronsLV",
 		"lep1SumNeutralHadronsLV",
-		
+
 		"genMatchedTau1LV",
 		"genMatchedTau1Found",
 		"genMatchedTau1VisibleLV",
 		"genMatchedTau1DecayMode",
 		"genMatchedTau1NProngs",
 		"genMatchedTau1NPi0s",
-		
+
 		"lep2SumChargedHadronsLV",
 		"lep2SumNeutralHadronsLV",
-		
+
 		"genMatchedTau2LV",
 		"genMatchedTau2Found",
 		"genMatchedTau2VisibleLV",
@@ -22,34 +22,48 @@
 		
 		"leadingTauLV",
 		"trailingTauLV",
-		
+
 		"hhKinFitTau1LV",
 		"hhKinFitTau2LV",
-		
+
 		"leadingTauDecayMode",
 		"leadingTauSumChargedHadronsLV",
 		"leadingTauSumNeutralHadronsLV",
-		
+
 		"trailingTauDecayMode",
 		"trailingTauSumChargedHadronsLV",
 		"trailingTauSumNeutralHadronsLV",
-		
+
+		"a1CosTheta_1",
+		"a1CosTheta_2",
+		"a1SinTheta_1",
+		"a1SinTheta_2",
 		"a1CosBeta_1",
 		"a1CosBeta_2",
+		"a1SinBeta_1",
+		"a1SinBeta_2",
 		"a1CosGamma_1",
 		"a1CosGamma_2",
 		"a1SinGamma_1",
 		"a1SinGamma_2",
-		
+		"a1CosPsi_1",
+		"a1CosPsi_2",
+		"a1SinPsi_1",
+		"a1SinPsi_2",
+
 		"rhoNeutralChargedAsymmetry_1",
 		"rhoNeutralChargedAsymmetry_2",
-		
+
 		"visibleOverFullEnergyHHKinFit_1",
 		"visibleOverFullEnergyHHKinFit_2",
-		
 		"visibleToFullAngleHHKinFit_1",
 		"visibleToFullAngleHHKinFit_2",
-		
-		"tauPolarisationDiscriminatorHHKinFit"
+
+		"tauPolarisationDiscriminatorHHKinFit",
+
+		"a1optimumVariableSimpleFit_1",
+		"a1optimumVariableSimpleFit_2",
+
+		"tauPolarisationDiscriminatorSimpleFit"
 	]
 }

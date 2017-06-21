@@ -164,6 +164,9 @@ class CategoriesDict(object):
 						"_m_sv": auto_rebin_binning,
 						"_decayMode_2": auto_rebin_binning
 						},
+					"mm_" : {
+						"_m_vis" : "70.0 110.0"
+						},
 					"mt_" : {
 						"_decayMode_2" : "0 1 10 11",
 						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
@@ -195,6 +198,7 @@ class CategoriesDict(object):
 						"catHtt13TeV_"
 						],
 					"global":"(1.0)",
+					"mm_":"((njetspt30==1)||(njetspt30>1&&mjj<=300))",
 					"mt_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&pt_2<=40)||(njetspt30>1&&H_pt<=50))",
 					"et_":"(pt_2>30)*((njetspt30==1)||(njetspt30>1&&mjj<=300)||(njetspt30>1&&H_pt<=50))",
 					"em_":"(pt_2>15)*(nbtag==0)*((njetspt30==1)||(njetspt30>1&&mjj<300))",
@@ -206,7 +210,11 @@ class CategoriesDict(object):
 						],
 					"global": {
 						"_H_pt": auto_rebin_binning,
-						"_m_sv": auto_rebin_binning
+						"_m_sv": auto_rebin_binning,
+						"_ptvis": auto_rebin_binning
+						},
+					"mm_": {
+						"_ptvis":"0.0 100.0 150.0 200.0 250.0 300.0 1000.0"
 						},
 					"mt_": {
 						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
@@ -240,6 +248,7 @@ class CategoriesDict(object):
 						"catHtt13TeV_"
 						],
 					"global":"(1.0)",
+					"mm_":"(njetspt30>1)*(mjj>300)",
 					"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
 					"et_":"(pt_2>30)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
 					"em_":"(pt_2>15)*(nbtag==0)*(pZetaMissVis>-10)*(njetspt30>1)*(mjj>=300)",
@@ -252,6 +261,9 @@ class CategoriesDict(object):
 					"global": {
 						"_mjj": auto_rebin_binning,
 						"_m_sv": auto_rebin_binning
+						},
+					"mm_": {
+						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
 						},
 					"mt_": {
 						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),

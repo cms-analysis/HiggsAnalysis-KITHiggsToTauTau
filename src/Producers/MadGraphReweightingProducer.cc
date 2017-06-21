@@ -135,10 +135,12 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 		std::vector<const CartesianRMFLV*> particleFourMomenta;
 		std::string directoryname = "";
+		//std::map(<int>,<>);
 
 		for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 		{
 			ParticlesGroup* selectedParticles = nullptr;
+			
 			if (lheParticle->status == -1)
 			{
 				selectedParticles = &initialParticles;
@@ -239,7 +241,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 				directoryname += "bx";
 			}
 
-			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode;
+			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode << ", " << lheParticle->colourLineIndices.first << ", " << lheParticle->colourLineIndices.second;
 			if (particleFourMomenta.size() < 7)
 			{
 				particleFourMomenta.push_back(&(lheParticle->p4));
@@ -259,6 +261,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			LOG(FATAL) << "Found no Higgs bosons, but expected 1!";
 		}
 		
+
+
 		// checks and corrections for jets
 		/*
 		if (jetParticles.momenta.size() > 2)
@@ -385,7 +389,25 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			    (jetParticles.nHeavyQuarks==0) && 
 			    (directoryname!="gg_x0"))
 			{
-			directoryname="bbx_x0";				
+				directoryname="bbx_x0";				
+			}
+
+		if ((jetParticles.nGluons + jetParticles.nLightQuarks + jetParticles.nHeavyQuarks ==2) &&
+				(!(Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))))
+			{
+				if ((directoryname=="gg_x0ccx") ||
+					(directoryname=="gg_x0ddx") ||
+					(directoryname=="gg_x0ssx"))
+				{
+					directoryname="gg_x0uux";
+				}	
+				if ((initialParticles.nGluons==1) &&
+					(initialParticles.nLightQuarks==1) &&
+					(jetParticles.nGluons==1)	&&	
+					(jetParticles.nLightQuarks==1)	)
+				{
+					directoryname="gu_x0gu";
+				}				
 			}
 
 		//if ((initialParticles.nLightQuarks==2) && 
@@ -408,6 +430,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 				MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
 				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
 				//LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
+				LOG(INFO) << "anlge " << *mixingAngleOverPiHalf;
 			}
 		}
 		else
