@@ -32,6 +32,12 @@
 		"errDZ_1",
 		"errD0_2",
 		"errDZ_2",
+		"errD0_refitPV_1",
+		"errDZ_refitPV_1",
+		"errIP_refitPV_1",
+		"errD0_refitPV_2",
+		"errDZ_refitPV_2",
+		"errIP_refitPV_2",
 
 		"recoIP1x",
 		"recoIP1y",
