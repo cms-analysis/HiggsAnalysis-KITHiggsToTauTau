@@ -156,7 +156,7 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 		} // for over leptons
 		hashes.push_back(hash);
 
-		std::swap(leptons[0], leptons[1]);
+		std::swap(leptons.at(0), leptons.at(1));
 		hash = 0;
 		for (auto lepton : leptons){
 			boost::hash_combine(hash, lepton->internalId);
