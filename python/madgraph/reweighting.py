@@ -16,6 +16,7 @@ def me2(connection):
 	madgraph_process_directory = args[1]
 	madgraph_param_card = args[2]
 	alpha_s = args[3]
+	print alpha_s
 	
 	cwd = os.getcwd()
 	os.chdir(madgraph_process_directory)
@@ -42,7 +43,7 @@ def me2(connection):
 	sys.path.pop(0)
 	os.chdir(cwd)
 	connection.send([result])
-	print result
+	#print result
 	return result
 
 class MadGraphTools(object):
