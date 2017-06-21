@@ -187,7 +187,10 @@ if __name__ == "__main__":
 		"mt_Vbf2D" : 1.0,
 		"et_ZeroJet2D" : 1.0,
 		"et_Boosted2D" : 1.28,
-		"et_Vbf2D" : 1.0
+		"et_Vbf2D" : 1.0,
+		"em_ZeroJet2D" : 1.8,
+		"em_Boosted2D" : 1.89,
+		"em_Vbf2D" : 1.74
 	}
 	
 	# w+jets scale factor shifts for different categories
@@ -199,6 +202,39 @@ if __name__ == "__main__":
 		"et_ZeroJet2D" : 0.10,
 		"et_Boosted2D" : 0.05,
 		"et_Vbf2D" : 0.10
+	}
+	
+	# correction factors from ZMM control region
+	zmm_cr_factors = {
+		"ZeroJet2D" : "(1.0395)",
+		"Boosted2D" : "(((ptvis<100)*1.0321) + ((ptvis>=100)*(ptvis<150)*1.023) + ((ptvis>=150)*(ptvis<200)*1.007) + ((ptvis>=200)*(ptvis<250)*1.016) + ((ptvis>=250)*(ptvis<300)*1.02) + ((ptvis>=300)*1.03))",
+		"Vbf2D" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.0605) + ((mjj>=700)*(mjj<1100)*1.017) + ((mjj>=1100)*(mjj<1500)*0.975) + ((mjj>=1500)*0.97))",
+		"Vbf2D_Up" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.121) + ((mjj>=700)*(mjj<1100)*1.034) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.94))",
+		"Vbf2D_Down" : "(1.0)"
+	}
+	
+	# corrections factors from ZMM control regions as written on SM HTT Twiki
+	zmm_cr_factors_official = {
+		"mt_ZeroJet2D" : "(1.02)",
+		"et_ZeroJet2D" : "(1.02)",
+		"em_ZeroJet2D" : "(1.02)",
+		"tt_ZeroJet2D" : "(1.02)",
+		"mt_Boosted2D" : "(1.02)",
+		"et_Boosted2D" : "(1.02)",
+		"em_Boosted2D" : "(1.02)",
+		"tt_Boosted2D" : "(1.02)",
+		"mt_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"et_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"em_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"tt_Vbf2D" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
+		"mt_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"et_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"em_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"tt_Vbf2D_Up" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
+		"mt_Vbf2D_Down" : "(1.02)",
+		"et_Vbf2D_Down" : "(1.02)",
+		"em_Vbf2D_Down" : "(1.02)",
+		"tt_Vbf2D_Down" : "(1.02)"
 	}
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
@@ -223,17 +259,17 @@ if __name__ == "__main__":
 		for category in categories:
 			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
-			exclude_cuts = args.exclude_cuts
-			if "TTbarCR" in category:
+			exclude_cuts = copy.deepcopy(args.exclude_cuts)
+			if "TTbarCR" in category and channel == "ttbar":
 				exclude_cuts += ["pzeta"]
 				do_not_normalize_by_bin_width = True
 			# TODO: check that this does what it should in samples_run2_2016.py !!!
 			#       a workaround solution may be necessary
-			if "ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category:
+			if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["mt"]
 					do_not_normalize_by_bin_width = True
-			if "ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category:
+			if ("ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category)  and channel in ["mt", "et", "tt"]:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["iso_1"]
 					do_not_normalize_by_bin_width = True
@@ -288,6 +324,12 @@ if __name__ == "__main__":
 						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
 					else:
 						wj_sf_shift = 0.0
+					# Use official zmm corrections factors for now
+					#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1],"(1.0)")
+					zmm_cr_factor = zmm_cr_factors_official.get(category, "(1.0)")
+					if "zmumuShape_VBF" in shape_systematic:
+						#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
+						zmm_cr_factor = zmm_cr_factors_official.get(category+("_Up" if shift_up else "_Down"),"(1.0)")
 					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
@@ -301,7 +343,8 @@ if __name__ == "__main__":
 							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
-							wj_sf_shift=wj_sf_shift
+							wj_sf_shift=wj_sf_shift,
+							zmm_cr_factor=zmm_cr_factor
 					)
 					
 					if "CMS_scale_gg_13TeV" in shape_systematic:
@@ -328,23 +371,23 @@ if __name__ == "__main__":
 							sys.exit()
 					
 					# define quantities and binning for control regions
-					if ("ZeroJet2D" in category or "Boosted2D" in category) and "WJCR" in category and channel in ["mt", "et"]:
+					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 						config["x_expressions"] = ["mt_1"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
-					if "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "ZeroJet2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
 						if channel in ["mt", "et"]:
 							config["x_expressions"] = ["m_vis"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "Boosted2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Vbf2D" in category and "QCDCR" in category and channel == "tt":
+					if "Vbf2D_QCDCR" in category and channel == "tt":
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "TTbarCR" in category and channel == "em":
+					if "TTbarCR" in category and channel == "ttbar":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					

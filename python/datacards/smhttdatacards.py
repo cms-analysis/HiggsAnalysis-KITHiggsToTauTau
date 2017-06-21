@@ -256,10 +256,9 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ"]).bin(["tt_Vbf2D", "tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_tt_13TeV", "lnN", ch.SystMap()(1.15))
 				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "ZL", "ZJ"]).bin(["mt_vbf2D", "et_vbf2D"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_lt_13TeV", "lnN", ch.SystMap()(1.10))
 				
-				# TODO: implement these shape uncertainties
-				#self.cb.cp().channel(["mt", "et", "tt"]).process(["ZTT", "ZL", "ZJ"]).bin([channel + "_Vbf2D" for channel in ["mt", "et", "tt"]]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
-				#self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ"]).bin(["tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
-				#self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
+				self.cb.cp().channel(["mt", "et", "tt"]).process(["ZTT", "ZL", "ZJ"]).bin([channel + "_Vbf2D" for channel in ["mt", "et", "tt"]]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
+				self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ"]).bin(["tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
 			if not ttbarFit:
 				self.cb.cp().process(["TT", "TTT", "TTJJ"]).channel(["mt", "et", "em", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			if year == "2016":

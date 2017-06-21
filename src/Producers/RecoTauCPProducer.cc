@@ -71,35 +71,37 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_recoChargedHadronEnergies.second;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0refitPV", [](event_type const& event, product_type const& product)
+
+	// impact parameters d0=dxy and dz
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0RefitPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0refitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0RefitPVBS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzrefitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzRefitPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzrefitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzRefitPVBS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0RefitPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0refitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0RefitPVBS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzrefitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzRefitPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzrefitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzRefitPVBS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
@@ -146,7 +148,34 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
 
-	// FIXME: IP vectors (using d0 and dz)
+	// errors on dxy, dz and IP
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrD0RefitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrDzRefitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrIPRefitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec.at(2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrD0RefitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrDzRefitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrIPRefitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec.at(2);
+	});
+	
+
+	// FIXME: IP vectors (using d0 and dz)  --> to be deleted
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2x", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).x() : DefaultValues::UndefinedFloat);
@@ -206,7 +235,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return product.m_deltaGenRecoIP2;
 	});
 
-	// probably to be deleted in the near future
+	// FIXME: to be deleted
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP1met2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_deltaRgenIPrecoIP1met2;
@@ -234,13 +263,15 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// initialization of TVector3 objects
 	product.m_recoIP1.SetXYZ(-999,-999,-999);
 	product.m_recoIP2.SetXYZ(-999,-999,-999);
-	product.m_recoIP1method2.SetXYZ(-999,-999,-999);
-	product.m_recoIP2method2.SetXYZ(-999,-999,-999);
+	product.m_recoIP1method2.SetXYZ(-999,-999,-999); // FIXME to be deleted
+	product.m_recoIP2method2.SetXYZ(-999,-999,-999); // FIXME to be deleted
 
 	TVector3 recoIP1(-999,-999,-999);
 	TVector3 recoIP2(-999,-999,-999);
-	TVector3 recoIP1method2(-999,-999,-999);
-	TVector3 recoIP2method2(-999,-999,-999);
+	TVector3 recoIP1method2(-999,-999,-999); // FIXME to be deleted
+	TVector3 recoIP2method2(-999,-999,-999); // FIXME to be deleted
+
+
 
 	KLepton* recoParticle1 = product.m_chargeOrderedLeptons.at(0);
 	KLepton* recoParticle2 = product.m_chargeOrderedLeptons.at(1);
@@ -248,11 +279,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
 
-	// old calculation of recoPhiStarCP --> need to be rechecked
-	KTrack trackP = product.m_chargeOrderedLeptons[0]->track;
-	KTrack trackM = product.m_chargeOrderedLeptons[1]->track;
-	RMFLV momentumP = ((product.m_chargeOrderedLeptons[0]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[0])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[0]->p4);
-	RMFLV momentumM = ((product.m_chargeOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[1])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[1]->p4);
+	// calculation of recoPhiStarCP
+	KTrack trackP = product.m_chargeOrderedLeptons.at(0)->track;
+	KTrack trackM = product.m_chargeOrderedLeptons.at(1)->track;
+	RMFLV momentumP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons.at(0)->p4);
+	RMFLV momentumM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons.at(1)->p4);
 
   RMFLV piZeroP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
 	RMFLV piZeroM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
@@ -278,10 +309,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 
 
-    // variables for the rho method
 
 
-
+	// impact parameter method for CP studies
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
 	//product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	//product.m_recoIP1 = cpq.GetRecoIP1();
@@ -297,6 +327,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		recoIP2 = cpq.CalculateIPVector(recoParticle2, product.m_refitPV);
 		product.m_recoIP1 = recoIP1;
 		product.m_recoIP2 = recoIP2;
+
+		product.m_errorIP1vec = cpq.CalculateIPerrors(recoParticle1, product.m_refitPV, &recoIP1);
+		product.m_errorIP2vec = cpq.CalculateIPerrors(recoParticle2, product.m_refitPV, &recoIP2);
+		
 
 		// FIXME get rid of recoIPmet2
 		// FIXME this block needs to be deleted
@@ -314,6 +348,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 		// calculate PhiStarCP using the refitted PV
 		product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(product.m_refitPV, trackP, trackM, momentumP, momentumM);
+
+
 
 		if (!m_isData){
 			// FIXME delete all temporary variable of type double
