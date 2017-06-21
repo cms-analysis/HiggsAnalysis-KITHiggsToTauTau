@@ -28,6 +28,11 @@
 		"track2p4y",
 		"track2p4z",
 
+		"errD0_1",
+		"errDZ_1",
+		"errD0_2",
+		"errDZ_2",
+
 		"recoIP1x",
 		"recoIP1y",
 		"recoIP1z",
