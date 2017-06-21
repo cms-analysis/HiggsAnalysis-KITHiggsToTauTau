@@ -215,7 +215,7 @@ public:
 	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
 	KRefitVertex* m_refitPVBS = 0;
-	RMPoint* m_theBS = 0;
+	KBeamSpot* m_theBS = 0;
 	RMPoint* m_refP1 = 0;
 	RMPoint* m_refP2 = 0;
 	RMFLV* m_track1p4 = 0;

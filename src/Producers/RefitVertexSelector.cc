@@ -50,15 +50,27 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	// BS coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSx", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->x();
+		return (product.m_theBS)->position.x();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSy", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->y();
+		return (product.m_theBS)->position.y();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->z();
+		return (product.m_theBS)->position.z();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmax", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->beamWidthX;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmay", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->beamWidthY;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmaz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->sigmaZ;
 	});
 
 	// refitted PV coordinates and parameters
@@ -204,7 +216,7 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 
 	// save the PV and the BS
 	product.m_thePV = &event.m_vertexSummary->pv;
-	product.m_theBS = &event.m_beamSpot->position;
+	product.m_theBS = event.m_beamSpot;
 
 	// create hashes from lepton selection
 	std::vector<KLepton*> leptons = product.m_flavourOrderedLeptons;

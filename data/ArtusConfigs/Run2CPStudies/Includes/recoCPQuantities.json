@@ -33,6 +33,9 @@
 		"theBSx",
 		"theBSy",
 		"theBSz",
+		"theBSsigmax",
+		"theBSsigmay",
+		"theBSsigmaz",
 
 		"refP1x",
 		"refP1y",
