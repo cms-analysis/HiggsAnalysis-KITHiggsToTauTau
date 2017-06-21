@@ -210,6 +210,30 @@ if __name__ == "__main__":
 		"Vbf2D_Down" : "(1.0)"
 	}
 	
+	# corrections factors from ZMM control regions as written on SM HTT Twiki
+	zmm_cr_factors_official = {
+		"mt_ZeroJet2D" : "(1.02)",
+		"et_ZeroJet2D" : "(1.02)",
+		"em_ZeroJet2D" : "(1.02)",
+		"tt_ZeroJet2D" : "(1.02)",
+		"mt_Boosted2D" : "(1.02)",
+		"et_Boosted2D" : "(1.02)",
+		"em_Boosted2D" : "(1.02)",
+		"tt_Boosted2D" : "(1.02)",
+		"mt_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"et_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"em_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"tt_Vbf2D" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
+		"mt_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"et_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"em_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"tt_Vbf2D_Up" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
+		"mt_Vbf2D_Down" : "(1.02)",
+		"et_Vbf2D_Down" : "(1.02)",
+		"em_Vbf2D_Down" : "(1.02)",
+		"tt_Vbf2D_Down" : "(1.02)"
+	}
+	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
 	#restriction to CH
@@ -297,9 +321,12 @@ if __name__ == "__main__":
 						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
 					else:
 						wj_sf_shift = 0.0
-					zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1],"(1.0)")
+					# Use official zmm corrections factors for now
+					#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1],"(1.0)")
+					zmm_cr_factor = zmm_cr_factors_official.get(category, "(1.0)")
 					if "zmumuShape_VBF" in shape_systematic:
-						zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
+						#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
+						zmm_cr_factor = zmm_cr_factors_official.get(category+("_Up" if shift_up else "_Down"),"(1.0)")
 					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
