@@ -392,21 +392,15 @@ if __name__ == "__main__":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					
 					# Use 2d plots for 2d categories
-					config["texts"] = []
-					config["texts_x"] = []
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						if channel in ["mt", "et"]:
 							config["y_expressions"] = ["decayMode_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
-							config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
-							config["texts_x"] = [0.25, 0.5, 0.7]
 						elif channel == "em":
 							config["y_expressions"] = ["pt_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
-							config["texts"] = list(("p_{T}^{#mu} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-							config["texts_x"] = [0.25, 0.5, 0.7]
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
@@ -415,15 +409,11 @@ if __name__ == "__main__":
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
-						config["texts"] = list(("p_{T}^{#tau#tau} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-						config["texts_x"] = ([0.25, 0.45, 0.65, 0.85] if channel == "tt" else [0.25, 0.37, 0.50, 0.64, 0.77, 0.89])
 					elif "Vbf2D" in category and not "QCDCR" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["mjj"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
-						config["texts"] = list(("m_{jj} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-						config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
 					
 					# Unroll 2d distribution to 1d in order for combine to fit it
 					if "2D" in category and not ("WJCR" in category or "QCDCR" in category):
@@ -605,7 +595,36 @@ if __name__ == "__main__":
 	if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "unrolled" : ("2D" in category and not ("WJCR" in category or "QCDCR" in category)), "texts" : config["texts"], "texts_x" : config["texts_x"], "x_expressions" : config["x_expressions"][0]}, n_processes=args.n_processes)
+	# adapt prefit and postfit plot configs
+	prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : True}, n_processes=args.n_processes)
+	for plot_config in prefit_postfit_plot_configs:
+		plot_category = plot_config["filename"].split("_")[-1]
+		plot_channel = plot_config["title"].split("_")[-1]
+		if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
+				plot_config["canvas_width"] = 1200
+				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio else 1.4]
+				plot_config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
+				plot_config["legend_cols"] = 3
+				plot_config["x_label"] = "bins"
+				plot_config["texts"] = []
+				plot_config["texts_x"] = []
+				if "ZeroJet2D" in plot_category and plot_channel in ["mt", "et"]:
+					plot_config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
+					plot_config["texts_x"] = [0.25, 0.5, 0.7]
+				elif "ZeroJet2D" in plot_category and plot_channel == "em":
+					plot_config["texts"] = list(("p_{T}^{#mu} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+					plot_config["texts_x"] = [0.25, 0.5, 0.7]
+				elif "Boosted2D" in plot_category:
+					config["texts"] = list(("p_{T}^{#tau#tau} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+					config["texts_x"] = ([0.25, 0.45, 0.65, 0.85] if channel == "tt" else [0.25, 0.37, 0.50, 0.64, 0.77, 0.89])
+				elif "Vbf2D" in plot_category:
+					config["texts"] = list(("m_{jj} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+					config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
+				plot_config["texts_y"] = list((0.65 for i in range(len(plot_config["texts"]))))
+				plot_config["texts_size"] = [0.05]
+	higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# create pull plots
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 	if args.plot_nuisance_impacts:
