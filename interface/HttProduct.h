@@ -116,10 +116,17 @@ class HttProduct : public KappaProduct
 	std::map<KLepton*, double> m_visibleToFullAngleHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_visibleToFullAngleSvfit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1CosTheta; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1SinTheta; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1CosBeta; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1SinBeta; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1CosGamma; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1SinGamma; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1CosPsi; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1SinPsi; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1optimumVariableSimpleFit;
+	std::map<KLepton*, double> m_a1OmegaHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1OmegaSvfit; // Keys are only of type KTau*
 
 	double m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
 	double m_tauPolarisationDiscriminatorSvfit = DefaultValues::UndefinedDouble;
@@ -210,7 +217,7 @@ class HttProduct : public KappaProduct
 	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
 	KRefitVertex* m_refitPVBS = 0;
-	RMPoint* m_theBS = 0;
+	KBeamSpot* m_theBS = 0;
 	RMPoint* m_refP1 = 0;
 	RMPoint* m_refP2 = 0;
 	RMFLV* m_track1p4 = 0;
@@ -254,6 +261,9 @@ class HttProduct : public KappaProduct
 	TVector3 m_recoIP2;
 	TVector3 m_recoIP1method2;
 	TVector3 m_recoIP2method2;
+	
+	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;

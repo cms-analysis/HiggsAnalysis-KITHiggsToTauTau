@@ -75,8 +75,10 @@ if __name__ == "__main__":
                         help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
-	parser.add_argument("--use-rateParam", action="store_true", default=False,
-						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
+	parser.add_argument("--ttbar-fit", action="store_true", default=False,
+						help="Use rate parameter to propagate ttbar normalization from control region to all categories. [Default: %(default)s]")
+	parser.add_argument("--mm-fit", action="store_true", default=False,
+						help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--remote", action="store_true", default=False,
 						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
@@ -89,6 +91,8 @@ if __name__ == "__main__":
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
+	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
+						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -117,9 +121,9 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
+	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
 	if args.for_dcsync:
-		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era)
+		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -183,7 +187,10 @@ if __name__ == "__main__":
 		"mt_Vbf2D" : 1.0,
 		"et_ZeroJet2D" : 1.0,
 		"et_Boosted2D" : 1.28,
-		"et_Vbf2D" : 1.0
+		"et_Vbf2D" : 1.0,
+		"em_ZeroJet2D" : 1.8,
+		"em_Boosted2D" : 1.89,
+		"em_Vbf2D" : 1.74
 	}
 	
 	# w+jets scale factor shifts for different categories
@@ -197,6 +204,39 @@ if __name__ == "__main__":
 		"et_Vbf2D" : 0.10
 	}
 	
+	# correction factors from ZMM control region
+	zmm_cr_factors = {
+		"ZeroJet2D" : "(1.0395)",
+		"Boosted2D" : "(((ptvis<100)*1.0321) + ((ptvis>=100)*(ptvis<150)*1.023) + ((ptvis>=150)*(ptvis<200)*1.007) + ((ptvis>=200)*(ptvis<250)*1.016) + ((ptvis>=250)*(ptvis<300)*1.02) + ((ptvis>=300)*1.03))",
+		"Vbf2D" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.0605) + ((mjj>=700)*(mjj<1100)*1.017) + ((mjj>=1100)*(mjj<1500)*0.975) + ((mjj>=1500)*0.97))",
+		"Vbf2D_Up" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.121) + ((mjj>=700)*(mjj<1100)*1.034) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.94))",
+		"Vbf2D_Down" : "(1.0)"
+	}
+	
+	# corrections factors from ZMM control regions as written on SM HTT Twiki
+	zmm_cr_factors_official = {
+		"mt_ZeroJet2D" : "(1.02)",
+		"et_ZeroJet2D" : "(1.02)",
+		"em_ZeroJet2D" : "(1.02)",
+		"tt_ZeroJet2D" : "(1.02)",
+		"mt_Boosted2D" : "(1.02)",
+		"et_Boosted2D" : "(1.02)",
+		"em_Boosted2D" : "(1.02)",
+		"tt_Boosted2D" : "(1.02)",
+		"mt_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"et_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"em_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"tt_Vbf2D" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
+		"mt_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"et_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"em_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"tt_Vbf2D_Up" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
+		"mt_Vbf2D_Down" : "(1.02)",
+		"et_Vbf2D_Down" : "(1.02)",
+		"em_Vbf2D_Down" : "(1.02)",
+		"tt_Vbf2D_Down" : "(1.02)"
+	}
+	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
 	#restriction to CH
@@ -208,7 +248,7 @@ if __name__ == "__main__":
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-		if(categories_save != sorted(categories)):
+		if(categories_save != sorted(categories)) and args.do_not_ignore_category_removal:
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
@@ -219,17 +259,17 @@ if __name__ == "__main__":
 		for category in categories:
 			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
-			exclude_cuts = args.exclude_cuts
-			if "TTbarCR" in category:
+			exclude_cuts = copy.deepcopy(args.exclude_cuts)
+			if "TTbarCR" in category and channel == "ttbar":
 				exclude_cuts += ["pzeta"]
 				do_not_normalize_by_bin_width = True
 			# TODO: check that this does what it should in samples_run2_2016.py !!!
 			#       a workaround solution may be necessary
-			if "ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category:
+			if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["mt"]
 					do_not_normalize_by_bin_width = True
-			if "ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category:
+			if ("ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category)  and channel in ["mt", "et", "tt"]:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["iso_1"]
 					do_not_normalize_by_bin_width = True
@@ -284,6 +324,12 @@ if __name__ == "__main__":
 						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
 					else:
 						wj_sf_shift = 0.0
+					# Use official zmm corrections factors for now
+					#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1],"(1.0)")
+					zmm_cr_factor = zmm_cr_factors_official.get(category, "(1.0)")
+					if "zmumuShape_VBF" in shape_systematic:
+						#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
+						zmm_cr_factor = zmm_cr_factors_official.get(category+("_Up" if shift_up else "_Down"),"(1.0)")
 					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
@@ -297,7 +343,8 @@ if __name__ == "__main__":
 							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
-							wj_sf_shift=wj_sf_shift
+							wj_sf_shift=wj_sf_shift,
+							zmm_cr_factor=zmm_cr_factor
 					)
 					
 					if "CMS_scale_gg_13TeV" in shape_systematic:
@@ -324,42 +371,36 @@ if __name__ == "__main__":
 							sys.exit()
 					
 					# define quantities and binning for control regions
-					if ("ZeroJet2D" in category or "Boosted2D" in category) and "WJCR" in category and channel in ["mt", "et"]:
+					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 						config["x_expressions"] = ["mt_1"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
-					if "ZeroJet2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "ZeroJet2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
 						if channel in ["mt", "et"]:
 							config["x_expressions"] = ["m_vis"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Boosted2D" in category and "QCDCR" in category and channel in ["mt", "et", "tt"]:
+					if "Boosted2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Vbf2D" in category and "QCDCR" in category and channel == "tt":
+					if "Vbf2D_QCDCR" in category and channel == "tt":
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "TTbarCR" in category and channel == "em":
+					if "TTbarCR" in category and channel == "ttbar":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					
 					# Use 2d plots for 2d categories
-					config["texts"] = []
-					config["texts_x"] = []
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						if channel in ["mt", "et"]:
 							config["y_expressions"] = ["decayMode_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
-							config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
-							config["texts_x"] = [0.25, 0.5, 0.7]
 						elif channel == "em":
 							config["y_expressions"] = ["pt_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
-							config["texts"] = list(("p_{T}^{#mu} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-							config["texts_x"] = [0.25, 0.5, 0.7]
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
@@ -368,15 +409,11 @@ if __name__ == "__main__":
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
-						config["texts"] = list(("p_{T}^{#tau#tau} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-						config["texts_x"] = ([0.25, 0.45, 0.65, 0.85] if channel == "tt" else [0.25, 0.37, 0.50, 0.64, 0.77, 0.89])
 					elif "Vbf2D" in category and not "QCDCR" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["mjj"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
-						config["texts"] = list(("m_{jj} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-						config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
 					
 					# Unroll 2d distribution to 1d in order for combine to fit it
 					if "2D" in category and not ("WJCR" in category or "QCDCR" in category):
@@ -486,6 +523,34 @@ if __name__ == "__main__":
 	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_u(1 if "tauDMReco" in systematic.name() else systematic.value_u()))
 	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_d(1 if "tauDMReco" in systematic.name() else systematic.value_d()))
 	
+	# remove processes with zero yield
+	def is_control_region(obj):
+		return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")
+	
+	def matching_process(obj1, obj2):
+		matches = (obj1.bin() == obj2.bin())
+		matches = matches and (obj1.process() == obj2.process())
+		matches = matches and (obj1.signal() == obj2.signal())
+		matches = matches and (obj1.analysis() == obj2.analysis())
+		matches = matches and (obj1.era() == obj2.era())
+		matches = matches and (obj1.channel() == obj2.channel())
+		matches = matches and (obj1.bin_id() == obj2.bin_id())
+		matches = matches and (obj1.mass() == obj2.mass())
+		return matches
+	
+	def remove_procs_and_systs_with_zero_yield(proc):
+		# TODO: find out why zero yield should be ok in control regions. until then remove them
+		#null_yield = not (proc.rate() > 0. or is_control_region(proc))
+		null_yield = not proc.rate() > 0.
+		if null_yield:
+			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+		return null_yield
+	
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
+	
+	# convert shapes in control regions to lnN
+	datacards.cb.cp().ForEachSyst(lambda systematic: systematic.set_type("lnN") if is_control_region(systematic) and systematic.type() == "shape" else systematic.set_type(systematic.type()))
+	
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset("125")
@@ -530,7 +595,36 @@ if __name__ == "__main__":
 	if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "unrolled" : ("2D" in category and not ("WJCR" in category or "QCDCR" in category)), "texts" : config["texts"], "texts_x" : config["texts_x"], "x_expressions" : config["x_expressions"][0]}, n_processes=args.n_processes)
+	# adapt prefit and postfit plot configs
+	prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : True}, n_processes=args.n_processes)
+	for plot_config in prefit_postfit_plot_configs:
+		plot_category = plot_config["filename"].split("_")[-1]
+		plot_channel = plot_config["title"].split("_")[-1]
+		if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
+				plot_config["canvas_width"] = 1200
+				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio else 1.4]
+				plot_config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
+				plot_config["legend_cols"] = 3
+				plot_config["x_label"] = "bins"
+				plot_config["texts"] = []
+				plot_config["texts_x"] = []
+				if "ZeroJet2D" in plot_category and plot_channel in ["mt", "et"]:
+					plot_config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
+					plot_config["texts_x"] = [0.25, 0.5, 0.7]
+				elif "ZeroJet2D" in plot_category and plot_channel == "em":
+					plot_config["texts"] = list(("p_{T}^{#mu} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+					plot_config["texts_x"] = [0.25, 0.5, 0.7]
+				elif "Boosted2D" in plot_category:
+					config["texts"] = list(("p_{T}^{#tau#tau} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+					config["texts_x"] = ([0.25, 0.45, 0.65, 0.85] if channel == "tt" else [0.25, 0.37, 0.50, 0.64, 0.77, 0.89])
+				elif "Vbf2D" in plot_category:
+					config["texts"] = list(("m_{jj} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+					config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
+				plot_config["texts_y"] = list((0.65 for i in range(len(plot_config["texts"]))))
+				plot_config["texts_size"] = [0.05]
+	higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# create pull plots
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 	if args.plot_nuisance_impacts:

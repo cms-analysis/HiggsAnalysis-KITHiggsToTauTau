@@ -23,8 +23,8 @@ def plot_root_variable(channel=['mt'],variable='pt_1',x_bins = "30,0,120",decay_
 	if isocut:
 		isocut="(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*"
 	else:
-		isocut=""
-	#~ stitching_weight = "(((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25449124172134e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.17272893569016e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.17926755938344e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.18242445124698e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16077776187804e-6)+((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*1.15592e-4) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.5569730365e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.68069486078868e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.74717616341537e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.3697397756176e-5)+((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+		isocut="(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*"
+	stitching_weight = "(((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25449124172134e-6) + ((genbosonmass >= 150.0 && npartons == 1)*1.17272893569016e-6) + ((genbosonmass >= 150.0 && npartons == 2)*1.17926755938344e-6) + ((genbosonmass >= 150.0 && npartons == 3)*1.18242445124698e-6) + ((genbosonmass >= 150.0 && npartons == 4)*1.16077776187804e-6)+((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*1.15592e-4) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.5569730365e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.68069486078868e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.74717616341537e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.3697397756176e-5)+((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 	#(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*
 	stitching_weight = "(1.0)"
 	#(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*
@@ -36,35 +36,38 @@ def plot_root_variable(channel=['mt'],variable='pt_1',x_bins = "30,0,120",decay_
 
 	#selection_weight_em = "(pt_1 > 24.0 && pt_2 > 24.0)*(pZetaMissVis > -20.0)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(iso_1 < 0.15)*(iso_2 < 0.2)*((q_1*q_2)<0.0)"
 	selection_weight_em = decay_weight+"(pt_1 > 24.0 && pt_2 > 24.0)*(pZetaMissVis > -20.0)*(iso_1 < 0.15)*(iso_2 < 0.2)*((q_1*q_2)<0.0)"
-
+	mt_emb_weight="(gen_match_2 == 5)*(((((1.0)))))*((((run >= 272007) && (run < 275657))*3768958.+((run >= 275657) && (run < 276315))*1583897.+((run >= 276315) && (run < 276831))*2570815.+((run >= 276831) && (run < 277772))*2514506.+((run >= 277772) && (run < 278820))*1879819.+((run >= 278820) && (run < 280919))*5008746.+((run >= 280919) && (run < 284045))*6367665.)/(3768958.+1583897.+2570815.+2514506.+1879819.+5008746.+6367665.))*(eventWeight)*((eventWeight<1.0))*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(dilepton_veto < 0.5)*(trg_singlemuon == 1)*(againstElectronVLooseMVA6_2 > 0.5)*(mt_1<40.0)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*zPtReweightWeight"
+	mt_dy_weight="1.0"#(gen_match_2 == 5)*(((((1.0)))))*((((run >= 272007) && (run < 275657))*3768958.+((run >= 275657) && (run < 276315))*1583897.+((run >= 276315) && (run < 276831))*2570815.+((run >= 276831) && (run < 277772))*2514506.+((run >= 277772) && (run < 278820))*1879819.+((run >= 278820) && (run < 280919))*5008746.+((run >= 280919) && (run < 284045))*6367665.)/(3768958.+1583897.+2570815.+2514506.+1879819.+5008746.+6367665.))*(eventWeight)*((eventWeight<1.0))*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(dilepton_veto < 0.5)*(trg_singlemuon == 1)*(againstElectronVLooseMVA6_2 > 0.5)*(mt_1<40.0)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(iso_1 < 0.15)*((q_1*q_2)<0.0)*zPtReweightWeight"
+	
 	genmatching_weight_xt = "*(gen_match_2 == 5)"
 	genmatching_weight_tt = "*(gen_match_1 == 5 && gen_match_2 == 5)"
 	genmatching_weight_em = "*(gen_match_1 > 2 && gen_match_2 > 3)"
-	
 	visibleMassMuTau = pltcl.single_plot(
 		name = variable+"MuTau_decayMode "+decay_mode,
 		title = "#mu#tau_{h}: shape comparison. decayMode "+decay_mode,
-		x_expression = variable,
+		x_expression = [variable,variable],
 		normalized_to_hist1 = True,
 		x_bins = x_bins,
 	#	x_bins = "1,0,13000",
 		normalized_by_binwidth = True,
 	#	normalized_by_binwidth = False,
 		x_label = xlabel,
-		weight = stitching_weight + genmatching_weight_xt + "*generatorWeight*(generatorWeight<=1)*" + selection_weight_mt,
+		weight = selection_weight_mt+"*eventWeight*(eventWeight<1.0)*"+stitching_weight+genmatching_weight_xt,#[mt_dy_weight,mt_dy_weight,mt_emb_weight],
+		#~ weight =  stitching_weight + genmatching_weight_xt + "*eventWeight*(eventWeight<=1)*" + selection_weight_mt,
 		y_label = "Events per bin width",
 		#y_lims = [0,0.058],
 		plot_type = "absolute",
 		legend = [0.53,0.44,0.92,0.88],
 		subplot_denominator = 0,
-		subplot_numerators = [1],
+		subplot_numerators = [1,2],
 		output_dir=output_dir+'/mt/decayMode'+decay_mode,
 		wwwfolder = web_dir,
-		y_subplot_lims = [0.5,1.5],
+		y_subplot_lims = [0.6,1.4],
 		y_subplot_label = "Ratio",
 		print_infos = True,
-		plotlines = [EmbeddingMuTauFileNominal,  DYFileMuTauFile]
-	)
+		plotlines = [DYFileMuTauFile, DYFileMuTauSmeared, EmbeddingMuTauFileNominal]
+	)        
+
 	if 'mt' in channel:
 		configs.extend(visibleMassMuTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
 	if variable=='pt_1':
@@ -72,13 +75,13 @@ def plot_root_variable(channel=['mt'],variable='pt_1',x_bins = "30,0,120",decay_
 	visibleMassElTau = visibleMassMuTau.clone(
 		name = variable+"visibleMassElTau "+decay_mode,
 		x_label = xlabel,
+		weight = ["(gen_match_2 == 5)*(((((1.0)))))*((((run >= 272007) && (run < 275657))*3768958.+((run >= 275657) && (run < 276315))*1583897.+((run >= 276315) && (run < 276831))*2570815.+((run >= 276831) && (run < 277772))*2514506.+((run >= 277772) && (run < 278820))*1879819.+((run >= 278820) && (run < 280919))*5008746.+((run >= 280919) && (run < 284045))*6367665.)/(3768958.+1583897.+2570815.+2514506.+1879819.+5008746.+6367665.))*(eventWeight)*((eventWeight<1.0))*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(dilepton_veto < 0.5)*(trg_singleelectron == 1)*(againstElectronTightMVA6_2 > 0.5)*(mt_1<50.0)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)*zPtReweightWeight",   "(gen_match_2 == 5)*(((((1.0)))))*(eventWeight)*((((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 150.0 && npartons == 4)*1.09698723e-5)+((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.09698723e-5)+((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight))*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(dilepton_veto < 0.5)*(trg_singleelectron == 1)*(againstElectronTightMVA6_2 > 0.5)*(mt_1<50.0)*(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(iso_1 < 0.1)*((q_1*q_2)<0.0)*zPtReweightWeight"],
 		output_dir=output_dir+'/et/decayMode'+decay_mode,
 		title = "e#tau_{h}: shape comparison  decayMode "+decay_mode,
-		weight = stitching_weight + genmatching_weight_xt + "*generatorWeight*(generatorWeight<=1)*" + selection_weight_et,
+		#~ weight = stitching_weight + genmatching_weight_xt + "*generatorWeight*(generatorWeight<=1)*" + selection_weight_et,
 		plotlines = [EmbeddingElTauFileNominal, DYFileElTauFile]
 	)
 	if 'et' in channel:
-		print 'ok'
 		configs.extend(visibleMassElTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
 	visibleMassTauTau = visibleMassMuTau.clone(
 		name = variable+"visibleMassTauTau "+decay_mode,
@@ -243,10 +246,11 @@ def default_plot_root_variable(channel=['mt'],variable='pt_1'):
 		y_subplot_lims = [0.5,1.5],
 		y_subplot_label = "Ratio",
 		print_infos = True,
-		plotlines = [EmbeddingMuTauFileNominal, DYFileMuTauFile]
+		#plotlines = [EmbeddingMuTauFileNominal, DYFileMuTauFile]
+		plotlines =[DYPrefitShape,EmbeddingPrefitShape]
 	)
 
-	#configs.extend(visibleMassMuTau.return_json_with_changed_x_and_weight(x_expressions = [variable,'pt_1']))
+	configs.extend(visibleMassMuTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
 
 	visibleMassElTau = visibleMassMuTau.clone(
 		name = "PT1 comparison",
@@ -255,7 +259,7 @@ def default_plot_root_variable(channel=['mt'],variable='pt_1'):
 		plotlines = [EmbeddingElTauFileNominal, DYFileElTauFile]
 	)
 
-	configs.extend(visibleMassElTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
+	#~ configs.extend(visibleMassElTau.return_json_with_changed_x_and_weight(x_expressions = [variable]))
 
 	visibleMassTauTau = visibleMassMuTau.clone(
 		name = "visibleMassTauTau",
@@ -1523,14 +1527,22 @@ if __name__ == '__main__':
 	plotting_dict["m_1"]["x_bins"]="10,0,0.5"
 	plotting_dict["m_1"]["x_label"]="Muon Mass / GeV"
 	plotting_dict["m_2"]["x_bins"]="30,0,1.5"
-	plotting_dict["mt_1"]["x_bins"]="25,0,50"
+	plotting_dict["mt_1"]["x_bins"]="25,0,120"
+	plotting_dict["mt_2"]["x_bins"]="25,0,120"
 	plotting_dict["m_vis"]["x_bins"]="25,20,120"
 	plotting_dict["npu"]["x_bins"]="30,0,60"
 	plotting_dict["npv"]["x_bins"]="30,0,60"
 	plotting_dict["npv"]["x_bins"]="30,0,60"
 	plotting_dict["iso_1"]["x_bins"]="25,0.,1."
 	plotting_dict["nbtag"]["x_bins"]="5,0,5"
+	plotting_dict["pzetamiss"]["x_bins"]="12,-150.0,100.0"
+	plotting_dict["pZetaMissVis"]["x_bins"] = "12,-150.0,100.0"
+	plotting_dict["pzetavis"]["x_bins"]="10,0.0,100.0"
+	plotting_dict["met"]["x_bins"]="10,0,100"
 
+	plotting_dict["mt_2"]["x_bins"]="25,0,120"
+	plotting_dict["mt_2"]["x_bins"]="25,0,120"
+		
 	plotting_dict["m_2"]["x_label"]="Tau Mass / GeV"
 	plotting_dict["mt_1"]["x_label"]="m_{T} / GeV"
 	plotting_dict["m_vis"]["x_label"]="m_{vis} / GeV"
@@ -1573,21 +1585,21 @@ if __name__ == '__main__':
 	plotting_dict["flightLengthSig_2"]["x_bins"]="24,-6,6"
 	
 	plotting_dict["iso_2"]["x_bins"]="50,0.5,1"
-
+	plotting_dict["iso_1"]["x_bins"]="20,0.,0.2"
 	variables_to_plot = ["pt_1"]
 	#variables_to_plot = tau_iso_variables
 	#variables_to_plot = ["MVAdxy_abs_2","MVAdxy_ip3d_abs_2"]
 
 #	variables_to_plot=["flightLengthSig_2"]
 	variables_to_plot=default_variables
+	
 	if args.quantities is not None:
 		variables_to_plot=args.quantities
 	for v in variables_to_plot:
 		if not args.default:
 			if decay_mode=="split":
 				for dm in ["0","1","10","all"]:
-					if True:
-						
+					if True:	
 						plot_root_variable(variable=v,xlabel=plotting_dict[v]["x_label"],x_bins=plotting_dict[v]["x_bins"],decay_mode=dm, isocut=isocut,channel=args.channel)
 			else:
 				plot_root_variable(variable=v,xlabel=plotting_dict[v]["x_label"],x_bins=plotting_dict[v]["x_bins"],decay_mode=decay_mode,isocut=isocut,channel=args.channel)

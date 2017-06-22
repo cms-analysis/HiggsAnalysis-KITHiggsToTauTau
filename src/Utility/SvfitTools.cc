@@ -463,25 +463,13 @@ SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgori
 SvfitResults::~SvfitResults()
 {
 	/* TODO: freeing memory here creates segmentation faults
-	if (fittedTransverseMass)
-	{
-		delete fittedTransverseMass;
-	}
 	if (fittedHiggsLV)
 	{
 		delete fittedHiggsLV;
 	}
-	if (fittedTau1ERatio)
-	{
-		delete fittedTau1ERatio;
-	}
 	if (fittedTau1LV)
 	{
 		delete fittedTau1LV;
-	}
-	if (fittedTau2ERatio)
-	{
-		delete fittedTau2ERatio;
 	}
 	if (fittedTau2LV)
 	{
@@ -490,7 +478,7 @@ SvfitResults::~SvfitResults()
 	*/
 }
 
-void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1E, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV)
+void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV)
 {
 	if (! this->fittedHiggsLV)
 	{

@@ -1104,14 +1104,6 @@ class Datacards(object):
 								config["year"] = plotting_args.get("era")
 							config["legend"] = [0.7, 0.6, 0.9, 0.88]
 							config["y_lims"] = [0.0]
-							if plotting_args.get("unrolled", False):
-								config["canvas_width"] = 1200
-								config["x_label"] = "bins"
-								if plotting_args.get("texts", False) and plotting_args.get("texts_x", False):
-									config["texts"] = plotting_args.get("texts")
-									config["texts_x"] = plotting_args.get("texts_x")
-									config["texts_y"] = list((0.65 for i in range(len(config["texts"]))))
-									config["texts_size"] = [0.05]
 
 							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
@@ -1147,8 +1139,11 @@ class Datacards(object):
 
 							plot_configs.append(config)
 
-		# create result plots HarryPlotter
-		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
+		if plotting_args.get("return_configs", False):
+			return plot_configs
+		else:
+			# create result plots HarryPlotter
+			return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
 	def print_pulls(self, datacards_cbs, n_processes=1, *args, **kwargs):
 		commands = []
