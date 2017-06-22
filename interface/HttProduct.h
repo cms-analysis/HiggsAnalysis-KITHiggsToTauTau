@@ -375,4 +375,9 @@ class HttProduct : public KappaProduct
 
 	//filled by TTbarGenDecayModeProducer
 	unsigned int m_TTbarGenDecayMode = 0;
+
+	// filled by KaonsProducer
+	int m_nK = 0;
+	std::vector<float> m_K;
+
 };

@@ -389,4 +389,57 @@ public:
 	
 	// settting for TopPtReweightingProducer
 	IMPL_SETTING(std::string, TopPtReweightingStrategy)
+
+	//	settting for KaonProducer
+		/*	Tokens
+			// which beamSpot to reference:
+				token_beamSpot = iC.consumes<reco::BeamSpot>(theParameters.getParameter<edm::InputTag>("beamSpot"));
+				beamSpot = cms.InputTag('offlineBeamSpot')
+			// which vertex collection to use:
+				token_vertices = iC.consumes<std::vector<reco::Vertex>>(theParameters.getParameter<edm::InputTag>("vertices"));
+				vertices = cms.InputTag('offlinePrimaryVertices')
+			// which TrackCollection to use for vertexing:
+				token_tracks = iC.consumes<reco::TrackCollection>(theParameters.getParameter<edm::InputTag>("trackRecoAlgorithm"));
+				trackRecoAlgorithm = cms.InputTag('generalTracks'),
+		*/
+
+		IMPL_SETTING_DEFAULT(bool, UseVertex, false);	// reference primary vertex instead of beamSpot
+
+		//	which vertex fitting algorithm to use
+		//	True -> KalmanVertexFitter (recommended)
+		//	False -> AdaptiveVertexFitter (not recommended)
+		IMPL_SETTING_DEFAULT(bool, VertexFitter, true);
+		//	use the refitted tracks returned from the KVF for V0Candidate kinematics
+		//	this is automatically set to False if using the AdaptiveVertexFitter
+		IMPL_SETTING_DEFAULT(bool, UseRefTracks, true);
+
+		//	whether to reconstruct KShorts and Lambdas
+		IMPL_SETTING_DEFAULT(bool, DoKShorts, true);
+		IMPL_SETTING_DEFAULT(bool, DoLambdas, false);
+
+		IMPL_SETTING_DEFAULT(bool, KaonDebugOutput, false);
+
+		//	cuts on initial track selection
+		IMPL_SETTING_DEFAULT(float, TkChi2Cut, 10);	// Track normalized Chi2 <
+		IMPL_SETTING_DEFAULT(unsigned int, TkNHitsCut, 7);	// Number of valid hits on track >=
+		IMPL_SETTING_DEFAULT(float, TkPtCut, 0.35);	// Pt of track >
+		IMPL_SETTING_DEFAULT(float, TkIPSigXYCut, 2.0);	// Track impact parameter significance >
+		IMPL_SETTING_DEFAULT(float, TkIPSigZCut, -1.0);	// Track impact parameter significance >
+
+		// cuts on vertex
+		IMPL_SETTING_DEFAULT(float, VtxChi2Cut, 15.0);	//	Vertex chi2 <
+		IMPL_SETTING_DEFAULT(float, VtxDecaySigXYZCut, 10.0);	//	XY decay distance significance >
+		IMPL_SETTING_DEFAULT(float, VtxDecaySigXYCut, -1.0);	//	XYZ decay distance significance >
+
+		// miscellaneous cuts
+		IMPL_SETTING_DEFAULT(float, TkDCACut, 2.);	//	POCA distance between tracks <
+		IMPL_SETTING_DEFAULT(float, MPiPiCut, 0.6);	//	invariant mass of track pair - assuming both tracks are charged pions <
+		IMPL_SETTING_DEFAULT(float, InnerHitPosCut, 4.);	//	check if either track has a hit radially inside the vertex position minus this number times the sigma of the vertex fit
+
+		IMPL_SETTING_DEFAULT(float, CosThetaXYCut, 0.9998);	//	cos(angleXY) between x and p of V0 candidate >
+		IMPL_SETTING_DEFAULT(float, CosThetaXYZCut, -2.);	//	cos(angleXYZ) between x and p of V0 candidate >
+
+		// cuts on the V0 candidate mass
+		IMPL_SETTING_DEFAULT(float, KShortMassCut, 0.07);	//	V0 mass window +- pdg value
+		IMPL_SETTING_DEFAULT(float, LambdaMassCut, 0.05);	//	V0 mass window +- pdg value
 };

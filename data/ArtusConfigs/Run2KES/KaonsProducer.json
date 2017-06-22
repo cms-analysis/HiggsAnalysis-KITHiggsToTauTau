@@ -1,0 +1,32 @@
+{
+	"#GetBeamSpot" : "offlineBeamSpot",
+	"KaonDebugOutput" : true,
+	"LambdaMassCut": 1,
+	"UseVertex" : false,
+
+	"VertexFitter" : true,
+	"UseRefTracks" : true,
+
+	"DoKShorts" : true,
+	"DoLambdas" : false,
+
+	"TkChi2Cut" : 10,
+	"TkNHitsCut" :7,
+	"TkPtCut" : 0.35,
+	"TkIPSigXYCut" : 2.0,
+	"TkIPSigZCut" : -1.0,
+
+	"VtxChi2Cut" : 15.0,
+	"VtxDecaySigXYZCut" : 10.0,
+	"VtxDecaySigXYCut" : -1.0,
+
+	"TkDCACut" : 2.0,
+	"MPiPiCut" : 0.6,
+	"InnerHitPosCut" : 4.0,
+
+	"CosThetaXYCut" : 0.9998,
+	"CosThetaXYZCut" : -2.0,
+
+	"KShortMassCut" : 0.07,
+	"LambdaMassCut" : 0.05
+}

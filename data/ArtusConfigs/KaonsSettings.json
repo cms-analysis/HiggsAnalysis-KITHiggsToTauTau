@@ -1,0 +1,38 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2KES/KaonsProducer.json"
+	],
+	"#RunWhitelist" : [],
+	"#LumiWhitelist" : [],
+	"#EventWhitelist" : [],
+	"#RunBlacklist" : [],
+	"#LumiBlacklist" : [],
+	"#EventBlacklist" : [],
+	"SkipEvents" : 0,
+	"EventCount" : -1,
+	"InputIsData" : "false",
+	"Quantities" : 
+	[	
+		"nK",
+		"m_K"
+	],
+	"OutputPath" : "output.root",
+	"Processors" : {
+		"nick" : {
+			"default" : [
+				"#filter:RunLumiEventFilter",
+				"producer:KaonsProducer"
+			]
+		}
+	},
+	"Pipelines" : {
+		"pipelineName" : {
+			"Processors" : [],
+			"Consumers" : [
+				"KappaLambdaNtupleConsumer"
+			]
+		}
+	}
+}
+

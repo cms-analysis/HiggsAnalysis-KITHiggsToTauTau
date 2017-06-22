@@ -1,0 +1,80 @@
+{
+	"inclusive" : {
+		"EventWeight" : "eventWeight",
+		"Quantities" : 
+		[
+			{
+				"include" : [
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
+					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+				]
+			},
+			"nLooseElectrons",
+			"nLooseMuons",
+			"nDiTauPairCandidates",
+			"nAllDiTauPairCandidates"
+		],
+		"Processors" : {
+			"nick" : {
+				"default" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
+					"producer:TopPtReweightingProducer",
+					"filter:MinimalPlotlevelFilter",
+					"#producer:MVATestMethodsProducer",
+					"producer:SvfitProducer",
+					"producer:TauTauTriggerWeightProducer",
+					"producer:EventWeightProducer"
+				],
+				"^((?!(DY.?JetsToLL|EWKZ2Jets)).)*Fall15" : [
+					"producer:HltProducer",
+					"filter:HltFilter"
+				]
+			}
+		},
+		"Consumers" : 
+		{
+			"nick" : 
+			{
+				"default" :  
+				[
+					"KappaLambdaNtupleConsumer"
+				],
+				"HToTauTau|H2JetsToTauTau" : 
+				[
+					"KappaLambdaNtupleConsumer"
+				],
+				"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets" : 
+				[
+					"#KappaLambdaNtupleConsumer"
+				]
+			}
+		}
+	}
+}
