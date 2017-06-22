@@ -596,32 +596,45 @@ if __name__ == "__main__":
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
 	# adapt prefit and postfit plot configs
-	prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : True}, n_processes=args.n_processes)
+	backgrounds_to_merge = {
+		"ZLL" : ["ZL", "ZJ"],
+		"TT" : ["TTT", "TTJJ"],
+		"EWK" : ["VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
+	}
+	prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge}, n_processes=args.n_processes)
 	for plot_config in prefit_postfit_plot_configs:
 		plot_category = plot_config["filename"].split("_")[-1]
 		plot_channel = plot_config["title"].split("_")[-1]
 		if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
 				plot_config["canvas_width"] = 1200
-				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio else 1.4]
+				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
 				plot_config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
 				plot_config["legend_cols"] = 3
 				plot_config["x_label"] = "bins"
 				plot_config["texts"] = []
 				plot_config["texts_x"] = []
-				if "ZeroJet2D" in plot_category and plot_channel in ["mt", "et"]:
-					plot_config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
-					plot_config["texts_x"] = [0.25, 0.5, 0.7]
-				elif "ZeroJet2D" in plot_category and plot_channel == "em":
-					plot_config["texts"] = list(("p_{T}^{#mu} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-					plot_config["texts_x"] = [0.25, 0.5, 0.7]
+				if "ZeroJet2D" in plot_category:
+					if plot_channel in ["mt", "et"]:
+						plot_config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
+						plot_config["texts_x"] = [0.3, 0.57, 0.83]
+					elif plot_channel == "em":
+						plot_config["texts"] = ["15 < p_{T}(#mu) < 25 GeV", "25 < p_{T}(#mu) < 35 GeV", "p_{T}(#mu) > 35 GeV"]
+						plot_config["texts_x"] = [0.3, 0.57, 0.83]
 				elif "Boosted2D" in plot_category:
-					config["texts"] = list(("p_{T}^{#tau#tau} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
-					config["texts_x"] = ([0.25, 0.45, 0.65, 0.85] if channel == "tt" else [0.25, 0.37, 0.50, 0.64, 0.77, 0.89])
+					if plot_channel in ["mt", "et", "em"]:
+						config["texts"] = ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"]
+						config["texts_x"] = [0.25, 0.37, 0.50, 0.64, 0.77, 0.89]
+					elif plot_channel == "tt":
+						config["texts"] = ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "1750 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"]
+						config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
 				elif "Vbf2D" in plot_category:
-					config["texts"] = list(("m_{jj} < " + y_bin.replace('.0','') + " GeV" for y_bin in config["y_bins"][0].split(" ")[1:]))
+					if plot_channel in ["mt", "et", "em"]:
+						config["texts"] = ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"]
+					elif plot_channel == "tt":
+						config["texts"] = ["0 < m_{jj} < 300 GeV", "300 < m_{jj} < 500 GeV", "500 < m_{jj} < 800 GeV", "m_{jj} > 800 GeV"]
 					config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
-				plot_config["texts_y"] = list((0.65 for i in range(len(plot_config["texts"]))))
-				plot_config["texts_size"] = [0.05]
+				plot_config["texts_y"] = list((0.55 for i in range(len(plot_config["texts"]))))
+				plot_config["texts_size"] = [0.075]
 	higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# create pull plots
