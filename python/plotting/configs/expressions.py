@@ -50,17 +50,17 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# Z->tautau polarisation categories
 		for channel in ["mt", "et", "tt", "em"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_inclusive"] = "(1.0)"
-		
+
 		for channel in ["em"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(1.0)"
-			
+
 		for channel in ["mt", "et"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "(decayMode_2 == 10)"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
 			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
 			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(decayMode_2 != 1)"
-		
+
 		for channel in ["tt"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "((decayMode_1 == 10) || (decayMode_2 == 10))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 != 10) * (decayMode_2 != 10)) * ((decayMode_1 == 1) || (decayMode_2 == 1)))"
@@ -79,7 +79,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		for channel in ["mt", "et", "tt"]:
 			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "tauPolarisationDiscriminatorSvfit"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_rho"] = "tauPolarisationDiscriminatorSvfit"
-			
+
 		for channel in ["mt", "et", "tt", "em"]:
 			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "tauPolarisationDiscriminatorSvfit"
 
@@ -92,7 +92,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_et"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.55)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_em"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.44)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_tt"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.55 && TauPProngEnergy >= 0.55)"
-			
+			self.expressions_dict["catHtt13TeV_"+channel+"_CP_rho"] = "((decayMode_1 == 1) * (decayMode_2 == 1)) * (reco_yTauL > 0)"
+
 			# Standard Model
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusivemt40"] = "(1.0)"
