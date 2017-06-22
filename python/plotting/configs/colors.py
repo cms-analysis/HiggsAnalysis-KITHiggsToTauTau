@@ -135,7 +135,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["hww_qq120"] = self.colors_dict["hww"]
 			self.colors_dict["hww_qq125"] = self.colors_dict["hww"]
 			self.colors_dict["hww_qq130"] = self.colors_dict["hww"]
-			self.colors_dict["totalbkg"] = "#000000"
+			self.colors_dict["totalbkg"] = "#000000 transgrey"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
 
 			self.colors_dict["channel_tt"] = self.colors_dict["kit_blau_1"]
@@ -195,7 +195,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["hww_qq120"] = self.colors_dict["hww"]
 			self.colors_dict["hww_qq125"] = self.colors_dict["hww"]
 			self.colors_dict["hww_qq130"] = self.colors_dict["hww"]
-			self.colors_dict["totalbkg"] = "#000000"
+			self.colors_dict["totalbkg"] = "#000000 transgrey"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
 			
 
