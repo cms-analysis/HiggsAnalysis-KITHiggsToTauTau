@@ -257,7 +257,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
-	assert(event.m_vertexSummary);
+	assert(product.m_thePV);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 
 	// initialization of TVector3 objects
@@ -312,7 +312,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 
 	// impact parameter method for CP studies
-	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
+	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
 	//product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	//product.m_recoIP1 = cpq.GetRecoIP1();
 	//product.m_recoIP2 = cpq.GetRecoIP2();
