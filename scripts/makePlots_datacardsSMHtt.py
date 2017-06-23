@@ -559,7 +559,7 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
-	if not args.for_dcsync:		
+	if not args.for_dcsync:
 		#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 		
 		# Max. likelihood fit and postfit plots

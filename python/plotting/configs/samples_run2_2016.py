@@ -2366,16 +2366,17 @@ class Samples(samples.SamplesBase):
 						qcd_weight = weight
 						qcd_shape_cut = cut_type
 						qcd_exclude_cuts = copy.deepcopy(exclude_cuts)+["os"]
-						if estimation_type == "shape" and ("ZeroJet2D" in category or "Boosted2D" in category):
-							qcd_weight += "*(iso_1<0.3)*(iso_2>0.1)*(iso_2<0.3)"
-							qcd_exclude_cuts += ["iso_1", "iso_2"]
-						if estimation_type == "shape" and "Vbf2D" in category:
-							qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
-							qcd_exclude_cuts += ["iso_1", "iso_2"]
-						if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
-							qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "")
-							qcd_exclude_cuts.append("pzeta")
-							qcd_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
+						if category != None:
+							if estimation_type == "shape" and ("ZeroJet2D" in category or "Boosted2D" in category):
+								qcd_weight += "*(iso_1<0.3)*(iso_2>0.1)*(iso_2<0.3)"
+								qcd_exclude_cuts += ["iso_1", "iso_2"]
+							if estimation_type == "shape" and "Vbf2D" in category:
+								qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
+								qcd_exclude_cuts += ["iso_1", "iso_2"]
+							if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
+								qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "")
+								qcd_exclude_cuts.append("pzeta")
+								qcd_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 						data_sample_weight = make_multiplication([data_weight, 
 											  qcd_weight,
 											  "eventWeight",
