@@ -294,13 +294,21 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		if self.embedding:
 			if channel == "et":
-				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(channel), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[1]])
+				if not 'eventWeight' in mc_sample_weight:
+					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[1]])
+				return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[1]])			
 			elif channel == "mt":
-				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(channel), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[0]])
+				if not 'eventWeight' in mc_sample_weight:
+					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[0]])
+				return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[0]])			
 			elif channel == "tt":
-				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(channel), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[3]])
+				if not 'eventWeight' in mc_sample_weight:
+					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[3]])
+				return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[3]])
 			elif channel == "em" or channel == "ttbar":
-				return make_multiplication([mc_weight, weight, self.embedding_stitchingweight(channel), "eventWeight", "(eventWeight<1.0)",self.embedding_weight[2]])
+				if not 'eventWeight' in mc_sample_weight:
+					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[2]])
+				return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[2]])
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif mc_sample_weight != "(1.0)":
@@ -2357,9 +2365,15 @@ class Samples(samples.SamplesBase):
 					for estimation_type in ["shape", "yield"]:
 						qcd_weight = weight
 						qcd_shape_cut = cut_type
-						qcd_exclude_cuts = exclude_cuts+["os"]
+						qcd_exclude_cuts = copy.deepcopy(exclude_cuts)+["os"]
+						if estimation_type == "shape" and ("ZeroJet2D" in category or "Boosted2D" in category):
+							qcd_weight += "*(iso_1<0.3)*(iso_2>0.1)*(iso_2<0.3)"
+							qcd_exclude_cuts += ["iso_1", "iso_2"]
+						if estimation_type == "shape" and "Vbf2D" in category:
+							qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
+							qcd_exclude_cuts += ["iso_1", "iso_2"]
 						if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
-							qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
+							qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "")
 							qcd_exclude_cuts.append("pzeta")
 							qcd_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 						data_sample_weight = make_multiplication([data_weight, 

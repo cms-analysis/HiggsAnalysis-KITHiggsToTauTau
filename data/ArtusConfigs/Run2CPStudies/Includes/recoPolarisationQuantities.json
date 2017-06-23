@@ -50,7 +50,9 @@
 		"a1CosPsi_2",
 		"a1SinPsi_1",
 		"a1SinPsi_2",
-
+		"a1OmegaHHKinFit_1",
+		"a1OmegaHHKinFit_2",
+		
 		"rhoNeutralChargedAsymmetry_1",
 		"rhoNeutralChargedAsymmetry_2",
 
