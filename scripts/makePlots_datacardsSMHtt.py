@@ -123,7 +123,7 @@ if __name__ == "__main__":
 	
 	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
 	if args.for_dcsync:
-		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
+		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	if args.for_dcsync:
-		output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
+		output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-2D.root" if args.era == "2016" else "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
 	
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
@@ -276,11 +276,6 @@ if __name__ == "__main__":
 				elif channel == "tt":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
-			if args.for_dcsync:
-				if category[3:] == 'inclusive':
-					exclude_cuts=["mt", "pzeta"]
-				elif category[3:] == 'inclusivemt40':
-					exclude_cuts=["pzeta"]
 				
 				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
@@ -451,32 +446,12 @@ if __name__ == "__main__":
 					if "legend_markers" in config:
 						config.pop("legend_markers")
 					
-					if args.for_dcsync:
-						config["ttbar_from_mc"] = True
-						config["wjets_from_mc"] = True
-					
 					plot_configs.append(config)
 			
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
-		if args.for_dcsync:
-			merged_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-mvis.root"
-			merged_output_file = os.path.join(args.output_dir, merged_input_root_filename_template.replace("$", "").format(
-					ANALYSIS="htt",
-					CHANNEL=channel,
-					ERA="13TeV"
-			))
-			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
-					DST=merged_output_file,
-					SRC=" ".join(output_files)
-			))
-			output_files = []
-			merged_output_files.append(merged_output_file)
-	
-	if args.for_dcsync:
-		input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-mvis.root"
 	
 	#if log.isEnabledFor(logging.DEBUG):
 	#	import pprint
@@ -496,7 +471,7 @@ if __name__ == "__main__":
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	if args.debug_plots:
 		debug_plot_configs = []
-		for output_file in (output_files if not args.for_dcsync else merged_output_files):
+		for output_file in output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
@@ -584,86 +559,87 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
-	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
+	if not args.for_dcsync:		
+		#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
+		
+		# Max. likelihood fit and postfit plots
+		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+		#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
+		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	
-	# Max. likelihood fit and postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
-	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
-	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-
-	# divide plots by bin width and change the label correspondingly
-	if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
-		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
-
-	# adapt prefit and postfit plot configs
-	backgrounds_to_merge = {
-		"ZLL" : ["ZL", "ZJ"],
-		"TT" : ["TTT", "TTJJ"],
-		"EWK" : ["VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
-	}
-	prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge}, n_processes=args.n_processes)
-	for plot_config in prefit_postfit_plot_configs:
-		plot_category = plot_config["filename"].split("_")[-1]
-		plot_channel = plot_config["title"].split("_")[-1]
-		if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
-				plot_config["canvas_width"] = 1200
-				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
-				plot_config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
-				plot_config["legend_cols"] = 3
-				plot_config["x_label"] = "bins"
-				plot_config["texts"] = []
-				plot_config["texts_x"] = []
-				if "ZeroJet2D" in plot_category:
-					if plot_channel in ["mt", "et"]:
-						plot_config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
-						plot_config["texts_x"] = [0.3, 0.57, 0.83]
-					elif plot_channel == "em":
-						plot_config["texts"] = ["15 < p_{T}(#mu) < 25 GeV", "25 < p_{T}(#mu) < 35 GeV", "p_{T}(#mu) > 35 GeV"]
-						plot_config["texts_x"] = [0.3, 0.57, 0.83]
-				elif "Boosted2D" in plot_category:
-					if plot_channel in ["mt", "et", "em"]:
-						config["texts"] = ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"]
-						config["texts_x"] = [0.25, 0.37, 0.50, 0.64, 0.77, 0.89]
-					elif plot_channel == "tt":
-						config["texts"] = ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "1750 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"]
+		# divide plots by bin width and change the label correspondingly
+		if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
+			args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
+	
+		# adapt prefit and postfit plot configs
+		backgrounds_to_merge = {
+			"ZLL" : ["ZL", "ZJ"],
+			"TT" : ["TTT", "TTJJ"],
+			"EWK" : ["VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
+		}
+		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge}, n_processes=args.n_processes)
+		for plot_config in prefit_postfit_plot_configs:
+			plot_category = plot_config["filename"].split("_")[-1]
+			plot_channel = plot_config["title"].split("_")[-1]
+			if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
+					plot_config["canvas_width"] = 1200
+					plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
+					plot_config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
+					plot_config["legend_cols"] = 3
+					plot_config["x_label"] = "bins"
+					plot_config["texts"] = []
+					plot_config["texts_x"] = []
+					if "ZeroJet2D" in plot_category:
+						if plot_channel in ["mt", "et"]:
+							plot_config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
+							plot_config["texts_x"] = [0.3, 0.57, 0.83]
+						elif plot_channel == "em":
+							plot_config["texts"] = ["15 < p_{T}(#mu) < 25 GeV", "25 < p_{T}(#mu) < 35 GeV", "p_{T}(#mu) > 35 GeV"]
+							plot_config["texts_x"] = [0.3, 0.57, 0.83]
+					elif "Boosted2D" in plot_category:
+						if plot_channel in ["mt", "et", "em"]:
+							config["texts"] = ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"]
+							config["texts_x"] = [0.25, 0.37, 0.50, 0.64, 0.77, 0.89]
+						elif plot_channel == "tt":
+							config["texts"] = ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "1750 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"]
+							config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
+					elif "Vbf2D" in plot_category:
+						if plot_channel in ["mt", "et", "em"]:
+							config["texts"] = ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"]
+						elif plot_channel == "tt":
+							config["texts"] = ["0 < m_{jj} < 300 GeV", "300 < m_{jj} < 500 GeV", "500 < m_{jj} < 800 GeV", "m_{jj} > 800 GeV"]
 						config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
-				elif "Vbf2D" in plot_category:
-					if plot_channel in ["mt", "et", "em"]:
-						config["texts"] = ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"]
-					elif plot_channel == "tt":
-						config["texts"] = ["0 < m_{jj} < 300 GeV", "300 < m_{jj} < 500 GeV", "500 < m_{jj} < 800 GeV", "m_{jj} > 800 GeV"]
-					config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
-				plot_config["texts_y"] = list((0.55 for i in range(len(plot_config["texts"]))))
-				plot_config["texts_size"] = [0.075]
-	higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-	
-	# create pull plots
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
-	if args.plot_nuisance_impacts:
-		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
-	#datacards.annotate_trees(
-			#datacards_workspaces,
-			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]],
-			#annotation_replacements,
-			#args.n_processes,
-			#None,
-			#"-t limit -b channel"
-	#)
-	#datacards.annotate_trees(
-			#datacards_workspaces,
-			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]],
-			#annotation_replacements,
-			#args.n_processes,
-			#None,
-			#"-t limit -b channel"
-	#)
-	
-	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index)
-	if args.remote:
-		#os.system("tar cfv " + os.path.join(args.output_dir, "jobresult.tar") + " " + os.path.join(args.output_dir, "datacards") + " " + os.path.join(args.output_dir, "input"))
-		os.system("tar cfv jobresult.tar datacards/ input/")
+					plot_config["texts_y"] = list((0.55 for i in range(len(plot_config["texts"]))))
+					plot_config["texts_size"] = [0.075]
+		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+		
+		# create pull plots
+		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+		if args.plot_nuisance_impacts:
+			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
+		#datacards.annotate_trees(
+				#datacards_workspaces,
+				#"higgsCombine*MaxLikelihoodFit*mH*.root",
+				#[[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]],
+				#annotation_replacements,
+				#args.n_processes,
+				#None,
+				#"-t limit -b channel"
+		#)
+		#datacards.annotate_trees(
+				#datacards_workspaces,
+				#"higgsCombine*MaxLikelihoodFit*mH*.root",
+				#[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]],
+				#annotation_replacements,
+				#args.n_processes,
+				#None,
+				#"-t limit -b channel"
+		#)
+		
+		# Asymptotic limits
+		datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
+		datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index)
+		if args.remote:
+			#os.system("tar cfv " + os.path.join(args.output_dir, "jobresult.tar") + " " + os.path.join(args.output_dir, "datacards") + " " + os.path.join(args.output_dir, "input"))
+			os.system("tar cfv jobresult.tar datacards/ input/")
