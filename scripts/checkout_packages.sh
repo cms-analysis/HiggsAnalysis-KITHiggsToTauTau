@@ -67,13 +67,10 @@ make
 cd $CMSSW_BASE/src/
 
 # Grid-Control
-git clone https://github.com/CMSAachen3B/grid-control.git -b testing
-
-# modified fork from GC, needed for artusMergeOutputsWithGC.py. Use artusMergeOutputs.py with the --batch as alternative not needing this patch
-# git clone https://github.com/artus-analysis/grid-control.git 
-
-# source ini script, needs to be done in every new shell
-source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+git clone https://github.com/grid-control/grid-control.git -b testing
+cd grid-control
+git reset --hard 3f93692
+cd $CMSSW_BASE/src/
 
 # compile everything
 scramv1 b -j 4
