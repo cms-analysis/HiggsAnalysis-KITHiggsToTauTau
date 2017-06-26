@@ -239,6 +239,12 @@ class Samples(samples.SamplesBase):
 
 	def ewkz_znn_stitchingweight(self):
 		return "(3.35561920393e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+
+	def ewkwm_stitchingweight(self):
+		return"(4.200367267668e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+
+	def ewkwp_stitchingweight(self):
+		return"(5.190747826298e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 	
 	# reweighting of l->tau fakes in ZL as done in SM HTT 2016 
 	def zl_shape_weight(self, channel, cut_type):
@@ -1199,13 +1205,20 @@ class Samples(samples.SamplesBase):
 		artus_files = artus_files + " " + self.artus_file_names({"process" : "WGstarToLNuEE|WGstarToLNuMuMu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph"}, 2)
 		return artus_files
 
-	def files_ewkw(self, channel):
+	def files_ewkwm(self, channel):
 		ewkw_query = { "data" : False,
 						"campaign" : self.mc_campaign,
 						"generator" : "madgraph-pythia8",
-						"extension" : "",
-						"process" : "EWKW(Plus|Minus)2Jets_WToLNuM50"}
-		artus_files = self.artus_file_names(ewkw_query, 2)
+						"process" : "EWKWMinus2Jets_WToLNuM50"}
+		artus_files = self.artus_file_names(ewkw_query, 3)
+		return artus_files
+
+	def files_ewkwp(self, channel):
+		ewkw_query = { "data" : False,
+						"campaign" : self.mc_campaign,
+						"generator" : "madgraph-pythia8",
+						"process" : "EWKWPlus2Jets_WToLNuM50"}
+		artus_files = self.artus_file_names(ewkw_query, 3)
 		return artus_files
 
 	def files_ewkz_zll(self, channel):
@@ -1510,10 +1523,19 @@ class Samples(samples.SamplesBase):
 				if (not kwargs.get("no_ewk_samples", False)):
 					Samples._add_input(
 							config,
-							self.files_ewkw(channel),
+							self.files_ewkwm(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*"+self.ewkwm_stitchingweight(),
+							("noplot_" if not controlregions else "") + "wj_os_highmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_ewkwp(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*"+self.ewkwp_stitchingweight(),
 							("noplot_" if not controlregions else "") + "wj_os_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -1725,10 +1747,19 @@ class Samples(samples.SamplesBase):
 				if (not kwargs.get("no_ewk_samples", False)):
 					Samples._add_input(
 							config,
-							self.files_ewkw(channel),
+							self.files_ewkwm(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*"+self.ewkwm_stitchingweight(),
+							("noplot_" if not controlregions else "") + "wj_ss_highmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_ewkwp(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*"+self.ewkwp_stitchingweight(),
 							("noplot_" if not controlregions else "") + "wj_ss_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -1744,10 +1775,19 @@ class Samples(samples.SamplesBase):
 				if (not kwargs.get("no_ewk_samples", False)):
 					Samples._add_input(
 							config,
-							self.files_ewkw(channel),
+							self.files_ewkwm(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type),
+							mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type)+"*"+self.ewkwm_stitchingweight(),
+							"wj",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_ewkwp(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type)+"*"+self.ewkwp_stitchingweight(),
 							"wj",
 							nick_suffix=nick_suffix
 					)
@@ -1765,10 +1805,19 @@ class Samples(samples.SamplesBase):
 					if (not kwargs.get("no_ewk_samples", False)):
 						Samples._add_input(
 								config,
-								self.files_ewkw(channel),
+								self.files_ewkwm(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+								mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwm_stitchingweight(),
+								"noplot_wj_final_selection",
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_ewkwp(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
 								"noplot_wj_final_selection",
 								nick_suffix=nick_suffix
 						)
@@ -1784,10 +1833,19 @@ class Samples(samples.SamplesBase):
 				if (not kwargs.get("no_ewk_samples", False)):
 					Samples._add_input(
 							config,
-							self.files_ewkw(channel),
+							self.files_ewkwm(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt+exclude_cuts_relaxed, cut_type=wj_highmt_shape_cut_type),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt+exclude_cuts_relaxed, cut_type=wj_highmt_shape_cut_type)+"*"+self.ewkwm_stitchingweight(),
+							"noplot_wj_relaxed_os_highmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_ewkwp(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt+exclude_cuts_relaxed, cut_type=wj_highmt_shape_cut_type)+"*"+self.ewkwp_stitchingweight(),
 							"noplot_wj_relaxed_os_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -1803,10 +1861,19 @@ class Samples(samples.SamplesBase):
 				if (not kwargs.get("no_ewk_samples", False)):
 					Samples._add_input(
 							config,
-							self.files_ewkw(channel),
+							self.files_ewkwm(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_relaxed, cut_type=wj_shape_cut_type),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_relaxed, cut_type=wj_shape_cut_type)+"*"+self.ewkwm_stitchingweight(),
+							"noplot_wj_relaxed_os_lowmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_ewkwp(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_relaxed, cut_type=wj_shape_cut_type)+"*"+self.ewkwp_stitchingweight(),
 							"noplot_wj_relaxed_os_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -2009,10 +2076,19 @@ class Samples(samples.SamplesBase):
 			if (not kwargs.get("no_ewk_samples", False)):
 				Samples._add_input(
 						config,
-						self.files_ewkw(channel),
+						self.files_ewkwm(channel),
 						self.root_file_folder(channel),
 						lumi,
-						weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwm_stitchingweight(),
+						"wj",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_ewkwp(channel),
+						self.root_file_folder(channel),
+						lumi,
+						weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
 						"wj",
 						nick_suffix=nick_suffix
 				)
@@ -2560,10 +2636,19 @@ class Samples(samples.SamplesBase):
 					if (not kwargs.get("no_ewk_samples", False)):
 						Samples._add_input(
 								config,
-								self.files_ewkw(channel),
+								self.files_ewkwm(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
+								mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+self.ewkwm_stitchingweight(),
+								("noplot_" if not controlregions else "") + "wj_ss_lowmt",
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_ewkwp(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+self.ewkwp_stitchingweight(),
 								("noplot_" if not controlregions else "") + "wj_ss_lowmt",
 								nick_suffix=nick_suffix
 						)
@@ -2681,10 +2766,19 @@ class Samples(samples.SamplesBase):
 					if (not kwargs.get("no_ewk_samples", False)):
 						Samples._add_input(
 								config,
-								self.files_ewkw(channel),
+								self.files_ewkwm(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
+								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkwm_stitchingweight(),
+								"noplot_wj_shape_ss_qcd_control",
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_ewkwp(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkwp_stitchingweight(),
 								"noplot_wj_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2909,10 +3003,19 @@ class Samples(samples.SamplesBase):
 						if (not kwargs.get("no_ewk_samples", False)):
 							Samples._add_input(
 									config,
-									self.files_ewkw(channel),
+									self.files_ewkwm(channel),
 									self.root_file_folder(channel),
 									lumi,
-									mc_sample_weight,
+									mc_sample_weight+"*"+self.ewkwm_stitchingweight(),
+									"noplot_wj_"+estimation_type,
+									nick_suffix=nick_suffix
+							)
+							Samples._add_input(
+									config,
+									self.files_ewkwp(channel),
+									self.root_file_folder(channel),
+									lumi,
+									mc_sample_weight+"*"+self.ewkwp_stitchingweight(),
 									"noplot_wj_"+estimation_type,
 									nick_suffix=nick_suffix
 							)
@@ -3074,10 +3177,19 @@ class Samples(samples.SamplesBase):
 						if (not kwargs.get("no_ewk_samples", False)):
 							Samples._add_input(
 									config,
-									self.files_ewkw(channel),
+									self.files_ewkwm(channel),
 									self.root_file_folder(channel),
 									lumi,
-									mc_selection_weights[key],
+									mc_selection_weights[key]+"*"+self.ewkwm_stitchingweight(),
+									"noplot_wj_"+key,
+									nick_suffix=nick_suffix
+							)
+							Samples._add_input(
+									config,
+									self.files_ewkwp(channel),
+									self.root_file_folder(channel),
+									lumi,
+									mc_selection_weights[key]+"*"+self.ewkwp_stitchingweight(),
 									"noplot_wj_"+key,
 									nick_suffix=nick_suffix
 							)
