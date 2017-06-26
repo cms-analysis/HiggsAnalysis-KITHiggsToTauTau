@@ -107,6 +107,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["vvj"]  = self.colors_dict["kit_gelb_3"]
 			self.colors_dict["dibosons"]  = self.colors_dict["vv"]
 			self.colors_dict["ewk"]  = self.colors_dict["vv"]
+			self.colors_dict["ewkz"]  = self.colors_dict["vv"]
 			self.colors_dict["qcd"] = self.colors_dict["kit_maigruen_1"]+" "+self.colors_dict["kit_maigruen_2"]
 			self.colors_dict["fakes"] = self.colors_dict["qcd"]
 			self.colors_dict["wj"]  = self.colors_dict["kit_cyanblau_2"]+" "+self.colors_dict["kit_cyanblau_3"]
@@ -169,6 +170,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["vvj"]  = self.colors_dict["kit_gelb_3"]
 			self.colors_dict["dibosons"]  = self.colors_dict["wj"]
 			self.colors_dict["ewk"]  = self.colors_dict["wj"]
+			self.colors_dict["ewkz"] = self.colors_dict["wj"]
 			self.colors_dict["qcd"] = "#000000 #FFCCFF"
 			self.colors_dict["fakes"] = self.colors_dict["qcd"]
 			self.colors_dict["qcdwj"] = self.colors_dict["qcd"]
