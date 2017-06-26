@@ -72,5 +72,8 @@ cd grid-control
 git reset --hard 3f93692
 cd $CMSSW_BASE/src/
 
+source ini script, needs to be done in every new shell
+source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+
 # compile everything
 scramv1 b -j 4
