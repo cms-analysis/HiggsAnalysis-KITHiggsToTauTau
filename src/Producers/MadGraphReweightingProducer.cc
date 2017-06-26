@@ -241,7 +241,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 				directoryname += "bx";
 			}
 
-			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode << ", " << lheParticle->colourLineIndices.first << ", " << lheParticle->colourLineIndices.second;
+			//LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode << ", " << lheParticle->colourLineIndices.first << ", " << lheParticle->colourLineIndices.second;
 			if (particleFourMomenta.size() < 7)
 			{
 				particleFourMomenta.push_back(&(lheParticle->p4));
@@ -252,7 +252,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		// checks and corrections for Higgs bosons
 		if (higgsParticles.momenta.size() > 1)
 		{
-			LOG(ERROR) << "Found " << higgsParticles.momenta.size() << " Higgs bosons, but expected 1! Take the first one.";
+			//LOG(ERROR) << "Found " << higgsParticles.momenta.size() << " Higgs bosons, but expected 1! Take the first one.";
 			higgsParticles.momenta.resize(1);
 			higgsParticles.nHiggsBosons = 1;
 		}
@@ -430,13 +430,13 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 				MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
 				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
 				//LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
-				LOG(INFO) << "anlge " << *mixingAngleOverPiHalf;
+				//LOG(INFO) << "anlge " << *mixingAngleOverPiHalf;
 			}
 		}
 		else
 		{
 			//LOG(ERROR) << "Process directory for production mode " << Utility::ToUnderlyingValue(productionMode) << " not found in settings with tag \"MadGraphProcessDirectories\"!";
-			LOG(ERROR) << "Process directory for production mode " << directoryname << " not found in settings with tag \"MadGraphProcessDirectories\"!";
+			//LOG(ERROR) << "Process directory for production mode " << directoryname << " not found in settings with tag \"MadGraphProcessDirectories\"!";
 		}
 	}
 }

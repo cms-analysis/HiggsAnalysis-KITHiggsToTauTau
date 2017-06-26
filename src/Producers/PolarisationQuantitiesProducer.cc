@@ -7,6 +7,7 @@
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/A1Helper.h"
 
 #include <Math/VectorUtil.h>
 
@@ -69,9 +70,28 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1SinPsi_2", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1SinPsi, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1OmegaHHKinFit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1OmegaHHKinFit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1OmegaHHKinFit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1OmegaHHKinFit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1OmegaSvfit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1OmegaSvfit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1OmegaSvfit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1OmegaSvfit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1optimumVariableSimpleFit_1", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1optimumVariableSimpleFit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1optimumVariableSimpleFit_2", [](event_type const& event, product_type const& product) {
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1optimumVariableSimpleFit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("rhoNeutralChargedAsymmetry_1", [](event_type const& event, product_type const& product) {
-                return static_cast<float>(SafeMap::GetWithDefault(product.m_rhoNeutralChargedAsymmetry, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
-        });
+		return static_cast<float>(SafeMap::GetWithDefault(product.m_rhoNeutralChargedAsymmetry, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("rhoNeutralChargedAsymmetry_2", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_rhoNeutralChargedAsymmetry, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
 	});
@@ -100,12 +120,6 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleToFullAngleSvfit_2", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleToFullAngleSvfit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1optimumVariableSimpleFit_1", [](event_type const& event, product_type const& product) {
-		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1optimumVariableSimpleFit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1optimumVariableSimpleFit_2", [](event_type const& event, product_type const& product) {
-		return static_cast<float>(SafeMap::GetWithDefault(product.m_a1optimumVariableSimpleFit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationDiscriminatorHHKinFit", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(product.m_tauPolarisationDiscriminatorHHKinFit);
@@ -156,10 +170,10 @@ void PolarisationQuantitiesProducer::Produce(
 			++indexLepton;
 		}
 	} // limit scope of indexLepton
-
-
+	
 	double valueV = 0.0;
-	  
+	
+	size_t indexLepton = 0;
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
 		// 3-prong method
@@ -194,13 +208,10 @@ void PolarisationQuantitiesProducer::Produce(
 			std::vector<double> valuesA;
 			std::vector<double> valuesB;
 
-			double valueQ = std::pow(pions[0]->E() + pions[1]->E() + pions[2]->E(), 2) - std::pow((pions[0]->Vect() + pions[1]->Vect() + pions[2]->Vect()).R(),2);
-			valueQ *= 1.0;
-
 			for (std::vector<RMFLV*>::iterator pion = pions.begin(); pion != pions.end(); ++pion)
 			{
-			  valuesA.push_back(((*pion)->E()*std::pow((pions[0]->Vect() + pions[1]->Vect() + pions[2]->Vect()).R(), 2))/std::pow(valueQ, 2));
-			  valuesB.push_back((std::pow(((*pion)->E()*(pions[0]->E() + pions[1]->E() + pions[2]->E())) - ((*pion)->Vect().Dot(pions[0]->Vect() + pions[1]->Vect() + pions[2]->Vect())), 2) - (std::pow((*pion)->mass(), 2)*std::pow(valueQ, 2))) / std::pow(valueQ, 2));
+				valuesA.push_back((((*tau)->p4.E()*((*tau)->p4.Vect().Dot((*pion)->Vect()))) - ((*pion)->E()*std::pow((*tau)->p4.Vect().R(), 2))) / std::pow((*tau)->p4.mass(), 2));
+				valuesB.push_back((std::pow(((*pion)->E()*(*tau)->p4.E()) - ((*pion)->Vect().Dot((*tau)->p4.Vect())), 2) - (std::pow((*pion)->mass(), 2)*std::pow((*tau)->p4.mass(), 2))) / std::pow((*tau)->p4.mass(), 2));
 			}
 			double valueLambda = std::pow(valuesB[0], 2) + std::pow(valuesB[1], 2) + std::pow(valuesB[2], 2) - 2.0 * ((valuesB[0]*valuesB[1]) + (valuesB[0]*valuesB[2]) + (valuesB[1]*valuesB[2]));
 			double valueT = std::sqrt(-valueLambda) / 2.0;
@@ -209,7 +220,8 @@ void PolarisationQuantitiesProducer::Produce(
 			valuesS.push_back(((*pions[1])+(*pions[2])).M2());
 			valuesS.push_back(((*pions[2])+(*pions[0])).M2());
 			valuesS.push_back(((*pions[0])+(*pions[1])).M2());
-			//double valueQ = (*tau)->p4.M2();
+			double valueQ = (*tau)->p4.M2();
+			valueQ *= 1.0;
 			
 			// calculate angles
 			product.m_a1CosTheta[*tau] = (2*((pions[0]->E() + pions[1]->E() + pions[2]->E())/(*tau)->p4.E())*std::pow((*tau)->p4.mass(), 2) - std::pow((*tau)->p4.mass(), 2) - std::pow(valueQ, 2)) / ((std::pow((*tau)->p4.mass(), 2) - std::pow(valueQ, 2))*std::sqrt(1 - std::pow((*tau)->p4.mass(), 2) / std::pow((*tau)->p4.E(), 2)));	
@@ -309,15 +321,41 @@ void PolarisationQuantitiesProducer::Produce(
 
 			double functionG = 1.0/3*(product.m_a1CosTheta[*tau]*(std::pow((*tau)->p4.mass(), 2)/std::pow(valueQ, 2) - 2) - 1.0/3*(3*product.m_a1CosBeta[*tau] - 1)*valueV)*structureFWA + 0.5*std::pow(product.m_a1SinBeta[*tau], 2)*(std::pow(product.m_a1CosGamma[*tau], 2) - std::pow(product.m_a1SinGamma[*tau], 2))*valueV*structureFWC + 0.5*std::pow(product.m_a1SinBeta[*tau], 2)*(std::pow(product.m_a1CosGamma[*tau], 2) - std::pow(product.m_a1SinGamma[*tau], 2))*valueV*structureFWD - product.m_a1CosBeta[*tau]*(product.m_a1CosTheta[*tau]* product.m_a1CosPsi[*tau] +  product.m_a1CosTheta[*tau]*product.m_a1SinPsi[*tau]*std::sqrt(std::pow((*tau)->p4.mass(), 2)/std::pow(valueQ, 2)))*structureFWE;
 
-			product.m_a1optimumVariableSimpleFit[*tau] = (functionG != 0.0 ? functionF / functionG :  0.0); 
-		}
+			product.m_a1optimumVariableSimpleFit[*tau] = (functionG != 0.0 ? functionF / functionG :  0.0);
+
+			// HHKinFit version
+			if (Utility::Contains(product.m_hhKinFitTaus, static_cast<KLepton*>(*tau)))
+			{
+				std::vector<TLorentzVector> a1HelperInputsHHKinFit;
+				a1HelperInputsHHKinFit.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(SafeMap::Get(product.m_hhKinFitTaus, static_cast<KLepton*>(*tau))));
+				a1HelperInputsHHKinFit.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piSingleChargeSign));
+				a1HelperInputsHHKinFit.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign1));
+				a1HelperInputsHHKinFit.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign2));
+				a1Helper a1QuantitiesHHKinFit(a1HelperInputsHHKinFit, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>((*tau)->p4));
+				product.m_a1OmegaHHKinFit[*tau] = a1QuantitiesHHKinFit.getA1omega();
+			}
+		
+			// SVfit version
+			RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
+			if (fittedTauSvfit != nullptr)
+			{
+				std::vector<TLorentzVector> a1HelperInputsSvfit;
+				a1HelperInputsSvfit.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*fittedTauSvfit));
+				a1HelperInputsSvfit.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piSingleChargeSign));
+				a1HelperInputsSvfit.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign1));
+				a1HelperInputsSvfit.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign2));
+				a1Helper a1QuantitiesSvfit(a1HelperInputsSvfit, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>((*tau)->p4));
+				product.m_a1OmegaSvfit[*tau] = a1QuantitiesSvfit.getA1omega();
+			}
+		
 			if (! tauPolarisationDiscriminatorChosen)
 			{
-			// TODO: choose final discriminator
-			product.m_tauPolarisationDiscriminatorSimpleFit = SafeMap::GetWithDefault(product.m_a1optimumVariableSimpleFit, static_cast<KLepton*>(*tau), DefaultValues::UndefinedDouble); 
+				product.m_tauPolarisationDiscriminatorHHKinFit = SafeMap::GetWithDefault(product.m_a1OmegaHHKinFit, static_cast<KLepton*>(*tau), DefaultValues::UndefinedDouble);
+				product.m_tauPolarisationDiscriminatorSvfit = SafeMap::GetWithDefault(product.m_a1OmegaSvfit, static_cast<KLepton*>(*tau), DefaultValues::UndefinedDouble);
+				product.m_tauPolarisationDiscriminatorSimpleFit = SafeMap::GetWithDefault(product.m_a1optimumVariableSimpleFit, static_cast<KLepton*>(*tau), DefaultValues::UndefinedDouble);
 				tauPolarisationDiscriminatorChosen = true;
-				//##  Stores only one variable, the second lepton!!! Is this meaningful?
 			}
+		}
 		
 		// 1-prong + pi0 method
 		if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero) &&
@@ -335,6 +373,8 @@ void PolarisationQuantitiesProducer::Produce(
 				tauPolarisationDiscriminatorChosen = true;
 			}
 		}
+		
+		++indexLepton;
 	}
 	
 	// combination

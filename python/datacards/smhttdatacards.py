@@ -456,14 +456,21 @@ class SMHttDatacardsForSync(datacards.Datacards):
 		super(SMHttDatacardsForSync, self).__init__(cb)
 
 		if cb is None:
-			signal_processes = []
+			signal_processes = ["ggH", "qqH", "WH", "ZH"]
+			
+			background_processes_mt = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]
+			background_processes_et = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]
+			background_processes_tt = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W", "QCD"]
+			background_processes_em = ["ZTT", "ZLL", "TT", "VV", "hww_gg125", "hww_qq125", "W", "QCD"]
+			background_processes_mm = ["ZLL", "TT", "VV", "W"]
+			background_processes_ttbar = ["ZTT", "ZLL", "TT", "VV", "W", "QCD"]
 
 			# ======================================================================
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=["mt_"+category for category in ["inclusivemt40"]],
-					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
+					categories=Categories.CategoriesDict().getCategories(["mt"])["mt"],
+					bkg_processes=background_processes_mt,
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
@@ -474,8 +481,8 @@ class SMHttDatacardsForSync(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+category for category in ["inclusivemt40"]],
-					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
+					categories=Categories.CategoriesDict().getCategories(["et"])["et"],
+					bkg_processes=background_processes_et,
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
@@ -486,8 +493,8 @@ class SMHttDatacardsForSync(datacards.Datacards):
 			# EM channel
 			self.add_processes(
 					channel="em",
-					categories=["em_"+category for category in []],
-					bkg_processes=["ZTT", "ZLL", "TT", "VV", "W", "QCD"],
+					categories=Categories.CategoriesDict().getCategories(["em"])["em"],
+					bkg_processes=background_processes_em,
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
@@ -498,8 +505,32 @@ class SMHttDatacardsForSync(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in []],
-					bkg_processes=["ZTT", "ZL", "ZJ", "TT", "VV", "W", "QCD"],
+					categories=Categories.CategoriesDict().getCategories(["tt"])["tt"],
+					bkg_processes=background_processes_tt,
+					sig_processes=signal_processes,
+					analysis=["htt"],
+					era=["13TeV"],
+					mass=higgs_masses
+			)
+
+			# ======================================================================
+			# MM channel
+			self.add_processes(
+					channel="mm",
+					categories=Categories.CategoriesDict().getCategories(["mm"])["mm"],
+					bkg_processes=background_processes_mm,
+					sig_processes=signal_processes,
+					analysis=["htt"],
+					era=["13TeV"],
+					mass=higgs_masses
+			)
+
+			# ======================================================================
+			# ttbar "channel" to extract normalization of ttbar process
+			self.add_processes(
+					channel="ttbar",
+					categories=Categories.CategoriesDict().getCategories(["ttbar"])["ttbar"],
+					bkg_processes=background_processes_ttbar,
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
