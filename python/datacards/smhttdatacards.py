@@ -287,7 +287,6 @@ class SMHttDatacards(datacards.Datacards):
 			# jet ES
 			# TODO: use mix of lnN/shape systematics as done in official analysis?
 			if noJECuncSplit:
-				print "asldbasld"
 				self.cb.cp().process(signal_processes+all_mc_bkgs+["QCD"]).bin([channel+"_"+category for channel in ["et", "mt", "tt", "em"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_j_Total_13TeV", "shape", ch.SystMap()(1.0))
 				self.cb.cp().channel(["mt"]).process(signal_processes+all_mc_bkgs).bin(["mt_ZeroJet2D_WJCR", "mt_Boosted2D_WJCR", "mt_ZeroJet2D_QCDCR", "mt_Boosted2D_QCDCR"]).AddSyst(self.cb, "CMS_scale_j_Total_13TeV", "shape", ch.SystMap()(1.0))
 				self.cb.cp().channel(["et"]).process(signal_processes+all_mc_bkgs).bin(["et_ZeroJet2D_WJCR", "et_Boosted2D_WJCR", "et_Boosted2D_QCDCR"]).AddSyst(self.cb, "CMS_scale_j_Total_13TeV", "shape", ch.SystMap()(1.0))
