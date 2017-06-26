@@ -72,15 +72,15 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
-                        help="Scale datacard to luminosity specified. [Default: %(default)s]")
+	                    help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
-						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--ttbar-fit", action="store_true", default=False,
-						help="Use rate parameter to propagate ttbar normalization from control region to all categories. [Default: %(default)s]")
+	                    help="Use rate parameter to propagate ttbar normalization from control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--mm-fit", action="store_true", default=False,
-						help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
+	                    help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--remote", action="store_true", default=False,
-						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
+	                    help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
@@ -92,7 +92,9 @@ if __name__ == "__main__":
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
 	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
-						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
+	                    help="Exit program in case categories are removed from CH. [Default: %(default)s]")
+	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -339,7 +341,8 @@ if __name__ == "__main__":
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,
-							zmm_cr_factor=zmm_cr_factor
+							zmm_cr_factor=zmm_cr_factor,
+							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
 					
 					if "CMS_scale_gg_13TeV" in shape_systematic:

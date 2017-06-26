@@ -19,6 +19,7 @@ class DatacardConfigs(object):
 			"ZLL" : "zll",
 			"ZL" : "zl",
 			"ZJ" : "zj",
+			"EWKZ" : "ewkz",
 			"TT" : "ttj",
 			"TTTAUTAU" : "tttautau",
 			"TTT" : "ttt",
