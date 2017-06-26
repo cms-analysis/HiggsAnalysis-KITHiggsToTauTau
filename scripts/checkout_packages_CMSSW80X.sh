@@ -59,13 +59,6 @@ if [ "$MODE" = "artus" -o "$MODE" = "both" ]; then
 
     sed 's/cms2/ikhhed3/g' ${CMSSW_BASE}/src/HiggsAnalysis/KITHiggsToTauTau/data/tauspinner.xml -i
 
-    #FastBDT
-    git clone https://github.com/artus-analysis/FastBDT.git
-    pushd $CMSSW_BASE/src/FastBDT
-    cmake .
-    make
-    popd
-
     # Grid-Control
     git clone https://github.com/grid-control/grid-control.git -b r1941
 

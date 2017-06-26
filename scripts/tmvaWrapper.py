@@ -272,8 +272,6 @@ def do_training(args):
 	splits_list, stored_files_list, s_b_extension = do_splitting(args, plot_configs)
 	#TMVA Stuff
 	ROOT.TMVA.Tools.Instance()
-	ROOT.gPluginMgr.AddHandler("TMVA@@MethodBase", ".*_FastBDT.*", "TMVA::MethodFastBDT", "TMVAFastBDT", "MethodFastBDT(TMVA::DataSetInfo&,TString)")
-	ROOT.gPluginMgr.AddHandler("TMVA@@MethodBase", ".*FastBDT.*", "TMVA::MethodFastBDT", "TMVAFastBDT", "MethodFastBDT(TString&,TString&,TMVA::DataSetInfo&,TString&)")
 	info_log["splits"] = splits_list
 
 	#due to backward compatibillity: args["n_fold"] is per default 1 and Split None, if one wishes to do a non n-fold training with a specified split value:
