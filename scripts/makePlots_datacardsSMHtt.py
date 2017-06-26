@@ -411,7 +411,7 @@ if __name__ == "__main__":
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
 					
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if "2D" in category and not ("WJCR" in category or "QCDCR" in category):
+					if "2D" in category and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
 						two_d_inputs = []
 						for mass in higgs_masses:
 							two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggh",'qqh'] else "") for sample in list_of_samples])
