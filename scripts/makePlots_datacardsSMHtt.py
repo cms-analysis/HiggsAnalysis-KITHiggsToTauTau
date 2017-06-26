@@ -95,6 +95,8 @@ if __name__ == "__main__":
 	                    help="Exit program in case categories are removed from CH. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
+	parser.add_argument("--no-jec-unc-split", default=False, action="store_true",
+	                    help="Do not split JEC uncertainties into the 27 different sources but use the envelope instead. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -123,7 +125,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
+	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era,noJECuncSplit=args.no_jec_unc_split)
 	if args.for_dcsync:
 		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
 	
