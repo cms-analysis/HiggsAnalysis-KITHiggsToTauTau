@@ -263,6 +263,8 @@ public:
 	
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;

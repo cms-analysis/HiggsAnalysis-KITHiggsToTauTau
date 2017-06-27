@@ -356,7 +356,7 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv
 // The errors on refP of the tracks and on the momenta
 // were estimated by Gaussian fit, and therefore they are hardcoded in here
 // FIXME: Need to find a better solution!
-std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec){
+std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec, std::string errorFlag){
 	
 	std::vector<double> IPerrors {-999,-999,-999};
 	double sdxy=0;
@@ -367,20 +367,39 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KRefitVerte
 	double ry = lepton->track.ref.y(); double sry=0;
 	double rz = lepton->track.ref.z(); double srz=0;
 
-	if (lepton->flavour() == KLeptonFlavour::ELECTRON){
-		srx = rx * 0.0374589; //0.129330;
-		sry = ry * 0.0373133; //0.129307;
-		srz = rz * 0.0379050; //0.133458;
+	if (errorFlag == "absErr"){
+		if (lepton->flavour() == KLeptonFlavour::ELECTRON){
+			srx = 0.129330;
+			sry = 0.129307;
+			srz = 0.133458;
+		}
+		if (lepton->flavour() == KLeptonFlavour::MUON){
+			srx = 0.139128;
+			sry = 0.138831;
+			srz = 0.157695;
+		}
+		if (lepton->flavour() == KLeptonFlavour::TAU){
+			srx = 0.156370;
+			sry = 0.184101;
+			srz = 0.128780;
+		}
 	}
-	if (lepton->flavour() == KLeptonFlavour::MUON){
-		srx = rx * 0.0372039; //0.139128;
-		sry = ry * 0.0366341; //0.138831;
-		srz = rz * 0.0385158; //0.157695;
-	}
-	if (lepton->flavour() == KLeptonFlavour::TAU){
-		srx = rx * 0.037; //0.156370;
-		sry = ry * 0.037; //0.184101;
-		srz = rz * 0.037; //0.128780;
+	if (errorFlag == "relErr"){
+		if (lepton->flavour() == KLeptonFlavour::ELECTRON){
+			srx = rx * 0.0374589;
+			sry = ry * 0.0373133;
+			srz = rz * 0.0379050;
+		}
+		if (lepton->flavour() == KLeptonFlavour::MUON){
+			srx = rx * 0.0372039;
+			sry = ry * 0.0366341;
+			srz = rz * 0.0385158;
+		}
+		if (lepton->flavour() == KLeptonFlavour::TAU){
+			srx = rx * 0.037;
+			sry = ry * 0.037;
+			srz = rz * 0.037;
+		}
 	}
 
 	// coordinates and error of the momentum
@@ -390,20 +409,39 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KRefitVerte
 	double p = sqrt(px*px + py*py + pz*pz);
 	double pt = sqrt(px*px + py*py);
 
-	if (lepton->flavour() == KLeptonFlavour::ELECTRON){
-		spx = px * 0.00704377; //0.288305;
-		spy = py * 0.00729904; //0.289325;
-		spz = pz * 0.00687604; //0.244145;
+	if (errorFlag == "absErr"){
+		if (lepton->flavour() == KLeptonFlavour::ELECTRON){
+			spx = 0.288305;
+			spy = 0.289325;
+			spz = 0.244145;
+		}
+		if (lepton->flavour() == KLeptonFlavour::MUON){
+			spx = 0.249907;
+			spy = 0.247276;
+			spz = 0.226868;
+		}
+		if (lepton->flavour() == KLeptonFlavour::TAU){
+			spx = 0.604313;
+			spy = 0.615447;
+			spz = 0.555910;
+		}
 	}
-	if (lepton->flavour() == KLeptonFlavour::MUON){
-		spx = px * 0.00625590; //0.249907;
-		spy = py * 0.00618060; //0.247276;
-		spz = pz * 0.00718417; //0.226868;
-	}
-	if (lepton->flavour() == KLeptonFlavour::TAU){
-		spx = px * 0.0210519; //0.604313;
-		spy = py * 0.0207476; //0.615447;
-		spz = pz * 0.0253247; //0.555910;
+	if (errorFlag == "relErr"){
+		if (lepton->flavour() == KLeptonFlavour::ELECTRON){
+			spx = px * 0.00704377;
+			spy = py * 0.00729904;
+			spz = pz * 0.00687604;
+		}
+		if (lepton->flavour() == KLeptonFlavour::MUON){
+			spx = px * 0.00625590;
+			spy = py * 0.00618060;
+			spz = pz * 0.00718417;
+		}
+		if (lepton->flavour() == KLeptonFlavour::TAU){
+			spx = px * 0.0210519;
+			spy = py * 0.0207476;
+			spz = pz * 0.0253247;
+		}
 	}
 
 	// coordinates and error of the refitted primary vertex

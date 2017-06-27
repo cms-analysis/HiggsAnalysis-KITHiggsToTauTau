@@ -215,6 +215,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	});
 
 	// errors on dxy, dz and IP
+	// using absErr
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrD0RefitPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec.at(0);
@@ -238,6 +239,33 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrIPRefitPV", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec.at(2);
+	});
+	
+
+	// using relErr
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrD0RefitPV_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_relErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrDzRefitPV_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_relErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrIPRefitPV_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_relErr.at(2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrD0RefitPV_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_relErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrDzRefitPV_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_relErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrIPRefitPV_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_relErr.at(2);
 	});
 	
 
@@ -350,8 +378,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoIP1 = recoIP1;
 		product.m_recoIP2 = recoIP2;
 
-		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1);
-		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2);
+		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1, "absErr");
+		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2, "absErr");
+		product.m_errorIP1vec_relErr = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1, "relErr");
+		product.m_errorIP2vec_relErr = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2, "relErr");
 		
 
 		// calculate PhiStarCP using the refitted PV
