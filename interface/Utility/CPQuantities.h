@@ -35,7 +35,7 @@ public:
 	double PhiTransform(double phi);
 	TVector3 CalculateIPVector(KGenParticle* genParticle, RMPoint* pv);
 	TVector3 CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv);
-	std::vector<double> CalculateIPerrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec);
+	std::vector<double> CalculateIPErrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec);
 	TVector3 CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv, float lepDz); //FIXME: remove it
 	inline double GetGenPhiStar()
 	{

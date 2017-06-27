@@ -356,7 +356,7 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv
 // The errors on refP of the tracks and on the momenta
 // were estimated by Gaussian fit, and therefore they are hardcoded in here
 // FIXME: Need to find a better solution!
-std::vector<double> CPQuantities::CalculateIPerrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec){
+std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec){
 	
 	std::vector<double> IPerrors {-999,-999,-999};
 	double sdxy=0;

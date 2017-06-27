@@ -328,8 +328,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoIP1 = recoIP1;
 		product.m_recoIP2 = recoIP2;
 
-		product.m_errorIP1vec = cpq.CalculateIPerrors(recoParticle1, product.m_refitPV, &recoIP1);
-		product.m_errorIP2vec = cpq.CalculateIPerrors(recoParticle2, product.m_refitPV, &recoIP2);
+		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1);
+		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2);
 		
 
 		// FIXME get rid of recoIPmet2
