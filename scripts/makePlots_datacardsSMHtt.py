@@ -580,7 +580,7 @@ if __name__ == "__main__":
 		backgrounds_to_merge = {
 			"ZLL" : ["ZL", "ZJ"],
 			"TT" : ["TTT", "TTJJ"],
-			"EWK" : ["VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
+			"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
 		}
 		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge}, n_processes=args.n_processes)
 		for plot_config in prefit_postfit_plot_configs:
