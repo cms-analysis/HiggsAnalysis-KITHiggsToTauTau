@@ -334,7 +334,7 @@ TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv)
 }
 
 
-// calculate the reco IP vector (3D method)
+// calculate the reco IP vector
 // in case recoParticle is a tau, the track of the lead. PF candidate is consider
 // (see KLepton struct)
 TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv){
@@ -551,22 +551,3 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KRefitVerte
 }
 
 
-
-
-
-// calculate the reco IP vector (using d0 and dz) %FIXME need to remove this method
-TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv, float lepDz){
-
-	TVector3 pt, d, d0, dz, IP;
-	pt.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), 0);
-	d.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), 0);
-
-	if (pt.Mag() != 0) d0 = d - (pt.Dot(d) / pt.Mag2()) * pt;
-	else d0.SetXYZ(-999, -999, 0);
-
-	dz.SetXYZ(0, 0, lepDz);
-	IP = d0 + dz;
-
-	return IP;
-
-}
