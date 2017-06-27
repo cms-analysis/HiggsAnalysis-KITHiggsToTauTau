@@ -3454,9 +3454,9 @@ class Samples(samples.SamplesBase):
 		if (kwargs.get("cp", "sm") == "sm"):
 			matrix_weight = ""
 		elif(kwargs.get("cp", "sm") == "mm"):
-			matrix_weight = "madGraphWeight050/madGraphWeight100*"
+			matrix_weight = "madGraphWeight050/madGraphWeight000*"
 		elif(kwargs.get("cp", "sm") == "ps"):
-			matrix_weight = "madGraphWeight100/madGraphWeight100*"
+			matrix_weight = "madGraphWeight100/madGraphWeight000*"
 		
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
