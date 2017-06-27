@@ -214,10 +214,8 @@ public:
 
 
 	// filled by RefitVertexSelector
-	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
 	KRefitVertex* m_refitPVBS = 0;
-	KBeamSpot* m_theBS = 0;
 	RMPoint* m_refP1 = 0;
 	RMPoint* m_refP2 = 0;
 	RMFLV* m_track1p4 = 0;
@@ -257,6 +255,9 @@ public:
 
 
 	// filled by RecoTauCPProducer
+	KVertex* m_thePV = 0;
+	KBeamSpot* m_theBS = 0;
+
 	TVector3 m_recoIP1;
 	TVector3 m_recoIP2;
 	TVector3 m_recoIP1method2;

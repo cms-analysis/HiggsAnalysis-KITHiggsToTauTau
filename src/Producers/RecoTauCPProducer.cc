@@ -18,6 +18,72 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	m_isData = settings.GetInputIsData();
 
 	// add possible quantities for the lambda ntuples consumers
+	
+	// thePV coordinates and parameters
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVx", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->position.x();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVy", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->position.y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->position.z();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVchi2", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->chi2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVnDOF", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->nDOF;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVnTracks", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->nTracks;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmaxx", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(0,0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmayy", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(1,1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmazz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(2,2);
+	});
+
+	// BS coordinates and parameters
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSx", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->position.x();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSy", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->position.y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->position.z();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmax", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->beamWidthX;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmay", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->beamWidthY;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmaz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->sigmaZ;
+	});
+
+	// CP-related quantities
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCP;
@@ -260,6 +326,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 
+	// save the PV and the BS
+	product.m_thePV = &event.m_vertexSummary->pv;
+	product.m_theBS = event.m_beamSpot;
+
 	// initialization of TVector3 objects
 	product.m_recoIP1.SetXYZ(-999,-999,-999);
 	product.m_recoIP2.SetXYZ(-999,-999,-999);
@@ -312,7 +382,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 
 	// impact parameter method for CP studies
-	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
+	/////product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
+	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
 	//product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	//product.m_recoIP1 = cpq.GetRecoIP1();
 	//product.m_recoIP2 = cpq.GetRecoIP2();
