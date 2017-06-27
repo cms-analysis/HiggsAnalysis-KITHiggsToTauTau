@@ -214,10 +214,8 @@ public:
 
 
 	// filled by RefitVertexSelector
-	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
 	KRefitVertex* m_refitPVBS = 0;
-	KBeamSpot* m_theBS = 0;
 	RMPoint* m_refP1 = 0;
 	RMPoint* m_refP2 = 0;
 	RMFLV* m_track1p4 = 0;
@@ -257,13 +255,16 @@ public:
 
 
 	// filled by RecoTauCPProducer
+	KVertex* m_thePV = 0;
+	KBeamSpot* m_theBS = 0;
+
 	TVector3 m_recoIP1;
 	TVector3 m_recoIP2;
-	TVector3 m_recoIP1method2;
-	TVector3 m_recoIP2method2;
 	
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
@@ -274,8 +275,6 @@ public:
 	double m_deltaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP2  = DefaultValues::UndefinedDouble;
 
-	double m_deltaRgenIPrecoIP1met2  = DefaultValues::UndefinedDouble;
-	double m_deltaRgenIPrecoIP2met2  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
 
