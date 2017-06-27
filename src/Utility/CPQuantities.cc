@@ -13,11 +13,11 @@ double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1
 
 
 // this version uses track and vertex information to calculate the decay planes (useful for RecoTauCPProducer)
-double CPQuantities::CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
+double CPQuantities::CalculatePhiStarCP(KVertex pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
 {
 	//Primary vertex
 	RMFLV::BetaVector pvpos;
-	pvpos.SetXYZ((pv->position).X(), (pv->position).Y(), (pv->position).Z());
+	pvpos.SetXYZ((pv.position).X(), (pv.position).Y(), (pv.position).Z());
 
 	//Points on tau tracks
 	RMFLV::BetaVector track1pos, track2pos;
