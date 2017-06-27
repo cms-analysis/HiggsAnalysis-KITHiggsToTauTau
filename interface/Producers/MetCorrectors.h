@@ -120,7 +120,7 @@ public:
 	                     setting_type const& settings) const override
 	{
 		assert(m_metMemberUncorrected != nullptr);
-
+                //std::cout << "MET CORRECTOR RUNNING!!!" << std::endl;
 		// Retrieve the needed informations from the event content
 		// and replace nominal met four vector by one shifted by
 		// specific uncertainty in order to propagate it through
@@ -129,6 +129,18 @@ public:
 		float metY = settings.GetMetUncertaintyShift() ? (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].Py() : (product.*m_metMemberUncorrected)->p4.Py();
 		float metEnergy = settings.GetMetUncertaintyShift() ? (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].energy() : (product.*m_metMemberUncorrected)->p4.energy();
 		float metResolution = std::sqrt(metEnergy * metEnergy - metX * metX - metY * metY);
+                //std::cout << "uncorrected met_x: " << metX << std::endl;
+                //std::cout << "uncorrected met_y: " << metY << std::endl;
+                // Corrections, if the WJetsErsatz method is applied
+                if (product.m_cleanedMuonForWJetsErsatz)
+                {
+                    metX += product.m_cleanedMuonForWJetsErsatz->p4.Px();
+                    metY += product.m_cleanedMuonForWJetsErsatz->p4.Py();
+                    //std::cout << "cleaned muon p_x: " << product.m_cleanedMuonForWJetsErsatz->p4.Px() << std::endl;
+                    //std::cout << "cleaned muon p_y: " << product.m_cleanedMuonForWJetsErsatz->p4.Py() << std::endl;
+                    //std::cout << "corrected met_x for wjets ersatz: " << metX << std::endl;
+                    //std::cout << "corrected met_y for wjets ersatz: " << metY << std::endl;
+                }
 
 		// Recalculate MET if lepton energies have been corrected:
 		// MetX' = MetX + Px - Px'

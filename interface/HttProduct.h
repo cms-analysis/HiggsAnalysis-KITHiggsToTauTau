@@ -362,4 +362,10 @@ public:
 
 	//filled by TTbarGenDecayModeProducer
 	unsigned int m_TTbarGenDecayMode = 0;
+
+
+        //filled by WJetsErsatzProducer
+        KLepton* m_cleanedMuonForWJetsErsatz = nullptr;
+        KLepton* m_leftMuonForWJetsErsatz = nullptr;
+        KLepton* m_leftCorrectedMuonForWJetsErsatz = nullptr;
 };
