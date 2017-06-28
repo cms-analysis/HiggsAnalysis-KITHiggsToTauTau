@@ -85,7 +85,9 @@ if __name__ == "__main__":
 	                    help="Produce debug Plots [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
-	
+	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
+help="Do not include shape-uncertainties. [Default: %(default)s]")
+
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
@@ -114,7 +116,10 @@ if __name__ == "__main__":
 	hadd_commands = []
 	
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
-	
+	if args.no_shape_uncs:
+		print("No shape uncs")
+		datacards.cb.syst_type("shape")
+		datacards.cb.PrintSysts()	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
