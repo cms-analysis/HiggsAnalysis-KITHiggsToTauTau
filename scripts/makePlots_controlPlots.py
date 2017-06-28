@@ -106,7 +106,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
+	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ttj", "ttjt", "ttt", "ttjj", "ttjl","tttautau", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
 	                             "ggh", "gghsm", "gghmm", "gghps", "qqh", "bbh", "vh", "htt", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
@@ -288,7 +288,6 @@ if __name__ == "__main__":
 
 
 	args.categories = [None if category == "None" else category for category in args.categories]
-
 	plot_configs = []
 	# fill in hp-style
 	for index in range(len(args.channels) - len(args.background_method)):
@@ -321,10 +320,13 @@ if __name__ == "__main__":
 			channel_config = {}
 			for index, (channel, background_method) in enumerate(channels_background_methods):
 				if args.mssm:
-					if "loosemt" in category:
-						global_cut_type = "mssm2016ffloosemt"
-					elif "tight" in category:
-						global_cut_type = "mssm2016fftight"
+					if category is not None:
+						if "loosemt" in category:
+							global_cut_type = "mssm2016ffloosemt"
+						elif "tight" in category:
+							global_cut_type = "mssm2016fftight"
+						else:
+							global_cut_type = "mssm2016fffull"
 					else:
 						global_cut_type = "mssm2016fffull"
 				last_loop = (index == len(channels_background_methods) - 1)
@@ -547,11 +549,11 @@ if __name__ == "__main__":
 				if(args.full_integral):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 					bkg_samples_used.append('data')
+					bkg_samples_used.append('ztt')
 					if args.emb:
 						config["full_integral_outputs"]='./IntegralValues_Embedded.txt'
 					config["full_integral_nicks"]=[" ".join(bkg_samples_used)]
 					config["analysis_modules"].append("FullIntegral")		
-
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]

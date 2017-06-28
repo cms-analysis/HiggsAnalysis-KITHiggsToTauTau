@@ -47,45 +47,28 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
                 plotData.plotdict["qcd_control_relaxed_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_relaxed_subtract_nicks"]]
 		
 		# make sure that all necessary histograms are available
-		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			for nick in nicks:
-				if isinstance(nick, basestring):
-					assert isinstance(plotData.plotdict["root_objects"].get(nick), ROOT.TH1)
-				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
-					for subnick in nick:
-						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
+		# for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+			# for nick in nicks:
+				# if isinstance(nick, basestring):
+					# assert isinstance(plotData.plotdict["root_objects"].get(nick), ROOT.TH1)
+				# elif (not isinstance(nick, float) and not isinstance(nick, bool)):
+					# for subnick in nick:
+						# assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
 	
 	def run(self, plotData=None):
 		super(EstimateQcdTauHadTauHad, self).run(plotData)
 		
 		for qcd_data_shape_nick, qcd_data_signal_control_nick, qcd_data_relaxed_control_nick, qcd_data_subtract_nicks, qcd_control_signal_subtract_nicks, qcd_control_relaxed_subtract_nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			
+			print "qcd ", tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])()
 			for nick in qcd_data_subtract_nicks:
-                                plotData.plotdict["root_objects"][qcd_data_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
+				plotData.plotdict["root_objects"][qcd_data_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
+				print nick, tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			
-                        yield_control_signal = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_signal_control_nick])()
-                        for nick in qcd_control_signal_subtract_nicks:
-                            yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-                            yield_control_signal -= yield_bgk_control
-
-                        yield_control_relaxed = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_relaxed_control_nick])()
-                        for nick in qcd_control_relaxed_subtract_nicks:
-                            yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-                            yield_control_relaxed -= yield_bgk_control
-                        
-                        scale_factor = yield_control_signal
-                        if yield_control_relaxed != 0.0:
-                            scale_factor /= yield_control_relaxed
+			# log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 			
-                        log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_data_shape_nick, scale_factor=scale_factor))
-                        plotData.plotdict["root_objects"][qcd_data_shape_nick].Scale(scale_factor.nominal_value)
-
-                        final_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_shape_nick])()
-			
-			log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
-			
-			plotData.metadata[qcd_data_shape_nick] = {
-				"yield" : final_yield.nominal_value,
-				"yield_unc" : final_yield.std_dev,
-				"yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
-			}
+			# plotData.metadata[qcd_data_shape_nick] = {
+				# "yield" : final_yield.nominal_value,
+				# "yield_unc" : final_yield.std_dev,
+				# "yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
+			# }
