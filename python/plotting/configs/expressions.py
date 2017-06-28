@@ -92,7 +92,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_et"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.55)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_em"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.44 && TauPProngEnergy >= 0.44)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_CP_tt"] = "(genPhiStarCP>-10) * (TauMProngEnergy >= 0.55 && TauPProngEnergy >= 0.55)"
-			self.expressions_dict["catHtt13TeV_"+channel+"_CP_rho"] = "((decayMode_1 == 1) * (decayMode_2 == 1)) * (reco_yTauL > 0)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_CP_rho"] = "((decayMode_1 == 1) * (decayMode_2 == 1)) * (reco_yTauL < 0)"
 
 			# Standard Model
 			self.expressions_dict["catHtt13TeV_"+channel+"_inclusive"] = "(1.0)"

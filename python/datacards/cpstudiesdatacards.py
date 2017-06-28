@@ -145,8 +145,8 @@ class CPStudiesDatacards(datacards.Datacards):
 			self.cb.cp().AddSyst(self.cb, *self.met_scale_syst_args)
 
 			# QCD systematic
-			#self.cb.cp().process(["QCD"]).channel(["tt"]).AddSyst(self.cb, *self.qcd_syst_args) # automatically in other channels
-			#self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
+			self.cb.cp().process(["QCD"]).channel(["tt"]).AddSyst(self.cb, *self.qcd_syst_args) # automatically in other channels
+			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
 
 			# cross section
 			self.cb.cp().process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
