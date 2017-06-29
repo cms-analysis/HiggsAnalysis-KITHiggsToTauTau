@@ -9,11 +9,12 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
 class SMHttDatacards(datacards.Datacards):
-	def __init__(self, higgs_masses=["125"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None):
+	def __init__(self, higgs_masses=["125"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, signal_processes=None):
 		super(SMHttDatacards, self).__init__(cb)
 
 		if cb is None:
-			signal_processes = ["ggH", "qqH", "WH", "ZH"]
+			if signal_processes is None:
+				signal_processes = ["ggH", "qqH", "WH", "ZH"]
 			
 			background_processes_mt = ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
 			background_processes_et = ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
@@ -26,6 +27,7 @@ class SMHttDatacards(datacards.Datacards):
 			all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]
 			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
 			
+
 			# list of JEC uncertainties
 			jecUncertNames = [
 				"AbsoluteFlavMap",
@@ -159,6 +161,7 @@ class SMHttDatacards(datacards.Datacards):
 			# electron ES
 			self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs+["QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
 
+
 			# ======================================================================
 			# TT channel
 			self.add_processes(
@@ -170,6 +173,17 @@ class SMHttDatacards(datacards.Datacards):
 					era=["13TeV"],
 					mass=higgs_masses
 			)
+			self.cb.cp().process(signal_processes+["VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+			if not ttbarFit:
+				self.cb.cp().process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+			if mmFit:
+				self.cb.cp().channel(["mt", "et", "tt", "em", "ttbar"]).process(["ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT"]).bin([channel + "_" + category + "_" + cr for channel in ["mt", "et"] for category in ["ZeroJet2D", "Boosted2D"] for cr in ["WJCR", "QCDCR"]]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["tt"]).process(["ZTT"]).bin(["tt_" + category + "_QCDCR" for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["ttbar"]).process(["ZTT"]).bin(["ttbar_TTbarCR"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["mm"]).process(["ZTT"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+			self.cb.cp().process(["W"]).channel(["em", "tt", "mm", "ttbar"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+
 
 			# efficiencies
 			if year == "2016":
@@ -455,6 +469,7 @@ class SMHttDatacards(datacards.Datacards):
 
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
+
 
 
 # simplified version just for the purpose of datacard synchronization (no systematics)

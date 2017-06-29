@@ -116,10 +116,14 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 	hadd_commands = []
 	
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
+	
+	# restrict combine to lnN systematics only if no_shape_uncs is set
+	# it is necessary to put this
 	if args.no_shape_uncs:
 		print("No shape uncs")
-		datacards.cb.syst_type("shape")
-		datacards.cb.PrintSysts()	
+		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.cb.PrintSysts()		
+	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -209,7 +213,7 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 
 					binnings_key = "tt_jdphi"
 					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-						config["x_bins"] = ["25,0,3.15"]
+						config["x_bins"] = ["25,-3.15,3.15"]
 					elif args.x_bins != None:
 						config["x_bins"] = [args.x_bins]
 					else:
@@ -306,7 +310,7 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 		
 		gghps_signals = datacards.cb.cp().signals()
 		gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
-		#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
 		#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
 
 		gghmm_signals = datacards.cb.cp().signals()
@@ -429,7 +433,7 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 		pconfigs["weights"]=["1","type<0","type>0","type==0"]
 		pconfigs["x_expressions"]=["q"]	
 		pconfigs[ "output_dir"]=str(os.path.dirname(filename))
-		pconfigs["x_bins"]=["500,-15,15"]
+		pconfigs["x_bins"]=["500,-100,100"]
 		
 		#pconfigs["scale_factors"]=[1,1,1,900]
 		#pconfig["plot_modules"] = ["ExportRoot"]
