@@ -41,7 +41,6 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_muonelectron == 1)"
 			elif "smhtt2016" in cut_type and channel == "em":
-				cuts["pt_2"] = "(pt_2 > 15.0)"
 				cuts["bveto"] = "(nbtag == 0)"
 			cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -40.0)"
 			if "mssm" in cut_type:

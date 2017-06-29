@@ -85,7 +85,9 @@ if __name__ == "__main__":
 	                    help="Produce debug Plots [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
-	
+	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
+help="Do not include shape-uncertainties. [Default: %(default)s]")
+
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
@@ -114,6 +116,13 @@ if __name__ == "__main__":
 	hadd_commands = []
 	
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
+	
+	# restrict combine to lnN systematics only if no_shape_uncs is set
+	# it is necessary to put this
+	if args.no_shape_uncs:
+		print("No shape uncs")
+		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.cb.PrintSysts()		
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -155,10 +164,9 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = args.exclude_cuts
-			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
+			higgs_masses = [mass for mass in datacards.cb.mass_set() if mass != "*"]
 			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
@@ -169,7 +177,7 @@ if __name__ == "__main__":
 			output_files.append(output_file)
 			tmp_output_files = []
 			
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+			for shape_systematic, list_of_samples in datacards.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				
@@ -197,14 +205,15 @@ if __name__ == "__main__":
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
-					# TODO: evaluate shift from datacards_per_channel_category.cb
+					
+					# TODO: evaluate shift from datacards.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
 					binnings_key = "tt_jdphi"
 					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-						config["x_bins"] = ["25,0,3.15"]
+						config["x_bins"] = ["25,-3.15,3.15"]
 					elif args.x_bins != None:
 						config["x_bins"] = [args.x_bins]
 					else:
@@ -301,7 +310,7 @@ if __name__ == "__main__":
 		
 		gghps_signals = datacards.cb.cp().signals()
 		gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
-		#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
 		#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
 
 		gghmm_signals = datacards.cb.cp().signals()
@@ -424,7 +433,7 @@ if __name__ == "__main__":
 		pconfigs["weights"]=["1","type<0","type>0","type==0"]
 		pconfigs["x_expressions"]=["q"]	
 		pconfigs[ "output_dir"]=str(os.path.dirname(filename))
-		pconfigs["x_bins"]=["500,-15,15"]
+		pconfigs["x_bins"]=["500,-100,100"]
 		
 		#pconfigs["scale_factors"]=[1,1,1,900]
 		#pconfig["plot_modules"] = ["ExportRoot"]

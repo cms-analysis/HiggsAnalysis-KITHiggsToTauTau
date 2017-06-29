@@ -9,11 +9,12 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
 class SMHttDatacards(datacards.Datacards):
-	def __init__(self, higgs_masses=["125"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None):
+	def __init__(self, higgs_masses=["125"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, signal_processes=None):
 		super(SMHttDatacards, self).__init__(cb)
 
 		if cb is None:
-			signal_processes = ["ggH", "qqH", "WH", "ZH"]
+			if signal_processes is None:
+				signal_processes = ["ggH", "qqH", "WH", "ZH"]
 			
 			background_processes_mt = ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
 			background_processes_et = ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
@@ -170,6 +171,7 @@ class SMHttDatacards(datacards.Datacards):
 					era=["13TeV"],
 					mass=higgs_masses
 			)
+			
 
 			# efficiencies
 			if year == "2016":
@@ -455,7 +457,6 @@ class SMHttDatacards(datacards.Datacards):
 
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
-
 
 # simplified version just for the purpose of datacard synchronization (no systematics)
 class SMHttDatacardsForSync(datacards.Datacards):

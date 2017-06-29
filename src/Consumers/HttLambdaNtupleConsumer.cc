@@ -81,20 +81,32 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Phi"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Mass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("q_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Charge"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dZ_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Dz"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dZ_refitPV_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1DzRefitPV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dZ_refitPVBS_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1DzRefitPVBS"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("d0_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1D0"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("d0_refitPV_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1D0RefitPV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("d0_refitPVBS_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1D0RefitPVBS"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrDz"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_refitPV_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrDzRefitPV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_1_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrDz_absErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_1_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrDz_relErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_refitPV_1_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrDzRefitPV_absErr"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_refitPV_1_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrDzRefitPV_relErr"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrD0"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_refitPV_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrD0RefitPV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_refitPV_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrIPRefitPV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_1_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrD0_absErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_1_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrD0_relErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_refitPV_1_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrD0RefitPV_absErr"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_refitPV_1_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrD0RefitPV_relErr"]);
+
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_1_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrIPRefitPV_absErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_1_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrIPRefitPV_relErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_refitPV_1_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrIPRefitPV_absErr"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_refitPV_1_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrIPRefitPV_relErr"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("iso_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1IsoOverPt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1MetMt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Pt"]);
@@ -102,20 +114,32 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Phi"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Mass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("q_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Charge"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dZ_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Dz"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dZ_refitPV_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2DzRefitPV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dZ_refitPVBS_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2DzRefitPVBS"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("d0_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2D0"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("d0_refitPV_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2D0RefitPV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("d0_refitPVBS_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2D0RefitPVBS"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrDz"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_refitPV_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrDzRefitPV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_2_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrDz_absErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_2_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrDz_relErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_refitPV_2_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrDzRefitPV_absErr"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_refitPV_2_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrDzRefitPV_relErr"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrD0"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_refitPV_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrD0RefitPV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_refitPV_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrIPRefitPV"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_2_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrD0_absErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_2_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrD0_relErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_refitPV_2_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrD0RefitPV_absErr"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_refitPV_2_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrD0RefitPV_relErr"]);
+
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_2_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrIPRefitPV_absErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_2_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrIPRefitPV_relErr"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_refitPV_2_absErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrIPRefitPV_absErr"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errIP_refitPV_2_relErr", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrIPRefitPV_relErr"]);
+
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("iso_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2IsoOverPt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2MetMt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("met", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["metPt"]);

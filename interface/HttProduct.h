@@ -258,13 +258,20 @@ public:
 	KVertex* m_thePV = 0;
 	KBeamSpot* m_theBS = 0;
 
-	TVector3 m_recoIP1;
-	TVector3 m_recoIP2;
+	TVector3 m_recoIP1; // IPvec wrt thePV
+	TVector3 m_recoIP2; // IPvec wrt thePV
+	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
+	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
 	
-	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP1vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+
+	std::vector<double> m_errorIP1vec_refitPV_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_refitPV_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_refitPV_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_refitPV_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
