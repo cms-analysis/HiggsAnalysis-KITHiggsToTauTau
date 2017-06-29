@@ -94,9 +94,13 @@ void TauPolarisationTmvaReader::Init(spec_setting_type const& settings)
 {
 	// register variables needed for the MVA evaluation
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationMva", [](spec_event_type const& event, spec_product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationTMVA", [](spec_event_type const& event, spec_product_type const& product)
 	{
 		return ((product.m_tauPolarisationDiscriminators.size() > 0) ? product.m_tauPolarisationDiscriminators[0] : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauPolarisationSKLEARN", [](spec_event_type const& event, spec_product_type const& product)
+	{
+		return ((product.m_tauPolarisationDiscriminators.size() > 0) ? product.m_tauPolarisationDiscriminators[1] : DefaultValues::UndefinedFloat);
 	});
 	
 	// has to be called at the end of the subclass function
