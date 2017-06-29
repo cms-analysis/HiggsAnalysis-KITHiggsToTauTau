@@ -1,5 +1,5 @@
 {
-	"mt" : {
+	"mt_wjets_validation" : {
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsLooseElectronID.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsLooseMuonID.json",
@@ -191,28 +191,25 @@
 					"producer:JetToTauFakesProducer",
 					"producer:EventWeightProducer"
 				],
-				"DY.?JetsToLL" : [
+				"W.?JetsToLNu|HToTauTau" : [
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
 					"producer:ValidMuonsProducer",
 					"filter:ValidMuonsFilter",
-                                        "producer:ZmmProducer",
-                                        "filter:ZFilter",
 					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
 					"producer:HttValidVetoMuonsProducer",
 					"producer:ValidElectronsProducer",
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
 					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
 					"producer:TaggedJetCorrectionsProducer",
-                                        "producer:WJetsErsatzProducer",
-					"filter:MinTausCountFilter",
-					"filter:MinMuonsCountFilter",
 					"producer:ValidMTPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:Run2DecayChannelProducer",
