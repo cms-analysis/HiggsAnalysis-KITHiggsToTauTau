@@ -17,8 +17,6 @@
 		"Channel" : "EM",
 		"MinNElectrons" : 1,
 		"MinNMuons" : 1,
-		"MaxNLooseElectrons" : 1,
-		"MaxNLooseMuons" : 1,
 		"HltPaths_comment" : "The first path must be one with the higher pt cut on the electron. The second and last path must be one with the higher pt cut on the muon. Corresponding Pt cuts are implemented in the Run2DecayChannelProducer.",
 		"HltPaths" : { 
 			"nick": {
@@ -50,11 +48,13 @@
 			"2.5"
 		],
 		"MuonLowerPtCuts" : [
-			"10.0"
+			"15.0"
 		],
 		"MuonUpperAbsEtaCuts" : [
 			"2.4"
 		],
+		"DeltaRTriggerMatchingElectrons" : 0.4,
+		"DeltaRTriggerMatchingMuons" : 0.4,
 		"DiTauPairMinDeltaRCut" : 0.3,
 		"DiTauPairIsTauIsoMVA": true,
 		"DiTauPairLepton1LowerPtCuts" : {

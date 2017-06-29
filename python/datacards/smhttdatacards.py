@@ -27,7 +27,6 @@ class SMHttDatacards(datacards.Datacards):
 			all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]
 			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
 			
-
 			# list of JEC uncertainties
 			jecUncertNames = [
 				"AbsoluteFlavMap",
@@ -161,7 +160,6 @@ class SMHttDatacards(datacards.Datacards):
 			# electron ES
 			self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs+["QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
 
-
 			# ======================================================================
 			# TT channel
 			self.add_processes(
@@ -174,7 +172,6 @@ class SMHttDatacards(datacards.Datacards):
 					mass=higgs_masses
 			)
 			
-
 
 			# efficiencies
 			if year == "2016":
@@ -460,8 +457,6 @@ class SMHttDatacards(datacards.Datacards):
 
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
-
-
 
 # simplified version just for the purpose of datacard synchronization (no systematics)
 class SMHttDatacardsForSync(datacards.Datacards):
