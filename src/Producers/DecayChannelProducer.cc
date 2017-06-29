@@ -563,6 +563,10 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	{
 		return static_cast<HttProduct const&>(product).m_extraMuonVeto;
 	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pt_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1Pt"]);
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pt_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2Pt"]);
 
 	std::vector<std::string> tauDiscriminators;
 	tauDiscriminators.push_back("byCombinedIsolationDeltaBetaCorrRaw3Hits");
