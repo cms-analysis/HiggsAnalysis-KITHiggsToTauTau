@@ -60,29 +60,6 @@
 	"TopPtReweightingStrategy" : "Run2",
 	"#EventWhitelist" : [
 	],
-	"MetFilter" : {
-		"nick" : {
-			"Summer16" : [
-				"Flag_HBHENoiseFilter",
-				"Flag_HBHENoiseIsoFilter",
-				"Flag_EcalDeadCellTriggerPrimitiveFilter",
-				"Flag_goodVertices",
-				"Flag_globalTightHalo2016Filter",
-				"Flag_BadPFMuonFilter",
-				"Flag_BadChargedCandidateFilter"
-			],
-			"Run2016" : [
-				"Flag_HBHENoiseFilter",
-				"Flag_HBHENoiseIsoFilter",
-				"Flag_EcalDeadCellTriggerPrimitiveFilter",
-				"Flag_goodVertices",
-				"Flag_globalTightHalo2016Filter",
-				"Flag_eeBadScFilter",
-				"Flag_BadPFMuonFilter",
-				"Flag_BadChargedCandidateFilter"
-			]
-		}
-	},
 	"OutputPath" : "output.root",
 	"PileupWeightFile" : {
 		"nick" : {
