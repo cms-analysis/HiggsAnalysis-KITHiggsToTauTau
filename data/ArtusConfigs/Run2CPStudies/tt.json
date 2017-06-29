@@ -17,8 +17,8 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"
 		],
 		"TauPolarisationTmvaWeights" : [
-			"$CMSSW_BASE/src/weights_tmva/training.weights.xml",
-			"$CMSSW_BASE/src/weights_sklearn/training_tt.weights.xml"
+			"/afs/cern.ch/user/m/mfackeld/public/weights_tmva/training.weights.xml",
+			"/afs/cern.ch/user/m/mfackeld/public/weights_sklearn/training_tt.weights.xml"
 		],
 		"Channel" : "TT",
 		"MinNTaus" : 2,
