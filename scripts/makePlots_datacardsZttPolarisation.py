@@ -137,11 +137,6 @@ if __name__ == "__main__":
 	hadd_commands = []
 	
 	datacards = zttpolarisationdatacards.ZttPolarisationDatacards() # useRateParam=args.use_rate_parameter
-
-	if args.no_shape_uncs:
-		print("No shape uncs")
-		datacards.cb.syst_type("shape")
-		datacards.cb.PrintSysts()
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -170,6 +165,11 @@ if __name__ == "__main__":
 	
 	# restrict CombineHarvester to configured channels
 	datacards.cb.channel(args.channel)
+
+	if args.no_shape_uncs:
+ 		print("No shape uncs")
+ 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+ 		datacards.cb.PrintSysts()
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
