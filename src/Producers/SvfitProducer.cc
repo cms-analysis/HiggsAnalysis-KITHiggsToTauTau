@@ -72,9 +72,6 @@ void SvfitProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau2ERatio", [](event_type const& event, product_type const& product) {
 		return product.m_svfitResults.fittedTau2ERatio;
 	});
-
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("m_sv", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["svfitMass"]);
-
 }
 
 void SvfitProducer::Produce(event_type const& event, product_type& product,

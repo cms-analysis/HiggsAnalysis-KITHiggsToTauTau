@@ -8,10 +8,10 @@
 		"visibleToFullAngleSvfit_2:=TMath::Range(-1,0.1,visibleToFullAngleSvfit_2)",
 		"decayMode_1:=TMath::Range(-1,10,decayMode_1)",
 		"decayMode_2:=TMath::Range(-1,10,decayMode_2)",
-		"pt_1:=pt_1",
-		"pt_2:=pt_2",
-		"m_vis:=TMath::Range(40,80,m_vis)",
-		"m_sv:=m_sv"
+		"lep1Pt:=pt_1",
+		"lep2Pt:=pt_2",
+		"diLepMass:=TMath::Range(40,80,m_vis)",
+		"svfitMass:=m_sv"
 	],
 	"TauPolarisationTmvaMethods" : [
 		"BDT",
