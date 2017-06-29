@@ -372,9 +372,9 @@ public:
 		// Recoil corrections follow
 		int nJets30 = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
 
-		// In selected W+Jets events one of the leptons is faked by hadronic jet and this 
+		// In selected W+Jets events one of the leptons is faked by hadronic jet and this
 		// jet should be counted as a part of hadronic recoil to the W boson
-		if(m_isWJets)
+		if(m_isWJets || product.m_cleanedMuonForWJetsErsatz)
 		{
 			nJets30 += 1;
 		}

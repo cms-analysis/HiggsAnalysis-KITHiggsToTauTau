@@ -143,7 +143,11 @@
 			},
 			"had_gen_match_pT_1",
 			"had_gen_match_pT_2",
-                        "nDiMuonVetoPairsOS"
+                        "nDiMuonVetoPairsOS",
+                        "nJets30",
+                        "nTaus",
+                        "nElectrons",
+                        "nMuons"
 		],
 		"OSChargeLeptons" : true,
                 "ZMassRange" : 5.0,
