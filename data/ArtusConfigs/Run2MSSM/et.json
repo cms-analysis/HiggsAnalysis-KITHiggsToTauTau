@@ -159,11 +159,11 @@
 		"Processors" : {
 			"nick" : {
 				"default" : [
+					"producer:ElectronCorrectionsProducer",
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
-					"producer:ElectronCorrectionsProducer",
 					"producer:ValidElectronsProducer",
 					"filter:ValidElectronsFilter",
 					"producer:ElectronTriggerMatchingProducer",
@@ -197,11 +197,11 @@
 					"producer:EventWeightProducer"
 				],
 				"TT(To|_|Jets)" : [
+					"producer:ElectronCorrectionsProducer",
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
-					"producer:ElectronCorrectionsProducer",
 					"producer:ValidElectronsProducer",
 					"filter:ValidElectronsFilter",
 					"producer:ElectronTriggerMatchingProducer",
@@ -236,11 +236,11 @@
 					"producer:EventWeightProducer"
 				],
 				"DY.?JetsToLL" : [
+					"producer:ElectronCorrectionsProducer",
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
-					"producer:ElectronCorrectionsProducer",
 					"producer:ValidElectronsProducer",
 					"filter:ValidElectronsFilter",
 					"producer:ElectronTriggerMatchingProducer",
@@ -276,11 +276,11 @@
 					"producer:EventWeightProducer"
 				],
 				"W.?JetsToLNu|HToTauTau" : [
+					"producer:ElectronCorrectionsProducer",
 					"producer:HttValidLooseElectronsProducer",
 					"producer:HttValidLooseMuonsProducer",
 					"producer:HltProducer",
 					"producer:MetSelector",
-					"producer:ElectronCorrectionsProducer",
 					"producer:ValidElectronsProducer",
 					"filter:ValidElectronsFilter",
 					"producer:ElectronTriggerMatchingProducer",
