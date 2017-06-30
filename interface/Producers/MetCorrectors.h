@@ -228,7 +228,7 @@ public:
 			}
 			else if(product.m_decayChannel == HttEnumTypes::DecayChannel::MT)
 			{
-				//std::cout << "Compute corrections for MT channel" << std::endl;
+				//std::cout << "Compute lepton corrections for MT channel" << std::endl;
 				float eX1 = 0.0;
 				float eX2 = 0.0;
 				float eY1 = 0.0;
@@ -368,6 +368,7 @@ public:
 			metX -= eX;
 			metY -= eY;
 		}
+                //std::cout << "Met X,Y after WJetsErsatz & Lepton Corrections: " << metX << " " << metY << std::endl;
 		
 		// Recoil corrections follow
 		int nJets30 = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
@@ -376,6 +377,7 @@ public:
 		// jet should be counted as a part of hadronic recoil to the W boson
 		if(m_isWJets || product.m_cleanedMuonForWJetsErsatz)
 		{
+                        //std::cout << "WJets recognized, so +1 to nJets30 " << std::endl;
 			nJets30 += 1;
 		}
 		
@@ -392,13 +394,37 @@ public:
 			if ( (pdgId >= DefaultValues::pdgIdElectron && pdgId <= DefaultValues::pdgIdNuTau && genParticle->fromHardProcessFinalState()) ||
 			     (genParticle->isDirectHardProcessTauDecayProduct()) )
 			{
+                                //std::cout << "Adding Px, Py of particle with pdgId " << pdgId << " to genPx, genPy" << std::endl;
 				genPx += genParticle->p4.Px();
 				genPy += genParticle->p4.Py();
 				
 				if ( !(pdgId == DefaultValues::pdgIdNuE || pdgId == DefaultValues::pdgIdNuMu || pdgId == DefaultValues::pdgIdNuTau) )
 				{
-					visPx += genParticle->p4.Px();
-					visPy += genParticle->p4.Py();
+                                        if(product.m_cleanedMuonForWJetsErsatz)
+                                        {
+                                            //std::cout << "Pt,Eta,Phi of gen muon to be neglected: " << product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)]->p4.Pt() << std::endl;
+                                            //std::cout << " " << product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)]->p4.Eta();
+                                            //std::cout << " " << product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)]->p4.Phi() << std::endl;
+                                            //std::cout << "Pt,Eta,Phi of current gen muon: " << genParticle->p4.Pt();
+                                            //std::cout << " " << genParticle->p4.Eta();
+                                            //std::cout << " " << genParticle->p4.Phi() << std::endl;
+                                            bool etamatch = product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)]->p4.Eta() == genParticle->p4.Eta();
+                                            bool phimatch = product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)]->p4.Phi() == genParticle->p4.Phi();
+                                            if( !(etamatch && phimatch) )
+                                            {
+                                                visPx += genParticle->p4.Px();
+                                                visPy += genParticle->p4.Py();
+                                            }
+                                            else
+                                            {
+                                                //std::cout << "Found WJets Ersatz neutrino match ----> neglecting muon!!!" << std::endl;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            visPx += genParticle->p4.Px();
+                                            visPy += genParticle->p4.Py();
+                                        }
 				}
 			}
 		}
