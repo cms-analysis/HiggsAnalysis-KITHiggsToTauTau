@@ -174,6 +174,7 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 					BIN=category,
 					ERA="13TeV"
 			))
+			merged_output_files.append(output_file)
 			output_files.append(output_file)
 			tmp_output_files = []
 			
@@ -263,10 +264,10 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 	
 	# delete existing output files
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-	for output_file in tmp_output_files:
-		if os.path.exists(output_file):
-			os.remove(output_file)
-			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	for output_file_iterator in tmp_output_files:
+		if os.path.exists(output_file_iterator):
+			os.remove(output_file_iterator)
+			log.debug("Removed file \""+output_file_iterator+"\" before it is recreated again.")
 	output_files = list(set(output_files))
 	
 	# create input histograms with HarryPlotter

@@ -280,6 +280,55 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP{discriminator}"] = {
+				"channel":[
+					#"mm_",
+					#"ee_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)*((((jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *njets>1)))",
+					#"mm_":"(1.0)",
+					#"mt_":"(1.0)",
+					#"et_":"(1.0)",
+					#"em_":"(1.0)",
+					#"tt_":"(1.0)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mjj": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning
+						},
+					"mm_": {
+						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
+						},
+					"mt_": {
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+						},
+					"et_": {
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+						},
+					"em_": {
+						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+						},
+					"tt_": {
+						"_mjj":"0.0 300.0 500.0 800.0 10000.0",
+						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+						}
+					}
+				}
 		self.categoriesDict["{analysis}{channel}ZeroJet2D_WJCR{discriminator}"] = {
 				"channel": [
 					"mt_",
