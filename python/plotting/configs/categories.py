@@ -293,7 +293,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(1.0)*((((jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *njets>1)))",
+					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)",
 					#"mm_":"(1.0)",
 					#"mt_":"(1.0)",
 					#"et_":"(1.0)",
