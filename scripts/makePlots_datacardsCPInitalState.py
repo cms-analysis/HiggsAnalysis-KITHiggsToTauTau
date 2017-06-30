@@ -60,7 +60,7 @@ if __name__ == "__main__":
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
-	parser.add_argument("-b", "--background-method", default="classic",
+	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
@@ -148,7 +148,6 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 	
 	#restriction to CH
 	datacards.cb.channel(args.channel)
-
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		# include channel prefix
 		categories= [channel + "_" + category for category in categories]
@@ -202,7 +201,7 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="baseline2016" if args.era == "2016" else "baseline",
-							estimationMethod=args.background_method if channel in ["tt"] else "classic"
+							estimationMethod=args.background_method
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
