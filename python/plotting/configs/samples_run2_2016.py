@@ -48,7 +48,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "tt":
 			return "(gen_match_1 == 5 && gen_match_2 == 5)"
 		else:
-			log.fatal("No ZTT selection implemented for channel \"%s\"!" % channel)
+			log.fatal("No TTT/TTJ selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
 
 	@staticmethod
