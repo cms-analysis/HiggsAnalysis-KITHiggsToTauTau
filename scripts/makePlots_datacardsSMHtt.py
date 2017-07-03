@@ -97,6 +97,8 @@ if __name__ == "__main__":
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--no-jec-unc-split", default=False, action="store_true",
 	                    help="Do not split JEC uncertainties into the 27 different sources but use the envelope instead. [Default: %(default)s]")
+	parser.add_argument("--new-tau-id", default=False, action="store_true",
+	                    help="Use rerun tau Id instead of nominal one. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -342,7 +344,7 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="smhtt2016" if args.era == "2016" else "baseline",
+							cut_type="smhtt2016"+("newTauId" if args.new_tau_id else "") if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,

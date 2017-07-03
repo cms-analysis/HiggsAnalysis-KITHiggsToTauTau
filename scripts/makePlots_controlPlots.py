@@ -228,6 +228,8 @@ if __name__ == "__main__":
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
+	parser.add_argument("--new-tau-id", default=False, action="store_true",
+	                    help="Use rerun tau Id instead of nominal one. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -311,6 +313,8 @@ if __name__ == "__main__":
 		if args.smhtt:
 			global_cut_type = "smhtt"
 		global_cut_type += "2016"
+		if args.new_tau_id:
+			global_cut_type += "newTauId"
 
 
 	# Configs construction for HP
