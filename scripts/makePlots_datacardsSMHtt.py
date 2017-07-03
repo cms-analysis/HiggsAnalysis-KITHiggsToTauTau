@@ -218,27 +218,30 @@ if __name__ == "__main__":
 	}
 	
 	# corrections factors from ZMM control regions as written on SM HTT Twiki
+	zmm_cr_0jet_global = "(1.0)"
+	zmm_cr_boosted_global = "(1.0)"
+	zmm_cr_vbf_global = "(1.02)"
 	zmm_cr_factors_official = {
-		"mt_ZeroJet2D" : "(1.02)",
-		"et_ZeroJet2D" : "(1.02)",
-		"em_ZeroJet2D" : "(1.02)",
-		"tt_ZeroJet2D" : "(1.02)",
-		"mt_Boosted2D" : "(1.02)",
-		"et_Boosted2D" : "(1.02)",
-		"em_Boosted2D" : "(1.02)",
-		"tt_Boosted2D" : "(1.02)",
-		"mt_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"et_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"em_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"tt_Vbf2D" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
-		"mt_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"et_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"em_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"tt_Vbf2D_Up" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
-		"mt_Vbf2D_Down" : "(1.02)",
-		"et_Vbf2D_Down" : "(1.02)",
-		"em_Vbf2D_Down" : "(1.02)",
-		"tt_Vbf2D_Down" : "(1.02)"
+		"mt_ZeroJet2D" : zmm_cr_0jet_global,
+		"et_ZeroJet2D" : zmm_cr_0jet_global,
+		"em_ZeroJet2D" : zmm_cr_0jet_global,
+		"tt_ZeroJet2D" : zmm_cr_0jet_global,
+		"mt_Boosted2D" : zmm_cr_boosted_global,
+		"et_Boosted2D" : zmm_cr_boosted_global,
+		"em_Boosted2D" : zmm_cr_boosted_global,
+		"tt_Boosted2D" : zmm_cr_boosted_global,
+		"mt_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"et_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"em_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"tt_Vbf2D" : zmm_cr_vbf_global+"*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
+		"mt_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"et_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"em_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"tt_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
+		"mt_Vbf2D_Down" : zmm_cr_vbf_global,
+		"et_Vbf2D_Down" : zmm_cr_vbf_global,
+		"em_Vbf2D_Down" : zmm_cr_vbf_global,
+		"tt_Vbf2D_Down" : zmm_cr_vbf_global
 	}
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
@@ -261,6 +264,7 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
+			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			if "TTbarCR" in category and channel == "ttbar":
@@ -279,8 +283,10 @@ if __name__ == "__main__":
 				elif channel == "tt":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
+				
+				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
-			higgs_masses = [mass for mass in datacards.cb.mass_set() if mass != "*"]
+			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
@@ -291,7 +297,7 @@ if __name__ == "__main__":
 			output_files.append(output_file)
 			tmp_output_files = []
 			
-			for shape_systematic, list_of_samples in datacards.get_samples_per_shape_systematic().iteritems():
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				
@@ -350,7 +356,7 @@ if __name__ == "__main__":
 						systematics_settings = systematics_factory.get(shape_systematic)(config, shape_systematic.split("_")[-2])
 					else:
 						systematics_settings = systematics_factory.get(shape_systematic)(config)
-					# TODO: evaluate shift from datacards.cb
+					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
