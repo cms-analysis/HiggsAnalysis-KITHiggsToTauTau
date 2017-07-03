@@ -397,11 +397,15 @@ public:
                                 //std::cout << "Adding Px, Py of particle with pdgId " << pdgId << " to genPx, genPy" << std::endl;
 				genPx += genParticle->p4.Px();
 				genPy += genParticle->p4.Py();
-				
+				//std::cout << "Finished addition for this particle" << std::endl;
 				if ( !(pdgId == DefaultValues::pdgIdNuE || pdgId == DefaultValues::pdgIdNuMu || pdgId == DefaultValues::pdgIdNuTau) )
 				{
-                                        if(product.m_cleanedMuonForWJetsErsatz)
+					//std::cout << "Lepton particle is not a neutrino" << std::endl;
+					//std::cout << "Address of the cleaned muon: " << product.m_cleanedMuonForWJetsErsatz << std::endl;
+					//std::cout << "Address of the corresponding gen particle: " << product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)] << std::endl;
+                                        if(product.m_cleanedMuonForWJetsErsatz && product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)])
                                         {
+						//std::cout << "Pseudo-neutrino found" << std::endl;
                                             //std::cout << "Pt,Eta,Phi of gen muon to be neglected: " << product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)]->p4.Pt() << std::endl;
                                             //std::cout << " " << product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)]->p4.Eta();
                                             //std::cout << " " << product.m_genParticleMatchedMuons[static_cast<KMuon*>(product.m_cleanedMuonForWJetsErsatz)]->p4.Phi() << std::endl;
