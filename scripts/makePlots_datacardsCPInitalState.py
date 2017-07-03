@@ -177,7 +177,7 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 			output_files.append(output_file)
 			tmp_output_files = []
 			
-			for shape_systematic, list_of_samples in datacards.get_samples_per_shape_systematic().iteritems():
+			for shape_systematic, list_of_samples in datacards.get_samples_per_shape_systematic(channel, category).iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				

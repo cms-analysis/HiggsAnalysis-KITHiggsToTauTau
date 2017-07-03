@@ -713,11 +713,16 @@ class Datacards(object):
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 
-	def get_samples_per_shape_systematic(self):
+	def get_samples_per_shape_systematic(self, channel=None, category=None):
+		cb = self.cb
+		if not channel is None:
+			cb = cb.cp().channel(channel)
+		if not category is None:
+			cb = cb.cp().bin(category)
 		samples_per_shape_systematic = {}
-		samples_per_shape_systematic["nominal"] = self.cb.process_set()
-		for shape_systematic in self.cb.cp().syst_type(["shape"]).syst_name_set():
-			samples_per_shape_systematic[shape_systematic] = self.cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
+		samples_per_shape_systematic["nominal"] = cb.process_set()
+		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
+			samples_per_shape_systematic[shape_systematic] = cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
 		return samples_per_shape_systematic
 
 	def extract_shapes(self, root_filename_template,
