@@ -161,11 +161,11 @@ class Samples(samples.SamplesBase):
 			elif channel == "et":
 				return "!((gen_match_1 == 3) && (gen_match_2 == 5))"
 			elif channel == "tt":
-				return "!((gen_match_1 == 5) && (gen_match_2 == 5))"				
+				return "!((gen_match_1 == 5) && (gen_match_2 == 5))"
 			elif channel == "em":
 				return "!((gen_match_1 == 3) && (gen_match_2 == 4))"
 			else:
-				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)			
+				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		else:
 			return "(1.0)"	
 	
@@ -175,11 +175,11 @@ class Samples(samples.SamplesBase):
 		elif channel == "et":
 			return "((gen_match_1 == 3) && (gen_match_2 == 5))"
 		elif channel == "tt":
-			return "((gen_match_1 == 5) && (gen_match_2 == 5))"				
+			return "((gen_match_1 == 5) && (gen_match_2 == 5))"
 		elif channel == "em":
 			return "((gen_match_1 == 3) && (gen_match_2 == 4))"
 		else:
-			log.error("TTTAUTAU currently not implemented for channel \"%s\"!" % channel)			
+			log.error("TTTAUTAU currently not implemented for channel \"%s\"!" % channel)
 
 	def embedding_stitchingweight(self,channel):
 		if channel=='mt':
@@ -221,7 +221,7 @@ class Samples(samples.SamplesBase):
 			totalevents = "4475455.+1961248.+3356220.+3055567.+2280011.+5993673."
 			return "("+runB+runC+runD+runE+runF+runG+")/("+totalevents+")"
 		else:
-			log.error("Embedding currently not implemented for channel \"%s\"!" % channel)			
+			log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		
 
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays
