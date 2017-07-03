@@ -716,9 +716,15 @@ class Datacards(object):
 	def get_samples_per_shape_systematic(self, channel=None, category=None):
 		cb = self.cb
 		if not channel is None:
-			cb = cb.cp().channel(channel)
+			if isinstance(channel, basestring):
+				cb = cb.cp().channel([channel])
+			else:
+				cb = cb.cp().channel(channel)
 		if not category is None:
-			cb = cb.cp().bin(category)
+			if isinstance(category, basestring):
+				cb = cb.cp().bin([category])
+			else:
+				cb = cb.cp().bin(category)
 		samples_per_shape_systematic = {}
 		samples_per_shape_systematic["nominal"] = cb.process_set()
 		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
