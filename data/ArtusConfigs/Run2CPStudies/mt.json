@@ -312,8 +312,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
 						]
 					},
-					"tauPolarisationTMVA",
-					"tauPolarisationSKLEARN",
+					"#tauPolarisationTMVA",
+					"#tauPolarisationSKLEARN",
 					"nVetoMuons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -375,8 +375,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationTMVA",
-					"tauPolarisationSKLEARN",
+					"#tauPolarisationTMVA",
+					"#tauPolarisationSKLEARN",
 					"nVetoMuons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -762,7 +762,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
@@ -810,7 +810,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]
