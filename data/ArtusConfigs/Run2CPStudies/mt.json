@@ -811,7 +811,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"producer:TauPolarisationTmvaReader",
-					"producer:#MadGraphReweightingProducer",
+					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]
 			}
