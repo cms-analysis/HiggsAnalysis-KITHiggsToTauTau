@@ -28,7 +28,7 @@
 	"ApplyBTagSF" : {
 		"nick" : {
 			"default" : true,
-			"Fall15" : false
+			"Fall15|Spring16" : false
 		}
 	},
 	"BTagSFMethod" : "PromotionDemotion"

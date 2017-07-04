@@ -114,7 +114,7 @@
 		"DiTauPairHLTLast" : {
 			"nick" : {
 				"default" : false,
-				"GluGluH2JetsToTauTauM125CPmixing.*JHU" : true,
+				"Spring16MiniAODv2" : true,
 				"Run2016|Summer16|Embedding(2016|MC)" : true
 			}
 		},
@@ -244,8 +244,6 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					"trg_singlemuon",
-					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -290,8 +288,6 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation",
-					"trg_singlemuon",
-					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -320,8 +316,6 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation",
-					"trg_singlemuon",
-					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -403,8 +397,6 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation",
-					"trg_singlemuon",
-					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
