@@ -388,7 +388,7 @@ if __name__ == "__main__":
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
 	#datacards.annotate_trees(
 			#datacards_workspaces,

@@ -356,9 +356,10 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			LOG(FATAL) << "Found no Higgs bosons, but expected 1!";
 		}
 		
-		//jetcorrections for naming
+//jetcorrections for naming
 		
-		//gluons
+	//gluons
+		//lighter quarks
 		if ((jetname=="gc") ||
 		    (jetname=="gd") ||
 		    (jetname=="gs"))
@@ -373,7 +374,36 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			jetname="gu";
 			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
 		}
-		//uux ccx ddx ssx
+		//lighter antiquarks
+		if ((jetname=="gcx") ||
+		    (jetname=="gdx") ||
+		    (jetname=="gsx"))
+		{
+			jetname="gux";
+		}
+		else if ((jetname=="cxg") ||
+		         (jetname=="dxg") ||
+		         (jetname=="sxg") ||
+		         (jetname=="uxg"))
+		{
+			jetname="gux";
+			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+		}
+
+		//bottom
+		if (jetname=="bg")
+		{
+			jetname="gb";
+			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+		}
+
+		if (jetname=="bxg")
+		{
+			jetname="gbx";
+			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+		}
+
+	//uux ccx ddx ssx
 		else if ((jetname=="ccx") ||
 		    (jetname=="ddx") ||
 		    (jetname=="ssx"))
@@ -390,9 +420,10 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		}
 		
 		
-		//initialcorrection for naming
+//initialcorrection for naming
 	
-		//gluons
+	//gluons
+		//lighter quarks
 		if ((initialname=="gc") ||
 		    (initialname=="gd") ||
 		    (initialname=="gs"))
@@ -407,7 +438,37 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			initialname="gu";
 			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
 		}
-		//uux ccx ddx ssx
+		
+		//lighter antiquarks
+		if ((initialname=="gcx") ||
+		    (initialname=="gdx") ||
+		    (initialname=="gsx"))
+		{
+			initialname="gux";
+		}
+		else if ((initialname=="cxg") ||
+		         (initialname=="dxg") ||
+		         (initialname=="sxg") ||
+		         (initialname=="uxg"))
+		{
+			initialname="gux";
+			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+		}
+		//bottom
+		if (initialname=="bg")
+		{
+			initialname="gb";
+			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+		}
+
+		if (initialname=="bxg")
+		{
+			jetname="gbx";
+			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+		}
+
+
+	//uux ccx ddx ssx
 		else if ((initialname=="ccx") ||
 		         (initialname=="ddx") ||
 		         (initialname=="ssx"))
