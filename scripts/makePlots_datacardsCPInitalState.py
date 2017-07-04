@@ -86,11 +86,11 @@ if __name__ == "__main__":
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
-help="Do not include shape-uncertainties. [Default: %(default)s]")
+						help="Do not include shape-uncertainties. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
+
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	elif args.era == "2016":
@@ -133,19 +133,19 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-	
+
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
 
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 
-	
+
 
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
-	
+
 	#restriction to CH
 	datacards.cb.channel(args.channel)
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
@@ -287,27 +287,27 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 			update_systematics=True
 	)
-	
+
 	# add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-	
+
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
 	#after additional cuts
-	datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.1)))
+	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.1)))
 	#befor cuts
-	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.207)))		
+	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.207)))
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
 		gghsm_signals = datacards.cb.cp().signals()
 		gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process()))
 		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
-		
+
 		gghps_signals = datacards.cb.cp().signals()
 		gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
 		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
@@ -389,7 +389,7 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r") )
+	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
@@ -427,14 +427,14 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 		#pconfigs[ "marker_sizes"]=[5]
 		#pconfigs["marker_styles"]=[34]
 		pconfigs[ "markers"]=["line","line","line"]
-		
+
 		pconfigs["y_expressions"]=["None","None","None","0"]
 		pconfigs["folders"]=["q"]
 		pconfigs["weights"]=["1","type<0","type>0","type==0"]
-		pconfigs["x_expressions"]=["q"]	
+		pconfigs["x_expressions"]=["q"]
 		pconfigs[ "output_dir"]=str(os.path.dirname(filename))
 		pconfigs["x_bins"]=["500,-100,100"]
-		
+
 		#pconfigs["scale_factors"]=[1,1,1,900]
 		#pconfig["plot_modules"] = ["ExportRoot"]
 
@@ -450,6 +450,3 @@ help="Do not include shape-uncertainties. [Default: %(default)s]")
 
 	#print args.n_plots[1]
 	print "hi"
-
-	
-
