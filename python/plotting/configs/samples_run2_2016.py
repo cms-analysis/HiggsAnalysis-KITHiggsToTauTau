@@ -1580,7 +1580,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+relaxed_wj_weight+self.embedding_ttbarveto_weight(channel)+"*"+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
+							mc_weight+"*"+relaxed_wj_weight+"*"+self.embedding_ttbarveto_weight(channel)+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*topPtReweightWeight",
 							"noplot_ttj_relaxed_ss_selection",
 							nick_suffix=nick_suffix
 					)
@@ -1643,7 +1643,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+relaxed_wj_weight+self.embedding_ttbarveto_weight(channel)+"*"+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
+							mc_weight+"*"+relaxed_wj_weight+"*"+self.embedding_ttbarveto_weight(channel)+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*topPtReweightWeight",
 							"noplot_ttj_relaxed_os_selection",
 							nick_suffix=nick_suffix
 					)
@@ -2563,7 +2563,7 @@ class Samples(samples.SamplesBase):
 								self.files_ttj(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_sample_weight+self.embedding_ttbarveto_weight(channel)+"*"+"*topPtReweightWeight",
+								mc_sample_weight+"*"+self.embedding_ttbarveto_weight(channel)+"*topPtReweightWeight",
 								"noplot_ttj_"+estimation_type,
 								nick_suffix=nick_suffix
 						)
@@ -2685,7 +2685,7 @@ class Samples(samples.SamplesBase):
 								self.files_ttj(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_selection_weights[key]+"*"+self.embedding_ttbarveto_weight(channel)+"*"+"*topPtReweightWeight",
+								mc_selection_weights[key]+"*"+self.embedding_ttbarveto_weight(channel)+"*topPtReweightWeight",
 								"noplot_ttj_"+key,
 								nick_suffix=nick_suffix
 						)
