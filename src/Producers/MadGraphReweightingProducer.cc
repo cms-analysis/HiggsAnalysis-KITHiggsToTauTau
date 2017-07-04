@@ -360,96 +360,91 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 		//gluons
 		if ((jetname=="gc") ||
-		   (jetname=="gd") ||
-		   (jetname=="gs"))
-				{
-					jetname="gu";
-				}
-
+		    (jetname=="gd") ||
+		    (jetname=="gs"))
+		{
+			jetname="gu";
+		}
 		else if ((jetname=="cg") ||
-		   	 (jetname=="dg") ||
-		   	 (jetname=="sg") ||
-		   	 (jetname=="ug"))
-				{
-					jetname="gu";
-					std::swap(particleFourMomenta[3],particleFourMomenta[4]);
-				}
+		         (jetname=="dg") ||
+		         (jetname=="sg") ||
+		         (jetname=="ug"))
+		{
+			jetname="gu";
+			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+		}
 		//uux ccx ddx ssx
 		else if ((jetname=="ccx") ||
 		    (jetname=="ddx") ||
 		    (jetname=="ssx"))
-				{
-					jetname="uux";
-				}		
-		
-
+		{
+			jetname="uux";
+		}
 		else if ((jetname=="cxc") ||
-			 (jetname=="dxd") ||
-			 (jetname=="sxs") ||
-			 (jetname=="uxu"))
-				{
-					jetname="uux";
-					std::swap(particleFourMomenta[3],particleFourMomenta[4]);		
-				}
+		         (jetname=="dxd") ||
+		         (jetname=="sxs") ||
+		         (jetname=="uxu"))
+		{
+			jetname="uux";
+			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+		}
 		
 		
 		//initialcorrection for naming
 	
 		//gluons
 		if ((initialname=="gc") ||
-		   (initialname=="gd") ||
-		   (initialname=="gs"))
-				{
-					initialname="gu";
-				}
+		    (initialname=="gd") ||
+		    (initialname=="gs"))
+		{
+			initialname="gu";
+		}
 		else if ((initialname=="cg") ||
-		   	 (initialname=="dg") ||
-		   	 (initialname=="sg") ||
-		   	 (initialname=="ug"))
-				{
-					initialname="gu";
-					std::swap(particleFourMomenta[0],particleFourMomenta[1]);
-				}
+		         (initialname=="dg") ||
+		         (initialname=="sg") ||
+		         (initialname=="ug"))
+		{
+			initialname="gu";
+			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+		}
 		//uux ccx ddx ssx
 		else if ((initialname=="ccx") ||
-		    (initialname=="ddx") ||
-		    (initialname=="ssx"))
-				{
-					initialname="uux";
-				}		
-
+		         (initialname=="ddx") ||
+		         (initialname=="ssx"))
+		{
+			initialname="uux";
+		}
 		else if ((initialname=="cxc") ||
-			 (initialname=="dxd") ||
-			 (initialname=="sxs") ||
-			 (initialname=="uxu"))
-				{
-					initialname="uux";
-					std::swap(particleFourMomenta[0],particleFourMomenta[1]);		
-				}
+		         (initialname=="dxd") ||
+		         (initialname=="sxs") ||
+		         (initialname=="uxu"))
+		{
+			initialname="uux";
+			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+		}
 		
 
 
 		directoryname = initialname+higgsname+jetname;
 		
-		//LOG(INFO) << productionMode << directoryname; 
+		//LOG(INFO) << productionMode << directoryname;
 		//LOG(INFO) << event.m_lheParticles->particles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks << ", " << Utility::ToUnderlyingValue(productionMode);
 
 		if ((jetParticles.nGluons==0)  &&
-			    (jetParticles.nLightQuarks==0)  &&
-			    (jetParticles.nHeavyQuarks==0) && 
-			    (directoryname!="gg_x0"))
-			{
-				directoryname="bbx_x0";				
-			}
+		    (jetParticles.nLightQuarks==0)  &&
+		    (jetParticles.nHeavyQuarks==0) &&
+		    (directoryname!="gg_x0"))
+		{
+			directoryname="bbx_x0";
+		}
 
 		if ((jetParticles.nGluons + jetParticles.nLightQuarks + jetParticles.nHeavyQuarks ==2) &&
-				(!(Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))))
-			{
-				
-			}	
-		//if ((initialParticles.nLightQuarks==2) && 
-		//	(jetParticles.nGluons==0))
-			
+		    (!(Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))))
+		{
+		
+		}
+		//if ((initialParticles.nLightQuarks==2) &&
+		//    (jetParticles.nGluons==0))
 		
 		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
 		{
@@ -457,12 +452,12 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			
 			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
 			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(directoryname)[0];
-						
+			
 			std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
 		
 			// calculate the matrix elements for different mixing angles
 			for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
-				 mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+			     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 			{
 				MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
 				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
