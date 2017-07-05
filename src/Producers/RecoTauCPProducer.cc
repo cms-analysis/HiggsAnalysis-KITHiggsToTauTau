@@ -139,37 +139,37 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	});
 
 	// impact parameters d0=dxy and dz
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0RefitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_refitPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0RefitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_refitPVBS_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzRefitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_refitPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzRefitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_refitPVBS_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0RefitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_refitPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0RefitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_refitPVBS_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzRefitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_refitPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzRefitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_refitPVBS_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
 //	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoImpactParameter1", [](event_type const& event, product_type const& product)
 //	{
@@ -242,52 +242,52 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 
 	// errors on dxy, dz and IP wrt thePV
 	// using absErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrD0_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_absErr.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrDz_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_absErr.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrIP_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_absErr.at(2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrD0_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_absErr.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrDz_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_absErr.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrIP_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_absErr.at(2);
 	});
 	// using relErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrD0_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_relErr.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrDz_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_relErr.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrIP_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_relErr.at(2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrD0_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_relErr.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrDz_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_relErr.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrIP_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_relErr.at(2);
 	});
@@ -295,52 +295,52 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 
 	// errors on dxy, dz and IP wrt refitted PV
 	// using absErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrD0RefitPV_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_refitPV_absErr.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrDzRefitPV_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_refitPV_absErr.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrIPRefitPV_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_refitPV_absErr.at(2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrD0RefitPV_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_refitPV_absErr.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrDzRefitPV_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_refitPV_absErr.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrIPRefitPV_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2_absErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_refitPV_absErr.at(2);
 	});
 	// using relErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrD0RefitPV_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_refitPV_relErr.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrDzRefitPV_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_refitPV_relErr.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1ErrIPRefitPV_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP1vec_refitPV_relErr.at(2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrD0RefitPV_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_refitPV_relErr.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrDzRefitPV_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_refitPV_relErr.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2ErrIPRefitPV_relErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2_relErr", [](event_type const& event, product_type const& product)
 	{
 		return product.m_errorIP2vec_refitPV_relErr.at(2);
 	});
