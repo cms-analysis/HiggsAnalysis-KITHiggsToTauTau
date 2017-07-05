@@ -56,6 +56,18 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return (product.m_thePV)->covariance.At(2,2);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmaxy", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(0,1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmaxz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(0,2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmayz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(1,2);
+	});
 
 	// BS coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSx", [](event_type const& event, product_type const& product)

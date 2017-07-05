@@ -9,6 +9,9 @@
 		"thePVsigmaxx",
 		"thePVsigmayy",
 		"thePVsigmazz",
+		"thePVsigmaxy",
+		"thePVsigmaxz",
+		"thePVsigmayz",
 
 		"refitPVx",
 		"refitPVy",
@@ -19,6 +22,9 @@
 		"refitPVsigmaxx",
 		"refitPVsigmayy",
 		"refitPVsigmazz",
+		"refitPVsigmaxy",
+		"refitPVsigmaxz",
+		"refitPVsigmayz",
 
 		"refitPVBSx",
 		"refitPVBSy",
@@ -29,6 +35,9 @@
 		"refitPVBSsigmaxx",
 		"refitPVBSsigmayy",
 		"refitPVBSsigmazz",
+		"refitPVBSsigmaxy",
+		"refitPVBSsigmaxz",
+		"refitPVBSsigmayz",
 
 		"theBSx",
 		"theBSy",
