@@ -152,6 +152,7 @@ if __name__ == "__main__":
 		print("No shape uncs")
 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
 		datacards.cb.PrintSysts()
+
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
