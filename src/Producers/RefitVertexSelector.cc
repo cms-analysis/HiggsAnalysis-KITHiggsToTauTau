@@ -46,6 +46,18 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	{
 		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(2,2) : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmaxy", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(0,1) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmaxz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(0,2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmayz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(1,2) : DefaultValues::UndefinedFloat);
+	});
 	
 	// refitted (w/ BS constraint) PV coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSx", [](event_type const& event, product_type const& product)
@@ -83,6 +95,18 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmazz", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(2,2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmaxy", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(0,1) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmaxz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(0,2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmayz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(1,2) : DefaultValues::UndefinedFloat);
 	});
 
 	// track ref point coordinates

@@ -169,16 +169,12 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationTMVA",
-					"tauPolarisationSKLEARN",
 					"nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -194,8 +190,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationTMVA",
-					"tauPolarisationSKLEARN",
 					"nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -207,18 +201,14 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationTMVA",
-					"tauPolarisationSKLEARN",
 					"nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -231,15 +221,13 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantitiesHiggs.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
 					"#tauPolarisationTMVA",
@@ -260,8 +248,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationTMVA",
-					"tauPolarisationSKLEARN",
 					"nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -279,8 +265,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationTMVA",
-					"tauPolarisationSKLEARN",
 					"nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -317,12 +301,9 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
-					"tauPolarisationTMVA",
-					"tauPolarisationSKLEARN",
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
@@ -368,14 +349,14 @@
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL).*(?=(Spring16|Summer16))" : [
@@ -412,7 +393,7 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -420,7 +401,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
@@ -465,7 +446,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL).*(?=Fall15)" : [
@@ -512,7 +493,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"Run2016" : [
@@ -544,13 +525,13 @@
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -589,7 +570,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
@@ -626,7 +607,7 @@
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -635,7 +616,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"#producer:TauPolarisationTmvaReader",
-					"#producer:MadGraphReweightingProducer",
+					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=Fall15)" : [
@@ -683,7 +664,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"#producer:TauPolarisationTmvaReader",
-					"#producer:MadGraphReweightingProducer",
+					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]
 			}

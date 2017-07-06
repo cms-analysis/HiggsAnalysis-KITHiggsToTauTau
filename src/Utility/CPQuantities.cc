@@ -418,6 +418,11 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KRefitVerte
 			srz = rz * 0.037;
 		}
 	}
+	if (errorFlag == "noErr"){
+		srx = 0;
+		sry = 0;
+		srz = 0;
+	}
 
 	// coordinates and error of the momentum
 	double px = lepton->p4.Px(); double spx=0;
@@ -459,6 +464,11 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KRefitVerte
 			spy = py * 0.0207476;
 			spz = pz * 0.0253247;
 		}
+	}
+	if (errorFlag == "noErr"){
+		spx = 0;
+		spy = 0;
+		spz = 0;
 	}
 
 	// coordinates and error of the refitted primary vertex
