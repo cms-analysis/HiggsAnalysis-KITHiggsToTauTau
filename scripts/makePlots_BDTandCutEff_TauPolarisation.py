@@ -46,7 +46,7 @@ if __name__ == "__main__":
     	"cut_efficiency_nicks": ["roc_"+name for name in names],
     	"cut_efficiency_sig_nicks": ["H-"+name for name in names],
     	"filename": "ROC_"+("_".join(names)), 
-	"files": ["tmvaClassification/BDT_"+name+".root" for name in names for _ in range(2)],
+	"files": ["tmvaClassification/outputallvariables_"+name+".root" for name in names for _ in range(2)],
     	"folders": [
 		"TrainTree"
     	], 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
 			"2"
 	    	], 
 	    	"filename": "BDT_"+name, 
-		"files": "tmvaClassification/BDT_"+name+".root",
+		"files": "tmvaClassification/outputallvariables_"+name+".root",
 	    	"folders": [
 			"TrainTree", 
 			"TrainTree", 

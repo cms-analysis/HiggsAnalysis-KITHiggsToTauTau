@@ -43,7 +43,7 @@ if __name__ == "__main__":
                         help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
-	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
+	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["120", "130", "125"], # we do not have 125 GeV MSSM samples
 	                    help="Higgs masses. The first mass defines the mass of interest and additional masses are used to increase the statistics by preserving the yield given by the first mass. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
@@ -79,6 +79,8 @@ if __name__ == "__main__":
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
+	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
+	                    help="Do not include shape-uncertainties. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -96,16 +98,16 @@ if __name__ == "__main__":
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-	
+
 	# preparation of CP mixing angles alpha_tau/(pi/2)
 	args.cp_mixings.sort()
 	cp_mixing_angles_over_pi_half = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
 	cp_mixings_str = ["{mixing:0.2f}".format(mixing=mixing) for mixing in args.cp_mixings]
-	
+
 	cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
 	cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
 	cp_mixings_combine_range_max = (3*cp_mixings_scan[-1]-cp_mixings_scan[-2]) / 2.0
-	
+
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
@@ -132,7 +134,7 @@ if __name__ == "__main__":
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-	
+
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[1:]
@@ -144,6 +146,12 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	datacards.cb.channel(args.channel)
 
+	# restrict combine to lnN systematics only if no_shape_uncs is set
+	# it is necessary to put this
+	if args.no_shape_uncs:
+		print("No shape uncs")
+		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.cb.PrintSysts()
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
@@ -161,7 +169,7 @@ if __name__ == "__main__":
 
 		for category in categories:
 			datacards_per_channel_category = cpstudiesdatacards.CPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
-			
+
 			higgs_masses = args.higgs_masses[:1]
 			additional_higgs_masses_for_shape = args.higgs_masses[1:]
 
@@ -173,18 +181,18 @@ if __name__ == "__main__":
 			))
 			output_files.append(output_file)
 			tmp_output_files = []
-
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_bkg_samples = [datacards.configs.process2sample(process) for process in list_of_samples if process in datacards_per_channel_category.cb.cp().backgrounds().process_set()]
 				list_of_sig_samples = [datacards.configs.process2sample(process) for process in list_of_samples if process in datacards_per_channel_category.cb.cp().signals().process_set()]
-				
+
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 
+
 					# prepare plotting configs for retrieving the input histograms
 					config={}
-					
+
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 							samples="\", \"".join((["data"] if nominal and args.add_data else []) + list_of_bkg_samples),
 							channel=channel,
@@ -201,18 +209,19 @@ if __name__ == "__main__":
 							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
 
+
 					config_bkg["labels"] = [(bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
 						PROCESS=datacards.configs.sample2process(sample),
 						BIN=category,
 						SYSTEMATIC=systematic
 					) for sample in config_bkg["labels"]]
 					config = samples.Samples.merge_configs(config, config_bkg)
-					
+
 					for cp_mixing, cp_mixing_angle_over_pi_half, cp_mixing_str in zip(args.cp_mixings, cp_mixing_angles_over_pi_half, cp_mixings_str):
 						tmp_additional_higgs_masses_for_shape = copy.deepcopy(additional_higgs_masses_for_shape)
 						if (cp_mixing > 0.5) and ("125" in tmp_additional_higgs_masses_for_shape):
 							tmp_additional_higgs_masses_for_shape.remove("125")
-						
+
 						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 								samples="\", \"".join(list_of_sig_samples),
 								channel=channel,
@@ -228,8 +237,8 @@ if __name__ == "__main__":
 								lumi=args.lumi * 1000,
 								higgs_masses=higgs_masses,
 								additional_higgs_masses_for_shape=tmp_additional_higgs_masses_for_shape,
-								mssm=(cp_mixing > 0.5),
-								normalise_to_sm_xsec=True
+								mssm=None,
+								normalise_to_sm_xsec=False
 						)
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
@@ -239,10 +248,10 @@ if __name__ == "__main__":
 						) for sample in config_sig["labels"]]
 
 						config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
-					
+
 					if "stacks" in config:
 						config.pop("stacks")
-					
+
 					# create asimov dataset
 					if not args.add_data:
 						if not "SumOfHistograms" in config.get("analysis_modules", []):
@@ -258,13 +267,13 @@ if __name__ == "__main__":
 						))
 						config.setdefault("colors", []).insert(0, "data")
 						config.setdefault("markers", []).insert(0, "data")
-					
+
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
 					config["x_expressions"] = [args.quantity]
-					
+
 					binnings_key = "binningHtt13TeV_"+category+"_svfitMass"
 					if binnings_key in binnings_settings.binnings_dict:
 						config["x_bins"] = [binnings_key]
@@ -308,17 +317,17 @@ if __name__ == "__main__":
 			os.remove(output_file)
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	output_files = list(set(output_files))
-	
+
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
-	if args.n_plots[0] != 0:	
+	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	debug_plot_configs = []
 	for output_file in merged_output_files:
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
-	
+
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
 			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
@@ -326,17 +335,17 @@ if __name__ == "__main__":
 			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 			update_systematics=True
 	)
-	
+
 	# signals morphing according to alpha_tau / (pi/2)
 	datacards.create_morphing_signals("cpmixing", 0.0, 0.0, 1.0)
-	
+
 	# add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-	
+
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation(float(args.scale_lumi) / args.lumi)
@@ -349,11 +358,11 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
-	
+
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
-	
+
 	result_plot_configs = []
-	
+
 	# Max. likelihood fit and postfit plots
 	datacards.combine(
 			datacards_cbs,
@@ -362,10 +371,10 @@ if __name__ == "__main__":
 			args.n_processes,
 			"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
 	)
-	
+
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
-	
+
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 
@@ -380,7 +389,7 @@ if __name__ == "__main__":
 					POINTS=args.cp_mixing_scan_points
 			)
 	)
-	
+
 	for datacard, workspace in datacards_workspaces.iteritems():
 		config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
 		config["directories"] = [os.path.dirname(workspace)]
@@ -392,6 +401,5 @@ if __name__ == "__main__":
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-	
-	higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
+	higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])

@@ -9,7 +9,9 @@
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
 				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
 				"producer:RecoTauGenParticleMatchingProducer",
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
@@ -19,7 +21,7 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
 				"#producer:ScaleVariationProducer",
-				"filter:MetFilter"
+				"#filter:MetFilter"
 			],
 			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets|^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)|SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" :
 			[
@@ -30,7 +32,9 @@
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
 				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
 				"producer:RecoTauGenParticleMatchingProducer",
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
@@ -42,12 +46,12 @@
 				"producer:PUWeightProducer",
 				"#producer:ScaleVariationProducer",
 				"#filter:RunLumiEventFilter",
-				"filter:MetFilter"
+				"#filter:MetFilter"
 			],
 			"Run201" :
 			[
 				"#filter:RunLumiEventFilter",
-				"filter:MetFilter",
+				"#filter:MetFilter",
 				"filter:JsonFilter",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer"
@@ -55,12 +59,14 @@
 			"Embedding201" :
 			[
 				"#filter:RunLumiEventFilter",
-				"filter:MetFilter",
+				"#filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
 				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
 				"producer:RecoTauGenParticleMatchingProducer",
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
@@ -72,12 +78,14 @@
 			"EmbeddingMC" :
 			[
 				"#filter:RunLumiEventFilter",
-				"filter:MetFilter",
+				"#filter:MetFilter",
 				"#filter:JsonFilter",
 				"producer:NicknameProducer",
 				"producer:GenParticleProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
 				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
 				"producer:RecoTauGenParticleMatchingProducer",
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",

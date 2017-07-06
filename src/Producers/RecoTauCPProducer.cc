@@ -18,6 +18,84 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	m_isData = settings.GetInputIsData();
 
 	// add possible quantities for the lambda ntuples consumers
+	
+	// thePV coordinates and parameters
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVx", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->position.x();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVy", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->position.y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->position.z();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVchi2", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->chi2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVnDOF", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->nDOF;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVnTracks", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->nTracks;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmaxx", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(0,0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmayy", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(1,1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmazz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(2,2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmaxy", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(0,1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmaxz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(0,2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVsigmayz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_thePV)->covariance.At(1,2);
+	});
+
+	// BS coordinates and parameters
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSx", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->position.x();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSy", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->position.y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->position.z();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmax", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->beamWidthX;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmay", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->beamWidthY;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSsigmaz", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_theBS)->sigmaZ;
+	});
+
+	// CP-related quantities
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPhiStarCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCP;
@@ -71,37 +149,39 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	{
 		return product.m_recoChargedHadronEnergies.second;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0refitPV", [](event_type const& event, product_type const& product)
+
+	// impact parameters d0=dxy and dz
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_refitPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1D0refitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_refitPVBS_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzrefitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_refitPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1DzrefitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_refitPVBS_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_refitPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2D0refitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_refitPVBS_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzrefitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_refitPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep2DzrefitPVBS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_refitPVBS_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
+		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
 //	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoImpactParameter1", [](event_type const& event, product_type const& product)
 //	{
@@ -120,57 +200,213 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return product.m_recoTrackRefError2;
 	});
 
-	// IP vectors (3D method)
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1x", [](event_type const& event, product_type const& product)
+	// IP vectors wrt thePV
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_1x", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_1y", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_1z", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_2x", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_2y", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_2z", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
 
-	// FIXME: IP vectors (using d0 and dz)
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2x", [](event_type const& event, product_type const& product)
+	// IP vectors wrt refitted PV
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_refitPV_1x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_refitPV_1y", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP1method2z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_refitPV_1z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1method2 != nullptr) ? (product.m_recoIP1method2).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2method2x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_refitPV_2x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2method2y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_refitPV_2y", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2).y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoIP2method2z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("IP_refitPV_2z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2method2 != nullptr) ? (product.m_recoIP2method2).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).z() : DefaultValues::UndefinedFloat);
 	});
+
+	// errors on dxy, dz and IP wrt thePV
+	// using absErr
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_absErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_absErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_absErr.at(2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_absErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_absErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_absErr.at(2);
+	});
+	// using relErr
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_relErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_relErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_relErr.at(2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_relErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_relErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_relErr.at(2);
+	});
+	// using noErr
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_noErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_noErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_noErr.at(2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_noErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_noErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_noErr.at(2);
+	});
+
+
+	// errors on dxy, dz and IP wrt refitted PV
+	// using absErr
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_absErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_absErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_absErr.at(2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_absErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_absErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2_absErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_absErr.at(2);
+	});
+	// using relErr
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_relErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_relErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_relErr.at(2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_relErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_relErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2_relErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_relErr.at(2);
+	});
+	// using noErr
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_noErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_noErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP1vec_refitPV_noErr.at(2);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_noErr.at(0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_noErr.at(1);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2_noErr", [](event_type const& event, product_type const& product)
+	{
+		return product.m_errorIP2vec_refitPV_noErr.at(2);
+	});
+
 
 	// deltaEta, deltaPhi, deltaR and angle delta between IP vectors
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaEtaGenRecoIP1", [](event_type const& event, product_type const& product)
@@ -206,24 +442,6 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return product.m_deltaGenRecoIP2;
 	});
 
-	// probably to be deleted in the near future
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP1met2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaRgenIPrecoIP1met2;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRgenIPrecoIP2met2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaRgenIPrecoIP2met2;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRrecoIP1s", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaRrecoIP1s;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("deltaRrecoIP2s", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaRrecoIP2s;
-	});
-
 }
 
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
@@ -231,16 +449,17 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 
+	// save the PV and the BS
+	product.m_thePV = &event.m_vertexSummary->pv;
+	product.m_theBS = event.m_beamSpot;
+
 	// initialization of TVector3 objects
-	product.m_recoIP1.SetXYZ(-999,-999,-999);
-	product.m_recoIP2.SetXYZ(-999,-999,-999);
-	product.m_recoIP1method2.SetXYZ(-999,-999,-999);
-	product.m_recoIP2method2.SetXYZ(-999,-999,-999);
+	product.m_recoIP1_refitPV.SetXYZ(-999,-999,-999);
+	product.m_recoIP2_refitPV.SetXYZ(-999,-999,-999);
 
 	TVector3 recoIP1(-999,-999,-999);
 	TVector3 recoIP2(-999,-999,-999);
-	TVector3 recoIP1method2(-999,-999,-999);
-	TVector3 recoIP2method2(-999,-999,-999);
+
 
 	KLepton* recoParticle1 = product.m_chargeOrderedLeptons.at(0);
 	KLepton* recoParticle2 = product.m_chargeOrderedLeptons.at(1);
@@ -248,11 +467,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
 
-	// old calculation of recoPhiStarCP --> need to be rechecked
-	KTrack trackP = product.m_chargeOrderedLeptons[0]->track;
-	KTrack trackM = product.m_chargeOrderedLeptons[1]->track;
-	RMFLV momentumP = ((product.m_chargeOrderedLeptons[0]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[0])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[0]->p4);
-	RMFLV momentumM = ((product.m_chargeOrderedLeptons[1]->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons[1])->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons[1]->p4);
+	// calculation of recoPhiStarCP
+	KTrack trackP = product.m_chargeOrderedLeptons.at(0)->track;
+	KTrack trackM = product.m_chargeOrderedLeptons.at(1)->track;
+	RMFLV momentumP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons.at(0)->p4);
+	RMFLV momentumM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons.at(1)->p4);
 
   RMFLV piZeroP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
 	RMFLV piZeroM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
@@ -278,11 +497,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 
 
-    // variables for the rho method
 
 
-
-	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
+	// impact parameter method for CP studies
+	/////product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
+	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
 	//product.m_recoPhiStar = cpq.GetRecoPhiStar();
 	//product.m_recoIP1 = cpq.GetRecoIP1();
 	//product.m_recoIP2 = cpq.GetRecoIP2();
@@ -291,29 +510,32 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	//product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(trackP);
 	//product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(trackM);
 
-	// calculation of the IP vectors
+	// calculation of the IP vectors and relative errors
 	if (product.m_refitPV != nullptr){
-		recoIP1 = cpq.CalculateIPVector(recoParticle1, product.m_refitPV);
-		recoIP2 = cpq.CalculateIPVector(recoParticle2, product.m_refitPV);
-		product.m_recoIP1 = recoIP1;
-		product.m_recoIP2 = recoIP2;
+		product.m_recoIP1 = cpq.CalculateIPVector(recoParticle1, product.m_thePV);
+		product.m_recoIP2 = cpq.CalculateIPVector(recoParticle2, product.m_thePV);
+		product.m_errorIP1vec_absErr = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &recoIP1, "absErr");
+		product.m_errorIP2vec_absErr = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &recoIP2, "absErr");
+		product.m_errorIP1vec_relErr = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &recoIP1, "relErr");
+		product.m_errorIP2vec_relErr = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &recoIP2, "relErr");
+		product.m_errorIP1vec_noErr = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &recoIP1, "noErr");
+		product.m_errorIP2vec_noErr = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &recoIP2, "noErr");
 
-		// FIXME get rid of recoIPmet2
-		// FIXME this block needs to be deleted
-		double dz1 = product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPV);
-		double dz2 = product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPV);
-		recoIP1method2 = cpq.CalculateIPVector(recoParticle1, product.m_refitPV, dz1);
-		recoIP2method2 = cpq.CalculateIPVector(recoParticle2, product.m_refitPV, dz2);
-		product.m_recoIP1method2 = recoIP1method2;
-		product.m_recoIP2method2 = recoIP2method2;
+		product.m_recoIP1_refitPV = cpq.CalculateIPVector(recoParticle1, product.m_refitPV);
+		product.m_recoIP2_refitPV = cpq.CalculateIPVector(recoParticle2, product.m_refitPV);
+		product.m_errorIP1vec_refitPV_absErr = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1, "absErr");
+		product.m_errorIP2vec_refitPV_absErr = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2, "absErr");
+		product.m_errorIP1vec_refitPV_relErr = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1, "relErr");
+		product.m_errorIP2vec_refitPV_relErr = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2, "relErr");
+		product.m_errorIP1vec_refitPV_noErr = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1, "noErr");
+		product.m_errorIP2vec_refitPV_noErr = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2, "noErr");
 
-		double deltaRrecoIP1s = recoIP1.DeltaR(recoIP1method2);
-		double deltaRrecoIP2s = recoIP2.DeltaR(recoIP2method2);
-		product.m_deltaRrecoIP1s = deltaRrecoIP1s;
-		product.m_deltaRrecoIP2s = deltaRrecoIP2s;
+		
 
 		// calculate PhiStarCP using the refitted PV
 		product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(product.m_refitPV, trackP, trackM, momentumP, momentumM);
+
+
 
 		if (!m_isData){
 			// FIXME delete all temporary variable of type double
@@ -330,9 +552,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				double deltaGenRecoIP1 = recoIP1.Angle(product.m_genIP1);
 				product.m_deltaGenRecoIP1 = deltaGenRecoIP1;
 
-				// FIXME delete following two lines
-				double deltaRgenIPrecoIP1met2 = recoIP1method2.DeltaR(product.m_genIP1);
-				product.m_deltaRgenIPrecoIP1met2 = deltaRgenIPrecoIP1met2;
 			} // if genIP1 exists
 
 			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
@@ -348,9 +567,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				double deltaGenRecoIP2 = recoIP2.Angle(product.m_genIP2);
 				product.m_deltaGenRecoIP2 = deltaGenRecoIP2;
 
-				// FIXME delete following two lines
-				double deltaRgenIPrecoIP2met2 = recoIP2method2.DeltaR(product.m_genIP2);
-				product.m_deltaRgenIPrecoIP2met2 = deltaRgenIPrecoIP2met2;
 			} // if genIP2 exists
 
 		} // if MC sample

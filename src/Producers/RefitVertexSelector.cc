@@ -9,35 +9,7 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 
 	// add possible quantities for the lambda ntuples consumers
 
-	// thePV coordinates
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVx", [](event_type const& event, product_type const& product)
-	{
-		return (product.m_thePV)->position.x();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVy", [](event_type const& event, product_type const& product)
-	{
-		return (product.m_thePV)->position.y();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("thePVz", [](event_type const& event, product_type const& product)
-	{
-		return (product.m_thePV)->position.z();
-	});
-
-	// BS coordinates
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSx", [](event_type const& event, product_type const& product)
-	{
-		return (product.m_theBS)->x();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSy", [](event_type const& event, product_type const& product)
-	{
-		return (product.m_theBS)->y();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("theBSz", [](event_type const& event, product_type const& product)
-	{
-		return (product.m_theBS)->z();
-	});
-
-	// refitted PV coordinates
+	// refitted PV coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVx", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position.x() : DefaultValues::UndefinedFloat);
@@ -50,8 +22,44 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	{
 		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position.z() : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVchi2", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->chi2 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVnDOF", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->nDOF : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVnTracks", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->nTracks : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmaxx", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(0,0) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmayy", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(1,1) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmazz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(2,2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmaxy", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(0,1) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmaxz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(0,2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVsigmayz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(1,2) : DefaultValues::UndefinedFloat);
+	});
 	
-	// refitted (w/ BS constraint) PV coordinates
+	// refitted (w/ BS constraint) PV coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSx", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.x() : DefaultValues::UndefinedFloat);
@@ -62,7 +70,43 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSz", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.z(): DefaultValues::UndefinedFloat);
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSchi2", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->chi2 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSnDOF", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->nDOF : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSnTracks", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->nTracks : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmaxx", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(0,0) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmayy", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(1,1) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmazz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(2,2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmaxy", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(0,1) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmaxz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(0,2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("refitPVBSsigmayz", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->covariance.At(1,2) : DefaultValues::UndefinedFloat);
 	});
 
 	// track ref point coordinates
@@ -130,14 +174,9 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 	
 	assert(product.m_flavourOrderedLeptons.size() > 0);
 
-	// save the PV and the BS
-	product.m_thePV = &event.m_vertexSummary->pv;
-	product.m_theBS = &event.m_beamSpot->position;
-
 	// create hashes from lepton selection
 	std::vector<KLepton*> leptons = product.m_flavourOrderedLeptons;
 	std::vector<size_t> hashes;
-
 
 	if (leptons.size() == 2 && event.m_refitVertices && event.m_refitBSVertices){
 		
@@ -156,7 +195,7 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 		} // for over leptons
 		hashes.push_back(hash);
 
-		std::swap(leptons[0], leptons[1]);
+		std::swap(leptons.at(0), leptons.at(1));
 		hash = 0;
 		for (auto lepton : leptons){
 			boost::hash_combine(hash, lepton->internalId);

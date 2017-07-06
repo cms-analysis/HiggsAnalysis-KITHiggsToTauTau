@@ -44,6 +44,7 @@ void SvfitProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitMass", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->mass() : DefaultValues::UndefinedFloat);
 	});
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("svfitLV", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? *(product.m_svfitResults.fittedHiggsLV) : DefaultValues::UndefinedRMFLV);
 	});

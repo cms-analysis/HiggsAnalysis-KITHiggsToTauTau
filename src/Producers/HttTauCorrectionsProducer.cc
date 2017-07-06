@@ -73,7 +73,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				tau->p4 = tau->p4 * tauEnergyCorrectionThreeProng;
 			}
 		}
-		else if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) // correct mu->tau fake energy scale
+		else if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU))) // correct mu->tau fake energy scale
 		{
 			float tauMuonFakeEnergyCorrectionOneProng = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionOneProng();
 			float tauMuonFakeEnergyCorrectionOneProngPiZeros = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionOneProngPiZeros();
@@ -91,7 +91,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				tau->p4 = tau->p4 * tauMuonFakeEnergyCorrectionThreeProng;
 			}
 		}
-		else if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT) // correct e->tau fake energy scale
+		else if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU))) // correct e->tau fake energy scale
 		{
 			float tauElectronFakeEnergyCorrectionOneProng = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProng();
 			float tauElectronFakeEnergyCorrectionOneProngPiZeros = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngPiZeros();
@@ -201,7 +201,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	{
 		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
 
-		if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT)
+		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU)))
 		{
 			// inclusive
 			if (tauElectronFakeEnergyCorrectionShift != 1.0)
@@ -254,7 +254,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	{
 		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(const_cast<KLepton*>(product.m_originalLeptons[tau]), product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
 
-		if (genParticle && GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT)
+		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
 		{
 			// inclusive
 			if (tauMuonFakeEnergyCorrectionShift != 1.0)

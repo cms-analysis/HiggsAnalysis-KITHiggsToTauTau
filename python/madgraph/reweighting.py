@@ -10,30 +10,30 @@ import tempfile
 
 
 def me2(connection):
-	print "me2"
+	#print "me2"
 	args = connection.recv()
 	cartesian_four_momenta = args[0]
 	madgraph_process_directory = args[1]
 	madgraph_param_card = args[2]
 	alpha_s = args[3]
-	print alpha_s
+	#print alpha_s
 	
 	cwd = os.getcwd()
 	os.chdir(madgraph_process_directory)
-	print madgraph_process_directory
+	"""print madgraph_process_directory
 	print 
 	print cartesian_four_momenta
 	print
 	print zip(*cartesian_four_momenta)
-	print
+	print"""
 	sys.path.insert(0, madgraph_process_directory)
-	print os.getcwd()
+	#print os.getcwd()
 
 	if "matrix2py" not in sys.modules:
 		import matrix2py
-		print "no"
+		#print "no"
 	elif "matrix2py" in sys.modules:	
-		print "yes"
+		#print "yes"
 		del sys.modules["matrix2py"]
 		import matrix2py
 	

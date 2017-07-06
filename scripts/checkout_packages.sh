@@ -59,18 +59,11 @@ cd -
 # needed for error propagation e.g. in the background estimations
 git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 
-#FastBDT
-git clone https://github.com/artus-analysis/FastBDT.git
-cd $CMSSW_BASE/src/FastBDT
-cmake .
-make
-cd $CMSSW_BASE/src/
-
 # Grid-Control
-git clone https://github.com/CMSAachen3B/grid-control.git -b testing
-
-# modified fork from GC, needed for artusMergeOutputsWithGC.py. Use artusMergeOutputs.py with the --batch as alternative not needing this patch
-# git clone https://github.com/artus-analysis/grid-control.git 
+git clone https://github.com/grid-control/grid-control.git -b testing
+cd grid-control
+git reset --hard 3f93692
+cd $CMSSW_BASE/src/
 
 # source ini script, needs to be done in every new shell
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh

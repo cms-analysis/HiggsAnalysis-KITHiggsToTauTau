@@ -140,7 +140,7 @@ class Datacards(object):
 			"CMS_eff_t_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel", "process")
-				(       ["13TeV"], ["tt"], ["ZTT", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.09) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+				(       ["13TeV"], ["tt"], ["ZTT", "EWKZ", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.09) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 				(       ["13TeV"], ["tt"], ["ZJ", "VVJ", "TTJJ", "W"], 1.06) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 		]
 		self.tau_efficiency2016_syst_args = [
@@ -153,7 +153,7 @@ class Datacards(object):
 			"CMS_eff_t_$CHANNEL_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel", "process")
-				(       ["13TeV"], ["tt"], ["ZTT", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.04) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+				(       ["13TeV"], ["tt"], ["ZTT", "EWKZ", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.04) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 				(       ["13TeV"], ["tt"], ["ZJ", "VVJ", "TTJJ", "W"], 1.02) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 		]
 		self.btag_efficiency_syst_args = [
@@ -713,11 +713,22 @@ class Datacards(object):
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 
-	def get_samples_per_shape_systematic(self):
+	def get_samples_per_shape_systematic(self, channel=None, category=None):
+		cb = self.cb
+		if not channel is None:
+			if isinstance(channel, basestring):
+				cb = cb.cp().channel([channel])
+			else:
+				cb = cb.cp().channel(channel)
+		if not category is None:
+			if isinstance(category, basestring):
+				cb = cb.cp().bin([category])
+			else:
+				cb = cb.cp().bin(category)
 		samples_per_shape_systematic = {}
-		samples_per_shape_systematic["nominal"] = self.cb.process_set()
-		for shape_systematic in self.cb.cp().syst_type(["shape"]).syst_name_set():
-			samples_per_shape_systematic[shape_systematic] = self.cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
+		samples_per_shape_systematic["nominal"] = cb.process_set()
+		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
+			samples_per_shape_systematic[shape_systematic] = cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
 		return samples_per_shape_systematic
 
 	def extract_shapes(self, root_filename_template,
@@ -1072,7 +1083,7 @@ class Datacards(object):
 		base_path = reduce(lambda datacard1, datacard2: tools.longest_common_substring(datacard1, datacard2), datacards_cbs.keys())
 		
 		plot_configs = []
-		bkg_plotting_order = ["ZTTPOSPOL", "ZTTNEGPOL", "ZTT", "ZLL", "ZL", "ZJ", "TTTAUTAU", "TTJ", "TT", "VV", "WJ", "W", "QCD"]
+		bkg_plotting_order = ["ZTTPOSPOL", "ZTTNEGPOL", "ZTT", "ZLL", "ZL", "ZJ", "EWKZ", "TTTAUTAU", "TTT", "TTJJ", "TTJ", "TT", "VVT", "VVJ", "VV", "WJ", "W", "hww_gg125", "hww_qq125", "EWK", "QCD"]
 		for level in ["prefit", "postfit"]:
 			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
 				if (index == 0) or (level == "postfit"):
@@ -1085,16 +1096,42 @@ class Datacards(object):
 							stacked_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
 
 							config = {}
+							
+							processes_to_plot = list(stacked_processes)
+							# merge backgrounds from dictionary if provided
+							if plotting_args.get("merge_backgrounds", False):
+								if not "SumOfHistograms" in config.get("analysis_modules", []):
+									config.setdefault("analysis_modules", []).append("SumOfHistograms")
+								
+								merge_backgrounds = plotting_args.get("merge_backgrounds", {})
+								for new_background, backgrounds_to_merge in merge_backgrounds.iteritems():
+									if new_background not in stacked_processes:
+										backgrounds_to_remove = ""
+										for background in backgrounds_to_merge:
+											if background in stacked_processes:
+												stacked_processes = [p + ("_noplot" if p == background else "") for p in stacked_processes]
+												backgrounds_to_remove += background + "_noplot "
+										config.setdefault("sum_nicks", []).append(backgrounds_to_remove)
+										config.setdefault("sum_result_nicks", []).append(new_background)
+								
+								processes_to_plot = [p for p in stacked_processes if not "noplot" in p]
+								
+								for new_background in merge_backgrounds:
+									if new_background not in stacked_processes:
+										processes_to_plot.append(new_background)
+								
+								processes_to_plot.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+							
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
 							config["x_expressions"] = [p.strip("_noplot") for p in stacked_processes] + ["TotalSig"] + ["data_obs", "TotalBkg"]
 							config["nicks"] = stacked_processes + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
-							config["stacks"] = (["stack"]*len(stacked_processes)) + (["data"] if signal_stacked_on_bkg else ["sig", "data", "bkg_unc"])
+							config["stacks"] = (["stack"]*len(processes_to_plot)) + (["data"] if signal_stacked_on_bkg else ["sig", "data", "bkg_unc"])
 
-							config["labels"] = [label.lower() for label in stacked_processes + (["data_obs"] if signal_stacked_on_bkg else ["TotalSig", "data_obs", "TotalBkg"])]
-							config["colors"] = [color.lower() for color in stacked_processes + (["data_obs"] if signal_stacked_on_bkg else ["TotalSig", "data_obs", "TotalBkg"])]
-							config["markers"] = (["HIST"]*len(stacked_processes)) + (["E"] if signal_stacked_on_bkg else ["LINE", "E", "E2"])
-							config["legend_markers"] = (["F"]*len(stacked_processes)) + (["ELP"] if signal_stacked_on_bkg else ["L", "ELP", "F"])
+							config["labels"] = [label.lower() for label in processes_to_plot + (["data_obs"] if signal_stacked_on_bkg else ["TotalSig", "data_obs", "TotalBkg"])]
+							config["colors"] = [color.lower() for color in processes_to_plot + (["data_obs"] if signal_stacked_on_bkg else ["TotalSig", "data_obs", "TotalBkg"])]
+							config["markers"] = (["HIST"]*len(processes_to_plot)) + (["E"] if signal_stacked_on_bkg else ["LINE", "E", "E2"])
+							config["legend_markers"] = (["F"]*len(processes_to_plot)) + (["ELP"] if signal_stacked_on_bkg else ["L", "ELP", "F"])
 
 							config["x_label"] = category.split("_")[0]+"_"+plotting_args.get("x_expressions", None)
 							config["title"] = "channel_"+category.split("_")[0]
@@ -1104,14 +1141,6 @@ class Datacards(object):
 								config["year"] = plotting_args.get("era")
 							config["legend"] = [0.7, 0.6, 0.9, 0.88]
 							config["y_lims"] = [0.0]
-							if plotting_args.get("unrolled", False):
-								config["canvas_width"] = 1200
-								config["x_label"] = "bins"
-								if plotting_args.get("texts", False) and plotting_args.get("texts_x", False):
-									config["texts"] = plotting_args.get("texts")
-									config["texts_x"] = plotting_args.get("texts_x")
-									config["texts_y"] = list((0.65 for i in range(len(config["texts"]))))
-									config["texts_size"] = [0.05]
 
 							config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 							config["filename"] = level+("_"+fit_type if level == "postfit" else "")+"_"+category
@@ -1144,6 +1173,12 @@ class Datacards(object):
 								config["subplot_grid"] = "True"
 								config["y_subplot_lims"] = [0.5, 1.5]
 								config["y_subplot_label"] = "Obs./Exp."
+							
+							# update ordering if backgrounds were merged
+							if plotting_args.get("merge_backgrounds", False):
+								config["nicks_whitelist"] = processes_to_plot + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
+								if plotting_args.get("ratio", False):
+									config["nicks_whitelist"].append(["ratio_unc", "ratio"])
 
 							plot_configs.append(config)
 

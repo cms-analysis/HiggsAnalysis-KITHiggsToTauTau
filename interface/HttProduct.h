@@ -125,6 +125,8 @@ public:
 	std::map<KLepton*, double> m_a1CosPsi; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1SinPsi; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1optimumVariableSimpleFit;
+	std::map<KLepton*, double> m_a1OmegaHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1OmegaSvfit; // Keys are only of type KTau*
 
 	double m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
 	double m_tauPolarisationDiscriminatorSvfit = DefaultValues::UndefinedDouble;
@@ -212,10 +214,8 @@ public:
 
 
 	// filled by RefitVertexSelector
-	KVertex* m_thePV = 0;
 	KRefitVertex* m_refitPV = 0;
 	KRefitVertex* m_refitPVBS = 0;
-	RMPoint* m_theBS = 0;
 	RMPoint* m_refP1 = 0;
 	RMPoint* m_refP2 = 0;
 	RMFLV* m_track1p4 = 0;
@@ -255,10 +255,27 @@ public:
 
 
 	// filled by RecoTauCPProducer
-	TVector3 m_recoIP1;
-	TVector3 m_recoIP2;
-	TVector3 m_recoIP1method2;
-	TVector3 m_recoIP2method2;
+	KVertex* m_thePV = 0;
+	KBeamSpot* m_theBS = 0;
+
+	TVector3 m_recoIP1; // IPvec wrt thePV
+	TVector3 m_recoIP2; // IPvec wrt thePV
+	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
+	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
+	
+	std::vector<double> m_errorIP1vec_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_noErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_noErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+
+	std::vector<double> m_errorIP1vec_refitPV_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_refitPV_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_refitPV_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_refitPV_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_refitPV_noErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_refitPV_noErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
@@ -269,8 +286,6 @@ public:
 	double m_deltaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP2  = DefaultValues::UndefinedDouble;
 
-	double m_deltaRgenIPrecoIP1met2  = DefaultValues::UndefinedDouble;
-	double m_deltaRgenIPrecoIP2met2  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
 

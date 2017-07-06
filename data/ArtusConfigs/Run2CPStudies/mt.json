@@ -17,6 +17,10 @@
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json",
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"
 		],
+		"TauPolarisationTmvaWeights" : [
+			"/afs/cern.ch/user/m/mfackeld/public/weights_tmva/training.weights.xml",
+			"/afs/cern.ch/user/m/mfackeld/public/weights_sklearn/training_mt.weights.xml"
+		],
 		"Channel" : "MT",
 		"MinNMuons" : 1,
 		"MinNTaus" : 1,
@@ -110,7 +114,7 @@
 		"DiTauPairHLTLast" : {
 			"nick" : {
 				"default" : false,
-				"GluGluH2JetsToTauTauM125CPmixing.*JHU" : true,
+				"Spring16MiniAODv2" : true,
 				"Run2016|Summer16|Embedding(2016|MC)" : true
 			}
 		},
@@ -225,12 +229,10 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
 					"nVetoMuons",
@@ -238,8 +240,6 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					"trg_singlemuon",
-					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -264,14 +264,12 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
 					"nVetoMuons",
@@ -280,8 +278,6 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation",
-					"trg_singlemuon",
-					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -291,25 +287,23 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantitiesHiggs.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
+					"#tauPolarisationTMVA",
+					"#tauPolarisationSKLEARN",
 					"nVetoMuons",
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation",
-					"trg_singlemuon",
-					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -359,6 +353,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
+					"#tauPolarisationTMVA",
+					"#tauPolarisationSKLEARN",
 					"nVetoMuons",
 					"nLooseElectrons",
 					"nLooseMuons",
@@ -374,8 +370,7 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
 					"nLooseElectrons",
@@ -383,8 +378,6 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation",
-					"trg_singlemuon",
-					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -428,9 +421,9 @@
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:RefitVertexSelector",
@@ -473,9 +466,9 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:GenMatchedTauCPProducer",
@@ -521,7 +514,7 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RefitVertexSelector",
@@ -566,7 +559,7 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",
@@ -606,9 +599,9 @@
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
@@ -647,7 +640,7 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
@@ -692,7 +685,7 @@
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
@@ -733,9 +726,9 @@
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
+					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:GenMatchedTauCPProducer",
@@ -782,7 +775,7 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:HHKinFitProducer",
-					"producer:SimpleFitProducer",
+					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:EleTauFakeRateWeightProducer",

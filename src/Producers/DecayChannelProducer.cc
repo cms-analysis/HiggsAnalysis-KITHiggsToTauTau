@@ -563,6 +563,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 	{
 		return static_cast<HttProduct const&>(product).m_extraMuonVeto;
 	});
+	
 
 	std::vector<std::string> tauDiscriminators;
 	tauDiscriminators.push_back("byCombinedIsolationDeltaBetaCorrRaw3Hits");
