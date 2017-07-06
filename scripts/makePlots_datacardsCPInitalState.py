@@ -60,7 +60,7 @@ if __name__ == "__main__":
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
-	parser.add_argument("-b", "--background-method", default="classic",
+	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
@@ -85,10 +85,12 @@ if __name__ == "__main__":
 	                    help="Produce debug Plots [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
-	
+	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
+						help="Do not include shape-uncertainties. [Default: %(default)s]")
+
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
+
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	elif args.era == "2016":
@@ -115,6 +117,13 @@ if __name__ == "__main__":
 	
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
 	
+	# restrict combine to lnN systematics only if no_shape_uncs is set
+	# it is necessary to put this
+	if args.no_shape_uncs:
+		print("No shape uncs")
+		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.cb.PrintSysts()		
+	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -124,22 +133,21 @@ if __name__ == "__main__":
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-	
+
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
 
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 
-	
+
 
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
-	
+
 	#restriction to CH
 	datacards.cb.channel(args.channel)
-
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		# include channel prefix
 		categories= [channel + "_" + category for category in categories]
@@ -155,10 +163,9 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = args.exclude_cuts
-			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
+			higgs_masses = [mass for mass in datacards.cb.mass_set() if mass != "*"]
 			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
@@ -166,10 +173,11 @@ if __name__ == "__main__":
 					BIN=category,
 					ERA="13TeV"
 			))
+			merged_output_files.append(output_file)
 			output_files.append(output_file)
 			tmp_output_files = []
 			
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+			for shape_systematic, list_of_samples in datacards.get_samples_per_shape_systematic(channel, category).iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				
@@ -193,18 +201,19 @@ if __name__ == "__main__":
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="baseline2016" if args.era == "2016" else "baseline",
-							estimationMethod=args.background_method if channel in ["tt"] else "classic"
+							estimationMethod=args.background_method
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
-					# TODO: evaluate shift from datacards_per_channel_category.cb
+					
+					# TODO: evaluate shift from datacards.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
 					binnings_key = "tt_jdphi"
 					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-						config["x_bins"] = ["25,0,3.15"]
+						config["x_bins"] = ["25,-3.15,3.15"]
 					elif args.x_bins != None:
 						config["x_bins"] = [args.x_bins]
 					else:
@@ -254,10 +263,10 @@ if __name__ == "__main__":
 	
 	# delete existing output files
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-	for output_file in tmp_output_files:
-		if os.path.exists(output_file):
-			os.remove(output_file)
-			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	for output_file_iterator in tmp_output_files:
+		if os.path.exists(output_file_iterator):
+			os.remove(output_file_iterator)
+			log.debug("Removed file \""+output_file_iterator+"\" before it is recreated again.")
 	output_files = list(set(output_files))
 	
 	# create input histograms with HarryPlotter
@@ -278,30 +287,30 @@ if __name__ == "__main__":
 			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 			update_systematics=True
 	)
-	
+
 	# add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-	
+
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
 	#after additional cuts
-	datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.1)))
+	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.1)))
 	#befor cuts
-	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.207)))		
+	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.207)))
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
 		gghsm_signals = datacards.cb.cp().signals()
 		gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process()))
 		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
-		
+
 		gghps_signals = datacards.cb.cp().signals()
 		gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
-		#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
 		#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
 
 		gghmm_signals = datacards.cb.cp().signals()
@@ -379,8 +388,8 @@ if __name__ == "__main__":
 		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r") )
+	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
@@ -418,14 +427,14 @@ if __name__ == "__main__":
 		#pconfigs[ "marker_sizes"]=[5]
 		#pconfigs["marker_styles"]=[34]
 		pconfigs[ "markers"]=["line","line","line"]
-		
+
 		pconfigs["y_expressions"]=["None","None","None","0"]
 		pconfigs["folders"]=["q"]
 		pconfigs["weights"]=["1","type<0","type>0","type==0"]
-		pconfigs["x_expressions"]=["q"]	
+		pconfigs["x_expressions"]=["q"]
 		pconfigs[ "output_dir"]=str(os.path.dirname(filename))
-		pconfigs["x_bins"]=["500,-15,15"]
-		
+		pconfigs["x_bins"]=["500,-100,100"]
+
 		#pconfigs["scale_factors"]=[1,1,1,900]
 		#pconfig["plot_modules"] = ["ExportRoot"]
 
@@ -441,6 +450,3 @@ if __name__ == "__main__":
 
 	#print args.n_plots[1]
 	print "hi"
-
-	
-

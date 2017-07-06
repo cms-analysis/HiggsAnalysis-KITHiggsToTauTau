@@ -34,9 +34,10 @@ public:
 	double CalculateZs(double zPlus, double zMinus);
 	double PhiTransform(double phi);
 	TVector3 CalculateIPVector(KGenParticle* genParticle, RMPoint* pv);
+	TVector3 CalculateIPVector(KLepton* recoParticle, KVertex* pv);
 	TVector3 CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv);
-	std::vector<double> CalculateIPerrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec);
-	TVector3 CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv, float lepDz); //FIXME: remove it
+	std::vector<double> CalculateIPErrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec, std::string errorFlag);
+	std::vector<double> CalculateIPErrors(KLepton* lepton, KVertex* pv, TVector3* ipvec, std::string errorFlag);
 	inline double GetGenPhiStar()
 	{
 		return genPhiStar;

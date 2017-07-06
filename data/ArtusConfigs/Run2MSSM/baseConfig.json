@@ -42,8 +42,8 @@
 		}
 	},
 	"ChooseMvaMet" : false,
-	"DeltaRMatchingRecoElectronsGenParticle" : 0.2,
-	"DeltaRMatchingRecoElectronsGenTau" : 0.2,
+	"DeltaRMatchingRecoElectronGenParticle" : 0.2,
+	"DeltaRMatchingRecoElectronGenTau" : 0.2,
 	"DeltaRMatchingRecoMuonGenParticle" : 0.2,
 	"DeltaRMatchingRecoMuonGenTau" : 0.2,
 	"DeltaRMatchingRecoTauGenParticle" : 0.2,

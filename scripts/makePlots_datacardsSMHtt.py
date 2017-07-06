@@ -72,15 +72,15 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
-                        help="Scale datacard to luminosity specified. [Default: %(default)s]")
+	                    help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
-						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--ttbar-fit", action="store_true", default=False,
-						help="Use rate parameter to propagate ttbar normalization from control region to all categories. [Default: %(default)s]")
+	                    help="Use rate parameter to propagate ttbar normalization from control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--mm-fit", action="store_true", default=False,
-						help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
+	                    help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--remote", action="store_true", default=False,
-						help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
+	                    help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
@@ -92,7 +92,13 @@ if __name__ == "__main__":
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
 	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
-						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
+	                    help="Exit program in case categories are removed from CH. [Default: %(default)s]")
+	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
+	parser.add_argument("--no-jec-unc-split", default=False, action="store_true",
+	                    help="Do not split JEC uncertainties into the 27 different sources but use the envelope instead. [Default: %(default)s]")
+	parser.add_argument("--new-tau-id", default=False, action="store_true",
+	                    help="Use rerun tau Id instead of nominal one. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -121,7 +127,7 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era)
+	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era,noJECuncSplit=args.no_jec_unc_split)
 	if args.for_dcsync:
 		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
 	
@@ -214,27 +220,30 @@ if __name__ == "__main__":
 	}
 	
 	# corrections factors from ZMM control regions as written on SM HTT Twiki
+	zmm_cr_0jet_global = "(1.0)"
+	zmm_cr_boosted_global = "(1.0)"
+	zmm_cr_vbf_global = "(1.02)"
 	zmm_cr_factors_official = {
-		"mt_ZeroJet2D" : "(1.02)",
-		"et_ZeroJet2D" : "(1.02)",
-		"em_ZeroJet2D" : "(1.02)",
-		"tt_ZeroJet2D" : "(1.02)",
-		"mt_Boosted2D" : "(1.02)",
-		"et_Boosted2D" : "(1.02)",
-		"em_Boosted2D" : "(1.02)",
-		"tt_Boosted2D" : "(1.02)",
-		"mt_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"et_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"em_Vbf2D" : "(1.02)*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"tt_Vbf2D" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
-		"mt_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"et_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"em_Vbf2D_Up" : "(1.02)*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"tt_Vbf2D_Up" : "(1.02)*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
-		"mt_Vbf2D_Down" : "(1.02)",
-		"et_Vbf2D_Down" : "(1.02)",
-		"em_Vbf2D_Down" : "(1.02)",
-		"tt_Vbf2D_Down" : "(1.02)"
+		"mt_ZeroJet2D" : zmm_cr_0jet_global,
+		"et_ZeroJet2D" : zmm_cr_0jet_global,
+		"em_ZeroJet2D" : zmm_cr_0jet_global,
+		"tt_ZeroJet2D" : zmm_cr_0jet_global,
+		"mt_Boosted2D" : zmm_cr_boosted_global,
+		"et_Boosted2D" : zmm_cr_boosted_global,
+		"em_Boosted2D" : zmm_cr_boosted_global,
+		"tt_Boosted2D" : zmm_cr_boosted_global,
+		"mt_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"et_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"em_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"tt_Vbf2D" : zmm_cr_vbf_global+"*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
+		"mt_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"et_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"em_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"tt_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
+		"mt_Vbf2D_Down" : zmm_cr_vbf_global,
+		"et_Vbf2D_Down" : zmm_cr_vbf_global,
+		"em_Vbf2D_Down" : zmm_cr_vbf_global,
+		"tt_Vbf2D_Down" : zmm_cr_vbf_global
 	}
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
@@ -335,11 +344,12 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="smhtt2016" if args.era == "2016" else "baseline",
+							cut_type="smhtt2016"+("newTauId" if args.new_tau_id else "") if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,
-							zmm_cr_factor=zmm_cr_factor
+							zmm_cr_factor=zmm_cr_factor,
+							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
 					
 					if "CMS_scale_gg_13TeV" in shape_systematic:
@@ -575,7 +585,7 @@ if __name__ == "__main__":
 		backgrounds_to_merge = {
 			"ZLL" : ["ZL", "ZJ"],
 			"TT" : ["TTT", "TTJJ"],
-			"EWK" : ["VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
+			"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
 		}
 		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge}, n_processes=args.n_processes)
 		for plot_config in prefit_postfit_plot_configs:

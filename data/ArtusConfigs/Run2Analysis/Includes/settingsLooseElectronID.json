@@ -10,7 +10,7 @@
 	"LooseElectronIDName" : {
 		"nick" : {
 			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
-			"(Run2015|Fall15MiniAODv2|GluGluH2JetsToTauTauM125CPmixing.*JHU)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
+			"(Run2015|Fall15MiniAODv2)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 		}
 	},
 	"LooseElectronMvaIDCutEB1" : {

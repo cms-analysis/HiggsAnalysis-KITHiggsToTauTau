@@ -105,6 +105,7 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergySvfit_1", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergySvfit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedDouble));
 	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visibleOverFullEnergySvfit_2", [](event_type const& event, product_type const& product) {
 		return static_cast<float>(SafeMap::GetWithDefault(product.m_visibleOverFullEnergySvfit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedDouble));
 	});
@@ -157,7 +158,7 @@ void PolarisationQuantitiesProducer::Produce(
 			RMFLV* fittedTauSvfit = (indexLepton == 0 ? product.m_svfitResults.fittedTau1LV : product.m_svfitResults.fittedTau2LV);
 			if (fittedTauSvfit != nullptr)
 			{
-				product.m_visibleOverFullEnergySvfit[*lepton] = (indexLepton == 0 ? product.m_svfitResults.fittedTau1ERatio : product.m_svfitResults.fittedTau2ERatio);
+				product.m_visibleOverFullEnergySvfit[*lepton] = (indexLepton == 0 ? (*lepton)->p4.E() / fittedTauSvfit->E() : product.m_svfitResults.fittedTau2ERatio);
 				product.m_visibleToFullAngleSvfit[*lepton] = ROOT::Math::VectorUtil::Angle((*lepton)->p4, *fittedTauSvfit);
 			}
 

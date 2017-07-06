@@ -119,11 +119,7 @@ if __name__ == "__main__":
 	hadd_commands = []
 
 	datacards = cpstudiesdatacards.CPStudiesDatacards(cp_mixings_str, add_data=True) # add_data=args.add_data)
-	print(args.categories)
-	if args.no_shape_uncs:
-		print("No shape uncs")
-		datacards.cb.syst_type("shape")
-		datacards.cb.PrintSysts()
+
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -150,6 +146,12 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	datacards.cb.channel(args.channel)
 
+	# restrict combine to lnN systematics only if no_shape_uncs is set
+	# it is necessary to put this
+	if args.no_shape_uncs:
+		print("No shape uncs")
+		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.cb.PrintSysts()
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
@@ -158,10 +160,8 @@ if __name__ == "__main__":
 		# prepare category settings based on args and datacards
 		if (len(categories) == 1) and (categories[0] == "all"):
 			categories = datacards.cb.cp().channel([channel]).bin_set()
-			print(categories)
 		else:
 			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-			print(categories)
 		args.categories[index] = categories
 
 		# restrict CombineHarvester to configured categories:
@@ -181,7 +181,6 @@ if __name__ == "__main__":
 			))
 			output_files.append(output_file)
 			tmp_output_files = []
-
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_bkg_samples = [datacards.configs.process2sample(process) for process in list_of_samples if process in datacards_per_channel_category.cb.cp().backgrounds().process_set()]
@@ -189,6 +188,7 @@ if __name__ == "__main__":
 
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
+
 
 					# prepare plotting configs for retrieving the input histograms
 					config={}
@@ -237,7 +237,7 @@ if __name__ == "__main__":
 								lumi=args.lumi * 1000,
 								higgs_masses=higgs_masses,
 								additional_higgs_masses_for_shape=tmp_additional_higgs_masses_for_shape,
-								mssm=(cp_mixing > .5),
+								mssm=None,
 								normalise_to_sm_xsec=False
 						)
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(

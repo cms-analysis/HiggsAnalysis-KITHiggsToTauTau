@@ -140,7 +140,7 @@ class Datacards(object):
 			"CMS_eff_t_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel", "process")
-				(       ["13TeV"], ["tt"], ["ZTT", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.09) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+				(       ["13TeV"], ["tt"], ["ZTT", "EWKZ", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.09) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 				(       ["13TeV"], ["tt"], ["ZJ", "VVJ", "TTJJ", "W"], 1.06) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 		]
 		self.tau_efficiency2016_syst_args = [
@@ -153,7 +153,7 @@ class Datacards(object):
 			"CMS_eff_t_$CHANNEL_$ERA",
 			"lnN",
 			ch.SystMap("era", "channel", "process")
-				(       ["13TeV"], ["tt"], ["ZTT", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.04) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
+				(       ["13TeV"], ["tt"], ["ZTT", "EWKZ", "VVT", "TTT", "ggH", "qqH", "WH", "ZH"], 1.04) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 				(       ["13TeV"], ["tt"], ["ZJ", "VVJ", "TTJJ", "W"], 1.02) # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L103-L128
 		]
 		self.btag_efficiency_syst_args = [
@@ -713,11 +713,22 @@ class Datacards(object):
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 
-	def get_samples_per_shape_systematic(self):
+	def get_samples_per_shape_systematic(self, channel=None, category=None):
+		cb = self.cb
+		if not channel is None:
+			if isinstance(channel, basestring):
+				cb = cb.cp().channel([channel])
+			else:
+				cb = cb.cp().channel(channel)
+		if not category is None:
+			if isinstance(category, basestring):
+				cb = cb.cp().bin([category])
+			else:
+				cb = cb.cp().bin(category)
 		samples_per_shape_systematic = {}
-		samples_per_shape_systematic["nominal"] = self.cb.process_set()
-		for shape_systematic in self.cb.cp().syst_type(["shape"]).syst_name_set():
-			samples_per_shape_systematic[shape_systematic] = self.cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
+		samples_per_shape_systematic["nominal"] = cb.process_set()
+		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
+			samples_per_shape_systematic[shape_systematic] = cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
 		return samples_per_shape_systematic
 
 	def extract_shapes(self, root_filename_template,
@@ -1072,7 +1083,7 @@ class Datacards(object):
 		base_path = reduce(lambda datacard1, datacard2: tools.longest_common_substring(datacard1, datacard2), datacards_cbs.keys())
 		
 		plot_configs = []
-		bkg_plotting_order = ["ZTTPOSPOL", "ZTTNEGPOL", "ZTT", "ZLL", "ZL", "ZJ", "TTTAUTAU", "TTT", "TTJJ", "TTJ", "TT", "VVT", "VVJ", "VV", "WJ", "W", "hww_gg125", "hww_qq125", "EWK", "QCD"]
+		bkg_plotting_order = ["ZTTPOSPOL", "ZTTNEGPOL", "ZTT", "ZLL", "ZL", "ZJ", "EWKZ", "TTTAUTAU", "TTT", "TTJJ", "TTJ", "TT", "VVT", "VVJ", "VV", "WJ", "W", "hww_gg125", "hww_qq125", "EWK", "QCD"]
 		for level in ["prefit", "postfit"]:
 			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
 				if (index == 0) or (level == "postfit"):

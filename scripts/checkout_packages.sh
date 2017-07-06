@@ -61,13 +61,6 @@ cd -
 # needed for error propagation e.g. in the background estimations
 git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 
-#FastBDT
-git clone https://github.com/artus-analysis/FastBDT.git
-cd $CMSSW_BASE/src/FastBDT
-cmake .
-make
-cd $CMSSW_BASE/src/
-
 # Grid-Control
 git clone https://github.com/grid-control/grid-control.git -b testing
 cd grid-control

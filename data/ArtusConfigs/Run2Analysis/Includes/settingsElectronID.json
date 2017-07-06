@@ -10,7 +10,7 @@
 	"ElectronIDName" : {
 		"nick" : {
 			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
-			"(Run2015|Fall15MiniAODv2|GluGluH2JetsToTauTauM125CPmixing.*JHU)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
+			"(Run2015|Fall15MiniAODv2)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 		}
 	},
 	"ElectronMvaIDCutEB1" : {
@@ -40,7 +40,7 @@
 				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
 				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
 			],
-			"(Run2015|Fall15MiniAODv2|GluGluH2JetsToTauTauM125CPmixing.*JHU)" : [
+			"(Run2015|Fall15MiniAODv2)" : [
 				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
 				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto",
 				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose",
