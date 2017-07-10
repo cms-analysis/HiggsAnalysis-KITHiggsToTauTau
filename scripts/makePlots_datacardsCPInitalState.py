@@ -354,7 +354,6 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 	#cb.PrintAll()
 
-	print "test"
 	'''
 	datacards_workspaces = datacards.text2workspace(
 			datacards_cbs,
