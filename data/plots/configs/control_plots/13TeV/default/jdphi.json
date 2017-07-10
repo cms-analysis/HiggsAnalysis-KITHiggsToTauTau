@@ -1,0 +1,4 @@
+{
+	"x_expressions": ["jdphi"],
+	"weights": ["(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)"]
+}
