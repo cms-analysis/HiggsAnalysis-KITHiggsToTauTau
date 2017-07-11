@@ -18,7 +18,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)" : [
+			"DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV" : [
 				23
 			],
 			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
@@ -148,7 +148,7 @@
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer"
 			],
-			"DY.?JetsToLLM(50|150)" : [
+			"DY.?JetsToLLM(50|150)|LFV" : [
 				"#filter:RunLumiEventFilter",
 				"producer:ScaleVariationProducer",
 				"filter:MetFilter",

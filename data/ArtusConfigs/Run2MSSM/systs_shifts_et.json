@@ -100,7 +100,7 @@
 			"nick" : {
 				"default" : 1.024,
 				"Run201|Embedding2016" : 1.0,
-				"DY.?JetsToLL" : 1.029
+				"DY.?JetsToLL|LFV" : 1.029
 			}
 		}
 	},
@@ -112,7 +112,7 @@
 			"nick" : {
 				"default" : 1.024,
 				"Run201|Embedding2016" : 1.0,
-				"DY.?JetsToLL" : 1.019
+				"DY.?JetsToLL|LFV" : 1.019
 			}
 		}
 	},
@@ -124,7 +124,7 @@
 			"nick" : {
 				"default" : 1.076,
 				"Run201|Embedding2016" : 1.0,
-				"DY.?JetsToLL" : 1.086
+				"DY.?JetsToLL|LFV" : 1.086
 			}
 		}
 	},
@@ -136,7 +136,7 @@
 			"nick" : {
 				"default" : 1.076,
 				"Run201|Embedding2016" : 1.0,
-				"DY.?JetsToLL" : 1.066
+				"DY.?JetsToLL|LFV" : 1.066
 			}
 		}
 	}

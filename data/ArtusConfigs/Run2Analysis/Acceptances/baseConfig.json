@@ -56,7 +56,7 @@
 				"filter:GenDiLeptonDecayModeFilter",
 				"producer:GenParticleProducer"
 			],
-			"DY.?JetsToLLM(50|150).*madgraph" : [
+			"DY.?JetsToLLM(50|150).*madgraph|LFV" : [
 				"#filter:RunLumiEventFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
