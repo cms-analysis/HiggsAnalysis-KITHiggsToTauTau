@@ -1,11 +1,11 @@
 {
 	"x_bins": [
-		"32,-3.2,3.2"
+		"32,0.0,3.2"
 	],
 	"x_expressions": [
-		"jdphi"
+		"abs(jdphi)"
 	],
-	"x_label": "#Delta#phi_{jj}",
+	"x_label": "#left|#Delta#phi_{jj}#right|",
 	"weights": [
 		"(jeta_1*jeta_2<0) * (mjj>500) * (abs(jdeta)>2.0) * (njets>1)"
 	]
