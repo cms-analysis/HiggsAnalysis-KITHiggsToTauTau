@@ -144,13 +144,14 @@
 			"had_gen_match_pT_1",
 			"had_gen_match_pT_2",
                         "nDiMuonVetoPairsOS",
+                        "ZMass",
                         "nJets30",
                         "nTaus",
                         "nElectrons",
                         "nMuons"
 		],
 		"OSChargeLeptons" : true,
-                "ZMassRange" : 5.0,
+                "ZMassRange" : 30.0,
 		"TopPtReweightingStrategy" : "Run1",
 		"Processors" : {
 			"nick" : {
@@ -160,6 +161,7 @@
 					"producer:HltProducer",
 					"producer:MetSelector",
 					"producer:ValidMuonsProducer",
+                                        "producer:ZmmProducer",
 					"filter:ValidMuonsFilter",
 					"producer:MuonTriggerMatchingProducer",
 					"filter:MinMuonsCountFilter",
