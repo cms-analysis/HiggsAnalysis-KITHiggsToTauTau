@@ -116,15 +116,6 @@ public:
 	std::map<KLepton*, double> m_visibleToFullAngleHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_visibleToFullAngleSvfit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1CosTheta; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1SinTheta; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1CosBeta; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1SinBeta; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1CosGamma; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1SinGamma; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1CosPsi; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1SinPsi; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1optimumVariableSimpleFit;
 	std::map<KLepton*, double> m_a1OmegaHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1OmegaSvfit; // Keys are only of type KTau*
 
@@ -143,8 +134,8 @@ public:
 	TVector2 m_recoPfMetOnBoson;
 	TVector2 m_pfrecoilOnBoson;
 	double m_chiSquarePf;
-	    double m_metPlusVisLepsOnGenBosonPtOverGenBosonPt;
-	    double m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt;
+	double m_metPlusVisLepsOnGenBosonPtOverGenBosonPt;
+	double m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt;
 	double m_genBosonPt;
 	double m_genBosonPhi;
 

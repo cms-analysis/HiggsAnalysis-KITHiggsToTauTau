@@ -53,7 +53,7 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:NicknameProducer"
 			],
-			"DY.?JetsToLL" : [
+			"DY.?JetsToLL|LFV" : [
 				"#filter:RunLumiEventFilter",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:HttValidLooseElectronsProducer",
@@ -108,7 +108,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL" : [
+			"DY.?JetsToLL|LFV" : [
 				23
 			],
 			"W.?JetsToLN" : [
