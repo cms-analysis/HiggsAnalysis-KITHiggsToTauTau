@@ -253,158 +253,58 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 	});
 
 	// errors on dxy, dz and IP wrt thePV
-	// using absErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_absErr", [](event_type const& event, product_type const& product)
+	// using propagation of errors
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_newErr", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_absErr.at(0);
+		return product.m_errorIP1vec.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_newErr", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_absErr.at(1);
+		return product.m_errorIP1vec.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_absErr.at(2);
+		return product.m_errorIP1vec.at(2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_newErr", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_absErr.at(0);
+		return product.m_errorIP2vec.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_newErr", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_absErr.at(1);
+		return product.m_errorIP2vec.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_absErr.at(2);
-	});
-	// using relErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_relErr.at(0);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_relErr.at(1);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_relErr.at(2);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_relErr.at(0);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_relErr.at(1);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_relErr.at(2);
-	});
-	// using noErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_noErr.at(0);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_noErr.at(1);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_1_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_noErr.at(2);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_noErr.at(0);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_noErr.at(1);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_2_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_noErr.at(2);
+		return product.m_errorIP2vec.at(2);
 	});
 
 
 	// errors on dxy, dz and IP wrt refitted PV
-	// using absErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1_absErr", [](event_type const& event, product_type const& product)
+	// using propagation of errors
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_refitPV_absErr.at(0);
+		return product.m_errorIP1vec_refitPV.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_refitPV_absErr.at(1);
+		return product.m_errorIP1vec_refitPV.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_refitPV_absErr.at(2);
+		return product.m_errorIP1vec_refitPV.at(2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_refitPV_absErr.at(0);
+		return product.m_errorIP2vec_refitPV.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_refitPV_absErr.at(1);
+		return product.m_errorIP2vec_refitPV.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2_absErr", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_refitPV_absErr.at(2);
-	});
-	// using relErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_refitPV_relErr.at(0);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_refitPV_relErr.at(1);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_refitPV_relErr.at(2);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_refitPV_relErr.at(0);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_refitPV_relErr.at(1);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2_relErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_refitPV_relErr.at(2);
-	});
-	// using noErr
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_1_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_refitPV_noErr.at(0);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_1_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_refitPV_noErr.at(1);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_1_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP1vec_refitPV_noErr.at(2);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_refitPV_2_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_refitPV_noErr.at(0);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_refitPV_2_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_refitPV_noErr.at(1);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errIP_refitPV_2_noErr", [](event_type const& event, product_type const& product)
-	{
-		return product.m_errorIP2vec_refitPV_noErr.at(2);
+		return product.m_errorIP2vec_refitPV.at(2);
 	});
 
 
@@ -514,21 +414,13 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	if (product.m_refitPV != nullptr){
 		product.m_recoIP1 = cpq.CalculateIPVector(recoParticle1, product.m_thePV);
 		product.m_recoIP2 = cpq.CalculateIPVector(recoParticle2, product.m_thePV);
-		product.m_errorIP1vec_absErr = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &recoIP1, "absErr");
-		product.m_errorIP2vec_absErr = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &recoIP2, "absErr");
-		product.m_errorIP1vec_relErr = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &recoIP1, "relErr");
-		product.m_errorIP2vec_relErr = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &recoIP2, "relErr");
-		product.m_errorIP1vec_noErr = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &recoIP1, "noErr");
-		product.m_errorIP2vec_noErr = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &recoIP2, "noErr");
+		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &recoIP1);
+		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &recoIP2);
 
 		product.m_recoIP1_refitPV = cpq.CalculateIPVector(recoParticle1, product.m_refitPV);
 		product.m_recoIP2_refitPV = cpq.CalculateIPVector(recoParticle2, product.m_refitPV);
-		product.m_errorIP1vec_refitPV_absErr = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1, "absErr");
-		product.m_errorIP2vec_refitPV_absErr = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2, "absErr");
-		product.m_errorIP1vec_refitPV_relErr = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1, "relErr");
-		product.m_errorIP2vec_refitPV_relErr = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2, "relErr");
-		product.m_errorIP1vec_refitPV_noErr = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1, "noErr");
-		product.m_errorIP2vec_refitPV_noErr = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2, "noErr");
+		product.m_errorIP1vec_refitPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1);
+		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2);
 
 		
 
