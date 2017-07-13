@@ -244,8 +244,8 @@ void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type
 
 	for(auto weightNames:m_weightNames)
 	{
-		KLepton* originalLepton = product.m_originalLeptons.find(product.m_flavourOrderedLeptons[weightNames.first]) != product.m_originalLeptons.end() ? const_cast<KLepton*>(product.m_originalLeptons.at(product.m_flavourOrderedLeptons[weightNames.first])) : product.m_flavourOrderedLeptons[weightNames.first];
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
 		KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
 		if (settings.GetUseUWGenMatching())
 		{
@@ -325,8 +325,8 @@ void MuTauTriggerWeightProducer::Produce( event_type const& event, product_type 
 	for(auto weightNames:m_weightNames)
 	{
 		// muon-tau cross trigger scale factors currently depend only on tau pt and eta
-		KLepton* originalLepton = product.m_originalLeptons.find(product.m_flavourOrderedLeptons[weightNames.first]) != product.m_originalLeptons.end() ? const_cast<KLepton*>(product.m_originalLeptons.at(product.m_flavourOrderedLeptons[weightNames.first])) : product.m_flavourOrderedLeptons[weightNames.first];
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
 		KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
 		if (settings.GetUseUWGenMatching())
 		{

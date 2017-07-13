@@ -14,9 +14,10 @@ void TauTauTriggerScaleFactorProducer::Produce( event_type const& event, product
 	for(int index = 0; index < 2; index++)
 	{
 		double WeightTau = 1.0;
-		auto args = std::vector<double>{product.m_flavourOrderedLeptons[index]->p4.Pt()};
+		KLepton* lepton = product.m_flavourOrderedLeptons[index];
+		auto args = std::vector<double>{lepton->p4.Pt()};
 		KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
-		KLepton* originalLepton = product.m_originalLeptons.find(product.m_flavourOrderedLeptons[index]) != product.m_originalLeptons.end() ? const_cast<KLepton*>(product.m_originalLeptons.at(product.m_flavourOrderedLeptons[index])) : product.m_flavourOrderedLeptons[index];
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
 		if (settings.GetUseUWGenMatching())
 		{
 			genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
