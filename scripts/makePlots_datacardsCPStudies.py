@@ -152,6 +152,7 @@ if __name__ == "__main__":
 		print("No shape uncs")
 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
 		datacards.cb.PrintSysts()
+
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
@@ -191,6 +192,8 @@ if __name__ == "__main__":
 
 
 					# prepare plotting configs for retrieving the input histograms
+					
+					#TODO: Check which cut_type should be used and whether baseline2016 is up-to-date
 					config={}
 
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
@@ -204,6 +207,7 @@ if __name__ == "__main__":
 							channel=channel,
 							category="catHtt13TeV_"+category,
 							weight=args.weight,
+							cut_type = "baseline2016",
 							lumi=args.lumi * 1000,
 							no_ewk_samples = args.no_ewk_samples,
 							no_ewkz_as_dy = args.no_ewkz_as_dy
@@ -236,6 +240,7 @@ if __name__ == "__main__":
 								weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle_over_pi_half,
 								lumi=args.lumi * 1000,
 								higgs_masses=higgs_masses,
+								cut_type = "baseline2016",
 								additional_higgs_masses_for_shape=tmp_additional_higgs_masses_for_shape,
 								mssm=None,
 								normalise_to_sm_xsec=False

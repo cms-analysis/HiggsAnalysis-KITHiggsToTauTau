@@ -23,6 +23,12 @@
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg",
 					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"
 				],
+				"Run2016(B|C|D|E|F|G)" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
+				],
+				"Run2016H" : [
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"
+				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
 				],
@@ -81,6 +87,12 @@
 			"nick" : {
 				"default" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg",
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"
+				],
+				"Run2016(B|C|D|E|F|G)" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
+				],
+				"Run2016H" : [
 					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"
 				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [

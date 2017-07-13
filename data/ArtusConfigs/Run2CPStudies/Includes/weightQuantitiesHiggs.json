@@ -1,7 +1,9 @@
 {
 	"property" : [
 		"madGraphWeight000",
+		"madGraphWeight025",
 		"madGraphWeight050",
+		"madGraphWeight075",
 		"madGraphWeight100",
 		"madGraphWeightSample",
 		"madGraphWeightInvSample"

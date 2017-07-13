@@ -263,7 +263,7 @@ class Samples(samples.SamplesBase):
 	# use zll instead of zl+zj separately
 	def zll_zl_shape_weight(self, channel, cut_type):
 		if "smhtt2016" in cut_type and channel in ["mt", "et"]:
-			return "("+self.zl_genmatch(channel)+"*"+self.zl_shape_weight(channel, cut_type)+" + "+self.zj_genmatch(channel)+")"
+			return "(("+self.zl_genmatch(channel)+"*"+self.zl_shape_weight(channel, cut_type)+") + "+self.zj_genmatch(channel)+")"
 		else:
 			return "(1.0)"
 	
@@ -1298,12 +1298,10 @@ class Samples(samples.SamplesBase):
 			exclude_cuts_high_mt_ss = copy.deepcopy(exclude_cuts_high_mt)+["os"]
 			exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 			exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
-			exclude_cuts_relaxed = []
 			
 			if category != None:
 				wj_highmt_shape_cut_type = wj_highmt_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
 				wj_shape_cut_type = wj_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
-				exclude_cuts_relaxed = ["iso_1", "iso_2"] if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else []
 			
 			# wj shape and highmt to lowmt extrapolation
 			wj_shape_weight = weight   # replace only category part
@@ -1824,7 +1822,7 @@ class Samples(samples.SamplesBase):
 						self.files_wj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt+exclude_cuts_relaxed, cut_type=wj_highmt_shape_cut_type),
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=wj_highmt_shape_cut_type),
 						"noplot_wj_relaxed_os_highmt",
 						nick_suffix=nick_suffix
 				)
@@ -1834,7 +1832,7 @@ class Samples(samples.SamplesBase):
 							self.files_ewkwm(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt+exclude_cuts_relaxed, cut_type=wj_highmt_shape_cut_type)+"*"+self.ewkwm_stitchingweight(),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=wj_highmt_shape_cut_type)+"*"+self.ewkwm_stitchingweight(),
 							"noplot_wj_relaxed_os_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -1843,7 +1841,7 @@ class Samples(samples.SamplesBase):
 							self.files_ewkwp(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt+exclude_cuts_relaxed, cut_type=wj_highmt_shape_cut_type)+"*"+self.ewkwp_stitchingweight(),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=wj_highmt_shape_cut_type)+"*"+self.ewkwp_stitchingweight(),
 							"noplot_wj_relaxed_os_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -1852,7 +1850,7 @@ class Samples(samples.SamplesBase):
 						self.files_wj(channel),
 						self.root_file_folder(channel),
 						lumi,
-						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_relaxed, cut_type=wj_shape_cut_type),
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type),
 						"noplot_wj_relaxed_os_lowmt",
 						nick_suffix=nick_suffix
 				)
@@ -1862,7 +1860,7 @@ class Samples(samples.SamplesBase):
 							self.files_ewkwm(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_relaxed, cut_type=wj_shape_cut_type)+"*"+self.ewkwm_stitchingweight(),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type)+"*"+self.ewkwm_stitchingweight(),
 							"noplot_wj_relaxed_os_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -1871,7 +1869,7 @@ class Samples(samples.SamplesBase):
 							self.files_ewkwp(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_relaxed, cut_type=wj_shape_cut_type)+"*"+self.ewkwp_stitchingweight(),
+							mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=wj_shape_cut_type)+"*"+self.ewkwp_stitchingweight(),
 							"noplot_wj_relaxed_os_lowmt",
 							nick_suffix=nick_suffix
 					)
@@ -2423,15 +2421,14 @@ class Samples(samples.SamplesBase):
 
 			if "new" in estimationMethod:
 				if channel in ["et","mt"]:
+					high_mt_cut_type = cut_type + "highMtControlRegionWJ"
 					high_mt_ss_cut_type = cut_type + "highMtSSControlRegionWJ"
 					qcd_shape_cut = cut_type
 					exclude_cuts_high_mt = [cut for cut in exclude_cuts if cut not in ["mt"]]
 					exclude_cuts_high_mt_ss = copy.deepcopy(exclude_cuts_high_mt)+["os"]
-					exclude_cuts_relaxed = []
 					
 					if category != None:
 						qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
-						exclude_cuts_relaxed = ["iso_1", "iso_2"] if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else []
 					
 					qcd_shape_weight = weight
 					if "newKIT" in estimationMethod:
@@ -2664,7 +2661,7 @@ class Samples(samples.SamplesBase):
 							self.files_ztt(channel),
 							self.root_file_folder(channel),
 							lumi,
-							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=qcd_shape_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+							Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=qcd_shape_weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 							"noplot_ztt_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -2674,7 +2671,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkz_zll(channel),
 								self.root_file_folder(channel),
 								lumi,
-								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=qcd_shape_weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=qcd_shape_weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 								"noplot_ztt_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2683,7 +2680,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkz_znn(channel),
 								self.root_file_folder(channel),
 								lumi,
-								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=qcd_shape_weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+								Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=qcd_shape_weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 								"noplot_ztt_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2692,7 +2689,7 @@ class Samples(samples.SamplesBase):
 							self.files_zll(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor,
+							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*zPtReweightWeight"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor,
 							"noplot_zll_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -2702,7 +2699,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkz_zll(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 								"noplot_zll_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2711,7 +2708,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkz_znn(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 								"noplot_zll_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2721,7 +2718,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkz_zll(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 								"noplot_ewkz_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2730,7 +2727,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkz_znn(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 								"noplot_ewkz_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2739,7 +2736,7 @@ class Samples(samples.SamplesBase):
 							self.files_ttj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
+							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)*topPtReweightWeight",
 							"noplot_ttj_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -2748,7 +2745,7 @@ class Samples(samples.SamplesBase):
 							self.files_vv(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
+							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
 							"noplot_vv_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -2757,7 +2754,7 @@ class Samples(samples.SamplesBase):
 							self.files_wj(channel),
 							self.root_file_folder(channel),
 							lumi,
-							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
+							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
 							"noplot_wj_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
 					)
@@ -2767,7 +2764,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkwm(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkwm_stitchingweight(),
+								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkwm_stitchingweight(),
 								"noplot_wj_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2776,7 +2773,7 @@ class Samples(samples.SamplesBase):
 								self.files_ewkwp(channel),
 								self.root_file_folder(channel),
 								lumi,
-								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkwp_stitchingweight(),
+								mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.ewkwp_stitchingweight(),
 								"noplot_wj_shape_ss_qcd_control",
 								nick_suffix=nick_suffix
 						)
@@ -2887,7 +2884,7 @@ class Samples(samples.SamplesBase):
 							self.files_data(channel),
 							self.root_file_folder(channel),
 							1.0,
-							data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
+							data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type),
 							("noplot_" if not controlregions else "") + "qcd_os_highmt",
 							nick_suffix=nick_suffix
 					)
@@ -2905,7 +2902,7 @@ class Samples(samples.SamplesBase):
 							self.files_data(channel),
 							self.root_file_folder(channel),
 							1.0,
-							data_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"]+exclude_cuts_relaxed, cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
+							data_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
 							"qcd",
 							nick_suffix=nick_suffix
 					)

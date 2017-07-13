@@ -225,7 +225,7 @@
 				"4055:MMHT2014nlo_asmzsmallrange_55_weight",
 				"4056:MMHT2014nlo_asmzsmallrange_56_weight"
 				],
-			"DYJetsToLL.*madgraph" : [
+			"(DYJetsToLL|LFV).*madgraph" : [
 				"1:muR1p0_muF1p0_weight",
 				"2:muR1p0_muF2p0_weight",
 				"3:muR1p0_muF0p5_weight",

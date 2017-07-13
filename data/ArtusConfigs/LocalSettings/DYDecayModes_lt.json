@@ -2,22 +2,22 @@
 	"ztt" : {
 		"GenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : "tt"
+				"DY.?JetsToLL|LFV" : "tt"
 			}
 		},
 		"InvalidateNonGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : false
+				"DY.?JetsToLL|LFV" : false
 			}
 		},
 		"InvalidateGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : true
+				"DY.?JetsToLL|LFV" : true
 			}
 		},
 		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : [
+				"DY.?JetsToLL|LFV" : [
 					23
 				]
 			}
@@ -26,22 +26,22 @@
 	"zttlep" : {
 		"GenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : "tt"
+				"DY.?JetsToLL|LFV" : "tt"
 			}
 		},
 		"InvalidateNonGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : true
+				"DY.?JetsToLL|LFV" : true
 			}
 		},
 		"InvalidateGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : false
+				"DY.?JetsToLL|LFV" : false
 			}
 		},
 		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : [
+				"DY.?JetsToLL|LFV" : [
 					23
 				]
 			}
@@ -50,27 +50,27 @@
 	"zl" : {
 		"GenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : "tt"
+				"DY.?JetsToLL|LFV" : "tt"
 			}
 		},
 		"InvertGenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : true
+				"DY.?JetsToLL|LFV" : true
 			}
 		},
 		"InvalidateNonGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : true
+				"DY.?JetsToLL|LFV" : true
 			}
 		},
 		"InvalidateGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : false
+				"DY.?JetsToLL|LFV" : false
 			}
 		},
 		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : [
+				"DY.?JetsToLL|LFV" : [
 					23
 				]
 			}
@@ -79,27 +79,27 @@
 	"zj" : {
 		"GenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : "tt"
+				"DY.?JetsToLL|LFV" : "tt"
 			}
 		},
 		"InvertGenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : true
+				"DY.?JetsToLL|LFV" : true
 			}
 		},
 		"InvalidateNonGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : false
+				"DY.?JetsToLL|LFV" : false
 			}
 		},
 		"InvalidateGenParticleMatchingRecoTaus" : {
 			"nick" : {
-				"DY.?JetsToLL" : true
+				"DY.?JetsToLL|LFV" : true
 			}
 		},
 		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : [
+				"DY.?JetsToLL|LFV" : [
 					23
 				]
 			}

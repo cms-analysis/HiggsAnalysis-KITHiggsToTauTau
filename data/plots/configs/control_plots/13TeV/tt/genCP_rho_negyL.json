@@ -1,0 +1,4 @@
+{
+  "x_expressions": ["genPhiStarCP_rho"],
+  "weights": ["gen_yTauL < 0 && genPhiStarCP_rho > -1"]
+}
