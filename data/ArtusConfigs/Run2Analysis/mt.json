@@ -212,6 +212,7 @@
 		"InvalidateNonMatchingMuons" : true,
 		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
+		"UseUWGenMatching" : "true",
 		"DirectIso" : true,
 		"Quantities" : [
 			{

@@ -57,6 +57,7 @@
 	"MatchAllElectronsGenTau" : "true",
 	"MatchAllMuonsGenTau" : "true",
 	"MatchAllTausGenTau" : "true",
+	"MatchGenTauDecayMode" : "true",
 	"UpdateMetWithCorrectedLeptons" : "true",
 	"TopPtReweightingStrategy" : "Run2",
 	"#EventWhitelist" : [
