@@ -647,16 +647,31 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		});
 		
 		std::string genMatchQuantity = "gen_match_" + std::to_string(leptonIndex+1);
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(genMatchQuantity, [leptonIndex](event_type const& event, product_type const& product)
+		bool useUWGenMatching = settings.GetUseUWGenMatching();
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(genMatchQuantity, [leptonIndex, useUWGenMatching](event_type const& event, product_type const& product)
 		{
-			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
-			if (genParticle)
+			if (useUWGenMatching)
 			{
-				return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
+				if (product.m_originalLeptons.find(product.m_flavourOrderedLeptons.at(leptonIndex)) != product.m_originalLeptons.end())
+				{
+					return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCodeUW(event, const_cast<KLepton*>(product.m_originalLeptons.at(product.m_flavourOrderedLeptons.at(leptonIndex)))));
+				}
+				else
+				{
+					return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCodeUW(event, const_cast<KLepton*>(product.m_flavourOrderedLeptons.at(leptonIndex))));
+				}
 			}
 			else
 			{
-				return Utility::ToUnderlyingValue(KappaEnumTypes::GenMatchingCode::IS_FAKE);
+				KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
+				if (genParticle)
+				{
+					return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
+				}
+				else
+				{
+					return Utility::ToUnderlyingValue(KappaEnumTypes::GenMatchingCode::IS_FAKE);
+				}
 			}
 		});
 		

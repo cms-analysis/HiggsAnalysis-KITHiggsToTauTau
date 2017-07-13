@@ -244,8 +244,21 @@ void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type
 
 	for(auto weightNames:m_weightNames)
 	{
+		KLepton* originalLepton = product.m_originalLeptons.find(product.m_flavourOrderedLeptons[weightNames.first]) != product.m_originalLeptons.end() ? const_cast<KLepton*>(product.m_originalLeptons.at(product.m_flavourOrderedLeptons[weightNames.first])) : product.m_flavourOrderedLeptons[weightNames.first];
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
-		KGenParticle* genParticle = product.m_flavourOrderedGenLeptons[weightNames.first];
+		KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
+		if (settings.GetUseUWGenMatching())
+		{
+			genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
+		}
+		else
+		{
+			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons[weightNames.first];
+			if (genParticle)
+				genMatchingCode = GeneratorInfo::GetGenMatchingCode(genParticle);
+			else
+				genMatchingCode = KappaEnumTypes::GenMatchingCode::IS_FAKE;
+		}
 		for(size_t index = 0; index < weightNames.second.size(); index++)
 		{
 			if(weightNames.second.at(index).find("triggerWeight") == std::string::npos)
@@ -274,7 +287,7 @@ void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type
 					args.push_back(tau->decayMode);
 				}
 			}
-			if(genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
+			if(genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY)
 			{
 				tauTrigWeight = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
@@ -312,8 +325,21 @@ void MuTauTriggerWeightProducer::Produce( event_type const& event, product_type 
 	for(auto weightNames:m_weightNames)
 	{
 		// muon-tau cross trigger scale factors currently depend only on tau pt and eta
+		KLepton* originalLepton = product.m_originalLeptons.find(product.m_flavourOrderedLeptons[weightNames.first]) != product.m_originalLeptons.end() ? const_cast<KLepton*>(product.m_originalLeptons.at(product.m_flavourOrderedLeptons[weightNames.first])) : product.m_flavourOrderedLeptons[weightNames.first];
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
-		KGenParticle* genParticle = product.m_flavourOrderedGenLeptons[weightNames.first];
+		KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
+		if (settings.GetUseUWGenMatching())
+		{
+			genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
+		}
+		else
+		{
+			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons[weightNames.first];
+			if (genParticle)
+				genMatchingCode = GeneratorInfo::GetGenMatchingCode(genParticle);
+			else
+				genMatchingCode = KappaEnumTypes::GenMatchingCode::IS_FAKE;
+		}
 		for(size_t index = 0; index < weightNames.second.size(); index++)
 		{
 			if(weightNames.second.at(index).find("triggerWeight") == std::string::npos)
@@ -346,7 +372,7 @@ void MuTauTriggerWeightProducer::Produce( event_type const& event, product_type 
 			}
 			if(lepton->flavour() == KLeptonFlavour::TAU)
 			{
-				if(genParticle && (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY))
+				if(genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY)
 				{
 					tauTrigWeight = m_functors.at(weightNames.first).at(index)->eval(args.data());
 				}
