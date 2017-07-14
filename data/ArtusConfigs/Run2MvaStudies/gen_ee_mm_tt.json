@@ -2,12 +2,12 @@
 	"ee" : {
 		"GenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : "ee"
+				"DY.?JetsToLL|LFV" : "ee"
 			}
 		},
 		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : [
+				"DY.?JetsToLL|LFV" : [
 					23
 				]
 			}
@@ -16,12 +16,12 @@
 	"mm" : {
 		"GenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : "mm"
+				"DY.?JetsToLL|LFV" : "mm"
 			}
 		},
 		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : [
+				"DY.?JetsToLL|LFV" : [
 					23
 				]
 			}
@@ -30,12 +30,12 @@
 	"tt" : {
 		"GenDiLeptonDecayMode" : {
 			"nick" : {
-				"DY.?JetsToLL" : "tt"
+				"DY.?JetsToLL|LFV" : "tt"
 			}
 		},
 		"BosonPdgIds" : {
 			"nick" : {
-				"DY.?JetsToLL" : [
+				"DY.?JetsToLL|LFV" : [
 					23
 				]
 			}

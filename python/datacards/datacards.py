@@ -39,8 +39,8 @@ def _call_command(args):
 	if not cwd is None:
 		old_cwd = os.getcwd()
 		os.chdir(cwd)
-
-	log.debug(command)
+	print command
+	#log.debug(command)
 	logger.subprocessCall(command, shell=True)
 
 	if not cwd is None:

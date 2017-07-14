@@ -17,7 +17,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL" : [
+			"DY.?JetsToLL|LFV" : [
 				23
 			],
 			"^(GluGlu|GluGluTo|VBF)HToTauTau" : [
@@ -85,7 +85,7 @@
 				"producer:SampleStitchingWeightProducer",
 				"#producer:TaggedJetCorrectionsProducer"
 			],
-			"DY.?JetsToLLM(50|150)" : [
+			"DY.?JetsToLLM(50|150)|LFV" : [
 				"#filter:RunLumiEventFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",

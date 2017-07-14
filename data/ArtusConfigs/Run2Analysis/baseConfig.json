@@ -18,7 +18,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)" : [
+			"DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV" : [
 				23
 			],
 			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
@@ -37,6 +37,7 @@
 	"BosonStatuses" : {
 		"nick" : {
 			"13TeV" : [
+				11,
 				62
 			]
 		}
@@ -56,6 +57,7 @@
 	"MatchAllElectronsGenTau" : "true",
 	"MatchAllMuonsGenTau" : "true",
 	"MatchAllTausGenTau" : "true",
+	"MatchGenTauDecayMode" : "true",
 	"UpdateMetWithCorrectedLeptons" : "true",
 	"TopPtReweightingStrategy" : "Run2",
 	"#EventWhitelist" : [
