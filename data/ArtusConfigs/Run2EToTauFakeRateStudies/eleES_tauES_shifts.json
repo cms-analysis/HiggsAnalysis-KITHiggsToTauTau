@@ -1,5 +1,5 @@
 {
-	"tagEleEsNom_probeTauEsNom_probeEleEsNom" : {
+	"nominal" : {
 		"ElectronEnergyCorrectionShift" : 1.0,
 		"TauEnergyCorrectionShift" : 1.0
 	},
@@ -8,7 +8,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 1.03
+				"DY.?JetsToLL" : 1.02
 			}
 		}
 	},
@@ -17,7 +17,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 0.97
+				"DY.?JetsToLL" : 0.98
 			}
 		}
 	},
