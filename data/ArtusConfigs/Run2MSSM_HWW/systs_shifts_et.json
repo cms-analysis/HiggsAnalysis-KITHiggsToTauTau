@@ -1,0 +1,143 @@
+{
+	"nominal" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		]
+	},
+	"tauEsUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"Embedding2016" : 1.016,
+				"default" : 1.0
+			}
+		}
+	},
+	"tauEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionShift" : {
+			"nick" : {
+				"Embedding2016" : 0.984,
+				"default" : 1.0
+			}
+		}
+	},
+	"tauEsOneProngUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionOneProng" : {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 1.007
+			}
+		}
+	},
+	"tauEsOneProngDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionOneProng" : {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 0.983
+			}
+		}
+	},
+	"tauEsOneProngOnePiZeroUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionOneProngPiZeros" : {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 1.023
+			}
+		}
+	},
+	"tauEsOneProngOnePiZeroDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionOneProngPiZeros" : {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 0.999
+			}
+		}
+	},
+	"tauEsThreeProngUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionThreeProng": {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 1.018
+			}
+		}
+	},
+	"tauEsThreeProngDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauEnergyCorrectionThreeProng": {
+			"nick" : {
+				"Run201|Embedding2016" : 1.0,
+				"default" : 0.994
+			}
+		}
+	},
+	"eleTauEsOneProngZeroPiZeroUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauElectronFakeEnergyCorrectionOneProng" : {
+			"nick" : {
+				"default" : 1.024,
+				"Run201|Embedding2016" : 1.0,
+				"DY.?JetsToLL" : 1.029
+			}
+		}
+	},
+	"eleTauEsOneProngZeroPiZeroDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauElectronFakeEnergyCorrectionOneProng" : {
+			"nick" : {
+				"default" : 1.024,
+				"Run201|Embedding2016" : 1.0,
+				"DY.?JetsToLL" : 1.019
+			}
+		}
+	},
+	"eleTauEsOneProngOnePiZeroUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
+			"nick" : {
+				"default" : 1.076,
+				"Run201|Embedding2016" : 1.0,
+				"DY.?JetsToLL" : 1.086
+			}
+		}
+	},
+	"eleTauEsOneProngOnePiZeroDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
+			"nick" : {
+				"default" : 1.076,
+				"Run201|Embedding2016" : 1.0,
+				"DY.?JetsToLL" : 1.066
+			}
+		}
+	}
+}

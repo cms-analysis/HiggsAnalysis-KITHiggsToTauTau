@@ -1,0 +1,21 @@
+{
+	"JetID" : "loose",
+	"JetIDVersion" : "2015",
+
+	"PuJetIDs" : [
+	],
+	"PuJetIDFullDiscrName" : "pileupJetIdfullDiscriminant",
+	"JetTaggerLowerCuts" : [ 
+	],
+	"JetTaggerUpperCuts" : [
+	],
+	
+	"JetLowerPtCuts" : [
+		"20.0"
+	],
+	"JetUpperAbsEtaCuts" : [
+		"4.7"
+	],
+	
+	"JetLeptonLowerDeltaRCut" : 0.5
+}

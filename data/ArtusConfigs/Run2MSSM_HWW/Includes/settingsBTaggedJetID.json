@@ -1,0 +1,22 @@
+{
+	"BTaggedJetID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2016#b_tagging"
+	],
+
+	"BTaggedJetCombinedSecondaryVertexName" : "pfCombinedInclusiveSecondaryVertexV2BJetTags",
+	"BTaggerWorkingPoints" : [
+		"tight:0.9535",
+		"medium:0.8484",
+		"loose:0.5426"
+	],
+	"BTaggedJetAbsEtaCut" : 2.4,
+	"ApplyBTagSF" : {
+		"nick": {
+			"default" : true,
+			"Embedding201" : false
+		}
+	},
+	"BTagSFMethod" : "PromotionDemotion",
+	"BTagShift" : 0,
+	"BMistagShift" : 0
+}

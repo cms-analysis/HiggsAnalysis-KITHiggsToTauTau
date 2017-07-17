@@ -1,0 +1,51 @@
+{
+	"ElectronID_documentation" : [
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"
+	],
+	
+	"ElectronReco" : "mvanontrig",
+	
+	"ElectronID" : "user",
+	"ElectronIDType" : "mvabased2015andlater",
+	"ElectronIDName" : {
+		"nick" : {
+			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+			"(Run2015|Fall15MiniAODv2|Spring16)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
+			}
+		},
+	"ElectronMvaIDCutEB1" : {
+		"nick" : {
+			"default" : 0.941,
+			"(Run2015|Fall15MiniAODv2|Spring16)" : 0.967083
+			}
+		},
+	"ElectronMvaIDCutEB2" : {
+		"nick" : {
+			"default" : 0.899,
+			"(Run2015|Fall15MiniAODv2|Spring16)" : 0.929117
+			}
+		},
+	"ElectronMvaIDCutEE" : {
+		"nick" : {
+			"default" : 0.758,
+			"(Run2015|Fall15MiniAODv2|Spring16)" : 0.726311
+			}
+		},
+	"ElectronIDList" : [
+		"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+		"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
+		"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
+		"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
+		"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
+		
+	],
+	
+	"ElectronIsoType" : "user",
+	"ElectronIso" : "none",
+	
+	"ElectronIsoSignalConeSize" : 0.3,
+	"ElectronDeltaBetaCorrectionFactor" : 0.5,
+	
+	"ElectronTrackDxyCut" : 0.045,
+	"ElectronTrackDzCut" : 0.2
+}

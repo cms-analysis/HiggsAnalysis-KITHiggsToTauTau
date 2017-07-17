@@ -1,0 +1,14 @@
+{
+	"property" : [
+		"muR1p0_muF1p0_weight",
+		"muR1p0_muF2p0_weight",
+		"muR1p0_muF0p5_weight",
+		"muR2p0_muF1p0_weight",
+		"muR2p0_muF2p0_weight",
+		"muR2p0_muF0p5_weight",
+		"muR0p5_muF1p0_weight",
+		"muR0p5_muF2p0_weight",
+		"muR0p5_muF0p5_weight"
+	]
+}
+

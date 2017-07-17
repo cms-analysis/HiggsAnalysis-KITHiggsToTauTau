@@ -1,0 +1,14 @@
+{
+	"property" : [
+	    "zPtWeightEsUp",
+	    "zPtWeightEsDown",
+	    "zPtWeightStatPt0Up",
+	    "zPtWeightStatPt0Down",
+	    "zPtWeightStatPt40Up",
+	    "zPtWeightStatPt40Down",
+	    "zPtWeightStatPt80Up",
+	    "zPtWeightStatPt80Down",
+	    "zPtWeightTTbarUp",
+	    "zPtWeightTTbarDown"
+	]
+}
