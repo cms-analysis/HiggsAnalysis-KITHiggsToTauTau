@@ -1,1 +1,1 @@
-../../../../skims/VBFHToWWTo2L2Nu/VBFHToWWTo2L2NuM145_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_powheg-pythia8.txt
+HWW/VBFHToWWTo2L2Nu/VBFHToWWTo2L2NuM145_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_powheg-pythia8.txt
