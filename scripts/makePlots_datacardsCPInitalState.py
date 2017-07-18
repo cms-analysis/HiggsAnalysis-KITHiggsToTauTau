@@ -91,6 +91,9 @@ if __name__ == "__main__":
 	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
 	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
 						help="Steps to perform. [Default: %(default)s]")
+	parser.add_argument("--use-shape-only", action="store_true", default=False,
+						help="Use only shape to distinquish between cp hypotheses. [Default: %(default)s]")	
+
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -367,16 +370,24 @@ if __name__ == "__main__":
 			)
 	) # TODO: use JPC physics model
 	'''
-	datacards_workspaces = datacards.text2workspace(
-			datacards_cbs,
-			args.n_processes,
-			"-P {MODEL} {MODEL_PARAMETERS}".format(
-				MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-				MODEL_PARAMETERS=""
-			)
-	) # TODO: use JPC physics model
-
-
+	if args.use_shape_only:
+		datacards_workspaces = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+					MODEL_PARAMETERS="--PO=muFloating"
+				)
+		) # TODO: use JPC physics model
+	else:
+		datacards_workspaces = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+					MODEL_PARAMETERS=""
+				)
+		) # TODO: use JPC physics model
 
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 
@@ -384,16 +395,16 @@ if __name__ == "__main__":
 	if "maxlikelihoodfit" in args.steps:
 		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+" --expectSignal 1.0 -t -1 --setPhysicsModelParameters \"x=1\"")
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
-	if "prefit_postfit_plots" in args.steps:
+	if "prefitpostfitplots" in args.steps:
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 
 	# divide plots by bin width and change the label correspondingly
 		if args.quantity == "m_sv" and not(args.do_not_normalize_by_bin_width):
 			args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
-			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
+		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
+		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
@@ -422,6 +433,9 @@ if __name__ == "__main__":
 
 		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
 		print datacards_hypotestresult
+		if args.use_shape_only:
+			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M MultiDimFit --algo=grid --points 100 -m $MH -v 2 -n \"\"")
+
 		pconfigs_plot=[]
 		for filename in datacards_hypotestresult.values():
 			print filename
