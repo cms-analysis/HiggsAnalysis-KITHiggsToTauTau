@@ -241,10 +241,13 @@ class Samples(samples.SamplesBase):
 		return "(3.35561920393e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 
 	def ewkwm_stitchingweight(self):
-		return"(4.200367267668e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+		return "(4.200367267668e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 
 	def ewkwp_stitchingweight(self):
-		return"(5.190747826298e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+		return "(5.190747826298e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+	
+	def wgamma_stitchingweight(self):
+		return "(1.7829004749953e-5)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 	
 	# reweighting of l->tau fakes in ZL as done in SM HTT 2016 
 	def zl_shape_weight(self, channel, cut_type):
@@ -1208,8 +1211,11 @@ class Samples(samples.SamplesBase):
 		return artus_files
 	
 	def files_wgamma(self, channel):
-		artus_files = self.artus_file_names({"process" : "WGToLNuG", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8", "extension" : "ext3"}, 1)
-		artus_files = artus_files + " " + self.artus_file_names({"process" : "WGstarToLNuEE|WGstarToLNuMuMu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph"}, 2)
+		artus_files = self.artus_file_names({"process" : "WGToLNuG", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 3)
+		return artus_files
+	
+	def files_wgamma_star(self, channel):
+		artus_files = self.artus_file_names({"process" : "WGstarToLNuEE|WGstarToLNuMuMu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph"}, 2)
 		return artus_files
 
 	def files_ewkwm(self, channel):
@@ -2100,6 +2106,15 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						self.files_wgamma(channel),
+						self.root_file_folder(channel),
+						lumi,
+						weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.wgamma_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						"wj",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_wgamma_star(channel),
 						self.root_file_folder(channel),
 						lumi,
 						weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -3025,6 +3040,15 @@ class Samples(samples.SamplesBase):
 						Samples._add_input(
 								config,
 								self.files_wgamma(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_sample_weight+"*"+self.wgamma_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+								"noplot_wj_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_wgamma_star(channel),
 								self.root_file_folder(channel),
 								lumi,
 								mc_sample_weight+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
