@@ -194,9 +194,9 @@ if __name__ == "__main__":
 		"et_ZeroJet2D" : 1.0,
 		"et_Boosted2D" : 1.28,
 		"et_Vbf2D" : 1.0,
-		"em_ZeroJet2D" : 1.8,
-		"em_Boosted2D" : 1.89,
-		"em_Vbf2D" : 1.74
+		"em_ZeroJet2D" : 2.27,
+		"em_Boosted2D" : 2.26,
+		"em_Vbf2D" : 2.84
 	}
 	
 	# w+jets scale factor shifts for different categories
