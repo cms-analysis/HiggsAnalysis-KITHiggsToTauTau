@@ -249,6 +249,9 @@ class Samples(samples.SamplesBase):
 	def wgamma_stitchingweight(self):
 		return "(1.7829004749953e-5)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 	
+	def vv_stitchingweight(self):
+		return "(1.22671436926e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+	
 	# reweighting of l->tau fakes in ZL as done in SM HTT 2016 
 	def zl_shape_weight(self, channel, cut_type):
 		if "smhtt2016" in cut_type:
@@ -917,6 +920,15 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
+					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type), self.vv_stitchingweight(), self.em_triggerweight_dz_filter(channel, cut_type)]),
+					"noplot_vv_ttj_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_diboson(channel),
+					self.root_file_folder(channel),
+					lumi,
 					make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type), self.em_triggerweight_dz_filter(channel, cut_type)]),
 					"noplot_vv_ttj_control",
 					nick_suffix=nick_suffix
@@ -958,7 +970,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
 		return config
 
-	def files_vv(self, config):
+	def files_diboson(self, channel):
 		artus_files = self.artus_file_names({ "process" : 
 		                                      "(WWTo1L1Nu2Q|"
 		                                    + "WZTo1L1Nu2Q|"
@@ -966,17 +978,20 @@ class Samples(samples.SamplesBase):
 		                                    + "WZTo2L2Q|" 
 		                                    + "ZZTo2L2Q"
 		                                    +  ")",
-		                      "extension" : "",
 		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 5)
 
-		artus_files = artus_files + " " + self.artus_file_names({ "process" : "VVTo2L2Nu|ZZTo4L", "extension" : "ext1",
-		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 2)
+		artus_files = artus_files + " " + self.artus_file_names({ "process" : "ZZTo4L", "extension" : "ext1",
+		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 1)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "WZJToLLLNu",
 		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "pythia8"}, 1)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4finclusiveDecays|STt-channeltop4finclusiveDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
 		                      "data" : False, "campaign" : self.mc_campaign}, 4)
+		return artus_files
+	
+	def files_vv(self, channel):
+		artus_files = self.artus_file_names({ "process" : "VVTo2L2Nu", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 2)
 		return artus_files
 
 	def files_hww_gg(self, channel, mass=125):
@@ -1137,6 +1152,15 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					"vvt",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_diboson(channel),
+					self.root_file_folder(channel),
+					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					"vvt",
 					nick_suffix=nick_suffix
@@ -1165,6 +1189,15 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					"vvj",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_diboson(channel),
+					self.root_file_folder(channel),
+					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					"vvj",
 					nick_suffix=nick_suffix
@@ -1191,6 +1224,15 @@ class Samples(samples.SamplesBase):
 			Samples._add_input(
 					config,
 					self.files_vv(channel),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					"vv",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_diboson(channel),
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1491,6 +1533,15 @@ class Samples(samples.SamplesBase):
 						self.files_vv(channel),
 						self.root_file_folder(channel),
 						lumi,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*"+self.vv_stitchingweight(),
+						("noplot_" if not controlregions else "") + "vvt_os_highmt",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_diboson(channel),
+						self.root_file_folder(channel),
+						lumi,
 						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type),
 						("noplot_" if not controlregions else "") + "vvt_os_highmt",
 						nick_suffix=nick_suffix
@@ -1500,6 +1551,15 @@ class Samples(samples.SamplesBase):
 						self.files_vv(channel),
 						self.root_file_folder(channel),
 						lumi,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*"+self.vv_stitchingweight(),
+						("noplot_" if not controlregions else "") + "vvj_os_highmt",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_diboson(channel),
+						self.root_file_folder(channel),
+						lumi,
 						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type),
 						("noplot_" if not controlregions else "") + "vvj_os_highmt",
 						nick_suffix=nick_suffix
@@ -1507,6 +1567,15 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						self.files_vv(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*"+self.vv_stitchingweight(),
+						("noplot_" if not controlregions else "") + "vv_os_highmt",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_diboson(channel),
 						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type),
@@ -1714,6 +1783,15 @@ class Samples(samples.SamplesBase):
 						self.files_vv(channel),
 						self.root_file_folder(channel),
 						lumi,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*"+self.vv_stitchingweight(),
+						("noplot_" if not controlregions else "") + "vvt_ss_highmt",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_diboson(channel),
+						self.root_file_folder(channel),
+						lumi,
 						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
 						("noplot_" if not controlregions else "") + "vvt_ss_highmt",
 						nick_suffix=nick_suffix
@@ -1723,6 +1801,15 @@ class Samples(samples.SamplesBase):
 						self.files_vv(channel),
 						self.root_file_folder(channel),
 						lumi,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*"+self.vv_stitchingweight(),
+						("noplot_" if not controlregions else "") + "vvj_ss_highmt",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_diboson(channel),
+						self.root_file_folder(channel),
+						lumi,
 						mc_weight+"*"+wj_weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
 						("noplot_" if not controlregions else "") + "vvj_ss_highmt",
 						nick_suffix=nick_suffix
@@ -1730,6 +1817,15 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						self.files_vv(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*"+self.vv_stitchingweight(),
+						("noplot_" if not controlregions else "") + "vv_ss_highmt",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_diboson(channel),
 						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
@@ -2037,6 +2133,15 @@ class Samples(samples.SamplesBase):
 						self.files_vv(channel),
 						self.root_file_folder(channel),
 						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type)+"*"+self.vv_stitchingweight(),
+						"noplot_vv_wj_control",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_diboson(channel),
+						self.root_file_folder(channel),
+						lumi,
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt, cut_type=high_mt_cut_type),
 						"noplot_vv_wj_control",
 						nick_suffix=nick_suffix
@@ -2258,6 +2363,15 @@ class Samples(samples.SamplesBase):
 							self.files_vv(channel),
 							self.root_file_folder(channel),
 							lumi,
+							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*"+self.vv_stitchingweight(),
+							"noplot_vv_ss_wj_control",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_diboson(channel),
+							self.root_file_folder(channel),
+							lumi,
 							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
 							"noplot_vv_ss_wj_control",
 							nick_suffix=nick_suffix
@@ -2416,6 +2530,15 @@ class Samples(samples.SamplesBase):
 				Samples._add_input(
 						config,
 						self.files_vv(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						"noplot_vv_qcd_control",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_diboson(channel),
 						self.root_file_folder(channel),
 						lumi,
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -2620,6 +2743,15 @@ class Samples(samples.SamplesBase):
 							self.files_vv(channel),
 							self.root_file_folder(channel),
 							lumi,
+							mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+self.vv_stitchingweight(),
+							("noplot_" if not controlregions else "") + "vvt_ss_lowmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_diboson(channel),
+							self.root_file_folder(channel),
+							lumi,
 							mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
 							("noplot_" if not controlregions else "") + "vvt_ss_lowmt",
 							nick_suffix=nick_suffix
@@ -2629,6 +2761,15 @@ class Samples(samples.SamplesBase):
 							self.files_vv(channel),
 							self.root_file_folder(channel),
 							lumi,
+							mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+self.vv_stitchingweight(),
+							("noplot_" if not controlregions else "") + "vvj_ss_lowmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_diboson(channel),
+							self.root_file_folder(channel),
+							lumi,
 							mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
 							("noplot_" if not controlregions else "") + "vvj_ss_lowmt",
 							nick_suffix=nick_suffix
@@ -2636,6 +2777,15 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							self.files_vv(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)"+"*"+self.vv_stitchingweight(),
+							("noplot_" if not controlregions else "") + "vv_ss_lowmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_diboson(channel),
 							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=cut_type)+"*((q_1*q_2)>0.0)",
@@ -2768,6 +2918,15 @@ class Samples(samples.SamplesBase):
 							self.files_vv(channel),
 							self.root_file_folder(channel),
 							lumi,
+							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)"+"*"+self.vv_stitchingweight(),
+							"noplot_vv_shape_ss_qcd_control",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_diboson(channel),
+							self.root_file_folder(channel),
+							lumi,
 							mc_weight+"*"+qcd_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["os"], cut_type=qcd_shape_cut)+"*((q_1*q_2)>0.0)",
 							"noplot_vv_shape_ss_qcd_control",
 							nick_suffix=nick_suffix
@@ -2896,6 +3055,15 @@ class Samples(samples.SamplesBase):
 					Samples._add_input(
 							config,
 							self.files_vv(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type)+"*"+self.vv_stitchingweight(),
+							"noplot_vv_shape_ss_highmt",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_diboson(channel),
 							self.root_file_folder(channel),
 							lumi,
 							mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_high_mt_ss, cut_type=high_mt_ss_cut_type),
@@ -3153,6 +3321,15 @@ class Samples(samples.SamplesBase):
 								self.files_vv(channel),
 								self.root_file_folder(channel),
 								lumi,
+								mc_sample_weight+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+								"noplot_vv_"+estimation_type,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_diboson(channel),
+								self.root_file_folder(channel),
+								lumi,
 								mc_sample_weight+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 								"noplot_vv_"+estimation_type,
 								nick_suffix=nick_suffix
@@ -3316,6 +3493,15 @@ class Samples(samples.SamplesBase):
 						Samples._add_input(
 								config,
 								self.files_vv(channel),
+								self.root_file_folder(channel),
+								lumi,
+								mc_selection_weights[key]+"*"+self.vv_stitchingweight(),
+								"noplot_vv_"+key,
+								nick_suffix=nick_suffix
+						)
+						Samples._add_input(
+								config,
+								self.files_diboson(channel),
 								self.root_file_folder(channel),
 								lumi,
 								mc_selection_weights[key],
@@ -3755,6 +3941,15 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb"+"*"+self.vv_stitchingweight(),
+					"noplot_vv_ff_control",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_diboson(channel),
+					self.root_file_folder(channel),
+					lumi,
 					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
 					"noplot_vv_ff_control",
 					nick_suffix=nick_suffix
@@ -3792,6 +3987,15 @@ class Samples(samples.SamplesBase):
 					self.files_vv(channel),
 					self.root_file_folder(channel),
 					lumi,
+					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb"+"*"+self.vv_stitchingweight(),
+					"noplot_vv_ff_norm",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_diboson(channel),
+					self.root_file_folder(channel),
+					lumi,
 					weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
 					"noplot_vv_ff_norm",
 					nick_suffix=nick_suffix
@@ -3822,10 +4026,28 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			Samples._add_input(
 					config,
-					self.files_ttj(channel) + " " + self.files_wj(channel) + " " + self.files_vv(channel),
-					self.root_file_folder(channel),
+					self.files_ttj(channel),
+					self.root_file_folder(channel) + " " + self.files_diboson(channel),
 					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"ewk",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_wj(channel),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.wj_stitchingweight(),
+					"ewk",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_vv(channel),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight(),
 					"ewk",
 					nick_suffix=nick_suffix
 			)
