@@ -3347,9 +3347,9 @@ class Samples(samples.SamplesBase):
 					if kwargs.get("ss_os_factor", 0.0) != 0.0:
 						ss_os_factor = kwargs["ss_os_factor"]
 					else:
-						ss_os_factor = 1.0
+						ss_os_factor = 2.22
 						if category != None:
-							ss_os_factor = 2.27 if "ZeroJet2D" in category else 2.26 if "Boosted2D" in category else 2.84 if "Vbf2D" in category else 1.0
+							ss_os_factor = 2.27 if "ZeroJet2D" in category else 2.26 if "Boosted2D" in category else 2.84 if "Vbf2D" in category else 2.22
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 				if channel == "tt":
 					if cut_type == "baseline2016" or cut_type == "baseline2016newTauId":
