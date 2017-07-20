@@ -1,0 +1,73 @@
+{
+	"nominal" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+		    0.0
+		]
+	},
+	"jecUncUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016" : 0.0,
+				"default" : 1.0
+			}
+		}
+	},
+	"jecUncDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : {
+			"nick" : {
+				"Run201|Embedding2016" : 0.0,
+				"default" : -1.0
+			}
+		}
+	},
+	"eleEsUp" : {
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 1.01
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 1.025
+			}
+		}
+	},
+	"eleEsDown" : {
+		"ElectronEnergyCorrectionShiftEB" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 0.99
+			}
+		},
+		"ElectronEnergyCorrectionShiftEE" : {
+			"nick" : {
+				"default" : 1.0,
+				"Summer16|Embedding2016" : 0.975
+			}
+		}
+	},
+	"muonEsUp" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"MuonEnergyCorrectionShift" : {
+			"nick" : {
+				"Embedding2016" : 1.01,
+				"default" : 1.0
+			}
+		}
+	},
+	"muonEsDown" : {
+		"JetEnergyCorrectionUncertaintyShift" : [
+			0.0
+		],
+		"MuonEnergyCorrectionShift" : {
+			"nick" : {
+				"Embedding2016" : 0.99,
+				"default" : 1.0
+			}
+		}
+	},
+}

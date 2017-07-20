@@ -33,13 +33,6 @@ samples_dict = {
 			("zptstat80pt",["ztt","zll","zj","zl","wj","qcd"]),
 			("zptttbar",["ztt","zll","zj","zl","wj","qcd"]),
 			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metrecoilscale',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metrecoilreso',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metjeten',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metunclustereden',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
 			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
 		'mt' : [
@@ -55,13 +48,6 @@ samples_dict = {
 			("zptstat80pt",["ztt","zll","zj","zl","wj","qcd"]),
 			("zptttbar",["ztt","zll","zj","zl","wj","qcd"]),
 			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metrecoilscale',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metrecoilreso',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metjeten',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metunclustereden',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
 			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
 		'tt' : [
@@ -77,43 +63,29 @@ samples_dict = {
 			("zptstat80pt",["ztt","zll","zj","zl","wj","qcd"]),
 			("zptttbar",["ztt","zll","zj","zl","wj","qcd"]),
 			("wfake",['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('btag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('mistag',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metrecoilscale',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metrecoilreso',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metjeten',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			('metunclustereden',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh']),
-			("jec", ['ztt','zl','zj','ttt','ttjj','vvt','vvj','ggh','bbh']),
 			('nominal',['ztt','zll','zl','zj','ttj','ttt','ttjj','vv','vvt','vvj','wj','qcd','ggh','bbh'])
 		],
 		'em' : [
-			("toppt",["ttj"]),("taues",["ztt","ggh","bbh"]),
+			("toppt",["ttj"]),
 			("zpt",["ztt","zll"]),
 			("zptes",["ztt","zll"]),
 			("zptstat0pt",["ztt","zll"]),
 			("zptstat40pt",["ztt","zll"]),
 			("zptstat80pt",["ztt","zll"]),
 			("zptttbar",["ztt","zll"]),
-			('btag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			('mistag',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			('metrecoilscale',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			('metrecoilreso',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			('metjeten',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			('metunclustereden',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			('jec',['ztt','zll','ttj','vv','ggh','bbh']),
-			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh'])
+			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('jec',['ttj','vv','wj','zll','ztt','ggh','bbh']),#done??
+			("elees",["ttj","vv","wj","zll","ztt","ggh","bbh"]),#done
+			("muones",["ttj","vv","wj","zll","ztt","ggh","bbh"]),#done??
+			("metesone",["wj","zll","ztt","ggh","bbh"]),#
+			("metestwo",["ttj","vv"]),#
+			("efake",["vv","wj","zll"]),#done
+			("mufake",["vv","wj","zll"])#done
 		],
 		'mm' : [
 			("toppt",["ttj","wj","qcd"]),
 			("zpt",["ztt","zll","wj","qcd"]),
 			("wfake",['ztt','zll','ttj','vv','wj','qcd']),
-			('btag',['ztt','zll','ttj','vv','wj','qcd']),
-			('mistag',['ztt','zll','ttj','vv','wj','qcd']),
-			('metrecoilscale',['ztt','zll','ttj','vv','wj','qcd']),
-			('metrecoilreso',['ztt','zll','ttj','vv','wj','qcd']),
-			('metjeten',['ztt','zll','ttj','vv','wj','qcd']),
-			('metunclustereden',['ztt','zll','ttj','vv','wj','qcd']),
-			('jec',['ztt','zl','zj','ttj','vv','ggh','bbh']),
 			('nominal',['ztt','zll','ttj','vv','wj','qcd'])
 		]
 	}
@@ -164,8 +136,13 @@ shapes = {
 	"ff_qcd_dm1_njet1_stat_tt" : "norm_ff_qcd_dm1_njet1_{CHANNEL}_stat",
 	"ff_dy_frac" : "norm_ff_dy_frac_{CHANNEL}_syst",
 	"ff_w_frac" : "norm_ff_w_frac_{CHANNEL}_syst",
-	"ff_tt_frac" : "norm_ff_tt_frac_{CHANNEL}_syst"
-
+	"ff_tt_frac" : "norm_ff_tt_frac_{CHANNEL}_syst",
+	"elees" : "CMS_scale_e_{CHANNEL}_13TeV",
+	"muones" : "CMS_scale_m_{CHANNEL}_13TeV",
+	"metesone" : "CMS_scale_met_13TeV",
+	"metestwo" : "CMS_scale_met_13TeV",
+	"efake" : "CMS_htt_{CHANNEL}_eFake_13TeV",
+	"mufake" : "CMS_htt_{CHANNEL}_muFake_13TeV"
 	}
 shapes_weight_dict = {
 		"btag" : ("1.0", "1.0"),
@@ -215,7 +192,13 @@ shapes_weight_dict = {
 		"ff_w_frac" : ("jetToTauFakeWeight_w_frac_syst_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_w_frac_syst_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_w_frac_syst_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_w_frac_syst_up_2/jetToTauFakeWeight_comb_2"),
 		"ff_dy_frac" : ("jetToTauFakeWeight_dy_frac_syst_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_dy_frac_syst_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_dy_frac_syst_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_dy_frac_syst_up_2/jetToTauFakeWeight_comb_2"),
 		"ff_tt_frac" : ("jetToTauFakeWeight_tt_frac_syst_down_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_tt_frac_syst_down_2/jetToTauFakeWeight_comb_2", "jetToTauFakeWeight_tt_frac_syst_up_1/jetToTauFakeWeight_comb_1*jetToTauFakeWeight_tt_frac_syst_up_2/jetToTauFakeWeight_comb_2"),
-		"nominal" : ("1.0", "1.0")
+		"nominal" : ("1.0", "1.0"),
+		"elees" : ("1.0", "1.0"),
+		"muones" : ("1.0", "1.0"),
+		"metesone" : ("1.0", "1.0"),
+		"metestwo" : ("1.0", "1.0"),
+		"efake" : ("(0.003*pt_1+0.883)", "0.702"),
+		"mufake" : ("0.005*pt_1+0.992", "0.812"),
 	}
 mapping_process2sample = {
 	"data_obs" : "data",
@@ -266,17 +249,17 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-c", "--channel", action="append",
-	                    default=[],
+	parser.add_argument("-c", "--channel", action="append", nargs="+",
+	                    default=["em"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
-	                    default=[],
+	                    default=[["em_btag"]],#, "em_btag_highPzeta", "em_btag_lowPzeta", "em_btag_mediumPzeta", "em_nobtag_highPzeta", "em_nobtag_lowPzeta", "em_nobtag_mediumPzeta", "em_nobtag", "em_inclusive"
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["all"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("-s", "--samples", nargs="+", default=[],
 	                    help="Samples used. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantity", default="0",
+	parser.add_argument("-x", "--quantity", default="mt_tot",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--bbh-nlo", default=False, action="store_true",
 	                    help="Enables using NLO bbh samples. [Default: %(default)s]")
@@ -312,7 +295,7 @@ if __name__ == "__main__":
 	                    default="$CMSSW_BASE/src/plots/htt_datacards/",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("-p", "--postfix",
-	                    default="",
+	                    default="-mttot",
 	                    help="Postfix for the datacard root files. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
@@ -331,16 +314,16 @@ if __name__ == "__main__":
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 	
-	if args.fakefactor_method is not None:
-		for channel in ['mt','et','tt']:
-			for shape_variation in samples_dict[channel]:
-				if shape_variation[0] in ['btag','mistag','nominal']:
-					shape_variation[1].append('ff')
-		for syst in ["ff_qcd_syst", "ff_qcd_dm0_njet0_stat", "ff_qcd_dm0_njet1_stat", "ff_qcd_dm1_njet0_stat", "ff_qcd_dm1_njet1_stat", "ff_w_syst", "ff_w_dm0_njet0_stat", "ff_w_dm0_njet1_stat", "ff_w_dm1_njet0_stat", "ff_w_dm1_njet1_stat", "ff_tt_syst", "ff_tt_dm0_njet0_stat", "ff_tt_dm0_njet1_stat", "ff_tt_dm1_njet0_stat", "ff_tt_dm1_njet1_stat"]:
-			samples_dict['et'].append((syst,["ff"]))
-			samples_dict['mt'].append((syst,["ff"]))
-		for syst in ["ff_w_syst_tt", "ff_tt_syst_tt", "ff_qcd_syst_tt", "ff_qcd_dm0_njet0_stat_tt", "ff_qcd_dm0_njet1_stat_tt", "ff_qcd_dm1_njet0_stat_tt", "ff_qcd_dm1_njet1_stat_tt", "ff_dy_frac", "ff_w_frac", "ff_tt_frac"]:
-			samples_dict['tt'].append((syst,["ff"]))
+#	if args.fakefactor_method is not None:
+#		for channel in ['mt','et','tt']:
+#			for shape_variation in samples_dict[channel]:
+#				if shape_variation[0] in ['btag','mistag','nominal']:
+#					shape_variation[1].append('ff')
+#		for syst in ["ff_qcd_syst", "ff_qcd_dm0_njet0_stat", "ff_qcd_dm0_njet1_stat", "ff_qcd_dm1_njet0_stat", "ff_qcd_dm1_njet1_stat", "ff_w_syst", "ff_w_dm0_njet0_stat", "ff_w_dm0_njet1_stat", "ff_w_dm1_njet0_stat", "ff_w_dm1_njet1_stat", "ff_tt_syst", "ff_tt_dm0_njet0_stat", "ff_tt_dm0_njet1_stat", "ff_tt_dm1_njet0_stat", "ff_tt_dm1_njet1_stat"]:
+#			samples_dict['et'].append((syst,["ff"]))
+#			samples_dict['mt'].append((syst,["ff"]))
+#		for syst in ["ff_w_syst_tt", "ff_tt_syst_tt", "ff_qcd_syst_tt", "ff_qcd_dm0_njet0_stat_tt", "ff_qcd_dm0_njet1_stat_tt", "ff_qcd_dm1_njet0_stat_tt", "ff_qcd_dm1_njet1_stat_tt", "ff_dy_frac", "ff_w_frac", "ff_tt_frac"]:
+#			samples_dict['tt'].append((syst,["ff"]))
 
 	if not args.lumi:
 		args.lumi = samples.default_lumi/1000.0
@@ -395,19 +378,19 @@ if __name__ == "__main__":
 				elif args.era == "2016":
 					cut_type = "mssm2016"
 				elif "looseiso" in category:
-					if args.fakefactor_method is not None:
-						cut_type = "mssm2016fflooseiso"
-					else:
-						cut_type = "mssm2016looseiso"
+#					if args.fakefactor_method is not None:
+#						cut_type = "mssm2016fflooseiso"
+#					else:
+					cut_type = "mssm2016looseiso"
 				elif "loosemt" in category:
 					cut_type = "mssm2016loosemt"
 				elif "tight" in category:
 					cut_type = "mssm2016tight"
 				else:
-					if args.fakefactor_method is not None:
-						cut_type = "mssm2016fffull"
-					else:
-						cut_type = "mssm2016full"
+#					if args.fakefactor_method is not None:
+#						cut_type = "mssm2016fffull"
+#					else:
+					cut_type = "mssm2016full"
 				
 				for shape_systematic, list_of_samples in samples_dict[channel]:
 					nominal = (shape_systematic == "nominal")
@@ -452,18 +435,20 @@ if __name__ == "__main__":
 						# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
 						# set qcd os-ss extrapolation factors
-						if category in ["mt_nobtag_tight", "mt_nobtag_loosemt", "mt_nobtag"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.14
-						elif category in ["mt_btag_tight", "mt_btag_loosemt", "mt_btag"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.01
-						elif category in ["mt_inclusive_tight", "mt_inclusive_loosemt", "mt_inclusive"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.12
-						elif category in ["et_nobtag_tight", "et_nobtag_loosemt", "et_nobtag"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.11
-						elif category in ["et_btag_tight", "et_btag_loosemt", "et_btag"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.16
-						elif category in ["et_inclusive_tight", "et_inclusive_loosemt", "et_inclusive"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.13
+						if category in ["em_btag", "em_nobtag", "em_inclusive"]:
+							config["qcd_extrapolation_factors_ss_os"] = 1.00#TODO
+#						if category in ["mt_nobtag_tight", "mt_nobtag_loosemt", "mt_nobtag"]:
+#							config["qcd_extrapolation_factors_ss_os"] = 1.14
+#						elif category in ["mt_btag_tight", "mt_btag_loosemt", "mt_btag"]:
+#							config["qcd_extrapolation_factors_ss_os"] = 1.01
+#						elif category in ["mt_inclusive_tight", "mt_inclusive_loosemt", "mt_inclusive"]:
+#							config["qcd_extrapolation_factors_ss_os"] = 1.12
+#						elif category in ["et_nobtag_tight", "et_nobtag_loosemt", "et_nobtag"]:
+#							config["qcd_extrapolation_factors_ss_os"] = 1.11
+#						elif category in ["et_btag_tight", "et_btag_loosemt", "et_btag"]:
+#							config["qcd_extrapolation_factors_ss_os"] = 1.16
+#						elif category in ["et_inclusive_tight", "et_inclusive_loosemt", "et_inclusive"]:
+#							config["qcd_extrapolation_factors_ss_os"] = 1.13
 
 						# modify cut strings for shape uncertainties. Do not apply weights to data 
 						for index,value in enumerate(config["weights"]):
@@ -474,83 +459,83 @@ if __name__ == "__main__":
 
 						# modify cut for ff samples. Cut string does not include tau iso
 						# also need to replace ff weight with channel specific weights
-						if  args.fakefactor_method is not None:
-							for index,value in enumerate(config["weights"]):
-								if "ff_norm" in config["nicks"][index]:
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
-								if config["nicks"][index] == "ff" or "ff_control" in config["nicks"][index]:
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_up","jetToTauFakeWeight_qcd_dm0_njet0_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_down","jetToTauFakeWeight_qcd_dm0_njet0_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_up","jetToTauFakeWeight_qcd_dm0_njet1_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_down","jetToTauFakeWeight_qcd_dm0_njet1_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_up","jetToTauFakeWeight_qcd_dm1_njet0_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_down","jetToTauFakeWeight_qcd_dm1_njet0_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_up","jetToTauFakeWeight_qcd_dm1_njet1_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_down","jetToTauFakeWeight_qcd_dm1_njet1_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_up","jetToTauFakeWeight_w_syst_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_down","jetToTauFakeWeight_w_syst_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm0_njet0_stat_up","jetToTauFakeWeight_w_dm0_njet0_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm0_njet0_stat_down","jetToTauFakeWeight_w_dm0_njet0_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm0_njet1_stat_up","jetToTauFakeWeight_w_dm0_njet1_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm0_njet1_stat_down","jetToTauFakeWeight_w_dm0_njet1_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm1_njet0_stat_up","jetToTauFakeWeight_w_dm1_njet0_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm1_njet0_stat_down","jetToTauFakeWeight_w_dm1_njet0_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm1_njet1_stat_up","jetToTauFakeWeight_w_dm1_njet1_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm1_njet1_stat_down","jetToTauFakeWeight_w_dm1_njet1_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_up","jetToTauFakeWeight_tt_syst_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_down","jetToTauFakeWeight_tt_syst_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm0_njet0_stat_up","jetToTauFakeWeight_tt_dm0_njet0_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm0_njet0_stat_down","jetToTauFakeWeight_tt_dm0_njet0_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm0_njet1_stat_up","jetToTauFakeWeight_tt_dm0_njet1_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm0_njet1_stat_down","jetToTauFakeWeight_tt_dm0_njet1_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm1_njet0_stat_up","jetToTauFakeWeight_tt_dm1_njet0_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm1_njet0_stat_down","jetToTauFakeWeight_tt_dm1_njet0_stat_down_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm1_njet1_stat_up","jetToTauFakeWeight_tt_dm1_njet1_stat_up_"+category.replace(channel+"_","",1))
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm1_njet1_stat_down","jetToTauFakeWeight_tt_dm1_njet1_stat_down_"+category.replace(channel+"_","",1))
+#						if  args.fakefactor_method is not None:
+#							for index,value in enumerate(config["weights"]):
+#								if "ff_norm" in config["nicks"][index]:
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
+#								if config["nicks"][index] == "ff" or "ff_control" in config["nicks"][index]:
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_comb","jetToTauFakeWeight_comb_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_up","jetToTauFakeWeight_qcd_dm0_njet0_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_down","jetToTauFakeWeight_qcd_dm0_njet0_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_up","jetToTauFakeWeight_qcd_dm0_njet1_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_down","jetToTauFakeWeight_qcd_dm0_njet1_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_up","jetToTauFakeWeight_qcd_dm1_njet0_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_down","jetToTauFakeWeight_qcd_dm1_njet0_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_up","jetToTauFakeWeight_qcd_dm1_njet1_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_down","jetToTauFakeWeight_qcd_dm1_njet1_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_up","jetToTauFakeWeight_w_syst_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_down","jetToTauFakeWeight_w_syst_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm0_njet0_stat_up","jetToTauFakeWeight_w_dm0_njet0_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm0_njet0_stat_down","jetToTauFakeWeight_w_dm0_njet0_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm0_njet1_stat_up","jetToTauFakeWeight_w_dm0_njet1_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm0_njet1_stat_down","jetToTauFakeWeight_w_dm0_njet1_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm1_njet0_stat_up","jetToTauFakeWeight_w_dm1_njet0_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm1_njet0_stat_down","jetToTauFakeWeight_w_dm1_njet0_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm1_njet1_stat_up","jetToTauFakeWeight_w_dm1_njet1_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_dm1_njet1_stat_down","jetToTauFakeWeight_w_dm1_njet1_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_up","jetToTauFakeWeight_tt_syst_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_down","jetToTauFakeWeight_tt_syst_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm0_njet0_stat_up","jetToTauFakeWeight_tt_dm0_njet0_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm0_njet0_stat_down","jetToTauFakeWeight_tt_dm0_njet0_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm0_njet1_stat_up","jetToTauFakeWeight_tt_dm0_njet1_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm0_njet1_stat_down","jetToTauFakeWeight_tt_dm0_njet1_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm1_njet0_stat_up","jetToTauFakeWeight_tt_dm1_njet0_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm1_njet0_stat_down","jetToTauFakeWeight_tt_dm1_njet0_stat_down_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm1_njet1_stat_up","jetToTauFakeWeight_tt_dm1_njet1_stat_up_"+category.replace(channel+"_","",1))
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_dm1_njet1_stat_down","jetToTauFakeWeight_tt_dm1_njet1_stat_down_"+category.replace(channel+"_","",1))
 
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up_1","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up_2","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down_1","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down_2","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_up_1","jetToTauFakeWeight_w_syst_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_up_2","jetToTauFakeWeight_w_syst_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_down_1","jetToTauFakeWeight_w_syst_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_down_2","jetToTauFakeWeight_w_syst_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_up_1","jetToTauFakeWeight_tt_syst_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_up_2","jetToTauFakeWeight_tt_syst_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_down_1","jetToTauFakeWeight_tt_syst_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_down_2","jetToTauFakeWeight_tt_syst_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_frac_syst_up_1","jetToTauFakeWeight_w_frac_syst_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_frac_syst_up_2","jetToTauFakeWeight_w_frac_syst_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_frac_syst_down_1","jetToTauFakeWeight_w_frac_syst_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_frac_syst_down_2","jetToTauFakeWeight_w_frac_syst_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_dy_frac_syst_up_1","jetToTauFakeWeight_dy_frac_syst_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_dy_frac_syst_up_2","jetToTauFakeWeight_dy_frac_syst_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_dy_frac_syst_down_1","jetToTauFakeWeight_dy_frac_syst_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_dy_frac_syst_down_2","jetToTauFakeWeight_dy_frac_syst_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_frac_syst_up_1","jetToTauFakeWeight_tt_frac_syst_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_frac_syst_up_2","jetToTauFakeWeight_tt_frac_syst_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_frac_syst_down_1","jetToTauFakeWeight_tt_frac_syst_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_frac_syst_down_2","jetToTauFakeWeight_tt_frac_syst_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_up_1","jetToTauFakeWeight_qcd_dm0_njet0_stat_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_up_2","jetToTauFakeWeight_qcd_dm0_njet0_stat_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_down_1","jetToTauFakeWeight_qcd_dm0_njet0_stat_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_down_2","jetToTauFakeWeight_qcd_dm0_njet0_stat_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_up_1","jetToTauFakeWeight_qcd_dm0_njet1_stat_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_up_2","jetToTauFakeWeight_qcd_dm0_njet1_stat_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_down_1","jetToTauFakeWeight_qcd_dm0_njet1_stat_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_down_2","jetToTauFakeWeight_qcd_dm0_njet1_stat_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_up_1","jetToTauFakeWeight_qcd_dm1_njet0_stat_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_up_2","jetToTauFakeWeight_qcd_dm1_njet0_stat_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_down_1","jetToTauFakeWeight_qcd_dm1_njet0_stat_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_down_2","jetToTauFakeWeight_qcd_dm1_njet0_stat_down_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_up_1","jetToTauFakeWeight_qcd_dm1_njet1_stat_up_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_up_2","jetToTauFakeWeight_qcd_dm1_njet1_stat_up_"+category.replace(channel+"_","",1)+"_2")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_down_1","jetToTauFakeWeight_qcd_dm1_njet1_stat_down_"+category.replace(channel+"_","",1)+"_1")
-									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_down_2","jetToTauFakeWeight_qcd_dm1_njet1_stat_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up_1","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_up_2","jetToTauFakeWeight_qcd_syst_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down_1","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_syst_down_2","jetToTauFakeWeight_qcd_syst_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_up_1","jetToTauFakeWeight_w_syst_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_up_2","jetToTauFakeWeight_w_syst_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_down_1","jetToTauFakeWeight_w_syst_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_syst_down_2","jetToTauFakeWeight_w_syst_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_up_1","jetToTauFakeWeight_tt_syst_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_up_2","jetToTauFakeWeight_tt_syst_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_down_1","jetToTauFakeWeight_tt_syst_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_syst_down_2","jetToTauFakeWeight_tt_syst_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_frac_syst_up_1","jetToTauFakeWeight_w_frac_syst_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_frac_syst_up_2","jetToTauFakeWeight_w_frac_syst_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_frac_syst_down_1","jetToTauFakeWeight_w_frac_syst_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_w_frac_syst_down_2","jetToTauFakeWeight_w_frac_syst_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_dy_frac_syst_up_1","jetToTauFakeWeight_dy_frac_syst_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_dy_frac_syst_up_2","jetToTauFakeWeight_dy_frac_syst_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_dy_frac_syst_down_1","jetToTauFakeWeight_dy_frac_syst_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_dy_frac_syst_down_2","jetToTauFakeWeight_dy_frac_syst_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_frac_syst_up_1","jetToTauFakeWeight_tt_frac_syst_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_frac_syst_up_2","jetToTauFakeWeight_tt_frac_syst_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_frac_syst_down_1","jetToTauFakeWeight_tt_frac_syst_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_tt_frac_syst_down_2","jetToTauFakeWeight_tt_frac_syst_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_up_1","jetToTauFakeWeight_qcd_dm0_njet0_stat_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_up_2","jetToTauFakeWeight_qcd_dm0_njet0_stat_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_down_1","jetToTauFakeWeight_qcd_dm0_njet0_stat_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet0_stat_down_2","jetToTauFakeWeight_qcd_dm0_njet0_stat_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_up_1","jetToTauFakeWeight_qcd_dm0_njet1_stat_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_up_2","jetToTauFakeWeight_qcd_dm0_njet1_stat_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_down_1","jetToTauFakeWeight_qcd_dm0_njet1_stat_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm0_njet1_stat_down_2","jetToTauFakeWeight_qcd_dm0_njet1_stat_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_up_1","jetToTauFakeWeight_qcd_dm1_njet0_stat_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_up_2","jetToTauFakeWeight_qcd_dm1_njet0_stat_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_down_1","jetToTauFakeWeight_qcd_dm1_njet0_stat_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet0_stat_down_2","jetToTauFakeWeight_qcd_dm1_njet0_stat_down_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_up_1","jetToTauFakeWeight_qcd_dm1_njet1_stat_up_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_up_2","jetToTauFakeWeight_qcd_dm1_njet1_stat_up_"+category.replace(channel+"_","",1)+"_2")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_down_1","jetToTauFakeWeight_qcd_dm1_njet1_stat_down_"+category.replace(channel+"_","",1)+"_1")
+#									config["weights"][index] = config["weights"][index].replace("jetToTauFakeWeight_qcd_dm1_njet1_stat_down_2","jetToTauFakeWeight_qcd_dm1_njet1_stat_down_"+category.replace(channel+"_","",1)+"_2")
 
 
 
@@ -566,46 +551,23 @@ if __name__ == "__main__":
 									# hack to only substitute the folder for those where it is needed
 									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
 
-						# modify folder for b-tagging efficiency and fake rate uncertainties
-						if shape_systematic == "btag":
-							replacestring = "btagEffUp" if shift_up else "btagEffDown"
-							for index, folder in enumerate(config["folders"]):
-								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
-						if shape_systematic == "mistag":
-							replacestring = "btagMistagUp" if shift_up else "btagMistagDown"
-							for index, folder in enumerate(config["folders"]):
-								config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
-
-						# modify folder for met uncertainties for contributions w/o recoil corrections
-						if shape_systematic == "metjeten":
-							replacestring = "metJetEnUp" if shift_up else "metJetEnDown"
-							for index, folder in enumerate(config["folders"]):
-								if not re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]) and not "Run201" in config["files"][index]:
-									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
-						if shape_systematic == "metunclustereden":
-							replacestring = "metUnclusteredEnUp" if shift_up else "metUnclusteredEnDown"
-							for index, folder in enumerate(config["folders"]):
-								if not re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]) and not "Run201" in config["files"][index]:
-									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
-
-						# modify folder for met uncertainties for contributions with recoil corrections
-						if shape_systematic == "metrecoilscale":
-							replacestring = "metRecoilResponseUp" if shift_up else "metRecoilResponseDown"
-							for index, folder in enumerate(config["folders"]):
-								if re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]):
-									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
-						if shape_systematic == "metrecoilreso":
-							replacestring = "metRecoilResolutionUp" if shift_up else "metRecoilResolutionDown"
-							for index, folder in enumerate(config["folders"]):
-								if re.search("DY\d?JetsToLL|HToTauTau|W\d?JetsToLNu",config["files"][index]):
-									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
-
-						# modify folder for jec uncertainties
+						# For em channel
 						if shape_systematic == "jec":
 							replacestring = "jecUncUp" if shift_up else "jecUncDown"
 							for index, folder in enumerate(config["folders"]):
 								if not "Run201" in config["files"][index]:
 									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						if shape_systematic == "elees":
+							replacestring = "eleEsUp" if shift_up else "eleEsDown"
+							for index, folder in enumerate(config["folders"]):
+								if not "Run201" in config["files"][index]:
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+						if shape_systematic == "muones":
+							replacestring = "muonEsUp" if shift_up else "muonEsDown"
+							for index, folder in enumerate(config["folders"]):
+								if not "Run201" in config["files"][index]:
+									config["folders"][index] = config["folders"][index].replace("nominal", replacestring)
+
 						# taues
 						if shape_systematic == "taues1prong0pi":
 							replacestring = "tauEsOneProngUp" if shift_up else "tauEsOneProngDown"
