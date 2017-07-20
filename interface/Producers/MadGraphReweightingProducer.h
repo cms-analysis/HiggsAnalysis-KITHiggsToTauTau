@@ -4,7 +4,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MadGraphTools.h"
-
+#include "TDatabasePDG.h"
 
 class MadGraphReweightingProducer: public ProducerBase<HttTypes>
 {
@@ -28,5 +28,6 @@ private:
 	std::map<HttEnumTypes::MadGraphProductionModeGGH, std::vector<std::string> > m_madGraphProcessDirectories;
 	std::map<std::string, std::map<int, MadGraphTools*> > m_madGraphTools;
 
+	TDatabasePDG* m_databasePDG = nullptr;
 };
 

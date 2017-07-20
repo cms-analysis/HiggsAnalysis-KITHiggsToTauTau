@@ -9,6 +9,8 @@
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
+#include <boost/algorithm/string/replace.hpp>
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
 std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
 
@@ -83,6 +85,21 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 			return ((weight > 0.0) ? (1.0 / weight) : 0.0);
 		});
 	}
+
+	
+	std::string pdgDatabaseFilename = settings.GetDatabasePDG();
+ 	if (! pdgDatabaseFilename.empty())
+	{
+		if (m_databasePDG)
+		{
+			delete m_databasePDG;
+			m_databasePDG = nullptr;
+		}
+		m_databasePDG = new TDatabasePDG();
+		boost::algorithm::replace_first(pdgDatabaseFilename, "$ROOTSYS", getenv("ROOTSYS"));
+		LOG(DEBUG) << "Read PDG database from \"" << pdgDatabaseFilename << "\"...";
+		m_databasePDG->ReadPDGTable(pdgDatabaseFilename.c_str());
+	}
 }
 
 
@@ -138,12 +155,22 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		std::string initialname = "";
 		std::string jetname = "";
 		std::string higgsname = "";
+		std::string name = "";
 		//std::map(<int>,<>);
 
 		for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 		{
 			ParticlesGroup* selectedParticles = nullptr;
-			
+		
+			//print name of particles
+			TParticlePDG* pdgParticle = m_databasePDG->GetParticle(lheParticle->pdgId);
+			if (pdgParticle)
+			{
+				name = pdgParticle->GetName();
+				std::cout << "Name: " << name << std::endl;
+			}
+
+
 			if (lheParticle->status == -1)
 			{
 				selectedParticles = &initialParticles;
@@ -507,6 +534,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//if ((initialParticles.nLightQuarks==2) &&
 		//    (jetParticles.nGluons==0))
 		
+		//this uses the rweighting json file
+		/*
 		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
 		{
 			//std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
@@ -531,6 +560,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			//LOG(ERROR) << "Process directory for production mode " << Utility::ToUnderlyingValue(productionMode) << " not found in settings with tag \"MadGraphProcessDirectories\"!";
 			LOG(ERROR) << "Process directory for production mode " << directoryname << " not found in settings with tag \"MadGraphProcessDirectories\"!";
 		}
+		*/
 	}
 }
 
