@@ -59,7 +59,6 @@ if __name__ == "__main__":
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
-	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -226,7 +225,7 @@ if __name__ == "__main__":
 	zmm_cr_factors_official = {
 		"mt_ZeroJet2D" : zmm_cr_0jet_global,
 		"et_ZeroJet2D" : zmm_cr_0jet_global,
-		"em_ZeroJet2D" : zmm_cr_0jet_global,
+		"em_ZeroJet2D" : "(1.02)",
 		"tt_ZeroJet2D" : zmm_cr_0jet_global,
 		"mt_Boosted2D" : zmm_cr_boosted_global,
 		"et_Boosted2D" : zmm_cr_boosted_global,
@@ -235,16 +234,29 @@ if __name__ == "__main__":
 		"mt_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
 		"et_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
 		"em_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"tt_Vbf2D" : zmm_cr_vbf_global+"*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
+		"tt_Vbf2D" : "(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
 		"mt_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
 		"et_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
 		"em_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"tt_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
+		"tt_Vbf2D_Up" : "(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
 		"mt_Vbf2D_Down" : zmm_cr_vbf_global,
 		"et_Vbf2D_Down" : zmm_cr_vbf_global,
 		"em_Vbf2D_Down" : zmm_cr_vbf_global,
-		"tt_Vbf2D_Down" : zmm_cr_vbf_global
+		"tt_Vbf2D_Down" : "(1.0)"
 	}
+	
+	# ttbar nicks for which to apply different top pt reweighting
+	top_pt_reweight_nicks = [
+		"noplot_ttj_ss_lowmt", # mt & et channels: qcd yield subtract
+		"noplot_ttj_shape_ss_qcd_control", # mt & et channels: qcd shape subtract
+		"noplot_ttj_os_highmt", # mt & et channels: w+jets yield subtract
+		"noplot_ttj_ss_highmt" # mt & et channels: qcd high mt yield subtract
+	]
+	
+	categoriesWithRelaxedIsolation = [
+		"Boosted2D",
+		"Vbf2D"
+	]
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
@@ -253,7 +265,7 @@ if __name__ == "__main__":
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		# include channel prefix
-		categories= [channel + "_" + category for category in categories]
+		categories = [channel + "_" + category for category in categories]
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
@@ -275,9 +287,8 @@ if __name__ == "__main__":
 			# TODO: check that this does what it should in samples_run2_2016.py !!!
 			#       a workaround solution may be necessary
 			if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
-				if channel in ["mt", "et"]:
-					exclude_cuts += ["mt"]
-					do_not_normalize_by_bin_width = True
+				exclude_cuts += ["mt"]
+				do_not_normalize_by_bin_width = True
 			if ("ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category)  and channel in ["mt", "et", "tt"]:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["iso_1"]
@@ -349,7 +360,8 @@ if __name__ == "__main__":
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,
 							zmm_cr_factor=zmm_cr_factor,
-							no_ewkz_as_dy = args.no_ewkz_as_dy
+							no_ewkz_as_dy = args.no_ewkz_as_dy,
+							useRelaxedIsolation=(category.split("_")[1] in categoriesWithRelaxedIsolation)
 					)
 					
 					if "CMS_scale_gg_13TeV" in shape_systematic:
@@ -360,7 +372,11 @@ if __name__ == "__main__":
 						systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
+					
+					if channel in ["mt", "et", "tt"]:
+						for index, weight in enumerate(config.get("weights", [])):
+							if config["nicks"][index] in top_pt_reweight_nicks or channel == "tt":
+								config["weights"][index] = weight.replace("topPtReweightWeight", "topPtReweightWeightRun1")
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
 					if "2D" not in category:
