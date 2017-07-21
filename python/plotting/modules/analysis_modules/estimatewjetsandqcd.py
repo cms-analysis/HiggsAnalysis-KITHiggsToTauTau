@@ -161,7 +161,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 				wjets_scale_factor = yield_wjets_os_highmt/tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_highmt_mc_nick])()
 			else:
 				log.warning("W+jets & QCD estimation: W+jets high mT region in MC has no entries. Scale factor for W+jets in QCD estimation is set to 1.0!")
-				wjets_scale_factor = 1.0
+				wjets_scale_factor = uncertainties.ufloat(1.0, 0.0)
 			
 			for nick in qcd_shape_substract_nick:
 				if "wj" in nick:
