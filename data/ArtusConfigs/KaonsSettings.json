@@ -14,8 +14,11 @@
 	"InputIsData" : "false",
 	"Quantities" : 
 	[	
-		"nK",
-		"m_K"
+		"kaonNumber",
+		"kaonMass",
+		"kaonPosDaugterMass",
+		"kaonNegDaugterMass",
+		"kaonMassLV"
 	],
 	"OutputPath" : "output.root",
 	"Processors" : {

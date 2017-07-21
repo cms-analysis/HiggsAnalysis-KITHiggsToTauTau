@@ -387,7 +387,10 @@ class HttProduct : public KappaProduct
 	unsigned int m_TTbarGenDecayMode = 0;
 
 	// filled by KaonsProducer
-	int m_nK = 0;
-	std::vector<float> m_K;
+	int kaonNumber = 0;
+	std::vector<float> kaonMass;
+	std::vector<float> kaonMassLV;
+	std::vector<float> kaonPosDaugterMass;
+	std::vector<float> kaonNegDaugterMass;
 
 };
