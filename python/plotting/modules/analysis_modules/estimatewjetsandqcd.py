@@ -100,7 +100,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			yield_qcd_ss_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_data_nick])()
 			for nick in wjets_ss_substract_nick+[wjets_ss_highmt_mc_nick]:
 				yield_qcd_ss_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-			yield_qcd_ss_highmt = max(0.0, yield_qcd_ss_highmt)
+			yield_qcd_ss_highmt = max(uncertainties.ufloat(0.0, yield_qcd_ss_highmt.std_dev), yield_qcd_ss_highmt)
 			
 			# scale qcd ss high mt shape by qcd yield found in data
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_highmt_shape_nick])()
@@ -122,8 +122,8 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			for nick in wjets_os_substract_nick:
 				yield_wjets_os_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			yield_wjets_os_highmt -= qcd_extrapolation_factor_ss_os*yield_qcd_ss_highmt
-			yield_wjets_os_highmt = max(0.0, yield_wjets_os_highmt)
-			if yield_wjets_os_highmt == 0.0:
+			yield_wjets_os_highmt = max(uncertainties.ufloat(0.0, yield_wjets_os_highmt.std_dev), yield_wjets_os_highmt)
+			if yield_wjets_os_highmt.nominal_value == 0.0:
 				log.warning("W+jets & QCD estimation: data yield in high mT region after background subtraction is 0!")
 			
 			# get high mt -> low mt extrapolation factor from MC
@@ -175,8 +175,8 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 					scale_factor = wjets_scale_factor * wjets_scale_factor_shift
 					plotData.plotdict["root_objects"][nick].Scale(scale_factor.nominal_value)
 				yield_qcd_ss_lowmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-			yield_qcd_ss_lowmt = max(0.0, yield_qcd_ss_lowmt)
-			if yield_qcd_ss_lowmt == 0.0:
+			yield_qcd_ss_lowmt = max(uncertainties.ufloat(0.0, yield_qcd_ss_lowmt.std_dev), yield_qcd_ss_lowmt)
+			if yield_qcd_ss_lowmt.nominal_value == 0.0:
 				log.warning("W+jets & QCD estimation: data yield in low mT SS region after background subtraction is 0!")
 			
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])()
