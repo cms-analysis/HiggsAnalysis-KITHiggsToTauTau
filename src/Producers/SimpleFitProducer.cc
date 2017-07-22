@@ -42,7 +42,8 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		else if ((! tauToA1) && ((*lepton)->flavour() == KLeptonFlavour::TAU))
 		{
 			KTau* tau = static_cast<KTau*>(*lepton);
-			if ((tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+			// https://github.com/cms-sw/cmssw/blob/09c3fce6626f70fd04223e7dacebf0b485f73f54/DataFormats/TauReco/interface/PFTau.h#L34-L54
+			if ((tau->decayMode >= reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 			    (tau->chargedHadronCandidates.size() > 2))
 			{
 				tauToA1 = tau;
@@ -145,7 +146,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		if (! tauFound)
 		{
 			//LOG(INFO) << "NchargedPart: "<< (*tau)->chargedHadronCandidates.size() << ", decaymode: " << (*tau)->decayMode;
-			if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+			if (((*tau)->decayMode >= reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 			    ((*tau)->chargedHadronCandidates.size() > 2))
 			{
 				// a1(3 prong pion) Vector Particle Properties *** for now it includes all hadronic decay products
