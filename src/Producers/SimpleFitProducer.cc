@@ -50,15 +50,29 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		}
 	}
 	
-	if ((muon != nullptr) && (tauToA1 != nullptr)
+	if ((muon != nullptr) && (tauToA1 != nullptr))
 	{
-		// TODO
+		std::vector<float> muonHelixParameters = muon->globalTrack.helixParameters();
+		TMatrixT<double> muonHelixParametersInput(TrackParticle::NHelixPar, 1);
+		TMatrixTSym<double> muonHelixCovarianceInput(TrackParticle::NHelixPar);
+		for (unsigned int parameterIndex1 = 0; (parameterIndex1 < muonHelixParameters.size()) && (parameterIndex1 < TrackParticle::NHelixPar); ++parameterIndex1)
+		{
+			muonHelixParametersInput[parameterIndex1][0] = muonHelixParameters[parameterIndex1];
+			for (unsigned int parameterIndex2 = parameterIndex1; (parameterIndex2 < muonHelixParameters.size()) && (parameterIndex2 < TrackParticle::NHelixPar); ++parameterIndex2)
+			{
+				muonHelixCovarianceInput[parameterIndex1][parameterIndex2] = muon->globalTrack.helixCovariance[parameterIndex1][parameterIndex2];
+			}
+		}
+		
+		int pdgIdMuon = static_cast<int>(DefaultValues::pdgIdMuon * muon->charge() / std::abs(muon->charge()));
+		float muonBField = 0.0; // TODO
+		TrackParticle muonInput(muonHelixParametersInput, muonHelixCovarianceInput, pdgIdMuon, muon->p4.mass(), muon->charge(), muonBField);
 	}
 
 	int muonPdgid = 0;
 	double muonMass = 0; 
 	double muonCharge = 0;
-	double muonB = 0; 
+	double muonB = 0;
 
 	// Muon Track Properties
 	TMatrixT<double> muonPar(TrackParticle::NHelixPar,1);
