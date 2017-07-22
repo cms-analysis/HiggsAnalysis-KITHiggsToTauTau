@@ -65,8 +65,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		}
 		
 		int pdgIdMuon = static_cast<int>(DefaultValues::pdgIdMuon * muon->charge() / std::abs(muon->charge()));
-		float muonBField = 0.0; // TODO
-		TrackParticle muonInput(muonHelixParametersInput, muonHelixCovarianceInput, pdgIdMuon, muon->p4.mass(), muon->charge(), muonBField);
+		TrackParticle muonInput(muonHelixParametersInput, muonHelixCovarianceInput, pdgIdMuon, muon->p4.mass(), muon->charge(), muon->globalTrack.magneticField);
 	}
 
 	int muonPdgid = 0;
