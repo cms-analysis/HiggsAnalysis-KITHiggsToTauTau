@@ -27,8 +27,33 @@ void SimpleFitProducer::Init(setting_type const& settings)
 void SimpleFitProducer::Produce(event_type const& event, product_type& product,
                                 setting_type const& settings) const
 {
-	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
+	
+	KMuon* muon = nullptr;
+	KTau* tauToA1 = nullptr;
+	
+	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
+	{
+		if ((! muon) && ((*lepton)->flavour() == KLeptonFlavour::MUON))
+		{
+			muon = static_cast<KMuon*>(*lepton);
+		}
+		else if ((! tauToA1) && ((*lepton)->flavour() == KLeptonFlavour::TAU))
+		{
+			KTau* tau = static_cast<KTau*>(*lepton);
+			if ((tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+			    (tau->chargedHadronCandidates.size() > 2))
+			{
+				tauToA1 = tau;
+			}
+		}
+	}
+	
+	if ((muon != nullptr) && (tauToA1 != nullptr)
+	{
+		// TODO
+	}
 
 	int muonPdgid = 0;
 	double muonMass = 0; 
