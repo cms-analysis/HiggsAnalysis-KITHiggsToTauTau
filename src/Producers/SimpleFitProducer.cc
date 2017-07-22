@@ -91,8 +91,8 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		muonCov[2][3] = 0.5;
 		muonCov[2][4] = 0.5;
 
-		muonCov[3][3] = (*lepton)->track.errDxy;
-		muonCov[3][4] = (*lepton)->track.errDxy;
+		muonCov[3][3] = (*lepton)->track.errDxy();
+		muonCov[3][4] = (*lepton)->track.errDxy();
 
 		muonCov[4][4] = 0.5;
 	      }
@@ -125,7 +125,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 
 	    //sLOG(INFO) << "tau_vx " <<  product.m_flavourOrderedLeptons[0]->vertex.x(); << ", tau_px:" << product.m_flavourOrderedLeptons[0]->p4.Px() << std::endl;
   
-	    tauhCov[0][0] = (*tau)->track.errDxy; //0.5;
+	    tauhCov[0][0] = (*tau)->track.errDxy(); //0.5;
 	    tauhCov[0][1] = 0.5;
 	    tauhCov[0][2] = 0.5;
 	    tauhCov[0][3] = 0.5;
@@ -151,7 +151,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	    tauhCov[4][5] = 0.5;
 	    tauhCov[4][6] = 0.5;
 
-	    // LOG(INFO) << "tracK_Dxy " <<  product.m_flavourOrderedLeptons[0]->track.getDxy(&event.m_vertexSummary->pv) << ", tracK_errDxy " <<  product.m_flavourOrderedLeptons[0]->track.errDxy << std::endl;
+	    // LOG(INFO) << "tracK_Dxy " <<  product.m_flavourOrderedLeptons[0]->track.getDxy(&event.m_vertexSummary->pv) << ", tracK_errDxy " <<  product.m_flavourOrderedLeptons[0]->track.errDxy() << std::endl;
 	    tauhPdgid = 13;
 	    tauhCharge =  (*tau)->charge();
 	    tauhB = 1;
