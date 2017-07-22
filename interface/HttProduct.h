@@ -158,7 +158,7 @@ public:
 	std::map<KLepton*, RMFLV> m_hhKinFitTaus;
 
 	// filled by the SimpleFitProducer
-	std::map<KLepton*, RMFLV> m_SimpleFitTaus;
+	std::map<KLepton*, RMFLV> m_simpleFitTaus;
 
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
