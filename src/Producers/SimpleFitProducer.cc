@@ -12,11 +12,11 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
 
 #include "SimpleFits/FitSoftware/interface/ErrorMatrixPropagator.h"
+#include "SimpleFits/FitSoftware/interface/GEFObject.h"
 #include "SimpleFits/FitSoftware/interface/GlobalEventFit.h"
 #include "SimpleFits/FitSoftware/interface/LorentzVectorParticle.h"
 #include "SimpleFits/FitSoftware/interface/TrackHelixVertexFitter.h"
 #include "SimpleFits/FitSoftware/interface/PTObject.h"
-//#include "SimpleFits/FitSoftware/interface/GEFObject.h"
 
 
 void SimpleFitProducer::Init(setting_type const& settings)
@@ -114,7 +114,12 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		
 		// Fit
 		GlobalEventFit globalEventFit(muonInput, tauInput,  metInput, pvInput, pvCovarianceInput);
-		LOG(INFO) << &globalEventFit;
+		GEFObject fitResult = globalEventFit.Fit();
+		if (fitResult.isValid())
+		{
+			product.m_simpleFitTaus[muon] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
+			product.m_simpleFitTaus[tauToA1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
+		}
 	}
 
 	int muonPdgid = 0;
