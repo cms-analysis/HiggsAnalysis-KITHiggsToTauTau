@@ -15,6 +15,7 @@
 #include "SimpleFits/FitSoftware/interface/GlobalEventFit.h"
 #include "SimpleFits/FitSoftware/interface/LorentzVectorParticle.h"
 #include "SimpleFits/FitSoftware/interface/TrackHelixVertexFitter.h"
+#include "SimpleFits/FitSoftware/interface/PTObject.h"
 //#include "SimpleFits/FitSoftware/interface/GEFObject.h"
 
 
@@ -28,6 +29,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
                                 setting_type const& settings) const
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
+	assert(event.m_vertexSummary); // TODO: change to refitted PV
 	
 	KMuon* muon = nullptr;
 	KTau* tauToA1 = nullptr;
@@ -54,25 +56,22 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	
 	if ((muon != nullptr) && (tauToA1 != nullptr))
 	{
+		// muon
 		std::vector<float> muonHelixParameters = muon->globalTrack.helixParameters();
 		TMatrixT<double> muonHelixParametersInput(TrackParticle::NHelixPar, 1);
-		TMatrixTSym<double> muonHelixCovarianceInput(TrackParticle::NHelixPar);
 		for (unsigned int parameterIndex1 = 0; parameterIndex1 < TrackParticle::NHelixPar; ++parameterIndex1)
 		{
 			muonHelixParametersInput[parameterIndex1][0] = muonHelixParameters[parameterIndex1];
-			for (unsigned int parameterIndex2 = parameterIndex1; parameterIndex2 < TrackParticle::NHelixPar; ++parameterIndex2)
-			{
-				muonHelixCovarianceInput[parameterIndex1][parameterIndex2] = muon->globalTrack.helixCovariance[parameterIndex1][parameterIndex2];
-			}
 		}
-		
+		TMatrixTSym<double> muonHelixCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<float, reco::Track::dimension, reco::Track::dimension, ROOT::Math::MatRepSym<float, reco::Track::dimension> >, TMatrixTSym<double> >(muon->globalTrack.helixCovariance, TrackParticle::NHelixPar);
 		int pdgIdMuon = static_cast<int>(DefaultValues::pdgIdMuon * muon->charge() / std::abs(muon->charge()));
 		TrackParticle muonInput(muonHelixParametersInput, muonHelixCovarianceInput, pdgIdMuon, muon->p4.mass(), muon->charge(), muon->globalTrack.magneticField);
 		
+		// tau
 		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/plugins/TauFiller.cc#L464
 		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/src/ParticleBuilder.cc#L11-L40
-		int nLorentzandVertexPar = TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::NExtraPar+TrackHelixVertexFitter::MassOffSet; // LorentzVectorParticle::NLorentzandVertexPar
-		TMatrixT<double> tauParameters(nLorentzandVertexPar, 1);
+		unsigned int nLorentzAndVertexParameters = TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::NExtraPar+TrackHelixVertexFitter::MassOffSet; // LorentzVectorParticle::NLorentzandVertexPar
+		TMatrixT<double> tauParameters(nLorentzAndVertexParameters, 1);
 		tauParameters[TrackHelixVertexFitter::x0][0] = tauToA1->sv.position.X();
 		tauParameters[TrackHelixVertexFitter::y0][0] = tauToA1->sv.position.Y();
 		tauParameters[TrackHelixVertexFitter::z0][0] = tauToA1->sv.position.Z();
@@ -83,7 +82,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::BField0][0] = tauToA1->track.magneticField;
 		TMatrixT<double> tauParametersInput = TrackHelixVertexFitter::ComputeLorentzVectorPar(tauParameters);
 		
-		TMatrixTSym<double> tauCovariance(nLorentzandVertexPar);
+		TMatrixTSym<double> tauCovariance(nLorentzAndVertexParameters);
 		for (unsigned int parameterIndex1 = 0; parameterIndex1 < TrackHelixVertexFitter::NFreeVertexPar; ++parameterIndex1)
 		{
 			for (unsigned int parameterIndex2 = 0; parameterIndex2 < TrackHelixVertexFitter::NFreeVertexPar; ++parameterIndex2)
@@ -98,6 +97,24 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		
 		int pdgIdTau = static_cast<int>(DefaultValues::pdgIdTau * tauToA1->charge() / std::abs(tauToA1->charge()));
 		LorentzVectorParticle tauInput(tauParametersInput, tauCovariance, pdgIdTau, tauToA1->charge(), tauToA1->track.magneticField);
+		
+		// MET
+		unsigned int nMetComponents = 2;
+		TMatrixT<double> metVector(nMetComponents, 1);
+		metVector[0][0] = product.m_met.p4.Vect().X();
+		metVector[1][0] = product.m_met.p4.Vect().Y();
+		
+		TMatrixTSym<double> metCovariance = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >, TMatrixTSym<double> >(product.m_met.significance, nMetComponents);
+		PTObject metInput(metVector, metCovariance);
+		
+		// PV
+		// TODO: change to refitted PV
+		TVector3 pvInput = Utility::ConvertPxPyPzVector<RMPoint, TVector3>(event.m_vertexSummary->pv.position);
+		TMatrixTSym<double> pvCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 3, 3, ROOT::Math::MatRepSym<double, 3> >, TMatrixTSym<double> >(event.m_vertexSummary->pv.covariance, 3);
+		
+		// Fit
+		GlobalEventFit globalEventFit(muonInput, tauInput,  metInput, pvInput, pvCovarianceInput);
+		LOG(INFO) << &globalEventFit;
 	}
 
 	int muonPdgid = 0;
