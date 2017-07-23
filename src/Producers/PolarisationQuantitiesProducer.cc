@@ -116,8 +116,7 @@ void PolarisationQuantitiesProducer::Produce(
 	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
 	{
 		// 3-prong method
-		// https://github.com/cms-sw/cmssw/blob/09c3fce6626f70fd04223e7dacebf0b485f73f54/DataFormats/TauReco/interface/PFTau.h#L34-L54
-		if (((*tau)->decayMode >= reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+		if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 		    ((*tau)->chargedHadronCandidates.size() > 2))
 		{
 			// sort pions from a1 decay according to their charge

@@ -45,7 +45,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		{
 			KTau* tau = static_cast<KTau*>(*lepton);
 			// https://github.com/cms-sw/cmssw/blob/09c3fce6626f70fd04223e7dacebf0b485f73f54/DataFormats/TauReco/interface/PFTau.h#L34-L54
-			if ((tau->decayMode >= reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+			if ((tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 			    (tau->chargedHadronCandidates.size() > 2) &&
 			    tau->sv.valid)
 			{
