@@ -50,7 +50,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		}
 	}
 	
-	if ((muon != nullptr) && (tauToA1 != nullptr)
+	if ((muon != nullptr) && (tauToA1 != nullptr))
 	{
 		// TODO
 	}
