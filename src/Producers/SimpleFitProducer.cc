@@ -12,9 +12,9 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
 
-#include "SimpleFits/FitSoftware/interface/GlobalEventFit.h"
-#include "SimpleFits/FitSoftware/interface/LorentzVectorParticle.h"
-//#include "SimpleFits/FitSoftware/interface/GEFObject.h"
+#include "TauPolSoftware/SimpleFits/interface/GlobalEventFit.h"
+#include "TauPolSoftware/SimpleFits/interface/LorentzVectorParticle.h"
+//#include "TauPolSoftware/SimpleFits/interface/GEFObject.h"
 #include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
 
