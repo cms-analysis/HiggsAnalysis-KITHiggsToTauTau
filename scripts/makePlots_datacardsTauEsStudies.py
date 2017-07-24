@@ -259,6 +259,12 @@ if __name__ == "__main__":
 		extra_weights.pop(0)
 		weight_bins.pop(0)
 	
+	# os/ss factors for different categories
+	ss_os_factors = {
+		"mt" : 1.06,
+		"et" : 1.0
+	}
+	
 	# Restrict CombineHarvester to configured channels:
 	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era, mapping_category2binid)
 	datacards.cb.channel(args.channels)
@@ -287,7 +293,16 @@ if __name__ == "__main__":
 		for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 			nominal = (shape_systematic == "nominal")
 			list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
-	
+			
+			# This is needed because wj and qcd are interdependent when using the new background estimation method
+			# NB: CH takes care to only use the templates for processes that you specified. This means that any
+			#     superfluous histograms created as a result of this problem do not influence the result
+			if args.background_method == "new":
+				if "qcd" in list_of_samples and "wj" not in list_of_samples:
+					list_of_samples += ["wj"]
+				elif "wj" in list_of_samples and "qcd" not in list_of_samples:
+					list_of_samples += ["qcd"]
+			
 			for shift_up in ([True] if nominal else [True, False]):
 				systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 		
@@ -297,6 +312,10 @@ if __name__ == "__main__":
 					category=category,
 					systematic=systematic
 				))
+
+				wj_sf_shift = 0.0
+				if "WSFUncert_lt" in shape_systematic:
+					wj_sf_shift = 1.1 if shift_up else 0.9
 
 				merged_config={}
 				
@@ -313,7 +332,9 @@ if __name__ == "__main__":
 					weight="(pt_2>20)*" + args.weight,
 					lumi=args.lumi * 1000,
 					cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
-					estimationMethod=args.background_method
+					estimationMethod=args.background_method,
+					wj_sf_shift=wj_sf_shift,
+					ss_os_factor = ss_os_factors.get(channel,0.0)
 				)
 				
 				config_rest["x_expressions"] = [quantity + "*" + extra_weights[weight_index]] * len(config_rest["nicks"])
@@ -332,7 +353,7 @@ if __name__ == "__main__":
 				
 				# One ztt nick config for each es shift
 				for shift in es_shifts:
-					if "ztt" not in list_of_samples: continue
+					if list(set(list_of_samples) & set(["ztt", "ttt", "vvt"])) == []: continue
 					
 					config_ztt = sample_settings.get_config(
 						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample in ["ztt", "ttt", "vvt"]],
@@ -342,7 +363,9 @@ if __name__ == "__main__":
 						weight="(pt_2>20)*" + args.weight,
 						lumi=args.lumi * 1000,
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
-						estimationMethod=args.background_method
+						estimationMethod=args.background_method,
+						wj_sf_shift=wj_sf_shift,
+						ss_os_factor = ss_os_factors.get(channel,0.0)
 					)
 					# Shift also pt to account for acceptance effects
 					config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]
@@ -370,7 +393,6 @@ if __name__ == "__main__":
 					merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
 		
 				merged_config["directories"] = [args.input_dir]
-				merged_config["qcd_subtract_shape"] = [False]
 		
 				histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 		
