@@ -1,12 +1,11 @@
 
-#include <algorithm>
-#include <math.h>
+#include "TMatrixT.h"
+#include "TMatrixTSym.h"
+#include "TVector3.h"
 
 #include "DataFormats/TauReco/interface/PFTau.h"
 
-#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
-#include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"

@@ -36,6 +36,7 @@ git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.gi
 # git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
 git clone https://github.com/CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
+git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # Jet2Tau Fakes
 git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
@@ -45,9 +46,6 @@ cd $CMSSW_BASE/src/
 
 # EmuQCD Method
 git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
-
-# Fit Package for tau polarisation
-git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
