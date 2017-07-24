@@ -469,6 +469,26 @@ if __name__ == "__main__":
 			add_threshold=0.1, merge_threshold=0.5, fix_norm=False
 		)
 	
+	# remove processes with zero yield
+	def matching_process(obj1, obj2):
+		matches = (obj1.bin() == obj2.bin())
+		matches = matches and (obj1.process() == obj2.process())
+		matches = matches and (obj1.signal() == obj2.signal())
+		matches = matches and (obj1.analysis() == obj2.analysis())
+		matches = matches and (obj1.era() == obj2.era())
+		matches = matches and (obj1.channel() == obj2.channel())
+		matches = matches and (obj1.bin_id() == obj2.bin_id())
+		matches = matches and (obj1.mass() == obj2.mass())
+		return matches
+	
+	def remove_procs_and_systs_with_zero_yield(proc):
+		null_yield = not proc.rate() > 0.
+		if null_yield:
+			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+		return null_yield
+	
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
+	
 	# Write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
