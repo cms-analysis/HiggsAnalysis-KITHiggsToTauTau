@@ -3,10 +3,10 @@
 #include "Artus/Utility/interface/Utility.h"
 
 #include "../HttTypes.h"
-#include "SimpleFits/FitSoftware/interface/TrackParticle.h"
-#include "SimpleFits/FitSoftware/interface/LorentzVectorParticle.h"
-#include "SimpleFits/FitSoftware/interface/Particle.h"
-//#include "SimpleFits/FitSoftware/interface/PTObject.h"
+#include "TauPolSoftware/SimpleFits/interface/TrackParticle.h"
+#include "TauPolSoftware/SimpleFits/interface/LorentzVectorParticle.h"
+#include "TauPolSoftware/SimpleFits/interface/Particle.h"
+//#include "TauPolSoftware/SimpleFits/interface/PTObject.h"
 
 #include "TMatrixT.h"
 #include "TMatrixTSym.h"

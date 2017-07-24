@@ -11,12 +11,12 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
 
-#include "SimpleFits/FitSoftware/interface/ErrorMatrixPropagator.h"
-#include "SimpleFits/FitSoftware/interface/GEFObject.h"
-#include "SimpleFits/FitSoftware/interface/GlobalEventFit.h"
-#include "SimpleFits/FitSoftware/interface/LorentzVectorParticle.h"
-#include "SimpleFits/FitSoftware/interface/TrackHelixVertexFitter.h"
-#include "SimpleFits/FitSoftware/interface/PTObject.h"
+#include "TauPolSoftware/SimpleFits/interface/ErrorMatrixPropagator.h"
+#include "TauPolSoftware/SimpleFits/interface/GEFObject.h"
+#include "TauPolSoftware/SimpleFits/interface/GlobalEventFit.h"
+#include "TauPolSoftware/SimpleFits/interface/LorentzVectorParticle.h"
+#include "TauPolSoftware/SimpleFits/interface/TrackHelixVertexFitter.h"
+#include "TauPolSoftware/SimpleFits/interface/PTObject.h"
 
 
 void SimpleFitProducer::Init(setting_type const& settings)
