@@ -74,13 +74,13 @@ samples_dict = {
 			("zptstat80pt",["ztt","zll"]),
 			("zptttbar",["ztt","zll"]),
 			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			('jec',['ttj','vv','wj','zll','ztt','ggh','bbh']),#done??
-			("elees",["ttj","vv","wj","zll","ztt","ggh","bbh"]),#done
-			("muones",["ttj","vv","wj","zll","ztt","ggh","bbh"]),#done??
-			("metesone",["wj","zll","ztt","ggh","bbh"]),#
-			("metestwo",["ttj","vv"]),#
-			("efake",["vv","wj","zll"]),#done
-			("mufake",["vv","wj","zll"])#done
+			#('jec',['ttj','vv','wj','zll','ztt','ggh','bbh']),#done?! (not needed at all?)
+			("elees",["ztt"]),#done! (but only for ztt?) ["ttj","vv","wj","zll","ztt","ggh","bbh"]
+			#("muones",["ttj","vv","wj","zll","ztt","ggh","bbh"]),#done?! (not needed at all?)
+			#("metesone",["wj","zll","ztt","ggh","bbh"]),#done?! (not needed at all?)
+			#("metestwo",["ttj","vv"]),#done?! (not needed at all?)
+			("efake",["vv","wj","zll"]),#done (if correct...)
+			("mufake",["vv","wj","zll"])#done (if correct...)
 		],
 		'mm' : [
 			("toppt",["ttj","wj","qcd"]),
@@ -197,8 +197,8 @@ shapes_weight_dict = {
 		"muones" : ("1.0", "1.0"),
 		"metesone" : ("1.0", "1.0"),
 		"metestwo" : ("1.0", "1.0"),
-		"efake" : ("(0.003*pt_1+0.883)", "0.702"),
-		"mufake" : ("0.005*pt_1+0.992", "0.812"),
+		"efake" : ("0.702", "0.003*pt_1+0.883"),
+		"mufake" : ("0.812", "0.005*pt_2+0.992"),
 	}
 mapping_process2sample = {
 	"data_obs" : "data",
