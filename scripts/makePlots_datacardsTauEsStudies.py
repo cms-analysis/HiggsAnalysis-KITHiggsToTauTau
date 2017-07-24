@@ -273,6 +273,11 @@ if __name__ == "__main__":
 		channel = category.split("_")[0]
 		decayMode = category.split("_")[-2]
 		weight_index = int(category.split("_")[-1].split(weight_type + "bin")[-1])
+		# use relaxed isolation criteria for W+jets and QCD estimation
+		# if measurement is performed in bins of pt or eta
+		useRelaxedIsolation = False
+		if weight_index > 0:
+			useRelaxedIsolation = True
 		if args.no_inclusive:
 			weight_index = weight_index - 1
 
@@ -334,7 +339,8 @@ if __name__ == "__main__":
 					cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 					estimationMethod=args.background_method,
 					wj_sf_shift=wj_sf_shift,
-					ss_os_factor = ss_os_factors.get(channel,0.0)
+					ss_os_factor = ss_os_factors.get(channel,0.0),
+					useRelaxedIsolation = useRelaxedIsolation
 				)
 				
 				config_rest["x_expressions"] = [quantity + "*" + extra_weights[weight_index]] * len(config_rest["nicks"])
@@ -365,7 +371,8 @@ if __name__ == "__main__":
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
 						estimationMethod=args.background_method,
 						wj_sf_shift=wj_sf_shift,
-						ss_os_factor = ss_os_factors.get(channel,0.0)
+						ss_os_factor = ss_os_factors.get(channel,0.0),
+						useRelaxedIsolation = useRelaxedIsolation
 					)
 					# Shift also pt to account for acceptance effects
 					config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]
