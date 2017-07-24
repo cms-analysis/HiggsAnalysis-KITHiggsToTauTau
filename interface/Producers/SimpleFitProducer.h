@@ -2,17 +2,8 @@
 
 #include "Artus/Utility/interface/Utility.h"
 
-#include "../HttTypes.h"
-#include "SimpleFits/FitSoftware/interface/TrackParticle.h"
-#include "SimpleFits/FitSoftware/interface/LorentzVectorParticle.h"
-#include "SimpleFits/FitSoftware/interface/Particle.h"
-//#include "SimpleFits/FitSoftware/interface/PTObject.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
-#include "TMatrixT.h"
-#include "TMatrixTSym.h"
-#include "TVector3.h"
-
-//using namespace std;
 
 class SimpleFitProducer: public ProducerBase<HttTypes>
 {
@@ -35,5 +26,4 @@ class SimpleFitProducer: public ProducerBase<HttTypes>
                          setting_type const& settings) const override;      
     
 };
-
 

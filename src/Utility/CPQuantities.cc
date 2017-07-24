@@ -186,7 +186,7 @@ double CPQuantities::CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV cha
 // estimation of the impact parameter error (used on recostruction level)
 double CPQuantities::CalculateTrackReferenceError(KTrack track)
 {
-	return sqrt(track.errDz*track.errDz+track.errDxy*track.errDxy);
+	return sqrt(track.errDz()*track.errDz()+track.errDxy()*track.errDxy());
 }
 
 
