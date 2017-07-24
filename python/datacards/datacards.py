@@ -1,4 +1,4 @@
-			# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import logging
 import Artus.Utility.logger as logger
